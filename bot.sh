@@ -1,0 +1,1 @@
+sudo lxterminal -e python3 bot.py -t Villager Bot
