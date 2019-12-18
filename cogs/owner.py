@@ -22,10 +22,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def ownerhelp(self, ctx):
         embedMsg = discord.Embed(
-            description = "",
-            color = discord.Color.green()
-        )
-        embedMsg.add_field(name="__**Owner Commands**__", value="""
+            description = """
 **!!unload** ***cog*** *unloads a cog*
 **!!load** ***cog*** *loads a cog*
 **!!reload** ***cog*** *reloads a cog, error if cog had not been loaded prior*
@@ -36,7 +33,11 @@ class Owner(commands.Cog):
 **!!leaveguild** ***guild id*** *leaves specified guild*
 **!!getinvites** ***guild id*** *gets invite codes for specified guild*
 **!!info2** *displays information about stuff*
-""")
+**!!setbal** ***@user amount*** *set user balance to something*
+**!!eval** ***statement*** *uses eval()*""",
+            color = discord.Color.green()
+        )
+        embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
 
     @commands.command(name="unload")
@@ -64,6 +65,8 @@ class Owner(commands.Cog):
     async def reload(self, ctx, *, cog: str):
         try:
             self.bot.unload_extension("cogs."+cog)
+        except commands.ExtensionNotLoaded:
+            pass
         except Exception as e:
             await ctx.send("Error while unloading extension: "+cog+"\n``"+str(e)+"``")
             return
@@ -166,6 +169,29 @@ Shard Count: {5}
 Latency: {6} ms
 """.format(str(len(self.bot.guilds)), str(len(self.bot.private_channels)), str(len(self.bot.users)), msg_count, cmd_count, self.bot.shard_count, str(self.bot.latency*1000)[:5]))
         await ctx.send(embed=infoEmbed)
+        
+    @commands.command(name="eval")
+    @commands.is_owner()
+    async def evalMessage(self, ctx, *, msg):
+        try:
+            evalMsg = eval(msg)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=str(evalMsg)))
+        except Exception as e:
+            if type(e) == discord.HTTPException:
+                if e.code == 50035:
+                    with open("eval.txt", "w+") as evalF:
+                        evalF.write(str(evalMsg))
+                    with open("eval.txt", "r") as evalF:
+                        await ctx.send(file=discord.File(evalF))
+                else:
+                    await ctx.send(str(e))
+            else:
+                await ctx.send(str(e))
+                
+    @commands.command(name="owo")
+    @commands.is_owner()
+    async def doopy(self, ctx, *, msg):
+        await self.bot.get_guild(654273346577629193).channels[5].send(msg)
             
 def setup(bot):
     bot.add_cog(Owner(bot))

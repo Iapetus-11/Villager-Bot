@@ -7,8 +7,8 @@ import json
 #system("title Minecraft Translator Discord Bot")
 
 bot = commands.Bot(command_prefix='!!', help_command=None, case_insensitive=True)
-cogs = ["cmds", "events", "owner", "loops",
-        "admincmds", "msgs", "currency"]
+cogs = ["cmds", "events", "owner", "msgs",
+        "admincmds", "currency", "loops"]
 
 #load cogs in cogs list
 for cog in cogs:

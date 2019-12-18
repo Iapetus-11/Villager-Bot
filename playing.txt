@@ -1,4 +1,5 @@
 Minecraft
+!!vote for emeralds!
 Minecraft Java Edition
 Minecraft with PewDiePie
 Minecraft with CaptainSparklez
@@ -8,6 +9,7 @@ Minecraft on Xenon Gaming
 Minecraft on Hypixel
 Minecraft on a TI-84
 Minecraft on a Commodore 64
+!!vote for emeralds!
 Minecraft on a Raspberry Pi
 Minecraft online
 Minecraft with Iapetus11
@@ -25,6 +27,7 @@ Minecraft Console Edition
 Minecraft Pocket Edition
 Minecraft on Windows XP
 Minecraft on Windows 98
+!!vote for emeralds!
 Minecraft on MS-DOS
 Minecraft on a typewriter
 Minecraft on a TV remote
@@ -54,6 +57,7 @@ Minecraft Dungeons
 on Hypixel
 Skyblock
 Spleef
+!!vote for emeralds!
 Factions
 PVP on Hypixel
 Hypixel Pit
@@ -62,3 +66,6 @@ CraftMine 1.0
 46 75 63 6b 69 6e 67 20 4e 65 72 64
 4d 69 6e 65 63 72 61 66 74
 01001101 01101001 01101110 01100101 01100011 01110010 01100001 01100110 01110100
+FortCraft Mine Royale
+with creepers
+!!vote for emeralds!
