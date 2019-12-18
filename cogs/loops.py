@@ -8,8 +8,10 @@ from random import choice
 class Loops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.token = json.load(open("keys.json", "r"))["dblpy"]
-        self.dblpy = dbl.DBLClient(self.bot, self.token, webhook_path="/dblwebhook", webhook_auth="password", webhook_port=5000)
+        with open("keys.json", "r") as k:
+            keys = json.load(k)
+        self.token = keys["dblpy"]
+        self.dblpy = dbl.DBLClient(self.bot, self.token, webhook_path="/dblwebhook", webhook_auth=keys["dblpy2"], webhook_port=5000)
 
     async def activity(self):
         await asyncio.sleep(2)
