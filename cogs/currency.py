@@ -10,7 +10,7 @@ class Currency(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.token = json.load(open("keys.json", "r"))["dblpy"]
-        self.dblpy = dbl.DBLClient(self.bot, self.token, webhook_path="/dblwebhook", webhook_auth="YuriFuckingTarded172177fuckingPain", webhook_port=5000)
+        self.dblpy = dbl.DBLClient(self.bot, self.token, webhook_path="/dblwebhook", webhook_auth="password", webhook_port=5000)
         with open("currency.json", "r") as file:
             global inventories
             inventories = json.load(file)
