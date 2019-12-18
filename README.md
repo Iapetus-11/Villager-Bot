@@ -4,7 +4,7 @@
 * Voting rewards
 * Economy/currency system
 * Ability to ping Minecraft servers
-* Translation to the enchanting table language
+* Translation to the enchantment table language
 * Full rpg/villager shop will be coming
 
 ### Fun Commands
