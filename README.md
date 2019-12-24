@@ -21,6 +21,7 @@
 
 ### Useful Minecraft Commands
 * __!!mcping__ *ip:port* (pings and gets information on the specified Minecraft server)
+* __!!mcpeping__ *ip* (pings and gets the playercount of a Bedrock Edition Minecraft server)
 * __!!stealskin__ *gamertag* (steal another Minecraft player's skin)
 
 ### Utility/Info Commands
