@@ -8,7 +8,8 @@ import json
 
 bot = commands.Bot(command_prefix='!!', help_command=None, case_insensitive=True)
 cogs = ["cmds", "events", "owner", "msgs",
-        "admincmds", "currency", "loops"]
+        "admincmds", "currency", "loops",
+        "xenon"]
 
 #load cogs in cogs list
 for cog in cogs:

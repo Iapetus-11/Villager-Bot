@@ -9,6 +9,10 @@ from random import randint, choice
 from googlesearch import search
 import requests
 import base64
+import socket
+from pyraklib.protocol.EncapsulatedPacket import EncapsulatedPacket
+from pyraklib.protocol.UNCONNECTED_PING import UNCONNECTED_PING
+from pyraklib.protocol.UNCONNECTED_PONG import UNCONNECTED_PONG
 
 class Cmds(commands.Cog):
     def __init__(self, bot):
@@ -38,6 +42,7 @@ class Cmds(commands.Cog):
         if msg == "mc":
             helpMsg.add_field(name="__**Minecraft Stuff**__", value="""
 **!!mcping** ***ip:port*** *to check the status of a Java Edition Minecraft server*
+**!!mcpeping** ***ip*** *to check the status of a Bedrock Edition Minecraft server*
 **!!stealskin** ***gamertag*** *steal another player's Minecraft skin*""", inline=True)
             await ctx.send(embed=helpMsg)
             return
@@ -105,6 +110,30 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is online with {0} player(s) and a ping of {1} ms.".format(status.players.online, status.latency)))
         except Exception:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is either offline or unavailable at the moment.\nDid you type the ip and port correctly? (Like ip:port)"))
+
+    @commands.command(name="mcpeping")
+    async def bedrockping(self, ctx, server: str):
+        ping = UNCONNECTED_PING()
+        ping.pingID = 4201
+        ping.encode()
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.setblocking(0)
+        try:
+            s.sendto(ping.buffer, (socket.gethostbyname(server), 19132))
+            await asyncio.sleep(.01)
+            recvData = s.recvfrom(2048)
+        except BlockingIOError:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is either offline or unavailable at the moment. Did you type the ip correctly?"))
+            return
+        except socket.gaierror:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is either offline or unavailable at the moment. Did you type the ip correctly?"))
+            return
+        pong = UNCONNECTED_PONG()
+        pong.buffer = recvData[0]
+        pong.decode()
+        sInfo = str(pong.serverName)[2:-2].split(";")
+        pCount = sInfo[4]
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is online with "+pCount+" player(s)."))
 
     @commands.command(name="ping", aliases=["latency"]) #checks latency between Discord API and the bot
     async def ping(self, ctx):
@@ -278,7 +307,6 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         voteL = discord.Embed(
              title = "Vote for Villager Bot",
              description = "[Click Here!](https://top.gg/bot/639498607632056321/vote)",
-             url = "https://top.gg/bot/639498607632056321/vote",
              color = discord.Color.green()
         )
         voteL.set_thumbnail(url="http://172.10.17.177/images/villagerbotsplash1.png")
@@ -288,8 +316,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
     async def inviteLink(self, ctx):
         invL = discord.Embed(
              title = "Add Villager Bot to your server",
-             description = "[Click Here!](https://discordapp.com/api/oauth2/authorize?client_id=639498607632056321&permissions=8&scope=bot)",
-             url = "https://discordapp.com/api/oauth2/authorize?client_id=639498607632056321&permissions=8&scope=bot",
+             description = "[Click Here!](http://shorturl.at/bhvY4)",
              color = discord.Color.green()
         )
         invL.set_thumbnail(url="http://172.10.17.177/images/villagerbotsplash1.png")
