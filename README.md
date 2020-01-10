@@ -5,7 +5,7 @@
 * Economy/currency system
 * Ability to ping Minecraft servers
 * Translation to the enchantment table language
-* Full rpg/villager shop will be coming
+* Villager shop is in progress, more items coming!
 
 ### Fun Commands
 * __!!enchant__ *text* (turns text into the Minecraft enchanting table language)
@@ -15,9 +15,11 @@
 * __!!villagerspeak__ *text* (turns text into villager sounds in text)
 * __!!mine__ (go mining with the bot for emeralds)
 * __!!balance__ (check the amount of emeralds in your inventory)
+* __!!inventory__ (allows you to check the items in your inventory)
 * __!!give__ *@user* *amount* (gives mentioned user specified amount of emeralds from your inventory)
 * __!!gamble__ *amount* (gamble with Villager Bot)
 * __!!pillage__ *@user* (attempt to steal emeralds from another user)
+* __!!shop__ (opens the Villager Shop where you can buy items)
 
 ### Useful Minecraft Commands
 * __!!mcping__ *ip:port* (pings and gets information on the specified Minecraft server)
