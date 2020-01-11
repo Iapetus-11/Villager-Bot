@@ -56,9 +56,12 @@ class Cmds(commands.Cog):
 **!!cursed** *the bot will upload a cursed Minecraft image*
 **!!mine** *go mining with the bot for emeralds*
 **!!balance** *the bot will tell you how many emeralds you have*
+**!!inventory** *see what you have in your inventory*
 **!!give** ***@user*** ***amount*** *give mentioned user emeralds*
 **!!gamble** ***amount*** *gamble with Villager Bot*
-**!!pillage** ***@user*** *attempt to steal emeralds from another person*""", inline=True)
+**!!pillage** ***@user*** *attempt to steal emeralds from another person*
+**!!shop** *go shopping with emeralds*
+""", inline=True)
             await ctx.send(embed=helpMsg)
             return
         
@@ -161,7 +164,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
     @commands.command(name="enchant") #converts english to enchantment table language
     async def enchant(self, ctx):
         global enchantlang
-        msg = ctx.message.clean_content.replace("!!enchant", "")
+        msg = ctx.message.clean_content[9:]
         if msg == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You must send text for the bot to turn into the enchantment table language!"))
             return
@@ -175,7 +178,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
     @commands.command(name="unenchant") #converts enchantment table language to english
     async def unenchant(self, ctx):
         global enchantlang
-        msg = ctx.message.clean_content.replace("!!unenchant", "")
+        msg = ctx.message.clean_content[11:]
         if msg == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You must send text for the bot to turn back into English!"))
             return
@@ -200,7 +203,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         infoMsg.add_field(name="Bot Page", value="[Click Here](https://top.gg/bot/639498607632056321)", inline=True)
         infoMsg.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         infoMsg.add_field(name="Discord", value="[Click Here](https://discord.gg/39DwwUV)", inline=True)
-        infoMsg.set_author(name="Villager Bot Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        infoMsg.set_author(name="Villager Bot Information", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=infoMsg)
 
     @commands.command(name="uptime")
@@ -324,7 +327,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         
     @commands.command(name="say")
     async def saysomethin(self, ctx):
-        if ctx.message.clean_content.replace("!!say", "").replace("@", "") == "":
+        if ctx.message.clean_content[5:].replace("@", "") == "":
             return
         await ctx.send(ctx.message.clean_content.replace("!!say", "").replace("@", ""))
         try:

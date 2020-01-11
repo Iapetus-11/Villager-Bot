@@ -34,7 +34,8 @@ class Owner(commands.Cog):
 **!!getinvites** ***guild id*** *gets invite codes for specified guild*
 **!!info2** *displays information about stuff*
 **!!setbal** ***@user amount*** *set user balance to something*
-**!!eval** ***statement*** *uses eval()*""",
+**!!eval** ***statement*** *uses eval()*
+**!!exec** ***statement*** *uses exec()*""",
             color = discord.Color.green()
         )
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
@@ -100,7 +101,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def guilds(self, ctx):
         i = 0
-        rows = 32
+        rows = 35
         msg = ""
         for guild in self.bot.guilds:
             i += 1
@@ -188,10 +189,22 @@ Latency: {6} ms
             else:
                 await ctx.send(str(e))
                 
-    @commands.command(name="owo")
+    @commands.command(name="exec")
     @commands.is_owner()
-    async def doopy(self, ctx, *, msg):
-        await self.bot.get_guild(654273346577629193).channels[5].send(msg)
+    async def execMessage(self, ctx, *, msg):
+        try:
+            exec(msg)
+        except Exception as e:
+            if type(e) == discord.HTTPException:
+                if e.code == 50035:
+                    with open("eval.txt", "w+") as evalF:
+                        evalF.write(str(evalMsg))
+                    with open("eval.txt", "r") as evalF:
+                        await ctx.send(file=discord.File(evalF))
+                else:
+                    await ctx.send(str(e))
+            else:
+                await ctx.send(str(e))
             
 def setup(bot):
     bot.add_cog(Owner(bot))

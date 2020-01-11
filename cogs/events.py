@@ -13,6 +13,7 @@ class Events(commands.Cog):
     async def on_ready(self):
         print(self.bot.user.name)
         print(self.bot.user.id)
+        print(self.bot.shard_id)
         print("Successfully connected to Discord!"+"\n")
         with open("playing.txt", "r") as p:
             playing = p.readlines()
@@ -38,7 +39,7 @@ class Events(commands.Cog):
                 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        if type(error) == discord.ext.commands.CommandNotFound or type(error) == discord.ext.commands.NotOwner: #errrors to ignore
+        if type(error) == discord.ext.commands.CommandNotFound or type(error) == discord.ext.commands.NotOwner or type(error) == discord.ext.commands.errors.CheckFailure: #errrors to ignore
             return
         
         if type(error) == discord.ext.commands.errors.MissingRequiredArgument:

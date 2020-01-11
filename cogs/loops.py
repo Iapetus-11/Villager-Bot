@@ -19,14 +19,14 @@ class Loops(commands.Cog):
             with open("playing.txt", "r") as file:
                 playing = file.readlines()
             await self.bot.change_presence(activity=discord.Game(name=choice(playing)))
-            print("ACTIVITY UPDATED")
+            print("["+str(self.bot.shard_id)+"] ACTIVITY UPDATED")
             await asyncio.sleep(10800)
         
     async def topggstats(self):
         await asyncio.sleep(2)
         while not self.bot.is_closed():
             await self.dblpy.post_guild_count()
-            print("DBL STATS UPDATED")
+            print("["+str(self.bot.shard_id)+"] DBL STATS UPDATED")
             await asyncio.sleep(1800)
             
     @commands.Cog.listener()
