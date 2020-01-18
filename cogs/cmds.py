@@ -31,7 +31,7 @@ class Cmds(commands.Cog):
             cursedImageList = json.load(cursedImages)["images"]
             
     @commands.command(name="help") #displays help messages
-    async def boop(self, ctx):
+    async def helpp(self, ctx):
         msg = ctx.message.clean_content.replace("!!help ", "").replace("!!help", "")
         helpMsg = discord.Embed(
             description = "",
@@ -49,11 +49,13 @@ class Cmds(commands.Cog):
         
         elif msg == "fun":
             helpMsg.add_field(name="__**Fun Stuff**__", value="""
+__Text Commands__
 **!!villagerspeak** ***text*** *turns English text into villager sounds*
 **!!enchant** ***text*** *turns english text into the Minecraft enchantment table language, a.k.a. the Standard Galactic Alphabet.*
 **!!unenchant** ***text*** *turns the enchanting table language back into English*
-**!!battle** ***user*** *allows you to battle your friends!*
-**!!cursed** *the bot will upload a cursed Minecraft image*
+**!!sarcastic** ***text*** *makes text sarcastic*
+
+__Currency Commands__
 **!!mine** *go mining with the bot for emeralds*
 **!!balance** *the bot will tell you how many emeralds you have*
 **!!inventory** *see what you have in your inventory*
@@ -61,6 +63,10 @@ class Cmds(commands.Cog):
 **!!gamble** ***amount*** *gamble with Villager Bot*
 **!!pillage** ***@user*** *attempt to steal emeralds from another person*
 **!!shop** *go shopping with emeralds*
+
+__Other Commands__
+**!!cursed** *the bot will upload a cursed Minecraft image*
+**!!battle** ***user*** *allows you to battle your friends!*
 """, inline=True)
             await ctx.send(embed=helpMsg)
             return
@@ -104,6 +110,13 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
     async def mcping(self, ctx):
         await ctx.trigger_typing()
         server = ctx.message.clean_content.replace("!!mcping", "").replace(" ", "")
+        if ":" in server:
+            s = server.split(":")
+            try:
+                int(s[1])
+            except Exception:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\nDid you type the ip and port correctly? (Like ip:port)\n\nExample: ``!!mcping 172.10.17.177:25565``"))
+                return
         if server == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You must specify a server to ping!"))
             return
@@ -112,7 +125,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
             status = status.status()
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is online with {0} player(s) and a ping of {1} ms.".format(status.players.online, status.latency)))
         except Exception:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is either offline or unavailable at the moment.\nDid you type the ip and port correctly? (Like ip:port)"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\nDid you type the ip and port correctly? (Like ip:port)\n\nExample: ``!!mcping 172.10.17.177:25565``"))
 
     @commands.command(name="mcpeping")
     async def bedrockping(self, ctx, server: str):
@@ -126,10 +139,10 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
             await asyncio.sleep(.01)
             recvData = s.recvfrom(2048)
         except BlockingIOError:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is either offline or unavailable at the moment. Did you type the ip correctly?"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment. Did you type the ip correctly?"))
             return
         except socket.gaierror:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is either offline or unavailable at the moment. Did you type the ip correctly?"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment. Did you type the ip correctly?"))
             return
         pong = UNCONNECTED_PONG()
         pong.buffer = recvData[0]
@@ -145,7 +158,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
     @commands.command(name="villagerspeak") #converts english into villager noises
     async def villagerspeak(self, ctx):
         global villagersounds
-        text = ctx.message.clean_content.replace("!!villagerspeak", "")
+        text = ctx.message.clean_content[16:]
         if text == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You must send text for the bot to turn in to villager sounds!"))
             return
@@ -164,7 +177,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
     @commands.command(name="enchant") #converts english to enchantment table language
     async def enchant(self, ctx):
         global enchantlang
-        msg = ctx.message.clean_content[9:]
+        msg = ctx.message.clean_content[10:]
         if msg == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You must send text for the bot to turn into the enchantment table language!"))
             return
@@ -178,7 +191,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
     @commands.command(name="unenchant") #converts enchantment table language to english
     async def unenchant(self, ctx):
         global enchantlang
-        msg = ctx.message.clean_content[11:]
+        msg = ctx.message.clean_content[12:]
         if msg == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You must send text for the bot to turn back into English!"))
             return
@@ -255,9 +268,9 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
             await asyncio.sleep(0.5)
             p2_hp -= randint(1, 12) #player 1's turn
             p1_hp -= randint(4, 12) #player 2's turn
-            if ctx.author.id == 639498607632056321 or ctx.author.id == 536986067140608041:
+            if ctx.author.id == 639498607632056321:
                 p2_hp -= 7
-            if user.id == 639498607632056321 or user.id == 536986067140608041:
+            if user.id == 639498607632056321:
                 p1_hp -= 7
                 
             if p2_hp < 0:
@@ -292,7 +305,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
                 await ctx.send(embed=discord.Embed(title="***"+ctx.author.display_name+":*** "+str(p1_hp)+" hp | ***"+user.display_name+":*** "+str(p2_hp)+" hp", color = discord.Color.from_rgb(255, 0, 0)))
             
     @commands.command(name="cursed")
-    @commands.cooldown(1, 1, commands.BucketType.channel)
+    @commands.cooldown(1, 2, commands.BucketType.channel)
     async def cursedImage(self, ctx):
         global cursedImageList
         
@@ -336,37 +349,52 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
             pass
         
     @commands.command(name="google")
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def googleSearch(self, ctx):
         query = ctx.message.clean_content.replace("!!google", "")
         if query == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to actually tell me what to search for, idiot."))
             return
         await ctx.trigger_typing()
+        rs = []
         for result in search(query, tld="co.in", num=1, stop=1, pause=0):
-            await ctx.send(result)
+            rs.append(result)
+        if len(rs) > 0:
+            await ctx.send(rs[0])
+        else:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
         
     @commands.command(name="youtube")
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def ytSearch(self, ctx):
         query = ctx.message.clean_content.replace("!!youtube", "")
         if query == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to actually tell me what to search for, idiot."))
             return
         await ctx.trigger_typing()
+        rs = []
         for result in search(query, tld="co.in", domains=["youtube.com"], num=1, stop=1, pause=0):
-            await ctx.send(result)
+            rs.append(result)
+        if len(rs) > 0:
+            await ctx.send(rs[0])
+        else:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
         
     @commands.command(name="reddit")
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def redditSearch(self, ctx):
         query = ctx.message.clean_content.replace("!!reddit", "")
         if query == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to actually tell me what to search for, idiot."))
             return
         await ctx.trigger_typing()
+        rs = []
         for result in search(query, tld="co.in", domains=["reddit.com"], num=1, stop=1, pause=0):
-            await ctx.send(result)
+            rs.append(result)
+        if len(rs) > 0:
+            await ctx.send(rs[0])
+        else:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
             
     @commands.command(name="stealskin", aliases=["skinsteal", "skin"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
@@ -393,6 +421,21 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         skinEmbed.set_thumbnail(url=url)
         skinEmbed.set_image(url="https://mc-heads.net/body/"+gamertag)
         await ctx.send(embed=skinEmbed)
+        
+    @commands.command(name="sarcastic", aliases=["sarcasm"])
+    async def sarcasm(self, ctx, *, msg):
+        done = ""
+        upper = False
+        for letter in msg:
+            if upper and letter is not " ":
+                upper = False
+                done+=letter.upper()
+            elif not upper and letter is not " ":
+                upper = True
+                done+=letter.lower()
+            else:
+                done+=letter
+        await ctx.send(done)
     
 def setup(bot):
     bot.add_cog(Cmds(bot))

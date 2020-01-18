@@ -184,17 +184,17 @@ class Currency(commands.Cog):
             minin = ["dirt", "dirt", "emerald", "dirt", "cobblestone", "cobblestone", "cobblestone", "emerald", "coal", "coal", "cobblestone", "cobblestone", "dirt",
                      "dirt", "iron ore", "cobblestone", "coal", "coal", "coal", "iron ore", "iron ore", "emerald", "dirt", "cobblestone", "dirt", "emerald"]
         elif pickaxe == "stone":
-            minin = ["dirt", "dirt", "iron ore", "dirt", "emerald", "emerald", "cobblestone", "emerald", "coal", "iron ore", "cobblestone", "cobblestone", "dirt",
+            minin = ["dirt", "dirt", "iron ore", "dirt", "emerald", "emerald", "cobblestone", "emerald", "coal", "iron ore", "emerald", "cobblestone", "dirt",
                      "dirt", "iron ore", "cobblestone", "emerald", "coal", "cobblestone", "iron ore", "iron ore", "dirt", "dirt", "cobblestone", "dirt", "emerald"]
         elif pickaxe == "iron":
             minin = ["dirt", "dirt", "emerald", "dirt", "cobblestone", "emerald", "cobblestone", "emerald", "coal", "emerald", "cobblestone", "cobblestone", "dirt",
-                     "dirt", "iron ore", "cobblestone", "coal", "coal", "lapis lazuli", "iron ore", "emerald", "dirt", "dirt", "cobblestone", "dirt", "emerald"]
+                     "emerald", "iron ore", "cobblestone", "coal", "coal", "lapis lazuli", "iron ore", "emerald", "dirt", "dirt", "cobblestone", "dirt", "emerald"]
         elif pickaxe == "gold":
             minin = ["dirt", "emerald", "dirt", "emerald", "cobblestone", "emerald", "cobblestone", "emerald", "coal", "emerald", "diamond", "cobblestone", "dirt",
-                     "dirt", "iron ore", "diamond", "gold ore", "coal", "emerald", "iron ore", "iron ore", "cobblestone", "dirt", "lapis lazuli", "dirt", "emerald"]
+                     "dirt", "iron ore", "emerald", "gold ore", "coal", "emerald", "iron ore", "iron ore", "cobblestone", "dirt", "lapis lazuli", "dirt", "emerald"]
         elif pickaxe == "diamond":
-            minin = ["obsidian", "emerald", "dirt", "redstone", "cobblestone", "emerald", "cobblestone", "emerald", "coal", "emerald", "diamond", "cobblestone", "emerald",
-                     "gold ore", "iron ore", "diamond", "emerald", "redstone", "emerald", "iron ore", "obsidian", "cobblestone", "dirt", "emerald", "obsidian", "emerald"]
+            minin = ["obsidian", "emerald", "dirt", "redstone", "cobblestone", "emerald", "emerald", "emerald", "coal", "emerald", "diamond", "cobblestone", "emerald",
+                     "emerald", "iron ore", "diamond", "emerald", "redstone", "emerald", "iron ore", "obsidian", "cobblestone", "dirt", "emerald", "obsidian", "emerald"]
         found = choice(minin)
         if found == "emerald":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["**<:emerald:653729877698150405>** added to your inventory!", "You found an **<:emerald:653729877698150405>**, it's been added to your inventory!",

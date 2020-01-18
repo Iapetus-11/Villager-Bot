@@ -15,12 +15,22 @@ class Xenon(commands.Cog):
     async def on_message(self, message):
         if "discord.gg" in message.content:
             if message.channel.guild.id == 593954944059572235:
-                if message.channel.id in [593954944059572237, 593962666695983106, 609104954224803844, 594014175265685532, 659542937285165056, 636324104055816193]:
+                if message.channel.id not in [659137844257882112, 594017826033893377, 645827431634042882]:
                     try:
                         await message.delete()
-                        await message.channel.send(embed=discord.Embed(color=discord.Color.green(), description="Discord server links aren't allowed here!"))
+                        await message.channel.send(embed=discord.Embed(color=discord.Color.green(), description=message.author.mention+", Discord server links aren't allowed here!"))
                     except Exception:
                         pass
+                    
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        if member.guild.id == 593954944059572235:
+            await self.bot.get_channel(593988932564418590).send("Hey "+member.mention+", welcome to **Xenon**! Please read through the "+self.bot.get_channel(593997092234461194).mention+".")
+    
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        if member.guild.id == 593954944059572235:
+            await self.bot.get_channel(593988932564418590).send("Goodbye, "+member.mention)
     
     @commands.command(name="mcstatus")
     async def mcstatus(self, ctx):

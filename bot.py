@@ -20,7 +20,7 @@ def getPrefix(self, message):
     return str(prefix[0])
 """
 
-bot = commands.AutoShardedBot(command_prefix="!!", help_command=None, case_insensitive=True)
+bot = commands.AutoShardedBot(command_prefix=commands.when_mentioned_or("!!"), help_command=None, case_insensitive=True)
 cogs = ["cmds", "events", "owner", "msgs",
         "admincmds", "currency", "loops",
         "xenon", "idk"]
