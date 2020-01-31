@@ -1,22 +1,23 @@
 from discord.ext import commands
 import discord
 from random import choice
+import psycopg2
+import json
 
 class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        global msg_count
-        msg_count = 0
-        global cmd_count
-        cmd_count = 0
+        self.msg_count = 0
+        self.cmd_count = 0
+        with open("keys.json", "r") as k:
+            keys = json.load(k)
+        self.db = psycopg2.connect(host="localhost",database="villagerbot", user="pi", password=keys["postgres"])
         
     @commands.Cog.listener()
     async def on_message(self, message):
-        global msg_count
-        global cmd_count
-        msg_count += 1
+        self.msg_count += 1
         if message.clean_content.startswith("!!"):
-            cmd_count += 1
+            self.cmd_count += 1
         
     @commands.command(name="ownerhelp", aliases=["helpowner", "owner"])
     @commands.is_owner()
@@ -35,7 +36,10 @@ class Owner(commands.Cog):
 **!!info2** *displays information about stuff*
 **!!setbal** ***@user amount*** *set user balance to something*
 **!!eval** ***statement*** *uses eval()*
-**!!exec** ***statement*** *uses exec()*""",
+**!!exec** ***statement*** *uses exec()*
+**!!setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
+**!!botban** ***user*** *bans a user from using the bot*
+**!!botunban** ***user*** *unbans a user from using the bot*""",
             color = discord.Color.green()
         )
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
@@ -77,6 +81,32 @@ class Owner(commands.Cog):
             await ctx.send("Error while loading extension: "+cog+"\n``"+str(e)+"``")
             return
         await ctx.send("Successfully reloaded cog: "+cog)
+        
+    @commands.command(name="botban")
+    @commands.is_owner()
+    async def botban(self, ctx, user: discord.User):
+        cur = self.db.cursor()
+        cur.execute("SELECT id FROM bans WHERE bans.id='"+str(user.id)+"'")
+        entry = cur.fetchone()
+        if entry == None:
+            cur.execute("INSERT INTO bans VALUES ('"+str(user.id)+"')")
+            await ctx.send("Successfully banned "+str(user)+".")
+            self.db.commit()
+        else:
+            await ctx.send(str(user)+" was already banned.")
+        
+    @commands.command(name="botunban")
+    @commands.is_owner()
+    async def botunban(self, ctx, user: discord.User):
+        cur = self.db.cursor()
+        cur.execute("SELECT id FROM bans WHERE bans.id='"+str(user.id)+"'")
+        entry = cur.fetchone()
+        if entry == None:
+            await ctx.send(str(user)+" was not banned.")
+        else:
+            cur.execute("DELETE FROM bans WHERE bans.id='"+str(user.id)+"'")
+            await ctx.send(str(user)+" was successfully unbanned.")
+            self.db.commit()
 
     @commands.command(name="activity")
     @commands.is_owner()
@@ -154,8 +184,6 @@ class Owner(commands.Cog):
     @commands.command(name="info2")
     @commands.is_owner()
     async def info2(self, ctx):
-        global msg_count
-        global cmd_count
         infoEmbed = discord.Embed(
             description = "",
             color = discord.Color.green()
@@ -168,7 +196,7 @@ Session Message Count: {3}
 Session Command Count: {4}
 Shard Count: {5}
 Latency: {6} ms
-""".format(str(len(self.bot.guilds)), str(len(self.bot.private_channels)), str(len(self.bot.users)), msg_count, cmd_count, self.bot.shard_count, str(self.bot.latency*1000)[:5]))
+""".format(str(len(self.bot.guilds)), str(len(self.bot.private_channels)), str(len(self.bot.users)), self.msg_count, self.cmd_count, self.bot.shard_count, str(self.bot.latency*1000)[:5]))
         await ctx.send(embed=infoEmbed)
         
     @commands.command(name="eval")
@@ -193,7 +221,8 @@ Latency: {6} ms
     @commands.is_owner()
     async def execMessage(self, ctx, *, msg):
         try:
-            exec(msg)
+            evalMsg = exec(msg)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=str(evalMsg)))
         except Exception as e:
             if type(e) == discord.HTTPException:
                 if e.code == 50035:
@@ -205,6 +234,25 @@ Latency: {6} ms
                     await ctx.send(str(e))
             else:
                 await ctx.send(str(e))
+                
+    @commands.command(name="setpickaxe", aliases=["setpick"])
+    @commands.is_owner()
+    async def setpick(self, ctx, user: discord.User, pType: str):
+        currency = self.bot.get_cog("Currency")
+        await ctx.send(str(await currency.setpick(user.id, pType)))
+        
+    @commands.command(name="inverseguildlookup", aliases=["lookup"])
+    @commands.is_owner()
+    async def inverseguildlookup(self, ctx, user: discord.User):
+        gds = ""
+        for guild in self.bot.guilds:
+            for member in guild.members:
+                if member.id == user.id:
+                    gds+=str(guild)+" **|** "+str(guild.id)+"\n"
+        if not gds == "":
+            await ctx.send(gds)
+        else:
+            await ctx.send("No results...")
             
 def setup(bot):
     bot.add_cog(Owner(bot))

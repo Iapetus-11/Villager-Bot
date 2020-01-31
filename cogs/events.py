@@ -8,7 +8,7 @@ import asyncio
 class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
+        
     @commands.Cog.listener()
     async def on_ready(self):
         print(self.bot.user.name)
@@ -21,6 +21,25 @@ class Events(commands.Cog):
         with open("uptime.txt", "w") as f:
             f.write(str(arrow.utcnow()))
 
+    @commands.Cog.listener()
+    async def on_dbl_test(self, data):
+        print(u"\u001b[35mDBL WEBHOOK TEST\u001b[0m")
+        channel = self.bot.get_channel(643648150778675202)
+        await channel.send(embed=discord.Embed(color=discord.Color.green(), description="DBL WEBHOOK TEST"))
+    
+    @commands.Cog.listener()
+    async def on_dbl_vote(self, data):
+        print(u"\u001b[32mPERSON VOTED ON TOP.GG\u001b[0m")
+        currency = self.bot.get_cog("Currency")
+        userID = int(data["user"])
+        multi = 1
+        if await currency.dblpy.get_weekend_status():
+            multi = 2
+        await currency.setb(userID, await currency.getb(userID)+(32*multi))
+        user = self.bot.get_user(userID)
+        await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You have been awarded {0} <:emerald:653729877698150405> for voting for Villager Bot!",
+                                                                                            "You have recieved {0} <:emerald:653729877698150405> for voting for Villager Bot!"]).format(32*multi)))
+    
     @commands.Cog.listener()
     async def on_guild_join(bot, guild):
         await asyncio.sleep(1)

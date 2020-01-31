@@ -1,6 +1,5 @@
 from discord.ext import commands
 import discord
-from os import system
 import json
 import psycopg2
 
@@ -23,7 +22,19 @@ def getPrefix(self, message):
 bot = commands.AutoShardedBot(command_prefix=commands.when_mentioned_or("!!"), help_command=None, case_insensitive=True)
 cogs = ["cmds", "events", "owner", "msgs",
         "admincmds", "currency", "loops",
-        "xenon", "idk"]
+        "xenon"]
+with open("keys.json", "r") as k:
+    keys = json.load(k)
+db = psycopg2.connect(host="localhost",database="villagerbot", user="pi", password=keys["postgres"])
+cur = db.cursor()
+
+def banned(uid):
+    cur.execute("SELECT id FROM bans WHERE bans.id='"+str(uid)+"'")
+    entry = cur.fetchone()
+    if entry == None:
+        return False
+    else:
+        return True
 
 #load cogs in cogs list
 for cog in cogs:
@@ -34,8 +45,10 @@ async def stay_safe(ctx):
     if not bot.is_ready():
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
         return False
+    if banned(ctx.message.author.id):
+        return False
     return ctx.message.author.id is not 639498607632056321 and not ctx.message.author.bot
 
 #actually start bot
 key = json.load(open("keys.json", "r"))["discord"]
-bot.run(key, bot=True)
+bot.run(key, bot=True)   

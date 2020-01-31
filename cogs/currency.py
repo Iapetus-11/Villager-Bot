@@ -4,18 +4,17 @@ import json
 import asyncio
 from random import choice, randint
 from math import ceil
-import dbl
 import psycopg2
+import dbl
 
 class Currency(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         with open("keys.json", "r") as k:
             keys = json.load(k)
+        self.db = psycopg2.connect(host="localhost",database="villagerbot", user="pi", password=keys["postgres"])
         self.token = keys["dblpy"]
         self.dblpy = dbl.DBLClient(self.bot, self.token, webhook_path="/dblwebhook", webhook_auth=keys["dblpy2"], webhook_port=5000)
-        with open("keys.json", "r") as pp:
-            self.db = psycopg2.connect(host="localhost",database="villagerbot", user="pi", password=json.load(pp)["postgres"])
         self.save.start()
         
     def cog_unload(self):
@@ -57,6 +56,22 @@ class Currency(commands.Cog):
         cur.execute("UPDATE pickaxes SET pickaxe='"+str(pickaxe)+"' WHERE id='"+str(uid)+"'")
         self.db.commit()
         
+    async def getdbv(self, table, uid, two, sett): #table(table in database), uid(context user id), two(second column with data, not uid), sett(default value that it is set to if other entry isn't there)
+        cur = self.db.cursor()
+        cur.execute("SELECT "+str(two)+" FROM "+str(table)+" WHERE "+str(table)+".id='"+str(uid)+"'")
+        val = cur.fetchone()
+        if val == None:
+            cur.execute("INSERT INTO "+str(table)+" VALUES ('"+str(uid)+"', '"+str(sett)+"')")
+            self.db.commit()
+            val = (sett,)
+        return str(val[0])
+    
+    async def setdbv(self, table, uid, two, sett):
+        await self.getdbv(table, uid, two, sett)
+        cur = self.db.cursor()
+        cur.execute("UPDATE "+str(table)+" SET "+str(two)+"='"+str(sett)+"' WHERE id='"+str(uid)+"'")
+        self.db.commit()
+        
     @commands.command(name="bal", aliases=["balance"])
     async def balance(self, ctx):
         msg = ctx.message.content.replace("!!balance ", "").replace("!!balance", "").replace("!!bal ", "").replace("!!bal", "")
@@ -82,14 +97,10 @@ class Currency(commands.Cog):
         
     @commands.command(name="shop")
     async def shop(self, ctx):
-        msg = ctx.message.clean_content.replace("!!shop ", "").replace("!!shop", "")
+        msg = ctx.message.clean_content.lower().replace("!!shop ", "").replace("!!shop", "")
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         shop.set_footer(text="!!inventory to see what you have!")
-        if msg == "":
-            shop.add_field(name="__**Pickaxes**__", value="``!!shop pickaxes``")
-            await ctx.send(embed=shop)
-            return
         if msg == "pickaxes":
             shop.add_field(name="__**Stone Pickaxe**__ 32<:emerald:653729877698150405>", value="``!!buy stone pickaxe``", inline=True)
             shop.add_field(name="__**Iron Pickaxe**__ 128<:emerald:653729877698150405>", value="``!!buy iron pickaxe``", inline=True)
@@ -100,15 +111,38 @@ class Currency(commands.Cog):
             shop.set_footer(text="Pickaxes allow you to get more emeralds while using the !!mine command!")
             await ctx.send(embed=shop)
             return
+        if msg == "other":
+            shop.add_field(name="__**Jar of Bees**__ 8<:emerald:653729877698150405>", value="``!!buy jar of bees``", inline=True)
+            await ctx.send(embed=shop)
+            return
+        shop.add_field(name="__**Pickaxes**__", value="``!!shop pickaxes``")
+        shop.add_field(name="__**Other**__", value="``!!shop other``")
+        await ctx.send(embed=shop)
         
     @commands.command(name="inventory", aliases=["inv"])
     async def inventory(self, ctx):
-        inv = discord.Embed(color=discord.Color.green(), description=str(await self.getb(ctx.author.id))+"x emerald(s)\n1x "+await self.getpick(ctx.author.id)+" pickaxe\n")
+        contents = str(await self.getpick(ctx.author.id)+" pickaxe\n")
+        bal = await self.getb(ctx.author.id)
+        if int(bal) == 1:
+            contents += "1 emerald\n"
+        elif int(bal) > 0:
+            contents += str(bal)+" emeralds\n"
+        beecount = await self.getdbv("bees", ctx.author.id, "bees", 0)
+        if int(beecount) > 0:
+            contents += str(beecount)+" jars of bees ("+str(int(beecount)*3)+" bees)\n"
+        inv = discord.Embed(color=discord.Color.green(), description=contents)
         inv.set_author(name=ctx.author.display_name+"'s Inventory", url=discord.Embed.Empty)
         await ctx.send(embed=inv)
         
     @commands.command(name="buy")
-    async def buy(self, ctx, *, item):
+    async def buy(self, ctx, *, itemm):
+        item = itemm.lower()
+        if item == "jar of bees":
+            if await self.getb(ctx.author.id) >= 8:
+                await self.setb(ctx.author.id, await self.getb(ctx.author.id)-8)
+                await self.setdbv("bees", ctx.author.id, "bees", int(await self.getdbv("bees", ctx.author.id, "bees", 0))+1)
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a jar of be"+choice(["e", "eee", "ee", "eeeee", "eeeeeeeeeeeeeeee", "eeeeeeeeeee"])+"s"))
+        
         if item == "stone pickaxe":
             if await self.getb(ctx.author.id) >= 32:
                 if await self.getpick(ctx.author.id) != "stone":
@@ -259,23 +293,6 @@ class Currency(commands.Cog):
             await self.setb(user.id, await self.getb(user.id)+32)
             await self.setb(ctx.author.id, await self.getb(ctx.author.id)-32)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You were caught and paid 32 <:emerald:653729877698150405>"))
-            
-    @commands.Cog.listener()
-    async def on_dbl_vote(self, data):
-        print(u"\u001b[32mPERSON VOTED ON TOP.GG\u001b[0m")
-        userID = int(data["user"])
-        multi = 1
-        if await self.dblpy.get_weekend_status():
-            multi = 2
-        await self.setb(userID, await self.getb(userID)+(32*multi))
-        user = self.bot.get_user(userID)
-        await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You have been awarded {0} <:emerald:653729877698150405> for voting for Villager Bot!",
-                                                                                                  "You have recieved {0} <:emerald:653729877698150405> for voting for Villager Bot!"]).format(32*multi)))
-    @commands.Cog.listener()
-    async def on_dbl_test(self, data):
-        print(u"\u001b[35mDBL WEBHOOK TEST\u001b[0m")
-        channel = self.bot.get_channel(643648150778675202)
-        await channel.send(embed=discord.Embed(color=discord.Color.green(), description="DBL WEBHOOK TEST"))
-        
+
 def setup(bot):
     bot.add_cog(Currency(bot))

@@ -342,7 +342,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
     async def saysomethin(self, ctx):
         if ctx.message.clean_content[5:].replace("@", "") == "":
             return
-        await ctx.send(ctx.message.clean_content.replace("!!say", "").replace("@", ""))
+        await ctx.send(ctx.message.clean_content[5:].replace("@", ""))
         try:
             await ctx.message.delete()
         except Exception:
