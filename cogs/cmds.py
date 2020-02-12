@@ -332,7 +332,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
     async def inviteLink(self, ctx):
         invL = discord.Embed(
              title = "Add Villager Bot to your server",
-             description = "[Click Here!](http://shorturl.at/bhvY4)",
+             description = "[Click Here!](https://bit.ly/2tQfOhW)",
              color = discord.Color.green()
         )
         invL.set_thumbnail(url="http://172.10.17.177/images/villagerbotsplash1.png")

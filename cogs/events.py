@@ -1,7 +1,6 @@
 from discord.ext import commands
 import discord
 from random import choice
-from time import sleep
 import arrow
 import asyncio
 
@@ -29,9 +28,9 @@ class Events(commands.Cog):
     
     @commands.Cog.listener()
     async def on_dbl_vote(self, data):
-        print(u"\u001b[32mPERSON VOTED ON TOP.GG\u001b[0m")
         currency = self.bot.get_cog("Currency")
         userID = int(data["user"])
+        print(u"\u001b[32m"+str(userID)+" VOTED ON TOP.GG\u001b[0m")
         multi = 1
         if await currency.dblpy.get_weekend_status():
             multi = 2
@@ -57,7 +56,7 @@ class Events(commands.Cog):
                 i = -100
                 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
+    async def on_command_error(self, ctx, error):            
         if type(error) == discord.ext.commands.CommandNotFound or type(error) == discord.ext.commands.NotOwner or type(error) == discord.ext.commands.errors.CheckFailure: #errrors to ignore
             return
         

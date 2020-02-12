@@ -13,6 +13,9 @@ class Owner(commands.Cog):
             keys = json.load(k)
         self.db = psycopg2.connect(host="localhost",database="villagerbot", user="pi", password=keys["postgres"])
         
+    def cog_unload(self):
+        self.db.close()
+        
     @commands.Cog.listener()
     async def on_message(self, message):
         self.msg_count += 1
@@ -39,7 +42,9 @@ class Owner(commands.Cog):
 **!!exec** ***statement*** *uses exec()*
 **!!setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
 **!!botban** ***user*** *bans a user from using the bot*
-**!!botunban** ***user*** *unbans a user from using the bot*""",
+**!!botunban** ***user*** *unbans a user from using the bot*
+**!!inverseguildlookup** ***user*** *shows what servers a user is in*
+**!!cogs** *lists the loaded cogs*""",
             color = discord.Color.green()
         )
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
@@ -69,16 +74,9 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def reload(self, ctx, *, cog: str):
         try:
-            self.bot.unload_extension("cogs."+cog)
-        except commands.ExtensionNotLoaded:
-            pass
+            self.bot.reload_extension("cogs."+cog)
         except Exception as e:
-            await ctx.send("Error while unloading extension: "+cog+"\n``"+str(e)+"``")
-            return
-        try:
-            self.bot.load_extension("cogs."+cog)
-        except Exception as e:
-            await ctx.send("Error while loading extension: "+cog+"\n``"+str(e)+"``")
+            await ctx.send("Error while reloading extension: "+cog+"\n``"+str(e)+"``")
             return
         await ctx.send("Successfully reloaded cog: "+cog)
         
@@ -253,6 +251,12 @@ Latency: {6} ms
             await ctx.send(gds)
         else:
             await ctx.send("No results...")
+            
+    @commands.command(name="cogs")
+    @commands.is_owner()
+    async def listCogs(self, ctx):
+        for cog in self.bot.cogs:
+            await ctx.send(self.bot.cogs[cog])
             
 def setup(bot):
     bot.add_cog(Owner(bot))

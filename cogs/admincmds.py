@@ -7,7 +7,7 @@ class AdminCmds(commands.Cog):
 
     @commands.command(name="purge")
     @commands.has_permissions(administrator=True)
-    async def purgeMessages(self, ctx, *, message: str):
+    async def purgeLeMessages(self, ctx, *, message: str):
         try:
             n = int(message)
         except Exception:
