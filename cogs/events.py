@@ -44,8 +44,9 @@ class Events(commands.Cog):
         await asyncio.sleep(1)
         ret = False
         i = 0
-        joinMsg = discord.Embed(color=discord.Color.green(), description="""Hey ya'll, type **!!help** to get started with Villager Bot!""")
-        joinMsg.set_footer(text="Note: Bot errors caused by users are logged so the Villager Bot programmers can fix bugs!")
+        joinMsg = discord.Embed(color=discord.Color.green(), description="""Hey ya'll, type **!!help** to get started with Villager Bot!
+
+Want to recieve updates, report a bug, or make suggestions? Join the official [support server](https://discord.gg/39DwwUV)!""")
         while i >= 0:
             try:
                 await guild.channels[i].send(embed=joinMsg)

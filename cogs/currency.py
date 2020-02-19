@@ -73,28 +73,46 @@ class Currency(commands.Cog):
         cur.execute("UPDATE "+str(table)+" SET "+str(two)+"='"+str(sett)+"' WHERE id='"+str(uid)+"'")
         self.db.commit()
         
+    async def getdbv3(self, table, uid, two, three, sett, settt):
+        cur = self.db.cursor()
+        cur.execute("SELECT "+str(two)+" FROM "+str(table)+" WHERE "+str(table)+".id='"+str(uid)+"'")
+        val2 = cur.fetchone()
+        cur.execute("SELECT "+str(three)+" FROM "+str(table)+" WHERE "+str(table)+".id='"+str(uid)+"'")
+        val3 = cur.fetchone()
+        if val2 == None or val3 == None:
+            cur.execute("INSERT INTO "+str(table)+" VALUES ('"+str(uid)+"', '"+str(sett)+"', '"+str(settt)+"')")
+            self.db.commit()
+            vals = (sett, settt,)
+        else:
+            vals = (val2[0], val3[0],)
+        return vals
+    
+    async def setdbv3(self, table, uid, two, three, sett, settt):
+        await self.getdbv3(table, uid, two, three, sett, settt)
+        cur = self.db.cursor()
+        cur.execute("UPDATE "+str(table)+" SET "+str(two)+"='"+str(sett)+"' WHERE id='"+str(uid)+"'")
+        cur.execute("UPDATE "+str(table)+" SET "+str(three)+"='"+str(settt)+"' WHERE id='"+str(uid)+"'")
+        self.db.commit()
+        
     @commands.command(name="bal", aliases=["balance"])
     async def balance(self, ctx):
         msg = ctx.message.content.replace("!!balance ", "").replace("!!balance", "").replace("!!bal ", "").replace("!!bal", "")
         user = ctx.author
         if msg != "":
-            userConvert = commands.UserConverter()
             try:
                 user = await commands.UserConverter().convert(ctx, msg)
             except Exception:
-                pass
+                user = ctx.author
         amount = await self.getb(user.id)
-        if amount == 1:
-            emerald = "emerald"
-        else:
-            emerald = "emeralds"
-        balEmbed = discord.Embed(color=discord.Color.green(), description=user.mention+" has a total of "+str(amount)+" <:emerald:653729877698150405>")
+        vault = await self.getdbv3("vault", user.id, "amount", "max", 0, 0)
+        balEmbed = discord.Embed(color=discord.Color.green(), description=user.mention+" has "+str(amount)+"<:emerald:653729877698150405> and "+str(vault[0])+"<:emerald_block:679121595150893057>")
         await ctx.send(embed=balEmbed)
             
     @commands.command(name="setbal")
     @commands.is_owner()
-    async def balset(self, ctx, user: discord.User, amount: int):
+    async def balset(self, ctx, user: discord.User, amount: int, vault: int):
         await self.setb(user.id, amount)
+        await self.setdbv3("vault", user.id, "amount", "max", vault, 0)
         
     @commands.command(name="shop")
     async def shop(self, ctx):

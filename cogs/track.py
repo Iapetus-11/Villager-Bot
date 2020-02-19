@@ -39,6 +39,8 @@ class Track(commands.Cog):
         for trak in joe: #sort
             if int(trak[1]) > int(topps[0][1]):
                 topps.insert(0, trak)
+            else:
+                topps.insert(len(topps)-1, trak)
         i = 0
         for top in topps:
             if i >= 5:

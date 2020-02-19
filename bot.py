@@ -21,8 +21,7 @@ def getPrefix(self, message):
 
 bot = commands.AutoShardedBot(command_prefix=commands.when_mentioned_or("!!"), help_command=None, case_insensitive=True)
 cogs = ["cmds", "owner", "events", "msgs",
-        "admincmds", "currency", "loops",
-        "xenon"]
+        "admincmds", "currency", "loops"]
 
 print("connecting to db")
 with open("keys.json", "r") as k:

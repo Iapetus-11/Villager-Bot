@@ -7,20 +7,12 @@ import json
 class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.msg_count = 0
-        self.cmd_count = 0
         with open("keys.json", "r") as k:
             keys = json.load(k)
         self.db = psycopg2.connect(host="localhost",database="villagerbot", user="pi", password=keys["postgres"])
         
     def cog_unload(self):
         self.db.close()
-        
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        self.msg_count += 1
-        if message.clean_content.startswith("!!"):
-            self.cmd_count += 1
         
     @commands.command(name="ownerhelp", aliases=["helpowner", "owner"])
     @commands.is_owner()
@@ -194,7 +186,8 @@ Session Message Count: {3}
 Session Command Count: {4}
 Shard Count: {5}
 Latency: {6} ms
-""".format(str(len(self.bot.guilds)), str(len(self.bot.private_channels)), str(len(self.bot.users)), self.msg_count, self.cmd_count, self.bot.shard_count, str(self.bot.latency*1000)[:5]))
+""".format(str(len(self.bot.guilds)), str(len(self.bot.private_channels)), str(len(self.bot.users)), self.bot.get_cog("Msgs").msg_count,
+           self.bot.get_cog("Msgs").cmd_count, self.bot.shard_count, str(self.bot.latency*1000)[:5]))
         await ctx.send(embed=infoEmbed)
         
     @commands.command(name="eval")
