@@ -13,13 +13,7 @@ class Msgs(commands.Cog):
         self.msg_count += 1
         if message.content.startswith("!!"):
             self.cmd_count += 1
-            
-        if "emerald" in message.clean_content.lower():
-            if message.author.id != 639498607632056321:
-                try:
-                    await message.channel.send(choice(["hrmm", "hrmmm", "HRHHRMM", "hruhrmm", "hrmMrmm", "hrmmmm"]))
-                except Exception:
-                    pass
+            await self.bot.get_cog("Currency").incrementMax(message)
 
 def setup(bot):
     bot.add_cog(Msgs(bot))

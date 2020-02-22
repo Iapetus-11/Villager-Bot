@@ -13,7 +13,8 @@ class AdminCmds(commands.Cog):
         except Exception:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid number!"))
         else:
-            await ctx.channel.purge(limit=n+1)
+            ch = await self.bot.fetch_channel(ctx.channel.id)
+            ch.purge(limit=n+1)
             
     @commands.command(name="ban")
     @commands.has_permissions(administrator=True)

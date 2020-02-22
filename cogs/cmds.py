@@ -48,14 +48,13 @@ class Cmds(commands.Cog):
             return
         
         elif msg == "fun":
-            helpMsg.add_field(name="__**Fun Stuff**__", value="""
-__Text Commands__
+            helpMsg.add_field(name="__**Text Commands**__", value="""
 **!!villagerspeak** ***text*** *turns English text into villager sounds*
 **!!enchant** ***text*** *turns english text into the Minecraft enchantment table language, a.k.a. the Standard Galactic Alphabet.*
 **!!unenchant** ***text*** *turns the enchanting table language back into English*
 **!!sarcastic** ***text*** *makes text sarcastic*
-
-__Currency Commands__
+""", inline=False)
+            helpMsg.add_field(name="__**Currency Commands**__", value="""
 **!!mine** *go mining with the bot for emeralds*
 **!!balance** *the bot will tell you how many emeralds you have*
 **!!inventory** *see what you have in your inventory*
@@ -63,11 +62,13 @@ __Currency Commands__
 **!!gamble** ***amount*** *gamble with Villager Bot*
 **!!pillage** ***@user*** *attempt to steal emeralds from another person*
 **!!shop** *go shopping with emeralds*
-
-__Other Commands__
+**!!deposit** ***amount in emerald blocks*** *deposit emerald blocks into the emerald vault*
+**!!withdraw** ***amount in emerald blocks*** *withdraw emerald blocks from the emerald vault*
+""", inline=False)
+            helpMsg.add_field(name="__**Other Commands**__", value="""
 **!!cursed** *the bot will upload a cursed Minecraft image*
 **!!battle** ***user*** *allows you to battle your friends!*
-""", inline=True)
+""", inline=False)
             await ctx.send(embed=helpMsg)
             return
         

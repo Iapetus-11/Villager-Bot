@@ -29,7 +29,7 @@ class Owner(commands.Cog):
 **!!leaveguild** ***guild id*** *leaves specified guild*
 **!!getinvites** ***guild id*** *gets invite codes for specified guild*
 **!!info2** *displays information about stuff*
-**!!setbal** ***@user amount*** *set user balance to something*
+**!!setbal** ***@user amount vault_amount*** *set user balance to something*
 **!!eval** ***statement*** *uses eval()*
 **!!exec** ***statement*** *uses exec()*
 **!!setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*

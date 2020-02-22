@@ -3,7 +3,7 @@ import discord
 import json
 import asyncio
 from random import choice, randint
-from math import ceil
+from math import ceil, floor
 import psycopg2
 import dbl
 
@@ -16,6 +16,7 @@ class Currency(commands.Cog):
         self.token = keys["dblpy"]
         self.dblpy = dbl.DBLClient(self.bot, self.token, webhook_path="/dblwebhook", webhook_auth=keys["dblpy2"], webhook_port=5000)
         self.save.start()
+        self.whoismining = {}
         
     def cog_unload(self):
         self.save.cancel()
@@ -32,7 +33,7 @@ class Currency(commands.Cog):
         if str(type(amount)) == "<class 'NoneType'>" or str(type(amount)) == "NoneType":
             cur.execute("INSERT INTO currency VALUES ('"+str(uid)+"', '0')")
             self.db.commit()
-            amount = ('0',)
+            return 0
         return int(amount[0])
 
     async def setb(self, uid, amount):
@@ -94,9 +95,26 @@ class Currency(commands.Cog):
         cur.execute("UPDATE "+str(table)+" SET "+str(three)+"='"+str(settt)+"' WHERE id='"+str(uid)+"'")
         self.db.commit()
         
+    async def incrementMax(self, ctx):
+        user = ctx.author
+        vault = await self.getdbv3("vault", user.id, "amount", "max", 0, 0)
+        if int(vault[1]) < 2000:
+            if choice([True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]):
+                await self.setdbv3("vault", user.id, "amount", "max", vault[0], int(vault[1])+1)
+                
+    async def probGen(self):
+        prob = {}
+        x = randint(0, 25)
+        y = randint(0, 25)
+        prob = [str(x)+"+"+str(y), str(x+y)]
+        return prob
+        
     @commands.command(name="bal", aliases=["balance"])
     async def balance(self, ctx):
-        msg = ctx.message.content.replace("!!balance ", "").replace("!!balance", "").replace("!!bal ", "").replace("!!bal", "")
+        if "message" in ctx.message.clean_content.lower():
+            msg = ctx.message.clean_content[10:]
+        else:
+            msg = ctx.message.clean_content[6:]
         user = ctx.author
         if msg != "":
             try:
@@ -104,15 +122,76 @@ class Currency(commands.Cog):
             except Exception:
                 user = ctx.author
         amount = await self.getb(user.id)
-        vault = await self.getdbv3("vault", user.id, "amount", "max", 0, 0)
-        balEmbed = discord.Embed(color=discord.Color.green(), description=user.mention+" has "+str(amount)+"<:emerald:653729877698150405> and "+str(vault[0])+"<:emerald_block:679121595150893057>")
+        balEmbed = discord.Embed(color=discord.Color.green(), description=user.mention+" has "+str(amount)+"<:emerald:653729877698150405>")
         await ctx.send(embed=balEmbed)
+        
+    @commands.command(name="deposit", aliases=["dep"])
+    async def deposit(self, ctx, amount): #in blocks
+        theirbal = await self.getb(ctx.author.id)
+        if theirbal < 9:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to deposit!"))
+            return
+        vault = await self.getdbv3("vault", ctx.author.id, "amount", "max", 0, 0)
+        if str(amount).lower() == "all" or str(amount).lower() == "max":
+            amount = int(vault[1])-int(vault[0])
+            if theirbal < amount:
+                amount = floor(theirbal/9)
+        else:
+            try:
+                amount = int(amount)
+            except Exception:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Try using an actual number, idiot!"))
+                return
+            
+        if int(vault[1]) == 0:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="There isn't enough space in your vault!"))
+            return
+        if int(vault[1])-int(vault[0]) <= 0:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="There isn't enough space in your vault!"))
+            return
+        if amount*9 > await self.getb(ctx.author.id):
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't deposit more emeralds than you have!"))
+            return
+        if amount < 1:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to deposit one or more emerald blocks at once!"))
+            return
+        
+        await self.setb(ctx.author.id, await self.getb(ctx.author.id)-(9*amount))
+        await self.setdbv3("vault", ctx.author.id, "amount", "max", int(vault[0])+amount, vault[1])
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have deposited "+str(amount)+" emerald blocks into the vault. ("+str((amount*9))+"<:emerald:653729877698150405>)"))
+        
+    @commands.command(name="withdraw")
+    async def withdraw(self, ctx, amount): #emerald blocks
+        vault = await self.getdbv3("vault", ctx.author.id, "amount", "max", 0, 0)
+        if int(vault[0]) < 1:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have any emerald blocks to withdraw!"))
+            return
+        if str(amount).lower() == "all" or str(amount).lower() == "max":
+            amount = int(vault[0])
+        else:
+            try:
+                amount = int(amount)
+            except Exception:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Try using an actual number, idiot!"))
+                return
+        
+        if amount < 1:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to withdraw one or more emerald blocks at once!"))
+            return
+        if amount > int(vault[0]):
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't withdraw more emerald blocks than you have!"))
+            return
+        
+        await self.setb(ctx.author.id, await self.getb(ctx.author.id)+(9*amount))
+        await self.setdbv3("vault", ctx.author.id, "amount", "max", int(vault[0])-amount, vault[1])
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have withdrawn "+str(amount)+" emerald blocks from the vault. ("+str((amount*9))+"<:emerald:653729877698150405>)"))
             
     @commands.command(name="setbal")
     @commands.is_owner()
     async def balset(self, ctx, user: discord.User, amount: int, vault: int):
         await self.setb(user.id, amount)
-        await self.setdbv3("vault", user.id, "amount", "max", vault, 0)
+        actualVault = await self.getdbv3("vault", user.id, "amount", "max", 0, 0)
+        await self.setdbv3("vault", user.id, "amount", "max", vault, actualVault[1])
         
     @commands.command(name="shop")
     async def shop(self, ctx):
@@ -143,21 +222,28 @@ class Currency(commands.Cog):
     @commands.command(name="inventory", aliases=["inv"])
     async def inventory(self, ctx):
         contents = str(await self.getpick(ctx.author.id)+" pickaxe\n")
+        
         bal = await self.getb(ctx.author.id)
         if int(bal) == 1:
             contents += "1 emerald\n"
-        elif int(bal) > 0:
+        else:
             contents += str(bal)+" emeralds\n"
+            
+        vault = await self.getdbv3("vault", ctx.author.id, "amount", "max", 0, 0)
+        contents += "vault: "+str(vault[0])+"<:emerald_block:679121595150893057>/"+str(vault[1])+"\n"
+        
         beecount = await self.getdbv("bees", ctx.author.id, "bees", 0)
         if int(beecount) > 1:
             contents += str(beecount)+" jars of bees ("+str(int(beecount)*3)+" bees)\n"
         if int(beecount) == 1:
             contents += str(beecount)+" jar of bees ("+str(int(beecount)*3)+" bees)\n"
+            
         netheritescrapcount = await self.getdbv("netheritescrap", ctx.author.id, "amount", 0)
         if int(netheritescrapcount) > 1:
             contents += str(netheritescrapcount)+" chunks of netherite scrap\n"
         if int(netheritescrapcount) == 1:
             contents += str(netheritescrapcount)+" chunk of netherite scrap\n"
+            
         inv = discord.Embed(color=discord.Color.green(), description=contents)
         inv.set_author(name=ctx.author.display_name+"'s Inventory", url=discord.Embed.Empty)
         await ctx.send(embed=inv)
@@ -232,7 +318,7 @@ class Currency(commands.Cog):
             
         if item == "netherite pickaxe":
             if await self.getb(ctx.author.id) >= 8192:
-                if await self.getdbv("netheritescrap", ctx.author.id, "amount", 0) >= 4:
+                if int(await self.getdbv("netheritescrap", ctx.author.id, "amount", 0)) >= 4:
                     if await self.getpick(ctx.author.id) != "netherite":
                         await self.setb(ctx.author.id, await self.getb(ctx.author.id)-8192)
                         await self.setdbv("netheritescrap", ctx.author.id, "amount", int(await self.getdbv("netheritescrap", ctx.author.id, "amount", 0))-4)
@@ -268,6 +354,22 @@ class Currency(commands.Cog):
     @commands.command(name="mine")
     @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def mine(self, ctx):
+        if ctx.author.id in self.whoismining.keys():
+            if self.whoismining[ctx.author.id] >= 100:
+                def czech(m):
+                    return m.author.id == ctx.author.id
+                prob = await self.probGen()
+                await ctx.send("Please solve this problem to continue: ``"+prob[0]+"``")
+                msg = await self.bot.wait_for("message", check=czech)
+                if msg.clean_content == prob[1]:
+                    await ctx.send("Correct answer!")
+                    self.whoismining[ctx.author.id] = 0
+                else:
+                    await ctx.send("Incorrect answer.")
+                return
+            self.whoismining[ctx.author.id] += 1
+        else:
+            self.whoismining[ctx.author.id] = 1
         pickaxe = await self.getpick(ctx.author.id)
         if pickaxe == "wood":
             minin = ["dirt", "dirt", "emerald", "dirt", "cobblestone", "cobblestone", "cobblestone", "emerald", "coal", "coal", "cobblestone", "cobblestone", "dirt",
@@ -294,7 +396,7 @@ class Currency(commands.Cog):
             await self.setb(ctx.author.id, await self.getb(ctx.author.id)+1)
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You "+choice(["found", "mined", "mined up", "mined up", "found"])+" "+str(randint(1, 8))+" "+choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
-    
+            
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
     async def gamble(self, ctx, amount: str):
