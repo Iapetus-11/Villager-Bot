@@ -15,6 +15,7 @@ class Events(commands.Cog):
         
         with open("data/keys.json", "r") as k:
             keys = json.load(k)
+            
         self.dblpy = dbl.DBLClient(self.bot, keys["dblpy"], webhook_path='/dblwebhook', webhook_auth=keys["dblpy2"], webhook_port=5000)
         
         self.logger = logging.getLogger("Events")
@@ -22,7 +23,7 @@ class Events(commands.Cog):
         
     @commands.Cog.listener()
     async def on_ready(self):
-        self.logger.info(" CONNECTED | Shard: "+str(self.bot.shard_id))
+        self.logger.info(" \u001b[36;1mCONNECTED | Shard: "+str(self.bot.shard_id))
         await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
 
     @commands.Cog.listener()
@@ -42,6 +43,7 @@ class Events(commands.Cog):
         user = self.bot.get_user(userID)
         await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You have been awarded {0} <:emerald:653729877698150405> for voting for Villager Bot!",
                                                                                             "You have recieved {0} <:emerald:653729877698150405> for voting for Villager Bot!"]).format(32*multi)))
+        await self.bot.get_channel(682195105784004610).send(":tada::tada::tada: "+user.display_name+" has voted! :tada::tada::tada:")
     
     @commands.Cog.listener()
     async def on_guild_join(bot, guild):
