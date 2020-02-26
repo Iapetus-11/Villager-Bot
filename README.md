@@ -49,5 +49,6 @@
 * __!!ban__ *@user* (bans the mentioned user)
 * __!!pardon__ *@user* (unbans the mentioned user)
 
+---
 
 [![Discord Bots](https://top.gg/api/widget/639498607632056321.svg)](https://top.gg/bot/639498607632056321)
