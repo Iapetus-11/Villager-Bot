@@ -1,5 +1,4 @@
-# **Villager Bot**
-
+# **Villager Bot**</br>
 ### Notable Features:
 * Voting rewards (32 emeralds on weekdays, 64 on weekends, double on some holidays)
 * Economy/currency system (Emeralds, duh!)
@@ -48,5 +47,5 @@
 * __!!kick__ *@user* (kicks the mentioned user)
 * __!!ban__ *@user* (bans the mentioned user)
 * __!!pardon__ *@user* (unbans the mentioned user)
-
+</br>
 [![Discord Bots](https://top.gg/api/widget/639498607632056321.svg)](https://top.gg/bot/639498607632056321)
