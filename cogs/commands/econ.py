@@ -133,9 +133,6 @@ class Econ(commands.Cog):
             contents += "1 emerald\n"
         else:
             contents += str(bal)+" emeralds\n"
-            
-        vault = await self.db.getVault(ctx.author.id)
-        contents += "vault: "+str(vault[0])+"<:emerald_block:679121595150893057>/"+str(vault[1])+"\n"
         
         beecount = await self.db.getBees(ctx.author.id)
         if beecount > 1:
@@ -152,6 +149,11 @@ class Econ(commands.Cog):
         inv = discord.Embed(color=discord.Color.green(), description=contents)
         inv.set_author(name=ctx.author.display_name+"'s Inventory", url=discord.Embed.Empty)
         await ctx.send(embed=inv)
+        
+    @commands.command(name="vault")
+    async def viewVault(self, ctx):
+        vault = await self.db.getVault(ctx.author.id)
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=ctx.author.mention+"'s vault: "+str(vault[0])+"<:emerald_block:679121595150893057>/"+str(vault[1])))
         
     @commands.command(name="buy")
     async def buy(self, ctx, *, itemm):
