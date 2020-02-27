@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import asyncio
 import logging
+from random import choice
 
 class Loops(commands.Cog):
     def __init__(self, bot):
@@ -15,7 +16,7 @@ class Loops(commands.Cog):
     async def updateActivity(self):
         while True:
             await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
-            await self.logger.info(" [SHARD {0}] Updated Activity".format(self.bot.shard_id))
+            self.logger.info(" [SHARD {0}] Updated Activity".format(str(self.bot.shard_id)))
             await asyncio.sleep(3600)
         
     @commands.Cog.listener()
