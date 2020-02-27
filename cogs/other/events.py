@@ -41,7 +41,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_dbl_vote(self, data):
         userID = int(data["user"])
-        self.logger.info(" \u001b[32m;1m"+str(userID)+" VOTED ON TOP.GG\u001b[0m")
+        self.logger.info(" \u001b[32;1m"+str(userID)+" VOTED ON TOP.GG\u001b[0m")
         multi = 1
         if await self.dblpy.get_weekend_status():
             multi = 2
