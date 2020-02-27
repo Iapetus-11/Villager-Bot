@@ -49,7 +49,7 @@ class Events(commands.Cog):
         user = self.bot.get_user(userID)
         await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You have been awarded {0} <:emerald:653729877698150405> for voting for Villager Bot!",
                                                                                             "You have recieved {0} <:emerald:653729877698150405> for voting for Villager Bot!"]).format(32*multi)))
-        await self.bot.get_channel(682195105784004610).send(":tada::tada::tada: "+user.display_name+" has voted! :tada::tada::tada:")
+        await self.bot.get_channel(682195105784004610).send(":tada::tada: "+user.display_name+" has voted! :tada::tada:")
     
     @commands.Cog.listener()
     async def on_guild_join(bot, guild):
