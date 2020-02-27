@@ -29,19 +29,18 @@ class Events(commands.Cog):
         
     @commands.Cog.listener()
     async def on_ready(self):
-        self.logger.info(" \u001b[36;1mCONNECTED | Shard: "+str(self.bot.shard_id)+"\u001b[0m")
-        await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
+        self.logger.info("\u001b[36;1m [SHARD {0}] CONNECTED \u001b[0m".format(self.bot.shard_id))
 
     @commands.Cog.listener()
     async def on_dbl_test(self, data):
-        self.logger.info(" \u001b[35mDBL WEBHOOK TEST\u001b[0m")
+        self.logger.info("\u001b[35m DBL WEBHOOK TEST \u001b[0m")
         channel = self.bot.get_channel(643648150778675202)
         await channel.send(embed=discord.Embed(color=discord.Color.green(), description="DBL WEBHOOK TEST"))
     
     @commands.Cog.listener()
     async def on_dbl_vote(self, data):
         userID = int(data["user"])
-        self.logger.info(" \u001b[32;1m"+str(userID)+" VOTED ON TOP.GG\u001b[0m")
+        self.logger.info("\u001b[32;1m "+str(userID)+" VOTED ON TOP.GG \u001b[0m")
         multi = 1
         if await self.dblpy.get_weekend_status():
             multi = 2

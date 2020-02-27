@@ -8,7 +8,8 @@ logging.basicConfig(level=logging.WARNING)
 
 bot = commands.AutoShardedBot(command_prefix="!!", help_command=None, case_insensitive=True)
 
-cogs = ["data.global", "cogs.database.database", "cogs.owner.owner", "cogs.other.msgs", "cogs.other.errors", "cogs.other.events",
+#data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL 
+cogs = ["data.global", "cogs.database.database", "cogs.owner.owner", "cogs.other.msgs", "cogs.other.errors", "cogs.other.events", "cogs.other.loops",
         "cogs.commands.fun", "cogs.commands.useful", "cogs.commands.mc", "cogs.commands.econ", "cogs.commands.admin"]
 
 with open("data/keys.json", "r") as k: #load secret keys
