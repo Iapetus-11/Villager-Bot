@@ -150,7 +150,7 @@ class Econ(commands.Cog):
         inv.set_author(name=ctx.author.display_name+"'s Inventory", url=discord.Embed.Empty)
         await ctx.send(embed=inv)
         
-    @commands.command(name="vault")
+    @commands.command(name="vault", aliases=["viewvault"])
     async def viewVault(self, ctx):
         vault = await self.db.getVault(ctx.author.id)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=ctx.author.mention+"'s vault: "+str(vault[0])+"<:emerald_block:679121595150893057>/"+str(vault[1])))
