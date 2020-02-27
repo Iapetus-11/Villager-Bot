@@ -90,9 +90,9 @@ class Econ(commands.Cog):
     async def shop(self, ctx):
         msg = ctx.message.clean_content.lower()[7:]
         if msg == "pickaxes":
-            await shop_pickaxes(ctx)
+            await self.shop_pickaxes(ctx)
         elif msg == "other":
-            await shop_other(ctx)
+            await self.shop_other(ctx)
         else:
             shop = discord.Embed(color=discord.Color.green())
             shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")

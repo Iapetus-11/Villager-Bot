@@ -56,7 +56,8 @@ class Database(commands.Cog):
         user = ctx.author
         vault = await self.getdbv3("vault", user.id, "amount", "max", 0, 0)
         if vault[1] < 2000:
-            if choice([True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]):
+            if choice([True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+                       False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]):
                 await self.setdbv3("vault", user.id, "amount", "max", vault[0], int(vault[1])+1)
         
     async def getBal(self, uid): #get emeralds
@@ -75,7 +76,7 @@ class Database(commands.Cog):
         return int(await self.getdbv("bees", uid, "bees", 0))
     
     async def setBees(self, uid, amount):
-        await self.setdbv("bees", uid, "bees", 0)
+        await self.setdbv("bees", uid, "bees", amount)
         
     async def getScrap(self, uid):
         return int(await self.getdbv("netheritescrap", uid, "amount", 0))
