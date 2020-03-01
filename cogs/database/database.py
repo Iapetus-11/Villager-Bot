@@ -57,6 +57,7 @@ class Database(commands.Cog):
         vault = await self.getdbv3("vault", user.id, "amount", "max", 0, 0)
         if vault[1] < 2000:
             if choice([True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+                       False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
                        False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]):
                 await self.setdbv3("vault", user.id, "amount", "max", vault[0], int(vault[1])+1)
         

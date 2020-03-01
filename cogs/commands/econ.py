@@ -171,7 +171,7 @@ class Econ(commands.Cog):
         if item == "netherite scrap":
             if theirBal >= 32:
                 await self.db.setBal(ctx.author.id, theirBal-32)
-                await self.db.setScrap("netheritescrap", ctx.author.id, "amount", int(await self.dbetdbv("netheritescrap", ctx.author.id, "amount", 0))+1)
+                await self.db.setScrap(ctx.author.id, await self.db.getScrap(ctx.author.id)+1)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a piece of netherite scrap"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase some netherite scrap."))
