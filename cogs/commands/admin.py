@@ -20,7 +20,7 @@ class AdminCmds(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def banUser(self, ctx, *, user: discord.User):
         for entry in await ctx.guild.bans():
-            if entry["user"].id == user.id:
+            if entry[1].id == user.id:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="User has been already banned!"))
                 return
         await ctx.guild.ban(user)
@@ -30,7 +30,7 @@ class AdminCmds(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def pardonUser(self, ctx, *, user: discord.User):
         for entry in await ctx.guild.bans():
-            if entry["user"].id == user.id:
+            if entry[1].id == user.id:
                 await ctx.guild.unban(user)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Successfully unbanned **"+str(user)+"**."))
                 return
