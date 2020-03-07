@@ -20,7 +20,7 @@ class AdminCmds(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def banUser(self, ctx, *, user: discord.User):
         for entry in await ctx.guild.bans():
-            if entry[1].id == user.id:
+            if entry[1].id == user.id: #apparently named tuples only take indexs and not slices like ["urmomgae"]
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="User has been already banned!"))
                 return
         await ctx.guild.ban(user)
