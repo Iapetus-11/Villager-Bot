@@ -18,7 +18,7 @@ class Econ(commands.Cog):
         
     @commands.command(name="bal", aliases=["balance"])
     async def balance(self, ctx):
-        msg = ctx.message.clean_content[6:]
+        msg = ctx.message.content.replace("!!balance ", "").replace("!!bal ", "")
         try:
             user = await commands.UserConverter().convert(ctx, msg)
         except Exception:
