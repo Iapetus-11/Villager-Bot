@@ -12,9 +12,12 @@ class AdminCmds(commands.Cog):
             n = int(message)
         except Exception:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid number!"))
-        else:
-            ch = await self.bot.fetch_channel(ctx.channel.id)
+            return
+        ch = await self.bot.fetch_channel(ctx.channel.id)
+        try:
             await ch.purge(limit=n+1)
+        except discord.ext.commands.errors.CommandInvokeError:
+            await ctx.send("Uh oh, Villager Bot had a problem deleting those messages")
             
     @commands.command(name="ban")
     @commands.has_permissions(administrator=True)
