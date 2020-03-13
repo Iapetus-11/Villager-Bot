@@ -6,19 +6,11 @@ class Msgs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.db = self.bot.get_cog("Database")
-        self.msg_count = 0
-        self.cmd_count = 0
+        self.g = self.bot.get_cog("Global")
         
     @commands.Cog.listener()
     async def on_message(self, message):
-        self.msg_count += 1
-        if not message.guild == None:
-            if message.content.startswith(await self.db.getPrefix(message.guild.id)):
-                self.cmd_count += 1
-                await self.db.incrementVaultMax(message.author.id)
-        elif message.content.startswith("!!"):
-            self.cmd_count += 1
-            await self.db.incrementVaultMax(message.author.id)
+        self.g.msg_count += 1
                 
 def setup(bot):
     bot.add_cog(Msgs(bot))

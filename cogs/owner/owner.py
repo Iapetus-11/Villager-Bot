@@ -166,8 +166,8 @@ Session Message Count: {3}
 Session Command Count: {4}
 Shard Count: {5}
 Latency: {6} ms
-""".format(str(len(self.bot.guilds)), str(len(self.bot.private_channels)), str(len(self.bot.users)), self.bot.get_cog("Msgs").msg_count,
-           self.bot.get_cog("Msgs").cmd_count, self.bot.shard_count, str(self.bot.latency*1000)[:5]))
+""".format(len(self.bot.guilds), len(self.bot.private_channels), len(self.bot.users), self.g.msg_count,
+           self.g.cmd_count, self.bot.shard_count, str(self.bot.latency*1000)[:5]))
         await ctx.send(embed=infoEmbed)
         
     @commands.command(name="eval")

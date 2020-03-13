@@ -32,6 +32,10 @@ bot = commands.AutoShardedBot(command_prefix=getPrefix, help_command=None, case_
 cogs = ["data.global", "cogs.database.database", "cogs.owner.owner", "cogs.other.msgs", "cogs.other.errors", "cogs.other.events", "cogs.other.loops",
         "cogs.commands.fun", "cogs.commands.useful", "cogs.commands.mc", "cogs.commands.econ", "cogs.commands.admin", "cogs.commands.settings"]
 
+#load cogs in cogs list
+for cog in cogs:
+    bot.load_extension(cog)
+
 async def banned(uid): #check if user is banned from bot
     cur.execute("SELECT id FROM bans WHERE bans.id='"+str(uid)+"'")
     entry = cur.fetchone()
@@ -45,13 +49,10 @@ async def stay_safe(ctx):
     if not bot.is_ready():
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
         return False
+    bot.get_cog("Global").cmd_count += 1
     if await banned(ctx.message.author.id):
         return False
     return ctx.message.author.id is not 639498607632056321 and not ctx.message.author.bot
-
-#load cogs in cogs list
-for cog in cogs:
-    bot.load_extension(cog)
 
 #actually start bot, it's a blocking call, nothing should go after this!
 bot.run(keys["discord"], bot=True)

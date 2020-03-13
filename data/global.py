@@ -5,6 +5,10 @@ import arrow
 class Global(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        
+        self.msg_count = 0
+        self.cmd_count = 0
+        
         self.startTime = arrow.utcnow()
         
         self.enchantLang = {"a": "\u1511", "b": "\u0296", "c": "\u14f5", "d": "\u21b8", "e": "\u14b7",
