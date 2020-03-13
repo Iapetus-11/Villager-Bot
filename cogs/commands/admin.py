@@ -16,8 +16,8 @@ class AdminCmds(commands.Cog):
         ch = await self.bot.fetch_channel(ctx.channel.id)
         try:
             await ch.purge(limit=n+1)
-        except discord.ext.commands.errors.CommandInvokeError:
-            await ctx.send("Uh oh, Villager Bot had a problem deleting those messages")
+        except Exception:
+            await ctx.send("Uh oh, Villager Bot had a problem deleting those messages, try again later!")
             
     @commands.command(name="ban")
     @commands.has_permissions(administrator=True)

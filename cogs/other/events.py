@@ -29,7 +29,7 @@ class Events(commands.Cog):
         
     @commands.Cog.listener()
     async def on_ready(self):
-        self.logger.info("\u001b[36;1m [SHARD {0}] CONNECTED \u001b[0m".format(self.bot.shard_id))
+        self.logger.info("\u001b[36;1m CONNECTED \u001b[0m")
 
     @commands.Cog.listener()
     async def on_dbl_test(self, data):

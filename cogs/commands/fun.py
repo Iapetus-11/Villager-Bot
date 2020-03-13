@@ -52,10 +52,8 @@ class Fun(commands.Cog):
         await ctx.send(new)
         
     @commands.command(name="say")
-    async def saysomethin(self, ctx):
-        if ctx.message.clean_content[5:].replace("@", "") == "":
-            return
-        await ctx.send(ctx.message.clean_content[5:].replace("@", ""))
+    async def saysomethin(self, ctx, *, text: str):
+        await ctx.send("\uFEFF"+text[:1999])
         try:
             await ctx.message.delete()
         except Exception:

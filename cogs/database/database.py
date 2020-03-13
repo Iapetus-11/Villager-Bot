@@ -119,6 +119,22 @@ class Database(commands.Cog):
             cur.execute("DELETE FROM bans WHERE bans.id='"+str(uid)+"'")
             self.db.commit()
             return "{0} was successfully unbanned."
+        
+    async def getPrefix(self, gid):
+        cur = self.db.cursor()
+        cur.execute("SELECT prefix FROM prefixes WHERE prefixes.gid='"+str(gid)+"'")
+        prefix = cur.fetchone()
+        if prefix == None:
+            cur.execute("INSERT INTO prefixes VALUES ('"+str(gid)+"', '!!')")
+            self.db.commit()
+            return "!!"
+        return prefix[0]
+    
+    async def setPrefix(self, gid, prefix):
+        await self.getPrefix(gid)
+        cur = self.db.cursor()
+        cur.execute("UPDATE prefixes SET prefix='{0}' WHERE gid='{1}'".format(prefix, gid))
+        self.db.commit()
 
 def setup(bot):
     bot.add_cog(Database(bot))

@@ -18,7 +18,7 @@ class Econ(commands.Cog):
         
     @commands.command(name="bal", aliases=["balance"])
     async def balance(self, ctx):
-        msg = ctx.message.content.replace("!!balance ", "").replace("!!bal ", "")
+        msg = ctx.message.content.lower().replace(ctx.prefix+"balance ", "").replace(ctx.prefix+"bal ", "")
         try:
             user = await commands.UserConverter().convert(ctx, msg)
         except Exception:
@@ -88,7 +88,7 @@ class Econ(commands.Cog):
             
     @commands.group(name="shop")
     async def shop(self, ctx):
-        msg = ctx.message.clean_content.lower()[7:]
+        msg = ctx.message.clean_content.lower().replace(ctx.prefix+"shop ", "").replace(ctx.prefix+"shop", "")
         if msg == "pickaxes":
             await self.shop_pickaxes(ctx)
         elif msg == "other":
@@ -96,31 +96,31 @@ class Econ(commands.Cog):
         else:
             shop = discord.Embed(color=discord.Color.green())
             shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-            shop.set_footer(text="!!inventory to see what you have!")
-            shop.add_field(name="__**Pickaxes**__", value="``!!shop pickaxes``")
-            shop.add_field(name="__**Other**__", value="``!!shop other``")
+            shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
+            shop.add_field(name="__**Pickaxes**__", value="``"+ctx.prefix+"shop pickaxes``")
+            shop.add_field(name="__**Other**__", value="``"+ctx.prefix+"shop other``")
             await ctx.send(embed=shop)
     
     async def shop_pickaxes(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        shop.set_footer(text="!!inventory to see what you have!")
-        shop.add_field(name="__**Stone Pickaxe**__ 32<:emerald:653729877698150405>", value="``!!buy stone pickaxe``", inline=True)
-        shop.add_field(name="__**Iron Pickaxe**__ 128<:emerald:653729877698150405>", value="``!!buy iron pickaxe``", inline=True)
+        shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
+        shop.add_field(name="__**Stone Pickaxe**__ 32<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy stone pickaxe``", inline=True)
+        shop.add_field(name="__**Iron Pickaxe**__ 128<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy iron pickaxe``", inline=True)
         shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
-        shop.add_field(name="__**Gold Pickaxe**__ 512<:emerald:653729877698150405>", value="``!!buy gold pickaxe``", inline=True)
-        shop.add_field(name="__**Diamond Pickaxe**__ 2048<:emerald:653729877698150405>", value="``!!buy diamond pickaxe``", inline=True)
+        shop.add_field(name="__**Gold Pickaxe**__ 512<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy gold pickaxe``", inline=True)
+        shop.add_field(name="__**Diamond Pickaxe**__ 2048<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy diamond pickaxe``", inline=True)
         shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
-        shop.add_field(name="__**Netherite Pickaxe**__ 8192<:emerald:653729877698150405> 4<:netherite_scrap:676974675091521539>", value="``!!buy netherite pickaxe``", inline=True)
-        shop.set_footer(text="Pickaxes allow you to obtain more emeralds while using the !!mine command!")
+        shop.add_field(name="__**Netherite Pickaxe**__ 8192<:emerald:653729877698150405> 4<:netherite_scrap:676974675091521539>", value="``"+ctx.prefix+"buy netherite pickaxe``", inline=True)
+        shop.set_footer(text="Pickaxes allow you to obtain more emeralds while using the "+ctx.prefix+"mine command!")
         await ctx.send(embed=shop)
     
     async def shop_other(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        shop.set_footer(text="!!inventory to see what you have!")
-        shop.add_field(name="__**Jar of Bees**__ 8<:emerald:653729877698150405>", value="``!!buy jar of bees``", inline=True)
-        shop.add_field(name="__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>)  __**32<:emerald:653729877698150405>**__", value="``!!buy netherite scrap``", inline=True)
+        shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
+        shop.add_field(name="__**Jar of Bees**__ 8<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy jar of bees``", inline=True)
+        shop.add_field(name="__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>)  __**32<:emerald:653729877698150405>**__", value="``"+ctx.prefix+"buy netherite scrap``", inline=True)
         await ctx.send(embed=shop)
         
     @commands.command(name="inventory", aliases=["inv"])

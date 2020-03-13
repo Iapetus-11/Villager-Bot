@@ -35,7 +35,7 @@ class Loops(commands.Cog):
     async def updateActivity(self):
         while True:
             await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
-            self.logger.info(" [SHARD {0}] Updated Activity".format(str(self.bot.shard_id)))
+            self.logger.info(" Updated Activity")
             await asyncio.sleep(3600)
         
     @commands.Cog.listener()

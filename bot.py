@@ -5,18 +5,30 @@ import psycopg2
 import logging
 
 logging.basicConfig(level=logging.WARNING)
-
-bot = commands.AutoShardedBot(command_prefix="!!", help_command=None, case_insensitive=True)
-
-#data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL 
-cogs = ["data.global", "cogs.database.database", "cogs.owner.owner", "cogs.other.msgs", "cogs.other.errors", "cogs.other.events", "cogs.other.loops",
-        "cogs.commands.fun", "cogs.commands.useful", "cogs.commands.mc", "cogs.commands.econ", "cogs.commands.admin"]
+logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
 with open("data/keys.json", "r") as k: #load secret keys
     keys = json.load(k)
     
 db = psycopg2.connect(host="localhost",database="villagerbot", user="pi", password=keys["postgres"])
 cur = db.cursor()
+        
+def getPrefix(self, message):
+    gid = message.guild.id
+    cur = db.cursor()
+    cur.execute("SELECT prefix FROM prefixes WHERE prefixes.gid='"+str(gid)+"'")
+    prefix = cur.fetchone()
+    if prefix == None:
+        cur.execute("INSERT INTO prefixes VALUES ('"+str(gid)+"', '!!')")
+        db.commit()
+        return "!!"
+    return prefix[0]
+
+bot = commands.AutoShardedBot(command_prefix=getPrefix, help_command=None, case_insensitive=True)
+
+#data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL 
+cogs = ["data.global", "cogs.database.database", "cogs.owner.owner", "cogs.other.msgs", "cogs.other.errors", "cogs.other.events", "cogs.other.loops",
+        "cogs.commands.fun", "cogs.commands.useful", "cogs.commands.mc", "cogs.commands.econ", "cogs.commands.admin", "cogs.commands.settings"]
 
 async def banned(uid): #check if user is banned from bot
     cur.execute("SELECT id FROM bans WHERE bans.id='"+str(uid)+"'")

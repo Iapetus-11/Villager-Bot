@@ -10,7 +10,7 @@ class Useful(commands.Cog):
     
     @commands.command(name="help") #displays help messages
     async def helpp(self, ctx):
-        msg = ctx.message.clean_content[7:]
+        msg = ctx.message.clean_content.lower().replace(ctx.prefix+"help ", "").replace(ctx.prefix+"help", "")
         helpMsg = discord.Embed(
             description = "",
             color = discord.Color.green()
@@ -20,69 +20,71 @@ class Useful(commands.Cog):
         
         if msg == "mc":
             helpMsg.add_field(name="__**Minecraft Stuff**__", value="""
-**!!mcping** ***ip:port*** *to check the status of a Java Edition Minecraft server*
-**!!mcpeping** ***ip*** *to check the status of a Bedrock Edition Minecraft server*
-**!!stealskin** ***gamertag*** *steal another player's Minecraft skin*
-""", inline=True)
+**{0}mcping** ***ip:port*** *to check the status of a Java Edition Minecraft server*
+**{0}mcpeping** ***ip*** *to check the status of a Bedrock Edition Minecraft server*
+**{0}stealskin** ***gamertag*** *steal another player's Minecraft skin*
+""".format(ctx.prefix), inline=True)
             await ctx.send(embed=helpMsg)
             return
         
         elif msg == "fun":
             helpMsg.add_field(name="__**Text Commands**__", value="""
-**!!villagerspeak** ***text*** *turns English text into villager sounds*
-**!!enchant** ***text*** *turns english text into the Minecraft enchantment table language, a.k.a. the Standard Galactic Alphabet.*
-**!!unenchant** ***text*** *turns the enchanting table language back into English*
-**!!sarcastic** ***text*** *makes text sarcastic*
-**!!say** ***text*** *bot will repeat what you tell it to*
-""", inline=False)
+**{0}villagerspeak** ***text*** *turns English text into villager sounds*
+**{0}enchant** ***text*** *turns english text into the Minecraft enchantment table language, a.k.a. the Standard Galactic Alphabet.*
+**{0}unenchant** ***text*** *turns the enchanting table language back into English*
+**{0}sarcastic** ***text*** *makes text sarcastic*
+**{0}say** ***text*** *bot will repeat what you tell it to*
+""".format(ctx.prefix), inline=False)
             helpMsg.add_field(name="__**Currency Commands**__", value="""
-**!!mine** *go mining with the bot for emeralds*
-**!!balance** *the bot will tell you how many emeralds you have*
-**!!inventory** *see what you have in your inventory*
-**!!give** ***@user*** ***amount*** *give mentioned user emeralds*
-**!!gamble** ***amount*** *gamble with Villager Bot*
-**!!pillage** ***@user*** *attempt to steal emeralds from another person*
-**!!shop** *go shopping with emeralds*
-**!!deposit** ***amount in emerald blocks*** *deposit emerald blocks into the emerald vault*
-**!!withdraw** ***amount in emerald blocks*** *withdraw emerald blocks from the emerald vault*
-""", inline=False)
+**{0}mine** *go mining with the bot for emeralds*
+**{0}balance** *the bot will tell you how many emeralds you have*
+**{0}inventory** *see what you have in your inventory*
+**{0}give** ***@user*** ***amount*** *give mentioned user emeralds*
+**{0}gamble** ***amount*** *gamble with Villager Bot*
+**{0}pillage** ***@user*** *attempt to steal emeralds from another person*
+**{0}shop** *go shopping with emeralds*
+**{0}deposit** ***amount in emerald blocks*** *deposit emerald blocks into the emerald vault*
+**{0}withdraw** ***amount in emerald blocks*** *withdraw emerald blocks from the emerald vault*
+""".format(ctx.prefix), inline=False)
             helpMsg.add_field(name="__**Other Commands**__", value="""
-**!!cursed** *the bot will upload a cursed Minecraft image*
-**!!battle** ***user*** *allows you to battle your friends!*
-""", inline=False)
+**{0}cursed** *the bot will upload a cursed Minecraft image*
+**{0}battle** ***user*** *allows you to battle your friends!*
+""".format(ctx.prefix), inline=False)
             await ctx.send(embed=helpMsg)
             return
         
         elif msg == "useful":        
             helpMsg.add_field(name="__**Useful/Informative**__", value="""
-**!!help** *displays this help message*
-**!!info** *displays information about the bot*
-**!!ping** *to see the bot's latency between itself and the Discord API*
-**!!uptime** *to check how long the bot has been online*
-**!!votelink** *to get the link to vote for and support the bot!*
-**!!invite** *to get the link to add Villager Bot to your own server!*
-**!!google** ***query*** *bot will search on google for your query*
-**!!youtube** ***query*** *bot will search on youtube for your query*
-**!!reddit** ***query*** *bot will search on reddit for your query*
-""", inline=True)
+**{0}help** *displays this help message*
+**{0}info** *displays information about the bot*
+**{0}config** *change the settings of the bot for your server*
+**{0}ping** *to see the bot's latency between itself and the Discord API*
+**{0}uptime** *to check how long the bot has been online*
+**{0}votelink** *to get the link to vote for and support the bot!*
+**{0}invite** *to get the link to add Villager Bot to your own server!*
+**{0}google** ***query*** *bot will search on google for your query*
+**{0}youtube** ***query*** *bot will search on youtube for your query*
+**{0}reddit** ***query*** *bot will search on reddit for your query*
+""".format(ctx.prefix), inline=True)
             await ctx.send(embed=helpMsg)
             return
         
         elif msg == "admin":        
             helpMsg.add_field(name="__**Admin Only**__", value="""
-**!!purge** ***number of messages*** *deletes n number of messages in the channel it's summoned in*
-**!!kick** ***@user*** *kicks the mentioned user*
-**!!ban** ***@user*** *bans the mentioned user*
-**!!pardon** ***@user*** *unbans the mentioned user*""", inline=True)
+**{0}purge** ***number of messages*** *deletes n number of messages in the channel it's summoned in*
+**{0}kick** ***@user*** *kicks the mentioned user*
+**{0}ban** ***@user*** *bans the mentioned user*
+**{0}pardon** ***@user*** *unbans the mentioned user*
+""".format(ctx.prefix), inline=True)
             await ctx.send(embed=helpMsg)
             return
         
         else:
-            helpMsg.add_field(name="Minecraft", value="``!!help mc``", inline=True)
-            helpMsg.add_field(name="Fun", value="``!!help fun``", inline=True)
-            helpMsg.add_field(name="Useful", value="``!!help useful``", inline=True)
+            helpMsg.add_field(name="Minecraft", value="``"+ctx.prefix+"help mc``", inline=True)
+            helpMsg.add_field(name="Fun", value="``"+ctx.prefix+"help fun``", inline=True)
+            helpMsg.add_field(name="Useful", value="``"+ctx.prefix+"help useful``", inline=True)
             helpMsg.add_field(name="\uFEFF", value="\uFEFF", inline=True)
-            helpMsg.add_field(name="Admin", value="``!!help admin``", inline=True)
+            helpMsg.add_field(name="Admin", value="``"+ctx.prefix+"help admin``", inline=True)
             helpMsg.add_field(name="\uFEFF", value="\uFEFF", inline=True)
             helpMsg.add_field(name="\uFEFF", value="""Need more help? Check out the Villager Bot [Support Server](https://discord.gg/39DwwUV)
 Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/vote)""", inline=False)
@@ -95,7 +97,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         )
         infoMsg.add_field(name="Creator", value="Iapetus11#6821", inline=True)
         infoMsg.add_field(name="Bot Library", value="Discord.py", inline=True)
-        infoMsg.add_field(name="Command Prefix", value="!!", inline=True)
+        infoMsg.add_field(name="Command Prefix", value=ctx.prefix, inline=True)
         infoMsg.add_field(name="Total Servers", value=str(len(self.bot.guilds)), inline=True)
         infoMsg.add_field(name="Shards", value=str(self.bot.shard_count), inline=True)
         infoMsg.add_field(name="Total Users", value=str(len(self.bot.users)), inline=True)
@@ -152,11 +154,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         
     @commands.command(name="google")
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def googleSearch(self, ctx):
-        query = ctx.message.clean_content[9:]
-        if query == "":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to actually tell me what to search for, idiot."))
-            return
+    async def googleSearch(self, ctx, *, query: str):
         await ctx.trigger_typing()
         rs = []
         for result in search(query, tld="co.in", num=1, stop=1, pause=0):
@@ -168,11 +166,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         
     @commands.command(name="youtube")
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def ytSearch(self, ctx):
-        query = ctx.message.clean_content[10:]
-        if query == "":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to actually tell me what to search for, idiot."))
-            return
+    async def ytSearch(self, ctx, *, query: str):
         await ctx.trigger_typing()
         rs = []
         for result in search(query, tld="co.in", domains=["youtube.com"], num=1, stop=1, pause=0):
@@ -184,11 +178,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         
     @commands.command(name="reddit")
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def redditSearch(self, ctx):
-        query = ctx.message.clean_content[9:]
-        if query == "":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to actually tell me what to search for, idiot."))
-            return
+    async def redditSearch(self, ctx, *, query: str):
         await ctx.trigger_typing()
         rs = []
         for result in search(query, tld="co.in", domains=["reddit.com"], num=1, stop=1, pause=0):

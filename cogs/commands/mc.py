@@ -17,13 +17,14 @@ class Minecraft(commands.Cog):
     @commands.command(name="mcping") #pings a java edition minecraft server
     async def mcping(self, ctx):
         await ctx.trigger_typing()
-        server = ctx.message.clean_content.replace("!!mcping", "").replace(" ", "")
+        server = ctx.message.clean_content.replace(ctx.prefix+"mcping", "").replace(" ", "")
         if ":" in server:
             s = server.split(":")
             try:
                 int(s[1])
             except Exception:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\nDid you type the ip and port correctly? (Like ip:port)\n\nExample: ``!!mcping 172.10.17.177:25565``"))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\n"+
+                                                   "Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``"+ctx.prefix+"mcping 172.10.17.177:25565``"))
                 return
         if server == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You must specify a server to ping!"))
@@ -33,7 +34,8 @@ class Minecraft(commands.Cog):
             status = status.status()
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is online with {0} player(s) and a ping of {1} ms.".format(status.players.online, status.latency)))
         except Exception:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\nDid you type the ip and port correctly? (Like ip:port)\n\nExample: ``!!mcping 172.10.17.177:25565``"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\n"+
+                                               "Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``"+ctx.prefix+"mcping 172.10.17.177:25565``"))
 
     @commands.command(name="mcpeping", aliases=["mcbeping"])
     async def bedrockping(self, ctx, server: str):

@@ -13,26 +13,27 @@ class Owner(commands.Cog):
     async def ownerhelp(self, ctx):
         embedMsg = discord.Embed(
             description = """
-**!!unload** ***cog*** *unloads a cog*
-**!!load** ***cog*** *loads a cog*
-**!!reload** ***cog*** *reloads a cog, error if cog had not been loaded prior*
-**!!activity** ***text*** *sets activity of bot to given text*
-**!!nextactivity** *picks random activity from list*
-**!!guilds** *lists guild member count, guild name, guild id*
-**!!dms** *lists private channels (group msgs and dms)*
-**!!leaveguild** ***guild id*** *leaves specified guild*
-**!!getinvites** ***guild id*** *gets invite codes for specified guild*
-**!!info2** *displays information about stuff*
-**!!setbal** ***@user amount vault_amount*** *set user balance to something*
-**!!eval** ***statement*** *uses eval()*
-**!!exec** ***statement*** *uses exec()*
-**!!setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
-**!!botban** ***user*** *bans a user from using the bot*
-**!!botunban** ***user*** *unbans a user from using the bot*
-**!!inverseguildlookup** ***user*** *shows what servers a user is in*
-**!!cogs** *lists the loaded cogs*""",
-            color = discord.Color.green()
-        )
+**{0}unload** ***cog*** *unloads a cog*
+**{0}load** ***cog*** *loads a cog*
+**{0}reload** ***cog*** *reloads a cog, error if cog had not been loaded prior*
+**{0}activity** ***text*** *sets activity of bot to given text*
+**{0}nextactivity** *picks random activity from list*
+**{0}guilds** *lists guild member count, guild name, guild id*
+**{0}dms** *lists private channels (group msgs and dms)*
+**{0}leaveguild** ***guild id*** *leaves specified guild*
+**{0}getinvites** ***guild id*** *gets invite codes for specified guild*
+**{0}info2** *displays information about stuff*
+**{0}setbal** ***@user amount*** *set user balance to something*
+**{0}setvault** ***@user amount*** *set user's vault to given amount*
+**{0}getvault** ***@user*** *gets the mentioned user's vault*
+**{0}eval** ***statement*** *uses eval()*
+**{0}exec** ***statement*** *uses exec()*
+**{0}setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
+**{0}botban** ***user*** *bans a user from using the bot*
+**{0}botunban** ***user*** *unbans a user from using the bot*
+**{0}inverseguildlookup** ***user*** *shows what servers a user is in*
+**{0}cogs** *lists the loaded cogs*
+""".format(ctx.prefix), color = discord.Color.green())
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
 
@@ -226,8 +227,8 @@ Latency: {6} ms
     @commands.command(name="cogs")
     @commands.is_owner()
     async def listCogs(self, ctx):
-        for cog in self.bot.cogs:
-            await ctx.send(self.bot.cogs[cog])
+        for ext in list(self.bot.extensions):
+            await ctx.send(ext)
             
     @commands.command(name="setbal")
     @commands.is_owner()

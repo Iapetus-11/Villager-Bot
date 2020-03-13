@@ -83,5 +83,8 @@ class Global(commands.Cog):
                             "4dimensionalbed.png", "angrydoggo.jpg", "beaconballs.png", "pistonblock22.png", "roundlog.png",
                             "shep420.gif", "pillagerbarrel.png"]
         
+        self.allowedChars = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+                             "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "{", "}", ";", ":", "|", "/", ".", "?", ">", "<", ",", "'", "\"",)
+        
 def setup(bot):
     bot.add_cog(Global(bot))
