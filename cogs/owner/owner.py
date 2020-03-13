@@ -27,7 +27,7 @@ class Owner(commands.Cog):
 **{0}setvault** ***@user amount*** *set user's vault to given amount*
 **{0}getvault** ***@user*** *gets the mentioned user's vault*
 **{0}eval** ***statement*** *uses eval()*
-**{0}exec** ***statement*** *uses exec()*
+**{0}awaiteval** ***statement*** *uses eval()*
 **{0}setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
 **{0}botban** ***user*** *bans a user from using the bot*
 **{0}botunban** ***user*** *unbans a user from using the bot*
@@ -187,12 +187,12 @@ Latency: {6} ms
                     await ctx.send(str(e))
             else:
                 await ctx.send(str(e))
-                
-    @commands.command(name="exec")
+        
+    @commands.command(name="awaiteval")
     @commands.is_owner()
-    async def execMessage(self, ctx, *, msg):
+    async def evalMessage(self, ctx, *, msg):
         try:
-            evalMsg = exec(msg)
+            evalMsg = await eval(msg)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=str(evalMsg)))
         except Exception as e:
             if type(e) == discord.HTTPException:

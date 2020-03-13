@@ -135,6 +135,22 @@ class Database(commands.Cog):
         cur = self.db.cursor()
         cur.execute("UPDATE prefixes SET prefix='{0}' WHERE gid='{1}'".format(prefix, gid))
         self.db.commit()
+    
+    async def getDoReplies(self, gid):
+        cur = self.db.cursor()
+        cur.execute("SELECT reply FROM doreplies WHERE doreplies.gid='"+str(gid)+"'")
+        dothatshit = cur.fetchone()
+        if dothatshit == None:
+            cur.execute("INSERT INTO doreplies VALUES ('"+str(gid)+"', true)")
+            self.db.commit()
+            return True
+        return dothatshit[0]
+    
+    async def setDoReplies(self, gid, doit):
+        await self.getDoReplies(gid)
+        cur = self.db.cursor()
+        cur.execute("UPDATE doreplies SET reply={0} WHERE gid='{1}'".format(doit, gid))
+        self.db.commit()
 
 def setup(bot):
     bot.add_cog(Database(bot))
