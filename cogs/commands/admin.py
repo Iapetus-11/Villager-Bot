@@ -6,6 +6,7 @@ class AdminCmds(commands.Cog):
         self.bot = bot
 
     @commands.command(name="purge", aliases=["p"])
+    @commands.guild_only()
     @commands.has_permissions(administrator=True)
     async def purgeLeMessages(self, ctx, *, message: str):
         try:
@@ -20,6 +21,7 @@ class AdminCmds(commands.Cog):
             await ctx.send("Uh oh, Villager Bot had a problem deleting those messages, try again later!")
             
     @commands.command(name="ban")
+    @commands.guild_only()
     @commands.has_permissions(administrator=True)
     async def banUser(self, ctx, *, user: discord.User):
         for entry in await ctx.guild.bans():
@@ -30,6 +32,7 @@ class AdminCmds(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Successfully banned **"+str(user)+"**."))
 
     @commands.command(name="pardon")
+    @commands.guild_only()
     @commands.has_permissions(administrator=True)
     async def pardonUser(self, ctx, *, user: discord.User):
         for entry in await ctx.guild.bans():
@@ -40,6 +43,7 @@ class AdminCmds(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Mentioned user had not been banned before!"))
 
     @commands.command(name="kick")
+    @commands.guild_only()
     @commands.has_permissions(administrator=True)
     async def kickUser(self, ctx, *, user: discord.User):
         await ctx.guild.kick(user)

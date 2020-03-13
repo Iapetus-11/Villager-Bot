@@ -261,6 +261,7 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=str(ctx.author.mention)+" gave "+str(rec.mention)+" "+str(amount)+" emerald"+plural+"."))
             
     @commands.command(name="mine")
+    @commands.guild_only()
     @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def mine(self, ctx):
         if ctx.author.id in self.whoismining.keys():

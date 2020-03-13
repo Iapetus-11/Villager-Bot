@@ -14,6 +14,8 @@ db = psycopg2.connect(host="localhost",database="villagerbot", user="pi", passwo
 cur = db.cursor()
         
 def getPrefix(self, message):
+    if message.guild == None:
+        return "!!"
     gid = message.guild.id
     cur = db.cursor()
     cur.execute("SELECT prefix FROM prefixes WHERE prefixes.gid='"+str(gid)+"'")
