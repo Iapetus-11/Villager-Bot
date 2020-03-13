@@ -1,6 +1,7 @@
 # **Villager Bot**
 
 ### Notable Features:
+* Custom prefixes
 * Voting rewards (32 emeralds on weekdays, 64 on weekends, double on some holidays)
 * Economy/currency system (Emeralds, duh!)
 * Ability to ping Minecraft servers (Java Edition and *some* Bedrock Edition servers)
@@ -34,6 +35,7 @@
 ### Utility/Info Commands
 * __!!help__ (displays all the main commands)
 * __!!info__ (displays useful information about the bot)
+* __!!config__ (change some of the bot settings for that server)
 * __!!ping__ (checks latency between Discord and the bot)
 * __!!uptime__ (gets the uptime of the bot)
 * __!!vote__ (gets the link to vote for the bot, if you want to support it)
@@ -48,7 +50,3 @@
 * __!!kick__ *@user* (kicks the mentioned user)
 * __!!ban__ *@user* (bans the mentioned user)
 * __!!pardon__ *@user* (unbans the mentioned user)
-
----
-
-[![Discord Bots](https://top.gg/api/widget/639498607632056321.svg)](https://top.gg/bot/639498607632056321)
