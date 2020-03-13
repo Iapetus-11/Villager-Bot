@@ -190,7 +190,7 @@ Latency: {6} ms
         
     @commands.command(name="awaiteval")
     @commands.is_owner()
-    async def evalMessage(self, ctx, *, msg):
+    async def awaitEvalMessage(self, ctx, *, msg):
         try:
             evalMsg = await eval(msg)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=str(evalMsg)))
