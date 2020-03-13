@@ -12,9 +12,13 @@ class Msgs(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         self.msg_count += 1
-        if message.content.startswith("!!"):
+        if not message.guild == None:
+            if message.content.startswith(await self.db.getPrefix(message.guild.id)):
+                self.cmd_count += 1
+                await self.db.incrementVaultMax(message.author.id)
+        elif message.content.startswith("!!"):
             self.cmd_count += 1
             await self.db.incrementVaultMax(message.author.id)
-
+                
 def setup(bot):
     bot.add_cog(Msgs(bot))
