@@ -85,7 +85,8 @@ class Global(commands.Cog):
                             "emeraldingot.jpg", "fatherobrine.gif", "gardens.jpg", "halftnt.jpg", "longpiston3.jpg",
                             "piggo.jpg", "pool.jpg", "squiddyvillager.jpg", "stevebutacow.jpg", "stevehd.jpg", "tinysteve.jpg",
                             "4dimensionalbed.png", "angrydoggo.jpg", "beaconballs.png", "pistonblock22.png", "roundlog.png",
-                            "shep420.gif", "pillagerbarrel.png"]
+                            "shep420.gif", "pillagerbarrel.png", "blursedpig.jpg", "chither.jpg", "cursedlavawater.png",
+                            "longarmedsteve.png", "mininglava.jpg", "realisticvillager.jpg", "turnstabled.jpg"]
         
         self.allowedChars = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
                              "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "{", "}", ";", ":", "|", "/", ".", "?", ">", "<", ",", "'", "\"", "\\",)
