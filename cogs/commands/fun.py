@@ -53,7 +53,9 @@ class Fun(commands.Cog):
         
     @commands.command(name="say")
     async def saysomethin(self, ctx, *, text: str):
-        await ctx.send("\uFEFF"+text[:1999])
+        embed = discord.Embed(color=discord.Color.green(), description="\uFEFF"+ctx.message.clean_content[len(ctx.message.clean_content)-len(text):])
+        embed.set_footer(text=str(ctx.author))
+        await ctx.send(embed=embed)
         try:
             await ctx.message.delete()
         except Exception:
