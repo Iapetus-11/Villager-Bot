@@ -11,7 +11,7 @@ class Errors(commands.Cog):
         if type(error) == discord.ext.commands.CommandNotFound or type(error) == discord.ext.commands.NotOwner or type(error) == discord.ext.commands.errors.CheckFailure: #errrors to ignore
             return
         
-        if type(error) = discord.ext.commands.errors.NoPrivateMessage:
+        if type(error) == discord.ext.commands.errors.NoPrivateMessage:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command can't be used in private chat channels!"))
             return
         
