@@ -11,7 +11,7 @@ class Msgs(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         self.g.msg_count += 1
-        if "emerald" in message.content:
+        if "emerald" in message.clean_content.lower():
             if not message.guild == None:
                 if self.db.getDoReplies(message.guild.id):
                     await message.channel.send(choice(["hrmm", "hmm", "hrmmm", "hrghhmmm", "hrhhmmmmmmmmm", "hrmmmmmm", "hrmmmmmmmmmm", "hrmmmmm"]))
