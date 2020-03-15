@@ -4,7 +4,9 @@ import asyncio
 from random import choice, randint
 from math import floor, ceil
 
+
 class Econ(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
         self.g = self.bot.get_cog("Global")
@@ -14,9 +16,9 @@ class Econ(commands.Cog):
     async def probGen(self):
         x = randint(0, 25)
         y = randint(0, 25)
-        return [str(x)+"+"+str(y), str(x+y)]
+        return [f"{str(x)}+{str(y)}", str(x+y)]
         
-    @commands.command(name="bal", aliases=["balance"])
+    @commands.command(name="bal")
     async def balance(self, ctx):
         msg = ctx.message.content.lower().replace(ctx.prefix+"balance ", "").replace(ctx.prefix+"bal ", "")
         try:
@@ -26,7 +28,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.mention+" has "+str(await self.db.getBal(user.id))+"<:emerald:653729877698150405>"))
         
     @commands.command(name="deposit", aliases=["dep"])
-    async def deposit(self, ctx, amount: str): #in blocks
+    async def deposit(self, ctx, amount: str):  # In blocks
         theirbal = await self.db.getBal(ctx.author.id)
         if theirbal < 9:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to deposit!"))
