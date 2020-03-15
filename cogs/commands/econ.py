@@ -18,7 +18,7 @@ class Econ(commands.Cog):
         y = randint(0, 25)
         return [f"{str(x)}+{str(y)}", str(x+y)]
         
-    @commands.command(name="bal")
+    @commands.command(name="bal", aliases=["balance"])
     async def balance(self, ctx):
         msg = ctx.message.content.lower().replace(ctx.prefix+"balance ", "").replace(ctx.prefix+"bal ", "")
         try:

@@ -8,25 +8,23 @@ class AdminCmds(commands.Cog):
         self.bot = bot
 
     @commands.command(name="purge", aliases=["p"])
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_messages=True)
     @commands.guild_only()
-    async def purgeLeMessages(self, ctx, message: typing.Union[int, str]=10):
-
-        try:
-            if isinstance(message, int):
-                ctx.channel.purge(limit=message+1)
-            elif isinstance(message, str):
-                if message.lower() == 'all':
-                    ctx.channel.purge(limit=None)
-        except Exception:
-            await ctx.send("Uh oh, Villager Bot had a problem deleting those messages, try again later!")
-
+    async def purgeLeMessages(self, ctx, n: int):
+        if n < 999:
+            try:
+                await ctx.channel.purge(n+1)
+            except Exception:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Uh oh, Villager Bot had a problem deleting those messages, try again later!"))
+        else:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot purge more than 999 messages at one time!"))
+            
     @commands.command(name="ban")
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     async def banUser(self, ctx, *, user: discord.User):
         for entry in await ctx.guild.bans():
-            if entry[1].id == user.id:  # Apparently named tuples only take indexs and not slices like ["urmomgae"]
+            if entry[1].id == user.id:  # Apparently named tuples only take indices and not slices like ["urmomgae"]
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="User has been already banned!"))
                 return
         await ctx.guild.ban(user)
@@ -48,7 +46,7 @@ class AdminCmds(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def kickUser(self, ctx, *, user: discord.User):
         await ctx.guild.kick(user)
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Successfully kicked **"+str(user)+"**."))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Successfully kicked **{str(user)}**."))
 
 
 def setup(bot):
