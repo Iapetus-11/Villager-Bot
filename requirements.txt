@@ -7,4 +7,3 @@ google==2.0.3
 mcstatus==2.3.0
 psycopg2==2.8.4
 PyRakLib==1.0.15b1
-yandex-translater==6.0
