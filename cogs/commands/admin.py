@@ -17,7 +17,7 @@ class AdminCmds(commands.Cog):
                 ctx.channel.purge(limit=message+1)
             elif isinstance(message, str):
                 if message.lower() == 'all':
-                    ctx.channel.purge()
+                    ctx.channel.purge(limit=None)
         except Exception:
             await ctx.send("Uh oh, Villager Bot had a problem deleting those messages, try again later!")
 
@@ -26,11 +26,11 @@ class AdminCmds(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def banUser(self, ctx, *, user: discord.User):
         for entry in await ctx.guild.bans():
-            if entry[1].id == user.id: #apparently named tuples only take indexs and not slices like ["urmomgae"]
+            if entry[1].id == user.id:  # Apparently named tuples only take indexs and not slices like ["urmomgae"]
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="User has been already banned!"))
                 return
         await ctx.guild.ban(user)
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Successfully banned **"+str(user)+"**."))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Successfully banned **{str(user)}**."))
 
     @commands.command(name="pardon")
     @commands.guild_only()
@@ -39,7 +39,7 @@ class AdminCmds(commands.Cog):
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
                 await ctx.guild.unban(user)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Successfully unbanned **"+str(user)+"**."))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Successfully unbanned **{str(user)}**."))
                 return
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Mentioned user had not been banned before!"))
 
@@ -49,6 +49,7 @@ class AdminCmds(commands.Cog):
     async def kickUser(self, ctx, *, user: discord.User):
         await ctx.guild.kick(user)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Successfully kicked **"+str(user)+"**."))
-        
+
+
 def setup(bot):
     bot.add_cog(AdminCmds(bot))
