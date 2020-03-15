@@ -1,25 +1,26 @@
 from discord.ext import commands
 import discord
+import typing
+
 
 class AdminCmds(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name="purge", aliases=["p"])
-    @commands.guild_only()
     @commands.has_permissions(administrator=True)
-    async def purgeLeMessages(self, ctx, *, message: str):
+    @commands.guild_only()
+    async def purgeLeMessages(self, ctx, message: typing.Union[int, str]=10):
+
         try:
-            n = int(message)
-        except Exception:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid number!"))
-            return
-        ch = await self.bot.fetch_channel(ctx.channel.id)
-        try:
-            await ch.purge(limit=n+1)
+            if isinstance(message, int):
+                ctx.channel.purge(limit=message+1)
+            elif isinstance(message, str):
+                if message.lower() == 'all':
+                    ctx.channel.purge()
         except Exception:
             await ctx.send("Uh oh, Villager Bot had a problem deleting those messages, try again later!")
-            
+
     @commands.command(name="ban")
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
