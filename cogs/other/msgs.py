@@ -13,7 +13,7 @@ class Msgs(commands.Cog):
         self.g.msg_count += 1
         if "emerald" in message.clean_content.lower():
             if not message.guild == None:
-                if self.db.getDoReplies(message.guild.id):
+                if await self.db.getDoReplies(message.guild.id):
                     await message.channel.send(choice(["hrmm", "hmm", "hrmmm", "hrghhmmm", "hrhhmmmmmmmmm", "hrmmmmmm", "hrmmmmmmmmmm", "hrmmmmm"]))
             else:
                 await message.channel.send(choice(["hrmm", "hmm", "hrmmm", "hrghhmmm", "hrhhmmmmmmmmm", "hrmmmmmm", "hrmmmmmmmmmm", "hrmmmmm"]))
