@@ -1,14 +1,16 @@
-from discord.ext import commands
 import discord
-from random import choice, randint
 import asyncio
+from discord.ext import commands
+from random import choice, randint
+
 
 class Fun(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
         self.g = self.bot.get_cog("Global")
         
-    async def langConvert(self, ctx, msg, lang): #goes through message and replaces all instances of keys with their values in a dict
+    async def langConvert(self, ctx, msg, lang):  # Goes through message and replaces all instances of keys with their values in a dict
         keys = list(lang)
         mes = ""
         for letter in msg:
@@ -21,23 +23,23 @@ class Fun(commands.Cog):
         else:
             await ctx.send(mes)
         
-    @commands.command(name="villagerspeak") #converts text into villager noises
+    @commands.command(name="villagerspeak") # Converts text into villager noises
     async def villagerspeak(self, ctx, *, msg):
         await self.langConvert(ctx, str(msg).replace("\\", "\\\\"), self.g.villagerLang)
             
-    @commands.command(name="enchant") #text to enchanting table language (Standard Galactic Alphabet)
+    @commands.command(name="enchant") # Text to enchanting table language (Standard Galactic Alphabet)
     async def enchant(self, ctx, *, msg):
         msg = str(msg).replace("```", "\`\`\`").replace("\\", "\\\\")
         await self.langConvert(ctx, "```"+msg+"```", self.g.enchantLang)
         
-    @commands.command(name="unenchant") #enchanting table language to text
+    @commands.command(name="unenchant") # Enchanting table language to text
     async def unenchant(self, ctx, *, msg):
         lang = {}
         for key in list(self.g.enchantLang):
             lang[self.g.enchantLang[key]] = key
         await self.langConvert(ctx, str(msg), lang)
         
-    @commands.command(name="sarcastic") #spongebob sarcastic text
+    @commands.command(name="sarcastic") # Spongebob sarcastic text
     async def sarcasm(self, ctx, *, msg):
         msg = str(msg).replace("\\", "\\\\")
         caps = False
