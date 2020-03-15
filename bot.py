@@ -12,7 +12,8 @@ with open("data/keys.json", "r") as k: #load secret keys
     
 db = psycopg2.connect(host="localhost",database="villagerbot", user="pi", password=keys["postgres"])
 cur = db.cursor()
-        
+
+#fetch prefix from db
 def getPrefix(self, message):
     if message.guild == None:
         return "!!"
@@ -26,7 +27,8 @@ def getPrefix(self, message):
         return "!!"
     return prefix[0]
 
-bot = commands.AutoShardedBot(command_prefix=getPrefix, help_command=None, case_insensitive=True)
+#bot declaration
+bot = commands.AutoShardedBot(command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
 
 #data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL 
 cogs = ["data.global", "cogs.database.database", "cogs.owner.owner", "cogs.other.msgs", "cogs.other.errors", "cogs.other.events", "cogs.other.loops",
