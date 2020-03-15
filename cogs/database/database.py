@@ -151,6 +151,11 @@ class Database(commands.Cog):
         cur = self.db.cursor()
         cur.execute("UPDATE doreplies SET reply={0} WHERE gid='{1}'".format(doit, gid))
         self.db.commit()
+        
+    async def dropDoReplies(self, gid):
+        cur = self.db.cursor()
+        cur.execute("DELETE FROM doreplies WHERE doreplies.gid='{0}'".format(gid))
+        self.db.commit()
 
 def setup(bot):
     bot.add_cog(Database(bot))

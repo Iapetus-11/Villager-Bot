@@ -65,6 +65,10 @@ class Events(commands.Cog):
                 pass
             else:
                 i = -100
+                
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild):
+        await self.db.dropDoReplies(guild.id)
         
 def setup(bot):
     bot.add_cog(Events(bot))
