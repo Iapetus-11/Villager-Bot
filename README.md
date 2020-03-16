@@ -1,4 +1,4 @@
-# **Villager Bot**
+# **Villager Bot** <a href="https://top.gg/bot/639498607632056321" ><img src="https://top.gg/api/widget/status/639498607632056321.svg" alt="Villager Bot" /></a>
 
 ### Notable Features:
 * Custom prefixes
