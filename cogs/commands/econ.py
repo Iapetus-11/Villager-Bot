@@ -241,6 +241,8 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
             return
+        
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
             
     @commands.command(name="give", aliases=["donate"])
     async def give(self, ctx, rec: discord.User, amount: int):
