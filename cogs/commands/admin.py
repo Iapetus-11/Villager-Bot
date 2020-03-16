@@ -13,7 +13,7 @@ class AdminCmds(commands.Cog):
     async def purgeLeMessages(self, ctx, n: int):
         if n < 999:
             try:
-                await ctx.channel.purge(n+1)
+                await ctx.channel.purge(limit=n+1)
             except Exception:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Uh oh, Villager Bot had a problem deleting those messages, try again later!"))
         else:
