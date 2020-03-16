@@ -169,6 +169,7 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a jar of be"+choice(["e", "eee", "ee", "eeeee", "eeeeeeeeeeeeeeee", "eeeeeeeeeee"])+"s"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a jar of bees."))
+            return
                 
         if item == "netherite scrap":
             if theirBal >= 32:
