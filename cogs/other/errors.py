@@ -32,7 +32,9 @@ class Errors(commands.Cog):
             return
                 
         elif type(error) == discord.ext.commands.CommandOnCooldown:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Didn't your parents tell you patience was a virtue? Calm down and wait another "+str(round(error.retry_after, 2))+" seconds."))
+            cooldownmsgs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.", "Chill bro, you need to wait another {0} seconds before doing that again.",
+                            "Hrmmm, looks like you need to wait another {0} seconds before doing that again.", "Didn't you know patience was a virtue? Chill bro, and wait another {0} seconds."]
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(cooldownmsgs).format(round(error.retry_after, 2))))
             return
             
         elif type(error) == discord.ext.commands.BadArgument:
