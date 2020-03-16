@@ -45,10 +45,11 @@ class Events(commands.Cog):
         if await self.dblpy.get_weekend_status():
             multi = 2
         await self.db.setBal(userID, await self.db.getBal(userID)+(32*multi))
+        await self.bot.get_channel(682195105784004610).send(f":tada::tada: {user.display_name} has voted! :tada::tada:")
         user = self.bot.get_user(userID)
-        await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You have been awarded {0} <:emerald:653729877698150405> for voting for Villager Bot!",
-                                                                                            "You have recieved {0} <:emerald:653729877698150405> for voting for Villager Bot!"]).format(32*multi)))
-        await self.bot.get_channel(682195105784004610).send(":tada::tada: "+user.display_name+" has voted! :tada::tada:")
+        if not user is None:
+            await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You have been awarded {0} <:emerald:653729877698150405> for voting for Villager Bot!",
+                                                                                                 "You have recieved {0} <:emerald:653729877698150405> for voting for Villager Bot!"]).format(32*multi)))
     
     @commands.Cog.listener()
     async def on_guild_join(bot, guild):
