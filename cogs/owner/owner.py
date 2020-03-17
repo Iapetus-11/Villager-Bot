@@ -43,9 +43,9 @@ class Owner(commands.Cog):
         try:
             self.bot.unload_extension("cogs."+cog)
         except Exception as e:
-            await ctx.send(f"Error while unloading extension: {cog}\n``{e}``")
+            await ctx.send("Error while unloading extension: {0}\n``{1}``".format(cog, e))
             return
-        await ctx.send(f"Successfully unloaded cog: {cog}")
+        await ctx.send(f"Successfully unloaded cog: "+cog)
 
     @commands.command(name="load")
     @commands.is_owner()
@@ -53,7 +53,7 @@ class Owner(commands.Cog):
         try:
             self.bot.load_extension("cogs."+cog)
         except Exception as e:
-            await ctx.send("Error while loading extension: {cog}\n``{e}``")
+            await ctx.send("Error while loading extension: {0}\n``{1}``".format(cog, e))
             return
         await ctx.send("Successfully loaded cog: "+cog)
             
@@ -63,7 +63,7 @@ class Owner(commands.Cog):
         try:
             self.bot.reload_extension("cogs."+cog)
         except Exception as e:
-            await ctx.send("Error while reloading extension: {cog}\n``{e}``")
+            await ctx.send("Error while reloading extension: {0}\n``{1}``".format(cog, e))
             return
         await ctx.send("Successfully reloaded cog: "+cog)
         

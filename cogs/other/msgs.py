@@ -8,22 +8,21 @@ class Msgs(commands.Cog):
         self.db = self.bot.get_cog("Database")
         self.g = self.bot.get_cog("Global")
         
-    async def send(self, ctx, msg):
-        try:
-            await ctx.send(msg)
-        except Exception:
-            pass
-        
     @commands.Cog.listener()
     async def on_message(self, message):
         self.g.msg_count += 1
         await self.db.incrementVaultMax(message.author.id)
         
-        if "emerald" in message.clean_content.lower() or "villager bot" in message.clean_content.lower():            
-            if not message.guild is None and await self.db.getDoReplies(message.guild.id):
-                await self.send(message.channel, choice(["hrmm", "hmm", "hrmmm", "hrghhmmm", "hrhhmmmmmmmmm", "hrmmmmmm", "hrmmmmmmmmmm", "hrmmmmm"]))
-            else:
-                await self.send(message.channel, choice(["hrmm", "hmm", "hrmmm", "hrghhmmm", "hrhhmmmmmmmmm", "hrmmmmmm", "hrmmmmmmmmmm", "hrmmmmm"]))
+        #only replies handling past this point
+        if message.author.bot:
+            return
+        
+        if "emerald" in message.clean_content.lower() or "villager bot" in message.clean_content.lower():
+            if message.guild is None or await self.db.getDoReplies(message.guild.id):
+                try:
+                    await message.channel.send(choice(["hrmm", "hmm", "hrmmm", "hrghhmmm", "hrhhmmmmmmmmm", "hrmmmmmm", "hrmmmmmmmmmm", "hrmmmmm"]))
+                except Exception:
+                    pass
                 
 def setup(bot):
     bot.add_cog(Msgs(bot))
