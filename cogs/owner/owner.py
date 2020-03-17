@@ -43,9 +43,9 @@ class Owner(commands.Cog):
         try:
             self.bot.unload_extension("cogs."+cog)
         except Exception as e:
-            await ctx.send("Error while unloading extension: "+cog+"\n``"+str(e)+"``")
+            await ctx.send(f"Error while unloading extension: {cog}\n``{e}``")
             return
-        await ctx.send("Successfully unloaded cog: "+cog)
+        await ctx.send(f"Successfully unloaded cog: {cog}")
 
     @commands.command(name="load")
     @commands.is_owner()
@@ -53,7 +53,7 @@ class Owner(commands.Cog):
         try:
             self.bot.load_extension("cogs."+cog)
         except Exception as e:
-            await ctx.send("Error while loading extension: "+cog+"\n``"+str(e)+"``")
+            await ctx.send("Error while loading extension: {cog}\n``{e}``")
             return
         await ctx.send("Successfully loaded cog: "+cog)
             
@@ -63,7 +63,7 @@ class Owner(commands.Cog):
         try:
             self.bot.reload_extension("cogs."+cog)
         except Exception as e:
-            await ctx.send("Error while reloading extension: "+cog+"\n``"+str(e)+"``")
+            await ctx.send("Error while reloading extension: {cog}\n``{e}``")
             return
         await ctx.send("Successfully reloaded cog: "+cog)
         
@@ -105,7 +105,7 @@ class Owner(commands.Cog):
         msg = ""
         for guild in self.bot.guilds:
             i += 1
-            msg += "\n"+str(guild.member_count)+" **"+guild.name+"** *"+str(guild.id)+"*"
+            msg += f"\n{guild.member_count} **{guild.name}** *{guild.id}*"
             if i%rows == 0:
                 await ctx.send(msg)
                 msg = ""
@@ -121,7 +121,7 @@ class Owner(commands.Cog):
         for pchannel in self.bot.private_channels:
             i += 1
             try:
-                msg += "\n*"+str(pchannel.id)+"*  "+str(pchannel)
+                msg += f"\n*{pchannel.id}+*  {pchannel}"
             except Exception as e:
                 msg += "\n"+str(e)
             if i%rows == 0:
