@@ -183,6 +183,8 @@ Latency: {6} ms
                         evalF.write(str(evalMsg))
                     with open("data/eval.txt", "r") as evalF:
                         await ctx.send(file=discord.File(evalF))
+                    with open("data/eval.txt", "w+") as evalF:
+                        evalF.write("None")
                 else:
                     await ctx.send(str(e))
             else:
