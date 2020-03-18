@@ -48,8 +48,11 @@ class Events(commands.Cog):
         user = self.bot.get_user(userID)
         if not user is None:
             await self.bot.get_channel(682195105784004610).send(f":tada::tada: {user.display_name} has voted! :tada::tada:")
-            await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You have been awarded {0} <:emerald:653729877698150405> for voting for Villager Bot!",
-                                                                                                 "You have recieved {0} <:emerald:653729877698150405> for voting for Villager Bot!"]).format(32*multi)))
+            try:
+                await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You have been awarded {0} <:emerald:653729877698150405> for voting for Villager Bot!",
+                                                                                                     "You have recieved {0} <:emerald:653729877698150405> for voting for Villager Bot!"]).format(32*multi)))
+            except discord.errors.Forbidden:
+                pass
         else:
             await self.bot.get_channel(682195105784004610).send(":tada::tada: An unknown user voted for the bot! :tada::tada:")
     

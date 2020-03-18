@@ -21,7 +21,7 @@ class Msgs(commands.Cog):
             if message.guild is None or await self.db.getDoReplies(message.guild.id):
                 try:
                     await message.channel.send(choice(["hrmm", "hmm", "hrmmm", "hrghhmmm", "hrhhmmmmmmmmm", "hrmmmmmm", "hrmmmmmmmmmm", "hrmmmmm"]))
-                except Exception:
+                except discord.errors.Forbidden:
                     pass
                 
 def setup(bot):
