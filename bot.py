@@ -29,7 +29,7 @@ def getPrefix(self, message):
     return prefix[0]
 
 
-# Bot declaration
+# Single shards seem to be unable to handle large amounts of users, if it says heartbeat blocked for more than x seconds just up the shard count
 bot = commands.AutoShardedBot(shard_count=2, command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
 
 # data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL
