@@ -13,7 +13,7 @@ class Fun(commands.Cog):
     async def langConvert(self, ctx, msg, lang):  # Goes through message and replaces all instances of keys with their values in a dict
         keys = list(lang)
         mes = ""
-        for letter in msg:
+        for letter in msg.lower():
             if letter in keys:
                 mes += lang[letter]
             else:
