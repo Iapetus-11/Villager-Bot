@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 from random import choice
+import json
 
 class Owner(commands.Cog):
     def __init__(self, bot):
@@ -33,6 +34,8 @@ class Owner(commands.Cog):
 **{0}botunban** ***user*** *unbans a user from using the bot*
 **{0}inverseguildlookup** ***user*** *shows what servers a user is in*
 **{0}cogs** *lists the loaded cogs*
+**{0}addtoplaying** ***text*** *add a status to the list of statuses cycled through by the bot*
+**{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
 """.format(ctx.prefix), color = discord.Color.green())
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
@@ -247,6 +250,22 @@ Latency: {6} ms
     @commands.is_owner()
     async def setvault(self, ctx, user: discord.User, amount: int, maxx: int):
         await self.db.setVault(user.id, amount, maxx)
+        
+    @commands.command(name="addtoplaying")
+    @commands.is_owner()
+    async def addtoplaying(self, ctx, *, new: str):
+        self.g.playingList.append(new)
+        with open("data/playing_list.json", "w+") as playingList:
+            playingList.write(json.dumps({"playing_list": self.g.playingList}))
+        await ctx.send(f"Added {new} to the \"Playing\" list.")
+        
+    @commands.command(name="addtocursed")
+    @commands.is_owner()
+    async def addtocursed(self, ctx, *, new: str):
+        self.g.cursedImages.append(new)
+        with open("data/cursed_images.json", "w+") as cursedImages:
+            playingList.write(json.dumps({"cursed_images": self.g.cursedImages}))
+        await ctx.send(f"Added {new} to the cursed images list")
             
 def setup(bot):
     bot.add_cog(Owner(bot))
