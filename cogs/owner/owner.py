@@ -9,6 +9,9 @@ class Owner(commands.Cog):
         self.g = self.bot.get_cog("Global")
         self.db = self.bot.get_cog("Database")
         
+        self.leaderboard = [('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',),
+                            ('0', '-1',), ('0', '-1',), ('0', '-1',)]
+        
     @commands.command(name="ownerhelp", aliases=["helpowner", "owner"])
     @commands.is_owner()
     async def ownerhelp(self, ctx):

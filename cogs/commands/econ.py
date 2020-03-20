@@ -382,6 +382,29 @@ class Econ(commands.Cog):
             await self.db.setBal(user.id, victimBal+32)
             await self.db.setBal(ctx.author.id, theirBal-32)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You were caught and paid 32 <:emerald:653729877698150405>"))
+    
+    @commands.command(name="leaderboard", aliases=["lb"])
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
+    async def leaderboard(self, ctx):
+        cur = self.db.db.cursor()
+        cur.execute("SELECT * FROM currency")
+        dbs = cur.fetchall() # Returns list of tuples
+        done = []
+        lb = [(None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,)]
+        for i in range(0, 10, 1):
+            for entry in dbs:
+                if int(entry[1]) > int(lb[i][1]):
+                    if entry[0] not in done:
+                        lb[i] = entry
+                        done.append(entry[0])
+        lbtext = ""
+        for entry in lb:
+            user = self.bot.get_user(int(entry[0]))
+            if user is None:
+                user = "Deleted User"
+            lbtext += f"{entry[1]}<:emerald:653729877698150405> {user} \n"
+        embed = discord.Embed(color=discord.Color.green(), title="<:emerald:653729877698150405>__**Emerald Leaderboard**__<:emerald:653729877698150405>", description=lbtext)
+        await ctx.send(embed=embed)
         
 def setup(bot):
     bot.add_cog(Econ(bot))

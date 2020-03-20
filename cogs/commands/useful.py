@@ -45,6 +45,7 @@ class Useful(commands.Cog):
 **{0}shop** *go shopping with emeralds*
 **{0}deposit** ***amount in emerald blocks*** *deposit emerald blocks into the emerald vault*
 **{0}withdraw** ***amount in emerald blocks*** *withdraw emerald blocks from the emerald vault*
+**{0}leaderboard** *shows the emerald leaderboard*
 """.format(ctx.prefix), inline=False)
             helpMsg.add_field(name="__**Other Commands**__", value="""
 **{0}cursed** *the bot will upload a cursed Minecraft image*

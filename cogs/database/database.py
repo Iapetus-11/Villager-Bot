@@ -7,10 +7,11 @@ from random import choice
 class Database(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        
         with open("data/keys.json", "r") as k:
             keys = json.load(k)
+            
         self.db = psycopg2.connect(host="localhost",database="villagerbot", user="pi", password=keys["postgres"])
-        self.whoismining = {}
         
     def unload(self):
         self.db.close()
