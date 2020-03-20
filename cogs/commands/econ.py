@@ -62,7 +62,7 @@ class Econ(commands.Cog):
         await self.db.setVault(ctx.author.id, vault[0]+amount, vault[1])
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have deposited "+str(amount)+" emerald blocks into the vault. ("+str(amount*9)+"<:emerald:653729877698150405>)"))
         
-    @commands.command(name="withdraw")
+    @commands.command(name="withdraw", aliases=["with"])
     async def withdraw(self, ctx, amount: str): #emerald blocks
         vault = await self.db.getVault(ctx.author.id)
         if vault[0] < 1:
@@ -386,23 +386,18 @@ class Econ(commands.Cog):
     @commands.command(name="leaderboard", aliases=["lb"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def leaderboard(self, ctx):
+        self.db.db.commit()
         cur = self.db.db.cursor()
         cur.execute("SELECT * FROM currency")
         dbs = cur.fetchall() # Returns list of tuples
         done = []
-        lb = [(None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,), (None, -1,)]
-        for i in range(0, 10, 1):
-            for entry in dbs:
-                if int(entry[1]) > int(lb[i][1]):
-                    if entry[0] not in done:
-                        lb[i] = entry
-                        done.append(entry[0])
+        lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True)[:9]
         lbtext = ""
         for entry in lb:
             user = self.bot.get_user(int(entry[0]))
             if user is None:
-                user = "Deleted User"
-            lbtext += f"{entry[1]}<:emerald:653729877698150405> {user} \n"
+                user = "Deleted User     "
+            lbtext += f"{entry[1]}<:emerald:653729877698150405> {str(user)[:-5]} \n"
         embed = discord.Embed(color=discord.Color.green(), title="<:emerald:653729877698150405>__**Emerald Leaderboard**__<:emerald:653729877698150405>", description=lbtext)
         await ctx.send(embed=embed)
         
