@@ -73,7 +73,7 @@ class Minecraft(commands.Cog):
     async def skinner(self, ctx, *, gamertag: str):
         response = await self.ses.get("https://api.mojang.com/users/profiles/minecraft/"+gamertag)
         if response.status == 204:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Profile not found!"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That player doesn't exist!"))
             return
         uuid = json.loads(await response.text())["id"]
         response = await self.ses.get("https://sessionserver.mojang.com/session/minecraft/profile/"+str(uuid)+"?unsigned=false")
@@ -93,7 +93,7 @@ class Minecraft(commands.Cog):
         skinEmbed.set_image(url="https://mc-heads.net/body/"+gamertag)
         await ctx.send(embed=skinEmbed)
         
-    @commands.command(name="getuuid", aliases=["uuid"])
+    @commands.command(name="nametouuid", aliases=["uuid", "getuuid"])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def getuuid(self, ctx, *, gamertag: str):
         r = await self.ses.post("https://api.mojang.com/profiles/minecraft", json=[gamertag])
@@ -102,6 +102,17 @@ class Minecraft(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That user could not be found."))
             return
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{gamertag}: ``{j[0]['id']}``"))
+        
+    @commands.command(name="uuidtoname", aliases=["getgamertag"])
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    async def getgamertag(self, ctx, *, uuid: str):
+        response = await self.ses.get(f"https://api.mojang.com/user/profiles/{uuid}/names")
+        if response.status == 204:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That player doesn't exist!"))
+            return
+        j = json.loads(await response.text())
+        name = j[len(j)-1]["name"]
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{uuid}: ``{name}``"))
         
 def setup(bot):
     bot.add_cog(Minecraft(bot))

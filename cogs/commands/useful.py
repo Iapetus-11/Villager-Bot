@@ -23,7 +23,8 @@ class Useful(commands.Cog):
 **{0}mcping** ***ip:port*** *to check the status of a Java Edition Minecraft server*
 **{0}mcpeping** ***ip*** *to check the status of a Bedrock Edition Minecraft server*
 **{0}stealskin** ***gamertag*** *steal another player's Minecraft skin*
-**{0}getuuid** ***gamertag*** *gets the Minecraft uuid of the given player*
+**{0}nametouuid** ***gamertag*** *gets the Minecraft uuid of the given player*
+**{0}uuidtoname** ***uuid*** *gets the gamertag from the given Minecraft uuid*
 """.format(ctx.prefix), inline=True)
             await ctx.send(embed=helpMsg)
             return
