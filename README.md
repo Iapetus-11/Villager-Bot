@@ -26,6 +26,7 @@
 * __!!shop__ (opens the Villager Shop where you can buy items)
 * __!!deposit__ *amount in emerald blocks* (deposits emerald blocks into the emerald vault)
 * __!!withdraw__ *amount in emerald blocks* (withdraws emerald blocks from the emerald vault)
+* __!!leaderboard__ (shows the people with the most emeralds)
 
 ### Useful Minecraft Commands
 * __!!mcping__ *ip:port* (pings and gets information on the specified Minecraft server)
