@@ -93,7 +93,7 @@ class Minecraft(commands.Cog):
         skinEmbed.set_image(url="https://mc-heads.net/body/"+gamertag)
         await ctx.send(embed=skinEmbed)
         
-    @commands.command(name="getuuid")
+    @commands.command(name="getuuid", aliases=["uuid"])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def getuuid(self, ctx, *, gamertag: str):
         r = await self.ses.post("https://api.mojang.com/profiles/minecraft", json=[gamertag])
