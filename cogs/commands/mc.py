@@ -46,7 +46,7 @@ class Minecraft(commands.Cog):
         s.setblocking(0)
         try:
             s.sendto(ping.buffer, (socket.gethostbyname(server), 19132))
-            await asyncio.sleep(1)
+            await asyncio.sleep(.75)
             recvData = s.recvfrom(2048)
         except BlockingIOError:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment. Did you type the ip correctly?"))
@@ -74,7 +74,7 @@ class Minecraft(commands.Cog):
         content = json.loads(await response.text())
         if "error" in content:
             if content["error"] == "TooManyRequestsException":
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Stop sending so many requests! Try again in a minute!"))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Hey! Slow down!"))
                 return
         undec = base64.b64decode(content["properties"][0]["value"])
         try:
@@ -86,6 +86,14 @@ class Minecraft(commands.Cog):
         skinEmbed.set_thumbnail(url=url)
         skinEmbed.set_image(url="https://mc-heads.net/body/"+gamertag)
         await ctx.send(embed=skinEmbed)
+        await ses.close()
+        
+    @commands.command(name="getuuid")
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    async def getuuid(self, ctx, *, gamertag: str):
+        ses = aiohttp.ClientSession()
+        r = await ses.post("https://api.mojang.com/profiles/minecraft", json=[gamertag])
+        await ctx.send(f"{gamertag}'s uuid is ``{json.loads(await r.text())[0]['id']}``")
         
 def setup(bot):
     bot.add_cog(Minecraft(bot))
