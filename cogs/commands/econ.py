@@ -155,7 +155,8 @@ class Econ(commands.Cog):
     @commands.command(name="vault", aliases=["viewvault"])
     async def viewVault(self, ctx):
         vault = await self.db.getVault(ctx.author.id)
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=ctx.author.mention+"'s vault: "+str(vault[0])+"<:emerald_block:679121595150893057>/"+str(vault[1])))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                           description=f"{ctx.author.mention}'s vault: {vault[0]}<:emerald_block:679121595150893057>/{vault[1]} ({vault[0]*9}<:emerald:653729877698150405>)"))
         
     @commands.command(name="buy")
     async def buy(self, ctx, *, itemm):
