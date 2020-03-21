@@ -114,5 +114,12 @@ class Minecraft(commands.Cog):
         name = j[len(j)-1]["name"]
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{uuid}: ``{name}``"))
         
+    @commands.command(name="mcsales", aliases=["minecraftsales"])
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    async def mcsales(self, ctx):
+        r = await self.ses.post("https://api.mojang.com/orders/statistics", json={"metricKeys": ["item_sold_minecraft", "prepaid_card_redeemed_minecraft"]})
+        j = json.loads(await r.text())
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{j['total']}** total Minecraft copies sold, **{round(j['saleVelocityPerSeconds'], 3)}** copies sold per second."))
+        
 def setup(bot):
     bot.add_cog(Minecraft(bot))

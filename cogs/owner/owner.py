@@ -164,16 +164,15 @@ class Owner(commands.Cog):
             description = "",
             color = discord.Color.green()
         )
-        infoEmbed.add_field(name="__**Owner Info**__", value="""
-Guild Count: {0}
-DM Channel Count: {1}
-User Count: {2}
-Session Message Count: {3}
-Session Command Count: {4}
-Shard Count: {5}
-Latency: {6} ms
-""".format(len(self.bot.guilds), len(self.bot.private_channels), len(self.bot.users), self.g.msg_count,
-           self.g.cmd_count, self.bot.shard_count, str(self.bot.latency*1000)[:5]))
+        infoEmbed.add_field(name="__**Owner Info**__", value=f"""
+Guild Count: {len(self.bot.guilds)}
+DM Channel Count: {len(self.bot.private_channels)}
+User Count: {len(self.bot.users)}
+Session Message Count: {self.g.msg_count}
+Session Command Count: {self.g.cmd_count}
+Shard Count: {self.bot.shard_count}
+Latency: {round(self.bot.latency*1000, 2)} ms
+""")
         await ctx.send(embed=infoEmbed)
         
     @commands.command(name="eval")
