@@ -258,7 +258,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     async def addtoplaying(self, ctx, *, new: str):
         self.g.playingList.append(new)
         with open("data/playing_list.json", "w+") as playingList:
-            playingList.write(json.dumps({"playing_list": self.g.playingList}))
+            playingList.write(json.dumps(self.g.playingList))
         await ctx.send(f"Added {new} to the \"Playing\" list.")
         
     @commands.command(name="addtocursed")
@@ -266,7 +266,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     async def addtocursed(self, ctx, *, new: str):
         self.g.cursedImages.append(new)
         with open("data/cursed_images.json", "w+") as cursedImages:
-            playingList.write(json.dumps({"cursed_images": self.g.cursedImages}))
+            playingList.write(json.dumps(self.g.cursedImages))
         await ctx.send(f"Added {new} to the cursed images list")
             
 def setup(bot):

@@ -25,10 +25,10 @@ class Global(commands.Cog):
                             "x": "murr", "y": "hurr", "z": "mhehmem"}
         
         with open("data/playing_list.json", "r") as playingList:
-            self.playingList = json.load(playingList)["playing_list"]
+            self.playingList = json.load(playingList)
         
         with open("data/cursed_images.json", "r") as cursedImages:
-            self.cursedImages = json.load(cursedImages)["cursed_images"]
+            self.cursedImages = json.load(cursedImages)
         
         self.allowedChars = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
                              "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "{", "}", ";", ":", "|", "/", ".", "?", ">", "<", ",", "'", "\"", "\\",)
