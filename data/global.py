@@ -24,14 +24,17 @@ class Global(commands.Cog):
                             "s": "surgghm", "t": "ehrrg", "u": "hrmhm", "v": "hrrrm", "w": "hwurgh",
                             "x": "murr", "y": "hurr", "z": "mhehmem"}
         
+        self.allowedChars = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+                             "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "{", "}", ";", ":", "|", "/", ".", "?", ">", "<", ",",)
+        
         with open("data/playing_list.json", "r") as playingList:
             self.playingList = json.load(playingList)
         
         with open("data/cursed_images.json", "r") as cursedImages:
             self.cursedImages = json.load(cursedImages)
-        
-        self.allowedChars = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-                             "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "{", "}", ";", ":", "|", "/", ".", "?", ">", "<", ",",)
+            
+        with open("data/minecraft_servers.json", "r") as mcServers:
+            self.mcServers = json.load(mcServers)
         
 def setup(bot):
     bot.add_cog(Global(bot))

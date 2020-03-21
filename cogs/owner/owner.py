@@ -40,6 +40,7 @@ class Owner(commands.Cog):
 **{0}cogs** *lists the loaded cogs*
 **{0}addtoplaying** ***text*** *add a status to the list of statuses cycled through by the bot*
 **{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
+**{0}addmcserver** ***ip port "version" type verified *note*** *adds to the list of mc servers*
 """.format(ctx.prefix), color = discord.Color.green())
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
@@ -272,6 +273,15 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         with open("data/cursed_images.json", "w+") as cursedImages:
             playingList.write(json.dumps(self.g.cursedImages))
         await ctx.send(f"Added {new} to the cursed images list")
+        
+    @commands.command(name="addmcserver")
+    @commands.is_owner()
+    async def addmcserver(self, ctx, ip: str, port: int, version: str, typp: str, verified: bool, *, note: str):
+        server = {"ip": ip, "port": port, "version": version, "type": typp, "verified": verified, "note": note}
+        self.g.mcServers.append(server)
+        with open("data/minecraft_servers.json", "w+") as mcServers:
+            mcServers.write(json.dumps(self.g.mcServers))
+        await ctx.send(f"Added {str(server)} to the Minecraft server list")
             
 def setup(bot):
     bot.add_cog(Owner(bot))

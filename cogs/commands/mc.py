@@ -9,11 +9,13 @@ import aiohttp
 import base64
 import json
 import asyncio
+from random import choice
 
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.ses = aiohttp.ClientSession()
+        self.g = self.bot.get_cog("Global")
         
     def cog_unload(self):
         self.bot.loop.create_task(self.stopses())
@@ -22,9 +24,9 @@ class Minecraft(commands.Cog):
         await self.ses.stop()
         
     @commands.command(name="mcping") #pings a java edition minecraft server
-    async def mcping(self, ctx):
+    async def mcping(self, ctx, *, server: str):
         await ctx.trigger_typing()
-        server = ctx.message.clean_content.replace(ctx.prefix+"mcping", "").replace(" ", "")
+        server = server.replace(" ", "")
         if ":" in server:
             s = server.split(":")
             try:
@@ -120,6 +122,16 @@ class Minecraft(commands.Cog):
         r = await self.ses.post("https://api.mojang.com/orders/statistics", json={"metricKeys": ["item_sold_minecraft", "prepaid_card_redeemed_minecraft"]})
         j = json.loads(await r.text())
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{j['total']}** total Minecraft copies sold, **{round(j['saleVelocityPerSeconds'], 3)}** copies sold per second."))
+        
+    @commands.command(name="randomserver", aliases=["randommc", "randommcserver", "mcserver", "minecraftserver"])
+    async def randommcserver(self, ctx):
+        s = choice(self.g.mcServers)
+        try:
+            online = MinecraftServer.lookup(s['ip']+":"+str(s['port'])).status()
+            online = "Online"
+        except Exception:
+            online = "Offline"
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"``{s['ip']}:{s['port']}`` {s['version']} ({s['type']}) **Status: {online}**\n{s['note']}"))
         
 def setup(bot):
     bot.add_cog(Minecraft(bot))
