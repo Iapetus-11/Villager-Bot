@@ -60,7 +60,6 @@ class Useful(commands.Cog):
             helpMsg.add_field(name="__**Useful/Informative**__", value="""
 **{0}help** *displays this help message*
 **{0}info** *displays information about the bot*
-**{0}config** *change the settings of the bot for your server*
 **{0}ping** *to see the bot's latency between itself and the Discord API*
 **{0}uptime** *to check how long the bot has been online*
 **{0}votelink** *to get the link to vote for and support the bot!*
@@ -74,6 +73,7 @@ class Useful(commands.Cog):
         
         elif msg == "admin":        
             helpMsg.add_field(name="__**Admin Only**__", value="""
+**{0}config** *change the settings of the bot for your server*
 **{0}purge** ***number of messages*** *deletes n number of messages in the channel it's summoned in*
 **{0}kick** ***@user*** *kicks the mentioned user*
 **{0}ban** ***@user*** *bans the mentioned user*
