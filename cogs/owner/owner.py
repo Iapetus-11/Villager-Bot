@@ -2,7 +2,6 @@ from discord.ext import commands
 import discord
 from random import choice
 import json
-import arrow
 
 class Owner(commands.Cog):
     def __init__(self, bot):
@@ -162,8 +161,6 @@ class Owner(commands.Cog):
     @commands.command(name="info2")
     @commands.is_owner()
     async def info2(self, ctx):
-        p = arrow.utcnow()
-        diff = (p - self.g.startTime)
         infoEmbed = discord.Embed(
             description = "",
             color = discord.Color.green()
@@ -174,7 +171,7 @@ DM Channel Count: {len(self.bot.private_channels)}
 User Count: {len(self.bot.users)}
 Session Message Count: {self.g.msg_count}
 Session Command Count: {self.g.cmd_count} ({round((self.g.cmd_count/self.g.msg_count)*100, 2)}% of all msgs)
-Average Commands/Sec: {round(self.g.cmd_count/diff.seconds, 2)}
+Average Commands/Sec: {round(self.g.cmd_vect/5, 2)}
 Shard Count: {self.bot.shard_count}
 Latency: {round(self.bot.latency*1000, 2)} ms
 """)

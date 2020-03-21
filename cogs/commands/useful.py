@@ -25,6 +25,7 @@ class Useful(commands.Cog):
 **{0}stealskin** ***gamertag*** *steal another player's Minecraft skin*
 **{0}nametouuid** ***gamertag*** *gets the Minecraft uuid of the given player*
 **{0}uuidtoname** ***uuid*** *gets the gamertag from the given Minecraft uuid*
+**{0}randommc** *sends a random Minecraft server*
 """.format(ctx.prefix), inline=True)
             await ctx.send(embed=helpMsg)
             return
