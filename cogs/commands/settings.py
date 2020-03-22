@@ -1,13 +1,14 @@
 from discord.ext import commands
 import discord
 
+
 class Settings(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
+
         self.g = self.bot.get_cog("Global")
         self.db = self.bot.get_cog("Database")
-        
+
     @commands.group(name="config", aliases=["conf", "cfg"])
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
@@ -20,7 +21,7 @@ class Settings(commands.Cog):
 **{0}config replies** ***on/off*** *turn bot replies to messages on/off*
 """.format(ctx.prefix))
             await ctx.send(embed=embed)
-        
+
     @config.command(name="prefix")
     async def setPrefix(self, ctx, prefix: str):
         for car in prefix:
@@ -29,7 +30,7 @@ class Settings(commands.Cog):
                 return
         await self.db.setPrefix(ctx.guild.id, prefix[:16])
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Changed the prefix from ``{0}`` to ``{1}``.".format(ctx.prefix, prefix[:16])))
-        
+
     @config.command(name="replies")
     async def setDoReplies(self, ctx, doem: str):
         if doem == "on":
@@ -40,6 +41,7 @@ class Settings(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Turned off message replies."))
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid option! Only ``on`` and ``off`` are valid options."))
-    
+
+
 def setup(bot):
     bot.add_cog(Settings(bot))

@@ -11,19 +11,20 @@ import json
 import asyncio
 from random import choice
 
+
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.ses = aiohttp.ClientSession()
         self.g = self.bot.get_cog("Global")
-        
+
     def cog_unload(self):
         self.bot.loop.create_task(self.stopses())
-        
+
     async def stopses(self):
         await self.ses.stop()
-        
-    @commands.command(name="mcping") #pings a java edition minecraft server
+
+    @commands.command(name="mcping") # Pings a java edition minecraft server
     async def mcping(self, ctx, *, server: str):
         await ctx.trigger_typing()
         server = server.replace(" ", "")
@@ -32,7 +33,7 @@ class Minecraft(commands.Cog):
             try:
                 int(s[1])
             except Exception:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\n"+
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\n" +
                                                    "Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``"+ctx.prefix+"mcping 172.10.17.177:25565``"))
                 return
         if server == "":
@@ -43,7 +44,7 @@ class Minecraft(commands.Cog):
             status = status.status()
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is online with {0} player(s) and a ping of {1} ms.".format(status.players.online, status.latency)))
         except Exception:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\n"+
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\n" +
                                                "Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``"+ctx.prefix+"mcping 172.10.17.177:25565``"))
 
     @commands.command(name="mcpeping", aliases=["mcbeping"])
@@ -69,7 +70,7 @@ class Minecraft(commands.Cog):
         sInfo = str(pong.serverName)[2:-2].split(";")
         pCount = sInfo[4]
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is online with "+pCount+" player(s)."))
-            
+
     @commands.command(name="stealskin", aliases=["skinsteal", "skin"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def skinner(self, ctx, *, gamertag: str):
@@ -94,17 +95,17 @@ class Minecraft(commands.Cog):
         skinEmbed.set_thumbnail(url=url)
         skinEmbed.set_image(url="https://mc-heads.net/body/"+gamertag)
         await ctx.send(embed=skinEmbed)
-        
+
     @commands.command(name="nametouuid", aliases=["uuid", "getuuid"])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def getuuid(self, ctx, *, gamertag: str):
         r = await self.ses.post("https://api.mojang.com/profiles/minecraft", json=[gamertag])
-        j = json.loads(await r.text()) #[0]['id']
+        j = json.loads(await r.text()) # [0]['id']
         if j == []:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That user could not be found."))
             return
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{gamertag}: ``{j[0]['id']}``"))
-        
+
     @commands.command(name="uuidtoname", aliases=["getgamertag"])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def getgamertag(self, ctx, *, uuid: str):
@@ -115,14 +116,14 @@ class Minecraft(commands.Cog):
         j = json.loads(await response.text())
         name = j[len(j)-1]["name"]
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{uuid}: ``{name}``"))
-        
+
     @commands.command(name="mcsales", aliases=["minecraftsales"])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def mcsales(self, ctx):
         r = await self.ses.post("https://api.mojang.com/orders/statistics", json={"metricKeys": ["item_sold_minecraft", "prepaid_card_redeemed_minecraft"]})
         j = json.loads(await r.text())
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{j['total']}** total Minecraft copies sold, **{round(j['saleVelocityPerSeconds'], 3)}** copies sold per second."))
-        
+
     @commands.command(name="randomserver", aliases=["randommc", "randommcserver", "mcserver", "minecraftserver"])
     async def randommcserver(self, ctx):
         s = choice(self.g.mcServers)
@@ -132,6 +133,7 @@ class Minecraft(commands.Cog):
         except Exception:
             online = "Offline"
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"``{s['ip']}:{s['port']}`` {s['version']} ({s['type']}) **Status: {online}**\n{s['note']}"))
-        
+
+
 def setup(bot):
     bot.add_cog(Minecraft(bot))

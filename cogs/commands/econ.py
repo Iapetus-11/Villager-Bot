@@ -6,7 +6,6 @@ from math import floor, ceil
 
 
 class Econ(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
         self.g = self.bot.get_cog("Global")
@@ -87,7 +86,7 @@ class Econ(commands.Cog):
         await self.db.setBal(ctx.author.id, await self.db.getBal(ctx.author.id)+(9*amount))
         await self.db.setVault(ctx.author.id, vault[0]-amount, vault[1])
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have withdrawn "+str(amount)+" emerald blocks from the vault. ("+str(amount*9)+"<:emerald:653729877698150405>)"))
-            
+
     @commands.group(name="shop")
     async def shop(self, ctx):
         msg = ctx.message.clean_content.lower().replace(ctx.prefix+"shop ", "").replace(ctx.prefix+"shop", "")
@@ -102,7 +101,7 @@ class Econ(commands.Cog):
             shop.add_field(name="__**Pickaxes**__", value="``"+ctx.prefix+"shop pickaxes``")
             shop.add_field(name="__**Other**__", value="``"+ctx.prefix+"shop other``")
             await ctx.send(embed=shop)
-    
+
     async def shop_pickaxes(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
@@ -116,7 +115,7 @@ class Econ(commands.Cog):
         shop.add_field(name="__**Netherite Pickaxe**__ 8192<:emerald:653729877698150405> 4<:netherite_scrap:676974675091521539>", value="``"+ctx.prefix+"buy netherite pickaxe``", inline=True)
         shop.set_footer(text="Pickaxes allow you to obtain more emeralds while using the "+ctx.prefix+"mine command!")
         await ctx.send(embed=shop)
-    
+
     async def shop_other(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
@@ -124,45 +123,45 @@ class Econ(commands.Cog):
         shop.add_field(name="__**Jar of Bees**__ 8<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy jar of bees``", inline=True)
         shop.add_field(name="__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>)  __**32<:emerald:653729877698150405>**__", value="``"+ctx.prefix+"buy netherite scrap``", inline=True)
         await ctx.send(embed=shop)
-        
+
     @commands.command(name="inventory", aliases=["inv"])
     async def inventory(self, ctx):
         pick = await self.db.getPick(ctx.author.id)
         contents = pick+" pickaxe\n"
-        
+
         bal = await self.db.getBal(ctx.author.id)
         if bal == 1:
             contents += "1 emerald\n"
         else:
             contents += str(bal)+" emeralds\n"
-        
+
         beecount = await self.db.getBees(ctx.author.id)
         if beecount > 1:
             contents += str(beecount)+" jars of bees ("+str(beecount*3)+" bees)\n"
         if beecount == 1:
             contents += str(beecount)+" jar of bees ("+str(beecount*3)+" bees)\n"
-            
+
         netheritescrapcount = await self.db.getScrap(ctx.author.id)
         if netheritescrapcount > 1:
             contents += str(netheritescrapcount)+" chunks of netherite scrap\n"
         if netheritescrapcount == 1:
             contents += str(netheritescrapcount)+" chunk of netherite scrap\n"
-            
+
         inv = discord.Embed(color=discord.Color.green(), description=contents)
         inv.set_author(name=ctx.author.display_name+"'s Inventory", url=discord.Embed.Empty)
         await ctx.send(embed=inv)
-        
+
     @commands.command(name="vault", aliases=["viewvault"])
     async def viewVault(self, ctx):
         vault = await self.db.getVault(ctx.author.id)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(),
                                            description=f"{ctx.author.mention}'s vault: {vault[0]}<:emerald_block:679121595150893057>/{vault[1]} ({vault[0]*9}<:emerald:653729877698150405>)"))
-        
+
     @commands.command(name="buy")
     async def buy(self, ctx, *, itemm):
         item = itemm.lower()
         theirBal = await self.db.getBal(ctx.author.id)
-        
+
         if item == "jar of bees":
             if theirBal >= 8:
                 await self.db.setBal(ctx.author.id, theirBal-8)
@@ -171,7 +170,7 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a jar of bees."))
             return
-                
+
         if item == "netherite scrap":
             if theirBal >= 32:
                 await self.db.setBal(ctx.author.id, theirBal-32)
@@ -179,7 +178,7 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a piece of netherite scrap"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase some netherite scrap."))
-        
+
         if item == "stone pickaxe": # "wood" is default
             if theirBal >= 32:
                 if await self.db.getPick(ctx.author.id) != "stone":
@@ -191,7 +190,7 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
             return
-            
+
         if item == "iron pickaxe":
             if theirBal >= 128:
                 if await self.db.getPick(ctx.author.id) != "iron":
@@ -203,7 +202,7 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
             return
-            
+
         if item == "gold pickaxe":
             if theirBal >= 512:
                 if await self.db.getPick(ctx.author.id) != "gold":
@@ -215,7 +214,7 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
             return
-            
+
         if item == "diamond pickaxe":
             if theirBal >= 2048:
                 if await self.db.getPick(ctx.author.id) != "diamond":
@@ -227,7 +226,7 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
             return
-            
+
         if item == "netherite pickaxe":
             if theirBal >= 8192:
                 if await self.db.getScrap(ctx.author.id) >= 4:
@@ -243,9 +242,9 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
             return
-        
+
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
-            
+
     @commands.command(name="give", aliases=["donate"])
     async def give(self, ctx, rec: discord.User, amount: int):
         if amount < 0:
@@ -265,7 +264,7 @@ class Econ(commands.Cog):
             else:
                 plural = "s"
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=str(ctx.author.mention)+" gave "+str(rec.mention)+" "+str(amount)+" emerald"+plural+"."))
-            
+
     @commands.command(name="mine")
     @commands.guild_only()
     @commands.cooldown(1, 1.5, commands.BucketType.user)
@@ -315,7 +314,7 @@ class Econ(commands.Cog):
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You "+choice(["found", "mined", "mined up", "mined up", "found"])+" "+str(randint(1, 8))+" "
                                                + choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
-            
+
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
     async def gamble(self, ctx, amount: str):
@@ -351,7 +350,7 @@ class Econ(commands.Cog):
             await self.db.setBal(ctx.author.id, theirBal-amount)
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="TIE! No one wins, but maybe Villager Bot will keep your emeralds anyway..."))
-        
+
     @commands.command(name="pillage", aliases=["steal"], cooldown_after_parsing=True)
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, user: discord.User):
@@ -383,7 +382,7 @@ class Econ(commands.Cog):
             await self.db.setBal(user.id, victimBal+32)
             await self.db.setBal(ctx.author.id, theirBal-32)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You were caught and paid 32 <:emerald:653729877698150405>"))
-    
+
     @commands.command(name="leaderboard", aliases=["lb"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def leaderboard(self, ctx):
@@ -401,6 +400,7 @@ class Econ(commands.Cog):
             lbtext += f"{entry[1]}<:emerald:653729877698150405> {str(user)[:-5]} \n"
         embed = discord.Embed(color=discord.Color.green(), title="<:emerald:653729877698150405>__**Emerald Leaderboard**__<:emerald:653729877698150405>", description=lbtext)
         await ctx.send(embed=embed)
-        
+
+
 def setup(bot):
     bot.add_cog(Econ(bot))

@@ -3,21 +3,19 @@ import discord
 import arrow
 from googlesearch import search
 
+
 class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.g = self.bot.get_cog("Global")
-    
-    @commands.command(name="help") #displays help messages
+
+    @commands.command(name="help") # Displays help messages
     async def helpp(self, ctx):
         msg = ctx.message.clean_content.lower().replace(ctx.prefix+"help ", "").replace(ctx.prefix+"help", "")
-        helpMsg = discord.Embed(
-            description = "",
-            color = discord.Color.green()
-        )
+        helpMsg = discord.Embed(description="", color=discord.Color.green())
         helpMsg.set_author(name="Villager Bot Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         helpMsg.set_footer(text="Made by Iapetus11#6821")
-        
+
         if msg == "mc":
             helpMsg.add_field(name="__**Minecraft Stuff**__", value="""
 **{0}mcping** ***ip:port*** *to check the status of a Java Edition Minecraft server*
@@ -29,7 +27,7 @@ class Useful(commands.Cog):
 """.format(ctx.prefix), inline=True)
             await ctx.send(embed=helpMsg)
             return
-        
+
         elif msg == "fun":
             helpMsg.add_field(name="__**Text Commands**__", value="""
 **{0}villagerspeak** ***text*** *turns English text into villager sounds*
@@ -56,8 +54,8 @@ class Useful(commands.Cog):
 """.format(ctx.prefix), inline=False)
             await ctx.send(embed=helpMsg)
             return
-        
-        elif msg == "useful":        
+
+        elif msg == "useful":
             helpMsg.add_field(name="__**Useful/Informative**__", value="""
 **{0}help** *displays this help message*
 **{0}info** *displays information about the bot*
@@ -71,8 +69,8 @@ class Useful(commands.Cog):
 """.format(ctx.prefix), inline=True)
             await ctx.send(embed=helpMsg)
             return
-        
-        elif msg == "admin":        
+
+        elif msg == "admin":
             helpMsg.add_field(name="__**Admin Only**__", value="""
 **{0}config** *change the settings of the bot for your server*
 **{0}purge** ***number of messages*** *deletes n number of messages in the channel it's summoned in*
@@ -82,7 +80,7 @@ class Useful(commands.Cog):
 """.format(ctx.prefix), inline=True)
             await ctx.send(embed=helpMsg)
             return
-        
+
         else:
             helpMsg.add_field(name="Minecraft", value="``"+ctx.prefix+"help mc``", inline=True)
             helpMsg.add_field(name="Fun", value="``"+ctx.prefix+"help fun``", inline=True)
@@ -95,10 +93,8 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
             await ctx.send(embed=helpMsg)
 
     @commands.command(name="info", aliases=["information"])
-    async def information(self, ctx):        
-        infoMsg = discord.Embed(
-             color = discord.Color.green()
-        )
+    async def information(self, ctx):
+        infoMsg = discord.Embed(color=discord.Color.green())
         infoMsg.add_field(name="Creator", value="Iapetus11#6821", inline=True)
         infoMsg.add_field(name="Bot Library", value="Discord.py", inline=True)
         infoMsg.add_field(name="Command Prefix", value=ctx.prefix, inline=True)
@@ -111,7 +107,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         infoMsg.set_author(name="Villager Bot Information", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=infoMsg)
 
-    @commands.command(name="ping", aliases=["pong"]) #checks latency between Discord API and the bot
+    @commands.command(name="ping", aliases=["pong"]) # Checks latency between Discord API and the bot
     async def ping(self, ctx):
         if ctx.message.content.lower().replace(ctx.prefix, "") == "pong":
             pp = "Ping"
@@ -124,8 +120,8 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         p = arrow.utcnow()
         diff = (p - self.g.startTime)
         days = diff.days
-        hours = int(diff.seconds/3600)
-        minutes = int(diff.seconds/60)%60
+        hours = int(diff.seconds / 3600)
+        minutes = int(diff.seconds / 60) % 60
         if days == 1:
             dd = "day"
         else:
@@ -139,27 +135,19 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         else:
             mm = "minutes"
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Bot has been online for "+str(days)+" "+dd+", "+str(hours)+" "+hh+", and "+str(minutes)+" "+mm+"!"))
-        
+
     @commands.command(name="vote", aliases=["votelink"])
     async def votelink(self, ctx):
-        voteL = discord.Embed(
-             title = "Vote for Villager Bot",
-             description = "[Click Here!](https://top.gg/bot/639498607632056321/vote)",
-             color = discord.Color.green()
-        )
+        voteL = discord.Embed(title="Vote for Villager Bot", description="[Click Here!](https://top.gg/bot/639498607632056321/vote)", color=discord.Color.green())
         voteL.set_thumbnail(url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=voteL)
-    
+
     @commands.command(name="invite", aliases=["invitelink"])
     async def inviteLink(self, ctx):
-        invL = discord.Embed(
-             title = "Add Villager Bot to your server",
-             description = "[Click Here!](https://bit.ly/2tQfOhW)",
-             color = discord.Color.green()
-        )
+        invL = discord.Embed(title="Add Villager Bot to your server", description="[Click Here!](https://bit.ly/2tQfOhW)", color=discord.Color.green())
         invL.set_thumbnail(url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=invL)
-        
+
     @commands.command(name="google")
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def googleSearch(self, ctx, *, query: str):
@@ -171,7 +159,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
             await ctx.send(rs[0])
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
-        
+
     @commands.command(name="youtube")
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def ytSearch(self, ctx, *, query: str):
@@ -183,7 +171,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
             await ctx.send(rs[0])
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
-        
+
     @commands.command(name="reddit")
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def redditSearch(self, ctx, *, query: str):
@@ -195,6 +183,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
             await ctx.send(rs[0])
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
-            
+
+
 def setup(bot):
     bot.add_cog(Useful(bot))
