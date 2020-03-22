@@ -9,7 +9,7 @@ logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
 with open("data/keys.json", "r") as k:  # Loads secret keys
     keys = json.load(k)
-    
+
 db = psycopg2.connect(host="localhost", database="villagerbot", user="pi", password=keys["postgres"])
 cur = db.cursor()
 

@@ -12,12 +12,12 @@ class Econ(commands.Cog):
         self.g = self.bot.get_cog("Global")
         self.db = self.bot.get_cog("Database")
         self.whoismining = {}
-        
+
     async def probGen(self):
         x = randint(0, 25)
         y = randint(0, 25)
         return [f"{str(x)}+{str(y)}", str(x+y)]
-        
+
     @commands.command(name="bal", aliases=["balance"])
     async def balance(self, ctx):
         msg = ctx.message.content.lower().replace(ctx.prefix+"balance ", "").replace(ctx.prefix+"bal ", "")
@@ -26,7 +26,7 @@ class Econ(commands.Cog):
         except Exception:
             user = ctx.author
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.mention+" has "+str(await self.db.getBal(user.id))+"<:emerald:653729877698150405>"))
-        
+
     @commands.command(name="deposit", aliases=["dep"])
     async def deposit(self, ctx, amount: str):  # In blocks
         theirbal = await self.db.getBal(ctx.author.id)
@@ -44,7 +44,7 @@ class Econ(commands.Cog):
             except Exception:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Try using an actual number, idiot!"))
                 return
-            
+
         if vault[1] == 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="There isn't enough space in your vault!"))
             return
@@ -57,13 +57,13 @@ class Econ(commands.Cog):
         if amount < 1:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to deposit one or more emerald blocks at once!"))
             return
-        
+
         await self.db.setBal(ctx.author.id, theirbal-(9*amount))
         await self.db.setVault(ctx.author.id, vault[0]+amount, vault[1])
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have deposited "+str(amount)+" emerald blocks into the vault. ("+str(amount*9)+"<:emerald:653729877698150405>)"))
-        
+
     @commands.command(name="withdraw", aliases=["with"])
-    async def withdraw(self, ctx, amount: str): #emerald blocks
+    async def withdraw(self, ctx, amount: str): # In emerald blocks
         vault = await self.db.getVault(ctx.author.id)
         if vault[0] < 1:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have any emerald blocks to withdraw!"))
@@ -76,14 +76,14 @@ class Econ(commands.Cog):
             except Exception:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Try using an actual number, idiot!"))
                 return
-        
+
         if amount < 1:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to withdraw one or more emerald blocks at once!"))
             return
         if amount > vault[0]:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't withdraw more emerald blocks than you have!"))
             return
-        
+
         await self.db.setBal(ctx.author.id, await self.db.getBal(ctx.author.id)+(9*amount))
         await self.db.setVault(ctx.author.id, vault[0]-amount, vault[1])
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have withdrawn "+str(amount)+" emerald blocks from the vault. ("+str(amount*9)+"<:emerald:653729877698150405>)"))
@@ -180,7 +180,7 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase some netherite scrap."))
         
-        if item == "stone pickaxe": #"wood" is default
+        if item == "stone pickaxe": # "wood" is default
             if theirBal >= 32:
                 if await self.db.getPick(ctx.author.id) != "stone":
                     await self.db.setBal(ctx.author.id, theirBal-32)
@@ -314,7 +314,7 @@ class Econ(commands.Cog):
             await self.db.setBal(ctx.author.id, await self.db.getBal(ctx.author.id)+1)
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You "+choice(["found", "mined", "mined up", "mined up", "found"])+" "+str(randint(1, 8))+" "
-                                               +choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
+                                               + choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
             
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)

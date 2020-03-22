@@ -18,7 +18,7 @@ class AdminCmds(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Uh oh, Villager Bot had a problem deleting those messages, try again later!"))
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot purge more than 999 messages at one time!"))
-            
+
     @commands.command(name="ban")
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
