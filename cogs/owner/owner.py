@@ -3,20 +3,21 @@ import discord
 from random import choice
 import json
 
+
 class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.g = self.bot.get_cog("Global")
         self.db = self.bot.get_cog("Database")
-        
+
         self.leaderboard = [('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',),
                             ('0', '-1',), ('0', '-1',), ('0', '-1',)]
-        
+
     @commands.command(name="ownerhelp", aliases=["helpowner", "owner"])
     @commands.is_owner()
     async def ownerhelp(self, ctx):
         embedMsg = discord.Embed(
-            description = """
+            description="""
 **{0}unload** ***cog*** *unloads a cog*
 **{0}load** ***cog*** *loads a cog*
 **{0}reload** ***cog*** *reloads a cog, error if cog had not been loaded prior*
@@ -40,7 +41,7 @@ class Owner(commands.Cog):
 **{0}addtoplaying** ***text*** *add a status to the list of statuses cycled through by the bot*
 **{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
 **{0}addmcserver** ***ip port "version" type verified *note*** *adds to the list of mc servers*
-""".format(ctx.prefix), color = discord.Color.green())
+""".format(ctx.prefix), color=discord.Color.green())
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
 
@@ -48,38 +49,38 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def unload(self, ctx, *, cog: str):
         try:
-            self.bot.unload_extension("cogs."+cog)
+            self.bot.unload_extension("cogs." + cog)
         except Exception as e:
             await ctx.send("Error while unloading extension: {0}\n``{1}``".format(cog, e))
             return
-        await ctx.send(f"Successfully unloaded cog: "+cog)
+        await ctx.send(f"Successfully unloaded cog: " + cog)
 
     @commands.command(name="load")
     @commands.is_owner()
     async def load(self, ctx, *, cog: str):
         try:
-            self.bot.load_extension("cogs."+cog)
+            self.bot.load_extension("cogs." + cog)
         except Exception as e:
             await ctx.send("Error while loading extension: {0}\n``{1}``".format(cog, e))
             return
-        await ctx.send("Successfully loaded cog: "+cog)
-            
+        await ctx.send("Successfully loaded cog: " + cog)
+
     @commands.command(name="reload")
     @commands.is_owner()
     async def reload(self, ctx, *, cog: str):
         try:
-            self.bot.reload_extension("cogs."+cog)
+            self.bot.reload_extension("cogs." + cog)
         except Exception as e:
             await ctx.send("Error while reloading extension: {0}\n``{1}``".format(cog, e))
             return
-        await ctx.send("Successfully reloaded cog: "+cog)
-        
+        await ctx.send("Successfully reloaded cog: " + cog)
+
     @commands.command(name="botban")
     @commands.is_owner()
     async def botban(self, ctx, user: discord.User):
         ban = await self.db.botBan(user.id)
         await ctx.send(ban.format(str(user)))
-        
+
     @commands.command(name="botunban")
     @commands.is_owner()
     async def botunban(self, ctx, user: discord.User):
@@ -113,12 +114,12 @@ class Owner(commands.Cog):
         for guild in self.bot.guilds:
             i += 1
             msg += f"\n{guild.member_count} **{guild.name}** *{guild.id}*"
-            if i%rows == 0:
+            if i % rows == 0:
                 await ctx.send(msg)
                 msg = ""
         if msg is not "":
             await ctx.send(msg)
-            
+
     @commands.command(name="dms")
     @commands.is_owner()
     async def dmlist(self, ctx):
@@ -128,10 +129,10 @@ class Owner(commands.Cog):
         for pchannel in self.bot.private_channels:
             i += 1
             try:
-                msg += f"\n*{pchannel.id}+*  {pchannel}"
+                msg += f"\n*{pchannel.id} + *  {pchannel}"
             except Exception as e:
-                msg += "\n"+str(e)
-            if i%rows == 0:
+                msg += "\n" + str(e)
+            if i % rows == 0:
                 await ctx.send(msg)
                 msg = ""
         if msg is not "":
@@ -141,7 +142,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def leaveguild(self, ctx, *, guild: int):
         await self.bot.get_guild(guild).leave()
-        
+
     @commands.command(name="getinvites")
     @commands.is_owner()
     async def getinvites(self, ctx, *, guild: int):
@@ -151,20 +152,17 @@ class Owner(commands.Cog):
         msg = ""
         for invite in invites:
             i += 1
-            msg += "\n"+str(invite.code)
-            if i%rows == 0:
+            msg += "\n" + str(invite.code)
+            if i % rows == 0:
                 await ctx.send(msg)
                 msg = ""
         if msg is not "":
             await ctx.send(msg)
-        
+
     @commands.command(name="info2")
     @commands.is_owner()
     async def info2(self, ctx):
-        infoEmbed = discord.Embed(
-            description = "",
-            color = discord.Color.green()
-        )
+        infoEmbed = discord.Embed(description="", color=discord.Color.green())
         infoEmbed.add_field(name="__**Owner Info**__", value=f"""
 Guild Count: {len(self.bot.guilds)}
 DM Channel Count: {len(self.bot.private_channels)}
@@ -176,7 +174,7 @@ Shard Count: {self.bot.shard_count}
 Latency: {round(self.bot.latency*1000, 2)} ms
 """)
         await ctx.send(embed=infoEmbed)
-        
+
     @commands.command(name="eval")
     @commands.is_owner()
     async def evalMessage(self, ctx, *, msg):
@@ -196,7 +194,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
                     await ctx.send(str(e))
             else:
                 await ctx.send(str(e))
-        
+
     @commands.command(name="awaiteval")
     @commands.is_owner()
     async def awaitEvalMessage(self, ctx, *, msg):
@@ -214,12 +212,12 @@ Latency: {round(self.bot.latency*1000, 2)} ms
                     await ctx.send(str(e))
             else:
                 await ctx.send(str(e))
-                
+
     @commands.command(name="setpickaxe", aliases=["setpick"])
     @commands.is_owner()
     async def setpick(self, ctx, user: discord.User, pType: str):
         await self.db.setPick(user.id, pType)
-        
+
     @commands.command(name="inverseguildlookup", aliases=["lookup"])
     @commands.is_owner()
     async def inverseguildlookup(self, ctx, user: discord.User):
@@ -227,34 +225,34 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         for guild in self.bot.guilds:
             for member in guild.members:
                 if member.id == user.id:
-                    gds+=str(guild)+" **|** "+str(guild.id)+"\n"
+                    gds += str(guild) + " **|** " + str(guild.id) + "\n"
         if not gds == "":
             await ctx.send(gds)
         else:
             await ctx.send("No results...")
-            
+
     @commands.command(name="cogs")
     @commands.is_owner()
     async def listCogs(self, ctx):
         for ext in list(self.bot.extensions):
             await ctx.send(ext)
-            
+
     @commands.command(name="setbal")
     @commands.is_owner()
     async def balset(self, ctx, user: discord.User, amount: int):
         await self.db.setBal(user.id, amount)
-        
+
     @commands.command(name="getvault")
     @commands.is_owner()
     async def getvault(self, ctx, user: discord.User):
         vault = await self.db.getVault(user.id)
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.display_name+"'s vault: "+str(vault[0])+"<:emerald_block:679121595150893057>/"+str(vault[1])))
-        
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.display_name + "'s vault: " + str(vault[0]) + "<:emerald_block:679121595150893057>/" + str(vault[1])))
+
     @commands.command(name="setvault")
     @commands.is_owner()
     async def setvault(self, ctx, user: discord.User, amount: int, maxx: int):
         await self.db.setVault(user.id, amount, maxx)
-        
+
     @commands.command(name="addtoplaying")
     @commands.is_owner()
     async def addtoplaying(self, ctx, *, new: str):
@@ -262,7 +260,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         with open("data/playing_list.json", "w+") as playingList:
             playingList.write(json.dumps(self.g.playingList))
         await ctx.send(f"Added {new} to the \"Playing\" list.")
-        
+
     @commands.command(name="addtocursed")
     @commands.is_owner()
     async def addtocursed(self, ctx, *, new: str):
@@ -270,7 +268,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         with open("data/cursed_images.json", "w+") as cursedImages:
             playingList.write(json.dumps(self.g.cursedImages))
         await ctx.send(f"Added {new} to the cursed images list")
-        
+
     @commands.command(name="addmcserver")
     @commands.is_owner()
     async def addmcserver(self, ctx, ip: str, port: int, version: str, typp: str, verified: bool, *, note: str):
@@ -279,6 +277,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         with open("data/minecraft_servers.json", "w+") as mcServers:
             mcServers.write(json.dumps(self.g.mcServers))
         await ctx.send(f"Added {str(server)} to the Minecraft server list")
-            
+
+
 def setup(bot):
     bot.add_cog(Owner(bot))
