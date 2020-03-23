@@ -15,7 +15,7 @@ cur = db.cursor()
 
 
 # Fetch prefix from db
-def getPrefix(message):
+def getPrefix(self, message):
     if message.guild is None:
         return "!!"
     gid = message.guild.id
@@ -28,8 +28,7 @@ def getPrefix(message):
     return prefix[0]
 
 
-# Single shards seem to be unable to handle large amounts of users, if it says heartbeat blocked for more than x seconds just up the shard count
-bot = commands.AutoShardedBot(command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
+bot = commands.AutoShardedBot(shard_count=2, command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
 
 # data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL
 cogs = ["data.global",
