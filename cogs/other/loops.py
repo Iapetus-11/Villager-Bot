@@ -43,7 +43,7 @@ class Loops(commands.Cog):
     async def resetCounter(self):
         while True:
             self.g.cmd_vect = 0
-            await asyncio.sleep(5)
+            await asyncio.sleep(30)
 
     @commands.Cog.listener()
     async def on_ready(self):
