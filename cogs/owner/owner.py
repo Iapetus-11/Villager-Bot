@@ -21,26 +21,33 @@ class Owner(commands.Cog):
 **{0}unload** ***cog*** *unloads a cog*
 **{0}load** ***cog*** *loads a cog*
 **{0}reload** ***cog*** *reloads a cog, error if cog had not been loaded prior*
+
 **{0}activity** ***text*** *sets activity of bot to given text*
 **{0}nextactivity** *picks random activity from list*
+
 **{0}guilds** *lists guild member count, guild name, guild id*
 **{0}dms** *lists private channels (group msgs and dms)*
 **{0}leaveguild** ***guild id*** *leaves specified guild*
 **{0}getinvites** ***guild id*** *gets invite codes for specified guild*
+
 **{0}info2** *displays information about stuff*
+**{0}cogs** *lists the loaded cogs*
+**{0}reverselookup** ***user*** *shows what servers a user is in*
+
 **{0}setbal** ***@user amount*** *set user balance to something*
 **{0}setvault** ***@user amount*** *set user's vault to given amount*
 **{0}getvault** ***@user*** *gets the mentioned user's vault*
-**{0}eval** ***statement*** *uses eval()*
-**{0}awaiteval** ***statement*** *uses eval()*
 **{0}setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
+
+**{0}eval** ***statement*** *uses eval()*
+**{0}awaiteval** ***statement*** *uses await eval()*
+
 **{0}botban** ***user*** *bans a user from using the bot*
 **{0}botunban** ***user*** *unbans a user from using the bot*
-**{0}inverseguildlookup** ***user*** *shows what servers a user is in*
-**{0}cogs** *lists the loaded cogs*
+
 **{0}addtoplaying** ***text*** *add a status to the list of statuses cycled through by the bot*
 **{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
-**{0}addmcserver** ***ip port "version" type verified *note*** *adds to the list of mc servers*
+**{0}addmcserver** ***ip port "version" type verified \*note*** *adds to the list of mc servers*
 """.format(ctx.prefix), color=discord.Color.green())
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
@@ -86,6 +93,16 @@ class Owner(commands.Cog):
     async def botunban(self, ctx, user: discord.User):
         unban = await self.db.botUnban(user.id)
         await ctx.send(unban.format(str(user)))
+
+    @commands.command(name="botbans")
+    @commands.is_owner()
+    async def listbotbans(self, ctx):
+        bans = await self.db.listBotBans()
+        if len(bans) < 1:
+            await ctx.send("No one has been banned from the bot yet")
+            return
+        for ban in bans:
+            await ctx.send(f"{self.bot.get_user(int(ban[0]))} *{ban[0]}*")
 
     @commands.command(name="activity")
     @commands.is_owner()
@@ -218,7 +235,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     async def setpick(self, ctx, user: discord.User, pType: str):
         await self.db.setPick(user.id, pType)
 
-    @commands.command(name="inverseguildlookup", aliases=["lookup"])
+    @commands.command(name="reverselookup", aliases=["lookup"])
     @commands.is_owner()
     async def inverseguildlookup(self, ctx, user: discord.User):
         gds = ""

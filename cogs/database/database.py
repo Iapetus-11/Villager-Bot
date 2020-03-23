@@ -121,6 +121,12 @@ class Database(commands.Cog):
             cur.execute("DELETE FROM bans WHERE bans.id='"+str(uid)+"'")
             self.db.commit()
             return "{0} was successfully unbanned."
+        
+    async def listBotBans(self):
+        cur = self.db.cursor()
+        cur.execute("SELECT * FROM bans")
+        bans = cur.fetchall()
+        return bans
 
     async def getPrefix(self, gid):
         cur = self.db.cursor()
