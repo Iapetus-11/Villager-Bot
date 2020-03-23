@@ -1,7 +1,7 @@
 # **Villager Bot** [![Discord Bots](https://top.gg/api/widget/status/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321) [![Discord Bots](https://top.gg/api/widget/servers/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
 
 ### Notable Features:
-* Made by Iapetus11, so it must be good, right?
+* Made by **Iapetus11**, so it must be good, right?
 * Custom prefixes
 * Voting rewards (32 emeralds on weekdays, 64 on weekends, double on some holidays)
 * Economy/currency system (Emeralds, duh!)
