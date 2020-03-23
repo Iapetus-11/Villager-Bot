@@ -15,11 +15,10 @@ cur = db.cursor()
 
 
 # Fetch prefix from db
-def getPrefix(self, message):
+def getPrefix(message):
     if message.guild is None:
         return "!!"
     gid = message.guild.id
-    cur = db.cursor()
     cur.execute("SELECT prefix FROM prefixes WHERE prefixes.gid='"+str(gid)+"'")
     prefix = cur.fetchone()
     if prefix is None:
@@ -30,7 +29,7 @@ def getPrefix(self, message):
 
 
 # Single shards seem to be unable to handle large amounts of users, if it says heartbeat blocked for more than x seconds just up the shard count
-bot = commands.AutoShardedBot(shard_count=2, command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
+bot = commands.AutoShardedBot(command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
 
 # data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL
 cogs = ["data.global",
@@ -63,7 +62,6 @@ async def banned(uid):  # Check if user is banned from bot
 
 @bot.check  # Global check (everything goes through this)
 async def stay_safe(ctx):
-
     if not bot.is_ready():
         await ctx.send(embed=discord.Embed(color=discord.Color.green(),
                                            description="Hold on! Villager Bot is still starting up!"))
@@ -72,7 +70,7 @@ async def stay_safe(ctx):
     bot.get_cog("Global").cmd_vect += 1
     if await banned(ctx.message.author.id):
         return False
-    return ctx.message.author.id is not 639498607632056321 and not ctx.message.author.bot
+    return not ctx.message.author.bot
 
 
 # Actually start bot, it's a blocking call, nothing should go after this!

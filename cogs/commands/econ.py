@@ -131,21 +131,25 @@ class Econ(commands.Cog):
 
         bal = await self.db.getBal(ctx.author.id)
         if bal == 1:
-            contents += "1 emerald\n"
+            contents += "1x emerald\n"
         else:
-            contents += str(bal)+" emeralds\n"
+            contents += str(bal)+"x emeralds\n"
 
         beecount = await self.db.getBees(ctx.author.id)
         if beecount > 1:
-            contents += str(beecount)+" jars of bees ("+str(beecount*3)+" bees)\n"
+            contents += str(beecount)+"x jars of bees ("+str(beecount*3)+" bees)\n"
         if beecount == 1:
-            contents += str(beecount)+" jar of bees ("+str(beecount*3)+" bees)\n"
+            contents += str(beecount)+"x jar of bees ("+str(beecount*3)+" bees)\n"
 
         netheritescrapcount = await self.db.getScrap(ctx.author.id)
         if netheritescrapcount > 1:
-            contents += str(netheritescrapcount)+" chunks of netherite scrap\n"
+            contents += str(netheritescrapcount)+"x chunks of netherite scrap\n"
         if netheritescrapcount == 1:
-            contents += str(netheritescrapcount)+" chunk of netherite scrap\n"
+            contents += str(netheritescrapcount)+"x chunk of netherite scrap\n"
+
+        items = await self.db.getItems(ctx.author.id)
+        for item in items:
+            contents += f"{item[1]}x {item[0]}\n"
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)
         inv.set_author(name=ctx.author.display_name+"'s Inventory", url=discord.Embed.Empty)

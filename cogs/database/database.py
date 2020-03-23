@@ -165,6 +165,38 @@ class Database(commands.Cog):
         cur.execute("DELETE FROM doreplies WHERE doreplies.gid='{0}'".format(gid))
         self.db.commit()
 
+    async def getItems(self, uid):
+        cur = self.db.cursor()
+        cur.execute(f"SELECT item, num FROM items WHERE items.id='{uid}'")
+        return cur.fetchall()
+
+    async def getItem(self, uid, item):
+        cur = self.db.cursor()
+        cur.execute(f"SELECT item, num FROM items WHERE items.id='{uid}' AND items.item='{item}'")
+        return cur.fetchone()
+
+    async def addItem(self, uid, item, num):
+        cur = self.db.cursor()
+        item = await self.getItem(uid, item)
+        if item is None:
+            cur.execute(f"INSERT INTO items VALUES ('{uid}', '{item}', '{num}'")
+        else:
+            cur.execute(f"UPDATE items SET num={item[1]+num} WHERE items.id='{uid}'")
+        self.db.commit()
+
+    async def removeItem(self, uid, item, num):
+        cur = self.db.cursor()
+        item = await self.getItem(uid, item)
+        if item is None:
+            cur.execute(f"INSERT INTO items VALUES ('{uid}', '{item}', '{num}'")
+        else:
+            n = item[1]-num
+            if n > 0:
+                cur.execute(f"UPDATE items SET num={n} WHERE items.id='{uid}'")
+            else:
+                cur.execute(f"DELETE FROM items WHERE items.id='{uid}' AND items.item='{item}'")
+        self.db.commit()
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
