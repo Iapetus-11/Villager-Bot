@@ -24,6 +24,7 @@
 * __!!gamble__ *amount* (gamble with Villager Bot)
 * __!!pillage__ *@user* (attempt to steal emeralds from another user)
 * __!!shop__ (opens the Villager Shop where you can buy items)
+* __!!sell__ *amount item* (sells a specified amount of an item back to Villager Bot)
 * __!!deposit__ *amount in emerald blocks* (deposits emerald blocks into the emerald vault)
 * __!!withdraw__ *amount in emerald blocks* (withdraws emerald blocks from the emerald vault)
 * __!!leaderboard__ (shows the people with the most emeralds)
