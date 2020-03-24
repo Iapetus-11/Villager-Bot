@@ -174,7 +174,7 @@ class Econ(commands.Cog):
 
         if item == "fortune i book" or item == "fortune 1 book":
             if theirBal >= 120:
-                await self.db.setBal(ctx.author.id, theirbal-120)
+                await self.db.setBal(ctx.author.id, theirBal-120)
                 await self.db.addItem(ctx.author.id, "Fortune I Book", 1, 24)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a Fortune I Book."))
             else:
