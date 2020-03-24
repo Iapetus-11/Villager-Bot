@@ -21,6 +21,7 @@
 * __!!balance__ (check the amount of emeralds in your inventory)
 * __!!inventory__ (allows you to check the items in your inventory)
 * __!!give__ *@user* *amount* (gives mentioned user specified amount of emeralds from your inventory)
+* __!!giveitem__ *@user amount item* (gives mentioned user specified amount of given item from your inv)
 * __!!gamble__ *amount* (gamble with Villager Bot)
 * __!!pillage__ *@user* (attempt to steal emeralds from another user)
 * __!!shop__ (opens the Villager Shop where you can buy items)
