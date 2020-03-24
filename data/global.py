@@ -38,6 +38,9 @@ class Global(commands.Cog):
         with open("data/minecraft_servers.json", "r") as mcServers:
             self.mcServers = json.load(mcServers)
 
+        with open("data/collectable_items.json", "r") as collectables:
+            self.collectables = json.load(collectables)
+
 
 def setup(bot):
     bot.add_cog(Global(bot))

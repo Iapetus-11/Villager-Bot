@@ -352,7 +352,7 @@ class Econ(commands.Cog):
             items = await self.db.getItems(ctx.author.id)
             mult = 1
             for item in items:
-                if item[0] == "Bane Of Pillagers Amulet":
+                if item[0] == "Bane Of Pillagers Amulet": # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
                     mult = choice([1, 2, 3, 4, 5])
                 elif item[0] == "Fortune III Book":
                     mult = choice([1, 1, 2, 3, 4])
@@ -365,6 +365,14 @@ class Econ(commands.Cog):
                                                                                                 f"You got {mult} <:emerald:653729877698150405>!"])))
             await self.db.setBal(ctx.author.id, await self.db.getBal(ctx.author.id)+1*mult)
         else:
+            for c in self.g.collectables:
+                if randint(0, c[2]) == c[3]:
+                    await ctx.send(choice([f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}) in an abandoned mineshaft!",
+                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}) in a chest while mining!",
+                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}) in a chest!",
+                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}) in a chest near a monster spawner!"]))
+                    await self.db.addItem(ctx.author.id, c[0], 1, c[1])
+                    return
             if randint(0, 999) == 420:
                 await self.db.addItem(ctx.author.id, "Fortune II Book", 1, 120)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found a **Fortune II Book**!! Also, some rare dirt..."))
