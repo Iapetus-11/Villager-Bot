@@ -190,7 +190,7 @@ class Database(commands.Cog):
         if itemm is None:
             return
         n = itemm[1]-num
-        if n > 1:
+        if n > 0:
             cur.execute(f"UPDATE items SET num={n} WHERE items.id='{uid}'")
         else:
             cur.execute(f"DELETE FROM items WHERE items.id='{uid}' AND items.item='{item}'")
