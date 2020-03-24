@@ -310,7 +310,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="mine")
     @commands.guild_only()
-    @commands.cooldown(1, 1.35, commands.BucketType.user)
+    @commands.cooldown(1, 1.4, commands.BucketType.user)
     async def mine(self, ctx):
         if ctx.author.id in self.whoismining.keys():
             if self.whoismining[ctx.author.id] >= 100:
@@ -352,7 +352,7 @@ class Econ(commands.Cog):
             items = await self.db.getItems(ctx.author.id)
             mult = 1
             for item in items:
-                if item[0] == "Bane Of Pillagers Book":
+                if item[0] == "Bane Of Pillagers Amulet":
                     mult = choice([1, 2, 3, 4, 5])
                 elif item[0] == "Fortune III Book":
                     mult = choice([1, 1, 2, 3, 4])
@@ -360,13 +360,9 @@ class Econ(commands.Cog):
                     mult = choice([1, 1, 1, 2, 3])
                 elif item[0] == "Fortune I Book":
                     mult = choice([1, 1, 2])
-            if mult > 1:
-                p = "s"
-            else:
-                p = ""
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You found {mult} emerald{p}!", f"You found {mult} <:emerald:653729877698150405>!",
-                                                                                                f"You mined up {mult} emerald{p}!", f"You mined up {mult} <:emerald:653729877698150405>!",
-                                                                                                f"You got {mult} emerald{p}!", f"You got {mult} <:emerald:653729877698150405>!"])))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You found {mult} <:emerald:653729877698150405>!",
+                                                                                                f"You mined up {mult} <:emerald:653729877698150405>!",
+                                                                                                f"You got {mult} <:emerald:653729877698150405>!"])))
             await self.db.setBal(ctx.author.id, await self.db.getBal(ctx.author.id)+1*mult)
         else:
             if randint(0, 999) == 420:
@@ -376,8 +372,8 @@ class Econ(commands.Cog):
                 await self.db.addItem(ctx.author.id, "Fortune III Book", 1, 420)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found a **Fortune III Book**!! Also, some rare dirt..."))
             elif randint(0, 99999) == 6969:
-                await self.db.addItem(ctx.author.id, "Bane Of Pillagers Book", 1, 8192)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have literally just found the rarest fucking thing ever, **The Bane Of Pillagers Book**!! Also, some rare dirt..."))
+                await self.db.addItem(ctx.author.id, "Bane Of Pillagers Amulet", 1, 8192)
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have literally just found the rarest fucking thing ever, **The Bane Of Pillagers Amulet**!! Also, some rare dirt..."))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You " + choice(["found", "mined", "mined up", "found"])+" "+str(randint(1, 8)) + " "
                                                    + choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
