@@ -158,7 +158,10 @@ class Econ(commands.Cog):
             contents += f"{item[1]}x {item[0]} (sells for {item[2]}<:emerald:653729877698150405>)\n"
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)
-        inv.set_author(name=ctx.author.display_name+"'s Inventory", url=discord.Embed.Empty)
+        if not ctx.author.avatar_url:
+            inv.set_author(name=f"{ctx.author.display_name}'s Inventory", url=discord.Embed.Empty)
+        else:
+            inv.set_author(name=f"{ctx.author.display_name}'s Inventory", icon_url=str(ctx.author.avatar_url_as(static_format="png")))
         await ctx.send(embed=inv)
 
     @commands.command(name="vault", aliases=["viewvault"])
@@ -288,8 +291,8 @@ class Econ(commands.Cog):
         await self.db.removeItem(ctx.author.id, item, amount)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {item} for {itemm[2]*amount}<:emerald:653729877698150405>."))
 
-    @commands.command(name="give", aliases=["donate"])
-    async def give(self, ctx, rec: discord.User, amount: int):
+    @commands.command(name="give", aliases=["giveemeralds"])
+    async def give_emeralds(self, ctx, rec: discord.User, amount: int):
         if amount < 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You dumb dumb! You can't give someone negative emeralds!"))
             return
@@ -306,7 +309,26 @@ class Econ(commands.Cog):
                 plural = ""
             else:
                 plural = "s"
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=str(ctx.author.mention)+" gave "+str(rec.mention)+" "+str(amount)+" emerald"+plural+"."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{ctx.author.mention} gave {rec.mention} {amount}<:emerald:653729877698150405>"))
+            
+    @commands.command(name="giveitem")
+    async def give_item(self, ctx, rec: discord.User, amount: int, *, itemm: str):
+        if amount < 0:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You absolute buffoon! You can't give someone a negative amount of something!"))
+            return
+        if amount == 0:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You absolute buffoon! You can't give someone zero of something!"))
+            return
+        item = await self.db.getItem(ctx.author.id, itemm)
+        if item is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid item you can give."))
+            return
+        if amount > item[1]:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot give more of an item than you own."))
+            return
+        await self.db.removeItem(ctx.author.id, itemm, amount)
+        await self.db.addItem(rec.id, item[0], amount, item[2])
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{ctx.author.mention} gave {rec.mention} {amount}x {itemm}."))
 
     @commands.command(name="mine")
     @commands.guild_only()
@@ -367,10 +389,11 @@ class Econ(commands.Cog):
         else:
             for c in self.g.collectables:
                 if randint(0, c[2]) == c[3]:
-                    await ctx.send(choice([f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}) in an abandoned mineshaft!",
-                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}) in a chest while mining!",
-                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}) in a chest!",
-                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}) in a chest near a monster spawner!"]))
+                    e = "<:emerald:653729877698150405>"
+                    await ctx.send(choice([f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) in an abandoned mineshaft!",
+                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) in a chest while mining!",
+                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) in a chest!",
+                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) in a chest near a monster spawner!"]))
                     await self.db.addItem(ctx.author.id, c[0], 1, c[1])
                     return
             if randint(0, 999) == 420:
@@ -471,7 +494,6 @@ class Econ(commands.Cog):
             lbtext += f"{entry[1]}<:emerald:653729877698150405> {str(user)[:-5]} \n"
         embed = discord.Embed(color=discord.Color.green(), title="<:emerald:653729877698150405>__**Emerald Leaderboard**__<:emerald:653729877698150405>", description=lbtext)
         await ctx.send(embed=embed)
-
 
 def setup(bot):
     bot.add_cog(Econ(bot))

@@ -40,7 +40,8 @@ class Useful(commands.Cog):
 **{0}mine** *go mining with the bot for emeralds*
 **{0}balance** *the bot will tell you how many emeralds you have*
 **{0}inventory** *see what you have in your inventory*
-**{0}give** ***@user*** ***amount*** *give mentioned user emeralds*
+**{0}give** ***@user amount*** *give mentioned user emeralds*
+**{0}giveitem** ***@user amount item*** *give mentioned a user specified amount of an item*
 **{0}gamble** ***amount*** *gamble with Villager Bot*
 **{0}pillage** ***@user*** *attempt to steal emeralds from another person*
 **{0}shop** *go shopping with emeralds*
