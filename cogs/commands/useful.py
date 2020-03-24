@@ -109,12 +109,17 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
         infoMsg.set_author(name="Villager Bot Information", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=infoMsg)
 
-    @commands.command(name="ping", aliases=["pong"]) # Checks latency between Discord API and the bot
+    @commands.command(name="ping", aliases=["pong", "ding", "dong"]) # Checks latency between Discord API and the bot
     async def ping(self, ctx):
-        if ctx.message.content.lower().replace(ctx.prefix, "") == "pong":
+        c = ctx.message.content.lower()
+        if "pong" in c:
             pp = "Ping"
-        else:
+        elif "ping" in c:
             pp = "Pong"
+        elif "ding" in c:
+            pp = "Dong"
+        elif "dong" in c:
+            pp = "Ding"
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{pp}! {round(self.bot.latency*1000, 2)} ms"))
 
     @commands.command(name="uptime")
