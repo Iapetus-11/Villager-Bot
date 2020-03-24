@@ -89,22 +89,19 @@ class Econ(commands.Cog):
 
     @commands.group(name="shop")
     async def shop(self, ctx):
-        msg = ctx.message.clean_content.lower().replace(ctx.prefix+"shop ", "").replace(ctx.prefix+"shop", "")
-        if msg == "pickaxes":
-            await self.shop_pickaxes(ctx)
-        elif msg == "other":
-            await self.shop_other(ctx)
-        else:
+        if ctx.invoked_subcommand is None:
             shop = discord.Embed(color=discord.Color.green())
             shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
             shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
             shop.add_field(name="__**Pickaxes**__", value="``"+ctx.prefix+"shop pickaxes``")
             shop.add_field(name="__**Other**__", value="``"+ctx.prefix+"shop other``")
+            shop.add_field(name="__**Enchanted Books**__", value="``"+ctx.prefix+"shop books``")
             await ctx.send(embed=shop)
-
+    
+    @shop.command(name="pickaxes")
     async def shop_pickaxes(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        shop.set_author(name="Villager Shop [Pickaxes]", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
         shop.add_field(name="__**Stone Pickaxe**__ 32<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy stone pickaxe``", inline=True)
         shop.add_field(name="__**Iron Pickaxe**__ 128<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy iron pickaxe``", inline=True)
@@ -115,10 +112,19 @@ class Econ(commands.Cog):
         shop.add_field(name="__**Netherite Pickaxe**__ 8192<:emerald:653729877698150405> 4<:netherite_scrap:676974675091521539>", value="``"+ctx.prefix+"buy netherite pickaxe``", inline=True)
         shop.set_footer(text="Pickaxes allow you to obtain more emeralds while using the "+ctx.prefix+"mine command!")
         await ctx.send(embed=shop)
-
+        
+    @shop.command(name="books")
+    async def shop_books(self, ctx):
+        shop = discord.Embed(color=discord.Color.green())
+        shop.set_author(name="Villager Shop [Books]", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        shop.add_field(name="__**Fortune I Book**__ 120<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy fortune i book``", inline=True)
+        shop.set_footer(text="Enchantment books give you a chance obtain more emeralds while using the "+ctx.prefix+"mine command!")
+        await ctx.send(embed=shop)
+    
+    @shop.command(name="other")
     async def shop_other(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        shop.set_author(name="Villager Shop [Other]", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
         shop.add_field(name="__**Jar of Bees**__ 8<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy jar of bees``", inline=True)
         shop.add_field(name="__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>)  __**32<:emerald:653729877698150405>**__", value="``"+ctx.prefix+"buy netherite scrap``", inline=True)
@@ -165,6 +171,15 @@ class Econ(commands.Cog):
     async def buy(self, ctx, *, itemm):
         item = itemm.lower()
         theirBal = await self.db.getBal(ctx.author.id)
+
+        if item == "fortune i book" or item == "fortune 1 book":
+            if theirBal >= 120:
+                await self.db.setBal(ctx.author.id, theirbal-120)
+                await self.db.addItem(ctx.author.id, "Fortune I Book", 1, 24)
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a Fortune I Book."))
+            else:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Fortune I Book."))
+            return
 
         if item == "jar of bees":
             if theirBal >= 8:
@@ -271,7 +286,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="mine")
     @commands.guild_only()
-    @commands.cooldown(1, 1.5, commands.BucketType.user)
+    @commands.cooldown(1, 1.35, commands.BucketType.user)
     async def mine(self, ctx):
         if ctx.author.id in self.whoismining.keys():
             if self.whoismining[ctx.author.id] >= 100:
@@ -310,14 +325,38 @@ class Econ(commands.Cog):
                      "emerald", "iron ore", "diamond", "emerald", "redstone", "emerald", "iron ore", "obsidian", "emerald", "dirt", "emerald", "obsidian", "emerald"] # 13 emeralds
         found = choice(minin)
         if found == "emerald":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["**<:emerald:653729877698150405>** added to your inventory!",
-                                                                                                "You found an **<:emerald:653729877698150405>**, it's been added to your inventory!",
-                                                                                                "You mined up an **<:emerald:653729877698150405>**!",
-                                                                                                "You found an **<:emerald:653729877698150405>**"])))
-            await self.db.setBal(ctx.author.id, await self.db.getBal(ctx.author.id)+1)
+            items = await self.db.getItems(ctx.author.id)
+            mult = 1
+            for item in items:
+                if item[0] == "Bane Of Pillagers Book":
+                    mult = choice([1, 2, 3, 4, 5])
+                elif item[0] == "Fortune III Book":
+                    mult = choice([1, 1, 2, 3, 4])
+                elif item[0] == "Fortune II Book":
+                    mult = choice([1, 1, 1, 2, 3])
+                elif item[0] == "Fortune I Book":
+                    mult = choice([1, 1, 2])
+            if mult > 1:
+                p = "s"
+            else:
+                p = ""
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You found {mult} emerald{p}!", f"You found {mult} <:emerald:653729877698150405>!",
+                                                                                                f"You mined up {mult} emerald{p}!", f"You mined up {mult} <:emerald:653729877698150405>!",
+                                                                                                f"You got {mult} emerald{p}!", f"You got {mult} <:emerald:653729877698150405>!"])))
+            await self.db.setBal(ctx.author.id, await self.db.getBal(ctx.author.id)+1*mult)
         else:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You "+choice(["found", "mined", "mined up", "mined up", "found"])+" "+str(randint(1, 8))+" "
-                                               + choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
+            if randint(0, 999) == 420:
+                await self.db.addItem(ctx.author.id, "Fortune II Book", 1, 120)
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found a **Fortune II Book**!! Also, some rare dirt..."))
+            elif randint(0, 9999) == 6669:
+                await self.db.addItem(ctx.author.id, "Fortune III Book", 1, 420)
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found a **Fortune III Book**!! Also, some rare dirt..."))
+            elif randint(0, 99999) == 6969:
+                await self.db.addItem(ctx.author.id, "Bane Of Pillagers Book", 1, 1000)
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have literally just found the rarest fucking thing ever, **The Bane Of Pillagers Book**!! Also, some rare dirt..."))
+            else:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You " + choice(["found", "mined", "mined up", "found"])+" "+str(randint(1, 8)) + " "
+                                                   + choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
