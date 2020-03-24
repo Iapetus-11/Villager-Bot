@@ -155,7 +155,8 @@ class Econ(commands.Cog):
 
         items = await self.db.getItems(ctx.author.id)
         for item in items:
-            contents += f"{item[1]}x {item[0]} (sells for {item[2]}<:emerald:653729877698150405>)\n"
+            m = await self.db.getItem(ctx.author.id, item[0])
+            contents += f"{m[1]}x {m[0]} (sells for {m[2]}<:emerald:653729877698150405>)\n"
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)
         if not ctx.author.avatar_url:
