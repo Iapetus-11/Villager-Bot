@@ -44,6 +44,7 @@ class Useful(commands.Cog):
 **{0}gamble** ***amount*** *gamble with Villager Bot*
 **{0}pillage** ***@user*** *attempt to steal emeralds from another person*
 **{0}shop** *go shopping with emeralds*
+**{0}sell** ***amount item*** *sell a certain amount of an item*
 **{0}deposit** ***amount in emerald blocks*** *deposit emerald blocks into the emerald vault*
 **{0}withdraw** ***amount in emerald blocks*** *withdraw emerald blocks from the emerald vault*
 **{0}leaderboard** *shows the emerald leaderboard*

@@ -155,7 +155,7 @@ class Econ(commands.Cog):
 
         items = await self.db.getItems(ctx.author.id)
         for item in items:
-            contents += f"{item[1]}x {item[0]}\n"
+            contents += f"{item[1]}x {item[0]} (sells for {item[2]}<:emerald:653729877698150405>)\n"
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)
         inv.set_author(name=ctx.author.display_name+"'s Inventory", url=discord.Embed.Empty)
@@ -263,6 +263,30 @@ class Econ(commands.Cog):
             return
 
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
+        
+    @commands.command(name="sell")
+    async def sellitem(self, ctx, am: str, *, item: str):
+        itemm = await self.db.getItem(ctx.author.id, item)
+        if am == "all" or am == "max":
+            amount = int(itemm[1])
+        else:
+            try:
+                amount = int(am)
+            except Exception:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You idiot, try sending an actual number"))
+                return
+        if amount < 1:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot sell 0 or a negative amount of an item!"))
+            return
+        if itemm is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either you don't have that item, or that item cannot be sold."))
+            return
+        if amount > itemm[1]:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot sell more than you have of that item!"))
+            return
+        await self.db.setBal(ctx.author.id, await self.db.getBal(ctx.author.id)+itemm[2]*amount)
+        await self.db.removeItem(ctx.author.id, item, amount)
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {item} for {itemm[2]*amount}<:emerald:653729877698150405>."))
 
     @commands.command(name="give", aliases=["donate"])
     async def give(self, ctx, rec: discord.User, amount: int):
@@ -352,7 +376,7 @@ class Econ(commands.Cog):
                 await self.db.addItem(ctx.author.id, "Fortune III Book", 1, 420)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found a **Fortune III Book**!! Also, some rare dirt..."))
             elif randint(0, 99999) == 6969:
-                await self.db.addItem(ctx.author.id, "Bane Of Pillagers Book", 1, 1000)
+                await self.db.addItem(ctx.author.id, "Bane Of Pillagers Book", 1, 8192)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have literally just found the rarest fucking thing ever, **The Bane Of Pillagers Book**!! Also, some rare dirt..."))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You " + choice(["found", "mined", "mined up", "found"])+" "+str(randint(1, 8)) + " "
