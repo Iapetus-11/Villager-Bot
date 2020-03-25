@@ -12,7 +12,7 @@ class Fun(commands.Cog):
     async def langConvert(self, ctx, msg, lang): # Goes through message and replaces all instances of keys with their values in a dict
         keys = list(lang)
         mes = ""
-        for letter in discord.util.escape_mentions(msg).lower():
+        for letter in discord.utils.escape_mentions(msg).lower():
             if letter in keys:
                 mes += lang[letter]
             else:
@@ -54,9 +54,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="say")
     async def saysomethin(self, ctx, *, text: str):
-        embed = discord.Embed(color=discord.Color.green(), description="\uFEFF" + ctx.message.clean_content[len(ctx.message.clean_content)-len(text):])
-        embed.set_footer(text=str(ctx.author))
-        await ctx.send(embed=embed)
+        await ctx.send(embed=discord.utils.escape_mentions(text))
         try:
             await ctx.message.delete()
         except Exception:
