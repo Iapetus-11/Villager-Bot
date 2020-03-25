@@ -12,7 +12,7 @@ class Fun(commands.Cog):
     async def langConvert(self, ctx, msg, lang): # Goes through message and replaces all instances of keys with their values in a dict
         keys = list(lang)
         mes = ""
-        for letter in msg.lower():
+        for letter in discord.util.escape_mentions(msg).lower():
             if letter in keys:
                 mes += lang[letter]
             else:
