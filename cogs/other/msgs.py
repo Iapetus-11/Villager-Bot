@@ -18,7 +18,7 @@ class Msgs(commands.Cog):
         if message.author.bot:
             return
 
-        if "emerald" in message.content.lower() or "villager bot" in message.content.lower() or self.bot.mentioned_in(message.content):
+        if "emerald" in message.content.lower() or "villager bot" in message.content.lower() or self.bot.user.mentioned_in(message.content):
             if message.guild is None or await self.db.getDoReplies(message.guild.id):
                 try:
                     await message.channel.send(choice(["hrmm", "hmm", "hrmmm", "hrghhmmm", "hrhhmmmmmmmmm", "hrmmmmmm", "hrmmmmmmmmmm", "hrmmmmm"]))
