@@ -54,7 +54,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="say")
     async def saysomethin(self, ctx, *, text: str):
-        await ctx.send(embed=discord.utils.escape_mentions(text))
+        await ctx.send(discord.utils.escape_mentions(text))
         try:
             await ctx.message.delete()
         except Exception:
