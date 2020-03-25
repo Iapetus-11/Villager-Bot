@@ -120,7 +120,7 @@ Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/
             pp = "Dong"
         elif "dong" in c:
             pp = "Ding"
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{pp}! {round(self.bot.latency*1000, 2)} ms"))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"<a:ping:692401875001278494> {pp}! \uFEFF ``{round(self.bot.latency*1000, 2)} ms``"))
 
     @commands.command(name="uptime")
     async def getuptime(self, ctx):
