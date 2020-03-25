@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 from random import choice
+import traceback
 
 
 class Errors(commands.Cog):
@@ -55,7 +56,15 @@ class Errors(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(excls)} "
                                                + "You found an actual error, please take a screenshot and report it on our **[support server](https://discord.gg/39DwwUV)**, thank you!"))
         error_channel = self.bot.get_channel(642446655022432267)
-        await error_channel.send(f"```{ctx.author}: {ctx.message.content}\n\nError: {e}\n\nType: {type(e)}```")
+        
+        # Thanks TrustedMercury!
+        etype = type(e)
+        trace = e.__traceback__
+        verbosity = 1
+        lines = traceback.format_exception(etype, e, trace, verbosity)
+        traceback_text = ''.join(lines)
+        
+        await error_channel.send(f"```{ctx.author}: {ctx.message.content}\n\n{traceback_text}```")
 
 
 def setup(bot):
