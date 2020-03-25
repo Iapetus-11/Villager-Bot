@@ -181,7 +181,7 @@ class Database(commands.Cog):
         if itemm is None:
             cur.execute(f"INSERT INTO items VALUES ('{uid}', '{item}', {num}, {val})")
         else:
-            cur.execute(f"UPDATE items SET num={int(itemm[1])+int(num)} WHERE items.id='{uid}'")
+            cur.execute(f"UPDATE items SET num={int(itemm[1])+int(num)} WHERE items.id='{uid} AND items.item='{item}'")
         self.db.commit()
 
     async def removeItem(self, uid, item, num):
@@ -191,9 +191,9 @@ class Database(commands.Cog):
             return
         n = itemm[1]-num
         if n > 0:
-            cur.execute(f"UPDATE items SET num={n} WHERE items.id='{uid}'")
+            cur.execute(f"UPDATE items SET num={n} WHERE items.id='{uid}' AND items.item='{item}'")
         else:
-            cur.execute(f"DELETE FROM items WHERE items.id='{uid}' AND items.item='{item}'")
+            cur.execute(f"DELETE FROM items WHERE items.id='{uid}' AND items.item='{item} AND items.item='{item}''")
         self.db.commit()
 
 
