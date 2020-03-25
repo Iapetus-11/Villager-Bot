@@ -14,7 +14,7 @@ class Useful(commands.Cog):
         msg = ctx.message.clean_content.lower().replace(ctx.prefix+"help ", "").replace(ctx.prefix+"help", "")
         helpMsg = discord.Embed(description="", color=discord.Color.green())
         helpMsg.set_author(name="Villager Bot Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        helpMsg.set_footer(text="Made by Iapetus11#6821")
+        helpMsg.set_footer(text="Made by Iapetus11#6821 & TrustedMercury#1953")
 
         if msg == "mc":
             helpMsg.add_field(name="__**Minecraft Stuff**__", value="""
