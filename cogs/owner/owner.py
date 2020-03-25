@@ -295,11 +295,6 @@ Latency: {round(self.bot.latency*1000, 2)} ms
             mcServers.write(json.dumps(self.g.mcServers))
         await ctx.send(f"Added {str(server)} to the Minecraft server list")
 
-    @commands.command(name="bruh")
-    @commands.is_owner()
-    async def addmcserver(self, ctx):
-        raise Exception("stuupid")
-
 
 def setup(bot):
     bot.add_cog(Owner(bot))
