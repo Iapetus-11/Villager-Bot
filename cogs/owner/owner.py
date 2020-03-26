@@ -197,12 +197,12 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="eval")
     @commands.is_owner()
     async def evalMessage(self, ctx, *, msg):
-        await ctx.send(eval(msg)+"\uFEFF")
+        await ctx.send(f"{eval(msg)}\uFEFF")
 
     @commands.command(name="awaiteval")
     @commands.is_owner()
     async def awaitEvalMessage(self, ctx, *, msg):
-        await ctx.send(await eval(msg)+"\uFEFF")
+        await ctx.send(f"{await eval(msg)}\uFEFF")
 
     @commands.command(name="setpickaxe", aliases=["setpick"])
     @commands.is_owner()
