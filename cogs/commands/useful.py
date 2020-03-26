@@ -17,10 +17,12 @@ class Useful(commands.Cog):
                 name="Villager Bot Commands",
                 icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
 
-            help_embed.add_field(name="Minecraft", value=f"``{ctx.prefix}help mc``", inline=False)
-            help_embed.add_field(name="Fun", value=f"``{ctx.prefix}help fun``", inline=False)
-            help_embed.add_field(name="Useful", value=f"``{ctx.prefix}help useful``", inline=False)
-            help_embed.add_field(name="Admin", value=f"``{ctx.prefix}help admin``", inline=False)
+            help_embed.add_field(name="Minecraft", value=f"``{ctx.prefix}help mc``", inline=True)
+            help_embed.add_field(name="Fun", value=f"``{ctx.prefix}help fun``", inline=True)
+            help_embed.add_field(name="\uFEFF", value=f"\uFEFF", inline=True)
+            help_embed.add_field(name="Useful", value=f"``{ctx.prefix}help useful``", inline=True)
+            help_embed.add_field(name="Admin", value=f"``{ctx.prefix}help admin``", inline=True)
+            help_embed.add_field(name="\uFEFF", value=f"\uFEFF", inline=True)
             help_embed.add_field(name="\uFEFF", value="""Need more help? Check out the Villager Bot [Support Server](https://discord.gg/39DwwUV)
             Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/vote)""", inline=False)
 
@@ -44,6 +46,29 @@ class Useful(commands.Cog):
             f'**{ctx.prefix}sarcastic** ***text*** *makes text sarcastic*\n'
             f'**{ctx.prefix}say** ***text*** *bot will repeat what you tell it to*\n',
             inline=False)
+
+        help_embed.add_field(
+            name="**Currency Commands**",
+            value=f'**{ctx.prefix}mine** *go mining with the bot for emeralds*\n'
+f'**{ctx.prefix}balance** *the bot will tell you how many emeralds you have*\n'
+f'**{ctx.prefix}inventory** *see what you have in your inventory*\n'
+f'**{ctx.prefix}give** ***@user amount*** *give mentioned user emeralds*\n'
+f'**{ctx.prefix}giveitem** ***@user amount item*** *give mentioned a user specified amount of an item*\n'
+f'**{ctx.prefix}gamble** ***amount*** *gamble with Villager Bot*\n'
+f'**{ctx.prefix}pillage** ***@user*** *attempt to steal emeralds from another person*\n'
+f'**{ctx.prefix}shop** *go shopping with emeralds*\n'
+f'**{ctx.prefix}sell** ***amount item*** *sell a certain amount of an item*\n'
+f'**{ctx.prefix}deposit** ***amount in emerald blocks*** *deposit emerald blocks into the emerald vault*\n'
+f'**{ctx.prefix}withdraw** ***amount in emerald blocks*** *withdraw emerald blocks from the emerald vault*\n'
+f'**{ctx.prefix}leaderboard** *shows the emerald leaderboard*\n',
+            inline=False)
+
+        help_embed.add_field(
+            name="**Other Fun Commands**",
+            value=f'**{ctx.prefix}cursed** *the bot will upload a cursed Minecraft image*\n'
+f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
+            inline=False)
+        await ctx.send(embed=help_embed)
 
     @help.command(name='useful')
     async def useful(self, ctx):
@@ -78,10 +103,29 @@ class Useful(commands.Cog):
         help_embed.add_field(
             name="**Admin Only**",
             value=f'**{ctx.prefix}config** *change the settings of the bot for your server*\n'
-            f"**{ctx.prefix}purge** ***number of messages*** *deletes n number of messages in the channel it's summoned in*\n"
+            f"**{ctx.prefix}purge** ***number of messages*** *deletes n number of messages where it's used*\n"
             f'**{ctx.prefix}kick** ***@user*** *kicks the mentioned user*\n'
             f'**{ctx.prefix}ban** ***@user*** *bans the mentioned user*\n'
             f'**{ctx.prefix}pardon** ***@user*** *unbans the mentioned user*\n',
+            inline=True)
+        await ctx.send(embed=help_embed)
+        
+    @help.command(name="mc")
+    async def mc(self, ctx):
+
+        help_embed = discord.Embed(color=discord.Color.green())
+        help_embed.set_author(
+            name="Villager Bot Commands",
+            icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+
+        help_embed.add_field(
+            name="**Minecraft Commands**",
+            value=f'**{ctx.prefix}mcping** ***ip:port*** *to check the status of a Java Edition Minecraft server*\n'
+            f'**{ctx.prefix}mcpeping** ***ip*** *to check the status of a Bedrock Edition Minecraft server*\n'
+            f'**{ctx.prefix}stealskin** ***gamertag*** *steal another player\'s Minecraft skin*\n'
+            f'**{ctx.prefix}nametouuid** ***gamertag*** *gets the Minecraft uuid of the given player*\n'
+            f'**{ctx.prefix}uuidtoname** ***uuid*** *gets the gamertag from the given Minecraft uuid*\n'
+            f'**{ctx.prefix}randommc** *sends a random Minecraft server*\n',
             inline=True)
         await ctx.send(embed=help_embed)
 
