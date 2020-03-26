@@ -48,6 +48,8 @@ class Owner(commands.Cog):
 **{0}addtoplaying** ***text*** *add a status to the list of statuses cycled through by the bot*
 **{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
 **{0}addmcserver** ***ip port "version" type verified \*note*** *adds to the list of mc servers*
+
+**{0}restart** *forcibly restarts the bot*
 """.format(ctx.prefix), color=discord.Color.green())
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
@@ -293,7 +295,13 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         self.g.mcServers.append(server)
         with open("data/minecraft_servers.json", "w+") as mcServers:
             mcServers.write(json.dumps(self.g.mcServers))
-        await ctx.send(f"Added {str(server)} to the Minecraft server list")
+        await ctx.send(f"Added {str(server)} to the Minecraft server list")\
+              
+    @commands.command(name="restart")
+    @commands.is_owner()
+    async def reeeeeeeeee(self, ctx):
+        await ctx.send("Force restarting le bot...")
+        exit()
 
 
 def setup(bot):
