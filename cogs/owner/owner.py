@@ -318,7 +318,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="backupdb")
     @commands.is_owner()
     async def backup_database(self, ctx):
-        system("pg_dump villagerbot | gzip > ../database-backups/{0}.gz".format(arrow.ctime().replace(" ", "_").replace(":", ".")))
+        system("pg_dump villagerbot | gzip > ../database-backups/{0}.gz".format(arrow.utcnow().ctime().replace(" ", "_").replace(":", ".")))
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Backed up the database!"))
 
 
