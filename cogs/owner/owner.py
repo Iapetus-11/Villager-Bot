@@ -2,6 +2,8 @@ from discord.ext import commands
 import discord
 from random import choice
 import json
+from os import system
+import arrow
 
 
 class Owner(commands.Cog):
@@ -312,6 +314,12 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         else:
             inv.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
         await ctx.send(embed=inv)
+
+    @commands.command(name="backupdb")
+    @commands.is_owner()
+    async def backup_database(self, ctx):
+        system("pg_dump villagerbot | gzip > ../database-backups/{0}.gz".format(arrow.ctime().replace(" ", "_").replace(":", ".")))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Backed up the database!"))
 
 
 def setup(bot):
