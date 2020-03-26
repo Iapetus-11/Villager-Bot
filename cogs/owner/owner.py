@@ -35,12 +35,10 @@ class Owner(commands.Cog):
 **{0}reverselookup** ***user*** *shows what servers a user is in*
 
 **{0}setbal** ***@user amount*** *set user balance to something*
+**{0}getinv*** ***@user*** *get inventory of a user*
 **{0}setvault** ***@user amount*** *set user's vault to given amount*
 **{0}getvault** ***@user*** *gets the mentioned user's vault*
 **{0}setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
-
-**{0}eval** ***statement*** *uses eval()*
-**{0}awaiteval** ***statement*** *uses await eval()*
 
 **{0}botban** ***user*** *bans a user from using the bot*
 **{0}botunban** ***user*** *unbans a user from using the bot*
@@ -49,7 +47,10 @@ class Owner(commands.Cog):
 **{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
 **{0}addmcserver** ***ip port "version" type verified \*note*** *adds to the list of mc servers*
 
+**{0}eval** ***statement*** *uses eval()*
+**{0}awaiteval** ***statement*** *uses await eval()*
 **{0}restart** *forcibly restarts the bot*
+**{0}backup** *backs up the db*
 """.format(ctx.prefix), color=discord.Color.green())
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
@@ -275,6 +276,42 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         await ctx.send("Force restarting le bot...")
         self.db.db.close()
         exit()
+
+    @commands.command(name="getinv", aliases=["getinventory"])
+    @commands.is_owner()
+    async def inventory(self, ctx, u: discord.User):
+        pick = await self.db.getPick(u.id)
+        contents = pick+" pickaxe\n"
+
+        bal = await self.db.getBal(u.id)
+        if bal == 1:
+            contents += "1x emerald\n"
+        else:
+            contents += str(bal)+"x emeralds\n"
+
+        beecount = await self.db.getBees(u.id)
+        if beecount > 1:
+            contents += str(beecount)+"x jars of bees ("+str(beecount*3)+" bees)\n"
+        if beecount == 1:
+            contents += str(beecount)+"x jar of bees ("+str(beecount*3)+" bees)\n"
+
+        netheritescrapcount = await self.db.getScrap(u.id)
+        if netheritescrapcount > 1:
+            contents += str(netheritescrapcount)+"x chunks of netherite scrap\n"
+        if netheritescrapcount == 1:
+            contents += str(netheritescrapcount)+"x chunk of netherite scrap\n"
+
+        items = await self.db.getItems(u.id)
+        for item in items:
+            m = await self.db.getItem(u.id, item[0])
+            contents += f"{m[1]}x {m[0]} (sells for {m[2]}<:emerald:653729877698150405>)\n"
+
+        inv = discord.Embed(color=discord.Color.green(), description=contents)
+        if not u.avatar_url:
+            inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
+        else:
+            inv.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
+        await ctx.send(embed=inv)
 
 
 def setup(bot):
