@@ -197,40 +197,12 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="eval")
     @commands.is_owner()
     async def evalMessage(self, ctx, *, msg):
-        try:
-            evalMsg = eval(msg)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=str(evalMsg)))
-        except Exception as e:
-            if type(e) == discord.HTTPException:
-                if e.code == 50035:
-                    with open("data/eval.txt", "w+") as evalF:
-                        evalF.write(str(evalMsg))
-                    with open("data/eval.txt", "r") as evalF:
-                        await ctx.send(file=discord.File(evalF))
-                    with open("data/eval.txt", "w+") as evalF:
-                        evalF.write("None")
-                else:
-                    await ctx.send(str(e))
-            else:
-                await ctx.send(str(e))
+        await ctx.send(eval(msg))
 
     @commands.command(name="awaiteval")
     @commands.is_owner()
     async def awaitEvalMessage(self, ctx, *, msg):
-        try:
-            evalMsg = await eval(msg)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=str(evalMsg)))
-        except Exception as e:
-            if type(e) == discord.HTTPException:
-                if e.code == 50035:
-                    with open("data/eval.txt", "w+") as evalF:
-                        evalF.write(str(evalMsg))
-                    with open("data/eval.txt", "r") as evalF:
-                        await ctx.send(file=discord.File(evalF))
-                else:
-                    await ctx.send(str(e))
-            else:
-                await ctx.send(str(e))
+        await ctx.send(await eval(msg))
 
     @commands.command(name="setpickaxe", aliases=["setpick"])
     @commands.is_owner()
