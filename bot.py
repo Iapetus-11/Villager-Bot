@@ -61,7 +61,6 @@ async def banned(uid):  # Check if user is banned from bot
 
 @bot.check  # Global check (everything goes through this)
 async def stay_safe(ctx):
-    print(ctx.command)
     if not bot.is_ready():
         await ctx.send(embed=discord.Embed(color=discord.Color.green(),
                                            description="Hold on! Villager Bot is still starting up!"))
@@ -75,4 +74,4 @@ async def stay_safe(ctx):
 
 # Actually start bot, it's a blocking call, nothing should go after this!
 bot.run(keys["discord"], bot=True)
-print("Bot has stopped!")
+print("Bot has stopped somehow...")
