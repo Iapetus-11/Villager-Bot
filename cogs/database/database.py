@@ -54,13 +54,18 @@ class Database(commands.Cog):
         cur.execute(f"UPDATE {table} SET {three}='{settt}' WHERE id='{uid}'")
         self.db.commit()
 
-    async def incrementVaultMax(self, ctx):
-        user = ctx.author
-        vault = await self.getdbv3("vault", user.id, "amount", "max", 0, 0)
+    async def incrementVaultMax(self, uid):
+        vault = await self.getVault(uid)
         if vault[1] < 2000:
             if choice([True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
                        False, False, False, False, False, False, False, False]):
-                await self.setdbv3("vault", user.id, "amount", "max", vault[0], int(vault[1])+1)
+                await self.setdbv3("vault", uid, "amount", "max", vault[0], vault[1]+1)
+
+    async def incrementVaultMax(self, uid):
+        vault = await self.getVault(uid)
+        if vault[1] < 2000:
+            if choice([True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]):
+                await self.setVault(uid, vault[0], vault[1]+1)
 
     async def getBal(self, uid): # Gets emeralds
         return int(await self.getdbv("currency", uid, "amount", 0))
