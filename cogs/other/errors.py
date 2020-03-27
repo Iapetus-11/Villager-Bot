@@ -27,6 +27,8 @@ class Errors(commands.Cog):
                     "Didn't you know patience was a virtue? Wait another {0} seconds."]
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(e.retry_after, 2))))
             return
+        else:
+            ctx.command.reset_cooldown(ctx)
 
         if isinstance(e, commands.errors.MissingRequiredArgument):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="HRMMM, looks like you're forgetting to put something in!"))

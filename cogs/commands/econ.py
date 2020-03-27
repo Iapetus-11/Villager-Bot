@@ -270,7 +270,20 @@ class Econ(commands.Cog):
         
     @commands.command(name="sell")
     async def sellitem(self, ctx, am: str, *, item: str):
+        if item == "items":
+            items = await self.db.getItems(ctx.author.id)
+            if len(items) < 1:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have any items to sell!"))
+                return
+            for obj in items:
+                        await self.db.setBal(ctx.author.id, await self.db.getBal(ctx.author.id)+obj[2]*obj[1])
+                        await self.db.removeItem(ctx.author.id, obj[0], obj[1])
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {obj[1]}x {obj[0]} for {obj[2]*obj[1]}<:emerald:653729877698150405>."))
+            return
         itemm = await self.db.getItem(ctx.author.id, item)
+        if itemm is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either you don't have that item, or that item cannot be sold."))
+            return
         if am == "all" or am == "max":
             amount = int(itemm[1])
         else:
@@ -281,9 +294,6 @@ class Econ(commands.Cog):
                 return
         if amount < 1:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot sell 0 or a negative amount of an item!"))
-            return
-        if itemm is None:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either you don't have that item, or that item cannot be sold."))
             return
         if amount > itemm[1]:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot sell more than you have of that item!"))
