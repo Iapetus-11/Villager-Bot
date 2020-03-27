@@ -28,7 +28,7 @@ def getPrefix(self, message):
     return prefix[0]
 
 
-bot = commands.AutoShardedBot(shard_count=2, command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
+bot = commands.AutoShardedBot(command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
 
 # data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL
 cogs = ["data.global",
