@@ -12,13 +12,7 @@ class Database(commands.Cog):
         with open("data/keys.json", "r") as k:
             keys = json.load(k)
 
-    async def dbHandler(self, do_connect):
-        if do_connect:
-            self.db = await asyncpg.connect(host="localhost", database="villagerbot", user="pi", password=keys["postgres"])
-            self.ready = True
-        else:
-            await self.db.close()
-            self.ready = False
+        self.db = self.bot.db
 
     async def getdbv(self, table, uid, two, sett): # table(table in database), uid(context user id), two(second column with data, not uid), sett(default value that it is set to if other entry isn't there)
         val = await self.db.fetchrow(f"SELECT {two} FROM {table} WHERE {table}.id='{uid}'")
