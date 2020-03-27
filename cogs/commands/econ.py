@@ -338,15 +338,15 @@ class Econ(commands.Cog):
         if ctx.author.id in self.whoismining.keys():
             if self.whoismining[ctx.author.id] >= 100:
                 prob = await self.probGen()
-                await ctx.send("Please solve this problem to continue: ``"+prob[0]+"``")
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Please solve this problem to continue: ``"+prob[0]+"``"))
                 msg = await self.bot.wait_for("message")
                 while msg.author.id is not ctx.author.id:
                     msg = await self.bot.wait_for("message")
                 if msg.clean_content == prob[1]:
-                    await ctx.send("Correct answer!")
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Correct answer!"))
                     self.whoismining[ctx.author.id] = 0
                 else:
-                    await ctx.send("Incorrect answer.")
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Incorrect answer."))
                 return
             self.whoismining[ctx.author.id] += 1
         else:
