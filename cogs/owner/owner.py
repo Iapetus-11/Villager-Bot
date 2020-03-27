@@ -37,7 +37,7 @@ class Owner(commands.Cog):
 **{0}reverselookup** ***user*** *shows what servers a user is in*
 
 **{0}setbal** ***@user amount*** *set user balance to something*
-**{0}getinv*** ***@user*** *get inventory of a user*
+**{0}getinv** ***@user*** *get inventory of a user*
 **{0}setvault** ***@user amount*** *set user's vault to given amount*
 **{0}getvault** ***@user*** *gets the mentioned user's vault*
 **{0}setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
@@ -48,6 +48,7 @@ class Owner(commands.Cog):
 **{0}addtoplaying** ***text*** *add a status to the list of statuses cycled through by the bot*
 **{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
 **{0}addmcserver** ***ip port "version" type verified \*note*** *adds to the list of mc servers*
+**{0}reloadcollectables** *reload the list of collectable items from the json file*
 
 **{0}eval** ***statement*** *uses eval()*
 **{0}awaiteval** ***statement*** *uses await eval()*
@@ -320,6 +321,13 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     async def backup_database(self, ctx):
         system("pg_dump villagerbot | gzip > ../database-backups/{0}.gz".format(arrow.utcnow().ctime().replace(" ", "_").replace(":", ".")))
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Backed up the database!"))
+
+    @commands.command(name="reloadcollectables")
+    @commands.is_owner()
+    async def reloadcollectables(self, ctx):
+        with open("data/collectable_items.json", "r") as collectables:
+            self.g.collectables = json.load(collectables)
+        await ctx.send("Reloaded the collectable items list")
 
 
 def setup(bot):
