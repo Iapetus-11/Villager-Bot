@@ -277,7 +277,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.is_owner()
     async def reeeeeeeeee(self, ctx):
         await ctx.send("Force restarting le bot...")
-        self.db.db.close()
+        await self.db.db.close()
         exit()
 
     @commands.command(name="getinv", aliases=["getinventory"])
