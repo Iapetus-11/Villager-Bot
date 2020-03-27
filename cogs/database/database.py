@@ -8,15 +8,9 @@ from random import choice
 class Database(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.ready = False
 
         with open("data/keys.json", "r") as k:
             keys = json.load(k)
-
-        self.bot.loop.create_task(self.dbHandler(True))
-
-    def unload(self):
-        self.bot.loop.create_task(self.dbHandler(False))
 
     async def dbHandler(self, do_connect):
         if do_connect:
