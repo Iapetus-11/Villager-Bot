@@ -129,10 +129,10 @@ class Minecraft(commands.Cog):
         s = choice(self.g.mcServers)
         try:
             online = MinecraftServer.lookup(s['ip']+":"+str(s['port'])).status()
-            online = "Online"
+            stat = "<:online:692764696075304960>"
         except Exception:
-            online = "Offline"
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"``{s['ip']}:{s['port']}`` {s['version']} ({s['type']}) **Status: {online}**\n{s['note']}"))
+            stat = "<:offline:692764696431951872>"
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{stat} \uFEFF ``{s['ip']}:{s['port']}`` {s['version']} ({s['type']})\n{s['note']}"))
 
 
 def setup(bot):
