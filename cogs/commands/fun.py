@@ -61,7 +61,7 @@ class Fun(commands.Cog):
             pass
 
     @commands.command(name="cursed")
-    @commands.cooldown(1, 1.5, commands.BucketType.channel)
+    @commands.cooldown(1, 2, commands.BucketType.channel)
     async def cursedImage(self, ctx):
         images = self.g.cursedImages
         cursed = discord.Embed(description="", color=discord.Color.green())
