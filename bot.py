@@ -61,6 +61,7 @@ async def banned(uid):  # Check if user is banned from bot
 
 @bot.check  # Global check (everything goes through this)
 async def stay_safe(ctx):
+    print(ctx.message.content)
     if not bot.is_ready():
         await ctx.send(embed=discord.Embed(color=discord.Color.green(),
                                            description="Hold on! Villager Bot is still starting up!"))
