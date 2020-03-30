@@ -1,7 +1,8 @@
 from discord.ext import commands
 import discord
 import json
-import psycopg2
+import asyncpg
+import asyncio
 import logging
 
 logging.basicConfig(level=logging.WARNING)
@@ -10,25 +11,27 @@ logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 with open("data/keys.json", "r") as k:  # Loads secret keys
     keys = json.load(k)
 
-db = psycopg2.connect(host="localhost", database="villagerbot", user="pi", password=keys["postgres"])
-cur = db.cursor()
-
-
-# Fetch prefix from db
-def getPrefix(self, message):
-    if message.guild is None:
+# Fetch prefix from db, also, self(in this context) is bot
+async def getPrefix(self, ctx):
+    if ctx.guild is None:
         return "!!"
-    gid = message.guild.id
-    cur.execute("SELECT prefix FROM prefixes WHERE prefixes.gid='"+str(gid)+"'")
-    prefix = cur.fetchone()
+    gid = ctx.guild.id
+    prefix = await self.db.fetchrow(f"SELECT prefix FROM prefixes WHERE prefixes.gid='{gid}'")
     if prefix is None:
-        cur.execute("INSERT INTO prefixes VALUES ('"+str(gid)+"', '!!')")
-        db.commit()
+        connection = await bot.db.acquire()
+        async with connection.transaction():
+            await self.db.execute(f"INSERT INTO prefixes VALUES ('{gid}', '!!')")
+        await self.db.release(connection)
         return "!!"
     return prefix[0]
 
 
 bot = commands.AutoShardedBot(command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
+
+async def setup_db():
+    bot.db = await asyncpg.create_pool(host="localhost", database="villagerbot", user="pi", password=keys["postgres"], command_timeout=2)
+
+asyncio.get_event_loop().run_until_complete(setup_db())
 
 # data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL
 cogs = ["data.global",
@@ -51,8 +54,7 @@ for cog in cogs:
 
 
 async def banned(uid):  # Check if user is banned from bot
-    cur.execute(f"SELECT id FROM bans WHERE bans.id='{str(uid)}'")
-    entry = cur.fetchone()
+    entry = await bot.db.fetchrow(f"SELECT id FROM bans WHERE bans.id='{str(uid)}'")
     if entry is None:
         return False
     else:
