@@ -22,7 +22,7 @@ class Minecraft(commands.Cog):
         self.g = self.bot.get_cog("Global")
 
         self.first = ["Hey, you should build", "Hey, what if you made", "Hey, you should build", "What if you built", "What if you made", "You could create", "What if you created", "You could make"]
-        self.nouns = ["a statue of a creeper", "a cozy home with a fireplace", "a secret redstone base", "a statue of Steve", "a command block creation", "a replica of the Statue of Liberty",
+        self.prenouns = ["a statue of a creeper", "a cozy home with a fireplace", "a secret redstone base", "a statue of Steve", "a command block creation", "a replica of the Statue of Liberty",
                       "a replica of the world", "a statue of Alex", "a statue of Steve & Alex", "a hidden base", "a secret room in your house", "a 2x1 redstone door", "a 2x2 redstone door",
                       "a 2x3 redstone door", "a 3x3 redstone door", "a flying machine", "a working fireplace", "a mansion", "a haunted mansion", "a server lobby", "a golf course", "a pirate ship",
                       "an awesome parkour map", "an adventure map", "a cool statue of your skin", "a realistic model of your house", "pixel art of Pikachu", "pixel art", "a pvp arena",
@@ -42,6 +42,21 @@ class Minecraft(commands.Cog):
                       "a massive abandoned mineshaft", "the kraken", "a seafood resturant", "a resturant that only serves various forms of fried octopus tentacles", "a massive trampoline park",
                       "a statue of a bee", "a giant dragon", "a rainbow-colored dragon", "a hidden enchanting table station", "a redstone drawbridge", "a dump truck", "a dinosaur",
                       "a construction site", "a skyscraper", "an iPhone", "a humble abode", "a river", "a hobbit hole", "a home in a volcano", "a disco", "a creepy campsite", "an awesome jungle"]
+        
+        self.nouns = ["creeper", "cozy room with a fireplace", "cozy house", "Steve", "Alex", "your skin", "your favorite cartoon character", "pixel art of your Minecraft skin", "Minecraft in Minecraft",
+                      "command block creation", "replica of the Statue of Liberty", "replica of the world", "statue of Steve & Alex", "statue of your favorite stuffed animal", "cruise ship",
+                      "dinosaur", "bee", "survival base", "castle", "castle with a moat", "blacksmithery", "bakery", "x-wing fighter", "area 51", "redstone drawbridge", "dump truck", "tennis courts",
+                      "model of a solar system", "dog house", "villager", "statue of a villager", "giant sea monster", "viking ship", "carrot farm", "player launcher", "tnt cannon", "pacman pixel art",
+                      "tree house", "tree farm", "floating village", "town hall", "storage room", "mall", "swimming pool", "monorail", "mansion", "fireplace", "hidden room", "survival world", "hotel",
+                      "throne room", "throne for a king", "sky island", "volcano", "hospital", "CIA base", "hobbit hole", "mountain", "river", "winding river", "hydroelectric dam", "power plant",
+                      "labratory", "mad science labratory", "skyscraper", "dragon", "resturant", "helicopter pad", "helicopter", "vehicle", "trampoline", "trampoline park", "town", "farm", "PvP arena",
+                      "dropper map", "PvE arena", "kraken", "phone", "smart phone", "public library", "secret library", "toy shop", "maze", "winding maze", "underground garden", "emerald bank",
+                      "golf course", "tavern", "road", "super-highway", "home", "mob arena", "arena", "city park", "playground", "octopus", "rabbit", "dog", "cat", "sheep", "cow", "camel", "pig",
+                      "wandering villager", "villager", "wither", "ender dragon", "statue of a wither", "statue of an ender dragon", "statue of an octopus", "statue of a dog", "palace", "pyramid",
+                      "egyptian tomb", "theme park", "computer", "adventure map", "moat", "pirate ship", "cruise-liner", "carrot", "hidden enchanting table station", "skate park", "virus", "camp site",
+                      "iPhone", "T.V.", "apartment building", "mineshaft", "gaming computer", "bakery"]
+        self.colors = ["red-colored", "orange-colored", "yellow-colored", "green-colored", "blue-colored", "indigo-colored", "violet-colored", "grey", "black", "purple", "white", "brown"]
+        self.sizes = ["normal sized", "normally sized", "large", "massive", "huge", "gigantic", "tiny", "small", "microscopic", "normal sized"]
 
     def cog_unload(self):
         self.bot.loop.create_task(self.stopses())
@@ -161,7 +176,10 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="buildidea", aliases=["idea"])
     async def buildidea(self, ctx):
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(self.first)} {choice(self.nouns)}{choice(['!', ''])}"))
+        if choice([True, False]):
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(self.first)} {choice(self.prenouns)}{choice(['!', ''])}"))
+        else:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(self.first)} a {choice(self.sizes)}, {choice(self.colors)} {choice(self.nouns)}{choice(['!', ''])}"))
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
