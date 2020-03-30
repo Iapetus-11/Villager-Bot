@@ -125,7 +125,8 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}stealskin** ***gamertag*** *steal another player\'s Minecraft skin*\n'
             f'**{ctx.prefix}nametouuid** ***gamertag*** *gets the Minecraft uuid of the given player*\n'
             f'**{ctx.prefix}uuidtoname** ***uuid*** *gets the gamertag from the given Minecraft uuid*\n'
-            f'**{ctx.prefix}randommc** *sends a random Minecraft server*\n',
+            f'**{ctx.prefix}randommc** *sends a random Minecraft server*\n'
+            f'**{ctx.prefix}buildidea** *sends a random idea on what you could build*',
             inline=True)
         await ctx.send(embed=help_embed)
 
