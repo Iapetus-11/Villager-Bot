@@ -413,12 +413,23 @@ class Econ(commands.Cog):
             elif randint(0, 9999) == 6669:
                 await self.db.addItem(ctx.author.id, "Fortune III Book", 1, 420)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found a **Fortune III Book**!! Also, some rare dirt..."))
-            elif randint(0, 99999) == 6969:
-                await self.db.addItem(ctx.author.id, "Bane Of Pillagers Amulet", 1, 8192)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have literally just found the rarest fucking thing ever, **The Bane Of Pillagers Amulet**!! Also, some rare dirt..."))
+            elif randint(0, 9999) == 6969:
+                await self.db.addItem(ctx.author.id, "Efficiency I", 1, 4096)
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found an **Efficiency I Book**!! Also, some rare dirt..."))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You " + choice(["found", "mined", "mined up", "found"])+" "+str(randint(1, 8)) + " "
                                                    + choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
+
+    @mine.error
+    async def handle_mine_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
+        if isinstance(e, commands.CommandOnCooldown):
+            eff1 = self.db.getItem(ctx.author.id, "Efficiency I")
+            if eff1 is None:
+                ctx.handled = False
+                return
+            elif e.retry_after <= .4:
+                ctx.handled = True
+                ctx.reinvoke()
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)

@@ -19,13 +19,14 @@ class Errors(commands.Cog):
         if isinstance(e, commands.errors.NoPrivateMessage):
             await ctx.send(embed=discord.embed(color=discord.Color.green(), description="This command can't be used in private chat channels."))
             return
-
+        
         if isinstance(e, commands.CommandOnCooldown):
-            descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
-                    "Hey, you need to wait another {0} seconds before doing that again.",
-                    "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
-                    "Didn't you know patience was a virtue? Wait another {0} seconds."]
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(e.retry_after, 2))))
+            if not ctx.handled:
+                descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
+                        "Hey, you need to wait another {0} seconds before doing that again.",
+                        "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
+                        "Didn't you know patience was a virtue? Wait another {0} seconds."]
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(e.retry_after, 2))))
             return
         else:
             ctx.command.reset_cooldown(ctx)
