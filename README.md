@@ -36,6 +36,7 @@
 * __!!stealskin__ *gamertag* (steal another Minecraft player's skin)
 * __!!getuuid__ *gamertag* (get the uuid of the specified player)
 * __!!randommc__ (sends a random Minecraft server your way)
+* __!!buildidea__ (sends an idea on what to build if you're bored)
 
 ### Utility/Info Commands
 * __!!help__ (displays all the main commands)
