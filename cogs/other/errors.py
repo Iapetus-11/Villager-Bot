@@ -11,6 +11,12 @@ class Errors(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
 
+        try:
+            if ctx.handled is None:
+                ctx.handled = False
+        except AttributeError:
+            ctx.handled = False
+
         # Commands to ignore
         for _type in [commands.CommandNotFound, commands.NotOwner, commands.CheckFailure]:
             if isinstance(e, _type):
@@ -21,7 +27,7 @@ class Errors(commands.Cog):
             return
         
         if isinstance(e, commands.CommandOnCooldown):
-            if not ctx.handled:
+            if ctx.handled == False:
                 descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
                         "Hey, you need to wait another {0} seconds before doing that again.",
                         "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",

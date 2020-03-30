@@ -423,7 +423,7 @@ class Econ(commands.Cog):
     @mine.error
     async def handle_mine_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
-            eff1 = self.db.getItem(ctx.author.id, "Efficiency I")
+            eff1 = await self.db.getItem(ctx.author.id, "Efficiency I")
             if eff1 is None:
                 ctx.handled = False
                 return
