@@ -17,14 +17,12 @@ class AdminCmds(commands.Cog):
             except Exception:
                 error_embed = discord.Embed(
                     color=discord.Color.green(),
-                    description='''Uh oh, Villager Bot had a
-                    problem deleting those messages, try again later!''')
+                    description='''Uh oh, Villager Bot had a problem deleting those messages, try again later!''')
                 await ctx.send(embed=error_embed)
         else:
             limit_embed = discord.Embed(
                 color=discord.Color.green(),
-                description='''You cannot purge more
-                than 999 messages at one time!''')
+                description='''You cannot purge more than 999 messages at one time!''')
             await ctx.send(embed=limit_embed)
 
     @commands.command(name="ban")
