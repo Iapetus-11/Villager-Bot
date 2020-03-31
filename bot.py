@@ -75,4 +75,3 @@ async def stay_safe(ctx):
 
 # Actually start bot, it's a blocking call, nothing should go after this!
 bot.run(keys["discord"], bot=True)
-print("Bot has stopped somehow...")

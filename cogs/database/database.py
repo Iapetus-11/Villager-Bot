@@ -29,13 +29,14 @@ class Database(commands.Cog):
             await con.execute(f"UPDATE {table} SET {two}='{sett}' WHERE id='{uid}'")
 
     async def getdbv3(self, table, uid, two, three, sett, settt): # table, user id, second column with data, third column with data, 2nd column default val, 3rd column default val
-        vals = await self.db.fetchrow(f"SELECT {two}, {three} FROM {table} WHERE {table}.id='{uid}'")
-        if vals is None:
+        two = await self.db.fetchrow(f"SELECT {two} FROM {table} WHERE {table}.id='{uid}'")
+        three = await self.db.fetchrow(f"SELECT {three} FROM {table} WHERE {table}.id='{uid}'")
+        if two is None or three is None:
             async with self.db.acquire() as con:
                 await con.execute(f"INSERT INTO {table} VALUES ('{uid}', '{sett}', '{settt}')")
             vals = (sett, settt,)
         else:
-            vals = (vals[0][0], vals[1][0],)
+            vals = (two[0], three[0],)
         return vals
 
     async def setdbv3(self, table, uid, two, three, sett, settt):
@@ -103,10 +104,7 @@ class Database(commands.Cog):
     async def listBotBans(self):
         return await self.db.fetch("SELECT * FROM bans")
 
-    async def getPrefix(self, ctx):
-        if ctx.guild is None:
-            return "!!"
-        gid = ctx.guild.id
+    async def getPrefix(self, gid):
         prefix = await self.db.fetchrow(f"SELECT prefix FROM prefixes WHERE prefixes.gid='{gid}'")
         if prefix is None:
             async with self.db.acquire() as con:
