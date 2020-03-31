@@ -97,7 +97,7 @@ class Econ(commands.Cog):
             shop.add_field(name="__**Other**__", value="``"+ctx.prefix+"shop other``")
             shop.add_field(name="__**Enchanted Books**__", value="``"+ctx.prefix+"shop books``")
             await ctx.send(embed=shop)
-    
+
     @shop.command(name="pickaxes")
     async def shop_pickaxes(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
@@ -112,7 +112,7 @@ class Econ(commands.Cog):
         shop.add_field(name="__**Netherite Pickaxe**__ 8192<:emerald:653729877698150405> 4<:netherite_scrap:676974675091521539>", value="``"+ctx.prefix+"buy netherite pickaxe``", inline=True)
         shop.set_footer(text="Pickaxes allow you to obtain more emeralds while using the "+ctx.prefix+"mine command!")
         await ctx.send(embed=shop)
-        
+
     @shop.command(name="books")
     async def shop_books(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
@@ -120,7 +120,7 @@ class Econ(commands.Cog):
         shop.add_field(name="__**Fortune I Book**__ 120<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy fortune i book``", inline=True)
         shop.set_footer(text="Enchantment books give you a chance obtain more emeralds while using the "+ctx.prefix+"mine command!")
         await ctx.send(embed=shop)
-    
+
     @shop.command(name="other")
     async def shop_other(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
@@ -166,7 +166,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=inv)
 
     @commands.command(name="vault", aliases=["viewvault"])
-    async def viewVault(self, ctx):
+    async def view_vault(self, ctx):
         vault = await self.db.getVault(ctx.author.id)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(),
                                            description=f"{ctx.author.mention}'s vault: {vault[0]}<:emerald_block:679121595150893057>/{vault[1]} ({vault[0]*9}<:emerald:653729877698150405>)"))
@@ -267,9 +267,9 @@ class Econ(commands.Cog):
             return
 
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
-        
+
     @commands.command(name="sell")
-    async def sellitem(self, ctx, am: str, *, item: str):
+    async def sell_item(self, ctx, am: str, *, item: str):
         if item == "items":
             items = await self.db.getItems(ctx.author.id)
             if len(items) < 1:
@@ -321,7 +321,7 @@ class Econ(commands.Cog):
             else:
                 plural = "s"
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{ctx.author.mention} gave {rec.mention} {amount}<:emerald:653729877698150405>"))
-            
+
     @commands.command(name="giveitem")
     async def give_item(self, ctx, rec: discord.User, amount: int, *, itemm: str):
         if amount < 0:
@@ -421,7 +421,7 @@ class Econ(commands.Cog):
                                                    + choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
 
     @mine.error
-    async def handle_mine_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
+    async def handle_mine(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
             eff1 = await self.db.getItem(ctx.author.id, "Efficiency I")
             if eff1 is None:
