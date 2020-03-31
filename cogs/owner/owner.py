@@ -54,7 +54,7 @@ class Owner(commands.Cog):
 **{0}eval** ***statement*** *uses eval()*
 **{0}awaiteval** ***statement*** *uses await eval()*
 **{0}restart** *forcibly restarts the bot*
-**{0}backup** *backs up the db*
+**{0}backupdb** *backs up the db*
 """.format(ctx.prefix), color=discord.Color.green())
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
