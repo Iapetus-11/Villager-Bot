@@ -269,7 +269,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
 
     @commands.command(name="sell")
-    async def sell_item(self, ctx, am: str, *, item: str):
+    async def sellitem(self, ctx, am: str, *, item: str):
         if item == "items":
             items = await self.db.getItems(ctx.author.id)
             if len(items) < 1:
@@ -421,7 +421,7 @@ class Econ(commands.Cog):
                                                    + choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
 
     @mine.error
-    async def handle_mine(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
+    async def handle_mine_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
             eff1 = await self.db.getItem(ctx.author.id, "Efficiency I")
             if eff1 is None:
