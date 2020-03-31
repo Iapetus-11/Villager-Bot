@@ -73,7 +73,7 @@ class Errors(commands.Cog):
         lines = traceback.format_exception(etype, e, trace, verbosity)
         traceback_text = ''.join(lines)
         
-        await error_channel.send(f"```{ctx.author}: {ctx.message.content}\n\n{traceback_text}```")
+        await error_channel.send(embed=discord.Embed(color=discord.Color.green(), description=f"```{ctx.author}: {ctx.message.content}\n\n{traceback_text}```"))
 
 
 def setup(bot):
