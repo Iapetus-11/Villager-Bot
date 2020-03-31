@@ -4,6 +4,7 @@ from random import choice
 import json
 from os import system
 import arrow
+import asyncio
 
 
 class Owner(commands.Cog):
@@ -277,7 +278,8 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.is_owner()
     async def reeeeeeeeee(self, ctx):
         await ctx.send("Force restarting le bot...")
-        self.db.db.close()
+        await self.bot.db.close()
+        await self.bot.logout()
         exit()
 
     @commands.command(name="getinv", aliases=["getinventory"])

@@ -502,10 +502,7 @@ class Econ(commands.Cog):
     @commands.command(name="leaderboard", aliases=["lb"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def leaderboard(self, ctx):
-        self.db.db.commit()
-        cur = self.db.db.cursor()
-        cur.execute("SELECT * FROM currency")
-        dbs = cur.fetchall() # Returns list of tuples
+        dbs = await self.bot.db.fetch("SELECT * FROM currency") # Returns list of tuples
         done = []
         lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True)[:9]
         lbtext = ""

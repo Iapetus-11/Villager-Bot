@@ -18,10 +18,8 @@ async def getPrefix(self, ctx):
     gid = ctx.guild.id
     prefix = await self.db.fetchrow(f"SELECT prefix FROM prefixes WHERE prefixes.gid='{gid}'")
     if prefix is None:
-        connection = await bot.db.acquire()
-        async with connection.transaction():
-            await self.db.execute(f"INSERT INTO prefixes VALUES ('{gid}', '!!')")
-        await self.db.release(connection)
+        async with self.db.acquire() as con:
+            await con.execute(f"INSERT INTO prefixes VALUES ('{gid}', '!!')")
         return "!!"
     return prefix[0]
 
