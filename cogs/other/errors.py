@@ -17,15 +17,23 @@ class Errors(commands.Cog):
         except AttributeError:
             ctx.handled = False
 
+        if isinstance(e, commands.errors.NoPrivateMessage):
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command can't be used in private chat channels."))
+            return
+
+        if isinstance(e, commands.MissingPermissions):
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Nice try stupid, but you don't have the permissions to do that."))
+            return
+
+        if isinstance(e, commands.BotMissingPermissions):
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You didn't give me proper the permissions to do that, stupid."))
+            return
+
         # Commands to ignore
         for _type in [commands.CommandNotFound, commands.NotOwner, commands.CheckFailure]:
             if isinstance(e, _type):
                 return
 
-        if isinstance(e, commands.errors.NoPrivateMessage):
-            await ctx.send(embed=discord.embed(color=discord.Color.green(), description="This command can't be used in private chat channels."))
-            return
-        
         if isinstance(e, commands.CommandOnCooldown):
             if ctx.handled == False:
                 descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
@@ -43,14 +51,6 @@ class Errors(commands.Cog):
 
         if isinstance(e, commands.BadArgument):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Looks like you typed something wrong, try typing it correctly the first time, idiot."))
-            return
-
-        if isinstance(e, commands.MissingPermissions):
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Nice try stupid, but you don't have the permissions to do that."))
-            return
-
-        if isinstance(e, commands.BotMissingPermissions):
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You didn't give me proper the permissions to do that, stupid."))
             return
 
         if "error code: 50013" in str(e):
