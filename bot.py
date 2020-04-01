@@ -27,7 +27,7 @@ async def getPrefix(self, ctx):
 bot = commands.AutoShardedBot(command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
 
 async def setup_db():
-    bot.db = await asyncpg.create_pool(host="localhost", database="villagerbot", user="pi", password=keys["postgres"], command_timeout=2)
+    bot.db = await asyncpg.create_pool(host="localhost", database="villagerbot", user="pi", password=keys["postgres"], command_timeout=5)
 
 asyncio.get_event_loop().run_until_complete(setup_db())
 
@@ -61,7 +61,6 @@ async def banned(uid):  # Check if user is banned from bot
 
 @bot.check  # Global check (everything goes through this)
 async def stay_safe(ctx):
-    print(ctx.message.content)
     if not bot.is_ready():
         await ctx.send(embed=discord.Embed(color=discord.Color.green(),
                                            description="Hold on! Villager Bot is still starting up!"))
