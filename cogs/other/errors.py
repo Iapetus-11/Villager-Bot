@@ -62,8 +62,11 @@ class Errors(commands.Cog):
 
         if not "HTTPException: 503 Service Unavailable (error code: 0)" in str(e):
             excls = ['OH SNAP', 'OH FU\*\*!', 'OH \*\*\*\*!', 'OH SH-']
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(excls)} "
-                                               + "You found an actual error, please take a screenshot and report it on our **[support server](https://discord.gg/39DwwUV)**, thank you!"))
+            try:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(excls)} "
+                                                   + "You found an actual error, please take a screenshot and report it on our **[support server](https://discord.gg/39DwwUV)**, thank you!"))
+            except discord.errors.Forbidden:
+                pass
         error_channel = self.bot.get_channel(642446655022432267)
         
         # Thanks TrustedMercury!
