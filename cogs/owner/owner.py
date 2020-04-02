@@ -42,6 +42,7 @@ class Owner(commands.Cog):
 **{0}setvault** ***@user amount*** *set user's vault to given amount*
 **{0}getvault** ***@user*** *gets the mentioned user's vault*
 **{0}setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
+**{0}resetprefix** ***guild id*** *resets the prefix of a server*
 
 **{0}botban** ***user*** *bans a user from using the bot*
 **{0}botunban** ***user*** *unbans a user from using the bot*
@@ -330,6 +331,11 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         with open("data/collectable_items.json", "r") as collectables:
             self.g.collectables = json.load(collectables)
         await ctx.send("Reloaded the collectable items list")
+
+    @commands.command(name="resetprefix")
+    @commands.is_owner()
+    async def resetprefix(self, ctx, gid: int):
+        await ctx.send(await self.bot.db.execute("DELETE FROM prefixes WHERE prefixes.gid='{gid}'"))
 
 
 def setup(bot):

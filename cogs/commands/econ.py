@@ -429,7 +429,7 @@ class Econ(commands.Cog):
                 return
             elif e.retry_after <= .4:
                 ctx.handled = True
-                ctx.reinvoke()
+                await ctx.reinvoke()
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
