@@ -91,7 +91,7 @@ class Econ(commands.Cog):
     async def shop(self, ctx):
         if ctx.invoked_subcommand is None:
             shop = discord.Embed(color=discord.Color.green())
-            shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+            shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
             shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
             shop.add_field(name="__**Pickaxes**__", value="``"+ctx.prefix+"shop pickaxes``")
             shop.add_field(name="__**Other**__", value="``"+ctx.prefix+"shop other``")
@@ -101,7 +101,7 @@ class Econ(commands.Cog):
     @shop.command(name="pickaxes")
     async def shop_pickaxes(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop [Pickaxes]", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        shop.set_author(name="Villager Shop [Pickaxes]", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
         shop.add_field(name="__**Stone Pickaxe**__ 32<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy stone pickaxe``", inline=True)
         shop.add_field(name="__**Iron Pickaxe**__ 128<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy iron pickaxe``", inline=True)
@@ -116,7 +116,7 @@ class Econ(commands.Cog):
     @shop.command(name="books")
     async def shop_books(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop [Books]", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        shop.set_author(name="Villager Shop [Books]", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         shop.add_field(name="__**Fortune I Book**__ 120<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy fortune i book``", inline=True)
         shop.set_footer(text="Enchantment books give you a chance obtain more emeralds while using the "+ctx.prefix+"mine command!")
         await ctx.send(embed=shop)
@@ -124,7 +124,7 @@ class Econ(commands.Cog):
     @shop.command(name="other")
     async def shop_other(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop [Other]", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        shop.set_author(name="Villager Shop [Other]", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
         shop.add_field(name="__**Jar of Bees**__ 8<:emerald:653729877698150405>", value="``"+ctx.prefix+"buy jar of bees``", inline=True)
         shop.add_field(name="__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>)  __**32<:emerald:653729877698150405>**__", value="``"+ctx.prefix+"buy netherite scrap``", inline=True)

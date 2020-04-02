@@ -65,7 +65,7 @@ class Fun(commands.Cog):
     async def cursedImage(self, ctx):
         images = self.g.cursedImages
         cursed = discord.Embed(description="", color=discord.Color.green())
-        cursed.set_image(url="http://172.10.17.177/images/cursed_minecraft/" + choice(images))
+        cursed.set_image(url="http://olimone.ddns.net/images/cursed_minecraft/" + choice(images))
         await ctx.send(embed=cursed)
 
     @commands.command(name="battle", aliases=["duel", "fight"])
@@ -74,7 +74,7 @@ class Fun(commands.Cog):
         red, gre, blu = (190, 10, 10)
         battleAnnounce = discord.Embed(title="***" + ctx.author.display_name + "***  has challenged ***" + user.display_name + "***  to a sword fight!",
                                        description="**Who will the victor be?**", color=discord.Color.from_rgb(red, gre, blu))
-        battleAnnounce.set_thumbnail(url="http://172.10.17.177/images/diamondswords2.png")
+        battleAnnounce.set_thumbnail(url="http://olimone.ddns.net/images/diamondswords2.png")
         await ctx.send(embed=battleAnnounce)
         if ctx.author == user:
             await ctx.send(embed=discord.Embed(color=discord.Color.from_rgb(red, gre, blu), description="**" + user.display_name + "** " + choice(["committed dig straight down.",

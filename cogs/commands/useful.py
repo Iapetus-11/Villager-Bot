@@ -15,7 +15,7 @@ class Useful(commands.Cog):
             help_embed = discord.Embed(color=discord.Color.green())
             help_embed.set_author(
                 name="Villager Bot Commands",
-                icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+                icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
 
             help_embed.add_field(name="Minecraft", value=f"``{ctx.prefix}help mc``", inline=True)
             help_embed.add_field(name="Fun", value=f"``{ctx.prefix}help fun``", inline=True)
@@ -36,7 +36,7 @@ class Useful(commands.Cog):
         help_embed = discord.Embed(color=discord.Color.green())
         help_embed.set_author(
             name="Villager Bot Commands",
-            icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+            icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
 
         help_embed.add_field(
             name="**Text Commands**",
@@ -76,7 +76,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         help_embed = discord.Embed(color=discord.Color.green())
         help_embed.set_author(
             name="Villager Bot Commands",
-            icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+            icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
 
         help_embed.add_field(
             name="**Useful/Informative**",
@@ -98,7 +98,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         help_embed = discord.Embed(color=discord.Color.green())
         help_embed.set_author(
             name="Villager Bot Commands",
-            icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+            icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
 
         help_embed.add_field(
             name="**Admin Only**",
@@ -116,7 +116,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         help_embed = discord.Embed(color=discord.Color.green())
         help_embed.set_author(
             name="Villager Bot Commands",
-            icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+            icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
 
         help_embed.add_field(
             name="**Minecraft Commands**",
@@ -142,7 +142,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         infoMsg.add_field(name="Bot Page", value="[Click Here](https://top.gg/bot/639498607632056321)", inline=True)
         infoMsg.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         infoMsg.add_field(name="Discord", value="[Click Here](https://discord.gg/39DwwUV)", inline=True)
-        infoMsg.set_author(name="Villager Bot Information", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        infoMsg.set_author(name="Villager Bot Information", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         await ctx.send(embed=infoMsg)
 
     @commands.command(name="ping", aliases=["pong", "ding", "dong"]) # Checks latency between Discord API and the bot
@@ -182,13 +182,13 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     @commands.command(name="vote", aliases=["votelink"])
     async def votelink(self, ctx):
         voteL = discord.Embed(title="Vote for Villager Bot", description="[Click Here!](https://top.gg/bot/639498607632056321/vote)", color=discord.Color.green())
-        voteL.set_thumbnail(url="http://172.10.17.177/images/villagerbotsplash1.png")
+        voteL.set_thumbnail(url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         await ctx.send(embed=voteL)
 
     @commands.command(name="invite", aliases=["invitelink"])
     async def inviteLink(self, ctx):
         invL = discord.Embed(title="Add Villager Bot to your server", description="[Click Here!](https://bit.ly/2tQfOhW)", color=discord.Color.green())
-        invL.set_thumbnail(url="http://172.10.17.177/images/villagerbotsplash1.png")
+        invL.set_thumbnail(url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         await ctx.send(embed=invL)
 
     @commands.command(name="google")
