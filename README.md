@@ -10,9 +10,10 @@
 * Command which sends a random Minecraft server
 
 ## Contributing
+### Issues/Bugs
+If a bug or unintended behavior is discovered, please report it by creating an issue [here](https://github.com/Villager-Bot/Villager-Bot/issues) or by reporting it in the **bug-smasher** channel on the [support server](https://discord.gg/39DwwUV)
 
 ## Commands
-
 ### Fun Commands
 * __!!enchant__ *text* (turns text into the Minecraft enchanting table language)
 * __!!unenchant__ *text* (turns text in the enchanting table language back into english)
