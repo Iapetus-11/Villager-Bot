@@ -12,15 +12,16 @@ with open("data/keys.json", "r") as k:  # Loads secret keys
     keys = json.load(k)
 
 # Fetch prefix from db, also, self(in this context) is bot
-async def getPrefix(self, ctx):
+async def getPrefix(bot, ctx):
     if ctx.guild is None:
         return "!!"
     gid = ctx.guild.id
-    prefix = await self.db.fetchrow(f"SELECT prefix FROM prefixes WHERE prefixes.gid='{gid}'")
+    prefix = await bot.db.fetchrow(f"SELECT prefix FROM prefixes WHERE prefixes.gid='{gid}'")
     if prefix is None:
-        async with self.db.acquire() as con:
+        async with bot.db.acquire() as con:
             await con.execute(f"INSERT INTO prefixes VALUES ('{gid}', '!!')")
         return "!!"
+    # return commands.when_mentioned_or(prefix[0])(bot, ctx)
     return prefix[0]
 
 
