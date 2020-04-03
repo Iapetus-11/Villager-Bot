@@ -49,24 +49,36 @@ class Events(commands.Cog):
         user = self.bot.get_user(userID)
         if user is not None:
             await self.bot.get_channel(682195105784004610).send(f":tada::tada: {user.display_name} has voted! :tada::tada:")
+            if choice([True, False]):
+                for c in self.g.collectables:
+                    if randint(0, c[2]) == c[3]:
+                        e = "<:emerald:653729877698150405>"
+                        try:
+                            await ctx.send(choice([f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) for voting for Villager Bot!",
+                                                   f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) because you voted for Villager Bot!",]))
+                        except discord.errors.Forbidden:
+                            pass
+                        await self.db.add_item(ctx.author.id, c[0], 1, c[1])
+                        return
+            messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!", "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                        "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!", "You have gotten {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
             try:
-                await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You have been awarded {0} <:emerald:653729877698150405> for voting for Villager Bot!",
-                                                                                                     "You have recieved {0} <:emerald:653729877698150405> for voting for Villager Bot!"]).format(32*multi)))
+                await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(messages).format(32*multi)))
             except discord.errors.Forbidden:
                 pass
         else:
             await self.bot.get_channel(682195105784004610).send(":tada::tada: An unknown user voted for the bot! :tada::tada:")
 
     @commands.Cog.listener()
-    async def on_guild_join(bot, guild):
+    async def on_guild_join(self, guild):
         await asyncio.sleep(1)
         ret = False
         i = 0
-        joinMsg = discord.Embed(color=discord.Color.green(), description="Hey ya'll, type **!!help** to get started with Villager Bot!\n\n" +
+        join_msg = discord.Embed(color=discord.Color.green(), description="Hey ya'll, type **!!help** to get started with Villager Bot!\n\n" +
                                 "Want to recieve updates, report a bug, or make suggestions? Join the official [support server](https://discord.gg/39DwwUV)!")
         while i >= 0:
             try:
-                await guild.channels[i].send(embed=joinMsg)
+                await guild.channels[i].send(embed=join_msg)
             except Exception:
                 i += 1
                 pass
@@ -76,6 +88,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         await self.db.drop_do_replies(guild.id)
+        await self.db.drop_prefix(guild.id)
 
 
 def setup(bot):

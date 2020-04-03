@@ -414,8 +414,8 @@ class Econ(commands.Cog):
             elif randint(0, 9999) == 6669:
                 await self.db.add_item(ctx.author.id, "Fortune III Book", 1, 420)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found a **Fortune III Book**!! Also, some rare dirt..."))
-            elif randint(0, 9999) == 6969:
-                await self.db.add_item(ctx.author.id, "Efficiency I", 1, 4096)
+            elif randint(0, 6969) == 1000:
+                await self.db.add_item(ctx.author.id, "Efficiency I", 1, 2048)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found an **Efficiency I Book**!! Also, some rare dirt..."))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You " + choice(["found", "mined", "mined up", "found"])+" "+str(randint(1, 8)) + " "

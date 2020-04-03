@@ -117,6 +117,10 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute(f"UPDATE prefixes SET prefix='{prefix}' WHERE gid='{gid}'")
 
+    async def drop_prefix(self, gid):
+        async with self.db.acquire() as con:
+            await con.execute(f"DELETE FROM prefixes WHERE prefixes.id='{gid}'")
+
     async def get_do_replies(self, gid):
         do_replies = await self.db.fetchrow(f"SELECT reply FROM doreplies WHERE doreplies.gid='{gid}'")
         if do_replies is None:
