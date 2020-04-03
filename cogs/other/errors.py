@@ -30,7 +30,7 @@ class Errors(commands.Cog):
             return
 
         # Commands to ignore
-        for _type in [commands.CommandNotFound, commands.NotOwner, commands.CheckFailure, commands.errors.Forbidden]:
+        for _type in [commands.CommandNotFound, commands.NotOwner, commands.CheckFailure, discord.errors.Forbidden]:
             if isinstance(e, _type):
                 return
 
