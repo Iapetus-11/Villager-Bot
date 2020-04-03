@@ -13,6 +13,13 @@
 ### Issues/Bugs
 If a bug or unintended behavior is discovered, please report it by creating an issue [here](https://github.com/Villager-Bot/Villager-Bot/issues) or by reporting it in the **bug-smasher** channel on the [support server](https://discord.gg/39DwwUV)
 
+### Contributions
+If you'd like to contribute code to Villager Bot, then please fork the repository and make any neccessary changes there. Then, [make a pull request](https://github.com/Villager-Bot/Villager-Bot/pulls) and either Iapetus11 or TrustedMercury will review it.
+
+## Support/Contact Information
+* [Discord Support Server](https://discord.gg/39DwwUV)
+* Discord Usernames: Iapetus11#6821 & TrustedMercury#1953
+
 ## Commands
 ### Fun Commands
 * __!!enchant__ *text* (turns text into the Minecraft enchanting table language)
