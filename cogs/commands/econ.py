@@ -28,15 +28,15 @@ class Econ(commands.Cog):
 
     @commands.command(name="deposit", aliases=["dep"])
     async def deposit(self, ctx, amount: str):  # In blocks
-        theirbal = await self.db.get_balance(ctx.author.id)
-        if theirbal < 9:
+        their_bal = await self.db.get_balance(ctx.author.id)
+        if their_bal < 9:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to deposit!"))
             return
         vault = await self.db.get_vault(ctx.author.id)
         if amount.lower() == "all" or amount.lower() == "max":
             amount = vault[1]-vault[0]
-            if floor(theirbal/9) < amount:
-                amount = floor(theirbal/9)
+            if floor(their_bal/9) < amount:
+                amount = floor(their_bal/9)
         else:
             try:
                 amount = int(amount)
@@ -50,14 +50,14 @@ class Econ(commands.Cog):
         if vault[1]-vault[0] <= 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="There isn't enough space in your vault!"))
             return
-        if amount*9 > theirbal:
+        if amount*9 > their_bal:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't deposit more emeralds than you have!"))
             return
         if amount < 1:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have to deposit one or more emerald blocks at once!"))
             return
 
-        await self.db.set_balance(ctx.author.id, theirbal - (9 * amount))
+        await self.db.set_balance(ctx.author.id, their_bal - (9 * amount))
         await self.db.set_vault(ctx.author.id, vault[0] + amount, vault[1])
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have deposited "+str(amount)+" emerald blocks into the vault. ("+str(amount*9)+"<:emerald:653729877698150405>)"))
 
@@ -174,11 +174,11 @@ class Econ(commands.Cog):
     @commands.command(name="buy")
     async def buy(self, ctx, *, _item):
         item = _item.lower()
-        theirBal = await self.db.get_balance(ctx.author.id)
+        their_bal = await self.db.get_balance(ctx.author.id)
 
         if item == "fortune i book" or item == "fortune 1 book":
-            if theirBal >= 120:
-                await self.db.set_balance(ctx.author.id, theirBal - 120)
+            if their_bal >= 120:
+                await self.db.set_balance(ctx.author.id, their_bal - 120)
                 await self.db.add_item(ctx.author.id, "Fortune I Book", 1, 24)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a Fortune I Book."))
             else:
@@ -186,8 +186,8 @@ class Econ(commands.Cog):
             return
 
         if item == "jar of bees":
-            if theirBal >= 8:
-                await self.db.set_balance(ctx.author.id, theirBal - 8)
+            if their_bal >= 8:
+                await self.db.set_balance(ctx.author.id, their_bal - 8)
                 await self.db.set_bees(ctx.author.id, await self.db.get_bees(ctx.author.id) + 1)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a jar of be"+choice(["e", "eee", "ee", "eeeee", "eeeeeeeeeeeeeeee", "eeeeeeeeeee"])+"s"))
             else:
@@ -195,17 +195,17 @@ class Econ(commands.Cog):
             return
 
         if item == "netherite scrap":
-            if theirBal >= 32:
-                await self.db.set_balance(ctx.author.id, theirBal - 32)
+            if their_bal >= 32:
+                await self.db.set_balance(ctx.author.id, their_bal - 32)
                 await self.db.set_scrap(ctx.author.id, await self.db.get_scrap(ctx.author.id) + 1)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a piece of netherite scrap"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase some netherite scrap."))
 
         if item == "stone pickaxe": # "wood" is default
-            if theirBal >= 32:
+            if their_bal >= 32:
                 if await self.db.get_pickaxe(ctx.author.id) != "stone":
-                    await self.db.set_balance(ctx.author.id, theirBal - 32)
+                    await self.db.set_balance(ctx.author.id, their_bal - 32)
                     await self.db.set_pickaxe(ctx.author.id, "stone")
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a stone pickaxe!"))
                 else:
@@ -215,9 +215,9 @@ class Econ(commands.Cog):
             return
 
         if item == "iron pickaxe":
-            if theirBal >= 128:
+            if their_bal >= 128:
                 if await self.db.get_pickaxe(ctx.author.id) != "iron":
-                    await self.db.set_balance(ctx.author.id, theirBal - 128)
+                    await self.db.set_balance(ctx.author.id, their_bal - 128)
                     await self.db.set_pickaxe(ctx.author.id, "iron")
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased an iron pickaxe!"))
                 else:
@@ -227,9 +227,9 @@ class Econ(commands.Cog):
             return
 
         if item == "gold pickaxe":
-            if theirBal >= 512:
+            if their_bal >= 512:
                 if await self.db.get_pickaxe(ctx.author.id) != "gold":
-                    await self.db.set_balance(ctx.author.id, theirBal - 512)
+                    await self.db.set_balance(ctx.author.id, their_bal - 512)
                     await self.db.set_pickaxe(ctx.author.id, "gold")
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a gold pickaxe!"))
                 else:
@@ -239,9 +239,9 @@ class Econ(commands.Cog):
             return
 
         if item == "diamond pickaxe":
-            if theirBal >= 2048:
+            if their_bal >= 2048:
                 if await self.db.get_pickaxe(ctx.author.id) != "diamond":
-                    await self.db.set_balance(ctx.author.id, theirBal - 2048)
+                    await self.db.set_balance(ctx.author.id, their_bal - 2048)
                     await self.db.set_pickaxe(ctx.author.id, "diamond")
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a diamond pickaxe!"))
                 else:
@@ -251,10 +251,10 @@ class Econ(commands.Cog):
             return
 
         if item == "netherite pickaxe":
-            if theirBal >= 8192:
+            if their_bal >= 8192:
                 if await self.db.get_scrap(ctx.author.id) >= 4:
                     if await self.db.get_pickaxe(ctx.author.id) != "netherite":
-                        await self.db.set_balance(ctx.author.id, theirBal - 8192)
+                        await self.db.set_balance(ctx.author.id, their_bal - 8192)
                         await self.db.set_scrap(ctx.author.id, await self.db.get_scrap(ctx.author.id) - 4)
                         await self.db.set_pickaxe(ctx.author.id, "netherite")
                         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a netherite pickaxe!"))
@@ -434,9 +434,9 @@ class Econ(commands.Cog):
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
     async def gamble(self, ctx, amount: str):
-        theirBal = await self.db.get_balance(ctx.author.id)
+        their_bal = await self.db.get_balance(ctx.author.id)
         if str(amount).lower() == "all" or str(amount).lower() == "max":
-            amount = theirBal
+            amount = their_bal
         else:
             try:
                 amount = int(amount)
@@ -444,7 +444,7 @@ class Econ(commands.Cog):
                 ctx.command.reset_cooldown(ctx)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Try using an actual number, idiot!"))
                 return
-        if amount > theirBal:
+        if amount > their_bal:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You don't have enough emeralds!", "You don't have enough emeralds to do that!"])))
             return
         if amount < 1:
@@ -455,15 +455,15 @@ class Econ(commands.Cog):
         await asyncio.sleep(.5)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Villager Bot rolled: ``"+str(botRoll)+"``\nYou rolled: ``"+str(roll)+"``"))
         mult = 1+(randint(10, 30)/100)
-        if theirBal < 100:
+        if their_bal < 100:
             mult += 0.2
         rez = ceil(amount*mult)
         if roll > botRoll:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You won "+str(rez-amount)+" <:emerald:653729877698150405> **|** Multiplier: "+str(int(mult*100))+"%"))
-            await self.db.set_balance(ctx.author.id, theirBal + (rez - amount))
+            await self.db.set_balance(ctx.author.id, their_bal + (rez - amount))
         elif roll < botRoll:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You lost! Villager Bot won "+str(amount)+" <:emerald:653729877698150405> from you."))
-            await self.db.set_balance(ctx.author.id, theirBal - amount)
+            await self.db.set_balance(ctx.author.id, their_bal - amount)
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="TIE! No one wins, but maybe Villager Bot will keep your emeralds anyway..."))
 
@@ -473,30 +473,30 @@ class Econ(commands.Cog):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.display_name+" "+choice(["threw their items into a lava pool.", "commited dig straight down", "suicided via creeper"])))
             return
-        theirBal = await self.db.get_balance(ctx.author.id)
-        if theirBal < 64:
+        their_bal = await self.db.get_balance(ctx.author.id)
+        if their_bal < 64:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You need 64 emeralds in order to pillage others!"))
             return
-        victimBal = await self.db.get_balance(user.id)
-        if victimBal < 64:
+        victim_bal = await self.db.get_balance(user.id)
+        if victim_bal < 64:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="It's not worth it, they don't even have 64 emeralds yet."))
             return
-        attackersBees = await self.db.get_bees(ctx.author.id)
-        victimsBees = await self.db.get_bees(user.id)
-        if attackersBees > victimsBees:
-            heistSuccess = choice([False, True, True, True, False, True, False, True])
-        elif victimsBees > attackersBees:
-            heistSuccess = choice([False, True, False, False, False, True, False, True])
+        attackers_bees = await self.db.get_bees(ctx.author.id)
+        victims_bees = await self.db.get_bees(user.id)
+        if attackers_bees > victims_bees:
+            heist_success = choice([False, True, True, True, False, True, False, True])
+        elif victims_bees > attackers_bees:
+            heist_success = choice([False, True, False, False, False, True, False, True])
         else:
-            heistSuccess = choice([False, True, False, True, False, True, False, True])
-        if heistSuccess:
-            sAmount = ceil(victimBal*(randint(10, 40)/100))
-            await self.db.set_balance(user.id, victimBal - sAmount)
-            await self.db.set_balance(ctx.author.id, theirBal + sAmount)
+            heist_success = choice([False, True, False, True, False, True, False, True])
+        if heist_success:
+            sAmount = ceil(victim_bal*(randint(10, 40)/100))
+            await self.db.set_balance(user.id, victim_bal - sAmount)
+            await self.db.set_balance(ctx.author.id, their_bal + sAmount)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You escaped with {0} <:emerald:653729877698150405>", "You got away with {0} <:emerald:653729877698150405>"]).format(str(sAmount))))
         else:
-            await self.db.set_balance(user.id, victimBal + 32)
-            await self.db.set_balance(ctx.author.id, theirBal - 32)
+            await self.db.set_balance(user.id, victim_bal + 32)
+            await self.db.set_balance(ctx.author.id, their_bal - 32)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You were caught and paid 32 <:emerald:653729877698150405>"))
 
     @commands.command(name="leaderboard", aliases=["lb"])
