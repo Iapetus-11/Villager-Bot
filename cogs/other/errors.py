@@ -30,7 +30,7 @@ class Errors(commands.Cog):
             return
 
         # Commands to ignore
-        for _type in [commands.CommandNotFound, commands.NotOwner, commands.CheckFailure]:
+        for _type in [commands.CommandNotFound, commands.NotOwner, commands.CheckFailure, commands.errors.Forbidden]:
             if isinstance(e, _type):
                 return
 
@@ -62,11 +62,8 @@ class Errors(commands.Cog):
 
         if not "HTTPException: 503 Service Unavailable (error code: 0)" in str(e):
             excls = ['OH SNAP', 'OH FU\*\*!', 'OH \*\*\*\*!', 'OH SH-']
-            try:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(excls)} "
-                                                   + "You found an actual error, please take a screenshot and report it on our **[support server](https://discord.gg/39DwwUV)**, thank you!"))
-            except discord.errors.Forbidden:
-                pass
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(excls)} "
+                                               + "You found an actual error, please take a screenshot and report it on our **[support server](https://discord.gg/39DwwUV)**, thank you!"))
         error_channel = self.bot.get_channel(642446655022432267)
         
         # Thanks TrustedMercury!
