@@ -201,6 +201,7 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a piece of netherite scrap"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase some netherite scrap."))
+            return
 
         if item == "stone pickaxe": # "wood" is default
             if their_bal >= 32:
@@ -269,7 +270,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
 
     @commands.command(name="sell")
-    async def sellitem(self, ctx, am: str, *, item: str):
+    async def sell_item(self, ctx, am: str, *, item: str):
         if item == "items":
             items = await self.db.get_items(ctx.author.id)
             if len(items) < 1:
