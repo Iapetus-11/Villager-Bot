@@ -94,19 +94,19 @@ class Owner(commands.Cog):
     @commands.command(name="botban")
     @commands.is_owner()
     async def botban(self, ctx, user: discord.User):
-        ban = await self.db.botBan(user.id)
+        ban = await self.db.ban_from_bot(user.id)
         await ctx.send(ban.format(str(user)))
 
     @commands.command(name="botunban")
     @commands.is_owner()
     async def botunban(self, ctx, user: discord.User):
-        unban = await self.db.botUnban(user.id)
+        unban = await self.db.unban_from_bot(user.id)
         await ctx.send(unban.format(str(user)))
 
     @commands.command(name="botbans")
     @commands.is_owner()
     async def listbotbans(self, ctx):
-        bans = await self.db.listBotBans()
+        bans = await self.db.list_bot_bans()
         if len(bans) < 1:
             await ctx.send("No one has been banned from the bot yet")
             return
@@ -214,7 +214,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="setpickaxe", aliases=["setpick"])
     @commands.is_owner()
     async def setpick(self, ctx, user: discord.User, pType: str):
-        await self.db.setPick(user.id, pType)
+        await self.db.set_pickaxe(user.id, pType)
 
     @commands.command(name="reverselookup", aliases=["lookup"])
     @commands.is_owner()
@@ -238,18 +238,18 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="setbal")
     @commands.is_owner()
     async def balset(self, ctx, user: discord.User, amount: int):
-        await self.db.setBal(user.id, amount)
+        await self.db.set_balance(user.id, amount)
 
     @commands.command(name="getvault")
     @commands.is_owner()
     async def getvault(self, ctx, user: discord.User):
-        vault = await self.db.getVault(user.id)
+        vault = await self.db.get_vault(user.id)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.display_name + "'s vault: " + str(vault[0]) + "<:emerald_block:679121595150893057>/" + str(vault[1])))
 
     @commands.command(name="setvault")
     @commands.is_owner()
     async def setvault(self, ctx, user: discord.User, amount: int, maxx: int):
-        await self.db.setVault(user.id, amount, maxx)
+        await self.db.set_vault(user.id, amount, maxx)
 
     @commands.command(name="addtoplaying")
     @commands.is_owner()
@@ -287,30 +287,30 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="getinv", aliases=["getinventory"])
     @commands.is_owner()
     async def inventory(self, ctx, u: discord.User):
-        pick = await self.db.getPick(u.id)
+        pick = await self.db.get_pickaxe(u.id)
         contents = pick+" pickaxe\n"
 
-        bal = await self.db.getBal(u.id)
+        bal = await self.db.get_balance(u.id)
         if bal == 1:
             contents += "1x emerald\n"
         else:
             contents += str(bal)+"x emeralds\n"
 
-        beecount = await self.db.getBees(u.id)
+        beecount = await self.db.get_bees(u.id)
         if beecount > 1:
             contents += str(beecount)+"x jars of bees ("+str(beecount*3)+" bees)\n"
         if beecount == 1:
             contents += str(beecount)+"x jar of bees ("+str(beecount*3)+" bees)\n"
 
-        netheritescrapcount = await self.db.getScrap(u.id)
+        netheritescrapcount = await self.db.get_scrap(u.id)
         if netheritescrapcount > 1:
             contents += str(netheritescrapcount)+"x chunks of netherite scrap\n"
         if netheritescrapcount == 1:
             contents += str(netheritescrapcount)+"x chunk of netherite scrap\n"
 
-        items = await self.db.getItems(u.id)
+        items = await self.db.get_items(u.id)
         for item in items:
-            m = await self.db.getItem(u.id, item[0])
+            m = await self.db.get_item(u.id, item[0])
             contents += f"{m[1]}x {m[0]} (sells for {m[2]}<:emerald:653729877698150405>)\n"
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)

@@ -45,7 +45,7 @@ class Events(commands.Cog):
         multi = 1
         if await self.dblpy.get_weekend_status():
             multi = 2
-        await self.db.setBal(userID, await self.db.getBal(userID) + (32*multi))
+        await self.db.set_balance(userID, await self.db.get_balance(userID) + (32 * multi))
         user = self.bot.get_user(userID)
         if user is not None:
             await self.bot.get_channel(682195105784004610).send(f":tada::tada: {user.display_name} has voted! :tada::tada:")
@@ -75,7 +75,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
-        await self.db.dropDoReplies(guild.id)
+        await self.db.drop_do_replies(guild.id)
 
 
 def setup(bot):

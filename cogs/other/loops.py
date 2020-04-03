@@ -22,34 +22,28 @@ class Loops(commands.Cog):
         self.logger = logging.getLogger("Loops")
         self.logger.setLevel(logging.INFO)
 
-    def cog_unload(self):
-        self.bot.loop.create_task(self.stop_tasks())
-
-    async def stop_tasks(self):
-        await self.dblpy.close()
-
-    async def updateTopGGStats(self):
+    async def update_topgg_stats(self):
         while True:
             await self.dblpy.post_guild_count()
             self.logger.info(" Updated Top.gg Stats")
             await asyncio.sleep(1800)
 
-    async def updateActivity(self):
+    async def update_activity(self):
         while True:
             await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
             self.logger.info(" Updated Activity")
             await asyncio.sleep(3600)
 
-    async def resetCounter(self):
+    async def reset_counters(self):
         while True:
             self.g.cmd_vect = 0
             await asyncio.sleep(2)
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.bot.loop.create_task(self.updateActivity())
-        self.bot.loop.create_task(self.updateTopGGStats())
-        self.bot.loop.create_task(self.resetCounter())
+        self.bot.loop.create_task(self.update_activity())
+        self.bot.loop.create_task(self.update_topgg_stats())
+        self.bot.loop.create_task(self.reset_counters())
 
 
 def setup(bot):

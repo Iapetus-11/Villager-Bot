@@ -28,16 +28,16 @@ class Settings(commands.Cog):
             if car.lower() not in self.g.allowedChars:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Your new prefix includes an invalid character: \uFEFF ``\uFEFF{0}\uFEFF``".format(car)))
                 return
-        await self.db.setPrefix(ctx.guild.id, prefix[:16])
+        await self.db.set_prefix(ctx.guild.id, prefix[:16])
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Changed the prefix from ``{0}`` to ``{1}``.".format(ctx.prefix, prefix[:16])))
 
     @config.command(name="replies")
     async def setDoReplies(self, ctx, doem: str):
         if doem == "on":
-            await self.db.setDoReplies(ctx.guild.id, True)
+            await self.db.set_do_replies(ctx.guild.id, True)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Turned on message replies."))
         elif doem == "off":
-            await self.db.setDoReplies(ctx.guild.id, False)
+            await self.db.set_do_replies(ctx.guild.id, False)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Turned off message replies."))
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid option! Only ``on`` and ``off`` are valid options."))

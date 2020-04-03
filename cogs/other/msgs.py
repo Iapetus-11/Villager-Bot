@@ -12,14 +12,14 @@ class Msgs(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         self.g.msg_count += 1
-        await self.db.incrementVaultMax(message.author.id)
+        await self.db.increment_vault_max(message.author.id)
 
         # Only replies handling past this point
         if message.author.bot:
             return
 
         if "emerald" in message.content.lower() or "villager bot" in message.clean_content.lower():
-            if message.guild is None or await self.db.getDoReplies(message.guild.id):
+            if message.guild is None or await self.db.get_do_replies(message.guild.id):
                 try:
                     await message.channel.send(choice(["hrmm", "hmm", "hrmmm", "hrghhmmm", "hrhhmmmmmmmmm", "hrmmmmmm", "hrmmmmmmmmmm", "hrmmmmm"]))
                 except discord.errors.Forbidden:

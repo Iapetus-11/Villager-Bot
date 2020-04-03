@@ -12,7 +12,7 @@ with open("data/keys.json", "r") as k:  # Loads secret keys
     keys = json.load(k)
 
 # Fetch prefix from db, also, self(in this context) is bot
-async def getPrefix(bot, ctx):
+async def get_prefix(bot, ctx):
     if ctx.guild is None:
         return "!!"
     gid = ctx.guild.id
@@ -25,7 +25,7 @@ async def getPrefix(bot, ctx):
     return prefix[0]
 
 
-bot = commands.AutoShardedBot(command_prefix=getPrefix, help_command=None, case_insensitive=True, max_messages=9999)
+bot = commands.AutoShardedBot(command_prefix=get_prefix, help_command=None, case_insensitive=True, max_messages=9999)
 
 async def setup_db():
     bot.db = await asyncpg.create_pool(host="localhost", database="villagerbot", user="pi", password=keys["postgres"], command_timeout=5)
@@ -33,7 +33,7 @@ async def setup_db():
 asyncio.get_event_loop().run_until_complete(setup_db())
 
 # data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL
-cogs = ["data.global",
+bot.cog_list = ["data.global",
         "cogs.database.database",
         "cogs.owner.owner",
         "cogs.other.msgs",
@@ -48,7 +48,7 @@ cogs = ["data.global",
         "cogs.commands.settings"]
 
 # Load cogs in cogs list
-for cog in cogs:
+for cog in bot.cog_list:
     bot.load_extension(cog)
 
 
