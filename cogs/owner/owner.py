@@ -343,8 +343,8 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.is_owner()
     async def cleanup_dp(self, ctx):
         # Cleanup the prefixes table
-        guild = await self.bot.db.fetch("SELECT * FROM prefixes")
-        for gid in guildIds:
+        guilds = await self.bot.db.fetch("SELECT * FROM prefixes")
+        for gid in guilds:
             async with self.bot.db.acquire() as con:
                 if self.bot.get_guild(gid) is None:
                     await con.execute(f"DELETE FROM prefixes WHERE prefixes.gid='{gid}'")
