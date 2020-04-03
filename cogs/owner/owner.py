@@ -56,6 +56,7 @@ class Owner(commands.Cog):
 **{0}awaiteval** ***statement*** *uses await eval()*
 **{0}restart** *forcibly restarts the bot*
 **{0}backupdb** *backs up the db*
+**{0}cleanupdb** *cleans the db*
 """.format(ctx.prefix), color=discord.Color.green())
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
@@ -335,7 +336,20 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="resetprefix")
     @commands.is_owner()
     async def resetprefix(self, ctx, gid: int):
-        await ctx.send(await self.bot.db.execute("DELETE FROM prefixes WHERE prefixes.gid='{gid}'"))
+        async with self.bot.db.acquire() as con:
+            await ctx.send(await con.execute(f"DELETE FROM prefixes WHERE prefixes.gid='{gid}'"))
+
+    @commands.command(name="cleanupdb")
+    @commands.is_owner()
+    async def cleanup_dp(self, ctx):
+        # Cleanup the prefixes table
+        guild = await self.bot.db.fetch("SELECT * FROM prefixes")
+        for gid in guildIds:
+            async with self.bot.db.acquire() as con:
+                if self.bot.get_guild(gid) is None:
+                    await con.execute(f"DELETE FROM prefixes WHERE prefixes.gid='{gid}'")
+                    await con.execute(f"DELETE FROM doreplies WHERE doreplies.gid='{gid}'")
+        
 
 
 def setup(bot):
