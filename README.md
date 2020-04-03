@@ -9,7 +9,9 @@
 * Ability to ping Minecraft servers (Java Edition and *some* Bedrock Edition servers)
 * Command which sends a random Minecraft server
 
-# __Commands__
+## Contributing
+
+## Commands
 
 ### Fun Commands
 * __!!enchant__ *text* (turns text into the Minecraft enchanting table language)
