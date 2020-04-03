@@ -18,7 +18,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 
 ## Support/Contact Information
 * [Discord Support Server](https://discord.gg/39DwwUV)
-* Discord Usernames: Iapetus11#6821 & TrustedMercury#1953
+* Discord Usernames: **Iapetus11#6821** & **TrustedMercury#1953**
 
 ## Commands
 ### Fun Commands
