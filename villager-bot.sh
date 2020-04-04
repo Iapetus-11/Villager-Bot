@@ -1,2 +1,2 @@
-python3 bot.py
+python3 wrapper.py
 ./villager-bot.sh

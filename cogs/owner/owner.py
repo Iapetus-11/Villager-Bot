@@ -5,6 +5,7 @@ import json
 from os import system
 import arrow
 import asyncio
+from time import sleep
 
 
 class Owner(commands.Cog):
@@ -334,6 +335,11 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     async def reset_prefix(self, ctx, gid: int):
         async with self.bot.db.acquire() as con:
             await ctx.send(await con.execute(f"DELETE FROM prefixes WHERE prefixes.gid='{gid}'"))
+
+    @commands.command(name="sleep")
+    @commands.is_owner()
+    async def sleep_forever(self, ctx, amount: int):
+        sleep(amount)
 
 
 def setup(bot):
