@@ -407,15 +407,16 @@ class Econ(commands.Cog):
                     for vowel in ["a", "e", "i", "o", "u"]:
                         if c[0].startswith(vowel):
                             a = "an"
-                    await ctx.send(choice([f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in an abandoned mineshaft!",
-                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest while mining!",
-                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest!",
-                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest near a monster spawner!",
-                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) while mining!"]))
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in an abandoned mineshaft!",
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest while mining!",
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest!",
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest near a monster spawner!",
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) while mining!"]))
                     await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                     return
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You " + choice(["found", "mined", "mined up", "found"])+" "+str(randint(1, 8)) + " "
-                                                   + choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['found', 'mined', 'mined up', 'found'])} {randint(1, 5)} "
+                                                                                        f"{choice(['worthless', 'useless', 'dumb', 'stupid'])} {found}."))
 
     @mine.error
     async def handle_mine_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
