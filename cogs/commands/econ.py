@@ -546,19 +546,19 @@ class Econ(commands.Cog):
             return
 
         if item == "Haste I Potion":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{item}** *(which lasts 60 seconds)*!"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{item}** *(which lasts 4 minutes)*!"))
             self.items_in_use[ctx.author.id] = item
             await self.db.remove_item(ctx.author.id, item, 1)
-            await asyncio.sleep(60)
+            await asyncio.sleep(240)
             self.items_in_use.pop(ctx.author.id)
             await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{item}** you chugged earlier has worn off."))
             return
 
         if item == "Haste II Potion":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{item}** *(which lasts 45 seconds)*!"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{item}** *(which lasts 3 minutes)*!"))
             self.items_in_use[ctx.author.id] = item
             await self.db.remove_item(ctx.author.id, item, 1)
-            await asyncio.sleep(45)
+            await asyncio.sleep(180)
             self.items_in_use.pop(ctx.author.id)
             await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{item}** you chugged earlier has worn off."))
             return
