@@ -536,7 +536,7 @@ class Econ(commands.Cog):
             self.items_in_use[ctx.author.id] = item
             await self.db.remove_item(ctx.author.id, item, 1)
             await asyncio.sleep(60)
-            self.items_in_use.pop(str(ctx.author.id))
+            self.items_in_use.pop(ctx.author.id)
             await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{item}** you chugged earlier has worn off."))
             return
 
@@ -545,7 +545,7 @@ class Econ(commands.Cog):
             self.items_in_use[ctx.author.id] = item
             await self.db.remove_item(ctx.author.id, item, 1)
             await asyncio.sleep(45)
-            self.items_in_use.pop(str(ctx.author.id))
+            self.items_in_use.pop(ctx.author.id)
             await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{item}** you chugged earlier has worn off."))
             return
 
