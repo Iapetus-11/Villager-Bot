@@ -23,25 +23,37 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * Discord Usernames: **Iapetus11#6821** & **TrustedMercury#1953**
 
 ## Commands
-### Fun Commands
+### Notable Features:
+* Made by Iapetus11, so it must be good, right?
+* Custom prefixes
+* Voting rewards (32 emeralds on weekdays, 64 on weekends, double on some holidays)
+* Economy/currency system (Emeralds, duh!)
+* Villager Shop with a bunch of different items including beeeeeeeeeeeeeeeeees
+* Ability to ping Minecraft servers (Java Edition and *some* Bedrock Edition servers)
+* Command which sends a random Minecraft server
+
+### Economy Commands
+* __!!mine__ (go mining with the bot for emeralds)
+* __!!balance__ (check the amount of emeralds in your inventory)
+* __!!inventory__ (allows you to check the items in your inventory)
+* __!!give__ *@user* *amount* (gives mentioned user specified amount of emeralds from your inventory)
+* __!!gamble__ *amount* (gamble with Villager Bot)
+* __!!pillage__ *@user* (attempt to steal emeralds from another user)
+* __!!shop__ (opens the Villager Shop where you can buy items)
+* __!!sell__ *amount item* (sells a specified amount of an item back to Villager Bot)
+* __!!vault__ (view the amount of emerald blocks you have in the emerald vault)
+* __!!deposit__ *amount in emerald blocks* (deposits emerald blocks into the emerald vault)
+* __!!withdraw__ *amount in emerald blocks* (withdraws emerald blocks from the emerald vault)
+* __!!chug__ *potion* (uses the specified potion)
+* __!!leaderboard__ (shows the people with the most emeralds)
+
+### Other Fun Commands
 * __!!enchant__ *text* (turns text into the Minecraft enchanting table language)
 * __!!unenchant__ *text* (turns text in the enchanting table language back into english)
 * __!!villagerspeak__ *text* (turns text into villager sounds in text)
 * __!!sarcastic__ *text* (converts given text into sarcastic text)
 * __!!battle__ *@user* (allows you to battle the mentioned user)
 * __!!cursed__ (bot will upload a cursed Minecraft image)
-* __!!mine__ (go mining with the bot for emeralds)
-* __!!balance__ (check the amount of emeralds in your inventory)
-* __!!inventory__ (allows you to check the items in your inventory)
-* __!!give__ *@user amount* (gives mentioned user specified amount of emeralds from your inventory)
-* __!!giveitem__ *@user amount item* (gives mentioned user specified amount of given item from your inv)
-* __!!gamble__ *amount* (gamble with Villager Bot)
-* __!!pillage__ *@user* (attempt to steal emeralds from another user)
-* __!!shop__ (opens the Villager Shop where you can buy items)
-* __!!sell__ *amount item* (sells a specified amount of an item back to Villager Bot)
-* __!!deposit__ *amount in emerald blocks* (deposits emerald blocks into the emerald vault)
-* __!!withdraw__ *amount in emerald blocks* (withdraws emerald blocks from the emerald vault)
-* __!!leaderboard__ (shows the people with the most emeralds)
 
 ### Useful Minecraft Commands
 * __!!mcping__ *ip:port* (pings and gets information on the specified Minecraft server)
