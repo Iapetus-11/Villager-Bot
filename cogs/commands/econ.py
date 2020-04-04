@@ -10,7 +10,8 @@ class Econ(commands.Cog):
         self.bot = bot
         self.g = self.bot.get_cog("Global")
         self.db = self.bot.get_cog("Database")
-        self.whoismining = {}
+        self.who_is_mining = {}
+        self.items_in_use = {}
 
     async def problem_generator(self):
         x = randint(0, 25)
@@ -346,22 +347,22 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 1.4, commands.BucketType.user)
     async def mine(self, ctx):
-        if ctx.author.id in self.whoismining.keys():
-            if self.whoismining[ctx.author.id] >= 100:
+        if ctx.author.id in self.who_is_mining.keys():
+            if self.who_is_mining[ctx.author.id] >= 100:
                 prob = await self.problem_generator()
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Please solve this problem to continue: ``"+prob[0]+"``"))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
                 msg = await self.bot.wait_for("message")
                 while msg.author.id is not ctx.author.id:
                     msg = await self.bot.wait_for("message")
                 if msg.clean_content == prob[1]:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Correct answer!"))
-                    self.whoismining[ctx.author.id] = 0
+                    self.who_is_mining[ctx.author.id] = 0
                 else:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Incorrect answer."))
                 return
-            self.whoismining[ctx.author.id] += 1
+            self.who_is_mining[ctx.author.id] += 1
         else:
-            self.whoismining[ctx.author.id] = 1
+            self.who_is_mining[ctx.author.id] = 1
         pickaxe = await self.db.get_pickaxe(ctx.author.id)
         if pickaxe == "wood":
             minin = ["dirt", "dirt", "emerald", "dirt", "cobblestone", "cobblestone", "cobblestone", "emerald", "coal", "coal", "cobblestone", "cobblestone", "dirt",
@@ -399,7 +400,7 @@ class Econ(commands.Cog):
                                                                                                 f"You got {mult} <:emerald:653729877698150405>!"])))
             await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + 1 * mult)
         else:
-            for c in self.g.collectables:
+            for c in self.g.items:
                 if randint(0, c[2]) == c[3]:
                     e = "<:emerald:653729877698150405>"
                     await ctx.send(choice([f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) in an abandoned mineshaft!",
@@ -415,7 +416,7 @@ class Econ(commands.Cog):
                 await self.db.add_item(ctx.author.id, "Fortune III Book", 1, 420)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found a **Fortune III Book**!! Also, some rare dirt..."))
             elif randint(0, 6969) == 1000:
-                await self.db.add_item(ctx.author.id, "Efficiency I", 1, 2048)
+                await self.db.add_item(ctx.author.id, "Efficiency I Book", 1, 2048)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found an **Efficiency I Book**!! Also, some rare dirt..."))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You " + choice(["found", "mined", "mined up", "found"])+" "+str(randint(1, 8)) + " "
@@ -424,13 +425,19 @@ class Econ(commands.Cog):
     @mine.error
     async def handle_mine_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
-            eff1 = await self.db.get_item(ctx.author.id, "Efficiency I")
-            if eff1 is None:
-                ctx.handled = False
-                return
-            elif e.retry_after <= .4:
+            cooldown = e.retry_after
+            if await self.db.get_item(ctx.author.id, "Efficiency I Book") is not None:
+                cooldown -= .4
+            if self.items_in_use[ctx.author.id] == "Haste I Potion":
+                cooldown -= .6
+            if self.items_in_use[ctx.author.id] == "Haste II Potion":
+                cooldown -= .9
+
+            if cooldown <= 0:
                 ctx.handled = True
                 await ctx.reinvoke()
+            else:
+                ctx.handled = False
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
@@ -514,6 +521,37 @@ class Econ(commands.Cog):
             lbtext += f"{entry[1]}<:emerald:653729877698150405> {str(user)[:-5]} \n"
         embed = discord.Embed(color=discord.Color.green(), title="<:emerald:653729877698150405>__**Emerald Leaderboard**__<:emerald:653729877698150405>", description=lbtext)
         await ctx.send(embed=embed)
+
+    @commands.command(name="chug", aliases=["drink"])
+    async def use_potion(self, ctx, *, item: str):
+        if self.items_in_use[ctx.author.id] is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Currently, you can not use more than one potion at a time."))
+            return
+
+        _item = await self.db.getItem(ctx.author.id, item)
+        if _item is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either that item doesn't exist, or you don't have it!"))
+            return
+
+        if _item[0] == "Haste I Potion":
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{_item[0]}** *(which lasts 60 seconds)*!"))
+            self.items_in_use[ctx.author.id] = _item[0]
+            await self.db.remove_item(ctx.author.id, _item[0], 1)
+            await asyncio.sleep(60)
+            self.items_in_use.pop(ctx.author.id)
+            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{_item[0]}** you chugged earlier has worn off."))
+            return
+
+        if _item[0] == "Haste II Potion":
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{_item[0]}** *(which lasts 45 seconds)*!"))
+            self.items_in_use[ctx.author.id] = _item[0]
+            await self.db.remove_item(ctx.author.id, _item[0], 1)
+            await asyncio.sleep(45)
+            self.items_in_use.pop(ctx.author.id)
+            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{_item[0]}** you chugged earlier has worn off."))
+            return
+
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist."))
 
 def setup(bot):
     bot.add_cog(Econ(bot))

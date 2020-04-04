@@ -23,7 +23,7 @@ class Events(commands.Cog):
         self.logger.setLevel(logging.INFO)
 
     def cog_unload(self):
-        self.bot.loop.create_task(self.stop_dblpy())
+        self.bot.loop.run_until_complete(self.stop_dblpy())
 
     async def stop_dblpy(self):
         await self.dblpy.close()
@@ -50,7 +50,7 @@ class Events(commands.Cog):
         if user is not None:
             await self.bot.get_channel(682195105784004610).send(f":tada::tada: {user.display_name} has voted! :tada::tada:")
             if choice([True, False]):
-                for c in self.g.collectables:
+                for c in self.g.items:
                     if randint(0, c[2]) == c[3]:
                         e = "<:emerald:653729877698150405>"
                         try:

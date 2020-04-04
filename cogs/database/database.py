@@ -2,7 +2,7 @@ from discord.ext import commands
 import discord
 import asyncpg
 import json
-from random import choice
+from random import choice, randint
 
 
 class Database(commands.Cog):
@@ -119,7 +119,7 @@ class Database(commands.Cog):
 
     async def drop_prefix(self, gid):
         async with self.db.acquire() as con:
-            await con.execute(f"DELETE FROM prefixes WHERE prefixes.id='{gid}'")
+            await con.execute(f"DELETE FROM prefixes WHERE prefixes.gid='{gid}'")
 
     async def get_do_replies(self, gid):
         do_replies = await self.db.fetchrow(f"SELECT reply FROM doreplies WHERE doreplies.gid='{gid}'")
