@@ -95,7 +95,7 @@ class Econ(commands.Cog):
             shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
             shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
             shop.add_field(name="__**Pickaxes**__", value=f"``{ctx.prefix}shop pickaxes``")
-            shop.add_field(name="__**Enchanted Books**__", value=f"``{ctx.prefix}shop books``")
+            shop.add_field(name="__**Magic Items**__", value=f"``{ctx.prefix}shop magic``")
             shop.add_field(name="__**Other**__", value=f"``{ctx.prefix}shop other``")
             await ctx.send(embed=shop)
 
@@ -111,15 +111,15 @@ class Econ(commands.Cog):
         shop.add_field(name="__**Diamond Pickaxe**__ 2048<:emerald:653729877698150405>", value=f"``{ctx.prefix}buy diamond pickaxe``", inline=True)
         shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         shop.add_field(name="__**Netherite Pickaxe**__ 8192<:emerald:653729877698150405> 4<:netherite_scrap:676974675091521539>", value=f"``{ctx.prefix}buy netherite pickaxe``", inline=True)
-        shop.set_footer(text="Pickaxes allow you to obtain more emeralds while using the "+ctx.prefix+"mine command!")
+        shop.set_footer(text=f"Pickaxes allow you to obtain more emeralds while using the {ctx.prefix}mine command!")
         await ctx.send(embed=shop)
 
-    @shop.command(name="books")
+    @shop.command(name="magic")
     async def shop_books(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop [Books]", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
+        shop.set_author(name="Villager Shop [Magic Items]", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         shop.add_field(name="__**Fortune I Book**__ 120<:emerald:653729877698150405>", value=f"``{ctx.prefix}buy fortune i book``", inline=True)
-        shop.set_footer(text="Enchantment books give you a chance obtain more emeralds while using the "+ctx.prefix+"mine command!")
+        shop.add_field(name="__**Haste I Potion**__ 120<:emerald:653729877698150405>", value=f"``{ctx.prefix}buy haste i potion``", inline=True)
         await ctx.send(embed=shop)
 
     @shop.command(name="other")
@@ -177,6 +177,15 @@ class Econ(commands.Cog):
         item = _item.lower()
         their_bal = await self.db.get_balance(ctx.author.id)
 
+        if item == "haste i potion" or item == "haste 1 potion":
+            if their_bal >= 120:
+                await self.db.set_balance(ctx.author.id, their_bal - 120)
+                await self.db.add_item(ctx.author.id, "Haste I Potion", 1, 32)
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a Haste I Potion."))
+            else:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Haste I Potion."))
+            return
+
         if item == "fortune i book" or item == "fortune 1 book":
             if their_bal >= 120:
                 await self.db.set_balance(ctx.author.id, their_bal - 120)
@@ -186,7 +195,7 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Fortune I Book."))
             return
 
-        if item == "jar of bees":
+        if item == "jar of bees" or item == "bees":
             if their_bal >= 8:
                 await self.db.set_balance(ctx.author.id, their_bal - 8)
                 await self.db.set_bees(ctx.author.id, await self.db.get_bees(ctx.author.id) + 1)
