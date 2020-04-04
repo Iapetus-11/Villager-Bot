@@ -483,9 +483,9 @@ class Econ(commands.Cog):
 
     @commands.command(name="pillage", aliases=["steal"], cooldown_after_parsing=True)
     @commands.cooldown(1, 300, commands.BucketType.user)
-    async def pillage(self, ctx, victim: discord.User):
-        if ctx.author.id == victim.id:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=victim.display_name + " " + choice(["threw their items into a lava pool.",
+    async def pillage(self, ctx, user: discord.User):
+        if ctx.author.id == user.id:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.display_name+" "+choice(["threw their items into a lava pool.",
                                                                                                                       "commited dig straight down",
                                                                                                                       "suicided via creeper"])))
             return
@@ -493,29 +493,29 @@ class Econ(commands.Cog):
         if their_bal < 64:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You need 64 emeralds in order to pillage others!"))
             return
-        victim_bal = await self.db.get_balance(victim.id)
+        victim_bal = await self.db.get_balance(user.id)
         if victim_bal < 64:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="It's not worth it, they don't even have 64 emeralds yet."))
             return
         attackers_bees = await self.db.get_bees(ctx.author.id)
-        victims_bees = await self.db.get_bees(victim.id)
+        victims_bees = await self.db.get_bees(user.id)
         if attackers_bees > victims_bees:
             heist_success = choice([False, True, True, True, False, True, False, True]) # 5/8
         elif victims_bees > attackers_bees:
             heist_success = choice([False, True, False, False, False, True, False, True]) # 3/8
         else:
             heist_success = choice([False, True, False, True, False, True, False, True]) # 4/8
-        item = self.db.get_item(victim.id, "Bane Of Pillagers Amulet")
+        item = self.db.get_item(user.id, "Bane Of Pillagers Amulet")
         if item is not None:
             heist_success = choice([False, False, False, False, False, False, False, True]) # 1/8
         if heist_success:
             sAmount = ceil(victim_bal*(randint(10, 40)/100))
-            await self.db.set_balance(victim.id, victim_bal - sAmount)
+            await self.db.set_balance(user.id, victim_bal - sAmount)
             await self.db.set_balance(ctx.author.id, their_bal + sAmount)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You escaped with {0} <:emerald:653729877698150405>",
                                                                                                 "You got away with {0} <:emerald:653729877698150405>"]).format(str(sAmount))))
         else:
-            await self.db.set_balance(victim.id, victim_bal + 32)
+            await self.db.set_balance(user.id, victim_bal + 32)
             await self.db.set_balance(ctx.author.id, their_bal - 32)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You were caught and paid 32 <:emerald:653729877698150405>"))
 

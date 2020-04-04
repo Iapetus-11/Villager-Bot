@@ -40,7 +40,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_dbl_vote(self, data):
-        userID = int(data["victim"])
+        userID = int(data["user"])
         self.logger.info(f"\u001b[32;1m {userID} VOTED ON TOP.GG \u001b[0m")
         multi = 1
         if await self.dblpy.get_weekend_status():
@@ -67,7 +67,7 @@ class Events(commands.Cog):
             except discord.errors.Forbidden:
                 pass
         else:
-            await self.bot.get_channel(682195105784004610).send(":tada::tada: An unknown victim voted for the bot! :tada::tada:")
+            await self.bot.get_channel(682195105784004610).send(":tada::tada: An unknown user voted for the bot! :tada::tada:")
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):

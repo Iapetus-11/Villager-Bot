@@ -52,7 +52,7 @@ for cog in bot.cog_list:
     bot.load_extension(cog)
 
 
-async def banned(uid):  # Check if victim is banned from bot
+async def banned(uid):  # Check if user is banned from bot
     entry = await bot.db.fetchrow(f"SELECT id FROM bans WHERE bans.id='{str(uid)}'")
     if entry is None:
         return False

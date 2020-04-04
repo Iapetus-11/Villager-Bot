@@ -58,7 +58,7 @@ class AdminCmds(commands.Cog):
 
         not_banned_embed = discord.Embed(
             color=discord.Color.green(),
-            description="Mentioned victim had not been banned before!")
+            description="Mentioned user had not been banned before!")
         await ctx.send(embed=not_banned_embed)
 
     @commands.command(name="kick")

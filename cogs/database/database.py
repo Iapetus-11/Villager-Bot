@@ -15,7 +15,7 @@ class Database(commands.Cog):
     def unload(self):
         self.db.close()
 
-    async def get_db_value(self, table, uid, two, sett): # table(table in database), uid(context victim id), two(second column with data, not uid), sett(default value that it is set to if other entry isn't there)
+    async def get_db_value(self, table, uid, two, sett): # table(table in database), uid(context user id), two(second column with data, not uid), sett(default value that it is set to if other entry isn't there)
         val = await self.db.fetchrow(f"SELECT {two} FROM {table} WHERE {table}.id='{uid}'")
         if val is None:
             async with self.db.acquire() as con:
@@ -28,7 +28,7 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute(f"UPDATE {table} SET {two}='{sett}' WHERE id='{uid}'")
 
-    async def get_db_values_3(self, table, uid, two, three, sett, settt): # table, victim id, second column with data, third column with data, 2nd column default val, 3rd column default val
+    async def get_db_values_3(self, table, uid, two, three, sett, settt): # table, user id, second column with data, third column with data, 2nd column default val, 3rd column default val
         two = await self.db.fetchrow(f"SELECT {two} FROM {table} WHERE {table}.id='{uid}'")
         three = await self.db.fetchrow(f"SELECT {three} FROM {table} WHERE {table}.id='{uid}'")
         if two is None or three is None:

@@ -32,17 +32,17 @@ class Owner(commands.Cog):
 
 **{0}info2** *displays information about stuff*
 **{0}cogs** *lists the loaded cogs*
-**{0}lookup** ***victim*** *shows what servers a victim is in*
+**{0}lookup** ***user*** *shows what servers a user is in*
 
-**{0}setbal** ***@victim amount*** *set victim balance to something*
-**{0}getinv** ***@victim*** *get inventory of a victim*
-**{0}setvault** ***@victim amount*** *set victim's vault to given amount*
-**{0}getvault** ***@victim*** *gets the mentioned victim's vault*
-**{0}setpickaxe** ***victim*** ***pickaxe type*** *sets pickaxe level of a victim*
+**{0}setbal** ***@user amount*** *set user balance to something*
+**{0}getinv** ***@user*** *get inventory of a user*
+**{0}setvault** ***@user amount*** *set user's vault to given amount*
+**{0}getvault** ***@user*** *gets the mentioned user's vault*
+**{0}setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
 **{0}resetprefix** ***guild id*** *resets the prefix of a server*
 
-**{0}botban** ***victim*** *bans a victim from using the bot*
-**{0}botunban** ***victim*** *unbans a victim from using the bot*
+**{0}botban** ***user*** *bans a user from using the bot*
+**{0}botunban** ***user*** *unbans a user from using the bot*
 
 **{0}addtoplaying** ***text*** *add a status to the list of statuses cycled through by the bot*
 **{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
