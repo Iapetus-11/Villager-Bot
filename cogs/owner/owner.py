@@ -327,7 +327,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     async def reload_items(self, ctx):
         with open("data/items.json", "r") as items:
             self.g.items = json.load(items)
-        await ctx.send("Reloaded the collectable items list")
+        await ctx.send("Reloaded the items list")
 
     @commands.command(name="resetprefix")
     @commands.is_owner()
