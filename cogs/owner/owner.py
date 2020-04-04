@@ -335,6 +335,14 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         async with self.bot.db.acquire() as con:
             await ctx.send(await con.execute(f"DELETE FROM prefixes WHERE prefixes.gid='{gid}'"))
 
+    @commands.command(name="cleandb")
+    @commands.is_owner()
+    async def clean_db(self, ctx):
+        for record in await self.bot.db.fetch("SELECT * FROM currency"):
+            async with self.bot.db.acquire() as con:
+                if self.bot.get_user(record[0]) is None:
+                    await con.execute(f"DELETE FROM currency WHERE currency.id='{record[0]}'")
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
