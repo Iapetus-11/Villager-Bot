@@ -142,7 +142,7 @@ class Minecraft(commands.Cog):
         r = await self.ses.post("https://api.mojang.com/profiles/minecraft", json=[gamertag])
         j = json.loads(await r.text()) # [0]['id']
         if j == []:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That user could not be found."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That victim could not be found."))
             return
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{gamertag}: ``{j[0]['id']}``"))
 
