@@ -17,7 +17,7 @@ class Owner(commands.Cog):
     @commands.command(name="ownerhelp", aliases=["helpowner", "owner"])
     @commands.is_owner()
     async def owner_help(self, ctx):
-        embedMsg = discord.Embed(
+        embed_msg = discord.Embed(
             description="""
 **{0}unload** ***cog*** *unloads a cog*
 **{0}load** ***cog*** *loads a cog*
@@ -55,8 +55,8 @@ class Owner(commands.Cog):
 **{0}restart** *forcibly restarts the bot*
 **{0}backupdb** *backs up the db*
 """.format(ctx.prefix), color=discord.Color.green())
-        embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        await ctx.send(embed=embedMsg)
+        embed_msg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        await ctx.send(embed=embed_msg)
 
     @commands.command(name="unload")
     @commands.is_owner()
