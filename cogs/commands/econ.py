@@ -538,7 +538,7 @@ class Econ(commands.Cog):
 
         _item = await self.db.get_item(ctx.author.id, item)
         if _item is None:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either that item doesn't exist, or you don't have it!"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either that potion doesn't exist, or you don't have it!"))
             return
 
         if item == "Haste I Potion":
