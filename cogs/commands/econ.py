@@ -428,10 +428,11 @@ class Econ(commands.Cog):
             cooldown = e.retry_after
             if await self.db.get_item(ctx.author.id, "Efficiency I Book") is not None:
                 cooldown -= .4
-            if self.items_in_use[str(ctx.author.id)] == "Haste I Potion":
-                cooldown -= .6
-            if self.items_in_use[str(ctx.author.id)] == "Haste II Potion":
-                cooldown -= .9
+            if ctx.author.id in list(self.items_in_use):
+                if self.items_in_use[ctx.author.id] == "Haste I Potion":
+                    cooldown -= .6
+                if self.items_in_use[ctx.author.id] == "Haste II Potion":
+                    cooldown -= .9
 
             if cooldown <= 0:
                 ctx.handled = True
@@ -524,7 +525,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="chug", aliases=["drink"])
     async def use_potion(self, ctx, *, item: str):
-        if self.items_in_use[str(ctx.author.id)] is None:
+        if self.items_in_use[ctx.author.id] is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Currently, you can not use more than one potion at a time."))
             return
 
@@ -535,7 +536,7 @@ class Econ(commands.Cog):
 
         if _item[0] == "Haste I Potion":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{_item[0]}** *(which lasts 60 seconds)*!"))
-            self.items_in_use[str(ctx.author.id)] = _item[0]
+            self.items_in_use[ctx.author.id] = _item[0]
             await self.db.remove_item(ctx.author.id, _item[0], 1)
             await asyncio.sleep(60)
             self.items_in_use.pop(str(ctx.author.id))
@@ -544,7 +545,7 @@ class Econ(commands.Cog):
 
         if _item[0] == "Haste II Potion":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{_item[0]}** *(which lasts 45 seconds)*!"))
-            self.items_in_use[str(ctx.author.id)] = _item[0]
+            self.items_in_use[ctx.author.id] = _item[0]
             await self.db.remove_item(ctx.author.id, _item[0], 1)
             await asyncio.sleep(45)
             self.items_in_use.pop(str(ctx.author.id))
