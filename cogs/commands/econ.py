@@ -486,7 +486,8 @@ class Econ(commands.Cog):
     async def pillage(self, ctx, user: discord.User):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.display_name+" "+choice(["threw their items into a lava pool.",
-                                                                                                                      "commited dig straight down", "suicided via creeper"])))
+                                                                                                                      "commited dig straight down",
+                                                                                                                      "suicided via creeper"])))
             return
         their_bal = await self.db.get_balance(ctx.author.id)
         if their_bal < 64:
@@ -499,11 +500,14 @@ class Econ(commands.Cog):
         attackers_bees = await self.db.get_bees(ctx.author.id)
         victims_bees = await self.db.get_bees(user.id)
         if attackers_bees > victims_bees:
-            heist_success = choice([False, True, True, True, False, True, False, True])
+            heist_success = choice([False, True, True, True, False, True, False, True]) # 5/8
         elif victims_bees > attackers_bees:
-            heist_success = choice([False, True, False, False, False, True, False, True])
+            heist_success = choice([False, True, False, False, False, True, False, True]) # 3/8
         else:
-            heist_success = choice([False, True, False, True, False, True, False, True])
+            heist_success = choice([False, True, False, True, False, True, False, True]) # 4/8
+        item = self.db.get_item(user.id, "Bane Of Pillagers Amulet")
+        if item is not None:
+            heist_success = choice([False, False, False, False, False, False, False, True]) # 1/8
         if heist_success:
             sAmount = ceil(victim_bal*(randint(10, 40)/100))
             await self.db.set_balance(user.id, victim_bal - sAmount)
