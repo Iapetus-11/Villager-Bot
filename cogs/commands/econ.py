@@ -412,7 +412,7 @@ class Econ(commands.Cog):
                         f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest while mining!",
                         f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest!",
                         f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest near a monster spawner!",
-                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) while mining!"]))
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) while mining!"])))
                     await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                     return
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['found', 'mined', 'mined up', 'found'])} {randint(1, 5)} "
