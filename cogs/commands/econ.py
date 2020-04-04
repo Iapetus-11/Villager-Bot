@@ -522,7 +522,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="chug", aliases=["drink"])
     async def use_potion(self, ctx, *, item: str):
-        if self.items_in_use[ctx.author.id] is None:
+        if self.items_in_use.get(ctx.author.id) is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Currently, you can not use more than one potion at a time."))
             return
 
