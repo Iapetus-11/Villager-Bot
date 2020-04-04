@@ -33,7 +33,7 @@ async def setup_db():
 asyncio.get_event_loop().run_until_complete(setup_db())
 
 # data.global needs to be loaded FIRST, then database and owner as they are dependant upon GLOBAL
-bot.cog_list = ["data.global",
+bot.cog_list = ["cogs.other.global",
         "cogs.database.database",
         "cogs.owner.owner",
         "cogs.other.msgs",
