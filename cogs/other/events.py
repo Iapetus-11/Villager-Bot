@@ -1,6 +1,6 @@
 from discord.ext import commands
 import discord
-from random import choice
+from random import choice, randint
 import asyncio
 import logging
 import dbl
