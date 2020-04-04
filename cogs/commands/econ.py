@@ -410,8 +410,8 @@ class Econ(commands.Cog):
                     await ctx.send(choice([f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in an abandoned mineshaft!",
                                            f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest while mining!",
                                            f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest!",
-                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest near a monster spawner!"],
-                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) while mining!"))
+                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest near a monster spawner!",
+                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) while mining!"]))
                     await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                     return
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You " + choice(["found", "mined", "mined up", "found"])+" "+str(randint(1, 8)) + " "
@@ -475,7 +475,8 @@ class Econ(commands.Cog):
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, user: discord.User):
         if ctx.author.id == user.id:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.display_name+" "+choice(["threw their items into a lava pool.", "commited dig straight down", "suicided via creeper"])))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.display_name+" "+choice(["threw their items into a lava pool.",
+                                                                                                                      "commited dig straight down", "suicided via creeper"])))
             return
         their_bal = await self.db.get_balance(ctx.author.id)
         if their_bal < 64:
@@ -497,7 +498,8 @@ class Econ(commands.Cog):
             sAmount = ceil(victim_bal*(randint(10, 40)/100))
             await self.db.set_balance(user.id, victim_bal - sAmount)
             await self.db.set_balance(ctx.author.id, their_bal + sAmount)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You escaped with {0} <:emerald:653729877698150405>", "You got away with {0} <:emerald:653729877698150405>"]).format(str(sAmount))))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You escaped with {0} <:emerald:653729877698150405>",
+                                                                                                "You got away with {0} <:emerald:653729877698150405>"]).format(str(sAmount))))
         else:
             await self.db.set_balance(user.id, victim_bal + 32)
             await self.db.set_balance(ctx.author.id, their_bal - 32)
