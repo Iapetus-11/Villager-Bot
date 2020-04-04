@@ -22,6 +22,8 @@ class Loops(commands.Cog):
         self.logger = logging.getLogger("Loops")
         self.logger.setLevel(logging.INFO)
 
+        self.did_setup = False
+
     async def update_topgg_stats(self):
         while True:
             await self.dblpy.post_guild_count()
@@ -41,9 +43,11 @@ class Loops(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.bot.loop.create_task(self.update_activity())
-        self.bot.loop.create_task(self.update_topgg_stats())
-        self.bot.loop.create_task(self.reset_counters())
+        if not self.did_setup:
+            self.bot.loop.create_task(self.update_activity())
+            self.bot.loop.create_task(self.update_topgg_stats())
+            self.bot.loop.create_task(self.reset_counters())
+            self.did_setup = True
 
 
 def setup(bot):
