@@ -341,7 +341,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         for record in await self.bot.db.fetch("SELECT * FROM currency"):
             async with self.bot.db.acquire() as con:
                 if self.bot.get_user(record[0]) is None:
-                    await con.execute(f"DELETE FROM currency WHERE currency.id='{record[0]}'")
+                    await con.execute("DELETE FROM currency WHERE currency.id=$1", record[0])
 
 
 def setup(bot):
