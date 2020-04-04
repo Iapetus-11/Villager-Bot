@@ -89,13 +89,13 @@ class Owner(commands.Cog):
 
     @commands.command(name="botban")
     @commands.is_owner()
-    async def bot_ban(self, ctx, user: discord.User):
+    async def _bot_ban(self, ctx, user: discord.User):
         ban = await self.db.ban_from_bot(user.id)
         await ctx.send(ban.format(str(user)))
 
     @commands.command(name="botunban")
     @commands.is_owner()
-    async def bot_unban(self, ctx, user: discord.User):
+    async def _bot_unban(self, ctx, user: discord.User):
         unban = await self.db.unban_from_bot(user.id)
         await ctx.send(unban.format(str(user)))
 
