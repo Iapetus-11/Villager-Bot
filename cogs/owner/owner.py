@@ -13,12 +13,9 @@ class Owner(commands.Cog):
         self.g = self.bot.get_cog("Global")
         self.db = self.bot.get_cog("Database")
 
-        self.leaderboard = [('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',), ('0', '-1',),
-                            ('0', '-1',), ('0', '-1',), ('0', '-1',)]
-
     @commands.command(name="ownerhelp", aliases=["helpowner", "owner"])
     @commands.is_owner()
-    async def ownerhelp(self, ctx):
+    async def owner_help(self, ctx):
         embedMsg = discord.Embed(
             description="""
 **{0}unload** ***cog*** *unloads a cog*
@@ -35,7 +32,7 @@ class Owner(commands.Cog):
 
 **{0}info2** *displays information about stuff*
 **{0}cogs** *lists the loaded cogs*
-**{0}reverselookup** ***user*** *shows what servers a user is in*
+**{0}lookup** ***user*** *shows what servers a user is in*
 
 **{0}setbal** ***@user amount*** *set user balance to something*
 **{0}getinv** ***@user*** *get inventory of a user*
@@ -50,13 +47,12 @@ class Owner(commands.Cog):
 **{0}addtoplaying** ***text*** *add a status to the list of statuses cycled through by the bot*
 **{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
 **{0}addmcserver** ***ip port "version" type verified \*note*** *adds to the list of mc servers*
-**{0}reloadcollectables** *reload the list of collectable items from the json file*
+**{0}reloaditems** *reload the list of items from the json file*
 
 **{0}eval** ***statement*** *uses eval()*
 **{0}awaiteval** ***statement*** *uses await eval()*
 **{0}restart** *forcibly restarts the bot*
 **{0}backupdb** *backs up the db*
-**{0}cleanupdb** *cleans the db*
 """.format(ctx.prefix), color=discord.Color.green())
         embedMsg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embedMsg)
@@ -67,7 +63,7 @@ class Owner(commands.Cog):
         try:
             self.bot.unload_extension("cogs." + cog)
         except Exception as e:
-            await ctx.send("Error while unloading extension: {0}\n``{1}``".format(cog, e))
+            await ctx.send(f"Error while unloading extension: {cog}\n``{e}``")
             return
         await ctx.send(f"Successfully unloaded cog: " + cog)
 
@@ -77,7 +73,7 @@ class Owner(commands.Cog):
         try:
             self.bot.load_extension("cogs." + cog)
         except Exception as e:
-            await ctx.send("Error while loading extension: {0}\n``{1}``".format(cog, e))
+            await ctx.send(f"Error while loading extension: {cog}\n``{e}``")
             return
         await ctx.send("Successfully loaded cog: " + cog)
 
@@ -87,25 +83,25 @@ class Owner(commands.Cog):
         try:
             self.bot.reload_extension("cogs." + cog)
         except Exception as e:
-            await ctx.send("Error while reloading extension: {0}\n``{1}``".format(cog, e))
+            await ctx.send(f"Error while reloading extension: {cog}\n``{e}``")
             return
         await ctx.send("Successfully reloaded cog: " + cog)
 
     @commands.command(name="botban")
     @commands.is_owner()
-    async def botban(self, ctx, user: discord.User):
+    async def bot_ban(self, ctx, user: discord.User):
         ban = await self.db.ban_from_bot(user.id)
         await ctx.send(ban.format(str(user)))
 
     @commands.command(name="botunban")
     @commands.is_owner()
-    async def botunban(self, ctx, user: discord.User):
+    async def bot_unban(self, ctx, user: discord.User):
         unban = await self.db.unban_from_bot(user.id)
         await ctx.send(unban.format(str(user)))
 
     @commands.command(name="botbans")
     @commands.is_owner()
-    async def listbotbans(self, ctx):
+    async def list_bot_bans(self, ctx):
         bans = await self.db.list_bot_bans()
         if len(bans) < 1:
             await ctx.send("No one has been banned from the bot yet")
@@ -124,7 +120,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="nextactivity")
     @commands.is_owner()
-    async def nextactivity(self, ctx):
+    async def next_activity(self, ctx):
         try:
             await ctx.message.delete()
         except Exception:
@@ -133,7 +129,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="guilds")
     @commands.is_owner()
-    async def guilds(self, ctx):
+    async def guild_list(self, ctx):
         i = 0
         rows = 35
         msg = ""
@@ -148,7 +144,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="dms")
     @commands.is_owner()
-    async def dmlist(self, ctx):
+    async def dm_list(self, ctx):
         i = 0
         rows = 30
         msg = ""
@@ -166,12 +162,12 @@ class Owner(commands.Cog):
 
     @commands.command(name="leaveguild")
     @commands.is_owner()
-    async def leaveguild(self, ctx, *, guild: int):
+    async def leave_guild(self, ctx, *, guild: int):
         await self.bot.get_guild(guild).leave()
 
     @commands.command(name="getinvites")
     @commands.is_owner()
-    async def getinvites(self, ctx, *, guild: int):
+    async def get_invites(self, ctx, *, guild: int):
         invites = await self.bot.get_guild(guild).invites()
         i = 0
         rows = 30
@@ -203,12 +199,12 @@ Latency: {round(self.bot.latency*1000, 2)} ms
 
     @commands.command(name="eval")
     @commands.is_owner()
-    async def evalMessage(self, ctx, *, msg):
+    async def eval_message(self, ctx, *, msg):
         await ctx.send(f"{eval(msg)}\uFEFF")
 
     @commands.command(name="awaiteval")
     @commands.is_owner()
-    async def awaitEvalMessage(self, ctx, *, msg):
+    async def await_eval_message(self, ctx, *, msg):
         await ctx.send(f"{await eval(msg)}\uFEFF")
 
     @commands.command(name="setpickaxe", aliases=["setpick"])
@@ -218,7 +214,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
 
     @commands.command(name="reverselookup", aliases=["lookup"])
     @commands.is_owner()
-    async def inverseguildlookup(self, ctx, user: discord.User):
+    async def guild_lookup(self, ctx, user: discord.User):
         gds = ""
         for guild in self.bot.guilds:
             for member in guild.members:
@@ -231,29 +227,29 @@ Latency: {round(self.bot.latency*1000, 2)} ms
 
     @commands.command(name="cogs")
     @commands.is_owner()
-    async def listCogs(self, ctx):
+    async def list_cogs(self, ctx):
         for ext in list(self.bot.extensions):
             await ctx.send(ext)
 
     @commands.command(name="setbal")
     @commands.is_owner()
-    async def balset(self, ctx, user: discord.User, amount: int):
+    async def set_bal(self, ctx, user: discord.User, amount: int):
         await self.db.set_balance(user.id, amount)
 
     @commands.command(name="getvault")
     @commands.is_owner()
-    async def getvault(self, ctx, user: discord.User):
+    async def get_vault(self, ctx, user: discord.User):
         vault = await self.db.get_vault(user.id)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.display_name + "'s vault: " + str(vault[0]) + "<:emerald_block:679121595150893057>/" + str(vault[1])))
 
     @commands.command(name="setvault")
     @commands.is_owner()
-    async def setvault(self, ctx, user: discord.User, amount: int, maxx: int):
+    async def set_vault(self, ctx, user: discord.User, amount: int, maxx: int):
         await self.db.set_vault(user.id, amount, maxx)
 
     @commands.command(name="addtoplaying")
     @commands.is_owner()
-    async def addtoplaying(self, ctx, *, new: str):
+    async def add_to_playing(self, ctx, *, new: str):
         self.g.playingList.append(new)
         with open("data/playing_list.json", "w+") as playingList:
             playingList.write(json.dumps(self.g.playingList))
@@ -261,7 +257,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
 
     @commands.command(name="addtocursed")
     @commands.is_owner()
-    async def addtocursed(self, ctx, *, new: str):
+    async def add_to_cursed(self, ctx, *, new: str):
         self.g.cursedImages.append(new)
         with open("data/cursed_images.json", "w+") as cursedImages:
             playingList.write(json.dumps(self.g.cursedImages))
@@ -269,7 +265,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
 
     @commands.command(name="addmcserver")
     @commands.is_owner()
-    async def addmcserver(self, ctx, ip: str, port: int, version: str, typp: str, verified: bool, *, note: str):
+    async def add_mc_server(self, ctx, ip: str, port: int, version: str, typp: str, verified: bool, *, note: str):
         server = {"ip": ip, "port": port, "version": version, "type": typp, "verified": verified, "note": note}
         self.g.mcServers.append(server)
         with open("data/minecraft_servers.json", "w+") as mcServers:
@@ -326,16 +322,16 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         system("pg_dump villagerbot | gzip > ../database-backups/{0}.gz".format(arrow.utcnow().ctime().replace(" ", "_").replace(":", ".")))
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Backed up the database!"))
 
-    @commands.command(name="reloadcollectables")
+    @commands.command(name="reloaditems")
     @commands.is_owner()
-    async def reloadcollectables(self, ctx):
+    async def reload_items(self, ctx):
         with open("data/collectable_items.json", "r") as collectables:
             self.g.collectables = json.load(collectables)
         await ctx.send("Reloaded the collectable items list")
 
     @commands.command(name="resetprefix")
     @commands.is_owner()
-    async def resetprefix(self, ctx, gid: int):
+    async def reset_prefix(self, ctx, gid: int):
         async with self.bot.db.acquire() as con:
             await ctx.send(await con.execute(f"DELETE FROM prefixes WHERE prefixes.gid='{gid}'"))
         

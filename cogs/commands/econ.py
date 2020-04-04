@@ -455,17 +455,17 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You need to gamble with at least 1 emerald!", "You need 1 or more emeralds to gamble with."])))
             return
         roll = randint(1, 6)+randint(1, 6)
-        botRoll = randint(1, 6)+randint(1, 6)
+        bot_roll = randint(1, 6)+randint(1, 6)
         await asyncio.sleep(.5)
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Villager Bot rolled: ``"+str(botRoll)+"``\nYou rolled: ``"+str(roll)+"``"))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Villager Bot rolled: ``"+str(bot_roll)+"``\nYou rolled: ``"+str(roll)+"``"))
         mult = 1+(randint(10, 30)/100)
         if their_bal < 100:
             mult += 0.2
         rez = ceil(amount*mult)
-        if roll > botRoll:
+        if roll > bot_roll:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You won "+str(rez-amount)+" <:emerald:653729877698150405> **|** Multiplier: "+str(int(mult*100))+"%"))
             await self.db.set_balance(ctx.author.id, their_bal + (rez - amount))
-        elif roll < botRoll:
+        elif roll < bot_roll:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You lost! Villager Bot won "+str(amount)+" <:emerald:653729877698150405> from you."))
             await self.db.set_balance(ctx.author.id, their_bal - amount)
         else:
@@ -513,7 +513,7 @@ class Econ(commands.Cog):
         for entry in lb:
             user = self.bot.get_user(int(entry[0]))
             if user is None:
-                user = "Deleted User     "
+                user = "Deleted User"
             lbtext += f"{entry[1]}<:emerald:653729877698150405> {str(user)[:-5]} \n"
         embed = discord.Embed(color=discord.Color.green(), title="<:emerald:653729877698150405>__**Emerald Leaderboard**__<:emerald:653729877698150405>", description=lbtext)
         await ctx.send(embed=embed)
