@@ -42,6 +42,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!deposit__ *amount in emerald blocks* (deposits emerald blocks into the emerald vault)
 * __!!withdraw__ *amount in emerald blocks* (withdraws emerald blocks from the emerald vault)
 * __!!leaderboard__ (shows the people with the most emeralds)
+* __!!chug__ *potion* (uses the specified potion)
 
 ### Useful Minecraft Commands
 * __!!mcping__ *ip:port* (pings and gets information on the specified Minecraft server)
