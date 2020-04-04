@@ -334,7 +334,6 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     async def reset_prefix(self, ctx, gid: int):
         async with self.bot.db.acquire() as con:
             await ctx.send(await con.execute(f"DELETE FROM prefixes WHERE prefixes.gid='{gid}'"))
-        
 
 
 def setup(bot):
