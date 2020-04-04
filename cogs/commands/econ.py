@@ -403,23 +403,18 @@ class Econ(commands.Cog):
             for c in self.g.items:
                 if randint(0, c[2]) == c[3]:
                     e = "<:emerald:653729877698150405>"
-                    await ctx.send(choice([f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) in an abandoned mineshaft!",
-                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) in a chest while mining!",
-                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) in a chest!",
-                                           f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) in a chest near a monster spawner!"]))
+                    a = "a"
+                    for vowel in ["a", "e", "i", "o", "u"]:
+                        if c[0].startswith(vowel):
+                            a = "an"
+                    await ctx.send(choice([f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in an abandoned mineshaft!",
+                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest while mining!",
+                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest!",
+                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest near a monster spawner!"],
+                                           f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) while mining!"))
                     await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                     return
-            if randint(0, 999) == 420:
-                await self.db.add_item(ctx.author.id, "Fortune II Book", 1, 120)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found a **Fortune II Book**!! Also, some rare dirt..."))
-            elif randint(0, 9999) == 6669:
-                await self.db.add_item(ctx.author.id, "Fortune III Book", 1, 420)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found a **Fortune III Book**!! Also, some rare dirt..."))
-            elif randint(0, 6969) == 1000:
-                await self.db.add_item(ctx.author.id, "Efficiency I Book", 1, 2048)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You found an **Efficiency I Book**!! Also, some rare dirt..."))
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You " + choice(["found", "mined", "mined up", "found"])+" "+str(randint(1, 8)) + " "
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You " + choice(["found", "mined", "mined up", "found"])+" "+str(randint(1, 8)) + " "
                                                    + choice(["worthless", "useless", "dumb", "stupid"])+" "+found+"."))
 
     @mine.error
