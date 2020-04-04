@@ -526,27 +526,27 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Currently, you can not use more than one potion at a time."))
             return
 
-        _item = await self.db.getItem(ctx.author.id, item)
+        _item = await self.db.get_item(ctx.author.id, item)
         if _item is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either that item doesn't exist, or you don't have it!"))
             return
 
-        if _item[0] == "Haste I Potion":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{_item[0]}** *(which lasts 60 seconds)*!"))
-            self.items_in_use[ctx.author.id] = _item[0]
-            await self.db.remove_item(ctx.author.id, _item[0], 1)
+        if item == "Haste I Potion":
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{item}** *(which lasts 60 seconds)*!"))
+            self.items_in_use[ctx.author.id] = item
+            await self.db.remove_item(ctx.author.id, item, 1)
             await asyncio.sleep(60)
             self.items_in_use.pop(str(ctx.author.id))
-            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{_item[0]}** you chugged earlier has worn off."))
+            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{item}** you chugged earlier has worn off."))
             return
 
-        if _item[0] == "Haste II Potion":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{_item[0]}** *(which lasts 45 seconds)*!"))
-            self.items_in_use[ctx.author.id] = _item[0]
-            await self.db.remove_item(ctx.author.id, _item[0], 1)
+        if item == "Haste II Potion":
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{item}** *(which lasts 45 seconds)*!"))
+            self.items_in_use[ctx.author.id] = item
+            await self.db.remove_item(ctx.author.id, item, 1)
             await asyncio.sleep(45)
             self.items_in_use.pop(str(ctx.author.id))
-            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{_item[0]}** you chugged earlier has worn off."))
+            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{item}** you chugged earlier has worn off."))
             return
 
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist."))
