@@ -30,7 +30,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.logger.info("\u001b[36;1m CONNECTED \u001b[0m")
+        self.logger.info(f"\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards]")
 
     @commands.Cog.listener()
     async def on_dbl_test(self, data):
