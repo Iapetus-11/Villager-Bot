@@ -191,7 +191,7 @@ DM Channel Count: {len(self.bot.private_channels)}
 User Count: {len(self.bot.users)}
 Session Message Count: {self.g.msg_count}
 Session Command Count: {self.g.cmd_count} ({round((self.g.cmd_count/self.g.msg_count)*100, 2)}% of all msgs)
-Average Commands/Sec: {self.g.cmd_vect, 2}
+Commands/Sec: {self.g.cmd_vect}
 Shard Count: {self.bot.shard_count}
 Latency: {round(self.bot.latency*1000, 2)} ms
 """)
