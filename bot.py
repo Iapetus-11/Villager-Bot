@@ -62,6 +62,7 @@ async def stay_safe(ctx):
     await bot.get_cog("Database").increment_vault_max(ctx.author.id)
     bot.get_cog("Global").cmd_count += 1
     bot.get_cog("Global").cmd_vect += 1
+
     if not bot.is_ready():
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
         return False

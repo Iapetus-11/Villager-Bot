@@ -16,7 +16,7 @@ class Database(commands.Cog):
         self.db.close()
 
     async def get_db_value(self, table, uid, two, sett): # table(table in database), uid(context user id), two(second column with data, not uid), sett(default value that it is set to if other entry isn't there)
-        val = await self.db.fetchrow(f"SELECT {two} FROM {table} WHERE {table}.id='{uid}'")
+        val = await self.db.fetchrow("SELECT $1 FROM $2 WHERE $2.id=$3", two, table, uid)
         if val is None:
             async with self.db.acquire() as con:
                 await con.execute(f"INSERT INTO {table} VALUES ('{uid}', '{sett}')")
@@ -45,8 +45,7 @@ class Database(commands.Cog):
     async def increment_vault_max(self, uid):
         vault = await self.get_vault(uid)
         if vault[1] < 2000:
-            if choice([True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
-                       False, False, False, False, False, False, False, False, False, False]):
+            if choice([True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]):
                 await self.set_vault(uid, vault[0], vault[1] + 1)
 
     async def get_balance(self, uid): # Gets emeralds
