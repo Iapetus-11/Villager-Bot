@@ -184,18 +184,18 @@ class Owner(commands.Cog):
     @commands.command(name="info2")
     @commands.is_owner()
     async def info2(self, ctx):
-        infoEmbed = discord.Embed(description="", color=discord.Color.green())
-        infoEmbed.add_field(name="__**Owner Info**__", value=f"""
+        info_embed = discord.Embed(description="", color=discord.Color.green())
+        info_embed.add_field(name="__**Owner Info**__", value=f"""
 Guild Count: {len(self.bot.guilds)}
 DM Channel Count: {len(self.bot.private_channels)}
 User Count: {len(self.bot.users)}
 Session Message Count: {self.g.msg_count}
 Session Command Count: {self.g.cmd_count} ({round((self.g.cmd_count/self.g.msg_count)*100, 2)}% of all msgs)
-Average Commands/Sec: {round(self.g.cmd_vect/2, 2)}
+Average Commands/Sec: {round(self.g.cmd_vect[1]/(arrow.utcnow()-self.g.cmd_vect[0]), 2)}
 Shard Count: {self.bot.shard_count}
 Latency: {round(self.bot.latency*1000, 2)} ms
 """)
-        await ctx.send(embed=infoEmbed)
+        await ctx.send(embed=info_embed)
 
     @commands.command(name="eval")
     @commands.is_owner()

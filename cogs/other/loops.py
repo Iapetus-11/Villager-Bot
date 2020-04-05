@@ -5,6 +5,7 @@ import logging
 from random import choice
 import json
 import dbl
+import arrow
 
 
 class Loops(commands.Cog):
@@ -38,8 +39,8 @@ class Loops(commands.Cog):
 
     async def reset_counters(self):
         while True:
-            self.g.cmd_vect = 0
-            await asyncio.sleep(2)
+            self.g.cmd_vect = [arrow.utcnow(), 0]
+            await asyncio.sleep(5)
 
     @commands.Cog.listener()
     async def on_ready(self):
