@@ -332,8 +332,8 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="resetprefix")
     @commands.is_owner()
     async def reset_prefix(self, ctx, gid: int):
-        async with self.bot.db.acquire() as con:
-            await ctx.send(await con.execute(f"DELETE FROM prefixes WHERE prefixes.gid='{gid}'"))
+        await self.db.drop_prefix(gid)
+        await ctx.send(f"Reset the prefix for guild: {self.bot.get_guild(gid)}")
 
 
 def setup(bot):
