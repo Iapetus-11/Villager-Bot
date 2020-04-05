@@ -40,13 +40,13 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_dbl_vote(self, data):
-        userID = int(data["user"])
-        self.logger.info(f"\u001b[32;1m {userID} VOTED ON TOP.GG \u001b[0m")
+        user_id = int(data["user"])
+        self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
         multi = 1
         if await self.dblpy.get_weekend_status():
             multi = 2
-        await self.db.set_balance(userID, await self.db.get_balance(userID) + (32 * multi))
-        user = self.bot.get_user(userID)
+        await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
+        user = self.bot.get_user(user_id)
         if user is not None:
             await self.bot.get_channel(682195105784004610).send(f":tada::tada: {user.display_name} has voted! :tada::tada:")
             if choice([True, False]):
