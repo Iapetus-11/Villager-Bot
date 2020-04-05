@@ -68,7 +68,7 @@ async def stay_safe(ctx):
                                            description="Hold on! Villager Bot is still starting up!"))
         return False
     bot.get_cog("Global").cmd_count += 1
-    bot.get_cog("Global").cmd_vect[1] += 1
+    bot.get_cog("Global").cmd_vect[0] += 1
     if await banned(ctx.message.author.id):
         return False
     return not ctx.message.author.bot
