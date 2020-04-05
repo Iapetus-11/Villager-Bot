@@ -61,7 +61,6 @@ class Econ(commands.Cog):
         await self.db.set_balance(ctx.author.id, their_bal - (9 * amount))
         await self.db.set_vault(ctx.author.id, vault[0] + amount, vault[1])
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have deposited "+str(amount)+" emerald blocks into the vault. ("+str(amount*9)+"<:emerald:653729877698150405>)"))
-        await ctx.send(len(await self.bot.db.fetch("SELECT * FROM vault"))
 
     @commands.command(name="withdraw", aliases=["with"])
     async def withdraw(self, ctx, amount: str): # In emerald blocks

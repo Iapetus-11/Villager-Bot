@@ -12,7 +12,6 @@ class Msgs(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         self.g.msg_count += 1
-        await self.db.increment_vault_max(message.author.id)
 
         # Only replies handling past this point
         if message.author.bot:
