@@ -133,37 +133,38 @@ class Econ(commands.Cog):
 
     @commands.command(name="inventory", aliases=["inv"])
     async def inventory(self, ctx):
-        pick = await self.db.get_pickaxe(ctx.author.id)
+        u = ctx.author
+        pick = await self.db.get_pickaxe(u.id)
         contents = f"**{pick} pickaxe**\n"
 
-        bal = await self.db.get_balance(ctx.author.id)
+        bal = await self.db.get_balance(u.id)
         if bal == 1:
             contents += "1x **emerald**\n"
         else:
             contents += str(bal)+"x **emeralds**\n"
 
-        beecount = await self.db.get_bees(ctx.author.id)
-        if beecount > 1:
-            contents += str(beecount)+"x **jars of bees** ("+str(beecount*3)+" bees)\n"
-        if beecount == 1:
-            contents += str(beecount)+"x **jar of bees** ("+str(beecount*3)+" bees)\n"
+        bee_count = await self.db.get_bees(u.id)
+        if bee_count > 1:
+            contents += str(bee_count) + "x **jars of bees** (" + str(bee_count * 3) + " bees)\n"
+        if bee_count == 1:
+            contents += str(bee_count) + "x **jar of bees** (" + str(bee_count * 3) + " bees)\n"
 
-        netheritescrapcount = await self.db.get_scrap(ctx.author.id)
-        if netheritescrapcount > 1:
-            contents += str(netheritescrapcount)+"x **chunks of netherite scrap**\n"
-        if netheritescrapcount == 1:
-            contents += str(netheritescrapcount)+"x **chunk of netherite scrap**\n"
+        scrap_count = await self.db.get_scrap(u.id)
+        if scrap_count > 1:
+            contents += str(scrap_count) + "x **chunks of netherite scrap**\n"
+        if scrap_count == 1:
+            contents += str(scrap_count) + "x **chunk of netherite scrap**\n"
 
-        items = await self.db.get_items(ctx.author.id)
+        items = await self.db.get_items(u.id)
         for item in items:
-            m = await self.db.get_item(ctx.author.id, item[0])
+            m = await self.db.get_item(u.id, item[0])
             contents += f"{m[1]}x **{m[0]}** (sells for {m[2]}<:emerald:653729877698150405>)\n"
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)
-        if not ctx.author.avatar_url:
-            inv.set_author(name=f"{ctx.author.display_name}'s Inventory", url=discord.Embed.Empty)
+        if not u.avatar_url:
+            inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
         else:
-            inv.set_author(name=f"{ctx.author.display_name}'s Inventory", icon_url=str(ctx.author.avatar_url_as(static_format="png")))
+            inv.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
         await ctx.send(embed=inv)
 
     @commands.command(name="vault", aliases=["viewvault"])
