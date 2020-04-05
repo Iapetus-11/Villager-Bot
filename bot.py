@@ -15,13 +15,11 @@ with open("data/keys.json", "r") as k:  # Loads secret keys
 async def get_prefix(bot, ctx):
     if ctx.guild is None:
         return "!!"
-    gid = ctx.guild.id
-    prefix = await bot.db.fetchrow(f"SELECT prefix FROM prefixes WHERE prefixes.gid='{gid}'")
+    prefix = await bot.db.fetchrow("SELECT prefix FROM prefixes WHERE prefixes.gid=$1", ctx.guild.id)
     if prefix is None:
         async with bot.db.acquire() as con:
-            await con.execute(f"INSERT INTO prefixes VALUES ('{gid}', '!!')")
+            await con.execute("INSERT INTO prefixes VALUES ($1, $2)", gid, "!!")
         return "!!"
-    # return commands.when_mentioned_or(prefix[0])(bot, ctx)
     return prefix[0]
 
 
@@ -53,22 +51,21 @@ for cog in bot.cog_list:
 
 
 async def banned(uid):  # Check if user is banned from bot
-    entry = await bot.db.fetchrow(f"SELECT id FROM bans WHERE bans.id='{str(uid)}'")
+    entry = await bot.db.fetchrow("SELECT id FROM bans WHERE bans.id=$1", uid)
     if entry is None:
         return False
-    else:
-        return True
+    return True
 
 
 @bot.check  # Global check (everything goes through this)
 async def stay_safe(ctx):
     await bot.get_cog("Database").increment_vault_max(ctx.author.id)
+    bot.get_cog("Global").cmd_count += 1
+    bot.get_cog("Global").cmd_vect += 1
     if not bot.is_ready():
         await ctx.send(embed=discord.Embed(color=discord.Color.green(),
                                            description="Hold on! Villager Bot is still starting up!"))
         return False
-    bot.get_cog("Global").cmd_count += 1
-    bot.get_cog("Global").cmd_vect += 1
     if await banned(ctx.message.author.id):
         return False
     return not ctx.message.author.bot
