@@ -18,7 +18,7 @@ async def get_prefix(bot, ctx):
     prefix = await bot.db.fetchrow("SELECT prefix FROM prefixes WHERE prefixes.gid=$1", ctx.guild.id)
     if prefix is None:
         async with bot.db.acquire() as con:
-            await con.execute("INSERT INTO prefixes VALUES ($1, $2)", gid, "!!")
+            await con.execute("INSERT INTO prefixes VALUES ($1, $2)", ctx.guild.id, "!!")
         return "!!"
     return prefix[0]
 
