@@ -29,15 +29,12 @@ class Database(commands.Cog):
             await con.execute(f"UPDATE {table} SET {two}='{sett}' WHERE id='{uid}'")
 
     async def get_db_values_3(self, table, uid, two, three, sett, settt): # table, user id, second column with data, third column with data, 2nd column default val, 3rd column default val
-        two = await self.db.fetchrow(f"SELECT {two} FROM {table} WHERE {table}.id='{uid}'")
-        three = await self.db.fetchrow(f"SELECT {three} FROM {table} WHERE {table}.id='{uid}'")
-        if two is None or three is None:
+        values = await self.db.fetchrow(f"SELECT {two}, {three} FROM {table} WHERE {table}.id='{uid}'")
+        if values is None:
             async with self.db.acquire() as con:
                 await con.execute(f"INSERT INTO {table} VALUES ('{uid}', '{sett}', '{settt}')")
-            vals = (sett, settt,)
-        else:
-            vals = (two[0], three[0],)
-        return vals
+            values = (sett, settt,)
+        return values
 
     async def set_db_values_3(self, table, uid, two, three, sett, settt):
         await self.get_db_values_3(table, uid, two, three, sett, settt)
