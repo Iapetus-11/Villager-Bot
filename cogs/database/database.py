@@ -16,7 +16,7 @@ class Database(commands.Cog):
         self.db.close()
 
     async def get_db_value(self, table, uid, two, sett): # table(table in database), uid(context user id), two(second column with data, not uid), sett(default value that it is set to if other entry isn't there)
-        val = await self.db.fetchrow("SELECT $1 FROM $2 WHERE $2.id=$3", two, table, uid)
+        val = await self.db.fetchrow("SELECT $1 FROM $2 WHERE $3.id=$4", two, table, table, uid)
         if val is None:
             async with self.db.acquire() as con:
                 await con.execute(f"INSERT INTO {table} VALUES ('{uid}', '{sett}')")
