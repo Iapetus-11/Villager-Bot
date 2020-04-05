@@ -335,13 +335,6 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         async with self.bot.db.acquire() as con:
             await ctx.send(await con.execute(f"DELETE FROM prefixes WHERE prefixes.gid='{gid}'"))
 
-    @commands.command(name="cleanv")
-    @commands.is_owner()
-    async def clean_vaults(self, ctx):
-        async with self.bot.db.acquire() as con:
-            await ctx.send(await con.execute(f"DELETE FROM vault WHERE vault.amount='0'"))
-
-
 
 def setup(bot):
     bot.add_cog(Owner(bot))
