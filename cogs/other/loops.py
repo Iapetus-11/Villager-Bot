@@ -33,9 +33,9 @@ class Loops(commands.Cog):
 
     async def update_activity(self):
         while True:
+            await asyncio.sleep(3600)
             await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
             self.logger.info(" Updated Activity")
-            await asyncio.sleep(3600)
 
     async def reset_counters(self):
         while True:
