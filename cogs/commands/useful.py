@@ -51,7 +51,7 @@ class Useful(commands.Cog):
             name="**Economy Commands**",
             value=f'**{ctx.prefix}mine** *go mining with the bot for emeralds*\n'
 f'**{ctx.prefix}balance** *the bot will tell you how many emeralds you have*\n'
-f'**{ctx.prefix}vault** *shows you how many emerald blocks you have in the emerald vault\n'
+f'**{ctx.prefix}vault** *shows you how many emerald blocks you have in the emerald vault*\n'
 f'**{ctx.prefix}deposit** ***amount in emerald blocks*** *deposit emerald blocks into the emerald vault*\n'
 f'**{ctx.prefix}withdraw** ***amount in emerald blocks*** *withdraw emerald blocks from the emerald vault*\n'
 f'**{ctx.prefix}inventory** *see what you have in your inventory*\n'
@@ -128,7 +128,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}nametouuid** ***gamertag*** *gets the Minecraft uuid of the given player*\n'
             f'**{ctx.prefix}uuidtoname** ***uuid*** *gets the gamertag from the given Minecraft uuid*\n'
             f'**{ctx.prefix}randommc** *sends a random Minecraft server*\n'
-            f'**{ctx.prefix}buildidea** *sends a random idea on what you could build*'
+            f'**{ctx.prefix}buildidea** *sends a random idea on what you could build*\n'
             f'**{ctx.prefix}colorcodes** *sends a Minecraft color code cheat-sheet your way.*\n',
             inline=True)
         await ctx.send(embed=help_embed)
