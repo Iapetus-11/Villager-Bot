@@ -62,7 +62,7 @@ f'**{ctx.prefix}pillage** ***@user*** *attempt to steal emeralds from another pe
 f'**{ctx.prefix}shop** *go shopping with emeralds*\n'
 f'**{ctx.prefix}sell** ***amount item*** *sell a certain amount of an item*\n'
 f'**{ctx.prefix}leaderboard** *shows the emerald leaderboard*\n'
-f'**{ctx.prefix}chug** ***potion*** *uses the mentioned potion.\n',
+f'**{ctx.prefix}chug** ***potion*** *uses the mentioned potion.*\n',
             inline=False)
 
         help_embed.add_field(
