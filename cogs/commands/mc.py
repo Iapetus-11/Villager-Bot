@@ -185,7 +185,7 @@ class Minecraft(commands.Cog):
     async def mc_color_codes(self, ctx):
         embed = discord.Embed(color=discord.Color.green(), description="Text in Minecraft can be formatted using different codes and the section (``§``) sign.")
         embed.set_author(name="Minecraft Formatting Codes")
-        embed.add_field(name="Color Codes", text="<:red:697541699706028083> **Red** ``§c``\n"
+        embed.add_field(name="Color Codes", value="<:red:697541699706028083> **Red** ``§c``\n"
                         "<:yellow:697541699743776808> **Yellow** ``§e``\n"
                         "<:green:697541699316219967> **Green** ``§a``\n"
                         "<:aqua:697541699173613750> **Aqua** ``§b``\n"
