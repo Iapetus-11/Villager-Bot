@@ -181,7 +181,7 @@ class Minecraft(commands.Cog):
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(self.first)} a {choice(self.sizes)}, {choice(self.colors)} {choice(self.nouns)}{choice(['!', ''])}"))
 
-    @commands.command(name="colorcodes", aliases["mccolorcodes", "colors"])
+    @commands.command(name="colorcodes", aliases=["mccolorcodes", "colors"])
     async def mc_color_codes(self, ctx):
         embed = discord.Embed(color=discord.Color.green(), description="Text in Minecraft can be formatted using different codes and the section (``§``) sign.")
         embed.set_author(name="Minecraft Formatting Codes")
