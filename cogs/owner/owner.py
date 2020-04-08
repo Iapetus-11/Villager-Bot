@@ -52,6 +52,7 @@ class Owner(commands.Cog):
 **{0}eval** ***statement*** *uses eval()*
 **{0}awaiteval** ***statement*** *uses await eval()*
 **{0}restart** *forcibly restarts the bot*
+**{0}getlatest** *pulls latest from github and restarts bot*
 **{0}backupdb** *backs up the db*
 """.format(ctx.prefix), color=discord.Color.green())
         embed_msg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
@@ -275,10 +276,16 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="restart")
     @commands.is_owner()
     async def reeeeeeeeee(self, ctx):
-        await ctx.send("Force restarting le bot...")
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Force restarting le bot..."))
         await self.bot.db.close()
         await self.bot.logout()
         exit()
+
+    @commands.command(name="getlatest", aliases=["gitpull", "git_pull", "deploylatest"])
+    @commands.is_owner()
+    async def get_and_deploy_latest(self, ctx):
+        system("git pull")
+        await self.reeeeeeeeee(ctx)
 
     @commands.command(name="getinv", aliases=["getinventory"])
     @commands.is_owner()
