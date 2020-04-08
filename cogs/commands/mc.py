@@ -193,6 +193,20 @@ class Minecraft(commands.Cog):
                         "<:light_purple:697541699546775612> **Light Purple** ``§d``\n"
                         "<:white:697541699785719838> **White** ``§f``\n"
                         "<:gray:697541699534061630> **Gray** ``§7``\n")
+        embed.add_field(name="Color Codes", value="<:dark_red:> **Dark Red** ``§4``\n"
+                        "<:gold:697541699639050382> **Gold** ``§6``\n"
+                        "<:dark_green:697541699500769420> **Dark Green** ``§2``\n"
+                        "<:dark_aqua:697541699475472436> **Dark Aqua** ``§3``\n"
+                        "<:dark_blue:697541699488055437> **Dark Blue** ``§1``\n"
+                        "<:dark_purple:697541699437592666> **Dark Purple** ``§5``\n"
+                        "<:dark_gray:697541699471278120> **Dark Gray** ``§8``\n"
+                        "<:black:697541699496444025> **Black** ``§0``\n")
+        embed.add_field(name="Formatting Codes", value="<:bold:> **Bold** ``§l``\n"
+                        "<:strikethrough:697541699768942711> ~~Strikethrough~~ ``§m``\n"
+                        "<:underline:697541699806953583> __Underline__ ``§n``\n"
+                        "<:italic:697541699152379995> *Italic* ``§o``\n"
+                        "<:obfuscated:697541699769204736> ||Obfuscated|| ``§k``\n"
+                        "<:reset:697541699697639446> Reset ``§r``\n")
         await ctx.send(embed=embed)
 
 
