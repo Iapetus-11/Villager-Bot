@@ -59,7 +59,7 @@ class Minecraft(commands.Cog):
         self.sizes = ["normal sized", "normally sized", "large", "massive", "huge", "gigantic", "tiny", "small", "microscopic", "normal sized"]
 
     def cog_unload(self):
-        self.bot.loop.create_task(self.stopses())
+        self.bot.loop.create_task(self.stop_ses())
 
     async def stop_ses(self):
         await self.ses.stop()
