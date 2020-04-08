@@ -61,11 +61,11 @@ class Minecraft(commands.Cog):
     def cog_unload(self):
         self.bot.loop.create_task(self.stopses())
 
-    async def stopses(self):
+    async def stop_ses(self):
         await self.ses.stop()
 
     @commands.command(name="mcping") # Pings a java edition minecraft server
-    async def mcping(self, ctx, *, server: str):
+    async def mc_ping(self, ctx, *, server: str):
         await ctx.trigger_typing()
         server = server.replace(" ", "")
         if ":" in server:
@@ -88,7 +88,7 @@ class Minecraft(commands.Cog):
                                                "Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``"+ctx.prefix+"mcping 172.10.17.177:25565``"))
 
     @commands.command(name="mcpeping", aliases=["mcbeping"])
-    async def bedrockping(self, ctx, server: str):
+    async def bedrock_ping(self, ctx, server: str):
         ping = UNCONNECTED_PING()
         ping.pingID = 4201
         ping.encode()
@@ -138,7 +138,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="nametouuid", aliases=["uuid", "getuuid"])
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def getuuid(self, ctx, *, gamertag: str):
+    async def get_uuid(self, ctx, *, gamertag: str):
         r = await self.ses.post("https://api.mojang.com/profiles/minecraft", json=[gamertag])
         j = json.loads(await r.text()) # [0]['id']
         if j == []:
@@ -148,7 +148,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="uuidtoname", aliases=["getgamertag"])
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def getgamertag(self, ctx, *, uuid: str):
+    async def get_gamertag(self, ctx, *, uuid: str):
         response = await self.ses.get(f"https://api.mojang.com/user/profiles/{uuid}/names")
         if response.status == 204:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That player doesn't exist!"))
@@ -159,13 +159,13 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="mcsales", aliases=["minecraftsales"])
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def mcsales(self, ctx):
+    async def mc_sales(self, ctx):
         r = await self.ses.post("https://api.mojang.com/orders/statistics", json={"metricKeys": ["item_sold_minecraft", "prepaid_card_redeemed_minecraft"]})
         j = json.loads(await r.text())
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{j['total']}** total Minecraft copies sold, **{round(j['saleVelocityPerSeconds'], 3)}** copies sold per second."))
 
     @commands.command(name="randomserver", aliases=["randommc", "randommcserver", "mcserver", "minecraftserver"])
-    async def randommcserver(self, ctx):
+    async def random_mc_server(self, ctx):
         s = choice(self.g.mcServers)
         try:
             online = MinecraftServer.lookup(s['ip']+":"+str(s['port'])).status()
@@ -175,11 +175,27 @@ class Minecraft(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{stat} \uFEFF ``{s['ip']}:{s['port']}`` {s['version']} ({s['type']})\n{s['note']}"))
 
     @commands.command(name="buildidea", aliases=["idea"])
-    async def buildidea(self, ctx):
+    async def build_idea(self, ctx):
         if choice([True, False]):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(self.first)} {choice(self.prenouns)}{choice(['!', ''])}"))
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{choice(self.first)} a {choice(self.sizes)}, {choice(self.colors)} {choice(self.nouns)}{choice(['!', ''])}"))
+
+    @commands.command(name="colorcodes", aliases["mccolorcodes", "colors"])
+    async def mc_color_codes(self, ctx):
+        embed = discord.Embed(color=discord.Color.green(), description="Text in Minecraft can be formatted using different codes and the section (``§``) sign.")
+        embed.set_author(name="Minecraft Formatting Codes")
+        embed.add_field(name="Color Codes", text="<:red:697541699706028083> **Red** ``§c``\n"
+                        "<:yellow:697541699743776808> **Yellow** ``§e``\n"
+                        "<:green:697541699316219967> **Green** ``§a``\n"
+                        "<:aqua:697541699173613750> **Aqua** ``§b``\n"
+                        "<:blue:697541699655696787> **Blue** ``§9``\n"
+                        "<:light_purple:697541699546775612> **Light Purple** ``§d``\n"
+                        "<:white:697541699785719838> **White** ``§f``\n"
+                        "<:gray:697541699534061630> **Gray** ``§7``\n")
+        await ctx.send(embed=embed)
+
+
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
