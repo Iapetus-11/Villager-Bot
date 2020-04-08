@@ -485,6 +485,9 @@ class Econ(commands.Cog):
     @commands.command(name="pillage", aliases=["steal"], cooldown_after_parsing=True)
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
+        if ctx.guild.get_member(victim.id) is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't pillage people from other servers!"))
+            return
         if ctx.author.id == victim.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=victim.display_name + " " + choice(["threw their items into a lava pool.",
                                                                                                                       "commited dig straight down",
