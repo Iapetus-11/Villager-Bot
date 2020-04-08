@@ -201,7 +201,7 @@ class Minecraft(commands.Cog):
                         "<:dark_purple:697541699437592666> **Dark Purple** ``§5``\n"
                         "<:dark_gray:697541699471278120> **Dark Gray** ``§8``\n"
                         "<:black:697541699496444025> **Black** ``§0``\n")
-        embed.add_field(name="Formatting Codes", value="<:bold:> **Bold** ``§l``\n"
+        embed.add_field(name="Formatting Codes", value="<:bold:697541699488186419> **Bold** ``§l``\n"
                         "<:strikethrough:697541699768942711> ~~Strikethrough~~ ``§m``\n"
                         "<:underline:697541699806953583> __Underline__ ``§n``\n"
                         "<:italic:697541699152379995> *Italic* ``§o``\n"
