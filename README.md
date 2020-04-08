@@ -62,6 +62,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!getuuid__ *gamertag* (get the uuid of the specified player)
 * __!!randommc__ (sends a random Minecraft server your way)
 * __!!buildidea__ (sends an idea on what to build if you're bored)
+* __!!colorcodes__ (sends a cheat sheet of the Minecraft color codes)
 
 ### Utility/Info Commands
 * __!!help__ (displays all the main commands)
