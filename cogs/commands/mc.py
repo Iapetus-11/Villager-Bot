@@ -193,7 +193,7 @@ class Minecraft(commands.Cog):
                         "<:light_purple:697541699546775612> **Light Purple** ``§d``\n"
                         "<:white:697541699785719838> **White** ``§f``\n"
                         "<:gray:697541699534061630> **Gray** ``§7``\n")
-        embed.add_field(name="Color Codes", value="<:dark_red:> **Dark Red** ``§4``\n"
+        embed.add_field(name="Color Codes", value="<:dark_red:697541699488055426> **Dark Red** ``§4``\n"
                         "<:gold:697541699639050382> **Gold** ``§6``\n"
                         "<:dark_green:697541699500769420> **Dark Green** ``§2``\n"
                         "<:dark_aqua:697541699475472436> **Dark Aqua** ``§3``\n"
