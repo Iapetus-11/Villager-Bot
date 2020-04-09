@@ -280,6 +280,42 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
 
+    async def update_user_role(self, user_id):
+        guild = self.bot.get_guild(641117791272960031)
+        member = guild.get_member(user_id)
+        if member is not None:
+            pickaxe_type = await self.db.get_pickaxe(user_id)
+            if pickaxe_type == "netherite":
+                try:
+                    await member.add_roles(guild.get_role(697457303477026856))
+                    await member.remove_roles(guild.get_role(697457399295901786))
+                except discord.HTTPException:
+                    pass
+            elif pickaxe_type == "diamond":
+                try:
+                    await member.add_roles(guild.get_role(697457399295901786))
+                    await member.remove_roles(guild.get_role(697458756958552114))
+                except discord.HTTPException:
+                    pass
+            elif pickaxe_type == "gold":
+                try:
+                    await member.add_roles(guild.get_role(697458756958552114))
+                    await member.remove_roles(guild.get_role(697457970661031957))
+                except discord.HTTPException:
+                    pass
+            elif pickaxe_type == "iron":
+                try:
+                    await member.add_roles(guild.get_role(697457970661031957))
+                    await member.remove_roles(guild.get_role(697457637763186809))
+                except discord.HTTPException:
+                    pass
+            elif pickaxe_type == "stone":
+                try:
+                    await member.add_roles(guild.get_role(697457637763186809))
+                except discord.HTTPException:
+                    pass
+
+
     @commands.command(name="sell")
     async def sell_item(self, ctx, am: str, *, item: str):
         if item == "items":
