@@ -111,7 +111,7 @@ class Owner(commands.Cog):
         for ban in bans:
             await ctx.send(f"{self.bot.get_user(int(ban[0]))} *{ban[0]}*")
 
-    @commands.command(name="activity")
+    @commands.command(name="activity", aliases=["setactivity"])
     @commands.is_owner()
     async def activity(self, ctx, *, message: str):
         try:
@@ -213,6 +213,8 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.is_owner()
     async def setpick(self, ctx, user: discord.User, pType: str):
         await self.db.set_pickaxe(user.id, pType)
+        await self.bot.get_cog("Econ").update_user_role(user.id)
+        await ctx.send(f"Set {user}'s pickaxe to {pType}.")
 
     @commands.command(name="reverselookup", aliases=["lookup"])
     @commands.is_owner()
@@ -237,17 +239,20 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.is_owner()
     async def set_bal(self, ctx, user: discord.User, amount: int):
         await self.db.set_balance(user.id, amount)
+        await ctx.send(f"Set {user}'s balance to {amount}.")
 
     @commands.command(name="getvault")
     @commands.is_owner()
     async def get_vault(self, ctx, user: discord.User):
         vault = await self.db.get_vault(user.id)
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.display_name + "'s vault: " + str(vault[0]) + "<:emerald_block:679121595150893057>/" + str(vault[1])))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                           description=user.display_name + "'s vault: " + str(vault[0]) + "<:emerald_block:679121595150893057>/" + str(vault[1])))
 
     @commands.command(name="setvault")
     @commands.is_owner()
     async def set_vault(self, ctx, user: discord.User, amount: int, maxx: int):
         await self.db.set_vault(user.id, amount, maxx)
+        await ctx.send(f"Set {user}'s vault to {amount} {maxx}.")
 
     @commands.command(name="addtoplaying")
     @commands.is_owner()
