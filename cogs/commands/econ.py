@@ -12,6 +12,7 @@ class Econ(commands.Cog):
         self.db = self.bot.get_cog("Database")
         self.who_is_mining = {}
         self.items_in_use = {}
+        self.emerald = "<:emerald:653729877698150405>"
 
     async def problem_generator(self):
         x = randint(0, 25)
@@ -25,7 +26,7 @@ class Econ(commands.Cog):
             user = await commands.UserConverter().convert(ctx, msg)
         except Exception:
             user = ctx.author
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=user.mention +" has " + str(await self.db.get_balance(user.id)) + "<:emerald:653729877698150405>"))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{user.mention} has {await self.db.get_balance(user.id)}{self.emerald}"))
 
     @commands.command(name="deposit", aliases=["dep"])
     async def deposit(self, ctx, amount: str):  # In blocks
@@ -60,7 +61,7 @@ class Econ(commands.Cog):
 
         await self.db.set_balance(ctx.author.id, their_bal - (9 * amount))
         await self.db.set_vault(ctx.author.id, vault[0] + amount, vault[1])
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have deposited "+str(amount)+" emerald blocks into the vault. ("+str(amount*9)+"<:emerald:653729877698150405>)"))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have deposited {amount} emerald blocks into the vault. ({amount*9}{self.emerald})"))
 
     @commands.command(name="withdraw", aliases=["with"])
     async def withdraw(self, ctx, amount: str): # In emerald blocks
@@ -86,7 +87,7 @@ class Econ(commands.Cog):
 
         await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + (9 * amount))
         await self.db.set_vault(ctx.author.id, vault[0] - amount, vault[1])
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have withdrawn "+str(amount)+" emerald blocks from the vault. ("+str(amount*9)+"<:emerald:653729877698150405>)"))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have withdrawn {amount} emerald blocks from the vault. ({amount*9}{self.emerald})"))
 
     @commands.group(name="shop")
     async def shop(self, ctx):
@@ -104,13 +105,13 @@ class Econ(commands.Cog):
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop [Pickaxes]", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
-        shop.add_field(name="__**Stone Pickaxe**__ 32<:emerald:653729877698150405>", value=f"``{ctx.prefix}buy stone pickaxe``", inline=True)
-        shop.add_field(name="__**Iron Pickaxe**__ 128<:emerald:653729877698150405>", value=f"``{ctx.prefix}buy iron pickaxe``", inline=True)
+        shop.add_field(name=f"__**Stone Pickaxe**__ 32{self.emerald}", value=f"``{ctx.prefix}buy stone pickaxe``", inline=True)
+        shop.add_field(name=f"__**Iron Pickaxe**__ 128{self.emerald}", value=f"``{ctx.prefix}buy iron pickaxe``", inline=True)
         shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
-        shop.add_field(name="__**Gold Pickaxe**__ 512<:emerald:653729877698150405>", value=f"``{ctx.prefix}buy gold pickaxe``", inline=True)
-        shop.add_field(name="__**Diamond Pickaxe**__ 2048<:emerald:653729877698150405>", value=f"``{ctx.prefix}buy diamond pickaxe``", inline=True)
+        shop.add_field(name=f"__**Gold Pickaxe**__ 512{self.emerald}", value=f"``{ctx.prefix}buy gold pickaxe``", inline=True)
+        shop.add_field(name=f"__**Diamond Pickaxe**__ 2048{self.emerald}", value=f"``{ctx.prefix}buy diamond pickaxe``", inline=True)
         shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
-        shop.add_field(name="__**Netherite Pickaxe**__ 8192<:emerald:653729877698150405> 4<:netherite_scrap:676974675091521539>", value=f"``{ctx.prefix}buy netherite pickaxe``", inline=True)
+        shop.add_field(name=f"__**Netherite Pickaxe**__ 8192{self.emerald} 4<:netherite_scrap:676974675091521539>", value=f"``{ctx.prefix}buy netherite pickaxe``", inline=True)
         shop.set_footer(text=f"Pickaxes allow you to obtain more emeralds while using the {ctx.prefix}mine command!")
         await ctx.send(embed=shop)
 
@@ -118,8 +119,8 @@ class Econ(commands.Cog):
     async def shop_books(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop [Magic Items]", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-        shop.add_field(name="__**Fortune I Book**__ 120<:emerald:653729877698150405>", value=f"``{ctx.prefix}buy fortune i book``", inline=True)
-        shop.add_field(name="__**Haste I Potion**__ 120<:emerald:653729877698150405>", value=f"``{ctx.prefix}buy haste i potion``", inline=True)
+        shop.add_field(name=f"__**Fortune I Book**__ 120{self.emerald}", value=f"``{ctx.prefix}buy fortune i book``", inline=True)
+        shop.add_field(name=f"__**Haste I Potion**__ 120{self.emerald}", value=f"``{ctx.prefix}buy haste i potion``", inline=True)
         await ctx.send(embed=shop)
 
     @shop.command(name="other")
@@ -127,8 +128,8 @@ class Econ(commands.Cog):
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop [Other]", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
-        shop.add_field(name="__**Jar of Bees**__ 8<:emerald:653729877698150405>", value=f"``{ctx.prefix}buy jar of bees``", inline=True)
-        shop.add_field(name="__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>)  __**32<:emerald:653729877698150405>**__", value=f"``{ctx.prefix}buy netherite scrap``", inline=True)
+        shop.add_field(name=f"__**Jar of Bees**__ 8{self.emerald}", value=f"``{ctx.prefix}buy jar of bees``", inline=True)
+        shop.add_field(name=f"__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>)  __**32{self.emerald}**__", value=f"``{ctx.prefix}buy netherite scrap``", inline=True)
         await ctx.send(embed=shop)
 
     @commands.command(name="inventory", aliases=["inv"])
@@ -158,7 +159,7 @@ class Econ(commands.Cog):
         items = await self.db.get_items(u.id)
         for item in items:
             m = await self.db.get_item(u.id, item[0])
-            contents += f"{m[1]}x **{m[0]}** (sells for {m[2]}<:emerald:653729877698150405>)\n"
+            contents += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)
         if not u.avatar_url:
@@ -171,7 +172,7 @@ class Econ(commands.Cog):
     async def view_vault(self, ctx):
         vault = await self.db.get_vault(ctx.author.id)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                           description=f"{ctx.author.mention}'s vault: {vault[0]}<:emerald_block:679121595150893057>/{vault[1]} ({vault[0]*9}<:emerald:653729877698150405>)"))
+                                           description=f"{ctx.author.mention}'s vault: {vault[0]}<:emerald_block:679121595150893057>/{vault[1]} ({vault[0]*9}{self.emerald})"))
 
     @commands.command(name="buy")
     async def buy(self, ctx, *, _item):
@@ -333,7 +334,7 @@ class Econ(commands.Cog):
             for obj in items:
                         await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + obj[2] * obj[1])
                         await self.db.remove_item(ctx.author.id, obj[0], obj[1])
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {obj[1]}x {obj[0]} for {obj[2]*obj[1]}<:emerald:653729877698150405>."))
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {obj[1]}x {obj[0]} for {obj[2]*obj[1]}{self.emerald}."))
             return
         _item = await self.db.get_item(ctx.author.id, item)
         if _item is None:
@@ -355,7 +356,7 @@ class Econ(commands.Cog):
             return
         await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + _item[2] * amount)
         await self.db.remove_item(ctx.author.id, item, amount)
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {item} for {_item[2]*amount}<:emerald:653729877698150405>."))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {item} for {_item[2]*amount}{self.emerald}."))
 
     @commands.command(name="give", aliases=["giveemeralds"])
     async def give_emeralds(self, ctx, rec: discord.User, amount: int):
@@ -375,7 +376,7 @@ class Econ(commands.Cog):
                 plural = ""
             else:
                 plural = "s"
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{ctx.author.mention} gave {rec.mention} {amount}<:emerald:653729877698150405>"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{ctx.author.mention} gave {rec.mention} {amount}{self.emerald}"))
 
     @commands.command(name="giveitem")
     async def give_item(self, ctx, rec: discord.User, amount: int, *, _item: str):
@@ -448,24 +449,23 @@ class Econ(commands.Cog):
                     mult = choice([1, 1, 1, 2, 3])
                 elif item[0] == "Fortune I Book":
                     mult = choice([1, 1, 2])
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You found {mult} <:emerald:653729877698150405>!",
-                                                                                                f"You mined up {mult} <:emerald:653729877698150405>!",
-                                                                                                f"You got {mult} <:emerald:653729877698150405>!"])))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You found {mult}{self.emerald}!",
+                                                                                                f"You mined up {mult}{self.emerald}!",
+                                                                                                f"You got {mult}{self.emerald}!"])))
             await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + 1 * mult)
         else:
             for c in self.g.items:
                 if randint(0, c[2]) == c[3]:
-                    e = "<:emerald:653729877698150405>"
                     a = "a"
                     for vowel in ["a", "e", "i", "o", "u"]:
                         if c[0].startswith(vowel):
                             a = "an"
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([
-                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in an abandoned mineshaft!",
-                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest while mining!",
-                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest!",
-                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) in a chest near a monster spawner!",
-                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{e}) while mining!"])))
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in an abandoned mineshaft!",
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in a chest while mining!",
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in a chest!",
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in a chest near a monster spawner!",
+                        f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) while mining!"])))
                     await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                     return
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['found', 'mined', 'mined up', 'found'])} {randint(1, 5)} "
@@ -517,10 +517,10 @@ class Econ(commands.Cog):
             mult += 0.2
         rez = ceil(amount*mult)
         if roll > bot_roll:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You won "+str(rez-amount)+" <:emerald:653729877698150405> **|** Multiplier: "+str(int(mult*100))+"%"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You won {rez-amount}{self.emerald} **|** Multiplier: {int(mult*100)}%"))
             await self.db.set_balance(ctx.author.id, their_bal + (rez - amount))
         elif roll < bot_roll:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You lost! Villager Bot won "+str(amount)+" <:emerald:653729877698150405> from you."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You lost! Villager Bot won {amount}{self.emerald} from you."))
             await self.db.set_balance(ctx.author.id, their_bal - amount)
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="TIE! No one wins, but maybe Villager Bot will keep your emeralds anyway..."))
@@ -559,12 +559,12 @@ class Econ(commands.Cog):
             sAmount = ceil(victim_bal*(randint(10, 40)/100))
             await self.db.set_balance(victim.id, victim_bal - sAmount)
             await self.db.set_balance(ctx.author.id, their_bal + sAmount)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You escaped with {0} <:emerald:653729877698150405>",
-                                                                                                "You got away with {0} <:emerald:653729877698150405>"]).format(str(sAmount))))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You escaped with {sAmount} {self.emerald}",
+                                                                                                f"You got away with {sAmount} {self.emerald}"])))
         else:
             await self.db.set_balance(victim.id, victim_bal + 32)
             await self.db.set_balance(ctx.author.id, their_bal - 32)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You were caught and paid 32 <:emerald:653729877698150405>"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You were caught and paid 32 {self.emerald}"))
 
     @commands.command(name="leaderboard", aliases=["lb"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
@@ -577,8 +577,8 @@ class Econ(commands.Cog):
             user = self.bot.get_user(int(entry[0]))
             if user is None:
                 user = "Deleted User"
-            lbtext += f"{entry[1]}<:emerald:653729877698150405> {str(user)[:-5]} \n"
-        embed = discord.Embed(color=discord.Color.green(), title="<:emerald:653729877698150405>__**Emerald Leaderboard**__<:emerald:653729877698150405>", description=lbtext)
+            lbtext += f"{entry[1]}{self.emerald} {str(user)[:-5]} \n"
+        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lbtext)
         await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])
