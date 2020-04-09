@@ -44,9 +44,9 @@ class Events(commands.Cog):
     async def on_dbl_vote(self, data):
         user_id = int(data["user"])
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
-        multi = 1
+        multi = 1.25 # cause easter, normally is 1
         if await self.dblpy.get_weekend_status():
-            multi = 2
+            multi *= 2
         await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
         user = self.bot.get_user(user_id)
         if user is not None:
