@@ -273,7 +273,7 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
 
         if "pickaxe" in item:
-            await update_user_role(ctx.author.id)
+            await self.update_user_role(ctx.author.id)
 
     async def update_user_role(self, user_id):
         guild = self.bot.get_guild(641117791272960031)
