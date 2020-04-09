@@ -185,36 +185,32 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a Haste I Potion."))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Haste I Potion."))
-            return
 
-        if item == "fortune i book" or item == "fortune 1 book":
+        elif item == "fortune i book" or item == "fortune 1 book":
             if their_bal >= 120:
                 await self.db.set_balance(ctx.author.id, their_bal - 120)
                 await self.db.add_item(ctx.author.id, "Fortune I Book", 1, 24)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a Fortune I Book."))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Fortune I Book."))
-            return
 
-        if item == "jar of bees" or item == "bees":
+        elif item == "jar of bees" or item == "bees":
             if their_bal >= 8:
                 await self.db.set_balance(ctx.author.id, their_bal - 8)
                 await self.db.set_bees(ctx.author.id, await self.db.get_bees(ctx.author.id) + 1)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a jar of be"+choice(["e", "eee", "ee", "eeeee", "eeeeeeeeeeeeeeee", "eeeeeeeeeee"])+"s"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a jar of bees."))
-            return
 
-        if item == "netherite scrap":
+        elif item == "netherite scrap":
             if their_bal >= 32:
                 await self.db.set_balance(ctx.author.id, their_bal - 32)
                 await self.db.set_scrap(ctx.author.id, await self.db.get_scrap(ctx.author.id) + 1)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a piece of netherite scrap"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase some netherite scrap."))
-            return
 
-        if item == "stone pickaxe": # "wood" is default
+        elif item == "stone pickaxe": # "wood" is default
             if their_bal >= 32:
                 if await self.db.get_pickaxe(ctx.author.id) != "stone":
                     await self.db.set_balance(ctx.author.id, their_bal - 32)
@@ -224,9 +220,8 @@ class Econ(commands.Cog):
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase a pickaxe you already have!"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
-            return
 
-        if item == "iron pickaxe":
+        elif item == "iron pickaxe":
             if their_bal >= 128:
                 if await self.db.get_pickaxe(ctx.author.id) != "iron":
                     await self.db.set_balance(ctx.author.id, their_bal - 128)
@@ -236,9 +231,8 @@ class Econ(commands.Cog):
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase a pickaxe you already have!"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
-            return
 
-        if item == "gold pickaxe":
+        elif item == "gold pickaxe":
             if their_bal >= 512:
                 if await self.db.get_pickaxe(ctx.author.id) != "gold":
                     await self.db.set_balance(ctx.author.id, their_bal - 512)
@@ -248,9 +242,8 @@ class Econ(commands.Cog):
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase a pickaxe you already have!"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
-            return
 
-        if item == "diamond pickaxe":
+        elif item == "diamond pickaxe":
             if their_bal >= 2048:
                 if await self.db.get_pickaxe(ctx.author.id) != "diamond":
                     await self.db.set_balance(ctx.author.id, their_bal - 2048)
@@ -260,9 +253,8 @@ class Econ(commands.Cog):
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase a pickaxe you already have!"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
-            return
 
-        if item == "netherite pickaxe":
+        elif item == "netherite pickaxe":
             if their_bal >= 8192:
                 if await self.db.get_scrap(ctx.author.id) >= 4:
                     if await self.db.get_pickaxe(ctx.author.id) != "netherite":
@@ -276,9 +268,12 @@ class Econ(commands.Cog):
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough netherite scrap for this item!"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
-            return
 
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
+        else:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
+
+        if "pickaxe" in item:
+            await update_user_role(ctx.author.id)
 
     async def update_user_role(self, user_id):
         guild = self.bot.get_guild(641117791272960031)
