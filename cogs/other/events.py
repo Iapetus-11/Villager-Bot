@@ -55,15 +55,20 @@ class Events(commands.Cog):
                 for c in self.g.items:
                     if randint(0, c[2]) == c[3]:
                         e = "<:emerald:653729877698150405>"
+                        a = "a"
+                        for vowel in ["a", "e", "i", "o", "u"]:
+                            if c[0].startswith(vowel):
+                                a = "an"
                         try:
-                            await ctx.send(choice([f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) for voting for Villager Bot!",
-                                                   f"You {choice(['found', 'got'])} a {c[0]} (Worth {c[1]}{e}) because you voted for Villager Bot!",]))
+                            await ctx.send(choice([f"You've received {a} {c[0]} (Worth {c[1]}{e}) for voting for Villager Bot!",
+                                                   f"You've received {a} {c[0]} (Worth {c[1]}{e}) because you voted for Villager Bot!",]))
                         except discord.errors.Forbidden:
                             pass
                         await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                         return
-            messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!", "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
-                        "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!", "You have gotten {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
+            messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                        "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                        "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
             try:
                 await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(messages).format(32*multi)))
             except discord.errors.Forbidden:
