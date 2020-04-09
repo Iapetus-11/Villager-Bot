@@ -136,7 +136,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     @commands.command(name="info", aliases=["information"])
     async def information(self, ctx):
         infoMsg = discord.Embed(color=discord.Color.green())
-        infoMsg.add_field(name="Creator", value="Iapetus11#6821 &\n TrustedMercury#1953", inline=True)
+        infoMsg.add_field(name="Creators", value="Iapetus11#6821 &\n TrustedMercury#1953", inline=True)
         infoMsg.add_field(name="Bot Library", value="Discord.py", inline=True)
         infoMsg.add_field(name="Command Prefix", value=ctx.prefix, inline=True)
         infoMsg.add_field(name="Total Servers", value=str(len(self.bot.guilds)), inline=True)
