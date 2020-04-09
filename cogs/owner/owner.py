@@ -346,7 +346,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="updateroles")
     @commands.is_owner()
     async def do_roles(self, ctx):
-        for user in self.bot.get_guild(641117791272960031):
+        for user in self.bot.get_guild(641117791272960031).members:
             await self.bot.get_cog("Econ").update_user_role(user.id)
         await ctx.send("Done.")
 
