@@ -283,30 +283,36 @@ class Econ(commands.Cog):
             if pickaxe_type == "netherite":
                 try:
                     await member.add_roles(guild.get_role(697457303477026856))
-                    await member.remove_roles(guild.get_role(697457399295901786))
+                    await member.remove_roles(guild.get_role(697457637763186809), guild.get_role(697457970661031957),
+                                              guild.get_role(697458756958552114), guild.get_role(697457399295901786))
                 except discord.HTTPException:
                     pass
             elif pickaxe_type == "diamond":
                 try:
                     await member.add_roles(guild.get_role(697457399295901786))
-                    await member.remove_roles(guild.get_role(697458756958552114))
+                    await member.remove_roles(guild.get_role(697457637763186809), guild.get_role(697457970661031957),
+                                              guild.get_role(697458756958552114), guild.get_role(697457303477026856))
                 except discord.HTTPException:
                     pass
             elif pickaxe_type == "gold":
                 try:
                     await member.add_roles(guild.get_role(697458756958552114))
-                    await member.remove_roles(guild.get_role(697457970661031957))
+                    await member.remove_roles(guild.get_role(697457637763186809), guild.get_role(697457970661031957),
+                                              guild.get_role(697457399295901786), guild.get_role(697457303477026856))
                 except discord.HTTPException:
                     pass
             elif pickaxe_type == "iron":
                 try:
                     await member.add_roles(guild.get_role(697457970661031957))
-                    await member.remove_roles(guild.get_role(697457637763186809))
+                    await member.remove_roles(guild.get_role(697457637763186809), guild.get_role(697458756958552114),
+                                              guild.get_role(697457399295901786), guild.get_role(697457303477026856))
                 except discord.HTTPException:
                     pass
             elif pickaxe_type == "stone":
                 try:
                     await member.add_roles(guild.get_role(697457637763186809))
+                    await member.remove_roles(guild.get_role(697457970661031957), guild.get_role(697458756958552114),
+                                              guild.get_role(697457399295901786), guild.get_role(697457303477026856))
                 except discord.HTTPException:
                     pass
             elif pickaxe_type == "wood":
