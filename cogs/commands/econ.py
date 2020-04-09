@@ -309,6 +309,12 @@ class Econ(commands.Cog):
                     await member.add_roles(guild.get_role(697457637763186809))
                 except discord.HTTPException:
                     pass
+            elif pickaxe_type == "wood":
+                try:
+                    await member.remove_roles(guild.get_role(697457637763186809), guild.get_role(697457970661031957), guild.get_role(697458756958552114),
+                                              guild.get_role(697457399295901786), guild.get_role(697457303477026856))
+                except discord.HTTPException:
+                    pass
 
 
     @commands.command(name="sell")
