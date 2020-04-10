@@ -10,7 +10,7 @@ class Useful(commands.Cog):
         self.g = self.bot.get_cog("Global")
         self.tips = ["Made by Iapetus11#6821 & TrustedMercury#1953", "You can get emeralds by voting for the bot!",
                      "Hey, check out the support server! discord.gg/39DwwUV", "Did you know you can buy emeralds?",
-                     f"Wanna invite the bot? Try the {ctx.prefix}invite command!"]
+                     f"Wanna invite the bot? Try the !!invite command!"]
 
     @commands.group(name="help")
     async def help(self, ctx):
