@@ -604,9 +604,9 @@ class Econ(commands.Cog):
                     counts[entry[0]] += 1
                 else:
                     counts[entry[0]] = 1
+        await ctx.send("bruh")
         lb = sorted(counts, reverse=True)[:9]
         lbtext = ""
-        await ctx.send(type(lb[0]))
         for entry in lb:
             user = self.bot.get_user(int(entry[0]))
             if user is None:
