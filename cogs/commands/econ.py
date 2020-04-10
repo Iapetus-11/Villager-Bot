@@ -138,8 +138,6 @@ class Econ(commands.Cog):
         pick = await self.db.get_pickaxe(u.id)
         contents = f"**{pick} pickaxe**\n"
 
-        inv = discord.Embed(color=discord.Color.green(), description=contents)
-
         bal = await self.db.get_balance(u.id)
         if bal == 1:
             contents += "1x **emerald**\n"
@@ -163,6 +161,8 @@ class Econ(commands.Cog):
         else:
             inv.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
         await ctx.send(embed=inv)
+
+        inv = discord.Embed(color=discord.Color.green(), description=contents)
 
         return
         items = await self.db.get_items(u.id)
