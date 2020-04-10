@@ -156,13 +156,13 @@ class Econ(commands.Cog):
         if scrap_count == 1:
             contents += str(scrap_count) + "x **chunk of netherite scrap**\n"
 
+        inv = discord.Embed(color=discord.Color.green(), description=contents)
+
         if not u.avatar_url:
             inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
         else:
             inv.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
         await ctx.send(embed=inv)
-
-        inv = discord.Embed(color=discord.Color.green(), description=contents)
 
         return
         items = await self.db.get_items(u.id)
