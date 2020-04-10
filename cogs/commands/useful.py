@@ -8,6 +8,9 @@ class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.g = self.bot.get_cog("Global")
+        self.tips = ["Made by Iapetus11#6821 & TrustedMercury#1953", "You can get emeralds by voting for the bot!",
+                     "Hey, check out the support server! discord.gg/39DwwUV", "Did you know you can buy emeralds?",
+                     f"Wanna invite the bot? Try the {ctx.prefix}invite command!"]
 
     @commands.group(name="help")
     async def help(self, ctx):
@@ -26,7 +29,7 @@ class Useful(commands.Cog):
             help_embed.add_field(name="\uFEFF", value="""Need more help? Check out the Villager Bot [Support Server](https://discord.gg/39DwwUV)
             Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/vote)""", inline=False)
 
-            help_embed.set_footer(text="Made by Iapetus11#6821 & TrustedMercury#1953")
+            help_embed.set_footer(text=choice(self.tips))
 
             await ctx.send(embed=help_embed)
 
@@ -70,6 +73,9 @@ f'**{ctx.prefix}chug** ***potion*** *uses the mentioned potion.*\n',
             value=f'**{ctx.prefix}cursed** *the bot will upload a cursed Minecraft image*\n'
 f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             inline=False)
+
+        help_embed.set_footer(text=choice(self.tips))
+
         await ctx.send(embed=help_embed)
 
     @help.command(name='useful')
@@ -92,6 +98,9 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}youtube** ***query*** *bot will search on youtube for your query*\n'
             f'**{ctx.prefix}reddit** ***query*** *bot will search on reddit for your query*\n',
             inline=True)
+
+        help_embed.set_footer(text=choice(self.tips))
+
         await ctx.send(embed=help_embed)
 
     @help.command(name='admin')
@@ -110,6 +119,9 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}ban** ***@user*** *bans the mentioned user*\n'
             f'**{ctx.prefix}pardon** ***@user*** *unbans the mentioned user*\n',
             inline=True)
+
+        help_embed.set_footer(text=choice(self.tips))
+
         await ctx.send(embed=help_embed)
         
     @help.command(name="mc")
@@ -131,6 +143,9 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}buildidea** *sends a random idea on what you could build*\n'
             f'**{ctx.prefix}colorcodes** *sends a Minecraft color code cheat-sheet your way.*\n',
             inline=True)
+
+        help_embed.set_footer(text=choice(self.tips))
+
         await ctx.send(embed=help_embed)
 
     @commands.command(name="info", aliases=["information"])
