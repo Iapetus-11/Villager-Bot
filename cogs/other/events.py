@@ -56,11 +56,11 @@ class Events(commands.Cog):
                             if c[0].startswith(vowel):
                                 a = "an"
                         try:
-                            await ctx.send(choice([f"You've received {a} {c[0]} (Worth {c[1]}{e}) for voting for Villager Bot!",
+                            await user.send(choice([f"You've received {a} {c[0]} (Worth {c[1]}{e}) for voting for Villager Bot!",
                                                    f"You've received {a} {c[0]} (Worth {c[1]}{e}) because you voted for Villager Bot!",]))
                         except discord.errors.Forbidden:
                             pass
-                        await self.db.add_item(ctx.author.id, c[0], 1, c[1])
+                        await self.db.add_item(user.id, c[0], 1, c[1])
                         return
             multi = 2 # cause easter, normally is 1
             if await self.dblpy.get_weekend_status():
