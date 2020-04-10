@@ -593,35 +593,6 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lbtext)
         await ctx.send(embed=embed)
 
-"""
-    @commands.command(name="eggboard")
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def eggboard(self, ctx):
-        dbs_all = await self.bot.db.fetch("SELECT * FROM items")
-        counts = {}
-        for entry in dbs_all:
-            if "egg" in entry[1].lower():
-                if entry[0] in list(counts):
-                    counts[entry[0]] += 1
-                else:
-                    counts[entry[0]] = 1
-        for i in counts:
-            for j in counts:
-                if j[1] > i[1]:
-                    temp = i
-                    j = i
-                    i = temp
-        counts = counts[:9]
-        lbtext = ""
-        for entry in lb:
-            user = self.bot.get_user(int(entry[0]))
-            if user is None:
-                user = "Deleted User"
-            lbtext += f"{entry[1]}:egg: {str(user)[:-5]}\n"
-        embed = discord.Embed(color=discord.Color.green(), title=f":egg:__**EGG-BOARD**__:egg:", description=lbtext)
-        await ctx.send(embed)
-"""
-
     @commands.command(name="chug", aliases=["drink"])
     async def use_potion(self, ctx, *, item: str):
         if self.items_in_use.get(ctx.author.id) is not None:
