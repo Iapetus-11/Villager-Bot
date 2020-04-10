@@ -600,6 +600,7 @@ class Econ(commands.Cog):
         counts = {}
         await ctx.send(list(counts)[:9])
         for entry in dbs_all:
+            print(type(entry))
             print(type(entry[0]))
             if "egg" in entry[1].lower():
                 if entry[0] in list(counts):
