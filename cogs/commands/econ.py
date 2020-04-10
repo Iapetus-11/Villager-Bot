@@ -156,14 +156,17 @@ class Econ(commands.Cog):
         if scrap_count == 1:
             contents += str(scrap_count) + "x **chunk of netherite scrap**\n"
 
-        contents_2 = ""
+        contents_2 = ["", ""]
+        b = 0
         items = await self.db.get_items(u.id)
         for item in items:
             m = await self.db.get_item(u.id, item[0])
-            contents_2 += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
+            contents_2[b%2] += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
+            b += 1
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)
-        inv.add_field(name="Sellable Items", value=contents_2)
+        inv.add_field(name="Sellable Items", value=contents_2[0])
+        inv.add_field(name="Sellable Items", value=contents_2[1])
         if not u.avatar_url:
             inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
         else:
