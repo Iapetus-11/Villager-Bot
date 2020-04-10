@@ -156,6 +156,20 @@ class Econ(commands.Cog):
         if scrap_count == 1:
             contents += str(scrap_count) + "x **chunk of netherite scrap**\n"
 
+        contents = ""
+        i = 0
+        rows = 10
+        items = await self.db.get_items(u.id)
+        for item in items:
+            i += 1
+            m = await self.db.get_item(u.id, item[0])
+            contents += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
+            if i % rows == 0:
+                inv.add_field(name="\uFEFF", value=contents)
+                contents = ""
+        if contents is not "":
+            inv.add_field(name="\uFEFF", value=contents)
+
         inv = discord.Embed(color=discord.Color.green(), description=contents)
 
         if not u.avatar_url:
@@ -163,12 +177,6 @@ class Econ(commands.Cog):
         else:
             inv.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
         await ctx.send(embed=inv)
-
-        return
-        items = await self.db.get_items(u.id)
-        for item in items:
-            m = await self.db.get_item(u.id, item[0])
-            contents_2[b%1] += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
 
     @commands.command(name="vault", aliases=["viewvault"])
     async def view_vault(self, ctx):
