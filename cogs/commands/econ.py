@@ -593,6 +593,7 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lbtext)
         await ctx.send(embed=embed)
 
+"""
     @commands.command(name="eggboard")
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def eggboard(self, ctx):
@@ -604,7 +605,13 @@ class Econ(commands.Cog):
                     counts[entry[0]] += 1
                 else:
                     counts[entry[0]] = 1
-        lb = sorted(counts, key=lambda tup: tup[1], reverse=True)
+        for i in counts:
+            for j in counts:
+                if j[1] > i[1]:
+                    temp = i
+                    j = i
+                    i = temp
+        counts = counts[:9]
         lbtext = ""
         for entry in lb:
             user = self.bot.get_user(int(entry[0]))
@@ -613,6 +620,7 @@ class Econ(commands.Cog):
             lbtext += f"{entry[1]}:egg: {str(user)[:-5]}\n"
         embed = discord.Embed(color=discord.Color.green(), title=f":egg:__**EGG-BOARD**__:egg:", description=lbtext)
         await ctx.send(embed)
+"""
 
     @commands.command(name="chug", aliases=["drink"])
     async def use_potion(self, ctx, *, item: str):
