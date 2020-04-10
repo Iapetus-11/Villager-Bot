@@ -13,7 +13,6 @@ class Econ(commands.Cog):
         self.who_is_mining = {}
         self.items_in_use = {}
         self.emerald = "<:emerald:653729877698150405>"
-        self.emerald = "<:reeee:682242044508241955>"
 
     async def problem_generator(self):
         x = randint(0, 25)
