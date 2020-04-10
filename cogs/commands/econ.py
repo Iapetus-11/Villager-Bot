@@ -138,6 +138,8 @@ class Econ(commands.Cog):
         pick = await self.db.get_pickaxe(u.id)
         contents = f"**{pick} pickaxe**\n"
 
+        inv = discord.Embed(color=discord.Color.green(), description=contents)
+
         bal = await self.db.get_balance(u.id)
         if bal == 1:
             contents += "1x **emerald**\n"
@@ -156,22 +158,17 @@ class Econ(commands.Cog):
         if scrap_count == 1:
             contents += str(scrap_count) + "x **chunk of netherite scrap**\n"
 
-        contents_2 = ["", ""]
-        b = 0
-        items = await self.db.get_items(u.id)
-        for item in items:
-            m = await self.db.get_item(u.id, item[0])
-            contents_2[b%2] += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
-            b += 1
-
-        inv = discord.Embed(color=discord.Color.green(), description=contents)
-        inv.add_field(name="Sellable Items", value=contents_2[0], inline=False)
-        inv.add_field(name="Sellable Items", value=contents_2[1], inline=False)
         if not u.avatar_url:
             inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
         else:
             inv.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
         await ctx.send(embed=inv)
+
+        return
+        items = await self.db.get_items(u.id)
+        for item in items:
+            m = await self.db.get_item(u.id, item[0])
+            contents_2[b%1] += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
 
     @commands.command(name="vault", aliases=["viewvault"])
     async def view_vault(self, ctx):
