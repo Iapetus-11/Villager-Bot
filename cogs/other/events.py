@@ -44,10 +44,6 @@ class Events(commands.Cog):
     async def on_dbl_vote(self, data):
         user_id = int(data["user"])
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
-        multi = 1.25 # cause easter, normally is 1
-        if await self.dblpy.get_weekend_status():
-            multi *= 2
-        await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
         user = self.bot.get_user(user_id)
         if user is not None:
             await self.bot.get_channel(682195105784004610).send(f":tada::tada: {user.display_name} has voted! :tada::tada:")
@@ -73,6 +69,10 @@ class Events(commands.Cog):
                 await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(messages).format(32*multi)))
             except discord.errors.Forbidden:
                 pass
+            multi = 2 # cause easter, normally is 1
+            if await self.dblpy.get_weekend_status():
+                multi *= 1 # normally is 2
+            await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
         else:
             await self.bot.get_channel(682195105784004610).send(":tada::tada: An unknown user voted for the bot! :tada::tada:")
 
