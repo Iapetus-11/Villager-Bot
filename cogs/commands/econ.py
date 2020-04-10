@@ -165,8 +165,8 @@ class Econ(commands.Cog):
             b += 1
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)
-        inv.add_field(name="Sellable Items", value=contents_2[0])
-        inv.add_field(name="Sellable Items", value=contents_2[1])
+        inv.add_field(name="Sellable Items", value=contents_2[0], inline=False)
+        inv.add_field(name="Sellable Items", value=contents_2[1], inline=False)
         if not u.avatar_url:
             inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
         else:
