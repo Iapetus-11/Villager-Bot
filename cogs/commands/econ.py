@@ -163,7 +163,7 @@ class Econ(commands.Cog):
             contents_2 += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)
-        await inv.add_field(name="Sellable Items", value=contents_2)
+        inv.add_field(name="Sellable Items", value=contents_2)
         if not u.avatar_url:
             inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
         else:
