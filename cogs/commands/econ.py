@@ -598,7 +598,6 @@ class Econ(commands.Cog):
     async def eggboard(self, ctx):
         dbs_all = await self.bot.db.fetch("SELECT * FROM items")
         counts = {}
-        await ctx.send(list(counts)[:9])
         for entry in dbs_all:
             if "egg" in entry[1].lower():
                 if entry[0] in list(counts):
@@ -607,6 +606,7 @@ class Econ(commands.Cog):
                     counts[entry[0]] = 1
         lb = sorted(counts, reverse=True)[:9]
         lbtext = ""
+        await ctx.send(type(lb[0]))
         for entry in lb:
             user = self.bot.get_user(int(entry[0]))
             if user is None:
