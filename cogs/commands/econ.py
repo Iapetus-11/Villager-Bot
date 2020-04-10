@@ -600,12 +600,12 @@ class Econ(commands.Cog):
         counts = {}
         await ctx.send(list(counts)[:9])
         for entry in dbs_all:
+            print(type(entry[0]))
             if "egg" in entry[1].lower():
                 if entry[0] in list(counts):
                     counts[entry[0]] += 1
                 else:
                     counts[entry[0]] = 1
-        await ctx.send("commence p2")
         lb = sorted(counts, key=lambda tup: int(tup[1]), reverse=True)[:9]
         lbtext = ""
         for entry in lb:
