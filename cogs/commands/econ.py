@@ -598,7 +598,7 @@ class Econ(commands.Cog):
     async def eggboard(self, ctx):
         dbs_all = await self.bot.db.fetch("SELECT * FROM items")
         counts = {}
-        await ctx.send(type(dbs_all[0]))
+        await ctx.send(list(counts)[:9])
         for entry in dbs_all:
             if "egg" in entry[1].lower():
                 if entry[0] in list(counts):
