@@ -62,6 +62,9 @@ class Events(commands.Cog):
                             pass
                         await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                         return
+            multi = 2 # cause easter, normally is 1
+            if await self.dblpy.get_weekend_status():
+                multi *= 1 # normally is 2
             messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
@@ -69,9 +72,6 @@ class Events(commands.Cog):
                 await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(messages).format(32*multi)))
             except discord.errors.Forbidden:
                 pass
-            multi = 2 # cause easter, normally is 1
-            if await self.dblpy.get_weekend_status():
-                multi *= 1 # normally is 2
             await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
         else:
             await self.bot.get_channel(682195105784004610).send(":tada::tada: An unknown user voted for the bot! :tada::tada:")
