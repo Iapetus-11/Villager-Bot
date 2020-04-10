@@ -156,6 +156,8 @@ class Econ(commands.Cog):
         if scrap_count == 1:
             contents += str(scrap_count) + "x **chunk of netherite scrap**\n"
 
+        inv = discord.Embed(color=discord.Color.green(), description=contents)
+
         contents = ""
         i = 0
         rows = 10
@@ -169,8 +171,6 @@ class Econ(commands.Cog):
                 contents = ""
         if contents is not "":
             inv.add_field(name="\uFEFF", value=contents)
-
-        inv = discord.Embed(color=discord.Color.green(), description=contents)
 
         if not u.avatar_url:
             inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
