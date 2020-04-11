@@ -1,2 +1,1 @@
-python3 bot.py
-$0
+python3 wrapper.py
