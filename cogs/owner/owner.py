@@ -12,6 +12,7 @@ class Owner(commands.Cog):
         self.bot = bot
         self.g = self.bot.get_cog("Global")
         self.db = self.bot.get_cog("Database")
+        self.emerald = "<:emerald:653729877698150405>"
 
     @commands.command(name="ownerhelp", aliases=["helpowner", "owner"])
     @commands.is_owner()
