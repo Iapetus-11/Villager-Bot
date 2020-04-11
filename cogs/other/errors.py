@@ -35,7 +35,7 @@ class Errors(commands.Cog):
                 return
 
         if isinstance(e, commands.CommandOnCooldown):
-            if ctx.handled == False:
+            if not str(ctx.command) == "mine":
                 descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
                         "Hey, you need to wait another {0} seconds before doing that again.",
                         "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",

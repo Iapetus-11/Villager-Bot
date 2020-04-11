@@ -497,10 +497,13 @@ class Econ(commands.Cog):
                     cooldown -= .9
 
             if cooldown <= 0:
-                ctx.handled = True
                 await ctx.reinvoke()
             else:
-                ctx.handled = False
+                descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
+                        "Hey, you need to wait another {0} seconds before doing that again.",
+                        "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
+                        "Didn't you know patience was a virtue? Wait another {0} seconds."]
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(e.retry_after, 2))))
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
