@@ -503,7 +503,7 @@ class Econ(commands.Cog):
                         "Hey, you need to wait another {0} seconds before doing that again.",
                         "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
                         "Didn't you know patience was a virtue? Wait another {0} seconds."]
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(e.retry_after, 2))))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(cooldown, 2))))
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
