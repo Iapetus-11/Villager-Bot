@@ -317,12 +317,25 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         if scrap_count == 1:
             contents += str(scrap_count) + "x **chunk of netherite scrap**\n"
 
+        inv = discord.Embed(color=discord.Color.green(), description=contents)
+
+        contents = ""
+        i = 0
+        rows = 10
         items = await self.db.get_items(u.id)
         for item in items:
+            i += 1
             m = await self.db.get_item(u.id, item[0])
-            contents += f"{m[1]}x **{m[0]}** (sells for {m[2]}<:emerald:653729877698150405>)\n"
+            contents += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
+            if i % rows == 0:
+                if i <= rows:
+                    inv.add_field(name="Sellable Items", value=contents, inline=False)
+                else:
+                    inv.add_field(name="\uFEFF", value=contents, inline=False)
+                contents = ""
+        if contents is not "":
+            inv.add_field(name="\uFEFF", value=contents, inline=False)
 
-        inv = discord.Embed(color=discord.Color.green(), description=contents)
         if not u.avatar_url:
             inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
         else:
