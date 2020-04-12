@@ -5,6 +5,7 @@ import asyncio
 import logging
 import dbl
 import json
+from math import ceil
 
 
 class Events(commands.Cog):
@@ -49,7 +50,7 @@ class Events(commands.Cog):
             await self.bot.get_channel(682195105784004610).send(f":tada::tada: {user.display_name} has voted! :tada::tada:")
             if choice([True, False]):
                 for c in self.g.items:
-                    if randint(0, c[2]) == c[3]:
+                    if randint(0, ceil(c[2]/2)) == 1:
                         e = "<:emerald:653729877698150405>"
                         a = "a"
                         for vowel in ["a", "e", "i", "o", "u"]:
