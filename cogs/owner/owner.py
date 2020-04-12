@@ -5,6 +5,7 @@ import json
 from os import system
 import arrow
 import asyncio
+from time import sleep
 
 
 class Owner(commands.Cog):
@@ -56,6 +57,7 @@ class Owner(commands.Cog):
 **{0}getlatest** *pulls latest from github and restarts bot*
 **{0}backupdb** *backs up the db*
 **{0}updateroles** *does roles idk bro*
+**{0}testblocking** *intentionally blocks code*
 """.format(ctx.prefix), color=discord.Color.green())
         embed_msg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embed_msg)
@@ -367,6 +369,13 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     async def do_roles(self, ctx):
         for user in self.bot.get_guild(641117791272960031).members:
             await self.bot.get_cog("Econ").update_user_role(user.id)
+        await ctx.send("Done.")
+
+    @commands.command(name="testblocking")
+    @commands.is_owner()
+    async def test_blocking(self, ctx):
+        await ctx.send("Testing...")
+        sleep(15)
         await ctx.send("Done.")
 
 def setup(bot):
