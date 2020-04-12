@@ -164,7 +164,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         infoMsg.set_author(name="Villager Bot Information", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         await ctx.send(embed=infoMsg)
 
-    @commands.command(name="new", aliases=["newstuff", "update", "recent", "events"])
+    @commands.command(name="new", aliases=["newstuff", "update", "recent", "events", "news"])
     async def whats_new(self, ctx):
         emb = discord.Embed(color=discord.Color.green())
         emb.set_author(name="What's new with Villager Bot?", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
