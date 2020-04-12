@@ -173,7 +173,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         emb.add_field(name="Bot Updates", value="- Voting now has a chance to give you items rather than just emeralds.\n"
                                                 "- Vault slots are now easier to get.\n"
                                                 "- Bot has been made far more stable, crash protection has been added.")
-        emb.add_footer(text=choice(self.tips))
+        emb.set_footer(text=choice(self.tips))
         await ctx.send(emb)
 
     @commands.command(name="ping", aliases=["pong", "ding", "dong"]) # Checks latency between Discord API and the bot
