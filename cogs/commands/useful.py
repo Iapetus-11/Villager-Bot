@@ -172,8 +172,8 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         emb.add_field(name="Easter Event", value="The Easter event is live! Eggs, chocolate bars, 2x voting rewards, and more! Good luck finding all the eggs!", inline=False)
         emb.add_field(name="Bot Updates", value="- Voting now has a chance to give you items rather than just emeralds.\n"
                                                 "- Vault slots are now easier to get.\n"
-                                                "- Bot has been made far more stable, crash protection has been added."
-                                                f"- New {ctx.prefix}news command!", inline=False)
+                                                "- Bot has been made far more stable, crash protection has been added.\n"
+                                                f"- New {ctx.prefix}news command!\n", inline=False)
         emb.set_footer(text=choice(self.tips))
         await ctx.send(embed=emb)
 
