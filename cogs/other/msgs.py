@@ -13,16 +13,17 @@ class Msgs(commands.Cog):
     async def on_message(self, message):
         self.g.msg_count += 1
 
-        if self.bot.user.mentioned_in(message):
+        if "@Villager Bot#6423" in message.content:
+            prefix = await self.db.get_prefix(message.guild.id)
             help_embed = discord.Embed(color=discord.Color.green())
             help_embed.set_author(
                 name="Villager Bot Commands",
                 icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-            help_embed.add_field(name="Minecraft", value=f"``{ctx.prefix}help mc``", inline=True)
-            help_embed.add_field(name="Fun", value=f"``{ctx.prefix}help fun``", inline=True)
+            help_embed.add_field(name="Minecraft", value=f"``{prefix}help mc``", inline=True)
+            help_embed.add_field(name="Fun", value=f"``{prefix}help fun``", inline=True)
             help_embed.add_field(name="\uFEFF", value=f"\uFEFF", inline=True)
-            help_embed.add_field(name="Useful", value=f"``{ctx.prefix}help useful``", inline=True)
-            help_embed.add_field(name="Admin", value=f"``{ctx.prefix}help admin``", inline=True)
+            help_embed.add_field(name="Useful", value=f"``{prefix}help useful``", inline=True)
+            help_embed.add_field(name="Admin", value=f"``{prefix}help admin``", inline=True)
             help_embed.add_field(name="\uFEFF", value=f"\uFEFF", inline=True)
             help_embed.add_field(name="\uFEFF", value="""Need more help? Check out the Villager Bot [Support Server](https://discord.gg/39DwwUV)
             Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/vote)""", inline=False)
