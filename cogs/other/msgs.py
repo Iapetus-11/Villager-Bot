@@ -13,7 +13,7 @@ class Msgs(commands.Cog):
     async def on_message(self, message):
         self.g.msg_count += 1
 
-        if "<@639498607632056321>" in message.content:
+        if "@Villager Bot#6423" in message.content:
             help_embed = discord.Embed(color=discord.Color.green())
             help_embed.set_author(
                 name="Villager Bot Commands",
