@@ -13,7 +13,7 @@ class Msgs(commands.Cog):
     async def on_message(self, message):
         self.g.msg_count += 1
 
-        if "@Villager Bot#6423" in message.content:
+        if self.bot.user.mentioned_in(message):
             help_embed = discord.Embed(color=discord.Color.green())
             help_embed.set_author(
                 name="Villager Bot Commands",
