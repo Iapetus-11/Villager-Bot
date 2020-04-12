@@ -23,6 +23,7 @@ class Msgs(commands.Cog):
                     await message.channel.send(choice(["hrmm", "hmm", "hrmmm", "hrghhmmm", "hrhhmmmmmmmmm", "hrmmmmmm", "hrmmmmmmmmmm", "hrmmmmm"]))
                 except discord.errors.Forbidden:
                     pass
+            return
 
 
 def setup(bot):
