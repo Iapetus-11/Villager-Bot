@@ -35,7 +35,7 @@ class Useful(commands.Cog):
             await ctx.send(embed=help_embed)
 
     @help.command(name='fun')
-    async def fun(self, ctx):
+    async def help_fun(self, ctx):
 
         help_embed = discord.Embed(color=discord.Color.green())
         help_embed.set_author(
@@ -80,7 +80,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         await ctx.send(embed=help_embed)
 
     @help.command(name='useful')
-    async def useful(self, ctx):
+    async def help_useful(self, ctx):
 
         help_embed = discord.Embed(color=discord.Color.green())
         help_embed.set_author(
@@ -105,7 +105,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         await ctx.send(embed=help_embed)
 
     @help.command(name='admin')
-    async def admin(self, ctx):
+    async def help_admin(self, ctx):
 
         help_embed = discord.Embed(color=discord.Color.green())
         help_embed.set_author(
@@ -126,7 +126,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         await ctx.send(embed=help_embed)
         
     @help.command(name="mc")
-    async def mc(self, ctx):
+    async def help_mc(self, ctx):
 
         help_embed = discord.Embed(color=discord.Color.green())
         help_embed.set_author(
@@ -163,6 +163,17 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         infoMsg.add_field(name="Discord", value="[Click Here](https://discord.gg/39DwwUV)", inline=True)
         infoMsg.set_author(name="Villager Bot Information", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         await ctx.send(embed=infoMsg)
+
+    @commands.command(name="new", aliases=["newstuff", "update", "recent", "events"])
+    async def whats_new(self, ctx):
+        emb = discord.Embed(color=discord.Color.green())
+        emb.set_author(name="What's new with Villager Bot?", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
+        emb.add_field(name="Easter Event", value="The Easter event is live! Eggs, chocolate bars, 2x voting rewards, and more! Gotta find those eggs!")
+        emb.add_field(name="Bot Updates", value="- Voting now has a chance to give you items rather than just emeralds.\n"
+                                                "- Vault slots are now easier to get.\n"
+                                                "- Bot has been made far more stable, crash protection has been added.")
+        emb.add_footer(text=choice(self.tips))
+        await ctx.send(emb)
 
     @commands.command(name="ping", aliases=["pong", "ding", "dong"]) # Checks latency between Discord API and the bot
     async def ping(self, ctx):
