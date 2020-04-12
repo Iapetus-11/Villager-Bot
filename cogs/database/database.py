@@ -45,7 +45,7 @@ class Database(commands.Cog):
     async def increment_vault_max(self, uid):
         vault = await self.get_vault(uid)
         if vault[1] < 2000:
-            if choice([True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]):
+            if choice([True, False, False, False, False, False, False, False, False, False, False, False, False, False, False]):
                 await self.set_vault(uid, vault[0], vault[1] + 1)
 
     async def get_balance(self, uid): # Gets emeralds
