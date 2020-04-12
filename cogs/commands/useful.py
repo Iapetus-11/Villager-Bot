@@ -98,7 +98,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}google** ***query*** *bot will search on google for your query*\n'
             f'**{ctx.prefix}youtube** ***query*** *bot will search on youtube for your query*\n'
             f'**{ctx.prefix}reddit** ***query*** *bot will search on reddit for your query*\n'
-            f'**{Ctx.prefix}news** *shows what\'s new with the bot*\n',
+            f'**{ctx.prefix}news** *shows what\'s new with the bot*\n',
             inline=True)
 
         help_embed.set_footer(text=choice(self.tips))
