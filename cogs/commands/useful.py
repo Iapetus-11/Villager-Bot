@@ -174,7 +174,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
                                                 "- Vault slots are now easier to get.\n"
                                                 "- Bot has been made far more stable, crash protection has been added.")
         emb.set_footer(text=choice(self.tips))
-        await ctx.send(emb)
+        await ctx.send(embed=emb)
 
     @commands.command(name="ping", aliases=["pong", "ding", "dong"]) # Checks latency between Discord API and the bot
     async def ping(self, ctx):
