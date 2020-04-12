@@ -13,7 +13,7 @@ class Msgs(commands.Cog):
     async def on_message(self, message):
         self.g.msg_count += 1
 
-        if "@Villager Bot#6423" in message.content:
+        if "@Villager Bot" in message.clean_content:
             prefix = await self.db.get_prefix(message.guild.id)
             help_embed = discord.Embed(color=discord.Color.green())
             help_embed.set_author(
