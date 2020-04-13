@@ -627,21 +627,6 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist."))
 
-    @commands.command(name="selleggs", aliases=["sellalleggs"])
-    async def sell_all_easter_eggs(self, ctx):
-        eggs = await self.db.get_items(ctx.author.id)
-        for i in range(0, len(eggs), 1):
-            if "egg" not in eggs[i][0]:
-                eggs.pop(i)
-        if len(eggs) == 0:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have any eggs to sell!"))
-            return
-        emeralds_to_add = 0
-        for egg in eggs:
-            await self.db.remove_item(uid, egg[0], egg[1])
-            emeralds_to_add += egg[1]*egg[2]
-        await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id)+emeralds_to_add)
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {len(eggs)}x Easter eggs for {emeralds_to_add}"))
 
 def setup(bot):
     bot.add_cog(Econ(bot))
