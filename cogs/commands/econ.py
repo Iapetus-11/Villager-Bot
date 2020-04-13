@@ -627,7 +627,7 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist."))
 
-    @commands.command(name="selleggs", "sellalleggs")
+    @commands.command(name="selleggs", aliases=["sellalleggs"])
     async def sell_all_easter_eggs(self, ctx):
         eggs = await self.db.get_items(ctx.author.id)
         for i in range(0, len(eggs), 1):
