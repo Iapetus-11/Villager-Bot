@@ -63,9 +63,9 @@ class Events(commands.Cog):
                             pass
                         await self.db.add_item(user.id, c[0], 1, c[1])
                         return
-            multi = 2 # cause easter, normally is 1
+            multi = 1 # cause easter, normally is 1
             if await self.dblpy.get_weekend_status():
-                multi *= 1 # normally is 2
+                multi *= 2 # normally is 2
             messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
