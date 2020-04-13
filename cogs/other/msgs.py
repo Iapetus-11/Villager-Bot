@@ -28,7 +28,7 @@ class Msgs(commands.Cog):
             help_embed.add_field(name="\uFEFF", value="""Need more help? Check out the Villager Bot [Support Server](https://discord.gg/39DwwUV)
             Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/vote)""", inline=False)
             help_embed.set_footer(text=choice(self.bot.get_cog("Useful").tips))
-            await message.send(embed=help_embed)
+            await message.channel.send(embed=help_embed)
 
         # Only replies handling past this point
         if message.author.bot:
