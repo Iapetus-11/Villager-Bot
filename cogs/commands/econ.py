@@ -577,6 +577,9 @@ class Econ(commands.Cog):
             await self.db.set_balance(ctx.author.id, their_bal + sAmount)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You escaped with {sAmount} {self.emerald}",
                                                                                                 f"You got away with {sAmount} {self.emerald}"])))
+            await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} stole {sAmount}{self.emerald} from you!",
+                                                                                                   f"{ctx.author.display_name} pillaged {sAmout}{self.emerald} from you!",
+                                                                                                   f"{ctx.author.display_name} pillaged you and got {sAmount}{self.emerald} from you!."])))
         else:
             await self.db.set_balance(victim.id, victim_bal + 32)
             await self.db.set_balance(ctx.author.id, their_bal - 32)

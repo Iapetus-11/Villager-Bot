@@ -169,11 +169,11 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     async def whats_new(self, ctx):
         emb = discord.Embed(color=discord.Color.green())
         emb.set_author(name="What's new with Villager Bot?", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-        emb.add_field(name="Easter Event", value="The Easter event is over...", inline=False)
         emb.add_field(name="Bot Updates", value="- Voting now has a chance to give you items rather than just emeralds.\n"
                                                 "- Vault slots are now easier to get.\n"
                                                 "- Bot has been made far more stable, crash protection has been added.\n"
-                                                f"- New {ctx.prefix}news command!\n", inline=False)
+                                                f"- New {ctx.prefix}news command!\n"
+                                                f"- Now, if you get pillaged, you recieve a dm from the bot saying how much got stolen.\n", inline=False)
         emb.set_footer(text=choice(self.tips))
         await ctx.send(embed=emb)
 
