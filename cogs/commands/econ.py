@@ -452,6 +452,7 @@ class Econ(commands.Cog):
         found = choice(minin)
         if found == "emerald":
             items = await self.db.get_items(ctx.author.id)
+            mult = 1
             choices = [1, 1]
             top = 0
             for item in items:
