@@ -452,16 +452,25 @@ class Econ(commands.Cog):
         found = choice(minin)
         if found == "emerald":
             items = await self.db.get_items(ctx.author.id)
-            mult = 1
+            choices = [1, 1]
+            top = 0
             for item in items:
                 if item[0] == "Bane Of Pillagers Amulet": # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
-                    mult = choice([1, 2, 3, 4, 5])
+                    choices = [1, 2, 3, 4, 5]
+                    top = 15
                 elif item[0] == "Fortune III Book":
-                    mult = choice([1, 1, 2, 3, 4])
+                    if 11 > top:
+                        choices = [1, 1, 2, 3, 4]
+                        top = 11
                 elif item[0] == "Fortune II Book":
-                    mult = choice([1, 1, 1, 2, 3])
+                    if 8 > top:
+                        choices = [1, 1, 1, 2, 3]
+                        top = 8
                 elif item[0] == "Fortune I Book":
-                    mult = choice([1, 1, 2])
+                    if 4 > top:
+                        choices = [1, 1, 2]
+                        top = 4
+                mult = choice(choices)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You found {mult}{self.emerald}!",
                                                                                                 f"You mined up {mult}{self.emerald}!",
                                                                                                 f"You got {mult}{self.emerald}!"])))
