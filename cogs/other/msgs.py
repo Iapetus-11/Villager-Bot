@@ -14,7 +14,10 @@ class Msgs(commands.Cog):
         self.g.msg_count += 1
 
         if "@Villager Bot" in message.clean_content:
-            prefix = await self.db.get_prefix(message.guild.id)
+            if message.guild is not None:
+                prefix = await self.db.get_prefix(message.guild.id)
+            else:
+                prefix = "!!"
             help_embed = discord.Embed(color=discord.Color.green())
             help_embed.set_author(
                 name="Villager Bot Commands",
