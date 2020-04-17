@@ -378,5 +378,13 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         sleep(15)
         await ctx.send("Done.")
 
+    @commands.command(name="getgiveaway")
+    @commands.is_owner()
+    async def get_giveaway_winners(self, ctx, message_id: int, emoji: str):
+        msg = await ctx.guild.get_channel(644391543075242014).fetch_message(message_id)
+        users = msg.reactions[0].users().flatten()
+        await ctx.send(f"Winners: {choice(users)} & {choice(users)}")
+
+
 def setup(bot):
     bot.add_cog(Owner(bot))
