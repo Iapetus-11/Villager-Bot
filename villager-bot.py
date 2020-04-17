@@ -10,5 +10,5 @@ while True:
             if "heartbeat blocked" in line.decode("utf-8").lower():
                 stop = True
                 break
-    p.send_signal(signal.CTRL_C_EVENT)
+    p.send_signal(signal.SIGINT)
     print("== BOT EXITED ==")
