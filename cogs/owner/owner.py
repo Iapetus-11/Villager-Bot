@@ -24,17 +24,15 @@ class Owner(commands.Cog):
 **{0}load** ***cog*** *loads a cog*
 **{0}reload** ***cog*** *reloads a cog, error if cog had not been loaded prior*
 
-**{0}activity** ***text*** *sets activity of bot to given text*
-**{0}nextactivity** *picks random activity from list*
-
 **{0}guilds** *lists guild member count, guild name, guild id*
 **{0}dms** *lists private channels (group msgs and dms)*
 **{0}leaveguild** ***guild id*** *leaves specified guild*
 **{0}getinvites** ***guild id*** *gets invite codes for specified guild*
+**{0}lookup** ***user*** *shows what servers a user is in*
 
 **{0}info2** *displays information about stuff*
 **{0}cogs** *lists the loaded cogs*
-**{0}lookup** ***user*** *shows what servers a user is in*
+**{0}getgiveaway** ***message id*** *gets two winners from the specified message, uses first reaction on specified message*
 
 **{0}setbal** ***@user amount*** *set user balance to something*
 **{0}getinv** ***@user*** *get inventory of a user*
@@ -46,6 +44,8 @@ class Owner(commands.Cog):
 **{0}botban** ***user*** *bans a user from using the bot*
 **{0}botunban** ***user*** *unbans a user from using the bot*
 
+**{0}activity** ***text*** *sets activity of bot to given text*
+**{0}nextactivity** *picks random activity from list*
 **{0}addtoplaying** ***text*** *add a status to the list of statuses cycled through by the bot*
 **{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
 **{0}addmcserver** ***ip port "version" type verified \*note*** *adds to the list of mc servers*
@@ -380,7 +380,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
 
     @commands.command(name="getgiveaway")
     @commands.is_owner()
-    async def get_giveaway_winners(self, ctx, message_id: int, emoji: str):
+    async def get_giveaway_winners(self, ctx, message_id: int):
         msg = await ctx.guild.get_channel(644391543075242014).fetch_message(message_id)
         users = msg.reactions[0].users().flatten()
         await ctx.send(f"Winners: {choice(users)} & {choice(users)}")
