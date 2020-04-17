@@ -383,7 +383,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     async def get_giveaway_winners(self, ctx, message_id: int):
         msg = await ctx.guild.get_channel(644391543075242014).fetch_message(message_id)
         users = msg.reactions[0].users().flatten()
-        await ctx.send(f"Winners: {choice(users)} & {choice(users)}")
+        await ctx.send(users)
 
 
 def setup(bot):
