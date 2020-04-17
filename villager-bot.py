@@ -1,4 +1,5 @@
 import subprocess
+import signal
 
 while True:
     p = subprocess.Popen("python3 bot.py", stderr=subprocess.PIPE, shell=True)
@@ -9,5 +10,5 @@ while True:
             if "heartbeat blocked" in line.decode("utf-8").lower():
                 stop = True
                 break
+    p.send_signal(signal.CTRL_C_EVENT)
     print("== BOT EXITED ==")
-    p.kill()
