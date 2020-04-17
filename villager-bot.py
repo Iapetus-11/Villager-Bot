@@ -10,5 +10,6 @@ while True:
             if "heartbeat blocked" in line.decode("utf-8").lower():
                 stop = True
                 break
+    exit() #idfk
     p.send_signal(signal.SIGINT)
     print("== BOT EXITED ==")
