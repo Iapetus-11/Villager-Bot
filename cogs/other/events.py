@@ -77,18 +77,10 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
         await asyncio.sleep(1)
-        ret = False
-        i = 0
-        join_msg = discord.Embed(color=discord.Color.green(), description="Hey ya'll, type **!!help** to get started with Villager Bot!\n\n" +
-                                "Want to recieve updates, report a bug, or make suggestions? Join the official [support server](https://discord.gg/39DwwUV)!")
-        while i >= 0:
-            try:
-                await guild.channels[i].send(embed=join_msg)
-            except Exception:
-                i += 1
-                pass
-            else:
-                i = -100
+        if guild.system_channel is not None:
+            await guild.system_channel.send(embed=discord.Embed(color=discord.Color.green(), description="Hey ya'll, type **!!help** to get started with Villager Bot!\n\n"
+                                                                                                         "Want to recieve updates, report a bug, or make suggestions? "
+                                                                                                         "Join the official [support server](https://discord.gg/39DwwUV)!"))
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
