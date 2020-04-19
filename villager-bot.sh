@@ -1,1 +1,1 @@
-python3 villager-bot.py
+python3 bot.py
