@@ -122,6 +122,13 @@ class Fun(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(title="***" + ctx.author.display_name + ":*** " + str(p1_hp) + " hp | ***" + user.display_name + ":*** " + str(p2_hp) + " hp", color=discord.Color.from_rgb(255, 0, 0)))
 
+    @commands.command(name="netherportal", "nether")
+    async def netherportal(self, ctx):
+        await ctx.send("<:obsidian:700702868801585182><:obsidian:700702868801585182><:obsidian:700702868801585182><:obsidian:700702868801585182>\n"
+                       "<:obsidian:700702868801585182><:netherportal:700702869082472593><:netherportal:700702869082472593><:obsidian:700702868801585182>\n"
+                       "<:obsidian:700702868801585182><:netherportal:700702869082472593><:netherportal:700702869082472593><:obsidian:700702868801585182>\n"
+                       "obsidian:<:netherportal:700702869082472593><:netherportal:700702869082472593><:obsidian:700702868801585182>\n"
+                       "obsidian:<:obsidian:700702868801585182><:obsidian:700702868801585182><:obsidian:700702868801585182>\n")
 
 def setup(bot):
     bot.add_cog(Fun(bot))
