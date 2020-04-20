@@ -654,7 +654,8 @@ class Econ(commands.Cog):
     async def fish(self, ctx):
         bad_catches = ["a rusty nail", "an old shoe", "a broken bottle", "a tin can", "a soda bottle", "a piece of plastic", "a moldy chicken nugget", "a discarded birthday cake",
                        "an old picture frame", "a clump of hair", "some bones", "a forgotten flip flop", "a piece of driftwood", "a kfc container", "a plastic pail"]
-        good_catches = [("a cod", 3), ("a salmon", 4), ("a pufferfish", 5), ("an exotic fish", 10)]
+        good_catches = [("a cod <:cod:701589959458684978>", 3), ("a salmon <:salmon:701589974646128690>", 4),
+                        ("a pufferfish <:pufferfish:701590021525733438>", 5), ("a tropical fish <:tropical_fish:701590997808709692>", 10)]
         rod = self.db.get_item(ctx.author.id, "Fishing Rod")
         if rod is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't fish without a fishing rod! (You can buy a wooden one in the shop!)"))
@@ -662,10 +663,29 @@ class Econ(commands.Cog):
         else:
             if choice(True, False, False):
                 catch = choice(good_catches)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice('caught', 'fished up')} {catch[0]}! (And sold it for {catch[1]}.)"))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice('caught', 'fished up')} {catch[0]}! (And sold it for {catch[1]}{self.emerald}.)"))
                 await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id))+catch[1])
             else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice('caught', 'fished up')} {choice(bad_catches)}..."))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice('caught', 'fished up')} {choice(bad_catches)}..."))\
+
+    @fish.error
+    async def handle_fish_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
+        if isinstance(e, commands.CommandOnCooldown):
+            cooldown = e.retry_after
+            if ctx.author.id in list(self.items_in_use):
+                if self.items_in_use[ctx.author.id] == "Haste I Potion":
+                    cooldown -= .75
+                if self.items_in_use[ctx.author.id] == "Haste II Potion":
+                    cooldown -= 1.5
+
+            if cooldown <= 0:
+                await ctx.reinvoke()
+            else:
+                descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
+                        "Hey, you need to wait another {0} seconds before doing that again.",
+                        "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
+                        "Didn't you know patience was a virtue? Wait another {0} seconds."]
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(cooldown, 2))))
 
 def setup(bot):
     bot.add_cog(Econ(bot))
