@@ -687,11 +687,8 @@ class Econ(commands.Cog):
                                 if c[0].startswith(vowel):
                                     a = "an"
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([
-                                f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in an abandoned mineshaft!",
-                                f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in a chest while mining!",
-                                f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in a chest!",
-                                f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in a chest near a monster spawner!",
-                                f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) while mining!"])))
+                                f"You {choice(['fished up', 'caught'])} {a} {c[0]}! (Worth {c[1]}{self.emerald})",
+                                f"You {choice(['fished up', 'caught'])} {a} {c[0]}! (Worth {c[1]}{self.emerald})"])))
                             await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                             return
                 good_catch_chance = [True, False]
