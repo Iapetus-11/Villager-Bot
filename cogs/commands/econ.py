@@ -201,7 +201,7 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Fishing Rod."))
 
-        if item == "haste i potion" or item == "haste 1 potion":
+        elif item == "haste i potion" or item == "haste 1 potion":
             if their_bal >= 120:
                 await self.db.set_balance(ctx.author.id, their_bal - 120)
                 await self.db.add_item(ctx.author.id, "Haste I Potion", 1, 32)
