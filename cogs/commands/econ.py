@@ -679,6 +679,21 @@ class Econ(commands.Cog):
         else:
             good_catch_chance = [True, False, False]
             if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
+                if choice([False, False, False, True]):
+                    for c in self.g.items:
+                        if randint(0, c[2]) == 1:
+                            a = "a"
+                            for vowel in ["a", "e", "i", "o", "u"]:
+                                if c[0].startswith(vowel):
+                                    a = "an"
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([
+                                f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in an abandoned mineshaft!",
+                                f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in a chest while mining!",
+                                f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in a chest!",
+                                f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) in a chest near a monster spawner!",
+                                f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) while mining!"])))
+                            await self.db.add_item(ctx.author.id, c[0], 1, c[1])
+                            return
                 good_catch_chance = [True, False]
             if choice(good_catch_chance):
                 catch = choice(good_catches)
