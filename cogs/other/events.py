@@ -79,7 +79,7 @@ class Events(commands.Cog):
         await asyncio.sleep(1)
         if guild.system_channel is not None:
             await guild.system_channel.send(embed=discord.Embed(color=discord.Color.green(), description="Hey ya'll, type **!!help** to get started with Villager Bot!\n\n"
-                                                                                                         "Want to recieve updates, report a bug, or make suggestions? "
+                                                                                                         "Want to receive updates, report a bug, or make suggestions? "
                                                                                                          "Join the official [support server](https://discord.gg/39DwwUV)!"))
 
     @commands.Cog.listener()
