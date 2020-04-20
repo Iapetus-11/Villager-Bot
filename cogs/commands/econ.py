@@ -661,7 +661,10 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't fish without a fishing rod! (You can buy a wooden one in the shop!)"))
             return
         else:
-            if choice([True, False, False]):
+            good_catch_chance = [True, False, False]
+            if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
+                good_catch_chance = [True, False]
+            if choice(good_catch_chance):
                 catch = choice(good_catches)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up'])} {catch[0]}! (And sold it for {catch[1]}{self.emerald}.)"))
                 await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id))+catch[1])
@@ -672,11 +675,8 @@ class Econ(commands.Cog):
     async def handle_fish_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
             cooldown = e.retry_after
-            if ctx.author.id in list(self.items_in_use):
-                if self.items_in_use[ctx.author.id] == "Haste I Potion":
-                    cooldown -= .75
-                if self.items_in_use[ctx.author.id] == "Haste II Potion":
-                    cooldown -= 1.5
+            if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
+                cooldown -= 1.5
 
             if cooldown <= 0:
                 await ctx.reinvoke()
