@@ -697,7 +697,7 @@ class Econ(commands.Cog):
                 good_catch_chance = [True, False]
             if choice(good_catch_chance):
                 catch = choice(good_catches)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up'])} {catch[0]}! (And sold it for {catch[1]}{self.emerald}.)"))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up'])} {catch[0]}! (And sold it for {catch[1]}{self.emerald})"))
                 await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id))+catch[1])
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up'])} {choice(bad_catches)}..."))\
