@@ -652,6 +652,22 @@ class Econ(commands.Cog):
     @commands.command(name="fish")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def fish(self, ctx):
+        if ctx.author.id in self.who_is_mining.keys():
+            if self.who_is_mining[ctx.author.id] >= 100:
+                prob = await self.problem_generator()
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
+                msg = await self.bot.wait_for("message")
+                while msg.author.id is not ctx.author.id:
+                    msg = await self.bot.wait_for("message")
+                if msg.clean_content == prob[1]:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Correct answer!"))
+                    self.who_is_mining[ctx.author.id] = 0
+                else:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Incorrect answer."))
+                return
+            self.who_is_mining[ctx.author.id] += 1
+        else:
+            self.who_is_mining[ctx.author.id] = 1
         bad_catches = ["a rusty nail", "an old shoe", "a broken bottle", "a tin can", "a soda bottle", "a piece of plastic", "a moldy chicken nugget", "a discarded birthday cake",
                        "an old picture frame", "a clump of hair", "some bones", "a forgotten flip flop", "a piece of driftwood", "a kfc container", "a plastic pail"]
         good_catches = [("a cod <:cod:701589959458684978>", 3), ("a salmon <:salmon:701589974646128690>", 4),
