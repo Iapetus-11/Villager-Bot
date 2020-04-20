@@ -661,7 +661,7 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't fish without a fishing rod! (You can buy a wooden one in the shop!)"))
             return
         else:
-            if choice(True, False, False):
+            if choice([True, False, False]):
                 catch = choice(good_catches)
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice('caught', 'fished up')} {catch[0]}! (And sold it for {catch[1]}{self.emerald}.)"))
                 await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id))+catch[1])
