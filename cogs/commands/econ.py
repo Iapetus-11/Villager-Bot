@@ -715,5 +715,6 @@ class Econ(commands.Cog):
                         "Didn't you know patience was a virtue? Wait another {0} seconds."]
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(cooldown, 2))))
 
+
 def setup(bot):
     bot.add_cog(Econ(bot))
