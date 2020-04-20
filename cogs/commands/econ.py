@@ -129,7 +129,8 @@ class Econ(commands.Cog):
         shop.set_author(name="Villager Shop [Other]", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
         shop.add_field(name=f"__**Jar of Bees**__ 8{self.emerald}", value=f"``{ctx.prefix}buy jar of bees``", inline=True)
-        shop.add_field(name=f"__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>)  __**32{self.emerald}**__", value=f"``{ctx.prefix}buy netherite scrap``", inline=True)
+        shop.add_field(name=f"__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>) 32{self.emerald}", value=f"``{ctx.prefix}buy netherite scrap``", inline=True)
+        shop.add_field(name=f"__**Fishing Rod**__ 64{self.emerald}", value=f"``{ctx.prefix}buy fishing rod``", inline=True)
         await ctx.send(embed=shop)
 
     @commands.command(name="inventory", aliases=["inv"])
@@ -191,6 +192,14 @@ class Econ(commands.Cog):
     async def buy(self, ctx, *, _item):
         item = _item.lower()
         their_bal = await self.db.get_balance(ctx.author.id)
+
+        if item == "fishing rod" or item == "wooden fishing rod":
+            if their_bal >= 64:
+                await self.db.set_balance(ctx.author.id, their_bal - 64)
+                await self.db.add_item(ctx.author.id, "Fishing Rod", 1, 48)
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a Fishing Rod."))
+            else:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Fishing Rod."))
 
         if item == "haste i potion" or item == "haste 1 potion":
             if their_bal >= 120:
@@ -478,7 +487,7 @@ class Econ(commands.Cog):
             await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + 1 * mult)
         else:
             for c in self.g.items:
-                if randint(0, c[2]) == c[3]:
+                if randint(0, c[2]) == 1:
                     a = "a"
                     for vowel in ["a", "e", "i", "o", "u"]:
                         if c[0].startswith(vowel):
@@ -640,6 +649,23 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist."))
 
+    @commands.command(name="fish")
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def fish(self, ctx):
+        bad_catches = ["a rusty nail", "an old shoe", "a broken bottle", "a tin can", "a soda bottle", "a piece of plastic", "a moldy chicken nugget", "a discarded birthday cake",
+                       "an old picture frame", "a clump of hair", "some bones", "a forgotten flip flop", "a piece of driftwood", "a kfc container", "a plastic pail"]
+        good_catches = [("a cod", 3), ("a salmon", 4), ("a pufferfish", 5), ("an exotic fish", 10)]
+        rod = self.db.get_item(ctx.author.id, "Fishing Rod")
+        if rod is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't fish without a fishing rod! (You can buy a wooden one in the shop!)"))
+            return
+        else:
+            if choice(True, False, False):
+                catch = choice(good_catches)
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice('caught', 'fished up')} {catch[0]}! (And sold it for {catch[1]}.)"))
+                await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id))+catch[1])
+            else:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice('caught', 'fished up')} {choice(bad_catches)}..."))
 
 def setup(bot):
     bot.add_cog(Econ(bot))
