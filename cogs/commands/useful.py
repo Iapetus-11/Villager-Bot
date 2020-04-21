@@ -174,7 +174,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
                                                 "- Vault slots are now easier to get.\n"
                                                 "- Bot has been made far more stable, crash protection has been added.\n"
                                                 f"- New {ctx.prefix}news command!\n"
-                                                f"- Now, if you get pillaged, you recieve a dm from the bot saying how much got stolen.\n", inline=False)
+                                                f"- Now, if you get pillaged, you receive a dm from the bot saying how much got stolen.\n", inline=False)
         emb.set_footer(text=choice(self.tips))
         await ctx.send(embed=emb)
 
