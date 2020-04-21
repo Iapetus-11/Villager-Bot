@@ -186,8 +186,7 @@ class Owner(commands.Cog):
         if msg is not "":
             await ctx.send(msg)
 
-    @commands.command(name="info2")
-    @commands.is_owner()
+    @commands.command(name="info2", aliases=["stats"])
     async def info2(self, ctx):
         info_embed = discord.Embed(description="", color=discord.Color.green())
         info_embed.add_field(name="__**Owner Info**__", value=f"""
