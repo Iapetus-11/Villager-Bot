@@ -3,6 +3,7 @@ import discord
 import arrow
 from random import choice
 import async_cse
+import json
 
 
 class Useful(commands.Cog):
