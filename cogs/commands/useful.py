@@ -256,7 +256,11 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def image_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
-        results = (await self.google.search(query, safesearch=True, image_search=True))[0:5]
+        results = (await self.google.search(query, safesearch=True, image_search=True))
+        image = choice(results)
+        if image.image_url is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Couldn't find a result foor that query"))
+            return
         embed = discord.Embed(color=discord.Color.green())
         embed.set_image(url=choice(results).image_url)
         await ctx.send(embed=embed)
