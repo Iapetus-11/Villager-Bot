@@ -1,8 +1,8 @@
 from discord.ext import commands
 import discord
 import arrow
-from googlesearch import search
 from random import choice
+import async_cse
 
 
 class Useful(commands.Cog):
@@ -12,6 +12,8 @@ class Useful(commands.Cog):
         self.tips = ["Made by Iapetus11#6821 & TrustedMercury#1953", "You can get emeralds by voting for the bot on top.gg!",
                      "Hey, check out the support server! discord.gg/39DwwUV", "Did you know you can buy emeralds?",
                      f"Wanna invite the bot? Try the !!invite command!", "Did you know you can get emeralds by voting for the bot?"]
+        with open("keys.json", "r") as keys:
+            self.google = async_cse.Search(json.load(keys)["googl"])
 
     @commands.group(name="help")
     async def help(self, ctx):
@@ -227,25 +229,9 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def google_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
-        rs = []
-        for result in search(query, tld="co.in", num=1, stop=1, pause=0):
-            rs.append(result)
-        if len(rs) > 0:
-            await ctx.send(rs[0])
-        else:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
-
-    @commands.command(name="youtube")
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    async def google_search_youtube(self, ctx, *, query: str):
-        await ctx.trigger_typing()
-        rs = []
-        for result in search(query, tld="co.in", domains=["youtube.com"], num=1, stop=1, pause=0):
-            rs.append(result)
-        if len(rs) > 0:
-            await ctx.send(rs[0])
-        else:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
+        rez = (await self.google.search(query, safesearch=True))[0] # Grab only first result
+        embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
