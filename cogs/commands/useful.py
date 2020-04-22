@@ -251,7 +251,14 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         embed.set_thumbnail(url=rez.image_url)
         await ctx.send(embed=embed)
 
-    @commands.command(name="image", aliases="")
+    @commands.command(name="image", aliases="imagesearch")
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def image_search(self, ctx, *, query: str):
+        await ctx.trigger_typing()
+        results = (await self.google.search(query, safesearch=True, image_search=True))[0:5]
+        embed = discord.Embed(color=discord.Color.green())
+        embed.set_image(url=choice(results).image_url)
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
