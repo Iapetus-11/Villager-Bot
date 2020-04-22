@@ -252,7 +252,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         embed.set_thumbnail(url=rez.image_url)
         await ctx.send(embed=embed)
 
-    @commands.command(name="image", aliases="imagesearch")
+    @commands.command(name="image", aliases=["imagesearch"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def image_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
