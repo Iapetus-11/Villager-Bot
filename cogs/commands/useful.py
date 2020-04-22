@@ -12,7 +12,7 @@ class Useful(commands.Cog):
         self.tips = ["Made by Iapetus11#6821 & TrustedMercury#1953", "You can get emeralds by voting for the bot on top.gg!",
                      "Hey, check out the support server! discord.gg/39DwwUV", "Did you know you can buy emeralds?",
                      f"Wanna invite the bot? Try the !!invite command!", "Did you know you can get emeralds by voting for the bot?"]
-        with open("keys.json", "r") as keys:
+        with open("data/keys.json", "r") as keys:
             self.google = async_cse.Search(json.load(keys)["googl"])
 
     @commands.group(name="help")
