@@ -4,7 +4,6 @@ import arrow
 from random import choice
 import async_cse
 import json
-import asyncio
 
 
 class Useful(commands.Cog):
@@ -18,7 +17,7 @@ class Useful(commands.Cog):
             self.google = async_cse.Search(json.load(keys)["googl"])
 
     def cog_unload(self):
-        asyncio.get_event_loop().run_until_complete(self.google.close())
+        self.bot.loop.create_task(self.google.close())
 
     @commands.group(name="help")
     async def help(self, ctx):
