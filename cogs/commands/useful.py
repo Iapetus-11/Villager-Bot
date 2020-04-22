@@ -244,6 +244,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
                 rez = result
                 break
         embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
+        embed.set_thumbnail(url=rez.image_url)
         await ctx.send(embed=embed)
 
 
