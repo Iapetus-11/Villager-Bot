@@ -248,18 +248,6 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
 
-    @commands.command(name="reddit")
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    async def redditSearch(self, ctx, *, query: str):
-        await ctx.trigger_typing()
-        rs = []
-        for result in search(query, tld="co.in", domains=["reddit.com"], num=1, stop=1, pause=0):
-            rs.append(result)
-        if len(rs) > 0:
-            await ctx.send(rs[0])
-        else:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
-
 
 def setup(bot):
     bot.add_cog(Useful(bot))
