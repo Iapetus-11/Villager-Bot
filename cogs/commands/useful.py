@@ -233,6 +233,18 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
         await ctx.send(embed=embed)
 
+    @commands.command(name="youtube")
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def youtube_search(self, ctx, *, query: str):
+        await ctx.trigger_typing()
+        results = (await self.google.search(query, safesearch=True))
+        for result in results:
+            if "youtube" in result.url:
+                rez = result
+                break
+        embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Useful(bot))
