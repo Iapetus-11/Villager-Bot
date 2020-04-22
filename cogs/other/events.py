@@ -24,7 +24,7 @@ class Events(commands.Cog):
         self.logger.setLevel(logging.INFO)
 
     def cog_unload(self):
-        self.bot.loop.run_until_complete(self.dblpy.close())
+        self.bot.loop.create_task(self.dblpy.close())
 
     @commands.Cog.listener()
     async def on_ready(self):
