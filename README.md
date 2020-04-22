@@ -75,6 +75,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!say__ *text* (bot repeats what you say)
 * __!!google__ *query* (bot searches for your query on google)
 * __!!youtube__ *query* (bot searches for you on youtube)
+* __!!image__ *query* (bot searches for you on google images)
 * __!!stats__ (shows certain bot statistics)
 
 ### Admin Only Commands
