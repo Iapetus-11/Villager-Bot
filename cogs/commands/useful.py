@@ -192,7 +192,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"<a:ping:692401875001278494> {pp}! \uFEFF ``{round(self.bot.latency*1000, 2)} ms``"))
 
     @commands.command(name="uptime")
-    async def getuptime(self, ctx):
+    async def get_uptime(self, ctx):
         p = arrow.utcnow()
         diff = (p - self.g.startTime)
         days = diff.days
@@ -213,20 +213,20 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Bot has been online for "+str(days)+" "+dd+", "+str(hours)+" "+hh+", and "+str(minutes)+" "+mm+"!"))
 
     @commands.command(name="vote", aliases=["votelink"])
-    async def votelink(self, ctx):
-        voteL = discord.Embed(title="Vote for Villager Bot", description="[Click Here!](https://top.gg/bot/639498607632056321/vote)", color=discord.Color.green())
-        voteL.set_thumbnail(url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-        await ctx.send(embed=voteL)
+    async def vote_link(self, ctx):
+        _vote_link = discord.Embed(title="Vote for Villager Bot", description="[Click Here!](https://top.gg/bot/639498607632056321/vote)", color=discord.Color.green())
+        _vote_link.set_thumbnail(url="http://olimone.ddns.net/images/villagerbotsplash1.png")
+        await ctx.send(embed=_vote_link)
 
     @commands.command(name="invite", aliases=["invitelink"])
-    async def inviteLink(self, ctx):
+    async def invite_link(self, ctx):
         invL = discord.Embed(title="Add Villager Bot to your server", description="[Click Here!](https://bit.ly/2tQfOhW)", color=discord.Color.green())
         invL.set_thumbnail(url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         await ctx.send(embed=invL)
 
     @commands.command(name="google")
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def googleSearch(self, ctx, *, query: str):
+    async def google_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
         rs = []
         for result in search(query, tld="co.in", num=1, stop=1, pause=0):
@@ -238,7 +238,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
 
     @commands.command(name="youtube")
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def ytSearch(self, ctx, *, query: str):
+    async def google_search_youtube(self, ctx, *, query: str):
         await ctx.trigger_typing()
         rs = []
         for result in search(query, tld="co.in", domains=["youtube.com"], num=1, stop=1, pause=0):
