@@ -4,6 +4,7 @@ import arrow
 from random import choice
 import async_cse
 import json
+import asyncio
 
 
 class Useful(commands.Cog):
@@ -15,6 +16,9 @@ class Useful(commands.Cog):
                      f"Wanna invite the bot? Try the !!invite command!", "Did you know you can get emeralds by voting for the bot?"]
         with open("data/keys.json", "r") as keys:
             self.google = async_cse.Search(json.load(keys)["googl"])
+
+    def cog_unload(self):
+        asyncio.get_event_loop().run_until_complete(self.google.close())
 
     @commands.group(name="help")
     async def help(self, ctx):
@@ -246,6 +250,8 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
         embed.set_thumbnail(url=rez.image_url)
         await ctx.send(embed=embed)
+
+    @commands.command(name="image", aliases="")
 
 
 def setup(bot):
