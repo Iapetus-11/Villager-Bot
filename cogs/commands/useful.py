@@ -249,13 +249,17 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         except async_cse.search.NoResults:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
             return
+        rez = None
         for result in results:
             if "youtube" in result.url:
                 rez = result
                 break
-        embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
-        embed.set_thumbnail(url=rez.image_url)
-        await ctx.send(embed=embed)
+        if rez is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+        else:
+            embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
+            embed.set_thumbnail(url=rez.image_url)
+            await ctx.send(embed=embed)
 
     @commands.command(name="image", aliases=["imagesearch"])
     @commands.cooldown(1, 2, commands.BucketType.user)
