@@ -35,9 +35,7 @@ class Useful(commands.Cog):
             help_embed.add_field(name="\uFEFF", value=f"\uFEFF", inline=True)
             help_embed.add_field(name="\uFEFF", value="""Need more help? Check out the Villager Bot [Support Server](https://discord.gg/39DwwUV)
             Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/vote)""", inline=False)
-
             help_embed.set_footer(text=choice(self.tips))
-
             await ctx.send(embed=help_embed)
 
     @help.command(name='fun')
@@ -234,7 +232,11 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def google_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
-        rez = (await self.google.search(query, safesearch=True))[0] # Grab only first result
+        try:
+            rez = (await self.google.search(query, safesearch=True))[0] # Grab only first result
+        except async_cse.search.NoResults:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
         embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
         await ctx.send(embed=embed)
 
@@ -242,7 +244,11 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def youtube_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
-        results = (await self.google.search(query, safesearch=True))
+        try:
+            results = (await self.google.search(query, safesearch=True))
+        except async_cse.search.NoResults:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
         for result in results:
             if "youtube" in result.url:
                 rez = result
@@ -255,7 +261,11 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def image_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
-        results = (await self.google.search(query, safesearch=True, image_search=True))
+        try:
+            results = (await self.google.search(query, safesearch=True, image_search=True))
+        except async_cse.search.NoResults:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
         image = choice(results)
         embed = discord.Embed(color=discord.Color.green())
         embed.set_image(url=choice(results).image_url)
