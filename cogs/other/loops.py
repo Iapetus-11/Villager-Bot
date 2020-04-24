@@ -18,25 +18,21 @@ class Loops(commands.Cog):
         self.logger = logging.getLogger("Loops")
         self.logger.setLevel(logging.INFO)
 
-        self.did_setup = False
-
     async def update_activity(self):
-        while True:
+        while self.bot.is_ready():
             await asyncio.sleep(3600)
             await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
             self.logger.info(" Updated Activity")
 
-    async def reset_counters(self):
-        while True:
+    async def reset_cmd_vect_counter(self):
+        while self.bot.is_ready():
             await asyncio.sleep(1)
             self.g.cmd_vect = 0
 
     @commands.Cog.listener()
     async def on_ready(self):
-        if not self.did_setup:
-            self.bot.loop.create_task(self.update_activity())
-            self.bot.loop.create_task(self.reset_counters())
-            self.did_setup = True
+        self.bot.loop.create_task(self.update_activity())
+        self.bot.loop.create_task(self.reset_cmd_vect_counter())
 
 
 def setup(bot):
