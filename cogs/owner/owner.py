@@ -279,15 +279,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         self.g.mcServers.append(server)
         with open("data/minecraft_servers.json", "w+") as mcServers:
             mcServers.write(json.dumps(self.g.mcServers))
-        await ctx.send(f"Added {str(server)} to the Minecraft server list")\
-              
-    @commands.command(name="restart")
-    @commands.is_owner()
-    async def reeeeeeeeee(self, ctx):
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Force restarting le bot..."))
-        await self.bot.db.close()
-        await self.bot.logout()
-        exit()
+        await ctx.send(f"Added {str(server)} to the Minecraft server list")
 
     @commands.command(name="getlatest", aliases=["gitpull", "git_pull", "deploylatest"])
     @commands.is_owner()
