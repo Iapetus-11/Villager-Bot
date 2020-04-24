@@ -15,21 +15,10 @@ class Loops(commands.Cog):
         self.g = self.bot.get_cog("Global")
         self.db = self.bot.get_cog("Database")
 
-        with open("data/keys.json", "r") as k:
-            keys = json.load(k)
-
-        self.dblpy = dbl.DBLClient(self.bot, keys["dblpy"])
-
         self.logger = logging.getLogger("Loops")
         self.logger.setLevel(logging.INFO)
 
         self.did_setup = False
-
-    async def update_topgg_stats(self):
-        while True:
-            await self.dblpy.post_guild_count()
-            self.logger.info(" Updated Top.gg Stats")
-            await asyncio.sleep(1800)
 
     async def update_activity(self):
         while True:
@@ -46,7 +35,6 @@ class Loops(commands.Cog):
     async def on_ready(self):
         if not self.did_setup:
             self.bot.loop.create_task(self.update_activity())
-            self.bot.loop.create_task(self.update_topgg_stats())
             self.bot.loop.create_task(self.reset_counters())
             self.did_setup = True
 
