@@ -276,7 +276,7 @@ class Owner(commands.Cog):
     async def get_and_deploy_latest(self, ctx):
         system("git pull > git_pull_log")
         with open("git_pull_log", "r") as f:
-            await ctx.send(f.read())
+            await ctx.send(f"```{f.read()}```")
 
     @commands.command(name="getinv", aliases=["getinventory"])
     @commands.is_owner()
