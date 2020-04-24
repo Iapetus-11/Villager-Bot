@@ -84,15 +84,24 @@ class AdminCmds(commands.Cog):
     @commands.check_any(commands.has_permissions(administrator=True), commands.has_permissions(kick_members=True), commands.has_permissions(ban_members=True))
     async def get_user_warns(self, ctx, user: discord.User):
         user_warns = await self.db.get_warns(user.id, ctx.guild.id)
-        embed = discord.Embed(color=discord.Color.green(), title=f"{user}s Warnings:")
+        embed = discord.Embed(color=discord.Color.green(), title=f"{user}'s Warnings:")
+        if len(user_warns) == 0:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), title=f"{user}s Warnings:", description=f"{user} has no warnings in this server."))
         for warning in user_warns:
-            embed.add_field(name=f"Warning by {warning[1]}", value=warning[3], inline=False)
+            embed.add_field(name=f"**Warning by {self.bot.get_user(warning[1])}**:", value=warning[3], inline=False)
         await ctx.send(embed=embed)
 
     @commands.command(name="clearwarns", aliases=["deletewarns", "removewarns"])
     @commands.guild_only()
     @commands.check_any(commands.has_permissions(administrator=True), commands.has_permissions(kick_members=True), commands.has_permissions(ban_members=True))
     async def clear_user_warns(self, ctx, user: discord.User):
+        user_warns = await self.db.get_warns(user.id, ctx.guild.id)
+        if len(user_warns) == 0:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{user} has no warns."))
+        else:
+            await self.db.clear_warns(user.id, ctx.guild.id)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Cleared all of {user}'s warns."))
+
 
 def setup(bot):
     bot.add_cog(AdminCmds(bot))
