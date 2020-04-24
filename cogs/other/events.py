@@ -45,6 +45,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_dbl_vote(self, data):
         self.g.vote_vect += 1
+        self.g.vote_count += 1
         user_id = int(data["user"])
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
         user = self.bot.get_user(user_id)
