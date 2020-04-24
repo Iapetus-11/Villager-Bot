@@ -83,3 +83,6 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!kick__ *@user* (kicks the mentioned user)
 * __!!ban__ *@user* (bans the mentioned user)
 * __!!pardon__ *@user* (unbans the mentioned user)
+* __!!warn__ *@user* (warns the mentioned user)
+* __!!warns__ *@user* (shows that user's warnings)
+* __!!clearwarns__ *@user* (clear that user's warnings)

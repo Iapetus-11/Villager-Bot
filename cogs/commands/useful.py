@@ -126,7 +126,10 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f"**{ctx.prefix}purge** ***number of messages*** *deletes n number of messages where it's used*\n"
             f'**{ctx.prefix}kick** ***@user*** *kicks the mentioned user*\n'
             f'**{ctx.prefix}ban** ***@user*** *bans the mentioned user*\n'
-            f'**{ctx.prefix}pardon** ***@user*** *unbans the mentioned user*\n',
+            f'**{ctx.prefix}pardon** ***@user*** *unbans the mentioned user*\n'
+            f'**{ctx.prefix}warn** ***@user reason*** *warns the mentioned user*\n'
+            f'**{ctx.prefix}warns** ***@user*** *shows the mentioned user\'s warnings*\n'
+            f'**{ctx.prefix}clearwarns** ***@user*** *clears the mentioned user\'s warnings*\n',
             inline=True)
 
         help_embed.set_footer(text=choice(self.tips))
