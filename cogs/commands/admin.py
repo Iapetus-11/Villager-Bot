@@ -100,7 +100,7 @@ class AdminCmds(commands.Cog):
         user_warns = await self.db.get_warns(user.id, ctx.guild.id)
         embed = discord.Embed(color=discord.Color.green(), title=f"{user}'s Warnings ({len(user_warns)} total):")
         if len(user_warns) == 0:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), title=f"{user}s Warnings ({len(user_warns)} total):", description=f"{user} has no warnings in this server."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), title=f"{user}'s Warnings ({len(user_warns)} total):", description=f"{user} has no warnings in this server."))
             return
         for warning in user_warns:
             embed.add_field(name=f"**Warning by {self.bot.get_user(warning[1])}**:", value=warning[3], inline=False)
