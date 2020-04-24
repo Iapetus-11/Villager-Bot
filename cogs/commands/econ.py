@@ -381,10 +381,14 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {item} for {_item[2]*amount}{self.emerald}."))
 
     @commands.command(name="give")
-    async def give_stuff(self, ctx, rec: discord.User, amount: int):
-        for item in self.g.items:
-            if item[0] in ctx.message.content:
-                await self.give_item(ctx, rec, amount, item[0])
+    async def give_stuff(self, ctx, rec: discord.User, amount: int, item=None):
+        if item is not None:
+            if item.lower() != "emeralds" and item.lower() != "emerald":
+                for item in await self.db.get_items(ctx.author.id):
+                    if item[0] in ctx.message.content:
+                        await self.give_item(ctx, rec, amount, item[0])
+                        return
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid item you can give. (You don't own it, or it doesn't exist)"))
                 return
         if amount < 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You dumb dumb! You can't give someone negative emeralds!"))
@@ -413,7 +417,7 @@ class Econ(commands.Cog):
             return
         item = await self.db.get_item(ctx.author.id, _item)
         if item is None:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid item you can give."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid item you can give. (You don't own it, or it doesn't exist)"))
             return
         if amount > item[1]:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot give more of an item than you own."))
