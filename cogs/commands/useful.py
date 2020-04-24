@@ -179,7 +179,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     async def whats_new(self, ctx):
         emb = discord.Embed(color=discord.Color.green())
         emb.set_author(name="What's new with Villager Bot?", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-        emb.add_field(name="Bot Updates", value="- Search commands got an overhaul\n"
+        emb.add_field(name="Bot Updates", value="- New admin commands!\n"
                                                 "- ``giveitem`` and ``give`` commands have been merged\n"
                                                 "- New ``!!image`` command which searches google images\n"
                                                 "- New ``!!fish`` command and new enchantment book: Luck Of The Sea!\n"
