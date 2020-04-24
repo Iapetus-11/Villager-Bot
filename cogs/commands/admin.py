@@ -27,7 +27,7 @@ class AdminCmds(commands.Cog):
 
     @commands.command(name="ban")
     @commands.guild_only()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(ban_members=True)
     async def ban_user(self, ctx, *, user: discord.User):
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
@@ -45,7 +45,7 @@ class AdminCmds(commands.Cog):
 
     @commands.command(name="pardon")
     @commands.guild_only()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(ban_members=True)
     async def pardon_user(self, ctx, *, user: discord.User):
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
@@ -63,7 +63,7 @@ class AdminCmds(commands.Cog):
 
     @commands.command(name="kick")
     @commands.guild_only()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(kick_members=True)
     async def kick_user(self, ctx, *, user: discord.User):
         await ctx.guild.kick(user)
         kick_embed = discord.Embed(
@@ -71,6 +71,9 @@ class AdminCmds(commands.Cog):
             description=f"Successfully kicked **{str(user)}**.")
         await ctx.send(embed=kick_embed)
 
+    @commands.command(name="warn")
+    @commands.guild_only()
+    @commands.check_any(commands.has_permissions(administrator=True), commands.has_permissions(kick_members=True), commands.has_permissions(ban_members=True))
 
 def setup(bot):
     bot.add_cog(AdminCmds(bot))

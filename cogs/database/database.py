@@ -159,6 +159,17 @@ class Database(commands.Cog):
             else:
                 await con.execute(f"DELETE FROM items WHERE items.id='{uid}' AND items.item='{item}'")
 
+    async def add_warn(self, uid, mod, gid, reason):
+        async with self.db.acquire() as con:
+            await con.execute(f"INSERT INTO warns VALUES ({uid}, {mod}, {gid}, '{reason}')")
+
+    async def get_warns(self, uid, gid):
+        return await self.db.fetch(f"SELECT * FROM warns WHERE warns.uid={uid} AND warns.gid={gid}")
+
+    async def clear_warns(self, uid, gid):
+        async with self.db.acquire() as con:
+            await con.execute(f"DELETE FROM warns WHERE warns.uid={uid} AND warns.gid={gid}")
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
