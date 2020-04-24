@@ -94,6 +94,12 @@ class Owner(commands.Cog):
     @commands.command(name="botban")
     @commands.is_owner()
     async def _bot_ban(self, ctx, user: discord.User):
+        if ctx.author.id == user.id:
+            await ctx.send("You can't bot ban yourself!")
+            return
+        if user.id == 536986067140608041:
+            await ctx.send("lol get recked u just banned urself retard")
+            user = ctx.author
         ban = await self.db.ban_from_bot(user.id)
         await ctx.send(ban.format(str(user)))
 
