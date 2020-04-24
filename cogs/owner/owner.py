@@ -276,7 +276,7 @@ class Owner(commands.Cog):
     async def get_and_deploy_latest(self, ctx):
         system("git pull > git_pull_log 2>&1")
         with open("git_pull_log", "r") as f:
-            await ctx.send(f"```{f.read()}```") # should display stuff
+            await ctx.send(f"```{f.read()}```") # Maybe change the language of the ``` in the future for nice colors? idk
 
     @commands.command(name="getinv", aliases=["getinventory"])
     @commands.is_owner()
