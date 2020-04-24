@@ -53,8 +53,7 @@ class Owner(commands.Cog):
 
 **{0}eval** ***statement*** *uses eval()*
 **{0}awaiteval** ***statement*** *uses await eval()*
-**{0}restart** *forcibly restarts the bot*
-**{0}getlatest** *pulls latest from github and restarts bot*
+**{0}getlatest** *pulls latest from github*
 **{0}backupdb** *backs up the db*
 **{0}updateroles** *does roles idk bro*
 **{0}testblocking** *intentionally blocks code*
