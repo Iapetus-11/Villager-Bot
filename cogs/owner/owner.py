@@ -274,7 +274,7 @@ class Owner(commands.Cog):
     @commands.command(name="getlatest", aliases=["gitpull", "git_pull", "deploylatest"])
     @commands.is_owner()
     async def get_and_deploy_latest(self, ctx):
-        system("git pull > git_pull_log")
+        system("git pull > git_pull_log 2>&1")
         with open("git_pull_log", "r") as f:
             await ctx.send(f"```{f.read()}```") # should display stuff
 
