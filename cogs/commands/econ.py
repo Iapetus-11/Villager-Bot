@@ -672,7 +672,7 @@ class Econ(commands.Cog):
                        "an old picture frame", "a clump of hair", "some bones", "a forgotten flip flop", "a piece of driftwood", "a kfc container", "a plastic pail"]
         good_catches = [("a cod <:cod:701589959458684978>", 3), ("a salmon <:salmon:701589974646128690>", 4),
                         ("a pufferfish <:pufferfish:701590021525733438>", 5), ("a tropical fish <:tropical_fish:701590997808709692>", 10),
-                        ("an emerald fish <:emerald_fish:703040458464428112>", 50), ("a diamond fish <:diamond_fish:703041846640640080>")]
+                        ("an emerald fish <:emerald_fish:703040458464428112>", 50), ("a diamond fish <:diamond_fish:703041846640640080>", 0)]
         rod = await self.db.get_item(ctx.author.id, "Fishing Rod")
         if rod is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't fish without a fishing rod! (You can buy a wooden one in the shop!)"))
