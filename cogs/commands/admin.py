@@ -71,7 +71,7 @@ class AdminCmds(commands.Cog):
             description=f"Successfully kicked **{str(user)}**.")
         await ctx.send(embed=kick_embed)
 
-    @commands.command(name="warn", aliases="warnuser")
+    @commands.command(name="warn", aliases=["warnuser"])
     @commands.guild_only()
     @commands.check_any(commands.has_permissions(administrator=True), commands.has_permissions(kick_members=True), commands.has_permissions(ban_members=True))
     async def warn(self, user: discord.User, *, reason="No reason provided"):
