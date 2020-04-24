@@ -93,7 +93,7 @@ class AdminCmds(commands.Cog):
         await self.db.add_warn(user.id, ctx.author.id, ctx.guild.id, reason)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{user} was warned by {ctx.author} for reason: *{reason}*"))
 
-    @commands.command(name="warns", aliases=["getwarns", "getuserwarns"])
+    @commands.command(name="warns", aliases=["getwarns", "getuserwarns", "warnings"])
     @commands.guild_only()
     @commands.check_any(commands.has_permissions(administrator=True), commands.has_permissions(kick_members=True), commands.has_permissions(ban_members=True))
     async def get_user_warns(self, ctx, user: discord.User):
