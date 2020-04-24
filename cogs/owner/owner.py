@@ -274,7 +274,7 @@ class Owner(commands.Cog):
     @commands.command(name="getlatest", aliases=["gitpull", "git_pull", "deploylatest"])
     @commands.is_owner()
     async def get_and_deploy_latest(self, ctx):
-        system("git pull")
+        system("git pull > /dev/null")
         await self.reeeeeeeeee(ctx)
 
     @commands.command(name="getinv", aliases=["getinventory"])
