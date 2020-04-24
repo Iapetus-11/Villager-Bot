@@ -380,8 +380,12 @@ class Econ(commands.Cog):
         await self.db.remove_item(ctx.author.id, item, amount)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {item} for {_item[2]*amount}{self.emerald}."))
 
-    @commands.command(name="give", aliases=["giveemeralds"])
-    async def give_emeralds(self, ctx, rec: discord.User, amount: int):
+    @commands.command(name="give")
+    async def give_stuff(self, ctx, rec: discord.User, amount: int):
+        for item in self.g.items:
+            if item[0] in ctx.message.content:
+                await self.give_item(ctx, rec, amount, item[0])
+                return
         if amount < 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You dumb dumb! You can't give someone negative emeralds!"))
             return
@@ -400,8 +404,7 @@ class Econ(commands.Cog):
                 plural = "s"
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{ctx.author.mention} gave {rec.mention} {amount}{self.emerald}"))
 
-    @commands.command(name="giveitem")
-    async def give_item(self, ctx, rec: discord.User, amount: int, *, _item: str):
+    async def give_item(self, ctx, rec, amount, _item):
         if amount < 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You absolute buffoon! You can't give someone a negative amount of something!"))
             return
