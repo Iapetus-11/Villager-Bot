@@ -185,21 +185,6 @@ class Owner(commands.Cog):
         if msg is not "":
             await ctx.send(msg)
 
-    @commands.command(name="info2", aliases=["stats"])
-    async def info2(self, ctx):
-        info_embed = discord.Embed(description="", color=discord.Color.green())
-        info_embed.add_field(name="__**Bot Statistics**__", value=f"""
-Guild Count: {len(self.bot.guilds)}
-DM Channel Count: {len(self.bot.private_channels)}
-User Count: {len(self.bot.users)}
-Session Message Count: {self.g.msg_count}
-Session Command Count: {self.g.cmd_count} ({round((self.g.cmd_count/self.g.msg_count)*100, 2)}% of all msgs)
-Commands/Sec: {self.g.cmd_vect}
-Shard Count: {self.bot.shard_count}
-Latency: {round(self.bot.latency*1000, 2)} ms
-""")
-        await ctx.send(embed=info_embed)
-
     @commands.command(name="eval")
     @commands.is_owner()
     async def eval_message(self, ctx, *, msg):

@@ -29,10 +29,16 @@ class Loops(commands.Cog):
             await asyncio.sleep(1)
             self.g.cmd_vect = 0
 
+    async def reset_vote_vect_counter(self):
+        while self.bot.is_ready():
+            await asyncio.sleep(3600)
+            self.g.vote_vect = 0
+
     @commands.Cog.listener()
     async def on_ready(self):
         self.bot.loop.create_task(self.update_activity())
         self.bot.loop.create_task(self.reset_cmd_vect_counter())
+        self.bot.loop.create_task(self.reset_vote_vect_counter())
 
 
 def setup(bot):
