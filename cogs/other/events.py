@@ -18,7 +18,7 @@ class Events(commands.Cog):
         with open("data/keys.json", "r") as k:
             keys = json.load(k)
 
-        self.dblpy = dbl.DBLClient(self.bot, keys["dblpy"], webhook_path="/dblwebhook", webhook_auth=keys["dblpy2"], webhook_port=5000)
+        self.dblpy = dbl.DBLClient(self.bot, keys["dblpy"], webhook_path="/dblwebhook", webhook_auth=keys["dblpy2"], webhook_port=5000, autopost=True)
 
         self.logger = logging.getLogger("Events")
         self.logger.setLevel(logging.INFO)
