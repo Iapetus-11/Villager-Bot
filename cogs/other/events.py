@@ -33,6 +33,10 @@ class Events(commands.Cog):
         self.logger.info(f"\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards]")
 
     @commands.Cog.listener()
+    async def on_guild_post(self):
+        self.logger.info(" TOP.GG STATS UPDATED")
+
+    @commands.Cog.listener()
     async def on_dbl_test(self, data):
         self.logger.info("\u001b[35m DBL WEBHOOK TEST \u001b[0m")
         channel = self.bot.get_channel(643648150778675202)
