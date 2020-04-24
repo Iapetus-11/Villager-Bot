@@ -698,7 +698,7 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up', 'reeled in'])} {catch[0]}! (And sold it for {catch[1]}{self.emerald})"))
                 await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id))+catch[1])
             else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up', 'reeled in'])} {choice(bad_catches)}..."))\
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up', 'reeled in'])} {choice(bad_catches)}..."))
 
     @fish.error
     async def handle_fish_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
