@@ -7,6 +7,8 @@ class AdminCmds(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.db = self.bot.get_cog("Database")
+
     @commands.command(name="purge", aliases=["p"])
     @commands.has_permissions(manage_messages=True)
     @commands.guild_only()
@@ -29,6 +31,9 @@ class AdminCmds(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     async def ban_user(self, ctx, user: discord.User, *, reason="No reason provided."):
+        if ctx.author.id == user.id:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot ban yourself."))
+            return
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
                 already_banned_embed = discord.Embed(
@@ -47,6 +52,9 @@ class AdminCmds(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     async def pardon_user(self, ctx, user: discord.User, *, reason="No reason provided."):
+        if ctx.author.id == user.id:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot unban yourself."))
+            return
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
                 await ctx.guild.unban(user, reason=reason)
@@ -65,6 +73,9 @@ class AdminCmds(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
     async def kick_user(self, ctx, user: discord.User, *, reason="No reason provided."):
+        if ctx.author.id == user.id:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot kick yourself."))
+            return
         await ctx.guild.kick(user, reason=reason)
         kick_embed = discord.Embed(
             color=discord.Color.green(),
@@ -74,7 +85,10 @@ class AdminCmds(commands.Cog):
     @commands.command(name="warn", aliases=["warnuser"])
     @commands.guild_only()
     @commands.check_any(commands.has_permissions(administrator=True), commands.has_permissions(kick_members=True), commands.has_permissions(ban_members=True))
-    async def warn(self, user: discord.User, *, reason="No reason provided"):
+    async def warn(self, ctx, user: discord.User, *, reason="No reason provided"):
+        if ctx.author.id == user.id:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot warn yourself."))
+            return
         reason = (reason[:125] + "...") if len(reason) > 128 else reason
         await self.db.add_warn(user.id, ctx.author.id, ctx.guild.id, reason)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{user} was warned by {ctx.author} for reason: *{reason}*"))
