@@ -17,7 +17,7 @@ class Database(commands.Cog):
 
     async def clean(self, stuff):
         if isinstance(stuff, str):
-            return stuff.replace("'", "\\'")
+            return stuff.replace("'", "\'")
         return stuff
 
     async def get_db_value(self, table, uid, two, sett): # table(table in database), uid(context user id), two(second column with data, not uid), sett(default value that it is set to if other entry isn't there)
