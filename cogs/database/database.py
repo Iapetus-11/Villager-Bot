@@ -15,11 +15,6 @@ class Database(commands.Cog):
     def unload(self):
         self.db.close()
 
-    async def clean(self, stuff):
-        if isinstance(stuff, str):
-            return stuff.replace("'", "\'")
-        return stuff
-
     async def get_db_value(self, table, uid, two, sett): # table(table in database), uid(context user id), two(second column with data, not uid), sett(default value that it is set to if other entry isn't there)
         val = await self.db.fetchrow(f"SELECT {two} FROM {table} WHERE {table}.id={uid}")
         if val is None:
@@ -101,7 +96,7 @@ class Database(commands.Cog):
             async with self.db.acquire() as con:
                 await con.execute(f"DELETE FROM bans WHERE bans.id={uid}")
             return "{0} was successfully unbanned."
-        
+
     async def list_bot_bans(self):
         return await self.db.fetch("SELECT * FROM bans")
 
@@ -116,7 +111,7 @@ class Database(commands.Cog):
     async def set_prefix(self, gid, prefix):
         await self.get_prefix(gid)
         async with self.db.acquire() as con:
-            await con.execute(f"UPDATE prefixes SET prefix='{await self.clean(prefix)}' WHERE gid={gid}")
+            await con.execute(f"UPDATE prefixes SET prefix='{prefix}' WHERE gid={gid}")
 
     async def drop_prefix(self, gid):
         async with self.db.acquire() as con:
@@ -143,15 +138,15 @@ class Database(commands.Cog):
         return await self.db.fetch(f"SELECT item, num, val FROM items WHERE items.id={uid}")
 
     async def get_item(self, uid, item):
-        return await self.db.fetchrow(f"SELECT item, num, val FROM items WHERE items.id={uid} AND items.item='{await self.clean(item)}'")
+        return await self.db.fetchrow(f"SELECT item, num, val FROM items WHERE items.id={uid} AND items.item='{item}'")
 
     async def add_item(self, uid, item, num, val):
         _item = await self.get_item(uid, item)
         async with self.db.acquire() as con:
             if _item is None:
-                await con.execute(f"INSERT INTO items VALUES ({uid}, '{await self.clean(item)}', {num}, {val})")
+                await con.execute(f"INSERT INTO items VALUES ({uid}, '{item}', {num}, {val})")
             else:
-                await con.execute(f"UPDATE items SET num={int(_item[1])+int(num)} WHERE items.id={uid} AND items.item='{await self.clean(item)}'")
+                await con.execute(f"UPDATE items SET num={int(_item[1])+int(num)} WHERE items.id={uid} AND items.item='{item}'")
 
     async def remove_item(self, uid, item, num):
         _item = await self.get_item(uid, item)
@@ -160,13 +155,13 @@ class Database(commands.Cog):
         n = _item[1]-num
         async with self.db.acquire() as con:
             if n > 0:
-                await con.execute(f"UPDATE items SET num={n} WHERE items.id={uid} AND items.item='{await self.clean(item)}'")
+                await con.execute(f"UPDATE items SET num={n} WHERE items.id={uid} AND items.item='{item}'")
             else:
-                await con.execute(f"DELETE FROM items WHERE items.id={uid} AND items.item='{await self.clean(item)}'")
+                await con.execute(f"DELETE FROM items WHERE items.id={uid} AND items.item='{item}'")
 
     async def add_warn(self, uid, mod, gid, reason):
         async with self.db.acquire() as con:
-            await con.execute(f"INSERT INTO warns VALUES ({uid}, {mod}, {gid}, '{await self.clean(reason)}')")
+            await con.execute(f"INSERT INTO warns VALUES ({uid}, {mod}, {gid}, '{reason}')")
 
     async def get_warns(self, uid, gid):
         return await self.db.fetch(f"SELECT * FROM warns WHERE warns.uid={uid} AND warns.gid={gid}")
