@@ -11,7 +11,7 @@ class Msgs(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        self.g.msg_count[0] += 1
+        self.g.msg_count += 1
 
         if "@Villager Bot" in message.clean_content:
             if message.guild is not None:
