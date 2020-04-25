@@ -27,12 +27,14 @@ class Loops(commands.Cog):
     async def reset_cmd_vect_counter(self):
         while self.bot.is_ready():
             await asyncio.sleep(1)
-            self.g.cmd_vect = 0
+            self.g.cmd_vect[1] = self.g.cmd_vect[0]
+            self.g.cmd_vect[0] = 0
 
     async def reset_vote_vect_counter(self):
         while self.bot.is_ready():
             await asyncio.sleep(3600)
-            self.g.vote_vect = 0
+            self.g.vote_vect[1] = self.g.vote_vect[0]
+            self.g.vote_vect[0] = 0
 
     @commands.Cog.listener()
     async def on_ready(self):

@@ -291,9 +291,9 @@ DM Channel Count: ``{len(self.bot.private_channels)}``
 User Count: ``{len(self.bot.users)}``
 Session Message Count: ``{self.g.msg_count}``
 Session Command Count: ``{self.g.cmd_count} ({round((self.g.cmd_count/self.g.msg_count)*100, 2)}% of all msgs)``
-Commands/Sec: ``{self.g.cmd_vect}``
+Commands/Sec: ``{self.g.cmd_vect[1]}``
 Session Vote Count: ``{self.g.vote_count}``
-Top.gg Votes/Hour: ``{self.g.vote_vect}``
+Top.gg Votes/Hour: ``{self.g.vote_vect[1]}``
 Shard Count: ``{self.bot.shard_count}``
 Latency: ``{round(self.bot.latency*1000, 2)} ms``
 """)
