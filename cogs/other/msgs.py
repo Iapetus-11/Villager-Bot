@@ -18,8 +18,9 @@ class Msgs(commands.Cog):
                 prefix = await self.db.get_prefix(message.guild.id)
             else:
                 prefix = "!!"
-            help_embed = discord.Embed(color=discord.Color.green(),
-                                       description=f"The prefix for this server is ``{prefix}``\nFor help, either join the [support server](https://discord.gg/39DwwUV) or use the ``{prefix}help`` command.")
+            help_embed = discord.Embed(color=discord.Color.green(), description=f"The prefix for this server is ``{prefix}``\n"
+                                                                                "For help, either join the [support server](https://discord.gg/39DwwUV),\n"
+                                                                                "or use the ``{prefix}help`` command.")
             help_embed.set_author(
                 name="Villager Bot",
                 icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
