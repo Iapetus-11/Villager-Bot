@@ -16,31 +16,31 @@ class Database(commands.Cog):
         self.db.close()
 
     async def get_db_value(self, table, uid, two, sett): # table(table in database), uid(context user id), two(second column with data, not uid), sett(default value that it is set to if other entry isn't there)
-        val = await self.db.fetchrow("SELECT $1 FROM $2 WHERE id=$3", two, table, table, uid)
+        val = await self.db.fetchrow(f"SELECT {two} FROM {table} WHERE id=$1", uid)
         if val is None:
             async with self.db.acquire() as con:
-                await con.execute("INSERT INTO $1 VALUES ($2, $3)", table, uid, sett)
+                await con.execute(f"INSERT INTO {table} VALUES ($1, $2)", uid, sett)
             val = (sett,)
         return str(val[0])
 
     async def set_db_value(self, table, uid, two, sett):
         await self.get_db_value(table, uid, two, sett)
         async with self.db.acquire() as con:
-            await con.execute("UPDATE $1 SET $2=$3 WHERE id=$4", table, two, sett, uid)
+            await con.execute(f"UPDATE {table} SET {two}=$1 WHERE id=$2", sett, uid)
 
     async def get_db_values_3(self, table, uid, two, three, sett, settt): # table, user id, second column with data, third column with data, 2nd column default val, 3rd column default val
-        values = await self.db.fetchrow("SELECT $1, $2 FROM $3 WHERE id=$4", two, three, table, uid)
+        values = await self.db.fetchrow(f"SELECT {two}, {three} FROM {table} WHERE id=$1", uid)
         if values is None:
             async with self.db.acquire() as con:
-                await con.execute("INSERT INTO $1 VALUES ($2, $3, $4)", table, uid, sett, settt)
+                await con.execute(f"INSERT INTO {table} VALUES ($1, $2, $3)", uid, sett, settt)
             values = (sett, settt,)
         return values
 
     async def set_db_values_3(self, table, uid, two, three, sett, settt):
         await self.get_db_values_3(table, uid, two, three, sett, settt)
         async with self.db.acquire() as con:
-            await con.execute("UPDATE $1 SET $2=$3 WHERE id=$4", table, two, sett, uid)
-            await con.execute("UPDATE $1 SET $2=$3 WHERE id=$4", table, three, settt, uid)
+            await con.execute(f"UPDATE {table} SET {two}=$1 WHERE id=$2", sett, uid)
+            await con.execute(f"UPDATE {table} SET {three}=$1 WHERE id=$2", settt, uid)
 
     async def increment_vault_max(self, uid):
         vault = await self.get_vault(uid)
