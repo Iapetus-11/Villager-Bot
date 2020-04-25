@@ -1,6 +1,6 @@
 From https://github.com/Villager-Bot/Villager-Bot
-   6dcc6d0..bb7e629  master     -> origin/master
-Updating 6dcc6d0..bb7e629
+   5933c9f..6fbcc98  master     -> origin/master
+Updating 5933c9f..6fbcc98
 Fast-forward
- cogs/commands/mc.py | 48 ++++++++----------------------------------------
- 1 file changed, 8 insertions(+), 40 deletions(-)
+ cogs/other/msgs.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
