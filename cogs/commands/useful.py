@@ -201,7 +201,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         elif "shing" in c or "shling" in c:
             pp = "Schlong"
         elif "schlong" in c:
-            pp = "Penis"
+            pp = "Magnum Dong"
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"<a:ping:692401875001278494> {pp}! \uFEFF ``{round(self.bot.latency*1000, 2)} ms``"))
 
     @commands.command(name="uptime")
