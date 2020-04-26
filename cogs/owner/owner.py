@@ -162,7 +162,7 @@ class Owner(commands.Cog):
         for pchannel in self.bot.private_channels:
             i += 1
             try:
-                msg += f"\n*{pchannel.id} + *  {pchannel}"
+                msg += f"\n*{pchannel.id}*  {pchannel}"
             except Exception as e:
                 msg += "\n" + str(e)
             if i % rows == 0:
