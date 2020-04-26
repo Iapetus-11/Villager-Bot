@@ -621,7 +621,7 @@ class Econ(commands.Cog):
             user = self.bot.get_user(int(entry[0]))
             if user is None:
                 user = "Deleted User"
-            lbtext += f"{entry[1]}{self.emerald} {str(user)[:-5]} \n"
+            lbtext += f"{entry[1]}{self.emerald} {str(user)[20:]} \n"
         embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lbtext)
         await ctx.send(embed=embed)
 
