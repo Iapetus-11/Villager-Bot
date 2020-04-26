@@ -29,7 +29,7 @@ class Owner(commands.Cog):
 **{0}leaveguild** ***guild id*** *leaves specified guild*
 **{0}getinvites** ***guild id*** *gets invite codes for specified guild*
 **{0}lookup** ***user*** *shows what servers a user is in*
-**{0}seedm** ***channel id*** ***msg count*** *shows dm*
+**{0}seedm** ***dm channel list index*** ***msg count*** *shows dm*
 
 **{0}reeeee** *reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee*
 **{0}cogs** *lists the loaded cogs*
