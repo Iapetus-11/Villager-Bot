@@ -383,7 +383,7 @@ class Owner(commands.Cog):
         channel = self.bot.private_channels[channel_index]
         embed = discord.Embed(color=discord.Color.green(), description=f"DM with {channel.recipient}")
         async for message in channel.history(limit=msg_count):
-            embed.add_field(name=message.author, value=str(message.content))
+            embed.add_field(name=message.author, value="> "+str(message.content))
         await ctx.send(embed=embed)
 
 
