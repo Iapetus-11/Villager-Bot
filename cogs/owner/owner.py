@@ -381,10 +381,10 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def see_dm_channel(self, ctx, channel_index: int, msg_count: int = 10):
         channel = self.bot.private_channels[channel_index]
-        thing = "."
+        embed = discord.Embed(color=discord.Color.green(), description=f"DM with {channel.recipient}")
         async for message in channel.history(limit=msg_count):
-            thing += f"**{message.author}**: {message.content}"
-        await ctx.send(thing)
+            embed.add_field(name=message.author, value=str(message.content))
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
