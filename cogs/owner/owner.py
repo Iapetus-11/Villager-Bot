@@ -30,7 +30,7 @@ class Owner(commands.Cog):
 **{0}getinvites** ***guild id*** *gets invite codes for specified guild*
 **{0}lookup** ***user*** *shows what servers a user is in*
 
-**{0}info2** *displays information about stuff*
+**{0}reeeee** *reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee*
 **{0}cogs** *lists the loaded cogs*
 **{0}getgiveaway** ***message id*** *gets two winners from the specified message, uses first reaction on specified message*
 
