@@ -367,7 +367,7 @@ class Owner(commands.Cog):
         users = await msg.reactions[0].users().flatten()
         await ctx.send(f"Winners: {choice(users)} & {choice(users)}")
 
-    @commands.command(name="reeeeeeee", aliases=["reeeeeee", "reeeeee", "reeeee", "reeee", "reee", "ree", "re", "r"])
+    @commands.command(name="reeeeeeee", aliases=["reeeeeee", "reeeeee", "reeeee", "reeee", "reee", "ree", "re", "r", "reeeeeeeee", "reeeeeeeeee", "reeeeeeeeeee", "reeeeeeeeeeee", "reeeeeeeeeeeee"])
     @commands.is_owner()
     async def reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee(self, ctx):
         await ctx.send(choice(["<:reeeeeee2:703802166900424754>", "<:reeeeeee3:703802166409691247>", "<:reeee:655577956831199254>", "<a:reeeeeee1:703802166439182357>", "<a:reeeee:655438580814053451>"]))
