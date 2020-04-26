@@ -30,7 +30,7 @@ class Minecraft(commands.Cog):
             self.sizes = _json["sizes"]
 
     def cog_unload(self):
-        self.bot.loop.create_task(self.ses.stop())
+        self.bot.loop.create_task(self.ses.close())
 
     @commands.command(name="mcping") # Pings a java edition minecraft server
     async def mc_ping(self, ctx, *, server: str):
