@@ -187,7 +187,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         emb.set_footer(text=choice(self.tips))
         await ctx.send(embed=emb)
 
-    @commands.command(name="ping", aliases=["pong", "ding", "dong", "shing", "shling"]) # Checks latency between Discord API and the bot
+    @commands.command(name="ping", aliases=["pong", "ding", "dong", "shing", "shling", "schlong"]) # Checks latency between Discord API and the bot
     async def ping(self, ctx):
         c = ctx.message.content.lower()
         if "pong" in c:
