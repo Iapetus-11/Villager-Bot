@@ -26,6 +26,7 @@ class Settings(commands.Cog):
     async def set_prefix(self, ctx, prefix=None):
         if prefix is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"The current prefix is ``{await self.db.get_prefix(ctx.guild.id)}``"))
+            return
         for car in prefix:
             if car.lower() not in self.g.allowedChars:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Your new prefix includes an invalid character: \uFEFF ``\uFEFF{0}\uFEFF``".format(car)))
