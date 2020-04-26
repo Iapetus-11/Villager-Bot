@@ -52,10 +52,16 @@ class Settings(commands.Cog):
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid option! Only ``on`` and ``off`` are valid options."))
 
-    @commands.command(name="remindmetovote", aliases=["votereminder", "remindvote", "voteremind"])
-    async def vote_reminder(self, ctx, do_reminder=None):
-        if do_reminder is None:
-            pass
+    @commands.group(name="usersettings", aliases=["userconfig", "userconf"])
+    async def user_config(self, ctx):
+        return
+        if ctx.invoked_subcommand is None:
+            embed = discord.Embed(color=discord.Color.green(), description="")
+            embed.set_author(name="Villager Bot User Settings", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
+            embed.add_field(name="__**User Settings**__", value="""
+**{0}config remindmetovote** ***on/off*** *turn vote reminders on/off*
+""".format(ctx.prefix))
+            await ctx.send(embed=embed)
 
 
 def setup(bot):
