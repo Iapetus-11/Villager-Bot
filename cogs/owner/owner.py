@@ -370,7 +370,7 @@ class Owner(commands.Cog):
     @commands.command(name="reeeeeeee", aliases=["reeeeeee", "reeeeee", "reeeee", "reeee", "reee", "ree", "re", "r"])
     @commands.is_owner()
     async def reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee(self, ctx):
-        await ctx.send(choice(["<:reeeeeee2:703802166900424754>", "<:reeeeeee3:703802166409691247>", "<:reeee:655577956831199254>", "<:reeeeeee1:703802166439182357>", "<:reeeee:655438580814053451>"]))
+        await ctx.send(choice(["<:reeeeeee2:703802166900424754>", "<:reeeeeee3:703802166409691247>", "<:reeee:655577956831199254>", "<a:reeeeeee1:703802166439182357>", "<a:reeeee:655438580814053451>"]))
 
 
 def setup(bot):
