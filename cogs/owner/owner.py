@@ -271,12 +271,12 @@ class Owner(commands.Cog):
             mcServers.write(json.dumps(self.g.mcServers))
         await ctx.send(f"Added {str(server)} to the Minecraft server list")
 
-    @commands.command(name="getlatest", aliases=["gitpull", "git_pull", "deploylatest"])
+    @commands.command(name="getlatest", aliases=["gitpull", "git_pull"])
     @commands.is_owner()
     async def get_and_deploy_latest(self, ctx):
         system("git pull > git_pull_log 2>&1")
         with open("git_pull_log", "r") as f:
-            await ctx.send(f"```{f.read()}```") # Maybe change the language of the ``` in the future for nice colors? idk
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"```{f.read()}```")) # Maybe change the language of the ``` in the future for nice colors? idk
 
     @commands.command(name="getinv", aliases=["getinventory"])
     @commands.is_owner()

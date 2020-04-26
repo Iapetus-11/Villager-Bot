@@ -124,7 +124,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="bubblewrap", aliases=["pop"])
     async def netherportal(self, ctx):
-        await ctx.send("||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||\n"*10)
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||\n"*10))
 
 def setup(bot):
     bot.add_cog(Fun(bot))
