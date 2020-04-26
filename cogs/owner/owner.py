@@ -379,7 +379,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="seedm")
     @commands.is_owner()
-    async def see_dm_channel(self, ctx, channel_index, msg_count=10):
+    async def see_dm_channel(self, ctx, channel_index: int, msg_count: int = 10):
         channel = self.bot.private_channels[channel_index]
         embed = discord.Embed(color=discord.Color.green(), description=f"DM with {channel.recipient}")
         async for message in channel.history(limit=msg_count):
