@@ -29,6 +29,7 @@ class Owner(commands.Cog):
 **{0}leaveguild** ***guild id*** *leaves specified guild*
 **{0}getinvites** ***guild id*** *gets invite codes for specified guild*
 **{0}lookup** ***user*** *shows what servers a user is in*
+**{0}seedm** ***channel id*** ***msg count*** *shows dm*
 
 **{0}reeeee** *reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee*
 **{0}cogs** *lists the loaded cogs*
@@ -375,6 +376,15 @@ class Owner(commands.Cog):
         except Exception:
             pass
         await ctx.send(choice(["<:reeeeeee2:703802166900424754>", "<:reeeeeee3:703802166409691247>", "<:reeee:655577956831199254>", "<a:reeeeeee1:703802166439182357>", "<a:reeeee:655438580814053451>"]))
+
+    @commands.command(name="seedm")
+    @commands.is_owner()
+    async def see_dm_channel(self, ctx, channel_id, msg_count=10):
+        channel = self.bot.get_channel(channel_id)
+        embed = discord.Embed(color=discord.Color.green(), description=f"DM with {channel.recipient}")
+        async for message in channel.history(limit=msg_count):
+            embed.add_field(name=message.author, value=message.content)
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
