@@ -350,8 +350,10 @@ class Owner(commands.Cog):
     @commands.command(name="updateroles")
     @commands.is_owner()
     async def do_roles(self, ctx):
+        await ctx.send("Updating roles...")
+        econ = self.bot.get_cog("Econ")
         for user in self.bot.get_guild(641117791272960031).members:
-            await self.bot.get_cog("Econ").update_user_role(user.id)
+            await econ.update_user_role(user.id)
         await ctx.send("Done.")
 
     @commands.command(name="testblocking")
