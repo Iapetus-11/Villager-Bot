@@ -285,6 +285,23 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         embed.set_image(url=choice(results).image_url)
         await ctx.send(embed=embed)
 
+    @commands.command(name="nsfwimage", aliases=["nsfwimagesearch", "nsfw"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def nsfw_image_search(self, ctx, *, query: str):
+        if not ctx.channel.is_nsfw():
+            await ctx.send("You can't do nsfw outside of nsfw channels!")
+            return
+        await ctx.trigger_typing()
+        try:
+            results = (await self.google.search(query, safesearch=False, image_search=True))
+        except async_cse.search.NoResults:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
+        image = choice(results)
+        embed = discord.Embed(color=discord.Color.green())
+        embed.set_image(url=choice(results).image_url)
+        await ctx.send(embed=embed)
+
     @commands.command(name="stats")
     async def info_2(self, ctx):
         info_embed = discord.Embed(description="", color=discord.Color.green())
