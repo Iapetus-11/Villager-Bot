@@ -18,34 +18,22 @@ class Loops(commands.Cog):
         self.logger = logging.getLogger("Loops")
         self.logger.setLevel(logging.INFO)
 
-        self.stop = False
-
-    def cog_unload(self):
-        self.stop = True
-
     async def update_activity(self):
         while self.bot.is_ready():
             await asyncio.sleep(3600)
             await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
-            self.logger.info(" Updated Activity")
-            if self.stop:
-                break
 
     async def reset_cmd_vect_counter(self):
         while self.bot.is_ready():
             await asyncio.sleep(1)
             self.g.cmd_vect[1] = self.g.cmd_vect[0]
             self.g.cmd_vect[0] = 0
-            if self.stop:
-                break
 
     async def reset_vote_vect_counter(self):
         while self.bot.is_ready():
             await asyncio.sleep(3600)
             self.g.vote_vect[1] = self.g.vote_vect[0]
             self.g.vote_vect[0] = 0
-            if self.stop:
-                break
 
     @commands.Cog.listener()
     async def on_ready(self):
