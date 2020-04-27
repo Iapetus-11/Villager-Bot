@@ -31,7 +31,7 @@ class Errors(commands.Cog):
             return
 
         if isinstance(e, commands.CheckAnyFailure):
-            if commands.MissingPermissions in e:
+            if commands.MissingPermissions in e.errors:
                 await self.send(ctx, "Nice try stupid, but you don't have the permissions to do that.")
                 return
 
