@@ -387,10 +387,10 @@ class Owner(commands.Cog):
         channel_history = await channel.history(limit=msg_count).flatten()
         for message in channel_history[::-1]:
             if len(message.content) > 1024:
-                embed.add_field(name=message.author, value="> "+message.content[:1020], inline=True)
-                embed.add_field(name="\uFEFF", value=""+message.content[1020:], inline=True)
+                embed.add_field(name=message.author, value="\uFEFF"+message.content[:1020], inline=True)
+                embed.add_field(name="\uFEFF", value="\uFEFF"+message.content[1020:], inline=True)
             else:
-                embed.add_field(name=message.author, value="> "+message.content, inline=False)
+                embed.add_field(name=message.author, value="\uFEFF"+message.content, inline=False)
         await ctx.send(embed=embed)
 
 
