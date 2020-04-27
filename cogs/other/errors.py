@@ -26,9 +26,15 @@ class Errors(commands.Cog):
             await self.send(ctx, "This command can't be used in private chat channels.")
             return
 
-        if isinstance(e, commands.MissingPermissions):
+        if isinstance(e, commands.MissingPermissions) :
             await self.send(ctx, "Nice try stupid, but you don't have the permissions to do that.")
             return
+
+        if isinstance(e, commands.CheckAnyFailure):
+            for error in e.errors:
+                if isinstance(commands.MissingPermissions, error):
+                    await self.send(ctx, "Nice try stupid, but you don't have the permissions to do that.")
+                    return
 
         if isinstance(e, commands.BotMissingPermissions):
             await self.send(ctx, "You didn't give me proper the permissions to do that, stupid.")
