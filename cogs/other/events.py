@@ -50,7 +50,7 @@ class Events(commands.Cog):
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
         user = self.bot.get_user(user_id)
         if user is not None:
-            await self.bot.get_channel(682195105784004610).send(f":tada::tada: {user.display_name} has voted! :tada::tada:")
+            await self.bot.get_channel(682195105784004610).send(f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
             if choice([True, False]):
                 for c in self.g.items:
                     if randint(0, ceil(c[2]/2)) == 1:

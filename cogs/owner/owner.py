@@ -146,7 +146,7 @@ class Owner(commands.Cog):
         msg = ""
         for guild in self.bot.guilds:
             i += 1
-            msg += f"\n{guild.member_count} **{guild.name}** *{guild.id}*"
+            msg += f"\n{guild.member_count} **{discord.utils.escape_markdown(guild.name)}** *{guild.id}*"
             if i % rows == 0:
                 await ctx.send(msg)
                 msg = ""
@@ -159,10 +159,10 @@ class Owner(commands.Cog):
         i = 0
         rows = 30
         msg = ""
-        for pchannel in self.bot.private_channels:
+        for private_channel in self.bot.private_channels:
             i += 1
             try:
-                msg += f"\n*{pchannel.id}*  {pchannel}"
+                msg += f"\n*{private_channel.id}*  {discord.utils.escape_markdown(private_channel)}"
             except Exception as e:
                 msg += "\n" + str(e)
             if i % rows == 0:
