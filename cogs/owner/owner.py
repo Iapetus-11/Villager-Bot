@@ -377,7 +377,7 @@ class Owner(commands.Cog):
             pass
         await ctx.send(choice(["<:reeeeeee2:703802166900424754>", "<:reeeeeee3:703802166409691247>", "<:reeee:655577956831199254>", "<a:reeeeeee1:703802166439182357>", "<a:reeeee:655438580814053451>"]))
 
-    @commands.command(name="seedm")
+    @commands.command(name="seedm", aliases=["seedms"])
     @commands.is_owner()
     async def see_dm_channel(self, ctx, user: discord.User, msg_count: int = 10):
         if user.dm_channel is None:
