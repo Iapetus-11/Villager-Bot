@@ -34,6 +34,7 @@ class Errors(commands.Cog):
             if commands.MissingPermissions in e.errors:
                 await self.send(ctx, "Nice try stupid, but you don't have the permissions to do that.")
                 return
+            print(e.errors)
 
         if isinstance(e, commands.BotMissingPermissions):
             await self.send(ctx, "You didn't give me proper the permissions to do that, stupid.")
