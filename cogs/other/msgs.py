@@ -19,7 +19,7 @@ class Msgs(commands.Cog):
             else:
                 prefix = "!!"
             help_embed = discord.Embed(color=discord.Color.green(), description=f"The prefix for this server is ``{prefix}`` and the help command is ``{prefix}help``\n"
-                                                                                "If you are in need of more help, you can join **[Support Server](https://discord.gg/39DwwUV)**.")
+                                                                                "If you are in need of more help, you can join the **[Support Server](https://discord.gg/39DwwUV)**.")
             help_embed.set_author(
                 name="Villager Bot",
                 icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
