@@ -162,7 +162,7 @@ class Owner(commands.Cog):
         for private_channel in self.bot.private_channels:
             i += 1
             try:
-                msg += f"\n*{private_channel.id}*  {discord.utils.escape_markdown(private_channel)}"
+                msg += f"\n*{private_channel.id}*  {discord.utils.escape_markdown(str(private_channel))}"
             except Exception as e:
                 msg += "\n" + str(e)
             if i % rows == 0:
