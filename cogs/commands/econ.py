@@ -610,6 +610,9 @@ class Econ(commands.Cog):
             await self.db.set_balance(victim.id, victim_bal + 32)
             await self.db.set_balance(ctx.author.id, their_bal - 32)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You were caught and paid 32 {self.emerald}"))
+            await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} absolutely failed at pillaging you.",
+                                                                                                   f"{ctx.author.display_name} got absolutely destroyed pillaging you.",
+                                                                                                   f"{ctx.author.display_name} tried to pillage you with their wooden sword."])))
 
     @commands.command(name="leaderboard", aliases=["lb"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
