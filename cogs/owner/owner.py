@@ -386,10 +386,10 @@ class Owner(commands.Cog):
         embed = discord.Embed(color=discord.Color.green(), description=f"DM with {channel.recipient}")
         async for message in channel.history(limit=msg_count, oldest_first=False):
             if len(message.content) > 1024:
-                embed.add_field(name=message.author, value="> "+message.content[:1020], inline=True)
-                embed.add_field(name="\uFEFF", value=""+message.content[1020:], inline=True)
+                embed.insert_field_at(index=len(embed.fields), name="\uFEFF", value=""+message.content[1020:], inline=True)
+                embed.insert_field_at(index=len(embed.fields), name=message.author, value="> "+message.content[:1020], inline=True)
             else:
-                embed.add_field(name=message.author, value="> "+message.content, inline=False)
+                embed.insert_field_at(index=len(embed.fields), name=message.author, value="> "+message.content, inline=False)
         await ctx.send(embed=embed)
 
 
