@@ -260,7 +260,7 @@ class Owner(commands.Cog):
     async def add_to_cursed(self, ctx, *, new: str):
         self.g.cursedImages.append(new)
         with open("data/cursed_images.json", "w+") as cursedImages:
-            playingList.write(json.dumps(self.g.cursedImages))
+            cursedImages.write(json.dumps(self.g.cursedImages))
         await ctx.send(f"Added {new} to the cursed images list")
 
     @commands.command(name="addmcserver")
