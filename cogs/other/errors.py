@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 from random import choice
 import traceback
+import async_cse
 
 
 class Errors(commands.Cog):
@@ -37,6 +38,10 @@ class Errors(commands.Cog):
 
         if isinstance(e, commands.BotMissingPermissions):
             await self.send(ctx, "You didn't give me proper the permissions to do that, stupid.")
+            return
+
+        if isinstance(e, async_cse.APIError):
+            await self.send(ctx, "Uh Oh! It looks like our search command is having a problem, sorry. Please try again later!")
             return
 
         # Commands to ignore
