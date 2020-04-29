@@ -730,7 +730,7 @@ class Econ(commands.Cog):
     @commands.cooldown(1, 86400, commands.BucketType.user)
     async def harvest_honey(self, ctx):
         bees = await self.db.get_bees(ctx.author.id)
-        if choice(True, True, True, True, True, True, True, True, True, False):
+        if choice([True, True, True, True, True, True, True, True, True, False]):
             if bees < 100:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough bees to make this business option viable."))
                 return
