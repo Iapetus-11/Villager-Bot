@@ -740,8 +740,18 @@ class Econ(commands.Cog):
         else:
             bees_lost = randint(ceil(bees/90), ceil(bees/80))
             await self.db.set_bees(ctx.author.id, bees-bees_lost)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"So apparently bees get mad when you try to steal their honey, who knew... You lost {bees_lost} to suicide..."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"So apparently bees get mad when you try to steal their honey, who knew... You lost {bees_lost*3} to suicide..."))
 
+    @harvest_honey.error
+    async def handle_honey_errors(self, ctx, e):
+        if isinstance(e, commands.CommandOnCooldown):
+            hours = int(e.retry_after / 3600)
+            minutes = int(e.retry_after / 60) % 60
+        descs = [f"Didn't your parents tell you patience was a virtue? Calm down and wait another {hours} hour(s) & {minutes} minute(s).",
+                 f"Hey, you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
+                 f"Hrmmm, looks like you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
+                 f"Didn't you know patience was a virtue? Wait another {hours} hour(s) & {minutes} minute(s)."]
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs)))
 
 def setup(bot):
     bot.add_cog(Econ(bot))
