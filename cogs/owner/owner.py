@@ -6,6 +6,7 @@ from os import system
 import arrow
 import asyncio
 from time import sleep
+import resource
 
 
 class Owner(commands.Cog):
@@ -397,7 +398,9 @@ class Owner(commands.Cog):
 
     @commands.command(name="memory", aliases=["ram", "mem"])
     @commands.is_owner()
-    async def
+    async def get_memory_usage(self, ctx):
+        mem_kB = resource.getrusage(resource.RUSAGE_BOTH).ru_maxrss
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Memory in use: ``{mem_kB} kB``"))
 
 
 def setup(bot):
