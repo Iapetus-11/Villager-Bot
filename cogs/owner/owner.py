@@ -400,7 +400,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def get_memory_usage(self, ctx):
         mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Memory in use: ``{mem*.001} Megabytes``"))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Memory in use: ``{mem*.001} Megabytes``\nPage file size: ``{resource.getpagesize()}``"))
 
 
 def setup(bot):
