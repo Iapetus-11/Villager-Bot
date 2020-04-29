@@ -395,6 +395,10 @@ class Owner(commands.Cog):
                 embed.add_field(name=message.author, value="\uFEFF"+message.content, inline=False)
         await ctx.send(embed=embed)
 
+    @commands.command(name="memory", aliases=["ram", "mem"])
+    @commands.is_owner()
+    async def
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
