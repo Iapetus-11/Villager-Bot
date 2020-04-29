@@ -568,6 +568,7 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="TIE! No one wins, but maybe Villager Bot will keep your emeralds anyway..."))
 
     @commands.command(name="pillage", aliases=["steal"], cooldown_after_parsing=True)
+    @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
         if ctx.guild.get_member(victim.id) is None:
