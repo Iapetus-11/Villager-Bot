@@ -726,6 +726,22 @@ class Econ(commands.Cog):
                         "Didn't you know patience was a virtue? Wait another {0} seconds."]
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(cooldown, 2))))
 
+    @commands.command(name="harvesthoney", aliases=["honey", "sellhoney"])
+    @commands.cooldown(1, 86400, commands.BucketType.user)
+    async def harvest_honey(self, ctx):
+        bees = await self.db.get_bees(ctx.author.id)
+        if choice(True, True, True, True, True, True, True, True, True, False):
+            if bees < 100:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough bees to make this business option viable."))
+                return
+            jars = bees - randint(ceil(bees/6), ceil(bees/2))
+            await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Apparently bees produce honey and you just collected {jars} jars of it."))
+        else:
+            bees_lost = randint(ceil(bees/90), ceil(bees/80))
+            await self.db.set_bees(ctx.author.id, bees-bees_lost)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"So apparently bees get mad when you try to steal their honey, who knew... You lost {bees_lost} to suicide..."))
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))

@@ -72,7 +72,8 @@ f'**{ctx.prefix}pillage** ***@user*** *attempt to steal emeralds from another pe
 f'**{ctx.prefix}shop** *go shopping with emeralds*\n'
 f'**{ctx.prefix}sell** ***amount item*** *sell a certain amount of an item*\n'
 f'**{ctx.prefix}leaderboard** *shows the emerald leaderboard*\n'
-f'**{ctx.prefix}chug** ***potion*** *uses the mentioned potion.*\n',
+f'**{ctx.prefix}chug** ***potion*** *uses the mentioned potion.*\n'
+f'**{ctx.prefix}harvesthoney** *apparently bees produce honey, who knew it could sell for emeralds*\n',
             inline=False)
 
         help_embed.add_field(
@@ -179,11 +180,9 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     async def whats_new(self, ctx):
         emb = discord.Embed(color=discord.Color.green())
         emb.set_author(name="What's new with Villager Bot?", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-        emb.add_field(name="Bot Updates", value="- New admin commands!\n"
+        emb.add_field(name="Bot Updates", value="- So bees can produce honey! Who knew?!\n"
                                                 "- ``giveitem`` and ``give`` commands have been merged\n"
-                                                "- New ``!!image`` command which searches google images\n"
-                                                "- New ``!!fish`` command and new enchantment book: Luck Of The Sea!\n"
-                                                "- New fish bois\n", inline=False)
+                                                "- New ``!!image`` command which searches google images\n", inline=False)
         emb.set_footer(text=choice(self.tips))
         await ctx.send(embed=emb)
 
