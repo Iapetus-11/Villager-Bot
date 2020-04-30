@@ -93,6 +93,7 @@ class Minecraft(commands.Cog):
             if content["error"] == "TooManyRequestsException":
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Hey! Slow down!"))
                 return
+        await ctx.send(f"Debug (Ignore This!): ``{content}``")
         undec = base64.b64decode(content["properties"][0]["value"])
         try:
             url = json.loads(undec)["textures"]["SKIN"]["url"]
