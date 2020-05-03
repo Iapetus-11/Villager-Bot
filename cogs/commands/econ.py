@@ -473,7 +473,7 @@ class Econ(commands.Cog):
             top = 0
             for item in items:
                 if item[0] == "Bane Of Pillagers Amulet": # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
-                    choices = [1, 2, 3, 4, 5]
+                    choices = [2, 3, 4, 5, 6]
                     top = 15
                 elif item[0] == "Fortune III Book":
                     if 11 > top:
