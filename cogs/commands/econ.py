@@ -581,9 +581,9 @@ class Econ(commands.Cog):
             return
         attackers_bees = await self.db.get_bees(ctx.author.id)
         victims_bees = await self.db.get_bees(victim.id)
-        if attackers_bees > victims_bees:
+        if attackers_bees > victims_bees or await self.db.get_item(ctx.author.id, "Diamond Sword") is not None:
             heist_success = choice([False, True, True, True, False, True, False, True]) # 5/8
-        elif victims_bees > attackers_bees:
+        elif victims_bees > attackers_bees or await self.db.get_item(victim.id, "Diamond Sword") is not None:
             heist_success = choice([False, True, False, False, False, True, False, True]) # 3/8
         else:
             heist_success = choice([False, True, False, True, False, True, False, True]) # 4/8
