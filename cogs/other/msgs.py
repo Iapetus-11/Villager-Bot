@@ -18,20 +18,16 @@ class Msgs(commands.Cog):
                 prefix = await self.db.get_prefix(message.guild.id)
             else:
                 prefix = "!!"
-            help_embed = discord.Embed(color=discord.Color.green())
+            help_embed = discord.Embed(color=discord.Color.green(), description=f"The prefix for this server is ``{prefix}`` and the help command is ``{prefix}help``\n"
+                                                                                "If you are in need of more help, you can join the **[Support Server](https://discord.gg/39DwwUV)**.")
             help_embed.set_author(
-                name="Villager Bot Commands",
+                name="Villager Bot",
                 icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-            help_embed.add_field(name="Minecraft", value=f"``{prefix}help mc``", inline=True)
-            help_embed.add_field(name="Fun", value=f"``{prefix}help fun``", inline=True)
-            help_embed.add_field(name="\uFEFF", value=f"\uFEFF", inline=True)
-            help_embed.add_field(name="Useful", value=f"``{prefix}help useful``", inline=True)
-            help_embed.add_field(name="Admin", value=f"``{prefix}help admin``", inline=True)
-            help_embed.add_field(name="\uFEFF", value=f"\uFEFF", inline=True)
-            help_embed.add_field(name="\uFEFF", value="""Need more help? Check out the Villager Bot [Support Server](https://discord.gg/39DwwUV)
-            Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/vote)""", inline=False)
             help_embed.set_footer(text=choice(self.bot.get_cog("Useful").tips))
-            await message.channel.send(embed=help_embed)
+            try:
+                await message.channel.send(embed=help_embed)
+            except discord.Forbidden:
+                pass
 
         # Only replies handling past this point
         if message.author.bot:

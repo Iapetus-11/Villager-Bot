@@ -34,9 +34,11 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 
 ### Economy Commands
 * __!!mine__ (go mining with the bot for emeralds)
+* __!!fish__ (go fishing for fish)
+* __!!harvesthoney__ (who knew bees could produce honey)
 * __!!balance__ (check the amount of emeralds in your inventory)
 * __!!inventory__ (allows you to check the items in your inventory)
-* __!!give__ *@user* *amount* (gives mentioned user specified amount of emeralds from your inventory)
+* __!!give__ *@user* *amount* *\[optional: item\]* (gives mentioned user specified amount of emeralds or items from your inventory)
 * __!!gamble__ *amount* (gamble with Villager Bot)
 * __!!pillage__ *@user* (attempt to steal emeralds from another user)
 * __!!shop__ (opens the Villager Shop where you can buy items)
@@ -75,10 +77,14 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!say__ *text* (bot repeats what you say)
 * __!!google__ *query* (bot searches for your query on google)
 * __!!youtube__ *query* (bot searches for you on youtube)
-* __!!reddit__ *query* (bot searches reddit for you)
+* __!!image__ *query* (bot searches for you on google images)
+* __!!stats__ (shows certain bot statistics)
 
 ### Admin Only Commands
 * __!!purge__ *number* (deletes the specified number of messages in the channel it was summoned)
 * __!!kick__ *@user* (kicks the mentioned user)
 * __!!ban__ *@user* (bans the mentioned user)
 * __!!pardon__ *@user* (unbans the mentioned user)
+* __!!warn__ *@user* (warns the mentioned user)
+* __!!warns__ *@user* (shows that user's warnings)
+* __!!clearwarns__ *@user* (clear that user's warnings)

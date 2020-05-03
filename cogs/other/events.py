@@ -18,19 +18,23 @@ class Events(commands.Cog):
         with open("data/keys.json", "r") as k:
             keys = json.load(k)
 
-        self.dblpy = dbl.DBLClient(self.bot, keys["dblpy"], webhook_path="/dblwebhook", webhook_auth=keys["dblpy2"], webhook_port=5000)
+        self.dblpy = dbl.DBLClient(self.bot, keys["dblpy"], webhook_path="/dblwebhook", webhook_auth=keys["dblpy2"], webhook_port=5000, autopost=True)
 
         self.logger = logging.getLogger("Events")
         self.logger.setLevel(logging.INFO)
 
     def cog_unload(self):
-        self.bot.loop.run_until_complete(self.dblpy.close())
+        self.bot.loop.create_task(self.dblpy.close())
 
     @commands.Cog.listener()
     async def on_ready(self):
         await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
         self.logger.info(" Updated Activity")
         self.logger.info(f"\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards]")
+
+    @commands.Cog.listener()
+    async def on_guild_post(self):
+        self.logger.info(" TOP.GG STATS UPDATED")
 
     @commands.Cog.listener()
     async def on_dbl_test(self, data):
@@ -40,11 +44,13 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_dbl_vote(self, data):
+        self.g.vote_vect[0] += 1
+        self.g.vote_count += 1
         user_id = int(data["user"])
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
         user = self.bot.get_user(user_id)
         if user is not None:
-            await self.bot.get_channel(682195105784004610).send(f":tada::tada: {user.display_name} has voted! :tada::tada:")
+            await self.bot.get_channel(682195105784004610).send(f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
             if choice([True, False]):
                 for c in self.g.items:
                     if randint(0, ceil(c[2]/2)) == 1:
@@ -60,7 +66,7 @@ class Events(commands.Cog):
                             pass
                         await self.db.add_item(user.id, c[0], 1, c[1])
                         return
-            multi = 2 # cause easter, normally is 1
+            multi = 1 # cause easter, normally is 1
             if await self.dblpy.get_weekend_status():
                 multi *= 2 # normally is 2
             messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
@@ -78,8 +84,8 @@ class Events(commands.Cog):
     async def on_guild_join(self, guild):
         await asyncio.sleep(1)
         if guild.system_channel is not None:
-            await guild.system_channel.send(embed=discord.Embed(color=discord.Color.green(), description="Hey ya'll, type **!!help** to get started with Villager Bot!\n\n"
-                                                                                                         "Want to recieve updates, report a bug, or make suggestions? "
+            await guild.system_channel.send(embed=discord.Embed(color=discord.Color.green(), description="Hey ya'll, type ``!!help`` to get started with Villager Bot!\n\n"
+                                                                                                         "Want to receive updates, report a bug, or make suggestions? "
                                                                                                          "Join the official [support server](https://discord.gg/39DwwUV)!"))
 
     @commands.Cog.listener()

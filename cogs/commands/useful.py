@@ -1,17 +1,26 @@
 from discord.ext import commands
 import discord
 import arrow
-from googlesearch import search
 from random import choice
+import async_cse
+import json
 
 
 class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
         self.g = self.bot.get_cog("Global")
-        self.tips = ["Made by Iapetus11#6821 & TrustedMercury#1953", "You can get emeralds by voting for the bot!",
+
+        self.tips = ["Made by Iapetus11#6821 & TrustedMercury#1953", "You can get emeralds by voting for the bot on top.gg!",
                      "Hey, check out the support server! discord.gg/39DwwUV", "Did you know you can buy emeralds?",
-                     f"Wanna invite the bot? Try the !!invite command!"]
+                     f"Wanna invite the bot? Try the !!invite command!", "Did you know you can get emeralds by voting for the bot?"]
+
+        with open("data/keys.json", "r") as keys:
+            self.google = async_cse.Search(json.load(keys)["googl"])
+
+    def cog_unload(self):
+        self.bot.loop.create_task(self.google.close())
 
     @commands.group(name="help")
     async def help(self, ctx):
@@ -29,9 +38,7 @@ class Useful(commands.Cog):
             help_embed.add_field(name="\uFEFF", value=f"\uFEFF", inline=True)
             help_embed.add_field(name="\uFEFF", value="""Need more help? Check out the Villager Bot [Support Server](https://discord.gg/39DwwUV)
             Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/vote)""", inline=False)
-
             help_embed.set_footer(text=choice(self.tips))
-
             await ctx.send(embed=help_embed)
 
     @help.command(name='fun')
@@ -59,14 +66,14 @@ f'**{ctx.prefix}vault** *shows you how many emerald blocks you have in the emera
 f'**{ctx.prefix}deposit** ***amount in emerald blocks*** *deposit emerald blocks into the emerald vault*\n'
 f'**{ctx.prefix}withdraw** ***amount in emerald blocks*** *withdraw emerald blocks from the emerald vault*\n'
 f'**{ctx.prefix}inventory** *see what you have in your inventory*\n'
-f'**{ctx.prefix}give** ***@user amount*** *give mentioned user emeralds*\n'
-f'**{ctx.prefix}giveitem** ***@user amount item*** *give mentioned a user specified amount of an item*\n'
+f'**{ctx.prefix}give** ***@user amount*** ***[optional: item]*** *give mentioned user emeralds or an item*\n'
 f'**{ctx.prefix}gamble** ***amount*** *gamble with Villager Bot*\n'
 f'**{ctx.prefix}pillage** ***@user*** *attempt to steal emeralds from another person*\n'
 f'**{ctx.prefix}shop** *go shopping with emeralds*\n'
 f'**{ctx.prefix}sell** ***amount item*** *sell a certain amount of an item*\n'
 f'**{ctx.prefix}leaderboard** *shows the emerald leaderboard*\n'
-f'**{ctx.prefix}chug** ***potion*** *uses the mentioned potion.*\n',
+f'**{ctx.prefix}chug** ***potion*** *uses the mentioned potion.*\n'
+f'**{ctx.prefix}harvesthoney** *apparently bees produce honey, who knew it could sell for emeralds*\n',
             inline=False)
 
         help_embed.add_field(
@@ -97,8 +104,9 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}invite** *to get the link to add Villager Bot to your own server!*\n'
             f'**{ctx.prefix}google** ***query*** *bot will search on google for your query*\n'
             f'**{ctx.prefix}youtube** ***query*** *bot will search on youtube for your query*\n'
-            f'**{ctx.prefix}reddit** ***query*** *bot will search on reddit for your query*\n'
-            f'**{ctx.prefix}news** *shows what\'s new with the bot*\n',
+            f'**{ctx.prefix}image** ***query**** *bot will search google images for your query*\n'
+            f'**{ctx.prefix}news** *shows what\'s new with the bot*\n'
+            f'**{ctx.prefix}stats** *shows the bot\'s stats*\n',
             inline=True)
 
         help_embed.set_footer(text=choice(self.tips))
@@ -119,7 +127,10 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f"**{ctx.prefix}purge** ***number of messages*** *deletes n number of messages where it's used*\n"
             f'**{ctx.prefix}kick** ***@user*** *kicks the mentioned user*\n'
             f'**{ctx.prefix}ban** ***@user*** *bans the mentioned user*\n'
-            f'**{ctx.prefix}pardon** ***@user*** *unbans the mentioned user*\n',
+            f'**{ctx.prefix}pardon** ***@user*** *unbans the mentioned user*\n'
+            f'**{ctx.prefix}warn** ***@user reason*** *warns the mentioned user*\n'
+            f'**{ctx.prefix}warns** ***@user*** *shows the mentioned user\'s warnings*\n'
+            f'**{ctx.prefix}clearwarns** ***@user*** *clears the mentioned user\'s warnings*\n',
             inline=True)
 
         help_embed.set_footer(text=choice(self.tips))
@@ -169,15 +180,13 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     async def whats_new(self, ctx):
         emb = discord.Embed(color=discord.Color.green())
         emb.set_author(name="What's new with Villager Bot?", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-        emb.add_field(name="Bot Updates", value="- Voting now has a chance to give you items rather than just emeralds.\n"
-                                                "- Vault slots are now easier to get.\n"
-                                                "- Bot has been made far more stable, crash protection has been added.\n"
-                                                f"- New {ctx.prefix}news command!\n"
-                                                f"- Now, if you get pillaged, you recieve a dm from the bot saying how much got stolen.\n", inline=False)
+        emb.add_field(name="Bot Updates", value="- So bees can produce honey! Who knew?!\n"
+                                                "- ``giveitem`` and ``give`` commands have been merged\n"
+                                                "- New ``!!image`` command which searches google images\n", inline=False)
         emb.set_footer(text=choice(self.tips))
         await ctx.send(embed=emb)
 
-    @commands.command(name="ping", aliases=["pong", "ding", "dong"]) # Checks latency between Discord API and the bot
+    @commands.command(name="ping", aliases=["pong", "ding", "dong", "shing", "shling", "schlong"]) # Checks latency between Discord API and the bot
     async def ping(self, ctx):
         c = ctx.message.content.lower()
         if "pong" in c:
@@ -188,10 +197,15 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             pp = "Dong"
         elif "dong" in c:
             pp = "Ding"
+        elif "shing" in c or "shling" in c:
+            pp = "Schlong"
+        elif "schlong" in c:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"<a:ping:692401875001278494> Magnum Dong! \uFEFF ``{69.00} ms``"))
+            return
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"<a:ping:692401875001278494> {pp}! \uFEFF ``{round(self.bot.latency*1000, 2)} ms``"))
 
     @commands.command(name="uptime")
-    async def getuptime(self, ctx):
+    async def get_uptime(self, ctx):
         p = arrow.utcnow()
         diff = (p - self.g.startTime)
         days = diff.days
@@ -212,52 +226,97 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Bot has been online for "+str(days)+" "+dd+", "+str(hours)+" "+hh+", and "+str(minutes)+" "+mm+"!"))
 
     @commands.command(name="vote", aliases=["votelink"])
-    async def votelink(self, ctx):
-        voteL = discord.Embed(title="Vote for Villager Bot", description="[Click Here!](https://top.gg/bot/639498607632056321/vote)", color=discord.Color.green())
-        voteL.set_thumbnail(url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-        await ctx.send(embed=voteL)
+    async def vote_link(self, ctx):
+        _vote_link = discord.Embed(title="Vote for Villager Bot", description="[Click Here!](https://top.gg/bot/639498607632056321/vote)", color=discord.Color.green())
+        _vote_link.set_thumbnail(url="http://olimone.ddns.net/images/villagerbotsplash1.png")
+        await ctx.send(embed=_vote_link)
 
     @commands.command(name="invite", aliases=["invitelink"])
-    async def inviteLink(self, ctx):
+    async def invite_link(self, ctx):
         invL = discord.Embed(title="Add Villager Bot to your server", description="[Click Here!](https://bit.ly/2tQfOhW)", color=discord.Color.green())
         invL.set_thumbnail(url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         await ctx.send(embed=invL)
 
     @commands.command(name="google")
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def googleSearch(self, ctx, *, query: str):
+    async def google_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
-        rs = []
-        for result in search(query, tld="co.in", num=1, stop=1, pause=0):
-            rs.append(result)
-        if len(rs) > 0:
-            await ctx.send(rs[0])
-        else:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
+        try:
+            rez = (await self.google.search(query, safesearch=True))[0] # Grab only first result
+        except async_cse.search.NoResults:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
+        embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
+        await ctx.send(embed=embed)
 
     @commands.command(name="youtube")
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def ytSearch(self, ctx, *, query: str):
+    async def youtube_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
-        rs = []
-        for result in search(query, tld="co.in", domains=["youtube.com"], num=1, stop=1, pause=0):
-            rs.append(result)
-        if len(rs) > 0:
-            await ctx.send(rs[0])
+        try:
+            results = (await self.google.search(query, safesearch=True))
+        except async_cse.search.NoResults:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
+        rez = None
+        for result in results:
+            if "youtube" in result.url:
+                rez = result
+                break
+        if rez is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
         else:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
+            embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
+            embed.set_thumbnail(url=rez.image_url)
+            await ctx.send(embed=embed)
 
-    @commands.command(name="reddit")
+    @commands.command(name="image", aliases=["imagesearch"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def redditSearch(self, ctx, *, query: str):
+    async def image_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
-        rs = []
-        for result in search(query, tld="co.in", domains=["reddit.com"], num=1, stop=1, pause=0):
-            rs.append(result)
-        if len(rs) > 0:
-            await ctx.send(rs[0])
-        else:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for query \""+query+"\""))
+        try:
+            results = (await self.google.search(query, safesearch=True, image_search=True))
+        except async_cse.search.NoResults:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
+        image = choice(results)
+        embed = discord.Embed(color=discord.Color.green())
+        embed.set_image(url=choice(results).image_url)
+        await ctx.send(embed=embed)
+
+    @commands.command(name="nsfwimage", aliases=["nsfwimagesearch", "nsfw"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def nsfw_image_search(self, ctx, *, query: str):
+        if not ctx.channel.is_nsfw():
+            await ctx.send("You can't do nsfw outside of nsfw channels!")
+            return
+        await ctx.trigger_typing()
+        try:
+            results = (await self.google.search(query, safesearch=False, image_search=True))
+        except async_cse.search.NoResults:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
+        image = choice(results)
+        embed = discord.Embed(color=discord.Color.green())
+        embed.set_image(url=choice(results).image_url)
+        await ctx.send(embed=embed)
+
+    @commands.command(name="stats")
+    async def info_2(self, ctx):
+        info_embed = discord.Embed(description="", color=discord.Color.green())
+        info_embed.add_field(name="__**Bot Statistics**__", value=f"""
+Guild Count: ``{len(self.bot.guilds)}``
+DM Channel Count: ``{len(self.bot.private_channels)}``
+User Count: ``{len(self.bot.users)}``
+Session Message Count: ``{self.g.msg_count}``
+Session Command Count: ``{self.g.cmd_count} ({round((self.g.cmd_count/self.g.msg_count)*100, 2)}% of all msgs)``
+Commands/Sec: ``{self.g.cmd_vect[1]}``
+Session Vote Count: ``{self.g.vote_count}``
+Top.gg Votes/Hour: ``{self.g.vote_vect[1]}``
+Shard Count: ``{self.bot.shard_count}``
+Latency: ``{round(self.bot.latency*1000, 2)} ms``
+""")
+        await ctx.send(embed=info_embed)
 
 
 def setup(bot):

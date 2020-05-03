@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 from random import choice
 import traceback
+import async_cse
 
 
 class Errors(commands.Cog):
@@ -26,12 +27,21 @@ class Errors(commands.Cog):
             await self.send(ctx, "This command can't be used in private chat channels.")
             return
 
-        if isinstance(e, commands.MissingPermissions):
+        if isinstance(e, commands.MissingPermissions) :
             await self.send(ctx, "Nice try stupid, but you don't have the permissions to do that.")
             return
 
+        if isinstance(e, commands.CheckAnyFailure):
+            if "MissingPermissions" in str(e.errors): # yes I know this is jank but it works so shhhh
+                await self.send(ctx, "Nice try stupid, but you don't have the permissions to do that.")
+                return
+
         if isinstance(e, commands.BotMissingPermissions):
             await self.send(ctx, "You didn't give me proper the permissions to do that, stupid.")
+            return
+
+        if isinstance(e, async_cse.APIError):
+            await self.send(ctx, "Uh Oh! It looks like our search command is having a problem, sorry. Please try again later!")
             return
 
         # Commands to ignore
@@ -40,7 +50,7 @@ class Errors(commands.Cog):
                 return
 
         if isinstance(e, commands.CommandOnCooldown):
-            if not str(ctx.command) == "mine" and not str(ctx.command) == "fish":
+            if not str(ctx.command) in ["mine", "fish", "harvesthoney"]:
                 descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
                         "Hey, you need to wait another {0} seconds before doing that again.",
                         "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",

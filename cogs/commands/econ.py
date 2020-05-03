@@ -380,8 +380,16 @@ class Econ(commands.Cog):
         await self.db.remove_item(ctx.author.id, item, amount)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {item} for {_item[2]*amount}{self.emerald}."))
 
-    @commands.command(name="give", aliases=["giveemeralds"])
-    async def give_emeralds(self, ctx, rec: discord.User, amount: int):
+    @commands.command(name="give")
+    async def give_stuff(self, ctx, rec: discord.User, amount: int, item=None):
+        if item is not None:
+            if item.lower() != "emeralds" and item.lower() != "emerald":
+                for item in await self.db.get_items(ctx.author.id):
+                    if item[0] in ctx.message.content:
+                        await self.give_item(ctx, rec, amount, item[0])
+                        return
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid item you can give. (You don't own it, or it doesn't exist)"))
+                return
         if amount < 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You dumb dumb! You can't give someone negative emeralds!"))
             return
@@ -400,8 +408,7 @@ class Econ(commands.Cog):
                 plural = "s"
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{ctx.author.mention} gave {rec.mention} {amount}{self.emerald}"))
 
-    @commands.command(name="giveitem")
-    async def give_item(self, ctx, rec: discord.User, amount: int, *, _item: str):
+    async def give_item(self, ctx, rec, amount, _item):
         if amount < 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You absolute buffoon! You can't give someone a negative amount of something!"))
             return
@@ -410,7 +417,7 @@ class Econ(commands.Cog):
             return
         item = await self.db.get_item(ctx.author.id, _item)
         if item is None:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid item you can give."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid item you can give. (You don't own it, or it doesn't exist)"))
             return
         if amount > item[1]:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot give more of an item than you own."))
@@ -561,6 +568,7 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="TIE! No one wins, but maybe Villager Bot will keep your emeralds anyway..."))
 
     @commands.command(name="pillage", aliases=["steal"], cooldown_after_parsing=True)
+    @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
         if ctx.guild.get_member(victim.id) is None:
@@ -603,6 +611,9 @@ class Econ(commands.Cog):
             await self.db.set_balance(victim.id, victim_bal + 32)
             await self.db.set_balance(ctx.author.id, their_bal - 32)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You were caught and paid 32 {self.emerald}"))
+            await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} absolutely failed at pillaging you.",
+                                                                                                   f"{ctx.author.display_name} got absolutely destroyed pillaging you.",
+                                                                                                   f"{ctx.author.display_name} tried to pillage you with their wooden sword."])))
 
     @commands.command(name="leaderboard", aliases=["lb"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
@@ -613,7 +624,7 @@ class Econ(commands.Cog):
         for entry in lb:
             user = self.bot.get_user(int(entry[0]))
             if user is None:
-                user = "Deleted User"
+                user = "Deleted User     "
             lbtext += f"{entry[1]}{self.emerald} {str(user)[:-5]} \n"
         embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lbtext)
         await ctx.send(embed=embed)
@@ -650,33 +661,62 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist."))
 
     @commands.command(name="fish")
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(1, 7, commands.BucketType.user)
     async def fish(self, ctx):
+        if ctx.author.id in self.who_is_mining.keys():
+            if self.who_is_mining[ctx.author.id] >= 100:
+                prob = await self.problem_generator()
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
+                msg = await self.bot.wait_for("message")
+                while msg.author.id is not ctx.author.id:
+                    msg = await self.bot.wait_for("message")
+                if msg.clean_content == prob[1]:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Correct answer!"))
+                    self.who_is_mining[ctx.author.id] = 0
+                else:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Incorrect answer."))
+                return
+            self.who_is_mining[ctx.author.id] += 1
+        else:
+            self.who_is_mining[ctx.author.id] = 1
         bad_catches = ["a rusty nail", "an old shoe", "a broken bottle", "a tin can", "a soda bottle", "a piece of plastic", "a moldy chicken nugget", "a discarded birthday cake",
                        "an old picture frame", "a clump of hair", "some bones", "a forgotten flip flop", "a piece of driftwood", "a kfc container", "a plastic pail"]
         good_catches = [("a cod <:cod:701589959458684978>", 3), ("a salmon <:salmon:701589974646128690>", 4),
-                        ("a pufferfish <:pufferfish:701590021525733438>", 5), ("a tropical fish <:tropical_fish:701590997808709692>", 10)]
+                        ("a pufferfish <:pufferfish:701590021525733438>", 5), ("a tropical fish <:tropical_fish:701590997808709692>", 10),
+                        ("an emerald fish <:emerald_fish:703040458464428112>", 25), ("a diamond fish <:diamond_fish:703041846640640080>", 0)]
         rod = await self.db.get_item(ctx.author.id, "Fishing Rod")
         if rod is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't fish without a fishing rod! (You can buy a wooden one in the shop!)"))
             return
         else:
-            if choice([True, False, False]):
+            good_catch_chance = [True, False, False]
+            if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
+                if choice([False, False, False, True]):
+                    for c in self.g.items:
+                        if randint(0, c[2]) == 1:
+                            a = "a"
+                            for vowel in ["a", "e", "i", "o", "u"]:
+                                if c[0].startswith(vowel):
+                                    a = "an"
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([
+                                f"You {choice(['fished up', 'caught'])} {a} {c[0]}! (Worth {c[1]}{self.emerald})",
+                                f"You {choice(['fished up', 'caught'])} {a} {c[0]}! (Worth {c[1]}{self.emerald})"])))
+                            await self.db.add_item(ctx.author.id, c[0], 1, c[1])
+                            return
+                good_catch_chance = [True, False]
+            if choice(good_catch_chance):
                 catch = choice(good_catches)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up'])} {catch[0]}! (And sold it for {catch[1]}{self.emerald}.)"))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up', 'reeled in'])} {catch[0]}! (And sold it for {catch[1]}{self.emerald})"))
                 await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id))+catch[1])
             else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up'])} {choice(bad_catches)}..."))\
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up', 'reeled in'])} {choice(bad_catches)}..."))
 
     @fish.error
     async def handle_fish_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
             cooldown = e.retry_after
-            if ctx.author.id in list(self.items_in_use):
-                if self.items_in_use[ctx.author.id] == "Haste I Potion":
-                    cooldown -= .75
-                if self.items_in_use[ctx.author.id] == "Haste II Potion":
-                    cooldown -= 1.5
+            if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
+                cooldown -= 1.5
 
             if cooldown <= 0:
                 await ctx.reinvoke()
@@ -686,6 +726,33 @@ class Econ(commands.Cog):
                         "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
                         "Didn't you know patience was a virtue? Wait another {0} seconds."]
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(cooldown, 2))))
+
+    @commands.command(name="harvesthoney", aliases=["honey", "sellhoney"])
+    @commands.cooldown(1, 86400, commands.BucketType.user)
+    async def harvest_honey(self, ctx):
+        bees = await self.db.get_bees(ctx.author.id)
+        if choice([True, True, True, True, True, True, True, True, True, False]):
+            if bees < 100:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough bees to make this business option viable."))
+                return
+            jars = bees - randint(ceil(bees/6), ceil(bees/2))
+            await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Apparently bees produce honey and you just collected {jars} jars of it."))
+        else:
+            bees_lost = randint(ceil(bees/90), ceil(bees/80))
+            await self.db.set_bees(ctx.author.id, bees-bees_lost)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"So apparently bees get mad when you try to steal their honey, who knew... You lost {bees_lost*3} to suicide..."))
+
+    @harvest_honey.error
+    async def handle_honey_errors(self, ctx, e):
+        if isinstance(e, commands.CommandOnCooldown):
+            hours = int(e.retry_after / 3600)
+            minutes = int(e.retry_after / 60) % 60
+        descs = [f"Didn't your parents tell you patience was a virtue? Calm down and wait another {hours} hour(s) & {minutes} minute(s).",
+                 f"Hey, you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
+                 f"Hrmmm, looks like you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
+                 f"Didn't you know patience was a virtue? Wait another {hours} hour(s) & {minutes} minute(s)."]
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs)))
 
 def setup(bot):
     bot.add_cog(Econ(bot))

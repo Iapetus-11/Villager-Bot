@@ -6,6 +6,7 @@ from random import choice
 import json
 import dbl
 import arrow
+from os import system
 
 
 class Loops(commands.Cog):
@@ -15,40 +16,37 @@ class Loops(commands.Cog):
         self.g = self.bot.get_cog("Global")
         self.db = self.bot.get_cog("Database")
 
-        with open("data/keys.json", "r") as k:
-            keys = json.load(k)
-
-        self.dblpy = dbl.DBLClient(self.bot, keys["dblpy"])
-
         self.logger = logging.getLogger("Loops")
         self.logger.setLevel(logging.INFO)
 
-        self.did_setup = False
-
-    async def update_topgg_stats(self):
-        while True:
-            await self.dblpy.post_guild_count()
-            self.logger.info(" Updated Top.gg Stats")
-            await asyncio.sleep(1800)
-
     async def update_activity(self):
-        while True:
+        while self.bot.is_ready():
             await asyncio.sleep(3600)
             await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
-            self.logger.info(" Updated Activity")
 
-    async def reset_counters(self):
-        while True:
+    async def reset_cmd_vect_counter(self):
+        while self.bot.is_ready():
             await asyncio.sleep(1)
-            self.g.cmd_vect = 0
+            self.g.cmd_vect[1] = self.g.cmd_vect[0]
+            self.g.cmd_vect[0] = 0
+
+    async def reset_vote_vect_counter(self):
+        while self.bot.is_ready():
+            await asyncio.sleep(3600)
+            self.g.vote_vect[1] = self.g.vote_vect[0]
+            self.g.vote_vect[0] = 0
+
+    async def backup_database(self):
+        while self.bot.is_ready():
+            await asyncio.sleep(43200)
+            system("pg_dump villagerbot | gzip > ../database-backups/{0}.gz".format(arrow.utcnow().ctime().replace(" ", "_").replace(":", ".")))
 
     @commands.Cog.listener()
     async def on_ready(self):
-        if not self.did_setup:
-            self.bot.loop.create_task(self.update_activity())
-            self.bot.loop.create_task(self.update_topgg_stats())
-            self.bot.loop.create_task(self.reset_counters())
-            self.did_setup = True
+        self.bot.loop.create_task(self.update_activity())
+        self.bot.loop.create_task(self.reset_cmd_vect_counter())
+        self.bot.loop.create_task(self.reset_vote_vect_counter())
+        self.bot.loop.create_task(self.backup_database())
 
 
 def setup(bot):

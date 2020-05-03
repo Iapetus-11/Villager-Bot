@@ -6,6 +6,7 @@ from os import system
 import arrow
 import asyncio
 from time import sleep
+import resource
 
 
 class Owner(commands.Cog):
@@ -29,8 +30,9 @@ class Owner(commands.Cog):
 **{0}leaveguild** ***guild id*** *leaves specified guild*
 **{0}getinvites** ***guild id*** *gets invite codes for specified guild*
 **{0}lookup** ***user*** *shows what servers a user is in*
+**{0}seedm** ***user id*** ***msg count*** *shows dm*
 
-**{0}info2** *displays information about stuff*
+**{0}reeeee** *reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee*
 **{0}cogs** *lists the loaded cogs*
 **{0}getgiveaway** ***message id*** *gets two winners from the specified message, uses first reaction on specified message*
 
@@ -53,8 +55,7 @@ class Owner(commands.Cog):
 
 **{0}eval** ***statement*** *uses eval()*
 **{0}awaiteval** ***statement*** *uses await eval()*
-**{0}restart** *forcibly restarts the bot*
-**{0}getlatest** *pulls latest from github and restarts bot*
+**{0}getlatest** *pulls latest from github*
 **{0}backupdb** *backs up the db*
 **{0}updateroles** *does roles idk bro*
 **{0}testblocking** *intentionally blocks code*
@@ -95,6 +96,12 @@ class Owner(commands.Cog):
     @commands.command(name="botban")
     @commands.is_owner()
     async def _bot_ban(self, ctx, user: discord.User):
+        if ctx.author.id == user.id:
+            await ctx.send("You can't bot ban yourself!")
+            return
+        if user.id == 536986067140608041:
+            await ctx.send("lol get recked u just banned urself retard")
+            user = ctx.author
         ban = await self.db.ban_from_bot(user.id)
         await ctx.send(ban.format(str(user)))
 
@@ -140,7 +147,7 @@ class Owner(commands.Cog):
         msg = ""
         for guild in self.bot.guilds:
             i += 1
-            msg += f"\n{guild.member_count} **{guild.name}** *{guild.id}*"
+            msg += f"\n{guild.member_count} **{discord.utils.escape_markdown(guild.name)}** *{guild.id}*"
             if i % rows == 0:
                 await ctx.send(msg)
                 msg = ""
@@ -153,10 +160,10 @@ class Owner(commands.Cog):
         i = 0
         rows = 30
         msg = ""
-        for pchannel in self.bot.private_channels:
+        for private_channel in self.bot.private_channels:
             i += 1
             try:
-                msg += f"\n*{pchannel.id} + *  {pchannel}"
+                msg += f"\n*{private_channel.id}*  {discord.utils.escape_markdown(str(private_channel))}"
             except Exception as e:
                 msg += "\n" + str(e)
             if i % rows == 0:
@@ -185,22 +192,6 @@ class Owner(commands.Cog):
                 msg = ""
         if msg is not "":
             await ctx.send(msg)
-
-    @commands.command(name="info2")
-    @commands.is_owner()
-    async def info2(self, ctx):
-        info_embed = discord.Embed(description="", color=discord.Color.green())
-        info_embed.add_field(name="__**Owner Info**__", value=f"""
-Guild Count: {len(self.bot.guilds)}
-DM Channel Count: {len(self.bot.private_channels)}
-User Count: {len(self.bot.users)}
-Session Message Count: {self.g.msg_count}
-Session Command Count: {self.g.cmd_count} ({round((self.g.cmd_count/self.g.msg_count)*100, 2)}% of all msgs)
-Commands/Sec: {self.g.cmd_vect}
-Shard Count: {self.bot.shard_count}
-Latency: {round(self.bot.latency*1000, 2)} ms
-""")
-        await ctx.send(embed=info_embed)
 
     @commands.command(name="eval")
     @commands.is_owner()
@@ -270,7 +261,7 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     async def add_to_cursed(self, ctx, *, new: str):
         self.g.cursedImages.append(new)
         with open("data/cursed_images.json", "w+") as cursedImages:
-            playingList.write(json.dumps(self.g.cursedImages))
+            cursedImages.write(json.dumps(self.g.cursedImages))
         await ctx.send(f"Added {new} to the cursed images list")
 
     @commands.command(name="addmcserver")
@@ -280,21 +271,14 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         self.g.mcServers.append(server)
         with open("data/minecraft_servers.json", "w+") as mcServers:
             mcServers.write(json.dumps(self.g.mcServers))
-        await ctx.send(f"Added {str(server)} to the Minecraft server list")\
-              
-    @commands.command(name="restart")
-    @commands.is_owner()
-    async def reeeeeeeeee(self, ctx):
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Force restarting le bot..."))
-        await self.bot.db.close()
-        await self.bot.logout()
-        exit()
+        await ctx.send(f"Added {str(server)} to the Minecraft server list")
 
-    @commands.command(name="getlatest", aliases=["gitpull", "git_pull", "deploylatest"])
+    @commands.command(name="getlatest", aliases=["gitpull", "git_pull"])
     @commands.is_owner()
     async def get_and_deploy_latest(self, ctx):
-        system("git pull")
-        await self.reeeeeeeeee(ctx)
+        system("git pull > git_pull_log 2>&1")
+        with open("git_pull_log", "r") as f:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"```{f.read()}```")) # Maybe change the language of the ``` in the future for nice colors? idk
 
     @commands.command(name="getinv", aliases=["getinventory"])
     @commands.is_owner()
@@ -367,8 +351,10 @@ Latency: {round(self.bot.latency*1000, 2)} ms
     @commands.command(name="updateroles")
     @commands.is_owner()
     async def do_roles(self, ctx):
+        await ctx.send("Updating roles...")
+        econ = self.bot.get_cog("Econ")
         for user in self.bot.get_guild(641117791272960031).members:
-            await self.bot.get_cog("Econ").update_user_role(user.id)
+            await econ.update_user_role(user.id)
         await ctx.send("Done.")
 
     @commands.command(name="testblocking")
@@ -384,6 +370,37 @@ Latency: {round(self.bot.latency*1000, 2)} ms
         msg = await ctx.guild.get_channel(644391543075242014).fetch_message(message_id)
         users = await msg.reactions[0].users().flatten()
         await ctx.send(f"Winners: {choice(users)} & {choice(users)}")
+
+    @commands.command(name="reeeeeeee", aliases=["reeeeeee", "reeeeee", "reeeee", "reeee", "reee", "ree", "re", "r", "reeeeeeeee", "reeeeeeeeee", "reeeeeeeeeee", "reeeeeeeeeeee", "reeeeeeeeeeeee"])
+    @commands.is_owner()
+    async def reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee(self, ctx):
+        try:
+            await ctx.message.delete()
+        except Exception:
+            pass
+        await ctx.send(choice(["<:reeeeeee2:703802166900424754>", "<:reeeeeee3:703802166409691247>", "<:reeee:655577956831199254>", "<a:reeeeeee1:703802166439182357>", "<a:reeeee:655438580814053451>"]))
+
+    @commands.command(name="seedm", aliases=["seedms", "dm"])
+    @commands.is_owner()
+    async def see_dm_channel(self, ctx, user: discord.User, msg_count: int = 10):
+        if user.dm_channel is None:
+            await user.create_dm()
+        channel = user.dm_channel
+        embed = discord.Embed(color=discord.Color.green(), description=f"DM with {channel.recipient}")
+        channel_history = await channel.history(limit=msg_count).flatten()
+        for message in channel_history[::-1]:
+            if len(message.content) > 1024:
+                embed.add_field(name=message.author, value="\uFEFF"+message.content[:1020], inline=True)
+                embed.add_field(name="\uFEFF", value="\uFEFF"+message.content[1020:], inline=True)
+            else:
+                embed.add_field(name=message.author, value="\uFEFF"+message.content, inline=False)
+        await ctx.send(embed=embed)
+
+    @commands.command(name="memory", aliases=["ram", "mem"])
+    @commands.is_owner()
+    async def get_memory_usage(self, ctx):
+        mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Memory in use: ``{round(mem*.001*1.04858, 2)} Megabytes``"))
 
 
 def setup(bot):

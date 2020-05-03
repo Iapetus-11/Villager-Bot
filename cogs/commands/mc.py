@@ -21,48 +21,16 @@ class Minecraft(commands.Cog):
 
         self.g = self.bot.get_cog("Global")
 
-        self.first = ["Hey, you should build", "Hey, what if you made", "Hey, you should build", "What if you built", "What if you made", "You could create", "What if you created", "You could make"]
-        self.prenouns = ["a statue of a creeper", "a cozy home with a fireplace", "a secret redstone base", "a statue of Steve", "a command block creation", "a replica of the Statue of Liberty",
-                      "a replica of the world", "a statue of Alex", "a statue of Steve & Alex", "a hidden base", "a secret room in your house", "a 2x1 redstone door", "a 2x2 redstone door",
-                      "a 2x3 redstone door", "a 3x3 redstone door", "a flying machine", "a working fireplace", "a mansion", "a haunted mansion", "a server lobby", "a golf course", "a pirate ship",
-                      "an awesome parkour map", "an adventure map", "a cool statue of your skin", "a realistic model of your house", "pixel art of Pikachu", "pixel art", "a pvp arena",
-                      "something, idk", "a recreation of a meme", "an animation with command blocks", "a pvp map", "a dropper map", "a lovely survival world", "a giant hotel",
-                      "pixel art of Villager Bot", "pixel art of emeralds", "a giant survival base", "a siege-ready castle", "a castle and lava moat", "a giant tree house", "a giant palace",
-                      "a throne fit for a king", "a prison", "pixel art of you", "a statue of a sheep", "a statue of a cow", "a statue of your stuffed animal", "a replica of your pet"
-                      "a city block", "an emerald bank", "a fishing hole", "a 3 story tree house", "a cactus farm", "a wheat farm", "a carrot farm", "a floating village", "an auto farm",
-                      "a giant farm", "an igloo", "a sky island", "a giant maze", "a toy shop", "a mall", "a swimming pool", "a town hall", "a villager breeding machine", "a tree farm",
-                      "an underground garden", "the flag of your home country", "a witch farm", "a giant public library", "a storage room", "a bakery", "a mob arena", "a maze with deadly traps",
-                      "a mad science labratory", "a large volcano", "a dog house", "a cat house", "a city park", "a pacman game", "a tnt cannon", "a space ship that can fire tnt", "a giant cake",
-                      "a theme park", "a carnival", "a drowned farm", "a blacksmith", "a kelp farm", "a tavern", "a monorail", "a refugee center", "an escape room", "a greenhouse with plants",
-                      "a giant slime-block trampoline", "a miniature city", "a satellite dish", "an elven city", "an egyptian pyramid", "a skate park", "a circus", "the Minecraft olympics",
-                      "a redstone computer", "your favorite cartoon characters", "an ultra auth-sorting storage system", "a giant tnt cannon", "a player launcher", "a small town", "a bamboo farm",
-                      "a farm", "a small hut", "a gaming computer", "an x-wing fighter from Star Wars", "a super-big rainbow with a pot of gold at the end", "giant versions of blocks", "a meatbal",
-                      "a computer", "a 20 story apartment building", "a hospital", "a zombie villager curing hospital", "a school", "a viking ship", "a viking village", "some tennis courts",
-                      "a massive mine", "a helicopter pad", "a secret FBI base", "a secret CIA base", "Area 51", "a giant sea monster", "a massive cruise ship", "a planet" "the solar system",
-                      "a massive abandoned mineshaft", "the kraken", "a seafood resturant", "a resturant that only serves various forms of fried octopus tentacles", "a massive trampoline park",
-                      "a statue of a bee", "a giant dragon", "a rainbow-colored dragon", "a hidden enchanting table station", "a redstone drawbridge", "a dump truck", "a dinosaur",
-                      "a construction site", "a skyscraper", "an iPhone", "a humble abode", "a river", "a hobbit hole", "a home in a volcano", "a disco", "a creepy campsite", "an awesome jungle"]
-        
-        self.nouns = ["creeper", "cozy room with a fireplace", "cozy house", "Steve", "Alex", "your skin", "your favorite cartoon character", "pixel art of your Minecraft skin", "Minecraft in Minecraft",
-                      "command block creation", "replica of the Statue of Liberty", "replica of the world", "statue of Steve & Alex", "statue of your favorite stuffed animal", "cruise ship",
-                      "dinosaur", "bee", "survival base", "castle", "castle with a moat", "blacksmithery", "bakery", "x-wing fighter", "area 51", "redstone drawbridge", "dump truck", "tennis courts",
-                      "model of a solar system", "dog house", "villager", "statue of a villager", "giant sea monster", "viking ship", "carrot farm", "player launcher", "tnt cannon", "pacman pixel art",
-                      "tree house", "tree farm", "floating village", "town hall", "storage room", "mall", "swimming pool", "monorail", "mansion", "fireplace", "hidden room", "survival world", "hotel",
-                      "throne room", "throne for a king", "sky island", "volcano", "hospital", "CIA base", "hobbit hole", "mountain", "river", "winding river", "hydroelectric dam", "power plant",
-                      "labratory", "mad science labratory", "skyscraper", "dragon", "resturant", "helicopter pad", "helicopter", "vehicle", "trampoline", "trampoline park", "town", "farm", "PvP arena",
-                      "dropper map", "PvE arena", "kraken", "phone", "smart phone", "public library", "secret library", "toy shop", "maze", "winding maze", "underground garden", "emerald bank",
-                      "golf course", "tavern", "road", "super-highway", "home", "mob arena", "arena", "city park", "playground", "octopus", "rabbit", "dog", "cat", "sheep", "cow", "camel", "pig",
-                      "wandering villager", "villager", "wither", "ender dragon", "statue of a wither", "statue of an ender dragon", "statue of an octopus", "statue of a dog", "palace", "pyramid",
-                      "egyptian tomb", "theme park", "computer", "adventure map", "moat", "pirate ship", "cruise-liner", "carrot", "hidden enchanting table station", "skate park", "virus", "camp site",
-                      "iPhone", "T.V.", "apartment building", "mineshaft", "gaming computer", "bakery"]
-        self.colors = ["red-colored", "orange-colored", "yellow-colored", "green-colored", "blue-colored", "indigo-colored", "violet-colored", "grey", "black", "purple", "white", "brown"]
-        self.sizes = ["normal sized", "normally sized", "large", "massive", "huge", "gigantic", "tiny", "small", "microscopic", "normal sized"]
+        with open("data/build_ideas.json", "r") as stuff:
+            _json = json.load(stuff)
+            self.first = _json["first"]
+            self.prenouns = _json["prenouns"]
+            self.nouns = _json["nouns"]
+            self.colors = _json["colors"]
+            self.sizes = _json["sizes"]
 
     def cog_unload(self):
-        self.bot.loop.create_task(self.stop_ses())
-
-    async def stop_ses(self):
-        await self.ses.stop()
+        self.bot.loop.create_task(self.ses.close())
 
     @commands.command(name="mcping") # Pings a java edition minecraft server
     async def mc_ping(self, ctx, *, server: str):
@@ -125,6 +93,9 @@ class Minecraft(commands.Cog):
             if content["error"] == "TooManyRequestsException":
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Hey! Slow down!"))
                 return
+        if len(content["properties"]) == 0:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This user's skin can't be stolen for some reason..."))
+            return
         undec = base64.b64decode(content["properties"][0]["value"])
         try:
             url = json.loads(undec)["textures"]["SKIN"]["url"]
@@ -208,7 +179,6 @@ class Minecraft(commands.Cog):
                         "<:obfuscated:697541699769204736> ||Obfuscated|| ``§k``\n"
                         "<:reset:697541699697639446> Reset ``§r``\n")
         await ctx.send(embed=embed)
-
 
 
 def setup(bot):

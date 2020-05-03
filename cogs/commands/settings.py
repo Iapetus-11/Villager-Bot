@@ -23,7 +23,10 @@ class Settings(commands.Cog):
             await ctx.send(embed=embed)
 
     @config.command(name="prefix")
-    async def setPrefix(self, ctx, prefix: str):
+    async def set_prefix(self, ctx, prefix=None):
+        if prefix is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"The current prefix is ``{await self.db.get_prefix(ctx.guild.id)}``"))
+            return
         for car in prefix:
             if car.lower() not in self.g.allowedChars:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Your new prefix includes an invalid character: \uFEFF ``\uFEFF{0}\uFEFF``".format(car)))
@@ -32,7 +35,14 @@ class Settings(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Changed the prefix from ``{0}`` to ``{1}``.".format(ctx.prefix, prefix[:16])))
 
     @config.command(name="replies")
-    async def setDoReplies(self, ctx, doem: str):
+    async def set_do_replies(self, ctx, doem=None):
+        if doem is None:
+            if await self.db.get_do_replies(ctx.guild.id):
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Message replies are currently turned on."))
+            else:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Message replies are currently turned off."))
+            return
+        doem = doem.lower()
         if doem == "on":
             await self.db.set_do_replies(ctx.guild.id, True)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Turned on message replies."))
@@ -41,6 +51,17 @@ class Settings(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Turned off message replies."))
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid option! Only ``on`` and ``off`` are valid options."))
+
+    @commands.group(name="usersettings", aliases=["userconfig", "userconf"])
+    async def user_config(self, ctx):
+        return
+        if ctx.invoked_subcommand is None:
+            embed = discord.Embed(color=discord.Color.green(), description="")
+            embed.set_author(name="Villager Bot User Settings", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
+            embed.add_field(name="__**User Settings**__", value="""
+**{0}config remindmetovote** ***on/off*** *turn vote reminders on/off*
+""".format(ctx.prefix))
+            await ctx.send(embed=embed)
 
 
 def setup(bot):
