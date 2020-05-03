@@ -19,7 +19,7 @@ class AdminCmds(commands.Cog):
             except Exception:
                 error_embed = discord.Embed(
                     color=discord.Color.green(),
-                    description='''Uh oh, Villager Bot had a problem deleting those messages, try again later!''')
+                    description='''Uh oh, Villager Bot had a problem deleting those messages, make sure I have manage message permissions!''')
                 await ctx.send(embed=error_embed)
         else:
             limit_embed = discord.Embed(
