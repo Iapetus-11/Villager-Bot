@@ -571,6 +571,9 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
+        if victim.bot == True:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Bots don't have citizenship and can't own emeralds, go away."))
+            return
         if ctx.guild.get_member(victim.id) is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't pillage people from other servers!"))
             return
