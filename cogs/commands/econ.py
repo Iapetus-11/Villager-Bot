@@ -193,7 +193,7 @@ class Econ(commands.Cog):
         item = _item.lower()
         their_bal = await self.db.get_balance(ctx.author.id)
 
-        if item == "fishing rod" or item == "wooden fishing rod":
+        if item == "fishing rod":
             if their_bal >= 64:
                 await self.db.set_balance(ctx.author.id, their_bal - 64)
                 await self.db.add_item(ctx.author.id, "Fishing Rod", 1, 48)
@@ -201,7 +201,7 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Fishing Rod."))
 
-        elif item == "haste i potion" or item == "haste 1 potion":
+        elif item == "haste i potion":
             if their_bal >= 120:
                 await self.db.set_balance(ctx.author.id, their_bal - 120)
                 await self.db.add_item(ctx.author.id, "Haste I Potion", 1, 32)
@@ -209,7 +209,7 @@ class Econ(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Haste I Potion."))
 
-        elif item == "fortune i book" or item == "fortune 1 book":
+        elif item == "fortune i book":
             if their_bal >= 120:
                 await self.db.set_balance(ctx.author.id, their_bal - 120)
                 await self.db.add_item(ctx.author.id, "Fortune I Book", 1, 24)
