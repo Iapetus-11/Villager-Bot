@@ -402,6 +402,13 @@ class Owner(commands.Cog):
         mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Memory in use: ``{round(mem*.001*1.04858, 2)} Megabytes``"))
 
+    @commands.command(name="topten", aliases=["toptenguilds"])
+    @commands.is_owner()
+    async def top_ten(self, ctx):
+        gds = self.bot.guilds
+        gds.sort(reverse=True, key=guild.member_count)
+        await ctx.send(gds[0])
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
