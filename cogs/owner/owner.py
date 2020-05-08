@@ -406,7 +406,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def top_ten(self, ctx):
         gds = self.bot.guilds
-        gds.sort(reverse=True, key=guild.member_count)
+        gds.sort(reverse=True, key=lambda guild: guild.member_count)
         await ctx.send(gds[0])
 
 
