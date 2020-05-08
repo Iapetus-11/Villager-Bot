@@ -407,7 +407,10 @@ class Owner(commands.Cog):
     async def top_ten(self, ctx):
         gds = self.bot.guilds
         gds.sort(reverse=True, key=lambda guild: guild.member_count)
-        await ctx.send(gds[0])
+        msg = ""
+        for guild in gds[:10]:
+            msg += f"**{guild.member_count}** {guild} *{guild.id}*\n"
+        await ctx.send(msg)
 
 
 def setup(bot):
