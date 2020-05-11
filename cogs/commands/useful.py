@@ -300,9 +300,10 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     @commands.command(name="nsfwimage", aliases=["nsfwimagesearch", "nsfw"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def nsfw_image_search(self, ctx, *, query: str):
-        if not ctx.channel.is_nsfw():
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Hey, there are kids here! You can only use this command in nsfw channels!"))
-            return
+        if not isinstance(ctx.channel, discord.DMChannel):
+            if not ctx.channel.is_nsfw():
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Hey, there are kids here! You can only use this command in nsfw channels!"))
+                return
         await ctx.trigger_typing()
         try:
             results = (await self.google.search(query, safesearch=False, image_search=True))
