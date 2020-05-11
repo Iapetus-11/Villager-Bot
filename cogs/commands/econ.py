@@ -218,7 +218,7 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Fortune I Book."))
 
         elif item == "jar of bees": # You'll have to move jar of bees to an item
-            if self.db.get_bees(ctx.author.id) < 3333:
+            if await self.db.get_bees(ctx.author.id) < 3333:
                 if their_bal >= 8:
                     await self.db.set_balance(ctx.author.id, their_bal - 8)
                     await self.db.set_bees(ctx.author.id, await self.db.get_bees(ctx.author.id) + 1)
