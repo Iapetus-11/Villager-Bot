@@ -682,7 +682,7 @@ class Econ(commands.Cog):
                 else:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Incorrect answer."))
                 return
-            self.who_is_mining[ctx.author.id] += 1
+            self.who_is_mining[ctx.author.id] += 10
         else:
             self.who_is_mining[ctx.author.id] = 1
         bad_catches = ["a rusty nail", "an old shoe", "a broken bottle", "a tin can", "a soda bottle", "a piece of plastic", "a moldy chicken nugget", "a discarded birthday cake",
