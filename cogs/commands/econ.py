@@ -667,7 +667,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist.\nRemember, caps matter! You might have typed something incorrectly."))
 
     @commands.command(name="fish")
-    @commands.cooldown(1, 7, commands.BucketType.user)
+    @commands.cooldown(1, 20, commands.BucketType.user)
     async def fish(self, ctx):
         if ctx.author.id in self.who_is_mining.keys():
             if self.who_is_mining[ctx.author.id] >= 100:
