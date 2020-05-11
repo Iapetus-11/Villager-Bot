@@ -242,10 +242,17 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     async def google_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
         try:
-            rez = (await self.google.search(query, safesearch=True))[0] # Grab only first result
+            rez = (await self.google.search(query, safesearch=True)) # Grab only first result
         except async_cse.search.NoResults:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
             return
+        except async_cse.search.APIError:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Uh Oh, there was an error, please try again later!"))
+            return
+        if len(rez) == 0:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
+        rez = rez[0]
         embed = discord.Embed(color=discord.Color.green(), title=rez.title, description=rez.description, url=rez.url)
         await ctx.send(embed=embed)
 
@@ -257,6 +264,9 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             results = (await self.google.search(query, safesearch=True))
         except async_cse.search.NoResults:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
+        except async_cse.search.APIError:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Uh Oh, there was an error, please try again later!"))
             return
         rez = None
         for result in results:
@@ -279,6 +289,9 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         except async_cse.search.NoResults:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
             return
+        except async_cse.search.APIError:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Uh Oh, there was an error, please try again later!"))
+            return
         image = choice(results)
         embed = discord.Embed(color=discord.Color.green())
         embed.set_image(url=choice(results).image_url)
@@ -288,13 +301,16 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def nsfw_image_search(self, ctx, *, query: str):
         if not ctx.channel.is_nsfw():
-            await ctx.send("You can't do nsfw outside of nsfw channels!")
+            await ctx.send("Hey, there are kids here! You can only use this command in nsfw channels!")
             return
         await ctx.trigger_typing()
         try:
             results = (await self.google.search(query, safesearch=False, image_search=True))
         except async_cse.search.NoResults:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="No results found for that query!"))
+            return
+        except async_cse.search.APIError:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Uh Oh, there was an error, please try again later!"))
             return
         image = choice(results)
         embed = discord.Embed(color=discord.Color.green())
