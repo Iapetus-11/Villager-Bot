@@ -257,7 +257,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         await ctx.send(embed=embed)
 
     @commands.command(name="youtube")
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def youtube_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
         try:
@@ -281,7 +281,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             await ctx.send(embed=embed)
 
     @commands.command(name="image", aliases=["imagesearch"])
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def image_search(self, ctx, *, query: str):
         await ctx.trigger_typing()
         try:
@@ -298,7 +298,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         await ctx.send(embed=embed)
 
     @commands.command(name="nsfwimage", aliases=["nsfwimagesearch", "nsfw"])
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def nsfw_image_search(self, ctx, *, query: str):
         if not ctx.channel.is_nsfw():
             await ctx.send("Hey, there are kids here! You can only use this command in nsfw channels!")
