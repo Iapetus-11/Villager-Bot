@@ -5,7 +5,7 @@ import asyncpg
 import asyncio
 import logging
 
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
 with open("data/keys.json", "r") as k:  # Loads secret keys
