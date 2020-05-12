@@ -433,6 +433,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 1.4, commands.BucketType.user)
     async def mine(self, ctx):
+        await self.db.increment_vault_max(ctx.author.id)
         if ctx.author.id in self.who_is_mining.keys():
             if self.who_is_mining[ctx.author.id] >= 100:
                 prob = await self.problem_generator()
@@ -537,6 +538,7 @@ class Econ(commands.Cog):
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
     async def gamble(self, ctx, amount: str):
+        await self.db.increment_vault_max(ctx.author.id)
         their_bal = await self.db.get_balance(ctx.author.id)
         if str(amount).lower() == "all" or str(amount).lower() == "max":
             amount = their_bal
@@ -574,6 +576,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
+        await self.db.increment_vault_max(ctx.author.id)
         if victim.bot == True:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Bots don't have citizenship and can't own emeralds, go away."))
             return
@@ -624,6 +627,7 @@ class Econ(commands.Cog):
     @commands.command(name="leaderboard", aliases=["lb"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def leaderboard(self, ctx):
+        await self.db.increment_vault_max(ctx.author.id)
         dbs = await self.bot.db.fetch("SELECT * FROM currency") # Returns list of tuples
         lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True)[:9]
         lbtext = ""
@@ -637,6 +641,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="chug", aliases=["drink"])
     async def use_potion(self, ctx, *, item: str):
+        await self.db.increment_vault_max(ctx.author.id)
         if self.items_in_use.get(ctx.author.id) is not None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Currently, you can not use more than one potion at a time."))
             return
@@ -669,6 +674,7 @@ class Econ(commands.Cog):
     @commands.command(name="fish")
     @commands.cooldown(1, 20, commands.BucketType.user)
     async def fish(self, ctx):
+        await self.db.increment_vault_max(ctx.author.id)
         if ctx.author.id in self.who_is_mining.keys():
             if self.who_is_mining[ctx.author.id] >= 100:
                 prob = await self.problem_generator()
@@ -736,6 +742,8 @@ class Econ(commands.Cog):
     @commands.command(name="harvesthoney", aliases=["honey", "sellhoney"])
     @commands.cooldown(1, 86400, commands.BucketType.user)
     async def harvest_honey(self, ctx):
+        await self.db.increment_vault_max(ctx.author.id)
+        await self.db.increment_vault_max(ctx.author.id)
         bees = await self.db.get_bees(ctx.author.id)
         if choice([True, True, True, True, True, True, True, True, True, False]):
             if bees < 100:
