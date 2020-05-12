@@ -24,7 +24,7 @@ async def get_prefix(bot, ctx):
     return prefix[0]
 
 
-bot = commands.AutoShardedBot(command_prefix=get_prefix, help_command=None, case_insensitive=True, max_messages=1024)
+bot = commands.AutoShardedBot(command_prefix=get_prefix, help_command=None, case_insensitive=True, max_messages=512)
 
 
 async def setup_db():
@@ -38,8 +38,8 @@ asyncio.get_event_loop().run_until_complete(setup_db())
 bot.cog_list = ["cogs.other.global",
                 "cogs.database.database",
                 "cogs.owner.owner",
-                "cogs.other.msgs",
                 "cogs.other.errors",
+                "cogs.other.msgs",
                 "cogs.other.events",
                 "cogs.other.loops",
                 "cogs.commands.fun",
