@@ -1,6 +1,5 @@
 {
-  "fishing rod": [64, ["Fishing Rod", 48]],
-  "haste i potion": [120, ["Haste I Potion", 32]],
-  "fortune i book": [120, ["Fortune I Book", 24]],
-
+  "fishing rod": [64, "(await self.db.get_item(ctx.author.id, 'Fishing Rod'))[1] < 1", ["Fishing Rod", 48]],
+  "haste i potion": [120, "True", ["Haste I Potion", 32]],
+  "fortune i book": [120, "True", ["Fortune I Book", 24]]
 }
