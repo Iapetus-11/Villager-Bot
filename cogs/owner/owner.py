@@ -412,6 +412,12 @@ class Owner(commands.Cog):
             msg += f"**{guild.member_count}** {guild} *{guild.id}*\n"
         await ctx.send(msg)
 
+    # Only here for migration of bees to the items database MAKE SURE TO DISABLE THE BUY COMMAND BEFOREHAND
+    @commands.command(name="migrate")
+    @commands.is_owner()
+    async def le_great_bee_migration(self, ctx):
+
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
