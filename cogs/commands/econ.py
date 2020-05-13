@@ -121,6 +121,7 @@ class Econ(commands.Cog):
         shop.set_author(name="Villager Shop [Magic Items]", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         shop.add_field(name=f"__**Fortune I Book**__ 120{self.emerald}", value=f"``{ctx.prefix}buy fortune i book``", inline=True)
         shop.add_field(name=f"__**Haste I Potion**__ 120{self.emerald}", value=f"``{ctx.prefix}buy haste i potion``", inline=True)
+        shop.add_field(name=f"__**Lure I Book**__ 120{self.emerald}", value=f"``{ctx.prefix}buy lure i book``", inline=True)
         await ctx.send(embed=shop)
 
     @shop.command(name="other")
