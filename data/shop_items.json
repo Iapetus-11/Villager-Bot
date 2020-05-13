@@ -1,5 +1,6 @@
 {
   "fishing rod": [64, "item_count < 1", ["Fishing Rod", 48]],
   "haste i potion": [120, "True", ["Haste I Potion", 32]],
-  "fortune i book": [120, "True", ["Fortune I Book", 24]]
+  "fortune i book": [120, "True", ["Fortune I Book", 24]],
+  "jar of bees": [8, "item_count < 3333", ["Jar Of Bees", 2]]
 }

@@ -188,18 +188,7 @@ class Econ(commands.Cog):
         their_bal = await self.db.get_balance(ctx.author.id)
 
         # Items which aren't in shop_items.json
-        if item == "jar of bees": # You'll have to move jar of bees to an item eventually, you prob should now tbh
-            if await self.db.get_bees(ctx.author.id) < 3333:
-                if their_bal >= 8:
-                    await self.db.set_balance(ctx.author.id, their_bal - 8)
-                    await self.db.set_bees(ctx.author.id, await self.db.get_bees(ctx.author.id) + 1)
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a jar of be"+choice(["e", "eee", "ee", "eeeee", "eeeeeeeeeeeeeeee", "eeeeeeeeeee"])+"s"))
-                else:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a jar of bees."))
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't have more than 9999 bees (3333 jars of bees)."))
-
-        elif item == "netherite scrap":
+        if item == "netherite scrap":
             if their_bal >= 32:
                 await self.db.set_balance(ctx.author.id, their_bal - 32)
                 await self.db.set_scrap(ctx.author.id, await self.db.get_scrap(ctx.author.id) + 1)
@@ -284,7 +273,7 @@ class Econ(commands.Cog):
                         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} {shop_item[2][0]}!"))
                         return
                     else:
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase that item!"))
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
                         return
                 else:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
