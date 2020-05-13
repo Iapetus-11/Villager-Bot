@@ -291,8 +291,10 @@ class Econ(commands.Cog):
                         return
                     else:
                         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase that item!"))
+                        return
                 else:
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
+                    return
 
 
         if "pickaxe" in item:
