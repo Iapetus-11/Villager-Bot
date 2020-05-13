@@ -8,6 +8,7 @@ class Global(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        # Stats command stuffs
         self.msg_count = 0
         self.cmd_count = 0
         self.cmd_vect = [0, 0]
@@ -28,6 +29,7 @@ class Global(commands.Cog):
                              "s": "surgghm", "t": "ehrrg", "u": "hrmhm", "v": "hrrrm", "w": "hwurgh",
                              "x": "murr", "y": "hurr", "z": "mhehmem"}
 
+        # Allowed characters for command prefixes
         self.allowedChars = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
                              "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "{", "}", ";", ":", "|", "/", ".", "?", ">", "<", ",",)
 

@@ -1,6 +1,6 @@
 {
-  "fishing rod": [64, [], ["Fishing Rod", 48]],
-  "haste i potion": [120, [], ["Haste I Potion", 32]],
-  "fortune i book": [120, [], ["Fortune I Book", 24]],
+  "fishing rod": [64, ["Fishing Rod", 48]],
+  "haste i potion": [120, ["Haste I Potion", 32]],
+  "fortune i book": [120, ["Fortune I Book", 24]],
 
 }
