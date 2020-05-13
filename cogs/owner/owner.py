@@ -415,8 +415,8 @@ class Owner(commands.Cog):
     # Only here for migration of bees to the items database MAKE SURE TO DISABLE THE BUY COMMAND BEFOREHAND
     @commands.command(name="migrate")
     @commands.is_owner()
-    async def le_great_bee_migration(self, ctx):
-
+    async def le_great_bee_migration_of_2020(self, ctx): # Bees decided they had enough of the killer hornets from asia and decided to build a wall
+        await self.db.fuck_the_bees()
 
 
 def setup(bot):
