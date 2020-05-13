@@ -284,6 +284,11 @@ class Econ(commands.Cog):
                                 a = "an"
                         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} {shop_item[2][0]}!"))
                         return
+                    else:
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase that item!"))
+                else:
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
+
 
         if "pickaxe" in item:
             await self.update_user_role(ctx.author.id)
