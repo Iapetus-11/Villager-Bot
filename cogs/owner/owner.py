@@ -52,6 +52,7 @@ class Owner(commands.Cog):
 **{0}addtocursed** ***image*** *add an image to the list of cursed images used in the !!cursed command*
 **{0}addmcserver** ***ip port "version" type verified \*note*** *adds to the list of mc servers*
 **{0}reloaditems** *reload the list of items from the json file*
+**{0}reloadshopitems** *reload shop items*
 
 **{0}eval** ***statement*** *uses eval()*
 **{0}awaiteval** ***statement*** *uses await eval()*
