@@ -276,6 +276,11 @@ class Econ(commands.Cog):
             shop_item = self.g.shop_items.get(item) # Used .get() bc it will return None instead of causing a key error
             if shop_item is not None:
                 if their_bal >= shop_item[0]:
+                    db_item = await self.db.get_item(ctx.author.id, "Fishing Rod")
+                    if db_item is not None:
+                        item_count = db_item[1]
+                    else:
+                        item_count = 0
                     if eval(shop_item[1]):
                         await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
                         a = "a"
