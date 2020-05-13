@@ -61,10 +61,12 @@ class Database(commands.Cog):
         await self.set_db_value("pickaxes", uid, "pickaxe", pickaxe)
 
     async def get_bees(self, uid): # Sets jars of bees
-        return int(await self.get_db_value("bees", uid, "bees", 0))
+        return (await self.db.get_item(uid, "Jar Of Bees"))[1]
 
     async def set_bees(self, uid, amount):
-        await self.set_db_value("bees", uid, "bees", amount)
+        async with self.db.acquire() as con:
+            await con.execute("DELETE FROM items WHERE id=$1 AND item=$2", uid, "Jar Of Bees")
+            await con.execute("INSERT INTO items VALUES ($1, $2, $3, $4)", uid, "Jar Of Bees", amount, 2)
 
     async def get_scrap(self, uid):
         return int(await self.get_db_value("netheritescrap", uid, "amount", 0))
@@ -169,16 +171,6 @@ class Database(commands.Cog):
     async def clear_warns(self, uid, gid):
         async with self.db.acquire() as con:
             await con.execute("DELETE FROM warns WHERE uid=$1 AND gid=$2", uid, gid)
-
-    async def fuck_the_bees(self, ctx):
-        await ctx.send("gathering up the bee fuckers from the db...")
-        the_bee_fuckers = await self.db.fetch("SELECT * FROM bees")
-        await ctx.send("gathered up the bee fuckers...")
-        # [Record [id(user id), bees(amount)]]
-        await ctx.send("going thru the records of bee fuckers")
-        for record in the_bee_fuckers:
-            await self.add_item(record[0], "Jar Of Bees", record[1], 2)
-        await ctx.send("great bee migration has finished.")
 
 
 def setup(bot):
