@@ -273,6 +273,13 @@ class Owner(commands.Cog):
             mcServers.write(json.dumps(self.g.mcServers))
         await ctx.send(f"Added {str(server)} to the Minecraft server list")
 
+    @commands.command(name="reloadshopitems", aliases=["reloadshop"])
+    @commands.is_owner()
+    async def reload_shop_items(self, ctx):
+        with open("data/shop_items.json", "r") as shop_items:
+            self.g.shop_items = json.load(shop_items)
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="reloaded the shop items"))
+
     @commands.command(name="getlatest", aliases=["gitpull", "git_pull"])
     @commands.is_owner()
     async def get_and_deploy_latest(self, ctx):
