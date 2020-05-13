@@ -189,35 +189,12 @@ class Econ(commands.Cog):
                                            description=f"{ctx.author.mention}'s vault: {vault[0]}<:emerald_block:679121595150893057>/{vault[1]} ({vault[0]*9}{self.emerald})"))
 
     @commands.command(name="buy")
-    async def buy(self, ctx, *, _item):
+    async def buy(self, ctx, *, _item: str):
         item = _item.lower()
         their_bal = await self.db.get_balance(ctx.author.id)
 
-        if item == "fishing rod":
-            if their_bal >= 64:
-                await self.db.set_balance(ctx.author.id, their_bal - 64)
-                await self.db.add_item(ctx.author.id, "Fishing Rod", 1, 48)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a Fishing Rod."))
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Fishing Rod."))
-
-        elif item == "haste i potion":
-            if their_bal >= 120:
-                await self.db.set_balance(ctx.author.id, their_bal - 120)
-                await self.db.add_item(ctx.author.id, "Haste I Potion", 1, 32)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a Haste I Potion."))
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Haste I Potion."))
-
-        elif item == "fortune i book":
-            if their_bal >= 120:
-                await self.db.set_balance(ctx.author.id, their_bal - 120)
-                await self.db.add_item(ctx.author.id, "Fortune I Book", 1, 24)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a Fortune I Book."))
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to buy a Fortune I Book."))
-
-        elif item == "jar of bees": # You'll have to move jar of bees to an item
+        # Items which aren't in shop_items.json
+        if item == "jar of bees": # You'll have to move jar of bees to an item eventually, you prob should now tbh
             if await self.db.get_bees(ctx.author.id) < 3333:
                 if their_bal >= 8:
                     await self.db.set_balance(ctx.author.id, their_bal - 8)
@@ -296,10 +273,23 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
 
         else:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!\nRemember, caps matter! You might have typed something incorrectly."))
+            shop_item = self.g.shop_items.get(item) # Used .get() bc it will return None instead of causing a key error
+            if shop_item is not None:
+                if their_bal >= shop_item[0]:
+                    if eval(shop_item[1]):
+                        await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
+                        a = "a"
+                        for v in ["a", "e", "i", "o", "u"]:
+                            if shop_item[2][0].startswith(v):
+                                a = "an"
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} {shop_item[2][0]}!"))
+                        return
 
         if "pickaxe" in item:
             await self.update_user_role(ctx.author.id)
+
+        # Skream @ user for speling incorectumly.
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!\nRemember, caps matter! You might have typed something incorrectly."))
 
     async def update_user_role(self, user_id):
         guild = self.bot.get_guild(641117791272960031)
