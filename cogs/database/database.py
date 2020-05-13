@@ -170,6 +170,16 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute("DELETE FROM warns WHERE uid=$1 AND gid=$2", uid, gid)
 
+    async def fuck_the_bees(self, ctx):
+        await ctx.send("gathering up the bee fuckers from the db...")
+        the_bee_fuckers = await self.db.fetch("SELECT * FROM bees")
+        await ctx.send("gathered up the bee fuckers...")
+        # [Record [id(user id), bees(amount)]]
+        await ctx.send("going thru the records of bee fuckers")
+        for record in the_bee_fuckers:
+            await self.add_item(record[0], "Jar Of Bees", record[1], 2)
+        await ctx.send("great bee migration has finished.")
+
 
 def setup(bot):
     bot.add_cog(Database(bot))

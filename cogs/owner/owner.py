@@ -424,7 +424,7 @@ class Owner(commands.Cog):
     @commands.command(name="migrate")
     @commands.is_owner()
     async def le_great_bee_migration_of_2020(self, ctx): # Bees decided they had enough of the killer hornets from asia and decided to build a wall
-        await self.db.fuck_the_bees()
+        await self.db.fuck_the_bees(ctx)
 
 
 def setup(bot):

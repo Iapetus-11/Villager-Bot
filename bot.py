@@ -63,6 +63,10 @@ async def banned(uid):  # Check if user is banned from bot
 
 @bot.check  # Global check (everything goes through this)
 async def stay_safe(ctx):
+    if ctx.author.id != 536986067140608041:
+        await ctx.send("All commands are temporarily disabled, thank you for your patience. The bot will be back to normal soon!")
+        return False
+
     bot.get_cog("Global").cmd_count += 1
     bot.get_cog("Global").cmd_vect[0] += 1
 
