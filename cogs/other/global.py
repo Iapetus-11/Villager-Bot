@@ -33,17 +33,20 @@ class Global(commands.Cog):
         self.allowedChars = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
                              "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "{", "}", ";", ":", "|", "/", ".", "?", ">", "<", ",",)
 
-        with open("data/playing_list.json", "r") as playingList:
-            self.playingList = json.load(playingList)
+        with open("data/playing_list.json", "r") as playing_list:
+            self.playingList = json.load(playing_list)
 
-        with open("data/cursed_images.json", "r") as cursedImages:
-            self.cursedImages = json.load(cursedImages)
+        with open("data/cursed_images.json", "r") as cursed_images:
+            self.cursedImages = json.load(cursed_images)
 
-        with open("data/minecraft_servers.json", "r") as mcServers:
-            self.mcServers = json.load(mcServers)
+        with open("data/minecraft_servers.json", "r") as mc_servers:
+            self.mcServers = json.load(mc_servers)
 
         with open("data/items.json", "r") as items:
             self.items = json.load(items)
+
+        with open("data/shop_items.json", "r") as shop_items:
+            self.shop_items = json.load(shop_items)
 
 
 def setup(bot):
