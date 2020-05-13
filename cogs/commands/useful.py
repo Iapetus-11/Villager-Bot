@@ -106,7 +106,6 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}google** ***query*** *bot will search on google for your query*\n'
             f'**{ctx.prefix}youtube** ***query*** *bot will search on youtube for your query*\n'
             f'**{ctx.prefix}image** ***query**** *bot will search google images for your query*\n'
-            f'**{ctx.prefix}news** *shows what\'s new with the bot*\n'
             f'**{ctx.prefix}stats** *shows the bot\'s stats*\n',
             inline=True)
 
@@ -176,16 +175,6 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
         infoMsg.add_field(name="Discord", value="[Click Here](https://discord.gg/39DwwUV)", inline=True)
         infoMsg.set_author(name="Villager Bot Information", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
         await ctx.send(embed=infoMsg)
-
-    @commands.command(name="new", aliases=["newstuff", "update", "recent", "events", "news"])
-    async def whats_new(self, ctx):
-        emb = discord.Embed(color=discord.Color.green())
-        emb.set_author(name="What's new with Villager Bot?", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-        emb.add_field(name="Bot Updates", value="- So bees can produce honey! Who knew?!\n"
-                                                "- ``giveitem`` and ``give`` commands have been merged\n"
-                                                "- New ``!!image`` command which searches google images\n", inline=False)
-        emb.set_footer(text=choice(self.tips))
-        await ctx.send(embed=emb)
 
     @commands.command(name="ping", aliases=["pong", "ding", "dong", "shing", "shling", "schlong"]) # Checks latency between Discord API and the bot
     async def ping(self, ctx):
