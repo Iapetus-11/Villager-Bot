@@ -1,5 +1,5 @@
 {
-  "fishing rod": [64, "(self.bot.loop.create_task(self.db.get_item(ctx.author.id, 'Fishing Rod')))[1] < 1", ["Fishing Rod", 48]],
+  "fishing rod": [64, "self.bot.loop.run_until_complete(self.db.get_item(ctx.author.id, 'Fishing Rod'))[1] < 1", ["Fishing Rod", 48]],
   "haste i potion": [120, "True", ["Haste I Potion", 32]],
   "fortune i book": [120, "True", ["Fortune I Book", 24]]
 }
