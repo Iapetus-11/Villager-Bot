@@ -140,18 +140,6 @@ class Econ(commands.Cog):
         pick = await self.db.get_pickaxe(u.id)
         contents = f"**{pick} pickaxe**\n"
 
-        bal = await self.db.get_balance(u.id)
-        if bal == 1:
-            contents += "1x **emerald**\n"
-        else:
-            contents += str(bal)+"x **emeralds**\n"
-
-        scrap_count = await self.db.get_scrap(u.id)
-        if scrap_count > 1:
-            contents += str(scrap_count) + "x **chunks of netherite scrap**\n"
-        if scrap_count == 1:
-            contents += str(scrap_count) + "x **chunk of netherite scrap**\n"
-
         inv = discord.Embed(color=discord.Color.green(), description=contents)
 
         contents = ""
@@ -189,15 +177,7 @@ class Econ(commands.Cog):
         their_bal = await self.db.get_balance(ctx.author.id)
 
         # Items which aren't in shop_items.json
-        if item == "netherite scrap":
-            if their_bal >= 32:
-                await self.db.set_balance(ctx.author.id, their_bal - 32)
-                await self.db.set_scrap(ctx.author.id, await self.db.get_scrap(ctx.author.id) + 1)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have bought a piece of netherite scrap"))
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase some netherite scrap."))
-
-        elif item == "stone pickaxe": # "wood" is default
+        if item == "stone pickaxe": # "wood" is default
             if their_bal >= 32:
                 if await self.db.get_pickaxe(ctx.author.id) != "stone":
                     await self.db.set_balance(ctx.author.id, their_bal - 32)

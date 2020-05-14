@@ -68,12 +68,6 @@ class Database(commands.Cog):
             await con.execute("DELETE FROM items WHERE id=$1 AND item=$2", uid, "Jar Of Bees")
             await con.execute("INSERT INTO items VALUES ($1, $2, $3, $4)", uid, "Jar Of Bees", amount, 2)
 
-    async def get_scrap(self, uid):
-        return int(await self.get_db_value("netheritescrap", uid, "amount", 0))
-
-    async def set_scrap(self, uid, amount):
-        await self.set_db_value("netheritescrap", uid, "amount", amount)
-
     async def get_vault(self, uid):
         vault = await self.get_db_values_3("vault", uid, "amount", "max", 0, 0)
         return tuple(int(val) for val in vault)
