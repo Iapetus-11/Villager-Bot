@@ -731,11 +731,11 @@ class Econ(commands.Cog):
         if isinstance(e, commands.CommandOnCooldown):
             hours = int(e.retry_after / 3600)
             minutes = int(e.retry_after / 60) % 60
-        descs = [f"Didn't your parents tell you patience was a virtue? Calm down and wait another {hours} hour(s) & {minutes} minute(s).",
-                 f"Hey, you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
-                 f"Hrmmm, looks like you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
-                 f"Didn't you know patience was a virtue? Wait another {hours} hour(s) & {minutes} minute(s)."]
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs)))
+            descs = [f"Didn't your parents tell you patience was a virtue? Calm down and wait another {hours} hour(s) & {minutes} minute(s).",
+                     f"Hey, you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
+                     f"Hrmmm, looks like you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
+                     f"Didn't you know patience was a virtue? Wait another {hours} hour(s) & {minutes} minute(s)."]
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs)))
 
 def setup(bot):
     bot.add_cog(Econ(bot))
