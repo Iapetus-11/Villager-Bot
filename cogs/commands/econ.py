@@ -140,6 +140,10 @@ class Econ(commands.Cog):
         pick = await self.db.get_pickaxe(u.id)
         contents = f"**{pick} pickaxe**\n"
 
+        bal = await self.db.get_balance(ctx.author.id)
+        if not bal <= 0:
+            contents += f"{bal} emeralds{self.emerald}\n"
+
         inv = discord.Embed(color=discord.Color.green(), description=contents)
 
         contents = ""
