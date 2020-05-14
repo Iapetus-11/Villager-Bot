@@ -192,62 +192,8 @@ class Econ(commands.Cog):
                     "gold pickaxe": [512, "gold"],
                     "diamond pickaxe": [2048, "diamond"]}
 
-        for pickaxe in list(pickaxes):
-            if item == pickaxe:
-                left_over = pickaxes
-                left_over.pop(item)
-                if await self.db.get_pickaxe(ctx.author.id) not in left_over:
-                    if their_bal >= pickaxes[item][0]:
-                        await self.db.set_balance(ctx.author.id, their_bal - pickaxes[item][0])
-                        await self.db.set_pickaxe(ctx.author.id, pickaxes[item][1])
-                        return
-
         # Items which aren't in shop_items.json
-        if item == "stone pickaxe": # "wood" is default
-            if their_bal >= 32:
-                if await self.db.get_pickaxe(ctx.author.id) != "stone":
-                    await self.db.set_balance(ctx.author.id, their_bal - 32)
-                    await self.db.set_pickaxe(ctx.author.id, "stone")
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a stone pickaxe!"))
-                else:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase a pickaxe you already have!"))
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
-
-        elif item == "iron pickaxe":
-            if their_bal >= 128:
-                if await self.db.get_pickaxe(ctx.author.id) != "iron":
-                    await self.db.set_balance(ctx.author.id, their_bal - 128)
-                    await self.db.set_pickaxe(ctx.author.id, "iron")
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased an iron pickaxe!"))
-                else:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase a pickaxe you already have!"))
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
-
-        elif item == "gold pickaxe":
-            if their_bal >= 512:
-                if await self.db.get_pickaxe(ctx.author.id) != "gold":
-                    await self.db.set_balance(ctx.author.id, their_bal - 512)
-                    await self.db.set_pickaxe(ctx.author.id, "gold")
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a gold pickaxe!"))
-                else:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase a pickaxe you already have!"))
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
-
-        elif item == "diamond pickaxe":
-            if their_bal >= 2048:
-                if await self.db.get_pickaxe(ctx.author.id) != "diamond":
-                    await self.db.set_balance(ctx.author.id, their_bal - 2048)
-                    await self.db.set_pickaxe(ctx.author.id, "diamond")
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a diamond pickaxe!"))
-                else:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase a pickaxe you already have!"))
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
-
-        elif item == "netherite pickaxe":
+        if item == "netherite pickaxe":
             if their_bal >= 8192:
                 if (await self.db.get_item(ctx.author.id, "Netherite Scrap"))[1] >= 4:
                     if await self.db.get_pickaxe(ctx.author.id) != "netherite":
@@ -263,6 +209,24 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
 
         else:
+            for pickaxe in list(pickaxes):
+                if item == pickaxe:
+                    left_over = pickaxes
+                    left_over.pop(item)
+                    if await self.db.get_pickaxe(ctx.author.id) in left_over:
+                        if their_bal >= pickaxes[item][0]:
+                            await self.db.set_balance(ctx.author.id, their_bal - pickaxes[item][0])
+                            await self.db.set_pickaxe(ctx.author.id, pickaxes[item][1])
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased a {item}!"))
+                            return
+                        else:
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
+                            return
+                    else:
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase this item again!"))
+                        return
+
+            # If item is not a pickaxe
             shop_item = self.g.shop_items.get(item) # Used .get() bc it will return None instead of causing a key error
             if shop_item is not None:
                 if their_bal >= shop_item[0]:
@@ -287,12 +251,11 @@ class Econ(commands.Cog):
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
                     return
 
+            # Skream @ user for speling incorectumly.
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!\nRemember, caps matter! You might have typed something incorrectly."))
 
         if "pickaxe" in item:
             await self.update_user_role(ctx.author.id)
-
-        # Skream @ user for speling incorectumly.
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!\nRemember, caps matter! You might have typed something incorrectly."))
 
     async def update_user_role(self, user_id):
         guild = self.bot.get_guild(641117791272960031)
