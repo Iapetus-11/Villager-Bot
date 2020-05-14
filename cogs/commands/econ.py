@@ -211,9 +211,7 @@ class Econ(commands.Cog):
         else:
             for pickaxe in list(pickaxes):
                 if item == pickaxe:
-                    left_over = pickaxes.pop((await self.db.get_pickaxe(ctx.author.id))+" pickaxe")
-                    await ctx.send("about to pop")
-                    if await self.db.get_pickaxe(ctx.author.id) in left_over:
+                    if await self.db.get_pickaxe(ctx.author.id) != item.replace(" pickaxe", ""):
                         if their_bal >= pickaxes[item][0]:
                             await self.db.set_balance(ctx.author.id, their_bal - pickaxes[item][0])
                             await self.db.set_pickaxe(ctx.author.id, pickaxes[item][1])
