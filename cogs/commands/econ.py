@@ -611,7 +611,6 @@ class Econ(commands.Cog):
         _sorted = sorted(all, reverse=True, key=lambda entry: entry[1])[:10]
         lb_text = ""
         for entry in _sorted:
-            await ctx.send(type(entry))
             ussr = self.bot.get_user(int(entry[0]))
             if ussr is None:
                 ussr = "Unknown User     "
