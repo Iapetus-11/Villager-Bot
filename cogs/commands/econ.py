@@ -596,27 +596,44 @@ class Econ(commands.Cog):
     @leaderboard.command(name="emeralds", aliases=["money", "currency", "em"])
     async def emerald_leaderboard(self, ctx):
         dbs = await self.bot.db.fetch("SELECT * FROM currency") # Returns list of tuples
-        lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True)[:10]
+        lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True) # Sort list
+        # Find the rank of the user
+        place = -1
+        for i in range(0, len(lb), 1):
+            if lb[i][0] == ctx.author.id:
+                place = i
+        lb = lb[:9] # Shorten the list
         lb_text = ""
+        rank = 1
         for entry in lb:
             user = self.bot.get_user(int(entry[0]))
             if user is None:
                 user = "Deleted User     "
-            lb_text += f"{entry[1]}{self.emerald} {str(user)[:-5]} \n"
-        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)
+            lb_text += f"``{rank}.`` {entry[1]}{self.emerald} {str(user)[:-5]} \n"
+            rank += 1
+        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)s
         await ctx.send(embed=embed)
 
     @leaderboard.command(name="commands", aliases=["cmds"])
     async def commands_leaderboard(self, ctx):
         all = self.g.command_leaderboard.items()
-        _sorted = sorted(all, reverse=True, key=lambda entry: entry[1])[:10]
+        _sorted = sorted(all, reverse=True, key=lambda entry: entry[1])
+        # Find the rank of the user
+        place = -1
+        for i in range(0, len(_sorted), 1):
+            if _sorted[i][0] == ctx.author.id:
+                place = i
+        _sorted = _sorted[:9] # Get only top 9
         lb_text = ""
+        rank = 1
         for entry in _sorted:
             ussr = self.bot.get_user(int(entry[0]))
             if ussr is None:
                 ussr = "Unknown User     "
-            lb_text += f"{entry[1]} **Commands Issued** {str(ussr)[:-5]} \n"
+            lb_text += f"``{rank}.`` {entry[1]} **Commands Issued** {str(ussr)[:-5]} \n"
+            rank += 1
         embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__", description=lb_text)
+        embed.add_field(name="\uFEFF", value=f"You are rank {place} with {self.g.command_leaderboard[ctx.author.id]} commands.")
         await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])
