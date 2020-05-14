@@ -23,14 +23,6 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * Discord Usernames: **Iapetus11#6821** & **TrustedMercury#1953**
 
 ## Commands
-### Notable Features:
-* Made by Iapetus11, so it must be good, right?
-* Custom prefixes
-* Voting rewards (32 emeralds on weekdays, 64 on weekends, double on some holidays)
-* Economy/currency system (Emeralds, duh!)
-* Villager Shop with a bunch of different items including beeeeeeeeeeeeeeeeees
-* Ability to ping Minecraft servers (Java Edition and *some* Bedrock Edition servers)
-* Command which sends a random Minecraft server
 
 ### Economy Commands
 * __!!mine__ (go mining with the bot for emeralds)

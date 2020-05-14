@@ -184,7 +184,23 @@ class Econ(commands.Cog):
     @commands.command(name="buy")
     async def buy(self, ctx, *, _item: str):
         item = _item.lower()
+
         their_bal = await self.db.get_balance(ctx.author.id)
+
+        pickaxes = {"stone pickaxe": [32, "stone"],
+                    "iron pickaxe": [128, "iron"],
+                    "gold pickaxe": [512, "gold"],
+                    "diamond pickaxe": [2048, "diamond"]}
+
+        for pickaxe in list(pickaxes):
+            if item == pickaxe:
+                left_over = pickaxes
+                left_over.pop(item)
+                if await self.db.get_pickaxe(ctx.author.id) not in left_over:
+                    if their_bal >= pickaxes[item][0]:
+                        await self.db.set_balance(ctx.author.id, their_bal - pickaxes[item][0])
+                        await self.db.set_pickaxe(ctx.author.id, pickaxes[item][1])
+                        return
 
         # Items which aren't in shop_items.json
         if item == "stone pickaxe": # "wood" is default
