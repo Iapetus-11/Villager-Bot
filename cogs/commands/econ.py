@@ -142,7 +142,10 @@ class Econ(commands.Cog):
 
         bal = await self.db.get_balance(ctx.author.id)
         if not bal <= 0:
-            contents += f"{bal} emeralds{self.emerald}\n"
+            s = "s"
+            if bal == 1:
+                s = ""
+            contents += f"{bal} emerald{s}{self.emerald}\n"
 
         inv = discord.Embed(color=discord.Color.green(), description=contents)
 
