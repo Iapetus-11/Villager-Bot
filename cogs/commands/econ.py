@@ -251,6 +251,7 @@ class Econ(commands.Cog):
                         for v in ["a", "e", "i", "o", "u"]:
                             if shop_item[2][0].startswith(v):
                                 a = "an"
+                        await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id)) - shop_item[0])
                         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} {shop_item[2][0]}!"))
                         return
                     else:
