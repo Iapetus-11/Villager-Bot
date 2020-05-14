@@ -61,7 +61,11 @@ class Database(commands.Cog):
         await self.set_db_value("pickaxes", uid, "pickaxe", pickaxe)
 
     async def get_bees(self, uid): # Sets jars of bees
-        return (await self.get_item(uid, "Jar Of Bees"))[1]
+        oh_how_i_loathe_bees = await self.get_item(uid, "Jar Of Bees")
+        if oh_how_i_loathe_bees is not None:
+            return oh_how_i_loathe_bees[1]
+        else:
+            return 0
 
     async def set_bees(self, uid, amount):
         async with self.db.acquire() as con:
