@@ -607,7 +607,7 @@ class Econ(commands.Cog):
 
     @leaderboard.command(name="commands", aliases=["cmds"])
     async def commands_leaderboard(self, ctx):
-        all = self.g.command_leaderboard
+        all = self.g.command_leaderboard.items()
         _sorted = sorted(all, reverse=True, key=lambda entry: entry[1])[:10]
         lb_text = ""
         for entry in _sorted:
