@@ -294,24 +294,6 @@ class Owner(commands.Cog):
         pick = await self.db.get_pickaxe(u.id)
         contents = f"**{pick} pickaxe**\n"
 
-        bal = await self.db.get_balance(u.id)
-        if bal == 1:
-            contents += "1x **emerald**\n"
-        else:
-            contents += str(bal)+"x **emeralds**\n"
-
-        bee_count = await self.db.get_bees(u.id)
-        if bee_count > 1:
-            contents += str(bee_count) + "x **jars of bees** (" + str(bee_count * 3) + " bees)\n"
-        if bee_count == 1:
-            contents += str(bee_count) + "x **jar of bees** (" + str(bee_count * 3) + " bees)\n"
-
-        scrap_count = await self.db.get_scrap(u.id)
-        if scrap_count > 1:
-            contents += str(scrap_count) + "x **chunks of netherite scrap**\n"
-        if scrap_count == 1:
-            contents += str(scrap_count) + "x **chunk of netherite scrap**\n"
-
         inv = discord.Embed(color=discord.Color.green(), description=contents)
 
         contents = ""
