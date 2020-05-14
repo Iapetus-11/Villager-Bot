@@ -646,7 +646,8 @@ class Econ(commands.Cog):
         else:
             self.who_is_mining[ctx.author.id] = 1
         bad_catches = ["a rusty nail", "an old shoe", "a broken bottle", "a tin can", "a soda bottle", "a piece of plastic", "a moldy chicken nugget", "a discarded birthday cake",
-                       "an old picture frame", "a clump of hair", "some bones", "a forgotten flip flop", "a piece of driftwood", "a kfc container", "a plastic pail"]
+                       "an old picture frame", "a clump of hair", "some bones", "a forgotten flip flop", "a piece of driftwood", "a kfc container", "a plastic pail", "an old bottle",
+                       "a used memory card", "an interesting sea shell", "a bit of sea shell", "a sea dollar", "a dead fish", "a ruined book"]
         good_catches = [("a cod <:cod:701589959458684978>", 3), ("a salmon <:salmon:701589974646128690>", 4),
                         ("a pufferfish <:pufferfish:701590021525733438>", 5), ("a tropical fish <:tropical_fish:701590997808709692>", 10),
                         ("an emerald fish <:emerald_fish:703040458464428112>", 25), ("a diamond fish <:diamond_fish:703041846640640080>", 0)]
