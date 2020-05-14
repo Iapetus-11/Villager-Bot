@@ -233,6 +233,7 @@ class Econ(commands.Cog):
                         item_count = db_item[1]
                     else:
                         item_count = 0
+                    await ctx.send(item_count)
                     if eval(shop_item[1]):
                         await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
                         a = "a"
