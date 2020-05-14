@@ -595,7 +595,7 @@ class Econ(commands.Cog):
     @leaderboard.command(name="emeralds", aliases=["money", "currency", "em"])
     async def emerald_leaderboard(self, ctx):
         dbs = await self.bot.db.fetch("SELECT * FROM currency") # Returns list of tuples
-        lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True)[:9]
+        lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True)[:10]
         lb_text = ""
         for entry in lb:
             user = self.bot.get_user(int(entry[0]))
@@ -608,7 +608,7 @@ class Econ(commands.Cog):
     @leaderboard.command(name="commands", aliases=["cmds"])
     async def commands_leaderboard(self, ctx):
         all = self.g.command_leaderboard
-        _sorted = sorted(all, reverse=True, key=lambda entry: entry[1])[:9]
+        _sorted = sorted(all, reverse=True)[:10]
         lb_text = ""
         for entry in _sorted:
             ussr = self.bot.get_user(int(entry[0]))
