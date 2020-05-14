@@ -156,18 +156,18 @@ class Econ(commands.Cog):
         for item in items:
             i += 1
             m = await self.db.get_item(u.id, item[0])
-            contents += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
+            contents += f"{m[1]}x **{m[0]}** ({m[2]}{self.emerald})\n"
             if i % rows == 0:
                 if i <= rows:
                     inv.add_field(name="Sellable Items", value=contents, inline=False)
                 else:
-                    inv.add_field(name="\uFEFF", value=contents, inline=False)
+                    inv.add_field(name="More Sellable Items", value=contents, inline=False)
                 contents = ""
         if contents is not "":
             if i <= rows:
                 inv.add_field(name="Sellable Items", value=contents, inline=False)
             else:
-                inv.add_field(name="\uFEFF", value=contents, inline=False)
+                inv.add_field(name="More Sellable Items", value=contents, inline=False)
 
         if not u.avatar_url:
             inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
