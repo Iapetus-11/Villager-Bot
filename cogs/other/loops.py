@@ -50,6 +50,7 @@ class Loops(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        await asyncio.sleep(60)
         self.bot.loop.create_task(self.update_activity())
         self.bot.loop.create_task(self.reset_cmd_vect_counter())
         self.bot.loop.create_task(self.reset_vote_vect_counter())
