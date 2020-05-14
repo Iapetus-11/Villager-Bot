@@ -160,7 +160,7 @@ class Econ(commands.Cog):
             if i % rows == 0:
                 inv.add_field(name="Sellable Items", value=contents, inline=False)
                 if i >= rows:
-                    inv.add_field(name="\uFEFF", valu!e=contents, inline=False)
+                    inv.add_field(name="\uFEFF", value=contents, inline=False)
                 contents = ""
         if contents is not "":
             inv.add_field(name="\uFEFF", value=contents, inline=False)
