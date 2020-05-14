@@ -159,8 +159,6 @@ class Econ(commands.Cog):
             contents += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
             if i % rows == 0:
                 inv.add_field(name="Sellable Items", value=contents, inline=False)
-                if i >= rows:
-                    inv.add_field(name="\uFEFF", value=contents, inline=False)
                 contents = ""
         if contents is not "":
             inv.add_field(name="\uFEFF", value=contents, inline=False)
