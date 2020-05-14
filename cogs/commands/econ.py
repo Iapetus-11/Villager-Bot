@@ -589,7 +589,7 @@ class Econ(commands.Cog):
             ctx.command.reset_cooldown(ctx)
             embed = discord.Embed(color=discord.Color.green(), title="__**Villager Bot Leaderboards**__")
             embed.add_field(name="**Emerald Leaderboard**", value=f"``{ctx.prefix}leaderboard emeralds``", inline=True)
-            embed.add_field(name="**Commands Used Leaderboard**", value=f"``{ctx.prefix}leaderboard commands``", inline=False)
+            embed.add_field(name="**Commands Used Leaderboard**", value=f"``{ctx.prefix}leaderboard commands``", inline=True)
             await ctx.send(embed=embed)
 
     @leaderboard.command(name="emeralds", aliases=["money", "currency", "em"])
