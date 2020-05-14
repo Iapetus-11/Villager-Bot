@@ -611,9 +611,10 @@ class Econ(commands.Cog):
         _sorted = sorted(all, reverse=True, key=lambda entry: entry[1])[:10]
         lb_text = ""
         for entry in _sorted:
+            await ctx.send(type(entry))
             ussr = self.bot.get_user(int(entry[0]))
             if ussr is None:
-                ussr = "Deleted User     "
+                ussr = "Unknown User     "
             lb_text += f"{entry[1]} **Commands Issued** {str(ussr)[:-5]} \n"
 
     @commands.command(name="chug", aliases=["drink"])
