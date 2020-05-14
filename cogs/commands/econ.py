@@ -383,7 +383,7 @@ class Econ(commands.Cog):
         await self.db.add_item(rec.id, item[0], amount, item[2])
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{ctx.author.mention} gave {rec.mention} {amount}x {_item}."))
 
-    @commands.command(name="mine")
+    @commands.command(name="mine", aliases=["mein"])
     @commands.guild_only()
     @commands.cooldown(1, 1.4, commands.BucketType.user)
     async def mine(self, ctx):
