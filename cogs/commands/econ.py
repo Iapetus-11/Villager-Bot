@@ -533,14 +533,17 @@ class Econ(commands.Cog):
         await self.db.increment_vault_max(ctx.author.id)
         if victim.bot == True:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Bots don't have citizenship and can't own emeralds, go away."))
+            ctx.command.reset_cooldown(ctx)
             return
         if ctx.guild.get_member(victim.id) is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't pillage people from other servers!"))
+            ctx.command.reset_cooldown(ctx)
             return
         if ctx.author.id == victim.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=victim.display_name + " " + choice(["threw their items into a lava pool.",
                                                                                                                       "commited dig straight down",
                                                                                                                       "suicided via creeper"])))
+            ctx.command.reset_cooldown(ctx)
             return
         their_bal = await self.db.get_balance(ctx.author.id)
         if their_bal < 64:
@@ -654,6 +657,7 @@ class Econ(commands.Cog):
         rod = await self.db.get_item(ctx.author.id, "Fishing Rod")
         if rod is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't fish without a fishing rod! (You can buy a wooden one in the shop!)"))
+            ctx.command.reset_cooldown(ctx)
             return
         else:
             good_catch_chance = [True, False, False]
@@ -705,6 +709,7 @@ class Econ(commands.Cog):
         if choice([True, True, True, True, True, True, True, True, True, False]):
             if bees < 100:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough bees to make this business option viable."))
+                ctx.command.reset_cooldown(ctx)
                 return
             jars = bees - randint(ceil(bees/6), ceil(bees/2))
             await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
