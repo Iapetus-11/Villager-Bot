@@ -611,7 +611,7 @@ class Econ(commands.Cog):
                 user = "Deleted User     "
             lb_text += f"``{rank}.`` {entry[1]}{self.emerald} {str(user)[:-5]} \n"
             rank += 1
-        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)s
+        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)
         await ctx.send(embed=embed)
 
     @leaderboard.command(name="commands", aliases=["cmds"])
