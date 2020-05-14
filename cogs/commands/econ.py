@@ -223,10 +223,10 @@ class Econ(commands.Cog):
 
         elif item == "netherite pickaxe":
             if their_bal >= 8192:
-                if await self.db.get_scrap(ctx.author.id) >= 4:
+                if (await self.db.get_item(ctx.author.id, "Netherite Scrap"))[1] >= 4:
                     if await self.db.get_pickaxe(ctx.author.id) != "netherite":
                         await self.db.set_balance(ctx.author.id, their_bal - 8192)
-                        await self.db.set_scrap(ctx.author.id, await self.db.get_scrap(ctx.author.id) - 4)
+                        await self.db.remove_item(ctx.author.id, "Netherite Scrap", 4)
                         await self.db.set_pickaxe(ctx.author.id, "netherite")
                         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a netherite pickaxe!"))
                     else:
