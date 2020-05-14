@@ -589,7 +589,7 @@ class Econ(commands.Cog):
             ctx.command.reset_cooldown(ctx)
             embed = discord.Embed(color=discord.Color.green(), title="__**Villager Bot Leaderboards**__")
             embed.add_field(name="**Emerald Leaderboard**", value=f"``{ctx.prefix}leaderboard emeralds``", inline=True)
-            embed.add_field(name="**Commands Used Leaderboard**", value=f"``{ctx.prefix}leaderboard commands``", inline=True)
+            embed.add_field(name="**Commands Usage Leaderboard**", value=f"``{ctx.prefix}leaderboard commands``", inline=True)
             await ctx.send(embed=embed)
 
     @leaderboard.command(name="emeralds", aliases=["money", "currency", "em"])
@@ -615,6 +615,8 @@ class Econ(commands.Cog):
             if ussr is None:
                 ussr = "Unknown User     "
             lb_text += f"{entry[1]} **Commands Issued** {str(ussr)[:-5]} \n"
+        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Command Usage Leaderboard**__{self.emerald}", description=lb_text)
+        await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])
     async def use_potion(self, ctx, *, item: str):
