@@ -615,7 +615,7 @@ class Econ(commands.Cog):
             if ussr is None:
                 ussr = "Unknown User     "
             lb_text += f"{entry[1]} **Commands Issued** {str(ussr)[:-5]} \n"
-        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Command Usage Leaderboard**__{self.emerald}", description=lb_text)
+        embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__", description=lb_text)
         await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])
