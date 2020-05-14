@@ -608,13 +608,13 @@ class Econ(commands.Cog):
     @leaderboard.command(name="commands", aliases=["cmds"])
     async def commands_leaderboard(self, ctx):
         all = self.g.command_leaderboard
-        _sorted = sorted(all, reverse=True)[:10]
+        _sorted = sorted(all, reverse=True, key=lambda entry: entry[1])[:10]
         lb_text = ""
         for entry in _sorted:
             ussr = self.bot.get_user(int(entry[0]))
-            if user is None:
-                user = "Deleted User     "
-            lb_text += f"{entry[1]} **Commands Issued** {str(user)[:-5]} \n"
+            if ussr is None:
+                ussr = "Deleted User     "
+            lb_text += f"{entry[1]} **Commands Issued** {str(ussr)[:-5]} \n"
 
     @commands.command(name="chug", aliases=["drink"])
     async def use_potion(self, ctx, *, item: str):
