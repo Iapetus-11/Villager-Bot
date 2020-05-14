@@ -64,8 +64,14 @@ async def banned(uid):  # Check if user is banned from bot
 @bot.check  # Global check (everything goes through this)
 async def stay_safe(ctx):
 
-    bot.get_cog("Global").cmd_count += 1
-    bot.get_cog("Global").cmd_vect[0] += 1
+    _global = bot.get_cog("Global")
+    _global.cmd_count += 1
+    _global.cmd_vect[0] += 1
+
+    if ctx.author.id in list(_global.command_leaderboard):
+        _global.command_leaderboard[ctx.author.id] += 1
+    else:
+        _global.command_leaderboard[ctx.author.id] = 1
 
     if not bot.is_ready():
         await ctx.send(

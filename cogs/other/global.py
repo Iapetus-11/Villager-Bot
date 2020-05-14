@@ -48,6 +48,8 @@ class Global(commands.Cog):
         with open("data/shop_items.json", "r") as shop_items:
             self.shop_items = json.load(shop_items)
 
+        self.command_leaderboard = {}
+
 
 def setup(bot):
     bot.add_cog(Global(bot))

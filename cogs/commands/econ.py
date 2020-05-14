@@ -581,20 +581,40 @@ class Econ(commands.Cog):
                                                                                                    f"{ctx.author.display_name} got absolutely destroyed pillaging you.",
                                                                                                    f"{ctx.author.display_name} tried to pillage you with their wooden sword."])))
 
-    @commands.command(name="leaderboard", aliases=["lb"])
+    @commands.group(name="leaderboard", aliases=["lb"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def leaderboard(self, ctx):
         await self.db.increment_vault_max(ctx.author.id)
+        if ctx.invoked_subcommand is None:
+            ctx.command.reset_cooldown(ctx)
+            embed = discord.Embed(color=discord.Color.green(), title="__**Villager Bot Leaderboards**__")
+            embed.add_field(name="**Emerald Leaderboard**", value=f"``{ctx.prefix}leaderboard emeralds``", inline=True)
+            embed.add_field(name="**Commands Used Leaderboard**", value=f"``{ctx.prefix}leaderboard commands``", inline=False)
+            await ctx.send(embed=embed)
+
+    @leaderboard.command(name="emeralds", aliases=["money", "currency", "em"])
+    async def emerald_leaderboard(self, ctx):
         dbs = await self.bot.db.fetch("SELECT * FROM currency") # Returns list of tuples
         lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True)[:9]
-        lbtext = ""
+        lb_text = ""
         for entry in lb:
             user = self.bot.get_user(int(entry[0]))
             if user is None:
                 user = "Deleted User     "
-            lbtext += f"{entry[1]}{self.emerald} {str(user)[:-5]} \n"
-        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lbtext)
+            lb_text += f"{entry[1]}{self.emerald} {str(user)[:-5]} \n"
+        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)
         await ctx.send(embed=embed)
+
+    @leaderboard.command(name="commands", aliases=["cmds"])
+    async def commands_leaderboard(self, ctx):
+        all = self.g.command_leaderboard
+        _sorted = sorted(all, reverse=True, key=lambda entry: entry[1])[:9]
+        lb_text = ""
+        for entry in _sorted:
+            ussr = self.bot.get_user(int(entry[0]))
+            if user is None:
+                user = "Deleted User     "
+            lb_text += f"{entry[1]} **Commands Issued** {str(user)[:-5]} \n"
 
     @commands.command(name="chug", aliases=["drink"])
     async def use_potion(self, ctx, *, item: str):
