@@ -211,8 +211,7 @@ class Econ(commands.Cog):
         else:
             for pickaxe in list(pickaxes):
                 if item == pickaxe:
-                    left_over = pickaxes
-                    left_over.pop((await self.db.get_pickaxe(ctx.author.id))+" pickaxe")
+                    left_over = pickaxes.pop((await self.db.get_pickaxe(ctx.author.id))+" pickaxe")
                     await ctx.send("about to pop")
                     if await self.db.get_pickaxe(ctx.author.id) in left_over:
                         if their_bal >= pickaxes[item][0]:
