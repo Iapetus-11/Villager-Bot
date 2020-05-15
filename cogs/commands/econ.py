@@ -611,7 +611,7 @@ class Econ(commands.Cog):
                 user = "Deleted User     "
             lb_text += f"``{rank}.`` {entry[1]}{self.emerald} {str(user)[:-5]} \n"
             rank += 1
-        lb_text += ".\n.\n.\n"+f"``{place}.`` {await self.db.get_balance(ctx.author.id)}{self.emerald} {str(ctx.author)[:-5]}"
+        lb_text += "⋮"+f"``{place}.`` {await self.db.get_balance(ctx.author.id)}{self.emerald} {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)
         await ctx.send(embed=embed)
 
@@ -633,7 +633,7 @@ class Econ(commands.Cog):
                 ussr = "Unknown User     "
             lb_text += f"``{rank}.`` {entry[1]} *Commands* {str(ussr)[:-5]} \n"
             rank += 1
-        lb_text += ".\n.\n.\n"+f"``{place}.`` {self.g.command_leaderboard[ctx.author.id]} *Commands* {str(ctx.author)[:-5]}"
+        lb_text += "⋮"+f"``{place}.`` {self.g.command_leaderboard[ctx.author.id]} *Commands* {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__", description=lb_text)
         await ctx.send(embed=embed)
 
