@@ -635,8 +635,6 @@ class Econ(commands.Cog):
             rank += 1
         lb_text += ".\n.\n.\n"+f"``{place}.`` {self.g.command_leaderboard[ctx.author.id]} *Commands* {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__", description=lb_text)
-        embed.add_field(name="\uFEFF", value=lb_text)
-        embed.add_field(name="\uFEFF", value=)
         await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])
