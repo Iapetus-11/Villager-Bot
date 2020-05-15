@@ -236,7 +236,6 @@ class Econ(commands.Cog):
                         item_count = db_item[1]
                     else:
                         item_count = 0
-                    await ctx.send(item_count)
                     if eval(shop_item[1]):
                         await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
                         a = "a"
@@ -244,7 +243,7 @@ class Econ(commands.Cog):
                             if shop_item[2][0].startswith(v):
                                 a = "an"
                         await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id)) - shop_item[0])
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} {shop_item[2][0]}!"))
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} {shop_item[2][0]}! (You now have {item_count+1})"))
                         return
                     else:
                         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
@@ -669,7 +668,6 @@ class Econ(commands.Cog):
         lb_text += "⋮\n"+f"``{place}.`` **{await self.db.get_bees(ctx.author.id)}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"<a:bee:682057109046951956>__**Bee Leaderboard**__<a:bee:682057109046951956>", description=lb_text)
         await ctx.send(embed=embed)
-
 
     @commands.command(name="chug", aliases=["drink"])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=True)
