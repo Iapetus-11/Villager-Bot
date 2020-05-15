@@ -645,6 +645,7 @@ class Econ(commands.Cog):
         for item in all_items:
             if item[1] == "Jar Of Bees":
                 all_bees.append([item[0], item[2]])
+        await ctx.send("DEBUG")
         _sorted = sorted(all, reverse=True, key=lambda entry: entry[1])
         # Find rank of the user
         place = -1
