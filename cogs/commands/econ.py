@@ -176,6 +176,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=inv)
 
     @commands.command(name="vault", aliases=["viewvault"])
+    @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def view_vault(self, ctx):
         vault = await self.db.get_vault(ctx.author.id)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(),
