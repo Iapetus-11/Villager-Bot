@@ -611,7 +611,10 @@ class Econ(commands.Cog):
         for i in range(0, len(lb), 1):
             if lb[i][0] == ctx.author.id:
                 place = i+1
-        lb = lb[:9] # Shorten the list
+        # Shorten list
+        lb = lb[:10]
+        if place >= 10:
+            lb = lb[:9]
         lb_text = ""
         rank = 1
         for entry in lb:
@@ -620,7 +623,8 @@ class Econ(commands.Cog):
                 user = "Deleted User     "
             lb_text += f"``{rank}.`` **{entry[1]}{self.emerald}** {str(user)[:-5]} \n"
             rank += 1
-        lb_text += "⋮\n"+f"``{place}.`` **{await self.db.get_balance(ctx.author.id)}{self.emerald}** {str(ctx.author)[:-5]}"
+        if place >= 10:
+            lb_text += "⋮\n"+f"``{place}.`` **{await self.db.get_balance(ctx.author.id)}{self.emerald}** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)
         await ctx.send(embed=embed)
 
@@ -633,7 +637,9 @@ class Econ(commands.Cog):
         for i in range(0, len(_sorted), 1):
             if _sorted[i][0] == ctx.author.id:
                 place = i+1
-        _sorted = _sorted[:9] # Get only top 9
+        _sorted = _sorted[:10]
+        if place >= 10:
+            _sorted = _sorted[:9]
         lb_text = ""
         rank = 1
         for entry in _sorted:
@@ -642,7 +648,8 @@ class Econ(commands.Cog):
                 ussr = "Unknown User     "
             lb_text += f"``{rank}.`` **{entry[1]} Commands** {str(ussr)[:-5]} \n"
             rank += 1
-        lb_text += "⋮\n"+f"``{place}.`` **{self.g.command_leaderboard[ctx.author.id]} Commands** {str(ctx.author)[:-5]}"
+        if place >= 10:
+            lb_text += "⋮\n"+f"``{place}.`` **{self.g.command_leaderboard[ctx.author.id]} Commands** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__", description=lb_text)
         await ctx.send(embed=embed)
 
@@ -660,7 +667,9 @@ class Econ(commands.Cog):
         for i in range(0, len(_sorted), 1):
             if _sorted[i][0] == ctx.author.id:
                 place = i+1
-        _sorted = _sorted[:9]
+        _sorted = _sorted[:10]
+        if place >= 10:
+            _sorted = _sorted[:9]
         lb_text = ""
         rank = 1
         for entry in _sorted:
@@ -669,7 +678,8 @@ class Econ(commands.Cog):
                 ussr = "Unknown User     "
             lb_text += f"``{rank}.`` **{entry[1]}<:beee:682059180391268352>** {str(ussr)[:-5]} \n"
             rank += 1
-        lb_text += "⋮\n"+f"``{place}.`` **{await self.db.get_bees(ctx.author.id)}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
+        if place >= 10:
+            lb_text += "⋮\n"+f"``{place}.`` **{await self.db.get_bees(ctx.author.id)}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"<a:bee:682057109046951956>__**Bee Leaderboard**__<a:bee:682057109046951956>", description=lb_text)
         await ctx.send(embed=embed)
 
