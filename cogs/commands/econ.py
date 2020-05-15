@@ -610,7 +610,7 @@ class Econ(commands.Cog):
         place = -1
         for i in range(0, len(lb), 1):
             if lb[i][0] == ctx.author.id:
-                place = i
+                place = i+1
         lb = lb[:9] # Shorten the list
         lb_text = ""
         rank = 1
@@ -632,7 +632,7 @@ class Econ(commands.Cog):
         place = -1
         for i in range(0, len(_sorted), 1):
             if _sorted[i][0] == ctx.author.id:
-                place = i
+                place = i+1
         _sorted = _sorted[:9] # Get only top 9
         lb_text = ""
         rank = 1
@@ -659,7 +659,7 @@ class Econ(commands.Cog):
         place = -1
         for i in range(0, len(_sorted), 1):
             if _sorted[i][0] == ctx.author.id:
-                place = i
+                place = i+1
         _sorted = _sorted[:9]
         lb_text = ""
         rank = 1
