@@ -182,7 +182,7 @@ class Econ(commands.Cog):
                                            description=f"{ctx.author.mention}'s vault: {vault[0]}<:emerald_block:679121595150893057>/{vault[1]} ({vault[0]*9}{self.emerald})"))
 
     @commands.command(name="buy")
-    @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
+    @commands.max_concurrency(1, per=commands.BucketType.user, wait=True)
     async def buy(self, ctx, *, _item: str):
         item = _item.lower()
 
