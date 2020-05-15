@@ -611,9 +611,8 @@ class Econ(commands.Cog):
                 user = "Deleted User     "
             lb_text += f"``{rank}.`` {entry[1]}{self.emerald} {str(user)[:-5]} \n"
             rank += 1
-        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}")
-        embed.add_field(name="\uFEFF", value=lb_text)
-        embed.add_field(name="\uFEFF", value=f"You are rank ``{place}`` with {await self.db.get_balance(ctx.author.id)}{self.emerald}")
+        lb_text += ".\n.\n.\n"+f"``{place}.`` {await self.db.get_balance(ctx.author.id)}{self.emerald} {str(ctx.author)[:-5]}"
+        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)
         await ctx.send(embed=embed)
 
     @leaderboard.command(name="commands", aliases=["cmds"])
@@ -632,11 +631,12 @@ class Econ(commands.Cog):
             ussr = self.bot.get_user(int(entry[0]))
             if ussr is None:
                 ussr = "Unknown User     "
-            lb_text += f"``{rank}.`` {entry[1]} **Commands Issued** {str(ussr)[:-5]} \n"
+            lb_text += f"``{rank}.`` {entry[1]} *Commands* {str(ussr)[:-5]} \n"
             rank += 1
-        embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__")
+        lb_text += ".\n.\n.\n"+f"``{place}.`` {self.g.command_leaderboard[ctx.author.id]} *Commands* {str(ctx.author)[:-5]}"
+        embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__", description=lb_text)
         embed.add_field(name="\uFEFF", value=lb_text)
-        embed.add_field(name="\uFEFF", value=f"You are rank ``{place}`` with ``{self.g.command_leaderboard[ctx.author.id]}`` commands.")
+        embed.add_field(name="\uFEFF", value=)
         await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])
