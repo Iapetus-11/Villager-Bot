@@ -20,12 +20,11 @@ class Econ(commands.Cog):
         return [f"{str(x)}+{str(y)}", str(x+y)]
 
     @commands.command(name="bal", aliases=["balance"])
-    async def balance(self, ctx):
-        msg = ctx.message.content.lower().replace(ctx.prefix+"balance ", "").replace(ctx.prefix+"bal ", "")
-        try:
-            user = await commands.UserConverter().convert(ctx, msg)
-        except Exception:
+    async def balance(self, ctx, user: discord.User=None):
+        if user is None:
             user = ctx.author
+        if user.bot:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Remember, bot's don't have any rights, and as a result can't possess currency."))
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{user.mention} has {await self.db.get_balance(user.id)}{self.emerald}"))
 
     @commands.command(name="deposit", aliases=["dep"])

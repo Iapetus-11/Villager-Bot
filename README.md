@@ -39,7 +39,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!deposit__ *amount in emerald blocks* (deposits emerald blocks into the emerald vault)
 * __!!withdraw__ *amount in emerald blocks* (withdraws emerald blocks from the emerald vault)
 * __!!chug__ *potion* (uses the specified potion)
-* __!!leaderboard__ (shows the people with the most emeralds)
+* __!!leaderboard__ (shows the available leaderboards)
 
 ### Other Fun Commands
 * __!!enchant__ *text* (turns text into the Minecraft enchanting table language)

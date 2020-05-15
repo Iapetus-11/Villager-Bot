@@ -72,7 +72,7 @@ f'**{ctx.prefix}gamble** ***amount*** *gamble with Villager Bot*\n'
 f'**{ctx.prefix}pillage** ***@user*** *attempt to steal emeralds from another person*\n'
 f'**{ctx.prefix}shop** *go shopping with emeralds*\n'
 f'**{ctx.prefix}sell** ***amount item*** *sell a certain amount of an item*\n'
-f'**{ctx.prefix}leaderboard** *shows the emerald leaderboard*\n'
+f'**{ctx.prefix}leaderboard** *shows the available leaderboards*\n'
 f'**{ctx.prefix}chug** ***potion*** *uses the mentioned potion.*\n'
 f'**{ctx.prefix}harvesthoney** *apparently bees produce honey, who knew it could sell for emeralds*\n',
             inline=False)
