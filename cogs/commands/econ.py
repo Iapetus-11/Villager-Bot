@@ -609,9 +609,9 @@ class Econ(commands.Cog):
             user = self.bot.get_user(int(entry[0]))
             if user is None:
                 user = "Deleted User     "
-            lb_text += f"``{rank}.`` {entry[1]}{self.emerald} {str(user)[:-5]} \n"
+            lb_text += f"``{rank}.`` **{entry[1]}{self.emerald}** {str(user)[:-5]} \n"
             rank += 1
-        lb_text += "⋮\n"+f"``{place}.`` {await self.db.get_balance(ctx.author.id)}{self.emerald} {str(ctx.author)[:-5]}"
+        lb_text += "⋮\n"+f"``{place}.`` **{await self.db.get_balance(ctx.author.id)}{self.emerald}** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)
         await ctx.send(embed=embed)
 
@@ -636,6 +636,34 @@ class Econ(commands.Cog):
         lb_text += "⋮\n"+f"``{place}.`` **{self.g.command_leaderboard[ctx.author.id]} Commands** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__", description=lb_text)
         await ctx.send(embed=embed)
+
+    @leaderboard.command(name="bees", aliases=["beeboard"])
+    async def beeeeees_leaderboard(self, ctx):
+        all_items = await self.db.db.fetch("SELECT uid, item, num FROM items")
+        all_bees = []
+        # Put bees in list of tuples
+        for item in all_items:
+            if item[1] == "Jar Of Bees":
+                all_bees.append((item[0], item[2],))
+        _sorted = sorted(all, reverse=True, key=lambda entry: entry[1])
+        # Find rank of the user
+        place = -1
+        for i in range(0, len(_sorted), 1):
+            if _sorted[i][0] == ctx.author.id:
+                place = i
+        _sorted = _sorted[:9]
+        lb_text = ""
+        rank = 1
+        for entry in _sorted:
+            ussr = self.bot.get_user(int(entry[0]))
+            if ussr is None:
+                ussr = "Unknown User     "
+            lb_text += f"``{rank}.`` **{entry[1]}<:beee:682059180391268352>** {str(ussr)[:-5]} \n"
+            rank += 1
+        lb_text += "⋮\n"+f"``{place}.`` **{await self.db.get_bees(ctx.author.id)}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
+        embed = discord.Embed(color=discord.Color.green(), title=f"<a:bee:682057109046951956>__**Bee Leaderboard**__<a:bee:682057109046951956>", description=lb_text)
+        await ctx.send(embed=embed)
+
 
     @commands.command(name="chug", aliases=["drink"])
     async def use_potion(self, ctx, *, item: str):
