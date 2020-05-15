@@ -639,7 +639,7 @@ class Econ(commands.Cog):
 
     @leaderboard.command(name="bees", aliases=["beeboard"])
     async def beeeeees_leaderboard(self, ctx):
-        all_items = await self.db.db.fetch("SELECT uid, item, num FROM items")
+        all_items = await self.db.db.fetch("SELECT id, item, num FROM items")
         all_bees = []
         # Put bees in list of tuples
         for item in all_items:
