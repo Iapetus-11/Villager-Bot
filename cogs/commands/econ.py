@@ -257,7 +257,7 @@ class Econ(commands.Cog):
                     return
 
             # Skream @ user for speling incorectumly.
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!\nRemember, caps matter! You might have typed something incorrectly."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
 
         if "pickaxe" in item:
             await self.update_user_role(ctx.author.id)
