@@ -25,6 +25,7 @@ class Econ(commands.Cog):
             user = ctx.author
         if user.bot:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Remember, bot's don't have any rights, and as a result can't possess currency."))
+            return
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{user.mention} has {await self.db.get_balance(user.id)}{self.emerald}"))
 
     @commands.command(name="deposit", aliases=["dep"])
