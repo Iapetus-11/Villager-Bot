@@ -220,7 +220,7 @@ class Econ(commands.Cog):
                             await self.db.set_pickaxe(ctx.author.id, pickaxes[item][1])
                             a = "a"
                             for v in ["a", "e", "i", "o", "u"]:
-                                if shop_item[2][0].startswith(v):
+                                if item.startswith(v):
                                     a = "an"
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} **{item}**!"))
                             return
