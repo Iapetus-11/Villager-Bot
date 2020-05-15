@@ -631,9 +631,9 @@ class Econ(commands.Cog):
             ussr = self.bot.get_user(int(entry[0]))
             if ussr is None:
                 ussr = "Unknown User     "
-            lb_text += f"``{rank}.`` {entry[1]} *Commands* {str(ussr)[:-5]} \n"
+            lb_text += f"``{rank}.`` **{entry[1]} Commands** {str(ussr)[:-5]} \n"
             rank += 1
-        lb_text += "⋮"+f"``{place}.`` {self.g.command_leaderboard[ctx.author.id]} *Commands* {str(ctx.author)[:-5]}"
+        lb_text += "⋮"+f"``{place}.`` **{self.g.command_leaderboard[ctx.author.id]} Commands** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__", description=lb_text)
         await ctx.send(embed=embed)
 
