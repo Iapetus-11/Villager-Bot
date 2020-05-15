@@ -29,6 +29,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{user.mention} has {await self.db.get_balance(user.id)}{self.emerald}"))
 
     @commands.command(name="deposit", aliases=["dep"])
+    @commands.max_concurrency(1, per=commands.BucketType.user, wait=True)
     async def deposit(self, ctx, amount: str):  # In blocks
         their_bal = await self.db.get_balance(ctx.author.id)
         if their_bal < 9:
@@ -64,6 +65,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have deposited {amount} emerald blocks into the vault. ({amount*9}{self.emerald})"))
 
     @commands.command(name="withdraw", aliases=["with"])
+    @commands.max_concurrency(1, per=commands.BucketType.user, wait=True)
     async def withdraw(self, ctx, amount: str): # In emerald blocks
         vault = await self.db.get_vault(ctx.author.id)
         if vault[0] < 1:
@@ -306,6 +308,7 @@ class Econ(commands.Cog):
 
 
     @commands.command(name="sell")
+    @commands.max_concurrency(1, per=commands.BucketType.user, wait=True)
     async def sell_item(self, ctx, am: str, *, item: str):
         if item == "items":
             items = await self.db.get_items(ctx.author.id)
@@ -340,6 +343,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {item} for {_item[2]*amount}{self.emerald}."))
 
     @commands.command(name="give")
+    @commands.max_concurrency(1, per=commands.BucketType.user, wait=True)
     async def give_stuff(self, ctx, rec: discord.User, amount: int, item=None):
         if item is not None:
             if item.lower() != "emeralds" and item.lower() != "emerald":
@@ -668,6 +672,7 @@ class Econ(commands.Cog):
 
 
     @commands.command(name="chug", aliases=["drink"])
+    @commands.max_concurrency(1, per=commands.BucketType.user, wait=True)
     async def use_potion(self, ctx, *, item: str):
         await self.db.increment_vault_max(ctx.author.id)
         if self.items_in_use.get(ctx.author.id) is not None:
