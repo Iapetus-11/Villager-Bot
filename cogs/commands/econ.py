@@ -218,7 +218,11 @@ class Econ(commands.Cog):
                         if their_bal >= pickaxes[item][0]:
                             await self.db.set_balance(ctx.author.id, their_bal - pickaxes[item][0])
                             await self.db.set_pickaxe(ctx.author.id, pickaxes[item][1])
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased a {item}!"))
+                            a = "a"
+                            for v in ["a", "e", "i", "o", "u"]:
+                                if shop_item[2][0].startswith(v):
+                                    a = "an"
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} **{item}**!"))
                             return
                         else:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
@@ -243,7 +247,7 @@ class Econ(commands.Cog):
                             if shop_item[2][0].startswith(v):
                                 a = "an"
                         await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id)) - shop_item[0])
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} {shop_item[2][0]}! (You now have {item_count+1})"))
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} **{shop_item[2][0]}**! (You now have {item_count+1})"))
                         return
                     else:
                         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
