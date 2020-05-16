@@ -18,9 +18,8 @@ class Econ(commands.Cog):
         if ctx.author.id in self.who_is_mining.keys():
             self.who_is_mining[ctx.author.id] += 1
             if self.who_is_mining[ctx.author.id] >= 101:
-                x = randint(0, 25)
-                y = randint(0, 25)
-                prob = [f"{x}+{y}", x+y]
+                prob = f"{x}+{y}"
+                prob = [prob, str(eval(prob))]
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
                 try:
                     msg = await self.bot.wait_for("message", timeout=15)
