@@ -723,8 +723,9 @@ class Econ(commands.Cog):
     @commands.command(name="fish")
     @commands.cooldown(1, 20, commands.BucketType.user)
     async def fish(self, ctx):
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command is currently disabled due to a exploit found."))
-        return
+        if not ctx.author.id == 536986067140608041:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command is currently disabled due to a exploit found."))
+            return
         await self.db.increment_vault_max(ctx.author.id)
         if ctx.author.id in self.who_is_mining.keys():
             if self.who_is_mining[ctx.author.id] >= 100:
