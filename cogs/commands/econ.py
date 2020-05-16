@@ -401,9 +401,13 @@ class Econ(commands.Cog):
             if self.who_is_mining[ctx.author.id] >= 100:
                 prob = await self.problem_generator()
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
-                msg = await self.bot.wait_for("message")
-                while msg.author.id is not ctx.author.id:
-                    msg = await self.bot.wait_for("message")
+                try:
+                    msg = await self.bot.wait_for("message", timeout=15)
+                    while msg.author.id is not ctx.author.id:
+                        msg = await self.bot.wait_for("message", timeout=15)
+                except asyncio.TimeoutError:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You ran out of time."))
+                    return
                 if msg.clean_content == prob[1]:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Correct answer!"))
                     self.who_is_mining[ctx.author.id] = 0
@@ -725,9 +729,13 @@ class Econ(commands.Cog):
             if self.who_is_mining[ctx.author.id] >= 100:
                 prob = await self.problem_generator()
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
-                msg = await self.bot.wait_for("message")
-                while msg.author.id is not ctx.author.id:
-                    msg = await self.bot.wait_for("message")
+                try:
+                    msg = await self.bot.wait_for("message", timeout=15)
+                    while msg.author.id is not ctx.author.id:
+                        msg = await self.bot.wait_for("message", timeout=15)
+                except asyncio.TimeoutError:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You ran out of time."))
+                    return
                 if msg.clean_content == prob[1]:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Correct answer!"))
                     self.who_is_mining[ctx.author.id] = 0
