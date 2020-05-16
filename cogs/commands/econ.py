@@ -788,7 +788,7 @@ class Econ(commands.Cog):
                 cooldown -= 4.5
 
             if cooldown <= 0:
-                await ctx.reinvoke()
+                await ctx.reinvoke(restart=True)
             else:
                 descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
                         "Hey, you need to wait another {0} seconds before doing that again.",
