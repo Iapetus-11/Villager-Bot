@@ -369,6 +369,9 @@ class Econ(commands.Cog):
     @commands.command(name="give")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def give_stuff(self, ctx, rec: discord.User, amount: int, item=None):
+        if ctx.author.bot:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Remember, bot's don't have any rights, and as a result can't own items."))
+            return
         if item is not None:
             if item.lower() != "emeralds" and item.lower() != "emerald":
                 for item in await self.db.get_items(ctx.author.id):
