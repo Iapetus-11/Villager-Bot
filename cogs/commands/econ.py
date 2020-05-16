@@ -35,10 +35,11 @@ class Econ(commands.Cog):
                 if msg.clean_content == prob[1]:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Correct answer!"))
                     self.who_is_mining[ctx.author.id] = 0
-                    return True
+                    return False
                 else:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Incorrect answer."))
                     return False
+            return True
         else:
             self.who_is_mining[ctx.author.id] = 1
             return True
