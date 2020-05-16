@@ -799,7 +799,7 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(cooldown, 2))))
 
     @commands.command(name="harvesthoney", aliases=["honey", "sellhoney"])
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.cooldown(1, 86400, commands.BucketType.user)
     async def harvest_honey(self, ctx):
         await self.db.increment_vault_max(ctx.author.id)
         await self.db.increment_vault_max(ctx.author.id)
