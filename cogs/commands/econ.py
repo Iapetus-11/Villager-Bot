@@ -420,7 +420,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 1.4, commands.BucketType.user) # 1.4
     async def mine(self, ctx):
-        if not self.problem():
+        if not self.problem(ctx):
             return
         await self.db.increment_vault_max(ctx.author.id)
         pickaxe = await self.db.get_pickaxe(ctx.author.id)
@@ -732,7 +732,7 @@ class Econ(commands.Cog):
         if not ctx.author.id == 536986067140608041:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command is currently disabled due to a exploit found."))
             return
-        if not self.problem():
+        if not self.problem(ctx):
             return
         await self.db.increment_vault_max(ctx.author.id)
         bad_catches = ["a rusty nail", "an old shoe", "a broken bottle", "a tin can", "a soda bottle", "a piece of plastic", "a moldy chicken nugget", "a discarded birthday cake",
