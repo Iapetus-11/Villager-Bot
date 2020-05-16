@@ -394,7 +394,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="mine", aliases=["mein"])
     @commands.guild_only()
-    @commands.cooldown(1, 20, commands.BucketType.user) # 1.4
+    @commands.cooldown(1, 1.4, commands.BucketType.user) # 1.4
     async def mine(self, ctx):
         await self.db.increment_vault_max(ctx.author.id)
         if ctx.author.id in self.who_is_mining.keys():
