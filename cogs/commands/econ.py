@@ -721,7 +721,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist.\nRemember, caps matter! You might have typed something incorrectly."))
 
     @commands.command(name="fish")
-    @commands.cooldown(1, 20, commands.BucketType.user)
+    @commands.cooldown(1, 20.1, commands.BucketType.user)
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def fish(self, ctx):
         await self.db.increment_vault_max(ctx.author.id)
