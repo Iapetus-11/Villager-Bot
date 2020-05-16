@@ -721,7 +721,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist.\nRemember, caps matter! You might have typed something incorrectly."))
 
     @commands.command(name="fish")
-    @commands.cooldown(1, 20.1, commands.BucketType.user)
+    @commands.cooldown(1, 20, commands.BucketType.user)
     async def fish(self, ctx):
         await self.db.increment_vault_max(ctx.author.id)
         if ctx.author.id in self.who_is_mining.keys():
@@ -787,7 +787,8 @@ class Econ(commands.Cog):
                 cooldown -= 4.5
 
             if cooldown <= 0:
-                await ctx.reinvoke(call_hooks=True)
+                cooldown = 20
+                await ctx.reinvoke()
             else:
                 descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
                         "Hey, you need to wait another {0} seconds before doing that again.",
