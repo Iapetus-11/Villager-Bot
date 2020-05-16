@@ -56,8 +56,6 @@ class Errors(commands.Cog):
                         "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
                         "Didn't you know patience was a virtue? Wait another {0} seconds."]
                 await self.send(ctx, choice(descs).format(round(e.retry_after, 2)))
-            else:
-                ctx.command.reset_cooldown(ctx)
             return
 
         if isinstance(e, commands.MaxConcurrencyReached):

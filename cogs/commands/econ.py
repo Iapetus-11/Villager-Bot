@@ -718,7 +718,6 @@ class Econ(commands.Cog):
 
     @commands.command(name="fish")
     @commands.cooldown(1, 20, commands.BucketType.user)
-    @commands.max_concurrency(1, per=commands.BucketType.user, wait=True)
     async def fish(self, ctx):
         await self.db.increment_vault_max(ctx.author.id)
         if ctx.author.id in self.who_is_mining.keys():
