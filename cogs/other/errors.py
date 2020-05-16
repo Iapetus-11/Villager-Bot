@@ -51,6 +51,7 @@ class Errors(commands.Cog):
 
         if isinstance(e, commands.MaxConcurrencyReached):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You're using that command way too fast..."))
+            return
 
         if isinstance(e, commands.CommandOnCooldown):
             if not str(ctx.command) in ["mine", "fish", "harvesthoney"]:
