@@ -61,6 +61,8 @@ class Errors(commands.Cog):
                         "Didn't you know patience was a virtue? Wait another {0} seconds."]
                 await self.send(ctx, choice(descs).format(round(e.retry_after, 2)))
             return
+        else:
+            ctx.command.reset_cooldown(ctx)
 
         if isinstance(e, commands.errors.MissingRequiredArgument):
             await self.send(ctx, "HRMMM, looks like you're forgetting to put something in!")

@@ -722,7 +722,6 @@ class Econ(commands.Cog):
 
     @commands.command(name="fish")
     @commands.cooldown(1, 20.1, commands.BucketType.user)
-    @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def fish(self, ctx):
         await self.db.increment_vault_max(ctx.author.id)
         if ctx.author.id in self.who_is_mining.keys():
@@ -755,7 +754,6 @@ class Econ(commands.Cog):
         if rod is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't fish without a fishing rod! (You can buy a wooden one in the shop!)"))
             ctx.command.reset_cooldown(ctx)
-            return
         else:
             good_catch_chance = [True, False, False]
             if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
@@ -782,6 +780,7 @@ class Econ(commands.Cog):
     @fish.error
     async def handle_fish_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
+            await ctx.send("fish cooldown ig")
             cooldown = e.retry_after
             if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
                 cooldown -= 1.5
