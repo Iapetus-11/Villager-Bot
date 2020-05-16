@@ -781,6 +781,7 @@ class Econ(commands.Cog):
     async def handle_fish_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
             cooldown = e.retry_after
+            await ctx.send(cooldown)
             if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
                 cooldown -= 1.5
             if await self.db.get_item(ctx.author.id, "Lure I Book") is not None:
@@ -788,7 +789,6 @@ class Econ(commands.Cog):
 
             if cooldown <= 0:
                 await ctx.reinvoke()
-                await ctx.send(cooldown)
             else:
                 descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
                         "Hey, you need to wait another {0} seconds before doing that again.",
