@@ -777,7 +777,7 @@ class Econ(commands.Cog):
             if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
                 cooldown -= 1.5
             if await self.db.get_item(ctx.author.id, "Lure I Book") is not None:
-                cooldown -= 8.5
+                cooldown -= 4.5
 
             if cooldown <= 0:
                 await ctx.reinvoke()

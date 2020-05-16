@@ -49,6 +49,9 @@ class Errors(commands.Cog):
             if isinstance(e, _type):
                 return
 
+        if isinstance(e, commands.MaxConcurrencyReached):
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You're using that command way too fast..."))
+
         if isinstance(e, commands.CommandOnCooldown):
             if not str(ctx.command) in ["mine", "fish", "harvesthoney"]:
                 descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
@@ -56,10 +59,9 @@ class Errors(commands.Cog):
                         "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
                         "Didn't you know patience was a virtue? Wait another {0} seconds."]
                 await self.send(ctx, choice(descs).format(round(e.retry_after, 2)))
+        else:
+            ctx.command.reset_cooldown(ctx)
             return
-
-        if isinstance(e, commands.MaxConcurrencyReached):
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You're using that command way too fast..."))
 
         if isinstance(e, commands.errors.MissingRequiredArgument):
             await self.send(ctx, "HRMMM, looks like you're forgetting to put something in!")
