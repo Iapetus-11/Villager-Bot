@@ -19,6 +19,30 @@ class Econ(commands.Cog):
         y = randint(0, 25)
         return [f"{str(x)}+{str(y)}", str(x+y)]
 
+    async def problem(self, ctx):
+        if ctx.author.id in self.who_is_mining.keys():
+            self.who_is_mining[ctx.author.id] += 1
+            if self.who_is_mining[ctx.author.id] >= 101:
+                prob = await self.problem_generator()
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
+                try:
+                    msg = await self.bot.wait_for("message", timeout=15)
+                    while msg.author.id is not ctx.author.id:
+                        msg = await self.bot.wait_for("message", timeout=15)
+                except asyncio.TimeoutError:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You ran out of time."))
+                    return False
+                if msg.clean_content == prob[1]:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Correct answer!"))
+                    self.who_is_mining[ctx.author.id] = 0
+                    return True
+                else:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Incorrect answer."))
+                    return False
+        else:
+            self.who_is_mining[ctx.author.id] = 1
+            return True
+
     @commands.command(name="bal", aliases=["balance"])
     async def balance(self, ctx, user: discord.User=None):
         if user is None:
@@ -396,27 +420,9 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 1.4, commands.BucketType.user) # 1.4
     async def mine(self, ctx):
+        if not self.problem():
+            return
         await self.db.increment_vault_max(ctx.author.id)
-        if ctx.author.id in self.who_is_mining.keys():
-            if self.who_is_mining[ctx.author.id] >= 100:
-                prob = await self.problem_generator()
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
-                try:
-                    msg = await self.bot.wait_for("message", timeout=15)
-                    while msg.author.id is not ctx.author.id:
-                        msg = await self.bot.wait_for("message", timeout=15)
-                except asyncio.TimeoutError:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You ran out of time."))
-                    return
-                if msg.clean_content == prob[1]:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Correct answer!"))
-                    self.who_is_mining[ctx.author.id] = 0
-                else:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Incorrect answer."))
-                return
-            self.who_is_mining[ctx.author.id] += 1
-        else:
-            self.who_is_mining[ctx.author.id] = 1
         pickaxe = await self.db.get_pickaxe(ctx.author.id)
         if pickaxe == "wood":
             minin = ["dirt", "dirt", "emerald", "dirt", "cobblestone", "cobblestone", "cobblestone", "emerald", "coal", "coal", "cobblestone", "cobblestone", "dirt",
@@ -568,12 +574,12 @@ class Econ(commands.Cog):
             return
         attackers_bees = await self.db.get_bees(ctx.author.id)
         victims_bees = await self.db.get_bees(victim.id)
-        if attackers_bees > victims_bees or await self.db.get_item(ctx.author.id, "Wooden Sword") is not None:
+        if attackers_bees > victims_bees:
             heist_success = choice([False, True, True, True, False, True, False, True]) # 5/8
-        elif victims_bees > attackers_bees or await self.db.get_item(victim.id, "Wooden Sword") is not None:
+        elif victims_bees > attackers_bees:
             heist_success = choice([False, True, False, False, False, True, False, True]) # 3/8
         else:
-            heist_success = choice([False, True, False, True, False, True, False, True]) # 4/8
+            heist_success = choice([False, True]) # 1/2
         item = await self.db.get_item(victim.id, "Bane Of Pillagers Amulet")
         if item is not None:
             heist_success = choice([False, False, False, False, False, False, False, True]) # 1/8
@@ -726,27 +732,9 @@ class Econ(commands.Cog):
         if not ctx.author.id == 536986067140608041:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command is currently disabled due to a exploit found."))
             return
+        if not self.problem():
+            return
         await self.db.increment_vault_max(ctx.author.id)
-        if ctx.author.id in self.who_is_mining.keys():
-            if self.who_is_mining[ctx.author.id] >= 100:
-                prob = await self.problem_generator()
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
-                try:
-                    msg = await self.bot.wait_for("message", timeout=15)
-                    while msg.author.id is not ctx.author.id:
-                        msg = await self.bot.wait_for("message", timeout=15)
-                except asyncio.TimeoutError:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You ran out of time."))
-                    return
-                if msg.clean_content == prob[1]:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Correct answer!"))
-                    self.who_is_mining[ctx.author.id] = 0
-                else:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Incorrect answer."))
-                return
-            self.who_is_mining[ctx.author.id] += 10
-        else:
-            self.who_is_mining[ctx.author.id] = 1
         bad_catches = ["a rusty nail", "an old shoe", "a broken bottle", "a tin can", "a soda bottle", "a piece of plastic", "a moldy chicken nugget", "a discarded birthday cake",
                        "an old picture frame", "a clump of hair", "some bones", "a forgotten flip flop", "a piece of driftwood", "a kfc container", "a plastic pail", "an old bottle",
                        "a used memory card", "an interesting sea shell", "a bit of sea shell", "a sea dollar", "a dead fish", "a ruined book"]
