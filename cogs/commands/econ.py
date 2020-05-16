@@ -723,6 +723,8 @@ class Econ(commands.Cog):
     @commands.command(name="fish")
     @commands.cooldown(1, 20, commands.BucketType.user)
     async def fish(self, ctx):
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command is currently disabled due to a exploit found."))
+        return
         await self.db.increment_vault_max(ctx.author.id)
         if ctx.author.id in self.who_is_mining.keys():
             if self.who_is_mining[ctx.author.id] >= 100:
@@ -787,7 +789,6 @@ class Econ(commands.Cog):
                 cooldown -= 4.5
 
             if cooldown <= 0:
-                cooldown = 20
                 await ctx.reinvoke()
             else:
                 descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
