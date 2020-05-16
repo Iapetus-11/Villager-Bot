@@ -14,16 +14,12 @@ class Econ(commands.Cog):
         self.items_in_use = {}
         self.emerald = "<:emerald:653729877698150405>"
 
-    async def problem_generator(self):
-        x = randint(0, 25)
-        y = randint(0, 25)
-        return [f"{str(x)}+{str(y)}", str(x+y)]
-
     async def problem(self, ctx):
         if ctx.author.id in self.who_is_mining.keys():
             self.who_is_mining[ctx.author.id] += 1
             if self.who_is_mining[ctx.author.id] >= 101:
-                prob = await self.problem_generator()
+                prob = f"{randint(0, 25)}+{randint(0, 25)}"
+                prob = [prob, eval(prob)]
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
                 try:
                     msg = await self.bot.wait_for("message", timeout=15)
