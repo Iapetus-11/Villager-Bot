@@ -56,9 +56,9 @@ class Errors(commands.Cog):
                         "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
                         "Didn't you know patience was a virtue? Wait another {0} seconds."]
                 await self.send(ctx, choice(descs).format(round(e.retry_after, 2)))
-            return
-        else:
-            ctx.command.reset_cooldown(ctx)
+                return
+            else:
+                ctx.command.reset_cooldown(ctx)
 
         if isinstance(e, commands.MaxConcurrencyReached):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You're using that command way too fast..."))
