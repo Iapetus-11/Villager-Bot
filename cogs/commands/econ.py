@@ -20,6 +20,7 @@ class Econ(commands.Cog):
         return [f"{str(x)}+{str(y)}", str(x+y)]
 
     async def problem(self, ctx):
+        await ctx.send("problem")
         if ctx.author.id in self.who_is_mining.keys():
             self.who_is_mining[ctx.author.id] += 1
             if self.who_is_mining[ctx.author.id] >= 10:
