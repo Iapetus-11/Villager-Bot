@@ -215,6 +215,8 @@ class Econ(commands.Cog):
         except ValueError:
             amount = 1
 
+        og_amount = amount
+
         their_bal = await self.db.get_balance(ctx.author.id)
 
         pickaxes = {"stone pickaxe": [32, "stone"],
@@ -270,14 +272,10 @@ class Econ(commands.Cog):
                             item_count = 0
                         if eval(shop_item[1]):
                             await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
-                            a = "a"
-                            for v in ["a", "e", "i", "o", "u"]:
-                                if shop_item[2][0].startswith(v):
-                                    a = "an"
                             await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id)) - shop_item[0])
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} **{shop_item[2][0]}**! (You now have {item_count+1})"))
                             amount -= 1
                             if amount <= 0:
+                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {og_amount}x **{shop_item[2][0]}**! (You now have {item_count+1})"))
                                 return
                         else:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
