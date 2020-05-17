@@ -209,13 +209,11 @@ class Econ(commands.Cog):
     async def buy(self, ctx, *, _item: str):
         item = _item.lower()
 
-        try:
+        try: # So proud of this
             amount = int(item.split(" ")[0])
             item = item.replace(f"{amount} ", "")
         except ValueError:
             amount = 1
-
-        og_amount = amount
 
         their_bal = await self.db.get_balance(ctx.author.id)
 
