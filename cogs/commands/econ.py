@@ -494,7 +494,7 @@ class Econ(commands.Cog):
                     await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                     return
             am = randint(1, 5)
-            if found == dirt:
+            if found == "dirt":
                 await self.db.add_item(ctx.author.id, "Dirt Block", am, 0)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['found', 'mined', 'mined up', 'found'])} {am} "
                                                                                         f"{choice(['worthless', 'useless', 'dumb', 'stupid'])} {found}."))
