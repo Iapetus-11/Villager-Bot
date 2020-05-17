@@ -232,7 +232,8 @@ class Econ(commands.Cog):
             if await self.db.get_pickaxe(ctx.author.id) != item.replace(" pickaxe", ""):
                 if their_bal >= pickaxes[item][0]:
                     if item == "netherite pickaxe":
-                        if (await self.db.get_item(ctx.author.id, "Netherite Scrap"))[1] >= 4:
+                        scrap = await self.db.get_item(ctx.author.id, "Netherite Scrap")
+                        if scrap is not None and scrap[1] >= 4:
                             await self.db.remove_item(ctx.author.id, "Netherite Scrap", 4)
                         else:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough Netherite Scrap! (It can be bought in the Villager Shop)"))
