@@ -473,7 +473,7 @@ class Econ(commands.Cog):
                     if 4 > top:
                         choices = [1, 1, 2]
                         top = 4
-                mult = choice(choices)
+                mult = choice(choices)*2
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You found {mult}{self.emerald}!",
                                                                                                 f"You mined up {mult}{self.emerald}!",
                                                                                                 f"You got {mult}{self.emerald}!"])))
@@ -493,7 +493,10 @@ class Econ(commands.Cog):
                         f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) while mining!"])))
                     await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                     return
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['found', 'mined', 'mined up', 'found'])} {randint(1, 5)} "
+            am = randint(1, 5)
+            if found == dirt:
+                await self.db.add_item(ctx.author.id, "Dirt Block", am, 0)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['found', 'mined', 'mined up', 'found'])} {am} "
                                                                                         f"{choice(['worthless', 'useless', 'dumb', 'stupid'])} {found}."))
 
     @mine.error

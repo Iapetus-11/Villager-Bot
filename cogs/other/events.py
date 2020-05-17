@@ -53,7 +53,7 @@ class Events(commands.Cog):
         if user is not None:
             await self.bot.get_channel(682195105784004610).send(
                 f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
-            multi = 1  # cause easter, normally is 1
+            multi = 2  # cause mc bday, normally is 1
             if await self.dblpy.get_weekend_status():
                 multi = 2  # normally is 2
             messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
