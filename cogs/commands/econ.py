@@ -274,7 +274,7 @@ class Econ(commands.Cog):
                         if eval(shop_item[1]):
                             await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
                             await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id)) - shop_item[0])
-                            if i == amount-1:
+                            if i == amount - 1:
                                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {amount}x **{shop_item[2][0]}**! (You now have {item_count+1})"))
                                 return
                         else:
