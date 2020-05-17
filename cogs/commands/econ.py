@@ -595,7 +595,7 @@ class Econ(commands.Cog):
             heist_success = choice([False, True]) # 1/2
         item = await self.db.get_item(victim.id, "Bane Of Pillagers Amulet")
         if item is not None:
-            heist_success = choice([False, False, False, False, False, False, False, True]) # 1/8
+            heist_success = choice([ False, False, False, False, False, False, True]) # 1/8
         if heist_success:
             sAmount = ceil(victim_bal*(randint(10, 40)/100))
             await self.db.set_balance(victim.id, victim_bal - sAmount)
