@@ -354,7 +354,7 @@ class Econ(commands.Cog):
             for obj in items:
                         await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + obj[2] * obj[1])
                         await self.db.remove_item(ctx.author.id, obj[0], obj[1])
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {obj[1]}x {obj[0]} for {obj[2]*obj[1]}{self.emerald}."))
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {obj[1]}x {obj[0]} for {obj[2]*obj[1]}{self.emerald}"))
             return
         _item = await self.db.get_item(ctx.author.id, item)
         if _item is None:
@@ -704,7 +704,7 @@ class Econ(commands.Cog):
             rank += 1
         if place >= 10:
             lb_text += "⋮\n"+f"``{place}.`` **{await self.db.get_bees(ctx.author.id)}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
-        embed = discord.Embed(color=discord.Color.green(), title=f"<a:bee:682057109046951956>__**Bee Leaderboard**__<a:bee:682057109046951956>", description=lb_text)
+        embed = discord.Embed(color=discord.Color.green(), title=f"<a:bee:682057109046951956> __**Bee Leaderboard**__ <a:bee:682057109046951956>", description=lb_text)
         await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])
