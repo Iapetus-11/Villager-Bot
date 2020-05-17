@@ -261,9 +261,10 @@ class Econ(commands.Cog):
                         return
 
             # If item is not a pickaxe
-            for i in range(0, amount, 1):
-                shop_item = self.g.shop_items.get(item) # Used .get() bc it will return None instead of causing a key error
-                if shop_item is not None:
+            shop_item = self.g.shop_items.get(item) # Used .get() bc it will return None instead of causing a key error
+            if shop_item is not None:
+                for i in range(0, amount, 1):
+                    their_bal = await self.db.get_balance(ctx.author.id)
                     if their_bal >= shop_item[0]:
                         db_item = await self.db.get_item(ctx.author.id, shop_item[2][0])
                         if db_item is not None:
@@ -273,14 +274,22 @@ class Econ(commands.Cog):
                         if eval(shop_item[1]):
                             await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
                             await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id)) - shop_item[0])
-                            if i == amount:
-                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {og_amount}x **{shop_item[2][0]}**! (You now have {item_count+1})"))
+                            if i == amount-1:
+                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {amount}x **{shop_item[2][0]}**! (You now have {item_count+1})"))
                                 return
                         else:
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
+                            if i < amount:
+                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {amount}x **{shop_item[2][0]}**! (You now have {item_count + 1})"))
+                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You couldn't purchase any more of that item!"))
+                            else:
+                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
                             return
                     else:
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
+                        if i < amount:
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {amount}x **{shop_item[2][0]}**! (You now have {item_count + 1})"))
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You didn't have enough emeralds to purchase anymore of that item!"))
+                        else:
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
                         return
 
             # Skream @ user for speling incorectumly.
