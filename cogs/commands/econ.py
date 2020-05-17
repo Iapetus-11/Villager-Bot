@@ -279,15 +279,17 @@ class Econ(commands.Cog):
                                 return
                         else:
                             if i < amount:
-                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {amount}x **{shop_item[2][0]}**! (You now have {item_count + 1})"))
-                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You couldn't purchase any more of that item!"))
+                                await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                                               description=f"You have purchased {i+1}x **{shop_item[2][0]}**! (You now have {item_count + 1})"
+                                                                           f"\nYou couldn't purchase anymore of that item! (You wanted {amount})"))
                             else:
                                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
                             return
                     else:
                         if i < amount:
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {amount}x **{shop_item[2][0]}**! (You now have {item_count + 1})"))
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You didn't have enough emeralds to purchase anymore of that item!"))
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                                               description=f"You have purchased {i+1}x **{shop_item[2][0]}**! (You now have {item_count + 1})"
+                                                                           f"\nYou didn't have enough emeralds to purchase anymore of that item! (You wanted {amount})"))
                         else:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
                         return
