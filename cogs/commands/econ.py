@@ -284,7 +284,9 @@ class Econ(commands.Cog):
                                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
                             return
                     else:
-                        if amount > 0:
+                        try:
+                            item_count
+                        except NameError:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {og_amount - amount}x **{shop_item[2][0]}**! (You now have {item_count + 1})"))
                         else:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
