@@ -278,10 +278,16 @@ class Econ(commands.Cog):
                                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {og_amount}x **{shop_item[2][0]}**! (You now have {item_count+1})"))
                                 return
                         else:
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
+                            if og_amount-amount > 0:
+                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {og_amount-amount}x **{shop_item[2][0]}**! (You now have {item_count+1})"))
+                            else:
+                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
                             return
                     else:
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
+                        if og_amount - amount > 0:
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {og_amount - amount}x **{shop_item[2][0]}**! (You now have {item_count + 1})"))
+                        else:
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
                         return
 
             # Skream @ user for speling incorectumly.
