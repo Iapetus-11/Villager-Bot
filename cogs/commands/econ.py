@@ -709,7 +709,6 @@ class Econ(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])
-    @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def use_potion(self, ctx, *, item: str):
         await self.db.increment_vault_max(ctx.author.id)
         if self.items_in_use.get(ctx.author.id) is not None:
@@ -807,6 +806,8 @@ class Econ(commands.Cog):
         await self.db.increment_vault_max(ctx.author.id)
         await self.db.increment_vault_max(ctx.author.id)
         bees = await self.db.get_bees(ctx.author.id)
+        if bees > 2048:
+            bees = 2048
         if choice([True, True, True, True, True, True, True, True, True, False]):
             if bees < 100:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough bees to make this business option viable."))

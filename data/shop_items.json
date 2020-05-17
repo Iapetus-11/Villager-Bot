@@ -2,7 +2,7 @@
   "fishing rod": [64, "item_count < 1", ["Fishing Rod", 48]],
   "haste i potion": [120, "True", ["Haste I Potion", 32]],
   "fortune i book": [120, "True", ["Fortune I Book", 24]],
-  "jar of bees": [8, "item_count < 3333", ["Jar Of Bees", 2]],
+  "jar of bees": [8, "True", ["Jar Of Bees", 2]],
   "lure i book": [120, "True", ["Lure I Book", 24]],
   "netherite scrap": [32, "True", ["Netherite Scrap", 8]]
 }
