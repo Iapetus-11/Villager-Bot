@@ -215,82 +215,76 @@ class Econ(commands.Cog):
         except ValueError:
             amount = 1
 
+        if amount > 10000:
+            await ctx.send(embed=discord.embed(color=discord.Color.green(), description="You can't buy more than 10000 of an item at once!"))
+            return
+
         their_bal = await self.db.get_balance(ctx.author.id)
 
         pickaxes = {"stone pickaxe": [32, "stone"],
                     "iron pickaxe": [128, "iron"],
                     "gold pickaxe": [512, "gold"],
-                    "diamond pickaxe": [2048, "diamond"]}
+                    "diamond pickaxe": [2048, "diamond"],
+                    "netherite pickaxe": [8192, "netherite"]}
 
         # Items which aren't in shop_items.json
-        if item == "netherite pickaxe":
-            if their_bal >= 8192:
-                if (await self.db.get_item(ctx.author.id, "Netherite Scrap"))[1] >= 4:
-                    if await self.db.get_pickaxe(ctx.author.id) != "netherite":
-                        await self.db.set_balance(ctx.author.id, their_bal - 8192)
-                        await self.db.remove_item(ctx.author.id, "Netherite Scrap", 4)
-                        await self.db.set_pickaxe(ctx.author.id, "netherite")
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You have purchased a netherite pickaxe!"))
-                    else:
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase a pickaxe you already have!"))
+        if pickaxes.get(item) is not None:
+            if await self.db.get_pickaxe(ctx.author.id) != item.replace(" pickaxe", ""):
+                if their_bal >= pickaxes[item][0]:
+                    if item == "netherite pickaxe":
+                        if (await self.db.get_item(ctx.author.id, "Netherite Scrap"))[1] >= 4:
+                            await self.db.remove_item(ctx.author.id, "Netherite Scrap", 4)
+                        else:
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough Netherite Scrap! (It can be bought in the Villager Shop)"))
+                            return
+                    await self.db.set_balance(ctx.author.id, their_bal - pickaxes[item][0])
+                    await self.db.set_pickaxe(ctx.author.id, pickaxes[item][1])
+                    a = "a"
+                    for v in ["a", "e", "i", "o", "u"]:
+                        if item.startswith(v):
+                            a = "an"
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} **{item}**!"))
+                    return
                 else:
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough netherite scrap for this item!"))
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
+                    return
             else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase this item again!"))
+                return
 
-        else:
-            for pickaxe in list(pickaxes):
-                if item == pickaxe:
-                    if await self.db.get_pickaxe(ctx.author.id) != item.replace(" pickaxe", ""):
-                        if their_bal >= pickaxes[item][0]:
-                            await self.db.set_balance(ctx.author.id, their_bal - pickaxes[item][0])
-                            await self.db.set_pickaxe(ctx.author.id, pickaxes[item][1])
-                            a = "a"
-                            for v in ["a", "e", "i", "o", "u"]:
-                                if item.startswith(v):
-                                    a = "an"
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {a} **{item}**!"))
-                            return
-                        else:
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds for this item!"))
-                            return
-                    else:
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase this item again!"))
-                        return
-
-            # If item is not a pickaxe
-            shop_item = self.g.shop_items.get(item) # Used .get() bc it will return None instead of causing a key error
-            if shop_item is not None:
-                for i in range(0, amount, 1):
-                    their_bal = await self.db.get_balance(ctx.author.id)
-                    db_item = await self.db.get_item(ctx.author.id, shop_item[2][0])
-                    if db_item is not None:
-                        item_count = db_item[1]
-                    else:
-                        item_count = 0
-                    if their_bal >= shop_item[0]:
-                        if eval(shop_item[1]):
-                            await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
-                            await self.db.set_balance(ctx.author.id, their_bal - shop_item[0])
-                            if i == amount - 1:
-                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {amount}x **{shop_item[2][0]}**! (You now have {item_count})"))
-                                return
-                        else:
-                            if i < amount:
-                                await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                                               description=f"You have purchased {i}x **{shop_item[2][0]}**! (You now have {item_count})"
-                                                                           f"\nYou couldn't purchase anymore of that item! (You wanted {amount})"))
-                            else:
-                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
+        # If item is not a pickaxe
+        shop_item = self.g.shop_items.get(item) # Used .get() bc it will return None instead of causing a key error
+        if shop_item is not None:
+            for i in range(0, amount, 1):
+                their_bal = await self.db.get_balance(ctx.author.id)
+                db_item = await self.db.get_item(ctx.author.id, shop_item[2][0])
+                if db_item is not None:
+                    item_count = db_item[1]
+                else:
+                    item_count = 0
+                if their_bal >= shop_item[0]:
+                    if eval(shop_item[1]):
+                        await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
+                        await self.db.set_balance(ctx.author.id, their_bal - shop_item[0])
+                        if i == amount - 1:
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {amount}x **{shop_item[2][0]}**! (You now have {item_count})"))
                             return
                     else:
                         if i < amount:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                                               description=f"You have purchased {i}x **{shop_item[2][0]}**! (You now have {item_count})"
-                                                                           f"\nYou didn't have enough emeralds to purchase anymore of that item! (You wanted {amount})"))
+                                                           description=f"You have purchased {i}x **{shop_item[2][0]}**! (You now have {item_count})"
+                                                                       f"\nYou couldn't purchase anymore of that item! (You wanted {amount})"))
                         else:
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
                         return
+                else:
+                    if i < amount:
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                                           description=f"You have purchased {i}x **{shop_item[2][0]}**! (You now have {item_count})"
+                                                                       f"\nYou didn't have enough emeralds to purchase anymore of that item! (You wanted {amount})"))
+                    else:
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
+                    return
 
             # Skream @ user for speling incorectumly.
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not an item you can buy in the Villager Shop!"))
