@@ -278,7 +278,7 @@ class Econ(commands.Cog):
                         else:
                             if i < amount:
                                 await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                                               description=f"You have purchased {i+1}x **{shop_item[2][0]}**! (You now have {item_count + 1})"
+                                                               description=f"You have purchased {i+1}x **{shop_item[2][0]}**! (You now have {item_count})"
                                                                            f"\nYou couldn't purchase anymore of that item! (You wanted {amount})"))
                             else:
                                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
@@ -286,7 +286,7 @@ class Econ(commands.Cog):
                     else:
                         if i < amount:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                                               description=f"You have purchased {i+1}x **{shop_item[2][0]}**! (You now have {item_count + 1})"
+                                                               description=f"You have purchased {i+1}x **{shop_item[2][0]}**! (You now have {item_count})"
                                                                            f"\nYou didn't have enough emeralds to purchase anymore of that item! (You wanted {amount})"))
                         else:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
