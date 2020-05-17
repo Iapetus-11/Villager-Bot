@@ -207,6 +207,8 @@ class Econ(commands.Cog):
     @commands.command(name="buy")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def buy(self, ctx, *, _item: str):
+        await ctx.trigger_typing()
+
         item = _item.lower()
 
         try: # So proud of this
