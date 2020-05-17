@@ -273,23 +273,14 @@ class Econ(commands.Cog):
                         if eval(shop_item[1]):
                             await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
                             await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id)) - shop_item[0])
-                            amount -= 1
-                            if amount <= 0:
+                            if i == amount:
                                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {og_amount}x **{shop_item[2][0]}**! (You now have {item_count+1})"))
                                 return
                         else:
-                            if amount > 0:
-                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {og_amount-amount}x **{shop_item[2][0]}**! (You now have {item_count+1})"))
-                            else:
-                                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
+                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
                             return
                     else:
-                        try:
-                            item_count
-                        except NameError:
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {og_amount - amount}x **{shop_item[2][0]}**! (You now have {item_count + 1})"))
-                        else:
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
+                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
                         return
 
             # Skream @ user for speling incorectumly.
