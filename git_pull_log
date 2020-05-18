@@ -1,6 +1,6 @@
 From https://github.com/Villager-Bot/Villager-Bot
-   5933c9f..6fbcc98  master     -> origin/master
-Updating 5933c9f..6fbcc98
+   18f1884..2f44b18  master     -> origin/master
+Updating 18f1884..2f44b18
 Fast-forward
- cogs/other/msgs.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ cogs/commands/econ.py | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
