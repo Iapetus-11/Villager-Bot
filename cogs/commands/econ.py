@@ -3,16 +3,27 @@ import discord
 import asyncio
 from random import choice, randint
 from math import floor, ceil
+import pickle
 
 
 class Econ(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
         self.g = self.bot.get_cog("Global")
         self.db = self.bot.get_cog("Database")
+
         self.who_is_mining = {}
         self.items_in_use = {}
+
         self.emerald = "<:emerald:653729877698150405>"
+
+        with open("honey_cooldown.pkl", "rb") as h:
+            self.harvest_honey._buckets = pickle.load(h)
+
+    def cog_unload(self):
+        with open("honey_cooldown.pkl", "wb") as h:
+            pickle.dump(self.harvest_honey._buckets, h)
 
     async def problem(self, ctx):
         if ctx.author.id in self.who_is_mining.keys():
