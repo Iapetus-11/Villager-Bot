@@ -18,13 +18,6 @@ class Econ(commands.Cog):
 
         self.emerald = "<:emerald:653729877698150405>"
 
-        with open("data/cooldown.pkl", "rb") as c:
-            self.harvest_honey._buckets = pickle.load(c)[0]
-
-    def cog_unload(self):
-        with open("data/cooldown.pkl", "wb") as c:
-            pickle.dump([self.harvest_honey._buckets], c)
-
     async def problem(self, ctx):
         if ctx.author.id in self.who_is_mining.keys():
             self.who_is_mining[ctx.author.id] += 1
