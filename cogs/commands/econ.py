@@ -500,10 +500,7 @@ class Econ(commands.Cog):
                         f"You {choice(['found', 'got'])} {a} {c[0]} (Worth {c[1]}{self.emerald}) while mining!"])))
                     await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                     return
-            am = randint(1, 5)
-            if found == "dirt":
-                await self.db.add_item(ctx.author.id, "Dirt Block", am, 0)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['found', 'mined', 'mined up', 'found'])} {am} "
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['found', 'mined', 'mined up', 'found'])} {randint(1, 5)} "
                                                                                         f"{choice(['worthless', 'useless', 'dumb', 'stupid'])} {found}."))
 
     @mine.error
