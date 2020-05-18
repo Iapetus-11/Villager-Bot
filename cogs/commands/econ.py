@@ -480,7 +480,7 @@ class Econ(commands.Cog):
                     if 4 > top:
                         choices = [1, 1, 2]
                         top = 4
-                mult = choice(choices)*2
+                mult = choice(choices)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You found {mult}{self.emerald}!",
                                                                                                 f"You mined up {mult}{self.emerald}!",
                                                                                                 f"You got {mult}{self.emerald}!"])))
