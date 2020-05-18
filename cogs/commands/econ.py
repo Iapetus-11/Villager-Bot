@@ -17,7 +17,7 @@ class Econ(commands.Cog):
         self.items_in_use = {}
 
         self.emerald = "<:emerald:653729877698150405>"
-        return # First time ig
+
         with open("data/cooldown.pkl", "rb") as c:
             self.harvest_honey._buckets = pickle.load(c)
 
