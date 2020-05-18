@@ -18,11 +18,11 @@ class Econ(commands.Cog):
 
         self.emerald = "<:emerald:653729877698150405>"
 
-        with open("cooldown.pkl", "rb") as c:
+        with open("data/cooldown.pkl", "rb") as c:
             self.harvest_honey._buckets = pickle.load(c)
 
     def cog_unload(self):
-        with open("cooldown.pkl", "wb") as c:
+        with open("data/cooldown.pkl", "wb") as c:
             pickle.dump(self.harvest_honey._buckets, c)
 
     async def problem(self, ctx):
