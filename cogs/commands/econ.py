@@ -349,7 +349,13 @@ class Econ(commands.Cog):
 
     @commands.command(name="sell")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
-    async def sell_item(self, ctx, am: str, *, item: str):
+    async def sell_item(self, ctx, *, item: str):
+        try:
+            amount = int(item.split(" ")[0])
+            item = item.replace(f"{amount} ", "")
+        except ValueError:
+            amount = 1
+
         if item == "items":
             items = await self.db.get_items(ctx.author.id)
             if len(items) < 1:
@@ -360,18 +366,12 @@ class Econ(commands.Cog):
                         await self.db.remove_item(ctx.author.id, obj[0], obj[1])
                         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {obj[1]}x {obj[0]} for {obj[2]*obj[1]}{self.emerald}"))
             return
+
         _item = await self.db.get_item(ctx.author.id, item)
         if _item is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either you don't have that item, or that item cannot be sold.\nRemember, caps matter! You might have typed something incorrectly."))
             return
-        if am == "all" or am == "max":
-            amount = int(_item[1])
-        else:
-            try:
-                amount = int(am)
-            except Exception:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You idiot, try sending an actual number"))
-                return
+
         if amount < 1:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot sell 0 or a negative amount of an item!"))
             return
