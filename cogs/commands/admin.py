@@ -90,7 +90,7 @@ class AdminCmds(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot warn yourself."))
             return
         reason = (reason[:125] + "...") if len(reason) > 128 else reason
-        await self.db.add_warn(user.id, ctx.author.id, ctx.guild.id, reason)
+        await self.db.add_warn(user.id, ctx.author.id, ctx.guild.id, reason.replace("'", "\'"))
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{user}** was warned by **{ctx.author}** for reason: *{reason}*\n**{user}** now has {len(await self.db.get_warns(user.id, ctx.guild.id))} warning(s)."))
 
     @commands.command(name="warns", aliases=["getwarns", "getuserwarns", "warnings"])
