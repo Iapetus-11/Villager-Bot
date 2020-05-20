@@ -368,7 +368,7 @@ class Econ(commands.Cog):
 
         _item = await self.db.get_item(ctx.author.id, item)
         if _item is None:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either you don't have that item, or that item cannot be sold.\nRemember, caps matter! You might have typed something incorrectly."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either you don't have that item, or that item cannot be sold."))
             return
 
         if amount < 1:
@@ -379,7 +379,7 @@ class Econ(commands.Cog):
             return
         await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + _item[2] * amount)
         await self.db.remove_item(ctx.author.id, item, amount)
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {item} for {_item[2]*amount}{self.emerald}."))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {_item[0]} for {_item[2]*amount}{self.emerald}."))
 
     @commands.command(name="give")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
@@ -393,7 +393,7 @@ class Econ(commands.Cog):
                     if item[0] in ctx.message.content:
                         await self.give_item(ctx, rec, amount, item[0])
                         return
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid item you can give. (You don't own it, or it doesn't exist)\nRemember, caps matter! You might have typed something incorrectly."))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid item you can give. (You don't own it, or it doesn't exist)"))
                 return
         if amount < 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You dumb dumb! You can't give someone negative emeralds!"))
@@ -716,7 +716,7 @@ class Econ(commands.Cog):
 
         _item = await self.db.get_item(ctx.author.id, item)
         if _item is None:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either that potion doesn't exist, or you don't have it!\nRemember, caps matter! You might have typed something incorrectly."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either that potion doesn't exist, or you don't have it!"))
             return
 
         if item == "Haste I Potion":
@@ -737,7 +737,7 @@ class Econ(commands.Cog):
             await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{item}** you chugged earlier has worn off."))
             return
 
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist.\nRemember, caps matter! You might have typed something incorrectly."))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist."))
 
     @commands.command(name="fish")
     @commands.cooldown(1, 20, commands.BucketType.user)
