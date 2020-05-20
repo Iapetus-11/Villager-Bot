@@ -587,8 +587,12 @@ class Econ(commands.Cog):
         if victim_bal < 64:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="It's not worth it, they don't even have 64 emeralds yet."))
             return
-        attackers_bees = (await self.db.get_item(ctx.author.id, "Jar Of Bees"))[1]
-        victims_bees = (await self.db.get_item(victim.id, "Jar Of Bees"))[1]
+        attackers_bees = await self.db.get_item(ctx.author.id, "Jar Of Bees")
+        if attackers_bees is None:
+            attackers_bees = 0
+        victims_bees = await self.db.get_item(victim.id, "Jar Of Bees")
+        if victims_bees is None:
+            victims_bees = 0
         if attackers_bees > victims_bees:
             heist_success = choice([False, True, True, True, False, True, False, True]) # 5/8
         elif victims_bees > attackers_bees:
