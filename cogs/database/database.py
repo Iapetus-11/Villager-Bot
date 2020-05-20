@@ -138,7 +138,7 @@ class Database(commands.Cog):
         return await self.db.fetch("SELECT item, num, val FROM items WHERE id=$1", uid)
 
     async def get_item(self, uid, item):
-        return await self.db.fetchrow("SELECT item, num, val FROM items WHERE id=$1 AND item=$2", uid, item)
+        return await self.db.fetchrow("SELECT item, num, val FROM items WHERE id=$1 AND LOWER(item)=LOWER($2)", uid, item)
 
     async def add_item(self, uid, item, num, val):
         _item = await self.get_item(uid, item)
@@ -146,7 +146,7 @@ class Database(commands.Cog):
             if _item is None:
                 await con.execute("INSERT INTO items VALUES ($1, $2, $3, $4)", uid, item, num, val)
             else:
-                await con.execute("UPDATE items SET num=$1 WHERE id=$2 AND item=$3", int(_item[1])+int(num), uid, item)
+                await con.execute("UPDATE items SET num=$1 WHERE id=$2 AND LOWER(item)=LOWER($3)", int(_item[1])+int(num), uid, item)
 
     async def remove_item(self, uid, item, num):
         _item = await self.get_item(uid, item)
