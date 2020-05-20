@@ -27,7 +27,7 @@ class Econ(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Please solve this problem to continue: ``{prob[0]}``"))
                 try:
                     msg = await self.bot.wait_for("message", timeout=15)
-                    while msg.author.id is not ctx.author.id:
+                    while msg.author.id is not ctx.author.id or msg.channel.id != ctx.channel.id:
                         msg = await self.bot.wait_for("message", timeout=15)
                 except asyncio.TimeoutError:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You ran out of time."))
