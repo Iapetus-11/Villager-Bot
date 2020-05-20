@@ -719,22 +719,22 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either that potion doesn't exist, or you don't have it!"))
             return
 
-        if item == "Haste I Potion":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{item}** *(which lasts 6 minutes)*!"))
+        if item.lower() == "haste i potion":
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{_item[0]}** *(which lasts 6 minutes)*!"))
             self.items_in_use[ctx.author.id] = item
             await self.db.remove_item(ctx.author.id, item, 1)
             await asyncio.sleep(60*6)
             self.items_in_use.pop(ctx.author.id)
-            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{item}** you chugged earlier has worn off."))
+            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{_item[0]}** you chugged earlier has worn off."))
             return
 
-        if item == "Haste II Potion":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{item}** *(which lasts 4.5 minutes)*!"))
+        if item.lower() == "haste ii potion":
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **{_item[0]}** *(which lasts 4.5 minutes)*!"))
             self.items_in_use[ctx.author.id] = item
             await self.db.remove_item(ctx.author.id, item, 1)
             await asyncio.sleep(60*4.5)
             self.items_in_use.pop(ctx.author.id)
-            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{item}** you chugged earlier has worn off."))
+            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{_item[0]}** you chugged earlier has worn off."))
             return
 
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist."))
