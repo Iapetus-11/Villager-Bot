@@ -3,7 +3,6 @@ import discord
 import asyncio
 from random import choice, randint
 from math import floor, ceil
-import pickle
 
 
 class Econ(commands.Cog):
