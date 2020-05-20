@@ -587,8 +587,8 @@ class Econ(commands.Cog):
         if victim_bal < 64:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="It's not worth it, they don't even have 64 emeralds yet."))
             return
-        attackers_bees = await self.db.get_bees(ctx.author.id)
-        victims_bees = await self.db.get_bees(victim.id)
+        attackers_bees = (await self.db.get_item(ctx.author.id, "Jar Of Bees"))[1]
+        victims_bees = (await self.db.get_item(victim.id, "Jar Of Bees"))[1]
         if attackers_bees > victims_bees:
             heist_success = choice([False, True, True, True, False, True, False, True]) # 5/8
         elif victims_bees > attackers_bees:
@@ -596,7 +596,7 @@ class Econ(commands.Cog):
         else:
             heist_success = choice([False, True]) # 1/2
         if await self.db.get_item(victim.id, "Bane Of Pillagers Amulet") is not None:
-            heist_success = choice([ False, False, False, False, False, False, True]) # 1/8
+            heist_success = choice([False, False, False, False, False, True]) # 1/6
         if heist_success:
             sAmount = ceil(victim_bal*(randint(10, 40)/100))
             await self.db.set_balance(victim.id, victim_bal - sAmount)
@@ -742,7 +742,7 @@ class Econ(commands.Cog):
     @commands.command(name="fish")
     @commands.cooldown(1, 20, commands.BucketType.user)
     async def fish(self, ctx):
-        if not ctx.author.id == 536986067140608041:
+        if not ctx.author.id in [536986067140608041, 418707912836382721]:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command is currently disabled due to a exploit found."))
             return
         if not await self.problem(ctx):
@@ -804,20 +804,19 @@ class Econ(commands.Cog):
     async def harvest_honey(self, ctx):
         await self.db.increment_vault_max(ctx.author.id)
         await self.db.increment_vault_max(ctx.author.id)
-        bees = await self.db.get_bees(ctx.author.id)
+        bees = (await self.db.get_item(ctx.author.id, "Jar Of Bees"))[1]
         if bees > 2048:
             bees = 2048
-        if choice([True, True, True, True, True, True, True, True, True, False]):
-            if bees < 100:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough bees to make this business option viable."))
-                ctx.command.reset_cooldown(ctx)
-                return
+        if bees < 100:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough bees to make this business option viable."))
+            ctx.command.reset_cooldown(ctx)
+            return
+        if choice([True, True, True, False]): # 3/4 chance of getting honey
             jars = bees - randint(ceil(bees/6), ceil(bees/2))
             await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Apparently bees produce honey and you just collected {jars} jars of it."))
         else:
-            bees_lost = randint(ceil(bees/90), ceil(bees/80))
-            await self.db.set_bees(ctx.author.id, bees-bees_lost)
+            await self.db.remove_item(ctx.author.id, "Jar Of Bees", randint(ceil(bees/75), ceil(bees/50)))
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"So apparently bees get mad when you try to steal their honey, who knew... You lost {bees_lost*3} to suicide..."))
 
     @harvest_honey.error
