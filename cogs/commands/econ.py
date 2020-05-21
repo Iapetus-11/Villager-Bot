@@ -214,11 +214,15 @@ class Econ(commands.Cog):
 
         item = _item.lower()
 
-        try: # So proud of this
-            amount = int(item.split(" ")[0])
-            item = item.replace(f"{amount} ", "")
-        except ValueError:
-            amount = 1
+        if (item.startswith("max") or item.startswith("all")) and self.g.shop_items.get(item) is not None:
+            amount = floor((await self.db.get_balance(ctx.author.id))/self.g.shop_items.get(item)[0])
+            item = item.replace("max ", "").replace("all ", "")
+        else:
+            try: # So proud of this
+                amount = int(item.split(" ")[0])
+                item = item.replace(f"{amount} ", "")
+            except ValueError:
+                amount = 1
 
         if amount > 5000:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't buy more than 5000 of an item at once!"))
