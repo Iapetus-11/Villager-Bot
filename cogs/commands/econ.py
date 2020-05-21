@@ -17,6 +17,8 @@ class Econ(commands.Cog):
 
         self.emerald = "<:emerald:653729877698150405>"
 
+        self.selling = []
+
     async def problem(self, ctx):
         if ctx.author.id in self.who_is_mining.keys():
             self.who_is_mining[ctx.author.id] += 1
@@ -55,6 +57,8 @@ class Econ(commands.Cog):
     @commands.command(name="deposit", aliases=["dep"])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def deposit(self, ctx, amount: str):  # In blocks
+        while ctx.author.id in self.selling:
+            await asyncio.sleep(.5)
         their_bal = await self.db.get_balance(ctx.author.id)
         if their_bal < 9:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to deposit!"))
@@ -220,7 +224,7 @@ class Econ(commands.Cog):
         except ValueError:
             amount = 1
 
-        if amount > 10000:
+        if amount > 1000:
             await ctx.send(embed=discord.embed(color=discord.Color.green(), description="You can't buy more than 10000 of an item at once!"))
             return
 
@@ -259,8 +263,16 @@ class Econ(commands.Cog):
                 return
 
         # If item is not a pickaxe
+
+        def nots():
+            try:
+                self.selling.pop(self.selling.index(ctx.author.id))
+            except ValueError:
+                pass
+
         shop_item = self.g.shop_items.get(item) # Used .get() bc it will return None instead of causing a key error
         if shop_item is not None:
+            self.selling.append(ctx.author.id)
             for i in range(0, amount, 1):
                 their_bal = await self.db.get_balance(ctx.author.id)
                 db_item = await self.db.get_item(ctx.author.id, shop_item[2][0])
@@ -272,8 +284,10 @@ class Econ(commands.Cog):
                     if eval(shop_item[1]):
                         await self.db.add_item(ctx.author.id, shop_item[2][0], 1, shop_item[2][1])
                         await self.db.set_balance(ctx.author.id, their_bal - shop_item[0])
+                        nots()
                         if i == amount - 1:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have purchased {amount}x **{shop_item[2][0]}**! (You now have {item_count+1})"))
+                            nots()
                             return
                     else:
                         if i < amount:
@@ -282,6 +296,7 @@ class Econ(commands.Cog):
                                                                        f"\nYou couldn't purchase anymore of that item! (You wanted {amount})"))
                         else:
                             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't purchase any more of that item!"))
+                        nots()
                         return
                 else:
                     if i < amount:
@@ -290,6 +305,7 @@ class Econ(commands.Cog):
                                                                        f"\nYou didn't have enough emeralds to purchase anymore of that item! (You wanted {amount})"))
                     else:
                         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to purchase that item!"))
+                    nots()
                     return
 
             # Skream @ user for speling incorectumly.
