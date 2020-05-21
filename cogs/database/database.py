@@ -155,9 +155,9 @@ class Database(commands.Cog):
         n = _item[1]-num
         async with self.db.acquire() as con:
             if n > 0:
-                await con.execute("UPDATE items SET num=$1 WHERE id=$2 AND item=$3", n, uid, item)
+                await con.execute("UPDATE items SET num=$1 WHERE id=$2 AND LOWER(item)=LOWER($3)", n, uid, item)
             else:
-                await con.execute("DELETE FROM items WHERE id=$1 AND item=$2", uid, item)
+                await con.execute("DELETE FROM items WHERE id=$1 AND LOWER(item)=LOWER($2)", uid, item)
 
     async def add_warn(self, uid, mod, gid, reason):
         async with self.db.acquire() as con:
