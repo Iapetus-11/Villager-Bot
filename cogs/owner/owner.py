@@ -294,6 +294,13 @@ class Owner(commands.Cog):
         pick = await self.db.get_pickaxe(u.id)
         contents = f"**{pick} pickaxe**\n"
 
+        bal = await self.db.get_balance(ctx.author.id)
+        if not bal <= 0:
+            s = "s"
+            if bal == 1:
+                s = ""
+            contents += f"{bal} emerald{s}{self.emerald}\n"
+
         inv = discord.Embed(color=discord.Color.green(), description=contents)
 
         contents = ""
@@ -303,15 +310,18 @@ class Owner(commands.Cog):
         for item in items:
             i += 1
             m = await self.db.get_item(u.id, item[0])
-            contents += f"{m[1]}x **{m[0]}** (sells for {m[2]}{self.emerald})\n"
+            contents += f"{m[1]}x **{m[0]}** ({m[2]}{self.emerald})\n"
             if i % rows == 0:
                 if i <= rows:
                     inv.add_field(name="Sellable Items", value=contents, inline=False)
                 else:
-                    inv.add_field(name="\uFEFF", value=contents, inline=False)
+                    inv.add_field(name="More Sellable Items", value=contents, inline=False)
                 contents = ""
         if contents is not "":
-            inv.add_field(name="\uFEFF", value=contents, inline=False)
+            if i <= rows:
+                inv.add_field(name="Sellable Items", value=contents, inline=False)
+            else:
+                inv.add_field(name="More Sellable Items", value=contents, inline=False)
 
         if not u.avatar_url:
             inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
