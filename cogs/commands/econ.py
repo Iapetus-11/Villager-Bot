@@ -820,7 +820,8 @@ class Econ(commands.Cog):
             await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Apparently bees produce honey and you just collected {jars} jars of it."))
         else:
-            await self.db.remove_item(ctx.author.id, "Jar Of Bees", randint(ceil(bees/75), ceil(bees/50)))
+            bees_lost = randint(ceil(bees/75), ceil(bees/50))
+            await self.db.remove_item(ctx.author.id, "Jar Of Bees", bees_lost)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"So apparently bees get mad when you try to steal their honey, who knew... You lost {bees_lost*3} to suicide..."))
 
     @harvest_honey.error
