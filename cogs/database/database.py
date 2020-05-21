@@ -174,11 +174,12 @@ class Database(commands.Cog):
         await self.db.fetch("SELECT * FROM pillagerboard")
 
     async def update_pillagerboard(self, uid, amount_to_add):
+        prev = await self.db.fetchrow("SELECT * FROM pillagerboard WHERE id=$1", uid)
         async with self.db.acquire() as con:
-            prev = await self.db.fetchrow("SELECT * FROM pillagerboard WHERE id=$1", uid)
             if prev is not None:
                 con.execute("UPDATE pillagerboard SET amount=$1 WHERE id=$2", amount_to_add+prev[1])
             else:
+                print("inserted")
                 con.execute("INSERT INTO pillagerboard VALUES ($1, $2)", uid, amount_to_add)
 
     async def get_pillager(self, uid):
