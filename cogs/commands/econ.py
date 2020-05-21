@@ -585,17 +585,23 @@ class Econ(commands.Cog):
             await self.db.set_balance(ctx.author.id, their_bal + s_amount)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You escaped with {s_amount} {self.emerald}",
                                                                                                 f"You got away with {s_amount} {self.emerald}"])))
-            await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} stole {s_amount}{self.emerald} from you!",
-                                                                                                   f"{ctx.author.display_name} pillaged {s_amount}{self.emerald} from you!",
-                                                                                                   f"{ctx.author.display_name} pillaged you and got {s_amount}{self.emerald} from you!."])))
+            try:
+                await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} stole {s_amount}{self.emerald} from you!",
+                                                                                                       f"{ctx.author.display_name} pillaged {s_amount}{self.emerald} from you!",
+                                                                                                       f"{ctx.author.display_name} pillaged you and got {s_amount}{self.emerald} from you!."])))
+            except discord.errors.Forbidden:
+                pass
             await self.db.update_pillagerboard(ctx.author.id, s_amount)
         else:
             await self.db.set_balance(victim.id, victim_bal + 32)
             await self.db.set_balance(ctx.author.id, their_bal - 32)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You were caught and paid 32 {self.emerald}"))
-            await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} absolutely failed at pillaging you.",
-                                                                                                   f"{ctx.author.display_name} got absolutely destroyed pillaging you.",
-                                                                                                   f"{ctx.author.display_name} tried to pillage you with their wooden sword."])))
+            try:
+                await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} absolutely failed at pillaging you.",
+                                                                                                       f"{ctx.author.display_name} got absolutely destroyed pillaging you.",
+                                                                                                       f"{ctx.author.display_name} tried to pillage you with their wooden sword."])))
+            except discord.errors.Forbidden:
+                pass
 
     @commands.group(name="leaderboard", aliases=["lb"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
