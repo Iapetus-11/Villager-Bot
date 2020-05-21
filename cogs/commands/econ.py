@@ -58,7 +58,7 @@ class Econ(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def deposit(self, ctx, amount: str):  # In blocks
         while ctx.author.id in self.selling:
-            await asyncio.sleep(.5)
+            await asyncio.sleep(2)
         their_bal = await self.db.get_balance(ctx.author.id)
         if their_bal < 9:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough emeralds to deposit!"))
@@ -224,8 +224,8 @@ class Econ(commands.Cog):
         except ValueError:
             amount = 1
 
-        if amount > 1000:
-            await ctx.send(embed=discord.embed(color=discord.Color.green(), description="You can't buy more than 1000 of an item at once!"))
+        if amount > 500:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't buy more than 500 of an item at once!"))
             return
 
         their_bal = await self.db.get_balance(ctx.author.id)
