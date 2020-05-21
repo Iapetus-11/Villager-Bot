@@ -591,12 +591,12 @@ class Econ(commands.Cog):
         if attackers_bees is None:
             attackers_bees = 0
         else:
-            attackers_bees = int(attackers_bees[1])
+            attackers_bees = attackers_bees[1]
         victims_bees = await self.db.get_item(victim.id, "Jar Of Bees")
         if victims_bees is None:
             victims_bees = 0
         else:
-            victims_bees = int(victims_bees[1])
+            victims_bees = victims_bees[1]
         if attackers_bees > victims_bees:
             heist_success = choice([False, True, True, True, False, True, False, True]) # 5/8
         elif victims_bees > attackers_bees:
@@ -814,7 +814,7 @@ class Econ(commands.Cog):
             await self.db.increment_vault_max(ctx.author.id)
         bees = await self.db.get_item(ctx.author.id, "Jar Of Bees")
         if bees is not None:
-            bees = bees[0]
+            bees = bees[1]
         else:
             bees = 0
         if bees > 2048:
