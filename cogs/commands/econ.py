@@ -355,17 +355,6 @@ class Econ(commands.Cog):
         except ValueError:
             amount = 1
 
-        if item == "items":
-            items = await self.db.get_items(ctx.author.id)
-            if len(items) < 1:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have any items to sell!"))
-                return
-            for obj in items:
-                        await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + obj[2] * obj[1])
-                        await self.db.remove_item(ctx.author.id, obj[0], obj[1])
-                        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {obj[1]}x {obj[0]} for {obj[2]*obj[1]}{self.emerald}"))
-            return
-
         _item = await self.db.get_item(ctx.author.id, item)
         if _item is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Either you don't have that item, or that item cannot be sold."))
