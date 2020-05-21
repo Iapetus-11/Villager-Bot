@@ -262,7 +262,10 @@ class Econ(commands.Cog):
             their_bal = await self.db.get_balance(ctx.author.id)
             if shop_item[0]*amount <= their_bal:
                 db_item = await self.db.get_item(ctx.author.id, shop_item[2][0])
-                db_item_count = db_item[1]
+                if db_item is not None:
+                    db_item_count = db_item[1]
+                else:
+                    db_item_count = 0
                 if eval(shop_item[1]):
                     await self.db.set_balance(ctx.author.id, their_bal - shop_item[0]*amount)
                     await self.db.add_item(ctx.author.id, shop_item[2][0], amount, shop_item[2][1])
