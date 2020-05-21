@@ -711,9 +711,7 @@ class Econ(commands.Cog):
     @leaderboard.command(name="pillages", aliases=["pil"])
     async def pillager_leaderboard(self, ctx):
         pillagers = await self.db.get_pillagerboard()
-        await ctx.send(type(pillagers))
         _sorted = sorted(pillagers, reverse=True, key=lambda entry: entry[1]) # Sort by second value in the thingy
-        await ctx.send(type(_sorted))
         try:
             place = _sorted.index(await self.db.get_pillager(ctx.author.id))+1
         except ValueError:
@@ -724,6 +722,7 @@ class Econ(commands.Cog):
         lb_text = ""
         rank = 1
         for entry in _sorted:
+            await ctx.send(entry)
             ussr = self.bot.get_user(int(entry[0]))
             if ussr is None:
                 ussr = "Unknown User     "
