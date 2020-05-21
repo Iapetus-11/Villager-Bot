@@ -554,7 +554,7 @@ class Econ(commands.Cog):
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
         await self.db.increment_vault_max(ctx.author.id)
-        if victim.bot == True:
+        if victim.bot:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Bots don't have citizenship and can't own emeralds, go away."))
             ctx.command.reset_cooldown(ctx)
             return
@@ -595,14 +595,15 @@ class Econ(commands.Cog):
         if await self.db.get_item(victim.id, "Bane Of Pillagers Amulet") is not None:
             heist_success = choice([False, False, False, False, False, True]) # 1/6
         if heist_success:
-            sAmount = ceil(victim_bal*(randint(10, 40)/100))
-            await self.db.set_balance(victim.id, victim_bal - sAmount)
-            await self.db.set_balance(ctx.author.id, their_bal + sAmount)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You escaped with {sAmount} {self.emerald}",
-                                                                                                f"You got away with {sAmount} {self.emerald}"])))
-            await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} stole {sAmount}{self.emerald} from you!",
-                                                                                                   f"{ctx.author.display_name} pillaged {sAmount}{self.emerald} from you!",
-                                                                                                   f"{ctx.author.display_name} pillaged you and got {sAmount}{self.emerald} from you!."])))
+            s_amount = ceil(victim_bal*(randint(10, 40)/100))
+            await self.db.set_balance(victim.id, victim_bal - s_amount)
+            await self.db.set_balance(ctx.author.id, their_bal + s_amount)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You escaped with {s_amount} {self.emerald}",
+                                                                                                f"You got away with {s_amount} {self.emerald}"])))
+            await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} stole {s_amount}{self.emerald} from you!",
+                                                                                                   f"{ctx.author.display_name} pillaged {s_amount}{self.emerald} from you!",
+                                                                                                   f"{ctx.author.display_name} pillaged you and got {s_amount}{self.emerald} from you!."])))
+            await self.db.update_pillagerboard(ctx.author.id, s_amount)
         else:
             await self.db.set_balance(victim.id, victim_bal + 32)
             await self.db.set_balance(ctx.author.id, their_bal - 32)
@@ -623,7 +624,7 @@ class Econ(commands.Cog):
             embed.add_field(name="**Bees Leaderboard**", value=f"``{ctx.prefix}leaderboard bees``", inline=False)
             await ctx.send(embed=embed)
 
-    @leaderboard.command(name="emeralds", aliases=["money", "currency", "em"])
+    @leaderboard.command(name="emeralds", aliases=["money", "em", "ems"])
     async def emerald_leaderboard(self, ctx):
         dbs = await self.bot.db.fetch("SELECT * FROM currency") # Returns list of tuples
         lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True) # Sort list
@@ -632,6 +633,7 @@ class Econ(commands.Cog):
         for i in range(0, len(lb), 1):
             if lb[i][0] == ctx.author.id:
                 place = i+1
+                break
         # Shorten list
         lb = lb[:10]
         if place >= 10:
@@ -658,6 +660,7 @@ class Econ(commands.Cog):
         for i in range(0, len(_sorted), 1):
             if _sorted[i][0] == ctx.author.id:
                 place = i+1
+                break
         _sorted = _sorted[:10]
         if place >= 10:
             _sorted = _sorted[:9]
@@ -674,7 +677,7 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__", description=lb_text)
         await ctx.send(embed=embed)
 
-    @leaderboard.command(name="bees", aliases=["beeboard"])
+    @leaderboard.command(name="bees", aliases=["beeboard", "bs"])
     async def beeeeees_leaderboard(self, ctx):
         all_items = await self.db.db.fetch("SELECT id, item, num FROM items")
         all_bees = []
@@ -688,6 +691,7 @@ class Econ(commands.Cog):
         for i in range(0, len(_sorted), 1):
             if _sorted[i][0] == ctx.author.id:
                 place = i+1
+                break
         _sorted = _sorted[:10]
         if place >= 10:
             _sorted = _sorted[:9]
@@ -700,8 +704,29 @@ class Econ(commands.Cog):
             lb_text += f"``{rank}.`` **{entry[1]}<:beee:682059180391268352>** {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
-            lb_text += "⋮\n"+f"``{place}.`` **{await self.db.get_bees(ctx.author.id)}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
+            lb_text += "⋮\n"+f"``{place}.`` **{(await self.db.get_item(ctx.author.id, 'Jar Of Bees'))[1]}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"<a:bee:682057109046951956> __**Bee Leaderboard**__ <a:bee:682057109046951956>", description=lb_text)
+        await ctx.send(embed=embed)
+
+    @leaderboard.command(name="pillages", aliases=["pil"])
+    async def pillager_leaderboard(self, ctx):
+        pillagers = await self.db.get_pillagerboard()
+        _sorted = sorted(pillagers, reverse=True, key=lambda entry: entry[1]) # Sort by second value in the thingy
+        place = _sorted.index(await self.db.get_pillager(ctx.author.id))+1
+        _sorted = _sorted[:10]
+        if place >= 10:
+            _sorted = _sorted[:9]
+        lb_text = ""
+        rank = 1
+        for entry in _sorted:
+            ussr = self.bot.get_user(int(entry[0]))
+            if ussr is None:
+                ussr = "Unknown User     "
+            lb_text += f"``{rank}.`` **{entry[1]}{self.emerald} Stolen** {str(ussr)[:-5]} \n"
+            rank += 1
+        if place >= 10:
+            lb_text += "⋮\n"+f"``{place}.`` **{(await self.db.get_pillager(ctx.author.id))[1]}{self.emerald} Stolen** {str(ctx.author)[:-5]}"
+        embed = discord.Embed(color=discord.Color.green(), title=f"<a:bee:682057109046951956> __**Emeralds Pillaged Leaderboard**__ <a:bee:682057109046951956>", description=lb_text)
         await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])

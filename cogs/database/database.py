@@ -170,6 +170,20 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute("DELETE FROM warns WHERE uid=$1 AND gid=$2", uid, gid)
 
+    async def get_pillagerboard(self):
+        await self.db.fetch("SELECT * FROM pillagerboard")
+
+    async def update_pillagerboard(self, uid, amount_to_add):
+        async with self.db.acquire() as con:
+            prev = await self.db.fetch("SELECT * FROM pillagerboard WHERE id=$1", uid)
+            if prev is not None:
+                con.execute("UPDATE pillagerboard SET amount=$1 WHERE id=$2", amount_to_add+prev[1])
+            else:
+                con.execute("INSERT INTO pillagerboard VALUES ($1, $2)", uid, amount_to_add)
+
+    async def get_pillager(self, uid):
+        return await self.db.fetchrow("SELECT * FROM pillagerboard WHERE id=$1", uid)
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
