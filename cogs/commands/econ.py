@@ -214,6 +214,7 @@ class Econ(commands.Cog):
 
         item = _item.lower()
 
+        await ctx.send("before first czech")
         if (item.startswith("max") or item.startswith("all")) and self.g.shop_items.get(item.replace("max ", "").replace("all ", "")) is not None:
             amount = floor((await self.db.get_balance(ctx.author.id))/self.g.shop_items.get(item)[0])
             item = item.replace("max ", "").replace("all ", "")
