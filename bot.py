@@ -24,7 +24,7 @@ async def get_prefix(bot, ctx):
     return prefix[0]
 
 
-bot = commands.AutoShardedBot(shard_count=6, command_prefix=get_prefix, help_command=None, case_insensitive=True, max_messages=512)
+bot = commands.AutoShardedBot(shard_count=7, command_prefix=get_prefix, help_command=None, case_insensitive=True, max_messages=512)
 
 
 async def setup_db():
