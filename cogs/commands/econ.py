@@ -806,9 +806,13 @@ class Econ(commands.Cog):
     @commands.command(name="harvesthoney", aliases=["honey", "sellhoney"])
     @commands.cooldown(1, 86400, commands.BucketType.user)
     async def harvest_honey(self, ctx):
-        await self.db.increment_vault_max(ctx.author.id)
-        await self.db.increment_vault_max(ctx.author.id)
-        bees = (await self.db.get_item(ctx.author.id, "Jar Of Bees"))[1]
+        for i in range(0, 3, 1):
+            await self.db.increment_vault_max(ctx.author.id)
+        bees = await self.db.get_item(ctx.author.id, "Jar Of Bees")
+        if bees is not None:
+            bees = bees[0]
+        else:
+            bees = 0
         if bees > 2048:
             bees = 2048
         if bees < 100:
