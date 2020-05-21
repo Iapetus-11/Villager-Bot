@@ -712,10 +712,10 @@ class Econ(commands.Cog):
     async def pillager_leaderboard(self, ctx):
         pillagers = await self.db.get_pillagerboard()
         _sorted = sorted(pillagers, reverse=True, key=lambda entry: entry[1]) # Sort by second value in the thingy
-        for i in range(0, len(_sorted), 1):
-            if _sorted[i][0] == ctx.author.id:
-                place = i+1
-                break
+        try:
+            place = _sorted.index(await self.db.get_pillager(ctx.author.id))+1
+        except ValueError:
+            place = len(_sorted)+1
         _sorted = _sorted[:10]
         if place >= 10:
             _sorted = _sorted[:9]
