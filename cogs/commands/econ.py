@@ -225,7 +225,7 @@ class Econ(commands.Cog):
             amount = 1
 
         if amount > 1000:
-            await ctx.send(embed=discord.embed(color=discord.Color.green(), description="You can't buy more than 10000 of an item at once!"))
+            await ctx.send(embed=discord.embed(color=discord.Color.green(), description="You can't buy more than 1000 of an item at once!"))
             return
 
         their_bal = await self.db.get_balance(ctx.author.id)
