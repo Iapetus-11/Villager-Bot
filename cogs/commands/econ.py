@@ -619,9 +619,10 @@ class Econ(commands.Cog):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)
             embed = discord.Embed(color=discord.Color.green(), title="__**Villager Bot Leaderboards**__")
-            embed.add_field(name="**Emerald Leaderboard**", value=f"``{ctx.prefix}leaderboard emeralds``", inline=False)
-            embed.add_field(name="**Commands Usage Leaderboard**", value=f"``{ctx.prefix}leaderboard commands``", inline=False)
-            embed.add_field(name="**Bees Leaderboard**", value=f"``{ctx.prefix}leaderboard bees``", inline=False)
+            embed.add_field(name="**Emeralds**", value=f"``{ctx.prefix}leaderboard emeralds``", inline=False)
+            embed.add_field(name="**Commands Usage**", value=f"``{ctx.prefix}leaderboard commands``", inline=False)
+            embed.add_field(name="**Jars Of Bees**", value=f"``{ctx.prefix}leaderboard bees``", inline=False)
+            embed.add_field(name="**Emeralds Pillaged**", value=f"``{ctx.prefix}leaderboard pillages``", inline=False)
             await ctx.send(embed=embed)
 
     @leaderboard.command(name="emeralds", aliases=["money", "em", "ems"])
@@ -729,7 +730,7 @@ class Econ(commands.Cog):
             rank += 1
         if place >= 10:
             lb_text += "⋮\n"+f"``{place}.`` **{(await self.db.get_pillager(ctx.author.id))[1]}{self.emerald} Stolen** {str(ctx.author)[:-5]}"
-        embed = discord.Embed(color=discord.Color.green(), title=f"<a:bee:682057109046951956> __**Emeralds Pillaged Leaderboard**__ <a:bee:682057109046951956>", description=lb_text)
+        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald} __**Emeralds Pillaged Leaderboard**__ {self.emerald}", description=lb_text)
         await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])
