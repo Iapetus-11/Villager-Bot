@@ -182,7 +182,11 @@ class Database(commands.Cog):
                 await con.execute("INSERT INTO pillagerboard VALUES ($1, $2)", uid, amount_to_add)
 
     async def get_pillager(self, uid):
-        return await self.db.fetchrow("SELECT * FROM pillagerboard WHERE id=$1", uid)
+        stuf = await self.db.fetchrow("SELECT * FROM pillagerboard WHERE id=$1", uid)
+        if stuf is not None:
+            return stuf
+        else:
+            return [uid, 0]
 
 
 def setup(bot):
