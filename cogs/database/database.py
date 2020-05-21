@@ -171,7 +171,7 @@ class Database(commands.Cog):
             await con.execute("DELETE FROM warns WHERE uid=$1 AND gid=$2", uid, gid)
 
     async def get_pillagerboard(self):
-        await self.db.fetch("SELECT * FROM pillagerboard")
+        return await self.db.fetch("SELECT * FROM pillagerboard")
 
     async def update_pillagerboard(self, uid, amount_to_add):
         prev = await self.db.fetchrow("SELECT * FROM pillagerboard WHERE id=$1", uid)
