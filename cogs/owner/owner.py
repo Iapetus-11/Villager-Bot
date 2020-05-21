@@ -287,6 +287,7 @@ class Owner(commands.Cog):
         system("git pull > git_pull_log 2>&1")
         with open("git_pull_log", "r") as f:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"```{f.read()}```")) # Maybe change the language of the ``` in the future for nice colors? idk
+        system("rm git_pull_log")
 
     @commands.command(name="getinv", aliases=["getinventory"])
     @commands.is_owner()
