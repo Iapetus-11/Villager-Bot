@@ -269,6 +269,7 @@ class Econ(commands.Cog):
                 if eval(shop_item[1]):
                     await self.db.set_balance(ctx.author.id, their_bal - shop_item[0]*amount)
                     await self.db.add_item(ctx.author.id, shop_item[2][0], amount, shop_item[2][1])
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have bought {amount}x **{db_item[0]}**! (You now have {db_item[1]+amount})"))
                 else:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't buy any more of that item!"))
             else:
