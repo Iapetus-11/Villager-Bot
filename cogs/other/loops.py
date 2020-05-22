@@ -21,7 +21,7 @@ class Loops(commands.Cog):
 
     async def update_activity(self):
         while self.bot.is_ready():
-            await asyncio.sleep(3600)
+            await asyncio.sleep(7200)
             await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
 
     async def reset_cmd_vect_counter(self):
