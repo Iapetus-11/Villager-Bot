@@ -8,6 +8,11 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
+tips = ["Did you know you can get emeralds from voting for us on top.gg? Try the ``vote`` command!",
+        "If you ever need more help, don't forget to check out the support server! discord.gg/39DwwUV",
+        "Have any suggestions? Use the suggestion channel in our support server! discord.gg/39DwwUV",
+        "In need of **emeralds**? Check out the #paid-stuff channel on the support server! discord.gg/39DwwUV"]
+
 with open("data/keys.json", "r") as k:  # Loads secret keys
     keys = json.load(k)
 
@@ -77,6 +82,10 @@ async def stay_safe(ctx):
         await ctx.send(
             embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
         return False
+
+    if randint(0, 50) == 25:
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice('Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:')}** {choice(tips)}"))
+
     if await banned(ctx.message.author.id):
         return False
     return not ctx.message.author.bot

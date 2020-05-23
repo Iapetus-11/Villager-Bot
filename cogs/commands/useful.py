@@ -12,10 +12,6 @@ class Useful(commands.Cog):
 
         self.g = self.bot.get_cog("Global")
 
-        self.tips = ["Made by Iapetus11#6821 & TrustedMercury#1953", "You can get emeralds by voting for the bot on top.gg!",
-                     "Hey, check out the support server! discord.gg/39DwwUV", "Did you know you can buy emeralds?",
-                     f"Wanna invite the bot? Try the !!invite command!", "Did you know you can get emeralds by voting for the bot?"]
-
         with open("data/keys.json", "r") as keys:
             self.google = async_cse.Search(json.load(keys)["googl"])
 
@@ -38,7 +34,7 @@ class Useful(commands.Cog):
             help_embed.add_field(name="\uFEFF", value=f"\uFEFF", inline=True)
             help_embed.add_field(name="\uFEFF", value="""Need more help? Check out the Villager Bot [Support Server](https://discord.gg/39DwwUV)
             Enjoying the bot? Vote for us on [top.gg](https://top.gg/bot/639498607632056321/vote)""", inline=False)
-            help_embed.set_footer(text=choice(self.tips))
+            help_embed.set_footer(text="Need more help? Check out the support server: discord.gg/39DwwUV")
             await ctx.send(embed=help_embed)
 
     @help.command(name='fun')
@@ -83,7 +79,7 @@ f'**{ctx.prefix}harvesthoney** *apparently bees produce honey, who knew it could
 f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             inline=False)
 
-        help_embed.set_footer(text=choice(self.tips))
+        help_embed.set_footer(text="Need more help? Check out the support server: discord.gg/39DwwUV")
 
         await ctx.send(embed=help_embed)
 
@@ -109,7 +105,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}stats** *shows the bot\'s stats*\n',
             inline=True)
 
-        help_embed.set_footer(text=choice(self.tips))
+        help_embed.set_footer(text="Need more help? Check out the support server: discord.gg/39DwwUV")
 
         await ctx.send(embed=help_embed)
 
@@ -133,7 +129,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}clearwarns** ***@user*** *clears the mentioned user\'s warnings*\n',
             inline=True)
 
-        help_embed.set_footer(text=choice(self.tips))
+        help_embed.set_footer(text="Need more help? Check out the support server: discord.gg/39DwwUV")
 
         await ctx.send(embed=help_embed)
         
@@ -157,7 +153,7 @@ f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
             f'**{ctx.prefix}colorcodes** *sends a Minecraft color code cheat-sheet your way.*\n',
             inline=True)
 
-        help_embed.set_footer(text=choice(self.tips))
+        help_embed.set_footer(text="Need more help? Check out the support server: discord.gg/39DwwUV")
 
         await ctx.send(embed=help_embed)
 
