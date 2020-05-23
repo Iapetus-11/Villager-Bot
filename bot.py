@@ -9,10 +9,10 @@ from random import randint, choice
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
-tips = ["Did you know you can get emeralds from voting for us on top.gg? Try the ``vote`` command!",
-        "If you ever need more help, don't forget to check out the support server! discord.gg/39DwwUV",
-        "Have any suggestions? Use the suggestion channel in our support server! discord.gg/39DwwUV",
-        "In need of **emeralds**? Check out the #paid-stuff channel on the support server! discord.gg/39DwwUV"]
+tips = ["Did you know you can get emeralds from voting for us on [top.gg](https://top.gg/bot/639498607632056321)?",
+        "If you ever need more help, don't forget to check out the [support server](https://discord.gg/39DwwUV)!",
+        "Have any suggestions? Use the suggestion channel in our [support server](https://discord.gg/39DwwUV)!",
+        "In need of **emeralds**? Check out the #paid-stuff channel on the [support server](https://discord.gg/39DwwUV)!"]
 
 with open("data/keys.json", "r") as k:  # Loads secret keys
     keys = json.load(k)
