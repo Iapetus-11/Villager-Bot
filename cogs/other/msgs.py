@@ -23,7 +23,7 @@ class Msgs(commands.Cog):
             help_embed.set_author(
                 name="Villager Bot",
                 icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
-            help_embed.set_footer(text=choice(self.bot.get_cog("Useful").tips))
+            help_embed.set_footer(text="Made by Iapetus11 & TrustedMercury!")
             try:
                 await message.channel.send(embed=help_embed)
             except discord.Forbidden:
