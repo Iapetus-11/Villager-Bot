@@ -4,7 +4,7 @@ import json
 import asyncpg
 import asyncio
 import logging
-from random import randint
+from random import randint, choice
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
