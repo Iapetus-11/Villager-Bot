@@ -85,7 +85,7 @@ async def stay_safe(ctx):
         return False
 
     if randint(0, 100) == 25:
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice('Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:')}** {choice(tips)}"))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
 
     if await banned(ctx.message.author.id):
         return False
