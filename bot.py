@@ -84,7 +84,7 @@ async def stay_safe(ctx):
             embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
         return False
 
-    if randint(0, 50) == 25:
+    if randint(0, 100) == 25:
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice('Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:')}** {choice(tips)}"))
 
     if await banned(ctx.message.author.id):
