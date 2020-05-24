@@ -85,7 +85,7 @@ async def stay_safe(ctx):
         return False
 
     if randint(0, 150) == 25:
-        if str(ctx.command) not in ["eval", "awaiteval", "mine"]
+        if str(ctx.command) not in ["eval", "awaiteval"]
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
 
     if await banned(ctx.message.author.id):
