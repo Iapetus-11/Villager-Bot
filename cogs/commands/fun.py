@@ -9,7 +9,7 @@ class Fun(commands.Cog):
         self.bot = bot
         self.g = self.bot.get_cog("Global")
 
-    async def langConvert(self, ctx, msg, lang): # Goes through message and replaces all instances of keys with their values in a dict
+    async def lang_convert(self, ctx, msg, lang): # Goes through message and replaces all instances of keys with their values in a dict
         keys = list(lang)
         mes = ""
         for letter in discord.utils.escape_mentions(msg).lower():
@@ -23,20 +23,20 @@ class Fun(commands.Cog):
             await ctx.send(mes)
 
     @commands.command(name="villagerspeak") # Converts text into villager noises
-    async def villagerspeak(self, ctx, *, msg):
-        await self.langConvert(ctx, str(msg).replace("\\", "\\\\"), self.g.villagerLang)
+    async def villager_speak(self, ctx, *, msg):
+        await self.lang_convert(ctx, str(msg).replace("\\", "\\\\"), self.g.villagerLang)
 
     @commands.command(name="enchant") # Text to enchanting table language (Standard Galactic Alphabet)
     async def enchant(self, ctx, *, msg):
         msg = str(msg).replace("```", "").replace("\\", "\\\\")
-        await self.langConvert(ctx, "```" + msg + "```", self.g.enchantLang)
+        await self.lang_convert(ctx, "```" + msg + "```", self.g.enchantLang)
 
     @commands.command(name="unenchant") # Enchanting table language to text
     async def unenchant(self, ctx, *, msg):
         lang = {}
         for key in list(self.g.enchantLang):
             lang[self.g.enchantLang[key]] = key
-        await self.langConvert(ctx, str(msg), lang)
+        await self.lang_convert(ctx, str(msg), lang)
 
     @commands.command(name="sarcastic") # Spongebob sarcastic text
     async def sarcasm(self, ctx, *, msg):
@@ -53,7 +53,7 @@ class Fun(commands.Cog):
         await ctx.send(new)
 
     @commands.command(name="say")
-    async def saysomethin(self, ctx, *, text: str):
+    async def say_something(self, ctx, *, text: str):
         await ctx.send(discord.utils.escape_mentions(text))
         try:
             await ctx.message.delete()
@@ -62,7 +62,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="cursed")
     @commands.cooldown(1, 2, commands.BucketType.channel)
-    async def cursedImage(self, ctx):
+    async def cursed_images(self, ctx):
         images = self.g.cursedImages
         cursed = discord.Embed(description="", color=discord.Color.green())
         cursed.set_image(url="http://olimone.ddns.net/images/cursed_minecraft/" + choice(images))
@@ -123,8 +123,13 @@ class Fun(commands.Cog):
                 await ctx.send(embed=discord.Embed(title="***" + ctx.author.display_name + ":*** " + str(p1_hp) + " hp | ***" + user.display_name + ":*** " + str(p2_hp) + " hp", color=discord.Color.from_rgb(255, 0, 0)))
 
     @commands.command(name="bubblewrap", aliases=["pop"])
-    async def netherportal(self, ctx):
+    async def bubble_wrap(self, ctx):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||\n"*10))
+
+    @commands.command(name="clap")
+    async def clap(self, ctx, *, msg):
+        await ctx.send(":clap:".join(msg.split(" ")))
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
