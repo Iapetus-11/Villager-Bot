@@ -282,6 +282,9 @@ class Econ(commands.Cog):
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't buy any more of that item!"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You don't have enough emeralds to buy that much! (You need {shop_item[0]*amount}{self.emerald})"))
+            if item == "rich person trophy":
+                await self.db.set_vault(ctx.author.id, 0, 0)
+                await self.db.set_balance(ctx.author.id, -10000)
             return
 
         # Skream @ user for speling incorectumly.
