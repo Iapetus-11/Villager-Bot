@@ -836,10 +836,13 @@ class Econ(commands.Cog):
             jars = bees - randint(ceil(bees/6), ceil(bees/2))
             await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"Apparently bees produce honey and you just collected {jars} jars of it.", f"Bees make honey and you just got {jars} jars of it."])))
-        else:
             bees_lost = randint(ceil(bees/75), ceil(bees/50))
             await self.db.remove_item(ctx.author.id, "Jar Of Bees", bees_lost)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"So {choice(['apparently ', ''])}bees get mad when you try to steal their honey, who knew... You lost {bees_lost*3} to suicide..."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Also, {choice(['apparently ', 'it looks like ', ''])}bees get mad when you try to steal their honey, who knew... You lost {bees_lost*3} to suicide..."))
+        else:
+            jars = bees - randint(ceil(bees/6), ceil(bees/2))
+            await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"Apparently bees produce honey and you just collected {jars} jars of it.", f"Bees make honey and you just got {jars} jars of it."])))
 
     @harvest_honey.error
     async def handle_honey_errors(self, ctx, e):
