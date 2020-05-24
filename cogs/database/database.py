@@ -103,15 +103,16 @@ class Database(commands.Cog):
     async def get_prefix(self, gid):
         prefix = await self.db.fetchrow("SELECT prefix FROM prefixes WHERE gid=$1", gid)
         if prefix is None:
-            async with self.db.acquire() as con:
-                await con.execute("INSERT INTO prefixes VALUES ($1, $2)", gid, "!!")
             return "!!"
         return prefix[0]
 
     async def set_prefix(self, gid, prefix):
-        await self.get_prefix(gid)
+        pp = await self.db.fetchrow("SELECT prefix FROM prefixes WHERE gid=$1", gid)
         async with self.db.acquire() as con:
-            await con.execute("UPDATE prefixes SET prefix=$1 WHERE gid=$2", prefix, gid)
+            if pp is not None:
+                await con.execute("UPDATE prefixes SET prefix=$1 WHERE gid=$2", prefix, gid)
+            else:
+                await con.execute("INSERT INTO prefixes VALUES ($1, $2)", gid, prefix)
 
     async def drop_prefix(self, gid):
         async with self.db.acquire() as con:
@@ -120,19 +121,38 @@ class Database(commands.Cog):
     async def get_do_replies(self, gid):
         do_replies = await self.db.fetchrow("SELECT reply FROM doreplies WHERE gid=$1", gid)
         if do_replies is None:
-            async with self.db.acquire() as con:
-                await con.execute("INSERT INTO doreplies VALUES ($1, $2)", gid, True)
             return True
         return do_replies[0]
 
     async def set_do_replies(self, gid, doit):
-        await self.get_do_replies(gid)
+        do_replies = await self.db.fetchrow("SELECT reply FROM doreplies WHERE gid=$1", gid)
         async with self.db.acquire() as con:
-            await con.execute("UPDATE doreplies SET reply=$1 WHERE gid=$2", doit, gid)
+            if do_replies is not None:
+                await con.execute("UPDATE doreplies SET reply=$1 WHERE gid=$2", doit, gid)
+            else:
+                await con.execute("INSERT INTO doreplies VALUES ($1, $2)", gid, doit)
 
     async def drop_do_replies(self, gid):
         async with self.db.acquire() as con:
             await con.execute("DELETE FROM doreplies WHERE gid=$1", gid)
+
+    async def get_do_tips(self, gid):
+        do_tips = await self.db.fetchrow("SELECT dotips FROM dotips WHERE gid=$1", gid)
+        if do_tips is None:
+            return True
+        return do_tips[0]
+
+    async def set_do_tips(self, gid, doit):
+        do_tips = await self.db.fetchrow("SELECT dotips FROM dotips WHERE gid=$1", gid)
+        async with self.db.acquire() as con:
+            if do_tips is not None:
+                await con.execute("UPDATE dotips SET dotips=$1 WHERE gid=$2", doit, gid)
+            else:
+                await con.execute("INSERT INTO dotips VALUES ($1, $2)", gid, doit)
+
+    async def drop_do_tips(self, gid):
+        async with self.db.acquire() as con:
+            await con.execute("DELETE FROM dotips WHERE gid=$1", gid)
 
     async def get_items(self, uid):
         return await self.db.fetch("SELECT item, num, val FROM items WHERE id=$1", uid)

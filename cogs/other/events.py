@@ -82,8 +82,9 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
-        await self.db.drop_do_replies(guild.id)
         await self.db.drop_prefix(guild.id)
+        await self.db.drop_do_replies(guild.id)
+        await self.db.drop_do_tips(guild.id)
 
 
 def setup(bot):
