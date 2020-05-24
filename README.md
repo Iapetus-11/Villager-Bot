@@ -45,9 +45,12 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!enchant__ *text* (turns text into the Minecraft enchanting table language)
 * __!!unenchant__ *text* (turns text in the enchanting table language back into english)
 * __!!villagerspeak__ *text* (turns text into villager sounds in text)
+* __!!say__ *text* (bot repeats what you say)
 * __!!sarcastic__ *text* (converts given text into sarcastic text)
 * __!!battle__ *@user* (allows you to battle the mentioned user)
 * __!!cursed__ (bot will upload a cursed Minecraft image)
+* __!!bubblewrap__ (bot will send some bubble wrap for you to pop)
+* __!!clap__ *text* (bot will put the :clap: emoji between text)
 
 ### Useful Minecraft Commands
 * __!!mcping__ *ip:port* (pings and gets information on the specified Minecraft server)
@@ -66,7 +69,6 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!uptime__ (gets the uptime of the bot)
 * __!!vote__ (gets the link to vote for the bot, if you want to support it)
 * __!!invite__ (gets the invite link if you want to add it to another server)
-* __!!say__ *text* (bot repeats what you say)
 * __!!google__ *query* (bot searches for your query on google)
 * __!!youtube__ *query* (bot searches for you on youtube)
 * __!!image__ *query* (bot searches for you on google images)
