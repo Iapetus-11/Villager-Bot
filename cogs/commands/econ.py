@@ -278,13 +278,13 @@ class Econ(commands.Cog):
                     await self.db.set_balance(ctx.author.id, their_bal - shop_item[0]*amount)
                     await self.db.add_item(ctx.author.id, shop_item[2][0], amount, shop_item[2][1])
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have bought {amount}x **{shop_item[2][0]}**! (You now have {(await self.db.get_item(ctx.author.id, shop_item[2][0]))[1]})"))
+                    if item == "rich person trophy":
+                        await self.db.set_vault(ctx.author.id, 0, 0)
+                        await self.db.set_balance(ctx.author.id, -10000)
                 else:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't buy any more of that item!"))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You don't have enough emeralds to buy that much! (You need {shop_item[0]*amount}{self.emerald})"))
-            if item == "rich person trophy":
-                await self.db.set_vault(ctx.author.id, 0, 0)
-                await self.db.set_balance(ctx.author.id, -10000)
             return
 
         # Skream @ user for speling incorectumly.
