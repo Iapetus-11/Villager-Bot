@@ -4,5 +4,6 @@
   "fortune i book": [120, "True", ["Fortune I Book", 24]],
   "jar of bees": [8, "True", ["Jar Of Bees", 2]],
   "lure i book": [120, "True", ["Lure I Book", 24]],
-  "netherite scrap": [32, "True", ["Netherite Scrap", 8]]
+  "netherite scrap": [32, "True", ["Netherite Scrap", 8]],
+  "rich person trophy": [36000, "db_item_count < 1", ["Rich Person Trophy", 18000]]
 }

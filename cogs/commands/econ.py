@@ -161,6 +161,7 @@ class Econ(commands.Cog):
         shop.add_field(name=f"__**Jar of Bees**__ 8{self.emerald}", value=f"``{ctx.prefix}buy jar of bees``", inline=True)
         shop.add_field(name=f"__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>) 32{self.emerald}", value=f"``{ctx.prefix}buy netherite scrap``", inline=True)
         shop.add_field(name=f"__**Fishing Rod**__ 64{self.emerald}", value=f"``{ctx.prefix}buy fishing rod``", inline=True)
+        shop.add_field(name=f"__**Rich Person Trophy**__ 36000{self.emerald}", value=f"``{ctx.prefix}buy rich person trophy``", inline=False)
         await ctx.send(embed=shop)
 
     @commands.command(name="inventory", aliases=["inv"])
