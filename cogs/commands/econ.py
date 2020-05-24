@@ -826,8 +826,8 @@ class Econ(commands.Cog):
             bees = bees[1]
         else:
             bees = 0
-        if bees > 2048:
-            bees = 2048
+        if bees > 1024:
+            bees = 1024
         if bees < 100:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have enough bees to make this business option viable."))
             ctx.command.reset_cooldown(ctx)
