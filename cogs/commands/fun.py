@@ -128,7 +128,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="clap")
     async def clap(self, ctx, *, msg):
-        await ctx.send(" :clap: ".join(discord.utils.escape_mentions(msg).split(" ")))
+        await ctx.send(" :clap: ".join(discord.utils.escape_mentions(msg).split(" "))+" :clap:")
 
 
 def setup(bot):
