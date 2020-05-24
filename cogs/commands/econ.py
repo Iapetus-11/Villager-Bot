@@ -86,7 +86,10 @@ class Econ(commands.Cog):
 
         await self.db.set_balance(ctx.author.id, their_bal - (9 * amount))
         await self.db.set_vault(ctx.author.id, vault[0] + amount, vault[1])
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have deposited {amount} emerald blocks into the vault. ({amount*9}{self.emerald})"))
+        s = ""
+        if amount != 1:
+            s = "s"
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have deposited {amount} emerald block{s} into the vault. ({amount*9}{self.emerald})"))
 
     @commands.command(name="withdraw", aliases=["with"])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
