@@ -52,8 +52,8 @@ class Useful(commands.Cog):
             f'**{ctx.prefix}unenchant** ***text*** *turns the enchanting table language back into English*\n'
             f'**{ctx.prefix}sarcastic** ***text*** *makes text sarcastic*\n'
             f'**{ctx.prefix}say** ***text*** *bot will repeat what you tell it to*\n'
-            f'**{ctx.prefix}bubblewrap** *bot will send some bubble wrap for you to pop\n'
-            f'**{ctx.prefix}clap** ***text*** *:clap: bot :clap: will :clap: send :clap: text :clap: like :clap: this :clap:\n',
+            f'**{ctx.prefix}bubblewrap** *bot will send some bubble wrap for you to pop*\n'
+            f'**{ctx.prefix}clap** ***text*** *:clap: bot :clap: will :clap: send :clap: text :clap: like :clap: this :clap:*\n',
             inline=False)
 
         help_embed.add_field(
