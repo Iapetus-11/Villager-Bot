@@ -71,5 +71,6 @@ class Settings(commands.Cog):
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid option! Only ``on`` and ``off`` are valid options."))
 
+
 def setup(bot):
     bot.add_cog(Settings(bot))
