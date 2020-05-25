@@ -60,6 +60,7 @@ class Settings(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Tips are currently **enabled**."))
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Tips are currently **disabled**."))
+            return
         doem = doem.lower()
         if doem == "on" or doem == "true":
             await self.db.set_do_tips(ctx.guild.id, True)
