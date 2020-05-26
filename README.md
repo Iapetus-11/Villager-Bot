@@ -51,6 +51,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!cursed__ (bot will upload a cursed Minecraft image)
 * __!!bubblewrap__ (bot will send some bubble wrap for you to pop)
 * __!!clap__ *text* (bot will put the :clap: emoji between text)
+* __!!kill__ *@user* (bot will kill specified user)
 
 ### Useful Minecraft Commands
 * __!!mcping__ *ip:port* (pings and gets information on the specified Minecraft server)
