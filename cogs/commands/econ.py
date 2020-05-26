@@ -360,7 +360,7 @@ class Econ(commands.Cog):
             return
         await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + _item[2] * amount)
         await self.db.remove_item(ctx.author.id, item, amount)
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {_item[0]} for {_item[2]*amount}{self.emerald}."))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have sold {amount}x {_item[0]} for {_item[2]*amount}{self.emerald}"))
 
     @commands.command(name="give")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
