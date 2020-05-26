@@ -78,7 +78,8 @@ f'**{ctx.prefix}harvesthoney** *apparently bees produce honey, who knew it could
         help_embed.add_field(
             name="**Other Fun Commands**",
             value=f'**{ctx.prefix}cursed** *the bot will upload a cursed Minecraft image*\n'
-f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n',
+                  f'**{ctx.prefix}battle** ***user*** *allows you to battle your friends!*\n'
+                  f'**{ctx.prefix}kill** ***user*** *kills the mentioned user*\n',
             inline=False)
 
         help_embed.set_footer(text="Need more help? Check out the support server: discord.gg/39DwwUV")
