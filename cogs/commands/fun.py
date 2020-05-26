@@ -122,6 +122,13 @@ class Fun(commands.Cog):
             else:
                 await ctx.send(embed=discord.Embed(title="***" + ctx.author.display_name + ":*** " + str(p1_hp) + " hp | ***" + user.display_name + ":*** " + str(p2_hp) + " hp", color=discord.Color.from_rgb(255, 0, 0)))
 
+    @commands.command(name="kill", aliases=["murder", "makedie", "killperson"])
+    async def kill_person(self, ctx, user: discord.User):
+        kill_msgs = ["Wow you suicided {0}.", "You done killed {0}", f"Oh no, {ctx.author} killed "+"{0}", "Wher was u when {0} kil? I on fone, eatin dorito...", "{0} died by deadness", "{0} died by death",
+                     "{0} commited dig straight down", "{0} was killed by "+f"{ctx.author}", "{0} died of mysterious causes...", "{0} was killed by choking on a dorito", "{0} done died.", "{0} died a tragic death",
+                     "{0} died in a tragic accident involving "+f"{ctx.author}", "{0} suddenly died by dying", f"{ctx.author} has bought a gun,"+" in other news, {0} just died."]
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(kill_msgs).format(str(user))))
+
     @commands.command(name="bubblewrap", aliases=["pop"])
     async def bubble_wrap(self, ctx):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||||pop||\n"*10))
