@@ -536,6 +536,8 @@ class Econ(commands.Cog):
         mult = 1+(randint(10, 30)/100)
         if their_bal < 100:
             mult += 0.2
+        if await self.db.get_item(ctx.author.id, "Rich Person Trophy") is not None:
+            mult *= 2
         rez = ceil(amount*mult)
         if roll > bot_roll:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You won {rez-amount}{self.emerald} **|** Multiplier: {int(mult*100)}%"))
