@@ -218,9 +218,10 @@ class Econ(commands.Cog):
 
         item = _item.lower()
 
-        if (item.startswith("max") or item.startswith("all")) and self.g.shop_items.get(item.replace("max ", "").replace("all ", "")) is not None:
-            amount = floor((await self.db.get_balance(ctx.author.id))/self.g.shop_items.get(item.replace("max ", "").replace("all ", ""))[0])
-            item = item.replace("max ", "").replace("all ", "")
+        place_holder = item.replace("max ", "").replace("all ", "")
+        if (item.startswith("max") or item.startswith("all")) and self.g.shop_items.get(place_holder) is not None:
+            amount = floor((await self.db.get_balance(ctx.author.id))/self.g.shop_items.get(place_holder)[0])
+            item = place_holder
         else:
             try: # So proud of this
                 amount = int(item.split(" ")[0])
@@ -280,7 +281,7 @@ class Econ(commands.Cog):
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have bought {amount}x **{shop_item[2][0]}**! (You now have {(await self.db.get_item(ctx.author.id, shop_item[2][0]))[1]})"))
                     if item == "rich person trophy":
                         await self.db.set_vault(ctx.author.id, 0, 0)
-                        await self.db.set_balance(ctx.author.id, -10000)
+                        await self.db.set_balance(ctx.author.id, 0)
                 else:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't buy any more of that item!"))
             else:
