@@ -179,6 +179,10 @@ class Database(commands.Cog):
             else:
                 await con.execute("DELETE FROM items WHERE id=$1 AND LOWER(item)=LOWER($2)", uid, item)
 
+    async def wipe_items(self, uid):
+        for item in await self.get_items(uid):
+            await self.remove_item(uid, item[0], item[1])
+
     async def add_warn(self, uid, mod, gid, reason):
         async with self.db.acquire() as con:
             await con.execute("INSERT INTO warns VALUES ($1, $2, $3, $4)", uid, mod, gid, reason)
