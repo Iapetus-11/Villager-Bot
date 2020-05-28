@@ -846,28 +846,26 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(["You don't have enough bees to make this business option viable.", "Dude, you need 100 jars of bees to actually make a profit, go away."])))
             ctx.command.reset_cooldown(ctx)
             return
+        jars = bees - randint(ceil(bees/6), ceil(bees/2))
+        await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"Apparently bees produce honey and you just collected {jars} jars of it.", f"Bees make honey and you just got {jars} jars of it."])))
         if choice([True, False, False, False]): # 1/4 chance of getting bees died
-            jars = bees - randint(ceil(bees/6), ceil(bees/2))
-            await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"Apparently bees produce honey and you just collected {jars} jars of it.", f"Bees make honey and you just got {jars} jars of it."])))
             bees_lost = randint(ceil(bees/75), ceil(bees/50))
             await self.db.remove_item(ctx.author.id, "Jar Of Bees", bees_lost)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Also, {choice(['apparently ', 'it looks like ', ''])}bees get mad when you try to steal their honey, who knew... You lost {bees_lost*3} to suicide..."))
-        else:
-            jars = bees - randint(ceil(bees/6), ceil(bees/2))
-            await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"Apparently bees produce honey and you just collected {jars} jars of it.", f"Bees make honey and you just got {jars} jars of it."])))
+
 
     @harvest_honey.error
     async def handle_honey_errors(self, ctx, e):
         if isinstance(e, commands.CommandOnCooldown):
             hours = int(e.retry_after / 3600)
             minutes = int(e.retry_after / 60) % 60
-            descs = [f"Didn't your parents tell you patience was a virtue? Calm down and wait another {hours} hour(s) & {minutes} minute(s).",
+            descs = [f"Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {hours} hour(s) & {minutes} minute(s).",
                      f"Hey, you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
                      f"Hrmmm, looks like you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
-                     f"Didn't you know patience was a virtue? Wait another {hours} hour(s) & {minutes} minute(s)."]
+                     f"Didn't you know [patience is a virtue](http://www.patience-is-a-virtue.org/)? Wait another {hours} hour(s) & {minutes} minute(s)."]
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs)))
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
