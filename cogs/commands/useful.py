@@ -66,8 +66,10 @@ f'**{ctx.prefix}deposit** ***amount in emerald blocks*** *deposit emerald blocks
 f'**{ctx.prefix}withdraw** ***amount in emerald blocks*** *withdraw emerald blocks from the emerald vault*\n'
 f'**{ctx.prefix}inventory** *see what you have in your inventory*\n'
 f'**{ctx.prefix}give** ***@user amount*** ***[optional: item]*** *give mentioned user emeralds or an item*\n'
-f'**{ctx.prefix}gamble** ***amount*** *gamble with Villager Bot*\n'
-f'**{ctx.prefix}pillage** ***@user*** *attempt to steal emeralds from another person*\n'
+f'**{ctx.prefix}gamble** ***amount*** *gamble with Villager Bot*\n', inline=False)
+        help_embed.add_field(
+            name="**More Economy Commands**",
+            value=f'**{ctx.prefix}pillage** ***@user*** *attempt to steal emeralds from another person*\n'
 f'**{ctx.prefix}shop** *go shopping with emeralds*\n'
 f'**{ctx.prefix}sell** ***amount item*** *sell a certain amount of an item*\n'
 f'**{ctx.prefix}leaderboard** *shows the available leaderboards*\n'
