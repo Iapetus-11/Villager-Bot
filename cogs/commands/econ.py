@@ -503,10 +503,10 @@ class Econ(commands.Cog):
             if cooldown <= 0:
                 await ctx.reinvoke()
             else:
-                descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
+                descs = ["Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {0} seconds.",
                         "Hey, you need to wait another {0} seconds before doing that again.",
                         "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
-                        "Didn't you know patience was a virtue? Wait another {0} seconds."]
+                        "Don't you know [patience was a virtue](http://www.patience-is-a-virtue.org/)? Wait another {0} seconds."]
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(cooldown, 2))))
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)

@@ -55,10 +55,10 @@ class Errors(commands.Cog):
 
         if isinstance(e, commands.CommandOnCooldown):
             if not str(ctx.command) in ["mine", "fish", "harvesthoney"]:
-                descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
+                descs = ["Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {0} seconds.",
                         "Hey, you need to wait another {0} seconds before doing that again.",
                         "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
-                        "Didn't you know patience was a virtue? Wait another {0} seconds."]
+                        "Don't you know [patience was a virtue](http://www.patience-is-a-virtue.org/)? Wait another {0} seconds."]
                 await self.send(ctx, choice(descs).format(round(e.retry_after, 2)))
             return
         else:
