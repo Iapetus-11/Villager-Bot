@@ -445,8 +445,6 @@ class Econ(commands.Cog):
         if found == "emerald":
             items = await self.db.get_items(ctx.author.id)
             mult = 1
-            if await self.db.get_item(ctx.author.id, "Rich Person Trophy") is not None:
-                mult *= 2
             choices = [1, 1]
             top = 0
             for item in items:
@@ -465,7 +463,9 @@ class Econ(commands.Cog):
                     if 4 > top:
                         choices = [1, 1, 2]
                         top = 4
-                mult = mult*choice(choices)
+                mult = choice(choices)
+                if await self.db.get_item(ctx.author.id, "Rich Person Trophy") is not None:
+                    mult *= 2
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"You found {mult}{self.emerald}!",
                                                                                                 f"You mined up {mult}{self.emerald}!",
                                                                                                 f"You got {mult}{self.emerald}!"])))
