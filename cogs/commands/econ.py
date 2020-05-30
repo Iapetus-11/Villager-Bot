@@ -233,6 +233,10 @@ class Econ(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't buy more than 5000 of an item at once!"))
             return
 
+        if amount < 1:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't buy less than 1 of an item at once!"))
+            return
+
         their_bal = await self.db.get_balance(ctx.author.id)
 
         pickaxes = {"stone pickaxe": [32, "stone"],
