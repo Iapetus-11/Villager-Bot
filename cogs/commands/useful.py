@@ -59,7 +59,6 @@ class Useful(commands.Cog):
         help_embed.add_field(
             name="**Economy Commands**",
             value=f'**{ctx.prefix}mine** *go mining with the bot for emeralds*\n'
-f'**{ctx.prefix}fish** *go fishing for fish and other valuables*\n'
 f'**{ctx.prefix}balance** *the bot will tell you how many emeralds you have*\n'
 f'**{ctx.prefix}vault** *shows you how many emerald blocks you have in the emerald vault*\n'
 f'**{ctx.prefix}deposit** ***amount in emerald blocks*** *deposit emerald blocks into the emerald vault*\n'
@@ -74,7 +73,7 @@ f'**{ctx.prefix}shop** *go shopping with emeralds*\n'
 f'**{ctx.prefix}sell** ***amount item*** *sell a certain amount of an item*\n'
 f'**{ctx.prefix}leaderboard** *shows the available leaderboards*\n'
 f'**{ctx.prefix}chug** ***potion*** *uses the mentioned potion.*\n'
-f'**{ctx.prefix}harvesthoney** *apparently bees produce honey, who knew it could sell for emeralds*\n',
+f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell for emeralds*\n',
             inline=False)
 
         help_embed.add_field(

@@ -26,8 +26,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 
 ### Economy Commands
 * __!!mine__ (go mining with the bot for emeralds)
-* __!!fish__ (go fishing for fish)
-* __!!harvesthoney__ (who knew bees could produce honey)
+* __!!honey__ (who knew bees could produce honey)
 * __!!balance__ (check the amount of emeralds in your inventory)
 * __!!inventory__ (allows you to check the items in your inventory)
 * __!!give__ *@user* *amount* *\[optional: item\]* (gives mentioned user specified amount of emeralds or items from your inventory)
