@@ -17,6 +17,8 @@ class Econ(commands.Cog):
 
         self.emerald = "<:emerald:653729877698150405>"
 
+        self.fuck_the_fish_command = []
+
     async def problem(self, ctx):
         if ctx.author.id in self.who_is_mining.keys():
             self.who_is_mining[ctx.author.id] += 1
@@ -792,14 +794,14 @@ class Econ(commands.Cog):
     @commands.command(name="fish")
     @commands.cooldown(1, 20, commands.BucketType.user)
     async def fish(self, ctx):
+        if not ctx.author.id in [536986067140608041, 418707912836382721]:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command is currently disabled due to a exploit found."))
+            return
         if ctx.author.id in self.fuck_the_fish_command:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)?"))
             return
         else:
             self.fuck_the_fish_command.append(ctx.author.id)
-        if not ctx.author.id in [536986067140608041, 418707912836382721]:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command is currently disabled due to a exploit found."))
-            return
         if not await self.problem(ctx):
             return
         await self.db.increment_vault_max(ctx.author.id)
