@@ -74,11 +74,16 @@ class Settings(commands.Cog):
 
     @config.command(name="difficulty", aliases=["diff"])
     async def set_difficulty(self, ctx, difficulty=None):
+        db_diff = await self.db.get_difficulty(ctx.guild.id)
         if difficulty is None:
-            db_diff = await self.db.get_difficulty(ctx.guild.id)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"The difficulty is currently set to **{db_diff}**."))
             return
-
+        difficulty = difficulty.lower()
+        if difficulty in ["peaceful", "easy", "hard"]:
+            await self.db.set_difficulty(ctx.guild.id, difficulty)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Set the server difficulty to **{difficulty}**."))
+        else:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid option! Only ``peaceful``, ``easy``, and ``hard`` are valid options."))
 
 
 def setup(bot):
