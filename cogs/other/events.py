@@ -85,6 +85,7 @@ class Events(commands.Cog):
         await self.db.drop_prefix(guild.id)
         await self.db.drop_do_replies(guild.id)
         await self.db.drop_do_tips(guild.id)
+        await self.db.drop_difficulty(guild.id)
 
 
 def setup(bot):
