@@ -114,7 +114,7 @@ class Database(commands.Cog):
             else:
                 await con.execute("INSERT INTO prefixes VALUES ($1, $2)", gid, prefix)
 
-    async def drop_prefix(self, gid):
+    async def drop_prefix(self, gid): # remember to put this shit back ya cunt
         async with self.db.acquire() as con:
             await con.execute("DELETE FROM prefixes WHERE gid=$1", gid)
 
