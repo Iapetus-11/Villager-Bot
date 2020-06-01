@@ -5,6 +5,9 @@ import asyncpg
 import asyncio
 import logging
 from random import randint, choice
+import sys
+
+sys.setrecursionlimit(10**6)
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
