@@ -199,7 +199,8 @@ class Database(commands.Cog):
 
     async def wipe_items(self, uid):
         for item in await self.get_items(uid):
-            await self.remove_item(uid, item[0], item[1])
+            if item[0] != "Bane Of Pillagers Amulet":
+                await self.remove_item(uid, item[0], item[1])
 
     async def add_warn(self, uid, mod, gid, reason):
         async with self.db.acquire() as con:
