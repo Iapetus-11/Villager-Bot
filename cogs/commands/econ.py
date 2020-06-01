@@ -18,7 +18,7 @@ class Econ(commands.Cog):
         self.emerald = "<:emerald:653729877698150405>"
 
     async def send(self, ctx, m):
-        await self.send(ctx, (m))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
 
     async def problem(self, ctx):
         if ctx.author.id in self.who_is_mining.keys():
