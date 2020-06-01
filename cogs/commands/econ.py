@@ -800,7 +800,9 @@ class Econ(commands.Cog):
         if ctx.author.id in self.fuck_the_fish_command:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)?"))
             return
+        self.fuck_the_fish_command.append(ctx.author.id)
         if not await self.problem(ctx):
+            self.fuck_the_fish_command.pop(ctx.author.id)
             return
         await self.db.increment_vault_max(ctx.author.id)
         bad_catches = ["a rusty nail", "an old shoe", "a broken bottle", "a tin can", "a soda bottle", "a piece of plastic", "a moldy chicken nugget", "a discarded birthday cake",
@@ -827,6 +829,7 @@ class Econ(commands.Cog):
                                 f"You {choice(['fished up', 'caught'])} {a} {c[0]}! (Worth {c[1]}{self.emerald})",
                                 f"You {choice(['fished up', 'caught'])} {a} {c[0]}! (Worth {c[1]}{self.emerald})"])))
                             await self.db.add_item(ctx.author.id, c[0], 1, c[1])
+                            self.fuck_the_fish_command.pop(ctx.author.id)
                             return
                 good_catch_chance = [True, False]
             if choice(good_catch_chance):
@@ -835,14 +838,7 @@ class Econ(commands.Cog):
                 await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id))+catch[1])
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up', 'reeled in'])} {choice(bad_catches)}..."))
-
-    @fish.after_invoke
-    async def after_fish_invoke(self, ctx):
         self.fuck_the_fish_command.pop(ctx.author.id)
-
-    @fish.before_invoke
-    async def before_fish_invoke(self, ctx):
-        self.fuck_the_fish_command.append(ctx.author.id)
 
     @fish.error
     async def handle_fish_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
