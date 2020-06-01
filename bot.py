@@ -85,7 +85,7 @@ async def stay_safe(ctx):
         return False
 
     if randint(0, 150) == 25:
-        if str(ctx.command) not in ["eval", "awaiteval", "help", "ping", "uptime", "stats", "vote", "invite"]:
+        if str(ctx.command) not in ["eval", "awaiteval", "help", "ping", "uptime", "stats", "vote", "invite", "purge"]:
             if ctx.guild is None or await bot.get_cog("Database").get_do_tips(ctx.guild.id):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
 
