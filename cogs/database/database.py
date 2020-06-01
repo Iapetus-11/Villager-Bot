@@ -118,28 +118,19 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute("DELETE FROM prefixes WHERE gid=$1", gid)
 
-    async def get_config(self, gid):
-        config = await self.db.fetchrow("SELECT * FROM config WHERE gid=$1", gid) # gid, doreplies, dotips, difficulty
-        if config is None:
-            return [gid, True, True, "peaceful"]
-        return config
-
-    async def set_config(self, gid, key, value):
-        config = await self.db.fetchrow("SELECT * FROM config WHERE gid=$1", gid)
-        async with self.db.acquire() as con:
-            if config is None:
-                await con.execute("INSERT INTO config VALUES ($1, $2, $3, $4)", gid, True, True, "peaceful")
-            await con.execute(f"UPDATE config SET {key}=$1 WHERE gid=$2", value, gid)
-
-    async def drop_config(self, gid):
-        async with self.db.acquire() as con:
-            await con.execute("DELETE FROM config WHERE gid=$1", gid)
-
     async def get_do_replies(self, gid):
-        return (await self.get_config(gid))[1]
+        do_replies = await self.db.fetchrow("SELECT reply FROM doreplies WHERE gid=$1", gid)
+        if do_replies is None:
+            return True
+        return do_replies[0]
 
     async def set_do_replies(self, gid, doit):
-        await self.set_config(gid, "doreplies", doit)
+        do_replies = await self.db.fetchrow("SELECT reply FROM doreplies WHERE gid=$1", gid)
+        async with self.db.acquire() as con:
+            if do_replies is not None:
+                await con.execute("UPDATE doreplies SET reply=$1 WHERE gid=$2", doit, gid)
+            else:
+                await con.execute("INSERT INTO doreplies VALUES ($1, $2)", gid, doit)
 
     async def drop_do_replies(self, gid):
         async with self.db.acquire() as con:
