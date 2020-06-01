@@ -155,15 +155,15 @@ class Database(commands.Cog):
             await con.execute("DELETE FROM dotips WHERE gid=$1", gid)
 
     async def get_difficulty(self, gid):
-        do_tips = await self.db.fetchrow("SELECT difficulty FROM difficulty WHERE gid=$1", gid)
-        if do_tips is None:
-            return True
-        return do_tips[0]
+        diff = await self.db.fetchrow("SELECT difficulty FROM difficulty WHERE gid=$1", gid)
+        if diff is None:
+            return "peaceful"
+        return diff[0]
 
     async def set_difficulty(self, gid, diff):
-        do_tips = await self.db.fetchrow("SELECT difficulty FROM difficulty WHERE gid=$1", gid)
+        db_diff = await self.db.fetchrow("SELECT difficulty FROM difficulty WHERE gid=$1", gid)
         async with self.db.acquire() as con:
-            if do_tips is not None:
+            if db_diff is not None:
                 await con.execute("UPDATE difficulty SET difficulty=$1 WHERE gid=$2", diff, gid)
             else:
                 await con.execute("INSERT INTO difficulty VALUES ($1, $2)", gid, diff)

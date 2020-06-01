@@ -15,11 +15,12 @@ class Settings(commands.Cog):
     async def config(self, ctx):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(color=discord.Color.green(), description="")
-            embed.set_author(name="Villager Bot Settings", url=discord.Embed.Empty, icon_url="http://olimone.ddns.net/images/villagerbotsplash1.png")
+            embed.set_author(name="Villager Bot Settings", url=discord.Embed.Empty, icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
             embed.add_field(name="__**General Settings**__", value="""
 **{0}config prefix** ***prefix*** *sets the command prefix in this server to the specified value*
 **{0}config replies** ***on/off*** *turn bot replies to messages (like the bot would say "hrmm" to "emeralds") on/off in this server*
 **{0}config tips** ***on/off*** *turn on/off message tips in this server*
+**{0}config difficulty** ***peaceful/easy/hard*** *change the difficulty of the server*
 """.format(ctx.prefix))
             await ctx.send(embed=embed)
 
@@ -70,6 +71,14 @@ class Settings(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**Disabled** tips."))
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid option! Only ``on`` and ``off`` are valid options."))
+
+    @config.command(name="difficulty", aliases=["diff"])
+    async def set_difficulty(self, ctx, difficulty=None):
+        if difficulty is None:
+            db_diff = await self.db.get_difficulty(ctx.guild.id)
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"The difficulty is currently set to **{db_diff}**."))
+            return
+
 
 
 def setup(bot):
