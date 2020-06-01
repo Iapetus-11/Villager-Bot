@@ -218,13 +218,13 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
     @commands.command(name="vote", aliases=["votelink"])
     async def vote_link(self, ctx):
         _vote_link = discord.Embed(description="[Click Here!](https://top.gg/bot/639498607632056321/vote)", color=discord.Color.green())
-        _vote_link.set_author("Vote for Villager Bot", icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
+        _vote_link.set_author(name="Vote for Villager Bot", icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
         await ctx.send(embed=_vote_link)
 
     @commands.command(name="invite", aliases=["invitelink"])
     async def invite_link(self, ctx):
         inv_l = discord.Embed(description="[Click Here!](https://bit.ly/2tQfOhW)", color=discord.Color.green())
-        inv_l.set_author("Add Villager Bot to your server", icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
+        inv_l.set_author(name="Add Villager Bot to your server", icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
         await ctx.send(embed=inv_l)
 
     @commands.command(name="google")
@@ -322,7 +322,7 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
                f"Latency: ``{round(self.bot.latency*1000, 2)} ms``\n"
 
         info_embed = discord.Embed(color=discord.Color.green(), description=desc)
-        info_embed.set_author("Villager Bot Statistics", icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
+        info_embed.set_author(name="Villager Bot Statistics", icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
         await ctx.send(embed=info_embed)
 
 
