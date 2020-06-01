@@ -217,15 +217,15 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
 
     @commands.command(name="vote", aliases=["votelink"])
     async def vote_link(self, ctx):
-        _vote_link = discord.Embed(title="Vote for Villager Bot", description="[Click Here!](https://top.gg/bot/639498607632056321/vote)", color=discord.Color.green())
-        _vote_link.set_thumbnail(url=str(self.bot.user.avatar_url_as(static_format="png")))
+        _vote_link = discord.Embed(description="[Click Here!](https://top.gg/bot/639498607632056321/vote)", color=discord.Color.green())
+        _vote_link.set_author("Vote for Villager Bot", icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
         await ctx.send(embed=_vote_link)
 
     @commands.command(name="invite", aliases=["invitelink"])
     async def invite_link(self, ctx):
-        invL = discord.Embed(title="Add Villager Bot to your server", description="[Click Here!](https://bit.ly/2tQfOhW)", color=discord.Color.green())
-        invL.set_thumbnail(url=str(self.bot.user.avatar_url_as(static_format="png")))
-        await ctx.send(embed=invL)
+        inv_l = discord.Embed(description="[Click Here!](https://bit.ly/2tQfOhW)", color=discord.Color.green())
+        inv_l.set_author("Add Villager Bot to your server", icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
+        await ctx.send(embed=inv_l)
 
     @commands.command(name="google")
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -310,19 +310,19 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
 
     @commands.command(name="stats")
     async def info_2(self, ctx):
-        info_embed = discord.Embed(description="", color=discord.Color.green())
-        info_embed.add_field(name="__**Bot Statistics**__", value=f"""
-Guild Count: ``{len(self.bot.guilds)}``
-DM Channel Count: ``{len(self.bot.private_channels)}``
-User Count: ``{len(self.bot.users)}``
-Session Message Count: ``{self.g.msg_count}``
-Session Command Count: ``{self.g.cmd_count} ({round((self.g.cmd_count/self.g.msg_count)*100, 2)}% of all msgs)``
-Commands/Sec: ``{self.g.cmd_vect[1]}``
-Session Vote Count: ``{self.g.vote_count}``
-Top.gg Votes/Hour: ``{self.g.vote_vect[1]}``
-Shard Count: ``{self.bot.shard_count}``
-Latency: ``{round(self.bot.latency*1000, 2)} ms``
-""")
+        desc = f"Guild Count: ``{len(self.bot.guilds)}``\n" \
+               f"DM Channel Count: ``{len(self.bot.private_channels)}``\n" \
+               f"User Count: ``{len(self.bot.users)}``\n" \
+               f"Session Message Count: ``{self.g.msg_count}``\n" \
+               f"Session Command Count: ``{self.g.cmd_count} ({round((self.g.cmd_count/self.g.msg_count)*100, 2)}% of all msgs)``\n" \
+               f"Commands/Sec: ``{self.g.cmd_vect[1]}``\n" \
+               f"Session Vote Count: ``{self.g.vote_count}``\n" \
+               f"Top.gg Votes/Hour: ``{self.g.vote_vect[1]}``\n" \
+               f"Shard Count: ``{self.bot.shard_count}``\n" \
+               f"Latency: ``{round(self.bot.latency*1000, 2)} ms``\n"
+
+        info_embed = discord.Embed(color=discord.Color.green(), description=desc)
+        info_embed.set_author("Villager Bot Statistics", icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
         await ctx.send(embed=info_embed)
 
 
