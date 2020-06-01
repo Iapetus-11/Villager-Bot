@@ -5,5 +5,6 @@
   "jar of bees": [8, "True", ["Jar Of Bees", 2]],
   "lure i book": [120, "True", ["Lure I Book", 24]],
   "netherite scrap": [32, "True", ["Netherite Scrap", 8]],
-  "rich person trophy": [36000, "db_item_count < 1", ["Rich Person Trophy", 10]]
+  "rich person trophy": [36000, "db_item_count < 1", ["Rich Person Trophy", 10]],
+  "vault potion": [81, "True", ["Vault Potion", 30]]
 }

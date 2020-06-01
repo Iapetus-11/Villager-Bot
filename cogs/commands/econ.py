@@ -151,6 +151,7 @@ class Econ(commands.Cog):
         shop.add_field(name=f"__**Fortune I Book**__ 120{self.emerald}", value=f"``{ctx.prefix}buy fortune i book``", inline=True)
         shop.add_field(name=f"__**Haste I Potion**__ 120{self.emerald}", value=f"``{ctx.prefix}buy haste i potion``", inline=True)
         shop.add_field(name=f"__**Lure I Book**__ 120{self.emerald}", value=f"``{ctx.prefix}buy lure i book``", inline=True)
+        shop.add_field(name=f"__**Vault Potion**__ 81{self.emerald}", value=f"``{ctx.prefix}buy vault potion``", inline=True)
         await ctx.send(embed=shop)
 
     @shop.command(name="other")
@@ -160,8 +161,8 @@ class Econ(commands.Cog):
         shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
         shop.add_field(name=f"__**Jar of Bees**__ 8{self.emerald}", value=f"``{ctx.prefix}buy jar of bees``", inline=True)
         shop.add_field(name=f"__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>) 32{self.emerald}", value=f"``{ctx.prefix}buy netherite scrap``", inline=True)
-        shop.add_field(name=f"__**Fishing Rod**__ 64{self.emerald}", value=f"``{ctx.prefix}buy fishing rod``", inline=True)
-        shop.add_field(name=f"__**Rich Person Trophy**__ 36000{self.emerald}", value=f"``{ctx.prefix}buy rich person trophy``", inline=False)
+        shop.add_field(name=f"__**Fishing Rod**__ [Currently Useless] 64{self.emerald}", value=f"``{ctx.prefix}buy fishing rod``", inline=True)
+        shop.add_field(name=f"__**Rich Person Trophy**__ 36000{self.emerald}", value=f"``{ctx.prefix}buy rich person trophy``", inline=True)
         await ctx.send(embed=shop)
 
     @commands.command(name="inventory", aliases=["inv"])
@@ -770,6 +771,19 @@ class Econ(commands.Cog):
             await asyncio.sleep(60*4.5)
             self.items_in_use.pop(ctx.author.id)
             await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{_item[0]}** you chugged earlier has worn off."))
+            return
+
+        if item.lower() == "vault potion":
+            vault = await self.db.get_vault(ctx.author.id)
+            if vault[0]+9 <= vault[1]:
+                amount = 9
+            elif vault[1] - (vault[0] + 9) > 0:
+                amount = vault[1] - (vault[0] + 9)
+            else:
+                await ctx.send("You cannot expand your vault further via a Vault Potion.")
+                return
+            await self.db.set_vault(vault[0]+amount, vault[1])
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **Vault Potion**. Your vault has increased by {amount} spaces."))
             return
 
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist."))
