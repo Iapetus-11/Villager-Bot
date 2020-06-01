@@ -780,16 +780,15 @@ class Econ(commands.Cog):
 
         if item.lower() == "vault potion":
             vault = await self.db.get_vault(ctx.author.id)
-            if vault[0]+9 <= vault[1]:
-                amount = 9
-            elif vault[1] - (vault[0] + 9) > 0:
-                amount = vault[1] - (vault[0] + 9)
-            else:
-                await ctx.send("You cannot expand your vault further via a Vault Potion.")
+            if vault[1] > 1999:
+                await self.send(ctx, f"You cannot expand your vault further!")
                 return
+            add = randint(9, 15)
+            if vault[1]+add > 2000:
+                add = 2000 - vault[1]
             await self.db.remove_item(ctx.author.id, "Vault Potion", 1)
-            await self.db.set_vault(ctx.author.id, vault[0]+amount, vault[1])
-            await self.send(ctx, f"You have chugged a **Vault Potion**. Your vault has increased by {amount} spaces.")
+            await self.db.set_vault(ctx.author.id, vault[0], vault[1]+add)
+            await self.send(ctx, f"You have chugged a **Vault Potion**. Your vault has increased by {add} spaces.")
             return
 
         await self.send(ctx, "That's not a potion or it doesn't exist.")
