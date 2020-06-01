@@ -800,8 +800,6 @@ class Econ(commands.Cog):
         if ctx.author.id in self.fuck_the_fish_command:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)?"))
             return
-        else:
-            self.fuck_the_fish_command.append(ctx.author.id)
         if not await self.problem(ctx):
             return
         await self.db.increment_vault_max(ctx.author.id)
@@ -841,6 +839,10 @@ class Econ(commands.Cog):
     @fish.after_invoke
     async def after_fish_invoke(self, ctx):
         self.fuck_the_fish_command.pop(ctx.author.id)
+
+    @fish.before_invoke
+    async def before_fish_invoke(self, ctx):
+        self.fuck_the_fish_command.append(ctx.author.id)
 
     @fish.error
     async def handle_fish_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
