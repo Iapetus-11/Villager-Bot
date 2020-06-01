@@ -792,6 +792,11 @@ class Econ(commands.Cog):
     @commands.command(name="fish")
     @commands.cooldown(1, 20, commands.BucketType.user)
     async def fish(self, ctx):
+        if ctx.author.id in self.fuck_the_fish_command:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)?"))
+            return
+        else:
+            self.fuck_the_fish_command.append(ctx.author.id)
         if not ctx.author.id in [536986067140608041, 418707912836382721]:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command is currently disabled due to a exploit found."))
             return
@@ -830,6 +835,10 @@ class Econ(commands.Cog):
                 await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id))+catch[1])
             else:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up', 'reeled in'])} {choice(bad_catches)}..."))
+
+    @fish.after_invoke
+    async def after_fish_invoke(self, ctx):
+        self.fuck_the_fish_command.pop(ctx.author.id)
 
     @fish.error
     async def handle_fish_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
