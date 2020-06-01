@@ -17,8 +17,6 @@ class Econ(commands.Cog):
 
         self.emerald = "<:emerald:653729877698150405>"
 
-        self.fuck_the_fish_command = []
-
     async def problem(self, ctx):
         if ctx.author.id in self.who_is_mining.keys():
             self.who_is_mining[ctx.author.id] += 1
@@ -163,7 +161,6 @@ class Econ(commands.Cog):
         shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
         shop.add_field(name=f"__**Jar of Bees**__ 8{self.emerald}", value=f"``{ctx.prefix}buy jar of bees``", inline=True)
         shop.add_field(name=f"__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>) 32{self.emerald}", value=f"``{ctx.prefix}buy netherite scrap``", inline=True)
-        shop.add_field(name=f"__**Fishing Rod**__ [Currently Useless] 64{self.emerald}", value=f"``{ctx.prefix}buy fishing rod``", inline=True)
         shop.add_field(name=f"__**Rich Person Trophy**__ 36000{self.emerald}", value=f"``{ctx.prefix}buy rich person trophy``", inline=True)
         await ctx.send(embed=shop)
 
@@ -790,73 +787,6 @@ class Econ(commands.Cog):
             return
 
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a potion or it doesn't exist."))
-
-    @commands.command(name="fish")
-    @commands.cooldown(1, 20, commands.BucketType.user)
-    async def fish(self, ctx):
-        if not ctx.author.id in [536986067140608041, 418707912836382721]:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="This command is currently disabled due to a exploit found."))
-            return
-        if ctx.author.id in self.fuck_the_fish_command:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)?"))
-            return
-        self.fuck_the_fish_command.append(ctx.author.id)
-        if not await self.problem(ctx):
-            self.fuck_the_fish_command.pop(ctx.author.id)
-            return
-        await self.db.increment_vault_max(ctx.author.id)
-        bad_catches = ["a rusty nail", "an old shoe", "a broken bottle", "a tin can", "a soda bottle", "a piece of plastic", "a moldy chicken nugget", "a discarded birthday cake",
-                       "an old picture frame", "a clump of hair", "some bones", "a forgotten flip flop", "a piece of driftwood", "a kfc container", "a plastic pail", "an old bottle",
-                       "a used memory card", "an interesting sea shell", "a bit of sea shell", "a sea dollar", "a dead fish", "a ruined book"]
-        good_catches = [("a cod <:cod:701589959458684978>", 3), ("a salmon <:salmon:701589974646128690>", 4),
-                        ("a pufferfish <:pufferfish:701590021525733438>", 5), ("a tropical fish <:tropical_fish:701590997808709692>", 10),
-                        ("an emerald fish <:emerald_fish:703040458464428112>", 25), ("a diamond fish <:diamond_fish:703041846640640080>", 0)]
-        rod = await self.db.get_item(ctx.author.id, "Fishing Rod")
-        if rod is None:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't fish without a fishing rod! (You can buy a wooden one in the shop!)"))
-            ctx.command.reset_cooldown(ctx)
-        else:
-            good_catch_chance = [True, False, False]
-            if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
-                if choice([False, False, False, True]):
-                    for c in self.g.items:
-                        if randint(0, c[2]) == 1:
-                            a = "a"
-                            for vowel in ["a", "e", "i", "o", "u"]:
-                                if c[0].startswith(vowel):
-                                    a = "an"
-                            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice([
-                                f"You {choice(['fished up', 'caught'])} {a} {c[0]}! (Worth {c[1]}{self.emerald})",
-                                f"You {choice(['fished up', 'caught'])} {a} {c[0]}! (Worth {c[1]}{self.emerald})"])))
-                            await self.db.add_item(ctx.author.id, c[0], 1, c[1])
-                            self.fuck_the_fish_command.pop(ctx.author.id)
-                            return
-                good_catch_chance = [True, False]
-            if choice(good_catch_chance):
-                catch = choice(good_catches)
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up', 'reeled in'])} {catch[0]}! (And sold it for {catch[1]}{self.emerald})"))
-                await self.db.set_balance(ctx.author.id, (await self.db.get_balance(ctx.author.id))+catch[1])
-            else:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You {choice(['caught', 'fished up', 'reeled in'])} {choice(bad_catches)}..."))
-        self.fuck_the_fish_command.pop(ctx.author.id)
-
-    @fish.error
-    async def handle_fish_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
-        if isinstance(e, commands.CommandOnCooldown):
-            cooldown = e.retry_after
-            if await self.db.get_item(ctx.author.id, "Luck Of The Sea Book") is not None:
-                cooldown -= 1.5
-            if await self.db.get_item(ctx.author.id, "Lure I Book") is not None:
-                cooldown -= 4.5
-
-            if cooldown <= 0:
-                await ctx.reinvoke()
-            else:
-                descs = ["Didn't your parents tell you patience was a virtue? Calm down and wait another {0} seconds.",
-                        "Hey, you need to wait another {0} seconds before doing that again.",
-                        "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
-                        "Didn't you know patience was a virtue? Wait another {0} seconds."]
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=choice(descs).format(round(cooldown, 2))))
 
     @commands.command(name="harvesthoney", aliases=["honey", "sellhoney"])
     @commands.cooldown(1, 86400, commands.BucketType.user)
