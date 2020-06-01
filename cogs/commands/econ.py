@@ -292,6 +292,7 @@ class Econ(commands.Cog):
                         await self.db.set_vault(ctx.author.id, 0, 0)
                         await self.db.set_balance(ctx.author.id, 0)
                         await self.db.wipe_items(ctx.author.id)
+                        await self.db.set_pickaxe(ctx.author.id, "wood")
                         await self.db.add_item(ctx.author.id, "Rich Person Trophy", 1, 1)
                 else:
                     await self.send(ctx, "You can't buy any more of that item!")
