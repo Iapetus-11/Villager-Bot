@@ -782,7 +782,8 @@ class Econ(commands.Cog):
             else:
                 await ctx.send("You cannot expand your vault further via a Vault Potion.")
                 return
-            await self.db.set_vault(vault[0]+amount, vault[1])
+            await self.db.set_vault(ctx.author.id, vault[0]+amount, vault[1])
+            await self.db.remove_item(ctx.author.id, "Vault Potion", 1)
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You have chugged a **Vault Potion**. Your vault has increased by {amount} spaces."))
             return
 
