@@ -130,7 +130,7 @@ class Database(commands.Cog):
             if do_replies is not None:
                 await con.execute("UPDATE config SET reply=$1 WHERE gid=$2", doit, gid)
             else:
-                await con.execute("INSERT INTO config VALUES ($1, $2)", gid, doit)
+                await con.execute("INSERT INTO config VALUES ($1, $2, $3, $4)", gid, doit, True, "peaceful")
 
     async def drop_do_replies(self, gid):
         async with self.db.acquire() as con:
@@ -148,7 +148,7 @@ class Database(commands.Cog):
             if do_tips is not None:
                 await con.execute("UPDATE dotips SET dotips=$1 WHERE gid=$2", doit, gid)
             else:
-                await con.execute("INSERT INTO dotips VALUES ($1, $2)", gid, doit)
+                await con.execute("INSERT INTO dotips VALUES ($1, $2, $3, $4)", gid, True, doit, "peaceful")
 
     async def drop_do_tips(self, gid):
         async with self.db.acquire() as con:
@@ -166,7 +166,7 @@ class Database(commands.Cog):
             if db_diff is not None:
                 await con.execute("UPDATE difficulty SET difficulty=$1 WHERE gid=$2", diff, gid)
             else:
-                await con.execute("INSERT INTO difficulty VALUES ($1, $2)", gid, diff)
+                await con.execute("INSERT INTO difficulty VALUES ($1, $2, $3, $4)", gid, True, True, diff)
 
     async def drop_difficulty(self, gid):
         async with self.db.acquire() as con:
