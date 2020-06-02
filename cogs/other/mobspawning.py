@@ -24,7 +24,7 @@ class MobSpawning(commands.Cog):
     async def spawn_event(self, ctx): # Fuck me in the balls, wait don't how is that even possible?!
         self.do_event.pop(ctx) # make sure this motherfucker doesn't get a spawn again
 
-        if await self.db.get_difficulty(msg.channel.guild.id) == "peaceful":
+        if await self.db.get_difficulty(ctx.guild.id) == "peaceful":
             return
 
         mob = self.mobs[choice(list(self.mobs))] # LMAO I bet there's a better way to do this but fuck it
