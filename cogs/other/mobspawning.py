@@ -37,7 +37,7 @@ class MobSpawning(commands.Cog):
         try:
             def check(m):
                 return m.channel == ctx.channel and not m.author.bot and ("fight" == m.content or "flee" == m.content)
-            await self.bot.wait_for("message", check=check, timeout=30)
+            m = await self.bot.wait_for("message", check=check, timeout=30)
         except asyncio.TimeoutError:
             try:
                 await f_msg.delete()
