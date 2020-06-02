@@ -1,10 +1,11 @@
-from discord.ext import commands
-import discord
 import json
 import asyncpg
 import asyncio
 import logging
+import discord
+from discord.ext import commands
 from random import randint, choice
+
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
