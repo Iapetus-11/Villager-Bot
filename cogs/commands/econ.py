@@ -17,6 +17,13 @@ class Econ(commands.Cog):
 
         self.emerald = "<:emerald:653729877698150405>"
 
+    def cog_unload(self):
+        self.g.honey_buckets = self.honey._buckets
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.honey._buckets = self.g.honey_buckets
+
     async def send(self, ctx, m):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
 
