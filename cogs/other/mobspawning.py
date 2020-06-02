@@ -21,8 +21,8 @@ class MobSpawning(commands.Cog):
                           "You have been found by a crazy {0}!", "A crazy {0} has seen you!"]
 
     # also have random pillager events where server is ransacked /s
-    async def spawn_event(self, gid): # Fuck me in the balls, wait don't how is that even possible?!
-        self.do_event.pop(gid) # make sure this motherfucker doesn't get a spawn again
+    async def spawn_event(self, ctx): # Fuck me in the balls, wait don't how is that even possible?!
+        self.do_event.pop(ctx) # make sure this motherfucker doesn't get a spawn again
 
         if await self.db.get_difficulty(msg.channel.guild.id) == "peaceful":
             return
@@ -38,8 +38,8 @@ class MobSpawning(commands.Cog):
     async def on_ready(self):
         while self.bot.is_ready():
             asyncio.sleep(.05) # idk why this but this?
-            for g in self.do_event:
-                await self.spawn_event(g)
+            for ctx in self.do_event:
+                await self.spawn_event(ctx)
 
 
 def setup(bot):

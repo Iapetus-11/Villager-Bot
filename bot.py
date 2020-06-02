@@ -90,7 +90,7 @@ async def stay_safe(ctx):
     if floor(randint(0, 75)*(ctx.guild.member_count/2)) == 2: # Excuse me sir, this is a wendys
         return # Just for now
         done_event = True
-        self.bot.get_cog("MobSpawning").do_event.append(ctx.guild.id)
+        self.bot.get_cog("MobSpawning").do_event.append(ctx)
 
     if randint(0, 150) == 25 and not done_event:
         if str(ctx.command) not in ["eval", "awaiteval", "help", "ping", "uptime", "stats", "vote", "invite", "purge"]:
