@@ -46,7 +46,7 @@ class MobSpawning(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You ran out of time! The mob despawned."))
             return
         if m.content == "flee":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You ran away like {choice('a little baby', 'a little kid', 'a little baby screaming mommy')}."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy'])}."))
             return
 
     @commands.Cog.listener()
