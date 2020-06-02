@@ -22,7 +22,7 @@ class MobSpawning(commands.Cog):
 
     # also have random pillager events where server is ransacked /s
     async def spawn_event(self, ctx): # Fuck me in the balls, wait don't how is that even possible?!
-        self.do_event.pop(self.do_event.index(ctx)) # make sure this motherfucker doesn't get a spawn again
+        #self.do_event.pop(self.do_event.index(ctx)) # make sure this motherfucker doesn't get a spawn again
 
         if await self.db.get_difficulty(ctx.guild.id) == "peaceful":
             return
