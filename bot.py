@@ -5,6 +5,7 @@ import asyncpg
 import asyncio
 import logging
 from random import randint, choice
+from math import floor
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
