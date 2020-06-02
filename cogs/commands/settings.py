@@ -18,8 +18,11 @@ class Settings(commands.Cog):
             embed.set_author(name="Villager Bot Settings", url=discord.Embed.Empty, icon_url=str(self.bot.user.avatar_url_as(static_format="png")))
             embed.add_field(name="__**General Settings**__", value="""
 **{0}config prefix** ***prefix*** *sets the command prefix in this server to the specified value*
+
 **{0}config replies** ***on/off*** *turn bot replies to messages (like the bot would say "hrmm" to "emeralds") on/off in this server*
+
 **{0}config tips** ***on/off*** *turn on/off message tips in this server*
+
 **{0}config difficulty** ***peaceful/easy/hard*** *change the difficulty of the server*
 """.format(ctx.prefix))
             await ctx.send(embed=embed)
