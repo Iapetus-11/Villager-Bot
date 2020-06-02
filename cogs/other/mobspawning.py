@@ -52,9 +52,9 @@ class MobSpawning(commands.Cog):
             return
 
         u = m.author
-        h_user = await self.db.get_health(uid)
+        h_user = await self.db.get_health(u.id)
         while h_user > 0 and mob[1] > 0:
-            h_user = await self.db.get_health(uid)
+            h_user = await self.db.get_health(u.id)
             new_emb = discord.Embed(color=discord.Color.green(), description="Do you want to ``attack`` or ``flee``?")
             new_emb.add_field(name=f"**{u.display_name}**", value=await self.db.calc_stat_bar(h_user, 20, 10)) # how tf is this gonna work ya retarded cunt
             new_emb.add_field(name=f"**{mob[0]}**", value=await self.db.calc_stat_bar(mob[1], self.mobs[mob_key][1], 10))
