@@ -60,18 +60,6 @@ class Database(commands.Cog):
     async def set_pickaxe(self, uid, pickaxe): # Sets pickaxe
         await self.set_db_value("pickaxes", uid, "pickaxe", pickaxe)
 
-    async def get_bees(self, uid): # Sets jars of bees
-        oh_how_i_loathe_bees = await self.get_item(uid, "Jar Of Bees")
-        if oh_how_i_loathe_bees is not None:
-            return oh_how_i_loathe_bees[1]
-        else:
-            return 0
-
-    async def set_bees(self, uid, amount):
-        async with self.db.acquire() as con:
-            await con.execute("DELETE FROM items WHERE id=$1 AND item=$2", uid, "Jar Of Bees")
-            await con.execute("INSERT INTO items VALUES ($1, $2, $3, $4)", uid, "Jar Of Bees", amount, 2)
-
     async def get_vault(self, uid):
         vault = await self.get_db_values_3("vault", uid, "amount", "max", 0, 0)
         return tuple(int(val) for val in vault)
