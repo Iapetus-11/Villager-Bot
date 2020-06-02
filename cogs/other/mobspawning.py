@@ -1,26 +1,45 @@
 from discord.ext import commands
 import discord
 from random import choice, randint
+import asyncio
 
 
 class MobSpawning(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.do_event = []
+
         # "mobname": [actualname, health, ]
         murl = "http://olimone.ddns.net/images/mob_spawns/"
-        self.mobs = {"zombie": ["zombie", 20, murl+"zombie.png"], "spider": ["spider", 16, murl+"spider.png"], "skeleton": ["skeleton", 20, murl+"skeleton.png"],
-                     "creeper": ["creeper", 20, murl+"creeper.png"], "cave_spider": ["cave spider", 12, murl+"cave_spider.png"]}
+        self.mobs = {"zombie": ["Zombie", 20, murl+"zombie.png"], "spider": ["Spider", 16, murl+"spider.png"], "skeleton": ["Skeleton", 20, murl+"skeleton.png"],
+                     "creeper": ["Creeper", 20, murl+"creeper.png"], "cave_spider": ["Cave Spider", 12, murl+"cave_spider.png"]}
 
-    # also have random pillager events where server is ransacked
+        self.drop_msgs = ["A wild {0} has found you!", "A vicious {0} has seen you!", "A lurking {0} has seen you!",
+                          "A lurking {0} has found you!", "A creepy {0} has seen you!", "A creepy {0} has found you!",
+                          "You have been found by a wild {0}!", "You have been seen by a vicious {0}!",
+                          "You have been found by a crazy {0}!", "A crazy {0} has seen you!"]
+
+    # also have random pillager events where server is ransacked /s
     async def spawn_event(self, gid): # Fuck me in the balls, wait don't how is that even possible?!
-        mob = choice(list(self.mobs))
+        self.do_event.pop(gid) # make sure this motherfucker doesn't get a spawn again
+
+        if await self.db.get_difficulty(msg.channel.guild.id) == "peaceful":
+            return
+
+        mob = self.mobs[choice(list(self.mobs))] # LMAO I bet there's a better way to do this but fuck it
+
+        f_embed = discord.Embed(color=discord.Color.green())
+        f_embed.set_author(name=choice(self.drop_msg).format(mob[0]), icon_url=mob[2])
+        f_embed.set_image(url=mob[2])
+        f_msg = await ctx.send(embed=f_embed)
 
     @commands.Cog.listener()
-    async def on_message(self, msg):
-        if randint(0, msg.guild.member_count*100) in range(0, 100, 1): # WHAT THE FUCK IS THIS?
-            if await self.db.get_difficulty(msg.channel.guild.id) != "peaceful":
-                await self.spawn_event(msg.guild.id)
+    async def on_ready(self):
+        while self.bot.is_ready():
+            asyncio.sleep(.05) # idk why this but this?
+            for g in self.do_event:
+                await self.spawn_event(g)
 
 
 def setup(bot):

@@ -79,19 +79,27 @@ async def stay_safe(ctx):
     else:
         _global.command_leaderboard[ctx.author.id] = 1
 
+    del _global
+
     if not bot.is_ready():
         await ctx.send(
             embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
         return False
 
-    if randint(0, 150) == 25:
+    done_event = False
+    if floor(randint(0, 75)*(ctx.guild.member_count/2)) == 2: # Excuse me sir, this is a wendys
+        return # Just for now
+        done_event = True
+        self.bot.get_cog("MobSpawning").do_event.append(ctx.guild.id)
+
+    if randint(0, 150) == 25 and not done_event:
         if str(ctx.command) not in ["eval", "awaiteval", "help", "ping", "uptime", "stats", "vote", "invite", "purge"]:
             if ctx.guild is None or await bot.get_cog("Database").get_do_tips(ctx.guild.id):
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
 
-    if await banned(ctx.message.author.id):
-        return False
-    return not ctx.message.author.bot
+    del done_event
+
+    return not ctx.message.author.bot and not await banned(ctx.message.author.id)
 
 
 # Actually start bot, it's a blocking call, nothing should go after this!
