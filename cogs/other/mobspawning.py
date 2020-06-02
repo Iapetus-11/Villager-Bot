@@ -32,7 +32,7 @@ class MobSpawning(commands.Cog):
         mob = self.mobs[choice(list(self.mobs))] # LMAO I bet there's a better way to do this but fuck it
 
         f_embed = discord.Embed(color=discord.Color.green())
-        f_embed.set_author(name=choice(self.drop_msg).format(mob[0]), icon_url=mob[2])
+        f_embed.set_author(name=choice(self.drop_msgs).format(mob[0]), icon_url=mob[2])
         f_embed.set_image(url=mob[2])
         f_msg = await ctx.send(embed=f_embed)
 
