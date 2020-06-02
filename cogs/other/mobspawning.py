@@ -30,7 +30,8 @@ class MobSpawning(commands.Cog):
         if diff == "peaceful":
             return
 
-        mob = self.mobs[choice(list(self.mobs))] # LMAO I bet there's a better way to do this but fuck it
+        mob_key = choice(list(self.mobs))
+        mob = self.mobs[mob_key] # LMAO I bet there's a better way to do this but fuck it
 
         f_embed = discord.Embed(color=discord.Color.green(), title="**"+choice(self.drop_msgs).format(mob[0])+"**", description="Do you want to ``fight`` the mob or ``flee``?")
         f_embed.set_image(url=mob[2])
@@ -51,11 +52,15 @@ class MobSpawning(commands.Cog):
             return
 
         u = m.author
-        while await self.db.get_user_health or som
-        new_emb = discord.Embed(color=discord.Color.green(), description="Do you want to ``attack`` or ``flee``?")
-        new_emb.add_field(name=f"**{u.display_name}**", value=await self.db.calc_health_bar("user", 20, u.id)) # how tf is this gonna work ya retarded cunt
-        new_emb.set_image(url=mob[2])
-        await f_msg.edit(embed=new_emb)
+        h_user = await self.db.get_health(uid)
+        while h_user > 0 and mob[1] > 0:
+            h_user = await self.db.get_health(uid)
+            new_emb = discord.Embed(color=discord.Color.green(), description="Do you want to ``attack`` or ``flee``?")
+            new_emb.add_field(name=f"**{u.display_name}**", value=await self.db.calc_stat_bar(h_user, 20, 10)) # how tf is this gonna work ya retarded cunt
+            new_emb.add_field(name=f"**{mob[0]}**", value=await self.db.calc_stat_bar(mob[1], self.mobs[mob_key][1], 10))
+            new_emb.set_image(url=mob[2])
+            await f_msg.edit(embed=new_emb)
+            break
 
     @commands.Cog.listener()
     async def on_ready(self):

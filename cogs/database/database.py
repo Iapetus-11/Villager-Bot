@@ -219,6 +219,25 @@ class Database(commands.Cog):
         else:
             return [uid, 0]
 
+    async def get_health(self, uid):
+        helth = await self.db.fetch("SELECT health FROM health WHERE id=$1", uid)
+        if helth is None:
+            return 20
+        return helth
+
+    async def set_health(self, uid, health):
+        async with self.db.acquire() as con:
+            if await self.db.fetch("SELECT health FROM health WHERE id=$1", uid) is None:
+                await con.execute("INSERT INTO health VALUES ($1, $2)", uid, health)
+            else:
+                await con.execute("UPDATE health SET health=$1 WHERE id=$2", health, uid)
+
+    async def calc_stat_bar(self, value, max, slots): # Slots should be 10 cause 10 hearts / 2 idk bro
+        f = "■"
+        b = "□"
+        occupado = floor((value/max)*slots)
+        return (f*occupado) + b*(slots-occupado)
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
