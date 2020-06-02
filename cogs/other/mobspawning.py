@@ -50,7 +50,10 @@ class MobSpawning(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You ran away like {choice(['a little baby', 'a little kid','a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}."))
             return
 
-        new_emb = discord.Embed(color=discord.Color.green(), title=f"**{m.author.display_name}** V.S. **{mob[0]}**", description="Do you want to ``attack`` or ``flee``?")
+        u = m.author
+        while await self.db.get_user_health or som
+        new_emb = discord.Embed(color=discord.Color.green(), description="Do you want to ``attack`` or ``flee``?")
+        new_emb.add_field(name=f"**{u.display_name}**", value=await self.db.calc_health_bar("user", 20, u.id)) # how tf is this gonna work ya retarded cunt
         new_emb.set_image(url=mob[2])
         await f_msg.edit(embed=new_emb)
 
