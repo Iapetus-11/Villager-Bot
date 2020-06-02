@@ -26,12 +26,13 @@ class MobSpawning(commands.Cog):
     async def spawn_event(self, ctx): # Fuck me in the balls, wait don't how is that even possible?!
         #self.do_event.pop(self.do_event.index(ctx)) # make sure this motherfucker doesn't get a spawn again
 
-        if await self.db.get_difficulty(ctx.guild.id) == "peaceful":
+        diff = await self.db.get_difficulty(ctx.guild.id)
+        if diff == "peaceful":
             return
 
         mob = self.mobs[choice(list(self.mobs))] # LMAO I bet there's a better way to do this but fuck it
 
-        f_embed = discord.Embed(color=discord.Color.green(), title="**"+choice(self.drop_msgs).format(mob[0])+"**", description="Type ``fight`` or ``flee``")
+        f_embed = discord.Embed(color=discord.Color.green(), title="**"+choice(self.drop_msgs).format(mob[0])+"**", description="Do you want to ``fight`` the mob or ``flee``?")
         f_embed.set_image(url=mob[2])
         f_msg = await ctx.send(embed=f_embed)
         try:
@@ -46,8 +47,12 @@ class MobSpawning(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You ran out of time! The mob despawned."))
             return
         if m.content == "flee":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy'])}."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You ran away like {choice(['a little baby', 'a little kid','a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}."))
             return
+
+        new_emb = discord.Embed(color=discord.Color.green(), title=f"**{m.author.display_name}** V.S. **{mob[0]}**", description="Do you want to ``attack`` or ``flee``?")
+        new_emb.set_image(url=mob[2])
+        await f_msg.edit(embed=new_emb)
 
     @commands.Cog.listener()
     async def on_ready(self):
