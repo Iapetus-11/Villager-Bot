@@ -379,7 +379,7 @@ class Econ(commands.Cog):
     @commands.command(name="give")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def give_stuff(self, ctx, rec: discord.User, amount: int, item=None):
-        if ctx.author.bot:
+        if rec.bot:
             await self.send(ctx, "Remember, bot's don't have any rights, and as a result can't own items.")
             return
         if item is not None:
