@@ -37,7 +37,6 @@ class Owner(commands.Cog):
 **{0}getgiveaway** ***message id*** *gets two winners from the specified message, uses first reaction on specified message*
 
 **{0}setbal** ***@user amount*** *set user balance to something*
-**{0}getinv** ***@user*** *get inventory of a user*
 **{0}setvault** ***@user amount*** *set user's vault to given amount*
 **{0}getvault** ***@user*** *gets the mentioned user's vault*
 **{0}setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
@@ -288,47 +287,6 @@ class Owner(commands.Cog):
         with open("git_pull_log", "r") as f:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"```{f.read()}```")) # Maybe change the language of the ``` in the future for nice colors? idk
         system("rm git_pull_log")
-
-    @commands.command(name="getinv", aliases=["getinventory"])
-    @commands.is_owner()
-    async def inventory(self, ctx, u: discord.User):
-        pick = await self.db.get_pickaxe(u.id)
-        contents = f"**{pick} pickaxe**\n"
-
-        bal = await self.db.get_balance(ctx.author.id)
-        if not bal <= 0:
-            s = "s"
-            if bal == 1:
-                s = ""
-            contents += f"{bal} emerald{s}{self.emerald}\n"
-
-        inv = discord.Embed(color=discord.Color.green(), description=contents)
-
-        contents = ""
-        i = 0
-        rows = 10
-        items = await self.db.get_items(u.id)
-        for item in items:
-            i += 1
-            m = await self.db.get_item(u.id, item[0])
-            contents += f"{m[1]}x **{m[0]}** ({m[2]}{self.emerald})\n"
-            if i % rows == 0:
-                if i <= rows:
-                    inv.add_field(name="Sellable Items", value=contents, inline=False)
-                else:
-                    inv.add_field(name="More Sellable Items", value=contents, inline=False)
-                contents = ""
-        if contents is not "":
-            if i <= rows:
-                inv.add_field(name="Sellable Items", value=contents, inline=False)
-            else:
-                inv.add_field(name="More Sellable Items", value=contents, inline=False)
-
-        if not u.avatar_url:
-            inv.set_author(name=f"{u.display_name}'s Inventory", url=discord.Embed.Empty)
-        else:
-            inv.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
-        await ctx.send(embed=inv)
 
     @commands.command(name="backupdb")
     @commands.is_owner()
