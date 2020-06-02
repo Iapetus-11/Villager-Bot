@@ -31,17 +31,23 @@ class MobSpawning(commands.Cog):
 
         mob = self.mobs[choice(list(self.mobs))] # LMAO I bet there's a better way to do this but fuck it
 
-        f_embed = discord.Embed(color=discord.Color.green(), title="**"+choice(self.drop_msgs).format(mob[0])+"**", description="Type ``fight`` or ``battle`` to fight the mob!")
+        f_embed = discord.Embed(color=discord.Color.green(), title="**"+choice(self.drop_msgs).format(mob[0])+"**", description="Type ``fight`` or ``flee``")
         f_embed.set_image(url=mob[2])
         f_msg = await ctx.send(embed=f_embed)
         try:
             def check(m):
-                return m.channel == ctx.channel and not m.author.bot and ("fight" in m.content or "battle" in m.content)
+                return m.channel == ctx.channel and not m.author.bot and ("fight" == m.content or "flee" == m.content)
             await self.bot.wait_for("message", check=check, timeout=30)
         except asyncio.TimeoutError:
+            try:
+                await f_msg.delete()
+            except Exception:
+                pass
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You ran out of time! The mob despawned."))
             return
-
+        if m.content == "flee":
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You ran away like {choice('a little baby', 'a little kid', 'a little baby screaming mommy')}."))
+            return
 
     @commands.Cog.listener()
     async def on_ready(self):
