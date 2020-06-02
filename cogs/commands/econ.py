@@ -173,8 +173,11 @@ class Econ(commands.Cog):
         await ctx.send(embed=shop)
 
     @commands.command(name="inventory", aliases=["inv"])
-    async def inventory(self, ctx):
-        u = ctx.author
+    async def inventory(self, ctx, user: discord.User = None):
+        if not user:
+            u = ctx.author
+        else:
+            u = user
         pick = await self.db.get_pickaxe(u.id)
         contents = f"**{pick} pickaxe**\n"
 
