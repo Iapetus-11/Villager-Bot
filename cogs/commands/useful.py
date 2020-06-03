@@ -341,7 +341,10 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
                 if letter in problem:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That math problem contains invalid characters, please try again."))
                     return
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"```{eval(problem)}```"))
+            try:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"```{eval(problem)}```"))
+            except Exception:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Oops, something went wrong."))
         except Exception:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Oops, something went wrong."))
 
