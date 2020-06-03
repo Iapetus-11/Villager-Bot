@@ -18,11 +18,11 @@ class Econ(commands.Cog):
 
         self.emerald = "<:emerald:653729877698150405>"
 
-        with open("honey_drip.pkl", "r") as cd:
+        with open("honey_drip.pkl", "rb") as cd:
             self.harvest_honey._buckets = dill.load(cd)
 
     def cog_unload(self):
-        with open("honey_drip.pkl", "w") as cd:
+        with open("honey_drip.pkl", "wb") as cd:
             dill.dump(self.harvest_honey._buckets, cd)
 
     async def send(self, ctx, m):
