@@ -54,6 +54,10 @@ class MobSpawning(commands.Cog):
         u = m.author
         h_user = await self.db.get_health(u.id)
         hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
+
+        def check(m):
+            return m.author.id == u.id and m.channel.id == ctx.channel.id
+
         while h_user > 0 and mob[1] > 0:
             h_user = await self.db.get_health(u.id)
             new_emb = discord.Embed(color=discord.Color.green(), title="Do you want to ``attack`` or ``flee``?")
@@ -62,7 +66,15 @@ class MobSpawning(commands.Cog):
             new_emb.set_image(url=mob[2])
             await f_msg.edit(suppress=True)
             f_msg = await ctx.send(embed=new_emb)
-            break
+            try:
+                m = await self.bot.wait_for("message", check=check, timeout=30)
+            except asyncio.TimeoutError:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Ok fine, be that way, ignore me. (Timed out waiting for a response)"))
+                return
+            if m.content == "flee": # Oh you fucking toddler
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You ran away like {choice(['a little baby', 'a little kid','a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}."))
+                return
+            user_sword = await self.db.get_sword(u.id) # Implement this retard
 
     @commands.Cog.listener()
     async def on_ready(self):
