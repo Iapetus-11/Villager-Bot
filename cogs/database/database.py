@@ -233,11 +233,9 @@ class Database(commands.Cog):
             else:
                 await con.execute("UPDATE health SET health=$1 WHERE id=$2", health, uid)
 
-    async def calc_stat_bar(self, value, max, slots): # Slots should be 10 cause 10 hearts / 2 idk bro
-        f = "■"
-        b = "□"
+    async def calc_stat_bar(self, value, max, slots, full, empty): # Slots should be 10 cause 10 hearts / 2 idk bro
         occupado = floor((value/max)*slots)
-        return (f*occupado) + b*(slots-occupado)
+        return (full*occupado) + empty*(slots-occupado)
 
 
 def setup(bot):
