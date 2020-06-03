@@ -53,6 +53,7 @@ class MobSpawning(commands.Cog):
 
         u = m.author
         h_user = await self.db.get_health(u.id)
+        await ctx.send(mob[1])
         while h_user > 0 and mob[1] > 0:
             h_user = await self.db.get_health(u.id)
             new_emb = discord.Embed(color=discord.Color.green(), description="Do you want to ``attack`` or ``flee``?")
