@@ -328,19 +328,22 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
     @commands.command(name="math")
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def do_math(self, ctx):
-        problem = str(ctx.message.clean_content.replace(f"{ctx.prefix}math", ""))
-        if problem == "":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You actually have to put in a problem, idiot."))
-            return
-        if len(problem) > 500:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's a bit too long, don't you think?"))
-            return
-        problem = problem.replace("÷", "/").replace("x", "*").replace("•", "*").replace("=", "==")
-        for letter in "abcdefghijklmnopqrstuvwxyz\\)(_@~`,<>?|'\"{}[]":
-            if letter in problem:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That math problem contains invalid characters, please try again."))
+        try:
+            problem = str(ctx.message.clean_content.replace(f"{ctx.prefix}math", ""))
+            if problem == "":
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You actually have to put in a problem, idiot."))
                 return
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"```{str(eval(problem))}```"))
+            if len(problem) > 500:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's a bit too long, don't you think?"))
+                return
+            problem = problem.replace("÷", "/").replace("x", "*").replace("•", "*").replace("=", "==")
+            for letter in "abcdefghijklmnopqrstuvwxyz\\)(_@~`,<>?|'\"{}[]":
+                if letter in problem:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That math problem contains invalid characters, please try again."))
+                    return
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"```{str(eval(problem))}```"))
+        except Exception:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Oops, something went wrong."))
 
 
 def setup(bot):
