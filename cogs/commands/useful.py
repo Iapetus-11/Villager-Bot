@@ -345,7 +345,7 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"```{eval(problem)}```"))
             except Exception:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Oops, something went wrong."))
-        except SyntaxError:
+        except Exception:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Oops, something went wrong."))
 
 
