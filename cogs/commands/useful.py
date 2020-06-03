@@ -331,6 +331,7 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
         problem = str(ctx.message.clean_content.replace(f"{ctx.prefix}math", ""))
         if problem == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You actually have to put in a problem, idiot."))
+            return
         for letter in "abcdefghijklmnopqrstuvwxyz\\)(_@~`,<>?|'\"{}[]":
             if letter in problem:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That math problem contains invalid characters, please try again."))
