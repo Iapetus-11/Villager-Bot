@@ -332,6 +332,9 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
         if problem == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You actually have to put in a problem, idiot."))
             return
+        if len(problem) > 500:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's a bit too long, don't you think?"))
+            return
         for letter in "abcdefghijklmnopqrstuvwxyz\\)(_@~`,<>?|'\"{}[]":
             if letter in problem:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That math problem contains invalid characters, please try again."))
