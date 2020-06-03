@@ -106,7 +106,8 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
             f'**{ctx.prefix}google** ***query*** *bot will search on google for your query*\n'
             f'**{ctx.prefix}youtube** ***query*** *bot will search on youtube for your query*\n'
             f'**{ctx.prefix}image** ***query*** *bot will search google images for your query*\n'
-            f'**{ctx.prefix}stats** *shows the bot\'s stats*\n',
+            f'**{ctx.prefix}stats** *shows the bot\'s stats*\n'
+            f'**{ctx.prefix}math** ***math*** *does math*\n',
             inline=True)
 
         help_embed.set_footer(text="Need more help? Check out the support server: discord.gg/39DwwUV")
