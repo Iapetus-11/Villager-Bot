@@ -3,6 +3,7 @@ import discord
 import asyncpg
 import json
 from random import choice, randint
+from math import floor
 
 
 class Database(commands.Cog):
