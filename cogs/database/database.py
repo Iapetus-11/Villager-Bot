@@ -223,7 +223,7 @@ class Database(commands.Cog):
         helth = await self.db.fetch("SELECT health FROM health WHERE id=$1", uid)
         if helth is None:
             return 20
-        return helth
+        return helth[0]
 
     async def set_health(self, uid, health):
         async with self.db.acquire() as con:
