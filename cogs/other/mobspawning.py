@@ -22,6 +22,9 @@ class MobSpawning(commands.Cog):
                           "You have been found by a wild {0}!", "You have been seen by a vicious {0}!",
                           "You have been found by a crazy {0}!", "A crazy {0} has seen you!"]
 
+    async def send(self, ctx, m):
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
+
     # also have random pillager events where server is ransacked /s
     async def spawn_event(self, ctx): # Fuck me in the balls, wait don't how is that even possible?!
         #self.do_event.pop(self.do_event.index(ctx)) # make sure this motherfucker doesn't get a spawn again
@@ -45,10 +48,11 @@ class MobSpawning(commands.Cog):
                 await f_msg.delete()
             except Exception:
                 pass
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You ran out of time! The mob despawned."))
+            await self.send(ctx, "You ran out of time! The mob despawned.")
             return
         if m.content == "flee": # That's right you whiny little shit
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You ran away like {choice(['a little baby', 'a little kid','a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}."))
+            await self.send(ctx,
+                            f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}.")
             return
 
         u = m.author
@@ -69,10 +73,11 @@ class MobSpawning(commands.Cog):
             try:
                 m = await self.bot.wait_for("message", check=check, timeout=30)
             except asyncio.TimeoutError:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Ok fine, be that way, ignore me. (Timed out waiting for a response)"))
+                await self.send(ctx, "Ok fine, be that way, ignore me. (Timed out waiting for a response)")
                 return
             if m.content == "flee": # Oh you fucking toddler
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"You ran away like {choice(['a little baby', 'a little kid','a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}."))
+                await self.send(ctx,
+                                f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}.")
                 return
             user_sword = await self.db.get_sword(u.id) # Implement this retard
 
