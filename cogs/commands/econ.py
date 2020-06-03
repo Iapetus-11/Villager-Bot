@@ -3,7 +3,7 @@ import discord
 import asyncio
 from random import choice, randint
 from math import floor, ceil
-import pickle
+import dill
 
 
 class Econ(commands.Cog):
@@ -18,13 +18,12 @@ class Econ(commands.Cog):
 
         self.emerald = "<:emerald:653729877698150405>"
 
-        return
-        with open("honey_drip.pkl", "rb") as cd:
-            self.harvest_honey._buckets = pickle.load(cd)
+        with open("honey_drip.pkl", "r") as cd:
+            self.harvest_honey._buckets = dill.load(cd)
 
     def cog_unload(self):
-        with open("honey_drip.pkl", "wb") as cd:
-            pickle.dump(self.harvest_honey._buckets, cd)
+        with open("honey_drip.pkl", "w") as cd:
+            dill.dump(self.harvest_honey._buckets, cd)
 
     async def send(self, ctx, m):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
