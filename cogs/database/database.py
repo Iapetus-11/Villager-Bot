@@ -221,13 +221,13 @@ class Database(commands.Cog):
 
     async def get_health(self, uid):
         helth = await self.db.fetch("SELECT health FROM health WHERE id=$1", uid)
-        if helth is None:
+        if len(helth) == 0:
             return 20
         return helth[0]
 
     async def set_health(self, uid, health):
         async with self.db.acquire() as con:
-            if await self.db.fetch("SELECT health FROM health WHERE id=$1", uid) is None:
+            if len(await self.db.fetch("SELECT health FROM health WHERE id=$1", uid)) == 0:
                 await con.execute("INSERT INTO health VALUES ($1, $2)", uid, health)
             else:
                 await con.execute("UPDATE health SET health=$1 WHERE id=$2", health, uid)
