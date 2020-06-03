@@ -87,18 +87,14 @@ async def stay_safe(ctx):
             embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
         return False
 
-    done_event = False
-    if floor(randint(0, 75)*(ctx.guild.member_count/2)) == 2: # Excuse me sir, this is a wendys
-        return # Just for now
-        done_event = True
-        self.bot.get_cog("MobSpawning").do_event.append(ctx)
-
-    if randint(0, 150) == 25 and not done_event:
-        if str(ctx.command) not in ["eval", "awaiteval", "help", "ping", "uptime", "stats", "vote", "invite", "purge"]:
-            if ctx.guild is None or await bot.get_cog("Database").get_do_tips(ctx.guild.id):
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
-
-    del done_event
+    if str(ctx.command) not in ["eval", "awaiteval", "help", "ping", "uptime", "stats", "vote", "invite", "purge"]:
+        if ctx.guild is not None:
+            if floor(randint(0, 75)*(ctx.guild.member_count/2)) == 2: # Excuse me sir, this is a wendys
+                return # Just for now
+                self.bot.get_cog("MobSpawning").do_event.append(ctx)
+            elif randint(0, 150) == 25:
+                if await bot.get_cog("Database").get_do_tips(ctx.guild.id):
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
 
     return not ctx.message.author.bot and not await banned(ctx.message.author.id)
 
