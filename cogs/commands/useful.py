@@ -338,7 +338,7 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's a bit too long, don't you think?"))
                 return
             problem = problem.replace("÷", "/").replace("x", "*").replace("•", "*").replace("=", "==")
-            for letter in "abcdefghijklmnopqrstuvwxyz\\)(_@~`,<>?|'\"{}[]":
+            for letter in "abcdefghijklmnopqrstuvwxyz\\_@~`,<>?|'\"{}[]":
                 if letter in problem:
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That math problem contains invalid characters, please try again."))
                     return
