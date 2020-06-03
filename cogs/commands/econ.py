@@ -18,6 +18,7 @@ class Econ(commands.Cog):
 
         self.emerald = "<:emerald:653729877698150405>"
 
+        return
         with open("honey_drip.pkl", "rb") as cd:
             self.harvest_honey._buckets = dill.load(cd)
 
