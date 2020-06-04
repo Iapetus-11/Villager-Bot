@@ -14,13 +14,19 @@ class MobSpawning(commands.Cog):
 
         # "mobname": [actualname, health, ]
         murl = "http://olimone.ddns.net/images/mob_spawns/"
-        self.mobs = {"zombie": ["Zombie", 20, murl+"zombie.png"], "spider": ["Spider", 16, murl+"spider.png"], "skeleton": ["Skeleton", 20, murl+"skeleton.png"],
-                     "creeper": ["Creeper", 20, murl+"creeper.png"], "cave_spider": ["Cave Spider", 12, murl+"cave_spider.png"]}
+        self.mobs = {"zombie": ["Zombie", 20, murl+"zombie.png"],
+                     "spider": ["Spider", 16, murl+"spider.png"],
+                     "skeleton": ["Skeleton", 20, murl+"skeleton.png"],
+                     "creeper": ["Creeper", 20, murl+"creeper.png"],
+                     "cave_spider": ["Cave Spider", 12, murl+"cave_spider.png"]}
 
         self.drop_msgs = ["A wild {0} has found you!", "A vicious {0} has seen you!", "A lurking {0} has seen you!",
                           "A lurking {0} has found you!", "A creepy {0} has seen you!", "A creepy {0} has found you!",
                           "You have been found by a wild {0}!", "You have been seen by a vicious {0}!",
                           "You have been found by a crazy {0}!", "A crazy {0} has seen you!"]
+
+        self.u_attacks = ["You slashed the {0} with your {1}!", "Your {1} stabbed deep into the {0}!", "You hacked at the {0} with your {1}!", "You swung your {1} at the {0}!"]
+        self.u_finishers = []
 
     async def send(self, ctx, m):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
@@ -30,6 +36,7 @@ class MobSpawning(commands.Cog):
         for sword_name in ["netherite sword", "diamond sword", "gold sword", "iron sword", "stone sword", "wood sword"]:
             if sword_name in item_names:
                 return sword_name
+        await self.db.add_item(uid, "Wood Sword", 1, 0)
 
     async def calc_sword_damage(self, sword): # highest sword is used
         if sword == "netherite sword":
