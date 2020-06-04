@@ -31,7 +31,7 @@ class MobSpawning(commands.Cog):
             if sword_name in item_names:
                 return sword_name
 
-    async def calc_sword_damage(self, sword):
+    async def calc_sword_damage(self, sword): # highest sword is used
         if sword == "netherite sword":
             dmg = randint(7, 10)
         elif sword == "diamond sword":
