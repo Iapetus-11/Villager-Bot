@@ -25,9 +25,30 @@ class MobSpawning(commands.Cog):
     async def send(self, ctx, m):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
 
+    async def get_sword(self, uid): # I'm proud of this
+        item_names = [item[0].lower() for item in await self.db.get_items(uid)]
+        for sword_name in ["netherite sword", "diamond sword", "gold sword", "iron sword", "stone sword", "wood sword"]:
+            if sword_name in item_names:
+                return sword_name
+
+    async def calc_sword_damage(self, sword):
+        if sword == "netherite sword":
+            dmg = randint(7, 10)
+        elif sword == "diamond sword":
+            dmg = randint(6, 9)
+        elif sword == "gold sword":
+            dmg = randint(5, 7)
+        elif sword == "iron sword":
+            dmg = randint(3, 6)
+        elif sword == "stone sword":
+            dmg = randint(2, 5)
+        else:
+            dmg = randint(1, 3)
+        return dmg
+
     # also have random pillager events where server is ransacked /s
     async def spawn_event(self, ctx): # Fuck me in the balls, wait don't how is that even possible?!
-        #self.do_event.pop(self.do_event.index(ctx)) # make sure this motherfucker doesn't get a spawn again
+        # self.do_event.pop(self.do_event.index(ctx)) # make sure this motherfucker doesn't get a spawn again
 
         diff = await self.db.get_difficulty(ctx.guild.id)
         if diff == "peaceful":
@@ -44,15 +65,13 @@ class MobSpawning(commands.Cog):
                 return m.channel == ctx.channel and not m.author.bot and ("fight" == m.content or "flee" == m.content)
             m = await self.bot.wait_for("message", check=check, timeout=30)
         except asyncio.TimeoutError:
-            try:
-                await f_msg.delete()
-            except Exception:
-                pass
             await self.send(ctx, "You ran out of time! The mob despawned.")
+            await f_msg.edit(suppress=True)
             return
         if m.content == "flee": # That's right you whiny little shit
             await self.send(ctx,
                             f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}.")
+            await f_msg.edit(suppress=True)
             return
 
         u = m.author
@@ -74,12 +93,15 @@ class MobSpawning(commands.Cog):
                 m = await self.bot.wait_for("message", check=check, timeout=30)
             except asyncio.TimeoutError:
                 await self.send(ctx, "Ok fine, be that way, ignore me. (Timed out waiting for a response)")
+                await f_msg.edit(suppress=True)
                 return
             if m.content == "flee": # Oh you fucking toddler
                 await self.send(ctx,
                                 f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}.")
+                await f_msg.edit(suppress=True)
                 return
-            user_sword = await self.db.get_sword(u.id) # Implement this retard
+            sword = await self.get_sword(u.id)
+            dmg = self.calc_sword_dmg(sword)
 
     @commands.Cog.listener()
     async def on_ready(self):
