@@ -283,10 +283,12 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
         except async_cse.search.APIError:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Uh Oh, there was an error, please try again later!"))
             return
-        image = choice(results)
         embed = discord.Embed(color=discord.Color.green())
-        embed.set_image(url=choice(results).image_url)
-        await ctx.send(embed=embed)
+        try:
+            embed.set_image(url=results[0].image_url)
+            await ctx.send(embed=embed)
+        except Exception:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"[Result for \"{query}\"]({results[0].image_url})"))
 
     @commands.command(name="nsfwimage", aliases=["nsfwimagesearch", "nsfw"])
     @commands.cooldown(1, 3, commands.BucketType.user)
