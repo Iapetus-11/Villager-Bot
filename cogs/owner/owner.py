@@ -107,7 +107,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="multibotban", aliases=["botbanmulti"])
     @commands.is_owner()
-    async def _bot_ban_multi(self, ctx, users: str):
+    async def _bot_ban_multi(self, ctx, *, users: str):
         user_list = eval(users)
         for user in user_list:
             await self._bot_ban(ctx, user)
