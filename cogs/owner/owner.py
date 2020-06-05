@@ -110,7 +110,8 @@ class Owner(commands.Cog):
     async def _bot_ban_multi(self, ctx, *, users: str):
         user_list = eval(users)
         for user in user_list:
-            await self._bot_ban(ctx, user)
+            await self.db.ban_from_bot(user)
+        await ctx.send(f"Bot-banned {len(user_list)} users.")
 
     @commands.command(name="botunban")
     @commands.is_owner()
