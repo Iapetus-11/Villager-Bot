@@ -113,6 +113,16 @@ class Owner(commands.Cog):
             await self.db.ban_from_bot(user)
         await ctx.send(f"Bot-banned {len(user_list)} users.")
 
+    @commands.command(name="banmulti")
+    @commands.is_owner()
+    async def ban_multi(self, ctx, *, users: str):
+        user_list = eval(users)
+        for user in user_list:
+            member = ctx.guild.get_member(user)
+            if member is not None:
+                await member.ban(reason="Multiban")
+        await ctx.send(f"Banned {len(user_list)} members.")
+
     @commands.command(name="botunban")
     @commands.is_owner()
     async def _bot_unban(self, ctx, user: discord.User):
