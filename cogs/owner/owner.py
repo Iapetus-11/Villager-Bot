@@ -17,7 +17,6 @@ class Owner(commands.Cog):
         self.emerald = "<:emerald:653729877698150405>"
 
     @commands.command(name="ownerhelp", aliases=["helpowner", "owner"])
-    @commands.is_owner()
     async def owner_help(self, ctx):
         embed_msg = discord.Embed(
             description="""
@@ -43,6 +42,9 @@ class Owner(commands.Cog):
 **{0}resetprefix** ***guild id*** *resets the prefix of a server*
 
 **{0}botban** ***user*** *bans a user from using the bot*
+**{0}botbanmulti** ***[users]*** *bot-bans the list of users*
+**{0}banmulti** ***[users]*** *bans the list of users from the current server*
+**{0}botbans** *lists the bot bans*
 **{0}botunban** ***user*** *unbans a user from using the bot*
 
 **{0}activity** ***text*** *sets activity of bot to given text*
@@ -113,7 +115,7 @@ class Owner(commands.Cog):
             await self.db.ban_from_bot(user)
         await ctx.send(f"Bot-banned {len(user_list)} users.")
 
-    @commands.command(name="banmulti")
+    @commands.command(name="banmulti", aliases=["multiban", "manyban", "banmany"])
     @commands.is_owner()
     async def ban_multi(self, ctx, *, users: str):
         user_list = eval(users)
