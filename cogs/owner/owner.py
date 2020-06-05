@@ -105,6 +105,13 @@ class Owner(commands.Cog):
         ban = await self.db.ban_from_bot(user.id)
         await ctx.send(ban.format(str(user)))
 
+    @commands.command(name="multibotban", aliases=["botbanmulti"])
+    @commands.is_owner()
+    async def _bot_ban_multi(self, ctx, users: str):
+        user_list = eval(users)
+        for user in user_list:
+            await self._bot_ban(ctx, user)
+
     @commands.command(name="botunban")
     @commands.is_owner()
     async def _bot_unban(self, ctx, user: discord.User):
