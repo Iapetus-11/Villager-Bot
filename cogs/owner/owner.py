@@ -40,7 +40,11 @@ class Owner(commands.Cog):
 **{0}getvault** ***@user*** *gets the mentioned user's vault*
 **{0}setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
 **{0}resetprefix** ***guild id*** *resets the prefix of a server*
-
+""".format(ctx.prefix), color=discord.Color.green())
+        embed_msg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        await ctx.send(embed=embed_msg)
+        embed_msg = discord.Embed(
+            description="""
 **{0}botban** ***user*** *bans a user from using the bot*
 **{0}botbanmulti** ***[users]*** *bot-bans the list of users*
 **{0}banmulti** ***[users]*** *bans the list of users from the current server*
@@ -62,7 +66,7 @@ class Owner(commands.Cog):
 **{0}updateroles** *does roles idk bro*
 **{0}testblocking** *intentionally blocks code*
 """.format(ctx.prefix), color=discord.Color.green())
-        embed_msg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        embed_msg.set_author(name="More Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embed_msg)
 
     @commands.command(name="unload")
