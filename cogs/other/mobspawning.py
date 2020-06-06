@@ -23,10 +23,22 @@ class MobSpawning(commands.Cog):
         self.drop_msgs = ["A wild {0} has found you!", "A vicious {0} has seen you!", "A lurking {0} has seen you!",
                           "A lurking {0} has found you!", "A creepy {0} has seen you!", "A creepy {0} has found you!",
                           "You have been found by a wild {0}!", "You have been seen by a vicious {0}!",
-                          "You have been found by a crazy {0}!", "A crazy {0} has seen you!"]
+                          "You have been found by a crazy {0}!", "A crazy {0} has seen you!", "You ran into a wild {0}!",
+                          "You ran into a crazy {0}!", "You ran into a {0}!", "You ran into a creepy {0}!",
+                          "You ran into a vicious {0}!"]
 
-        self.u_attacks = ["You slashed the {0} with your {1}!", "Your {1} stabbed deep into the {0}!", "You hacked at the {0} with your {1}!", "You swung your {1} at the {0}!"]
-        self.u_finishers = []
+        self.u_attacks = ["You slashed the {0} with your {1}!", "Your {1} stabbed deep into the {0}!", "You hacked at the {0} with your {1}!", "You swung your {1} at the {0}!",
+                          "You poked the {0} with your {1}!", "You poked your {1} deep into the {0}!", "You hacked pieces off the {0} with your {1}!", "You poked the {0} in the eye with your {1}!",
+                          "You lunged at the {0} and stabbed it with your {1}!", "You charged at the {0} and hacked at it with your {1}!", "You charged at the {0} and stabbed it with your {1}!",
+                          "You charged at the {0} and hacked at it with your {1}!", "You charged at the {0} and with all your might poked it with your {1}"]
+
+        self.u_finishers = ["You swung the {1} as hard as you could and decapitated the {0}!", "You tripped and let go of your {1}, landing it in the {0} and killing it!",
+                            "You, with all your might, buried the {1} deep into the chest of the {0}!", "Slashing your {1} one last time, you banished the {0} from existence!",
+                            "Swinging your {1} one last time, you slashed the {0} in half!", "With one last hack from your {1}, you cut the {0} in half!",
+                            "With one last swing from your {1}, you banished the {0} from this world!", "You hacked at the {0} with all your might, and decapitated it with your {1}!",
+                            "With the last of your strength, you buried the {1} deep into the chest of the {0}!", "Landing the {1} on the neck of the {0}, it finally died!",
+                            "With the last of your strength, your {1} rips through the {0}!", "With the last of your strength, your {1} tears through the {0}!",
+                            "You hacked with the {1} as hard as you could, and decapitated the {0}!", "Missing the {0} with your sword, it died from disappointment..."]
 
     async def send(self, ctx, m):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
@@ -109,6 +121,7 @@ class MobSpawning(commands.Cog):
                 return
             sword = await self.get_sword(u.id)
             dmg = self.calc_sword_dmg(sword)
+
 
     @commands.Cog.listener()
     async def on_ready(self):
