@@ -134,7 +134,7 @@ class Econ(commands.Cog):
             shop = discord.Embed(color=discord.Color.green())
             shop.set_author(name="Villager Shop", url=discord.Embed.Empty,
                             icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-            shop.set_footer(text=ctx.prefix + "inventory to see what you have!")
+            shop.set_footer(text=f"{ctx.prefix}inventory to see what you have!")
             shop.add_field(name="__**Pickaxes**__", value=f"``{ctx.prefix}shop pickaxes``")
             shop.add_field(name="__**Magic Items**__", value=f"``{ctx.prefix}shop magic``")
             shop.add_field(name="__**Other**__", value=f"``{ctx.prefix}shop other``")
@@ -145,7 +145,7 @@ class Econ(commands.Cog):
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop [Pickaxes]", url=discord.Embed.Empty,
                         icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        shop.set_footer(text=ctx.prefix + "inventory to see what you have!")
+        shop.set_footer(text=f"{ctx.prefix}inventory to see what you have!")
         shop.add_field(name=f"__**Stone Pickaxe**__ 32{self.emerald}", value=f"``{ctx.prefix}buy stone pickaxe``",
                        inline=True)
         shop.add_field(name=f"__**Iron Pickaxe**__ 128{self.emerald}", value=f"``{ctx.prefix}buy iron pickaxe``",
@@ -179,7 +179,7 @@ class Econ(commands.Cog):
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop [Other]", url=discord.Embed.Empty,
                         icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        shop.set_footer(text=ctx.prefix + "inventory to see what you have!")
+        shop.set_footer(text=f"{ctx.prefix}inventory to see what you have!")
         shop.add_field(name=f"__**Jar of Bees**__ 8{self.emerald}", value=f"``{ctx.prefix}buy jar of bees``",
                        inline=True)
         shop.add_field(name=f"__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>) 32{self.emerald}",
