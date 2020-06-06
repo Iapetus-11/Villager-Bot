@@ -64,7 +64,7 @@ class MobSpawning(commands.Cog):
         mob_key = choice(list(self.mobs))
         mob = self.mobs[mob_key] # LMAO I bet there's a better way to do this but fuck it
 
-        f_embed = discord.Embed(color=discord.Color.green(), title="**"+choice(self.drop_msgs).format(mob[0])+"**", description="Do you want to ``fight`` the mob or ``flee``?") # fight it or u little baby
+        f_embed = discord.Embed(color=discord.Color.green(), title=f"**{choice(self.drop_msgs).format(mob[0])}**", description="Do you want to ``fight`` the mob or ``flee``?") # fight it or u little baby
         f_embed.set_image(url=mob[2])
         f_msg = await ctx.send(embed=f_embed)
         try:
