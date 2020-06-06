@@ -53,7 +53,7 @@ class Econ(commands.Cog):
             return True
 
     @commands.command(name="bal", aliases=["balance"])
-    async def balance(self, ctx, user: discord.User=None):
+    async def balance(self, ctx, user: discord.User = None):
         if user is None:
             user = ctx.author
         if user.bot:
@@ -70,9 +70,9 @@ class Econ(commands.Cog):
             return
         vault = await self.db.get_vault(ctx.author.id)
         if amount.lower() == "all" or amount.lower() == "max":
-            amount = vault[1]-vault[0]
-            if floor(their_bal/9) < amount:
-                amount = floor(their_bal/9)
+            amount = vault[1] - vault[0]
+            if floor(their_bal / 9) < amount:
+                amount = floor(their_bal / 9)
         else:
             try:
                 amount = int(amount)
@@ -83,10 +83,10 @@ class Econ(commands.Cog):
         if vault[1] == 0:
             await self.send(ctx, "There isn't enough space in your vault!")
             return
-        if vault[1]-vault[0] <= 0:
+        if vault[1] - vault[0] <= 0:
             await self.send(ctx, "There isn't enough space in your vault!")
             return
-        if amount*9 > their_bal:
+        if amount * 9 > their_bal:
             await self.send(ctx, "You can't deposit more emeralds than you have!")
             return
         if amount < 1:
@@ -103,7 +103,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="withdraw", aliases=["with"])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
-    async def withdraw(self, ctx, amount: str): # In emerald blocks
+    async def withdraw(self, ctx, amount: str):  # In emerald blocks
         vault = await self.db.get_vault(ctx.author.id)
         if vault[0] < 1:
             await self.send(ctx, "You don't have any emerald blocks to withdraw!")
@@ -132,8 +132,9 @@ class Econ(commands.Cog):
     async def shop(self, ctx):
         if ctx.invoked_subcommand is None:
             shop = discord.Embed(color=discord.Color.green())
-            shop.set_author(name="Villager Shop", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-            shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
+            shop.set_author(name="Villager Shop", url=discord.Embed.Empty,
+                            icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+            shop.set_footer(text=ctx.prefix + "inventory to see what you have!")
             shop.add_field(name="__**Pickaxes**__", value=f"``{ctx.prefix}shop pickaxes``")
             shop.add_field(name="__**Magic Items**__", value=f"``{ctx.prefix}shop magic``")
             shop.add_field(name="__**Other**__", value=f"``{ctx.prefix}shop other``")
@@ -142,35 +143,49 @@ class Econ(commands.Cog):
     @shop.command(name="pickaxes")
     async def shop_pickaxes(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop [Pickaxes]", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
-        shop.add_field(name=f"__**Stone Pickaxe**__ 32{self.emerald}", value=f"``{ctx.prefix}buy stone pickaxe``", inline=True)
-        shop.add_field(name=f"__**Iron Pickaxe**__ 128{self.emerald}", value=f"``{ctx.prefix}buy iron pickaxe``", inline=True)
+        shop.set_author(name="Villager Shop [Pickaxes]", url=discord.Embed.Empty,
+                        icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        shop.set_footer(text=ctx.prefix + "inventory to see what you have!")
+        shop.add_field(name=f"__**Stone Pickaxe**__ 32{self.emerald}", value=f"``{ctx.prefix}buy stone pickaxe``",
+                       inline=True)
+        shop.add_field(name=f"__**Iron Pickaxe**__ 128{self.emerald}", value=f"``{ctx.prefix}buy iron pickaxe``",
+                       inline=True)
         shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
-        shop.add_field(name=f"__**Gold Pickaxe**__ 512{self.emerald}", value=f"``{ctx.prefix}buy gold pickaxe``", inline=True)
-        shop.add_field(name=f"__**Diamond Pickaxe**__ 2048{self.emerald}", value=f"``{ctx.prefix}buy diamond pickaxe``", inline=True)
+        shop.add_field(name=f"__**Gold Pickaxe**__ 512{self.emerald}", value=f"``{ctx.prefix}buy gold pickaxe``",
+                       inline=True)
+        shop.add_field(name=f"__**Diamond Pickaxe**__ 2048{self.emerald}", value=f"``{ctx.prefix}buy diamond pickaxe``",
+                       inline=True)
         shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
-        shop.add_field(name=f"__**Netherite Pickaxe**__ 8192{self.emerald} 4<:netherite_scrap:676974675091521539>", value=f"``{ctx.prefix}buy netherite pickaxe``", inline=True)
+        shop.add_field(name=f"__**Netherite Pickaxe**__ 8192{self.emerald} 4<:netherite_scrap:676974675091521539>",
+                       value=f"``{ctx.prefix}buy netherite pickaxe``", inline=True)
         shop.set_footer(text=f"Pickaxes allow you to obtain more emeralds while using the {ctx.prefix}mine command!")
         await ctx.send(embed=shop)
 
     @shop.command(name="magic")
     async def shop_books(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop [Magic Items]", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        shop.add_field(name=f"__**Fortune I Book**__ 120{self.emerald}", value=f"``{ctx.prefix}buy fortune i book``", inline=True)
-        shop.add_field(name=f"__**Haste I Potion**__ 120{self.emerald}", value=f"``{ctx.prefix}buy haste i potion``", inline=True)
-        shop.add_field(name=f"__**Vault Potion**__ 81{self.emerald}", value=f"``{ctx.prefix}buy vault potion``", inline=True)
+        shop.set_author(name="Villager Shop [Magic Items]", url=discord.Embed.Empty,
+                        icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        shop.add_field(name=f"__**Fortune I Book**__ 120{self.emerald}", value=f"``{ctx.prefix}buy fortune i book``",
+                       inline=True)
+        shop.add_field(name=f"__**Haste I Potion**__ 120{self.emerald}", value=f"``{ctx.prefix}buy haste i potion``",
+                       inline=True)
+        shop.add_field(name=f"__**Vault Potion**__ 81{self.emerald}", value=f"``{ctx.prefix}buy vault potion``",
+                       inline=True)
         await ctx.send(embed=shop)
 
     @shop.command(name="other")
     async def shop_other(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop [Other]", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        shop.set_footer(text=ctx.prefix+"inventory to see what you have!")
-        shop.add_field(name=f"__**Jar of Bees**__ 8{self.emerald}", value=f"``{ctx.prefix}buy jar of bees``", inline=True)
-        shop.add_field(name=f"__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>) 32{self.emerald}", value=f"``{ctx.prefix}buy netherite scrap``", inline=True)
-        shop.add_field(name=f"__**Rich Person Trophy**__ 36000{self.emerald}", value=f"``{ctx.prefix}buy rich person trophy``", inline=True)
+        shop.set_author(name="Villager Shop [Other]", url=discord.Embed.Empty,
+                        icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        shop.set_footer(text=ctx.prefix + "inventory to see what you have!")
+        shop.add_field(name=f"__**Jar of Bees**__ 8{self.emerald}", value=f"``{ctx.prefix}buy jar of bees``",
+                       inline=True)
+        shop.add_field(name=f"__**Netherite Scrap**__ (<:netherite_scrap:676974675091521539>) 32{self.emerald}",
+                       value=f"``{ctx.prefix}buy netherite scrap``", inline=True)
+        shop.add_field(name=f"__**Rich Person Trophy**__ 36000{self.emerald}",
+                       value=f"``{ctx.prefix}buy rich person trophy``", inline=True)
         await ctx.send(embed=shop)
 
     @commands.command(name="inventory", aliases=["inv"])
@@ -219,7 +234,7 @@ class Econ(commands.Cog):
     async def view_vault(self, ctx):
         vault = await self.db.get_vault(ctx.author.id)
         await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                           description=f"{ctx.author.mention}'s vault: {vault[0]}<:emerald_block:679121595150893057>/{vault[1]} ({vault[0]*9}{self.emerald})"))
+                                           description=f"{ctx.author.mention}'s vault: {vault[0]}<:emerald_block:679121595150893057>/{vault[1]} ({vault[0] * 9}{self.emerald})"))
 
     @commands.command(name="buy")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
@@ -230,10 +245,10 @@ class Econ(commands.Cog):
 
         place_holder = item.replace("max ", "").replace("all ", "")
         if (item.startswith("max") or item.startswith("all")) and self.g.shop_items.get(place_holder) is not None:
-            amount = floor((await self.db.get_balance(ctx.author.id))/self.g.shop_items.get(place_holder)[0])
+            amount = floor((await self.db.get_balance(ctx.author.id)) / self.g.shop_items.get(place_holder)[0])
             item = place_holder
         else:
-            try: # So proud of this
+            try:  # So proud of this
                 amount = int(item.split(" ")[0])
                 item = item.replace(f"{amount} ", "")
             except ValueError:
@@ -284,14 +299,14 @@ class Econ(commands.Cog):
         shop_item = self.g.shop_items.get(item)
         if shop_item is not None:
             their_bal = await self.db.get_balance(ctx.author.id)
-            if shop_item[0]*amount <= their_bal:
+            if shop_item[0] * amount <= their_bal:
                 db_item = await self.db.get_item(ctx.author.id, shop_item[2][0])
                 if db_item is not None:
                     db_item_count = db_item[1]
                 else:
                     db_item_count = 0
                 if eval(shop_item[1]):
-                    await self.db.set_balance(ctx.author.id, their_bal - shop_item[0]*amount)
+                    await self.db.set_balance(ctx.author.id, their_bal - shop_item[0] * amount)
                     await self.db.add_item(ctx.author.id, shop_item[2][0], amount, shop_item[2][1])
                     await self.send(ctx,
                                     f"You have bought {amount}x **{shop_item[2][0]}**! (You now have {(await self.db.get_item(ctx.author.id, shop_item[2][0]))[1]})")
@@ -353,11 +368,11 @@ class Econ(commands.Cog):
                     pass
             elif pickaxe_type == "wood":
                 try:
-                    await member.remove_roles(guild.get_role(697457637763186809), guild.get_role(697457970661031957), guild.get_role(697458756958552114),
+                    await member.remove_roles(guild.get_role(697457637763186809), guild.get_role(697457970661031957),
+                                              guild.get_role(697458756958552114),
                                               guild.get_role(697457399295901786), guild.get_role(697457303477026856))
                 except discord.HTTPException:
                     pass
-
 
     @commands.command(name="sell")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
@@ -404,8 +419,9 @@ class Econ(commands.Cog):
             await self.send(ctx, "You dumb dumb! You can't give someone 0 emeralds!")
             return
         if await self.db.get_balance(ctx.author.id) < amount:
-            await self.send(ctx, (choice(["You don't have enough emeralds to do that!", "You can't give more than you have!",
-                                                                                                "You don't have enough emeralds!"])))
+            await self.send(ctx,
+                            (choice(["You don't have enough emeralds to do that!", "You can't give more than you have!",
+                                     "You don't have enough emeralds!"])))
         else:
             await self.db.set_balance(rec.id, await self.db.get_balance(rec.id) + amount)
             await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) - amount)
@@ -435,30 +451,42 @@ class Econ(commands.Cog):
 
     @commands.command(name="mine", aliases=["mein"])
     @commands.guild_only()
-    @commands.cooldown(1, 1.4, commands.BucketType.user) # 1.4
+    @commands.cooldown(1, 1.4, commands.BucketType.user)  # 1.4
     async def mine(self, ctx):
         if not await self.problem(ctx):
             return
         await self.db.increment_vault_max(ctx.author.id)
         pickaxe = await self.db.get_pickaxe(ctx.author.id)
         if pickaxe == "wood":
-            minin = ["dirt", "dirt", "emerald", "dirt", "cobblestone", "cobblestone", "cobblestone", "emerald", "coal", "coal", "cobblestone", "cobblestone", "dirt",
-                     "dirt", "iron ore", "cobblestone", "coal", "coal", "coal", "iron ore", "iron ore", "emerald", "dirt", "cobblestone", "dirt", "emerald"] # 4 emeralds
+            minin = ["dirt", "dirt", "emerald", "dirt", "cobblestone", "cobblestone", "cobblestone", "emerald", "coal",
+                     "coal", "cobblestone", "cobblestone", "dirt",
+                     "dirt", "iron ore", "cobblestone", "coal", "coal", "coal", "iron ore", "iron ore", "emerald",
+                     "dirt", "cobblestone", "dirt", "emerald"]  # 4 emeralds
         elif pickaxe == "stone":
-            minin = ["dirt", "dirt", "iron ore", "dirt", "emerald", "dirt", "cobblestone", "emerald", "coal", "iron ore", "emerald", "cobblestone", "dirt",
-                     "dirt", "iron ore", "cobblestone", "emerald", "coal", "cobblestone", "iron ore", "iron ore", "dirt", "dirt", "cobblestone", "dirt", "emerald"] # 5 emeralds
+            minin = ["dirt", "dirt", "iron ore", "dirt", "emerald", "dirt", "cobblestone", "emerald", "coal",
+                     "iron ore", "emerald", "cobblestone", "dirt",
+                     "dirt", "iron ore", "cobblestone", "emerald", "coal", "cobblestone", "iron ore", "iron ore",
+                     "dirt", "dirt", "cobblestone", "dirt", "emerald"]  # 5 emeralds
         elif pickaxe == "iron":
-            minin = ["dirt", "dirt", "emerald", "dirt", "cobblestone", "emerald", "cobblestone", "emerald", "coal", "emerald", "cobblestone", "cobblestone", "dirt",
-                     "emerald", "iron ore", "cobblestone", "coal", "coal", "lapis lazuli", "iron ore", "emerald", "dirt", "dirt", "cobblestone", "dirt", "emerald"] # 7 emeralds
+            minin = ["dirt", "dirt", "emerald", "dirt", "cobblestone", "emerald", "cobblestone", "emerald", "coal",
+                     "emerald", "cobblestone", "cobblestone", "dirt",
+                     "emerald", "iron ore", "cobblestone", "coal", "coal", "lapis lazuli", "iron ore", "emerald",
+                     "dirt", "dirt", "cobblestone", "dirt", "emerald"]  # 7 emeralds
         elif pickaxe == "gold":
-            minin = ["dirt", "emerald", "dirt", "emerald", "cobblestone", "emerald", "cobblestone", "emerald", "coal", "emerald", "diamond", "cobblestone", "dirt",
-                     "dirt", "iron ore", "emerald", "gold ore", "coal", "emerald", "iron ore", "iron ore", "cobblestone", "dirt", "lapis lazuli", "dirt", "emerald"] # 8 emeralds
+            minin = ["dirt", "emerald", "dirt", "emerald", "cobblestone", "emerald", "cobblestone", "emerald", "coal",
+                     "emerald", "diamond", "cobblestone", "dirt",
+                     "dirt", "iron ore", "emerald", "gold ore", "coal", "emerald", "iron ore", "iron ore",
+                     "cobblestone", "dirt", "lapis lazuli", "dirt", "emerald"]  # 8 emeralds
         elif pickaxe == "diamond":
-            minin = ["obsidian", "emerald", "dirt", "redstone", "cobblestone", "emerald", "diamond ore", "emerald", "coal", "emerald", "diamond", "cobblestone", "emerald",
-                     "emerald", "iron ore", "diamond", "emerald", "redstone", "emerald", "iron ore", "obsidian", "cobblestone", "dirt", "emerald", "obsidian", "emerald"] # 10 emeralds
+            minin = ["obsidian", "emerald", "dirt", "redstone", "cobblestone", "emerald", "diamond ore", "emerald",
+                     "coal", "emerald", "diamond", "cobblestone", "emerald",
+                     "emerald", "iron ore", "diamond", "emerald", "redstone", "emerald", "iron ore", "obsidian",
+                     "cobblestone", "dirt", "emerald", "obsidian", "emerald"]  # 10 emeralds
         elif pickaxe == "netherite":
-            minin = ["obsidian", "emerald", "emerald", "redstone", "cobblestone", "emerald", "diamond ore", "emerald", "emerald", "emerald", "diamond", "cobblestone", "emerald",
-                     "emerald", "iron ore", "diamond", "emerald", "redstone", "emerald", "iron ore", "obsidian", "emerald", "dirt", "emerald", "obsidian", "emerald"] # 13 emeralds
+            minin = ["obsidian", "emerald", "emerald", "redstone", "cobblestone", "emerald", "diamond ore", "emerald",
+                     "emerald", "emerald", "diamond", "cobblestone", "emerald",
+                     "emerald", "iron ore", "diamond", "emerald", "redstone", "emerald", "iron ore", "obsidian",
+                     "emerald", "dirt", "emerald", "obsidian", "emerald"]  # 13 emeralds
         found = choice(minin)
         if found == "emerald":
             items = await self.db.get_items(ctx.author.id)
@@ -466,7 +494,8 @@ class Econ(commands.Cog):
             choices = [1, 1]
             top = 0
             for item in items:
-                if item[0] == "Bane Of Pillagers Amulet": # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
+                if item[
+                    0] == "Bane Of Pillagers Amulet":  # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
                     choices = [2, 3, 4, 5, 6]
                     top = 15
                 elif item[0] == "Fortune III Book":
@@ -485,8 +514,8 @@ class Econ(commands.Cog):
                 if await self.db.get_item(ctx.author.id, "Rich Person Trophy") is not None:
                     mult *= 2
             await self.send(ctx, (choice([f"You found {mult}{self.emerald}!",
-                                                                                                f"You mined up {mult}{self.emerald}!",
-                                                                                                f"You got {mult}{self.emerald}!"])))
+                                          f"You mined up {mult}{self.emerald}!",
+                                          f"You got {mult}{self.emerald}!"])))
             await self.db.set_balance(ctx.author.id, await self.db.get_balance(ctx.author.id) + 1 * mult)
         else:
             for c in self.g.items:
@@ -504,10 +533,11 @@ class Econ(commands.Cog):
                     await self.db.add_item(ctx.author.id, c[0], 1, c[1])
                     return
             await self.send(ctx, (f"You {choice(['found', 'mined', 'mined up', 'found'])} {randint(1, 5)} "
-                                                                                        f"{choice(['worthless', 'useless', 'dumb', 'stupid'])} {found}."))
+                                  f"{choice(['worthless', 'useless', 'dumb', 'stupid'])} {found}."))
 
     @mine.error
-    async def handle_mine_errors(self, ctx, e): # all errors handler is called after this one, you can set ctx.handled to a boolean
+    async def handle_mine_errors(self, ctx,
+                                 e):  # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
             cooldown = e.retry_after
             if await self.db.get_item(ctx.author.id, "Efficiency I Book") is not None:
@@ -521,10 +551,11 @@ class Econ(commands.Cog):
             if cooldown <= 0:
                 await ctx.reinvoke()
             else:
-                descs = ["Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {0} seconds.",
-                        "Hey, you need to wait another {0} seconds before doing that again.",
-                        "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
-                        "Don't you know [patience was a virtue](http://www.patience-is-a-virtue.org/)? Wait another {0} seconds."]
+                descs = [
+                    "Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {0} seconds.",
+                    "Hey, you need to wait another {0} seconds before doing that again.",
+                    "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
+                    "Don't you know [patience was a virtue](http://www.patience-is-a-virtue.org/)? Wait another {0} seconds."]
                 await self.send(ctx, (choice(descs).format(round(cooldown, 2))))
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
@@ -542,21 +573,23 @@ class Econ(commands.Cog):
                 await self.send(ctx, "Try using an actual number, idiot!")
                 return
         if amount > their_bal:
-            await self.send(ctx, (choice(["You don't have enough emeralds!", "You don't have enough emeralds to do that!"])))
+            await self.send(ctx,
+                            (choice(["You don't have enough emeralds!", "You don't have enough emeralds to do that!"])))
             return
         if amount < 1:
-            await self.send(ctx, (choice(["You need to gamble with at least 1 emerald!", "You need 1 or more emeralds to gamble with."])))
+            await self.send(ctx, (
+                choice(["You need to gamble with at least 1 emerald!", "You need 1 or more emeralds to gamble with."])))
             return
-        roll = randint(1, 6)+randint(1, 6)
-        bot_roll = randint(1, 6)+randint(1, 6)
+        roll = randint(1, 6) + randint(1, 6)
+        bot_roll = randint(1, 6) + randint(1, 6)
         await asyncio.sleep(.5)
-        await self.send(ctx, ("Villager Bot rolled: ``"+str(bot_roll)+"``\nYou rolled: ``"+str(roll)+"``"))
-        mult = 1+(randint(10, 30)/100)
+        await self.send(ctx, ("Villager Bot rolled: ``" + str(bot_roll) + "``\nYou rolled: ``" + str(roll) + "``"))
+        mult = 1 + (randint(10, 30) / 100)
         if their_bal < 100:
             mult += 0.2
         if await self.db.get_item(ctx.author.id, "Rich Person Trophy") is not None:
             mult *= 2
-        rez = ceil(amount*mult)
+        rez = ceil(amount * mult)
         if roll > bot_roll:
             await self.send(ctx, f"You won {rez - amount}{self.emerald} **|** Multiplier: {int(mult * 100)}%")
             await self.db.set_balance(ctx.author.id, their_bal + (rez - amount))
@@ -580,7 +613,8 @@ class Econ(commands.Cog):
             ctx.command.reset_cooldown(ctx)
             return
         if ctx.author.id == victim.id:
-            await self.send(ctx, (victim.display_name + " " + choice(["threw their items into a lava pool.", "commited dig straight down", "suicided via creeper"])))
+            await self.send(ctx, (victim.display_name + " " + choice(
+                ["threw their items into a lava pool.", "commited dig straight down", "suicided via creeper"])))
             ctx.command.reset_cooldown(ctx)
             return
         their_bal = await self.db.get_balance(ctx.author.id)
@@ -603,23 +637,24 @@ class Econ(commands.Cog):
         else:
             victims_bees = victims_bees[1]
         if attackers_bees > victims_bees:
-            heist_success = choice([False, True, True, True, False, True, False, True]) # 5/8
+            heist_success = choice([False, True, True, True, False, True, False, True])  # 5/8
         elif victims_bees > attackers_bees:
-            heist_success = choice([False, True, False, False, False, True, False, True]) # 3/8
+            heist_success = choice([False, True, False, False, False, True, False, True])  # 3/8
         else:
-            heist_success = choice([False, True]) # 1/2
+            heist_success = choice([False, True])  # 1/2
         if await self.db.get_item(victim.id, "Bane Of Pillagers Amulet") is not None:
-            heist_success = choice([False, False, False, False, False, True]) # 1/6
+            heist_success = choice([False, False, False, False, False, True])  # 1/6
         if heist_success:
-            s_amount = ceil(victim_bal*(randint(10, 40)/100))
+            s_amount = ceil(victim_bal * (randint(10, 40) / 100))
             await self.db.set_balance(victim.id, victim_bal - s_amount)
             await self.db.set_balance(ctx.author.id, their_bal + s_amount)
             await self.send(ctx, (choice([f"You escaped with {s_amount} {self.emerald}",
-                                                                                                f"You got away with {s_amount} {self.emerald}"])))
+                                          f"You got away with {s_amount} {self.emerald}"])))
             try:
-                await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} stole {s_amount}{self.emerald} from you!",
-                                                                                                       f"{ctx.author.display_name} pillaged {s_amount}{self.emerald} from you!",
-                                                                                                       f"{ctx.author.display_name} pillaged you and got {s_amount}{self.emerald} from you!."])))
+                await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice(
+                    [f"{ctx.author.display_name} stole {s_amount}{self.emerald} from you!",
+                     f"{ctx.author.display_name} pillaged {s_amount}{self.emerald} from you!",
+                     f"{ctx.author.display_name} pillaged you and got {s_amount}{self.emerald} from you!."])))
             except discord.errors.Forbidden:
                 pass
             await self.db.update_pillagerboard(ctx.author.id, s_amount)
@@ -628,9 +663,10 @@ class Econ(commands.Cog):
             await self.db.set_balance(ctx.author.id, their_bal - 32)
             await self.send(ctx, f"You were caught and paid 32 {self.emerald}")
             try:
-                await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice([f"{ctx.author.display_name} absolutely failed at pillaging you.",
-                                                                                                       f"{ctx.author.display_name} got absolutely destroyed pillaging you.",
-                                                                                                       f"{ctx.author.display_name} tried to pillage you with their wooden sword."])))
+                await victim.send(embed=discord.Embed(color=discord.Color.green(), description=choice(
+                    [f"{ctx.author.display_name} absolutely failed at pillaging you.",
+                     f"{ctx.author.display_name} got absolutely destroyed pillaging you.",
+                     f"{ctx.author.display_name} tried to pillage you with their wooden sword."])))
             except discord.errors.Forbidden:
                 pass
 
@@ -649,13 +685,13 @@ class Econ(commands.Cog):
 
     @leaderboard.command(name="emeralds", aliases=["money", "em", "ems"])
     async def emerald_leaderboard(self, ctx):
-        dbs = await self.bot.db.fetch("SELECT * FROM currency") # Returns list of tuples
-        lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True) # Sort list
+        dbs = await self.bot.db.fetch("SELECT * FROM currency")  # Returns list of tuples
+        lb = sorted(dbs, key=lambda tup: int(tup[1]), reverse=True)  # Sort list
         # Find the rank of the user
         place = -1
         for i in range(0, len(lb), 1):
             if lb[i][0] == ctx.author.id:
-                place = i+1
+                place = i + 1
                 break
         # Shorten list
         lb = lb[:10]
@@ -670,8 +706,9 @@ class Econ(commands.Cog):
             lb_text += f"``{rank}.`` **{entry[1]}{self.emerald}** {str(user)[:-5]} \n"
             rank += 1
         if place >= 10:
-            lb_text += "⋮\n"+f"``{place}.`` **{await self.db.get_balance(ctx.author.id)}{self.emerald}** {str(ctx.author)[:-5]}"
-        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)
+            lb_text += "⋮\n" + f"``{place}.`` **{await self.db.get_balance(ctx.author.id)}{self.emerald}** {str(ctx.author)[:-5]}"
+        embed = discord.Embed(color=discord.Color.green(),
+                              title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)
         await ctx.send(embed=embed)
 
     @leaderboard.command(name="commands", aliases=["cmds"])
@@ -682,7 +719,7 @@ class Econ(commands.Cog):
         place = -1
         for i in range(0, len(_sorted), 1):
             if _sorted[i][0] == ctx.author.id:
-                place = i+1
+                place = i + 1
                 break
         _sorted = _sorted[:10]
         if place >= 10:
@@ -696,8 +733,9 @@ class Econ(commands.Cog):
             lb_text += f"``{rank}.`` **{entry[1]} Commands** {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
-            lb_text += "⋮\n"+f"``{place}.`` **{self.g.command_leaderboard[ctx.author.id]} Commands** {str(ctx.author)[:-5]}"
-        embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__", description=lb_text)
+            lb_text += "⋮\n" + f"``{place}.`` **{self.g.command_leaderboard[ctx.author.id]} Commands** {str(ctx.author)[:-5]}"
+        embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__",
+                              description=lb_text)
         await ctx.send(embed=embed)
 
     @leaderboard.command(name="bees", aliases=["beeboard", "bs"])
@@ -713,7 +751,7 @@ class Econ(commands.Cog):
         place = -1
         for i in range(0, len(_sorted), 1):
             if _sorted[i][0] == ctx.author.id:
-                place = i+1
+                place = i + 1
                 break
         _sorted = _sorted[:10]
         if place >= 10:
@@ -727,18 +765,20 @@ class Econ(commands.Cog):
             lb_text += f"``{rank}.`` **{entry[1]}<:beee:682059180391268352>** {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
-            lb_text += "⋮\n"+f"``{place}.`` **{(await self.db.get_item(ctx.author.id, 'Jar Of Bees'))[1]}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
-        embed = discord.Embed(color=discord.Color.green(), title=f"<a:bee:682057109046951956> __**Bee Leaderboard**__ <a:bee:682057109046951956>", description=lb_text)
+            lb_text += "⋮\n" + f"``{place}.`` **{(await self.db.get_item(ctx.author.id, 'Jar Of Bees'))[1]}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
+        embed = discord.Embed(color=discord.Color.green(),
+                              title=f"<a:bee:682057109046951956> __**Bee Leaderboard**__ <a:bee:682057109046951956>",
+                              description=lb_text)
         await ctx.send(embed=embed)
 
     @leaderboard.command(name="pillages", aliases=["pil"])
     async def pillager_leaderboard(self, ctx):
         pillagers = await self.db.get_pillagerboard()
-        _sorted = sorted(pillagers, reverse=True, key=lambda entry: entry[1]) # Sort by second value in the thingy
+        _sorted = sorted(pillagers, reverse=True, key=lambda entry: entry[1])  # Sort by second value in the thingy
         try:
-            place = _sorted.index(await self.db.get_pillager(ctx.author.id))+1
+            place = _sorted.index(await self.db.get_pillager(ctx.author.id)) + 1
         except ValueError:
-            place = len(_sorted)+1
+            place = len(_sorted) + 1
         _sorted = _sorted[:10]
         if place >= 10:
             _sorted = _sorted[:9]
@@ -751,8 +791,10 @@ class Econ(commands.Cog):
             lb_text += f"``{rank}.`` **{entry[1]}{self.emerald} Stolen** {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
-            lb_text += "⋮\n"+f"``{place}.`` **{(await self.db.get_pillager(ctx.author.id))[1]}{self.emerald} Stolen** {str(ctx.author)[:-5]}"
-        embed = discord.Embed(color=discord.Color.green(), title=f"{self.emerald} __**Emeralds Pillaged Leaderboard**__ {self.emerald}", description=lb_text)
+            lb_text += "⋮\n" + f"``{place}.`` **{(await self.db.get_pillager(ctx.author.id))[1]}{self.emerald} Stolen** {str(ctx.author)[:-5]}"
+        embed = discord.Embed(color=discord.Color.green(),
+                              title=f"{self.emerald} __**Emeralds Pillaged Leaderboard**__ {self.emerald}",
+                              description=lb_text)
         await ctx.send(embed=embed)
 
     @commands.command(name="chug", aliases=["drink"])
@@ -771,18 +813,20 @@ class Econ(commands.Cog):
             await self.send(ctx, f"You have chugged a **{_item[0]}** *(which lasts 6 minutes)*!")
             self.items_in_use[ctx.author.id] = item
             await self.db.remove_item(ctx.author.id, item, 1)
-            await asyncio.sleep(60*6)
+            await asyncio.sleep(60 * 6)
             self.items_in_use.pop(ctx.author.id)
-            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{_item[0]}** you chugged earlier has worn off."))
+            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(),
+                                                      description=f"The **{_item[0]}** you chugged earlier has worn off."))
             return
 
         if item.lower() == "haste ii potion":
             await self.send(ctx, f"You have chugged a **{_item[0]}** *(which lasts 4.5 minutes)*!")
             self.items_in_use[ctx.author.id] = item
             await self.db.remove_item(ctx.author.id, item, 1)
-            await asyncio.sleep(60*4.5)
+            await asyncio.sleep(60 * 4.5)
             self.items_in_use.pop(ctx.author.id)
-            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(), description=f"The **{_item[0]}** you chugged earlier has worn off."))
+            await ctx.author.send(embed=discord.Embed(color=discord.Color.green(),
+                                                      description=f"The **{_item[0]}** you chugged earlier has worn off."))
             return
 
         if item.lower() == "vault potion":
@@ -791,10 +835,10 @@ class Econ(commands.Cog):
                 await self.send(ctx, f"You cannot expand your vault further!")
                 return
             add = randint(9, 15)
-            if vault[1]+add > 2000:
+            if vault[1] + add > 2000:
                 add = 2000 - vault[1]
             await self.db.remove_item(ctx.author.id, "Vault Potion", 1)
-            await self.db.set_vault(ctx.author.id, vault[0], vault[1]+add)
+            await self.db.set_vault(ctx.author.id, vault[0], vault[1] + add)
             await self.send(ctx, f"You have chugged a **Vault Potion**. Your vault has increased by {add} spaces.")
             return
 
@@ -813,28 +857,30 @@ class Econ(commands.Cog):
         if bees > 1024:
             bees = 1024
         if bees < 100:
-            await self.send(ctx, (choice(["You don't have enough bees to make this business option viable.", "Dude, you need 100 jars of bees to actually make a profit, go away."])))
+            await self.send(ctx, (choice(["You don't have enough bees to make this business option viable.",
+                                          "Dude, you need 100 jars of bees to actually make a profit, go away."])))
             ctx.command.reset_cooldown(ctx)
             return
-        jars = bees - randint(ceil(bees/6), ceil(bees/2))
+        jars = bees - randint(ceil(bees / 6), ceil(bees / 2))
         await self.db.add_item(ctx.author.id, "Honey Jar", jars, 1)
-        await self.send(ctx, (choice([f"Apparently bees produce honey and you just collected {jars} jars of it.", f"Bees make honey and you just got {jars} jars of it."])))
-        if choice([True, False, False, False, False]): # 1/4 chance of getting bees died
-            bees_lost = randint(ceil(bees/75), ceil(bees/50))
+        await self.send(ctx, (choice([f"Apparently bees produce honey and you just collected {jars} jars of it.",
+                                      f"Bees make honey and you just got {jars} jars of it."])))
+        if choice([True, False, False, False, False]):  # 1/4 chance of getting bees died
+            bees_lost = randint(ceil(bees / 75), ceil(bees / 50))
             await self.db.remove_item(ctx.author.id, "Jar Of Bees", bees_lost)
             await self.send(ctx,
                             f"Also, {choice(['apparently ', 'it looks like ', ''])}bees get mad when you try to steal their honey, who knew... You lost {bees_lost * 3} to suicide...")
-
 
     @harvest_honey.error
     async def handle_honey_errors(self, ctx, e):
         if isinstance(e, commands.CommandOnCooldown):
             hours = int(e.retry_after / 3600)
             minutes = int(e.retry_after / 60) % 60
-            descs = [f"Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {hours} hour(s) & {minutes} minute(s).",
-                     f"Hey, you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
-                     f"Hrmmm, looks like you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
-                     f"Didn't you know [patience is a virtue](http://www.patience-is-a-virtue.org/)? Wait another {hours} hour(s) & {minutes} minute(s)."]
+            descs = [
+                f"Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {hours} hour(s) & {minutes} minute(s).",
+                f"Hey, you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
+                f"Hrmmm, looks like you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
+                f"Didn't you know [patience is a virtue](http://www.patience-is-a-virtue.org/)? Wait another {hours} hour(s) & {minutes} minute(s)."]
             await self.send(ctx, (choice(descs)))
 
 
