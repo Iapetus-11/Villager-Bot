@@ -58,6 +58,7 @@ bot.cog_list = ["cogs.other.global",
 
 # Load cogs in cogs list
 for cog in bot.cog_list:
+
     bot.load_extension(cog)
 
 

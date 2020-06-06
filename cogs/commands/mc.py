@@ -41,8 +41,8 @@ class Minecraft(commands.Cog):
             try:
                 int(s[1])
             except Exception:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\n" +
-                                                   "Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``"+ctx.prefix+"mcping 172.10.17.177:25565``"))
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{server}** is either offline or unavailable at the moment.\n"
+                                                                                            f"Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``{ctx.prefix}mcping 172.10.17.177:25565``"))
                 return
         if server == "":
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You must specify a server to ping!"))
@@ -50,10 +50,10 @@ class Minecraft(commands.Cog):
         status = MinecraftServer.lookup(server)
         try:
             status = status.status()
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is online with {0} player(s) and a ping of {1} ms.".format(status.players.online, status.latency)))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{server} is online with {status.players.online} player(s) and a ping of {status.latency} ms."))
         except Exception:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment.\n" +
-                                               "Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``"+ctx.prefix+"mcping 172.10.17.177:25565``"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{server}** is either offline or unavailable at the moment.\n"
+                                                                                        f"Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``{ctx.prefix}mcping 172.10.17.177:25565``"))
 
     @commands.command(name="mcpeping", aliases=["mcbeping"])
     async def bedrock_ping(self, ctx, server: str):
@@ -67,27 +67,27 @@ class Minecraft(commands.Cog):
             await asyncio.sleep(.75)
             recvData = s.recvfrom(2048)
         except BlockingIOError:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment. Did you type the ip correctly?"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{server}** is either offline or unavailable at the moment. Did you type the ip correctly?"))
             return
         except socket.gaierror:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="**"+server+"** is either offline or unavailable at the moment. Did you type the ip correctly?"))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{server}** is either offline or unavailable at the moment. Did you type the ip correctly?"))
             return
         pong = UNCONNECTED_PONG()
         pong.buffer = recvData[0]
         pong.decode()
         sInfo = str(pong.serverName)[2:-2].split(";")
         pCount = sInfo[4]
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=server+" is online with "+pCount+" player(s)."))
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{server} is online with {pCount} player(s)."))
 
     @commands.command(name="stealskin", aliases=["skinsteal", "skin"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def skinner(self, ctx, *, gamertag: str):
-        response = await self.ses.get("https://api.mojang.com/users/profiles/minecraft/"+gamertag)
+        response = await self.ses.get(f"https://api.mojang.com/users/profiles/minecraft/{gamertag}")
         if response.status == 204:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That player doesn't exist!"))
             return
         uuid = json.loads(await response.text())["id"]
-        response = await self.ses.get("https://sessionserver.mojang.com/session/minecraft/profile/"+str(uuid)+"?unsigned=false")
+        response = await self.ses.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}?unsigned=false")
         content = json.loads(await response.text())
         if "error" in content:
             if content["error"] == "TooManyRequestsException":
@@ -102,10 +102,10 @@ class Minecraft(commands.Cog):
         except Exception:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="An error occurred while fetching that skin!"))
             return
-        skinEmbed = discord.Embed(color=discord.Color.green(), description=gamertag+"'s skin\n[**[Download]**]("+url+")")
-        skinEmbed.set_thumbnail(url=url)
-        skinEmbed.set_image(url="https://mc-heads.net/body/"+gamertag)
-        await ctx.send(embed=skinEmbed)
+        skin_embed = discord.Embed(color=discord.Color.green(), description=f"{gamertag}'s skin\n[**[Download]**]({url})")
+        skin_embed.set_thumbnail(url=url)
+        skin_embed.set_image(url=f"https://mc-heads.net/body/{gamertag}")
+        await ctx.send(embed=skin_embed)
 
     @commands.command(name="nametouuid", aliases=["uuid", "getuuid"])
     @commands.cooldown(1, 1, commands.BucketType.user)
