@@ -150,12 +150,12 @@ class Econ(commands.Cog):
                        inline=True)
         shop.add_field(name=f"__**Iron Pickaxe**__ 128{self.emerald}", value=f"``{ctx.prefix}buy iron pickaxe``",
                        inline=True)
-        shop.add_field(name="\uFEf", value="\uFEf", inline=True)
+        shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         shop.add_field(name=f"__**Gold Pickaxe**__ 512{self.emerald}", value=f"``{ctx.prefix}buy gold pickaxe``",
                        inline=True)
         shop.add_field(name=f"__**Diamond Pickaxe**__ 2048{self.emerald}", value=f"``{ctx.prefix}buy diamond pickaxe``",
                        inline=True)
-        shop.add_field(name="\uFEf", value="\uFEf", inline=True)
+        shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         shop.add_field(name=f"__**Netherite Pickaxe**__ 8192{self.emerald} 4<:netherite_scrap:676974675091521539>",
                        value=f"``{ctx.prefix}buy netherite pickaxe``", inline=True)
         shop.set_footer(text=f"Pickaxes allow you to obtain more emeralds while using the {ctx.prefix}mine command!")
@@ -705,7 +705,7 @@ class Econ(commands.Cog):
             lb_text += f"``{rank}.`` **{entry[1]}{self.emerald}** {str(user)[:-5]} \n"
             rank += 1
         if place >= 10:
-            lb_text += f"⋮\n``{place}.`` **{await self.db.get_balance(ctx.author.id)}{self.emerald}** {str(ctx.author)[:-5]}"
+            lb_text += "⋮\n" + f"``{place}.`` **{await self.db.get_balance(ctx.author.id)}{self.emerald}** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(),
                               title=f"{self.emerald}__**Emerald Leaderboard**__{self.emerald}", description=lb_text)
         await ctx.send(embed=embed)
@@ -732,7 +732,7 @@ class Econ(commands.Cog):
             lb_text += f"``{rank}.`` **{entry[1]} Commands** {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
-            lb_text += f"⋮\n``{place}.`` **{self.g.command_leaderboard[ctx.author.id]} Commands** {str(ctx.author)[:-5]}"
+            lb_text += "⋮\n" + f"``{place}.`` **{self.g.command_leaderboard[ctx.author.id]} Commands** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(), title=f"__**Command Usage Leaderboard**__",
                               description=lb_text)
         await ctx.send(embed=embed)
@@ -764,7 +764,7 @@ class Econ(commands.Cog):
             lb_text += f"``{rank}.`` **{entry[1]}<:beee:682059180391268352>** {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
-            lb_text += f"⋮\n``{place}.`` **{(await self.db.get_item(ctx.author.id, 'Jar Of Bees'))[1]}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
+            lb_text += "⋮\n" + f"``{place}.`` **{(await self.db.get_item(ctx.author.id, 'Jar Of Bees'))[1]}<:beee:682059180391268352>** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(),
                               title=f"<a:bee:682057109046951956> __**Bee Leaderboard**__ <a:bee:682057109046951956>",
                               description=lb_text)
@@ -790,7 +790,7 @@ class Econ(commands.Cog):
             lb_text += f"``{rank}.`` **{entry[1]}{self.emerald} Stolen** {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
-            lb_text += f"⋮\n``{place}.`` **{(await self.db.get_pillager(ctx.author.id))[1]}{self.emerald} Stolen** {str(ctx.author)[:-5]}"
+            lb_text += "⋮\n" + f"``{place}.`` **{(await self.db.get_pillager(ctx.author.id))[1]}{self.emerald} Stolen** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(),
                               title=f"{self.emerald} __**Emeralds Pillaged Leaderboard**__ {self.emerald}",
                               description=lb_text)
