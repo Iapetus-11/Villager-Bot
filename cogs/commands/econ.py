@@ -494,8 +494,7 @@ class Econ(commands.Cog):
             choices = [1, 1]
             top = 0
             for item in items:
-                if item[
-                    0] == "Bane Of Pillagers Amulet":  # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
+                if item[0] == "Bane Of Pillagers Amulet":  # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
                     choices = [2, 3, 4, 5, 6]
                     top = 15
                 elif item[0] == "Fortune III Book":
