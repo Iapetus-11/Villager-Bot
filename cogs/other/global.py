@@ -50,6 +50,8 @@ class Global(commands.Cog):
 
         self.command_leaderboard = {}
 
+        self.honey_buckets = None
+
 
 def setup(bot):
     bot.add_cog(Global(bot))
