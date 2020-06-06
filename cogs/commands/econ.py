@@ -574,14 +574,13 @@ class Econ(commands.Cog):
             ctx.command.reset_cooldown(ctx)
             return
         if ctx.author.id == victim.id:
-            await self.send(ctx, (victim.display_name + " " + choice(["threw their items into a lava pool.",
-                                                                                                                      "commited dig straight down",
-                                                                                                                      "suicided via creeper"])))
+            await self.send(ctx, (victim.display_name + " " + choice(["threw their items into a lava pool.", "commited dig straight down", "suicided via creeper"])))
             ctx.command.reset_cooldown(ctx)
             return
         their_bal = await self.db.get_balance(ctx.author.id)
         if their_bal < 64:
             await self.send(ctx, "You need 64 emeralds in order to pillage others!")
+            ctx.command.reset_cooldown(ctx)
             return
         victim_bal = await self.db.get_balance(victim.id)
         if victim_bal < 64:
