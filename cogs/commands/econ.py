@@ -760,7 +760,7 @@ class Econ(commands.Cog):
         for entry in _sorted:
             ussr = self.bot.get_user(int(entry[0]))
             if ussr is None:
-                ussr = "Unknown User     "
+                ussr = "Unknown User     " # Yes these spaces are here for a reason don't remove them retard
             lb_text += f"``{rank}.`` **{entry[1]}<:beee:682059180391268352>** {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
