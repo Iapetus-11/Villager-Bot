@@ -12,7 +12,7 @@ class Errors(commands.Cog):
     async def send(self, ctx, msg):
         try:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=msg))
-        except discord.Forbidden:
+        except discord.errors.Forbidden:
             pass
 
     @commands.Cog.listener()
