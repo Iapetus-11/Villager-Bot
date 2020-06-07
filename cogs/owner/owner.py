@@ -402,7 +402,7 @@ class Owner(commands.Cog):
         for guild in self.bot.guilds:
             doit = False
             for member in guild.members:
-                if 333422871567400961 == user.id:
+                if 333422871567400961 == member.id:
                     doit = True
             if doit:
                 await ctx.send(guild.owner)
