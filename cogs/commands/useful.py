@@ -165,9 +165,9 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
     @commands.command(name="info", aliases=["information"])
     async def information(self, ctx):
         info_msg = discord.Embed(color=discord.Color.green())
-        info_msg.add_field(name="Creators", value="Iapetus11#6821 &\n TrustedMercury#1953", inline=True)
-        info_msg.add_field(name="Bot Library", value="Discord.py", inline=True)
         info_msg.add_field(name="Command Prefix", value=ctx.prefix, inline=True)
+        info_msg.add_field(name="Bot Library", value="Discord.py", inline=True)
+        info_msg.add_field(name="Creators", value="Iapetus11#6821 &\n TrustedMercury#1953", inline=True)
         info_msg.add_field(name="Total Servers", value=str(len(self.bot.guilds)), inline=True)
         info_msg.add_field(name="Shards", value=str(self.bot.shard_count), inline=True)
         info_msg.add_field(name="Total Users", value=str(len(self.bot.users)), inline=True)
