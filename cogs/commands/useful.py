@@ -164,18 +164,18 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
 
     @commands.command(name="info", aliases=["information"])
     async def information(self, ctx):
-        infoMsg = discord.Embed(color=discord.Color.green())
-        infoMsg.add_field(name="Creators", value="Iapetus11#6821 &\n TrustedMercury#1953", inline=True)
-        infoMsg.add_field(name="Bot Library", value="Discord.py", inline=True)
-        infoMsg.add_field(name="Command Prefix", value=ctx.prefix, inline=True)
-        infoMsg.add_field(name="Total Servers", value=str(len(self.bot.guilds)), inline=True)
-        infoMsg.add_field(name="Shards", value=str(self.bot.shard_count), inline=True)
-        infoMsg.add_field(name="Total Users", value=str(len(self.bot.users)), inline=True)
-        infoMsg.add_field(name="Bot Page", value="[Click Here](https://top.gg/bot/639498607632056321)", inline=True)
-        infoMsg.add_field(name="\uFEFF", value="\uFEFF", inline=True)
-        infoMsg.add_field(name="Discord", value="[Click Here](https://discord.gg/39DwwUV)", inline=True)
-        infoMsg.set_author(name="Villager Bot Information", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        await ctx.send(embed=infoMsg)
+        info_msg = discord.Embed(color=discord.Color.green())
+        info_msg.add_field(name="Creators", value="Iapetus11#6821 &\n TrustedMercury#1953", inline=True)
+        info_msg.add_field(name="Bot Library", value="Discord.py", inline=True)
+        info_msg.add_field(name="Command Prefix", value=ctx.prefix, inline=True)
+        info_msg.add_field(name="Total Servers", value=str(len(self.bot.guilds)), inline=True)
+        info_msg.add_field(name="Shards", value=str(self.bot.shard_count), inline=True)
+        info_msg.add_field(name="Total Users", value=str(len(self.bot.users)), inline=True)
+        info_msg.add_field(name="Top.gg Page", value="[Click Here](https://top.gg/bot/639498607632056321)", inline=True)
+        info_msg.add_field(name="Website", value="[Click Here](https://villagerbot.xyz)", inline=True)
+        info_msg.add_field(name="Discord", value="[Click Here](https://discord.gg/39DwwUV)", inline=True)
+        info_msg.set_author(name="Villager Bot Information", icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        await ctx.send(embed=info_msg)
 
     @commands.command(name="ping", aliases=["pong", "ding", "dong", "shing", "shling", "schlong"]) # Checks latency between Discord API and the bot
     async def ping(self, ctx):
