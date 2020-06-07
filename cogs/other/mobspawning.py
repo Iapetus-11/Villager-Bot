@@ -121,7 +121,7 @@ class MobSpawning(commands.Cog):
                 return
             sword = await self.get_sword(u.id)
             dmg = self.calc_sword_dmg(sword)
-
+            mob[1] -= dmg
 
     @commands.Cog.listener()
     async def on_ready(self):
