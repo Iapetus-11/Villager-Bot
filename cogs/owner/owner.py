@@ -406,5 +406,6 @@ class Owner(commands.Cog):
                 count += 1
         await ctx.send(count)
 
+
 def setup(bot):
     bot.add_cog(Owner(bot))
