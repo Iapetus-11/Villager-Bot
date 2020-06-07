@@ -873,18 +873,6 @@ class Econ(commands.Cog):
             await self.send(ctx,
                             f"Also, {choice(['apparently ', 'it looks like ', ''])}bees get mad when you try to steal their honey, who knew... You lost {bees_lost * 3} to suicide...")
 
-    @harvest_honey.error
-    async def handle_honey_errors(self, ctx, e):
-        if isinstance(e, commands.CommandOnCooldown):
-            hours = int(e.retry_after / 3600)
-            minutes = int(e.retry_after / 60) % 60
-            descs = [
-                f"Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {hours} hour(s) & {minutes} minute(s).",
-                f"Hey, you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
-                f"Hrmmm, looks like you need to wait another {hours} hour(s) & {minutes} minute(s) before doing that again.",
-                f"Didn't you know [patience is a virtue](http://www.patience-is-a-virtue.org/)? Wait another {hours} hour(s) & {minutes} minute(s)."]
-            await self.send(ctx, (choice(descs)))
-
 
 def setup(bot):
     bot.add_cog(Econ(bot))
