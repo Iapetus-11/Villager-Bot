@@ -61,14 +61,8 @@ class Errors(commands.Cog):
                     await ctx.reinvoke()
                     return
 
-                minutes = 0
-                if seconds / 60 >= 0:
-                    minutes = seconds % 60
-                    seconds -= minutes*60
-                hours = 0
-                if minutes / 60 >= 0:
-                    hours = minutes % 60
-                    minutes -= hours*60
+                hours = int(seconds / 3600)
+                minutes = int(seconds / 60) % 60
 
                 time = ""
                 if hours > 0:
