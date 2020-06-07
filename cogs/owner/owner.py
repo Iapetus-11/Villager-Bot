@@ -399,10 +399,12 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def big_bamboozle(self, ctx):
         await ctx.send("Running...")
-        id = 333422871567400961
-        mutual = (await self.bot.get_user(id).profile()).mutual_guilds
-        await ctx.send(len(mutual))
-
+        _id = 333422871567400961
+        count = 0
+        for guild in self.bot.guilds:
+            if guild.get_member(_id) is not None:
+                count += 1
+        await ctx.send(count)
 
 def setup(bot):
     bot.add_cog(Owner(bot))
