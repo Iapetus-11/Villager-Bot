@@ -12,7 +12,7 @@ class MobSpawning(commands.Cog):
 
         self.do_event = []
 
-        # "mobname": [actualname, health, ]
+        # "mobname": [actualname, health, img_url, [attacks]]
         murl = "http://olimone.ddns.net/images/mob_spawns/"
         self.mobs = {"zombie": ["Zombie", 20, murl+"zombie.png"],
                      "spider": ["Spider", 16, murl+"spider.png"],
