@@ -239,9 +239,8 @@ class Owner(commands.Cog):
     async def guild_lookup(self, ctx, user: discord.User):
         gds = ""
         for guild in self.bot.guilds:
-            for member in guild.members:
-                if member.id == user.id:
-                    gds += str(guild) + " **|** " + str(guild.id) + "\n"
+            for guild.get_member(user.id) is not None:
+                gds += str(guild) + " **|** " + str(guild.id) + "\n"
         if not gds == "":
             await ctx.send(gds)
         else:
