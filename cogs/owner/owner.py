@@ -402,7 +402,7 @@ class Owner(commands.Cog):
         count = 0
         for guild in self.bot.guilds:
             if guild.get_member(_id) is not None:
-                await ctx.senD(f"{count}. ``{guild.owner}``\n")
+                await ctx.send(f"{count}. ``{guild.owner}``\n")
                 count += 1
         await ctx.send("Done!")
 
