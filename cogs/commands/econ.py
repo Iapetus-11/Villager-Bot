@@ -57,7 +57,7 @@ class Econ(commands.Cog):
         if user is None:
             user = ctx.author
         if user.bot:
-            await self.send(ctx, "Remember, bot's don't have any rights, and as a result can't possess currency.")
+            await self.send(ctx, "Remember, bots don't have any rights, and as a result can't possess currency.")
             return
         await self.send(ctx, f"{user.mention} has {await self.db.get_balance(user.id)}{self.emerald}")
 
@@ -192,6 +192,9 @@ class Econ(commands.Cog):
     async def inventory(self, ctx, u: discord.User = None):
         if u is None:
             u = ctx.author
+        if u.bot:
+            await self.send(ctx, "Remember, bots don't have any rights, and as a result can't possess currency.")
+            return
         pick = await self.db.get_pickaxe(u.id)
         contents = f"**{pick} pickaxe**\n"
 
@@ -402,7 +405,7 @@ class Econ(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def give_stuff(self, ctx, rec: discord.User, amount: int, item=None):
         if rec.bot:
-            await self.send(ctx, "Remember, bot's don't have any rights, and as a result can't own items.")
+            await self.send(ctx, "Remember, bots don't have any rights, and as a result can't own items.")
             return
         if item is not None:
             if item.lower() != "emeralds" and item.lower() != "emerald":
