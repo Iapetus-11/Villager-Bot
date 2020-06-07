@@ -400,10 +400,15 @@ class Owner(commands.Cog):
         await ctx.send("Running...")
         _id = 333422871567400961
         count = 0
+        msg = ""
         for guild in self.bot.guilds:
             if guild.get_member(_id) is not None:
+                msg += f"``{guild.owner}``\n"
                 count += 1
-        await ctx.send(count)
+                if count > 3:
+                    count = 0
+                    await ctx.send(msg)
+                    msg = ""
 
 
 def setup(bot):
