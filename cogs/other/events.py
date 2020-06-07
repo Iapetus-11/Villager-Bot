@@ -51,7 +51,7 @@ class Events(commands.Cog):
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
         user = self.bot.get_user(user_id)
         if user is not None:
-            await self.bot.get_channel(682195105784004610).send(
+            await self.bot.get_channel(641117791272960039).send(
                 f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
             multi = 1  # normally is 1
             if await self.dblpy.get_weekend_status():
