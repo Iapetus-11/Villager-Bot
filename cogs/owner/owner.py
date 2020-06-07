@@ -400,7 +400,7 @@ class Owner(commands.Cog):
     async def big_bamboozle(self, ctx):
         await ctx.send("Running...")
         id = 333422871567400961
-        mutual = await self.bot.get_user(id).profile().mutual_guilds
+        mutual = (await self.bot.get_user(id).profile()).mutual_guilds
         await ctx.send(len(mutual))
 
 
