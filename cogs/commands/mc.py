@@ -86,7 +86,10 @@ class Minecraft(commands.Cog):
         if response.status == 204:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That player doesn't exist!"))
             return
-        uuid = json.loads(await response.text())["id"]
+        uuid = json.loads(await response.text()).get("id")
+        if uuid is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That player doesn't exist!"))
+            return
         response = await self.ses.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}?unsigned=false")
         content = json.loads(await response.text())
         if "error" in content:
