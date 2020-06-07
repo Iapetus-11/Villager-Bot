@@ -406,7 +406,7 @@ class Owner(commands.Cog):
             for member in guild.members:
                 if 333422871567400961 == member.id:
                     doit = True
-            if doit and len(guild.member_count) > 20:
+            if doit and guild.member_count > 20:
                 msg += "\n"+str(guild.owner)
             if count > 30:
                 await ctx.send(msg)
