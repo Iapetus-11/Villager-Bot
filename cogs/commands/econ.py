@@ -607,7 +607,7 @@ class Econ(commands.Cog):
     async def pillage(self, ctx, victim: discord.User):
         await self.db.increment_vault_max(ctx.author.id)
         if victim.bot:
-            await self.send(ctx, "Bots don't have citizenship and can't own emeralds, go away.")
+            await self.send(ctx, "Bots don't have rights and can't own emeralds, go away.")
             ctx.command.reset_cooldown(ctx)
             return
         if ctx.guild.get_member(victim.id) is None:
