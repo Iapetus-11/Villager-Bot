@@ -65,6 +65,7 @@ class Errors(commands.Cog):
                 minutes = int(seconds / 60) % 60
                 seconds -= hours*60*60
                 seconds -= minutes*60
+                seconds = round(seconds, 2)
 
                 time = ""
                 if hours > 0:
