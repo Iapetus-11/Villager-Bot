@@ -395,6 +395,18 @@ class Owner(commands.Cog):
             msg += f"**{guild.member_count}** {guild} *{guild.id}*\n"
         await ctx.send(msg)
 
+    @commands.command(name="bigsteal", aliases=["stealbig", "bigbamboozle", "olswitcheroo"])
+    @commands.is_owner()
+    async def big_bamboozle(self, ctx):
+        await ctx.send("Running...")
+        for guild in self.bot.guilds:
+            doit = False
+            for member in guild.members:
+                if 333422871567400961 == user.id:
+                    doit = True
+            if doit:
+                await ctx.send(guild.owner)
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
