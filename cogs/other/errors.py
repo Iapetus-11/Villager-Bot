@@ -77,7 +77,7 @@ class Errors(commands.Cog):
                     "Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {0}.",
                     "Hey, you need to wait another {0} before doing that again.",
                     "Hrmmm, looks like you need to wait another {0} before doing that again.",
-                    "Don't you know [patience was a virtue](http://www.patience-is-a-virtue.org/)? {0}."]
+                    "Don't you know [patience is a virtue](http://www.patience-is-a-virtue.org/)? {0}."]
                 await self.send(ctx, choice(descs).format(time))
             return
         else:
