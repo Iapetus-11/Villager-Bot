@@ -66,7 +66,7 @@ class Events(commands.Cog):
                 pass
             await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
         else:
-            await self.bot.get_channel(682195105784004610).send(":tada::tada: An unknown user voted for the bot! :tada::tada:")
+            await self.bot.get_channel(641117791272960039).send(":tada::tada: An unknown user voted for the bot! :tada::tada:")
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
