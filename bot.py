@@ -75,7 +75,6 @@ async def stay_safe(ctx):
 
     _global = bot.get_cog("Global")
     _global.cmd_count += 1
-    _global.cmd_vect[0] += 1
 
     if ctx.author.id in list(_global.command_leaderboard):
         _global.command_leaderboard[ctx.author.id] += 1
