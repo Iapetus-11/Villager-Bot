@@ -50,12 +50,13 @@ class Events(commands.Cog):
         user_id = int(data["user"])
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
         user = self.bot.get_user(user_id)
-        if user is not None:
-            await self.bot.get_channel(641117791272960039).send(
-                f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
             multi = 1  # normally is 1
             if await self.dblpy.get_weekend_status():
                 multi = 2  # normally is 2
+        if user is not None:
+            await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
+            await self.bot.get_channel(641117791272960039).send(
+                f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
             messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
@@ -64,7 +65,6 @@ class Events(commands.Cog):
                     embed=discord.Embed(color=discord.Color.green(), description=choice(messages).format(32 * multi)))
             except discord.errors.Forbidden:
                 pass
-            await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
         else:
             await self.bot.get_channel(641117791272960039).send(":tada::tada: An unknown user voted for the bot! :tada::tada:")
 
