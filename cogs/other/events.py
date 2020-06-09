@@ -30,7 +30,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
-        self.logger.info(f"\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards]")
+        self.logger.info(f"\n\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards]\n")
 
     @commands.Cog.listener()
     async def on_guild_post(self):
