@@ -50,10 +50,10 @@ class Events(commands.Cog):
         user_id = int(data["user"])
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
         user = self.bot.get_user(user_id)
-        multi = 1  # normally is 1
-        if await self.dblpy.get_weekend_status():
-            multi = 2  # normally is 2
         if user is not None:
+            multi = 1  # normally is 1
+            if await self.dblpy.get_weekend_status():
+                multi = 2  # normally is 2
             await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
             await self.bot.get_channel(641117791272960039).send(f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
             messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
