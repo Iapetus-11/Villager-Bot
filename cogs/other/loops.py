@@ -24,18 +24,6 @@ class Loops(commands.Cog):
             await asyncio.sleep(7200)
             await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
 
-    async def reset_cmd_vect_counter(self):
-        while self.bot.is_ready():
-            await asyncio.sleep(1)
-            self.g.cmd_vect[1] = self.g.cmd_vect[0]
-            self.g.cmd_vect[0] = 0
-
-    async def reset_vote_vect_counter(self):
-        while self.bot.is_ready():
-            await asyncio.sleep(3600)
-            self.g.vote_vect[1] = self.g.vote_vect[0]
-            self.g.vote_vect[0] = 0
-
     async def backup_database(self):
         while self.bot.is_ready():
             await asyncio.sleep(43200)
@@ -52,8 +40,6 @@ class Loops(commands.Cog):
     async def on_ready(self):
         await asyncio.sleep(60)
         self.bot.loop.create_task(self.update_activity())
-        self.bot.loop.create_task(self.reset_cmd_vect_counter())
-        self.bot.loop.create_task(self.reset_vote_vect_counter())
         self.bot.loop.create_task(self.backup_database())
         self.bot.loop.create_task(self.update_roles())
 
