@@ -306,21 +306,24 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
         except async_cse.search.APIError:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Uh Oh, there was an error, please try again later!"))
             return
-        image = choice(results)
         embed = discord.Embed(color=discord.Color.green())
         embed.set_image(url=choice(results).image_url)
         await ctx.send(embed=embed)
 
     @commands.command(name="stats")
     async def info_2(self, ctx):
+        now = arrow.utcnow()
+        diff = (now - self.g.startTime)
+        hours = diff.seconds / 3600
+        seconds = diff.seconds
         desc = f"Guild Count: ``{len(self.bot.guilds)}``\n" \
                f"DM Channel Count: ``{len(self.bot.private_channels)}``\n" \
                f"User Count: ``{len(self.bot.users)}``\n" \
                f"Session Message Count: ``{self.g.msg_count}``\n" \
                f"Session Command Count: ``{self.g.cmd_count} ({round((self.g.cmd_count/self.g.msg_count)*100, 2)}% of all msgs)``\n" \
-               f"Commands/Sec: ``{self.g.cmd_vect[1]}``\n" \
+               f"Commands/Sec: ``{self.g.cmd_count/seconds}``\n" \
                f"Session Vote Count: ``{self.g.vote_count}``\n" \
-               f"Top.gg Votes/Hour: ``{self.g.vote_vect[1]}``\n" \
+               f"Top.gg Votes/Hour: ``{self.g.cmd_count/hours}``\n" \
                f"Shard Count: ``{self.bot.shard_count}``\n" \
                f"Latency: ``{round(self.bot.latency*1000, 2)} ms``\n"
 
