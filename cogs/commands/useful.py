@@ -3,7 +3,6 @@ import async_cse
 import discord
 import json
 from discord.ext import commands
-from math import ceil
 from random import choice
 
 
@@ -315,7 +314,6 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
     async def info_2(self, ctx):
         now = arrow.utcnow()
         diff = (now - self.g.startTime)
-        hours = ceil(diff.seconds / 3600)
         seconds = diff.seconds
         desc = f"Guild Count: ``{len(self.bot.guilds)}``\n" \
                f"DM Channel Count: ``{len(self.bot.private_channels)}``\n" \
@@ -324,7 +322,7 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
                f"Session Command Count: ``{self.g.cmd_count} ({round((self.g.cmd_count / self.g.msg_count) * 100, 2)}% of all msgs)``\n" \
                f"Commands/Sec: ``{round(self.g.cmd_count / seconds, 2)}``\n" \
                f"Session Vote Count: ``{self.g.vote_count}``\n" \
-               f"Top.gg Votes/Hour: ``{round(self.g.cmd_count / hours, 2)}``\n" \
+               f"Top.gg Votes/Hour: ``{round(self.g.cmd_count / int(seconds / 3600), 2)}``\n" \
                f"Shard Count: ``{self.bot.shard_count}``\n" \
                f"Latency: ``{round(self.bot.latency * 1000, 2)} ms``\n"
 
