@@ -3,6 +3,7 @@ import async_cse
 import discord
 import json
 from discord.ext import commands
+from math import ceil
 from random import choice
 
 
