@@ -1,10 +1,47 @@
 [
-  ["Fortune II Book", 128, 999],
-  ["Fortune III Book", 768, 9999],
-  ["Efficiency I Book", 512, 6669],
-  ["Haste I Potion", 32, 200],
-  ["Haste II Potion", 128, 1000],
-  ["Tiny Hand Sanitizer Bottle", 64, 666],
-  ["Toilet Paper Roll (Emerald Patterned)", 1000, 99999],
-  ["Bane Of Pillagers Amulet", 4096, 500000]
+  [
+    "Fortune II Book",
+    128,
+    999
+  ],
+  [
+    "Fortune III Book",
+    768,
+    9999
+  ],
+  [
+    "Efficiency I Book",
+    512,
+    6669
+  ],
+  [
+    "Haste I Potion",
+    32,
+    200
+  ],
+  [
+    "Haste II Potion",
+    128,
+    1000
+  ],
+  [
+    "Pride Flag",
+    64,
+    675
+  ],
+  [
+    "BLM Flag",
+    64,
+    675
+  ],
+  [
+    "A Literal Rainbow",
+    1000,
+    99999
+  ],
+  [
+    "Bane Of Pillagers Amulet",
+    4096,
+    500000
+  ]
 ]
