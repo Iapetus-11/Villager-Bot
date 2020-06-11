@@ -96,7 +96,7 @@ class Errors(commands.Cog):
             return
 
         if "HTTPException: 503 Service Unavailable (error code: 0)" not in str(
-                e) and "discord.errors.Forbidden: 403 Forbidden (error code: 50001)" not in str(e):
+                e) and "discord.errors.Forbidden" not in str(e):
             excls = ['OH SNAP', 'OH FU\*\*!', 'OH \*\*\*\*!', 'OH SH-']
             await self.send(ctx, f"{choice(excls)} "
                                  "You found an actual error, please take a screenshot and report it on our "
