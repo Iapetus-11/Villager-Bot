@@ -73,7 +73,7 @@ class Econ(commands.Cog):
 
         pp = discord.Embed(color=discord.Color.green())
 
-        pp.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
+        pp.set_author(name=f"{u.display_name}'s Profile", icon_url=str(u.avatar_url_as(static_format="png")))
 
         hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
         pp.add_field(name="Health",
