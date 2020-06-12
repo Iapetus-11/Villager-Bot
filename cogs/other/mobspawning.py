@@ -185,7 +185,7 @@ class MobSpawning(commands.Cog):
                 p_dmg = randint(3, 6)
                 await ctx.send(
                     embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
 
     @commands.Cog.listener()
     async def on_ready(self):
