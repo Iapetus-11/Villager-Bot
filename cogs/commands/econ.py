@@ -83,7 +83,7 @@ class Econ(commands.Cog):
         user_items = await self.db.get_items(u.id)
 
         pp.add_field(name="Total Emeralds",
-                     value=f"{await self.db.get_balance(u.id) + (await self.db.get_vault(u.id)[0]) + sum([item[1] * item[2] for item in user_items])}{self.emerald}",
+                     value=f"{await self.db.get_balance(u.id) + (await self.db.get_vault(u.id))[0] + sum([item[1] * item[2] for item in user_items])}{self.emerald}",
                      inline=True)
         pp.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         pp.add_field(name="CMDS Sent", value=self.g.command_leaderboard[u.id], inline=True)
