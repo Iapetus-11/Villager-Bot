@@ -136,7 +136,8 @@ class MobSpawning(commands.Cog):
             def check(m):
                 return m.channel == ctx.channel and not m.author.bot and m.content in ["attack", "fight", "punch",
                                                                                        "atk", "atacc", "attacc", "kill",
-                                                                                       "fite", "kil", "atak", "atack"]
+                                                                                       "fite", "kil", "atak", "atack",
+                                                                                       "yes", "yes fight", "yes attack"]
 
             m = await self.bot.wait_for("message", check=check, timeout=30)
         except asyncio.TimeoutError:
