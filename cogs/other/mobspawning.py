@@ -123,6 +123,7 @@ class MobSpawning(commands.Cog):
 
     # also have random pillager events where server is ransacked /s
     async def spawn_event(self, ctx):  # Fuck me in the balls, wait don't how is that even possible?!
+        self.do_event.pop(self.do_event.index(ctx))  # make sure this motherfucker doesn't get a spawn again
         diff = await self.db.get_difficulty(ctx.guild.id)
         if diff == "peaceful":
             return
@@ -275,10 +276,7 @@ class MobSpawning(commands.Cog):
         while self.bot.is_ready():
             await asyncio.sleep(.05)  # idk why this but this?
             for ctx in self.do_event:  # ah yes efficiency
-                await self.bot.get_channel(643648150778675202).send("START")
-                await self.spawn_event(ctx)
-                self.do_event.pop(self.do_event.index(ctx))  # make sure this motherfucker doesn't get a spawn again
-                await self.bot.get_channel(643648150778675202).send("STOP")
+                self.bot.loop.create_task(self.spawn_event(ctx))
 
 
 def setup(bot):
