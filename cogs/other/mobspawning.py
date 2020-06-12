@@ -128,12 +128,15 @@ class MobSpawning(commands.Cog):
         mob = self.mobs[mob_key].copy()  # LMAO I bet there's a better way to do this but fuck it
 
         f_embed = discord.Embed(color=discord.Color.green(), title=f"**{choice(self.drop_msgs).format(mob[0])}**",
-                                description="Do you want to ``fight`` the mob or ``flee``?")  # fight it or u little baby piece of shit
+                                description="Do you want to ``fight`` the mob?")  # fight it or u little baby piece of shit
         f_embed.set_image(url=mob[2])
         f_msg = await ctx.send(embed=f_embed)
         try:
+
             def check(m):
-                return m.channel == ctx.channel and not m.author.bot and ("fight" == m.content or "flee" == m.content)
+                return m.channel == ctx.channel and not m.author.bot and m.content in ["attack", "fight", "punch",
+                                                                                       "atk", "atacc", "attacc", "kill",
+                                                                                       "fite", "kil", "atak", "atack"]
 
             m = await self.bot.wait_for("message", check=check, timeout=30)
         except asyncio.TimeoutError:
@@ -151,16 +154,13 @@ class MobSpawning(commands.Cog):
         hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
 
         def check(m):
-            return m.author.id == u.id and m.channel.id == ctx.channel.id and m.content in ["atak", "attack", "attacc",
-                                                                                            "atacc", "kill", "punch",
-                                                                                            "fight", "fite", "atac",
-                                                                                            "atack"]
-
+            return m.author.id == u.id and m.channel.id == ctx.channel.id and (
+                    m.content == "flee" or m.content == "attack" or m.content == "atk")
         iter = 0
         while h_user > 0 and mob[1] > 0:
             # h_user = await self.db.get_health(u.id)
             iter += 1
-            new_emb = discord.Embed(color=discord.Color.green(), title="Do you want to ``attack`` it?")
+            new_emb = discord.Embed(color=discord.Color.green(), title="Do you want to ``attack`` or ``flee``?")
             new_emb.add_field(name=f"**{u.display_name}**",
                               value="\uFEFF" + await self.db.calc_stat_bar(ceil(h_user / 2), 10, 10, hh[0], hh[1]),
                               inline=False)  # how tf is this gonna work ya retarded cunt
@@ -179,7 +179,13 @@ class MobSpawning(commands.Cog):
                 m = await self.bot.wait_for("message", check=check, timeout=30)
             except asyncio.TimeoutError:
                 await f_msg.edit(suppress=True)
-                await self.send(ctx, "Ok fine, be that way, ignore me. (Timed out waiting for a response)")
+                await self.send(ctx,
+                                "Ok fine, be that way, ignore me. (The mob despawned waiting for your puny attack)")
+                return
+            if m.content == "flee":  # Oh you fucking toddler
+                await f_msg.edit(suppress=True)
+                await self.send(ctx,
+                                f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}.")
                 return
 
             sword = await self.get_sword(u.id)
