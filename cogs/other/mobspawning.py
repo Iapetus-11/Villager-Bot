@@ -98,20 +98,17 @@ class MobSpawning(commands.Cog):
 
     async def calc_sword_damage(self, sword):  # highest sword is used
         if sword == "netherite sword":
-            dmg = randint(7, 10)
-            dmg = choice(8, 10)
+            dmg = choice([8, 10])
         elif sword == "diamond sword":
-            dmg = randint(6, 9)
-            dmg = choice(6, 8)
+            dmg = choice([6, 8])
         elif sword == "gold sword":
-            dmg = randint(5, 7)
-            dmg = choice(4, 6)
+            dmg = choice([4, 6])
         elif sword == "iron sword":
-            dmg = randint(2, 6)
+            dmg = choice([2, 6])
         elif sword == "stone sword":
-            dmg = randint(2, 4)
+            dmg = choice([2, 4])
         else:
-            dmg = randint(0, 2)
+            dmg = choice([0, 2])
         return dmg
 
     # also have random pillager events where server is ransacked /s
