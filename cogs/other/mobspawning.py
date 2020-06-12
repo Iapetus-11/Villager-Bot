@@ -208,7 +208,12 @@ class MobSpawning(commands.Cog):
             await asyncio.sleep(2)
 
         if h_user > 0:  # PLAYER WIN
-            pass
+            u_bal = await self.db.get_balance(u.id)
+            if diff == "easy":
+                emeralds_gained = floor(u_bal * (1 / choice([3, 2.25, 3.5, 3.75, 4]))) if u_bal < 1000 else randint(15,
+                                                                                                                    35)
+            else:  # diff hard
+                emeralds_gained = floor(u_bal * (1 / choice([1.5, 1.75, 2, 2.5]))) if u_bal < 1000 else randint(35, 65)
         else:  # MOB WIN
             u_bal = await self.db.get_balance(u.id)
             if diff == "easy":
