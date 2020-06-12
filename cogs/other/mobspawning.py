@@ -25,13 +25,17 @@ class MobSpawning(commands.Cog):
         }
 
         self.mob_attacks = {  # {0} is mob name
-            "zombie": ["The {0} ran lashing at your arms", "The {0} gives you a painful hug",
-                       "The {0}'s Just standing There... Menacingly!"],
-            "spider": ["The {0} dunks on you"],
-            "skeleton": ["The skeleboi yeets an arrow at your face", "The {0} turns around into a 360 no scope",
-                         "An arrow rains from the {0}, only one", "One headshot from {0} for you"],
+            "zombie": ["The zombie ran lashing at your arms", "The zombie gives you a painful hug",
+                       "The zombie punches you in your face!",
+                       "The zombie claws you with it's overgrown, decaying nails!"],
+            "spider": ["The spider dunks on you", "The spider lunges at you and bites you!"],
+            "skeleton": ["The skeleboi yeets an arrow at your face",
+                         "The skeleton turns around into a 360 no scopes you!",
+                         "An arrow rains from the skeleton, only one", "One headshot from skeleton for you"],
             "creeper": [],
-            "cave_spider": ["The {0}'s fangs digs deep onto your skin ", "The {0} gave you a toxic kiss"]
+            "cave_spider": ["The cave spider's fangs digs deep onto your skin ",
+                            "The cave spider gave you a toxic kiss",
+                            "The cave spider bit you and inflicted poison damage!"]
         }
 
         self.mob_finishers = {  # {0} is mob name
@@ -118,7 +122,7 @@ class MobSpawning(commands.Cog):
         mob = self.mobs[mob_key]  # LMAO I bet there's a better way to do this but fuck it
 
         f_embed = discord.Embed(color=discord.Color.green(), title=f"**{choice(self.drop_msgs).format(mob[0])}**",
-                                description="Do you want to ``fight`` the mob or ``flee``?")  # fight it or u little baby
+                                description="Do you want to ``fight`` the mob or ``flee``?")  # fight it or u little baby piece of shit
         f_embed.set_image(url=mob[2])
         f_msg = await ctx.send(embed=f_embed)
         try:
@@ -169,6 +173,11 @@ class MobSpawning(commands.Cog):
             sword = await self.get_sword(u.id)
             dmg = self.calc_sword_dmg(sword)
             mob[1] -= dmg
+            await ctx.send(
+                embed=discord.Embed(color=discord.Color.green(), description=choice(self.u_attacks).format(sword, dmg)))
+            if mob_key != "creeper":
+                p_dmg = await ctx.send(
+                    embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
 
     @commands.Cog.listener()
     async def on_ready(self):
