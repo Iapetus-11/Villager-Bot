@@ -80,7 +80,9 @@ class Econ(commands.Cog):
                      value=await self.db.calc_stat_bar(ceil(await self.db.get_health(u.id) / 2), 10, 10, hh[0], hh[1]),
                      inline=False)
 
-        pp.add_field(name="Emeralds", value=f"{await self.db.get_balance(u.id)}{self.emerald}", inline=True)
+        pp.add_field(name="Total Emeralds",
+                     value=f"{await self.db.get_balance(u.id) + (await self.db.get_vault(u.id)[0])}{self.emerald}",
+                     inline=True)
         pp.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         pp.add_field(name="CMDS Sent", value=self.g.command_leaderboard[u.id], inline=True)
 
