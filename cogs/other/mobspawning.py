@@ -153,9 +153,10 @@ class MobSpawning(commands.Cog):
         def check(m):
             return m.author.id == u.id and m.channel.id == ctx.channel.id and (
                     m.content == "flee" or m.content == "attack" or m.content == "atk")
-
+        iter = 0
         while h_user > 0 and mob[1] > 0:
             # h_user = await self.db.get_health(u.id)
+            iter += 1
             new_emb = discord.Embed(color=discord.Color.green(), title="Do you want to ``attack`` or ``flee``?")
             new_emb.add_field(name=f"**{u.display_name}**",
                               value="\uFEFF" + await self.db.calc_stat_bar(ceil(h_user / 2), 10, 10, hh[0], hh[1]),
@@ -184,8 +185,8 @@ class MobSpawning(commands.Cog):
                 return
 
             sword = await self.get_sword(u.id)
-            dmg = await self.calc_sword_damage(sword)
-            mob[1] -= dmg
+            u_dmg = await self.calc_sword_damage(sword)
+            mob[1] -= u_dmg
 
             if mob[1] <= 0:  # player wins
                 break
@@ -196,10 +197,19 @@ class MobSpawning(commands.Cog):
 
             await asyncio.sleep(1)
 
-            p_dmg = choice([2, 4, 6])
+            m_dmg = choice([2, 4, 6])
             if mob_key == "creeper":
-                p_dmg = 0
-            h_user -= p_dmg
+                if iter > 2:
+                    if diff == "easy":
+                        if choice([True, False, False]):
+                            h_user = 0
+                            break
+                    else:
+                        if choice([True, False]):
+                            h_user = 0
+                            break
+                m_dmg = 0
+            h_user -= m_dmg
 
             if h_user <= 0:  # mob wins
                 break
@@ -212,9 +222,16 @@ class MobSpawning(commands.Cog):
             u_bal = await self.db.get_balance(u.id)
             if diff == "easy":
                 emeralds_gained = floor(u_bal * (1 / choice([3, 2.25, 3.5, 3.75, 4]))) if u_bal < 1000 else randint(15,
-                                                                                                                    35)
+                                                                                                                    35)  # wtf pycharm
             else:  # diff hard
                 emeralds_gained = floor(u_bal * (1 / choice([1.5, 1.75, 2, 2.5]))) if u_bal < 1000 else randint(35, 65)
+                found = [
+                    "Wow look at that you found {0}{1} just right there on the ground!",
+                    "Wow, what's that? {0}{1}!", "You've gained {0}{1}",
+                    "You've gotten {0}{1}", "You've received {0}{1}"
+                ]
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                                   description=f"You've defeated the {mob[0]}!\n\n{choice(found)}"))
         else:  # MOB WIN
             u_bal = await self.db.get_balance(u.id)
             if diff == "easy":
