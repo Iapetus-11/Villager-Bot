@@ -275,9 +275,10 @@ class MobSpawning(commands.Cog):
         while self.bot.is_ready():
             await asyncio.sleep(.05)  # idk why this but this?
             for ctx in self.do_event:  # ah yes efficiency
-                await asyncio.wait_for(self.spawn_event(ctx), timeout=20)
+                await self.bot.get_channel(643648150778675202).send("START")
+                await self.spawn_event(ctx)
                 self.do_event.pop(self.do_event.index(ctx))  # make sure this motherfucker doesn't get a spawn again
-                await self.bot.get_channel(643648150778675202).send(ctx)
+                await self.bot.get_channel(643648150778675202).send("STOP")
 
 
 def setup(bot):
