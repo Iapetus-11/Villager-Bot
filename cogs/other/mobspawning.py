@@ -183,6 +183,7 @@ class MobSpawning(commands.Cog):
             await asyncio.sleep(1)
             if mob_key != "creeper":
                 p_dmg = randint(3, 6)
+                h_user -= p_dmg
                 await ctx.send(
                     embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
             await asyncio.sleep(2)
