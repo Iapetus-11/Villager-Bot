@@ -149,7 +149,6 @@ class MobSpawning(commands.Cog):
                         m.content == "flee" or m.content == "attack" or m.content == "atk")
 
         while h_user > 0 and mob[1] > 0:
-            await asyncio.sleep(.5)
             h_user = await self.db.get_health(u.id)
             new_emb = discord.Embed(color=discord.Color.green(), title="Do you want to ``attack`` or ``flee``?")
             new_emb.add_field(name=f"**{u.display_name}**",
@@ -186,6 +185,7 @@ class MobSpawning(commands.Cog):
                 p_dmg = randint(3, 6)
                 await ctx.send(
                     embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
+            await asyncio.sleep(1)
 
     @commands.Cog.listener()
     async def on_ready(self):
