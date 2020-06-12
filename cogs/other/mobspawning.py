@@ -108,7 +108,7 @@ class MobSpawning(commands.Cog):
         elif sword == "stone sword":
             dmg = choice([2, 4])
         else:
-            dmg = choice([0, 2])
+            dmg = 2
         return dmg
 
     # also have random pillager events where server is ransacked /s
@@ -156,6 +156,7 @@ class MobSpawning(commands.Cog):
                               value="\uFEFF" + await self.db.calc_stat_bar(ceil(h_user / 2), 10, 10, hh[0], hh[1]),
                               inline=False)  # how tf is this gonna work ya retarded cunt
             await ctx.send(self.mobs[mob_key][1] / 2)
+            await ctx.send(int(self.mobs[mob_key][1] / 2))
             new_emb.add_field(name=f"**{mob[0]}**",
                               value="\uFEFF" + await self.db.calc_stat_bar(ceil(mob[1] / 2), self.mobs[mob_key][1] / 2,
                                                                            self.mobs[mob_key][1] / 2, hh[0],
@@ -184,7 +185,7 @@ class MobSpawning(commands.Cog):
                                     description=choice(self.u_attacks).format(mob[0], sword)))
             await asyncio.sleep(1)
             if mob_key != "creeper":
-                p_dmg = randint(3, 6)
+                p_dmg = choice([2, 4, 6])
                 if h_user - p_dmg > 0:
                     h_user -= p_dmg
                 else:
