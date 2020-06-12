@@ -55,6 +55,8 @@ class Global(commands.Cog):
         self.triggering_cmds = ["mine", "withdraw", "deposit", "shop", "give_stuff", "sell_item", "give_item", "gamble",
                                 "pillage", "use_potion", "harvest_honey"]
 
+        self.spawn_chance = 50
+
 
 def setup(bot):
     bot.add_cog(Global(bot))
