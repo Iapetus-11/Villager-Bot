@@ -178,20 +178,28 @@ class Econ(commands.Cog):
         shop = discord.Embed(color=discord.Color.green())
         shop.set_author(name="Villager Shop [Tools]", url=discord.Embed.Empty,
                         icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        shop.set_footer(text=f"{ctx.prefix}inventory to see what you have!")
         shop.add_field(name=f"__**Stone Pickaxe**__ 32{self.emerald}", value=f"``{ctx.prefix}buy stone pickaxe``",
                        inline=True)
         shop.add_field(name=f"__**Iron Pickaxe**__ 128{self.emerald}", value=f"``{ctx.prefix}buy iron pickaxe``",
                        inline=True)
-        shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         shop.add_field(name=f"__**Gold Pickaxe**__ 512{self.emerald}", value=f"``{ctx.prefix}buy gold pickaxe``",
                        inline=True)
         shop.add_field(name=f"__**Diamond Pickaxe**__ 2048{self.emerald}", value=f"``{ctx.prefix}buy diamond pickaxe``",
                        inline=True)
-        shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         shop.add_field(name=f"__**Netherite Pickaxe**__ 8192{self.emerald} 4<:netherite_scrap:676974675091521539>",
                        value=f"``{ctx.prefix}buy netherite pickaxe``", inline=True)
-        shop.set_footer(text=f"Pickaxes allow you to obtain more emeralds while using the {ctx.prefix}mine command!")
+        shop.add_field(name=f"__**Stone Sword**__ 32{self.emerald}", value=f"``{ctx.prefix}buy stone sword``",
+                       inline=True)
+        shop.add_field(name=f"__**Iron Sword**__ 128{self.emerald}", value=f"``{ctx.prefix}buy iron sword``",
+                       inline=True)
+        shop.add_field(name=f"__**Gold Sword**__ 512{self.emerald}", value=f"``{ctx.prefix}buy gold sword``",
+                       inline=True)
+        shop.add_field(name=f"__**Diamond Sword**__ 2048{self.emerald}", value=f"``{ctx.prefix}buy diamond sword``",
+                       inline=True)
+        shop.add_field(name=f"__**Netherite Sword**__ 8192{self.emerald} 6<:netherite_scrap:676974675091521539>",
+                       value=f"``{ctx.prefix}buy netherite sword``", inline=True)
+        shop.set_footer(text=f"Pickaxes allow you to obtain more emeralds while using the {ctx.prefix}mine command!\n"
+                             f"Swords allow you to kill mobs faster and with more ease!")
         await ctx.send(embed=shop)
 
     @shop.command(name="magic")
