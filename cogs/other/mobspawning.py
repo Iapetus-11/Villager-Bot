@@ -235,13 +235,14 @@ class MobSpawning(commands.Cog):
                                                                                                                     35)  # wtf pycharm
             else:  # diff hard
                 emeralds_gained = floor(u_bal * (1 / choice([1.5, 1.75, 2, 2.5]))) if u_bal < 1000 else randint(35, 65)
-                found = [
-                    "Wow look at that you found {0}{1} just right there on the ground!",
-                    "Wow, what's that? {0}{1}!", "You've gained {0}{1}",
-                    "You've gotten {0}{1}", "You've received {0}{1}"
-                ]
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                                   description=f"You've defeated the {mob[0]}!\n\n{choice(found)}"))
+            found = [
+                "Wow look at that you found {0}{1} just right there on the ground!",
+                "Wow, what's that? {0}{1}!", "You've gained {0}{1}",
+                "You've gotten {0}{1}", "You've received {0}{1}"
+            ]
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                               description=f"You've defeated the {mob[0]}!\n\n{choice(found)}"))
+            await self.db.set_balance(u.id, u_bal + emeralds_gained)
         else:  # MOB WIN
             u_bal = await self.db.get_balance(u.id)
 
