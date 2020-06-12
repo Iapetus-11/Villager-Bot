@@ -314,7 +314,7 @@ f'**{ctx.prefix}honey** *apparently bees produce honey, who knew it could sell f
     async def info_2(self, ctx):
         now = arrow.utcnow()
         diff = (now - self.g.startTime)
-        seconds = diff.seconds + diff.minutes * 60 + diff.hours * 3600 + diff.days * 3600 * 24
+        seconds = diff.seconds + diff.hours * 3600 + diff.days * 3600 * 24
         desc = f"Guild Count: ``{len(self.bot.guilds)}``\n" \
                f"DM Channel Count: ``{len(self.bot.private_channels)}``\n" \
                f"User Count: ``{len(self.bot.users)}``\n" \
