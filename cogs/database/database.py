@@ -2,7 +2,7 @@ import asyncpg
 import discord
 import json
 from discord.ext import commands
-from math import floor, ceil
+from math import floor
 from random import choice, randint
 
 
@@ -233,9 +233,9 @@ class Database(commands.Cog):
             else:
                 await con.execute("UPDATE health SET health=$1 WHERE id=$2", health, uid)
 
-    async def calc_stat_bar(self, value, max, slots, full, empty): # Slots should be 10 cause 10 hearts / 2 idk bro
-        occupado = floor((value/max)*slots)
-        return (full * occupado) + empty * ceil(slots - occupado)
+    async def calc_stat_bar(self, value, max, slots, full, empty):  # Slots should be 10 cause 10 hearts / 2 idk bro
+        occupado = floor(value / max) * slots
+        return (full * occupado) + empty * floor(slots - occupado)
 
 
 def setup(bot):
