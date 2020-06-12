@@ -25,7 +25,7 @@ class MobSpawning(commands.Cog):
             "cave_spider": ["Cave Spider", 12, murl + "cave_spider.png"]
         }
 
-        self.mob_attacks = {  # {0} is mob name
+        self.mob_attacks = {
             "zombie": ["The zombie ran lashing at your arms", "The zombie gives you a painful hug",
                        "The zombie punches you in your face!",
                        "The zombie claws you with it's overgrown, decaying nails!"],
@@ -33,17 +33,19 @@ class MobSpawning(commands.Cog):
             "skeleton": ["The skeleboi yeets an arrow at your face",
                          "The skeleton turns around into a 360 no scopes you!",
                          "An arrow rains from the skeleton, only one", "One headshot from skeleton for you"],
-            "creeper": [],
+            "creeper": ["You hear a fuse ignite...", "The creeper flashes and fizzles...",
+                        "The creeper preps for its imminent suicide..."],
             "cave_spider": ["The cave spider's fangs digs deep onto your skin ",
                             "The cave spider gave you a toxic kiss",
                             "The cave spider bit you and inflicted poison damage!"]
         }
 
-        self.mob_finishers = {  # {0} is mob name
+        self.mob_finishers = {
             "zombie": [],
             "spider": [],
             "skeleton": [],
-            "creeper": [],
+            "creeper": ["The creeper goes boom!", "Creeper used self destruct! *It's super effective!*",
+                        "The creeper explodes, yeeting your red, bloodied corpse across the map!"],
             "cave_spider": []
         }
 
@@ -193,6 +195,9 @@ class MobSpawning(commands.Cog):
                 await ctx.send(
                     embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
             await asyncio.sleep(2)
+
+        # goes at very end yep cleanup idk reeeeee kill me
+        del mob
 
     @commands.Cog.listener()
     async def on_ready(self):
