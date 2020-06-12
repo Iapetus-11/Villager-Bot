@@ -29,7 +29,8 @@ class MobSpawning(commands.Cog):
             "zombie": ["The zombie ran lashing at your arms", "The zombie gives you a painful hug",
                        "The zombie punches you in your face!",
                        "The zombie claws you with it's overgrown, decaying nails!"],
-            "spider": ["The spider dunks on you", "The spider lunges at you and bites you!"],
+            "spider": ["The spider dunks on you", "The spider lunges at you and bites you!",
+                       "The spider jumps at you and bites!", "The spider bites you in the leg!"],
             "skeleton": ["The skeleboi yeets an arrow at your face",
                          "The skeleton turns around into a 360 no scopes you!",
                          "An arrow rains from the skeleton, only one", "One headshot from skeleton for you"],
@@ -91,7 +92,8 @@ class MobSpawning(commands.Cog):
     async def send(self, ctx, m):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
 
-    async def get_sword(self, uid):  # I'm proud of this
+    async def get_sword(self,
+                        uid):  # I'm proud of this # Me 2 weeks later: why the fuck are you proud of this you retarded fuck
         item_names = [item[0].lower() for item in await self.db.get_items(uid)]
         for sword_name in ["netherite sword", "diamond sword", "gold sword", "iron sword", "stone sword", "wood sword"]:
             if sword_name in item_names:
