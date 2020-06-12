@@ -162,8 +162,11 @@ class MobSpawning(commands.Cog):
             await ctx.send(self.mobs[mob_key][1] / 2)
             new_emb.add_field(name=f"**{mob[0]}**",
                               value="\uFEFF" + await self.db.calc_stat_bar(ceil(mob[1] / 2), self.mobs[mob_key][1] / 2,
+                                                                           # FUCK THESE LINES OF CODE IN PARTICULAR
                                                                            self.mobs[mob_key][1] / 2, hh[0],
+                                                                           # FUCK THESE LINES OF CODE IN PARTICULAR
                                                                            hh[1]),
+                              # FUCK THESE LINES OF CODE IN PARTICULAR
                               inline=False)  # FUCK THESE LINES OF CODE IN PARTICULAR
             new_emb.set_image(url=mob[2])
             await f_msg.edit(suppress=True)
@@ -184,21 +187,37 @@ class MobSpawning(commands.Cog):
             dmg = await self.calc_sword_damage(sword)
             mob[1] -= dmg
 
+            if mob[1] <= 0:  # player wins
+                break
+
             await ctx.send(
                 embed=discord.Embed(color=discord.Color.green(),
                                     description=choice(self.u_attacks).format(mob[0], sword)))
+
             await asyncio.sleep(1)
+
             p_dmg = choice([2, 4, 6])
             if mob_key == "creeper":
                 p_dmg = 0
-            if h_user - p_dmg > 0:
-                h_user -= p_dmg
-            else:
+            h_user -= p_dmg
+
+            if h_user <= 0:  # mob wins
                 break
+
             await ctx.send(
                 embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
             await asyncio.sleep(2)
 
+        if h_user > 0:  # PLAYER WIN
+            pass
+        else:  # MOB WIN
+            u_bal = await self.db.get_balance(u.id)
+            if diff == "easy":
+                emeralds_lost = floor(u_bal * (1 / choice([3, 2.25, 3.5, 3.75, 4]))) if u_bal > 10 else randint(2, 4)
+            else:  # diff hard
+                emeralds_lost = floor(u_bal * (1 / choice([1.5, 1.75, 2, 2.5]))) if u_bal > 10 else randint(5, 9)
+            await self.db.set_balance(u.id, u_bal - emeralds_lost)
+            await ctx.send(choice(self.mob_finishers[mob_key]))
         # goes at very end yep cleanup idk reeeeee kill me
         del mob
 
