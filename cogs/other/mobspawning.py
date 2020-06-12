@@ -145,7 +145,8 @@ class MobSpawning(commands.Cog):
         hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
 
         def check(m):
-            return m.author.id == u.id and m.channel.id == ctx.channel.id
+            return m.author.id == u.id and m.channel.id == ctx.channel.id and (
+                        m.content == "flee" or m.content == "attack" or m.content == "atk")
 
         while h_user > 0 and mob[1] > 0:
             await asyncio.sleep(.5)
