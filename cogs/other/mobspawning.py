@@ -43,11 +43,13 @@ class MobSpawning(commands.Cog):
         }
 
         self.mob_finishers = {
-            "zombie": [],
+            "zombie": ["The zombie lunges for your throat, and bites!",
+                       "The zombie disembowels you and mutilates your remains!"],
             "spider": [],
             "skeleton": [],
             "creeper": ["The creeper goes boom!", "Creeper used self destruct! *It's super effective!*",
-                        "The creeper explodes, yeeting your red, bloodied corpse across the map!"],
+                        "The creeper explodes, yeeting your red, bloodied corpse across the map!",
+                        "You were blown to pixels by the creeper!"],
             "cave_spider": []
         }
 
@@ -157,6 +159,7 @@ class MobSpawning(commands.Cog):
         def check(m):
             return m.author.id == u.id and m.channel.id == ctx.channel.id and (
                     m.content == "flee" or m.content == "attack" or m.content == "atk")
+
         iter = 0
         while h_user > 0 and mob[1] > 0:
             # h_user = await self.db.get_health(u.id)
@@ -256,8 +259,12 @@ class MobSpawning(commands.Cog):
             await ctx.send(
                 embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_finishers[mob_key])))
             if emeralds_lost > 0:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                                   description=f"The {mob[0]} also stole {emeralds_lost}{self.emerald} from you..."))
+                if mob_key == "creeper":
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                                       description=f"The {mob[0]} also blew up {emeralds_lost}{self.emerald} that were yours..."))
+                else:
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                                       description=f"The {mob[0]} also stole {emeralds_lost}{self.emerald} from you..."))
         # goes at very end yep cleanup idk reeeeee kill me
         del mob
 
