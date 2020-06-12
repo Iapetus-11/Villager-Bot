@@ -1,9 +1,9 @@
-from discord.ext import commands
-import discord
 import asyncpg
+import discord
 import json
+from discord.ext import commands
+from math import floor, ceil
 from random import choice, randint
-from math import floor
 
 
 class Database(commands.Cog):
@@ -235,7 +235,7 @@ class Database(commands.Cog):
 
     async def calc_stat_bar(self, value, max, slots, full, empty): # Slots should be 10 cause 10 hearts / 2 idk bro
         occupado = floor((value/max)*slots)
-        return (full*occupado) + empty*floor(slots-occupado)
+        return (full * occupado) + empty * ceil(slots - occupado)
 
 
 def setup(bot):
