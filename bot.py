@@ -91,7 +91,7 @@ async def stay_safe(ctx):
     if str(ctx.command) in _global.triggering_cmds:
         if ctx.guild is not None:
             if randint(0, 75) == 2:  # Excuse me sir, this is a wendys
-                self.bot.get_cog("MobSpawning").do_event.append(ctx)
+                bot.get_cog("MobSpawning").do_event.append(ctx)
             elif randint(0, 100) == 25:
                 if await bot.get_cog("Database").get_do_tips(ctx.guild.id):
                     await ctx.send(embed=discord.Embed(color=discord.Color.green(),
