@@ -168,15 +168,15 @@ class Econ(commands.Cog):
             shop.set_author(name="Villager Shop", url=discord.Embed.Empty,
                             icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
             shop.set_footer(text=f"{ctx.prefix}inventory to see what you have!")
-            shop.add_field(name="__**Pickaxes**__", value=f"``{ctx.prefix}shop pickaxes``")
+            shop.add_field(name="__**Tools**__", value=f"``{ctx.prefix}shop tools``")
             shop.add_field(name="__**Magic Items**__", value=f"``{ctx.prefix}shop magic``")
             shop.add_field(name="__**Other**__", value=f"``{ctx.prefix}shop other``")
             await ctx.send(embed=shop)
 
-    @shop.command(name="pickaxes")
-    async def shop_pickaxes(self, ctx):
+    @shop.command(name="tools")
+    async def shop_tools(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop [Pickaxes]", url=discord.Embed.Empty,
+        shop.set_author(name="Villager Shop [Tools]", url=discord.Embed.Empty,
                         icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         shop.set_footer(text=f"{ctx.prefix}inventory to see what you have!")
         shop.add_field(name=f"__**Stone Pickaxe**__ 32{self.emerald}", value=f"``{ctx.prefix}buy stone pickaxe``",
@@ -342,6 +342,14 @@ class Econ(commands.Cog):
                 else:
                     db_item_count = 0
                 if eval(shop_item[1]):
+                    if item == "netherite sword":
+                        scrap = await self.db.get_item(ctx.author.id, "Netherite Scrap")
+                        if scrap is not None and scrap[1] >= 6:
+                            await self.db.remove_item(ctx.author.id, "Netherite Scrap", 6)
+                        else:
+                            await self.send(ctx,
+                                            "You don't have enough Netherite Scrap! (It can be bought in the Villager Shop)")
+                            return
                     await self.db.set_balance(ctx.author.id, their_bal - shop_item[0] * amount)
                     await self.db.add_item(ctx.author.id, shop_item[2][0], amount, shop_item[2][1])
                     await self.send(ctx,
