@@ -148,27 +148,29 @@ class MobSpawning(commands.Cog):
             return m.author.id == u.id and m.channel.id == ctx.channel.id
 
         while h_user > 0 and mob[1] > 0:
+            await asyncio.sleep(.5)
             h_user = await self.db.get_health(u.id)
             new_emb = discord.Embed(color=discord.Color.green(), title="Do you want to ``attack`` or ``flee``?")
             new_emb.add_field(name=f"**{u.display_name}**",
-                              value=await self.db.calc_stat_bar(h_user, 20, 10, hh[0], hh[1]),
+                              value="\uFEFF" + await self.db.calc_stat_bar(h_user, 20, 10, hh[0], hh[1]),
                               inline=False)  # how tf is this gonna work ya retarded cunt
-            new_emb.add_field(name=f"**{mob[0]}**", value=await self.db.calc_stat_bar(mob[1], self.mobs[mob_key][1],
-                                                                                      self.mobs[mob_key][1] / 2, hh[0],
-                                                                                      hh[1]), inline=False)
+            new_emb.add_field(name=f"**{mob[0]}**",
+                              value="\uFEFF" + await self.db.calc_stat_bar(mob[1], self.mobs[mob_key][1],
+                                                                           self.mobs[mob_key][1] / 2, hh[0],
+                                                                           hh[1]), inline=False)
             new_emb.set_image(url=mob[2])
             await f_msg.edit(suppress=True)
             f_msg = await ctx.send(embed=new_emb)
             try:
                 m = await self.bot.wait_for("message", check=check, timeout=30)
             except asyncio.TimeoutError:
-                await self.send(ctx, "Ok fine, be that way, ignore me. (Timed out waiting for a response)")
                 await f_msg.edit(suppress=True)
+                await self.send(ctx, "Ok fine, be that way, ignore me. (Timed out waiting for a response)")
                 return
             if m.content == "flee":  # Oh you fucking toddler
+                await f_msg.edit(suppress=True)
                 await self.send(ctx,
                                 f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}.")
-                await f_msg.edit(suppress=True)
                 return
 
             sword = await self.get_sword(u.id)
@@ -177,6 +179,7 @@ class MobSpawning(commands.Cog):
 
             await ctx.send(
                 embed=discord.Embed(color=discord.Color.green(), description=choice(self.u_attacks).format(sword, dmg)))
+            await asyncio.sleep(1)
             if mob_key != "creeper":
                 p_dmg = randint(3, 6)
                 await ctx.send(
