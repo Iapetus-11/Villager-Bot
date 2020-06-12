@@ -188,14 +188,15 @@ class MobSpawning(commands.Cog):
                 embed=discord.Embed(color=discord.Color.green(),
                                     description=choice(self.u_attacks).format(mob[0], sword)))
             await asyncio.sleep(1)
-            if mob_key != "creeper":
-                p_dmg = choice([2, 4, 6])
-                if h_user - p_dmg > 0:
-                    h_user -= p_dmg
-                else:
-                    break
-                await ctx.send(
-                    embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
+            p_dmg = choice([2, 4, 6])
+            if mob_key == "creeper":
+                p_dmg = 0
+            if h_user - p_dmg > 0:
+                h_user -= p_dmg
+            else:
+                break
+            await ctx.send(
+                embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
             await asyncio.sleep(2)
 
         # goes at very end yep cleanup idk reeeeee kill me
