@@ -270,6 +270,7 @@ class MobSpawning(commands.Cog):
                                                        description=f"The {mob[0]} also stole {emeralds_lost}{self.emerald} from you..."))
         # goes at very end yep cleanup idk reeeeee kill me
         del mob
+        await ctx.send("END")
 
     @commands.Cog.listener()
     async def on_ready(self):
