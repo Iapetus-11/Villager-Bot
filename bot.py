@@ -32,7 +32,8 @@ async def get_prefix(bot, ctx):
     return prefix[0]
 
 
-bot = commands.AutoShardedBot(shard_count=9, command_prefix=get_prefix, help_command=None, case_insensitive=True, max_messages=1024)
+bot = commands.AutoShardedBot(shard_count=9, command_prefix=get_prefix, help_command=None, case_insensitive=True,
+                              max_messages=1024)
 
 
 async def setup_db():
@@ -43,23 +44,25 @@ async def setup_db():
 asyncio.get_event_loop().run_until_complete(setup_db())
 
 # data.global needs to be loaded FIRST, then database and owner as they and most other things are dependant upon global.py and database.py
-bot.cog_list = ["cogs.other.global",
-                "cogs.database.database",
-                "cogs.owner.owner",
-                "cogs.other.errors",
-                "cogs.other.msgs",
-                "cogs.other.events",
-                "cogs.other.loops",
-                "cogs.commands.fun",
-                "cogs.commands.useful",
-                "cogs.commands.mc",
-                "cogs.commands.econ",
-                "cogs.commands.admin",
-                "cogs.commands.settings"]
+bot.cog_list = [
+    "cogs.other.global",
+    "cogs.database.database",
+    "cogs.owner.owner",
+    "cogs.other.errors",
+    "cogs.other.msgs",
+    "cogs.other.events",
+    "cogs.other.loops",
+    "cogs.other.mobspawning",
+    "cogs.commands.fun",
+    "cogs.commands.useful",
+    "cogs.commands.mc",
+    "cogs.commands.econ",
+    "cogs.commands.admin",
+    "cogs.commands.settings",
+]
 
 # Load cogs in cogs list
 for cog in bot.cog_list:
-
     bot.load_extension(cog)
 
 
@@ -72,7 +75,6 @@ async def banned(uid):  # Check if user is banned from bot
 
 @bot.check  # Global check (everything goes through this)
 async def stay_safe(ctx):
-
     _global = bot.get_cog("Global")
     _global.cmd_count += 1
 
