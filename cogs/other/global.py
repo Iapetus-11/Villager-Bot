@@ -52,7 +52,8 @@ class Global(commands.Cog):
 
         self.honey_buckets = None
 
-        self.triggering_cmds = ["mine", "withdraw", "deposit", "shop", "give_stuff", "sell_item"]
+        self.triggering_cmds = ["mine", "withdraw", "deposit", "shop", "give_stuff", "sell_item", "give_item", "gamble",
+                                "pillage", "use_potion", "harvest_honey"]
 
 
 def setup(bot):
