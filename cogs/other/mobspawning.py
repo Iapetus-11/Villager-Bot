@@ -13,8 +13,9 @@ class MobSpawning(commands.Cog):
 
         self.do_event = []
 
-        # Thank you so much Eun!
+        self.emerald = "<:emerald:653729877698150405>"
 
+        # Thank you so much Eun!
         # "mobname": [actualname, health, img_url]
         murl = "http://olimone.ddns.net/images/mob_spawns/"
         self.mobs = {
@@ -221,7 +222,10 @@ class MobSpawning(commands.Cog):
             else:  # diff hard
                 emeralds_lost = floor(u_bal * (1 / choice([1.5, 1.75, 2, 2.5]))) if u_bal > 10 else randint(5, 9)
             await self.db.set_balance(u.id, u_bal - emeralds_lost)
-            await ctx.send(choice(self.mob_finishers[mob_key]))
+            await ctx.send(
+                embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_finishers[mob_key])))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                               description=f"The {mob[0]} also stole {emeralds_lost}{self.emerald} from you..."))
         # goes at very end yep cleanup idk reeeeee kill me
         del mob
 
