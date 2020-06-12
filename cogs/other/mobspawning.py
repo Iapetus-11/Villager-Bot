@@ -170,13 +170,16 @@ class MobSpawning(commands.Cog):
                                 f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}.")
                 await f_msg.edit(suppress=True)
                 return
+
             sword = await self.get_sword(u.id)
             dmg = self.calc_sword_dmg(sword)
             mob[1] -= dmg
+
             await ctx.send(
                 embed=discord.Embed(color=discord.Color.green(), description=choice(self.u_attacks).format(sword, dmg)))
             if mob_key != "creeper":
-                p_dmg = await ctx.send(
+                p_dmg = randint(3, 6)
+                await ctx.send(
                     embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
 
     @commands.Cog.listener()
