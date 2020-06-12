@@ -1,6 +1,7 @@
 import asyncio
 import discord
 from discord.ext import commands
+from math import floor, ceil
 from random import choice, randint
 
 
