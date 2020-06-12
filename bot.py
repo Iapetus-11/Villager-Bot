@@ -1,11 +1,11 @@
-from discord.ext import commands
+import asyncio
+import asyncpg
 import discord
 import json
-import asyncpg
-import asyncio
 import logging
-from random import randint, choice
+from discord.ext import commands
 from math import floor
+from random import randint, choice
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
@@ -81,21 +81,21 @@ async def stay_safe(ctx):
     else:
         _global.command_leaderboard[ctx.author.id] = 1
 
-    del _global
-
     if not bot.is_ready():
         await ctx.send(
             embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
         return False
 
-    if str(ctx.command) not in ["eval", "awaiteval", "help", "ping", "uptime", "stats", "vote", "invite", "purge"]:
+    if str(ctx.command) in _global.triggering_cmds:
         if ctx.guild is not None:
-            if floor(randint(0, 75)*(ctx.guild.member_count/2)) == 2: # Excuse me sir, this is a wendys
-                return # Just for now
+            if floor(randint(0, 75) * (ctx.guild.member_count / 2)) == 2:  # Excuse me sir, this is a wendys
                 self.bot.get_cog("MobSpawning").do_event.append(ctx)
             elif randint(0, 150) == 25:
                 if await bot.get_cog("Database").get_do_tips(ctx.guild.id):
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                                       description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
+
+    del _global
 
     return not ctx.message.author.bot and not await banned(ctx.message.author.id)
 

@@ -1,7 +1,7 @@
-from discord.ext import commands
-import discord
 import arrow
+import discord
 import json
+from discord.ext import commands
 
 
 class Global(commands.Cog):
@@ -51,6 +51,8 @@ class Global(commands.Cog):
         self.command_leaderboard = {}
 
         self.honey_buckets = None
+
+        self.triggering_cmds = ["mine", "withdraw", "deposit", "shop", "give_stuff", "sell_item"]
 
 
 def setup(bot):
