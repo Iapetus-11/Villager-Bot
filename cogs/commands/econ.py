@@ -1,8 +1,8 @@
-from discord.ext import commands
-import discord
 import asyncio
-from random import choice, randint
+import discord
+from discord.ext import commands
 from math import floor, ceil
+from random import choice, randint
 
 
 class Econ(commands.Cog):
@@ -60,6 +60,20 @@ class Econ(commands.Cog):
             await self.send(ctx, "Remember, bots don't have any rights, and as a result can't possess currency.")
             return
         await self.send(ctx, f"{user.mention} has {await self.db.get_balance(user.id)}{self.emerald}")
+
+    @commands.command(name="profile", aliases=["pp", "userprofile"])
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    async def profile(self, ctx, user: discord.User = None):
+        if user is None:
+            user = ctx.author
+
+        if user.bot:
+            await self.send(ctx, "Remember, bot's don't have profiles as they're dumb! (Except Villager Bot ofc)")
+            return
+
+        pp = discord.Embed(color=discord.Color.green())
+
+        pp.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
 
     @commands.command(name="deposit", aliases=["dep"])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)

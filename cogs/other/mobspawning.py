@@ -239,15 +239,26 @@ class MobSpawning(commands.Cog):
                                                    description=f"You've defeated the {mob[0]}!\n\n{choice(found)}"))
         else:  # MOB WIN
             u_bal = await self.db.get_balance(u.id)
+
             if diff == "easy":
                 emeralds_lost = floor(u_bal * (1 / choice([3, 2.25, 3.5, 3.75, 4]))) if u_bal > 10 else randint(2, 4)
             else:  # diff hard
-                emeralds_lost = floor(u_bal * (1 / choice([1.5, 1.75, 2, 2.5]))) if u_bal > 10 else randint(5, 9)
+                emeralds_lost = floor(u_bal * (1 / choice([1.25, 1.5, 2]))) if u_bal > 10 else randint(5, 9)
+
+            if u_bal < 1:
+                emeralds_lost = 0
+                if diff != "easy":
+                    await self.db.set_health(u.id, 4)
+                else:
+                    await self.db.set_health(u.id, 10)
+
             await self.db.set_balance(u.id, u_bal - emeralds_lost)
+
             await ctx.send(
                 embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_finishers[mob_key])))
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                               description=f"The {mob[0]} also stole {emeralds_lost}{self.emerald} from you..."))
+            if emeralds_lost > 0:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                                   description=f"The {mob[0]} also stole {emeralds_lost}{self.emerald} from you..."))
         # goes at very end yep cleanup idk reeeeee kill me
         del mob
 
