@@ -244,7 +244,7 @@ class MobSpawning(commands.Cog):
             else:  # diff hard
                 emeralds_lost = floor(u_bal * (1 / choice([1.25, 1.5, 2]))) if u_bal > 10 else randint(5, 9)
 
-            if u_bal < 1:
+            if u_bal - emeralds_lost < 1:
                 emeralds_lost = 0
                 if diff != "easy":
                     await self.db.set_health(u.id, 4)
