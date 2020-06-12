@@ -159,7 +159,8 @@ class MobSpawning(commands.Cog):
             new_emb.add_field(name=f"**{mob[0]}**",
                               value="\uFEFF" + await self.db.calc_stat_bar(ceil(mob[1] / 2), self.mobs[mob_key][1] / 2,
                                                                            self.mobs[mob_key][1] / 2, hh[0],
-                                                                           hh[1]), inline=False)
+                                                                           hh[1]),
+                              inline=False)  # FUCK THESE LINES OF CODE IN PARTICULAR
             new_emb.set_image(url=mob[2])
             await f_msg.edit(suppress=True)
             f_msg = await ctx.send(embed=new_emb)
