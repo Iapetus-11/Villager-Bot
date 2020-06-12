@@ -149,7 +149,7 @@ class MobSpawning(commands.Cog):
                         m.content == "flee" or m.content == "attack" or m.content == "atk")
 
         while h_user > 0 and mob[1] > 0:
-            h_user = await self.db.get_health(u.id)
+            # h_user = await self.db.get_health(u.id)
             new_emb = discord.Embed(color=discord.Color.green(), title="Do you want to ``attack`` or ``flee``?")
             new_emb.add_field(name=f"**{u.display_name}**",
                               value="\uFEFF" + await self.db.calc_stat_bar(h_user, 20, 10, hh[0], hh[1]),
