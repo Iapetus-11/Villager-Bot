@@ -25,6 +25,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 ## Commands
 
 ### Economy Commands
+* __!!profile__ *\[optional: user\]* (see the specified user's profile)
 * __!!mine__ (go mining with the bot for emeralds)
 * __!!honey__ (who knew bees could produce honey)
 * __!!balance__ (check the amount of emeralds in your inventory)
