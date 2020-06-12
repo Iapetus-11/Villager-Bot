@@ -241,7 +241,7 @@ class MobSpawning(commands.Cog):
                 "You've gotten {0}{1}", "You've received {0}{1}"
             ]
             await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                               description=f"You've defeated the {mob[0]}!\n\n{choice(found)}"))
+                                               description=f"You've defeated the {mob[0]}!\n\n{choice(found).format(emeralds_gained, self.emerald)}"))
             await self.db.set_balance(u.id, u_bal + emeralds_gained)
         else:  # MOB WIN
             u_bal = await self.db.get_balance(u.id)
@@ -271,7 +271,6 @@ class MobSpawning(commands.Cog):
                                                        description=f"The {mob[0]} also stole {emeralds_lost}{self.emerald} from you..."))
         # goes at very end yep cleanup idk reeeeee kill me
         del mob
-        await ctx.send("END")
 
     @commands.Cog.listener()
     async def on_ready(self):
