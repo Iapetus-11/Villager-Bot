@@ -45,12 +45,14 @@ class MobSpawning(commands.Cog):
         self.mob_finishers = {
             "zombie": ["The zombie lunges for your throat, and bites!",
                        "The zombie disembowels you and mutilates your remains!"],
-            "spider": [],
-            "skeleton": [],
+            "spider": ["The spider jumps on top of you and bites deep into your skull!"],
+            "skeleton": ["The skeleton 360 noscopes you for the last time!",
+                         "Arrows rain from the sky, piercing your flesh and killing you!"],
             "creeper": ["The creeper goes boom!", "Creeper used self destruct! *It's super effective!*",
                         "The creeper explodes, yeeting your red, bloodied corpse across the map!",
                         "You were blown to pixels by the creeper!"],
-            "cave_spider": []
+            "cave_spider": ["You died from poison damage!", "The cave spider killed you with poison damage!",
+                            "The cave spider killed you with it's venom!"]
         }
 
         self.drop_msgs = [
