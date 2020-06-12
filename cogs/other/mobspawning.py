@@ -147,7 +147,7 @@ class MobSpawning(commands.Cog):
 
         def check(m):
             return m.author.id == u.id and m.channel.id == ctx.channel.id and (
-                        m.content == "flee" or m.content == "attack" or m.content == "atk")
+                    m.content == "flee" or m.content == "attack" or m.content == "atk")
 
         while h_user > 0 and mob[1] > 0:
             # h_user = await self.db.get_health(u.id)
@@ -184,7 +184,10 @@ class MobSpawning(commands.Cog):
             await asyncio.sleep(1)
             if mob_key != "creeper":
                 p_dmg = randint(3, 6)
-                h_user -= p_dmg
+                if h_user - p_dmg > 0:
+                    h_user -= p_dmg
+                else:
+                    break
                 await ctx.send(
                     embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
             await asyncio.sleep(2)
