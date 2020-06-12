@@ -63,17 +63,28 @@ class Econ(commands.Cog):
 
     @commands.command(name="profile", aliases=["pp", "userprofile"])
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def profile(self, ctx, user: discord.User = None):
-        if user is None:
-            user = ctx.author
+    async def profile(self, ctx, u: discord.User = None):
+        if u is None:
+            u = ctx.author
 
-        if user.bot:
+        if u.bot:
             await self.send(ctx, "Remember, bot's don't have profiles as they're dumb! (Except Villager Bot ofc)")
             return
 
         pp = discord.Embed(color=discord.Color.green())
 
         pp.set_author(name=f"{u.display_name}'s Inventory", icon_url=str(u.avatar_url_as(static_format="png")))
+
+        hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
+        pp.add_field(name="Health",
+                     value=await self.db.calc_stat_bar(ceil(await self.db.get_health(u.id) / 2), 10, 10, hh[0], hh[1]),
+                     inline=False)
+
+        pp.add_field(name="Emeralds", value=f"{await self.db.get_balance(user.id)}{self.emerald}", inline=True)
+        pp.add_field(name="\uFEFF", value="\uFEFF", inline=True)
+        pp.add_field(name="CMDS Sent", value=self.g.command_leaderboard[u.id], inline=True)
+
+        pp.add_field(name="Pickaxe", value=await self.db.get_pickaxe(u.id))
 
     @commands.command(name="deposit", aliases=["dep"])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
