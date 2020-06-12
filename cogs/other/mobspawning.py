@@ -166,7 +166,6 @@ class MobSpawning(commands.Cog):
                                                                            self.mobs[mob_key][1] / 2, hh[0],
                                                                            # FUCK THESE LINES OF CODE IN PARTICULAR
                                                                            hh[1]),
-                              # FUCK THESE LINES OF CODE IN PARTICULAR
                               inline=False)  # FUCK THESE LINES OF CODE IN PARTICULAR
             new_emb.set_image(url=mob[2])
             await f_msg.edit(suppress=True)
