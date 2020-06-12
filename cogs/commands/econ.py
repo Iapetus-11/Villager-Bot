@@ -88,9 +88,9 @@ class Econ(commands.Cog):
         pp.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         pp.add_field(name="CMDS Sent", value=self.g.command_leaderboard[u.id], inline=True)
 
-        pp.add_field(name="Sword", value=await self.bot.get_cog("MobSpawning").get_sword(u.id), inline=True)
-        pp.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         pp.add_field(name="Pickaxe", value=await self.db.get_pickaxe(u.id) + " pickaxe", inline=True)
+        pp.add_field(name="\uFEFF", value="\uFEFF", inline=True)
+        pp.add_field(name="Sword", value=await self.bot.get_cog("MobSpawning").get_sword(u.id), inline=True)
 
         await ctx.send(embed=pp)
 
