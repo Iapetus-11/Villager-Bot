@@ -179,7 +179,8 @@ class MobSpawning(commands.Cog):
             mob[1] -= dmg
 
             await ctx.send(
-                embed=discord.Embed(color=discord.Color.green(), description=choice(self.u_attacks).format(sword, dmg)))
+                embed=discord.Embed(color=discord.Color.green(),
+                                    description=choice(self.u_attacks).format(mob[0], sword)))
             await asyncio.sleep(1)
             if mob_key != "creeper":
                 p_dmg = randint(3, 6)
