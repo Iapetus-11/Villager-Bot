@@ -25,11 +25,13 @@ class MobSpawning(commands.Cog):
         }
 
         self.mob_attacks = {  # {0} is mob name
-            "zombie": [],
-            "spider": [],
-            "skeleton": [],
+            "zombie": ["The {0} ran lashing at your arms", "The {0} gives you a painful hug",
+                       "The {0}'s Just standing There... Menacingly!"],
+            "spider": ["The {0} dunks on you"],
+            "skeleton": ["The skeleboi yeets an arrow at your face", "The {0} turns around into a 360 no scope",
+                         "An arrow rains from the {0}, only one", "One headshot from {0} for you"],
             "creeper": [],
-            "cave_spider": []
+            "cave_spider": ["The {0}'s fangs digs deep onto your skin ", "The {0} gave you a toxic kiss"]
         }
 
         self.mob_finishers = {  # {0} is mob name
@@ -39,6 +41,7 @@ class MobSpawning(commands.Cog):
             "creeper": [],
             "cave_spider": []
         }
+
         self.drop_msgs = [
             "A wild {0} has found you!", "A vicious {0} has seen you!", "A lurking {0} has seen you!",
             "A lurking {0} has found you!", "A creepy {0} has seen you!", "A creepy {0} has found you!",
