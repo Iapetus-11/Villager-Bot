@@ -172,7 +172,7 @@ class MobSpawning(commands.Cog):
                 return
 
             sword = await self.get_sword(u.id)
-            dmg = self.calc_sword_damage(sword)
+            dmg = await self.calc_sword_damage(sword)
             mob[1] -= dmg
 
             await ctx.send(
