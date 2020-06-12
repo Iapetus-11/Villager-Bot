@@ -29,7 +29,8 @@ class MobSpawning(commands.Cog):
         self.mob_attacks = {
             "zombie": ["The zombie ran lashing at your arms", "The zombie gives you a painful hug",
                        "The zombie punches you in your face!",
-                       "The zombie claws you with it's overgrown, decaying nails!"],
+                       "The zombie claws you with it's overgrown, decaying nails!",
+                       "The zombie punches you with it's decaying hand!"],
             "spider": ["The spider dunks on you", "The spider lunges at you and bites you!",
                        "The spider jumps at you and bites!", "The spider bites you in the leg!"],
             "skeleton": ["The skeleboi yeets an arrow at your face",
