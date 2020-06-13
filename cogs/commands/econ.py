@@ -354,10 +354,9 @@ class Econ(commands.Cog):
 
         shop_item = self.g.shop_items.get(item)
 
-        if shop_item[1] == "db_item_count < 1":
-            amount = 1
-
         if shop_item is not None:
+            if shop_item[1] == "db_item_count < 1":
+                amount = 1
             their_bal = await self.db.get_balance(ctx.author.id)
             if shop_item[0] * amount <= their_bal:
                 db_item = await self.db.get_item(ctx.author.id, shop_item[2][0])
