@@ -242,14 +242,9 @@ class MobSpawning(commands.Cog):
             m_dmg = choice([2, 4, 6])
             if mob_key == "creeper":
                 if iter > 2:
-                    if diff == "easy":
-                        if choice([True, False, False]):
-                            h_user = 0
-                            break
-                    else:
-                        if choice([True, False]):
-                            h_user = 0
-                            break
+                    if choice([True, False, False]):
+                        h_user = 0
+                        break
                 m_dmg = 0
             h_user -= m_dmg
 
