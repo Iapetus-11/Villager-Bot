@@ -158,13 +158,11 @@ class MobSpawning(commands.Cog):
             await self.send(ctx, "You ran out of time! The mob despawned.")
             await f_msg.edit(suppress=True)
             return
-        if m.content == "flee":  # That's right you whiny little shit
-            await self.send(ctx,
-                            f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}.")
-            await f_msg.edit(suppress=True)
-            return
 
         u = m.author
+
+        if await self.db.get_health(u.id) < 2:
+            await self.send(ctx, "You don't have enough health to do this!")
 
         self.g.pause_econ.append(u.id)
 
@@ -274,13 +272,6 @@ class MobSpawning(commands.Cog):
                 emeralds_lost = floor(u_bal * (1 / choice([2.75, 3, 3.25, 3.5]))) if u_bal > 10 else randint(2, 4)
             else:  # diff hard
                 emeralds_lost = floor(u_bal * (1 / choice([1.15, 1.25, 1.35, 1.45]))) if u_bal > 10 else randint(5, 9)
-
-            if u_bal - emeralds_lost < 1:
-                emeralds_lost = 0
-                if diff != "easy":
-                    await self.db.set_health(u.id, 4)
-                else:
-                    await self.db.set_health(u.id, 10)
 
             await self.db.set_balance(u.id, u_bal - emeralds_lost)
 
