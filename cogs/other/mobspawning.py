@@ -123,8 +123,6 @@ class MobSpawning(commands.Cog):
             dmg = randint(1, 3)
         else:
             dmg = randint(1, 2)
-        if diff_multi > 1:
-            return ceil(dmg / 1.25)
         return dmg
 
     # also have random pillager events where server is ransacked /s
