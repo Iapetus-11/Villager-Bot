@@ -57,6 +57,8 @@ class Global(commands.Cog):
 
         self.spawn_chance = 50
 
+        self.pause_econ = []  # uid... uid
+
 
 def setup(bot):
     bot.add_cog(Global(bot))

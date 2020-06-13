@@ -23,6 +23,10 @@ class Econ(commands.Cog):
     def cog_unload(self):
         self.g.honey_buckets = self.harvest_honey._buckets
 
+    def cog_check(self, ctx):
+        if ctx.author.id in self.g.pause_econ:
+            return False
+
     async def send(self, ctx, m):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
 
@@ -457,6 +461,9 @@ class Econ(commands.Cog):
     @commands.command(name="give")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def give_stuff(self, ctx, rec: discord.User, amount: int, item=None):
+        if rec.id in self.g.pause_econ:
+            await self.send(ctx, "You can't give that person anything right now!")
+            return
         if rec.bot:
             await self.send(ctx, "Remember, bots don't have any rights, and as a result can't own items.")
             return
