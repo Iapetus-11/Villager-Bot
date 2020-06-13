@@ -75,6 +75,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!image__ *query* (bot searches for you on google images)
 * __!!stats__ (shows certain bot statistics)
 * __!!math__ *math* (does math for you)
+* __!!serverinfo__ (shows information about the current server)
 
 ### Admin Only Commands
 * __!!purge__ *number* (deletes the specified number of messages in the channel it was summoned)
