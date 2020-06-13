@@ -293,7 +293,6 @@ class MobSpawning(commands.Cog):
     async def spawn_events(self):
         while self.bot.is_ready():
             await asyncio.sleep(1)  # idk why this but this?
-            await ctx.send("iteration")
             for ctx in self.do_event:  # ah yes efficiency
                 self.bot.loop.create_task(self.spawn_event(ctx))  # oh ye bois
 
