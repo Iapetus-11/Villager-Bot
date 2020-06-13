@@ -257,7 +257,7 @@ class MobSpawning(commands.Cog):
 
             await ctx.send(
                 embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
-            await asyncio.sleep(2)
+            await asyncio.sleep(1.75)
 
         mob[1] = mob[1] if mob[1] >= 0 else 0
         h_user = h_user if h_user >= 0 else 0
