@@ -231,7 +231,7 @@ class MobSpawning(commands.Cog):
                 return
 
             sword = await self.get_sword(u.id)
-            u_dmg = await self.calc_sword_damage(sword, diff_multi)
+            u_dmg = await self.calc_sword_damage(sword, diff_multi, u.id)
             mob[1] -= u_dmg
 
             if mob[1] <= 0:  # player wins
