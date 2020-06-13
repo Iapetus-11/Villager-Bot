@@ -594,16 +594,15 @@ class Econ(commands.Cog):
     async def handle_mine_errors(self, ctx,
                                  e):  # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
-            cooldown = e.retry_after
             if await self.db.get_item(ctx.author.id, "Efficiency I Book") is not None:
-                cooldown -= .4
+                e.retry_after -= .4
             if ctx.author.id in list(self.items_in_use):
                 if self.items_in_use[ctx.author.id] == "Haste I Potion":
-                    cooldown -= .6
+                    e.retry_after -= .6
                 if self.items_in_use[ctx.author.id] == "Haste II Potion":
-                    cooldown -= .9
+                    e.retry_after -= .9
 
-            if cooldown <= 0:
+            if e.retry_after <= 0:
                 await ctx.reinvoke()
             else:
                 descs = [
