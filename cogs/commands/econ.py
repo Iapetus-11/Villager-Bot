@@ -610,7 +610,7 @@ class Econ(commands.Cog):
                     "Hey, you need to wait another {0} seconds before doing that again.",
                     "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
                     "Don't you know [patience was a virtue](http://www.patience-is-a-virtue.org/)? Wait another {0} seconds."]
-                await self.send(ctx, (choice(descs).format(round(cooldown, 2))))
+                await self.send(ctx, (choice(descs).format(round(e.retry_after, 2))))
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
