@@ -150,10 +150,14 @@ class MobSpawning(commands.Cog):
         try:
 
             def check(m):
-                return m.channel == ctx.channel and not m.author.bot and m.content in ["attack", "fight", "punch",
-                                                                                       "atk", "atacc", "attacc", "kill",
-                                                                                       "fite", "kil", "atak", "atack",
-                                                                                       "yes", "yes fight", "yes attack"]
+                return m.channel == ctx.channel and not m.author.bot and m.content.lower() in ["attack", "fight",
+                                                                                               "punch",
+                                                                                               "atk", "atacc", "attacc",
+                                                                                               "kill",
+                                                                                               "fite", "kil", "atak",
+                                                                                               "atack",
+                                                                                               "yes", "yes fight",
+                                                                                               "yes attack"]
 
             m = await self.bot.wait_for("message", check=check, timeout=30)
         except asyncio.TimeoutError:
@@ -178,8 +182,14 @@ class MobSpawning(commands.Cog):
         hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
 
         def check(m):
-            return m.author.id == u.id and m.channel.id == ctx.channel.id and (
-                    m.content == "flee" or m.content == "attack" or m.content == "atk")
+            return m.author.id == u.id and m.channel.id == ctx.channel.id and m.content.lower() in ["attack", "fight",
+                                                                                                    "punch",
+                                                                                                    "atk", "atacc",
+                                                                                                    "attacc", "kill",
+                                                                                                    "fite", "kil",
+                                                                                                    "atak", "atack",
+                                                                                                    "yes", "yes fight",
+                                                                                                    "yes attack"]
 
         iter = 0
         while h_user > 0 and mob[1] > 0:
