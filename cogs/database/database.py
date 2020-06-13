@@ -146,7 +146,7 @@ class Database(commands.Cog):
     async def get_difficulty(self, gid):
         diff = await self.db.fetchrow("SELECT difficulty FROM difficulty WHERE gid=$1", gid)
         if diff is None:
-            return "peaceful"
+            return "easy"
         return diff[0]
 
     async def set_difficulty(self, gid, diff):
