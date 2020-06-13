@@ -261,8 +261,11 @@ class MobSpawning(commands.Cog):
                 "Wow, what's that? {0}{1}!", "You've gained {0}{1}",
                 "You've gotten {0}{1}", "You've received {0}{1}"
             ]
+            found = choice(found).format(emeralds_gained, self.emerald)
+            if emeralds_gained == 0:
+                found = "You didn't get anything!"
             await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                               description=f"You've defeated the {mob[0]}!\n\n{choice(found).format(emeralds_gained, self.emerald)}"))
+                                               description=f"You've defeated the {mob[0]}!\n\n{found}"))
             await self.db.set_balance(u.id, u_bal + emeralds_gained)
         else:  # MOB WIN
             u_bal = await self.db.get_balance(u.id)
