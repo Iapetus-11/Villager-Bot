@@ -91,7 +91,7 @@ class Econ(commands.Cog):
                      value=f"{await self.db.get_balance(u.id) + (await self.db.get_vault(u.id))[0] + sum([item[1] * item[2] for item in user_items])}{self.emerald}",
                      inline=True)
         pp.add_field(name="\uFEFF", value="\uFEFF", inline=True)
-        pp.add_field(name="CMDS Sent", value=self.g.command_leaderboard[u.id], inline=True)
+        pp.add_field(name="CMDS Sent", value=self.g.command_leaderboard.get(u.id), inline=True)
 
         pp.add_field(name="Pickaxe", value=await self.db.get_pickaxe(u.id) + " pickaxe", inline=True)
         pp.add_field(name="\uFEFF", value="\uFEFF", inline=True)
