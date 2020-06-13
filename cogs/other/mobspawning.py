@@ -107,7 +107,7 @@ class MobSpawning(commands.Cog):
                 return sword_name
         await self.db.add_item(uid, "Wood Sword", 1, 0)
 
-    async def calc_sword_damage(self, sword):  # highest sword is used
+    async def calc_sword_damage(self, sword, diff_multi):  # highest sword is used
         if sword == "netherite sword":
             dmg = randint(7, 10)
         elif sword == "diamond sword":
@@ -120,7 +120,7 @@ class MobSpawning(commands.Cog):
             dmg = randint(1, 3)
         else:
             dmg = randint(1, 2)
-        return dmg
+        return floor(dmg * (1 / diff_multi))
 
     # also have random pillager events where server is ransacked /s
     async def spawn_event(self, ctx):  # Fuck me in the balls, wait don't how is that even possible?!
@@ -164,6 +164,12 @@ class MobSpawning(commands.Cog):
 
         self.g.pause_econ.append(u.id)
 
+        emeralds_multi = 1
+        if await self.db.get_item(u.id, "Looting II") is not None:
+            emeralds_multi = 2
+        elif await self.db.get_item(u.id, "Looting I") is not None:
+            emeralds_multi = 1.5
+
         h_user = await self.db.get_health(u.id)
         hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
 
@@ -204,7 +210,7 @@ class MobSpawning(commands.Cog):
                 return
 
             sword = await self.get_sword(u.id)
-            u_dmg = await self.calc_sword_damage(sword)
+            u_dmg = await self.calc_sword_damage(sword, diff_multi)
             mob[1] -= u_dmg
 
             if mob[1] <= 0:  # player wins
@@ -244,6 +250,7 @@ class MobSpawning(commands.Cog):
                                                                                                                     35)  # wtf pycharm
             else:  # diff hard
                 emeralds_gained = floor(u_bal * (1 / choice([1.5, 1.75, 2, 2.5]))) if u_bal < 1000 else randint(35, 65)
+                emeralds_gained = floor(emeralds_multi * emeralds_gained)
             found = [
                 "Wow look at that you found {0}{1} just right there on the ground!",
                 "Wow, what's that? {0}{1}!", "You've gained {0}{1}",
