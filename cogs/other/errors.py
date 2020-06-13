@@ -33,16 +33,10 @@ class Errors(commands.Cog):
 
         if isinstance(e, commands.CheckAnyFailure):
             if "MissingPermissions" in str(e.errors):  # yes I know this is jank but it works so shhhh
-                if ctx.author.id in self.bot.owner_ids:
-                    await ctx.reinvoke()
-                    return
                 await self.send(ctx, "Nice try stupid, but you don't have the permissions to do that.")
                 return
 
         if isinstance(e, commands.BotMissingPermissions):
-            if ctx.author.id in self.bot.owner_ids:
-                await ctx.reinvoke()
-                return
             await self.send(ctx, "You didn't give me proper the permissions to do that, stupid.")
             return
 
