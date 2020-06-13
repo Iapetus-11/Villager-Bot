@@ -110,7 +110,7 @@ class MobSpawning(commands.Cog):
         await self.db.add_item(uid, "Wood Sword", 1, 0)
         return "wood sword"
 
-    async def calc_sword_damage(self, sword, diff_multi):  # highest sword is used
+    async def calc_sword_damage(self, sword, diff_multi, uid):  # highest sword is used
         if sword == "netherite sword":
             dmg = randint(7, 10)
         elif sword == "diamond sword":
@@ -124,8 +124,12 @@ class MobSpawning(commands.Cog):
         else:
             dmg = randint(1, 2)
         if diff_multi > 1:
-            dmg = ceil(dmg / 1.3)
-        return dmg
+            dmg = dmg / 1.3
+        if await self.db.get_item(uid, "Sharpness II Book") is not None:
+            dmg *= 1.5
+        elif await self.db.get_item(uid, "Sharpness I Book") is not None:
+            dmg *= 1.25
+        return ceil(dmg)
 
     # also have random pillager events where server is ransacked /s
     async def spawn_event(self, ctx):  # Fuck me in the balls, wait don't how is that even possible?!
@@ -254,6 +258,9 @@ class MobSpawning(commands.Cog):
             await ctx.send(
                 embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
             await asyncio.sleep(2)
+
+        mob[1] = mob[1] if mob[1] >= 0 else 0
+        h_user = h_user if h_user >= 0 else 0
 
         new_emb = discord.Embed(color=discord.Color.green(), title="Do you want to ``attack`` or ``flee``?")
         new_emb.add_field(name=f"**{u.display_name}**",
