@@ -122,7 +122,7 @@ class MobSpawning(commands.Cog):
             dmg = randint(1, 3)
         else:
             dmg = randint(1, 2)
-        if diff_multi == 2:
+        if diff_multi > 1:
             return floor(dmg / 1.25)
         return dmg
 
@@ -136,12 +136,12 @@ class MobSpawning(commands.Cog):
 
         diff_multi = 1
         if diff == "hard":
-            diff_multi = 2
+            diff_multi = 1.5
 
         mob_key = choice(list(self.mobs))
         mob = self.mobs[mob_key].copy()  # LMAO I bet there's a better way to do this but fuck it
 
-        mob[1] *= diff_multi
+        mob[1] = floor(mob[1] * diff_multi)
 
         f_embed = discord.Embed(color=discord.Color.green(), title=f"**{choice(self.drop_msgs).format(mob[0])}**",
                                 description="Do you want to ``fight`` the mob?")  # fight it or u little baby piece of shit
