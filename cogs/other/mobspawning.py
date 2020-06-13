@@ -109,17 +109,17 @@ class MobSpawning(commands.Cog):
 
     async def calc_sword_damage(self, sword):  # highest sword is used
         if sword == "netherite sword":
-            dmg = choice([8, 10])
+            dmg = randint(7, 10)
         elif sword == "diamond sword":
-            dmg = choice([6, 8])
+            dmg = randint(6, 7)
         elif sword == "gold sword":
-            dmg = choice([4, 6])
+            dmg = randint(4, 5)
         elif sword == "iron sword":
-            dmg = choice([2, 6])
+            dmg = randint(2, 4)
         elif sword == "stone sword":
-            dmg = choice([2, 4])
+            dmg = randint(1, 3)
         else:
-            dmg = 2
+            dmg = 1
         return dmg
 
     # also have random pillager events where server is ransacked /s
@@ -251,9 +251,9 @@ class MobSpawning(commands.Cog):
             u_bal = await self.db.get_balance(u.id)
 
             if diff == "easy":
-                emeralds_lost = floor(u_bal * (1 / choice([3, 2.25, 3.5, 3.75, 4]))) if u_bal > 10 else randint(2, 4)
+                emeralds_lost = floor(u_bal * (1 / choice([2.75, 3, 3.25, 3.5]))) if u_bal > 10 else randint(2, 4)
             else:  # diff hard
-                emeralds_lost = floor(u_bal * (1 / choice([1.25, 1.5, 2]))) if u_bal > 10 else randint(5, 9)
+                emeralds_lost = floor(u_bal * (1 / choice([1.15, 1.25, 1.35, 1.45]))) if u_bal > 10 else randint(5, 9)
 
             if u_bal - emeralds_lost < 1:
                 emeralds_lost = 0
