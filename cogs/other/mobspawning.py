@@ -125,9 +125,14 @@ class MobSpawning(commands.Cog):
     # also have random pillager events where server is ransacked /s
     async def spawn_event(self, ctx):  # Fuck me in the balls, wait don't how is that even possible?!
         self.do_event.pop(self.do_event.index(ctx))  # make sure this motherfucker doesn't get a spawn again
+
         diff = await self.db.get_difficulty(ctx.guild.id)
         if diff == "peaceful":
             return
+
+        diff_multi = 1
+        if diff == "hard":
+            diff_multi = 1.5
 
         mob_key = choice(list(self.mobs))
         mob = self.mobs[mob_key].copy()  # LMAO I bet there's a better way to do this but fuck it
@@ -282,7 +287,7 @@ class MobSpawning(commands.Cog):
         while self.bot.is_ready():
             await asyncio.sleep(.05)  # idk why this but this?
             for ctx in self.do_event:  # ah yes efficiency
-                self.bot.loop.create_task(self.spawn_event(ctx))
+                self.bot.loop.create_task(self.spawn_event(ctx))  # oh ye bois
 
 
 def setup(bot):
