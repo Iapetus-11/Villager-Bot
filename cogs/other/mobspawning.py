@@ -291,7 +291,8 @@ class MobSpawning(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         while self.bot.is_ready():
-            await asyncio.sleep(.05)  # idk why this but this?
+            await asyncio.sleep(1)  # idk why this but this?
+            await ctx.send("iteration")
             for ctx in self.do_event:  # ah yes efficiency
                 self.bot.loop.create_task(self.spawn_event(ctx))  # oh ye bois
 
