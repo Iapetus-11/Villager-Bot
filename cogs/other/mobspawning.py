@@ -205,6 +205,7 @@ class MobSpawning(commands.Cog):
                 await f_msg.edit(suppress=True)
                 await self.send(ctx,
                                 "Ok fine, be that way, ignore me. (The mob despawned waiting for your puny attack)")
+                self.g.pause_econ.pop(u.id)
                 return
             if m.content == "flee":  # Oh you fucking toddler
                 await f_msg.edit(suppress=True)
