@@ -223,6 +223,8 @@ class Econ(commands.Cog):
                        inline=True)
         shop.add_field(name=f"__**Vault Potion**__ 81{self.emerald}", value=f"``{ctx.prefix}buy vault potion``",
                        inline=True)
+        shop.add_field(name=f"__**Sharpness I Book**__ 120{self.emerald}",
+                       value=f"``{ctx.prefix}buy sharpness i book``", inline=True)
         await ctx.send(embed=shop)
 
     @shop.command(name="other")
@@ -617,7 +619,7 @@ class Econ(commands.Cog):
                 if self.items_in_use[ctx.author.id] == "Haste II Potion":
                     e.retry_after -= .9
 
-            if e.retry_after <= 0.01:
+            if e.retry_after <= 0.04:
                 await ctx.reinvoke()
             else:
                 descs = [

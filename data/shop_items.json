@@ -86,5 +86,13 @@
       "Vault Potion",
       30
     ]
+  ],
+  "sharpness i book": [
+    120,
+    "True",
+    [
+      "Sharpness I Book",
+      32
+    ]
   ]
 }
