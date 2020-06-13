@@ -108,6 +108,7 @@ class MobSpawning(commands.Cog):
             if sword_name in item_names:
                 return sword_name
         await self.db.add_item(uid, "Wood Sword", 1, 0)
+        return "wood sword"
 
     async def calc_sword_damage(self, sword, diff_multi):  # highest sword is used
         if sword == "netherite sword":
