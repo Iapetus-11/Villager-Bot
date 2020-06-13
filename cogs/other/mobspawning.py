@@ -260,6 +260,20 @@ class MobSpawning(commands.Cog):
                 embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_attacks[mob_key])))
             await asyncio.sleep(2)
 
+        new_emb = discord.Embed(color=discord.Color.green(), title="Do you want to ``attack`` or ``flee``?")
+        new_emb.add_field(name=f"**{u.display_name}**",
+                          value="\uFEFF" + await self.db.calc_stat_bar(ceil(h_user / 2), 10, 10, hh[0], hh[1]),
+                          inline=False)  # how tf is this gonna work ya retarded cunt
+        new_emb.add_field(name=f"**{mob[0]}**",
+                          value="\uFEFF" + await self.db.calc_stat_bar(ceil(mob[1] / 2), self.mobs[mob_key][1] / 2,
+                                                                       # FUCK THESE LINES OF CODE IN PARTICULAR
+                                                                       self.mobs[mob_key][1] / 2, hh[0],
+                                                                       # FUCK THESE LINES OF CODE IN PARTICULAR
+                                                                       hh[1]),
+                          inline=False)  # FUCK THESE LINES OF CODE IN PARTICULAR
+        new_emb.set_image(url=mob[2])
+        await f_msg.edit(embed=new_emb)
+
         if h_user > 0:  # PLAYER WIN
             u_bal = await self.db.get_balance(u.id)
             if diff == "easy":
