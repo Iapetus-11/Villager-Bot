@@ -132,10 +132,12 @@ class MobSpawning(commands.Cog):
 
         diff_multi = 1
         if diff == "hard":
-            diff_multi = 1.5
+            diff_multi = 2
 
         mob_key = choice(list(self.mobs))
         mob = self.mobs[mob_key].copy()  # LMAO I bet there's a better way to do this but fuck it
+
+        mob[1] *= 2
 
         f_embed = discord.Embed(color=discord.Color.green(), title=f"**{choice(self.drop_msgs).format(mob[0])}**",
                                 description="Do you want to ``fight`` the mob?")  # fight it or u little baby piece of shit
