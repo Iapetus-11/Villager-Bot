@@ -205,13 +205,13 @@ class MobSpawning(commands.Cog):
                 await f_msg.edit(suppress=True)
                 await self.send(ctx,
                                 "Ok fine, be that way, ignore me. (The mob despawned waiting for your puny attack)")
-                self.g.pause_econ.pop(u.id)
+                self.g.pause_econ.pop(self.g.pause_econ.index(u.id))
                 return
             if m.content == "flee":  # Oh you fucking toddler
                 await f_msg.edit(suppress=True)
                 await self.send(ctx,
                                 f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}.")
-                self.g.pause_econ.pop(u.id)
+                self.g.pause_econ.pop(self.g.pause_econ.index(u.id))
                 return
 
             sword = await self.get_sword(u.id)
@@ -289,7 +289,7 @@ class MobSpawning(commands.Cog):
                                                        description=f"The {mob[0]} also stole {emeralds_lost}{self.emerald} from you..."))
         # goes at very end yep cleanup idk reeeeee kill me
         del mob
-        self.g.pause_econ.pop(u.id)
+        self.g.pause_econ.pop(self.g.pause_econ.index(u.id))
 
     async def spawn_events(self):
         while True:
