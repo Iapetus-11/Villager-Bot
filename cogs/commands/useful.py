@@ -108,7 +108,8 @@ class Useful(commands.Cog):
                   f'**{ctx.prefix}youtube** ***query*** *bot will search on youtube for your query*\n'
                   f'**{ctx.prefix}image** ***query*** *bot will search google images for your query*\n'
                   f'**{ctx.prefix}stats** *shows the bot\'s stats*\n'
-                  f'**{ctx.prefix}math** ***math*** *does math*\n',
+                  f'**{ctx.prefix}math** ***math*** *does math*\n'
+                  f'**{ctx.prefix}serverinfo** *shows information about the current discord server*\n',
             inline=True)
 
         help_embed.set_footer(text="Need more help? Check out the support server: discord.gg/39DwwUV")
@@ -378,6 +379,25 @@ class Useful(commands.Cog):
                 embed=discord.Embed(color=discord.Color.green(), description=f"```{str(round(eval(problem), 4))}```"))
         except Exception:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Oops, something went wrong."))
+
+    @commands.command(name="serverinfo", aliases=["si", "server", "guild", "guildinfo"])
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    async def server_info(self, ctx):
+        g = ctx.guild
+
+        embed = discord.Embed(color=discord.Color.green())
+
+        embed.set_author(name=g.name, icon_url=g.icon_url_as(format="png"))
+
+        embed.add_field(name="Owner", value=self.bot.get_user(g.owner_id).display_name)
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="Members", value=g.member_count)
+
+        embed.add_field(name="Roles", value=len(g.roles))
+        embed.add_field(name="Channels", value=len(g.channels))
+        embed.add_field(name="Emojis", value=len(g.emojis))
+
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
