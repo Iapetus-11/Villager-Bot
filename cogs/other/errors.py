@@ -55,7 +55,7 @@ class Errors(commands.Cog):
             return
 
         if isinstance(e, commands.CommandOnCooldown):
-            if not str(ctx.command) in ["mine", "fish"]:
+            if not str(ctx.command) in ["mine"]:
                 seconds = round(e.retry_after, 2)
                 if seconds == 0:
                     await ctx.reinvoke()
