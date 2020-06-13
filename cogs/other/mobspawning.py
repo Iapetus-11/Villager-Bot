@@ -120,7 +120,9 @@ class MobSpawning(commands.Cog):
             dmg = randint(1, 3)
         else:
             dmg = randint(1, 2)
-        return floor(dmg * (1 / diff_multi))
+        if diff_multi == 2:
+            return floor(dmg / 1.25)
+        return dmg
 
     # also have random pillager events where server is ransacked /s
     async def spawn_event(self, ctx):  # Fuck me in the balls, wait don't how is that even possible?!
