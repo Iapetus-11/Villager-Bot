@@ -25,7 +25,10 @@ class Econ(commands.Cog):
 
     def cog_check(self, ctx):
         if ctx.author.id in self.g.pause_econ:
+            await ctx.send(
+                embed=discord.Embed(color=discord.Color.green(), description="You can't use that commands right now!"))
             return False
+        return True
 
     async def send(self, ctx, m):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
