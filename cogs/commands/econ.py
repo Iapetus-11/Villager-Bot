@@ -318,11 +318,13 @@ class Econ(commands.Cog):
 
         their_bal = await self.db.get_balance(ctx.author.id)
 
-        pickaxes = {"stone pickaxe": [32, "stone"],
-                    "iron pickaxe": [128, "iron"],
-                    "gold pickaxe": [512, "gold"],
-                    "diamond pickaxe": [2048, "diamond"],
-                    "netherite pickaxe": [8192, "netherite"]}
+        pickaxes = {
+            "stone pickaxe": [32, "stone"],
+            "iron pickaxe": [128, "iron"],
+            "gold pickaxe": [512, "gold"],
+            "diamond pickaxe": [2048, "diamond"],
+            "netherite pickaxe": [8192, "netherite"]
+        }
 
         # Items which aren't in shop_items.json
         if pickaxes.get(item) is not None:
@@ -563,7 +565,8 @@ class Econ(commands.Cog):
             choices = [1, 1]
             top = 0
             for item in items:
-                if item[0] == "Bane Of Pillagers Amulet":  # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
+                if item[
+                    0] == "Bane Of Pillagers Amulet":  # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
                     choices = [2, 3, 4, 5, 6]
                     top = 15
                 elif item[0] == "Fortune III Book":
@@ -828,7 +831,7 @@ class Econ(commands.Cog):
         for entry in _sorted:
             ussr = self.bot.get_user(int(entry[0]))
             if ussr is None:
-                ussr = "Unknown User     " # Yes these spaces are here for a reason don't remove them retard
+                ussr = "Unknown User     "  # Yes these spaces are here for a reason don't remove them retard
             lb_text += f"``{rank}.`` **{entry[1]}<:beee:682059180391268352>** {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
