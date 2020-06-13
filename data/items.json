@@ -15,16 +15,6 @@
     6669
   ],
   [
-    "Haste I Potion",
-    32,
-    200
-  ],
-  [
-    "Haste II Potion",
-    128,
-    1000
-  ],
-  [
     "Looting I Book",
     128,
     1000
@@ -33,6 +23,16 @@
     "Looting II Book",
     768,
     9999
+  ],
+  [
+    "Haste I Potion",
+    32,
+    200
+  ],
+  [
+    "Haste II Potion",
+    128,
+    1000
   ],
   [
     "Pride Flag",
