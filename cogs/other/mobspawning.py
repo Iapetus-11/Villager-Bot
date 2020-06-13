@@ -16,6 +16,8 @@ class MobSpawning(commands.Cog):
 
         self.emerald = "<:emerald:653729877698150405>"
 
+        self.bot.loop.create_task(self.spawn_events())
+
         # Thank you so much Eun!
         # "mobname": [actualname, health, img_url]
         murl = "http://olimone.ddns.net/images/mob_spawns/"
@@ -288,8 +290,7 @@ class MobSpawning(commands.Cog):
         del mob
         self.g.pause_econ.pop(u.id)
 
-    @commands.Cog.listener()
-    async def on_ready(self):
+    async def spawn_events(self):
         while self.bot.is_ready():
             await asyncio.sleep(1)  # idk why this but this?
             await ctx.send("iteration")
