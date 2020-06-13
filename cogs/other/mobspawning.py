@@ -119,7 +119,7 @@ class MobSpawning(commands.Cog):
         elif sword == "stone sword":
             dmg = randint(1, 3)
         else:
-            dmg = 1
+            dmg = randint(1, 2)
         return dmg
 
     # also have random pillager events where server is ransacked /s
