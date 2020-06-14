@@ -78,15 +78,15 @@ async def stay_safe(ctx):
     _global = bot.get_cog("Global")
     _global.cmd_count += 1
 
-    if ctx.author.id in _global.pause_econ:
-        await ctx.send("You can't use this command right now!")
-        return False
-
     _global.command_leaderboard[ctx.author.id] = _global.command_leaderboard.get(ctx.author.id, 0) + 1
 
     if not bot.is_ready():
         await ctx.send(
             embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
+        return False
+
+    if ctx.author.id in _global.pause_econ and ctx.command.cog.qualified_name == "Econ":
+        await ctx.send("You can't use this command right now!")
         return False
 
     if str(ctx.command) in _global.triggering_cmds:
