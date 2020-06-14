@@ -843,7 +843,7 @@ class Econ(commands.Cog):
                               description=lb_text)
         await ctx.send(embed=embed)
 
-    @leaderboard.command(name="pillages", aliases=["pil"])
+    @leaderboard.command(name="pillages", aliases=["pil", "pillagers"])
     async def pillager_leaderboard(self, ctx):
         pillagers = await self.db.get_pillagerboard()
         _sorted = sorted(pillagers, reverse=True, key=lambda entry: entry[1])  # Sort by second value in the thingy
@@ -869,7 +869,7 @@ class Econ(commands.Cog):
                               description=lb_text)
         await ctx.send(embed=embed)
 
-    @leaderboard.command(name="murders", aliases=["kil", "mobkills", "kills", "mkil", "mkils"])
+    @leaderboard.command(name="murders", aliases=["kil", "mobkills", "kills", "mkil", "mkils", "kils"])
     async def murderer_leaderboard(self, ctx):
         murderers = await self.db.get_killboard()
         _sorted = sorted(murderers, reverse=True, key=lambda entry: entry[1])  # Sort by second value in the thingy
