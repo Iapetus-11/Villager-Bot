@@ -1,6 +1,0 @@
-From https://github.com/Villager-Bot/Villager-Bot
-   18f1884..2f44b18  master     -> origin/master
-Updating 18f1884..2f44b18
-Fast-forward
- cogs/commands/econ.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
