@@ -23,11 +23,6 @@ class Econ(commands.Cog):
     def cog_unload(self):
         self.g.honey_buckets = self.harvest_honey._buckets
 
-    def cog_check(self, ctx):
-        if ctx.author.id in self.g.pause_econ:
-            return False
-        return True
-
     async def send(self, ctx, m):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
 
