@@ -889,7 +889,7 @@ class Econ(commands.Cog):
             lb_text += f"``{rank}.`` **{entry[1]} Kills** <:stevegun:682057109478834205> {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
-            lb_text += "⋮\n" + f"``{place}.`` **{(await self.db.get_pillager(ctx.author.id))[1]} Kills** <:stevegun:682057109478834205> {str(ctx.author)[:-5]}"
+            lb_text += "⋮\n" + f"``{place}.`` **{(await self.db.get_murderer(ctx.author.id))[1]} Kills** <:stevegun:682057109478834205> {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(),
                               title=f"<:stevegun:682057109478834205> __**Mob Kills Leaderboard**__ <:stevegun:682057109478834205>",
                               description=lb_text)
