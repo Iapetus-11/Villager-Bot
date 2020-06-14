@@ -674,7 +674,6 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
-        await self.db.increment_vault_max(ctx.author.id)
         if victim.bot:
             await self.send(ctx, "Bots don't have rights and can't own emeralds, go away.")
             ctx.command.reset_cooldown(ctx)
@@ -693,6 +692,7 @@ class Econ(commands.Cog):
             await self.send(ctx, "You need 64 emeralds in order to pillage others!")
             ctx.command.reset_cooldown(ctx)
             return
+        await self.db.increment_vault_max(ctx.author.id)
         victim_bal = await self.db.get_balance(victim.id)
         if victim_bal < 64:
             await self.send(ctx, "It's not worth it, they don't even have 64 emeralds yet.")
@@ -718,7 +718,7 @@ class Econ(commands.Cog):
         if heist_success:
             s_amount = ceil(victim_bal * (randint(10, 40) / 100))
             await self.db.set_balance(victim.id, victim_bal - s_amount)
-            await self.db.set_balance(ctx.author.id, their_bal + s_amount)
+            await self.db.set_balance(ctx.author.id, their_bal + ceil(s_amount * .92))
             await self.send(ctx, (choice([f"You escaped with {s_amount} {self.emerald}",
                                           f"You got away with {s_amount} {self.emerald}"])))
             try:
