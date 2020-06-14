@@ -870,7 +870,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=embed)
 
     @leaderboard.command(name="murders", aliases=["kil", "mobkills", "kills", "mkil", "mkils"])
-    async def pillager_leaderboard(self, ctx):
+    async def murderer_leaderboard(self, ctx):
         murderers = await self.db.get_killboard()
         _sorted = sorted(murderers, reverse=True, key=lambda entry: entry[1])  # Sort by second value in the thingy
         try:
