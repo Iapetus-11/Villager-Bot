@@ -161,7 +161,7 @@ class MobSpawning(commands.Cog):
                     "fite", "kil", "atak",
                     "atack",
                     "yes", "yes fight",
-                    "yes attack"
+                    "yes attack", "flee", "run away", "run"
                 ]
 
             m = await self.bot.wait_for("message", check=check, timeout=30)
