@@ -752,6 +752,7 @@ class Econ(commands.Cog):
             embed.add_field(name="**Commands Usage**", value=f"``{ctx.prefix}leaderboard commands``", inline=False)
             embed.add_field(name="**Jars Of Bees**", value=f"``{ctx.prefix}leaderboard bees``", inline=False)
             embed.add_field(name="**Emeralds Pillaged**", value=f"``{ctx.prefix}leaderboard pillages``", inline=False)
+            embed.add_field(name="**Mobs Killed**", value=f"``{ctx.prefix}leaderboard mobkills``", inline=False)
             await ctx.send(embed=embed)
 
     @leaderboard.command(name="emeralds", aliases=["money", "em", "ems"])
