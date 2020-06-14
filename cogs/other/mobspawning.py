@@ -277,6 +277,7 @@ class MobSpawning(commands.Cog):
         await f_msg.edit(embed=new_emb)
 
         if h_user > 0:  # PLAYER WIN
+            await self.db.update_killboard(u.id)
             u_bal = await self.db.get_balance(u.id)
             if diff == "easy":
                 emeralds_gained = floor(u_bal * (1 / choice([3, 2.25, 3.5, 3.75, 4]))) if u_bal < 512 else floor(

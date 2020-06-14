@@ -223,15 +223,15 @@ class Database(commands.Cog):
     async def get_killboard(self):
         return await self.db.fetch("SELECT * FROM killboard")
 
-    async def update_killboard(self, uid, amount_to_add):
+    async def update_killboard(self, uid):
         prev = await self.db.fetchrow("SELECT * FROM killboard WHERE id=$1", uid)
         async with self.db.acquire() as con:
             if prev is not None:
-                await con.execute("UPDATE killboard SET amount=$1 WHERE id=$2", amount_to_add + prev[1], uid)
+                await con.execute("UPDATE killboard SET amount=$1 WHERE id=$2", 1 + prev[1], uid)
             else:
-                await con.execute("INSERT INTO killboard VALUES ($1, $2)", uid, amount_to_add)
+                await con.execute("INSERT INTO killboard VALUES ($1, $2)", uid, 1)
 
-    async def get_mob_murderer(self, uid):
+    async def get_murderer(self, uid):
         stuf = await self.db.fetchrow("SELECT * FROM killboard WHERE id=$1", uid)
         if stuf is not None:
             return stuf

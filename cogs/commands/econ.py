@@ -868,6 +868,32 @@ class Econ(commands.Cog):
                               description=lb_text)
         await ctx.send(embed=embed)
 
+    @leaderboard.command(name="murders", aliases=["kil", "mobkills", "kills", "mkil", "mkils"])
+    async def pillager_leaderboard(self, ctx):
+        murderers = await self.db.get_killboard()
+        _sorted = sorted(murderers, reverse=True, key=lambda entry: entry[1])  # Sort by second value in the thingy
+        try:
+            place = _sorted.index(await self.db.get_murderer(ctx.author.id)) + 1
+        except ValueError:
+            place = len(_sorted) + 1
+        _sorted = _sorted[:10]
+        if place >= 10:
+            _sorted = _sorted[:9]
+        lb_text = ""
+        rank = 1
+        for entry in _sorted:
+            ussr = self.bot.get_user(int(entry[0]))
+            if ussr is None:
+                ussr = "Unknown User     "
+            lb_text += f"``{rank}.`` **{entry[1]} Kills** <:stevegun:682057109478834205> {str(ussr)[:-5]} \n"
+            rank += 1
+        if place >= 10:
+            lb_text += "⋮\n" + f"``{place}.`` **{(await self.db.get_pillager(ctx.author.id))[1]} Kills** <:stevegun:682057109478834205> {str(ctx.author)[:-5]}"
+        embed = discord.Embed(color=discord.Color.green(),
+                              title=f"<:stevegun:682057109478834205> __**Mob Kills Leaderboard**__ <:stevegun:682057109478834205>",
+                              description=lb_text)
+        await ctx.send(embed=embed)
+
     @commands.command(name="chug", aliases=["drink"])
     async def use_potion(self, ctx, *, item: str):
         await self.db.increment_vault_max(ctx.author.id)
