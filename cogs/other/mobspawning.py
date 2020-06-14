@@ -152,7 +152,7 @@ class MobSpawning(commands.Cog):
         f_msg = await ctx.send(embed=f_embed)
         try:
 
-            def check(m):
+            def onetime_check(m):
                 return m.channel == ctx.channel and not m.author.bot and m.author.id not in self.g.pause_econ and m.content.lower() in [
                     "attack", "fight",
                     "punch",
@@ -161,10 +161,10 @@ class MobSpawning(commands.Cog):
                     "fite", "kil", "atak",
                     "atack",
                     "yes", "yes fight",
-                    "yes attack", "flee", "run away", "run"
+                    "yes attack"
                 ]
 
-            m = await self.bot.wait_for("message", check=check, timeout=30)
+            m = await self.bot.wait_for("message", check=onetime_check, timeout=30)
         except asyncio.TimeoutError:
             await self.send(ctx, "You ran out of time! The mob despawned.")
             await f_msg.edit(suppress=True)
@@ -194,7 +194,8 @@ class MobSpawning(commands.Cog):
                                                                                                     "fite", "kil",
                                                                                                     "atak", "atack",
                                                                                                     "yes", "yes fight",
-                                                                                                    "yes attack"]
+                                                                                                    "yes attack", "run",
+                                                                                                    "flee", "run away"]
 
         iter = 0
         while h_user > 0 and mob[1] > 0:
