@@ -185,17 +185,19 @@ class MobSpawning(commands.Cog):
         hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
 
         def check(m):
-            return m.author.id == u.id and m.channel.id == ctx.channel.id and m.content.lower() in ["attack", "fight",
-                                                                                                    "punch",
-                                                                                                    "atk", "atacc",
-                                                                                                    "attacc", "kill",
-                                                                                                    "fite", "kil",
-                                                                                                    "atak", "atack",
-                                                                                                    "yes", "yes fight",
-                                                                                                    "yes attack",
-                                                                                                    "flee", "run away",
-                                                                                                    "toddler time",
-                                                                                                    "go away", "run"]
+            return m.author.id == u.id and m.channel.id == ctx.channel.id and m.author.id not in self.g.pause_econ and m.content.lower() in [
+                "attack", "fight",
+                "punch",
+                "atk", "atacc",
+                "attacc", "kill",
+                "fite", "kil",
+                "atak", "atack",
+                "yes", "yes fight",
+                "yes attack",
+                "flee", "run away",
+                "toddler time",
+                "go away", "run"
+            ]
 
         iter = 0
         while h_user > 0 and mob[1] > 0:
