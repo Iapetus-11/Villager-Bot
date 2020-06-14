@@ -11,9 +11,7 @@ class Global(commands.Cog):
         # Stats command stuffs
         self.msg_count = 0
         self.cmd_count = 0
-        self.cmd_vect = [0, 0]
         self.vote_count = 0
-        self.vote_vect = [0, 0]
 
         self.startTime = arrow.utcnow()
 
