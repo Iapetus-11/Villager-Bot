@@ -193,8 +193,7 @@ class MobSpawning(commands.Cog):
                                                                                                     "attacc", "kill",
                                                                                                     "fite", "kil",
                                                                                                     "atak", "atack",
-                                                                                                    "yes", "yes fight",
-                                                                                                    "yes attack", "run",
+                                                                                                    "run",
                                                                                                     "flee", "run away"]
 
         iter = 0
