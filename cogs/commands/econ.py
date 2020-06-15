@@ -443,7 +443,13 @@ class Econ(commands.Cog):
     async def sell_item(self, ctx, *, item: str):
         amount = item.split(" ")[0]
         item = item.replace(f"{amount} ", "")
+
         _item = await self.db.get_item(ctx.author.id, item)
+
+        if _item is None:
+            await self.send(ctx, "Either you don't have that item, or that item cannot be sold.")
+            return
+
         if amount == "all" or amount == "max":
             amount = _item[1]
         else:
@@ -451,10 +457,6 @@ class Econ(commands.Cog):
                 amount = int(amount)
             except ValueError:
                 amount = 1
-
-        if _item is None:
-            await self.send(ctx, "Either you don't have that item, or that item cannot be sold.")
-            return
 
         if amount < 1:
             await self.send(ctx, "You cannot sell 0 or a negative amount of an item!")
