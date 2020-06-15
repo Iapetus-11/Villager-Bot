@@ -305,9 +305,12 @@ class MobSpawning(commands.Cog):
             else:  # diff hard
                 emeralds_lost = floor(u_bal * (1 / (choice([1.45, 1.55, 1.65, 1.75])+.3))) if u_bal > 10 else randint(5, 9)
 
-            emeralds_lost = emeralds_lost if emeralds_lost >= 0 else 0
+            new_bal = u_bal - emeralds_lost
+            if new_bal < 0:
+                new_bal = 0
+                emeralds_lost = u_bal
 
-            await self.db.set_balance(u.id, u_bal - emeralds_lost)
+            await self.db.set_balance(u.id, new_bal)
 
             await ctx.send(
                 embed=discord.Embed(color=discord.Color.green(), description=choice(self.mob_finishers[mob_key])))
