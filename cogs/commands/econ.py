@@ -623,7 +623,7 @@ class Econ(commands.Cog):
                 if self.items_in_use[ctx.author.id] == "Haste II Potion":
                     e.retry_after -= .9
 
-            if e.retry_after <= 0.04:
+            if e.retry_after <= 0.06:
                 await ctx.reinvoke()
             else:
                 descs = [
