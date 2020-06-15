@@ -45,10 +45,6 @@ class Errors(commands.Cog):
                             "Uh Oh! It looks like our search command is having a problem, sorry. Please try again later!")
             return
 
-        if isinstance(e, commands.errors.ExpectedClosingQuoteError):
-            await self.send(ctx, "Looks like you typed something wrong.")
-            return
-
         # Commands to ignore
         for _type in [commands.CommandNotFound, commands.NotOwner, commands.CheckFailure, discord.errors.Forbidden]:
             if isinstance(e, _type):
@@ -91,7 +87,7 @@ class Errors(commands.Cog):
             await self.send(ctx, "HRMMM, looks like you're forgetting to put something in!")
             return
 
-        if isinstance(e, commands.BadArgument):
+        if isinstance(e, commands.BadArgument) or isinstance(e, commands.errors.ExpectedClosingQuoteError):
             await self.send(ctx, "Looks like you typed something wrong, try typing it correctly the first time, idiot.")
             return
 
