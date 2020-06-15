@@ -28,7 +28,7 @@ class Errors(commands.Cog):
             return
 
         if isinstance(e, commands.MissingPermissions):
-            await self.send(ctx, "Nice try stupid, but you don't have the permissions to do that.")
+            await self.send(ctx, choice(["Nice try stupid, but you don't have the permissions to do that.", "Oops, looks like you don't have the permissions to do that, dum dum."]))
             return
 
         if isinstance(e, commands.CheckAnyFailure):
