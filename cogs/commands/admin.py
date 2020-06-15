@@ -30,7 +30,7 @@ class AdminCmds(commands.Cog):
     @commands.command(name="ban")
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
-    async def ban_user(self, ctx, user: discord.User, *, reason="No reason provided."):
+    async def ban_user(self, ctx, user: discord.Member, *, reason="No reason provided."):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot ban yourself."))
             return
@@ -54,7 +54,7 @@ class AdminCmds(commands.Cog):
     @commands.command(name="pardon")
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
-    async def pardon_user(self, ctx, user: discord.User, *, reason="No reason provided."):
+    async def pardon_user(self, ctx, user: discord.Member, *, reason="No reason provided."):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot unban yourself."))
             return
@@ -75,7 +75,7 @@ class AdminCmds(commands.Cog):
     @commands.command(name="kick")
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
-    async def kick_user(self, ctx, user: discord.User, *, reason="No reason provided."):
+    async def kick_user(self, ctx, user: discord.Member, *, reason="No reason provided."):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot kick yourself."))
             return
@@ -91,7 +91,7 @@ class AdminCmds(commands.Cog):
     @commands.command(name="warn", aliases=["warnuser"])
     @commands.guild_only()
     @commands.check_any(commands.has_permissions(administrator=True), commands.has_permissions(kick_members=True), commands.has_permissions(ban_members=True))
-    async def warn(self, ctx, user: discord.User, *, reason="No reason provided"):
+    async def warn(self, ctx, user: discord.Member, *, reason="No reason provided"):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot warn yourself."))
             return
@@ -105,7 +105,7 @@ class AdminCmds(commands.Cog):
     @commands.command(name="warns", aliases=["getwarns", "getuserwarns", "warnings"])
     @commands.guild_only()
     @commands.check_any(commands.has_permissions(administrator=True), commands.has_permissions(kick_members=True), commands.has_permissions(ban_members=True))
-    async def get_user_warns(self, ctx, user: discord.User):
+    async def get_user_warns(self, ctx, user: discord.Member):
         user_warns = await self.db.get_warns(user.id, ctx.guild.id)
         embed = discord.Embed(color=discord.Color.green(), title=f"**{user}**'s Warnings ({len(user_warns)} total):")
         if len(user_warns) == 0:
@@ -118,7 +118,7 @@ class AdminCmds(commands.Cog):
     @commands.command(name="clearwarns", aliases=["deletewarns", "removewarns"])
     @commands.guild_only()
     @commands.check_any(commands.has_permissions(administrator=True), commands.has_permissions(kick_members=True), commands.has_permissions(ban_members=True))
-    async def clear_user_warns(self, ctx, user: discord.User):
+    async def clear_user_warns(self, ctx, user: discord.Member):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't clear your own warnings!"))
         if ctx.author.top_role.id == user.top_role.id:
