@@ -301,9 +301,9 @@ class MobSpawning(commands.Cog):
             u_bal = await self.db.get_balance(u.id)
 
             if diff == "easy":
-                emeralds_lost = floor(u_bal * (1 / choice([3.05, 3.3, 3.55, 3.8]))) if u_bal > 10 else randint(2, 4)
+                emeralds_lost = floor(u_bal * (1 / (choice([3.05, 3.3, 3.55, 3.8])+.3))) if u_bal > 10 else randint(2, 4)
             else:  # diff hard
-                emeralds_lost = floor(u_bal * (1 / choice([1.45, 1.55, 1.65, 1.75]))) if u_bal > 10 else randint(5, 9)
+                emeralds_lost = floor(u_bal * (1 / (choice([1.45, 1.55, 1.65, 1.75])+.3))) if u_bal > 10 else randint(5, 9)
 
             emeralds_lost = emeralds_lost if emeralds_lost >= 0 else 0
 

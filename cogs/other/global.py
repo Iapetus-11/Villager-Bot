@@ -53,7 +53,7 @@ class Global(commands.Cog):
         self.triggering_cmds = ["mine", "withdraw", "deposit", "shop", "give_stuff", "sell_item", "give_item", "gamble",
                                 "pillage", "use_potion", "harvest_honey"]
 
-        self.spawn_chance = 30
+        self.spawn_chance = 25
 
         self.pause_econ = []  # uid... uid
 
