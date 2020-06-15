@@ -1,7 +1,7 @@
-from discord.ext import commands
-import discord
 import arrow
+import discord
 import json
+from discord.ext import commands
 
 
 class Global(commands.Cog):
@@ -11,9 +11,7 @@ class Global(commands.Cog):
         # Stats command stuffs
         self.msg_count = 0
         self.cmd_count = 0
-        self.cmd_vect = [0, 0]
         self.vote_count = 0
-        self.vote_vect = [0, 0]
 
         self.startTime = arrow.utcnow()
 
@@ -51,6 +49,13 @@ class Global(commands.Cog):
         self.command_leaderboard = {}
 
         self.honey_buckets = None
+
+        self.triggering_cmds = ["mine", "withdraw", "deposit", "shop", "give_stuff", "sell_item", "give_item", "gamble",
+                                "pillage", "use_potion", "harvest_honey"]
+
+        self.spawn_chance = 40
+
+        self.pause_econ = []  # uid... uid
 
 
 def setup(bot):

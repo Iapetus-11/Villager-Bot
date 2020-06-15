@@ -25,6 +25,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 ## Commands
 
 ### Economy Commands
+* __!!profile__ *\[optional: user\]* (see the specified user's profile)
 * __!!mine__ (go mining with the bot for emeralds)
 * __!!honey__ (who knew bees could produce honey)
 * __!!balance__ (check the amount of emeralds in your inventory)
@@ -74,6 +75,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!image__ *query* (bot searches for you on google images)
 * __!!stats__ (shows certain bot statistics)
 * __!!math__ *math* (does math for you)
+* __!!serverinfo__ (shows information about the current server)
 
 ### Admin Only Commands
 * __!!purge__ *number* (deletes the specified number of messages in the channel it was summoned)

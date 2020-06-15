@@ -1,5 +1,5 @@
-import discord
 import asyncio
+import discord
 from discord.ext import commands
 from random import choice, randint
 
@@ -138,7 +138,11 @@ class Fun(commands.Cog):
 
     @commands.command(name="clap")
     async def clap(self, ctx, *, msg):
-        await ctx.send(":clap: "+" :clap: ".join(discord.utils.escape_mentions(msg).split(" "))+" :clap:")
+        clapped = ":clap: " + " :clap: ".join(discord.utils.escape_mentions(msg).split(" ")) + " :clap:"
+        if len(clapped) > 2000:
+            await ctx.send("That message would be too long, sorry bud.")
+            return
+        await ctx.send(clapped)
 
 
 def setup(bot):

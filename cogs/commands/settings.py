@@ -1,5 +1,5 @@
-from discord.ext import commands
 import discord
+from discord.ext import commands
 
 
 class Settings(commands.Cog):
@@ -76,10 +76,13 @@ class Settings(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid option! Only ``on`` and ``off`` are valid options."))
 
     @config.command(name="difficulty", aliases=["diff"])
+    @commands.cooldown(1, 75, commands.BucketType.user)
     async def set_difficulty(self, ctx, difficulty=None):
         db_diff = await self.db.get_difficulty(ctx.guild.id)
         if difficulty is None:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"The difficulty is currently set to **{db_diff}**."))
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                               description=f"The difficulty is currently set to **{db_diff}**."))
+            ctx.command.reset_cooldown(ctx)
             return
         difficulty = difficulty.lower()
         if difficulty in ["peaceful", "easy", "hard"]:

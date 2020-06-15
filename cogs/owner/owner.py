@@ -1,12 +1,12 @@
-from discord.ext import commands
-import discord
-from random import choice
-import json
-from os import system
 import arrow
 import asyncio
-from time import sleep
+import discord
+import json
 import resource
+from discord.ext import commands
+from os import system
+from random import choice
+from time import sleep
 
 
 class Owner(commands.Cog):
@@ -407,6 +407,11 @@ class Owner(commands.Cog):
                 count += 1
         await ctx.send(f"Done! ({count})")
 
+    @commands.command(name="whoyadaddy",
+                      aliases=["whoisowner", "iamowner", "whosyadaddy", "whosyadad", "yadad", "whoyadad", "whoyamaker"])
+    @commands.is_owner()
+    async def daddy(self, ctx):
+        await ctx.send("Iapetus11 is 0_0")
 
 def setup(bot):
     bot.add_cog(Owner(bot))

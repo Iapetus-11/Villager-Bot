@@ -1,8 +1,8 @@
-from discord.ext import commands
-import discord
 import asyncio
-from random import choice, randint
+import discord
+from discord.ext import commands
 from math import floor, ceil
+from random import choice, randint
 
 
 class Econ(commands.Cog):
@@ -60,6 +60,39 @@ class Econ(commands.Cog):
             await self.send(ctx, "Remember, bots don't have any rights, and as a result can't possess currency.")
             return
         await self.send(ctx, f"{user.mention} has {await self.db.get_balance(user.id)}{self.emerald}")
+
+    @commands.command(name="profile", aliases=["pp", "userprofile"])
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    async def profile(self, ctx, u: discord.User = None):
+        if u is None:
+            u = ctx.author
+
+        if u.bot:
+            await self.send(ctx, "Remember, bot's don't have profiles as they're dumb! (Except Villager Bot ofc)")
+            return
+
+        pp = discord.Embed(color=discord.Color.green())
+
+        pp.set_author(name=f"{u.display_name}'s Profile", icon_url=str(u.avatar_url_as(static_format="png")))
+
+        hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
+        pp.add_field(name="Health",
+                     value=await self.db.calc_stat_bar(ceil(await self.db.get_health(u.id) / 2), 10, 10, hh[0], hh[1]),
+                     inline=False)
+
+        user_items = await self.db.get_items(u.id)
+
+        pp.add_field(name="Total Wealth",
+                     value=f"{await self.db.get_balance(u.id) + (await self.db.get_vault(u.id))[0] + sum([item[1] * item[2] for item in user_items])}{self.emerald}",
+                     inline=True)
+        pp.add_field(name="\uFEFF", value="\uFEFF", inline=True)
+        pp.add_field(name="CMDS Sent", value=self.g.command_leaderboard.get(u.id), inline=True)
+
+        pp.add_field(name="Pickaxe", value=await self.db.get_pickaxe(u.id) + " pickaxe", inline=True)
+        pp.add_field(name="\uFEFF", value="\uFEFF", inline=True)
+        pp.add_field(name="Sword", value=await self.bot.get_cog("MobSpawning").get_sword(u.id), inline=True)
+
+        await ctx.send(embed=pp)
 
     @commands.command(name="deposit", aliases=["dep"])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
@@ -135,30 +168,43 @@ class Econ(commands.Cog):
             shop.set_author(name="Villager Shop", url=discord.Embed.Empty,
                             icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
             shop.set_footer(text=f"{ctx.prefix}inventory to see what you have!")
-            shop.add_field(name="__**Pickaxes**__", value=f"``{ctx.prefix}shop pickaxes``")
+            shop.add_field(name="__**Tools**__", value=f"``{ctx.prefix}shop tools``")
             shop.add_field(name="__**Magic Items**__", value=f"``{ctx.prefix}shop magic``")
             shop.add_field(name="__**Other**__", value=f"``{ctx.prefix}shop other``")
             await ctx.send(embed=shop)
 
-    @shop.command(name="pickaxes")
-    async def shop_pickaxes(self, ctx):
+    @shop.command(name="tools")
+    async def shop_tools(self, ctx):
         shop = discord.Embed(color=discord.Color.green())
-        shop.set_author(name="Villager Shop [Pickaxes]", url=discord.Embed.Empty,
+        shop.set_author(name="Villager Shop [Tools]", url=discord.Embed.Empty,
                         icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
-        shop.set_footer(text=f"{ctx.prefix}inventory to see what you have!")
         shop.add_field(name=f"__**Stone Pickaxe**__ 32{self.emerald}", value=f"``{ctx.prefix}buy stone pickaxe``",
                        inline=True)
+        shop.add_field(name="\uFEFF", value="\uFEFF")
         shop.add_field(name=f"__**Iron Pickaxe**__ 128{self.emerald}", value=f"``{ctx.prefix}buy iron pickaxe``",
                        inline=True)
-        shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         shop.add_field(name=f"__**Gold Pickaxe**__ 512{self.emerald}", value=f"``{ctx.prefix}buy gold pickaxe``",
                        inline=True)
+        shop.add_field(name="\uFEFF", value="\uFEFF")
         shop.add_field(name=f"__**Diamond Pickaxe**__ 2048{self.emerald}", value=f"``{ctx.prefix}buy diamond pickaxe``",
                        inline=True)
-        shop.add_field(name="\uFEFF", value="\uFEFF", inline=True)
         shop.add_field(name=f"__**Netherite Pickaxe**__ 8192{self.emerald} 4<:netherite_scrap:676974675091521539>",
-                       value=f"``{ctx.prefix}buy netherite pickaxe``", inline=True)
-        shop.set_footer(text=f"Pickaxes allow you to obtain more emeralds while using the {ctx.prefix}mine command!")
+                       value=f"``{ctx.prefix}buy netherite pickaxe``", inline=False)
+        shop.add_field(name="\uFEFF", value="\uFEFF", inline=False)
+        shop.add_field(name=f"__**Stone Sword**__ 32{self.emerald}", value=f"``{ctx.prefix}buy stone sword``",
+                       inline=True)
+        shop.add_field(name="\uFEFF", value="\uFEFF")
+        shop.add_field(name=f"__**Iron Sword**__ 128{self.emerald}", value=f"``{ctx.prefix}buy iron sword``",
+                       inline=True)
+        shop.add_field(name=f"__**Gold Sword**__ 512{self.emerald}", value=f"``{ctx.prefix}buy gold sword``",
+                       inline=True)
+        shop.add_field(name="\uFEFF", value="\uFEFF")
+        shop.add_field(name=f"__**Diamond Sword**__ 2048{self.emerald}", value=f"``{ctx.prefix}buy diamond sword``",
+                       inline=True)
+        shop.add_field(name=f"__**Netherite Sword**__ 8192{self.emerald} 6<:netherite_scrap:676974675091521539>",
+                       value=f"``{ctx.prefix}buy netherite sword``", inline=False)
+        shop.set_footer(text=f"Pickaxes allow you to obtain more emeralds while using the {ctx.prefix}mine command!\n"
+                             f"Swords allow you to kill mobs faster and with more ease!")
         await ctx.send(embed=shop)
 
     @shop.command(name="magic")
@@ -172,6 +218,8 @@ class Econ(commands.Cog):
                        inline=True)
         shop.add_field(name=f"__**Vault Potion**__ 81{self.emerald}", value=f"``{ctx.prefix}buy vault potion``",
                        inline=True)
+        shop.add_field(name=f"__**Sharpness I Book**__ 120{self.emerald}",
+                       value=f"``{ctx.prefix}buy sharpness i book``", inline=True)
         await ctx.send(embed=shop)
 
     @shop.command(name="other")
@@ -267,11 +315,13 @@ class Econ(commands.Cog):
 
         their_bal = await self.db.get_balance(ctx.author.id)
 
-        pickaxes = {"stone pickaxe": [32, "stone"],
-                    "iron pickaxe": [128, "iron"],
-                    "gold pickaxe": [512, "gold"],
-                    "diamond pickaxe": [2048, "diamond"],
-                    "netherite pickaxe": [8192, "netherite"]}
+        pickaxes = {
+            "stone pickaxe": [32, "stone"],
+            "iron pickaxe": [128, "iron"],
+            "gold pickaxe": [512, "gold"],
+            "diamond pickaxe": [2048, "diamond"],
+            "netherite pickaxe": [8192, "netherite"]
+        }
 
         # Items which aren't in shop_items.json
         if pickaxes.get(item) is not None:
@@ -300,7 +350,10 @@ class Econ(commands.Cog):
             return
 
         shop_item = self.g.shop_items.get(item)
+
         if shop_item is not None:
+            if shop_item[1] == "db_item_count < 1":
+                amount = 1
             their_bal = await self.db.get_balance(ctx.author.id)
             if shop_item[0] * amount <= their_bal:
                 db_item = await self.db.get_item(ctx.author.id, shop_item[2][0])
@@ -309,6 +362,14 @@ class Econ(commands.Cog):
                 else:
                     db_item_count = 0
                 if eval(shop_item[1]):
+                    if item == "netherite sword":
+                        scrap = await self.db.get_item(ctx.author.id, "Netherite Scrap")
+                        if scrap is not None and scrap[1] >= 6:
+                            await self.db.remove_item(ctx.author.id, "Netherite Scrap", 6)
+                        else:
+                            await self.send(ctx,
+                                            "You don't have enough Netherite Scrap! (It can be bought in the Villager Shop)")
+                            return
                     await self.db.set_balance(ctx.author.id, their_bal - shop_item[0] * amount)
                     await self.db.add_item(ctx.author.id, shop_item[2][0], amount, shop_item[2][1])
                     await self.send(ctx,
@@ -404,6 +465,9 @@ class Econ(commands.Cog):
     @commands.command(name="give")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def give_stuff(self, ctx, rec: discord.User, amount: int, item=None):
+        if rec.id in self.g.pause_econ:
+            await self.send(ctx, "You can't give that person anything right now!")
+            return
         if rec.bot:
             await self.send(ctx, "Remember, bots don't have any rights, and as a result can't own items.")
             return
@@ -502,7 +566,8 @@ class Econ(commands.Cog):
             choices = [1, 1]
             top = 0
             for item in items:
-                if item[0] == "Bane Of Pillagers Amulet":  # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
+                if item[
+                    0] == "Bane Of Pillagers Amulet":  # Amulet should also protecc against pillagers cause yknow bane of pillagers etc...
                     choices = [2, 3, 4, 5, 6]
                     top = 15
                 elif item[0] == "Fortune III Book":
@@ -546,16 +611,15 @@ class Econ(commands.Cog):
     async def handle_mine_errors(self, ctx,
                                  e):  # all errors handler is called after this one, you can set ctx.handled to a boolean
         if isinstance(e, commands.CommandOnCooldown):
-            cooldown = e.retry_after
             if await self.db.get_item(ctx.author.id, "Efficiency I Book") is not None:
-                cooldown -= .4
+                e.retry_after -= .4
             if ctx.author.id in list(self.items_in_use):
                 if self.items_in_use[ctx.author.id] == "Haste I Potion":
-                    cooldown -= .6
+                    e.retry_after -= .6
                 if self.items_in_use[ctx.author.id] == "Haste II Potion":
-                    cooldown -= .9
+                    e.retry_after -= .9
 
-            if cooldown <= 0:
+            if e.retry_after <= 0.04:
                 await ctx.reinvoke()
             else:
                 descs = [
@@ -563,7 +627,7 @@ class Econ(commands.Cog):
                     "Hey, you need to wait another {0} seconds before doing that again.",
                     "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
                     "Don't you know [patience was a virtue](http://www.patience-is-a-virtue.org/)? Wait another {0} seconds."]
-                await self.send(ctx, (choice(descs).format(round(cooldown, 2))))
+                await self.send(ctx, (choice(descs).format(round(e.retry_after, 2))))
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
     @commands.cooldown(1, 7, commands.BucketType.user)
@@ -610,7 +674,6 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
-        await self.db.increment_vault_max(ctx.author.id)
         if victim.bot:
             await self.send(ctx, "Bots don't have rights and can't own emeralds, go away.")
             ctx.command.reset_cooldown(ctx)
@@ -629,6 +692,7 @@ class Econ(commands.Cog):
             await self.send(ctx, "You need 64 emeralds in order to pillage others!")
             ctx.command.reset_cooldown(ctx)
             return
+        await self.db.increment_vault_max(ctx.author.id)
         victim_bal = await self.db.get_balance(victim.id)
         if victim_bal < 64:
             await self.send(ctx, "It's not worth it, they don't even have 64 emeralds yet.")
@@ -654,7 +718,7 @@ class Econ(commands.Cog):
         if heist_success:
             s_amount = ceil(victim_bal * (randint(10, 40) / 100))
             await self.db.set_balance(victim.id, victim_bal - s_amount)
-            await self.db.set_balance(ctx.author.id, their_bal + s_amount)
+            await self.db.set_balance(ctx.author.id, their_bal + ceil(s_amount * .92))
             await self.send(ctx, (choice([f"You escaped with {s_amount} {self.emerald}",
                                           f"You got away with {s_amount} {self.emerald}"])))
             try:
@@ -688,6 +752,7 @@ class Econ(commands.Cog):
             embed.add_field(name="**Commands Usage**", value=f"``{ctx.prefix}leaderboard commands``", inline=False)
             embed.add_field(name="**Jars Of Bees**", value=f"``{ctx.prefix}leaderboard bees``", inline=False)
             embed.add_field(name="**Emeralds Pillaged**", value=f"``{ctx.prefix}leaderboard pillages``", inline=False)
+            embed.add_field(name="**Mobs Killed**", value=f"``{ctx.prefix}leaderboard mobkills``", inline=False)
             await ctx.send(embed=embed)
 
     @leaderboard.command(name="emeralds", aliases=["money", "em", "ems"])
@@ -768,7 +833,7 @@ class Econ(commands.Cog):
         for entry in _sorted:
             ussr = self.bot.get_user(int(entry[0]))
             if ussr is None:
-                ussr = "Unknown User     " # Yes these spaces are here for a reason don't remove them retard
+                ussr = "Unknown User     "  # Yes these spaces are here for a reason don't remove them retard
             lb_text += f"``{rank}.`` **{entry[1]}<:beee:682059180391268352>** {str(ussr)[:-5]} \n"
             rank += 1
         if place >= 10:
@@ -778,7 +843,7 @@ class Econ(commands.Cog):
                               description=lb_text)
         await ctx.send(embed=embed)
 
-    @leaderboard.command(name="pillages", aliases=["pil"])
+    @leaderboard.command(name="pillages", aliases=["pil", "pillagers"])
     async def pillager_leaderboard(self, ctx):
         pillagers = await self.db.get_pillagerboard()
         _sorted = sorted(pillagers, reverse=True, key=lambda entry: entry[1])  # Sort by second value in the thingy
@@ -801,6 +866,32 @@ class Econ(commands.Cog):
             lb_text += "⋮\n" + f"``{place}.`` **{(await self.db.get_pillager(ctx.author.id))[1]}{self.emerald} Stolen** {str(ctx.author)[:-5]}"
         embed = discord.Embed(color=discord.Color.green(),
                               title=f"{self.emerald} __**Emeralds Pillaged Leaderboard**__ {self.emerald}",
+                              description=lb_text)
+        await ctx.send(embed=embed)
+
+    @leaderboard.command(name="murders", aliases=["kil", "mobkills", "kills", "mkil", "mkils", "kils"])
+    async def murderer_leaderboard(self, ctx):
+        murderers = await self.db.get_killboard()
+        _sorted = sorted(murderers, reverse=True, key=lambda entry: entry[1])  # Sort by second value in the thingy
+        try:
+            place = _sorted.index(await self.db.get_murderer(ctx.author.id)) + 1
+        except ValueError:
+            place = len(_sorted) + 1
+        _sorted = _sorted[:10]
+        if place >= 10:
+            _sorted = _sorted[:9]
+        lb_text = ""
+        rank = 1
+        for entry in _sorted:
+            ussr = self.bot.get_user(int(entry[0]))
+            if ussr is None:
+                ussr = "Unknown User     "
+            lb_text += f"``{rank}.`` **{entry[1]} Kills** <:stevegun:682057109478834205> {str(ussr)[:-5]} \n"
+            rank += 1
+        if place >= 10:
+            lb_text += "⋮\n" + f"``{place}.`` **{(await self.db.get_murderer(ctx.author.id))[1]} Kills** <:stevegun:682057109478834205> {str(ctx.author)[:-5]}"
+        embed = discord.Embed(color=discord.Color.green(),
+                              title=f"<:stevegun:682057109478834205> __**Mob Kills Leaderboard**__ <:stevegun:682057109478834205>",
                               description=lb_text)
         await ctx.send(embed=embed)
 

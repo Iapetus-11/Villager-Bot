@@ -1,9 +1,9 @@
-from discord.ext import commands
-import discord
 import asyncpg
+import discord
 import json
-from random import choice, randint
+from discord.ext import commands
 from math import floor
+from random import choice, randint
 
 
 class Database(commands.Cog):
@@ -46,7 +46,7 @@ class Database(commands.Cog):
     async def increment_vault_max(self, uid):
         vault = await self.get_vault(uid)
         if vault[1] < 2000:
-            if choice([True, False, False, False, False, False, False, False]):
+            if choice([True, False, False, False, False, False, False]):
                 await self.set_vault(uid, vault[0], vault[1] + 1)
 
     async def get_balance(self, uid): # Gets emeralds
@@ -146,7 +146,7 @@ class Database(commands.Cog):
     async def get_difficulty(self, gid):
         diff = await self.db.fetchrow("SELECT difficulty FROM difficulty WHERE gid=$1", gid)
         if diff is None:
-            return "peaceful"
+            return "easy"
         return diff[0]
 
     async def set_difficulty(self, gid, diff):
@@ -209,12 +209,30 @@ class Database(commands.Cog):
         prev = await self.db.fetchrow("SELECT * FROM pillagerboard WHERE id=$1", uid)
         async with self.db.acquire() as con:
             if prev is not None:
-                await con.execute("UPDATE pillagerboard SET amount=$1 WHERE id=$2", amount_to_add+prev[1], uid)
+                await con.execute("UPDATE pillagerboard SET amount=$1 WHERE id=$2", amount_to_add + prev[1], uid)
             else:
                 await con.execute("INSERT INTO pillagerboard VALUES ($1, $2)", uid, amount_to_add)
 
     async def get_pillager(self, uid):
         stuf = await self.db.fetchrow("SELECT * FROM pillagerboard WHERE id=$1", uid)
+        if stuf is not None:
+            return stuf
+        else:
+            return [uid, 0]
+
+    async def get_killboard(self):
+        return await self.db.fetch("SELECT * FROM killboard")
+
+    async def update_killboard(self, uid):
+        prev = await self.db.fetchrow("SELECT * FROM killboard WHERE id=$1", uid)
+        async with self.db.acquire() as con:
+            if prev is not None:
+                await con.execute("UPDATE killboard SET amount=$1 WHERE id=$2", 1 + prev[1], uid)
+            else:
+                await con.execute("INSERT INTO killboard VALUES ($1, $2)", uid, 1)
+
+    async def get_murderer(self, uid):
+        stuf = await self.db.fetchrow("SELECT * FROM killboard WHERE id=$1", uid)
         if stuf is not None:
             return stuf
         else:
@@ -233,9 +251,9 @@ class Database(commands.Cog):
             else:
                 await con.execute("UPDATE health SET health=$1 WHERE id=$2", health, uid)
 
-    async def calc_stat_bar(self, value, max, slots, full, empty): # Slots should be 10 cause 10 hearts / 2 idk bro
-        occupado = floor((value/max)*slots)
-        return (full*occupado) + empty*floor(slots-occupado)
+    async def calc_stat_bar(self, value, max, slots, full, empty):  # Slots should be 10 cause 10 hearts / 2 idk bro
+        occupado = floor((value / max) * slots)
+        return (full * occupado) + empty * floor(slots - occupado)
 
 
 def setup(bot):

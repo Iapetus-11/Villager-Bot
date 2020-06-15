@@ -1,8 +1,8 @@
-from discord.ext import commands
-import discord
-from random import choice
-import traceback
 import async_cse
+import discord
+import traceback
+from discord.ext import commands
+from random import choice
 
 
 class Errors(commands.Cog):
@@ -51,11 +51,11 @@ class Errors(commands.Cog):
                 return
 
         if isinstance(e, commands.MaxConcurrencyReached):
-            await self.send(ctx, "You're using that command way too fast...")
+            await self.send(ctx, "Hold on! You're using that command way too fast...")
             return
 
         if isinstance(e, commands.CommandOnCooldown):
-            if not str(ctx.command) in ["mine", "fish"]:
+            if not str(ctx.command) in ["mine"]:
                 seconds = round(e.retry_after, 2)
                 if seconds == 0:
                     await ctx.reinvoke()
@@ -63,8 +63,8 @@ class Errors(commands.Cog):
 
                 hours = int(seconds / 3600)
                 minutes = int(seconds / 60) % 60
-                seconds -= hours*60*60
-                seconds -= minutes*60
+                seconds -= hours * 60 * 60
+                seconds -= minutes * 60
                 seconds = round(seconds, 2)
 
                 time = ""
@@ -95,22 +95,23 @@ class Errors(commands.Cog):
             await self.send(ctx, "I can't do that, you idiot.")
             return
 
-        if not "HTTPException: 503 Service Unavailable (error code: 0)" in str(e):
+        if "HTTPException: 503 Service Unavailable (error code: 0)" not in str(
+                e) and "discord.errors.Forbidden" not in str(e):
             excls = ['OH SNAP', 'OH FU\*\*!', 'OH \*\*\*\*!', 'OH SH-']
             await self.send(ctx, f"{choice(excls)} "
-                                 "You found an actual error, please take a screenshot and report it on our " \
+                                 "You found an actual error, please take a screenshot and report it on our "
                                  "**[support server](https://discord.gg/39DwwUV)**, thank you!")
 
-        error_channel = self.bot.get_channel(642446655022432267)
+            error_channel = self.bot.get_channel(642446655022432267)
 
-        # Thanks TrustedMercury!
-        etype = type(e)
-        trace = e.__traceback__
-        verbosity = 1
-        lines = traceback.format_exception(etype, e, trace, verbosity)
-        traceback_text = ''.join(lines)
+            # Thanks TrustedMercury!
+            etype = type(e)
+            trace = e.__traceback__
+            verbosity = 1
+            lines = traceback.format_exception(etype, e, trace, verbosity)
+            traceback_text = ''.join(lines)
 
-        await self.send(error_channel, f"```{ctx.author}: {ctx.message.content}\n\n{traceback_text}```")
+            await self.send(error_channel, f"```{ctx.author}: {ctx.message.content}\n\n{traceback_text}```")
 
 
 def setup(bot):

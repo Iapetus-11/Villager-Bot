@@ -1,11 +1,11 @@
-from discord.ext import commands
+import asyncio
+import asyncpg
 import discord
 import json
-import asyncpg
-import asyncio
 import logging
-from random import randint, choice
+from discord.ext import commands
 from math import floor
+from random import randint, choice
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
@@ -32,7 +32,8 @@ async def get_prefix(bot, ctx):
     return prefix[0]
 
 
-bot = commands.AutoShardedBot(shard_count=9, command_prefix=get_prefix, help_command=None, case_insensitive=True, max_messages=1024)
+bot = commands.AutoShardedBot(shard_count=9, command_prefix=get_prefix, help_command=None, case_insensitive=True,
+                              max_messages=1024)
 
 
 async def setup_db():
@@ -43,23 +44,25 @@ async def setup_db():
 asyncio.get_event_loop().run_until_complete(setup_db())
 
 # data.global needs to be loaded FIRST, then database and owner as they and most other things are dependant upon global.py and database.py
-bot.cog_list = ["cogs.other.global",
-                "cogs.database.database",
-                "cogs.owner.owner",
-                "cogs.other.errors",
-                "cogs.other.msgs",
-                "cogs.other.events",
-                "cogs.other.loops",
-                "cogs.commands.fun",
-                "cogs.commands.useful",
-                "cogs.commands.mc",
-                "cogs.commands.econ",
-                "cogs.commands.admin",
-                "cogs.commands.settings"]
+bot.cog_list = [
+    "cogs.other.global",
+    "cogs.database.database",
+    "cogs.owner.owner",
+    "cogs.other.errors",
+    "cogs.other.msgs",
+    "cogs.other.events",
+    "cogs.other.loops",
+    "cogs.other.mobspawning",
+    "cogs.commands.fun",
+    "cogs.commands.useful",
+    "cogs.commands.mc",
+    "cogs.commands.econ",
+    "cogs.commands.admin",
+    "cogs.commands.settings",
+]
 
 # Load cogs in cogs list
 for cog in bot.cog_list:
-
     bot.load_extension(cog)
 
 
@@ -72,30 +75,30 @@ async def banned(uid):  # Check if user is banned from bot
 
 @bot.check  # Global check (everything goes through this)
 async def stay_safe(ctx):
-
     _global = bot.get_cog("Global")
     _global.cmd_count += 1
 
-    if ctx.author.id in list(_global.command_leaderboard):
-        _global.command_leaderboard[ctx.author.id] += 1
-    else:
-        _global.command_leaderboard[ctx.author.id] = 1
-
-    del _global
+    _global.command_leaderboard[ctx.author.id] = _global.command_leaderboard.get(ctx.author.id, 0) + 1
 
     if not bot.is_ready():
         await ctx.send(
             embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
         return False
 
-    if str(ctx.command) not in ["eval", "awaiteval", "help", "ping", "uptime", "stats", "vote", "invite", "purge"]:
+    if ctx.author.id in _global.pause_econ and ctx.command.cog.qualified_name == "Econ":
+        await ctx.send("You can't use this command right now!")
+        return False
+
+    if str(ctx.command) in _global.triggering_cmds:
         if ctx.guild is not None:
-            if floor(randint(0, 75)*(ctx.guild.member_count/2)) == 2: # Excuse me sir, this is a wendys
-                return # Just for now
-                self.bot.get_cog("MobSpawning").do_event.append(ctx)
-            elif randint(0, 150) == 25:
+            if randint(0, _global.spawn_chance) == 2:  # Excuse me sir, this is a wendys
+                bot.get_cog("MobSpawning").do_event.append(ctx)
+            elif randint(0, 100) == 25:
                 if await bot.get_cog("Database").get_do_tips(ctx.guild.id):
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
+                    await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                                       description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
+
+    del _global
 
     return not ctx.message.author.bot and not await banned(ctx.message.author.id)
 
