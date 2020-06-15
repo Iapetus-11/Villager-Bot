@@ -11,6 +11,7 @@ class Useful(commands.Cog):
         self.bot = bot
 
         self.g = self.bot.get_cog("Global")
+        self.db = self.bot.get_cog("Database")
 
         with open("data/keys.json", "r") as keys:
             self.google = async_cse.Search(json.load(keys)["googl"])
