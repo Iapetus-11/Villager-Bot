@@ -76,7 +76,7 @@ class Settings(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid option! Only ``on`` and ``off`` are valid options."))
 
     @config.command(name="difficulty", aliases=["diff"])
-    @commands.cooldown(1, 75, commands.BucketType.user)
+    @commands.cooldown(1, 30, commands.BucketType.user)
     async def set_difficulty(self, ctx, difficulty=None):
         db_diff = await self.db.get_difficulty(ctx.guild.id)
         if difficulty is None:

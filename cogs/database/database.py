@@ -153,7 +153,7 @@ class Database(commands.Cog):
         db_diff = await self.db.fetchrow("SELECT difficulty FROM difficulty WHERE gid=$1", gid)
         async with self.db.acquire() as con:
             if db_diff is not None:
-                await con.execute("UPDATE config SET difficulty=$1 WHERE gid=$2", diff, gid)
+                await con.execute("UPDATE difficulty SET difficulty=$1 WHERE gid=$2", diff, gid)
             else:
                 await con.execute("INSERT INTO difficulty VALUES ($1, $2)", gid, diff)
 
