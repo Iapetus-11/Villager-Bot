@@ -110,6 +110,8 @@ class AdminCmds(commands.Cog):
     @commands.guild_only()
     @commands.check_any(commands.has_permissions(administrator=True), commands.has_permissions(kick_members=True), commands.has_permissions(ban_members=True))
     async def clear_user_warns(self, ctx, user: discord.User):
+        if ctx.author.id == user.id:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't clear your own warnings!"))
         user_warns = await self.db.get_warns(user.id, ctx.guild.id)
         if len(user_warns) == 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{user}** has no warns."))
