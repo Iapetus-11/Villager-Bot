@@ -382,15 +382,15 @@ class Useful(commands.Cog):
 
     @commands.command(name="serverinfo", aliases=["si", "server", "guild", "guildinfo"])
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def server_info(self, ctx):
-        g = ctx.guild
+    async def server_info(self, ctx, g: discord.Guild = None):
+        g = ctx.guild if g is None else g
 
         embed = discord.Embed(color=discord.Color.green())
 
         embed.set_author(name=g.name, icon_url=g.icon_url_as(format="png"))
 
         embed.add_field(name="Owner", value=self.bot.get_user(g.owner_id).display_name)
-        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="Difficulty", value=await self.db.get_difficulty(g.id))
         embed.add_field(name="Members", value=g.member_count)
 
         embed.add_field(name="Roles", value=len(g.roles))
