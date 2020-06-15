@@ -103,7 +103,8 @@ class Useful(commands.Cog):
                   f'**{ctx.prefix}info** *displays information about the bot*\n'
                   f"**{ctx.prefix}ping** *to see the bot's latency between itself and the Discord API*'\n"
                   f'**{ctx.prefix}uptime** *to check how long the bot has been online*\n'
-                  f'**{ctx.prefix}votelink** *to get the link to vote for and support the bot!*\n'
+                  f'**{ctx.prefix}votelink** *to get the link to vote for and support the bot*\n'
+                  f'**{ctx.prefix}support** *to get the link to the support server*\n'
                   f'**{ctx.prefix}invite** *to get the link to add Villager Bot to your own server!*\n'
                   f'**{ctx.prefix}google** ***query*** *bot will search on google for your query*\n'
                   f'**{ctx.prefix}youtube** ***query*** *bot will search on youtube for your query*\n'
@@ -229,14 +230,21 @@ class Useful(commands.Cog):
     async def vote_link(self, ctx):
         _vote_link = discord.Embed(description="[**Click Here!**](https://top.gg/bot/639498607632056321/vote)",
                                    color=discord.Color.green())
-        _vote_link.set_author(name="Vote for Villager Bot",
+        _vote_link.set_author(name="Vote for Villager Bot!",
                               icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=_vote_link)
 
     @commands.command(name="invite", aliases=["invitelink"])
     async def invite_link(self, ctx):
         inv_l = discord.Embed(description="[**Click Here!**](https://bit.ly/2tQfOhW)", color=discord.Color.green())
-        inv_l.set_author(name="Add Villager Bot to your server",
+        inv_l.set_author(name="Add Villager Bot to your server!",
+                         icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        await ctx.send(embed=inv_l)
+
+    @commands.command(name="discord", aliases=["support"])
+    async def discord_link(self, ctx):
+        inv_l = discord.Embed(description="[**Click Here!**](https://discord.gg/39DwwUV)", color=discord.Color.green())
+        inv_l.set_author(name="Join the support server!",
                          icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=inv_l)
 

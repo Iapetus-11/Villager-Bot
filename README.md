@@ -70,6 +70,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * __!!uptime__ (gets the uptime of the bot)
 * __!!vote__ (gets the link to vote for the bot, if you want to support it)
 * __!!invite__ (gets the invite link if you want to add it to another server)
+* __!!support__ (gives the invite to the official support server)
 * __!!google__ *query* (bot searches for your query on google)
 * __!!youtube__ *query* (bot searches for you on youtube)
 * __!!image__ *query* (bot searches for you on google images)
