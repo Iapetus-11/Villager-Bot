@@ -34,6 +34,9 @@ class AdminCmds(commands.Cog):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot ban yourself."))
             return
+        if ctx.author.top_role.id == user.top_role.id:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have the permissions to do that!"))
+            return
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
                 already_banned_embed = discord.Embed(
@@ -76,6 +79,9 @@ class AdminCmds(commands.Cog):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot kick yourself."))
             return
+        if ctx.author.top_role.id == user.top_role.id:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have the permissions to do that!"))
+            return
         await ctx.guild.kick(user, reason=reason)
         kick_embed = discord.Embed(
             color=discord.Color.green(),
@@ -88,6 +94,9 @@ class AdminCmds(commands.Cog):
     async def warn(self, ctx, user: discord.User, *, reason="No reason provided"):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot warn yourself."))
+            return
+        if ctx.author.top_role.id == user.top_role.id:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have the permissions to do that!"))
             return
         reason = (reason[:125] + "...") if len(reason) > 128 else reason
         await self.db.add_warn(user.id, ctx.author.id, ctx.guild.id, reason)
@@ -112,6 +121,9 @@ class AdminCmds(commands.Cog):
     async def clear_user_warns(self, ctx, user: discord.User):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't clear your own warnings!"))
+        if ctx.author.top_role.id == user.top_role.id:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have the permissions to do that!"))
+            return
         user_warns = await self.db.get_warns(user.id, ctx.guild.id)
         if len(user_warns) == 0:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{user}** has no warns."))
