@@ -441,13 +441,17 @@ class Econ(commands.Cog):
     @commands.command(name="sell")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def sell_item(self, ctx, *, item: str):
-        try:
-            amount = int(item.split(" ")[0])
-            item = item.replace(f"{amount} ", "")
-        except ValueError:
-            amount = 1
-
+        amount = item.split(" ")[0]
+        item = item.replace(f"{amount} ", "")
         _item = await self.db.get_item(ctx.author.id, item)
+        if amount == "all" or amount == "max":
+            amount = _item[1]
+        else:
+            try:
+                amount = int(amount)
+            except ValueError:
+                amount = 1
+
         if _item is None:
             await self.send(ctx, "Either you don't have that item, or that item cannot be sold.")
             return
