@@ -513,10 +513,8 @@ class Econ(commands.Cog):
             await self.send(ctx, "You cannot give more of an item than you own.")
             return
         if _item.lower() == "rich person trophy":
-            await self.db.set_vault(rec.id, 0, 0)
-            await self.db.set_balance(rec.id, 0)
-            await self.db.wipe_items(rec.id)
-            await self.db.set_pickaxe(rec.id, "wood")
+            await self.send(ctx, "You can't trade or give that item!")
+            return
         await self.db.remove_item(ctx.author.id, _item, amount)
         await self.db.add_item(rec.id, item[0], amount, item[2])
         await self.send(ctx, f"{ctx.author.mention} gave {rec.mention} {amount}x {_item}.")
