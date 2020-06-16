@@ -221,7 +221,7 @@ class MobSpawning(commands.Cog):
                                 "Ok fine, be that way, ignore me. (The mob despawned waiting for your puny attack)")
                 self.g.pause_econ.pop(self.g.pause_econ.index(u.id))
                 return
-            if m.content == "flee":  # Oh you fucking toddler
+            if m.content.lower() == "flee":  # Oh you fucking toddler
                 await f_msg.edit(suppress=True)
                 await self.send(ctx,
                                 f"You ran away like {choice(['a little baby', 'a little kid', 'a little baby screaming mommy', 'a whiny little baby', 'the whiny little kid you are'])}.")
