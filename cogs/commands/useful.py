@@ -59,7 +59,7 @@ class Useful(commands.Cog):
 
         help_embed.add_field(
             name="**Economy Commands**",
-            value=f'**{ctx.prefix}profile** ***[optional]@user*** *see the specified user\'s profile*\n'
+            value=f'**{ctx.prefix}profile** ***[optional: @user]*** *see the specified user\'s profile*\n'
                   f'**{ctx.prefix}mine** *go mining with the bot for emeralds*\n'
                   f'**{ctx.prefix}balance** *the bot will tell you how many emeralds you have*\n'
                   f'**{ctx.prefix}vault** *shows you how many emerald blocks you have in the emerald vault*\n'
