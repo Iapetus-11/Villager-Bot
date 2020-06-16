@@ -390,6 +390,7 @@ class Useful(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Oops, something went wrong."))
 
     @commands.command(name="serverinfo", aliases=["si", "server", "guild", "guildinfo"])
+    @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def server_info(self, ctx, g: discord.Guild = None):
         g = ctx.guild if g is None else g
