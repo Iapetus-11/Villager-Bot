@@ -13,7 +13,7 @@ class Msgs(commands.Cog):
     async def on_message(self, message):
         self.g.msg_count += 1
 
-        if message.clean_content.startswith("@" + message.guild.get_member(self.bot.user.id).display_name):
+        if (message.guild is None and message.startswith("@Villager Bot")) or message.clean_content.startswith("@" + message.guild.get_member(self.bot.user.id).display_name):
             if message.guild is not None:
                 prefix = await self.db.get_prefix(message.guild.id)
                 prefix = prefix if prefix is not None else "!!"
