@@ -193,8 +193,7 @@ class MobSpawning(commands.Cog):
                                                                                                     "attacc", "kill",
                                                                                                     "fite", "kil",
                                                                                                     "atak", "atack",
-                                                                                                    "run",
-                                                                                                    "flee", "run away"]
+                                                                                                    "flee"]
 
         iter = 0
         while h_user > 0 and mob[1] > 0:
