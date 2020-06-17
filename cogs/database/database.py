@@ -123,7 +123,7 @@ class Database(commands.Cog):
 
     async def drop_do_replies(self, gid):
         async with self.db.acquire() as con:
-            await con.execute("DELETE FROM config WHERE gid=$1", gid)
+            await con.execute("DELETE FROM doreplies WHERE gid=$1", gid)
 
     async def get_do_tips(self, gid):
         do_tips = await self.db.fetchrow("SELECT dotips FROM dotips WHERE gid=$1", gid)
