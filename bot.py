@@ -10,11 +10,14 @@ from random import randint, choice
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
-tips = ["Did you know you can get emeralds from voting for us on [top.gg](https://top.gg/bot/639498607632056321)?",
-        "If you ever need more help, don't forget to check out the [support server](https://discord.gg/39DwwUV)!",
-        "Have any suggestions? Use the suggestion channel in our [support server](https://discord.gg/39DwwUV)!",
-        "In need of **emeralds**? Check out the #paid-stuff channel on the [support server](https://discord.gg/39DwwUV)!",
-        "Hey! Check out one of our other bots, [vidio](https://top.gg/bot/689210550680682560), a YouTube sim/roleplay bot!"]
+tips = [
+    "Did you know you can get emeralds from voting for us on [top.gg](https://top.gg/bot/639498607632056321)?",
+    "If you ever need more help, don't forget to check out the [support server](https://discord.gg/39DwwUV)!",
+    "Have any suggestions? Use the suggestion channel in our [support server](https://discord.gg/39DwwUV)!",
+    "In need of **emeralds**? Check out the #paid-stuff channel on the [support server](https://discord.gg/39DwwUV)!",
+    "Hey! Check out one of our other bots, [vidio](https://top.gg/bot/689210550680682560), a YouTube sim/roleplay bot!",
+    "Hey! Check out another of our bots, [Hypixel Stats](https://discord.gg/MZ2cXxF), a bot which can show you in-depth Hypixel statistics! "
+]
 
 with open("data/keys.json", "r") as k:  # Loads secret keys
     keys = json.load(k)
