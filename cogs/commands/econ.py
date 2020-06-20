@@ -630,7 +630,7 @@ class Econ(commands.Cog):
                     "Didn't your parents tell you [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {0} seconds.",
                     "Hey, you need to wait another {0} seconds before doing that again.",
                     "Hrmmm, looks like you need to wait another {0} seconds before doing that again.",
-                    "Don't you know [patience was a virtue](http://www.patience-is-a-virtue.org/)? Wait another {0} seconds."]
+                    "Don't you know [patience is a virtue](http://www.patience-is-a-virtue.org/)? Wait another {0} seconds."]
                 await self.send(ctx, (choice(descs).format(round(e.retry_after, 2))))
 
     @commands.command(name="gamble", aliases=["bet"], cooldown_after_parsing=True)
