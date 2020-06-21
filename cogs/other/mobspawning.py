@@ -37,7 +37,7 @@ class MobSpawning(commands.Cog):
             "spider": ["The spider dunks on you", "The spider lunges at you and bites you!",
                        "The spider jumps at you and bites!", "The spider bites you in the leg!"],
             "skeleton": ["The skeleboi yeets an arrow at your face",
-                         "The skeleton turns around into a 360 no scopes you!",
+                         "The skeleton turns around and 360 no scopes you!",
                          "An arrow rains from the skeleton, only one", "One headshot from skeleton for you"],
             "creeper": ["You hear a fuse ignite...", "The creeper flashes and fizzles...",
                         "The creeper preps for its imminent suicide..."],
