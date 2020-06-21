@@ -45,7 +45,7 @@ class AdminCmds(commands.Cog):
                 await ctx.send(embed=already_banned_embed)
                 return
 
-        await ctx.guild.ban(user, reason=reason)
+        await ctx.guild.ban(user, reason=reason, delete_message_days=0)
         banned_embed = discord.Embed(
             color=discord.Color.green(),
             description=f"Successfully banned **{str(user)}**.")
