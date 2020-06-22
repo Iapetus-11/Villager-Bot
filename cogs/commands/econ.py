@@ -20,8 +20,14 @@ class Econ(commands.Cog):
         if self.g.honey_buckets is not None:
             self.harvest_honey._buckets = self.g.honey_buckets
 
+        if self.g.pillage_limit is not None:
+            self.pillage_limit = self.g.pillage_limit
+        else:
+            self.pillage_limit = {}
+
     def cog_unload(self):
         self.g.honey_buckets = self.harvest_honey._buckets
+        self.g.pillage_limit = self.pillage_limit
 
     async def send(self, ctx, m):
         await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=m))
@@ -696,6 +702,11 @@ class Econ(commands.Cog):
             await self.send(ctx, "You need 64 emeralds in order to pillage others!")
             ctx.command.reset_cooldown(ctx)
             return
+        if self.pillage_limit.get(ctx.author.id, 0) >= 7:
+            await self.send(ctx, "You can't pillage any more today!")
+            ctx.command.reset_cooldown(ctx)
+            return
+        self.pillage_limit[ctx.author.id] = self.pillage_limit.get(ctx.author.id, 0) + 1
         await self.db.increment_vault_max(ctx.author.id)
         victim_bal = await self.db.get_balance(victim.id)
         if victim_bal < 64:

@@ -57,6 +57,8 @@ class Global(commands.Cog):
 
         self.pause_econ = []  # uid... uid
 
+        self.pillage_limit = {}
+
 
 def setup(bot):
     bot.add_cog(Global(bot))
