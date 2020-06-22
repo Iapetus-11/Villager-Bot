@@ -45,7 +45,7 @@ class AdminCmds(commands.Cog):
                 await ctx.send(embed=already_banned_embed)
                 return
 
-        await ctx.guild.ban(user, reason=reason)
+        await ctx.guild.ban(user, reason=reason, delete_message_days=0)
         banned_embed = discord.Embed(
             color=discord.Color.green(),
             description=f"Successfully banned **{str(user)}**.")
@@ -54,7 +54,7 @@ class AdminCmds(commands.Cog):
     @commands.command(name="pardon")
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
-    async def pardon_user(self, ctx, user: discord.Member, *, reason="No reason provided."):
+    async def pardon_user(self, ctx, user: discord.User, *, reason="No reason provided."):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You cannot unban yourself."))
             return
