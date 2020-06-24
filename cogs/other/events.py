@@ -25,37 +25,38 @@ class Events(commands.Cog):
         self.logger = logging.getLogger("Events")
         self.logger.setLevel(logging.INFO)
 
-        self.web_app = web.Application(loop=self.bot.loop)
-        self.web_app.router.add_post("/dbl2", self.on_dbl2_vote)
-        self.web_runner = web.AppRunner(self.web_app)
-
-        self.bot.loop.create_task(self.setup_dbl2_webhook())
-
-    async def setup_dbl2_webhook(self):
-        await self.web_runner.setup()
-
-        site = web.TCPSite(self.web_runner, "0.0.0.0", 8000)
-        await site.start()
+        self.bot.loop.create_task(self.webhook())
 
     def cog_unload(self):
         self.bot.loop.create_task(self.dblpy.close())
         self.bot.loop.create_task(self.web_runner.cleanup())
 
-    async def on_dbl2_vote(self, r):
-        print(r.body)
-        print(r)
-        user_id = int(json.loads(r.text))
-        self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
-        user = self.bot.get_user(user_id)
-        if user is not None:
-            await self.db.set_balance(await self.db.get_balance(user_id) + 8)
-            await self.bot.get_channel(641117791272960039).send(
-                f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
-            messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
-                        "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
-                        "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
-            await user.send(choice(messages).format(8))
-        return web.Response()
+    async def webhook(self):
+
+        async def vote_handler(r):
+            print(r.body)
+            print(r)
+            user_id = int(json.loads(r.text))
+            self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
+            user = self.bot.get_user(user_id)
+            if user is not None:
+                await self.db.set_balance(await self.db.get_balance(user_id) + 8)
+                await self.bot.get_channel(641117791272960039).send(
+                    f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
+                messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                            "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                            "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
+                await user.send(choice(messages).format(8))
+            return web.Response()
+
+        web_app = web.Application(loop=bot.loop)
+        web_app.router.add_post("/dbl2", vote_handler)
+
+        web_runner = web.AppRunner(web_app)
+        await web_runner.setup()
+
+        site = web.TCPSite(self.web_runner, "0.0.0.0", 8000)
+        await site.start()
 
     @commands.Cog.listener()
     async def on_ready(self):
