@@ -26,6 +26,7 @@ class Events(commands.Cog):
         self.logger.setLevel(logging.INFO)
 
         self.webhook_task = self.bot.loop.create_task(self.webhook())
+        self.webhook_secret = keys["dblk2"]
 
 
     def cog_unload(self):
