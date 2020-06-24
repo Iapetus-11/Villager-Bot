@@ -32,19 +32,22 @@ class Events(commands.Cog):
 
     async def webhook(self):
         async def vote_handler(r):
-            print(r.body)
-            print(r)
-            user_id = int(json.loads(r.text))
+            user_id = int(await r.json())
             self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
             user = self.bot.get_user(user_id)
             if user is not None:
                 await self.db.set_balance(await self.db.get_balance(user_id) + 8)
                 await self.bot.get_channel(641117791272960039).send(
                     f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
-                messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
-                            "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
-                            "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
+
+                messages = [
+                    "You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                    "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                    "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"
+                ]
+
                 await user.send(choice(messages).format(8))
+
             return web.Response()
 
         web_app = web.Application(loop=self.bot.loop)
@@ -54,11 +57,7 @@ class Events(commands.Cog):
         await web_runner.setup()
 
         site = web.TCPSite(web_runner, "0.0.0.0", 8000)
-        print(site)
         await site.start()
-
-        while True:
-            await asyncio.sleep(1)
 
     @commands.Cog.listener()
     async def on_ready(self):
