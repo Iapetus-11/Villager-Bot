@@ -3,6 +3,7 @@ import dbl
 import discord
 import json
 import logging
+from aiohttp import web
 from discord.ext import commands
 from math import ceil
 from random import choice, randint
@@ -24,8 +25,24 @@ class Events(commands.Cog):
         self.logger = logging.getLogger("Events")
         self.logger.setLevel(logging.INFO)
 
+        self.web_app = web.Application()
+        self.web_app.add_routes([web.post("/dbl2", self.on_dbl2_vote())])
+
     def cog_unload(self):
         self.bot.loop.create_task(self.dblpy.close())
+
+    async def on_dbl2_vote(self, r):
+        user_id = int(json.loads(r.text))
+        self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
+        user = self.bot.get_user(user_id)
+        if user is not None:
+            await self.db.set_balance(await self.db.get_balance(user_id) + 8)
+            await self.bot.get_channel(641117791272960039).send(
+                f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
+            messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                        "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                        "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
+            await user.send(choice(messages).format(8))
 
     @commands.Cog.listener()
     async def on_ready(self):
