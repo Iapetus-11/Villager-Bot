@@ -57,6 +57,9 @@ class Events(commands.Cog):
         print(site)
         await site.start()
 
+        while True:
+            await asyncio.sleep(1)
+
     @commands.Cog.listener()
     async def on_ready(self):
         await self.bot.change_presence(activity=discord.Game(name=choice(self.g.playingList)))
