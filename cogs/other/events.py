@@ -27,15 +27,10 @@ class Events(commands.Cog):
 
         self.webhook_task = self.bot.loop.create_task(self.webhook())
 
-        self.web_runner = None
 
     def cog_unload(self):
         self.bot.loop.create_task(self.dblpy.close())
-        self.bot.loop.create_task(self.close_webhook())
-
-    async def close_webhook(self):
-        await self.web_runner.shutdown()
-        await self.web_runner.cleanup()
+        self.webhook_task.cancel()
 
     async def webhook(self):
 
