@@ -37,23 +37,26 @@ class Events(commands.Cog):
 
         async def vote_handler(r):
             print(r.headers.get("X-DBL-Signature"))
-            user_id = (await r.json())["id"]
-            self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
-            user = self.bot.get_user(user_id)
-            if user is not None:
-                await self.db.set_balance(user_id, await self.db.get_balance(user_id) + 8)
-                await self.bot.get_channel(641117791272960039).send(
-                    f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
+            if self.webhook_secret == r.headers.get("X-DBL-Signature")
+                user_id = (await r.json())["id"]
+                self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
+                user = self.bot.get_user(user_id)
+                if user is not None:
+                    await self.db.set_balance(user_id, await self.db.get_balance(user_id) + 8)
+                    await self.bot.get_channel(641117791272960039).send(
+                        f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
 
-                messages = [
-                    "You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
-                    "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
-                    "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"
-                ]
+                    messages = [
+                        "You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                        "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+                        "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"
+                    ]
 
-                await user.send(choice(messages).format(8))
+                    await user.send(choice(messages).format(8))
 
-            return web.Response()  # retursn 200 ok
+                return web.Response()  # retursn 200 ok
+            else:
+                return web.Response(status=401)  # if auth is invalid
 
 
         web_app = web.Application(loop=self.bot.loop)
