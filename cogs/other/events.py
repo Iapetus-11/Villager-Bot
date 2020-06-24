@@ -26,10 +26,11 @@ class Events(commands.Cog):
         self.logger.setLevel(logging.INFO)
 
         self.web_app = web.Application()
-        self.web_app.add_routes([web.post("/dbl2", self.on_dbl2_vote())])
+        self.web_app.add_routes([web.post("/dbl2", self.on_dbl2_vote)])
 
     def cog_unload(self):
         self.bot.loop.create_task(self.dblpy.close())
+        self.bot.loop.create_task(self.web_app.cleanup())
 
     async def on_dbl2_vote(self, r):
         print(r.body)
