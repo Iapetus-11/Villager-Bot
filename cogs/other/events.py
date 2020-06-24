@@ -32,7 +32,7 @@ class Events(commands.Cog):
 
     async def setup_dbl2_webhooks(self):
         web_runner = web.AppRunner(self.web_app)
-        web_runner.setup()
+        await web_runner.setup()
 
         site = web.TCPSite(self.web_runner, "localhost", 8000)
         await site.start()
