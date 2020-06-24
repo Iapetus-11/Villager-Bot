@@ -64,7 +64,7 @@ class Events(commands.Cog):
         web_app.router.add_post("/dbl2", vote_handler)
 
         self.web_runner = web.AppRunner(web_app)
-        await web_runner.setup()
+        await self.web_runner.setup()
 
         site = web.TCPSite(web_runner, "0.0.0.0", 8000)
         await site.start()
