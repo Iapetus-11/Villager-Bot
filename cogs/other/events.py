@@ -25,7 +25,7 @@ class Events(commands.Cog):
         self.logger = logging.getLogger("Events")
         self.logger.setLevel(logging.INFO)
 
-        self.web_app = web.Application(loop=self.loop)
+        self.web_app = web.Application(loop=self.bot.loop)
         self.web_app.add_routes([web.post("/dbl2", self.on_dbl2_vote)])
         self.web_runner = web.AppRunner(self.web_app)
 
