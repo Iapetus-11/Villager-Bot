@@ -26,7 +26,7 @@ class Events(commands.Cog):
         self.logger.setLevel(logging.INFO)
 
         self.web_app = web.Application(loop=self.bot.loop)
-        self.web_app.add_routes([web.post("/dbl2", self.on_dbl2_vote)])
+        self.web_app.add_post("/dbl2", self.on_dbl2_vote)
         self.web_runner = web.AppRunner(self.web_app)
 
         self.bot.loop.create_task(self.setup_dbl2_webhook())
@@ -55,6 +55,7 @@ class Events(commands.Cog):
                         "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
             await user.send(choice(messages).format(8))
+        return web.Response()
 
     @commands.Cog.listener()
     async def on_ready(self):
