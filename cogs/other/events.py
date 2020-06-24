@@ -26,7 +26,7 @@ class Events(commands.Cog):
         self.logger.setLevel(logging.INFO)
 
         self.web_app = web.Application(loop=self.bot.loop)
-        self.web_app.add_post("/dbl2", self.on_dbl2_vote)
+        self.web_app.router.add_post("/dbl2", self.on_dbl2_vote)
         self.web_runner = web.AppRunner(self.web_app)
 
         self.bot.loop.create_task(self.setup_dbl2_webhook())
