@@ -53,7 +53,7 @@ class Events(commands.Cog):
         web_runner = web.AppRunner(web_app)
         await web_runner.setup()
 
-        site = web.TCPSite(self.web_runner, "0.0.0.0", 8000)
+        site = web.TCPSite(web_runner, "0.0.0.0", 8000)
         print(site)
         await site.start()
 
