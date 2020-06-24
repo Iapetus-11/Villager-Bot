@@ -44,6 +44,7 @@ class Events(commands.Cog):
 
     async def on_dbl2_vote(self, r):
         print(r.body)
+        print(r)
         user_id = int(json.loads(r.text))
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
         user = self.bot.get_user(user_id)
