@@ -25,14 +25,12 @@ class Events(commands.Cog):
         self.logger = logging.getLogger("Events")
         self.logger.setLevel(logging.INFO)
 
-        self.bot.loop.create_task(self.webhook())
+        self.webhook_task = self.bot.loop.create_task(self.webhook())
 
     def cog_unload(self):
         self.bot.loop.create_task(self.dblpy.close())
-        self.bot.loop.create_task(self.web_runner.cleanup())
 
     async def webhook(self):
-
         async def vote_handler(r):
             print(r.body)
             print(r)
@@ -56,6 +54,7 @@ class Events(commands.Cog):
         await web_runner.setup()
 
         site = web.TCPSite(self.web_runner, "0.0.0.0", 8000)
+        print(site)
         await site.start()
 
     @commands.Cog.listener()
