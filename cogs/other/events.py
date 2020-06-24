@@ -27,11 +27,12 @@ class Events(commands.Cog):
 
         self.web_app = web.Application()
         self.web_app.add_routes([web.post("/dbl2", self.on_dbl2_vote)])
+        self.web_runner = None
 
         self.bot.loop.create_task(self.setup_dbl2_webhooks())
 
     async def setup_dbl2_webhooks(self):
-        web_runner = web.AppRunner(self.web_app)
+        self.web_runner = web.AppRunner(self.web_app)
         await web_runner.setup()
 
         site = web.TCPSite(self.web_runner, "localhost", 8000)
@@ -39,7 +40,7 @@ class Events(commands.Cog):
 
     def cog_unload(self):
         self.bot.loop.create_task(self.dblpy.close())
-        self.bot.loop.create_task(self.web_app.cleanup())
+        self.bot.loop.create_task(self.web_runner.cleanup())
 
     async def on_dbl2_vote(self, r):
         print(r.body)
