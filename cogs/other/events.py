@@ -31,7 +31,9 @@ class Events(commands.Cog):
         self.bot.loop.create_task(self.dblpy.close())
 
     async def webhook(self):
+
         async def vote_handler(r):
+            print(r.text)
             user_id = int(await r.json())
             self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
             user = self.bot.get_user(user_id)
@@ -48,7 +50,8 @@ class Events(commands.Cog):
 
                 await user.send(choice(messages).format(8))
 
-            return web.Response()
+            return web.Response()  # retursn 200 ok
+
 
         web_app = web.Application(loop=self.bot.loop)
         web_app.router.add_post("/dbl2", vote_handler)
