@@ -369,14 +369,17 @@ class Useful(commands.Cog):
     async def do_math(self, ctx):
         try:
             problem = str(ctx.message.clean_content.replace(f"{ctx.prefix}math", ""))
+
             if problem == "":
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(),
                                                    description="You actually have to put in a problem, idiot."))
                 return
+
             if len(problem) > 500:
                 await ctx.send(embed=discord.Embed(color=discord.Color.green(),
                                                    description="That's a bit too long, don't you think?"))
                 return
+
             problem = problem.replace("÷", "/").replace("x", "*").replace("•", "*").replace("=", "==").replace("π",
                                                                                                                "3.14159")
             for letter in "abcdefghijklmnopqrstuvwxyz\\_@~`,<>?|'\"{}[]":
