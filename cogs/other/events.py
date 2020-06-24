@@ -35,6 +35,7 @@ class Events(commands.Cog):
     async def webhook(self):
 
         async def vote_handler(r):
+            print(r.headers.get("X-DBL-Signature"))
             user_id = (await r.json())["id"]
             self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
             user = self.bot.get_user(user_id)
