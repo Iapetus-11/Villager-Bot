@@ -34,7 +34,7 @@ class Events(commands.Cog):
     async def setup_dbl2_webhook(self):
         await web_runner.setup()
 
-        site = web.TCPSite(self.web_runner, "localhost", 8000)
+        site = web.TCPSite(self.web_runner, "0.0.0.0", 8000)
         await site.start()
 
     def cog_unload(self):
