@@ -27,12 +27,11 @@ class Events(commands.Cog):
 
         self.web_app = web.Application()
         self.web_app.add_routes([web.post("/dbl2", self.on_dbl2_vote)])
-        self.web_runner = None
-
-        self.bot.loop.create_task(self.setup_dbl2_webhooks())
-
-    async def setup_dbl2_webhooks(self):
         self.web_runner = web.AppRunner(self.web_app)
+
+        self.bot.loop.create_task(self.setup_dbl2_webhook())
+
+    async def setup_dbl2_webhook(self):
         await web_runner.setup()
 
         site = web.TCPSite(self.web_runner, "localhost", 8000)
