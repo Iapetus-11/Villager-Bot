@@ -31,7 +31,6 @@ class Events(commands.Cog):
         self.bot.loop.create_task(self.dblpy.close())
 
     async def webhook(self):
-        print("Setup")
         async def vote_handler(r):
             print(r.body)
             print(r)
@@ -48,7 +47,7 @@ class Events(commands.Cog):
                 await user.send(choice(messages).format(8))
             return web.Response()
 
-        web_app = web.Application(loop=bot.loop)
+        web_app = web.Application(loop=self.bot.loop)
         web_app.router.add_post("/dbl2", vote_handler)
 
         web_runner = web.AppRunner(web_app)
