@@ -31,6 +31,7 @@ class Events(commands.Cog):
         self.bot.loop.create_task(self.dblpy.close())
 
     async def webhook(self):
+        print("Setup")
         async def vote_handler(r):
             print(r.body)
             print(r)
