@@ -36,10 +36,9 @@ class Events(commands.Cog):
     async def webhook(self):
 
         async def vote_handler(r):
-            print(r.headers.get("X-DBL-Signature"))
-            if self.webhook_secret == r.headers.get("X-DBL-Signature"):
-                user_id = (await r.json())["id"]
-                self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
+            user_id = (await r.json())["id"]
+            self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
+            if self.webhook_secret == r.headers.get("X-DBL-Signature").split(" ")[0]:
                 user = self.bot.get_user(user_id)
                 if user is not None:
                     await self.db.set_balance(user_id, await self.db.get_balance(user_id) + 8)
