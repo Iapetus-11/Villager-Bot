@@ -122,7 +122,10 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="uuidtoname", aliases=["getgamertag"])
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def get_gamertag(self, ctx, *, uuid: str):
+    async def get_gamertag(self, ctx, uuid: str):
+        if not 30 < len(uuid) < 34:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That's not a valid mc uuid!"))
+            return
         response = await self.ses.get(f"https://api.mojang.com/user/profiles/{uuid}/names")
         if response.status == 204:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That player doesn't exist!"))
