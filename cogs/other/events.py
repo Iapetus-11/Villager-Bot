@@ -42,7 +42,7 @@ class Events(commands.Cog):
             if self.webhook_secret in r.headers.get("X-DBL-Signature"):  # if req came from dbl2 website
                 user = self.bot.get_user(user_id)
                 if user is not None:
-                    await self.db.set_balance(user_id, await self.db.get_balance(user_id) + 8)
+                    await self.db.set_balance(user_id, await self.db.get_balance(user_id) + 12)
                     await self.bot.get_channel(641117791272960039).send(
                         f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
 
@@ -52,7 +52,7 @@ class Events(commands.Cog):
                         "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"
                     ]
 
-                    await user.send(choice(messages).format(8))
+                    await user.send(choice(messages).format(12))
 
                 return web.Response()  # returns 200 ok
             else:
