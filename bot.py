@@ -7,7 +7,7 @@ from discord.ext import commands
 from math import floor
 from random import randint, choice
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
 tips = [
@@ -67,6 +67,8 @@ bot.cog_list = [
 # Load cogs in cogs list
 for cog in bot.cog_list:
     bot.load_extension(cog)
+
+print(f"\nAll {len(bot.cog_list)} cogs loaded!\n")
 
 
 async def banned(uid):  # Check if user is banned from bot
