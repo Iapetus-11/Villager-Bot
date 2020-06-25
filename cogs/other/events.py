@@ -54,13 +54,13 @@ class Events(commands.Cog):
 
                     await user.send(choice(messages).format(8))
 
-                return web.Response()  # retursn 200 ok
+                return web.Response()  # returns 200 ok
             else:
                 return web.Response(status=401)  # if auth is invalid
 
 
         web_app = web.Application(loop=self.bot.loop)
-        web_app.router.add_post("/dbl2", vote_handler)
+        web_app.router.add_view("/dbl2", vote_handler)
 
         web_runner = web.AppRunner(web_app)
         await web_runner.setup()
