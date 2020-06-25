@@ -28,6 +28,7 @@ class Events(commands.Cog):
         self.webhook_task = self.bot.loop.create_task(self.webhook())
         self.webhook_secret = keys["dblk2"]
 
+        self.vote_channel = 725551439165784115
 
     def cog_unload(self):
         self.bot.loop.create_task(self.dblpy.close())
@@ -44,7 +45,7 @@ class Events(commands.Cog):
                 user = self.bot.get_user(user_id)
                 if user is not None:
                     await self.db.set_balance(user_id, await self.db.get_balance(user_id) + 12)
-                    await self.bot.get_channel(641117791272960039).send(
+                    await self.bot.get_channel(self.vote_channel).send(
                         f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
 
                     messages = [
@@ -54,6 +55,8 @@ class Events(commands.Cog):
                     ]
 
                     await user.send(choice(messages).format(12))
+                else:
+                    await self.bot.get_channel(self.vote_channel).send(f":tada: an unknown user has voted! :tada:")
 
                 return web.Response()  # returns 200 ok
             else:
@@ -96,7 +99,7 @@ class Events(commands.Cog):
             if await self.dblpy.get_weekend_status():
                 multi = 2  # normally is 2
             await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
-            await self.bot.get_channel(641117791272960039).send(f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
+            await self.bot.get_channel(self.vote_channel).send(f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
             messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
@@ -106,7 +109,7 @@ class Events(commands.Cog):
             except discord.errors.Forbidden:
                 pass
         else:
-            await self.bot.get_channel(641117791272960039).send(":tada::tada: An unknown user voted for the bot! :tada::tada:")
+            await self.bot.get_channel(self.vote_channel).send(":tada::tada: An unknown user has voted the bot! :tada::tada:")
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
