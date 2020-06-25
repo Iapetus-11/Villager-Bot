@@ -39,9 +39,7 @@ class Events(commands.Cog):
             user_id = (await r.json())["id"]
             self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
 
-            print(f"{self.webhook_secret}\n{r.headers.get('X-DBL-Signature')}")
-
-            if self.webhook_secret in r.headers.get("X-DBL-Signature"):  # if req came from dbl2 website
+            if r.headers.get("X-DBL-Signature").startswith(self.webhook_secret):  # if req came from dbl2 website
                 user = self.bot.get_user(user_id)
                 if user is not None:
                     await self.db.set_balance(user_id, await self.db.get_balance(user_id) + 12)
@@ -58,6 +56,7 @@ class Events(commands.Cog):
 
                 return web.Response()  # returns 200 ok
             else:
+                print("DEBUG: 401 UN-AUTH")
                 return web.Response(status=401)  # if auth is invalid
 
 
