@@ -40,7 +40,8 @@ class Events(commands.Cog):
             self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
 
             if r.headers.get("X-DBL-Signature").startswith(self.webhook_secret):  # if req came from dbl2 website
-                user = self.bot.get_user(int(user_id))
+                user_id = int(user_id)
+                user = self.bot.get_user(user_id)
                 if user is not None:
                     await self.db.set_balance(user_id, await self.db.get_balance(user_id) + 12)
                     await self.bot.get_channel(641117791272960039).send(
