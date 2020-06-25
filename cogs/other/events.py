@@ -39,6 +39,8 @@ class Events(commands.Cog):
             user_id = (await r.json())["id"]
             self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
 
+            print(f"{self.webhook_secret}\n{r.headers.get('X-DBL-Signature')}")
+
             if self.webhook_secret in r.headers.get("X-DBL-Signature"):  # if req came from dbl2 website
                 user = self.bot.get_user(user_id)
                 if user is not None:
