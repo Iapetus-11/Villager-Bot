@@ -44,7 +44,8 @@ class Events(commands.Cog):
                 user_id = int(user_id)
                 user = self.bot.get_user(user_id)
                 if user is not None:
-                    await self.db.set_balance(user_id, await self.db.get_balance(user_id) + 12)
+                    amount = 12*4
+                    await self.db.set_balance(user_id, await self.db.get_balance(user_id) + amount)
                     await self.bot.get_channel(self.vote_channel).send(
                         f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
 
@@ -54,7 +55,7 @@ class Events(commands.Cog):
                         "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"
                     ]
 
-                    await user.send(choice(messages).format(12))
+                    await user.send(choice(messages).format(amount))
                 else:
                     await self.bot.get_channel(self.vote_channel).send(embed=discord.Embed(color=self.bot.cc, description=f":tada: an unknown user has voted! :tada:"))
 
