@@ -255,6 +255,17 @@ class Database(commands.Cog):
         occupado = floor((value / max) * slots)
         return (full * occupado) + empty * floor(slots - occupado)
 
+    async def vote_tracker_append(self, user_id):
+        async with self.db.acquire() as con:
+            await con.execute("INSERT INTO votetracker VALUES ($1)", user_id)
+
+    async def vote_tracker_clear(self):
+        async with self.db.acquire() as con:
+            await con.execute("TRUNCATE TABLE votetracker")
+
+    async def vote_tracker_fetch_all(self):
+        return await self.db.fetch("SELECT * FROM votetracker")
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
