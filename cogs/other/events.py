@@ -56,7 +56,7 @@ class Events(commands.Cog):
                         "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"
                     ]
 
-                    await user.send(choice(messages).format(amount))
+                    await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(messages).format(amount)))
                 else:
                     await self.bot.get_channel(self.vote_channel).send(f":tada: an unknown user has voted! :tada:")
 
