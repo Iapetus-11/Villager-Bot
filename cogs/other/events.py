@@ -42,6 +42,7 @@ class Events(commands.Cog):
 
             if r.headers.get("X-DBL-Signature").startswith(self.webhook_secret):  # if req came from dbl2 website
                 user_id = int(user_id)
+                await self.db.vote_tracker_append(user_id)
                 user = self.bot.get_user(user_id)
                 if user is not None:
                     amount = 12*4
@@ -93,6 +94,7 @@ class Events(commands.Cog):
     async def on_dbl_vote(self, data):
         self.g.vote_count += 1
         user_id = int(data["user"])
+        await self.db.vote_tracker_append(user_id)
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
         user = self.bot.get_user(user_id)
         if user is not None:

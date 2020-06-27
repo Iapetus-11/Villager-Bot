@@ -59,6 +59,8 @@ class Global(commands.Cog):
 
         self.pillage_limit = {}
 
+        self.track_votes = True
+
 
 def setup(bot):
     bot.add_cog(Global(bot))
