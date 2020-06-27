@@ -58,7 +58,7 @@ class Events(commands.Cog):
 
                     await user.send(choice(messages).format(amount))
                 else:
-                    await self.bot.get_channel(self.vote_channel).send(embed=discord.Embed(color=self.bot.cc, description=f":tada: an unknown user has voted! :tada:"))
+                    await self.bot.get_channel(self.vote_channel).send(embed=discord.Embed(color=discord.Color.green(), description=f":tada: an unknown user has voted! :tada:"))
 
                 return web.Response()  # returns 200 ok
             else:
