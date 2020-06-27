@@ -45,7 +45,7 @@ class Events(commands.Cog):
                 if self.g.track_votes: await self.db.vote_tracker_append(user_id)
                 user = self.bot.get_user(user_id)
                 if user is not None:
-                    amount = 12*4
+                    amount = 16
                     await self.db.set_balance(user_id, await self.db.get_balance(user_id) + amount)
                     await self.bot.get_channel(self.vote_channel).send(
                         f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
