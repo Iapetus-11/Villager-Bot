@@ -407,11 +407,17 @@ class Owner(commands.Cog):
                 count += 1
         await ctx.send(f"Done! ({count})")
 
-    @commands.command(name="whoyadaddy",
-                      aliases=["whoisowner", "iamowner", "whosyadaddy", "whosyadad", "yadad", "whoyadad", "whoyamaker"])
+    @commands.command(name="whoyadaddy", aliases=["whoisowner", "iamowner", "whosyadaddy", "whoyadad", "whoyamaker"])
     @commands.is_owner()
     async def daddy(self, ctx):
         await ctx.send("Iapetus11 is 0_0")
+
+    @commands.command(name="serverlistdump", aliases=["dumpservers", "dumpserverlist"])
+    @commands.is_owner()
+    async def dump_server_list(self, ctx):
+        txt = "\n".join([g.name for g in self.bot.guilds])
+        await ctx.send(file=discord.File(txt, filename="servers.txt"))
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
