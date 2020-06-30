@@ -112,7 +112,7 @@ class Errors(commands.Cog):
             traceback_text = ''.join(lines)
 
             final = f"{ctx.author}: {ctx.message.content}\n\n{traceback_text}"
-            await self.send(error_channel, f"```{final[:2047]}```")
+            await self.send(error_channel, f"```{final[:2047-6]}```")
 
 
 def setup(bot):
