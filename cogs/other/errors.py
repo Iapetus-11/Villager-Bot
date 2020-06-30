@@ -111,7 +111,8 @@ class Errors(commands.Cog):
             lines = traceback.format_exception(etype, e, trace, verbosity)
             traceback_text = ''.join(lines)
 
-            await self.send(error_channel, f"```{ctx.author}: {ctx.message.content}\n\n{traceback_text[:5000]}```")
+            final = f"{ctx.author}: {ctx.message.content}\n\n{traceback_text}"
+            await self.send(error_channel, f"```{final[:5999]}```")
 
 
 def setup(bot):
