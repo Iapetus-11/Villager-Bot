@@ -65,6 +65,7 @@ class Owner(commands.Cog):
 **{0}backupdb** *backs up the db*
 **{0}updateroles** *does roles idk bro*
 **{0}testblocking** *intentionally blocks code*
+**{0}dumpserverlist** *dumps the server list into a text file and uploads it*
 """.format(ctx.prefix), color=discord.Color.green())
         embed_msg.set_author(name="More Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embed_msg)
