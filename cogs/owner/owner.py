@@ -417,7 +417,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def dump_server_list(self, ctx):
         with open("server_list.txt", "w+") as f:
-            f.write("\n".join([g.name for g in self.bot.guilds]))
+            f.write("\r\n".join([g.name for g in self.bot.guilds]))
         with open("server_list.txt", "r") as f:
             await ctx.send(file=discord.File(f, filename="servers.txt"))
 
