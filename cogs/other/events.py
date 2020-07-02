@@ -25,37 +25,55 @@ class Events(commands.Cog):
         self.logger = logging.getLogger("Events")
         self.logger.setLevel(logging.INFO)
 
-        self.web_app = web.Application(loop=self.bot.loop)
-        self.web_app.router.add_post("/dbl2", self.on_dbl2_vote)
-        self.web_runner = web.AppRunner(self.web_app)
+        self.webhook_task = self.bot.loop.create_task(self.webhook())
+        self.webhook_secret = keys["dblk2"]
 
-        self.bot.loop.create_task(self.setup_dbl2_webhook())
-
-    async def setup_dbl2_webhook(self):
-        await self.web_runner.setup()
-
-        site = web.TCPSite(self.web_runner, "0.0.0.0", 8000)
-        await site.start()
+        self.vote_channel = 725551439165784115
 
     def cog_unload(self):
         self.bot.loop.create_task(self.dblpy.close())
-        self.bot.loop.create_task(self.web_runner.cleanup())
+        self.webhook_task.cancel()
 
-    async def on_dbl2_vote(self, r):
-        print(r.body)
-        print(r)
-        user_id = int(json.loads(r.text))
-        self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
-        user = self.bot.get_user(user_id)
-        if user is not None:
-            await self.db.set_balance(await self.db.get_balance(user_id) + 8)
-            await self.bot.get_channel(641117791272960039).send(
-                f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
-            messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
+    async def webhook(self):
+
+        async def vote_handler(r):
+            user_id = (await r.json())["id"]
+            self.logger.info(f"\u001b[32;1m {user_id} VOTED ON DBL2 \u001b[0m")
+
+            if r.headers.get("X-DBL-Signature").startswith(self.webhook_secret):  # if req came from dbl2 website
+                user_id = int(user_id)
+                if self.g.track_votes: await self.db.vote_tracker_append(user_id)
+                user = self.bot.get_user(user_id)
+                if user is not None:
+                    amount = 16
+                    await self.db.set_balance(user_id, await self.db.get_balance(user_id) + amount)
+                    await self.bot.get_channel(self.vote_channel).send(
+                        f":tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada:")
+
+                    messages = [
+                        "You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
-                        "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
-            await user.send(choice(messages).format(8))
-        return web.Response()
+                        "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"
+                    ]
+
+                    await user.send(embed=discord.Embed(color=discord.Color.green(), description=choice(messages).format(amount)))
+                else:
+                    await self.bot.get_channel(self.vote_channel).send(f":tada: an unknown user has voted! :tada:")
+
+                return web.Response()  # returns 200 ok
+            else:
+                print("DEBUG: 401 UN-AUTH")
+                return web.Response(status=401)  # if auth is invalid
+
+
+        web_app = web.Application(loop=self.bot.loop)
+        web_app.router.add_view("/dbl2", vote_handler)
+
+        web_runner = web.AppRunner(web_app)
+        await web_runner.setup()
+
+        site = web.TCPSite(web_runner, "0.0.0.0", 8000)
+        await site.start()
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -76,6 +94,7 @@ class Events(commands.Cog):
     async def on_dbl_vote(self, data):
         self.g.vote_count += 1
         user_id = int(data["user"])
+        if self.g.track_votes: await self.db.vote_tracker_append(user_id)
         self.logger.info(f"\u001b[32;1m {user_id} VOTED ON TOP.GG \u001b[0m")
         user = self.bot.get_user(user_id)
         if user is not None:
@@ -83,7 +102,7 @@ class Events(commands.Cog):
             if await self.dblpy.get_weekend_status():
                 multi = 2  # normally is 2
             await self.db.set_balance(user_id, await self.db.get_balance(user_id) + (32 * multi))
-            await self.bot.get_channel(641117791272960039).send(f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
+            await self.bot.get_channel(self.vote_channel).send(f":tada::tada: {discord.utils.escape_markdown(user.display_name)} has voted! :tada::tada:")
             messages = ["You have been awarded {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> for voting for Villager Bot!",
                         "You have received {0}<:emerald:653729877698150405> because you voted for Villager Bot!"]
@@ -93,7 +112,7 @@ class Events(commands.Cog):
             except discord.errors.Forbidden:
                 pass
         else:
-            await self.bot.get_channel(641117791272960039).send(":tada::tada: An unknown user voted for the bot! :tada::tada:")
+            await self.bot.get_channel(self.vote_channel).send(":tada::tada: An unknown user has voted the bot! :tada::tada:")
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):

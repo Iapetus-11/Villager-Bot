@@ -121,6 +121,7 @@ class AdminCmds(commands.Cog):
     async def clear_user_warns(self, ctx, user: discord.Member):
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You can't clear your own warnings!"))
+            return
         if ctx.author.top_role.id == user.top_role.id and ctx.author.id != ctx.guild.owner.id:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You don't have the permissions to do that!"))
             return

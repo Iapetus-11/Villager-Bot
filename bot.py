@@ -7,7 +7,7 @@ from discord.ext import commands
 from math import floor
 from random import randint, choice
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
 tips = [
@@ -35,7 +35,7 @@ async def get_prefix(bot, ctx):
     return prefix[0]
 
 
-bot = commands.AutoShardedBot(shard_count=9, command_prefix=get_prefix, help_command=None, case_insensitive=True,
+bot = commands.AutoShardedBot(shard_count=11, command_prefix=get_prefix, help_command=None, case_insensitive=True,
                               max_messages=1024)
 
 
@@ -67,6 +67,8 @@ bot.cog_list = [
 # Load cogs in cogs list
 for cog in bot.cog_list:
     bot.load_extension(cog)
+
+print(f"\nAll {len(bot.cog_list)} cogs loaded!\n")
 
 
 async def banned(uid):  # Check if user is banned from bot

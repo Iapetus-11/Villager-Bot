@@ -65,6 +65,7 @@ class Owner(commands.Cog):
 **{0}backupdb** *backs up the db*
 **{0}updateroles** *does roles idk bro*
 **{0}testblocking** *intentionally blocks code*
+**{0}dumpserverlist** *dumps the server list into a text file and uploads it*
 """.format(ctx.prefix), color=discord.Color.green())
         embed_msg.set_author(name="More Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embed_msg)
@@ -407,11 +408,19 @@ class Owner(commands.Cog):
                 count += 1
         await ctx.send(f"Done! ({count})")
 
-    @commands.command(name="whoyadaddy",
-                      aliases=["whoisowner", "iamowner", "whosyadaddy", "whosyadad", "yadad", "whoyadad", "whoyamaker"])
+    @commands.command(name="whoyadaddy", aliases=["whoisowner", "iamowner", "whosyadaddy", "whoyadad", "whoyamaker"])
     @commands.is_owner()
     async def daddy(self, ctx):
         await ctx.send("Iapetus11 is 0_0")
+
+    @commands.command(name="serverlistdump", aliases=["dumpservers", "dumpserverlist"])
+    @commands.is_owner()
+    async def dump_server_list(self, ctx):
+        with open("server_list.txt", "w+") as f:
+            f.write("\r\n".join([g.name for g in self.bot.guilds]))
+        with open("server_list.txt", "r") as f:
+            await ctx.send(file=discord.File(f, filename="servers.txt"))
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
