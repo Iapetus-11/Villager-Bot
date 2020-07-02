@@ -40,6 +40,8 @@ class Owner(commands.Cog):
 **{0}getvault** ***@user*** *gets the mentioned user's vault*
 **{0}setpickaxe** ***user*** ***pickaxe type*** *sets pickaxe level of a user*
 **{0}resetprefix** ***guild id*** *resets the prefix of a server*
+**{0}clearvotes** *clears vote tracker*
+**{0}votegiveawayget** *gets a winner from the vote tracker*
 """.format(ctx.prefix), color=discord.Color.green())
         embed_msg.set_author(name="Villager Bot Owner Commands", url=discord.Embed.Empty, icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
         await ctx.send(embed=embed_msg)
