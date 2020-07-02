@@ -421,11 +421,17 @@ class Owner(commands.Cog):
         with open("server_list.txt", "r") as f:
             await ctx.send(file=discord.File(f, filename="servers.txt"))
 
-    @commands.command(name="votegiveawayget", aliases=["votegiveawayend"])
+    @commands.command(name="votegiveawayget", aliases=["votegiveawayend", "getvotewinner", "votewinner"])
     @commands.is_owner()
     async def get_vote_giveaway_winner(self, ctx):
         all = await self.db.vote_tracker_fetch_all()
         await ctx.send(self.bot.get_user(choice(all)[0]))
+
+    @commands.command(name="clearvotetracker", aliases=["clearvotes"])
+    @commands.is_owner()
+    async def clear_vote_tracker(self, ctx):
+        await self.db.vote_tracker_clear()
+        await ctx.send("Done.")
 
 
 def setup(bot):
