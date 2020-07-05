@@ -111,7 +111,7 @@ class Econ(commands.Cog):
         if amount.lower() == "all" or amount.lower() == "max":
             amount = vault[1] - vault[0]
             if floor(their_bal / 9) < amount:
-                amount = floor(their_bal / 9) - 1
+                amount = floor(their_bal / 9)
         else:
             try:
                 amount = int(amount)
@@ -125,7 +125,7 @@ class Econ(commands.Cog):
         if vault[1] - vault[0] <= 0:
             await self.send(ctx, "There isn't enough space in your vault!")
             return
-        if amount * 9 + vault[0] > vault[1]:
+        if (amount * 9) + vault[0] > vault[1]:
             await self.send(ctx, "There isn't enough space in your vault!")
             return
         if amount * 9 > their_bal:
