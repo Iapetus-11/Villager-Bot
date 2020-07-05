@@ -114,7 +114,7 @@ class Econ(commands.Cog):
                 amount = floor(their_bal / 9)
         else:
             try:
-                amount = floor(int(amount) / 9)
+                amount = int(amount)
             except Exception:
                 await self.send(ctx, "Try using an actual number, idiot!")
                 return
