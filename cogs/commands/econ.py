@@ -114,7 +114,7 @@ class Econ(commands.Cog):
                 amount = floor(their_bal / 9)
         else:
             try:
-                amount = int(amount)
+                amount = floor(int(amount) / 9)
             except Exception:
                 await self.send(ctx, "Try using an actual number, idiot!")
                 return
@@ -125,7 +125,7 @@ class Econ(commands.Cog):
         if vault[1] - vault[0] <= 0:
             await self.send(ctx, "There isn't enough space in your vault!")
             return
-        if (amount * 9) + vault[0] > vault[1]:
+        if amount + vault[0] > vault[1]:
             await self.send(ctx, "There isn't enough space in your vault!")
             return
         if amount * 9 > their_bal:
