@@ -111,7 +111,7 @@ class Econ(commands.Cog):
         if amount.lower() == "all" or amount.lower() == "max":
             amount = vault[1] - vault[0]
             if floor(their_bal / 9) < amount:
-                amount = floor(their_bal / 9)
+                amount = floor(their_bal / 9) - 1
         else:
             try:
                 amount = int(amount)
