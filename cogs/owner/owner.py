@@ -442,11 +442,13 @@ class Owner(commands.Cog):
 
         all = await self.bot.db.fetch("SELECT id, amount, max FROM vault")
 
-        for vault in all:
-            if vault[1] > vault[2]:
-                fixed += 1
+        async with self.bot.db.acquire() as con:
+            for vault in all:
+                if vault[1] > vault[2]:
+                    await con.execute(f"UPDATE vault SET amount=$1 WHERE id=$2", vault[2], vault[0])
+                    fixed += 1
 
-        await ctx.send(f"{fixed} incorrect vaults detected.")
+        await ctx.send(f"{fixed} vaults were fixed.")
 
 
 def setup(bot):
