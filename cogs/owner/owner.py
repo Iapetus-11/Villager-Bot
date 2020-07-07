@@ -435,6 +435,19 @@ class Owner(commands.Cog):
         await self.db.vote_tracker_clear()
         await ctx.send("Done.")
 
+    @commands.command(name="fixvaults")
+    @commands.is_owner()
+    async def fix_vaults(self, ctx):
+        fixed = 0
+
+        all = await self.bot.db.fetch("SELECT id, amount, max FROM vault")
+
+        for vault in all:
+            if vault[1] > vault[2]:
+                fixed += 1
+
+        await ctx.send(f"{fixed} incorrect vaults detected.")
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
