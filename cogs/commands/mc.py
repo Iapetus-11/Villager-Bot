@@ -12,6 +12,7 @@ from pyraklib.protocol.EncapsulatedPacket import EncapsulatedPacket
 from pyraklib.protocol.UNCONNECTED_PING import UNCONNECTED_PING
 from pyraklib.protocol.UNCONNECTED_PONG import UNCONNECTED_PONG
 from random import choice
+from time import sleep
 
 
 class Minecraft(commands.Cog):
@@ -42,7 +43,7 @@ class Minecraft(commands.Cog):
         s.setblocking(0)
         try:
             s.sendto(ping.buffer, (socket.gethostbyname(ip), port))
-            await asyncio.sleep(1)
+            sleep(1)
             recvData = s.recvfrom(2048)
         except BlockingIOError:
             return False, 0
