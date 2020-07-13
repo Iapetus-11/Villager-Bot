@@ -109,7 +109,7 @@ class Minecraft(commands.Cog):
             tasks = [
                 self.bot.loop.create_task(self.unified_mc_ping(ip, port, "je")),
                 self.bot.loop.create_task(self.unified_mc_ping(ip, port, "api")),
-                self.bot.loop.create_Task(self.unified_mc_ping(ip, port, "be"))
+                self.bot.loop.create_task(self.unified_mc_ping(ip, port, "be"))
             ]
 
             for task in tasks:
