@@ -34,7 +34,7 @@ class Minecraft(commands.Cog):
     def cog_unload(self):
         self.bot.loop.create_task(self.ses.close())
 
-    async def vanilla_pe_ping(self, ip, port):
+    def vanilla_pe_ping(self, ip, port):
         ping = UNCONNECTED_PING()
         ping.pingID = 4201
         ping.encode()
@@ -64,7 +64,7 @@ class Minecraft(commands.Cog):
 
         return True, status.players.online, status.latency
 
-    def unified_mc_ping(self, server_str, _port=None):
+    async def unified_mc_ping(self, server_str, _port=None):
         if ":" in server_str and _port is not None:
             split = server_str.split(":")
             ip = split[0]
