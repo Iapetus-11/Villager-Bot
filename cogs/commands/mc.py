@@ -82,7 +82,8 @@ class Minecraft(commands.Cog):
         # ONLY JE servers
         standard_je_ping_partial = partial(self.standard_je_ping, f"{ip}{str_port}")
         with concurrent.futures.ThreadPoolExecutor() as pool:
-            s_je_online, s_je_players, s_je_latency = self.bot.loop.run_in_executor(pool, standard_je_ping_partial)
+            s_je_online, s_je_players, s_je_latency = await self.bot.loop.run_in_executor(pool,
+                                                                                          standard_je_ping_partial)
         if s_je_online:
             return {"online": True, "player_count": s_je_players, "ping": s_je_latency}
 
@@ -95,7 +96,7 @@ class Minecraft(commands.Cog):
         # Vanilla MCPE / Bedrock Edition (USES RAKNET)
         vanilla_pe_ping_partial = partial(self.vanilla_pe_ping, ip, port)
         with concurrent.futures.ThreadPoolExecutor() as pool:
-            pe_online, pe_p_count = self.bot.loop.run_in_executor(pool, vanilla_pe_ping_partial)
+            pe_online, pe_p_count = await self.bot.loop.run_in_executor(pool, vanilla_pe_ping_partial)
         if pe_online:
             return {"online": True, "player_count": pe_p_count, "ping": None}
 
