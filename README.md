@@ -55,7 +55,6 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 
 ### Useful Minecraft Commands
 * __!!mcping__ *ip:port* (pings and gets information on the specified Minecraft server)
-* __!!mcpeping__ *ip* (pings and gets the playercount of a Bedrock Edition Minecraft server)
 * __!!stealskin__ *gamertag* (steal another Minecraft player's skin)
 * __!!getuuid__ *gamertag* (get the uuid of the specified player)
 * __!!randommc__ (sends a random Minecraft server your way)
