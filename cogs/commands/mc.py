@@ -66,13 +66,13 @@ class Minecraft(commands.Cog):
         return True, status.players.online, status.latency
 
     async def unified_mc_ping(self, server_str, _port=None):
-        if ":" in server_str and _port is not None:
+        if ":" in server_str and _port is None:
             split = server_str.split(":")
             ip = split[0]
             port = int(split[1])
         else:
             ip = server_str
-            port = int(_port)
+            port = _port
 
         if port is None:
             str_port = ""
