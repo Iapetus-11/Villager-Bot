@@ -101,7 +101,7 @@ class Minecraft(commands.Cog):
 
         return {"online": False, "player_count": 0, "ping": None}
 
-    @commands.command(name="mcping", aliases=["mcstatus", "mcserver", "pingmcserver", "pingserver"])
+    @commands.command(name="mcping", aliases=["mcstatus", "mcserver"])
     async def mc_ping(self, ctx, server: str, port: int = None):
         async with ctx.typing():
             status = await self.unified_mc_ping(server, port)
