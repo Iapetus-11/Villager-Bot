@@ -85,35 +85,40 @@ class Minecraft(commands.Cog):
             s_je_online, s_je_players, s_je_latency = await self.bot.loop.run_in_executor(pool,
                                                                                           standard_je_ping_partial)
         if s_je_online:
-            return {"online": True, "player_count": s_je_players, "ping": s_je_latency}
+            return {"online": True, "player_count": s_je_players, "ping": s_je_latency, "Java Edition"}
 
         # JE & PocketMine
         resp = await self.ses.get(f"https://api.mcsrvstat.us/2/{ip}{str_port}")
         jj = await resp.json()
         if jj.get("online"):
-            return {"online": True, "player_count": jj.get("players", {}).get("online", 0), "ping": None}
+            return {"online": True, "player_count": jj.get("players", {}).get("online", 0), "ping": None,
+                    "version": jj.get("software")}
 
         # Vanilla MCPE / Bedrock Edition (USES RAKNET)
         vanilla_pe_ping_partial = partial(self.vanilla_pe_ping, ip, port if port is not None else 19132)
         with concurrent.futures.ThreadPoolExecutor() as pool:
             pe_online, pe_p_count = await self.bot.loop.run_in_executor(pool, vanilla_pe_ping_partial)
         if pe_online:
-            return {"online": True, "player_count": pe_p_count, "ping": None}
+            return {"online": True, "player_count": pe_p_count, "ping": None, "version": "Vanilla Bedrock Edition"}
 
-        return {"online": False, "player_count": 0, "ping": None}
+        return {"online": False, "player_count": 0, "ping": None, "version": None}
 
     @commands.command(name="mcping")
     async def mc_ping(self, ctx, server: str, port: int = None):
         async with ctx.typing():
             status = await self.unified_mc_ping(server, port)
 
-        title = f"<:b:730460448197050489> {server}{(':' + str(port)) if port is not None else ''} is OFFLINE"
-        if status.get("online"):
-            title = f"<:a:730460448339525744> {server}{(':' + str(port)) if port is not None else ''} is ONLINE"
+            title = f"<:a:730460448339525744> {server}{(':' + str(port)) if port is not None else ''} is online."
+            if status.get("online") is False:
+                embed = discord.Embed(color=discord.Color.green(),
+                                      title=f"<:b:730460448197050489> {server}{(':' + str(port)) if port is not None else ''} is offline.")
+                await ctx.send(embed=embed)
+                return
 
-        embed = discord.Embed(color=discord.Color.green(), title=title)
+        embed = discord.Embed(color=discord.Color.green(), title=title, description=f"Version: {status.get('version')}")
         embed.add_field(name="Players Online", value=status.get("player_count"))
-        embed.add_field(name="Latency", value=status.get("ping", "Not Available"))
+        ping = status.get("ping", "Not Available")
+        embed.add_field(name="Latency", value=ping if ping != "None" else "Not Available")
 
         await ctx.send(embed=embed)
 
