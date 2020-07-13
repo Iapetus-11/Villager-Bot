@@ -69,10 +69,10 @@ class Minecraft(commands.Cog):
         if ":" in server_str and _port is not None:
             split = server_str.split(":")
             ip = split[0]
-            port = split[1]
+            port = int(split[1])
         else:
             ip = server_str
-            port = _port
+            port = int(_port)
 
         if port is None:
             str_port = ""
