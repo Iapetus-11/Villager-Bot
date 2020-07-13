@@ -1,14 +1,16 @@
-from discord.ext import commands
+import aiohttp
+import asyncio
+import base64
+import concurrent.futures
 import discord
-from mcstatus import MinecraftServer
+import json
 import socket
+from discord.ext import commands
+from functools import partial
+from mcstatus import MinecraftServer
 from pyraklib.protocol.EncapsulatedPacket import EncapsulatedPacket
 from pyraklib.protocol.UNCONNECTED_PING import UNCONNECTED_PING
 from pyraklib.protocol.UNCONNECTED_PONG import UNCONNECTED_PONG
-import aiohttp
-import base64
-import json
-import asyncio
 from random import choice
 
 
@@ -32,52 +34,84 @@ class Minecraft(commands.Cog):
     def cog_unload(self):
         self.bot.loop.create_task(self.ses.close())
 
-    @commands.command(name="mcping") # Pings a java edition minecraft server
-    async def mc_ping(self, ctx, *, server: str):
-        await ctx.trigger_typing()
-        server = server.replace(" ", "")
-        if ":" in server:
-            s = server.split(":")
-            try:
-                int(s[1])
-            except Exception:
-                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{server}** is either offline or unavailable at the moment.\n"
-                                                                                            f"Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``{ctx.prefix}mcping 172.10.17.177:25565``"))
-                return
-        if server == "":
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="You must specify a server to ping!"))
-            return
-        status = MinecraftServer.lookup(server)
-        try:
-            status = status.status()
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{server} is online with {status.players.online} player(s) and a ping of {status.latency} ms."))
-        except Exception:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{server}** is either offline or unavailable at the moment.\n"
-                                                                                        f"Did you type the ip and port correctly? (Like ip:port)\n\nExample: ``{ctx.prefix}mcping 172.10.17.177:25565``"))
-
-    @commands.command(name="mcpeping", aliases=["mcbeping"])
-    async def bedrock_ping(self, ctx, server: str):
+    async def vanilla_pe_ping(self, ip, port):
         ping = UNCONNECTED_PING()
         ping.pingID = 4201
         ping.encode()
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.setblocking(0)
         try:
-            s.sendto(ping.buffer, (socket.gethostbyname(server), 19132))
-            await asyncio.sleep(.75)
+            s.sendto(ping.buffer, (socket.gethostbyname(ip), port))
+            await asyncio.sleep(1)
             recvData = s.recvfrom(2048)
         except BlockingIOError:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{server}** is either offline or unavailable at the moment. Did you type the ip correctly?"))
-            return
+            return False, 0
         except socket.gaierror:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"**{server}** is either offline or unavailable at the moment. Did you type the ip correctly?"))
-            return
+            return False, 0
         pong = UNCONNECTED_PONG()
         pong.buffer = recvData[0]
         pong.decode()
+        print(pong.serverName)
         sInfo = str(pong.serverName)[2:-2].split(";")
         pCount = sInfo[4]
-        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"{server} is online with {pCount} player(s)."))
+        return True, pCount
+
+    def standard_je_ping(self, combined_server):
+        try:
+            status = MinecraftServer.lookup(combined_server).status()
+        except Exception:
+            return False, 0, None
+
+        return True, status.players.online, status.latency
+
+    def unified_mc_ping(self, server_str, _port=None):
+        if ":" in server_str and _port is not None:
+            split = server_str.split(":")
+            ip = split[0]
+            port = split[1]
+        else:
+            ip = server_str
+            port = _port
+
+        if port is None:
+            str_port = ""
+        else:
+            str_port = f":{port}"
+
+        # ONLY JE servers
+        standard_je_ping_partial = partial(self.standard_je_ping, f"{ip}{str_port}")
+        with concurrent.futures.ThreadPoolExecutor() as pool:
+            s_je_online, s_je_players, s_je_latency = self.bot.loop.run_in_executor(pool, standard_je_ping_partial)
+        if s_je_online:
+            return {"online": True, "player_count": s_je_players, "ping": s_je_latency}
+
+        # JE & PocketMine
+        resp = await self.ses.get(f"https://api.mcsrvstat.us/2/{ip}{str_port}")
+        jj = await resp.json()
+        if jj.get("online"):
+            return {"online": True, "player_count": jj.get("players", {}).get("online", 0), "ping": None}
+
+        # Vanilla MCPE / Bedrock Edition (USES RAKNET)
+        vanilla_pe_ping_partial = partial(self.vanilla_pe_ping, ip, port)
+        with concurrent.futures.ThreadPoolExecutor() as pool:
+            pe_online, pe_p_count = self.bot.loop.run_in_executor(pool, vanilla_pe_ping_partial)
+        if pe_online:
+            return {"online": True, "player_count": pe_p_count, "ping": None}
+
+        return {"online": False, "player_count": 0, "ping": None}
+
+    @commands.command(name="mcping")
+    async def mc_ping(self, ctx, server: str, port: int = None):
+        async with ctx.typing():
+            status = await self.unified_mc_ping(server, port)
+
+        title = f"<:b:730460448197050489> {server}{(':' + str(port)) if port is not None else ''} is OFFLINE"
+        if status.get("online"):
+            title = f"<:a:730460448339525744> {server}{(':' + str(port)) if port is not None else ''} is ONLINE"
+
+        embed = discord.Embed(color=discord.Color.green(), title=title)
+        embed.add_field(name="Players Online", value=status.get("player_count"))
+        embed.add_field(name="Latency", value=status.get("ping", "Not Available"))
 
     @commands.command(name="stealskin", aliases=["skinsteal", "skin"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
