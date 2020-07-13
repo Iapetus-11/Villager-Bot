@@ -152,8 +152,7 @@ class Useful(commands.Cog):
 
         help_embed.add_field(
             name="**Minecraft Commands**",
-            value=f'**{ctx.prefix}mcping** ***ip:port*** *to check the status of a Java Edition Minecraft server*\n'
-                  f'**{ctx.prefix}mcpeping** ***ip*** *to check the status of a Bedrock Edition Minecraft server*\n'
+            value=f'**{ctx.prefix}mcping** ***ip:port*** *to check the status of a Minecraft server*\n'
                   f'**{ctx.prefix}stealskin** ***gamertag*** *steal another player\'s Minecraft skin*\n'
                   f'**{ctx.prefix}nametouuid** ***gamertag*** *gets the Minecraft uuid of the given player*\n'
                   f'**{ctx.prefix}uuidtoname** ***uuid*** *gets the gamertag from the given Minecraft uuid*\n'
