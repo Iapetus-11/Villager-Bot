@@ -94,7 +94,7 @@ class Minecraft(commands.Cog):
             return {"online": True, "player_count": jj.get("players", {}).get("online", 0), "ping": None}
 
         # Vanilla MCPE / Bedrock Edition (USES RAKNET)
-        vanilla_pe_ping_partial = partial(self.vanilla_pe_ping, ip, port)
+        vanilla_pe_ping_partial = partial(self.vanilla_pe_ping, ip, port if port is not None else 19132)
         with concurrent.futures.ThreadPoolExecutor() as pool:
             pe_online, pe_p_count = await self.bot.loop.run_in_executor(pool, vanilla_pe_ping_partial)
         if pe_online:
