@@ -107,12 +107,12 @@ class Errors(commands.Cog):
             # Thanks TrustedMercury!
             etype = type(e)
             trace = e.__traceback__
-            verbosity = 1
+            verbosity = 4
             lines = traceback.format_exception(etype, e, trace, verbosity)
             traceback_text = ''.join(lines)
 
             final = f"{ctx.author}: {ctx.message.content}\n\n{traceback_text}"
-            await self.send(error_channel, f"```{final[:2047-6]}```")
+            await self.send(error_channel, f"```{final[:1023 - 6]}```")
 
 
 def setup(bot):
