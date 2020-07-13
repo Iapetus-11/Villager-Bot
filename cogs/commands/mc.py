@@ -100,7 +100,7 @@ class Minecraft(commands.Cog):
 
         return {"online": False, "player_count": 0, "ping": None}
 
-    @commands.command(name="mcping")
+    @commands.command(name="mcping", aliases=["mcstatus", "mcserver", "pingmcserver", "pingserver"])
     async def mc_ping(self, ctx, server: str, port: int = None):
         async with ctx.typing():
             status = await self.unified_mc_ping(server, port)
@@ -112,6 +112,8 @@ class Minecraft(commands.Cog):
         embed = discord.Embed(color=discord.Color.green(), title=title)
         embed.add_field(name="Players Online", value=status.get("player_count"))
         embed.add_field(name="Latency", value=status.get("ping", "Not Available"))
+
+        await ctx.send(embed=embed)
 
     @commands.command(name="stealskin", aliases=["skinsteal", "skin"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
