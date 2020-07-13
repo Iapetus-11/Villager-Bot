@@ -85,7 +85,7 @@ class Minecraft(commands.Cog):
             s_je_online, s_je_players, s_je_latency = await self.bot.loop.run_in_executor(pool,
                                                                                           standard_je_ping_partial)
         if s_je_online:
-            return {"online": True, "player_count": s_je_players, "ping": s_je_latency, "Java Edition"}
+            return {"online": True, "player_count": s_je_players, "ping": s_je_latency, "version": "Java Edition"}
 
         # JE & PocketMine
         resp = await self.ses.get(f"https://api.mcsrvstat.us/2/{ip}{str_port}")
