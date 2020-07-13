@@ -52,7 +52,6 @@ class Minecraft(commands.Cog):
         pong = UNCONNECTED_PONG()
         pong.buffer = recvData[0]
         pong.decode()
-        print(pong.serverName)
         sInfo = str(pong.serverName)[2:-2].split(";")
         pCount = sInfo[4]
         return True, pCount
