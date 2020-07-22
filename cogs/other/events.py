@@ -25,15 +25,16 @@ class Events(commands.Cog):
         self.logger = logging.getLogger("Events")
         self.logger.setLevel(logging.INFO)
 
-        self.webhook_task = self.bot.loop.create_task(self.webhook())
-        self.webhook_secret = keys["dblk2"]
+        # self.webhook_task = self.bot.loop.create_task(self.webhook())
+        # self.webhook_secret = keys["dblk2"]
 
         self.vote_channel = 725551439165784115
 
     def cog_unload(self):
         self.bot.loop.create_task(self.dblpy.close())
-        self.webhook_task.cancel()
+        # self.webhook_task.cancel()
 
+    """
     async def webhook(self):
 
         async def vote_handler(r):
@@ -74,6 +75,7 @@ class Events(commands.Cog):
 
         site = web.TCPSite(web_runner, "0.0.0.0", 8000)
         await site.start()
+    """
 
     @commands.Cog.listener()
     async def on_ready(self):
