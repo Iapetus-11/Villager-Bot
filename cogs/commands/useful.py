@@ -227,8 +227,8 @@ class Useful(commands.Cog):
 
     @commands.command(name="vote", aliases=["votelink"])
     async def vote_link(self, ctx):
-        _vote_link = discord.Embed(description="[**Click Here!**](https://discordbotlist.com/bots/villager-bot/upvote)\n\n"
-                                               "[**And Here Too!**](https://top.gg/bot/639498607632056321/vote)",
+        _vote_link = discord.Embed(description="[**Click Here!**](https://top.gg/bot/639498607632056321/vote)\n\n"
+                                               "[**And Here Too!**](https://top.gg/bot/718523903147900998/vote)",
                                    color=discord.Color.green())
         _vote_link.set_author(name="Vote for Villager Bot!",
                               icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
