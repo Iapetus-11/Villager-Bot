@@ -60,9 +60,9 @@ class Global(commands.Cog):
 
         self.pause_econ = []  # uid... uid
 
-        self.pillage_limit = {}
+        self.pillage_limit = {}  # {uid: pillages}
 
-        self.track_votes = True
+        self.track_votes = False
 
 
 def setup(bot):
