@@ -9,24 +9,22 @@ class Fun(commands.Cog):
         self.bot = bot
         self.g = self.bot.get_cog("Global")
 
-    async def lang_convert(self, ctx, msg, lang): # Goes through message and replaces all instances of keys with their values in a dict
-        keys = list(lang)
-        mes = ""
-        for letter in discord.utils.escape_mentions(msg).lower():
-            if letter in keys:
-                mes += lang[letter]
-            else:
-                mes += letter
-        if len(mes) > 2000:
-            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="Uh oh, your message is too long to convert."))
+    async def lang_convert(self, ctx, msg,
+                           lang):  # Goes through message and replaces all instances of keys with their values in a dict
+        for key in keys:
+            msg = msg.replace(key, lang[key])
+
+        if len(msg) > 2000:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(),
+                                               description="Uh oh, your message is too long to convert."))
         else:
             await ctx.send(mes)
 
-    @commands.command(name="villagerspeak") # Converts text into villager noises
+    @commands.command(name="villagerspeak")  # Converts text into villager noises
     async def villager_speak(self, ctx, *, msg):
         await self.lang_convert(ctx, str(msg).replace("\\", "\\\\"), self.g.villagerLang)
 
-    @commands.command(name="enchant") # Text to enchanting table language (Standard Galactic Alphabet)
+    @commands.command(name="enchant")  # Text to enchanting table language (Standard Galactic Alphabet)
     async def enchant(self, ctx, *, msg):
         msg = str(msg).replace("```", "").replace("\\", "\\\\")
         await self.lang_convert(ctx, "```" + msg + "```", self.g.enchantLang)
