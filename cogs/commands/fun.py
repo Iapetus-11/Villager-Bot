@@ -20,7 +20,7 @@ class Fun(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(),
                                                description="Uh oh, your message is too long to convert."))
         else:
-            await ctx.send(mes)
+            await ctx.send(msg)
 
     @commands.command(name="villagerspeak")  # Converts text into villager noises
     async def villager_speak(self, ctx, *, msg):
