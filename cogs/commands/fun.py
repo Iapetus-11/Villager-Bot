@@ -11,6 +11,8 @@ class Fun(commands.Cog):
 
     async def lang_convert(self, ctx, msg,
                            lang):  # Goes through message and replaces all instances of keys with their values in a dict
+        keys = list(lang)
+
         for key in keys:
             msg = msg.replace(key, lang[key])
 
