@@ -44,7 +44,7 @@ class Minecraft(commands.Cog):
         s.setblocking(0)
         try:
             s.sendto(ping.buffer, (socket.gethostbyname(ip), port))
-            sleep(1)
+            sleep(1.5)
             recv_data = s.recvfrom(2048)
         except BlockingIOError:
             return False, 0
