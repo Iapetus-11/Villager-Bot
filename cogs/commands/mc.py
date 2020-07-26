@@ -56,6 +56,7 @@ class Minecraft(commands.Cog):
         pCount = sInfo[4]
         return True, pCount
 
+"""
     def standard_je_ping(self, combined_server):
         try:
             status = MinecraftServer.lookup(combined_server).status()
@@ -63,6 +64,7 @@ class Minecraft(commands.Cog):
             return False, 0, None, None
 
         return True, status.players.online, None, status.latency
+"""
 
     async def unified_mc_ping(self, server_str, _port=None, _ver=None):
         if ":" in server_str and _port is None:
@@ -78,20 +80,7 @@ class Minecraft(commands.Cog):
         else:
             str_port = f":{port}"
 
-        if _ver == "je":
-            # ONLY JE servers
-            standard_je_ping_partial = partial(self.standard_je_ping, f"{ip}{str_port}")
-
-            with concurrent.futures.ProcessPoolExecutor() as pool:
-                s_je_online, s_je_player_count, s_je_players, s_je_latency = await self.bot.loop.run_in_executor(pool,
-                                                                                              standard_je_ping_partial)
-
-            if s_je_online:
-                return {"online": True, "player_count": s_je_player_count, "players": s_je_players, "ping": s_je_latency, "version": "Java Edition"}
-
-            return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
-
-        elif _ver == "api":
+        if _ver == "api":
             # JE & PocketMine
             resp = await self.ses.get(f"https://api.mcsrvstat.us/2/{ip}{str_port}")
             jj = await resp.json()
@@ -111,7 +100,6 @@ class Minecraft(commands.Cog):
 
         else:
             tasks = [
-                self.bot.loop.create_task(self.unified_mc_ping(ip, port, "je")),
                 self.bot.loop.create_task(self.unified_mc_ping(ip, port, "api")),
                 self.bot.loop.create_task(self.unified_mc_ping(ip, port, "be"))
             ]
