@@ -60,9 +60,9 @@ class Minecraft(commands.Cog):
         try:
             status = MinecraftServer.lookup(combined_server).status()
         except Exception:
-            return False, 0, None, None
+            return False, 0, None
 
-        return True, status.players.online, None, status.latency
+        return True, status.players.online, status.latency
 
     async def unified_mc_ping(self, server_str, _port=None, _ver=None):
         if ":" in server_str and _port is None:
@@ -82,10 +82,11 @@ class Minecraft(commands.Cog):
             # ONLY JE servers
             standard_je_ping_partial = partial(self.standard_je_ping, f"{ip}{str_port}")
             with concurrent.futures.ThreadPoolExecutor() as pool:
-                s_je_online, s_je_player_count, s_je_players, s_je_latency = await self.bot.loop.run_in_executor(pool,
+                s_je_online, s_je_player_count, s_je_latency = await self.bot.loop.run_in_executor(pool,
                                                                                               standard_je_ping_partial)
             if s_je_online:
-                return {"online": True, "player_count": s_je_player_count, "players": s_je_players, "ping": s_je_latency, "version": "Java Edition"}
+                ps_online = (await self.unified_mc_ping(ip, port, "api")).get("players")
+                return {"online": True, "player_count": s_je_player_count, "players": ps_online, "ping": s_je_latency, "version": "Java Edition"}
 
             return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
         elif _ver == "api":
