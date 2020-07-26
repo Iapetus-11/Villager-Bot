@@ -81,7 +81,6 @@ class Minecraft(commands.Cog):
 
         if _ver == "je":
             # ONLY JE servers
-            query_task = self.bot.loop.create_task(self.je_query_async(f"{ip}{str_port}"))
             standard_je_ping_partial = partial(self.standard_je_ping, f"{ip}{str_port}")
 
             with concurrent.futures.ThreadPoolExecutor() as pool:
