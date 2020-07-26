@@ -59,17 +59,17 @@ class Minecraft(commands.Cog):
     def standard_je_ping(self, combined_server):
         try:
             server = MinecraftServer.lookup(combined_server)
-            status = server.status()
+            status = MinecraftServer.lookup(combined_server).status()
         except Exception:
             return False, 0, None, None
 
-        try:
-            query = server.query()
-            players = query.players.names
-        except Exception:
-            players = None
+        return True, status.players.online, status.latency
 
-        return True, status.players.online, players, status.latency
+    def standard_je_query(self, combined_server):
+        try:
+            return MinecraftServer.lookup(combined_server).query().players
+        except Exception:
+            return
 
     async def unified_mc_ping(self, server_str, _port=None, _ver=None):
         if ":" in server_str and _port is None:
@@ -88,9 +88,11 @@ class Minecraft(commands.Cog):
         if _ver == "je":
             # ONLY JE servers
             standard_je_ping_partial = partial(self.standard_je_ping, f"{ip}{str_port}")
+            standard_je_query_partial = partial(self.standard_je_query, f"{ip}{str_port}")
             with concurrent.futures.ThreadPoolExecutor() as pool:
-                s_je_online, s_je_player_count, s_je_players, s_je_latency = await self.bot.loop.run_in_executor(pool,
+                s_je_online, s_je_player_count, s_je_latency = await self.bot.loop.run_in_executor(pool,
                                                                                               standard_je_ping_partial)
+                s_je_players = await self.bot.loop.run_in_executor(pool, standard_je_query_partial)
             if s_je_online:
                 return {"online": True, "player_count": s_je_player_count, "players": s_je_players, "ping": s_je_latency, "version": "Java Edition"}
 
