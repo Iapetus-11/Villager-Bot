@@ -24,6 +24,8 @@ class Settings(commands.Cog):
 **{0}config tips** ***on/off*** *turn on/off message tips in this server*
 
 **{0}config difficulty** ***peaceful/easy/hard*** *change the difficulty of the server*
+
+**{0}config mcserver** ***address:port*** *set the server that would be pinged if you just did !!mcstatus*
 """.format(ctx.prefix))
             await ctx.send(embed=embed)
 
@@ -90,6 +92,16 @@ class Settings(commands.Cog):
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Set the server difficulty to **{difficulty}**."))
         else:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="That is not a valid option! Only ``peaceful``, ``easy``, and ``hard`` are valid options."))
+
+    @config.command(name="server", aliases=["defaultserver", "mcserver"])
+    async def set_default_server(self, ctx, server=None):
+        default_s = await self.db.get_default_server(ctx.guild.id)
+        if difficulty is None:
+            await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"The default server is set to `{default_s[0]}`"))
+            return
+
+        await self.db.set_default_server(ctx.guild.id, server)
+        await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"Set the default server to `{server}`"))
 
 
 def setup(bot):
