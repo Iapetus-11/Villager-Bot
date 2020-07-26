@@ -96,7 +96,7 @@ class Settings(commands.Cog):
     @config.command(name="server", aliases=["defaultserver", "mcserver"])
     async def set_default_server(self, ctx, *, server=None):
         default_s = await self.db.get_default_server(ctx.guild.id)
-        if difficulty is None:
+        if default_s is None:
             await ctx.send(embed=discord.Embed(color=discord.Color.green(), description=f"The default server is set to `{default_s[0]}`"))
             return
 
