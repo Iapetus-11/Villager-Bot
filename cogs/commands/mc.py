@@ -83,7 +83,7 @@ class Minecraft(commands.Cog):
             # ONLY JE servers
             standard_je_ping_partial = partial(self.standard_je_ping, f"{ip}{str_port}")
 
-            with concurrent.futures.ThreadPoolExecutor() as pool:
+            with concurrent.futures.ProcessPoolExecutor() as pool:
                 s_je_online, s_je_player_count, s_je_players, s_je_latency = await self.bot.loop.run_in_executor(pool,
                                                                                               standard_je_ping_partial)
 
@@ -104,7 +104,7 @@ class Minecraft(commands.Cog):
         elif _ver == "be":
             # Vanilla MCPE / Bedrock Edition (USES RAKNET)
             vanilla_pe_ping_partial = partial(self.vanilla_pe_ping, ip, port if port is not None else 19132)
-            with concurrent.futures.ThreadPoolExecutor() as pool:
+            with concurrent.futures.ProcessPoolExecutor() as pool:
                 pe_online, pe_p_count = await self.bot.loop.run_in_executor(pool, vanilla_pe_ping_partial)
             if pe_online:
                 return {"online": True, "player_count": pe_p_count, "players": None, "ping": None, "version": "Vanilla Bedrock Edition"}
@@ -130,7 +130,7 @@ class Minecraft(commands.Cog):
     @commands.command(name="mcping")
     async def mc_ping(self, ctx, server: str, port: int = None):
         async with ctx.typing():
-            status = await self.unified_mc_ping(server, port)
+            status = await self.bot.wait_for(self.unified_mc_ping(server, port), timeout=7)
 
         title = f"<:a:730460448339525744> {server}{(':' + str(port)) if port is not None else ''} is online."
 
