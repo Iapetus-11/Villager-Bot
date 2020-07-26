@@ -61,7 +61,7 @@ class Minecraft(commands.Cog):
             server = MinecraftServer.lookup(combined_server)
             status = server.status()
         except Exception:
-            return False, 0, None
+            return False, 0, None, None
 
         try:
             query = server.query()
