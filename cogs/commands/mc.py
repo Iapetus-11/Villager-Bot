@@ -123,7 +123,17 @@ class Minecraft(commands.Cog):
             return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
 
     @commands.command(name="mcping")
-    async def mc_ping(self, ctx, server: str, port: int = None):
+    @commands.guild_only()
+    async def mc_ping(self, ctx, server: str = None, port: int = None):
+        if server is None:
+            try:
+                server = (await self.db.get_default_server(ctx.guild.id))[0]
+            except Exception:
+                server = None
+            if server is None:
+                await ctx.send(embed=discord.Embed(color=discord.Color.green(), description="In order to use this shortcut, you need to set the default server. Try `!!config mcserver <server>`."))
+                return
+
         async with ctx.typing():
             status = await self.unified_mc_ping(server, port)
 
