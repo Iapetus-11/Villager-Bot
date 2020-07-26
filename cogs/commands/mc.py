@@ -122,7 +122,7 @@ class Minecraft(commands.Cog):
 
             return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
 
-    @commands.command(name="mcping", aliases=["mcstatus", "server"])
+    @commands.command(name="mcping", aliases=["mcstatus"])
     @commands.guild_only()
     async def mc_ping(self, ctx, server: str = None, port: int = None):
         if server is None:
