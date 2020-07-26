@@ -117,7 +117,6 @@ class Minecraft(commands.Cog):
                 while not task.done():
                     await asyncio.sleep(.05)
 
-            for task in tasks:
                 if task.result().get("online") is True:
                     return task.result()
 
