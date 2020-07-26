@@ -56,7 +56,7 @@ class Minecraft(commands.Cog):
         pCount = sInfo[4]
         return True, pCount
 
-"""
+    """
     def standard_je_ping(self, combined_server):
         try:
             status = MinecraftServer.lookup(combined_server).status()
@@ -64,7 +64,7 @@ class Minecraft(commands.Cog):
             return False, 0, None, None
 
         return True, status.players.online, None, status.latency
-"""
+    """
 
     async def unified_mc_ping(self, server_str, _port=None, _ver=None):
         if ":" in server_str and _port is None:
