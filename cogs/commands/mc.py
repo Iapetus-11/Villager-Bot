@@ -67,52 +67,55 @@ class Minecraft(commands.Cog):
     """
 
     async def unified_mc_ping(self, server_str, _port=None, _ver=None):
-        if ":" in server_str and _port is None:
-            split = server_str.split(":")
-            ip = split[0]
-            port = int(split[1])
-        else:
-            ip = server_str
-            port = _port
+        try:
+            if ":" in server_str and _port is None:
+                split = server_str.split(":")
+                ip = split[0]
+                port = int(split[1])
+            else:
+                ip = server_str
+                port = _port
 
-        if port is None:
-            str_port = ""
-        else:
-            str_port = f":{port}"
+            if port is None:
+                str_port = ""
+            else:
+                str_port = f":{port}"
 
-        if _ver == "api":
-            # JE & PocketMine
-            resp = await self.ses.get(f"https://api.mcsrvstat.us/2/{ip}{str_port}")
-            jj = await resp.json()
-            if jj.get("online"):
-                return {"online": True, "player_count": jj.get("players", {}).get("online", 0),
-                        "players": jj.get("players", {}).get("list"), "ping": None, "version": jj.get("software")}
-            return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
+            if _ver == "api":
+                # JE & PocketMine
+                resp = await self.ses.get(f"https://api.mcsrvstat.us/2/{ip}{str_port}")
+                jj = await resp.json()
+                if jj.get("online"):
+                    return {"online": True, "player_count": jj.get("players", {}).get("online", 0),
+                            "players": jj.get("players", {}).get("list"), "ping": None, "version": jj.get("software")}
+                return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
 
-        elif _ver == "be":
-            # Vanilla MCPE / Bedrock Edition (USES RAKNET)
-            vanilla_pe_ping_partial = partial(self.vanilla_pe_ping, ip, port if port is not None else 19132)
-            with concurrent.futures.ThreadPoolExecutor() as pool:
-                pe_online, pe_p_count = await self.bot.loop.run_in_executor(pool, vanilla_pe_ping_partial)
-            if pe_online:
-                return {"online": True, "player_count": pe_p_count, "players": None, "ping": None, "version": "Vanilla Bedrock Edition"}
-            return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
+            elif _ver == "be":
+                # Vanilla MCPE / Bedrock Edition (USES RAKNET)
+                vanilla_pe_ping_partial = partial(self.vanilla_pe_ping, ip, port if port is not None else 19132)
+                with concurrent.futures.ThreadPoolExecutor() as pool:
+                    pe_online, pe_p_count = await self.bot.loop.run_in_executor(pool, vanilla_pe_ping_partial)
+                if pe_online:
+                    return {"online": True, "player_count": pe_p_count, "players": None, "ping": None, "version": "Vanilla Bedrock Edition"}
+                return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
 
-        else:
-            tasks = [
-                self.bot.loop.create_task(self.unified_mc_ping(ip, port, "api")),
-                self.bot.loop.create_task(self.unified_mc_ping(ip, port, "be"))
-            ]
+            else:
+                tasks = [
+                    self.bot.loop.create_task(self.unified_mc_ping(ip, port, "api")),
+                    self.bot.loop.create_task(self.unified_mc_ping(ip, port, "be"))
+                ]
 
-            for task in tasks:
-                while not task.done():
-                    pass
+                for task in tasks:
+                    while not task.done():
+                        pass
 
-            for task in tasks:
-                if task.result().get("online") is True:
-                    return task.result()
+                for task in tasks:
+                    if task.result().get("online") is True:
+                        return task.result()
 
-            return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
+                return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
+        except Exception as e:
+            print(e)
 
     @commands.command(name="mcping")
     async def mc_ping(self, ctx, server: str, port: int = None):
