@@ -58,12 +58,11 @@ class Minecraft(commands.Cog):
 
     def standard_je_ping(self, combined_server):
         try:
-            server = MinecraftServer.lookup(combined_server)
-            status = server.status()
+            status = MinecraftServer.lookup(combined_server).status()
         except Exception:
             return False, 0, None, None
 
-        return True, status.players.online, status.players.sample, status.latency
+        return True, status.players.online, None, status.latency
 
     async def unified_mc_ping(self, server_str, _port=None, _ver=None):
         if ":" in server_str and _port is None:
@@ -130,11 +129,7 @@ class Minecraft(commands.Cog):
     @commands.command(name="mcping")
     async def mc_ping(self, ctx, server: str, port: int = None):
         async with ctx.typing():
-            try:
-                status = await asyncio.wait_for(self.unified_mc_ping(server, port), timeout=7, loop=self.bot.loop)
-            except asyncio.TimeoutError:
-                await ctx.send(embed=discord.Embed(color=discord.Color.greeN(),
-                                                   description="Oops, something went wrong, try again later!"))
+            status = await self.unified_mc_ping(server, port)
 
         title = f"<:a:730460448339525744> {server}{(':' + str(port)) if port is not None else ''} is online."
 
