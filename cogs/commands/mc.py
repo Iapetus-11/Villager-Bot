@@ -146,15 +146,17 @@ class Minecraft(commands.Cog):
 
         ps_list = status.get("players")
 
-        embed = discord.Embed(color=discord.Color.green(), title=title, description=f"Version: {status.get('version')}")
+        embed = discord.Embed(color=discord.Color.green(), title=title)
 
         ping = status.get("ping", "Not Available")
 
         if ps_list is None:
             embed.add_field(name="Players Online", value=status.get("player_count"))
             embed.add_field(name="Latency/Ping", value=ping if ping != "None" else "Not Available")
+            embed.add_field(name="Version", value=status.get('version'))
         else:
-            embed.description = embed.description + f'\nLatency/Ping: {ping if ping != "None" else "Not Available"}'
+            embed.add_field(name="Latency/Ping", value=ping if ping != "None" else "Not Available")
+            embed.add_field(name="Version", value=status.get('version'))
 
             ps_list_cut = ps_list[:20]
             if len(ps_list_cut) == 0:
@@ -164,7 +166,8 @@ class Minecraft(commands.Cog):
                 ps_list_cut.append(f"and {len(ps_list)-len(ps_list_cut)} others...")
 
             embed.add_field(name=f"Players Online ({len(ps_list)} Total)",
-                            value=discord.utils.escape_markdown(', '.join(ps_list_cut)))
+                            value=discord.utils.escape_markdown(', '.join(ps_list_cut)),
+                            inline=False)
 
         await ctx.send(embed=embed)
 
