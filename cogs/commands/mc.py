@@ -161,7 +161,7 @@ class Minecraft(commands.Cog):
                 ps_list_cut.append("No players online.")
 
             if len(ps_list_cut) < len(ps_list):
-                ps_list_cut.append(f", and {len(ps_list)-len(ps_list_cut)}")
+                ps_list_cut.append(f"and {len(ps_list)-len(ps_list_cut)} others...")
 
             embed.add_field(name=f"Players Online ({len(ps_list)} Total)",
                             value=discord.utils.escape_markdown(', '.join(ps_list_cut)))
