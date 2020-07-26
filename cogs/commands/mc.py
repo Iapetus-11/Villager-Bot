@@ -142,12 +142,11 @@ class Minecraft(commands.Cog):
 
         if ps_list is None:
             embed.add_field(name="Players Online", value=status.get("player_count"))
-            embed.add_field(name="Latency/Ping", value=ping if ping != "None" else "Not Available")
-            embed.add_field(name="Version", value=status.get('version'))
-        else:
-            embed.add_field(name="Latency/Ping", value=ping if ping != "None" else "Not Available")
-            embed.add_field(name="Version", value=status.get('version'))
 
+        embed.add_field(name="Latency/Ping", value=ping if ping != "None" else "Not Available")
+        embed.add_field(name="Version", value=status.get('version'), inline=False)
+
+        if ps_list is not None:
             ps_list_cut = ps_list[:20]
             if len(ps_list_cut) == 0:
                 ps_list_cut.append("No players online.")
