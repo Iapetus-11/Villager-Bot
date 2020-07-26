@@ -23,6 +23,7 @@ class Minecraft(commands.Cog):
         self.ses = aiohttp.ClientSession()
 
         self.g = self.bot.get_cog("Global")
+        self.db = self.bot.get_cog("Database")
 
         with open("data/build_ideas.json", "r") as stuff:
             _json = json.load(stuff)
