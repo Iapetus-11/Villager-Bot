@@ -71,6 +71,11 @@ class Minecraft(commands.Cog):
         except Exception:
             return
 
+    async def je_query_async(self, combined_server):
+        standard_je_query_partial = partial(self.standard_je_query, combined_server)
+        with concurrent.futures.ThreadPoolExecutor() as pool:
+            return await self.bot.loop.run_in_executor(pool, standard_je_query_partial)
+
     async def unified_mc_ping(self, server_str, _port=None, _ver=None):
         if ":" in server_str and _port is None:
             split = server_str.split(":")
@@ -87,12 +92,17 @@ class Minecraft(commands.Cog):
 
         if _ver == "je":
             # ONLY JE servers
+            query_task = self.bot.loop.create_task(self.je_query_async(f"{ip}{str_port}"))
             standard_je_ping_partial = partial(self.standard_je_ping, f"{ip}{str_port}")
-            standard_je_query_partial = partial(self.standard_je_query, f"{ip}{str_port}")
+
             with concurrent.futures.ThreadPoolExecutor() as pool:
                 s_je_online, s_je_player_count, s_je_latency = await self.bot.loop.run_in_executor(pool,
                                                                                               standard_je_ping_partial)
-                s_je_players = await self.bot.loop.run_in_executor(pool, standard_je_query_partial)
+
+                while not query_task.done():
+                    pass
+                s_je_players = query_task.result()
+
             if s_je_online:
                 return {"online": True, "player_count": s_je_player_count, "players": s_je_players, "ping": s_je_latency, "version": "Java Edition"}
 
@@ -125,7 +135,7 @@ class Minecraft(commands.Cog):
 
             for task in tasks:
                 while not task.done():
-                    await asyncio.sleep(.05)
+                    pass
 
             for task in tasks:
                 if task.result().get("online") is True:
