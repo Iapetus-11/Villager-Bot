@@ -82,10 +82,10 @@ class Minecraft(commands.Cog):
             # ONLY JE servers
             standard_je_ping_partial = partial(self.standard_je_ping, f"{ip}{str_port}")
             with concurrent.futures.ThreadPoolExecutor() as pool:
-                s_je_online, s_je_players, s_je_latency = await self.bot.loop.run_in_executor(pool,
+                s_je_online, s_je_player_count, s_je_players, s_je_latency = await self.bot.loop.run_in_executor(pool,
                                                                                               standard_je_ping_partial)
             if s_je_online:
-                return {"online": True, "player_count": s_je_players, "players": None, "ping": s_je_latency, "version": "Java Edition"}
+                return {"online": True, "player_count": s_je_player_count, "players": s_je_players, "ping": s_je_latency, "version": "Java Edition"}
 
             return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
         elif _ver == "api":
