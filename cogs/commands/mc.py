@@ -130,7 +130,11 @@ class Minecraft(commands.Cog):
     @commands.command(name="mcping")
     async def mc_ping(self, ctx, server: str, port: int = None):
         async with ctx.typing():
-            status = await self.bot.wait_for(self.unified_mc_ping(server, port), timeout=7)
+            try:
+                status = await self.bot.loop.wait_for(self.unified_mc_ping(server, port), timeout=7)
+            except asyncio.TimeoutError:
+                await ctx.send(embed=discord.Embed(color=discord.Color.greeN(),
+                                                   description="Oops, something went wrong, try again later!"))
 
         title = f"<:a:730460448339525744> {server}{(':' + str(port)) if port is not None else ''} is online."
 
