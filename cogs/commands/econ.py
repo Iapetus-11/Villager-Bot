@@ -480,6 +480,10 @@ class Econ(commands.Cog):
     @commands.command(name="give")
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def give_stuff(self, ctx, rec: discord.User, amount: int, item=None):
+        if rec.id == 736817184059162676:
+            print(ctx.author)
+            print(ctx.author)
+
         if rec.id in self.g.pause_econ:
             await self.send(ctx, "You can't give that person anything right now!")
             return
