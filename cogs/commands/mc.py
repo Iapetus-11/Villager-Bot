@@ -125,6 +125,8 @@ class Minecraft(commands.Cog):
 
                         done += 1
 
+                await asyncio.sleep(.05)
+
             return {"online": False, "player_count": 0, "players": None, "ping": None, "version": None}
 
     @commands.command(name="mcping", aliases=["mcstatus"])
