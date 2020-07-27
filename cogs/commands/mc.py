@@ -111,13 +111,15 @@ class Minecraft(commands.Cog):
                 self.bot.loop.create_task(self.unified_mc_ping(ip, port, "be"))
             ]
 
-            for task in tasks:
-                while not task.done():
-                    await asyncio.sleep(.05)
+            done = 0
 
-            for task in tasks:
-                if task.result().get("online") is True:
-                    return task.result()
+            while done < 3:
+                for task in tasks:
+                    if task.done():
+                        result = task.result()
+                        if result.get("online") is True:
+                            return result
+                        done += 1
 
             return {"online": False, "player_count": 0, "ping": None, "version": None}
 
