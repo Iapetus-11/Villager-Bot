@@ -266,6 +266,16 @@ class Database(commands.Cog):
     async def vote_tracker_fetch_all(self):
         return await self.db.fetch("SELECT * FROM votetracker")
 
+    async def get_default_server(self, gid):
+        return await self.db.fetchrow("SELECT server FROM mcservers WHERE gid = $1", gid)
+
+    async def set_default_server(self, gid, server):
+        async with self.db.acquire() as con:
+            if await self.get_default_server(gid) is None:
+                await con.execute("INSERT INTO mcservers VALUES ($1, $2)", gid, server)
+            else:
+                await con.execute("UPDATE mcservers SET server = $1 WHERE gid = $2", server, gid)
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
