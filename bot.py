@@ -32,6 +32,17 @@ bot = commands.AutoShardedBot(  # setup bot
 )
 
 
+async def send(self, location, message: str):
+    try:
+        await location.send(embed=discord.Embed(color=bot.cc, description=message))
+        return True
+    except discord.Forbidden:
+        return False
+
+
+bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
+
+
 async def setup_database():  # init pool connection to database
     bot.db = await asyncpg.create_pool(
         host=config['database']['host'],
