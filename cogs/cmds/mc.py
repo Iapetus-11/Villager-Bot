@@ -1,5 +1,7 @@
 import aiohttp
+import base64
 import discord
+import json
 from discord.ext import commands
 
 
@@ -57,6 +59,44 @@ class Minecraft(commands.Cog):
             value=discord.utils.escape_markdown(','.join(player_list_cut)),
             inline=False
         )
+
+        await ctx.send(embed=embed)
+
+    @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
+    async def steal_skin(self, ctx, player):
+        async with ctx.typing():
+            res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{player}')
+
+        if res.status == 204:
+            await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
+            return
+
+        uuid = await res.json().get('id')
+
+        if uuid is None:
+            await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
+            return
+
+        res_profile = await self.ses.get(
+            f'https://sessionserver.mojang.com/session/minecraft/profile/{uuid}?unsigned=false'
+        )
+        profile_content = await res_profile.json()
+
+        if 'error' in profile_content or len(content['properties']) == 0:
+            await self.bot.send(ctx, 'Oops, something went wrong while fetching that player\'s profile.')
+            return
+
+        try:
+            decoded_jj = json.loads(base64.b64decode(content['properties'][0]['value']))
+            skin_url = decoded_jj['textures']['SKIN']['url']
+        except Exception:
+            await self.bot.send(ctx, 'Oops, something went wrong while fetching that player\'s profile.')
+            return
+
+        embed = discord.Embed(color=self.bot.cc, description=f'{gamertag}\'s skin\n[**[Download]**]({skin_url})')
+        embed.set_thumbnail(url=skin_url)
+        embed.set_image(url=f"https://mc-heads.net/body/{gamertag}")
 
         await ctx.send(embed=embed)
 
