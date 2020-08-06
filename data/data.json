@@ -508,7 +508,21 @@
   "emojis": {
     "emerald": "<:emerald:653729877698150405>"
   },
-  "build_ideas": [
-    "a giant castle with a moat"
-  ]
+  "build_ideas": {
+    "ideas": [],
+    "prefixes": [
+      "You could build",
+      "You could create",
+      "You should make",
+      "You should create",
+      "You could construct",
+      "You should construct",
+      "What about making",
+      "What about creating",
+      "What about constructing",
+      "What if you made",
+      "What if you created",
+      "What if you constructed"
+    ]
+  }
 }
