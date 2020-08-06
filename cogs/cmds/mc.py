@@ -123,7 +123,7 @@ class Minecraft(commands.Cog):
     async def username_to_uuid(self, ctx, username):
         """Turns a Minecraft username into a Minecraft uuid"""
 
-        res = await self.ses.post('https://api.mojang.com/profiles/minecraft', json=[gamertag])
+        res = await self.ses.post('https://api.mojang.com/profiles/minecraft', json=[username])
         jj = await res.json()
 
         if not jj or res.status == 204:
