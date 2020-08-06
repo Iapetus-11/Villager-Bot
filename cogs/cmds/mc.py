@@ -65,6 +65,8 @@ class Minecraft(commands.Cog):
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def steal_skin(self, ctx, player):
+        """"steals" the skin of a Minecraft player"""
+
         async with ctx.typing():
             res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{player}')
 
@@ -99,6 +101,36 @@ class Minecraft(commands.Cog):
         embed.set_image(url=f"https://mc-heads.net/body/{gamertag}")
 
         await ctx.send(embed=embed)
+
+    @commands.command(name='uuidtoname', aliases=['uuidtousername', 'uuid2name'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def uuid_to_username(self, ctx, uuid):
+        """Turns a Minecraft uuid into a username"""
+
+        res = await self.ses.get(f'https://api.mojang.com/user/profiles/{uuid}/names')
+
+        if res.status == 204:
+            await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
+            return
+
+        jj = await response.json()
+        name = jj[len(j) - 1]['name']
+
+        await self.bot.send(ctx, f'**{uuid}**: `{name}`')
+
+    @commands.command(name='nametouuid', aliases=['usernametouuid', 'name2uuid'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def username_to_uuid(self, ctx, username):
+        """Turns a Minecraft username into a Minecraft uuid"""
+
+        res = await self.ses.post('https://api.mojang.com/profiles/minecraft', json=[gamertag])
+        jj = await res.json()
+
+        if not jj or res.status == 204:
+            await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
+            return
+
+        await self.bot.send(ctx, f'**{gamertag}**: `{jj[0]["id"]}`')
 
 
 def setup(bot):
