@@ -11,11 +11,11 @@ class Database(commands.Cog):
         self.db = self.bot.db  # the asyncpg pool
 
     async def fetch_user(self, uid):
-        user = await self.db.fetchrow("SELECT * FROM users WHERE uid = $1", uid)
+        user = await self.db.fetchrow('SELECT * FROM users WHERE uid = $1', uid)
 
         if user is None:
             async with self.db.acquire() as con:
-                await con.execute("INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7)",
+                await con.execute('INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7)',
                                   uid, 0, 0, 1, 20, 0, False)
 
             return await self.fetch_user(uid)
@@ -29,7 +29,7 @@ class Database(commands.Cog):
     async def set_balance(self, uid, emeralds):
         await self.fetch_user(uid)
         async with self.db.acquire() as con:
-            await con.execute("UPDATE users SET emeralds = $1 WHERE uid = $2", emeralds, uid)
+            await con.execute('UPDATE users SET emeralds = $1 WHERE uid = $2', emeralds, uid)
 
     async def balance_add(self, uid, amount):
         new_bal = await self.fetch_balance(uid) + amount
@@ -43,29 +43,29 @@ class Database(commands.Cog):
 
     async def fetch_vault(self, uid):  # fetches a user's vault in the form (vault_amount, vault_max)
         await self.fetch_user(uid)
-        return await self.db.fetchrow("SELECT vault_bal, vault_max FROM users WHERE uid = $1", uid)
+        return await self.db.fetchrow('SELECT vault_bal, vault_max FROM users WHERE uid = $1', uid)
 
     async def set_vault(self, uid, vault_bal, vault_max):
         await self.fetch_user(uid)
         async with self.db.acquire() as con:
-            await con.execute("UPDATE users SET vault_bal = $1, vault_max = $2 WHERE uid = $1",
+            await con.execute('UPDATE users SET vault_bal = $1, vault_max = $2 WHERE uid = $1',
                               vault_bal, vault_max, uid)
 
     async def fetch_items(self, uid):
         await self.fetch_user(uid)
-        return await self.db.fetch("SELECT * FROM items WHERE uid = $1", uid)
+        return await self.db.fetch('SELECT * FROM items WHERE uid = $1', uid)
 
     async def fetch_item(self, uid, name):
         await self.fetch_user(uid)
-        return await self.db.fetch("SELECT * FROM items WHERE uid = $1 AND item_name = $2", uid, name)
+        return await self.db.fetch('SELECT * FROM items WHERE uid = $1 AND item_name = $2', uid, name)
 
     async def fetch_item_unjoined(self, uuid):
-        return await self.db.fetch("SELECT * FROM items WHERE uuid = $1", uuid)
+        return await self.db.fetch('SELECT * FROM items WHERE uuid = $1', uuid)
 
     async def add_item(self, uid, name, sell_price, amount):
         uuid_used = str(uuid.uuid4().int)
         async with self.db.acquire() as con:
-            await con.execute("INSERT INTO items VALUES ($1, $2, $3, $4, $5, $6, $7)",
+            await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4, $5, $6, $7)',
                               uid, name, sell_price, amount, uid, arrow.utcnow().timestamp, uuid_used)
         return uuid_used
 
@@ -73,10 +73,10 @@ class Database(commands.Cog):
         original = await self.fetch_item(sender_id, item_name)
         recipient = await self.fetch_item(recip_id, item_name)
         async with self.db.acquire() as con:
-            await con.execute("UPDATE items SET item_amount = $1 WHE",
+            await con.execute('UPDATE items SET item_amount = $1 WHE',
                               recipient.get('item_amount') + amount, item_name, sender_id)
 
-            await con.execute("UPDATE ITEMS SET item_amount = $1 WHERE uid = $2",
+            await con.execute('UPDATE ITEMS SET item_amount = $1 WHERE uid = $2',
                               original.get('item_amount') - amount, sender_id)
 
 
