@@ -13,13 +13,19 @@ class Minecraft(commands.Cog):
 
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def mcping(self, ctx, host, port: int = None):
-        """Checks the status of a Minecraft server"""
+    async def mcping(self, ctx, host=None, port: int = None):
+        """Checks the status of a given Minecraft server"""
 
-        port_str = ''
-        if port is not None:
-            port_str = f':{port}'
-        combined = f'{host}{port_str}'
+        if host is None:
+            combined = await self.db.fetch_default_server(ctx.guild.id)
+            if combined is None:
+                await self.bot.send(ctx,
+                                    f'To use this shortcut, you must set a default Minecraft server via `{ctx.prefix}config`')
+        else:
+            port_str = ''
+            if port is not None:
+                port_str = f':{port}'
+            combined = f'{host}{port_str}'
 
         async with ctx.typing():
             async with self.ses.get(f'https://theapi.info/mc?host={combined}') as res:  # fetch status from api
