@@ -2,6 +2,7 @@ import aiohttp
 import base64
 import discord
 import json
+import random
 from discord.ext import commands
 
 
@@ -180,6 +181,15 @@ class Minecraft(commands.Cog):
         )
 
         await ctx.send(embed=embed)
+
+    @commands.command(name='buildidea', aliases=['idea'])
+    async def build_idea(self, ctx):
+        """Sends a random "build idea" which you could create"""
+
+        prefix = random.choice(self.bot.build_ideas['prefixes'])
+        idea = random.choice(self.bot.build_ideas['ideas'])
+
+        await self.bot.send(ctx, f'{prefix} {idea}!')
 
 
 def setup(bot):
