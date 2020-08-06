@@ -65,7 +65,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def steal_skin(self, ctx, player):
-        """"steals" the skin of a Minecraft player"""
+        """'steals' the skin of a Minecraft player"""
 
         async with ctx.typing():
             res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{player}')
@@ -98,7 +98,7 @@ class Minecraft(commands.Cog):
 
         embed = discord.Embed(color=self.bot.cc, description=f'{gamertag}\'s skin\n[**[Download]**]({skin_url})')
         embed.set_thumbnail(url=skin_url)
-        embed.set_image(url=f"https://mc-heads.net/body/{gamertag}")
+        embed.set_image(url=f'https://mc-heads.net/body/{gamertag}')
 
         await ctx.send(embed=embed)
 
@@ -130,7 +130,56 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
             return
 
-        await self.bot.send(ctx, f'**{gamertag}**: `{jj[0]["id"]}`')
+        uuid = jj[0]['id']
+
+        await self.bot.send(ctx, f'**{gamertag}**: `{uuid}`')
+
+    @commands.command(name='mccolors', aliases=['minecraftcolors', 'chatcolors', 'colorcodes'])
+    async def color_codes(self, ctx):
+        """Shows the Minecraft chat color codes"""
+
+        embed = discord.Embed(
+            color=await self.bot.cc(ctx.author.id),
+            description='Text in Minecraft can be formatted using different codes and\nthe section (`§`) sign.'
+        )
+
+        embed.set_author(name='Minecraft Formatting Codes')
+
+        embed.add_field(
+            name='Color Codes',
+            value='<:red:697541699706028083> **Red** `§c`\n'
+                  '<:yellow:697541699743776808> **Yellow** `§e`\n'
+                  '<:green:697541699316219967> **Green** `§a`\n'
+                  '<:aqua:697541699173613750> **Aqua** `§b`\n'
+                  '<:blue:697541699655696787> **Blue** `§9`\n'
+                  '<:light_purple:697541699546775612> **Light Purple** `§d`\n'
+                  '<:white:697541699785719838> **White** `§f`\n'
+                  '<:gray:697541699534061630> **Gray** `§7`\n'
+        )
+
+        embed.add_field(
+            name='Color Codes',
+            value='<:dark_red:697541699488055426> **Dark Red** `§4`\n'
+                  '<:gold:697541699639050382> **Gold** `§6`\n'
+                  '<:dark_green:697541699500769420> **Dark Green** `§2`\n'
+                  '<:dark_aqua:697541699475472436> **Dark Aqua** `§3`\n'
+                  '<:dark_blue:697541699488055437> **Dark Blue** `§1`\n'
+                  '<:dark_purple:697541699437592666> **Dark Purple** `§5`\n'
+                  '<:dark_gray:697541699471278120> **Dark Gray** `§8`\n'
+                  '<:black:697541699496444025> **Black** `§0`\n'
+        )
+
+        embed.add_field(
+            name='Formatting Codes',
+            value='<:bold:697541699488186419> **Bold** `§l`\n'
+                  '<:strikethrough:697541699768942711> ~~Strikethrough~~ `§m`\n'
+                  '<:underline:697541699806953583> __Underline__ `§n`\n'
+                  '<:italic:697541699152379995> *Italic* `§o`\n'
+                  '<:obfuscated:697541699769204736> ||Obfuscated|| `§k`\n'
+                  '<:reset:697541699697639446> Reset `§r`\n'
+        )
+
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
