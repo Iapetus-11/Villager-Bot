@@ -61,7 +61,7 @@ bot.votes_disbots = 0
 bot.cmd_count = 0
 bot.msg_count = 0
 bot.start_time = None
-bot.honey_buckets = None  # list of cooldowns for honey command (econ)
+bot.honey_buckets = None  # list of cooldowns for honey command (econ cog)
 
 with json.load(open("data/data.json", "r")) as jj:  # load essential data from data.json
     bot.playing_list = jj['playing_list']  # list of games the bot can "play" in its status
