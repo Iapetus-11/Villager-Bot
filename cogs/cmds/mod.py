@@ -17,6 +17,8 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     async def purge(self, ctx, to_purge: Union[discord.Member, int], amount=20):
+        """Purges the given amount of messages from the current channel"""
+
         if type(to_purge) is discord.User:
             def check(m):
                 return m.author.id == to_purge.id
@@ -29,6 +31,7 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
     async def kick_user(self, ctx, user: discord.Member, *, reason='No reason provided.'):
+        """Kicks the user from the current Discord server"""
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=self.bot.cc, title='You cannot kick yourself.'))
             return
@@ -46,6 +49,8 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     async def ban_user(self, ctx, user: discord.Member, *, reason='No reason provided.'):
+        """Bans the given user from the current Discord server"""
+
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=self.bot.cc, title='You cannot ban yourself.'))
             return
@@ -68,6 +73,8 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     async def pardon_user(self, ctx, user: discord.User, *, reason='No reason provided.'):
+        """Unbans / pardons the given user fromt he current Discord server"""
+
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=self.bot.cc, title='You cannot unban yourself.'))
             return
