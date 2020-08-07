@@ -27,7 +27,6 @@ async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the da
 
 bot = commands.AutoShardedBot(  # setup bot
     command_prefix=get_prefix,
-    help_commands=None,
     case_insensitive=True
 )
 
@@ -53,7 +52,7 @@ async def setup_database():  # init pool connection to database
     )
 
 
-asyncio.get_event_loop().run_until_complete(setup_database())
+# asyncio.get_event_loop().run_until_complete(setup_database())
 
 bot.cc = discord.Color.green()  # embed color
 bot.votes_topgg = 0
@@ -73,7 +72,8 @@ with json.load(open("data/data.json", "r")) as jj:  # load essential data from d
     bot.build_ideas = jj['build_ideas']  # list of build ideas for the !!buildidea command
 
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
-    "",
+    'cogs.cmds.mc',
+    'cogs.cmds.mod'
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list
