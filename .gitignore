@@ -1,4 +1,5 @@
 *.env
+data/keys.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
