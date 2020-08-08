@@ -43,8 +43,9 @@ class Fun(commands.Cog):
 
         meme = {'nsfw': True, 'spoiler': True}
 
-        while meme['spoiler'] or (not do_nsfw and meme['nsfw']):
-            meme = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/meme+memes+me_irl+dankmemes')).json()
+        async with ctx.typing():
+            while meme['spoiler'] or (not do_nsfw and meme['nsfw']):
+                meme = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/meme+memes+me_irl+dankmemes')).json()
 
         embed = discord.Embed(color=self.bot.cc, title=meme['title'], url=meme['postLink'])
         embed.set_image(url=meme['url'])
@@ -62,8 +63,9 @@ class Fun(commands.Cog):
 
         jj = {'nsfw': True, 'spoiler': True}
 
-        while not do_nsfw and jj['nsfw']:
-            jj = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/greentext')).json()
+        async with ctx.typing():
+            while not do_nsfw and jj['nsfw']:
+                jj = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/greentext')).json()
 
         embed = discord.Embed(color=self.bot.cc, title=jj['title'], url=jj['postLink'])
         embed.set_image(url=jj['url'])
@@ -81,8 +83,9 @@ class Fun(commands.Cog):
 
         jj = {'nsfw': True, 'spoiler': True}
 
-        while not do_nsfw and jj['nsfw']:
-            jj = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/comics')).json()
+        async with ctx.typing():
+            while not do_nsfw and jj['nsfw']:
+                jj = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/comics')).json()
 
         embed = discord.Embed(color=self.bot.cc, title=jj['title'], url=jj['postLink'])
         embed.set_image(url=jj['url'])
