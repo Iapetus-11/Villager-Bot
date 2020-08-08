@@ -52,7 +52,7 @@ async def setup_database():  # init pool connection to database
     )
 
 
-# asyncio.get_event_loop().run_until_complete(setup_database())
+asyncio.get_event_loop().run_until_complete(setup_database())
 
 bot.cc = discord.Color.green()  # embed color
 bot.votes_topgg = 0
