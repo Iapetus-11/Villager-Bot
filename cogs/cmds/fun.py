@@ -12,9 +12,26 @@ class Fun(commands.Cog):
     def cog_unload(self):
         self.bot.loop.create_task(self.ses.close())
 
+    async def lang_convert(self, msg, lang):
+        keys = list(lang)
+
+        for key in keys:
+            msg = msg.replace(key, lang[key])
+
+        if len(msg) > 2000 - 6:
+            return
+        else:
+            return discord.utils.escape_markdown(msg)
+
+    async def nice(ctx):
+        cmd_len = len(f'{ctx.prefix}{ctx.invoked_with} ')
+        return ctx.message.clean_content[cmd_len:]
+
     @commands.command(name='meme')
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def meme(self, ctx):
+        """Sends a meme from reddit"""
+
         do_nsfw = False
         if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
@@ -32,6 +49,8 @@ class Fun(commands.Cog):
     @commands.command(name='4chan')
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def greentext(self, ctx):
+        """Sends a greentext from r/greentext"""
+
         do_nsfw = False
         if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
@@ -49,6 +68,8 @@ class Fun(commands.Cog):
     @commands.command(name='comic')
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def comic(self, ctx):
+        """Sends a comic from r/comics"""
+
         do_nsfw = False
         if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
@@ -62,21 +83,6 @@ class Fun(commands.Cog):
         embed.set_image(url=jj['url'])
 
         await ctx.send(embed=embed)
-
-    async def lang_convert(self, msg, lang):
-        keys = list(lang)
-
-        for key in keys:
-            msg = msg.replace(key, lang[key])
-
-        if len(msg) > 2000 - 6:
-            return
-        else:
-            return discord.utils.escape_markdown(msg)
-
-    async def nice(ctx):
-        cmd_len = len(f'{ctx.prefix}{ctx.invoked_with} ')
-        return ctx.message.clean_content[cmd_len:]
 
     @commands.command(name='say')
     async def say_text(self, ctx, *, _text):
