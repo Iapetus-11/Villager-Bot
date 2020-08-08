@@ -25,8 +25,8 @@ class Minecraft(commands.Cog):
         if host is None:
             combined = await self.db.fetch_default_server(ctx.guild.id)
             if combined is None:
-                await self.bot.send(ctx,
-                                    f'To use this shortcut, you must set a default Minecraft server via `{ctx.prefix}config`')
+                await self.bot.send(ctx, f'To use this shortcut, you must set '
+                'a default Minecraft server via `{ctx.prefix}config`')
         else:
             port_str = ''
             if port is not None:
