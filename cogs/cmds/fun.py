@@ -19,7 +19,7 @@ class Fun(commands.Cog):
         for key in keys:
             msg = msg.replace(key, lang.get(key))
             try:
-                msg = msg.replace(key.upper(), lang.get(key.upper()))
+                msg = msg.replace(key.upper(), lang.get(key).upper())
             except Exception:
                 pass
 
