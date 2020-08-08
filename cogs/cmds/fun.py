@@ -216,8 +216,8 @@ class Fun(commands.Cog):
                 return
 
             for val in size:
-                if val < 1 or val > 32:
-                    await self.bot.send(ctx, 'The size must be between 1 and 32')
+                if val < 1 or val > 16:
+                    await self.bot.send(ctx, 'The size must be between 1 and 16')
                     return
 
         bubble = '||***pop***||'
