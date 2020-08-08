@@ -117,7 +117,7 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
             return
 
-        jj = await response.json()
+        jj = await res.json()
         name = jj[len(j) - 1]['name']
 
         await self.bot.send(ctx, f'**{uuid}**: `{name}`')
