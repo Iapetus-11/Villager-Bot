@@ -73,7 +73,7 @@ with json.load(open("data/data.json", "r")) as jj:  # load essential data from d
     bot.emojified = jj['emojified']  # characters which can be emojified and their respective emojis
     bot.fun_langs = jj['fun_langs']  # fun languages for the text commands
 
-# reverse enchant lang and make it its own lang
+# reverse enchant lang and make it its own lang (unenchantlang)
 bot.fun_langs['unenchant'] = {}
 for key in list(bot.fun_langs['enchant']):
     bot.fun_langs['unenchant'][bot.fun_langs['enchant'][key]] = key
