@@ -18,6 +18,10 @@ class Text(commands.Cog):
         else:
             return msg
 
+    async def nice(ctx):
+        cmd_len = len(f'{ctx.prefix}{ctx.invoked_with} ')
+        return ctx.message.clean_content[cmd_len:]
+
     @commands.command(name='say')
     async def say_text(self, ctx, *, _text):
         """Sends whatever is put into the command"""
