@@ -118,7 +118,7 @@ class Minecraft(commands.Cog):
             return
 
         jj = await res.json()
-        name = jj[len(j) - 1]['name']
+        name = jj[len(jj) - 1]['name']
 
         await self.bot.send(ctx, f'**{uuid}**: `{name}`')
 
