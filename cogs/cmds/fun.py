@@ -220,15 +220,8 @@ class Fun(commands.Cog):
                     await self.bot.send(ctx, 'The size must be between 1 and 32')
                     return
 
-        bubbles = ['||*pop*||', '||pOp||', '||*pOp*||', '||***POP***||', '||PoP||', '||**pop**||', '||*POP*||']
-        bubble_body = ''
-
-        for i in range(size[1]):
-            for j in range(size[0]):
-                bubble_body += random.choice(bubbles)
-            bubble_body += '\n'
-
-        await self.bot.send(ctx, bubble_body)
+        bubble = '||***pop***||'
+        await self.bot.send(ctx, f'{bubble*size[0]}\n'*size[1])
 
 
 def setup(bot):
