@@ -506,7 +506,9 @@
     ]
   },
   "emojis": {
-    "emerald": "<:emerald:653729877698150405>"
+    "emerald": "<:emerald:653729877698150405>",
+    "online": "<:online:692764696075304960>",
+    "offline": "<:offline:692764696431951872>"
   },
   "build_ideas": {
     "ideas": [
