@@ -46,5 +46,22 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name='comic')
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def comic(self, ctx):
+        do_nsfw = False
+        if isinstance(ctx.channel, discord.TextChannel):
+            do_nsfw = ctx.channel.is_nsfw()
+
+        jj = {'nsfw': True, 'spoiler': True}
+
+        while not do_nsfw and jj['nsfw']:
+            jj = (await self.ses.get('https://meme-api.herokuapp.com/gimme/comics')).json()
+
+        embed = discord.Embed(color=self.bot.cc, title=jj['title'], url=jj['postLink'])
+        embed.set_image(url=jj['url'])
+
+        await ctx.send(embed=embed)
+
 def setup(bot):
     bot.add_cog(Fun(bot))
