@@ -613,7 +613,7 @@
     "8": ":eight:",
     "9": ":nine:",
     "0": ":zero:",
-    " ": ":black_large_square:"
+    " ": "\uFEFF \uFEFF \uFEFF "
   },
   "fun_langs": {
     "enchant": {
