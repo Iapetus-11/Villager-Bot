@@ -103,6 +103,8 @@ class Text(commands.Cog):
 
     @commands.command(name='emojify')
     async def emojifi_text(self, ctx, *, _text):
+        """Turns text into emojis"""
+
         abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me = 'abcdefghijklmnopqrstuvwxyz'
 
         text = await self.nice(ctx)
