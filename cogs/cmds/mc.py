@@ -34,7 +34,7 @@ class Minecraft(commands.Cog):
             combined = f'{host}{port_str}'
 
         async with ctx.typing():
-            async with self.ses.get(f'https://theapi.info/mc?host={combined}') as res:  # fetch status from api
+            async with self.ses.get(f'https://theapi.info/mc/mcping?host={combined}') as res:  # fetch status from api
                 jj = await res.json()
 
         if jj['online'] is not True:
