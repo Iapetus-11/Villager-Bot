@@ -184,7 +184,7 @@ class Fun(commands.Cog):
 
         text = ''
 
-        for letter in await self.nice(ctx):
+        for letter in (await self.nice(ctx)).lower():
             if letter in abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me:
                 text += f':regional_indicator_{letter}: '
             else:
