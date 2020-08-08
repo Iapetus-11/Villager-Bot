@@ -1,2 +1,2 @@
 # Villager-Bot-Rewrite
-Rewrite repo for Villager Bot, main repository lives here: https://github.com/Villager-Dev/Villager-Bot
+OLD rewrite repo for Villager Bot, rewrite now lives in the main repository under the rewrite branch: https://github.com/Villager-Dev/Villager-Bot
