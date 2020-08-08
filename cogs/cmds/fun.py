@@ -16,7 +16,8 @@ class Fun(commands.Cog):
         keys = list(lang)
 
         for key in keys:
-            msg = msg.replace(key, lang[key])
+            msg = msg.replace(key, lang.get(key))
+            msg = msg.replace(key.upper(), lang.get(key.upper()))
 
         if len(msg) > 2000 - 6:
             return
