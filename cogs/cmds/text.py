@@ -53,7 +53,7 @@ class Text(commands.Cog):
         if translated is None:
             await self.bot.send(ctx, 'The message is too long to convert.')
         else:
-            await self.bot.send(ctx, f'```{translated}```')
+            await ctx.send(translated)
 
     @commands.command(name='unenchant')
     async def unenchant_lang(self, ctx, *, msg):
@@ -64,7 +64,7 @@ class Text(commands.Cog):
         if translated is None:
             await self.bot.send(ctx, 'The message is too long to convert.')
         else:
-            await self.bot.send(ctx, f'```{translated}```')
+            await ctx.send(translated)
 
     @commands.command(name='sarcastic')
     async def sarcastic_text(self, ctx, *, msg):
@@ -101,6 +101,25 @@ class Text(commands.Cog):
 
         await ctx.send(clapped)
 
+    @commands.command(name='emojify')
+    async def emojifi_text(self, ctx, *, _text):
+        abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me = 'abcdefghijklmnopqrstuvwxyz'
+
+        text = await self.nice(ctx)
+
+        for letter in text:
+            if letter in abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me:
+                text += ':regional_indicator_' + letter
+            else:
+                text += self.bot.emojified.get(letter, letter)
+
+        if len(text) > 2000:
+            await self.bot.send(ctx, 'That would be too long to send')
+        else:
+            await ctx.send(text)
+
+
+
     @commands.command(name='bubblewrap', aliases=['pop'])
     async def bubblewrap(self, ctx, size=None):
         """Sends bubblewrap to the chat"""
@@ -135,23 +154,6 @@ class Text(commands.Cog):
             bubble_body += '\n'
 
         await self.bot.send(ctx, bubble_body)
-
-    @commands.command(name='emojify')
-    async def emojifi_text(self, ctx, *, _text):
-        abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me = 'abcdefghijklmnopqrstuvwxyz'
-
-        text = await self.nice(ctx)
-
-        for letter in text:
-            if letter in abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me:
-                text += ':regional_indicator_' + letter
-            else:
-                text += self.bot.emojified.get(letter, letter)
-
-        if len(text) > 2000:
-            await self.bot.send(ctx, 'That would be too long to send')
-        else:
-            await ctx.send(text)
 
 
 def setup(bot):
