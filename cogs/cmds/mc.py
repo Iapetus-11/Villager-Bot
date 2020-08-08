@@ -143,7 +143,7 @@ class Minecraft(commands.Cog):
         """Shows the Minecraft chat color codes"""
 
         embed = discord.Embed(
-            color=await self.bot.cc(ctx.author.id),
+            color=self.bot.cc,
             description='Text in Minecraft can be formatted using different codes and\nthe section (`§`) sign.'
         )
 
