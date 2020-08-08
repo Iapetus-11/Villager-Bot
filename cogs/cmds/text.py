@@ -66,6 +66,17 @@ class Text(commands.Cog):
         else:
             await ctx.send(translated)
 
+    @commands.command(name='vaporwave')
+    async def vaporwave_text(self, ctx, *, msg):
+        """Turns regular text into vaporwave text"""
+
+        translated = await self.lang_convert(await self.nice(ctx), self.bot.fun_langs['vaporwave'])
+
+        if translated is None:
+            await self.bot.send(ctx, 'The message is too long to convert.')
+        else:
+            await ctx.send(translated)
+
     @commands.command(name='sarcastic')
     async def sarcastic_text(self, ctx, *, msg):
         """Turns regular text into "sarcastic" text from spongebob"""
