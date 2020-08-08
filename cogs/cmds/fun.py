@@ -182,11 +182,11 @@ class Fun(commands.Cog):
 
         abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me = 'abcdefghijklmnopqrstuvwxyz'
 
-        text = await self.nice(ctx)
+        text = ''
 
-        for letter in text:
+        for letter in await self.nice(ctx):
             if letter in abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me:
-                text += ':regional_indicator_' + letter
+                text += ':regional_indicator_' + letter + ':'
             else:
                 text += self.bot.emojified.get(letter, letter)
 
