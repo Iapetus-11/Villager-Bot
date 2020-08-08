@@ -25,7 +25,7 @@ class Fun(commands.Cog):
         else:
             return discord.utils.escape_markdown(msg)
 
-    async def nice(ctx):
+    async def nice(self, ctx):
         cmd_len = len(f'{ctx.prefix}{ctx.invoked_with} ')
         return ctx.message.clean_content[cmd_len:]
 
