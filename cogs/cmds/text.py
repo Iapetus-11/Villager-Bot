@@ -119,7 +119,6 @@ class Text(commands.Cog):
             await ctx.send(text)
 
 
-
     @commands.command(name='bubblewrap', aliases=['pop'])
     async def bubblewrap(self, ctx, size=None):
         """Sends bubblewrap to the chat"""
