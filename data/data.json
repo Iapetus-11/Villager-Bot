@@ -509,7 +509,9 @@
     "emerald": "<:emerald:653729877698150405>"
   },
   "build_ideas": {
-    "ideas": [],
+    "ideas": [
+
+    ],
     "prefixes": [
       "You could build",
       "You could create",
@@ -526,11 +528,13 @@
     ]
   },
   "emojified": {
-    "!": ":exclamation:",
-    "?": ":question:",
+    "!": ":grey_exclamation:",
+    "?": ":grey_question:",
     "+": ":heavy_plus_sign:",
     "-": ":heavy_minus_sign:",
     "$": ":heavy_dollar_sign:",
+    "#": ":hash",
+    "*": ":asterisk:",
     "1": ":one:",
     "2": ":two:",
     "3": ":three:",
