@@ -16,7 +16,7 @@ class Text(commands.Cog):
         if len(msg) > 2000 - 6:
             return
         else:
-            return msg
+            return discord.utils.escape_markdown(msg)
 
     async def nice(ctx):
         cmd_len = len(f'{ctx.prefix}{ctx.invoked_with} ')
@@ -31,15 +31,13 @@ class Text(commands.Cog):
         except Exception:
             pass
 
-        await ctx.send(ctx.message.clean_content.replace(f'{ctx.prefix}say ', '\uFEFF'))
+        await ctx.send(await self.nice(ctx))
 
     @commands.command(name='villagerspeak')
     async def villager_speak(self, ctx, *, msg):
         """Turns the given text into Minecraft villager sounds as text"""
 
-        msg = ctx.message.clean_content.replace(f'{ctx.prefix}villagerspeak ', '\uFEFF')
-
-        translated = await self.lang_convert(discord.utils.escape_markdown(msg), self.bot.fun_langs['villager'])
+        translated = await self.lang_convert(await self.nice(ctx), self.bot.fun_langs['villager'])
 
         if translated is None:
             await self.bot.send(ctx, 'The message is too long to convert.')
@@ -50,7 +48,7 @@ class Text(commands.Cog):
     async def enchant_lang(self, ctx, *, msg):
         """Turns regular text into the Minecraft enchantment table language"""
 
-        translated = await self.lang_convert(discord.utils.escape_markdown(msg), self.bot.fun_langs['enchant'])
+        translated = await self.lang_convert(await self.nice(ctx), self.bot.fun_langs['enchant'])
 
         if translated is None:
             await self.bot.send(ctx, 'The message is too long to convert.')
@@ -61,7 +59,7 @@ class Text(commands.Cog):
     async def unenchant_lang(self, ctx, *, msg):
         """Turns the Minecraft enchantment table language back into regular text"""
 
-        translated = await self.lang_convert(discord.utils.escape_markdown(msg), self.bot.fun_langs['unenchant'])
+        translated = await self.lang_convert(await self.nice(ctx), self.bot.fun_langs['unenchant'])
 
         if translated is None:
             await self.bot.send(ctx, 'The message is too long to convert.')
@@ -72,7 +70,7 @@ class Text(commands.Cog):
     async def sarcastic_text(self, ctx, *, msg):
         """Turns regular text into "sarcastic" text from spongebob"""
 
-        msg = discord.utils.escape_markdown(ctx.message.clean_content.replace(f'{ctx.prefix}sarcastic ', '\uFEFF'))
+        msg = await self.nice(ctx)
 
         if len(msg) > 2000:
             await self.bot.send(ctx, 'The message is too long to convert.')
@@ -95,8 +93,7 @@ class Text(commands.Cog):
     async def clap_cheeks(self, ctx, *, text):
         """Puts the :clap: emoji between words"""
 
-        clapped = discord.utils.escape_markdown(message.clean_content.replace(f'{ctx.prefix}clap ', '\uFEFF'))
-        clapped = ':clap: ' + ':clap: '.join(clapped.split(' ')) + ' :clap:'
+        clapped = ':clap: ' + ':clap: '.join((await self.nice(ctx)).split(' ')) + ' :clap:'
 
         if len(clapped) > 2000:
             await self.bot.send(ctx, 'The message is too long to convert.')
@@ -143,7 +140,7 @@ class Text(commands.Cog):
     async def emojifi_text(self, ctx, *, _text):
         abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me = 'abcdefghijklmnopqrstuvwxyz'
 
-        text = discord.utils.escape_markdown(ctx.message.clean_content.replace('emojify', ''))
+        text = await self.nice(ctx)
 
         for letter in text:
             if letter in abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me:
