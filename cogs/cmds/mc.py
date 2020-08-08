@@ -100,9 +100,9 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, 'Oops, something went wrong while fetching that player\'s profile.')
             return
 
-        embed = discord.Embed(color=self.bot.cc, description=f'{gamertag}\'s skin\n[**[Download]**]({skin_url})')
+        embed = discord.Embed(color=self.bot.cc, description=f'{player}\'s skin\n[**[Download]**]({skin_url})')
         embed.set_thumbnail(url=skin_url)
-        embed.set_image(url=f'https://mc-heads.net/body/{gamertag}')
+        embed.set_image(url=f'https://mc-heads.net/body/{player}')
 
         await ctx.send(embed=embed)
 
@@ -136,7 +136,7 @@ class Minecraft(commands.Cog):
 
         uuid = jj[0]['id']
 
-        await self.bot.send(ctx, f'**{gamertag}**: `{uuid}`')
+        await self.bot.send(ctx, f'**{username}**: `{uuid}`')
 
     @commands.command(name='mccolors', aliases=['minecraftcolors', 'chatcolors', 'colorcodes'])
     async def color_codes(self, ctx):
