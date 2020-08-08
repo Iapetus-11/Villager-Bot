@@ -89,12 +89,12 @@ class Minecraft(commands.Cog):
         )
         profile_content = await res_profile.json()
 
-        if 'error' in profile_content or len(content['properties']) == 0:
+        if 'error' in profile_content or len(profile_content['properties']) == 0:
             await self.bot.send(ctx, 'Oops, something went wrong while fetching that player\'s profile.')
             return
 
         try:
-            decoded_jj = json.loads(base64.b64decode(content['properties'][0]['value']))
+            decoded_jj = json.loads(base64.b64decode(profile_content['properties'][0]['value']))
             skin_url = decoded_jj['textures']['SKIN']['url']
         except Exception:
             await self.bot.send(ctx, 'Oops, something went wrong while fetching that player\'s profile.')
