@@ -14,6 +14,9 @@ class Minecraft(commands.Cog):
 
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
+    def cog_unload(self):
+        self.bot.loop.create_task(self.ses.close())
+
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def mcping(self, ctx, host=None, port: int = None):
