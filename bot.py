@@ -68,7 +68,7 @@ bot.msg_count = 0
 bot.start_time = None
 bot.honey_buckets = None  # list of cooldowns for honey command (econ cog)
 
-with json.load(open("data/data.json", "r", encoding='utf8')) as jj:  # load essential data from data.json
+with json.loads(open("data/data.json", "r", encoding='utf8')) as jj:  # load essential data from data.json
     bot.playing_list = jj['playing_list']  # list of games the bot can "play" in its status
     bot.cursed_images = jj['cursed_images']  # list of Minecraft cursed images
     bot.default_findables = jj['default_findables']  # items which can be found all the time
