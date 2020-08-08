@@ -135,6 +135,9 @@ class Text(commands.Cog):
 
         await self.bot.send(ctx, bubble_body)
 
+    @commands.command(name='emojifi', aliases=['emojify'])
+    async def emojifi_text(self, ctx, *, text):
+        abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me = "abcdefghijklmnopqrstuvwxyz"
 
 def setup(bot):
     bot.add_cog(Text(bot))
