@@ -168,7 +168,7 @@ class Fun(commands.Cog):
     async def clap_cheeks(self, ctx, *, text):
         """Puts the :clap: emoji between words"""
 
-        clapped = ':clap: ' + ':clap: '.join((await self.nice(ctx)).split(' ')) + ' :clap:'
+        clapped = ':clap: ' + ' :clap: '.join((await self.nice(ctx)).split(' ')) + ' :clap:'
 
         if len(clapped) > 2000:
             await self.bot.send(ctx, 'The message is too long to convert.')
