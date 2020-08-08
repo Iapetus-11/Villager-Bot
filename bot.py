@@ -5,6 +5,9 @@ import json
 import logging
 from discord.ext import commands
 
+global DEBUG
+DEBUG = True
+
 # set up basic logging
 logging.basicConfig(level=logging.WARNING)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)  # hide annoying asyncio warnings
@@ -17,6 +20,9 @@ with open("data/config.json", "r") as c:  # load config
 
 
 async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
+    if DEBUG:
+        return "!!"
+
     if ctx.guild is None:
         return "!!"
 
@@ -51,8 +57,8 @@ async def setup_database():  # init pool connection to database
         command_timeout=5
     )
 
-
-asyncio.get_event_loop().run_until_complete(setup_database())
+if not DEBUG:
+    asyncio.get_event_loop().run_until_complete(setup_database())
 
 bot.cc = discord.Color.green()  # embed color
 bot.votes_topgg = 0
@@ -93,7 +99,8 @@ async def is_bot_banned(uid):  # checks if a user has been botbanned
 
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
-    return bot.is_ready() and not await is_bot_banned(ctx.author.id)
+    if not DEBUG:
+        return bot.is_ready() and not await is_bot_banned(ctx.author.id)
 
 
 bot.run(keys['discord'])  # run the bot, this is a blocking call
