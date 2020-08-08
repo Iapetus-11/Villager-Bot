@@ -70,6 +70,7 @@ with json.load(open("data/data.json", "r")) as jj:  # load essential data from d
     bot.shop_items = jj['shop_items']  # items which are in the shop
     bot.emojis = jj['emojis']  # custom emojis which the bot uses
     bot.build_ideas = jj['build_ideas']  # list of build ideas for the !!buildidea command
+    bot.emojified = jj['emojified']  # characters which can be emojified and their respective emojis
 
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.mc',
