@@ -115,7 +115,7 @@ class Fun(commands.Cog):
     async def enchant_lang(self, ctx, *, msg):
         """Turns regular text into the Minecraft enchantment table language"""
 
-        translated = await self.lang_convert(await self.nice(ctx), self.bot.fun_langs['enchant'])
+        translated = await self.lang_convert((await self.nice(ctx)).lower(), self.bot.fun_langs['enchant'])
 
         if translated is None:
             await self.bot.send(ctx, 'The message is too long to convert.')
