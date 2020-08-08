@@ -100,8 +100,10 @@ async def is_bot_banned(uid):  # checks if a user has been botbanned
 
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
-    if not DEBUG:
-        return bot.is_ready() and not await is_bot_banned(ctx.author.id)
+    if DEBUG:
+        return True
+        
+    return bot.is_ready() and not await is_bot_banned(ctx.author.id)
 
 
 bot.run(keys['discord'])  # run the bot, this is a blocking call
