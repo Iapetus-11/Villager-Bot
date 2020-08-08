@@ -71,6 +71,12 @@ with json.load(open("data/data.json", "r")) as jj:  # load essential data from d
     bot.emojis = jj['emojis']  # custom emojis which the bot uses
     bot.build_ideas = jj['build_ideas']  # list of build ideas for the !!buildidea command
     bot.emojified = jj['emojified']  # characters which can be emojified and their respective emojis
+    bot.fun_langs = jj['fun_langs']  # fun languages for the text commands
+
+# reverse enchant lang and make it its own lang
+bot.fun_langs['unenchant'] = {}
+for key in list(bot.fun_langs['enchant']):
+    bot.fun_langs['unenchant'][bot.fun_langs['enchant'][key]] = key
 
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.mc',
@@ -82,7 +88,7 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 
 
 async def is_bot_banned(uid):  # checks if a user has been botbanned
-    return await bot.db.fetchrow("SELECT bot_banned FROM users WHERE uid = $1", uid)
+    return (await bot.db.fetchrow("SELECT bot_banned FROM users WHERE uid = $1", uid))[0]
 
 
 @bot.check  # everythingggg goes through here
