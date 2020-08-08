@@ -21,7 +21,7 @@ with open("data/config.json", "r") as c:  # load config
 
 async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
     if DEBUG:
-        return "!!"
+        return ","
 
     if ctx.guild is None:
         return "!!"
