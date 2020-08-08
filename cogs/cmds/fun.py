@@ -186,9 +186,9 @@ class Fun(commands.Cog):
 
         for letter in await self.nice(ctx):
             if letter in abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me:
-                text += ':regional_indicator_' + letter + ':'
+                text += f':regional_indicator_{letter}: '
             else:
-                text += self.bot.emojified.get(letter, letter)
+                text += self.bot.emojified.get(letter, letter) + ' '
 
         if len(text) > 2000:
             await self.bot.send(ctx, 'That would be too long to send')
