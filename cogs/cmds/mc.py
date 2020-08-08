@@ -69,7 +69,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def steal_skin(self, ctx, player):
-        """'steals' the skin of a Minecraft player"""
+        """"steals" the skin of a Minecraft player"""
 
         async with ctx.typing():
             res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{player}')
@@ -78,7 +78,7 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
             return
 
-        uuid = await res.json().get('id')
+        uuid = (await res.json()).get('id')
 
         if uuid is None:
             await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
