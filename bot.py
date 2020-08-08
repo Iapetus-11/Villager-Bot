@@ -87,7 +87,8 @@ for key in list(bot.fun_langs['enchant']):
 
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.mc',
-    'cogs.cmds.mod'
+    'cogs.cmds.mod',
+    'cogs.cmds.fun'
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list
@@ -102,7 +103,7 @@ async def is_bot_banned(uid):  # checks if a user has been botbanned
 async def global_check(ctx):
     if DEBUG:
         return True
-        
+
     return bot.is_ready() and not await is_bot_banned(ctx.author.id)
 
 
