@@ -144,7 +144,13 @@ class Text(commands.Cog):
         for letter in text:
             if letter in abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me:
                 text += ':regional_indicator_' + letter
-            elif
+            else:
+                text += self.bot.emojified.get(letter, letter)
+
+        if len(text) > 2000:
+            await self.bot.send(ctx, 'That would be too long to send')
+        else:
+            await ctx.send(text)
 
 
 def setup(bot):
