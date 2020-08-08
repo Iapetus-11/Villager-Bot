@@ -42,7 +42,7 @@ class Minecraft(commands.Cog):
             await ctx.send(embed=embed)
             return
 
-        player_list = jj['players_names']  # list
+        player_list = jj.get('players_names', [])  # list
         players_online = jj['players_online']  # int
 
         embed = discord.Embed(color=self.bot.cc, title=f'{self.bot.custom_emojis["online"]} {combined} is online')
