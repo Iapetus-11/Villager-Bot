@@ -3,7 +3,7 @@ from discord.ext import commands
 import random
 
 
-class Text(commands.Cog):
+class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -168,4 +168,4 @@ class Text(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Text(bot))
+    bot.add_cog(Fun(bot))
