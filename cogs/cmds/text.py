@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import random
 
 
 class Text(commands.Cog):
@@ -98,6 +99,41 @@ class Text(commands.Cog):
             return
 
         await ctx.send(clapped)
+
+    @commands.command(name='bubblewrap', aliases=['pop'])
+    async def bubblewrap(self, ctx, size=None):
+        """Sends bubblewrap to the chat"""
+
+        if size is None:
+            size = (10, 10,)
+        else:
+            size = size.split('x')
+
+            if len(size) != 2:
+                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: 10x10')
+                return
+
+            try:
+                size[0] = int(size[0])
+                size[1] = int(size[1])
+            except ValueError:
+                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: 10x10')
+                return
+
+            for val in size:
+                if val < 1 or val > 32:
+                    await self.bot.send(ctx, 'The size must be between 1 and 32')
+                    return
+
+        bubbles = ['||*pop*||', '||pOp||', '||*pOp*||', '||***POP***||', '||PoP||', '||**pop**||', '||*POP*||']
+        bubble_body = ''
+
+        for i in range(size[1]):
+            for j in range(size[0]):
+                bubble_body += random.choice(bubbles)
+            bubble_body += '\n'
+
+        await self.bot.send(ctx, bubble_body)
 
 
 def setup(bot):
