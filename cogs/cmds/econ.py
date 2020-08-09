@@ -23,7 +23,7 @@ class Econ(commands.Cog):
 
         embed = discord.Embed(color=self.bot.cc)
         embed.set_author(name=f'{u.display_name}\'s emeralds', icon_url=u.avatar_url_as())
-        
+
         embed.description = f'Total Wealth: {total_wealth}{self.bot.custom_emojis["emerald"]}'
 
         embed.add_field(name='Pocket', value=f'{db_user["emeralds"]}{self.bot.custom_emojis["emerald"]}')
