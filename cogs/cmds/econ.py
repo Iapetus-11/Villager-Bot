@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import asyncio
+import math
 
 
 class Econ(commands.Cog):
@@ -10,15 +11,15 @@ class Econ(commands.Cog):
         self.db = self.bot.get_cog("Database")
 
     @commands.command(name='bal', aliases=['balance'])
-    async def bal(self, ctx, u: discord.User = None):
+    async def bal(self, ctx, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
 
         if u is None:
             u = ctx.author
 
-        db_user = await self.db.fetch_user(u.id)
+        db_user = await self.db.fetch_user(user.id)
 
-        u_items = await self.db.fetch_items(u.id)
+        u_items = await self.db.fetch_items(user.id)
         total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] + u_it['item_amount'] for u_it in u_items])
 
         embed = discord.Embed(color=self.bot.cc)
@@ -32,10 +33,10 @@ class Econ(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='inv', aliases=['inventory', 'pocket'])
-    async def inventory(self, ctx, u: discord.User = None):
+    async def inventory(self, ctx, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
 
-        u_items = await self.db.fetch_items(u.id)
+        u_items = await self.db.fetch_items(user.id)
         items_sorted = sorted(u_items, key=lambda item: item['sell_price'])  # sort items by sell price
         items_chunks = [items_sorted[i:i + 16] for i in range(0, len(items_sorted), 16)]  # split items into chunks of 16 [[16..], [16..], [16..]]
 
@@ -50,7 +51,7 @@ class Econ(commands.Cog):
                 body += f'`{it_am_txt}x` **{item["item_name"]}** ({item["sell_price"]}{self.bot.custom_emojis["emerald"]})\n'
 
             embed = discord.Embed(color=self.bot.cc, description=body)
-            embed.set_author(name=f'{u.display_name}\'s inventory', icon_url=u.avatar_url_as())
+            embed.set_author(name=f'{user.display_name}\'s inventory', icon_url=user.avatar_url_as())
             embed.set_footer(text=f'Page {page+1}/{page_max+1}')
 
             msg = await ctx.send(embed=embed)
@@ -75,6 +76,37 @@ class Econ(commands.Cog):
 
             if react.emoji == '⬅️': page -= 1
             if react.emoji == '➡️': page += 1
+
+    @commands.command(name='deposit', aliases=['dep'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def vault_deposit(self, ctx, emerald_blocks: str):
+        """Deposits the given amount of emerald blocks into the vault"""
+
+        db_user = await self.db.fetch_user(ctx.author.id)
+
+        c_v_bal = db_user['vault_bal']
+        c_v_max = db_user['vault_max']
+        c_bal = db_user['emeralds']
+
+        if c_bal < 9:
+            await self.bot.send(ctx, 'You don\'t have enough emeralds to deposit.')
+            return
+
+        if amount.lower() in ('all', 'max',):
+            amount = c_v_max - c_v_bal
+
+            if amount * 9 > c_bal:
+                amount = math.floor(c_bal / 9)
+        else:
+            try:
+                amount = int(emerald_blocks)
+            except ValueError:
+                await self.bot.send(ctx, 'You have to use a number.')
+                return
+
+
+
+
 
 
 def setup(bot):
