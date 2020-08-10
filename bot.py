@@ -4,109 +4,107 @@ import discord
 import json
 import logging
 from discord.ext import commands
-from math import floor
-from random import randint, choice
 
+global DEBUG
+DEBUG = True
+
+# set up basic logging
 logging.basicConfig(level=logging.WARNING)
-logging.getLogger("asyncio").setLevel(logging.CRITICAL)
+logging.getLogger("asyncio").setLevel(logging.CRITICAL)  # hide annoying asyncio warnings
 
-tips = [
-    "Did you know you can get emeralds from voting for us on [top.gg](https://top.gg/bot/639498607632056321)?",
-    "If you ever need more help, don't forget to check out the [support server](https://discord.gg/39DwwUV)!",
-    "Have any suggestions? Use the suggestion channel in our [support server](https://discord.gg/39DwwUV)!",
-    "In need of **emeralds**? Check out the #paid-stuff channel on the [support server](https://discord.gg/39DwwUV)!",
-    "Hey! Check out one of our other bots, [vidio](https://top.gg/bot/689210550680682560), a YouTube sim/roleplay bot!",
-    "Hey! Check out another of our bots, [Hypixel Stats](https://discord.gg/MZ2cXxF), a bot which can show you in-depth Hypixel statistics! "
-]
-
-with open("data/keys.json", "r") as k:  # Loads secret keys
+with open("data/keys.json", "r") as k:  # load bot keys
     keys = json.load(k)
 
+with open("data/config.json", "r") as c:  # load config
+    config = json.load(c)
 
-# Fetch prefix from db, also, self(in this context) is bot
-async def get_prefix(bot, ctx):
+
+async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
+    if DEBUG:
+        return ","
+
     if ctx.guild is None:
         return "!!"
-    prefix = await bot.db.fetchrow("SELECT prefix FROM prefixes WHERE prefixes.gid=$1", ctx.guild.id)
-    if prefix is None:
-        async with bot.db.acquire() as con:
-            await con.execute("INSERT INTO prefixes VALUES ($1, $2)", ctx.guild.id, "!!")
-        return "!!"
-    return prefix[0]
+
+    prefix = await _bot.db.fetchrow("SELECT prefix from server_configs WHERE gid = $1", ctx.guild.id)
+
+    return "!!" if prefix is None else prefix[0]
 
 
-bot = commands.AutoShardedBot(shard_count=11, command_prefix=get_prefix, help_command=None, case_insensitive=True,
-                              max_messages=1024)
+bot = commands.AutoShardedBot(  # setup bot
+    command_prefix=get_prefix,
+    case_insensitive=True
+)
 
 
-async def setup_db():
-    bot.db = await asyncpg.create_pool(host="localhost", database="villagerbot", user="pi", password=keys["postgres"],
-                                       command_timeout=5)
+async def send(self, location, message: str):
+    try:
+        await location.send(embed=discord.Embed(color=bot.cc, description=message))
+        return True
+    except discord.Forbidden:
+        return False
 
 
-asyncio.get_event_loop().run_until_complete(setup_db())
+bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
 
-# data.global needs to be loaded FIRST, then database and owner as they and most other things are dependant upon global.py and database.py
-bot.cog_list = [
-    "cogs.other.global",
-    "cogs.database.database",
-    "cogs.owner.owner",
-    "cogs.other.errors",
-    "cogs.other.msgs",
-    "cogs.other.events",
-    "cogs.other.loops",
-    "cogs.other.mobspawning",
-    "cogs.commands.fun",
-    "cogs.commands.useful",
-    "cogs.commands.mc",
-    "cogs.commands.econ",
-    "cogs.commands.admin",
-    "cogs.commands.settings",
+
+async def setup_database():  # init pool connection to database
+    bot.db = await asyncpg.create_pool(
+        host=config['database']['host'],
+        database=config['database']['name'],
+        user=config['database']['user'],
+        password=keys['database'],
+        command_timeout=5
+    )
+
+if not DEBUG:
+    asyncio.get_event_loop().run_until_complete(setup_database())
+
+bot.cc = discord.Color.green()  # embed color
+bot.votes_topgg = 0
+bot.votes_disbots = 0
+bot.cmd_count = 0
+bot.msg_count = 0
+bot.start_time = None
+bot.honey_buckets = None  # list of cooldowns for honey command (econ cog)
+
+with open("data/data.json", "r", encoding='utf8') as d:  # load essential data from data.json
+    jj = json.load(d)
+    bot.playing_list = jj['playing_list']  # list of games the bot can "play" in its status
+    bot.cursed_images = jj['cursed_images']  # list of Minecraft cursed images
+    bot.default_findables = jj['default_findables']  # items which can be found all the time
+    bot.special_findables = jj['special_findables']  # items which can only be found via events
+    bot.shop_items = jj['shop_items']  # items which are in the shop
+    bot.custom_emojis = jj['emojis']  # custom emojis which the bot uses
+    bot.build_ideas = jj['build_ideas']  # list of build ideas for the !!buildidea command
+    bot.emojified = jj['emojified']  # characters which can be emojified and their respective emojis
+    bot.fun_langs = jj['fun_langs']  # fun languages for the text commands
+
+# reverse enchant lang and make it its own lang (unenchantlang)
+bot.fun_langs['unenchant'] = {}
+for key in list(bot.fun_langs['enchant']):
+    bot.fun_langs['unenchant'][bot.fun_langs['enchant'][key]] = key
+
+bot.cog_list = [  # list of cogs which are to be loaded in the bot
+    'cogs.cmds.mc',
+    'cogs.cmds.mod',
+    'cogs.cmds.fun'
 ]
 
-# Load cogs in cogs list
-for cog in bot.cog_list:
+for cog in bot.cog_list:  # load every cog in bot.cog_list
     bot.load_extension(cog)
 
-print(f"\nAll {len(bot.cog_list)} cogs loaded!\n")
+
+async def is_bot_banned(uid):  # checks if a user has been botbanned
+    return (await bot.db.fetchrow("SELECT bot_banned FROM users WHERE uid = $1", uid))[0]
 
 
-async def banned(uid):  # Check if user is banned from bot
-    entry = await bot.db.fetchrow("SELECT id FROM bans WHERE bans.id=$1", uid)
-    if entry is None:
-        return False
-    return True
+@bot.check  # everythingggg goes through here
+async def global_check(ctx):
+    if DEBUG:
+        return True
+
+    return bot.is_ready() and not await is_bot_banned(ctx.author.id)
 
 
-@bot.check  # Global check (everything goes through this)
-async def stay_safe(ctx):
-    _global = bot.get_cog("Global")
-    _global.cmd_count += 1
-
-    _global.command_leaderboard[ctx.author.id] = _global.command_leaderboard.get(ctx.author.id, 0) + 1
-
-    if not bot.is_ready():
-        await ctx.send(
-            embed=discord.Embed(color=discord.Color.green(), description="Hold on! Villager Bot is still starting up!"))
-        return False
-
-    if ctx.author.id in _global.pause_econ and ctx.command.cog.qualified_name == "Econ":
-        await ctx.send("You can't use this command right now!")
-        return False
-
-    if str(ctx.command) in _global.triggering_cmds:
-        if ctx.guild is not None:
-            if randint(0, _global.spawn_chance) == 2:  # Excuse me sir, this is a wendys
-                bot.get_cog("MobSpawning").do_event.append(ctx)
-            elif randint(0, 100) == 25:
-                if await bot.get_cog("Database").get_do_tips(ctx.guild.id):
-                    await ctx.send(embed=discord.Embed(color=discord.Color.green(),
-                                                       description=f"**{choice(['Handy Dandy Tip:', 'Cool Tip:', 'Pro Tip:'])}** {choice(tips)}"))
-
-    del _global
-
-    return not ctx.message.author.bot and not await banned(ctx.message.author.id)
-
-
-# Actually start bot, it's a blocking call, nothing should go after this!
-bot.run(keys["discord"], bot=True)
+bot.run(keys['discord'])  # run the bot, this is a blocking call
