@@ -43,7 +43,7 @@ class Econ(commands.Cog):
         page_max = len(items_chunks)
 
         while True:
-            body = ''
+            body = ''  # text for that page
             for item in items_chunks[page]:
                 it_am_txt = f'{item["item_amount"]}'
                 it_am_txt += ' \uFEFF' * (len(it_am_txt - 5))
@@ -69,7 +69,7 @@ class Econ(commands.Cog):
                 def author_check(react, r_user):
                     return r_user == ctx.author and ctx.channel == react.message.channel and react.emoji in rs_used
 
-                react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reacton from message author
+                react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reacton from message author (3min)
             except asyncio.TimeoutError:
                 return
 
