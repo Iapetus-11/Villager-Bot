@@ -116,7 +116,9 @@ class Econ(commands.Cog):
 
         await self.bot.send(ctx, f'Deposited {self.bot.custom_emojis["emerald_block"]} into your vault.')
 
-
+    @commands.command(name='withdraw', aliases=['with'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def vault_withdraw(self, ctx, emerald_blocks: str):
 
 
 def setup(bot):
