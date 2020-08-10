@@ -104,7 +104,17 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, 'You have to use a number.')
                 return
 
+        if amount < 1:
+            await self.bot.send(ctx, 'You can\'t deposit 0 or a negative amount of emerald blocks.')
+            return
 
+        if amount > c_v_max - c_v_bal:
+            await self.bot.send(ctx, 'You don\'t have enough space for that.')
+            return
+
+        await self.db.set_vault(ctx.author.id, c_v_bal + amount, c_v_max)
+
+        await self.bot.send(ctx, f'Deposited {self.bot.custom_emojis["emerald_block"]} into your vault.')
 
 
 
