@@ -65,7 +65,7 @@ class Minecraft(commands.Cog):
         else:
             extra = ''
             if len(player_list_cut) < players_online:
-                extra = f' and {players_online - len(player_list_cut)} others...'
+                extra = f', and {players_online - len(player_list_cut)} others...'
 
             embed.add_field(
                 name=f'Online Players ({players_online}/{jj["players_max"]})',
