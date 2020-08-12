@@ -203,28 +203,27 @@ class Econ(commands.Cog):
             if msg is None:
                 msg = await ctx.send(embed=embed)
             else:
-                await msg.edit(embed=embed)
+                if not msg.embed = embed:
+                    await msg.edit(embed=embed)
 
-            rs_used = []
-
-            if page != page_max:
-                rs_used.append('➡️')
-                await msg.add_reaction('➡️')
-
-            if page != 0:
-                rs_used.append('⬅️')
-                await msg.add_reaction('⬅️')
+            await msg.add_reaction('⬅️')
+            await msg.add_reaction('➡️')
 
             try:
                 def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and react.emoji in rs_used
+                    return r_user == ctx.author and ctx.channel == react.message.channel
 
                 react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
             except asyncio.TimeoutError:
                 return
 
+            await react.remove(ctx.author)
+
             if react.emoji == '⬅️': page -= 1
             if react.emoji == '➡️': page += 1
+
+            if page > page_max - 1: page = page_max - 1
+            if page < 0: page = 0
 
     @shop.command(name='magic')
     async def shop_magic(self, ctx):
@@ -256,28 +255,27 @@ class Econ(commands.Cog):
             if msg is None:
                 msg = await ctx.send(embed=embed)
             else:
-                await msg.edit(embed=embed)
+                if not msg.embed = embed:
+                    await msg.edit(embed=embed)
 
-            rs_used = []
-
-            if page != page_max:
-                rs_used.append('➡️')
-                await msg.add_reaction('➡️')
-
-            if page != 0:
-                rs_used.append('⬅️')
-                await msg.add_reaction('⬅️')
+            await msg.add_reaction('⬅️')
+            await msg.add_reaction('➡️')
 
             try:
                 def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and react.emoji in rs_used
+                    return r_user == ctx.author and ctx.channel == react.message.channel
 
                 react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
             except asyncio.TimeoutError:
                 return
 
+            await react.remove(ctx.author)
+
             if react.emoji == '⬅️': page -= 1
             if react.emoji == '➡️': page += 1
+
+            if page > page_max - 1: page = page_max - 1
+            if page < 0: page = 0
 
     @shop.command(name='other')
     async def shop_other(self, ctx):
@@ -309,28 +307,27 @@ class Econ(commands.Cog):
             if msg is None:
                 msg = await ctx.send(embed=embed)
             else:
-                await msg.edit(embed=embed)
+                if not msg.embed = embed:
+                    await msg.edit(embed=embed)
 
-            rs_used = []
-
-            if page != page_max:
-                rs_used.append('➡️')
-                await msg.add_reaction('➡️')
-
-            if page != 0:
-                rs_used.append('⬅️')
-                await msg.add_reaction('⬅️')
+            await msg.add_reaction('⬅️')
+            await msg.add_reaction('➡️')
 
             try:
                 def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and react.emoji in rs_used
+                    return r_user == ctx.author and ctx.channel == react.message.channel
 
                 react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
             except asyncio.TimeoutError:
                 return
 
+            await react.remove(ctx.author)
+
             if react.emoji == '⬅️': page -= 1
             if react.emoji == '➡️': page += 1
+
+            if page > page_max - 1: page = page_max - 1
+            if page < 0: page = 0
 
 
 def setup(bot):
