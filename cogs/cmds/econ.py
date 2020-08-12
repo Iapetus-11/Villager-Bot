@@ -158,6 +158,15 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, f'Withdrew {amount}{self.bot.custom_emojis["emerald_block"]}'
         f'({amount * 9}{self.bot.custom_emojis["emerald"]}) from your vault.')
 
+    async def format_required(shop_item):
+        if shop_item[3][0] == 'Netherite Pickaxe':
+            return f'({item[1]}{self.bot.custom_emojis["emerald"]} + 6{self.bot.custom_emojis["netherite"]})'
+
+        if shop_item[3][0] == 'Netherite Sword':
+            return f'({item[1]}{self.bot.custom_emojis["emerald"]} + 6{self.bot.custom_emojis["netherite"]})'
+
+        return f'({item[1]}{self.bot.custom_emojis["emerald"]})'
+
     @commands.group(name='shop')
     async def shop(self, ctx):
         """Shows the available options in the Villager Shop"""
@@ -197,7 +206,7 @@ class Econ(commands.Cog):
             embed.set_author(name='Villager Shop [Tools]', icon_url=self.bot.splash_logo)
 
             for item in tool_items_chunked[page]:
-                embed.add_field(name=item[3][0], value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
+                embed.add_field(name=f'{item[3][0]} {await self.format_required(shop_item}', value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
 
             embed.set_footer(text=f'Page {page+1}/{page_max}')
 
@@ -252,7 +261,7 @@ class Econ(commands.Cog):
             embed.set_author(name='Villager Shop [Magic]', icon_url=self.bot.splash_logo)
 
             for item in magic_items_chunked[page]:
-                embed.add_field(name=item[3][0], value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
+                embed.add_field(name=f'{item[3][0]} {await self.format_required(shop_item}', value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
 
             embed.set_footer(text=f'Page {page+1}/{page_max}')
 
@@ -307,7 +316,7 @@ class Econ(commands.Cog):
             embed.set_author(name='Villager Shop [Other]', icon_url=self.bot.splash_logo)
 
             for item in other_items_chunked[page]:
-                embed.add_field(name=item[3][0], value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
+                embed.add_field(name=f'{item[3][0]} {await self.format_required(shop_item}', value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
 
             embed.set_footer(text=f'Page {page+1}/{page_max}')
 
@@ -338,6 +347,7 @@ class Econ(commands.Cog):
             if page > page_max - 1: page = page_max - 1
             if page < 0: page = 0
             await asyncio.sleep(.1)
+
 
 
 def setup(bot):
