@@ -76,7 +76,7 @@ class Minecraft(commands.Cog):
         embed.set_image(url=f'https://theapi.info/mc/mcpingimg?host={combined}&imgonly=true&v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://theapi.info/serverfavi?host={combined}')
+            embed.set_thumbnail(url=f'https://theapi.info/mc/serverfavi?host={combined}')
 
         await ctx.send(embed=embed)
 
