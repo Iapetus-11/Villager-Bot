@@ -67,6 +67,7 @@ bot.cmd_count = 0
 bot.msg_count = 0
 bot.start_time = None
 bot.honey_buckets = None  # list of cooldowns for honey command (econ cog)
+bot.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
 
 with open("data/data.json", "r", encoding='utf8') as d:  # load essential data from data.json
     jj = json.load(d)
