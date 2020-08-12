@@ -396,6 +396,15 @@ class Econ(commands.Cog):
             if shop_item[3][0].startswith('Netherite'):
                 db_scrap = await self.db.fetch_item(ctx.author.id, 'Netherite Scrap')
 
+                if 'Sword' in shop_item[3][0]:
+                    required = 6
+
+                if 'Pickaxe' in shop_item[3][0]:
+                    required = 3
+
+                if scrap is not None and db_scrap['item_amount'] >= required:
+                    await self.db.
+
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
 
