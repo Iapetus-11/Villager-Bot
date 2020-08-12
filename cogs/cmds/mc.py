@@ -52,7 +52,7 @@ class Minecraft(commands.Cog):
         # should probably set thumbnail to server favicon or add image from theapi.info/mc/mcpingimg
 
         embed.add_field(name='Latency/Ping', value=jj['latency'])
-        embed.add_field(name='Version', value=jj['version']['brand'])
+        embed.add_field(name='Version', value=jj['version'].get('brand', 'Unknown'))
 
         player_list_cut = player_list[:24]
 
