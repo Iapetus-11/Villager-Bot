@@ -57,15 +57,21 @@ class Minecraft(commands.Cog):
         player_list_cut = player_list[:24]
 
         if jj['version']['method'] != 'query' and len(player_list_cut) < 1:
-            player_list_cut = ['Player list is not available for this server...']
-        elif len(player_list_cut) < players_online:
-            player_list_cut.append(f'\uFEFF`and {players_online - len(player_list_cut)} others...`\uFEFF')
+            embed.add_field(
+                name=f'Online Players ({players_online}/{jj["players_max"]})',
+                value='Player list is not available for this server...',
+                inline=False
+            )
+        else:
+            extra = ''
+            if len(player_list_cut) < players_online:
+                extra = f' and {players_online - len(player_list_cut)} others...'
 
-        embed.add_field(
-            name=f'Online Players ({players_online}/{jj["players_max"]})',
-            value='`' + '`, `'.join(player_list_cut) + '`',
-            inline=False
-        )
+            embed.add_field(
+                name=f'Online Players ({players_online}/{jj["players_max"]})',
+                value='`' + '`, `'.join(player_list_cut) + '`' + extra,
+                inline=False
+            )
 
         embed.set_image(url=f'https://theapi.info/mc/mcpingimg?host={combined}&imgonly=true')
 
