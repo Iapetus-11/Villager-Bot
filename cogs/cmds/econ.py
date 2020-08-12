@@ -184,7 +184,7 @@ class Econ(commands.Cog):
                 tool_items.append(item)
 
         tool_items_sorted = sorted(tool_items, key=lambda item: item[1])  # sort by buy price
-        tool_items_chunked = [tool_items_sorted[i:i + 6] for i in range(0, len(tool_items_sorted), 6)]  # split items into chunks of 6
+        tool_items_chunked = [tool_items_sorted[i:i + 3] for i in range(0, len(tool_items_sorted), 3)]  # split items into chunks of 3
 
         page = 0
         page_max = len(tool_items_chunked)
@@ -237,7 +237,7 @@ class Econ(commands.Cog):
                 magic_items.append(item)
 
         magic_items_sorted = sorted(magic_items, key=lambda item: item[1])  # sort by buy price
-        magic_items_chunked = [magic_items_sorted[i:i + 6] for i in range(0, len(magic_items_sorted), 6)]  # split items into chunks of 6
+        magic_items_chunked = [magic_items_sorted[i:i + 3] for i in range(0, len(magic_items_sorted), 3)]  # split items into chunks of 3
 
         page = 0
         page_max = len(magic_items_chunked)
@@ -290,7 +290,7 @@ class Econ(commands.Cog):
                 other_items.append(item)
 
         other_items_sorted = sorted(other_items, key=lambda item: item[1])  # sort by buy price
-        other_items_chunked = [other_items_sorted[i:i + 6] for i in range(0, len(other_items_sorted), 6)]  # split items into chunks of 6
+        other_items_chunked = [other_items_sorted[i:i + 3] for i in range(0, len(other_items_sorted), 3)]  # split items into chunks of 3
 
         page = 0
         page_max = len(other_items_chunked)
