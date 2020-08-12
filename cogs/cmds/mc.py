@@ -68,7 +68,6 @@ class Minecraft(commands.Cog):
         )
 
         embed.set_image(url=f'https://theapi.info/mc/mcpingimg?host={combined}&imgonly=true')
-        embed.timestamp = ctx.message.created_at
 
         await ctx.send(embed=embed)
 
