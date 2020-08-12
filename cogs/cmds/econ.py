@@ -37,7 +37,7 @@ class Econ(commands.Cog):
         """Shows the inventory of a user or the message sender"""
 
         u_items = await self.db.fetch_items(user.id)
-        items_sorted = sorted(u_items, key=lambda item: item['sell_price'])  # sort items by sell price
+        items_sorted = sorted(u_items, key=lambda item: item['sell_price'], reverse=True)  # sort items by sell price
         items_chunks = [items_sorted[i:i + 16] for i in range(0, len(items_sorted), 16)]  # split items into chunks of 16 [[16..], [16..], [16..]]
 
         page = 0
@@ -159,6 +159,8 @@ class Econ(commands.Cog):
 
     @commands.group(name='shop')
     async def shop(self, ctx):
+        """Shows the available options in the Villager Shop"""
+
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(color=self.bot.cc)
             embed.set_author(name='Villager Shop', icon_url=self.bot.splash_logo)
@@ -170,6 +172,55 @@ class Econ(commands.Cog):
             embed.set_footer(text=f'Use {ctx.prefix}inventory to see what you have!')
 
             await ctx.send(embed=embed)
+
+    @shop.command(name='tools')
+    async def shop_tools(self, ctx):
+        """Allows you to shop for tools"""
+
+        tool_items = []
+
+        for item in [self.bot.shop_items[key] for key in list(self.bot.shop_items)]:  # filter out non-tool items
+            if item[0] == 'tools':
+                tool_items.append(item)
+
+        tool_items_sorted = sorted(tool_items, key=lambda item: item[1])  # sort by buy price
+        tool_items_chunked = [tool_items_sorted[i:i + 6] for i in range(0, len(tool_items_sorted), 6)]  # split items into chunks of 6
+
+        page = 0
+        page_max = len(tool_items_chunked)
+
+        while True:
+            embed = discord.Embed(color=self.bot.cc)
+            embed.set_author(name='Villager Shop [Tools]', icon_url=self.bot.splash_logo)
+
+            for item in tool_items_chunked[page]:
+                embed.add_field(name=item[3][0], value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
+
+            embed.set_footer(text=f'Page {page}/{page_max}')
+
+            msg = await ctx.send(embed=embed)
+
+            rs_used = []
+
+            if page != page_max:
+                rs_used.append('➡️')
+                await msg.add_reaction('➡️')
+
+            if page != 0:
+                rs_used.append('⬅️')
+                await msg.add_reaction('⬅️')
+
+            try:
+                def author_check(react, r_user):
+                    return r_user == ctx.author and ctx.channel == react.message.channel and react.emoji in rs_used
+
+                react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reacton from message author (3min)
+            except asyncio.TimeoutError:
+                return
+
+            if react.emoji == '⬅️': page -= 1
+            if react.emoji == '➡️': page += 1
+
 
 
 def setup(bot):
