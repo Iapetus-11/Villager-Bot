@@ -105,20 +105,57 @@ class Econ(commands.Cog):
                 return
 
         if amount < 1:
-            await self.bot.send(ctx, 'You can\'t deposit 0 or a negative amount of emerald blocks.')
+            await self.bot.send(ctx, 'You can\'t deposit less than one emerald block.')
             return
 
         if amount > c_v_max - c_v_bal:
             await self.bot.send(ctx, 'You don\'t have enough space for that.')
             return
 
+        await self.db.balance_sub(ctx.author.id, amount * 9)
         await self.db.set_vault(ctx.author.id, c_v_bal + amount, c_v_max)
 
-        await self.bot.send(ctx, f'Deposited {self.bot.custom_emojis["emerald_block"]} into your vault.')
+        await self.bot.send(ctx, f'Deposited {amount}{self.bot.custom_emojis["emerald_block"]}'
+        f'({amount * 9}{self.bot.custom_emojis["emerald"]}) into your vault.')
 
     @commands.command(name='withdraw', aliases=['with'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def vault_withdraw(self, ctx, emerald_blocks: str):
+        """Withdraws a certain amount of emerald blocks from the vault"""
+
+        db_user = await self.db.fetch_user(ctx.author.id)
+
+        c_v_bal = db_user['vault_bal']
+        c_v_max = db_user['vault_max']
+
+        c_bal = db_user['emeralds']
+
+        if c_v_bal < 1:
+            await self.bot.send(ctx, 'You don\'t have enough emerald blocks to withdraw.')
+            return
+
+        if amount.lower() in ('all', 'max',):
+            amount = c_v_bal
+        else:
+            try:
+                amount = int(emerald_blocks)
+            except ValueError:
+                await self.bot.send(ctx, 'You have to use a number.')
+                return
+
+        if amount < 1:
+            await self.bot.send(ctx, 'You can\'t withdraw less than one emerald block.')
+            return
+
+        if amount > c_v_bal:
+            await self.bot.send(ctx, 'You can\'t withdraw more than you have.')
+            return
+
+        await self.db.balance_add(ctx.author.id, amount * 9)
+        await self.db.set_vault(ctx.author.id, c_v_bal - amount, c_v_max)
+
+        await self.bot.send(ctx, f'Withdrew {amount}{self.bot.custom_emojis["emerald_block"]}'
+        f'({amount * 9}{self.bot.custom_emojis["emerald"]}) from your vault.')
 
 
 def setup(bot):
