@@ -59,7 +59,7 @@ class Minecraft(commands.Cog):
         if jj['version']['method'] != 'query' and len(player_list_cut) < 1:
             embed.add_field(
                 name=f'Online Players ({players_online}/{jj["players_max"]})',
-                value='Player list is not available for this server...',
+                value='Player list is not available for this server.',
                 inline=False
             )
         else:
