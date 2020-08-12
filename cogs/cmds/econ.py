@@ -196,7 +196,7 @@ class Econ(commands.Cog):
             for item in tool_items_chunked[page]:
                 embed.add_field(name=item[3][0], value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
 
-            embed.set_footer(text=f'Page {page}/{page_max}')
+            embed.set_footer(text=f'Page {page+1}/{page_max}')
 
             msg = await ctx.send(embed=embed)
 
@@ -244,7 +244,7 @@ class Econ(commands.Cog):
             for item in magic_items_chunked[page]:
                 embed.add_field(name=item[3][0], value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
 
-            embed.set_footer(text=f'Page {page}/{page_max}')
+            embed.set_footer(text=f'Page {page+1}/{page_max}')
 
             msg = await ctx.send(embed=embed)
 
@@ -292,7 +292,7 @@ class Econ(commands.Cog):
             for item in other_items_chunked[page]:
                 embed.add_field(name=item[3][0], value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
 
-            embed.set_footer(text=f'Page {page}/{page_max}')
+            embed.set_footer(text=f'Page {page+1}/{page_max}')
 
             msg = await ctx.send(embed=embed)
 
