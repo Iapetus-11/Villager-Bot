@@ -277,7 +277,7 @@ class Econ(commands.Cog):
 
         for item in [self.bot.shop_items[key] for key in list(self.bot.shop_items)]:  # filter out non-tool items
             if item[0] == 'other':
-                magic_items.append(item)
+                other_items.append(item)
 
         other_items_sorted = sorted(other_items, key=lambda item: item[1])  # sort by buy price
         other_items_chunked = [other_items_sorted[i:i + 6] for i in range(0, len(other_items_sorted), 6)]  # split items into chunks of 6
