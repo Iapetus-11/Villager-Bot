@@ -207,6 +207,7 @@ class Econ(commands.Cog):
                     await msg.edit(embed=embed)
 
             await msg.add_reaction('⬅️')
+            await asyncio.sleep(.1)
             await msg.add_reaction('➡️')
 
             try:
@@ -224,6 +225,7 @@ class Econ(commands.Cog):
 
             if page > page_max - 1: page = page_max - 1
             if page < 0: page = 0
+            await asyncio.sleep(.1)
 
     @shop.command(name='magic')
     async def shop_magic(self, ctx):
