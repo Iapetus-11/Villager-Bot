@@ -63,7 +63,7 @@ class Minecraft(commands.Cog):
 
         embed.add_field(
             name=f'Online Players ({players_online}/{jj["players_max"]})',
-            value=discord.utils.escape_markdown(','.join(player_list_cut)),
+            value=discord.utils.escape_markdown(', '.join(player_list_cut)),
             inline=False
         )
 
