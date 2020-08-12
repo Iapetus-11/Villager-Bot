@@ -318,6 +318,5 @@ async def shop_tools(self, ctx):
         if react.emoji == '➡️': page += 1
 
 
-
 def setup(bot):
     bot.add_cog(Econ(bot))
