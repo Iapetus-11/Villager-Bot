@@ -203,7 +203,7 @@ class Econ(commands.Cog):
             if msg is None:
                 msg = await ctx.send(embed=embed)
             else:
-                if not msg.embed = embed:
+                if not msg.embed == embed:
                     await msg.edit(embed=embed)
 
             await msg.add_reaction('⬅️')
@@ -255,7 +255,7 @@ class Econ(commands.Cog):
             if msg is None:
                 msg = await ctx.send(embed=embed)
             else:
-                if not msg.embed = embed:
+                if not msg.embed == embed:
                     await msg.edit(embed=embed)
 
             await msg.add_reaction('⬅️')
@@ -307,7 +307,7 @@ class Econ(commands.Cog):
             if msg is None:
                 msg = await ctx.send(embed=embed)
             else:
-                if not msg.embed = embed:
+                if not msg.embed == embed:
                     await msg.edit(embed=embed)
 
             await msg.add_reaction('⬅️')
