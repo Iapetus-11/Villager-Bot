@@ -206,7 +206,7 @@ class Econ(commands.Cog):
             embed.set_author(name='Villager Shop [Tools]', icon_url=self.bot.splash_logo)
 
             for item in tool_items_chunked[page]:
-                embed.add_field(name=f'{item[3][0]} {await self.format_required(shop_item)}', value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
+                embed.add_field(name=f'{item[3][0]} {await self.format_required(item)}', value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
 
             embed.set_footer(text=f'Page {page+1}/{page_max}')
 
@@ -261,7 +261,7 @@ class Econ(commands.Cog):
             embed.set_author(name='Villager Shop [Magic]', icon_url=self.bot.splash_logo)
 
             for item in magic_items_chunked[page]:
-                embed.add_field(name=f'{item[3][0]} {await self.format_required(shop_item)}', value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
+                embed.add_field(name=f'{item[3][0]} {await self.format_required(item)}', value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
 
             embed.set_footer(text=f'Page {page+1}/{page_max}')
 
@@ -316,7 +316,7 @@ class Econ(commands.Cog):
             embed.set_author(name='Villager Shop [Other]', icon_url=self.bot.splash_logo)
 
             for item in other_items_chunked[page]:
-                embed.add_field(name=f'{item[3][0]} {await self.format_required(shop_item)}', value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
+                embed.add_field(name=f'{item[3][0]} {await self.format_required(item)}', value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
 
             embed.set_footer(text=f'Page {page+1}/{page_max}')
 
