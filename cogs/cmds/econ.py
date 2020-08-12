@@ -68,7 +68,7 @@ class Econ(commands.Cog):
 
             try:
                 def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message and react.emoji in rs_used
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id and react.emoji in rs_used
 
                 react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
             except asyncio.TimeoutError:
@@ -211,7 +211,7 @@ class Econ(commands.Cog):
 
             try:
                 def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
                 react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
             except asyncio.TimeoutError:
@@ -263,7 +263,7 @@ class Econ(commands.Cog):
 
             try:
                 def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
                 react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
             except asyncio.TimeoutError:
@@ -315,7 +315,7 @@ class Econ(commands.Cog):
 
             try:
                 def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
                 react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
             except asyncio.TimeoutError:
