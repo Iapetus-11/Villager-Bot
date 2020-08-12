@@ -73,7 +73,7 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://theapi.info/mc/mcpingimg?host={combined}&imgonly=true')
+        embed.set_image(url=f'https://theapi.info/mc/mcpingimg?host={combined}&imgonly=true&v={random.random()*100000}')
 
         await ctx.send(embed=embed)
 
