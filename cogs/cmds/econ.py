@@ -165,7 +165,7 @@ class Econ(commands.Cog):
         if item[3][0] == 'Netherite Sword':
             return f'\n{item[1]}{self.bot.custom_emojis["emerald"]} + 6{self.bot.custom_emojis["netherite"]}'
 
-        return f'\n{item[1]}{self.bot.custom_emojis["emerald"]})'
+        return f'\n{item[1]}{self.bot.custom_emojis["emerald"]}'
 
     @commands.group(name='shop')
     async def shop(self, ctx):
