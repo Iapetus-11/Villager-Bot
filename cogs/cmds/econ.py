@@ -222,7 +222,7 @@ class Econ(commands.Cog):
             if react.emoji == '➡️': page += 1
 
     @shop.command(name='magic')
-    async def shop_tools(self, ctx):
+    async def shop_magic(self, ctx):
         """Allows you to shop for magic items"""
 
         magic_items = []
@@ -270,7 +270,7 @@ class Econ(commands.Cog):
             if react.emoji == '➡️': page += 1
 
     @shop.command(name='other')
-    async def shop_tools(self, ctx):
+    async def shop_other(self, ctx):
         """Allows you to shop for other/miscellaneous items"""
 
         other_items = []
