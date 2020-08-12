@@ -348,6 +348,41 @@ class Econ(commands.Cog):
             if page < 0: page = 0
             await asyncio.sleep(.1)
 
+    @commands.command(name='buy')
+    async def buy(self, ctx, *, amount_item):
+        amount_item = amount_item.lower()
+
+        db_user = await self.db.fetch_user(ctx.author.id)
+
+        if amount_item.startswith('max ') or item.startswith('all '):
+            item = item[4:]
+            amount = math.floor(db_user['emeralds'] / self.bot.shop_items[item])
+
+            if amount < 1:
+                await self.bot.send(ctx, 'You don\'t have enough emeralds to buy any of this item.')
+                return
+        else:
+            split = amount_item.split(' ')
+
+            try:
+                amount = int(split.pop(0))
+            except ValueError:
+                amount = 1
+
+            item = ' '.join(split)
+
+        if amount < 1:
+            await self.bot.send(ctx, 'You can\'t buy less than one of an item.')
+            return
+
+        shop_item = self.bot.shop_items.get(item)
+
+        if shop_item is None:
+            await self.bot.send(ctx, f'`{item}` is invalid or isn\'t in the Villager Shop.')
+            return
+
+        db_item = await self.db.fetch_item(ctx.author.id, shop_item[3][0])
+
 
 
 def setup(bot):
