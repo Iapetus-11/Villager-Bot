@@ -54,7 +54,7 @@ class Minecraft(commands.Cog):
         embed.add_field(name='Latency/Ping', value=jj['latency'])
         embed.add_field(name='Version', value=jj['version']['brand'])
 
-        player_list_cut = player_list[:32]
+        player_list_cut = player_list[:24]
 
         if jj['version']['method'] != 'query' and len(player_list_cut) < 1:
             player_list_cut = ['Player list is not available for this server...']
