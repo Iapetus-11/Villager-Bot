@@ -206,6 +206,7 @@ class Econ(commands.Cog):
                 if not msg.embeds[0] == embed:
                     await msg.edit(embed=embed)
 
+            await asyncio.sleep(.1)
             await msg.add_reaction('⬅️')
             await asyncio.sleep(.1)
             await msg.add_reaction('➡️')
@@ -260,7 +261,9 @@ class Econ(commands.Cog):
                 if not msg.embeds[0] == embed:
                     await msg.edit(embed=embed)
 
+            await asyncio.sleep(.1)
             await msg.add_reaction('⬅️')
+            await asyncio.sleep(.1)
             await msg.add_reaction('➡️')
 
             try:
@@ -278,6 +281,7 @@ class Econ(commands.Cog):
 
             if page > page_max - 1: page = page_max - 1
             if page < 0: page = 0
+            await asyncio.sleep(.1)
 
     @shop.command(name='other')
     async def shop_other(self, ctx):
@@ -312,7 +316,9 @@ class Econ(commands.Cog):
                 if not msg.embeds[0] == embed:
                     await msg.edit(embed=embed)
 
+            await asyncio.sleep(.1)
             await msg.add_reaction('⬅️')
+            await asyncio.sleep(.1)
             await msg.add_reaction('➡️')
 
             try:
@@ -330,6 +336,7 @@ class Econ(commands.Cog):
 
             if page > page_max - 1: page = page_max - 1
             if page < 0: page = 0
+            await asyncio.sleep(.1)
 
 
 def setup(bot):
