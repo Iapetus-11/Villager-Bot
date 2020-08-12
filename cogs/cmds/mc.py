@@ -67,6 +67,8 @@ class Minecraft(commands.Cog):
             inline=False
         )
 
+        embed.set_image(url=f'https://theapi.info/mc/mcpingimg?host={combined}&imgonly=true')
+
         await ctx.send(embed=embed)
 
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
