@@ -158,11 +158,11 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, f'Withdrew {amount}{self.bot.custom_emojis["emerald_block"]}'
         f'({amount * 9}{self.bot.custom_emojis["emerald"]}) from your vault.')
 
-    async def format_required(self, shop_item):
-        if shop_item[3][0] == 'Netherite Pickaxe':
+    async def format_required(self, item):
+        if item[3][0] == 'Netherite Pickaxe':
             return f'({item[1]}{self.bot.custom_emojis["emerald"]} + 6{self.bot.custom_emojis["netherite"]})'
 
-        if shop_item[3][0] == 'Netherite Sword':
+        if item[3][0] == 'Netherite Sword':
             return f'({item[1]}{self.bot.custom_emojis["emerald"]} + 6{self.bot.custom_emojis["netherite"]})'
 
         return f'({item[1]}{self.bot.custom_emojis["emerald"]})'
