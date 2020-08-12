@@ -221,6 +221,54 @@ class Econ(commands.Cog):
             if react.emoji == '⬅️': page -= 1
             if react.emoji == '➡️': page += 1
 
+@shop.command(name='magic')
+async def shop_tools(self, ctx):
+    """Allows you to shop for magic items"""
+
+    magic_items = []
+
+    for item in [self.bot.shop_items[key] for key in list(self.bot.shop_items)]:  # filter out non-tool items
+        if item[0] == 'magic':
+            magic_items.append(item)
+
+    magic_items_sorted = sorted(magic_items, key=lambda item: item[1])  # sort by buy price
+    magic_items_chunked = [magic_items_sorted[i:i + 6] for i in range(0, len(magic_items_sorted), 6)]  # split items into chunks of 6
+
+    page = 0
+    page_max = len(magic_items_chunked)
+
+    while True:
+        embed = discord.Embed(color=self.bot.cc)
+        embed.set_author(name='Villager Shop [Magic]', icon_url=self.bot.splash_logo)
+
+        for item in magic_items_chunked[page]:
+            embed.add_field(name=item[3][0], value=f'`{ctx.prefix}buy {item[3][0].lower()}`')
+
+        embed.set_footer(text=f'Page {page}/{page_max}')
+
+        msg = await ctx.send(embed=embed)
+
+        rs_used = []
+
+        if page != page_max:
+            rs_used.append('➡️')
+            await msg.add_reaction('➡️')
+
+        if page != 0:
+            rs_used.append('⬅️')
+            await msg.add_reaction('⬅️')
+
+        try:
+            def author_check(react, r_user):
+                return r_user == ctx.author and ctx.channel == react.message.channel and react.emoji in rs_used
+
+            react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reacton from message author (3min)
+        except asyncio.TimeoutError:
+            return
+
+        if react.emoji == '⬅️': page -= 1
+        if react.emoji == '➡️': page += 1
+
 
 
 def setup(bot):
