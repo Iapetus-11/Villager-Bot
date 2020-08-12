@@ -383,7 +383,24 @@ class Econ(commands.Cog):
 
         db_item = await self.db.fetch_item(ctx.author.id, shop_item[3][0])
 
+        if shop_item[2] == "db_item_count < 1":
+            amount = 1
 
+        if shop_item[1] * amount < db_user['emeralds']:
+            if db_item is not None:
+                db_item_count = db_item['item_amount']
+            else:
+                db_item_count = 0
+
+        if eval(shop_item[2]):
+            if shop_item[3][0].startswith('Netherite'):
+                db_scrap = await self.db.fetch_item(ctx.author.id, 'Netherite Scrap')
+
+            await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
+            await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
+
+            await self.bot.send(ctx, f'You have bought {amount}x **{shop_item[3][0]}**!'
+            f'for {amount * shop_item[1]}{self.bot.custom_emojis["emerald"]} (You have {amount + db_item["item_amount"]} total)')
 
 def setup(bot):
     bot.add_cog(Econ(bot))

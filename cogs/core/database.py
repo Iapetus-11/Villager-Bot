@@ -59,14 +59,11 @@ class Database(commands.Cog):
         await self.fetch_user(uid)
         return await self.db.fetch('SELECT * FROM items WHERE uid = $1 AND item_name = $2', uid, name)
 
-    async def fetch_item_unjoined(self, uuid):
-        return await self.db.fetch('SELECT * FROM items WHERE uuid = $1', uuid)
-
     async def add_item(self, uid, name, sell_price, amount):
         uuid_used = str(uuid.uuid4().int)
         async with self.db.acquire() as con:
-            await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4, $5, $6, $7)',
-                              uid, name, sell_price, amount, uid, arrow.utcnow().timestamp, uuid_used)
+            await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4)',
+                              uid, name, sell_price, amount)
         return uuid_used
 
     async def transfer_item(sender_id, recip_id, item_name, amount):
@@ -76,7 +73,7 @@ class Database(commands.Cog):
             await con.execute('UPDATE items SET item_amount = $1 WHE',
                               recipient.get('item_amount') + amount, item_name, sender_id)
 
-            await con.execute('UPDATE ITEMS SET item_amount = $1 WHERE uid = $2',
+            await con.execute('UPDATE items SET item_amount = $1 WHERE uid = $2',
                               original.get('item_amount') - amount, sender_id)
 
 

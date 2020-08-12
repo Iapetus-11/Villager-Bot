@@ -21,9 +21,6 @@ CREATE TABLE IF NOT EXISTS items(
   item_name         varchar(250), -- name of the item
   sell_price        bigint, -- sell price for ONE of that item
   item_amount       bigint,  -- amount of the item
-  original_owner    bigint, -- original owner of the item
-  timestamp_created bigint, -- original creation time of the item
-  uuid              varchar(128)
 );
 
 CREATE TABLE IF NOT EXISTS give_logs(
