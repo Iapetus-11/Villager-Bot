@@ -157,6 +157,20 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, f'Withdrew {amount}{self.bot.custom_emojis["emerald_block"]}'
         f'({amount * 9}{self.bot.custom_emojis["emerald"]}) from your vault.')
 
+    @commands.group(name='shop')
+    async def shop(self, ctx):
+        if ctx.invoked_subcommand is None:
+            embed = discord.Embed(color=self.bot.cc)
+            embed.set_author(name='Villager Shop', icon_url=self.bot.splash_logo)
+
+            embed.add_field(name='__**Tools**__', value=f'`{ctx.prefix}shop tools`')
+            embed.add_field(name='__**Magic**__', value=f'`{ctx.prefix}shop magic`')
+            embed.add_field(name='__**Other**__', value=f'`{ctx.prefix}shop other`')
+
+            embed.set_footer(text=f'Use {ctx.prefix}inventory to see what you have!')
+
+            await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
