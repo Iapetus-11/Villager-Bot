@@ -75,6 +75,9 @@ class Minecraft(commands.Cog):
 
         embed.set_image(url=f'https://theapi.info/mc/mcpingimg?host={combined}&imgonly=true&v={random.random()*100000}')
 
+        if jj['favicon'] is not None:
+            embed.set_thumbnail(url=f'https://theapi.info/serverfavi?host={combined}')
+
         await ctx.send(embed=embed)
 
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
