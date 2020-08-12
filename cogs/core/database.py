@@ -66,7 +66,17 @@ class Database(commands.Cog):
                                   uid, name, sell_price, amount)
             else:
                 await con.execute('UPDATE items SET item_amount = $1 WHERE uid = $2 AND item_name = $3',
-                                  amount, uid, name)
+                                  amount + prev['item_amount'], uid, name)
+
+    async def remove_item(self, uid, name, amount):
+        prev = await self.fetch_item(self, uid, name)
+
+        async with self.db.acquire() as con:
+            if prev['item_amount'] - amount < 1:
+                await con.execute('DELETE FROM items WHERE uid = $1 AND item_name = $2', uid, name)
+            else:
+                await con.execute('UPDATE items SET item_amount = $1 WHERE uid = $2 AND item_name = $3',
+                                  prev['item_amount'] - amount, uid, name)
 
 
 def setup(bot):
