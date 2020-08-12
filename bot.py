@@ -89,7 +89,8 @@ for key in list(bot.fun_langs['enchant']):
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.mc',
     'cogs.cmds.mod',
-    'cogs.cmds.fun'
+    'cogs.cmds.fun',
+    'cogs.cmds.econ'
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list
