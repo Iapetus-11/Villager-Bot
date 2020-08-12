@@ -189,6 +189,8 @@ class Econ(commands.Cog):
         page = 0
         page_max = len(tool_items_chunked)
 
+        msg = None
+
         while True:
             embed = discord.Embed(color=self.bot.cc)
             embed.set_author(name='Villager Shop [Tools]', icon_url=self.bot.splash_logo)
@@ -198,7 +200,10 @@ class Econ(commands.Cog):
 
             embed.set_footer(text=f'Page {page+1}/{page_max}')
 
-            msg = await ctx.send(embed=embed)
+            if msg is None:
+                msg = await ctx.send(embed=embed)
+            else:
+                await msg.edit(embed=embed)
 
             rs_used = []
 
@@ -237,6 +242,8 @@ class Econ(commands.Cog):
         page = 0
         page_max = len(magic_items_chunked)
 
+        msg = None
+
         while True:
             embed = discord.Embed(color=self.bot.cc)
             embed.set_author(name='Villager Shop [Magic]', icon_url=self.bot.splash_logo)
@@ -246,7 +253,10 @@ class Econ(commands.Cog):
 
             embed.set_footer(text=f'Page {page+1}/{page_max}')
 
-            msg = await ctx.send(embed=embed)
+            if msg is None:
+                msg = await ctx.send(embed=embed)
+            else:
+                await msg.edit(embed=embed)
 
             rs_used = []
 
@@ -285,6 +295,8 @@ class Econ(commands.Cog):
         page = 0
         page_max = len(other_items_chunked)
 
+        msg = None
+
         while True:
             embed = discord.Embed(color=self.bot.cc)
             embed.set_author(name='Villager Shop [Other]', icon_url=self.bot.splash_logo)
@@ -294,7 +306,10 @@ class Econ(commands.Cog):
 
             embed.set_footer(text=f'Page {page+1}/{page_max}')
 
-            msg = await ctx.send(embed=embed)
+            if msg is None:
+                msg = await ctx.send(embed=embed)
+            else:
+                await msg.edit(embed=embed)
 
             rs_used = []
 
