@@ -43,6 +43,8 @@ class Econ(commands.Cog):
         page = 0
         page_max = len(items_chunks)
 
+        msg = None
+
         while True:
             body = ''  # text for that page
             for item in items_chunks[page]:
@@ -54,21 +56,19 @@ class Econ(commands.Cog):
             embed.set_author(name=f'{user.display_name}\'s inventory', icon_url=user.avatar_url_as())
             embed.set_footer(text=f'Page {page+1}/{page_max+1}')
 
-            msg = await ctx.send(embed=embed)
+            if msg is None:
+                msg = await ctx.send(embed=embed)
+            else:
+                await msg.edit(embed=embed)
 
-            rs_used = []
-
-            if page != page_max:
-                rs_used.append('➡️')
-                await msg.add_reaction('➡️')
-
-            if page != 0:
-                rs_used.append('⬅️')
-                await msg.add_reaction('⬅️')
+            await msg.add_reaction('➡️')
+            await asyncio.sleep(.1)
+            await msg.add_reaction('⬅️')
+            await asyncio.sleep(.1)
 
             try:
                 def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id and react.emoji in rs_used
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
                 react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
             except asyncio.TimeoutError:
@@ -76,6 +76,7 @@ class Econ(commands.Cog):
 
             if react.emoji == '⬅️': page -= 1
             if react.emoji == '➡️': page += 1
+            await asyncio.sleep(.1)
 
     @commands.command(name='deposit', aliases=['dep'])
     @commands.cooldown(1, 2, commands.BucketType.user)
