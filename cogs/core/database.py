@@ -1,6 +1,4 @@
-import arrow
 import discord
-import uuid
 from discord.ext import commands
 
 
@@ -60,21 +58,15 @@ class Database(commands.Cog):
         return await self.db.fetch('SELECT * FROM items WHERE uid = $1 AND item_name = $2', uid, name)
 
     async def add_item(self, uid, name, sell_price, amount):
-        uuid_used = str(uuid.uuid4().int)
-        async with self.db.acquire() as con:
-            await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4)',
-                              uid, name, sell_price, amount)
-        return uuid_used
+        prev = await self.fetch_item(self, uid, name)
 
-    async def transfer_item(sender_id, recip_id, item_name, amount):
-        original = await self.fetch_item(sender_id, item_name)
-        recipient = await self.fetch_item(recip_id, item_name)
         async with self.db.acquire() as con:
-            await con.execute('UPDATE items SET item_amount = $1 WHE',
-                              recipient.get('item_amount') + amount, item_name, sender_id)
-
-            await con.execute('UPDATE items SET item_amount = $1 WHERE uid = $2',
-                              original.get('item_amount') - amount, sender_id)
+            if prev is None:
+                await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4)',
+                                  uid, name, sell_price, amount)
+            else:
+                await con.execute('UPDATE items SET item_amount = $1 WHERE uid = $2 AND item_name = $3',
+                                  amount, uid, name)
 
 
 def setup(bot):
