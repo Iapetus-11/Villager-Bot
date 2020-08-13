@@ -405,7 +405,8 @@ class Econ(commands.Cog):
                 if scrap is not None and db_scrap['item_amount'] >= required:
                     await self.db.remove_item(ctx.author.id, 'Netherite Scrap', required)
                 else:
-                    await self.bot.send(ctx, f'You need a total of {required}{self.bot.cusom_emojis["netherite"]} (Netherite Scrap) to buy this item.')
+                    await self.bot.send(ctx, f'You need a total of {required}{self.bot.cusom_emojis["netherite"]} '
+                                             f'(Netherite Scrap) to buy this item.')
                     return
 
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
