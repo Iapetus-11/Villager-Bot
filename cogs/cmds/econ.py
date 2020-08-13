@@ -414,5 +414,9 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, f'You have bought {amount}x **{shop_item[3][0]}**!'
             f'for {amount * shop_item[1]}{self.bot.custom_emojis["emerald"]} (You have {amount + db_item["item_amount"]} total)')
 
+            if shop_item[3][0] == 'Rich Person Trophy':
+                await self.db.rich_trophy_wipe(ctx.author.id)
+
+
 def setup(bot):
     bot.add_cog(Econ(bot))
