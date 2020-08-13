@@ -463,19 +463,46 @@ class Econ(commands.Cog):
                              f'a total of {amount*db_item["sell_price"]}{self.bot.custom_emojis["emerald"]}')
 
     @commands.command(name='give')
-    async def give(slef, ctx, *, amount_item):
+    async def give(self, ctx, user: discord.User, *, amount_item):
+        """Give an item or emeralds to another person"""
+
+        if ctx.author.id == user.id:
+            await self.bot.send(ctx, 'You can\'t give stuff to yourself!')
+            return
+
         amount_item = amount_item.lower()
 
         try:
             # to be given is emeralds
             amount = int(amount_item)
+            item = 'emerald'
         except Exception:
             split = amount_item.split(' ')
 
             try:
                 amount = int(split.pop(0))
             except Exception:
+                amount = 1
 
+            item = ' '.join(split)
+
+        if amount < 1:
+            await self.bot.send(ctx, 'You can\'t give someone less than one of an item.')
+            return
+
+        db_user = await self.db.fetch_user(ctx.author.id)
+
+        if item in ('emerald', 'emeralds', ':emerald:',):
+            if amount > db_user["emeralds"]:
+                await self.bot.send(ctx, 'You can\'t give someone more emeralds than you have.')
+                return
+
+            await self.db.balance_sub(ctx.author.id, amount)
+            await self.db.balance_add(user.id, amount)
+
+            await self.bot.send(ctx, f'Gave {amount}{self.bot.custom_emojis["emerald"]} to {user.mention}!')
+        else:
+            if
 
 def setup(bot):
     bot.add_cog(Econ(bot))
