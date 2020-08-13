@@ -78,6 +78,14 @@ class Database(commands.Cog):
                 await con.execute('UPDATE items SET item_amount = $1 WHERE uid = $2 AND item_name = $3',
                                   prev['item_amount'] - amount, uid, name)
 
+    async def rich_trophy_wipe(uid):
+        await self.set_balance(uid, 0)
+        await self.set_vault(uid, 0, 0)
+
+        async with self.db.acquire() as con:
+            await con.execute('DELETE FROM items WHERE uid = $1 AND item_name != $2 AND item_name != $3',
+                              uid, 'Rich Person Trophy', 'Bane Of Pillagers Amulet')
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
