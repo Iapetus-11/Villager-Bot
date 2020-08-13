@@ -350,6 +350,8 @@ class Econ(commands.Cog):
 
     @commands.command(name='buy')
     async def buy(self, ctx, *, amount_item):
+        """Allows you to buy items"""
+
         amount_item = amount_item.lower()
 
         db_user = await self.db.fetch_user(ctx.author.id)
@@ -420,6 +422,8 @@ class Econ(commands.Cog):
 
     @commands.command(name='sell')
     async def sell(self, ctx, *, amount_item):
+        """Allows you to sell items"""
+
         amount_item = amount_item.lower()
 
         db_user = await self.db.fetch_user(ctx.author.id)
@@ -457,12 +461,6 @@ class Econ(commands.Cog):
 
         await self.send(ctx, f'You have sold {amount}x {db_item["item_name"]} for '
                              f'a total of {amount*db_item["sell_price"]}{self.bot.custom_emojis["emerald"]}')
-
-    @commands.command(name='give')
-    async def give(slef, ctx, *, amount_item):
-        amount_item = amount_item.lower()
-
-        
 
 
 def setup(bot):
