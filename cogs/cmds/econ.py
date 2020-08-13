@@ -355,7 +355,7 @@ class Econ(commands.Cog):
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if amount_item.startswith('max ') or item.startswith('all '):
-            item = item[4:]
+            item = amount_item[4:]
             amount = math.floor(db_user['emeralds'] / self.bot.shop_items[item])
 
             if amount < 1:
@@ -416,6 +416,46 @@ class Econ(commands.Cog):
 
             if shop_item[3][0] == 'Rich Person Trophy':
                 await self.db.rich_trophy_wipe(ctx.author.id)
+
+    @commands.command(name='sell')
+    async def sell(self, ctx, *, amount_item):
+        amount_item = amount_item.lower()
+
+        db_user = await self.db.fetch_user(ctx.author.id)
+
+        if amount_item.startswith('max ') or item.startswith('all '):
+            item = amount_item[4:]
+            db_item = await self.db.fetch_item(item)
+
+            amount = db_item['item_amount']
+        else:
+            split = amount_item.split(' ')
+
+            try:
+                amount = int(split.pop(0))
+            except ValueError:
+                amount = 1
+
+            item = ' '.join(split)
+            db_item = await self.db.fetch_item(item)
+
+        if db_item is None:
+            await self.bot.send(ctx, 'Either that item is invalid or you don\'t have it.')
+            return
+
+        if amount > db_item['item_amount']:
+            await self.bot.send(ctx, 'You can\'t sell more than you have of that item.')
+            return
+
+        if amount < 1:
+            await self.bot.send(ctx, 'You can\'t sell less than one of an item.')
+            return
+
+        await self.db.balance_add(ctx.author.id, amount * db_item['item_amount'])
+        await self.db.remove_item(ctx.author.id, db_item['item_name'], amount)
+
+        await self.send(ctx, f'You have sold {amount}x {db_item["item_name"]} for '
+                             f'a total of {amount*db_item["sell_price"]}{self.bot.custom_emojis["emerald"]}')
 
 
 def setup(bot):
