@@ -396,6 +396,51 @@
     ]
   ],
   "shop_items": {
+    "stone pickaxe": [
+      "tools",
+      32,
+      "db_item_count < 1",
+      [
+        "Stone Pickaxe",
+        8
+      ]
+    ],
+    "iron pickaxe": [
+      "tools",
+      128,
+      "db_item_count < 1",
+      [
+        "Iron Pickaxe",
+        32
+      ]
+    ],
+    "gold pickaxe": [
+      "tools",
+      512,
+      "db_item_count < 1",
+      [
+        "Gold Pickaxe",
+        128
+      ]
+    ],
+    "diamond pickaxe": [
+      "tools",
+      2048,
+      "db_item_count < 1",
+      [
+        "Diamond Pickaxe",
+        512
+      ]
+    ],
+    "netherite pickaxe": [
+      "tools",
+      8192,
+      "db_item_count < 1",
+      [
+        "Netherite Pickaxe",
+        2048
+      ]
+    ],
     "stone sword": [
       "tools",
       32,
