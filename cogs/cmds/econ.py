@@ -462,6 +462,20 @@ class Econ(commands.Cog):
         await self.send(ctx, f'You have sold {amount}x {db_item["item_name"]} for '
                              f'a total of {amount*db_item["sell_price"]}{self.bot.custom_emojis["emerald"]}')
 
+    @commands.command(name='give')
+    async def give(slef, ctx, *, amount_item):
+        amount_item = amount_item.lower()
+
+        try:
+            # to be given is emeralds
+            amount = int(amount_item)
+        except Exception:
+            split = amount_item.split(' ')
+
+            try:
+                amount = int(split.pop(0))
+            except Exception:
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
