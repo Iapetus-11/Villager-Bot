@@ -459,7 +459,7 @@ class Econ(commands.Cog):
         await self.db.balance_add(ctx.author.id, amount * db_item['item_amount'])
         await self.db.remove_item(ctx.author.id, db_item['item_name'], amount)
 
-        await self.send(ctx, f'You have sold {amount}x {db_item["item_name"]} for '
+        await self.send(ctx, f'You have sold {amount}x **{db_item["item_name"]}** for '
                              f'a total of {amount*db_item["sell_price"]}{self.bot.custom_emojis["emerald"]}')
 
     @commands.command(name='give')
@@ -519,7 +519,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, item, amount)
             await self.db.add_item(user, item, amount)
 
-            await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}x **{db_item['item_name']}** to {user.mention}')
+            await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}x **{db_item["item_name"]}** to {user.mention}')
 
 
 def setup(bot):
