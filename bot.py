@@ -6,7 +6,7 @@ import logging
 from discord.ext import commands
 
 global DEBUG
-DEBUG = True
+DEBUG = True  # disables db stuff and some other stuff
 
 # set up basic logging
 logging.basicConfig(level=logging.WARNING)
