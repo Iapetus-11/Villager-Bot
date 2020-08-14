@@ -14,6 +14,7 @@ class Events(commands.Cog):
     async def on_ready(self):
         await self.bot.change_presence(activity=discord.Game(name=choice(self.bot.playing_list)))
         self.logger.info(f"\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]")
+        
 
 def setup(bot):
     bot.add_cog(Events(bot))
