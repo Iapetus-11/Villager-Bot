@@ -500,9 +500,27 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, amount)
             await self.db.balance_add(user.id, amount)
 
-            await self.bot.send(ctx, f'Gave {amount}{self.bot.custom_emojis["emerald"]} to {user.mention}!')
+            await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}{self.bot.custom_emojis["emerald"]} to {user.mention}!')
         else:
-            if
+            db_item = await self.db.fetch_item(ctx.author.id, item)
+
+            if db_item is None:
+                await self.bot.send(ctx, 'You can\'t give an item you don\'t even have.')
+                return
+
+            if amount > db_item['item_amount']:
+                await self.bot.send(ctx, 'You can\'t give more of an item than you have.')
+                return
+
+            if amount < 1:
+                await self.bot.send(ctx, 'You can\'t give less than one of an item.')
+                return
+
+            await self.db.remove_item(ctx.author.id, item, amount)
+            await self.db.add_item(user, item, amount)
+
+            await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}x **{db_item['item_name']}** to {user.mention}')
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
