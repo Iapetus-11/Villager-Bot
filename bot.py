@@ -50,10 +50,10 @@ bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
 
 async def setup_database():  # init pool connection to database
     bot.db = await asyncpg.create_pool(
-        host=config['database']['host'],
-        database=config['database']['name'],
-        user=config['database']['user'],
-        password=keys['database'],
+        host=config['database']['host'],  # where db is hosted
+        database=config['database']['name'],  # name of database
+        user=config['database']['user'],  # database username
+        password=keys['database'],  # password which goes with user
         command_timeout=5
     )
 
@@ -80,6 +80,7 @@ with open("data/data.json", "r", encoding='utf8') as d:  # load essential data f
     bot.build_ideas = jj['build_ideas']  # list of build ideas for the !!buildidea command
     bot.emojified = jj['emojified']  # characters which can be emojified and their respective emojis
     bot.fun_langs = jj['fun_langs']  # fun languages for the text commands
+    bot.gamble_sayings = jj['gamble']  # stuff for gamble command
 
 # reverse enchant lang and make it its own lang (unenchantlang)
 bot.fun_langs['unenchant'] = {}
