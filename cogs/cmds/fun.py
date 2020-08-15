@@ -8,6 +8,8 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.d = self.bot.d
+
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
     def cog_unload(self):
