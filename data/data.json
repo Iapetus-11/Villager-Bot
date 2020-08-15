@@ -128,6 +128,13 @@
       "While begging in a village you got caught up in a raid, a ravager headbutts you across the map. You drop {0} mid-flight."
     ]
   },
+  "mining": {
+    "finds": [
+      ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore"],
+      ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore", "lapis lazuli", "gold ore"],
+      ["cobblestone", "cobblestone", "dirt", "coal", "coal", "iron ore", "iron ore", "gold ore", "diamond", "redstone"]
+    ],
+  }
   "cursed_images": [
     "4dimensionalbed.png",
     "airr.png",
