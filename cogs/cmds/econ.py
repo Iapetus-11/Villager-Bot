@@ -576,8 +576,9 @@ class Econ(commands.Cog):
         else:
             amount = 10 + math.ceil(math.log(db_user['emeralds'], 1.3))
             amount = random.randint(1, 4) if amount < 1 else amount
-            
+
             await self.bot.send(ctx, random.choice(self.d.begging_sayings['negative']).format(amount))
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
