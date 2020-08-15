@@ -60,32 +60,37 @@ async def setup_database():  # init pool connection to database
 if not DEBUG:
     asyncio.get_event_loop().run_until_complete(setup_database())
 
-bot.cc = discord.Color.green()  # embed color
-bot.votes_topgg = 0
-bot.votes_disbots = 0
-bot.cmd_count = 0
-bot.msg_count = 0
-bot.start_time = None
-bot.honey_buckets = None  # list of cooldowns for honey command (econ cog)
-bot.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
+class Data:
+    def __init__(self):
+        self.cc = discord.Color.green()  # embed color
+        self.votes_topgg = 0
+        self.votes_disbots = 0
+        self.cmd_count = 0
+        self.msg_count = 0
+        self.start_time = None
+        self.honey_buckets = None  # list of cooldowns for honey command (econ cog)
+        self.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
 
-with open("data/data.json", "r", encoding='utf8') as d:  # load essential data from data.json
-    jj = json.load(d)
-    bot.playing_list = jj['playing_list']  # list of games the bot can "play" in its status
-    bot.cursed_images = jj['cursed_images']  # list of Minecraft cursed images
-    bot.default_findables = jj['default_findables']  # items which can be found all the time
-    bot.special_findables = jj['special_findables']  # items which can only be found via events
-    bot.shop_items = jj['shop_items']  # items which are in the shop
-    bot.custom_emojis = jj['emojis']  # custom emojis which the bot uses
-    bot.build_ideas = jj['build_ideas']  # list of build ideas for the !!buildidea command
-    bot.emojified = jj['emojified']  # characters which can be emojified and their respective emojis
-    bot.fun_langs = jj['fun_langs']  # fun languages for the text commands
-    bot.gamble_sayings = jj['gamble']  # stuff for gamble command
+        with open("data/data.json", "r", encoding='utf8') as d:  # load essential data from data.json
+            jj = json.load(d)
 
-# reverse enchant lang and make it its own lang (unenchantlang)
-bot.fun_langs['unenchant'] = {}
-for key in list(bot.fun_langs['enchant']):
-    bot.fun_langs['unenchant'][bot.fun_langs['enchant'][key]] = key
+        self.playing_list = jj['playing_list']  # list of games the bot can "play" in its status
+        self.cursed_images = jj['cursed_images']  # list of Minecraft cursed images
+        self.default_findables = jj['default_findables']  # items which can be found all the time
+        self.special_findables = jj['special_findables']  # items which can only be found via events
+        self.shop_items = jj['shop_items']  # items which are in the shop
+        self.custom_emojis = jj['emojis']  # custom emojis which the bot uses
+        self.build_ideas = jj['build_ideas']  # list of build ideas for the !!buildidea command
+        self.emojified = jj['emojified']  # characters which can be emojified and their respective emojis
+        self.fun_langs = jj['fun_langs']  # fun languages for the text commands
+        self.gamble_sayings = jj['gamble']  # stuff for gamble command
+
+        # reverse enchant lang and make it its own lang (unenchantlang)
+        self.fun_langs['unenchant'] = {}
+        for key in list(self.fun_langs['enchant']):
+            self.fun_langs['unenchant'][self.fun_langs['enchant'][key]] = key
+
+bot.d = Data()
 
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.mc',
