@@ -559,7 +559,7 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, amount)
             await self.bot.send(ctx, f'You lost {amount} to Villager Bot...')
         else:
-            await self.bot.send(ctx.)
+            await self.bot.send(ctx, 'Tie! Maybe Villager Bot will steal your emeralds anyways...')
 
 
 def setup(bot):
