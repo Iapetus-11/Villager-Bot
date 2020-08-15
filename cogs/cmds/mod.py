@@ -6,6 +6,7 @@ from typing import Union
 class Mod(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.d = self.bot.d
 
     async def perm_check(self, author, victim):
         if author.id == author.guild.owner.id: return True
@@ -33,17 +34,17 @@ class Mod(commands.Cog):
     async def kick_user(self, ctx, user: discord.Member, *, reason='No reason provided.'):
         """Kicks the user from the current Discord server"""
         if ctx.author.id == user.id:
-            await ctx.send(embed=discord.Embed(color=self.bot.cc, title='You cannot kick yourself.'))
+            await ctx.send(embed=discord.Embed(color=self.d.cc, title='You cannot kick yourself.'))
             return
 
         if not await self.perm_check(ctx.author, user):
             await ctx.send(
-                embed=discord.Embed(color=self.bot.cc,
+                embed=discord.Embed(color=self.d.cc,
                                     title='You don\'t have the permissions to do that!'))
             return
 
         await ctx.guild.kick(user, reason=reason)
-        await ctx.send(embed=discord.Embed(color=self.bot.cc, title=f'Kicked **{user}**.'))
+        await ctx.send(embed=discord.Embed(color=self.d.cc, title=f'Kicked **{user}**.'))
 
     @commands.command(name='ban', aliases=['megayeet'])
     @commands.guild_only()
@@ -52,22 +53,22 @@ class Mod(commands.Cog):
         """Bans the given user from the current Discord server"""
 
         if ctx.author.id == user.id:
-            await ctx.send(embed=discord.Embed(color=self.bot.cc, title='You cannot ban yourself.'))
+            await ctx.send(embed=discord.Embed(color=self.d.cc, title='You cannot ban yourself.'))
             return
 
         if not await self.perm_check(ctx.author, user):
             await ctx.send(
-                embed=discord.Embed(color=self.bot.cc, title='You don\'t have the permissions to do that!'))
+                embed=discord.Embed(color=self.d.cc, title='You don\'t have the permissions to do that!'))
             return
 
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
                 await ctx.send(
-                    embed=discord.Embed(color=self.bot.cc, title=f'**{user}** is already banned.'))
+                    embed=discord.Embed(color=self.d.cc, title=f'**{user}** is already banned.'))
                 return
 
         await ctx.guild.ban(user, reason=reason, delete_message_days=0)
-        await ctx.send(embed=discord.Embed(color=self.bot.cc, title=f'Banned **{user}**.'))
+        await ctx.send(embed=discord.Embed(color=self.d.cc, title=f'Banned **{user}**.'))
 
     @commands.command(name='pardon', aliases=['unban'])
     @commands.guild_only()
@@ -76,16 +77,16 @@ class Mod(commands.Cog):
         """Unbans / pardons the given user fromt he current Discord server"""
 
         if ctx.author.id == user.id:
-            await ctx.send(embed=discord.Embed(color=self.bot.cc, title='You cannot unban yourself.'))
+            await ctx.send(embed=discord.Embed(color=self.d.cc, title='You cannot unban yourself.'))
             return
 
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
                 await ctx.guild.unban(user, reason=reason)
-                await ctx.send(embed=discord.Embed(color=self.bot.cc, title=f'Unbanned **{user}**.'))
+                await ctx.send(embed=discord.Embed(color=self.d.cc, title=f'Unbanned **{user}**.'))
                 return
 
-        await ctx.send(embed=discord.Embed(color=self.bot.cc, title=f'**{user}** isn\'t banned.'))
+        await ctx.send(embed=discord.Embed(color=self.d.cc, title=f'**{user}** isn\'t banned.'))
 
 
 def setup(bot):
