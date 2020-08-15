@@ -20,7 +20,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, m):
         if '@someone' in m.content and m.guild is not None:
-            someones = [u for u in m.guild.members if (not u.bot and u.status.online)]
+            someones = [u for u in m.guild.members if (not u.bot and u.status == 'online')]
             if len(someones) > 0:
                 await m.channel.send(random.choice(someones).mention)
 
