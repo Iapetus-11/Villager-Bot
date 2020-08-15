@@ -27,10 +27,10 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f'{u.display_name}\'s emeralds', icon_url=u.avatar_url_as())
 
-        embed.description = f'Total Wealth: {total_wealth}{self.d.custom_emojis["emerald"]}'
+        embed.description = f'Total Wealth: {total_wealth}{self.d.emojis.emerald}'
 
-        embed.add_field(name='Pocket', value=f'{db_user["emeralds"]}{self.d.custom_emojis["emerald"]}')
-        embed.add_field(name='Vault', value=f'{db_user["vault_bal"]}{self.d.custom_emojis["emerald_block"]}/{db_user["vault_max"]}')
+        embed.add_field(name='Pocket', value=f'{db_user["emeralds"]}{self.d.emojis.emerald}')
+        embed.add_field(name='Vault', value=f'{db_user["vault_bal"]}{self.d.emojis.emerald_block}/{db_user["vault_max"]}')
 
         await ctx.send(embed=embed)
 
@@ -52,7 +52,7 @@ class Econ(commands.Cog):
             for item in items_chunks[page]:
                 it_am_txt = f'{item["item_amount"]}'
                 it_am_txt += ' \uFEFF' * (len(it_am_txt - 5))
-                body += f'`{it_am_txt}x` **{item["item_name"]}** ({item["sell_price"]}{self.d.custom_emojis["emerald"]})\n'
+                body += f'`{it_am_txt}x` **{item["item_name"]}** ({item["sell_price"]}{self.d.emojis.emerald})\n'
 
             embed = discord.Embed(color=self.d.cc, description=body)
             embed.set_author(name=f'{user.display_name}\'s inventory', icon_url=user.avatar_url_as())
@@ -118,8 +118,8 @@ class Econ(commands.Cog):
         await self.db.balance_sub(ctx.author.id, amount * 9)
         await self.db.set_vault(ctx.author.id, c_v_bal + amount, c_v_max)
 
-        await self.bot.send(ctx, f'Deposited {amount}{self.d.custom_emojis["emerald_block"]}'
-        f'({amount * 9}{self.d.custom_emojis["emerald"]}) into your vault.')
+        await self.bot.send(ctx, f'Deposited {amount}{self.d.emojis.emerald_block}'
+        f'({amount * 9}{self.d.emojis.emerald}) into your vault.')
 
     @commands.command(name='withdraw', aliases=['with'])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -157,17 +157,17 @@ class Econ(commands.Cog):
         await self.db.balance_add(ctx.author.id, amount * 9)
         await self.db.set_vault(ctx.author.id, c_v_bal - amount, c_v_max)
 
-        await self.bot.send(ctx, f'Withdrew {amount}{self.d.custom_emojis["emerald_block"]}'
-        f'({amount * 9}{self.d.custom_emojis["emerald"]}) from your vault.')
+        await self.bot.send(ctx, f'Withdrew {amount}{self.d.emojis.emerald_block}'
+        f'({amount * 9}{self.d.emojis.emerald}) from your vault.')
 
     async def format_required(self, item, amount=1):
         if item[3][0] == 'Netherite Pickaxe':
-            return f' {item[1] * amount}{self.d.custom_emojis["emerald"]} + {4 * amount}}{self.d.custom_emojis["netherite"]}'
+            return f' {item[1] * amount}{self.d.emojis.emerald} + {4 * amount}}{self.d.emojis.netherite}'
 
         if item[3][0] == 'Netherite Sword':
-            return f' {item[1] * amount}{self.d.custom_emojis["emerald"]} + {6 * amount}{self.d.custom_emojis["netherite"]}'
+            return f' {item[1] * amount}{self.d.emojis.emerald} + {6 * amount}{self.d.emojis.netherite}'
 
-        return f' {item[1] * amount}{self.d.custom_emojis["emerald"]}'
+        return f' {item[1] * amount}{self.d.emojis.emerald}'
 
     @commands.group(name='shop')
     async def shop(self, ctx):
@@ -462,7 +462,7 @@ class Econ(commands.Cog):
         await self.db.remove_item(ctx.author.id, db_item['item_name'], amount)
 
         await self.send(ctx, f'You have sold {amount}x **{db_item["item_name"]}** for '
-                             f'a total of {amount*db_item["sell_price"]}{self.d.custom_emojis["emerald"]}')
+                             f'a total of {amount*db_item["sell_price"]}{self.d.emojis.emerald}')
 
     @commands.command(name='give')
     async def give(self, ctx, user: discord.User, *, amount_item):
@@ -502,7 +502,7 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, amount)
             await self.db.balance_add(user.id, amount)
 
-            await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}{self.d.custom_emojis["emerald"]} to {user.mention}!')
+            await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}{self.d.emojis.emerald} to {user.mention}!')
         else:
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
@@ -557,7 +557,7 @@ class Econ(commands.Cog):
             multi /= 100
 
             await self.db.balance_add(ctx.author.id, multi * amount)
-            await self.bot.send(ctx, f'You won! Villager Bot {randomm.choice(self.d.gamble_sayings)} {multi * amount}{self.d.custom_emojis["emerald"]}')
+            await self.bot.send(ctx, f'You won! Villager Bot {randomm.choice(self.d.gamble_sayings)} {multi * amount}{self.d.emojis.emerald}')
         elif u_roll < b_roll:
             await self.db.balance_sub(ctx.author.id, amount)
             await self.bot.send(ctx, f'You lost {amount} to Villager Bot...')
