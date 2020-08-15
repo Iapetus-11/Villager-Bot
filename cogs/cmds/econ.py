@@ -162,7 +162,7 @@ class Econ(commands.Cog):
 
     async def format_required(self, item, amount=1):
         if item[3][0] == 'Netherite Pickaxe':
-            return f' {item[1] * amount}{self.d.emojis.emerald} + {4 * amount}}{self.d.emojis.netherite}'
+            return f' {item[1] * amount}{self.d.emojis.emerald} + {4 * amount}{self.d.emojis.netherite}'
 
         if item[3][0] == 'Netherite Sword':
             return f' {item[1] * amount}{self.d.emojis.emerald} + {6 * amount}{self.d.emojis.netherite}'
