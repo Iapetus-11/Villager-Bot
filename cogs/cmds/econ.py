@@ -566,7 +566,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='beg')
     async def beg(self, ctx):
-        db_user = await self.db.fetch_user[]
+        db_user = await self.db.fetch_user(ctx.author.id)
 
         if random.choice([True, True, True, True, True, False]):
             amount = 10 + math.ceil(math.log(db_user['emeralds'], 1.5))
