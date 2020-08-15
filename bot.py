@@ -110,6 +110,7 @@ class Data:
 bot.d = Data()
 
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
+    'cogs.core.events',
     'cogs.cmds.mc',
     'cogs.cmds.mod',
     'cogs.cmds.fun',
