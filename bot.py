@@ -63,24 +63,40 @@ if not DEBUG:
 class Data:
     def __init__(self):
         self.cc = discord.Color.green()  # embed color
+
         self.votes_topgg = 0
         self.votes_disbots = 0
         self.cmd_count = 0
         self.msg_count = 0
         self.start_time = None
+
         self.honey_buckets = None  # list of cooldowns for honey command (econ cog)
+
         self.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
 
         with open("data/data.json", "r", encoding='utf8') as d:  # load essential data from data.json
             jj = json.load(d)
             self.jj = jj
 
-        self.playing_list = jj['playing_list']  # list of games the bot can "play" in its status
-        self.cursed_images = jj['cursed_images']  # list of Minecraft cursed images
+        self.custom_emojis = jj['emojis']  # custom emojis which the bot uses
+
+        class Emojis:
+            def __init__(_self):
+                _self.online = self.custom_emojis['online']
+                _self.offline = self.custom_emojis['offline']
+
+                _self.emerald = self.custom_emojis['emerald']
+                _self.emerald_block = self.custom_emojis['emerald_block']
+                _self.netherite = self.custom_emojis['netherite']
+
+        self.emojis = Emojis()
+
         self.default_findables = jj['default_findables']  # items which can be found all the time
         self.special_findables = jj['special_findables']  # items which can only be found via events
         self.shop_items = jj['shop_items']  # items which are in the shop
-        self.custom_emojis = jj['emojis']  # custom emojis which the bot uses
+
+        self.playing_list = jj['playing_list']  # list of games the bot can "play" in its status
+        self.cursed_images = jj['cursed_images']  # list of Minecraft cursed images
         self.build_ideas = jj['build_ideas']  # list of build ideas for the !!buildidea command
         self.emojified = jj['emojified']  # characters which can be emojified and their respective emojis
         self.fun_langs = jj['fun_langs']  # fun languages for the text commands
