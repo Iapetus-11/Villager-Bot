@@ -114,7 +114,8 @@
       "As a raid comes to an end the villagers mistake you for the hero, you receive {0}.",
       "You gave the piglin a great time. The piglin stops and thinks, and then hands you {0}.",
       "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot gave you {0}.",
-      "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot gave you {0}"
+      "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot gave you {0}.",
+      "Walking towards your begging spot glistening emeralds catch your eye, you find {0}."
     ],
     "negative": [
       "A band of piglins doesn't take your interruption lightly and steals {0} from you.",
