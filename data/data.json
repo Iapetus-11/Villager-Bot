@@ -100,6 +100,33 @@
     "hands over",
     "passes you"
   ],
+  "begging": {
+    "positive": [
+      "A piglin tosses away {0}, as only gold matters to it.",
+      "You find {0} dropped by pillagers after a raid.",
+      "You find {0} left by pillagers in the remnants of a destroyed village...",
+      "A villager takes pity on you and drops {0} on the ground.",
+      "A traveller takes pity on you and drops {0} into your hands.",
+      "You mug another beggar and get {0}!",
+      "Out of annoyance, the villagers throw emeralds at you to make you go away, you picked up {0}.",
+      "Eun's kindness blesses you, {0} appears in your pocket.",
+      "While traveling to a village, you come across a chunk error, with exposed emeralds at the bottom. You mined up {0}.",
+      "As a raid comes to an end the villagers mistake you for the hero, you receive {0}.",
+      "You gave the piglin a great time. The piglin stops and thinks, and then hands you {0}.",
+      "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot gave you {0}.",
+      "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot gave you {0}"
+    ],
+    "negative": [
+      "A band of piglins doesn't take your interruption lightly and steals {0} from you.",
+      "You stumble accross a group of pillagers which steal {0} from you.",
+      "You get hit in the head with some bread as villagers chase you out of the village. You dropped {0} while you ran away.",
+      "Another begger mugs you and steals {0}.",
+      "Asking a creeper didn't go so well, you lost {0} from the resulting explosion.",
+      "While looking for more emeralds, you misplaced yours, losing {0}.",
+      "An illusioner appears, rambling about doubling your emeralds with this once simple trick. You hand him {0} and he disappears in a puff of smoke.",
+      "While begging in a village you got caught up in a raid, a ravager headbutts you across the map. You drop {0} mid-flight."
+    ]
+  },
   "cursed_images": [
     "4dimensionalbed.png",
     "airr.png",
