@@ -73,6 +73,7 @@ class Data:
         self.honey_buckets = None  # list of cooldowns for honey command (econ cog)
 
         self.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
+        self.support = 'https://discord.gg/39DwwUV'
 
         with open("data/data.json", "r", encoding='utf8') as d:  # load essential data from data.json
             jj = json.load(d)
