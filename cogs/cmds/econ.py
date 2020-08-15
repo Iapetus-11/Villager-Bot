@@ -524,6 +524,8 @@ class Econ(commands.Cog):
 
     @commands.command(name='gamble')
     async def gamble(self, ctx, amount):
+        """Gamble for emeralds with Villager Bot"""
+
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if amount.lower() in ('all', 'max',):
