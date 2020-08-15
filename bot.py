@@ -100,7 +100,9 @@ class Data:
         self.build_ideas = jj['build_ideas']  # list of build ideas for the !!buildidea command
         self.emojified = jj['emojified']  # characters which can be emojified and their respective emojis
         self.fun_langs = jj['fun_langs']  # fun languages for the text commands
+
         self.gamble_sayings = jj['gamble']  # stuff for gamble command
+        self.begging_sayings = jj['begging']  # text responses for begging command
 
         # reverse enchant lang and make it its own lang (unenchantlang)
         self.fun_langs['unenchant'] = {}
