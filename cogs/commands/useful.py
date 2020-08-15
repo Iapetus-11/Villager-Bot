@@ -412,6 +412,13 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name="source", aliases=["sourcecode"])
+    async def source(self, ctx):
+        src_l = discord.Embed(description="[**Click Here!**](https://github.com/Villager-Dev/Villager-Bot)", color=discord.Color.green())
+        src_l.set_author(name="Look at the source code for Villager Bot!",
+                         icon_url="http://172.10.17.177/images/villagerbotsplash1.png")
+        await ctx.send(embed=src_l)
+
 
 def setup(bot):
     bot.add_cog(Useful(bot))
