@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import logging
+import random
 
 
 class Events(commands.Cog):
@@ -12,7 +13,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.bot.change_presence(activity=discord.Game(name=choice(self.bot.playing_list)))
+        await self.bot.change_presence(activity=discord.Game(name=random.choice(self.bot.playing_list)))
         self.logger.info(f"\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]")
 
 
