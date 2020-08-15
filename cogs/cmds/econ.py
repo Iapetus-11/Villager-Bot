@@ -566,6 +566,8 @@ class Econ(commands.Cog):
 
     @commands.command(name='beg')
     async def beg(self, ctx):
+        """Beg for emeralds"""
+
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if random.choice([True, True, True, True, True, False]):
