@@ -73,6 +73,7 @@ class Data:
 
         with open("data/data.json", "r", encoding='utf8') as d:  # load essential data from data.json
             jj = json.load(d)
+            self.jj = jj
 
         self.playing_list = jj['playing_list']  # list of games the bot can "play" in its status
         self.cursed_images = jj['cursed_images']  # list of Minecraft cursed images
