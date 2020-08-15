@@ -74,6 +74,7 @@ class Data:
 
         self.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
         self.support = 'https://discord.gg/39DwwUV'
+        self.invite = 'https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=8&scope=bot'
 
         with open("data/data.json", "r", encoding='utf8') as d:  # load essential data from data.json
             jj = json.load(d)
