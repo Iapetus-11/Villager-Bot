@@ -23,6 +23,20 @@ class Events(commands.Cog):
             someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id)]
             if len(someones) > 0:
                 await m.channel.send(random.choice(someones).mention)
+        elif m.content.startswith('<@!639498607632056321>'):
+            prefix = '!!'
+            if m.guild is not None:
+                prefix = await self.db.fetch_prefix(ctx.guild.id)
+
+            embed = discord.Embed(
+                color=self.d.cc,
+                description=f'The prefix for this server is ``{prefix}`` and the help command is ``{prefix}help``\n'
+                            f'If you are in need of more help, you can join the **[Support Server]({self.d.support})**.'
+            )
+            embed.set_footer('Made by Iapetus11#6821')
+
+            await ctx.send(embed=embed)
+
 
 
 def setup(bot):
