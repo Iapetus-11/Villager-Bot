@@ -9,6 +9,7 @@ from discord.ext import commands
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.d = self.bot.d
 
         self.db = self.bot.get_cog('Database')
 
@@ -38,7 +39,7 @@ class Minecraft(commands.Cog):
                 jj = await res.json()
 
         if jj['online'] is not True:
-            embed = discord.Embed(color=self.bot.cc, title=f'{self.bot.custom_emojis["offline"]} {combined} is offline')
+            embed = discord.Embed(color=self.d.cc, title=f'{self.d.custom_emojis["offline"]} {combined} is offline')
             await ctx.send(embed=embed)
             return
 
@@ -48,7 +49,7 @@ class Minecraft(commands.Cog):
 
         players_online = jj['players_online']  # int
 
-        embed = discord.Embed(color=self.bot.cc, title=f'{self.bot.custom_emojis["online"]} {combined} is online')
+        embed = discord.Embed(color=self.d.cc, title=f'{self.d.custom_emojis["online"]} {combined} is online')
         # should probably set thumbnail to server favicon or add image from theapi.info/mc/mcpingimg
 
         embed.add_field(name='Latency/Ping', value=jj['latency'])
@@ -114,7 +115,7 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, 'Oops, something went wrong while fetching that player\'s profile.')
             return
 
-        embed = discord.Embed(color=self.bot.cc, description=f'{player}\'s skin\n[**[Download]**]({skin_url})')
+        embed = discord.Embed(color=self.d.cc, description=f'{player}\'s skin\n[**[Download]**]({skin_url})')
         embed.set_thumbnail(url=skin_url)
         embed.set_image(url=f'https://mc-heads.net/body/{player}')
 
@@ -157,7 +158,7 @@ class Minecraft(commands.Cog):
         """Shows the Minecraft chat color codes"""
 
         embed = discord.Embed(
-            color=self.bot.cc,
+            color=self.d.cc,
             description='Text in Minecraft can be formatted using different codes and\nthe section (`§`) sign.'
         )
 
@@ -203,8 +204,8 @@ class Minecraft(commands.Cog):
     async def build_idea(self, ctx):
         """Sends a random "build idea" which you could create"""
 
-        prefix = random.choice(self.bot.build_ideas['prefixes'])
-        idea = random.choice(self.bot.build_ideas['ideas'])
+        prefix = random.choice(self.d.build_ideas['prefixes'])
+        idea = random.choice(self.d.build_ideas['ideas'])
 
         await self.bot.send(ctx, f'{prefix} {idea}!')
 
