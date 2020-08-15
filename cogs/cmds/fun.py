@@ -7,7 +7,6 @@ import aiohttp
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
         self.d = self.bot.d
 
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
@@ -49,7 +48,7 @@ class Fun(commands.Cog):
             while meme['spoiler'] or (not do_nsfw and meme['nsfw']):
                 meme = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/meme+memes+me_irl+dankmemes')).json()
 
-        embed = discord.Embed(color=self.bot.cc, title=meme['title'], url=meme['postLink'])
+        embed = discord.Embed(color=self.d.cc, title=meme['title'], url=meme['postLink'])
         embed.set_image(url=meme['url'])
 
         await ctx.send(embed=embed)
@@ -69,7 +68,7 @@ class Fun(commands.Cog):
             while not do_nsfw and jj['nsfw']:
                 jj = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/greentext')).json()
 
-        embed = discord.Embed(color=self.bot.cc, title=jj['title'], url=jj['postLink'])
+        embed = discord.Embed(color=self.d.cc, title=jj['title'], url=jj['postLink'])
         embed.set_image(url=jj['url'])
 
         await ctx.send(embed=embed)
@@ -89,7 +88,7 @@ class Fun(commands.Cog):
             while not do_nsfw and jj['nsfw']:
                 jj = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/comics')).json()
 
-        embed = discord.Embed(color=self.bot.cc, title=jj['title'], url=jj['postLink'])
+        embed = discord.Embed(color=self.d.cc, title=jj['title'], url=jj['postLink'])
         embed.set_image(url=jj['url'])
 
         await ctx.send(embed=embed)
@@ -109,7 +108,7 @@ class Fun(commands.Cog):
     async def villager_speak(self, ctx, *, msg):
         """Turns the given text into Minecraft villager sounds as text"""
 
-        translated = await self.lang_convert(await self.nice(ctx), self.bot.fun_langs['villager'])
+        translated = await self.lang_convert(await self.nice(ctx), self.d.fun_langs['villager'])
 
         if translated is None:
             await self.bot.send(ctx, 'The message is too long to convert.')
@@ -120,7 +119,7 @@ class Fun(commands.Cog):
     async def enchant_lang(self, ctx, *, msg):
         """Turns regular text into the Minecraft enchantment table language"""
 
-        translated = await self.lang_convert((await self.nice(ctx)).lower(), self.bot.fun_langs['enchant'])
+        translated = await self.lang_convert((await self.nice(ctx)).lower(), self.d.fun_langs['enchant'])
 
         if translated is None:
             await self.bot.send(ctx, 'The message is too long to convert.')
@@ -131,7 +130,7 @@ class Fun(commands.Cog):
     async def unenchant_lang(self, ctx, *, msg):
         """Turns the Minecraft enchantment table language back into regular text"""
 
-        translated = await self.lang_convert(await self.nice(ctx), self.bot.fun_langs['unenchant'])
+        translated = await self.lang_convert(await self.nice(ctx), self.d.fun_langs['unenchant'])
 
         if translated is None:
             await self.bot.send(ctx, 'The message is too long to convert.')
@@ -142,7 +141,7 @@ class Fun(commands.Cog):
     async def vaporwave_text(self, ctx, *, msg):
         """Turns regular text into vaporwave text"""
 
-        translated = await self.lang_convert(await self.nice(ctx), self.bot.fun_langs['vaporwave'])
+        translated = await self.lang_convert(await self.nice(ctx), self.d.fun_langs['vaporwave'])
 
         if translated is None:
             await self.bot.send(ctx, 'The message is too long to convert.')
@@ -196,7 +195,7 @@ class Fun(commands.Cog):
             if letter in abcdefg_someone_shouldve_told_ya_not_to_fuck_with_me:
                 text += f':regional_indicator_{letter}: '
             else:
-                text += self.bot.emojified.get(letter, letter) + ' '
+                text += self.d.emojified.get(letter, letter) + ' '
 
         if len(text) > 2000:
             await self.bot.send(ctx, 'That would be too long to send')

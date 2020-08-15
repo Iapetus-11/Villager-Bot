@@ -8,9 +8,9 @@ import random
 class Econ(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.d = self.bot.d
 
         self.db = self.bot.get_cog("Database")
-        self.d = self.bot.d
 
     @commands.command(name='bal', aliases=['balance'])
     async def bal(self, ctx, user: discord.User = None):
