@@ -39,7 +39,7 @@ class Minecraft(commands.Cog):
                 jj = await res.json()
 
         if jj['online'] is not True:
-            embed = discord.Embed(color=self.d.cc, title=f'{self.d.custom_emojis["offline"]} {combined} is offline')
+            embed = discord.Embed(color=self.d.cc, title=f'{self.d.emojis.offline} {combined} is offline')
             await ctx.send(embed=embed)
             return
 
@@ -49,7 +49,7 @@ class Minecraft(commands.Cog):
 
         players_online = jj['players_online']  # int
 
-        embed = discord.Embed(color=self.d.cc, title=f'{self.d.custom_emojis["online"]} {combined} is online')
+        embed = discord.Embed(color=self.d.cc, title=f'{self.d.emojis.online} {combined} is online')
         # should probably set thumbnail to server favicon or add image from theapi.info/mc/mcpingimg
 
         embed.add_field(name='Latency/Ping', value=jj['latency'])
