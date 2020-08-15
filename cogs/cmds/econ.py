@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import asyncio
 import math
+import random
 
 
 class Econ(commands.Cog):
@@ -520,6 +521,45 @@ class Econ(commands.Cog):
             await self.db.add_item(user, item, amount)
 
             await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}x **{db_item["item_name"]}** to {user.mention}')
+
+    @commands.command(name='gamble')
+    async def gamble(self, ctx, amount):
+        db_user = await self.db.fetch_user(ctx.author.id)
+
+        if amount.lower() in ('all', 'max',):
+            amount = db_user['emeralds']
+        else:
+            try:
+                amount = int(amount)
+            except ValueError:
+                await self.bot.send(ctx, 'You have to use a number.')
+                return
+
+        if amount > db_user['emeralds']:
+            await self.bot.send(ctx, 'You can\'t gamble more emeralds than you have.')
+            return
+
+        if amount < 10:
+            await self.bot.send(ctx, 'You have to gamble 10 or more emeralds at a time.')
+            return
+
+        u_roll = random.randint(1, 6) + random.randint(1, 6)
+        b_roll = random.randint(1, 6) + random.randint(1, 6)
+
+        await self.bot.send(ctx, f'Your roll: `{u_roll}` **|** Bot roll: `{b_roll}`')
+
+        if u_roll > b_roll:
+            multi = 100 + randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 75
+            multi += (await self.db.fetch_item(ctx.author.id 'Rich Person Trophy') is not None) * 20
+            multi /= 100
+
+            await self.db.balance_add(ctx.author.id, multi * amount)
+            await self.bot.send(ctx, f'You won! Villager Bot {randomm.choice(self.bot.gamble_sayings)} {multi * amount}{self.bot.custom_emojis["emerald"]}')
+        elif u_roll < b_roll:
+            await self.db.balance_sub(ctx.author.id, amount)
+            await self.bot.send(ctx, f'You lost {amount} to Villager Bot...')
+        else:
+            await self.bot.send(ctx.)
 
 
 def setup(bot):
