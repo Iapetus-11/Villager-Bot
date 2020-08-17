@@ -144,6 +144,12 @@ class Fun(commands.Cog):
             return
         await ctx.send(clapped)
 
+    @commands.command(name='owo', aliases=['owofy'])
+    async def owofy_text(self, ctx, *, text):
+      """Make any string more cringe"""
+        owos = [' øwø', ' ◕w◕', ' ♥w♥', ' (owo)', ' ◔w◔', ' 𝓞𝔀𝓞', ' OɯO', ' (。O ω O。)', ' (。O⁄ ⁄ω⁄ ⁄ O。)', ' ♥(。ᅌ ω ᅌ。)', ' (ʘωʘ)', ' ( °ω° )', ' ( ͡o ω ͡o )']
+        text = text.lower().replace('l', 'w').replace('r', 'w')
+        await ctx.send(text + random.choice(owos))
 
 def setup(bot):
     bot.add_cog(Fun(bot))
