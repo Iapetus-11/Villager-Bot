@@ -229,7 +229,14 @@ class Fun(commands.Cog):
 
         bubble = '||***pop***||'
         await self.bot.send(ctx, f'{bubble*size[0]}\n'*size[1])
-
-
+    @commands.command(name='lmgtfy')
+        async def lmgtfy(self, ctx, *, q):
+            '''For those to lazy to search for themselves'''
+            templist = q.split()
+            linksearch = ['https://lmgtfy.com/?q=']
+            for i in templist:
+                linksearch.append(i + '+')
+            linksearch = ''.join(linksearch)
+            await ctx.send(linksearch)
 def setup(bot):
     bot.add_cog(Fun(bot))
