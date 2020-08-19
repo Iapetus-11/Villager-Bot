@@ -134,6 +134,18 @@
       ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore", "lapis lazuli", "gold ore"],
       ["cobblestone", "cobblestone", "dirt", "coal", "coal", "iron ore", "iron ore", "gold ore", "diamond", "redstone"]
     ],
+    "actions": [
+      "mined up",
+      "found",
+      "got",
+      "dug up"
+    ],
+    "yields_enchant_items": {
+      "Bane Of Pillagers Amulet": [2, 3, 4, 5, 6],
+      "Fortune III Book": [1, 1, 2, 3, 4],
+      "Fortune II Book": [1, 1, 1, 2, 3],
+      "Fortune I Book": [1, 1, 2]
+    }
   },
   "default_findables": [
     [
