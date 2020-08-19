@@ -201,6 +201,7 @@ class Fun(commands.Cog):
             await self.bot.send(ctx, 'That would be too long to send')
         else:
             await ctx.send(text)
+            
     @commands.command(name='owo', aliases=['owofy'])
     async def owofy_text(self, ctx, *, text):
       """Make any string more cringe"""
