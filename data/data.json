@@ -145,6 +145,14 @@
       "Fortune III Book": [1, 1, 2, 3, 4],
       "Fortune II Book": [1, 1, 1, 2, 3],
       "Fortune I Book": [1, 1, 2]
+    },
+    "yields_pickaxes": {
+      "Wood Pickaxe": [4, 26],
+      "Stone Pickaxe": [5, 26],
+      "Iron Pickaxe": [7, 26],
+      "Gold Pickaxe": [8, 26],
+      "Diamond Pickaxe": [10, 26],
+      "Netherite Pickaxe": [13, 26]
     }
   },
   "default_findables": [
