@@ -106,6 +106,7 @@ class Data:
         self.gamble_sayings = jj['gamble']  # stuff for gamble command
         self.begging_sayings = jj['begging']  # text responses for begging command
         self.owos = jj['owos']  # text for owofy command
+        self.mining = jj['mine']  # data for mine command
 
         # reverse enchant lang and make it its own lang (unenchantlang)
         self.fun_langs['unenchant'] = {}
