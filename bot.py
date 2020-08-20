@@ -80,7 +80,7 @@ bot.d.invite = 'https://discord.com/oauth2/authorize?client_id=63949860763205632
 
 bot.d.fun_langs.unenchant = {}
 for key in list(bot.d.fun_langs.enchant):
-    bot.d.fun_langs.unenchant[bot.d.fun_langs.enchant[key]]
+    bot.d.fun_langs.unenchant[bot.d.fun_langs.enchant[key]] = key
 
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.events',
