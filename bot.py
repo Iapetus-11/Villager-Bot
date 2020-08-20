@@ -61,7 +61,7 @@ async def setup_database():  # init pool connection to database
 if not DEBUG:
     asyncio.get_event_loop().run_until_complete(setup_database())
 
-with open('data/data.json', 'r') as d:
+with open('data/data.json', 'r', encoding='utf8') as d:
     bot.d = classyjson.load(d)
 
 bot.d.cc = discord.Color.green()  # embed color
