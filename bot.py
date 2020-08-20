@@ -95,7 +95,7 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 
 
 async def is_bot_banned(uid):  # checks if a user has been botbanned
-    return (await bot.db.fetchrow("SELECT bot_banned FROM users WHERE uid = $1", uid))[0]
+    return (await bot.db.fetchrow('SELECT bot_banned FROM users WHERE uid = $1', uid))[0]
 
 
 @bot.check  # everythingggg goes through here
