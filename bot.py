@@ -38,7 +38,7 @@ bot = commands.AutoShardedBot(  # setup bot
 )
 
 
-async def send(self, location, message: str):
+async def send(self, location, message: str):  # send function/method for easy sending of embed messages with small amounts of text
     try:
         await location.send(embed=discord.Embed(color=bot.cc, description=message))
         return True
@@ -62,7 +62,7 @@ if not DEBUG:
     asyncio.get_event_loop().run_until_complete(setup_database())
 
 with open('data/data.json', 'r', encoding='utf8') as d:
-    bot.d = classyjson.load(d)
+    bot.d = classyjson.load(d)  # classyjson automatically turns json into sets of nested classes and attributes for easy access
 
 bot.d.cc = discord.Color.green()  # embed color
 
@@ -79,7 +79,7 @@ bot.d.support = 'https://discord.gg/39DwwUV'
 bot.d.invite = 'https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=8&scope=bot'
 
 bot.d.fun_langs.unenchant = {}
-for key in list(bot.d.fun_langs.enchant):
+for key in list(bot.d.fun_langs.enchant):  # reverse the enchant lang to get the unenchant lang
     bot.d.fun_langs.unenchant[bot.d.fun_langs.enchant[key]] = key
 
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
