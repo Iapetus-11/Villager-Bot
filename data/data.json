@@ -153,6 +153,20 @@
       "Gold Pickaxe": [8, 26],
       "Diamond Pickaxe": [10, 26],
       "Netherite Pickaxe": [13, 26]
+    },
+    "item_finds_text": {
+      "actions": [
+        "found",
+        "got"
+      ]
+      "places": [
+        "in an abandoned mineshaft",
+        "in a chest while mining",
+        "in a chest",
+        "in an abandoned chest",
+        "in a chest near a monster spawner",
+        "while mining"
+      ]
     }
   },
   "default_findables": [
@@ -466,6 +480,16 @@
       "What if you constructed"
     ]
   },
+  "owos": [
+    "øwø",
+    "◕w◕",
+    "♥w♥",
+    "◔w◔",
+    "𝓞𝔀𝓞",
+    "OɯO",
+    "(。O ω O。)",
+    "♥(。ᅌ ω ᅌ。)"
+  ],
   "emojified": {
     "!": ":grey_exclamation:",
     "?": ":grey_question:",
