@@ -72,6 +72,7 @@ bot.d.cmd_count = 0
 bot.d.msg_count = 0
 bot.d.start_time = None
 
+bot.d.miners = []
 bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)
 
 bot.d.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'

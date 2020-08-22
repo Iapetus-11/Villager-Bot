@@ -3,6 +3,7 @@ import discord
 import asyncio
 import math
 import random
+import aiohttp
 
 
 class Econ(commands.Cog):
@@ -11,6 +12,15 @@ class Econ(commands.Cog):
         self.d = self.bot.d
 
         self.db = self.bot.get_cog("Database")
+
+        self.ses = aiohttp.ClientSession(loop=self.bot.loop)
+
+    async def mine_problem(ctx):
+        self.d.miners[ctx.author.id] = self.d.miners.get(ctx.author.id, 0) + 1
+
+        jj = await (await self.ses.get('http://betterapi.net/gen/captcha')).json()
+
+        
 
     @commands.command(name='bal', aliases=['balance'])
     async def bal(self, ctx, user: discord.User = None):
