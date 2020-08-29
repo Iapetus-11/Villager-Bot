@@ -167,6 +167,12 @@
         "in an abandoned chest",
         "in a chest near a monster spawner",
         "while mining"
+      ],
+      "useless": [
+        "useless",
+        "stupid",
+        "dumb",
+        "worthless"
       ]
     }
   },
