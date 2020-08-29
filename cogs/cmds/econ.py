@@ -640,8 +640,8 @@ class Econ(commands.Cog):
                 found +=  self.d.mining.yields_enchant_items[item] if found else 0
                 break
 
-        if not found:  # try to see if user gets an item
-            for item in self.d.findables:
+        if not found:
+            for item in self.d.findables:  # try to see if user gets an item
                 if random.randint(0, item[2]) == 1:
                     await self.db.add_item(ctx.author.id, item[0], item[2], 1)
 
@@ -654,8 +654,17 @@ class Econ(commands.Cog):
                         f'{a} {c[0]} (Worth {c[1]}{self.d.emojis.emerald}) '
                         f'{random.choice(self.d.item_finds_text.places)}'
                     )
+
+                    return
+
+            await self.bot.send(f'You {random.choice(self.d.mining.useless)} {random.randint(1, 6)} {random.choice(fake_finds)}')
         else:
-            
+            if await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None:
+                found *= 2
+
+            await self.db.balance_add(ctx.author.id, found)
+
+            await self.bot.send(f'You {random.choice(self.d.mining.actions)} {found}{self.d.emojis.emerald}!')
 
 
 def setup(bot):
