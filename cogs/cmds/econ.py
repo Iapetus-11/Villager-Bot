@@ -666,6 +666,9 @@ class Econ(commands.Cog):
 
             await self.bot.send(f'You {random.choice(self.d.mining.actions)} {found}{self.d.emojis.emerald}!')
 
+    @commands.command(name='pillage')
+    async def pillage()
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
