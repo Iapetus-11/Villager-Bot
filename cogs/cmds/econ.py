@@ -621,6 +621,13 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(self.d.begging_sayings['negative']).format(amount))
 
+    @commands.command(name='mine', aliases=['mein'])
+    async def mine(self, ctx):
+        if not self.problem(ctx): return
+
+        db_user = await self.db.fetch_user(ctx.author.id)
+        pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
