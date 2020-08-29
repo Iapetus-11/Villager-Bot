@@ -643,6 +643,8 @@ class Econ(commands.Cog):
         if not found:  # try to see if user gets an item
             for item in self.d.findables:
                 if random.randint(0, item[2]) == 1:
+                    await self.db.add_item(ctx.author.id, item[0], item[2], 1)
+
                     a = 'a'
                     if item[0][0] in self.d.vowels:
                         a = 'an'
@@ -652,6 +654,8 @@ class Econ(commands.Cog):
                         f'{a} {c[0]} (Worth {c[1]}{self.d.emojis.emerald}) '
                         f'{random.choice(self.d.item_finds_text.places)}'
                     )
+        else:
+            
 
 
 def setup(bot):
