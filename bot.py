@@ -75,6 +75,7 @@ bot.d.start_time = None
 bot.d.miners = []
 bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)
 bot.d.mining.pickaxes = reversed(list(bot.d.mining.yields_pickaxes))  # get list of pickaxe types from best to worst
+bot.d.findables = bot.d.special_findables + bot.d.default_findables
 
 bot.d.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
 bot.d.support = 'https://discord.gg/39DwwUV'
