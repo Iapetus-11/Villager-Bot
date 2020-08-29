@@ -628,6 +628,31 @@ class Econ(commands.Cog):
         db_user = await self.db.fetch_user(ctx.author.id)
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
 
+        # only works cause num of pickaxes is 6 and levels of fake finds is 3
+        fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe)/2)]
+
+        yield_ = self.d.mining.yields_pickaxes[pickaxe] # [chance, out of]
+        yield_chance_list = ([True]*yield_[0]).extend([False]*yield_[1])
+        found = random.choice(yield_chance_list)
+
+        for item in list(self.d.mining.yields_enchant_items):
+            if await self.db.fetch_item(ctx.author.id, item) is not None:
+                found +=  self.d.mining.yields_enchant_items[item] if found else 0
+                break
+
+        if not found:  # try to see if user gets an item
+            for item in self.d.findables:
+                if random.randint(0, item[2]) == 1:
+                    a = 'a'
+                    if item[0][0] in self.d.vowels:
+                        a = 'an'
+
+                    await self.bot.send(ctx,
+                        f'You {random.choice(self.d.item_finds_text.actions)} '
+                        f'{a} {c[0]} (Worth {c[1]}{self.d.emojis.emerald}) '
+                        f'{random.choice(self.d.item_finds_text.places)}'
+                    )
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
