@@ -15,12 +15,42 @@ class Econ(commands.Cog):
 
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
-    async def mine_problem(ctx):
+"""
+    async def mine_captcha(ctx):
         self.d.miners[ctx.author.id] = self.d.miners.get(ctx.author.id, 0) + 1
 
         jj = await (await self.ses.get('http://betterapi.net/gen/captcha')).json()
 
-        
+        pass
+"""
+
+    async def math_problem(ctx, source_multi=1):
+        mine_commands = self.d.miners.get(ctx.author.id, 0)
+        self.d.miners[ctx.author.id] = mine_commands + 1
+
+        if mine_commands >= 100*source_multi:
+            self.d.miners[ctx.author.id] = 0
+
+            prob = f'{random.randint(0, 45)}{random.choice(("+", "-",))}{random.randint(0, 25)}'
+            prob = (prob, str(eval(prob)),)
+
+            await self.bot.send(ctx, 'Please solve this problem to continue: `{prob[0]}`')
+
+            def author_check(m):
+                return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id
+
+            try:
+                m = await self.bot.wait_for('message', check=author_check, timeout=10)
+            except asyncio.TimeoutError:
+                await self.bot.send(ctx, 'You ran out of time, what a slowpoke...')
+                return False
+
+            if m.content == prob[1]:
+                await self.bot.send(ctx, 'Correct answer!')
+                return True
+
+            await self.bot.send(ctx, 'Incorrect answer!')
+            return False
 
     @commands.command(name='bal', aliases=['balance'])
     async def bal(self, ctx, user: discord.User = None):
