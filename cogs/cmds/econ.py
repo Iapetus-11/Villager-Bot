@@ -15,14 +15,14 @@ class Econ(commands.Cog):
 
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
-"""
+    """
     async def mine_captcha(ctx):
         self.d.miners[ctx.author.id] = self.d.miners.get(ctx.author.id, 0) + 1
 
         jj = await (await self.ses.get('http://betterapi.net/gen/captcha')).json()
 
         pass
-"""
+    """
 
     async def math_problem(ctx, source_multi=1):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
