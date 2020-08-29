@@ -78,6 +78,18 @@ class Database(commands.Cog):
                 await con.execute('UPDATE items SET item_amount = $1 WHERE uid = $2 AND item_name = $3',
                                   prev['item_amount'] - amount, uid, name)
 
+    async def fetch_pickaxe(uid):
+        items_names = [item['item_name'] for item in await self.fetch_items(uid)]
+
+        for pickaxe in self.bot.d.mining.pickaxes:
+            if pickaxe in items_names:
+                return pickaxe
+            else:
+                return self.bot.d.mining.pickaxes[-1]
+
+    async def fetch_sword(uid):
+        pass
+
     async def rich_trophy_wipe(uid):
         await self.set_balance(uid, 0)
         await self.set_vault(uid, 0, 0)
