@@ -731,6 +731,5 @@ class Econ(commands.Cog):
             await self.send(victim, random.choice(self.d.pillaging.u_lose.victim).format(ctx.author))
 
 
-
 def setup(bot):
     bot.add_cog(Econ(bot))
