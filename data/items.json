@@ -46,8 +46,18 @@
   ],
   [
     "BLM Flag",
-    64,
+    128,
     1000
+  ],
+  [
+    "Tub Of Hand Sanitizer",
+    128,
+    1000
+  ],
+  [
+    "Thingy Mabobber",
+    256,
+    2048
   ],
   [
     "A Literal Rainbow",
