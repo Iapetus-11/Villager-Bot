@@ -715,12 +715,16 @@ class Econ(commands.Cog):
 
         if success:
             stolen = math.ceil(db_victim['emeralds'] * (random.randint(10, 40) / 100))
+            adjusted = math.ceil(stole * .92)
 
             await self.db.balance_sub(victim.id, stolen)
-            await self.db.balance_add(ctx.author.id, math.ceil(stolen * .92))  # 8% tax
+            await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
 
-            await self.send(ctx, random.choice(self.d.pillaging.u_win.user).format(math.ceil(stolen * .92), self.d.emojis.emerald))
+            await self.send(ctx, random.choice(self.d.pillaging.u_win.user).format(adjusted, self.d.emojis.emerald))
             await self.send(victim, random.choice(self.d.pillaging.u_win.victim).format(ctx.author, stolen, self.d.emojis.emerald))
+
+            await self.db.update_lb(ctx.author.id, 'pillages', 1, 'add')
+            await self.db.update_lb(ctx.author.id, 'pillages_amount', adjusted, 'add')
         else:
             penalty = 32
 
