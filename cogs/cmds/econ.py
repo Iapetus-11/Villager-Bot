@@ -667,7 +667,57 @@ class Econ(commands.Cog):
             await self.bot.send(f'You {random.choice(self.d.mining.actions)} {found}{self.d.emojis.emerald}!')
 
     @commands.command(name='pillage')
-    async def pillage()
+    async def pillage(self, ctx, victim: discord.User):
+        if victim.bot:
+            if victim.id == self.bot.user.id:
+                await self.bot.send(ctx, 'You imbecile, Villager Bot cannot be defeated, Villager Bot is immortal and all powerful.')
+            else:
+                await self.bot.send(ctx, 'You can\'t pillage bots as they don\'t have rights and therefore can\'t have emeralds.')
+            return
+
+        if ctx.guild.get_member(victim.id) is None:
+            await self.bot.send(ctx, 'You can\'t pillage people from other servers...')
+            return
+
+        db_user = await self.db.fetch_user(ctx.author.id)
+
+        if db_user['emeralds'] < 64:
+            await self.bot.send(ctx, f'You can only pillage people if you have more than 64{self.d.emojis.emerald}')
+            return
+
+        db_victim = await self.db.fetch_user(victim.id)
+
+        if db_user['emeralds'] < 64:
+            await self.bot.send(ctx, f'You can only pillage a person if they have more than 64{self.d.emojis.emerald}')
+            return
+
+        pillage_commands = self.d.pillagers.get(ctx.author.id, 0)
+        self.d.pillagers[ctx.author.id] = pillage_commands + 1
+
+        user_bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
+        user_bees = 0 if user_bees is None else user_bees['item_amount']
+
+        victim_bees = await self.db.fetch_item(victim.id, 'Jar Of Bees')
+        victim_bees = 0 if victim_bees is None else victim_bees['item_amount']
+
+        if pillage_commands > 7:
+            chances = [False]*20 + [True]
+        elif await self.db.fetch_item(victim.id, 'Bane Of Pillagers Amulet'):
+            chances = [False]*5 + [True]
+        elif user_bees > victim_bees:
+            chances = [False]*3 + [True]*5
+        elif user_bees < victim_bees:
+            chances = [False]*5 + [True]*3
+        else:
+            chances = [True, False]
+
+        success = random.choice(chances)
+
+        if success:
+            stolen = math.ceil(db_victim['emeralds'] * (random.randint(10, 40) / 100))
+
+            await self.db.balance_sub(victim.id, stolen)
+            await self.db.balance_add(ctx.author.id, math.ceil(stolen * .92))  # 8% tax
 
 
 def setup(bot):
