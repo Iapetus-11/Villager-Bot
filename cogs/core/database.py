@@ -55,7 +55,7 @@ class Database(commands.Cog):
 
     async def fetch_item(self, uid, name):
         await self.fetch_user(uid)
-        return await self.db.fetch('SELECT * FROM items WHERE uid = $1 AND item_name = $2', uid, name)
+        return await self.db.fetchrow('SELECT * FROM items WHERE uid = $1 AND item_name = $2', uid, name)
 
     async def add_item(self, uid, name, sell_price, amount):
         prev = await self.fetch_item(self, uid, name)
@@ -98,6 +98,28 @@ class Database(commands.Cog):
             await con.execute('DELETE FROM items WHERE uid = $1 AND item_name != $2 AND item_name != $3',
                               uid, 'Rich Person Trophy', 'Bane Of Pillagers Amulet')
 
+    async def fetch_user_lb(uid):
+        lbs = await self.db.fetchrow('SELECT * FROM leaderboards WHERE uid = $1', uid)
+
+        if lbs is None:
+            async with self.db.acquire() as con:
+                await con.execute(
+                    'INSERT INTO leaderboards VALUES ($1, $2, $3, $4, $5, $6)',
+                    uid, 0, 0, 0, 0, 0
+                )
+
+    async def update_lb(uid, lb, value, mode='add'):
+        prev = await self.db.fetch_user_lb(uid)
+
+        if mode == 'add':
+            async with self.db.acquire() as con:
+                await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', prev[lb] + value, uid)
+        elif mode == 'sub':
+            async with self.db.acquire() as con:
+                await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', prev[lb] - value, uid)
+        elif mode == 'set':
+            async with self.db.acquire() as con:
+                await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', value, uid)
 
 def setup(bot):
     bot.add_cog(Database(bot))
