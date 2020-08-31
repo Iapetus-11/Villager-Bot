@@ -719,6 +719,18 @@ class Econ(commands.Cog):
             await self.db.balance_sub(victim.id, stolen)
             await self.db.balance_add(ctx.author.id, math.ceil(stolen * .92))  # 8% tax
 
+            await self.send(ctx, random.choice(self.d.pillaging.u_win.user).format(math.ceil(stolen * .92), self.d.emojis.emerald))
+            await self.send(victim, random.choice(self.d.pillaging.u_win.victim).format(ctx.author, stolen, self.d.emojis.emerald))
+        else:
+            penalty = 32
+
+            await self.db.balance_sub(ctx.author.id, penalty)
+            await self.db.balance_add(victim.id, penalty)
+
+            await self.send(ctx, random.choice(self.d.pillaging.u_lose.user).format(penalty, self.d.emojis.emerald))
+            await self.send(victim, random.choice(self.d.pillaging.u_lose.victim).format(ctx.author))
+
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
