@@ -1,7 +1,7 @@
 {
   "database": {
     "host": "localhost",
-    "name": "villagerbot",
-    "user": "pi"
+    "name": "villager-test",
+    "user": "postgres"
   }
 }

@@ -56,8 +56,8 @@ class Econ(commands.Cog):
     async def bal(self, ctx, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
 
-        if u is None:
-            u = ctx.author
+        if user is None:
+            user = ctx.author
 
         db_user = await self.db.fetch_user(user.id)
 
@@ -65,7 +65,7 @@ class Econ(commands.Cog):
         total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] + u_it['item_amount'] for u_it in u_items])
 
         embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=f'{u.display_name}\'s emeralds', icon_url=u.avatar_url_as())
+        embed.set_author(name=f'{user.display_name}\'s emeralds', icon_url=user.avatar_url_as())
 
         embed.description = f'Total Wealth: {total_wealth}{self.d.emojis.emerald}'
 
@@ -78,12 +78,19 @@ class Econ(commands.Cog):
     async def inventory(self, ctx, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
 
+        if user is None:
+            user = ctx.author
+
         u_items = await self.db.fetch_items(user.id)
         items_sorted = sorted(u_items, key=lambda item: item['sell_price'], reverse=True)  # sort items by sell price
         items_chunks = [items_sorted[i:i + 16] for i in range(0, len(items_sorted), 16)]  # split items into chunks of 16 [[16..], [16..], [16..]]
 
         page = 0
         page_max = len(items_chunks)
+
+        if items_chunks == []:
+            items_chunks = [[]]
+            page_max = 0
 
         msg = None
 
@@ -103,9 +110,9 @@ class Econ(commands.Cog):
             else:
                 await msg.edit(embed=embed)
 
-            await msg.add_reaction('➡️')
-            await asyncio.sleep(.1)
             await msg.add_reaction('⬅️')
+            await asyncio.sleep(.1)
+            await msg.add_reaction('➡️')
             await asyncio.sleep(.1)
 
             try:
@@ -116,8 +123,10 @@ class Econ(commands.Cog):
             except asyncio.TimeoutError:
                 return
 
-            if react.emoji == '⬅️': page -= 1
-            if react.emoji == '➡️': page += 1
+            await react.remove(ctx.author)
+
+            if react.emoji == '⬅️': page -= 1 if page-1 >= 0 else 0
+            if react.emoji == '➡️': page += 1 if page+1 < page_max else 0
             await asyncio.sleep(.1)
 
     @commands.command(name='deposit', aliases=['dep'])
@@ -398,7 +407,7 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
-        if amount_item.startswith('max ') or item.startswith('all '):
+        if amount_item.startswith('max ') or amount_item.startswith('all '):
             item = amount_item[4:]
             amount = math.floor(db_user['emeralds'] / self.d.shop_items[item])
 
@@ -621,9 +630,9 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(self.d.begging_sayings['negative']).format(amount))
 
-    @commands.command(name='mine', aliases=['mein'])
+    @commands.command(name='mine', aliases=['mein', 'eun'])
     async def mine(self, ctx):
-        if not self.problem(ctx): return
+        if not self.math_problem(ctx): return
 
         db_user = await self.db.fetch_user(ctx.author.id)
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
@@ -715,12 +724,16 @@ class Econ(commands.Cog):
 
         if success:
             stolen = math.ceil(db_victim['emeralds'] * (random.randint(10, 40) / 100))
+            adjusted = math.ceil(stole * .92)
 
             await self.db.balance_sub(victim.id, stolen)
-            await self.db.balance_add(ctx.author.id, math.ceil(stolen * .92))  # 8% tax
+            await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
 
-            await self.send(ctx, random.choice(self.d.pillaging.u_win.user).format(math.ceil(stolen * .92), self.d.emojis.emerald))
+            await self.send(ctx, random.choice(self.d.pillaging.u_win.user).format(adjusted, self.d.emojis.emerald))
             await self.send(victim, random.choice(self.d.pillaging.u_win.victim).format(ctx.author, stolen, self.d.emojis.emerald))
+
+            await self.db.update_lb(ctx.author.id, 'pillages', 1, 'add')
+            await self.db.update_lb(ctx.author.id, 'pillages_amount', adjusted, 'add')
         else:
             penalty = 32
 
@@ -729,6 +742,92 @@ class Econ(commands.Cog):
 
             await self.send(ctx, random.choice(self.d.pillaging.u_lose.user).format(penalty, self.d.emojis.emerald))
             await self.send(victim, random.choice(self.d.pillaging.u_lose.victim).format(ctx.author))
+
+    @commands.command(name='chug')
+    async def chug(self, ctx, *, _pot):
+        pot = _pot.lower()
+
+        if pot in self.d.potions.get(ctx.author.id):
+            await self.bot.send(ctx, 'You can\'t use more than one of each type of potion at once.')
+            return
+
+        db_item = await self.db.fetch_item(ctx.author.id, pot)
+
+        if db_item is None:
+            await self.bot.send(ctx, 'You can\'t use an item you don\'t even have.')
+            return
+
+        if pot == 'haste i potion':
+            await self.db.remove_item(ctx.author.id, pot, 1)
+
+            self.d.potions[ctx.author.id] = self.d.potions.get(ctx.author.id, [])
+            self.d.potions[ctx.author.id].append(pot)
+
+            await self.bot.send(ctx, self.d.potions.chug.format('Haste I Potion', 6))
+
+            await asyncio.sleep(60 * 6)
+
+            await self.bot.send(ctx.author, self.d.potions.done.format('Haste I Potion'))
+
+            self.d.potions[ctx.author.id].pop(self.d.potions[ctx.author.id].index(pot))  # pop pot from active potion fx
+            return
+
+        if pot == 'haste ii potion':
+            await self.db.remove_item(ctx.author.id, pot, 1)
+
+            self.d.potions[ctx.author.id] = self.d.potions.get(ctx.author.id, [])
+            self.d.potions[ctx.author.id].append(pot)
+
+            await self.bot.send(ctx, self.d.potions.chug.format('Haste II Potion', 4.5))
+
+            await asyncio.sleep(60 * 6)
+
+            await self.bot.send(ctx.author, self.d.potions.done.format('Haste II Potion'))
+
+            self.d.potions[ctx.author.id].pop(self.d.potions[ctx.author.id].index(pot))  # pop pot from active potion fx
+            return
+
+        if pot == 'vault potion':
+            db_user = await self.db.fetch_user(ctx.author.id)
+
+            if db_user['vault_max'] > 1999:
+                await self.bot.send(ctx, 'You cannot expand your vault further via this method.')
+                return
+
+            add = randint(9, 15)
+
+            if db_user['vault_max'] + add > 2000:
+                add = 2000 - db_user['vault_max']
+
+            await self.db.remove_item(ctx.author.id, 'Vault Potion', 1)
+            await self.db.set_vault(ctx.author.id, db_user['vault_bal'], db_user['vault_max'] + add)
+
+            await self.send(ctx, f'You\'ve chugged a **Vault Potion**. Your vault space has increased by {add} spaces.')
+            return
+
+        await self.bot.send(ctx, 'Either that isn\'t a potion, or it doesn\'t exist.')
+
+    @commands.command(name='harvesthoney', aliases=['honey'])
+    async def harvest_honey(self, ctx):
+        bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
+        if bees is not None:
+            bees = bees['item_amount']
+        else:
+            bees = 0
+
+        if bees > 1024: bees = 1024
+
+        if bees < 100:
+            await self.bot.send(ctx, random.choice(self.d.honey.not_viable))
+            ctx.command.reset_cooldown(ctx)
+            return
+
+        jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
+        await self.db.add_item(ctx.author.id, 'Honey Jar', 1, jars)
+        await self.bot.send(ctx, random.choice(self.d.honey.honey))
+
+        if random.choice([False]*3 + [True]):
+            bees_lost = random.randint(math.ceil(bees / 75), math.ceil(bees / 50))
 
 
 def setup(bot):

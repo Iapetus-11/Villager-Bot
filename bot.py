@@ -7,7 +7,7 @@ from discord.ext import commands
 import classyjson
 
 global DEBUG
-DEBUG = True  # disables db stuff and some other stuff
+DEBUG = False  # disables db stuff and some other stuff
 
 # set up basic logging
 logging.basicConfig(level=logging.WARNING)
@@ -21,6 +21,8 @@ with open("data/config.json", "r") as c:  # load config
 
 
 async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
+    return ','
+
     if DEBUG:
         return ","
 
@@ -40,7 +42,7 @@ bot = commands.AutoShardedBot(  # setup bot
 
 async def send(self, location, message: str):  # send function/method for easy sending of embed messages with small amounts of text
     try:
-        await location.send(embed=discord.Embed(color=bot.cc, description=message))
+        await location.send(embed=discord.Embed(color=bot.d.cc, description=message))
         return True
     except discord.Forbidden:
         return False
@@ -72,11 +74,12 @@ bot.d.cmd_count = 0
 bot.d.msg_count = 0
 bot.d.start_time = None
 
-bot.d.miners = {}
+bot.d.miners = {}  # {user_id: commands}
 bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)
 bot.d.mining.pickaxes = reversed(list(bot.d.mining.yields_pickaxes))  # get list of pickaxe types from best to worst
 bot.d.findables = bot.d.special_findables + bot.d.default_findables
-bot.d.pillagers = {}
+bot.d.pillagers = {}  # {user_id: daily_pillages}
+bot.d.potions = {}  # {user_id: [potion, potion]}
 
 bot.d.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
 bot.d.support = 'https://discord.gg/39DwwUV'
@@ -87,6 +90,7 @@ for key in list(bot.d.fun_langs.enchant):  # reverse the enchant lang to get the
     bot.d.fun_langs.unenchant[bot.d.fun_langs.enchant[key]] = key
 
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
+    'cogs.core.database',
     'cogs.core.events',
     'cogs.cmds.mc',
     'cogs.cmds.mod',
@@ -99,7 +103,11 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 
 
 async def is_bot_banned(uid):  # checks if a user has been botbanned
-    return (await bot.db.fetchrow('SELECT bot_banned FROM users WHERE uid = $1', uid))[0]
+    user = await bot.db.fetchrow('SELECT bot_banned FROM users WHERE uid = $1', uid)
+    if user is not None:
+        return user['bot_banned']
+    else:
+        return False
 
 
 @bot.check  # everythingggg goes through here

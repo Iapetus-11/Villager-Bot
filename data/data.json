@@ -95,6 +95,22 @@
     "Minecraft 1.16",
     "on the Nether Update"
   ],
+  "honey": {
+    "not_viable": [
+      "You don't have enough bees to make this business option viable.",
+      "You need 100 jars of bees to actually make a profit, go away"
+    ],
+    "honey": [
+      "Apparently bees produce honey and you just collected {} jars of it! Who knew?!!",
+      "So, bees make honey and you just got {} jars of it!",
+      "Wow, bees make honey! You just got {} jars of it!"
+    ],
+    "ded": [
+      "Also, apparently bees get pretty pissed when you try and steal their honey. You lost {} of em...",
+      "Oops, apparently bees get pretty mad when you try and steal from them, who knew!? You lost {} of them to suicide.",
+      "Looks like bees get pretty angry when you try and steal from them, you lost {} to suicide..."
+    ]
+  },
   "gamble": [
     "forks over",
     "gives you",
@@ -128,6 +144,10 @@
       "An illusioner appears, rambling about doubling your emeralds with this once simple trick. You hand him {0} and he disappears in a puff of smoke.",
       "While begging in a village you got caught up in a raid, a ravager headbutts you across the map. You drop {0} mid-flight."
     ]
+  },
+  "potions": {
+    "chug": "You've chugged a **{}** (Which lasts {} minutes)",
+    "done": "The **{}** you chugged earlier has worn off."
   },
   "pillaging": {
     "u_win": {
