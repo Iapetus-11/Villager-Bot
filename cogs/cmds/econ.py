@@ -630,7 +630,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(self.d.begging_sayings['negative']).format(amount))
 
-    @commands.command(name='mine', aliases=['mein'])
+    @commands.command(name='mine', aliases=['mein', 'eun'])
     async def mine(self, ctx):
         if not self.math_problem(ctx): return
 
