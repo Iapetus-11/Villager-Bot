@@ -7,7 +7,7 @@ from discord.ext import commands
 import classyjson
 
 global DEBUG
-DEBUG = True  # disables db stuff and some other stuff
+DEBUG = False  # disables db stuff and some other stuff
 
 # set up basic logging
 logging.basicConfig(level=logging.WARNING)
