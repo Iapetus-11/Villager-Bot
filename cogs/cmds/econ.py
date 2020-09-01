@@ -53,7 +53,7 @@ class Econ(commands.Cog):
             return False
 
     @commands.command(name='bal', aliases=['balance'])
-    async def bal(self, ctx, user: discord.User = None):
+    async def bal(self, ctx, u: discord.User = None):
         """Shows the balance of a user or the message sender"""
 
         if u is None:
