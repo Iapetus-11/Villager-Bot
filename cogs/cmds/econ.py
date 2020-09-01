@@ -53,11 +53,11 @@ class Econ(commands.Cog):
             return False
 
     @commands.command(name='bal', aliases=['balance'])
-    async def bal(self, ctx, u: discord.User = None):
+    async def bal(self, ctx, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
 
-        if u is None:
-            u = ctx.author
+        if user is None:
+            user = ctx.author
 
         db_user = await self.db.fetch_user(user.id)
 
@@ -65,7 +65,7 @@ class Econ(commands.Cog):
         total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] + u_it['item_amount'] for u_it in u_items])
 
         embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=f'{u.display_name}\'s emeralds', icon_url=u.avatar_url_as())
+        embed.set_author(name=f'{user.display_name}\'s emeralds', icon_url=user.avatar_url_as())
 
         embed.description = f'Total Wealth: {total_wealth}{self.d.emojis.emerald}'
 
