@@ -90,7 +90,7 @@ class Econ(commands.Cog):
 
         if items_chunks == []:
             items_chunks = [[]]
-            page_max = 1
+            page_max = 0
 
         msg = None
 
