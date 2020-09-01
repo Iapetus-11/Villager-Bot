@@ -78,6 +78,9 @@ class Econ(commands.Cog):
     async def inventory(self, ctx, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
 
+        if user is None:
+            user = ctx.author
+
         u_items = await self.db.fetch_items(user.id)
         items_sorted = sorted(u_items, key=lambda item: item['sell_price'], reverse=True)  # sort items by sell price
         items_chunks = [items_sorted[i:i + 16] for i in range(0, len(items_sorted), 16)]  # split items into chunks of 16 [[16..], [16..], [16..]]
