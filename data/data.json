@@ -129,6 +129,10 @@
       "While begging in a village you got caught up in a raid, a ravager headbutts you across the map. You drop {0} mid-flight."
     ]
   },
+  "potions": {
+    "chug": "You've chugged a **{}** (Which lasts {} minutes)",
+    "done": "The **{}** you chugged earlier has worn off."
+  },
   "pillaging": {
     "u_win": {
       "user": [
