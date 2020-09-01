@@ -123,6 +123,8 @@ class Econ(commands.Cog):
             except asyncio.TimeoutError:
                 return
 
+            await react.remove(ctx.author)
+
             if react.emoji == '⬅️': page -= 1 if page-1 >= 0 else 0
             if react.emoji == '➡️': page += 1 if page+1 < page_max else 0
             await asyncio.sleep(.1)
