@@ -749,16 +749,54 @@ class Econ(commands.Cog):
             return
 
         if pot == 'haste i potion':
-            await self.db.remove_item(ctx.author.id, pot)
+            await self.db.remove_item(ctx.author.id, pot, 1)
 
             self.d.potions[ctx.author.id] = self.d.potions.get(ctx.author.id, [])
             self.d.potions[ctx.author.id].append(pot)
 
-            await self.bot.send(ctx, 'You have chugged a **{pot}** (Which lasts 6 minutes)')
+            await self.bot.send(ctx, self.d.potions.chug.format('Haste I Potion', 6))
 
             await asyncio.sleep(60 * 6)
 
-            await self.bot.send(ctx.author, )
+            await self.bot.send(ctx.author, self.d.potions.done.format('Haste I Potion'))
+
+            self.d.potions[ctx.author.id].pop(self.d.potions[ctx.author.id].index(pot))  # pop pot from active potion fx
+            return
+
+        if pot == 'haste ii potion':
+            await self.db.remove_item(ctx.author.id, pot, 1)
+
+            self.d.potions[ctx.author.id] = self.d.potions.get(ctx.author.id, [])
+            self.d.potions[ctx.author.id].append(pot)
+
+            await self.bot.send(ctx, self.d.potions.chug.format('Haste II Potion', 4.5))
+
+            await asyncio.sleep(60 * 6)
+
+            await self.bot.send(ctx.author, self.d.potions.done.format('Haste II Potion'))
+
+            self.d.potions[ctx.author.id].pop(self.d.potions[ctx.author.id].index(pot))  # pop pot from active potion fx
+            return
+
+        if pot == 'vault potion':
+            db_user = await self.db.fetch_user(ctx.author.id)
+
+            if db_user['vault_max'] > 1999:
+                await self.bot.send(ctx, 'You cannot expand your vault further via this method.')
+                return
+
+            add = randint(9, 15)
+
+            if db_user['vault_max'] + add > 2000:
+                add = 2000 - db_user['vault_max']
+
+            await self.db.remove_item(ctx.author.id, 'Vault Potion', 1)
+            await self.db.set_vault(ctx.author.id, db_user['vault_bal'], db_user['vault_max'] + add)
+
+            await self.send(ctx, f'You\'ve chugged a **Vault Potion**. Your vault space has increased by {add} spaces.')
+            return
+
+        await self.bot.send(ctx, 'Either that isn\'t a potion, or it doesn\'t exist.')
 
 
 def setup(bot):
