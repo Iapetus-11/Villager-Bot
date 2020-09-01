@@ -58,7 +58,7 @@ class Database(commands.Cog):
         return await self.db.fetchrow('SELECT * FROM items WHERE uid = $1 AND item_name = $2', uid, name)
 
     async def add_item(self, uid, name, sell_price, amount):
-        prev = await self.fetch_item(self, uid, name)
+        prev = await self.fetch_item(uid, name)
 
         async with self.db.acquire() as con:
             if prev is None:
@@ -69,7 +69,7 @@ class Database(commands.Cog):
                                   amount + prev['item_amount'], uid, name)
 
     async def remove_item(self, uid, name, amount):
-        prev = await self.fetch_item(self, uid, name)
+        prev = await self.fetch_item(uid, name)
 
         async with self.db.acquire() as con:
             if prev['item_amount'] - amount < 1:
