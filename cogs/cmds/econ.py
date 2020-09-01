@@ -85,10 +85,12 @@ class Econ(commands.Cog):
         items_sorted = sorted(u_items, key=lambda item: item['sell_price'], reverse=True)  # sort items by sell price
         items_chunks = [items_sorted[i:i + 16] for i in range(0, len(items_sorted), 16)]  # split items into chunks of 16 [[16..], [16..], [16..]]
 
-        if items_chunks == []: items_chunks = [[]]
-
         page = 0
         page_max = len(items_chunks)
+
+        if items_chunks == []:
+            items_chunks = [[]]
+            page_max = 1
 
         msg = None
 
