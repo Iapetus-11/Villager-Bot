@@ -21,17 +21,17 @@ with open("data/config.json", "r") as c:  # load config
 
 
 async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
-    return ','
+    return '/'
 
     if DEBUG:
-        return ","
+        return '/'
 
     if ctx.guild is None:
-        return "!!"
+        return '/'
 
     prefix = await _bot.db.fetchrow("SELECT prefix from server_configs WHERE gid = $1", ctx.guild.id)
 
-    return "!!" if prefix is None else prefix[0]
+    return '/' if prefix is None else prefix[0]
 
 
 bot = commands.AutoShardedBot(  # setup bot
