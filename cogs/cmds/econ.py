@@ -236,6 +236,60 @@ class Econ(commands.Cog):
 
             await ctx.send(embed=embed)
 
+    async def shop_logic(self, ctx, _type, header):
+        items = []
+
+        for item in [self.d.shop_items[key] for key in list(self.d.shop_items)]:  # filter out items which aren't of the right _type
+            if item[0] == _type:
+                items.append(item)
+
+        items_sorted = sorted(tool_items, key=(lambda item: item[1]))  # sort by buy price
+        items_chunked = [items_sorted[i:i + 3] for i in range(0, len(items_sorted), 3)]  # split into chunks of 3
+
+        page = 0
+        page_max = len(items_chunked)
+
+        msg = None
+
+        while True:
+            embed = discord.Embed(color=self.d.cc)
+            embed.set_author(name=header, icon_url=self.d.splash_logo)
+
+            for item in items_chunked[page]:
+                embed.add_field(name=f'{item[3][0]} ({await self.format_required(item)})', value=f'`{ctx.prefix}buy {item[3][0].lower()}`', inline=False)
+
+            embed.set_footer(text=f'Page {page+1}/{page_max}')
+
+            if msg is None:
+                msg = await ctx.send(embed=embed)
+            else:
+                if not msg.embeds[0] == embed:
+                    await msg.edit(embed=embed)
+
+            await asyncio.sleep(.1)
+            await msg.add_reaction('⬅️')
+            await asyncio.sleep(.1)
+            await msg.add_reaction('➡️')
+
+            try:
+                def author_check(react, r_user):
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+
+                react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
+            except asyncio.TimeoutError:
+                return
+
+            await react.remove(ctx.author)
+
+            if react.emoji == '⬅️': page -= 1
+            if react.emoji == '➡️': page += 1
+
+            if page > page_max - 1: page = page_max - 1
+            if page < 0: page = 0
+
+            await asyncio.sleep(.1)
+
+
     @shop.command(name='tools')
     async def shop_tools(self, ctx):
         """Allows you to shop for tools"""
