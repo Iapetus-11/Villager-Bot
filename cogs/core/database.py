@@ -59,7 +59,7 @@ class Database(commands.Cog):
 
     async def fetch_item(self, uid, name):
         await self.fetch_user(uid)
-        return await self.db.fetchrow('SELECT * FROM items WHERE uid = $1 AND item_name = $2', uid, name)
+        return await self.db.fetchrow('SELECT * FROM items WHERE uid = $1 AND name = $2', uid, name)
 
     async def add_item(self, uid, name, sell_price, amount):
         prev = await self.fetch_item(uid, name)
@@ -69,21 +69,21 @@ class Database(commands.Cog):
                 await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4)',
                                   uid, name, sell_price, amount)
             else:
-                await con.execute('UPDATE items SET item_amount = $1 WHERE uid = $2 AND item_name = $3',
-                                  amount + prev['item_amount'], uid, name)
+                await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND name = $3',
+                                  amount + prev['amount'], uid, name)
 
     async def remove_item(self, uid, name, amount):
         prev = await self.fetch_item(uid, name)
 
         async with self.db.acquire() as con:
-            if prev['item_amount'] - amount < 1:
-                await con.execute('DELETE FROM items WHERE uid = $1 AND item_name = $2', uid, name)
+            if prev['amount'] - amount < 1:
+                await con.execute('DELETE FROM items WHERE uid = $1 AND name = $2', uid, name)
             else:
-                await con.execute('UPDATE items SET item_amount = $1 WHERE uid = $2 AND item_name = $3',
-                                  prev['item_amount'] - amount, uid, name)
+                await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND name = $3',
+                                  prev['amount'] - amount, uid, name)
 
     async def fetch_pickaxe(uid):
-        items_names = [item['item_name'] for item in await self.fetch_items(uid)]
+        items_names = [item['name'] for item in await self.fetch_items(uid)]
 
         for pickaxe in self.bot.d.mining.pickaxes:
             if pickaxe in items_names:
@@ -99,7 +99,7 @@ class Database(commands.Cog):
         await self.set_vault(uid, 0, 0)
 
         async with self.db.acquire() as con:
-            await con.execute('DELETE FROM items WHERE uid = $1 AND item_name != $2 AND item_name != $3',
+            await con.execute('DELETE FROM items WHERE uid = $1 AND name != $2 AND name != $3',
                               uid, 'Rich Person Trophy', 'Bane Of Pillagers Amulet')
 
     async def fetch_user_lb(uid):
