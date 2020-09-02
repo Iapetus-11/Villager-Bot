@@ -7,7 +7,7 @@ from discord.ext import commands
 import classyjson
 
 global DEBUG
-DEBUG = False  # disables db stuff and some other stuff
+DEBUG = True
 
 # set up basic logging
 logging.basicConfig(level=logging.WARNING)
@@ -60,8 +60,7 @@ async def setup_database():  # init pool connection to database
         command_timeout=5
     )
 
-if not DEBUG:
-    asyncio.get_event_loop().run_until_complete(setup_database())
+asyncio.get_event_loop().run_until_complete(setup_database())
 
 with open('data/data.json', 'r', encoding='utf8') as d:
     bot.d = classyjson.load(d)  # classyjson automatically turns json into sets of nested classes and attributes for easy access
@@ -113,7 +112,9 @@ async def is_bot_banned(uid):  # checks if a user has been botbanned
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
     if DEBUG:
-        return True
+        if ctx.channel.id in (643648150778675202, 750788275383435395,):
+            return True
+        return False
 
     return bot.is_ready() and not await is_bot_banned(ctx.author.id)
 
