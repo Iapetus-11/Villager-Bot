@@ -294,166 +294,19 @@ class Econ(commands.Cog):
     async def shop_tools(self, ctx):
         """Allows you to shop for tools"""
 
-        tool_items = []
-
-        for item in [self.d.shop_items[key] for key in list(self.d.shop_items)]:  # filter out non-tool items
-            if item[0] == 'tools':
-                tool_items.append(item)
-
-        tool_items_sorted = sorted(tool_items, key=lambda item: item[1])  # sort by buy price
-        tool_items_chunked = [tool_items_sorted[i:i + 3] for i in range(0, len(tool_items_sorted), 3)]  # split items into chunks of 3
-
-        page = 0
-        page_max = len(tool_items_chunked)
-
-        msg = None
-
-        while True:
-            embed = discord.Embed(color=self.d.cc)
-            embed.set_author(name='Villager Shop [Tools]', icon_url=self.d.splash_logo)
-
-            for item in tool_items_chunked[page]:
-                embed.add_field(name=f'{item[3][0]} ({await self.format_required(item)})', value=f'`{ctx.prefix}buy {item[3][0].lower()}`', inline=False)
-
-            embed.set_footer(text=f'Page {page+1}/{page_max}')
-
-            if msg is None:
-                msg = await ctx.send(embed=embed)
-            else:
-                if not msg.embeds[0] == embed:
-                    await msg.edit(embed=embed)
-
-            await asyncio.sleep(.1)
-            await msg.add_reaction('⬅️')
-            await asyncio.sleep(.1)
-            await msg.add_reaction('➡️')
-
-            try:
-                def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
-
-                react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
-            except asyncio.TimeoutError:
-                return
-
-            await react.remove(ctx.author)
-
-            if react.emoji == '⬅️': page -= 1
-            if react.emoji == '➡️': page += 1
-
-            if page > page_max - 1: page = page_max - 1
-            if page < 0: page = 0
-            await asyncio.sleep(.1)
+        await self.shop_logic(ctx, 'tools', 'Villager Shop [Tools]')
 
     @shop.command(name='magic')
     async def shop_magic(self, ctx):
         """Allows you to shop for magic items"""
 
-        magic_items = []
-
-        for item in [self.d.shop_items[key] for key in list(self.d.shop_items)]:  # filter out non-tool items
-            if item[0] == 'magic':
-                magic_items.append(item)
-
-        magic_items_sorted = sorted(magic_items, key=lambda item: item[1])  # sort by buy price
-        magic_items_chunked = [magic_items_sorted[i:i + 3] for i in range(0, len(magic_items_sorted), 3)]  # split items into chunks of 3
-
-        page = 0
-        page_max = len(magic_items_chunked)
-
-        msg = None
-
-        while True:
-            embed = discord.Embed(color=self.d.cc)
-            embed.set_author(name='Villager Shop [Magic]', icon_url=self.d.splash_logo)
-
-            for item in magic_items_chunked[page]:
-                embed.add_field(name=f'{item[3][0]} ({await self.format_required(item)})', value=f'`{ctx.prefix}buy {item[3][0].lower()}`', inline=False)
-
-            embed.set_footer(text=f'Page {page+1}/{page_max}')
-
-            if msg is None:
-                msg = await ctx.send(embed=embed)
-            else:
-                if not msg.embeds[0] == embed:
-                    await msg.edit(embed=embed)
-
-            await asyncio.sleep(.1)
-            await msg.add_reaction('⬅️')
-            await asyncio.sleep(.1)
-            await msg.add_reaction('➡️')
-
-            try:
-                def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
-
-                react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
-            except asyncio.TimeoutError:
-                return
-
-            await react.remove(ctx.author)
-
-            if react.emoji == '⬅️': page -= 1
-            if react.emoji == '➡️': page += 1
-
-            if page > page_max - 1: page = page_max - 1
-            if page < 0: page = 0
-            await asyncio.sleep(.1)
+        await self.shop_logic(ctx, 'magic', 'Villager Shop [Magic]')
 
     @shop.command(name='other')
     async def shop_other(self, ctx):
         """Allows you to shop for other/miscellaneous items"""
 
-        other_items = []
-
-        for item in [self.d.shop_items[key] for key in list(self.d.shop_items)]:  # filter out non-tool items
-            if item[0] == 'other':
-                other_items.append(item)
-
-        other_items_sorted = sorted(other_items, key=lambda item: item[1])  # sort by buy price
-        other_items_chunked = [other_items_sorted[i:i + 3] for i in range(0, len(other_items_sorted), 3)]  # split items into chunks of 3
-
-        page = 0
-        page_max = len(other_items_chunked)
-
-        msg = None
-
-        while True:
-            embed = discord.Embed(color=self.d.cc)
-            embed.set_author(name='Villager Shop [Other]', icon_url=self.d.splash_logo)
-
-            for item in other_items_chunked[page]:
-                embed.add_field(name=f'{item[3][0]} ({await self.format_required(item)})', value=f'`{ctx.prefix}buy {item[3][0].lower()}`', inline=False)
-
-            embed.set_footer(text=f'Page {page+1}/{page_max}')
-
-            if msg is None:
-                msg = await ctx.send(embed=embed)
-            else:
-                if not msg.embeds[0] == embed:
-                    await msg.edit(embed=embed)
-
-            await asyncio.sleep(.1)
-            await msg.add_reaction('⬅️')
-            await asyncio.sleep(.1)
-            await msg.add_reaction('➡️')
-
-            try:
-                def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
-
-                react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
-            except asyncio.TimeoutError:
-                return
-
-            await react.remove(ctx.author)
-
-            if react.emoji == '⬅️': page -= 1
-            if react.emoji == '➡️': page += 1
-
-            if page > page_max - 1: page = page_max - 1
-            if page < 0: page = 0
-            await asyncio.sleep(.1)
+        await self.shop_logic(ctx, 'other', 'Villager Shop [Other]')
 
     @commands.command(name='buy')
     async def buy(self, ctx, *, amount_item):
