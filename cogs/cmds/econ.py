@@ -330,7 +330,7 @@ class Econ(commands.Cog):
                 amount = split.pop(0)
                 amount = int(amount)
             except ValueError:
-                item = amount + ' '.join(split)
+                item = amount + ' ' + ' '.join(split)
                 amount = 1
             else:
                 item = ' '.join(split)
