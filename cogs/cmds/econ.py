@@ -289,7 +289,6 @@ class Econ(commands.Cog):
 
             await asyncio.sleep(.1)
 
-
     @shop.command(name='tools')
     async def shop_tools(self, ctx):
         """Allows you to shop for tools"""
