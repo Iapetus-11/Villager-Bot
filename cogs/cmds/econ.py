@@ -24,7 +24,7 @@ class Econ(commands.Cog):
         pass
     """
 
-    async def math_problem(ctx, source_multi=1):
+    async def math_problem(self, ctx, source_multi=1):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
         self.d.miners[ctx.author.id] = mine_commands + 1
 
