@@ -98,7 +98,7 @@ class Econ(commands.Cog):
             body = ''  # text for that page
             for item in items_chunks[page]:
                 it_am_txt = f'{item["amount"]}'
-                it_am_txt += ' \uFEFF' * (len(it_am_txt - 5))
+                it_am_txt += ' \uFEFF' * (len(it_am_txt) - 5)
                 body += f'`{it_am_txt}x` **{item["name"]}** ({item["sell_price"]}{self.d.emojis.emerald})\n'
 
             embed = discord.Embed(color=self.d.cc, description=body)
