@@ -18,7 +18,7 @@ class Database(commands.Cog):
                     uid, 0, 0, 1, 20, 0, False
                 )
 
-                await self.add_item(uid, 'Wood Pickaxe')
+                await self.add_item(uid, 'Wood Pickaxe', 0, 1)
 
             return await self.fetch_user(uid)
 
