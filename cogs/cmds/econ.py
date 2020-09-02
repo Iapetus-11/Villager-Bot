@@ -62,7 +62,7 @@ class Econ(commands.Cog):
         db_user = await self.db.fetch_user(user.id)
 
         u_items = await self.db.fetch_items(user.id)
-        total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] + u_it['item_amount'] for u_it in u_items])
+        total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] + u_it['amount'] for u_it in u_items])
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f'{user.display_name}\'s emeralds', icon_url=user.avatar_url_as())
@@ -97,9 +97,9 @@ class Econ(commands.Cog):
         while True:
             body = ''  # text for that page
             for item in items_chunks[page]:
-                it_am_txt = f'{item["item_amount"]}'
+                it_am_txt = f'{item["amount"]}'
                 it_am_txt += ' \uFEFF' * (len(it_am_txt - 5))
-                body += f'`{it_am_txt}x` **{item["item_name"]}** ({item["sell_price"]}{self.d.emojis.emerald})\n'
+                body += f'`{it_am_txt}x` **{item["name"]}** ({item["sell_price"]}{self.d.emojis.emerald})\n'
 
             embed = discord.Embed(color=self.d.cc, description=body)
             embed.set_author(name=f'{user.display_name}\'s inventory', icon_url=user.avatar_url_as())
@@ -441,7 +441,7 @@ class Econ(commands.Cog):
 
         if shop_item[1] * amount < db_user['emeralds']:
             if db_item is not None:
-                db_item_count = db_item['item_amount']
+                db_item_count = db_item['amount']
             else:
                 db_item_count = 0
 
@@ -455,7 +455,7 @@ class Econ(commands.Cog):
                 if 'Pickaxe' in shop_item[3][0]:
                     required = 3
 
-                if scrap is not None and db_scrap['item_amount'] >= required:
+                if scrap is not None and db_scrap['amount'] >= required:
                     await self.db.remove_item(ctx.author.id, 'Netherite Scrap', required)
                 else:
                     await self.bot.send(ctx, f'You need a total of {required}{self.bot.cusom_emojis["netherite"]} '
@@ -466,7 +466,7 @@ class Econ(commands.Cog):
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
 
             await self.bot.send(ctx, f'You have bought {amount}x **{shop_item[3][0]}**!'
-            f'for {await self.db.format_required(shop_item, amount)} (You have {amount + db_item["item_amount"]} total)')
+            f'for {await self.db.format_required(shop_item, amount)} (You have {amount + db_item["amount"]} total)')
 
             if shop_item[3][0] == 'Rich Person Trophy':
                 await self.db.rich_trophy_wipe(ctx.author.id)
@@ -483,7 +483,7 @@ class Econ(commands.Cog):
             item = amount_item[4:]
             db_item = await self.db.fetch_item(item)
 
-            amount = db_item['item_amount']
+            amount = db_item['amount']
         else:
             split = amount_item.split(' ')
 
@@ -499,7 +499,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, 'Either that item is invalid or you don\'t have it.')
             return
 
-        if amount > db_item['item_amount']:
+        if amount > db_item['amount']:
             await self.bot.send(ctx, 'You can\'t sell more than you have of that item.')
             return
 
@@ -507,10 +507,10 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, 'You can\'t sell less than one of an item.')
             return
 
-        await self.db.balance_add(ctx.author.id, amount * db_item['item_amount'])
-        await self.db.remove_item(ctx.author.id, db_item['item_name'], amount)
+        await self.db.balance_add(ctx.author.id, amount * db_item['amount'])
+        await self.db.remove_item(ctx.author.id, db_item['name'], amount)
 
-        await self.send(ctx, f'You have sold {amount}x **{db_item["item_name"]}** for '
+        await self.send(ctx, f'You have sold {amount}x **{db_item["name"]}** for '
                              f'a total of {amount*db_item["sell_price"]}{self.d.emojis.emerald}')
 
     @commands.command(name='give')
@@ -559,7 +559,7 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, 'You can\'t give an item you don\'t even have.')
                 return
 
-            if amount > db_item['item_amount']:
+            if amount > db_item['amount']:
                 await self.bot.send(ctx, 'You can\'t give more of an item than you have.')
                 return
 
@@ -570,7 +570,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, item, amount)
             await self.db.add_item(user, item, amount)
 
-            await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}x **{db_item["item_name"]}** to {user.mention}')
+            await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}x **{db_item["name"]}** to {user.mention}')
 
     @commands.command(name='gamble')
     async def gamble(self, ctx, amount):
@@ -704,10 +704,10 @@ class Econ(commands.Cog):
         self.d.pillagers[ctx.author.id] = pillage_commands + 1
 
         user_bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
-        user_bees = 0 if user_bees is None else user_bees['item_amount']
+        user_bees = 0 if user_bees is None else user_bees['amount']
 
         victim_bees = await self.db.fetch_item(victim.id, 'Jar Of Bees')
-        victim_bees = 0 if victim_bees is None else victim_bees['item_amount']
+        victim_bees = 0 if victim_bees is None else victim_bees['amount']
 
         if pillage_commands > 7:
             chances = [False]*20 + [True]
@@ -811,7 +811,7 @@ class Econ(commands.Cog):
     async def harvest_honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
         if bees is not None:
-            bees = bees['item_amount']
+            bees = bees['amount']
         else:
             bees = 0
 
