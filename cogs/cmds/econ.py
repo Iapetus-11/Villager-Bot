@@ -95,7 +95,6 @@ class Econ(commands.Cog):
         msg = None
 
         while True:
-            print(page, page_max)
             body = ''  # text for that page
             for item in items_chunks[page]:
                 it_am_txt = f'{item["amount"]}'
