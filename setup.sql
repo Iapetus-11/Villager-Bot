@@ -17,10 +17,10 @@ CREATE TABLE IF NOT EXISTS users(
 );
 
 CREATE TABLE IF NOT EXISTS items(
-  uid               bigint, -- owner of the item
-  item_name         varchar(250), -- name of the item
-  sell_price        bigint, -- sell price for ONE of that item
-  item_amount       bigint  -- amount of the item
+  uid          bigint, -- owner of the item
+  name         varchar(250), -- name of the item
+  sell_price   bigint, -- sell price for ONE of that item
+  amount       bigint  -- amount of the item
 );
 
 CREATE TABLE IF NOT EXISTS give_logs(
