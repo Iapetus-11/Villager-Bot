@@ -110,10 +110,11 @@ class Econ(commands.Cog):
             else:
                 await msg.edit(embed=embed)
 
-            await msg.add_reaction('⬅️')
-            await asyncio.sleep(.1)
-            await msg.add_reaction('➡️')
-            await asyncio.sleep(.1)
+            if page_max > 0:
+                await msg.add_reaction('⬅️')
+                await asyncio.sleep(.1)
+                await msg.add_reaction('➡️')
+                await asyncio.sleep(.1)
 
             try:
                 def author_check(react, r_user):
