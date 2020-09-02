@@ -82,7 +82,7 @@ class Database(commands.Cog):
                 await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND name = $3',
                                   prev['amount'] - amount, uid, name)
 
-    async def fetch_pickaxe(uid):
+    async def fetch_pickaxe(self, uid):
         items_names = [item['name'] for item in await self.fetch_items(uid)]
 
         for pickaxe in self.bot.d.mining.pickaxes:
@@ -91,10 +91,10 @@ class Database(commands.Cog):
             else:
                 return self.bot.d.mining.pickaxes[-1]
 
-    async def fetch_sword(uid):
+    async def fetch_sword(self, uid):
         pass
 
-    async def rich_trophy_wipe(uid):
+    async def rich_trophy_wipe(self, uid):
         await self.set_balance(uid, 0)
         await self.set_vault(uid, 0, 0)
 
@@ -102,7 +102,7 @@ class Database(commands.Cog):
             await con.execute('DELETE FROM items WHERE uid = $1 AND name != $2 AND name != $3',
                               uid, 'Rich Person Trophy', 'Bane Of Pillagers Amulet')
 
-    async def fetch_user_lb(uid):
+    async def fetch_user_lb(self, uid):
         lbs = await self.db.fetchrow('SELECT * FROM leaderboards WHERE uid = $1', uid)
 
         if lbs is None:
@@ -112,7 +112,7 @@ class Database(commands.Cog):
                     uid, 0, 0, 0, 0, 0
                 )
 
-    async def update_lb(uid, lb, value, mode='add'):
+    async def update_lb(self, uid, lb, value, mode='add'):
         prev = await self.db.fetch_user_lb(uid)
 
         if mode == 'add':
