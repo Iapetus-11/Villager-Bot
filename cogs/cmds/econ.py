@@ -575,14 +575,14 @@ class Econ(commands.Cog):
 
                     return
 
-            await self.bot.send(f'You {random.choice(self.d.mining.item_finds_text.useless)} {random.randint(1, 6)} {random.choice(fake_finds)}')
+            await self.bot.send(ctx, f'You {random.choice(self.d.mining.item_finds_text.useless)} {random.randint(1, 6)} {random.choice(fake_finds)}')
         else:
             if await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None:
                 found *= 2
 
             await self.db.balance_add(ctx.author.id, found)
 
-            await self.bot.send(f'You {random.choice(self.d.mining.actions)} {found}{self.d.emojis.emerald}!')
+            await self.bot.send(ctx, f'You {random.choice(self.d.mining.actions)} {found}{self.d.emojis.emerald}!')
 
     @commands.command(name='pillage')
     async def pillage(self, ctx, victim: discord.User):
