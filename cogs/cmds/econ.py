@@ -243,7 +243,7 @@ class Econ(commands.Cog):
             if item[0] == _type:
                 items.append(item)
 
-        items_sorted = sorted(tool_items, key=(lambda item: item[1]))  # sort by buy price
+        items_sorted = sorted(items, key=(lambda item: item[1]))  # sort by buy price
         items_chunked = [items_sorted[i:i + 3] for i in range(0, len(items_sorted), 3)]  # split into chunks of 3
 
         page = 0
