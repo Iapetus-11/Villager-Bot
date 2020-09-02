@@ -90,6 +90,7 @@ class Database(commands.Cog):
             if pickaxe in items_names:
                 return pickaxe
             else:
+                await self.add_item(uid, 'Wood Pickaxe', 0, 1)
                 return self.bot.d.mining.pickaxes[-1]
 
     async def fetch_sword(self, uid):
