@@ -25,6 +25,7 @@ class Econ(commands.Cog):
     """
 
     async def math_problem(self, ctx, source_multi=1):
+        print('math problem')
         mine_commands = self.d.miners.get(ctx.author.id, 0)
         self.d.miners[ctx.author.id] = mine_commands + 1
 
@@ -51,6 +52,8 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, 'Incorrect answer!')
             return False
+
+        return True
 
     @commands.command(name='bal', aliases=['balance'])
     async def bal(self, ctx, user: discord.User = None):
