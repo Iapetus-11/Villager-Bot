@@ -575,7 +575,7 @@ class Econ(commands.Cog):
 
                     return
 
-            await self.bot.send(f'You {random.choice(self.d.item_finds_text.useless)} {random.randint(1, 6)} {random.choice(fake_finds)}')
+            await self.bot.send(f'You {random.choice(self.d.mining.item_finds_text.useless)} {random.randint(1, 6)} {random.choice(fake_finds)}')
         else:
             if await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None:
                 found *= 2
