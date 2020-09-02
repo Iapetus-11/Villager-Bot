@@ -540,7 +540,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='mine', aliases=['mein', 'eun'])
     async def mine(self, ctx):
-        if not self.math_problem(ctx): return
+        if not await self.math_problem(ctx): return
 
         db_user = await self.db.fetch_user(ctx.author.id)
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
