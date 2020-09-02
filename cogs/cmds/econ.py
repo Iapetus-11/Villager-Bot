@@ -330,9 +330,10 @@ class Econ(commands.Cog):
                 amount = split.pop(0)
                 amount = int(amount)
             except ValueError:
+                item = amount + ' '.join(split)
                 amount = 1
-
-            item = amount + ' '.join(split)
+            else:
+                item = ' '.join(split)
 
         if amount < 1:
             await self.bot.send(ctx, 'You can\'t buy less than one of an item.')
