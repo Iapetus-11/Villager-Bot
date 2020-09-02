@@ -354,12 +354,15 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, f'You don\'t have enough emeralds to buy `{amount}x` **{shop_item[3][0]}**.')
             return
 
+        await ctx.send(357)
+
         if db_item is not None:
             db_item_count = db_item['amount']
         else:
             db_item_count = 0
 
         if eval(shop_item[2]):
+            await ctx.send(366)
             if shop_item[3][0].startswith('Netherite'):
                 db_scrap = await self.db.fetch_item(ctx.author.id, 'Netherite Scrap')
 
