@@ -550,7 +550,7 @@ class Econ(commands.Cog):
         fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe)/2)]
 
         yield_ = self.d.mining.yields_pickaxes[pickaxe] # [chance, out of]
-        yield_chance_list = ([True]*yield_[0]).extend([False]*yield_[1])
+        yield_chance_list = [True]*yield_[0] + [False]*yield_[1]
         found = random.choice(yield_chance_list)
 
         for item in list(self.d.mining.yields_enchant_items):
