@@ -350,11 +350,14 @@ class Econ(commands.Cog):
         if shop_item[2] == "db_item_count < 1":
             amount = 1
 
-        if shop_item[1] * amount < db_user['emeralds']:
-            if db_item is not None:
-                db_item_count = db_item['amount']
-            else:
-                db_item_count = 0
+        if shop_item[1] * amount > db_user['emeralds']:
+            await self.bot.send(ctx, f'You don\'t have enough emeralds to buy `{amount}x` **{shop_item[3][0]}**.')
+            return
+
+        if db_item is not None:
+            db_item_count = db_item['amount']
+        else:
+            db_item_count = 0
 
         if eval(shop_item[2]):
             if shop_item[3][0].startswith('Netherite'):
