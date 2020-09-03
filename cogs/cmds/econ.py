@@ -527,7 +527,8 @@ class Econ(commands.Cog):
 
         if u_roll > b_roll:
             multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 75
-            multi += math.floor(((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20) / 10000)
+            multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20)
+            multi //= 100
             print(multi)
 
             await self.db.balance_add(ctx.author.id, multi * amount)
