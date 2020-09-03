@@ -413,7 +413,7 @@ class Econ(commands.Cog):
                 amount = 1
 
             item = ' '.join(split)
-            db_item = await self.db.fetch_item(item)
+            db_item = await self.db.fetch_item(ctx.author.id, item)
 
         if db_item is None:
             await self.bot.send(ctx, 'Either that item is invalid or you don\'t have it.')
