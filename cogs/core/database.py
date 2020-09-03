@@ -60,7 +60,7 @@ class Database(commands.Cog):
 
     async def fetch_item(self, uid, name):
         await self.fetch_user(uid)
-        return await self.db.fetchrow('SELECT * FROM items WHERE uid = $1 AND name = $2', uid, name)
+        return await self.db.fetchrow('SELECT * FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)', uid, name)
 
     async def add_item(self, uid, name, sell_price, amount):
         prev = await self.fetch_item(uid, name)
@@ -70,7 +70,7 @@ class Database(commands.Cog):
                 await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4)',
                                   uid, name, sell_price, amount)
             else:
-                await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND name = $3',
+                await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
                                   amount + prev['amount'], uid, name)
 
     async def remove_item(self, uid, name, amount):
@@ -80,7 +80,7 @@ class Database(commands.Cog):
             if prev['amount'] - amount < 1:
                 await con.execute('DELETE FROM items WHERE uid = $1 AND name = $2', uid, name)
             else:
-                await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND name = $3',
+                await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
                                   prev['amount'] - amount, uid, name)
 
     async def fetch_pickaxe(self, uid):
