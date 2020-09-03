@@ -742,7 +742,7 @@ class Econ(commands.Cog):
 
         await self.bot.send(ctx, 'Either that isn\'t a potion, or it doesn\'t exist.')
 
-    @commands.command(name='harvesthoney', aliases=['honey'])
+    @commands.command(name='harvesthoney', aliases=['honey', 'horny'])
     async def harvest_honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
         if bees is not None:
@@ -759,7 +759,7 @@ class Econ(commands.Cog):
 
         jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
         await self.db.add_item(ctx.author.id, 'Honey Jar', 1, jars)
-        await self.bot.send(ctx, random.choice(self.d.honey.honey))
+        await self.bot.send(ctx, random.choice(self.d.honey.honey).format(jars))
 
         if random.choice([False]*3 + [True]):
             bees_lost = random.randint(math.ceil(bees / 75), math.ceil(bees / 50))
