@@ -354,19 +354,12 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, f'You don\'t have enough emeralds to buy `{amount}x` **{shop_item[3][0]}**.')
             return
 
-        await ctx.send(357)
-
         if db_item is not None:
             db_item_count = db_item['amount']
         else:
             db_item_count = 0
 
-        await ctx.send(364)
-        await ctx.send(shop_item)
-        await ctx.send(eval(shop_item[2]))
-
         if eval(shop_item[2]):
-            await ctx.send(367)
             if shop_item[3][0].startswith('Netherite'):
                 db_scrap = await self.db.fetch_item(ctx.author.id, 'Netherite Scrap')
 
@@ -383,8 +376,6 @@ class Econ(commands.Cog):
                                              f'(Netherite Scrap) to buy this item.')
                     return
 
-            await ctx.send(384)
-
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
 
@@ -393,6 +384,12 @@ class Econ(commands.Cog):
 
             if shop_item[3][0] == 'Rich Person Trophy':
                 await self.db.rich_trophy_wipe(ctx.author.id)
+
+        else:
+            if shop_item[2] == 'db_item_count < 1':
+                await ctx.send('You can\'t buy any more of this item.')
+            else:
+                await ctx.send('For some reason, you can\'t buy this item.')
 
     @commands.command(name='sell')
     async def sell(self, ctx, *, amount_item):
