@@ -39,7 +39,10 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
-        
+        # errors to ignore
+        for e_type in (commands.CommandNotFound, commands.NotOwner, discord.errors.Forbidden,):
+            if isinstance(e, e_type):
+                return
 
 
 
