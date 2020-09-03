@@ -51,7 +51,7 @@ class Database(commands.Cog):
     async def set_vault(self, uid, vault_bal, vault_max):
         await self.fetch_user(uid)
         async with self.db.acquire() as con:
-            await con.execute('UPDATE users SET vault_bal = $1, vault_max = $2 WHERE uid = $1',
+            await con.execute('UPDATE users SET vault_bal = $1, vault_max = $2 WHERE uid = $3',
                               vault_bal, vault_max, uid)
 
     async def fetch_items(self, uid):
