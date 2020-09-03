@@ -682,7 +682,9 @@ class Econ(commands.Cog):
     async def chug(self, ctx, *, _pot):
         pot = _pot.lower()
 
-        if pot in self.d.potions.get(ctx.author.id):
+        current_pots = self.d.potions.get(ctx.author.id)
+
+        if pot in ([] if current_pots is None else current_pots):
             await self.bot.send(ctx, 'You can\'t use more than one of each type of potion at once.')
             return
 
