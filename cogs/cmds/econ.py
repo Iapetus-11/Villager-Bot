@@ -330,7 +330,8 @@ class Econ(commands.Cog):
                 amount = split.pop(0)
                 amount = int(amount)
             except ValueError:
-                item = amount + ' ' + ' '.join(split)
+                item = amount
+                item += (' ' + ' '.join(split)) if len(split) > 0 else ''
                 amount = 1
             else:
                 item = ' '.join(split)
@@ -411,7 +412,8 @@ class Econ(commands.Cog):
                 amount = split.pop(0)
                 amount = int(amount)
             except ValueError:
-                item = amount + ' ' + ' '.join(split)
+                item = amount
+                item += (' ' + ' '.join(split)) if len(split) > 0 else ''
                 amount = 1
             else:
                 item = ' '.join(split)
