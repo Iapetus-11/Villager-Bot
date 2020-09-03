@@ -211,7 +211,7 @@ class Fun(commands.Cog):
         await ctx.send(text + ' ' + random.choice(self.d.owos))
 
     @commands.command(name='bubblewrap', aliases=['pop'])
-    async def bubblewrap(self, ctx, size=None):
+    async def bubblewrap(self, ctx, size=None, *, word='pop'):
         """Sends bubblewrap to the chat"""
 
         if size is None:
@@ -220,24 +220,22 @@ class Fun(commands.Cog):
             size = size.split('x')
 
             if len(size) != 2:
-                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: `10x10`')
+                await ctx.send('That is not a valid size. Example of a valid size: `10x10`')
                 return
 
             try:
                 size[0] = int(size[0])
                 size[1] = int(size[1])
             except ValueError:
-                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: `10x10`')
+                await ctx.send('That is not a valid size. Example of a valid size: `10x10`')
                 return
 
             for val in size:
                 if val < 1 or val > 12:
-                    await self.bot.send(ctx, 'The size must be between 1 and 12')
+                    await ctx.send('The size must be between 1 and 12')
                     return
-
-        bubble = '||***pop***||'
-        await self.bot.send(ctx, f'{bubble*size[0]}\n'*size[1])
-
+        bubble = f'||***{word}***||'
+        await ctx.send(f'{bubble*size[0]}\n'*size[1])
 
 def setup(bot):
     bot.add_cog(Fun(bot))
