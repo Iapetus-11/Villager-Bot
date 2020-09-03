@@ -431,7 +431,7 @@ class Econ(commands.Cog):
         await self.db.balance_add(ctx.author.id, amount * db_item['amount'])
         await self.db.remove_item(ctx.author.id, db_item['name'], amount)
 
-        await self.send(ctx, f'You have sold {amount}x **{db_item["name"]}** for '
+        await self.bot.send(ctx, f'You have sold {amount}x **{db_item["name"]}** for '
                              f'a total of {amount*db_item["sell_price"]}{self.d.emojis.emerald}')
 
     @commands.command(name='give')
@@ -653,8 +653,8 @@ class Econ(commands.Cog):
             await self.db.balance_sub(victim.id, stolen)
             await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
 
-            await self.send(ctx, random.choice(self.d.pillaging.u_win.user).format(adjusted, self.d.emojis.emerald))
-            await self.send(victim, random.choice(self.d.pillaging.u_win.victim).format(ctx.author, stolen, self.d.emojis.emerald))
+            await self.bot.send(ctx, random.choice(self.d.pillaging.u_win.user).format(adjusted, self.d.emojis.emerald))
+            await self.bot.send(victim, random.choice(self.d.pillaging.u_win.victim).format(ctx.author, stolen, self.d.emojis.emerald))
 
             await self.db.update_lb(ctx.author.id, 'pillages', 1, 'add')
             await self.db.update_lb(ctx.author.id, 'pillages_amount', adjusted, 'add')
@@ -664,8 +664,8 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, penalty)
             await self.db.balance_add(victim.id, penalty)
 
-            await self.send(ctx, random.choice(self.d.pillaging.u_lose.user).format(penalty, self.d.emojis.emerald))
-            await self.send(victim, random.choice(self.d.pillaging.u_lose.victim).format(ctx.author))
+            await self.bot.send(ctx, random.choice(self.d.pillaging.u_lose.user).format(penalty, self.d.emojis.emerald))
+            await self.bot.send(victim, random.choice(self.d.pillaging.u_lose.victim).format(ctx.author))
 
     @commands.command(name='chug')
     async def chug(self, ctx, *, _pot):
@@ -726,7 +726,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, 'Vault Potion', 1)
             await self.db.set_vault(ctx.author.id, db_user['vault_bal'], db_user['vault_max'] + add)
 
-            await self.send(ctx, f'You\'ve chugged a **Vault Potion**. Your vault space has increased by {add} spaces.')
+            await self.bot.send(ctx, f'You\'ve chugged a **Vault Potion**. Your vault space has increased by {add} spaces.')
             return
 
         await self.bot.send(ctx, 'Either that isn\'t a potion, or it doesn\'t exist.')
