@@ -350,8 +350,8 @@ class Econ(commands.Cog):
 
         db_item = await self.db.fetch_item(ctx.author.id, shop_item[3][0])
 
-        await ctx.send(db_item)
-        
+        await ctx.send('```' + str(db_item) + '```')
+
 
         if shop_item[2] == "db_item_count < 1":
             amount = 1
