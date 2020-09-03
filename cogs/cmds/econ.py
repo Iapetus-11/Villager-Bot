@@ -387,10 +387,11 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
 
-            print(shop_item)
+            print(shop_item[3][0])
+            print(db_item)
 
             await self.bot.send(ctx, f'You have bought {amount}x **{shop_item[3][0]}**! '
-            f'for {await self.format_required(shop_item, amount)} (You have {amount + db_item["amount"]} total)')
+            f'for {await self.format_required(shop_item, amount)} (You have {amount + db_item_count} total)')
 
             if shop_item[3][0] == 'Rich Person Trophy':
                 await self.db.rich_trophy_wipe(ctx.author.id)
