@@ -361,8 +361,10 @@ class Econ(commands.Cog):
         else:
             db_item_count = 0
 
+        await ctx.send(364)
+
         if eval(shop_item[2]):
-            await ctx.send(366)
+            await ctx.send(367)
             if shop_item[3][0].startswith('Netherite'):
                 db_scrap = await self.db.fetch_item(ctx.author.id, 'Netherite Scrap')
 
@@ -378,6 +380,8 @@ class Econ(commands.Cog):
                     await self.bot.send(ctx, f'You need a total of {required}{self.bot.cusom_emojis["netherite"]} '
                                              f'(Netherite Scrap) to buy this item.')
                     return
+
+            await ctx.send(384)
 
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
