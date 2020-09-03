@@ -578,7 +578,7 @@ class Econ(commands.Cog):
 
         for item in list(self.d.mining.yields_enchant_items):
             if await self.db.fetch_item(ctx.author.id, item) is not None:
-                found +=  self.d.mining.yields_enchant_items[item] if found else 0
+                found += random.randint(self.d.mining.yields_enchant_items[item]) if found else 0
                 break
 
         if not found:
