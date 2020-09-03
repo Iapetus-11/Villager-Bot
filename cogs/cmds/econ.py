@@ -147,7 +147,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, 'You don\'t have enough emeralds to deposit.')
             return
 
-        if amount.lower() in ('all', 'max',):
+        if emerald_blocks.lower() in ('all', 'max',):
             amount = c_v_max - c_v_bal
 
             if amount * 9 > c_bal:
