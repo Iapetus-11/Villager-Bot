@@ -468,6 +468,10 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
+        if 'pickaxe' in item.lower() or 'sword' in item.lower() or 'trophy' in item.lower():
+            await self.bot.send(ctx, 'You can\'t trade/gift this item.')
+            return
+
         if item in ('emerald', 'emeralds', ':emerald:',):
             if amount > db_user["emeralds"]:
                 await self.bot.send(ctx, 'You can\'t give someone more emeralds than you have.')
