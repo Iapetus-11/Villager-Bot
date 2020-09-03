@@ -548,10 +548,14 @@ class Econ(commands.Cog):
             amount = 9 + math.ceil(math.log(db_user['emeralds']+1, 1.5)) + math.randint(1, 5)
             amount = random.randint(1, 4) if amount < 1 else amount
 
+            await self.db.balance_add(ctx.author.id, amount)
+
             await self.bot.send(ctx, random.choice(self.d.begging['positive']).format(amount))
         else:
             amount = 9 + math.ceil(math.log(db_user['emeralds']+1, 1.3)) + math.randint(1, 5)
             amount = random.randint(1, 4) if amount < 1 else amount
+
+            await self.db.balance_sub(ctx.author.id, amount)
 
             await self.bot.send(ctx, random.choice(self.d.begging['negative']).format(amount))
 
