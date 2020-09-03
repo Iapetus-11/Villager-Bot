@@ -45,11 +45,7 @@ class Events(commands.Cog):
             if isinstance(e, e_type):
                 return
 
-        trace = e.__traceback__
-        verbosity = 4
-        lines = traceback.format_exception(etype, e, trace, verbosity)
-        traceback_text = ''.join(lines)
-
+        traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
         final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'
         await self.bot.send(ctx, f'```{final[:1023 - 6]}```')
 
