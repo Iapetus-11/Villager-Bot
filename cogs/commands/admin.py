@@ -11,6 +11,7 @@ class AdminCmds(commands.Cog):
 
     @commands.command(name="purge", aliases=["p"])
     @commands.has_permissions(manage_messages=True)
+    @commands.bot_has_permissions(manage_messages=True)
     @commands.guild_only()
     async def purge_messages(self, ctx, n: int):
         if n <= 9999:
@@ -29,6 +30,7 @@ class AdminCmds(commands.Cog):
 
     @commands.command(name="ban")
     @commands.guild_only()
+    @commands.bot_has_permissions(ban_members=True)
     @commands.has_permissions(ban_members=True)
     async def ban_user(self, ctx, user: discord.Member, *, reason="No reason provided."):
         if ctx.author.id == user.id:
@@ -53,6 +55,7 @@ class AdminCmds(commands.Cog):
 
     @commands.command(name="pardon")
     @commands.guild_only()
+    @commands.bot_has_permissions(ban_members=True)
     @commands.has_permissions(ban_members=True)
     async def pardon_user(self, ctx, user: discord.User, *, reason="No reason provided."):
         if ctx.author.id == user.id:
@@ -74,6 +77,7 @@ class AdminCmds(commands.Cog):
 
     @commands.command(name="kick")
     @commands.guild_only()
+    @commands.bot_has_permissions(kick_members=True)
     @commands.has_permissions(kick_members=True)
     async def kick_user(self, ctx, user: discord.Member, *, reason="No reason provided."):
         if ctx.author.id == user.id:
