@@ -352,7 +352,6 @@ class Econ(commands.Cog):
 
         await ctx.send('```' + str(db_item) + '```')
 
-
         if shop_item[2] == "db_item_count < 1":
             amount = 1
 
@@ -382,8 +381,13 @@ class Econ(commands.Cog):
                                              f'(Netherite Scrap) to buy this item.')
                     return
 
+
+            print(shop_item)
+
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
+
+            print(shop_item)
 
             await self.bot.send(ctx, f'You have bought {amount}x **{shop_item[3][0]}**! '
             f'for {await self.format_required(shop_item, amount)} (You have {amount + db_item["amount"]} total)')
