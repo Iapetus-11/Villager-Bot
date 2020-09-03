@@ -363,7 +363,7 @@ class Econ(commands.Cog):
             db_item_count = 0
 
         if eval(shop_item[2]):
-            if shop_item[3][0].startswith('Netherite'):
+            if shop_item[3][0] in ('Netherite Sword', 'Netherite Pickaxe',):
                 db_scrap = await self.db.fetch_item(ctx.author.id, 'Netherite Scrap')
 
                 if 'Sword' in shop_item[3][0]:
