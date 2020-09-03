@@ -37,6 +37,10 @@ class Events(commands.Cog):
 
             await ctx.send(embed=embed)
 
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, e):
+        
+
 
 
 def setup(bot):
