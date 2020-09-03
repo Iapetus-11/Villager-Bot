@@ -362,6 +362,8 @@ class Econ(commands.Cog):
             db_item_count = 0
 
         await ctx.send(364)
+        await ctx.send(shop_item)
+        await ctx.send(eval(shop_item[2]))
 
         if eval(shop_item[2]):
             await ctx.send(367)
@@ -372,7 +374,7 @@ class Econ(commands.Cog):
                     required = 6
 
                 if 'Pickaxe' in shop_item[3][0]:
-                    required = 3
+                    required = 4
 
                 if scrap is not None and db_scrap['amount'] >= required:
                     await self.db.remove_item(ctx.author.id, 'Netherite Scrap', required)
