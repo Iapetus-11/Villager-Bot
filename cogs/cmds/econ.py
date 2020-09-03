@@ -387,9 +387,9 @@ class Econ(commands.Cog):
 
         else:
             if shop_item[2] == 'db_item_count < 1':
-                await ctx.send('You can\'t buy any more of this item.')
+                await self.bot.send(ctx, 'You can\'t buy any more of this item.')
             else:
-                await ctx.send('For some reason, you can\'t buy this item.')
+                await self.bot.send(ctx, 'For some reason, you can\'t buy this item.')
 
     @commands.command(name='sell')
     async def sell(self, ctx, *, amount_item):
