@@ -432,7 +432,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, 'You can\'t sell less than one of an item.')
             return
 
-        await self.db.balance_add(ctx.author.id, amount * db_item['amount'])
+        await self.db.balance_add(ctx.author.id, amount * db_item['sell_price'])
         await self.db.remove_item(ctx.author.id, db_item['name'], amount)
 
         await self.bot.send(ctx, f'You have sold {amount}x **{db_item["name"]}** for '
