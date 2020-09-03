@@ -526,7 +526,7 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, f'Your roll: `{u_roll}` **|** Bot roll: `{b_roll}`')
 
         if u_roll > b_roll:
-            multi = 100 + randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 75
+            multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 75
             multi += (await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20
             multi /= 100
 
@@ -722,7 +722,7 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, 'You cannot expand your vault further via this method.')
                 return
 
-            add = randint(9, 15)
+            add = random.randint(9, 15)
 
             if db_user['vault_max'] + add > 2000:
                 add = 2000 - db_user['vault_max']
