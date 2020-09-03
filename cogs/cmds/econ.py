@@ -548,12 +548,12 @@ class Econ(commands.Cog):
             amount = 10 + math.ceil(math.log(db_user['emeralds'], 1.5))
             amount = random.randint(1, 4) if amount < 1 else amount
 
-            await self.bot.send(ctx, random.choice(self.d.begging_sayings['positive']).format(amount))
+            await self.bot.send(ctx, random.choice(self.d.begging['positive']).format(amount))
         else:
             amount = 10 + math.ceil(math.log(db_user['emeralds'], 1.3))
             amount = random.randint(1, 4) if amount < 1 else amount
 
-            await self.bot.send(ctx, random.choice(self.d.begging_sayings['negative']).format(amount))
+            await self.bot.send(ctx, random.choice(self.d.begging['negative']).format(amount))
 
     @commands.command(name='mine', aliases=['mein', 'eun'])
     async def mine(self, ctx):
