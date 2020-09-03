@@ -370,7 +370,7 @@ class Econ(commands.Cog):
                 if 'Pickaxe' in shop_item[3][0]:
                     required = 4
 
-                if scrap is not None and db_scrap['amount'] >= required:
+                if db_scrap is not None and db_scrap['amount'] >= required:
                     await self.db.remove_item(ctx.author.id, 'Netherite Scrap', required)
                 else:
                     await self.bot.send(ctx, f'You need a total of {required}{self.bot.cusom_emojis["netherite"]} '
