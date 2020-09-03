@@ -220,14 +220,14 @@ class Fun(commands.Cog):
             size = size.split('x')
 
             if len(size) != 2:
-                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: 10x10')
+                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: `10x10`')
                 return
 
             try:
                 size[0] = int(size[0])
                 size[1] = int(size[1])
             except ValueError:
-                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: 10x10')
+                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: `10x10`')
                 return
 
             for val in size:
