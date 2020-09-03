@@ -528,11 +528,9 @@ class Econ(commands.Cog):
         if u_roll > b_roll:
             multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 75
             multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20)
-            multi //= 100
-            print(multi)
 
-            await self.db.balance_add(ctx.author.id, multi * amount)
-            await self.bot.send(ctx, f'You won! Villager Bot {random.choice(self.d.gamble)} {multi * amount}{self.d.emojis.emerald}')
+            await self.db.balance_add(ctx.author.id, int(multi * amount))
+            await self.bot.send(ctx, f'You won! Villager Bot {random.choice(self.d.gamble)} {int(multi * amount)}{self.d.emojis.emerald}')
         elif u_roll < b_roll:
             await self.db.balance_sub(ctx.author.id, amount)
             await self.bot.send(ctx, f'You lost {amount} to Villager Bot...')
