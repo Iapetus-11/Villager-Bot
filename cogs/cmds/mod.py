@@ -16,6 +16,7 @@ class Mod(commands.Cog):
 
     @commands.command(name='purge', aliases=['p'])
     @commands.guild_only()
+    @commands.bot_has_permissions(manage_messages=True)
     @commands.has_permissions(manage_messages=True)
     async def purge(self, ctx, to_purge: Union[discord.Member, int], amount=20):
         """Purges the given amount of messages from the current channel"""
@@ -31,6 +32,7 @@ class Mod(commands.Cog):
     @commands.command(name='kick')
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
+    @commands.bot_has_permissions(kick_members=True)
     async def kick_user(self, ctx, user: discord.Member, *, reason='No reason provided.'):
         """Kicks the user from the current Discord server"""
         if ctx.author.id == user.id:
@@ -49,6 +51,7 @@ class Mod(commands.Cog):
     @commands.command(name='ban', aliases=['megayeet'])
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
+    @commands.bot_has_permissions(ban_members=True)
     async def ban_user(self, ctx, user: discord.Member, *, reason='No reason provided.'):
         """Bans the given user from the current Discord server"""
 
@@ -73,6 +76,7 @@ class Mod(commands.Cog):
     @commands.command(name='pardon', aliases=['unban'])
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
+    @commands.bot_has_permissions(ban_members=True)
     async def pardon_user(self, ctx, user: discord.User, *, reason='No reason provided.'):
         """Unbans / pardons the given user fromt he current Discord server"""
 
