@@ -399,7 +399,7 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
-        if amount_item.startswith('max ') or item.startswith('all '):
+        if amount_item.startswith('max ') or amount_item.startswith('all '):
             item = amount_item[4:]
             db_item = await self.db.fetch_item(item)
 
