@@ -493,7 +493,7 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, item, amount)
-            await self.db.add_item(user.id, item, db_item['sell_price'], amount)
+            await self.db.add_item(user.id, db_item['name'], db_item['sell_price'], amount)
 
             await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}x **{db_item["name"]}** to {user.mention}')
 
