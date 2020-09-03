@@ -379,6 +379,8 @@ class Econ(commands.Cog):
                                              f'(Netherite Scrap) to buy this item.')
                     return
 
+            await ctx.send(shop_item)
+
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
 
