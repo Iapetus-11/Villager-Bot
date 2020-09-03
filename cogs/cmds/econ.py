@@ -408,12 +408,14 @@ class Econ(commands.Cog):
             split = amount_item.split(' ')
 
             try:
-                amount = int(split.pop(0))
+                amount = split.pop(0)
+                amount = int(amount)
             except ValueError:
+                item = amount + ' ' + ' '.join(split)
                 amount = 1
+            else:
+                item = ' '.join(split)
 
-            item = ' '.join(split)
-            print(item)
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
         if db_item is None:
