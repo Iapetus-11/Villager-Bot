@@ -1,4 +1,5 @@
 from discord.ext import commands
+import traceback
 import discord
 import logging
 import random
@@ -43,6 +44,14 @@ class Events(commands.Cog):
         for e_type in (commands.CommandNotFound, commands.NotOwner, discord.errors.Forbidden,):
             if isinstance(e, e_type):
                 return
+
+        trace = e.__traceback__
+        verbosity = 4
+        lines = traceback.format_exception(etype, e, trace, verbosity)
+        traceback_text = ''.join(lines)
+
+        final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'
+        await self.bot.send(ctx, f'```{final[:1023 - 6]}```')
 
 
 
