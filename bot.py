@@ -78,7 +78,7 @@ bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)
 bot.d.mining.pickaxes = list(reversed(list(bot.d.mining.yields_pickaxes)))  # get list of pickaxe types from best to worst
 bot.d.findables = bot.d.special_findables + bot.d.default_findables
 bot.d.pillagers = {}  # {user_id: daily_pillages}
-bot.d.potions = {}  # {user_id: [potion, potion]}
+bot.d.chuggers = {}  # {user_id: [potion, potion]}
 
 bot.d.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
 bot.d.support = 'https://discord.gg/39DwwUV'
