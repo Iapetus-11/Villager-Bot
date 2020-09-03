@@ -318,7 +318,7 @@ class Econ(commands.Cog):
 
         if amount_item.startswith('max ') or amount_item.startswith('all '):
             item = amount_item[4:]
-            amount = math.floor(db_user['emeralds'] / self.d.shop_items[item])
+            amount = math.floor(db_user['emeralds'] / self.d.shop_items[item][1])
 
             if amount < 1:
                 await self.bot.send(ctx, 'You don\'t have enough emeralds to buy any of this item.')
