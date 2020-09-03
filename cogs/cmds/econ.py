@@ -336,6 +336,8 @@ class Econ(commands.Cog):
             else:
                 item = ' '.join(split)
 
+            print(f'|{item}|')
+
         if amount < 1:
             await self.bot.send(ctx, 'You can\'t buy less than one of an item.')
             return
