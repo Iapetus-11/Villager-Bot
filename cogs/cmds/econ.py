@@ -418,8 +418,6 @@ class Econ(commands.Cog):
             else:
                 item = ' '.join(split)
 
-            print(f'|{item}|')
-
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
         if db_item is None:
