@@ -531,7 +531,7 @@ class Econ(commands.Cog):
             multi /= 100
 
             await self.db.balance_add(ctx.author.id, multi * amount)
-            await self.bot.send(ctx, f'You won! Villager Bot {randomm.choice(self.d.gamble_sayings)} {multi * amount}{self.d.emojis.emerald}')
+            await self.bot.send(ctx, f'You won! Villager Bot {random.choice(self.d.gamble_sayings)} {multi * amount}{self.d.emojis.emerald}')
         elif u_roll < b_roll:
             await self.db.balance_sub(ctx.author.id, amount)
             await self.bot.send(ctx, f'You lost {amount} to Villager Bot...')
