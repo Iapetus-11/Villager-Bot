@@ -682,7 +682,7 @@ class Econ(commands.Cog):
     async def chug(self, ctx, *, _pot):
         pot = _pot.lower()
 
-        current_pots = self.d.potions.get(ctx.author.id)
+        current_pots = self.d.chuggers.get(ctx.author.id)
 
         if pot in ([] if current_pots is None else current_pots):
             await self.bot.send(ctx, 'You can\'t use more than one of each type of potion at once.')
@@ -697,8 +697,8 @@ class Econ(commands.Cog):
         if pot == 'haste i potion':
             await self.db.remove_item(ctx.author.id, pot, 1)
 
-            self.d.potions[ctx.author.id] = self.d.potions.get(ctx.author.id, [])
-            self.d.potions[ctx.author.id].append(pot)
+            self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
+            self.d.chuggers[ctx.author.id].append(pot)
 
             await self.bot.send(ctx, self.d.potions.chug.format('Haste I Potion', 6))
 
@@ -706,22 +706,22 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx.author, self.d.potions.done.format('Haste I Potion'))
 
-            self.d.potions[ctx.author.id].pop(self.d.potions[ctx.author.id].index(pot))  # pop pot from active potion fx
+            self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index(pot))  # pop pot from active potion fx
             return
 
         if pot == 'haste ii potion':
             await self.db.remove_item(ctx.author.id, pot, 1)
 
-            self.d.potions[ctx.author.id] = self.d.potions.get(ctx.author.id, [])
-            self.d.potions[ctx.author.id].append(pot)
+            self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
+            self.d.chuggers[ctx.author.id].append(pot)
 
-            await self.bot.send(ctx, self.d.potions.chug.format('Haste II Potion', 4.5))
+            await self.bot.send(ctx, self.d.chuggers.chug.format('Haste II Potion', 4.5))
 
             await asyncio.sleep(60 * 6)
 
-            await self.bot.send(ctx.author, self.d.potions.done.format('Haste II Potion'))
+            await self.bot.send(ctx.author, self.d.chuggers.done.format('Haste II Potion'))
 
-            self.d.potions[ctx.author.id].pop(self.d.potions[ctx.author.id].index(pot))  # pop pot from active potion fx
+            self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index(pot))  # pop pot from active potion fx
             return
 
         if pot == 'vault potion':
