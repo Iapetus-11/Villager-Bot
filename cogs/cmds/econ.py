@@ -663,7 +663,7 @@ class Econ(commands.Cog):
 
         if success:
             stolen = math.ceil(db_victim['emeralds'] * (random.randint(10, 40) / 100))
-            adjusted = math.ceil(stole * .92)
+            adjusted = math.ceil(stolen * .92)
 
             await self.db.balance_sub(victim.id, stolen)
             await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
