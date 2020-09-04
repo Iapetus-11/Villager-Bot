@@ -137,6 +137,7 @@ class Database(commands.Cog):
                 'INSERT INTO mc_servers VALUES ($1, $2, $3, $4, $5)',
                 owner_id, address, port, version, note
             )
+            
 
 def setup(bot):
     bot.add_cog(Database(bot))
