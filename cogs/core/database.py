@@ -128,5 +128,15 @@ class Database(commands.Cog):
             async with self.db.acquire() as con:
                 await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', value, uid)
 
+    async def fetch_random_server(self):
+        return await self.db.fetchrow('SELECT * FROM mc_servers ORDER BY RANDOM() LIMIT 1')
+
+    async def add_server(self, owner_id, address, port, version, note=None):
+        async with self.db.acquire() as con:
+            await con.execute(
+                'INSERT INTO mc_servers VALUES ($1, $2, $3, $4, $5)',
+                owner_id, address, port, version, note
+            )
+
 def setup(bot):
     bot.add_cog(Database(bot))
