@@ -442,6 +442,13 @@ class Econ(commands.Cog):
     async def give(self, ctx, user: discord.User, *, amount_item):
         """Give an item or emeralds to another person"""
 
+        if user.bot:
+            if user.id == self.bot.user.id:
+                await self.bot.send(ctx, 'Villager Bot has too many emeralds to show!')
+            else:
+                await self.bot.send(ctx, 'You can\'t give stuff bots as they don\'t have rights and therefore can\'t have emeralds or stuff.')
+            return
+
         if ctx.author.id == user.id:
             await self.bot.send(ctx, 'You can\'t give stuff to yourself!')
             return
