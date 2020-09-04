@@ -115,7 +115,7 @@ class Database(commands.Cog):
                 )
 
     async def update_lb(self, uid, lb, value, mode='add'):
-        prev = await self.db.fetch_user_lb(uid)
+        prev = await self.fetch_user_lb(uid)
 
         if mode == 'add':
             async with self.db.acquire() as con:
