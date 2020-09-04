@@ -209,7 +209,7 @@ class Econ(commands.Cog):
         await self.db.balance_add(ctx.author.id, amount * 9)
         await self.db.set_vault(ctx.author.id, c_v_bal - amount, c_v_max)
 
-        await self.bot.send(ctx, f'Withdrew {amount}{self.d.emojis.emerald_block}'
+        await self.bot.send(ctx, f'Withdrew {amount}{self.d.emojis.emerald_block} '
         f'({amount * 9}{self.d.emojis.emerald}) from your vault.')
 
     async def format_required(self, item, amount=1):
