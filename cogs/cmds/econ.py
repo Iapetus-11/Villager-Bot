@@ -170,7 +170,7 @@ class Econ(commands.Cog):
         await self.db.balance_sub(ctx.author.id, amount * 9)
         await self.db.set_vault(ctx.author.id, c_v_bal + amount, c_v_max)
 
-        await self.bot.send(ctx, f'Deposited {amount}{self.d.emojis.emerald_block}'
+        await self.bot.send(ctx, f'Deposited {amount}{self.d.emojis.emerald_block} '
         f'({amount * 9}{self.d.emojis.emerald}) into your vault.')
 
     @commands.command(name='withdraw', aliases=['with'])
