@@ -78,7 +78,7 @@ class Mod(commands.Cog):
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     async def pardon_user(self, ctx, user: discord.User, *, reason='No reason provided.'):
-        """Unbans / pardons the given user fromt he current Discord server"""
+        """Unbans / pardons the given user from the current Discord server"""
 
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=self.d.cc, title='You cannot unban yourself.'))
