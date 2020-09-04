@@ -49,6 +49,5 @@ CREATE TABLE IF NOT EXISTS mc_servers( -- used for the !!randommc command
   address  varchar(100), -- address of the server
   port     int, -- port which the server is on
   version  varchar(50), -- Java Edition <version> OR Bedrock Edition
-  platform varchar(2), -- either JE or BE
   note     varchar(250) -- optional note
 );
