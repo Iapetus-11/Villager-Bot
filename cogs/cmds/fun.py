@@ -220,22 +220,22 @@ class Fun(commands.Cog):
             size = size.split('x')
 
             if len(size) != 2:
-                await ctx.send('That is not a valid size. Example of a valid size: `10x10`')
+                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: `10x10`')
                 return
 
             try:
                 size[0] = int(size[0])
                 size[1] = int(size[1])
             except ValueError:
-                await ctx.send('That is not a valid size. Example of a valid size: `10x10`')
+                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: `10x10`')
                 return
 
             for val in size:
                 if val < 1 or val > 12:
-                    await ctx.send('The size must be between 1 and 12')
+                    await self.bot.send(ctx, 'The size must be between 1 and 12')
                     return
         bubble = f'||***{word}***||'
-        await ctx.send(f'{bubble*size[0]}\n'*size[1])
+        await self.bot.send(ctx, f'{bubble*size[0]}\n'*size[1])
 
 def setup(bot):
     bot.add_cog(Fun(bot))
