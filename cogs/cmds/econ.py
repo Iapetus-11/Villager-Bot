@@ -684,6 +684,8 @@ class Econ(commands.Cog):
 
     @commands.command(name='chug')
     async def chug(self, ctx, *, _pot):
+        """Allows you to use potions"""
+
         pot = _pot.lower()
 
         current_pots = self.d.chuggers.get(ctx.author.id)
