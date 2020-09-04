@@ -189,7 +189,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, 'You don\'t have enough emerald blocks to withdraw.')
             return
 
-        if amount.lower() in ('all', 'max',):
+        if emerald_blocks.lower() in ('all', 'max',):
             amount = c_v_bal
         else:
             try:
