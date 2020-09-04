@@ -623,6 +623,10 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, 'You can\'t pillage bots as they don\'t have rights and therefore can\'t have emeralds.')
             return
 
+        if ctx.author.id == victim.id:
+            await self.bot.send(ctx, 'You can\'t pillage yourself, dummy.')
+            return
+
         if ctx.guild.get_member(victim.id) is None:
             await self.bot.send(ctx, 'You can\'t pillage people from other servers...')
             return
