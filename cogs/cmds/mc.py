@@ -38,8 +38,8 @@ class Minecraft(commands.Cog):
             async with self.ses.get(f'https://theapi.info/mc/mcping?host={combined}') as res:  # fetch status from api
                 jj = await res.json()
 
-        if jj['online'] is not True:
-            embed = discord.Embed(color=self.d.cc, title=f'{self.d.emojis.offline} {combined} is offline')
+        if not jj['success'] or not jj['online']:
+            embed = discord.Embed(color=self.d.cc, title=f'{self.d.emojis.offline} no server found at `{combined}`')
             await ctx.send(embed=embed)
             return
 
