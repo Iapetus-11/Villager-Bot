@@ -90,6 +90,13 @@ class Econ(commands.Cog):
         if user is None:
             user = ctx.author
 
+        if user.bot:
+            if user.id == self.bot.user.id:
+                await self.bot.send(ctx, 'Villager Bot has wayyyyy too many items to show (About 100000000000000000)')
+            else:
+                await self.bot.send(ctx, 'Bots don\'t have rights and therefore can\'t have emeralds or stuff.')
+            return
+
         u_items = await self.db.fetch_items(user.id)
         items_sorted = sorted(u_items, key=lambda item: item['sell_price'], reverse=True)  # sort items by sell price
         items_chunks = [items_sorted[i:i + 16] for i in range(0, len(items_sorted), 16)]  # split items into chunks of 16 [[16..], [16..], [16..]]
