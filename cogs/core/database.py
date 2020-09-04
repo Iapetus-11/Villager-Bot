@@ -116,13 +116,14 @@ class Database(commands.Cog):
 
     async def update_lb(self, uid, lb, value, mode='add'):
         prev = await self.fetch_user_lb(uid)
+        prev_lb_val = 0 if prev is None else prev[lb]
 
         if mode == 'add':
             async with self.db.acquire() as con:
-                await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', prev[lb] + value, uid)
+                await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', prev_lb_val + value, uid)
         elif mode == 'sub':
             async with self.db.acquire() as con:
-                await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', prev[lb] - value, uid)
+                await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', prev_lb_val - value, uid)
         elif mode == 'set':
             async with self.db.acquire() as con:
                 await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', value, uid)
