@@ -1,10 +1,21 @@
 from discord.ext import commands
+import classyjson
 import discord
 
 
 class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+        self.help_texts = classyjson.loads('{}')  # creates an empty NiceDict~~bro~~
+
+
+    async def conglomerate(self, cog):
+        cmds = cog.get_commands()
+        body = ''
+
+        for cmd in cmds:
+            body += f'\n\{\}{}'
 
     @commands.group(name='help')
     async def cmd_help(self, ctx):
@@ -25,6 +36,8 @@ class Useful(commands.Cog):
             embed.add_field(name='Admin', value=f'{p}help admin')
 
             await ctx.send(embed=embed)
+
+    @commands.
 
 def setup(bot):
     bot.add_cog(Useful(bot))
