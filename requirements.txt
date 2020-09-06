@@ -3,4 +3,6 @@ arrow
 dblpy
 discord.py
 async-cse
+mcstatus
 asyncpg
+PyRakLib
