@@ -7,7 +7,7 @@ class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        #self.help_texts = classyjson.loads('{}')  # creates an empty NiceDict~~bro~~
+        #self.help_texts = classyjson.loads('{}')  # creates an empty NiceDict ~~bro~~
         self.help_texts = classyjson.NiceDict()
 
     async def conglomerate(self, cog):
@@ -15,7 +15,10 @@ class Useful(commands.Cog):
         body = ''
 
         for cmd in cmds:
-            body += f'\n\{}{}'
+            if cmd.enabled and not cmd.hidden:
+                body += '\n`{}' + f'{cmd.name} {cmd.usage} {cmd.short_doc}`'
+
+        return body
 
     @commands.group(name='help')
     async def cmd_help(self, ctx):
