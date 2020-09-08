@@ -20,7 +20,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def mcping(self, ctx, host=None, port: int = None):
+    async def mcping(self, ctx, host=None, port: int = None, note: str = None):
         """Checks the status of a given Minecraft server"""
 
         if host is None:
@@ -79,7 +79,17 @@ class Minecraft(commands.Cog):
         if jj['favicon'] is not None:
             embed.set_thumbnail(url=f'https://theapi.info/mc/serverfavi?host={combined}')
 
+        if ctx.command.name == 'randommc':
+            if note is not None:
+                embed.set_footer(text=note)
+
         await ctx.send(embed=embed)
+
+    @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
+    async def random_mc_server(self, ctx):
+        s = await self.db.fetch_random_server()
+        await self.mcping(ctx, s['address'], s['port'], s['note'])
 
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
