@@ -775,7 +775,7 @@ class Econ(commands.Cog):
 
         await self.bot.send(ctx, 'Either that isn\'t a potion, or it doesn\'t exist.')
 
-    @commands.command(name='harvesthoney', aliases=['honey', 'horny'])
+    @commands.command(name='harvesthoney', aliases=['honey', 'horny'])  # ~~a strange urge occurs in me~~
     async def harvest_honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
         if bees is not None:
