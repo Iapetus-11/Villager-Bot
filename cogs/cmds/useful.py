@@ -13,6 +13,8 @@ class Useful(commands.Cog):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(color=self.d.cc)
             embed.set_author(name='Villager Bot Commands', icon_url=self.d.splash_logo)
+            embed.description = f'Need more help? Check out the [**Support Server**]({self.d.support})!\n' \
+                                f'Enjoying the bot? Vote for us on [**top.gg**]({self.d.topgg}) and earn emeralds!'
 
             p = ctx.prefix
 
