@@ -1,5 +1,6 @@
 *.env
 data/keys.json
+cogs/core/hentai.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
