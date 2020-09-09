@@ -49,8 +49,12 @@ async def send(self, location, message: str):  # send function/method for easy s
         return False
 
 
-bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
+async def get_lang(self, ctx):
+    return 'en-us'
 
+
+bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
+bot.get_lang = get_lang.__get__(bot)
 
 async def setup_database():  # init pool connection to database
     bot.db = await asyncpg.create_pool(
@@ -84,6 +88,8 @@ bot.d.findables = bot.d.special_findables + bot.d.default_findables
 bot.d.pillagers = {}  # {user_id: daily_pillages}
 bot.d.chuggers = {}  # {user_id: [potion, potion]}
 
+bot.d.ban_cache = []  # [uid, uid,..]
+
 bot.d.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
 bot.d.support = 'https://discord.gg/39DwwUV'
 bot.d.invite = 'https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=8&scope=bot'
@@ -107,14 +113,6 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
     bot.load_extension(cog)
 
 
-async def is_bot_banned(uid):  # checks if a user has been botbanned
-    user = await bot.db.fetchrow('SELECT bot_banned FROM users WHERE uid = $1', uid)
-    if user is not None:
-        return user['bot_banned']
-    else:
-        return False
-
-
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
     if DEBUG:
@@ -122,7 +120,7 @@ async def global_check(ctx):
             return True
         return False
 
-    return bot.is_ready() and not await is_bot_banned(ctx.author.id)
+    return bot.is_ready() and ctx.author.id not in bot.d.ban_cache
 
 
 bot.run(keys['discord'])  # run the bot, this is a blocking call

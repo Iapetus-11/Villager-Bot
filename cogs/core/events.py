@@ -10,12 +10,17 @@ class Events(commands.Cog):
         self.bot = bot
         self.d = self.bot.d
 
+        self.db = self.bot.get_cog('Database')
+
         self.logger = logging.getLogger("Events")
         self.logger.setLevel(logging.INFO)
 
     @commands.Cog.listener()
     async def on_ready(self):
         await self.bot.change_presence(activity=discord.Game(name=random.choice(self.d.playing_list)))
+
+        self.d.ban_cache = await self.db.get_all_botbans()
+
         self.logger.info(f"\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]")
 
     @commands.Cog.listener()
