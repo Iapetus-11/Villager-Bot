@@ -6,6 +6,8 @@ class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.d = self.bot.d
+
     @commands.group(name='help')
     async def help(self, ctx):
         if ctx.invoked_subcommand is None:
