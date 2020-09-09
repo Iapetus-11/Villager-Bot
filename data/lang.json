@@ -1,20 +1,15 @@
 {
   "en_us": {
-    "misc": {},
     "cogs": {
       "fun": {
-        "misc": {
-          "too_long": "That message would be too long to convert."
-        },
+        "too_long": "That message would be too long to convert.",
         "bubblewrap": {
           "invalid_size_1": "That is not a valid size. Example of a valid size: `10x10`",
           "invalid_size_2": "The size must be between 1 and 12"
         }
       },
       "minecraft": {
-        "misc": {
-          "invalid_player": "That player is invalid or doesn't exist."
-        },
+        "invalid_player": "That player is invalid or doesn't exist.",
         "mcping": {
           "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
           "title_offline": "{} no server found at `{}`",
@@ -74,9 +69,7 @@
         }
       },
       "mod": {
-        "misc": {
-          "no_perms": "You don't have the permissions to do that!"
-        },
+        "no_perms": "You don't have the permissions to do that!",
         "kick": {
           "error": "You cannot kick yourself",
           "success": "Kicked **{}**"
@@ -93,7 +86,13 @@
         }
       },
       "econ": {
-        "kill": "me"
+        "misc": {},
+        "math_problem": {
+          "problem": "Please solve this problem to continue: `{}`",
+          "timeout": "You ran out of time, what a slowpoke...",
+          "correct": "{} Correct answer!",
+          "incorrect": "{} Incorrect answer!"
+        }
       }
     }
   }
