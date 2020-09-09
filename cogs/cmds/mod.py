@@ -29,7 +29,7 @@ class Mod(commands.Cog):
         else:
             await ctx.channel.purge(limit=to_purge + 1)
 
-    @commands.command(name='kick')
+    @commands.command(name='kick', aliases=['yeet'])
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
