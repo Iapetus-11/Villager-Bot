@@ -1,74 +1,95 @@
 {
   "en_us": {
     "misc": {},
-    "cog_fun": {
-      "misc": {
-        "too_long": "That message would be too long to convert."
+    "cogs": {
+      "fun": {
+        "misc": {
+          "too_long": "That message would be too long to convert."
+        },
+        "bubblewrap": {
+          "invalid_size_1": "That is not a valid size. Example of a valid size: `10x10`",
+          "invalid_size_2": "The size must be between 1 and 12"
+        }
       },
-      "bubblewrap": {
-        "invalid_size_1": "That is not a valid size. Example of a valid size: `10x10`",
-        "invalid_size_2": "The size must be between 1 and 12"
-      }
-    },
-    "cog_mc": {
-      "misc": {
-        "invalid_player": "That player is invalid or doesn't exist."
+      "minecraft": {
+        "misc": {
+          "invalid_player": "That player is invalid or doesn't exist."
+        },
+        "mcping": {
+          "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
+          "title_offline": "{} no server found at `{}`",
+          "title_online": "{} `{}` is online",
+          "field_latency": {
+            "name": "Latency/Ping"
+          },
+          "field_version": {
+            "name": "Version"
+          },
+          "field_online_players": {
+            "name": "Online Players ({}/{})",
+            "value": "Player list is not available for this server."
+          },
+          "and_other_players": ", and {} others..."
+        },
+        "stealskin": {
+          "error_1": "Oops, something went wrong while fetching that player's profile.",
+          "embed_desc": "{}'s skin\n[**[Download]**]({})"
+        },
+        "mccolors": {
+          "embed_desc": "Text in Minecraft can be formatted using different codes and\nthe section (`§`) symbol.",
+          "embed_author_name": "Minecraft Formatting Codes",
+          "formatting_codes": {
+            "red": "Red",
+            "yellow": "Yellow",
+            "green": "Green",
+            "aqua": "Aqua",
+            "blue": "Blue",
+            "light_purple": "Light Purple",
+            "white": "White",
+            "gray": "Gray",
+            "dark_red": "Dark Red",
+            "gold": "Gold",
+            "dark_green": "Dark Green",
+            "dark_aqua": "Dark Aqua",
+            "dark_blue": "Dark Blue",
+            "dark_purple": "Dark Purple",
+            "dark_gray": "Dark Gray",
+            "black": "Black",
+            "bold": "Bold",
+            "strikethrough": "Strikethrough",
+            "underline": "Underline",
+            "italic": "Italic",
+            "obfuscated": "Obfuscated",
+            "reset": "Reset"
+          },
+          "field_1": {
+            "name": "Colors"
+          },
+          "field_2": {
+            "name": "More Colors"
+          },
+          "field_3": {
+            "name": "Formatting"
+          }
+        }
       },
-      "mcping": {
-        "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
-        "title_offline": "{} no server found at `{}`",
-        "title_online": "{} `{}` is online",
-        "field_latency": {
-          "name": "Latency/Ping"
+      "mod": {
+        "misc": {
+          "no_perms": "You don't have the permissions to do that!"
         },
-        "field_version": {
-          "name": "Version"
+        "kick": {
+          "error": "You cannot kick yourself",
+          "success": "Kicked **{}**"
         },
-        "field_online_players": {
-          "name": "Online Players ({}/{})",
-          "value": "Player list is not available for this server."
+        "ban": {
+          "error_1": "You cannot ban yourself",
+          "error_2": "**{}** is already banned",
+          "success": "Banned **{}**"
         },
-        "and_other_players": ", and {} others..."
-      },
-      "stealskin": {
-        "error_1": "Oops, something went wrong while fetching that player's profile.",
-        "embed_desc": "{}'s skin\n[**[Download]**]({})"
-      },
-      "mccolors": {
-        "embed_desc": "Text in Minecraft can be formatted using different codes and\nthe section (`§`) symbol.",
-        "embed_author_name": "Minecraft Formatting Codes",
-        "formatting_codes": {
-          "red": "Red",
-          "yellow": "Yellow",
-          "green": "Green",
-          "aqua": "Aqua",
-          "blue": "Blue",
-          "light_purple": "Light Purple",
-          "white": "White",
-          "gray": "Gray",
-          "dark_red": "Dark Red",
-          "gold": "Gold",
-          "dark_green": "Dark Green",
-          "dark_aqua": "Dark Aqua",
-          "dark_blue": "Dark Blue",
-          "dark_purple": "Dark Purple",
-          "dark_gray": "Dark Gray",
-          "black": "Black",
-          "bold": "Bold",
-          "strikethrough": "Strikethrough",
-          "underline": "Underline",
-          "italic": "Italic",
-          "obfuscated": "Obfuscated",
-          "reset": "Reset"
-        },
-        "field_1": {
-          "name": "Colors"
-        },
-        "field_2": {
-          "name": "More Colors"
-        },
-        "field_3": {
-          "name": "Formatting"
+        "unban": {
+          "error_1": "You cannot unban yourself",
+          "error_2": "**{}** isn't banned",
+          "success": "Unbanned **{}**"
         }
       }
     }
