@@ -63,6 +63,9 @@ async def setup_database():  # init pool connection to database
 
 asyncio.get_event_loop().run_until_complete(setup_database())
 
+with open('data/lang.json', 'r', encoding='utf8') as l:
+    bot.lang = classyjson.load(l)  # turns it into dot accessible dicts for ez access ~~nice dict bro~~
+
 with open('data/data.json', 'r', encoding='utf8') as d:
     bot.d = classyjson.load(d)  # classyjson automatically turns json into sets of nested classes and attributes for easy access
 
