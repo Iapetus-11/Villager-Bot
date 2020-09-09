@@ -11,7 +11,9 @@ class Useful(commands.Cog):
     @commands.group(name='help')
     async def help(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed()
+            embed = discord.Embed(color=self.d.cc)
+            embed.set_author(name='Villager Bot Commands', icon_url=self.d.splash_logo)
+
             p = ctx.prefix
 
             embed.add_field(name='Economy', value=f'`{p}help econ`')
