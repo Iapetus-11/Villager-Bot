@@ -37,9 +37,39 @@
       "mccolors": {
         "embed_desc": "Text in Minecraft can be formatted using different codes and\nthe section (`§`) symbol.",
         "embed_author_name": "Minecraft Formatting Codes",
-        "field_1": {},
-        "field_2": {},
-        "field_3": {}
+        "formatting_codes": {
+          "red": "Red",
+          "yellow": "Yellow",
+          "green": "Green",
+          "aqua": "Aqua",
+          "blue": "Blue",
+          "light_purple": "Light Purple",
+          "white": "White",
+          "gray": "Gray",
+          "dark_red": "Dark Red",
+          "gold": "Gold",
+          "dark_green": "Dark Green",
+          "dark_aqua": "Dark Aqua",
+          "dark_blue": "Dark Blue",
+          "dark_purple": "Dark Purple",
+          "dark_gray": "Dark Gray",
+          "black": "Black",
+          "bold": "Bold",
+          "strikethrough": "Strikethrough",
+          "underline": "Underline",
+          "italic": "Italic",
+          "obfuscated": "Obfuscated",
+          "reset": "Reset"
+        },
+        "field_1": {
+          "name": "Colors"
+        },
+        "field_2": {
+          "name": "More Colors"
+        },
+        "field_3": {
+          "name": "Formatting"
+        }
       }
     }
   }
