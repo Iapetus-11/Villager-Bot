@@ -11,7 +11,9 @@
       }
     },
     "cog_mc": {
-      "misc": {},
+      "misc": {
+        "invalid_player": "That player is invalid or doesn't exist."
+      },
       "mcping": {
         "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
         "title_offline": "{} no server found at `{}`",
@@ -29,9 +31,15 @@
         "and_other_players": ", and {} others..."
       },
       "stealskin": {
-        "invalid_player": "That player is invalid or doesn't exist.",
         "error_1": "Oops, something went wrong while fetching that player's profile.",
         "embed_desc": "{}'s skin\n[**[Download]**]({})"
+      },
+      "mccolors": {
+        "embed_desc": "Text in Minecraft can be formatted using different codes and\nthe section (`§`) symbol.",
+        "embed_author_name": "Minecraft Formatting Codes",
+        "field_1": {},
+        "field_2": {},
+        "field_3": {}
       }
     }
   }
