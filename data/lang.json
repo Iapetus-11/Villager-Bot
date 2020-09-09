@@ -91,6 +91,9 @@
           "error_2": "**{}** isn't banned",
           "success": "Unbanned **{}**"
         }
+      },
+      "econ": {
+        "kill": "me"
       }
     }
   }
