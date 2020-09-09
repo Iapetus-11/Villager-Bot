@@ -24,9 +24,14 @@
         },
         "field_online_players": {
           "name": "Online Players ({}/{})",
-          "value": "Player list is not available for this server.",
-          "and_other_players": ", and {} others..."
-        }
+          "value": "Player list is not available for this server."
+        },
+        "and_other_players": ", and {} others..."
+      },
+      "stealskin": {
+        "invalid_player": "That player is invalid or doesn't exist.",
+        "error_1": "Oops, something went wrong while fetching that player's profile.",
+        "embed_desc": "{}'s skin\n[**[Download]**]({})"
       }
     }
   }
