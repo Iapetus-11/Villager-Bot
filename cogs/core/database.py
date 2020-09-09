@@ -26,8 +26,8 @@ class Database(commands.Cog):
         return user
 
     async def fetch_all_botbans(self):
-        botbans = await self.db.fetch('SELECT uid FROM users WHERE bot_banned = true')
-        return botbans
+        botban_records = await self.db.fetch('SELECT uid FROM users WHERE bot_banned = true')  # returns [Record<uid=>, Record<uid=>,..]
+        return [r[0] for r in botban_records]
 
     async def fetch_balance(self, uid):  # fetches the amount of emeralds a user has
         # we can do this because self.fetch_user ensures user is not None
