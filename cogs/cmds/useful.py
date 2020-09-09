@@ -10,6 +10,9 @@ class Useful(commands.Cog):
         #self.help_texts = classyjson.loads('{}')  # creates an empty NiceDict ~~bro~~
         self.help_texts = classyjson.NiceDict()
 
+        for cog in ('Econ', 'Fun', 'Minecraft', 'Mod'):
+            self.help_texts[cog] = await self.conglomerate(self.bot.get_cog(cog))
+
     async def conglomerate(self, cog):
         cmds = cog.get_commands()
         body = ''
