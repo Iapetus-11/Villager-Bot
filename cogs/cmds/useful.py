@@ -45,7 +45,7 @@ class Useful(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    @help.command(name='Minecraft')
+    @help.command(name='minecraft', aliases=['mc'])
     async def help_minecraft(self, ctx):
         embed = discord.Embed(
             description='Need more help? Found a bug? Join the official [support server]({self.bot.d.support})!\n\uFEFF',
