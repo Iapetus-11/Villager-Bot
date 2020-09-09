@@ -24,7 +24,7 @@ class Useful(commands.Cog):
         return body
 
     @commands.group(name='help')
-    async def cmd_help(self, ctx):
+    async def help(self, ctx):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed()
             p = ctx.prefix
@@ -43,7 +43,17 @@ class Useful(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    @commands.
+    @help.command(name='Minecraft')
+    async def help_minecraft(self, ctx):
+        embed = discord.Embed(
+            description='Need more help? Found a bug? Join the official [support server]({self.bot.d.support})!\n\uFEFF',
+            title='Minecraft Commands'
+        )
+
+        embed.description += self.help_texts['Minecraft']
+
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Useful(bot))
