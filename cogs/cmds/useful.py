@@ -20,6 +20,7 @@ class Useful(commands.Cog):
         body = ''
 
         for cmd in cmds:
+            print(cmd.clean_params)
             if cmd.enabled and not cmd.hidden:
                 body += '\n`{0}' + f'{cmd.name} {cmd.usage} {cmd.short_doc}`'
 
