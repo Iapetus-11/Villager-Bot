@@ -21,7 +21,7 @@ class Useful(commands.Cog):
 
         for cmd in cmds:
             if cmd.enabled and not cmd.hidden:
-                body += '\n`{}' + f'{cmd.name} {cmd.usage} {cmd.short_doc}`'
+                body += '\n`{0}' + f'{cmd.name} {cmd.usage} {cmd.short_doc}`'
 
         return body
 
@@ -52,7 +52,7 @@ class Useful(commands.Cog):
             title='Minecraft Commands'
         )
 
-        embed.description += self.help_texts.Minecraft
+        embed.description += self.help_texts.Minecraft.format(ctx.prefix)
 
         await ctx.send(embed=embed)
 
