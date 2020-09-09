@@ -20,7 +20,7 @@ class Useful(commands.Cog):
 
             embed.add_field(name='Fun', value=f'`{p}help fun`')
             embed.add_field(name='Admin', value=f'`{p}help admin`')
-            embed.add_field(name='Support', value=f'[Click Me]({self.d.support})')
+            embed.add_field(name='Support', value=f'[**Click Me**]({self.d.support})')
 
             await ctx.send(embed=embed)
 
