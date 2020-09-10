@@ -65,7 +65,7 @@ class Econ(commands.Cog):
             if user.id == self.bot.user.id:
                 await self.bot.send(ctx, 'Villager Bot has wayyyyy too many emeralds to show!')
             else:
-                await self.bot.send(ctx, 'Bot don\'t have rights and therefore can\'t have emeralds or stuff.')
+                await self.bot.send(ctx, 'Bots don\'t have rights and therefore can\'t have emeralds or stuff.')
             return
 
         db_user = await self.db.fetch_user(user.id)
