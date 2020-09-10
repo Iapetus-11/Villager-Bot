@@ -1,4 +1,4 @@
-# **Villager Bot Rewrite (The __complete__ rewrite of Villager Bot)** [![Discord Bots](https://top.gg/api/widget/status/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321) [![Discord Bots](https://top.gg/api/widget/servers/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
+# **Villager Bot Rewrite (complete rewrite of Villager Bot)** [![Discord Bots](https://top.gg/api/widget/status/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321) [![Discord Bots](https://top.gg/api/widget/servers/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
 
 ## Contributing
 ### Issues/Bugs
