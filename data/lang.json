@@ -122,6 +122,13 @@
           "magic": "Magic",
           "other": "Other",
           "embed_footer": "Use {}inventory to see what you have!"
+        },
+        "buy": {
+          "poor_loser_1": "You don't have enough emeralds to buy any of this item.",
+          "stupid_1": "You can't buy less than one of an item.",
+          "stupid_2": "`{}` is invalid or isn't in the Villager Shop.",
+          "poor_loser_2": "You don't have enough emeralds to buy `{}x` **{}**.",
+          ""
         }
       }
     }
