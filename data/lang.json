@@ -57,15 +57,9 @@
             "obfuscated": "Obfuscated",
             "reset": "Reset"
           },
-          "field_1": {
-            "name": "Colors"
-          },
-          "field_2": {
-            "name": "More Colors"
-          },
-          "field_3": {
-            "name": "Formatting"
-          }
+          "colors": "Colors",
+          "more_colors": "More Colors",
+          "formatting": "Formatting"
         }
       },
       "mod": {
