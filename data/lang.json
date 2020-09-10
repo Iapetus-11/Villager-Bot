@@ -98,6 +98,12 @@
           "s_emeralds": "'s emeralds",
           "pocket": "Pocket",
           "vault": "Vault"
+        },
+        "inventory": {
+          "bot_1": "Villager Bot has wayyyyy too many items to show (About 100000000000000000)",
+          "bot_2": "Bots don't have rights and therefore can't have emeralds or stuff.",
+          "s_inventory": "'s inventory'",
+          "page": "Page"
         }
       }
     }
