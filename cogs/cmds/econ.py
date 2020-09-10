@@ -24,6 +24,15 @@ class Econ(commands.Cog):
         pass
     """
 
+    async def format_required(self, item, amount=1):
+        if item[3][0] == 'Netherite Pickaxe':
+            return f' {item[1] * amount}{self.d.emojis.emerald} + {4 * amount}{self.d.emojis.netherite}'
+
+        if item[3][0] == 'Netherite Sword':
+            return f' {item[1] * amount}{self.d.emojis.emerald} + {6 * amount}{self.d.emojis.netherite}'
+
+        return f' {item[1] * amount}{self.d.emojis.emerald}'
+
     async def math_problem(self, ctx, source_multi=1):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
         self.d.miners[ctx.author.id] = mine_commands + 1
@@ -225,15 +234,6 @@ class Econ(commands.Cog):
 
         await self.bot.send(ctx, f'Withdrew {amount}{self.d.emojis.emerald_block} '
         f'({amount * 9}{self.d.emojis.emerald}) from your vault.')
-
-    async def format_required(self, item, amount=1):
-        if item[3][0] == 'Netherite Pickaxe':
-            return f' {item[1] * amount}{self.d.emojis.emerald} + {4 * amount}{self.d.emojis.netherite}'
-
-        if item[3][0] == 'Netherite Sword':
-            return f' {item[1] * amount}{self.d.emojis.emerald} + {6 * amount}{self.d.emojis.netherite}'
-
-        return f' {item[1] * amount}{self.d.emojis.emerald}'
 
     @commands.group(name='shop')
     async def shop(self, ctx):
