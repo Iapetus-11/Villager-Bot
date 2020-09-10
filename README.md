@@ -1,4 +1,5 @@
-# **Villager Bot Rewrite (COMPLETE rewrite!)** [![Discord Bots](https://top.gg/api/widget/status/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321) [![Discord Bots](https://top.gg/api/widget/servers/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
+# **Villager Bot Rewrite (COMPLETE rewrite!)**
+[![Discord Bots](https://top.gg/api/widget/status/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321) [![Discord Bots](https://top.gg/api/widget/servers/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
 
 ## Support/Contact Information
 * [Discord Support Server](https://discord.gg/39DwwUV)
