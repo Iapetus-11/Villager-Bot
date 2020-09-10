@@ -92,9 +92,9 @@
           "correct": "{} Correct answer!",
           "incorrect": "{} Incorrect answer!"
         },
-        "bal": {
-          "bot_user_1": "Villager Bot has wayyyyy too many emeralds to show!",
-          "bot_user_2": "Bots don't have rights and can't have emeralds or stuff.",
+        "balance": {
+          "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
+          "bot_2": "Bots don't have rights and can't have emeralds or stuff.",
           "s_emeralds": "'s emeralds",
           "pocket": "Pocket",
           "vault": "Vault"
