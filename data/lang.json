@@ -86,12 +86,18 @@
         }
       },
       "econ": {
-        "misc": {},
         "math_problem": {
           "problem": "Please solve this problem to continue: `{}`",
           "timeout": "You ran out of time, what a slowpoke...",
           "correct": "{} Correct answer!",
           "incorrect": "{} Incorrect answer!"
+        },
+        "bal": {
+          "bot_user_1": "Villager Bot has wayyyyy too many emeralds to show!",
+          "bot_user_2": "Bots don't have rights and can't have emeralds or stuff.",
+          "s_emeralds": "'s emeralds",
+          "pocket": "Pocket",
+          "vault": "Vault"
         }
       }
     }
