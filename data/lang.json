@@ -86,6 +86,9 @@
         }
       },
       "econ": {
+        "misc": {
+          "use_a_number_stupid": "You have to use a number."
+        },
         "math_problem": {
           "problem": "Please solve this problem to continue: `{}`",
           "timeout": "You ran out of time, what a slowpoke...",
@@ -107,10 +110,18 @@
         },
         "deposit": {
           "poor_loser": "You don't have enough emeralds to deposit.",
-          "retard_1": "You have to use a number.",
-          "retard_2": "You can't deposit less than one emerald block.",
-          "retard_3": "You don't have enough space for that."
-        }
+          "stupid_1": "You can't deposit less than one emerald block.",
+          "stupid_2": "You don't have enough space for that.",
+          "deposited": "Deposited",
+          "into_your_vault": "into your vault."
+        },
+        "withdraw": {
+          "poor_loser": "You don't have enough emerald blocks to withdraw.",
+          "stupid_1": "You can't withdraw less than one emerald block.",
+          "stupid_2": "You can't withdraw more than you have.",
+          "withdrew": "Withdrew",
+          "from_your_vault": "from your vault."
+        },
       }
     }
   }
