@@ -104,6 +104,12 @@
           "bot_2": "Bots don't have rights and therefore can't have emeralds or stuff.",
           "s_inventory": "'s inventory'",
           "page": "Page"
+        },
+        "deposit": {
+          "poor_loser": "You don't have enough emeralds to deposit.",
+          "retard_1": "You have to use a number.",
+          "retard_2": "You can't deposit less than one emerald block.",
+          "retard_3": "You don't have enough space for that."
         }
       }
     }
