@@ -143,6 +143,14 @@
           "stupid_2": "You can't sell less than one of an item.",
           "you_done_sold": "You have sold",
           "total_of": "a total of"
+        },
+        "give": {
+          "bot_1": "Villager Bot already has a full inventory (About 100000000000000000 unique items!)",
+          "bot_2": "You can't give stuff bots as they don't have rights and can't have emeralds or stuff.",
+          "stupid_1": "You can't give stuff to yourself!",
+          "stupid_2": "You can't give someone less than one of an item.",
+          "and_i_oop": "You can't trade/gift this item.",
+          "stupid_3": "You can't give someone more emeralds than you have."
         }
       }
     }
