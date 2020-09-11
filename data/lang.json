@@ -128,7 +128,14 @@
           "stupid_1": "You can't buy less than one of an item.",
           "stupid_2": "`{}` is invalid or isn't in the Villager Shop.",
           "poor_loser_2": "You don't have enough emeralds to buy `{}x` **{}**.",
-          ""
+          "need_total_of": "You need a total of",
+          "to_buy_item": "to buy this item.",
+          "you_done_bought": "You have bought",
+          "for": "for",
+          "u_have": "You have",
+          "total": "total",
+          "no_to_item_1": "You can't buy any more of this item.",
+          "no_to_item_2": "For some reason, you can't buy this item."
         }
       }
     }
