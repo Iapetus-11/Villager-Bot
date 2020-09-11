@@ -106,15 +106,13 @@
           "poor_loser": "You don't have enough emeralds to deposit.",
           "stupid_1": "You can't deposit less than one emerald block.",
           "stupid_2": "You don't have enough space for that.",
-          "deposited": "Deposited",
-          "into_your_vault": "into your vault."
+          "deposited": "Deposited {}{} ({}{}) into your vault."
         },
         "withdraw": {
           "poor_loser": "You don't have enough emerald blocks to withdraw.",
           "stupid_1": "You can't withdraw less than one emerald block.",
           "stupid_2": "You can't withdraw more than you have.",
-          "withdrew": "Withdrew",
-          "from_your_vault": "from your vault."
+          "withdrew": "Withdrew {}{} ({}{}) from your vault."
         },
         "shop": {
           "villager_shop": "Villager Shop",
