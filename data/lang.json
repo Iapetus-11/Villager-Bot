@@ -82,8 +82,7 @@
       "econ": {
         "misc": {
           "use_a_number_stupid": "You have to use a number.",
-          "page": "Page",
-          "for": "for"
+          "page": "Page"
         },
         "math_problem": {
           "problem": "Please solve this problem to continue: `{}`",
@@ -131,9 +130,7 @@
           "poor_loser_2": "You don't have enough emeralds to buy `{}x` **{}**.",
           "need_total_of": "You need a total of",
           "to_buy_item": "to buy this item.",
-          "you_done_bought": "You have bought",
-          "u_have": "You have",
-          "total": "total",
+          "you_done_bought": "You have bought {}x **{}** for {} (You have {} total)",
           "no_to_item_1": "You can't buy any more of this item.",
           "no_to_item_2": "For some reason, you can't buy this item."
         },
@@ -141,8 +138,7 @@
           "invalid_item": "Either that item is invalid or you don't have it.",
           "stupid_1": "You can't sell more than you have of that item.",
           "stupid_2": "You can't sell less than one of an item.",
-          "you_done_sold": "You have sold",
-          "total_of": "a total of"
+          "you_done_sold": "You have sold {}x **{}** for a total of {}{}"
         },
         "give": {
           "bot_1": "Villager Bot already has a full inventory (About 100000000000000000 unique items!)",
@@ -153,8 +149,7 @@
           "stupid_3": "You can't give someone more emeralds than you have.",
           "stupid_4": "You can't give an item you don't even have.",
           "stupid_5": "You can't give more of an item than you have.",
-          "gave": "gave",
-          "to": "to"
+          "gave": "{} gave {}x **{}** to {}"
         }
       }
     }
