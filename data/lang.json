@@ -148,9 +148,13 @@
           "bot_1": "Villager Bot already has a full inventory (About 100000000000000000 unique items!)",
           "bot_2": "You can't give stuff bots as they don't have rights and can't have emeralds or stuff.",
           "stupid_1": "You can't give stuff to yourself!",
-          "stupid_2": "You can't give someone less than one of an item.",
+          "stupid_2": "You can't give someone less than one of something.",
           "and_i_oop": "You can't trade/gift this item.",
-          "stupid_3": "You can't give someone more emeralds than you have."
+          "stupid_3": "You can't give someone more emeralds than you have.",
+          "stupid_4": "You can't give an item you don't even have.",
+          "stupid_5": "You can't give more of an item than you have.",
+          "gave": "gave",
+          "to": "to"
         }
       }
     }
