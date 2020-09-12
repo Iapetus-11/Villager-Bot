@@ -26,8 +26,7 @@ class Minecraft(commands.Cog):
         if host is None:
             combined = await self.db.fetch_default_server(ctx.guild.id)
             if combined is None:
-                await self.bot.send(ctx, 'To use this shortcut, you must set '
-                f'a default Minecraft server via `{ctx.prefix}config`')
+                await self.bot.send(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
         else:
             port_str = ''
             if port is not None:
@@ -39,7 +38,7 @@ class Minecraft(commands.Cog):
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
-            embed = discord.Embed(color=self.d.cc, title=f'{self.d.emojis.offline} no server found at `{combined}`')
+            embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined))
             await ctx.send(embed=embed)
             return
 
@@ -49,27 +48,27 @@ class Minecraft(commands.Cog):
 
         players_online = jj['players_online']  # int
 
-        embed = discord.Embed(color=self.d.cc, title=f'{self.d.emojis.online} {combined} is online')
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
         # should probably set thumbnail to server favicon or add image from theapi.info/mc/mcpingimg
 
-        embed.add_field(name='Latency/Ping', value=jj['latency'])
-        embed.add_field(name='Version', value=jj['version'].get('brand', 'Unknown'))
+        embed.add_field(name=ctx.l.minecraft.latency, value=jj['latency'])
+        embed.add_field(name=ctx.l.minecraft.version, value=jj['version'].get('brand', 'Unknown'))
 
         player_list_cut = player_list[:24]
 
         if jj['version']['method'] != 'query' and len(player_list_cut) < 1:
             embed.add_field(
-                name=f'Online Players ({players_online}/{jj["players_max"]})',
-                value='Player list is not available for this server.',
+                name=ctx.l.minecraft.field_online_players.name.format(players_online, jj['players_max']),
+                value=ctx.l.minecraft.field_online_players.value,
                 inline=False
             )
         else:
             extra = ''
             if len(player_list_cut) < players_online:
-                extra = f', and {players_online - len(player_list_cut)} others...'
+                extra = ctx.l.minecraft.and_other_players.format(players_online - len(player_list_cut))
 
             embed.add_field(
-                name=f'Online Players ({players_online}/{jj["players_max"]})',
+                name=ctx.l.minecraft.field_online_players.name.format(players_online, jj['players_max']),
                 value='`' + '`, `'.join(player_list_cut) + '`' + extra,
                 inline=False
             )
