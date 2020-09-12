@@ -140,5 +140,6 @@ class Database(commands.Cog):
             async with self.db.acquire() as con:
                 await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', value, uid)
 
+
 def setup(bot):
     bot.add_cog(Database(bot))
