@@ -78,16 +78,16 @@ class Mod(commands.Cog):
         """Unbans / pardons the given user from the current Discord server"""
 
         if ctx.author.id == user.id:
-            await ctx.send(embed=discord.Embed(color=self.d.cc, title='You cannot unban yourself.'))
+            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.unban.error_1))
             return
 
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
                 await ctx.guild.unban(user, reason=reason)
-                await ctx.send(embed=discord.Embed(color=self.d.cc, title=f'Unbanned **{user}**.'))
+                await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.unban.success.format(user)))
                 return
 
-        await ctx.send(embed=discord.Embed(color=self.d.cc, title=f'**{user}** isn\'t banned.'))
+        await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.unban.error_2.format(user)))
 
 
 def setup(bot):
