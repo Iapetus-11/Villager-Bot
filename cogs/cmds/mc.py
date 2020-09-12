@@ -138,7 +138,7 @@ class Minecraft(commands.Cog):
         res = await self.ses.get(f'https://api.mojang.com/user/profiles/{uuid}/names')
 
         if res.status == 204:
-            await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
+            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
         jj = await res.json()
