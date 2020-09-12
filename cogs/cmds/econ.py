@@ -579,7 +579,11 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, random.choice(self.d.begging['positive']).format(f'{amount}{self.d.emojis.emerald}'))
         else:
             amount = 9 + math.ceil(math.log(db_user['emeralds']+1, 1.3)) + random.randint(1, 5)
-            amount = random.randint(1, 4) if amount < 1 elif amount > 45000 amount = 45000 + random.randint(0, int((amount-45000))/2 + 1) else amount
+
+            if amount < 1:
+                amount = random.randint(1, 4)
+            elif amount > 45000:
+                amount = 45000 + random.randint(0, abs(int((amount - 45000))/3) + 1)
 
             if db_user['emeralds'] < amount:
                 amount = db_user['emeralds']
