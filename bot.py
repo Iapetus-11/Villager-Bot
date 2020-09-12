@@ -27,7 +27,7 @@ async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the da
     if ctx.guild is None:
         return '/'
 
-    prefix = _bot.
+    prefix = _bot.d.prefix_cache.get(ctx.guild.id)
 
     return '/' if prefix is None else prefix[0]
 
