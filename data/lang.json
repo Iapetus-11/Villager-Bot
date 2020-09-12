@@ -202,7 +202,33 @@
           "stupid_1": "You can't pillage yourself, dummy.",
           "stupid_2": "You can't pillage people from other servers...",
           "stupid_3": "You can only pillage people if you have more than 64{}",
-          "stupid_4": "You can only pillage a person if they have more than 64{}"
+          "stupid_4": "You can only pillage a person if they have more than 64{}",
+          "u_win": {
+            "user": [
+              "You escaped with {}{}",
+              "You got away with {}{}",
+              "You pillaged and stole {}{}"
+            ],
+            "victim": [
+              "{} stole {}{} from you...",
+              "{} pillaged {}{} from you...",
+              "{} pillaged you and stole {}{}...",
+              "{} pillaged you and got {}{}..."
+            ]
+          },
+          "u_lose": {
+            "user": [
+              "You got caught while pillaging and paid {}{}",
+              "You got caught and had to pay {}{}",
+              "You dirty little thief, you got caught and had to pay {}{}"
+            ],
+            "victim": [
+              "{} absolutely failed at pillaging you!",
+              "{} got absolutely destroyed at pillaging you!",
+              "{} failed while trying to pillage you with their wooden sword!",
+              "{} tried to pillage you with their wooden sword!"
+            ]
+          }
         },
         "chug": {
           "stupid_1": "You can't use more than one of each type of potion at once.",
