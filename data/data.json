@@ -101,12 +101,6 @@
       ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore", "lapis lazuli", "gold ore"],
       ["cobblestone", "cobblestone", "dirt", "coal", "coal", "iron ore", "iron ore", "gold ore", "diamond", "redstone"]
     ],
-    "actions": [
-      "mined up",
-      "found",
-      "got",
-      "dug up"
-    ],
     "yields_enchant_items": {
       "Bane Of Pillagers Amulet": [2, 3, 4, 5, 6],
       "Fortune III Book": [1, 1, 2, 3, 4],
@@ -120,26 +114,6 @@
       "Gold Pickaxe": [8, 26],
       "Diamond Pickaxe": [10, 26],
       "Netherite Pickaxe": [13, 26]
-    },
-    "item_finds_text": {
-      "actions": [
-        "found",
-        "got"
-      ],
-      "places": [
-        "in an abandoned mineshaft",
-        "in a chest while mining",
-        "in a chest",
-        "in an abandoned chest",
-        "in a chest near a monster spawner",
-        "while mining"
-      ],
-      "useless": [
-        "useless",
-        "stupid",
-        "dumb",
-        "worthless"
-      ]
     }
   },
   "default_findables": [
