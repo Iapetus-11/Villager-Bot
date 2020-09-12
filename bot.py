@@ -94,7 +94,7 @@ bot.d.ban_cache = []  # [uid, uid,..]
 bot.d.prefix_cache = {}  # {gid: 'prefix'}
 bot.d.lang_cache = {}  # {gid: 'lang'}
 
-bot.d.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
+bot.d.splash_logo = 'http://olimone.ddns.net/images/villagerbotsplash1.png'
 bot.d.support = 'https://discord.gg/39DwwUV'
 bot.d.invite = 'https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=8&scope=bot'
 bot.d.topgg = 'https://top.gg/bot/639498607632056321'
