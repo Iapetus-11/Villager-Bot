@@ -49,6 +49,18 @@ async def send(self, location, message: str):  # send function/method for easy s
         return False
 
 
+async def get_lang(ctx):
+    if ctx.guild is None:
+        return bot.langs.en_us
+
+    lang = bot.d.lang_cache.get(ctx.guild.id)
+
+    if lang is None:
+        lang = 'en_us'
+
+    return bot.langs[lang]
+
+
 bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
 bot.get_lang = get_lang.__get__(bot)
 
@@ -64,7 +76,7 @@ async def setup_database():  # init pool connection to database
 asyncio.get_event_loop().run_until_complete(setup_database())
 
 with open('data/text.json', 'r', encoding='utf8') as l:
-    bot.t = classyjson.load(l)  # turns it into dot accessible dicts for ez access ~~nice dict bro~~
+    bot.langs = classyjson.load(l)  # turns it into dot accessible dicts for ez access ~~nice dict bro~~
 
 with open('data/data.json', 'r', encoding='utf8') as d:
     bot.d = classyjson.load(d)  # classyjson automatically turns json into sets of nested classes and attributes for easy access
@@ -113,6 +125,8 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
+    ctx.l = await get_lang(ctx)
+
     if DEBUG:
         if ctx.channel.id in (643648150778675202, 750788275383435395,):
             return True
