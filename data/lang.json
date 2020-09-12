@@ -172,6 +172,16 @@
           "stupid_2": "You can't pillage people from other servers...",
           "stupid_3": "You can only pillage people if you have more than 64{}",
           "stupid_4": "You can only pillage a person if they have more than 64{}"
+        },
+        "chug": {
+          "stupid_1": "You can't use more than one of each type of potion at once.",
+          "stupid_2": "You can't use an item you don't even have.",
+          "vault_max": "You cannot expand your vault further via this method.",
+          "vault_pot": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
+          "stupid_3": "Either that isn't a potion, or it doesn't exist."
+        },
+        "honey": {
+          
         }
       }
     }
