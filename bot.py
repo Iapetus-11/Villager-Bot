@@ -6,6 +6,7 @@ import logging
 from discord.ext import commands
 import classyjson
 
+
 global DEBUG
 DEBUG = True
 
@@ -34,7 +35,6 @@ bot = commands.AutoShardedBot(  # setup bot
     case_insensitive=True,
     help_command=None
 )
-
 
 async def send(_bot, location, message: str):  # send function/method for easy sending of embed messages with small amounts of text
     try:
