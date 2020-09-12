@@ -111,7 +111,7 @@ class Fun(commands.Cog):
         translated = await self.lang_convert(await self.nice(ctx), self.d.fun_langs['villager'])
 
         if translated is None:
-            await self.bot.send(ctx, 'The message is too long to convert.')
+            await self.bot.send(ctx, ctx.l.fun.too_long)
         else:
             await ctx.send(translated)
 
@@ -122,7 +122,7 @@ class Fun(commands.Cog):
         translated = await self.lang_convert((await self.nice(ctx)).lower(), self.d.fun_langs['enchant'])
 
         if translated is None:
-            await self.bot.send(ctx, 'The message is too long to convert.')
+            await self.bot.send(ctx, ctx.l.fun.too_long)
         else:
             await ctx.send(translated)
 
@@ -133,7 +133,7 @@ class Fun(commands.Cog):
         translated = await self.lang_convert(await self.nice(ctx), self.d.fun_langs['unenchant'])
 
         if translated is None:
-            await self.bot.send(ctx, 'The message is too long to convert.')
+            await self.bot.send(ctx, ctx.l.fun.too_long)
         else:
             await ctx.send(translated)
 
@@ -144,7 +144,7 @@ class Fun(commands.Cog):
         translated = await self.lang_convert(await self.nice(ctx), self.d.fun_langs['vaporwave'])
 
         if translated is None:
-            await self.bot.send(ctx, 'The message is too long to convert.')
+            await self.bot.send(ctx, ctx.l.fun.too_long)
         else:
             await ctx.send(translated)
 
@@ -155,7 +155,7 @@ class Fun(commands.Cog):
         msg = await self.nice(ctx)
 
         if len(msg) > 2000:
-            await self.bot.send(ctx, 'The message is too long to convert.')
+            await self.bot.send(ctx, ctx.l.fun.too_long)
             return
 
         caps = True
@@ -178,7 +178,7 @@ class Fun(commands.Cog):
         clapped = ':clap: ' + ' :clap: '.join((await self.nice(ctx)).split(' ')) + ' :clap:'
 
         if len(clapped) > 2000:
-            await self.bot.send(ctx, 'The message is too long to convert.')
+            await self.bot.send(ctx, ctx.l.fun.too_long)
             return
 
         await ctx.send(clapped)
@@ -198,7 +198,7 @@ class Fun(commands.Cog):
                 text += self.d.emojified.get(letter, letter) + ' '
 
         if len(text) > 2000:
-            await self.bot.send(ctx, 'That would be too long to send')
+            await self.bot.send(ctx, ctx.l.fun.too_long)
         else:
             await ctx.send(text)
 
@@ -220,19 +220,19 @@ class Fun(commands.Cog):
             size = size.split('x')
 
             if len(size) != 2:
-                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: `10x10`')
+                await self.bot.send(ctx, ctx.l.fun.bubblewrap.invalid_size_1)
                 return
 
             try:
                 size[0] = int(size[0])
                 size[1] = int(size[1])
             except ValueError:
-                await self.bot.send(ctx, 'That is not a valid size. Example of a valid size: `10x10`')
+                await self.bot.send(ctx, ctx.l.fun.bubblewrap.invalid_size_1)
                 return
 
             for val in size:
                 if val < 1 or val > 12:
-                    await self.bot.send(ctx, 'The size must be between 1 and 12')
+                    await self.bot.send(ctx, ctx.l.fun.bubblewrap.invalid_size_2)
                     return
 
         bubble = '||***pop***||'
