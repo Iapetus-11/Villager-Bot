@@ -59,14 +59,12 @@ class Mod(commands.Cog):
             return
 
         if not await self.perm_check(ctx.author, user):
-            await ctx.send(
-                embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.no_perms))
+            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.no_perms))
             return
 
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
-                await ctx.send(
-                    embed=discord.Embed(color=self.d.cc, title=f'**{user}** is already banned.'))
+                await ctx.send(embed=discord.Embed(color=self.d.cc, title=f'**{user}** is already banned.'))
                 return
 
         await ctx.guild.ban(user, reason=reason, delete_message_days=0)
