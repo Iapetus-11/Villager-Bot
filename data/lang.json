@@ -181,7 +181,20 @@
           "stupid_3": "Either that isn't a potion, or it doesn't exist."
         },
         "honey": {
-          
+          "not_viable": [
+            "You don't have enough bees to make this business option viable.",
+            "You need 100 jars of bees to actually make a profit, go away"
+          ],
+          "honey": [
+            "Apparently bees produce honey and you just collected {} jars of it! Who knew?!!",
+            "So, bees make honey and you just got {} jars of it!",
+            "Wow, bees make honey! You just got {} jars of it!"
+          ],
+          "ded": [
+            "Also, apparently bees get pretty pissed when you try and steal their honey. You lost {} of em...",
+            "Oops, apparently bees get pretty mad when you try and steal from them, who knew!? You lost {} of them to suicide.",
+            "Looks like bees get pretty angry when you try and steal from them, you lost {} to suicide..."
+          ]
         }
       }
     }
