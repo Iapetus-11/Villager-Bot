@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS server_configs(
+CREATE TABLE IF NOT EXISTS guilds(
   gid        bigint, -- guild id
   prefix     varchar(15), -- prefix in that server
   replies    bool, -- whether or not the should reply to "emeralds" and "villager bot"
