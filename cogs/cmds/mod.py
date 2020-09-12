@@ -35,6 +35,7 @@ class Mod(commands.Cog):
     @commands.bot_has_permissions(kick_members=True)
     async def kick_user(self, ctx, user: discord.Member, *, reason='No reason provided.'):
         """Kicks the given user from the current Discord server"""
+        
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=self.d.cc, title='You cannot kick yourself.'))
             return
