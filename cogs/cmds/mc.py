@@ -99,13 +99,13 @@ class Minecraft(commands.Cog):
             res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{player}')
 
         if res.status == 204:
-            await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
+            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
         uuid = (await res.json()).get('id')
 
         if uuid is None:
-            await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
+            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
         res_profile = await self.ses.get(
@@ -114,17 +114,17 @@ class Minecraft(commands.Cog):
         profile_content = await res_profile.json()
 
         if 'error' in profile_content or len(profile_content['properties']) == 0:
-            await self.bot.send(ctx, 'Oops, something went wrong while fetching that player\'s profile.')
+            await self.bot.send(ctx, ctx.l.minecraft.stealskin.error_1)
             return
 
         try:
             decoded_jj = json.loads(base64.b64decode(profile_content['properties'][0]['value']))
             skin_url = decoded_jj['textures']['SKIN']['url']
         except Exception:
-            await self.bot.send(ctx, 'Oops, something went wrong while fetching that player\'s profile.')
+            await self.bot.send(ctx, ctx.l.minecraft.stealskin.error_1)
             return
 
-        embed = discord.Embed(color=self.d.cc, description=f'{player}\'s skin\n[**[Download]**]({skin_url})')
+        embed = discord.Embed(color=self.d.cc, description=ctx.l.minecraft.stealskin.embed_desc.format(player, skin_url))
         embed.set_thumbnail(url=skin_url)
         embed.set_image(url=f'https://mc-heads.net/body/{player}')
 
