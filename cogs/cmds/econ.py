@@ -167,7 +167,7 @@ class Econ(commands.Cog):
         c_bal = db_user['emeralds']
 
         if c_bal < 9:
-            await self.bot.send(ctx, 'You don\'t have enough emeralds to deposit.')
+            await self.bot.send(ctx, ctx.l.econ.dep.poor_loser)
             return
 
         if emerald_blocks.lower() in ('all', 'max',):
@@ -179,22 +179,21 @@ class Econ(commands.Cog):
             try:
                 amount = int(emerald_blocks)
             except ValueError:
-                await self.bot.send(ctx, 'You have to use a number.')
+                await self.bot.send(ctx, ctx.l.econ.use_a_number_stupid)
                 return
 
         if amount < 1:
-            await self.bot.send(ctx, 'You can\'t deposit less than one emerald block.')
+            await self.bot.send(ctx, ctx.l.econ.dep.stupid_1)
             return
 
         if amount > c_v_max - c_v_bal:
-            await self.bot.send(ctx, 'You don\'t have enough space for that.')
+            await self.bot.send(ctx, ctx.l.econ.dep.stupid_2)
             return
 
         await self.db.balance_sub(ctx.author.id, amount * 9)
         await self.db.set_vault(ctx.author.id, c_v_bal + amount, c_v_max)
 
-        await self.bot.send(ctx, f'Deposited {amount}{self.d.emojis.emerald_block} '
-        f'({amount * 9}{self.d.emojis.emerald}) into your vault.')
+        await self.bot.send(ctx, ctx.l.econ.dep.deposited.format(amount, self.d.emojis.emerald_block, amount*9, self.d.emojis.emerald))
 
     @commands.command(name='withdraw', aliases=['with'])
     @commands.cooldown(1, 2, commands.BucketType.user)
