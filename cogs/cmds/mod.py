@@ -37,7 +37,7 @@ class Mod(commands.Cog):
         """Kicks the given user from the current Discord server"""
 
         if ctx.author.id == user.id:
-            await ctx.send(embed=discord.Embed(color=self.d.cc, title='You cannot kick yourself.'))
+            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.kick.error))
             return
 
         if not await self.perm_check(ctx.author, user):
@@ -45,7 +45,7 @@ class Mod(commands.Cog):
             return
 
         await ctx.guild.kick(user, reason=reason)
-        await ctx.send(embed=discord.Embed(color=self.d.cc, title=f'Kicked **{user}**.'))
+        await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.kick.success.format(user)))
 
     @commands.command(name='ban', aliases=['megayeet'])
     @commands.guild_only()
@@ -55,7 +55,7 @@ class Mod(commands.Cog):
         """Bans the given user from the current Discord server"""
 
         if ctx.author.id == user.id:
-            await ctx.send(embed=discord.Embed(color=self.d.cc, title='You cannot ban yourself.'))
+            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.error_1))
             return
 
         if not await self.perm_check(ctx.author, user):
@@ -64,11 +64,11 @@ class Mod(commands.Cog):
 
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
-                await ctx.send(embed=discord.Embed(color=self.d.cc, title=f'**{user}** is already banned.'))
+                await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.error_2.format(user)))
                 return
 
         await ctx.guild.ban(user, reason=reason, delete_message_days=0)
-        await ctx.send(embed=discord.Embed(color=self.d.cc, title=f'Banned **{user}**.'))
+        await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.success.format(user)))
 
     @commands.command(name='pardon', aliases=['unban'])
     @commands.guild_only()
