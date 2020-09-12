@@ -155,7 +155,7 @@ class Minecraft(commands.Cog):
         jj = await res.json()
 
         if not jj or res.status == 204:
-            await self.bot.send(ctx, 'That player is invalid or doesn\'t exist.')
+            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
         uuid = jj[0]['id']
