@@ -101,9 +101,9 @@ class Econ(commands.Cog):
 
         if user.bot:
             if user.id == self.bot.user.id:
-                await self.bot.send(ctx, 'Villager Bot has wayyyyy too many items to show (About 100000000000000000)')
+                await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
             else:
-                await self.bot.send(ctx, 'Bots don\'t have rights and therefore can\'t have emeralds or stuff.')
+                await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
             return
 
         u_items = await self.db.fetch_items(user.id)
@@ -127,8 +127,8 @@ class Econ(commands.Cog):
                 body += f'`{it_am_txt}x` **{item["name"]}** ({item["sell_price"]}{self.d.emojis.emerald})\n'
 
             embed = discord.Embed(color=self.d.cc, description=body)
-            embed.set_author(name=f'{user.display_name}\'s inventory', icon_url=user.avatar_url_as())
-            embed.set_footer(text=f'Page {page+1}/{page_max+1}')
+            embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name), icon_url=user.avatar_url_as())
+            embed.set_footer(text=f'{ctx.l.econ.page} {page+1}/{page_max+1}')
 
             if msg is None:
                 msg = await ctx.send(embed=embed)
