@@ -8,6 +8,18 @@ class Database(commands.Cog):
 
         self.db = self.bot.db  # the asyncpg pool
 
+    async def fetch_all_botbans(self):
+        botban_records = await self.db.fetch('SELECT uid FROM users WHERE bot_banned = true')  # returns [Record<uid=>, Record<uid=>,..]
+        return [r[0] for r in botban_records]
+
+    async def fetch_all_guild_langs(self):
+        lang_records = await self.db.fetch('SELECT lang FROM guilds WHERE lang != NULL AND lang != "en_us"')
+        return [r[0] for r in lang_records]
+
+    async def fetch_all_guild_prefixes(self):
+        prefix_records = await self.db.fetch('SELECT prefix FROM guilds WHERE prefix != NULL AND prefix != "/"')
+        return [r[0] for r in prefix_records]
+
     async def fetch_user(self, uid):
         user = await self.db.fetchrow('SELECT * FROM users WHERE uid = $1', uid)
 
@@ -24,10 +36,6 @@ class Database(commands.Cog):
             return await self.fetch_user(uid)
 
         return user
-
-    async def fetch_all_botbans(self):
-        botban_records = await self.db.fetch('SELECT uid FROM users WHERE bot_banned = true')  # returns [Record<uid=>, Record<uid=>,..]
-        return [r[0] for r in botban_records]
 
     async def fetch_balance(self, uid):  # fetches the amount of emeralds a user has
         # we can do this because self.fetch_user ensures user is not None
