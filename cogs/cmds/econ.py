@@ -43,7 +43,7 @@ class Econ(commands.Cog):
             prob = f'{random.randint(0, 45)}{random.choice(("+", "-",))}{random.randint(0, 25)}'
             prob = (prob, str(eval(prob)),)
 
-            await self.bot.send(ctx, f'Please solve this problem to continue: `{prob[0]}`')
+            await self.bot.send(ctx, ctx.l.econ.math_problem.problem.format(prob[0]))
 
             def author_check(m):
                 return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id
@@ -51,14 +51,14 @@ class Econ(commands.Cog):
             try:
                 m = await self.bot.wait_for('message', check=author_check, timeout=10)
             except asyncio.TimeoutError:
-                await self.bot.send(ctx, 'You ran out of time, what a slowpoke...')
+                await self.bot.send(ctx, ctx.l.econ.math_problem.timeout)
                 return False
 
             if m.content == prob[1]:
-                await self.bot.send(ctx, 'Correct answer!')
+                await self.bot.send(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
                 return True
 
-            await self.bot.send(ctx, 'Incorrect answer!')
+            await self.bot.send(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
             return False
 
         return True
