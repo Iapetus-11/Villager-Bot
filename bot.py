@@ -27,7 +27,7 @@ async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the da
     if ctx.guild is None:
         return '/'
 
-    prefix = await _bot.db.fetchrow("SELECT prefix from server_configs WHERE gid = $1", ctx.guild.id)
+    prefix = _bot.
 
     return '/' if prefix is None else prefix[0]
 
@@ -47,16 +47,16 @@ async def send(self, location, message: str):  # send function/method for easy s
         return False
 
 
-async def get_lang(self, ctx):
+async def get_lang(_bot, ctx):
     if ctx.guild is None:
-        return bot.langs.en_us
+        return _bot.langs.en_us
 
-    lang = bot.d.lang_cache.get(ctx.guild.id)
+    lang = _bot.d.lang_cache.get(ctx.guild.id)
 
     if lang is None:
         lang = 'en_us'
 
-    return bot.langs[lang]
+    return _bot.langs[lang]
 
 
 bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
