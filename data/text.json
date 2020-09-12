@@ -1,284 +1,282 @@
 {
   "en_us": {
-    "cogs": {
-      "fun": {
-        "too_long": "That message would be too long to convert.",
-        "bubblewrap": {
-          "invalid_size_1": "That is not a valid size. Example of a valid size: `10x10`",
-          "invalid_size_2": "The size must be between 1 and 12"
-        }
+    "fun": {
+      "too_long": "That message would be too long to convert.",
+      "bubblewrap": {
+        "invalid_size_1": "That is not a valid size. Example of a valid size: `10x10`",
+        "invalid_size_2": "The size must be between 1 and 12"
+      }
+    },
+    "minecraft": {
+      "invalid_player": "That player is invalid or doesn't exist.",
+      "mcping": {
+        "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
+        "title_offline": "{} no server found at `{}`",
+        "title_online": "{} `{}` is online",
+        "field_latency": {
+          "name": "Latency/Ping"
+        },
+        "field_version": {
+          "name": "Version"
+        },
+        "field_online_players": {
+          "name": "Online Players ({}/{})",
+          "value": "Player list is not available for this server."
+        },
+        "and_other_players": ", and {} others..."
       },
-      "minecraft": {
-        "invalid_player": "That player is invalid or doesn't exist.",
-        "mcping": {
-          "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
-          "title_offline": "{} no server found at `{}`",
-          "title_online": "{} `{}` is online",
-          "field_latency": {
-            "name": "Latency/Ping"
-          },
-          "field_version": {
-            "name": "Version"
-          },
-          "field_online_players": {
-            "name": "Online Players ({}/{})",
-            "value": "Player list is not available for this server."
-          },
-          "and_other_players": ", and {} others..."
-        },
-        "stealskin": {
-          "error_1": "Oops, something went wrong while fetching that player's profile.",
-          "embed_desc": "{}'s skin\n[**[Download]**]({})"
-        },
-        "mccolors": {
-          "embed_desc": "Text in Minecraft can be formatted using different codes and\nthe section (`§`) symbol.",
-          "embed_author_name": "Minecraft Formatting Codes",
-          "formatting_codes": {
-            "red": "Red",
-            "yellow": "Yellow",
-            "green": "Green",
-            "aqua": "Aqua",
-            "blue": "Blue",
-            "light_purple": "Light Purple",
-            "white": "White",
-            "gray": "Gray",
-            "dark_red": "Dark Red",
-            "gold": "Gold",
-            "dark_green": "Dark Green",
-            "dark_aqua": "Dark Aqua",
-            "dark_blue": "Dark Blue",
-            "dark_purple": "Dark Purple",
-            "dark_gray": "Dark Gray",
-            "black": "Black",
-            "bold": "Bold",
-            "strikethrough": "Strikethrough",
-            "underline": "Underline",
-            "italic": "Italic",
-            "obfuscated": "Obfuscated",
-            "reset": "Reset"
-          },
-          "colors": "Colors",
-          "more_colors": "More Colors",
-          "formatting": "Formatting"
-        }
+      "stealskin": {
+        "error_1": "Oops, something went wrong while fetching that player's profile.",
+        "embed_desc": "{}'s skin\n[**[Download]**]({})"
       },
-      "mod": {
-        "no_perms": "You don't have the permissions to do that!",
-        "kick": {
-          "error": "You cannot kick yourself",
-          "success": "Kicked **{}**"
+      "mccolors": {
+        "embed_desc": "Text in Minecraft can be formatted using different codes and\nthe section (`§`) symbol.",
+        "embed_author_name": "Minecraft Formatting Codes",
+        "formatting_codes": {
+          "red": "Red",
+          "yellow": "Yellow",
+          "green": "Green",
+          "aqua": "Aqua",
+          "blue": "Blue",
+          "light_purple": "Light Purple",
+          "white": "White",
+          "gray": "Gray",
+          "dark_red": "Dark Red",
+          "gold": "Gold",
+          "dark_green": "Dark Green",
+          "dark_aqua": "Dark Aqua",
+          "dark_blue": "Dark Blue",
+          "dark_purple": "Dark Purple",
+          "dark_gray": "Dark Gray",
+          "black": "Black",
+          "bold": "Bold",
+          "strikethrough": "Strikethrough",
+          "underline": "Underline",
+          "italic": "Italic",
+          "obfuscated": "Obfuscated",
+          "reset": "Reset"
         },
-        "ban": {
-          "error_1": "You cannot ban yourself",
-          "error_2": "**{}** is already banned",
-          "success": "Banned **{}**"
-        },
-        "unban": {
-          "error_1": "You cannot unban yourself",
-          "error_2": "**{}** isn't banned",
-          "success": "Unbanned **{}**"
-        }
+        "colors": "Colors",
+        "more_colors": "More Colors",
+        "formatting": "Formatting"
+      }
+    },
+    "mod": {
+      "no_perms": "You don't have the permissions to do that!",
+      "kick": {
+        "error": "You cannot kick yourself",
+        "success": "Kicked **{}**"
       },
-      "econ": {
-        "use_a_number_stupid": "You have to use a number.",
-        "page": "Page",
-        "math_problem": {
-          "problem": "Please solve this problem to continue: `{}`",
-          "timeout": "You ran out of time, what a slowpoke...",
-          "correct": "{} Correct answer!",
-          "incorrect": "{} Incorrect answer!"
-        },
-        "balance": {
-          "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
-          "bot_2": "Bots don't have rights and can't have emeralds or stuff.",
-          "s_emeralds": "'s emeralds",
-          "pocket": "Pocket",
-          "vault": "Vault"
-        },
-        "inventory": {
-          "bot_1": "Villager Bot has wayyyyy too many items to show (About 100000000000000000)",
-          "bot_2": "Bots don't have rights and therefore can't have emeralds or stuff.",
-          "s_inventory": "'s inventory'"
-        },
-        "deposit": {
-          "poor_loser": "You don't have enough emeralds to deposit.",
-          "stupid_1": "You can't deposit less than one emerald block.",
-          "stupid_2": "You don't have enough space for that.",
-          "deposited": "Deposited {}{} ({}{}) into your vault."
-        },
-        "withdraw": {
-          "poor_loser": "You don't have enough emerald blocks to withdraw.",
-          "stupid_1": "You can't withdraw less than one emerald block.",
-          "stupid_2": "You can't withdraw more than you have.",
-          "withdrew": "Withdrew {}{} ({}{}) from your vault."
-        },
-        "shop": {
-          "villager_shop": "Villager Shop",
-          "tools": "Tools",
-          "magic": "Magic",
-          "other": "Other",
-          "embed_footer": "Use {}inventory to see what you have!"
-        },
-        "buy": {
-          "poor_loser_1": "You don't have enough emeralds to buy any of this item.",
-          "stupid_1": "You can't buy less than one of an item.",
-          "stupid_2": "`{}` is invalid or isn't in the Villager Shop.",
-          "poor_loser_2": "You don't have enough emeralds to buy `{}x` **{}**.",
-          "need_total_of": "You need a total of",
-          "to_buy_item": "to buy this item.",
-          "you_done_bought": "You have bought {}x **{}** for {} (You have {} total)",
-          "no_to_item_1": "You can't buy any more of this item.",
-          "no_to_item_2": "For some reason, you can't buy this item."
-        },
-        "sell": {
-          "invalid_item": "Either that item is invalid or you don't have it.",
-          "stupid_1": "You can't sell more than you have of that item.",
-          "stupid_2": "You can't sell less than one of an item.",
-          "you_done_sold": "You have sold {}x **{}** for a total of {}{}"
-        },
-        "give": {
-          "bot_1": "Villager Bot already has a full inventory (About 100000000000000000 unique items!)",
-          "bot_2": "You can't give stuff bots as they don't have rights and can't have emeralds or stuff.",
-          "stupid_1": "You can't give stuff to yourself!",
-          "stupid_2": "You can't give someone less than one of something.",
-          "and_i_oop": "You can't trade/gift this item.",
-          "stupid_3": "You can't give someone more emeralds than you have.",
-          "stupid_4": "You can't give an item you don't even have.",
-          "stupid_5": "You can't give more of an item than you have.",
-          "gave": "{} gave {}x **{}** to {}"
-        },
-        "gamble": {
-          "stupid_1": "You can't gamble more emeralds than you have.",
-          "stupid_2": "You have to gamble 10 or more emeralds at a time.",
-          "roll": "Your roll: `{}` **|** Bot roll: `{}`",
-          "win": "You won! Villager Bot {} {}{}",
-          "lose": "You lost {} to Villager Bot...",
-          "tie": "Tie! Maybe Villager Bot will steal your emeralds anyways...",
+      "ban": {
+        "error_1": "You cannot ban yourself",
+        "error_2": "**{}** is already banned",
+        "success": "Banned **{}**"
+      },
+      "unban": {
+        "error_1": "You cannot unban yourself",
+        "error_2": "**{}** isn't banned",
+        "success": "Unbanned **{}**"
+      }
+    },
+    "econ": {
+      "use_a_number_stupid": "You have to use a number.",
+      "page": "Page",
+      "math_problem": {
+        "problem": "Please solve this problem to continue: `{}`",
+        "timeout": "You ran out of time, what a slowpoke...",
+        "correct": "{} Correct answer!",
+        "incorrect": "{} Incorrect answer!"
+      },
+      "balance": {
+        "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
+        "bot_2": "Bots don't have rights and can't have emeralds or stuff.",
+        "s_emeralds": "'s emeralds",
+        "pocket": "Pocket",
+        "vault": "Vault"
+      },
+      "inventory": {
+        "bot_1": "Villager Bot has wayyyyy too many items to show (About 100000000000000000)",
+        "bot_2": "Bots don't have rights and therefore can't have emeralds or stuff.",
+        "s_inventory": "'s inventory'"
+      },
+      "deposit": {
+        "poor_loser": "You don't have enough emeralds to deposit.",
+        "stupid_1": "You can't deposit less than one emerald block.",
+        "stupid_2": "You don't have enough space for that.",
+        "deposited": "Deposited {}{} ({}{}) into your vault."
+      },
+      "withdraw": {
+        "poor_loser": "You don't have enough emerald blocks to withdraw.",
+        "stupid_1": "You can't withdraw less than one emerald block.",
+        "stupid_2": "You can't withdraw more than you have.",
+        "withdrew": "Withdrew {}{} ({}{}) from your vault."
+      },
+      "shop": {
+        "villager_shop": "Villager Shop",
+        "tools": "Tools",
+        "magic": "Magic",
+        "other": "Other",
+        "embed_footer": "Use {}inventory to see what you have!"
+      },
+      "buy": {
+        "poor_loser_1": "You don't have enough emeralds to buy any of this item.",
+        "stupid_1": "You can't buy less than one of an item.",
+        "stupid_2": "`{}` is invalid or isn't in the Villager Shop.",
+        "poor_loser_2": "You don't have enough emeralds to buy `{}x` **{}**.",
+        "need_total_of": "You need a total of",
+        "to_buy_item": "to buy this item.",
+        "you_done_bought": "You have bought {}x **{}** for {} (You have {} total)",
+        "no_to_item_1": "You can't buy any more of this item.",
+        "no_to_item_2": "For some reason, you can't buy this item."
+      },
+      "sell": {
+        "invalid_item": "Either that item is invalid or you don't have it.",
+        "stupid_1": "You can't sell more than you have of that item.",
+        "stupid_2": "You can't sell less than one of an item.",
+        "you_done_sold": "You have sold {}x **{}** for a total of {}{}"
+      },
+      "give": {
+        "bot_1": "Villager Bot already has a full inventory (About 100000000000000000 unique items!)",
+        "bot_2": "You can't give stuff bots as they don't have rights and can't have emeralds or stuff.",
+        "stupid_1": "You can't give stuff to yourself!",
+        "stupid_2": "You can't give someone less than one of something.",
+        "and_i_oop": "You can't trade/gift this item.",
+        "stupid_3": "You can't give someone more emeralds than you have.",
+        "stupid_4": "You can't give an item you don't even have.",
+        "stupid_5": "You can't give more of an item than you have.",
+        "gave": "{} gave {}x **{}** to {}"
+      },
+      "gamble": {
+        "stupid_1": "You can't gamble more emeralds than you have.",
+        "stupid_2": "You have to gamble 10 or more emeralds at a time.",
+        "roll": "Your roll: `{}` **|** Bot roll: `{}`",
+        "win": "You won! Villager Bot {} {}{}",
+        "lose": "You lost {} to Villager Bot...",
+        "tie": "Tie! Maybe Villager Bot will steal your emeralds anyways...",
+        "actions": [
+          "forks over",
+          "gives you",
+          "hands over",
+          "passes you"
+        ]
+      },
+      "beg": {
+        "positive": [
+          "A piglin tosses away {0}, as only gold matters to it.",
+          "You find {0} dropped by pillagers after a raid.",
+          "You find {0} left by pillagers in the remnants of a destroyed village...",
+          "A villager takes pity on you and drops {0} on the ground.",
+          "A traveller takes pity on you and drops {0} into your hands.",
+          "You mug another beggar and get {0}!",
+          "Out of annoyance, the villagers throw emeralds at you to make you go away, you picked up {0}.",
+          "Eun's kindness blesses you, {0} appears in your pocket.",
+          "While traveling to a village, you come across a chunk error, with exposed emeralds at the bottom. You mined up {0}.",
+          "As a raid comes to an end the villagers mistake you for the hero, you receive {0}.",
+          "You gave the piglin a great time. The piglin stops and thinks, and then hands you {0}.",
+          "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot gave you {0}.",
+          "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot gave you {0}.",
+          "Walking towards your begging spot glistening emeralds catch your eye, you find {0}."
+        ],
+        "negative": [
+          "A band of piglins doesn't take your interruption lightly and steals {0} from you.",
+          "You stumble accross a group of pillagers which steal {0} from you.",
+          "You get hit in the head with some bread as villagers chase you out of the village. You dropped {0} while you ran away.",
+          "Another begger mugs you and steals {0}.",
+          "Asking a creeper didn't go so well, you lost {0} from the resulting explosion.",
+          "While looking for more emeralds, you misplaced yours, losing {0}.",
+          "An illusioner appears, rambling about doubling your emeralds with this once simple trick. You hand him {0} and he disappears in a puff of smoke.",
+          "While begging in a village you got caught up in a raid, a ravager headbutts you across the map. You drop {0} mid-flight."
+        ]
+      },
+      "mine": {
+        "found_item_1": "You {} {} {} (Worth {}{}) {}",
+        "found_item_2": "You {} {} {} {}",
+        "found_emeralds": "You {} {}{}!",
+        "actions": [
+          "mined up",
+          "found",
+          "got",
+          "dug up"
+        ],
+        "item_finds_text": {
           "actions": [
-            "forks over",
-            "gives you",
-            "hands over",
-            "passes you"
-          ]
-        },
-        "beg": {
-          "positive": [
-            "A piglin tosses away {0}, as only gold matters to it.",
-            "You find {0} dropped by pillagers after a raid.",
-            "You find {0} left by pillagers in the remnants of a destroyed village...",
-            "A villager takes pity on you and drops {0} on the ground.",
-            "A traveller takes pity on you and drops {0} into your hands.",
-            "You mug another beggar and get {0}!",
-            "Out of annoyance, the villagers throw emeralds at you to make you go away, you picked up {0}.",
-            "Eun's kindness blesses you, {0} appears in your pocket.",
-            "While traveling to a village, you come across a chunk error, with exposed emeralds at the bottom. You mined up {0}.",
-            "As a raid comes to an end the villagers mistake you for the hero, you receive {0}.",
-            "You gave the piglin a great time. The piglin stops and thinks, and then hands you {0}.",
-            "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot gave you {0}.",
-            "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot gave you {0}.",
-            "Walking towards your begging spot glistening emeralds catch your eye, you find {0}."
-          ],
-          "negative": [
-            "A band of piglins doesn't take your interruption lightly and steals {0} from you.",
-            "You stumble accross a group of pillagers which steal {0} from you.",
-            "You get hit in the head with some bread as villagers chase you out of the village. You dropped {0} while you ran away.",
-            "Another begger mugs you and steals {0}.",
-            "Asking a creeper didn't go so well, you lost {0} from the resulting explosion.",
-            "While looking for more emeralds, you misplaced yours, losing {0}.",
-            "An illusioner appears, rambling about doubling your emeralds with this once simple trick. You hand him {0} and he disappears in a puff of smoke.",
-            "While begging in a village you got caught up in a raid, a ravager headbutts you across the map. You drop {0} mid-flight."
-          ]
-        },
-        "mine": {
-          "found_item_1": "You {} {} {} (Worth {}{}) {}",
-          "found_item_2": "You {} {} {} {}",
-          "found_emeralds": "You {} {}{}!",
-          "actions": [
-            "mined up",
             "found",
-            "got",
-            "dug up"
+            "got"
           ],
-          "item_finds_text": {
-            "actions": [
-              "found",
-              "got"
-            ],
-            "places": [
-              "in an abandoned mineshaft",
-              "in a chest while mining",
-              "in a chest",
-              "in an abandoned chest",
-              "in a chest near a monster spawner",
-              "while mining"
-            ],
-            "useless": [
-              "useless",
-              "stupid",
-              "dumb",
-              "worthless"
-            ]
-          }
-        },
-        "pillage": {
-          "bot_1": "Hey dumb dumb, Villager Bot cannot be defeated, Villager Bot is immortal and all powerful.",
-          "bot_2": "You can't pillage bots as they don't have rights and therefore can't have emeralds.",
-          "stupid_1": "You can't pillage yourself, dummy.",
-          "stupid_2": "You can't pillage people from other servers...",
-          "stupid_3": "You can only pillage people if you have more than 64{}",
-          "stupid_4": "You can only pillage a person if they have more than 64{}",
-          "u_win": {
-            "user": [
-              "You escaped with {}{}",
-              "You got away with {}{}",
-              "You pillaged and stole {}{}"
-            ],
-            "victim": [
-              "{} stole {}{} from you...",
-              "{} pillaged {}{} from you...",
-              "{} pillaged you and stole {}{}...",
-              "{} pillaged you and got {}{}..."
-            ]
-          },
-          "u_lose": {
-            "user": [
-              "You got caught while pillaging and paid {}{}",
-              "You got caught and had to pay {}{}",
-              "You dirty little thief, you got caught and had to pay {}{}"
-            ],
-            "victim": [
-              "{} absolutely failed at pillaging you!",
-              "{} got absolutely destroyed at pillaging you!",
-              "{} failed while trying to pillage you with their wooden sword!",
-              "{} tried to pillage you with their wooden sword!"
-            ]
-          }
-        },
-        "chug": {
-          "stupid_1": "You can't use more than one of each type of potion at once.",
-          "stupid_2": "You can't use an item you don't even have.",
-          "vault_max": "You cannot expand your vault further via this method.",
-          "vault_pot": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
-          "stupid_3": "Either that isn't a potion, or it doesn't exist.",
-          "chug": "You've chugged a **{}** (Which lasts {} minutes)",
-          "done": "The **{}** you chugged earlier has worn off."
-        },
-        "honey": {
-          "stupid_1": [
-            "You don't have enough bees to make this business option viable.",
-            "You need 100 jars of bees to actually make a profit, go away"
+          "places": [
+            "in an abandoned mineshaft",
+            "in a chest while mining",
+            "in a chest",
+            "in an abandoned chest",
+            "in a chest near a monster spawner",
+            "while mining"
           ],
-          "honey": [
-            "Apparently bees produce honey and you just collected {} jars of it! Who knew?!!",
-            "So, bees make honey and you just got {} jars of it!",
-            "Wow, bees make honey! You just got {} jars of it!"
-          ],
-          "ded": [
-            "Also, apparently bees get pretty pissed when you try and steal their honey. You lost {} of em...",
-            "Oops, apparently bees get pretty mad when you try and steal from them, who knew!? You lost {} of them to suicide.",
-            "Looks like bees get pretty angry when you try and steal from them, you lost {} to suicide..."
+          "useless": [
+            "useless",
+            "stupid",
+            "dumb",
+            "worthless"
           ]
         }
+      },
+      "pillage": {
+        "bot_1": "Hey dumb dumb, Villager Bot cannot be defeated, Villager Bot is immortal and all powerful.",
+        "bot_2": "You can't pillage bots as they don't have rights and therefore can't have emeralds.",
+        "stupid_1": "You can't pillage yourself, dummy.",
+        "stupid_2": "You can't pillage people from other servers...",
+        "stupid_3": "You can only pillage people if you have more than 64{}",
+        "stupid_4": "You can only pillage a person if they have more than 64{}",
+        "u_win": {
+          "user": [
+            "You escaped with {}{}",
+            "You got away with {}{}",
+            "You pillaged and stole {}{}"
+          ],
+          "victim": [
+            "{} stole {}{} from you...",
+            "{} pillaged {}{} from you...",
+            "{} pillaged you and stole {}{}...",
+            "{} pillaged you and got {}{}..."
+          ]
+        },
+        "u_lose": {
+          "user": [
+            "You got caught while pillaging and paid {}{}",
+            "You got caught and had to pay {}{}",
+            "You dirty little thief, you got caught and had to pay {}{}"
+          ],
+          "victim": [
+            "{} absolutely failed at pillaging you!",
+            "{} got absolutely destroyed at pillaging you!",
+            "{} failed while trying to pillage you with their wooden sword!",
+            "{} tried to pillage you with their wooden sword!"
+          ]
+        }
+      },
+      "chug": {
+        "stupid_1": "You can't use more than one of each type of potion at once.",
+        "stupid_2": "You can't use an item you don't even have.",
+        "vault_max": "You cannot expand your vault further via this method.",
+        "vault_pot": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
+        "stupid_3": "Either that isn't a potion, or it doesn't exist.",
+        "chug": "You've chugged a **{}** (Which lasts {} minutes)",
+        "done": "The **{}** you chugged earlier has worn off."
+      },
+      "honey": {
+        "stupid_1": [
+          "You don't have enough bees to make this business option viable.",
+          "You need 100 jars of bees to actually make a profit, go away"
+        ],
+        "honey": [
+          "Apparently bees produce honey and you just collected {} jars of it! Who knew?!!",
+          "So, bees make honey and you just got {} jars of it!",
+          "Wow, bees make honey! You just got {} jars of it!"
+        ],
+        "ded": [
+          "Also, apparently bees get pretty pissed when you try and steal their honey. You lost {} of em...",
+          "Oops, apparently bees get pretty mad when you try and steal from them, who knew!? You lost {} of them to suicide.",
+          "Looks like bees get pretty angry when you try and steal from them, you lost {} to suicide..."
+        ]
       }
     }
   }
