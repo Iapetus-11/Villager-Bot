@@ -125,7 +125,7 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
-    ctx.l = await get_lang(ctx)
+    ctx.l = await bot.get_lang(ctx)
 
     if DEBUG:
         if ctx.channel.id in (643648150778675202, 750788275383435395,):
