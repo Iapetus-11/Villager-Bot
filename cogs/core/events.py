@@ -57,6 +57,5 @@ class Events(commands.Cog):
         await self.bot.send(ctx, f'```{final[:1023 - 6]}```')
 
 
-
 def setup(bot):
     bot.add_cog(Events(bot))
