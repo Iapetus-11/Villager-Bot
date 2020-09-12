@@ -49,7 +49,7 @@ async def send(self, location, message: str):  # send function/method for easy s
         return False
 
 
-async def get_lang(ctx):
+async def get_lang(self, ctx):
     if ctx.guild is None:
         return bot.langs.en_us
 
