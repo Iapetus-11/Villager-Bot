@@ -125,14 +125,13 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
-    ctx.l = await bot.get_lang(ctx)
-
-    if DEBUG:
-        if ctx.channel.id in (643648150778675202, 750788275383435395,):
-            return True
+    if DEBUG and ctx.channel.id not in (643648150778675202, 750788275383435395,):
         return False
 
-    return bot.is_ready() and ctx.author.id not in bot.d.ban_cache
+    if bot.is_ready() and ctx.author.id not in bot.d.ban_cache:
+        ctx.l = await bot.get_lang(ctx)
+        return True
 
+    return False
 
 bot.run(keys['discord'])  # run the bot, this is a blocking call
