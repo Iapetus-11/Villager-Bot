@@ -181,7 +181,7 @@
           "stupid_3": "Either that isn't a potion, or it doesn't exist."
         },
         "honey": {
-          "not_viable": [
+          "stupid_1": [
             "You don't have enough bees to make this business option viable.",
             "You need 100 jars of bees to actually make a profit, go away"
           ],
