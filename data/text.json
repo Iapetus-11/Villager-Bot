@@ -13,12 +13,8 @@
         "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
         "title_offline": "{} no server found at `{}`",
         "title_online": "{} `{}` is online",
-        "field_latency": {
-          "name": "Latency/Ping"
-        },
-        "field_version": {
-          "name": "Version"
-        },
+        "latency": "Latency/Ping",
+        "version": "Version",
         "field_online_players": {
           "name": "Online Players ({}/{})",
           "value": "Player list is not available for this server."
