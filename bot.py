@@ -47,7 +47,7 @@ async def send(self, location, message: str):  # send function/method for easy s
         return True
     except discord.Forbidden:
         return False
-        
+
 
 bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
 bot.get_lang = get_lang.__get__(bot)
@@ -85,6 +85,8 @@ bot.d.pillagers = {}  # {user_id: daily_pillages}
 bot.d.chuggers = {}  # {user_id: [potion, potion]}
 
 bot.d.ban_cache = []  # [uid, uid,..]
+bot.d.prefix_cache = {}  # {gid: 'prefix'}
+bot.d.lang_cache = {}  # {gid: 'lang'}
 
 bot.d.splash_logo = 'http://172.10.17.177/images/villagerbotsplash1.png'
 bot.d.support = 'https://discord.gg/39DwwUV'
