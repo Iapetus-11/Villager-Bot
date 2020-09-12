@@ -72,9 +72,9 @@ class Econ(commands.Cog):
 
         if user.bot:
             if user.id == self.bot.user.id:
-                await self.bot.send(ctx, 'Villager Bot has wayyyyy too many emeralds to show!')
+                await self.bot.send(ctx, ctx.l.econ.bal.bot_1)
             else:
-                await self.bot.send(ctx, 'Bots don\'t have rights and therefore can\'t have emeralds or stuff.')
+                await self.bot.send(ctx, ctx.l.econ.bal.bot_2)
             return
 
         db_user = await self.db.fetch_user(user.id)
@@ -83,12 +83,12 @@ class Econ(commands.Cog):
         total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] + u_it['amount'] for u_it in u_items])
 
         embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=f'{user.display_name}\'s emeralds', icon_url=user.avatar_url_as())
+        embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=user.avatar_url_as())
 
-        embed.description = f'Total Wealth: {total_wealth}{self.d.emojis.emerald}'
+        embed.description = ctx.l.econ.bal.total_wealth.format(total_wealth, self.d.emojis.emerald)
 
-        embed.add_field(name='Pocket', value=f'{db_user["emeralds"]}{self.d.emojis.emerald}')
-        embed.add_field(name='Vault', value=f'{db_user["vault_bal"]}{self.d.emojis.emerald_block}/{db_user["vault_max"]}')
+        embed.add_field(name=ctx.l.econ.bal.pocket, value=f'{db_user["emeralds"]}{self.d.emojis.emerald}')
+        embed.add_field(name=ctx.l.econ.bal.vault, value=f'{db_user["vault_bal"]}{self.d.emojis.emerald_block}/{db_user["vault_max"]}')
 
         await ctx.send(embed=embed)
 
