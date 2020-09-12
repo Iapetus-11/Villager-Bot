@@ -166,45 +166,44 @@ class Minecraft(commands.Cog):
     async def color_codes(self, ctx):
         """Shows the Minecraft chat color codes"""
 
-        embed = discord.Embed(
-            color=self.d.cc,
-            description='Text in Minecraft can be formatted using different codes and\nthe section (`§`) sign.'
-        )
+        embed = discord.Embed(color=self.d.cc, description=ctx.l.minecraft.mccolors.embed_desc)
 
-        embed.set_author(name='Minecraft Formatting Codes')
+        embed.set_author(name=ctx.l.minecraft.mccolors.embed_author_name)
 
-        embed.add_field(
-            name='Color Codes',
-            value='<:red:697541699706028083> **Red** `§c`\n'
-                  '<:yellow:697541699743776808> **Yellow** `§e`\n'
-                  '<:green:697541699316219967> **Green** `§a`\n'
-                  '<:aqua:697541699173613750> **Aqua** `§b`\n'
-                  '<:blue:697541699655696787> **Blue** `§9`\n'
-                  '<:light_purple:697541699546775612> **Light Purple** `§d`\n'
-                  '<:white:697541699785719838> **White** `§f`\n'
-                  '<:gray:697541699534061630> **Gray** `§7`\n'
-        )
+        cs = ctx.l.minecraft.mccolors.formatting_codes
 
         embed.add_field(
-            name='Color Codes',
-            value='<:dark_red:697541699488055426> **Dark Red** `§4`\n'
-                  '<:gold:697541699639050382> **Gold** `§6`\n'
-                  '<:dark_green:697541699500769420> **Dark Green** `§2`\n'
-                  '<:dark_aqua:697541699475472436> **Dark Aqua** `§3`\n'
-                  '<:dark_blue:697541699488055437> **Dark Blue** `§1`\n'
-                  '<:dark_purple:697541699437592666> **Dark Purple** `§5`\n'
-                  '<:dark_gray:697541699471278120> **Dark Gray** `§8`\n'
-                  '<:black:697541699496444025> **Black** `§0`\n'
+            name=ctx.l.minecraft.mccolors.colors,
+            value=f'<:red:697541699706028083> **{cs.red}** `§c`\n'
+                  f'<:yellow:697541699743776808> **{cs.yellow}** `§e`\n'
+                  f'<:green:697541699316219967> **{cs.green}** `§a`\n'
+                  f'<:aqua:697541699173613750> **{cs.aqua}** `§b`\n'
+                  f'<:blue:697541699655696787> **{cs.blue}** `§9`\n'
+                  f'<:light_purple:697541699546775612> **{cs.light_purple}** `§d`\n'
+                  f'<:white:697541699785719838> **{cs.white}** `§f`\n'
+                  f'<:gray:697541699534061630> **{cs.gray}** `§7`\n'
+        )
+
+        embed.add_field(
+            name=ctx.l.minecraft.mccolors.,
+            value=f'<:dark_red:697541699488055426> **{cs.dark_red}** `§4`\n'
+                  f'<:gold:697541699639050382> **{cs.gold}** `§6`\n'
+                  f'<:dark_green:697541699500769420> **{cs.dark_green}** `§2`\n'
+                  f'<:dark_aqua:697541699475472436> **{cs.dark_aqua}** `§3`\n'
+                  f'<:dark_blue:697541699488055437> **{cs.dark_blue}** `§1`\n'
+                  f'<:dark_purple:697541699437592666> **{cs.dark_purple}** `§5`\n'
+                  f'<:dark_gray:697541699471278120> **{cs.dark_gray}** `§8`\n'
+                  f'<:black:697541699496444025> **{cs.black}** `§0`\n'
         )
 
         embed.add_field(
             name='Formatting Codes',
-            value='<:bold:697541699488186419> **Bold** `§l`\n'
-                  '<:strikethrough:697541699768942711> ~~Strikethrough~~ `§m`\n'
-                  '<:underline:697541699806953583> __Underline__ `§n`\n'
-                  '<:italic:697541699152379995> *Italic* `§o`\n'
-                  '<:obfuscated:697541699769204736> ||Obfuscated|| `§k`\n'
-                  '<:reset:697541699697639446> Reset `§r`\n'
+            value=f'<:bold:697541699488186419> **{cs.bold}** `§l`\n'
+                  f'<:strikethrough:697541699768942711> ~~{cs.strikethrough}~~ `§m`\n'
+                  f'<:underline:697541699806953583> {cs.underline} `§n`\n'
+                  f'<:italic:697541699152379995> *{cs.italic}* `§o`\n'
+                  f'<:obfuscated:697541699769204736> ||{cs.obfuscated}|| `§k`\n'
+                  f'<:reset:697541699697639446> {cs.reset} `§r`\n'
         )
 
         await ctx.send(embed=embed)
