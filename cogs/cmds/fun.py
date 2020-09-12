@@ -62,7 +62,7 @@ class Fun(commands.Cog):
         if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
 
-        jj = {'nsfw': True, 'spoiler': True}
+        jj = {'nsfw': True}
 
         async with ctx.typing():
             while not do_nsfw and jj['nsfw']:
@@ -82,7 +82,7 @@ class Fun(commands.Cog):
         if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
 
-        jj = {'nsfw': True, 'spoiler': True}
+        jj = {'nsfw': True}
 
         async with ctx.typing():
             while not do_nsfw and jj['nsfw']:
