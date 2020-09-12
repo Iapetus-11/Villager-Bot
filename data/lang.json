@@ -164,6 +164,14 @@
           "found_item_1": "You {} {} {} (Worth {}{}) {}",
           "found_item_2": "You {} {} {} {}",
           "found_emeralds": "You {} {}{}!"
+        },
+        "pillage": {
+          "bot_1": "Hey dumb dumb, Villager Bot cannot be defeated, Villager Bot is immortal and all powerful.",
+          "bot_2": "You can't pillage bots as they don't have rights and therefore can't have emeralds.",
+          "stupid_1": "You can't pillage yourself, dummy.",
+          "stupid_2": "You can't pillage people from other servers...",
+          "stupid_3": "You can only pillage people if you have more than 64{}",
+          "stupid_4": "You can only pillage a person if they have more than 64{}"
         }
       }
     }
