@@ -47,11 +47,7 @@ async def send(self, location, message: str):  # send function/method for easy s
         return True
     except discord.Forbidden:
         return False
-
-
-async def get_lang(self, ctx):
-    return 'en-us'
-
+        
 
 bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
 bot.get_lang = get_lang.__get__(bot)
