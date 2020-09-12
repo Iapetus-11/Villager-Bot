@@ -116,7 +116,6 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
 for cog in bot.cog_list:  # load every cog in bot.cog_list
     bot.load_extension(cog)
 
-
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
     if DEBUG and ctx.channel.id not in (643648150778675202, 750788275383435395,):
@@ -127,5 +126,6 @@ async def global_check(ctx):
         return True
 
     return False
+
 
 bot.run(keys['discord'])  # run the bot, this is a blocking call
