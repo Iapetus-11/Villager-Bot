@@ -208,7 +208,7 @@ class Econ(commands.Cog):
         c_bal = db_user['emeralds']
 
         if c_v_bal < 1:
-            await self.bot.send(ctx, 'You don\'t have enough emerald blocks to withdraw.')
+            await self.bot.send(ctx, ctx.l.econ.withd.poor_loser)
             return
 
         if emerald_blocks.lower() in ('all', 'max',):
@@ -217,22 +217,21 @@ class Econ(commands.Cog):
             try:
                 amount = int(emerald_blocks)
             except ValueError:
-                await self.bot.send(ctx, 'You have to use a number.')
+                await self.bot.send(ctx, ctx.l.econ.use_a_number_stupid)
                 return
 
         if amount < 1:
-            await self.bot.send(ctx, 'You can\'t withdraw less than one emerald block.')
+            await self.bot.send(ctx, ctx.l.econ.withd.stupid_1)
             return
 
         if amount > c_v_bal:
-            await self.bot.send(ctx, 'You can\'t withdraw more than you have.')
+            await self.bot.send(ctx, ctx.l.econ.withd.stupid_2)
             return
 
         await self.db.balance_add(ctx.author.id, amount * 9)
         await self.db.set_vault(ctx.author.id, c_v_bal - amount, c_v_max)
 
-        await self.bot.send(ctx, f'Withdrew {amount}{self.d.emojis.emerald_block} '
-        f'({amount * 9}{self.d.emojis.emerald}) from your vault.')
+        await self.bot.send(ctx, ctx.l.econ.withd.withdrew.format(amount, self.d.emojis.emerald_block, amount*9, self.d.emojis.emerald))
 
     @commands.group(name='shop')
     async def shop(self, ctx):
