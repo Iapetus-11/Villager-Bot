@@ -102,7 +102,7 @@
         "stupid_2": "You don't have enough space for that.",
         "deposited": "Deposited {}{} ({}{}) into your vault."
       },
-      "with": {
+      "withd": {
         "poor_loser": "You don't have enough emerald blocks to withdraw.",
         "stupid_1": "You can't withdraw less than one emerald block.",
         "stupid_2": "You can't withdraw more than you have.",
