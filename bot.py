@@ -20,7 +20,6 @@ with open("data/keys.json", "r") as k:  # load bot keys
 with open("data/config.json", "r") as c:  # load config
     config = json.load(c)
 
-
 async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
     if ctx.guild is None:
         return '/'
