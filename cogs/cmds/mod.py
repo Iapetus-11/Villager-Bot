@@ -35,15 +35,13 @@ class Mod(commands.Cog):
     @commands.bot_has_permissions(kick_members=True)
     async def kick_user(self, ctx, user: discord.Member, *, reason='No reason provided.'):
         """Kicks the given user from the current Discord server"""
-        
+
         if ctx.author.id == user.id:
             await ctx.send(embed=discord.Embed(color=self.d.cc, title='You cannot kick yourself.'))
             return
 
         if not await self.perm_check(ctx.author, user):
-            await ctx.send(
-                embed=discord.Embed(color=self.d.cc,
-                                    title='You don\'t have the permissions to do that!'))
+            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.no_perms))
             return
 
         await ctx.guild.kick(user, reason=reason)
@@ -62,7 +60,7 @@ class Mod(commands.Cog):
 
         if not await self.perm_check(ctx.author, user):
             await ctx.send(
-                embed=discord.Embed(color=self.d.cc, title='You don\'t have the permissions to do that!'))
+                embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.no_perms))
             return
 
         for entry in await ctx.guild.bans():
