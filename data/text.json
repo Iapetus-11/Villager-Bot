@@ -83,25 +83,25 @@
         "correct": "{} Correct answer!",
         "incorrect": "{} Incorrect answer!"
       },
-      "balance": {
+      "bal": {
         "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
         "bot_2": "Bots don't have rights and can't have emeralds or stuff.",
         "s_emeralds": "'s emeralds",
         "pocket": "Pocket",
         "vault": "Vault"
       },
-      "inventory": {
+      "inv": {
         "bot_1": "Villager Bot has wayyyyy too many items to show (About 100000000000000000)",
         "bot_2": "Bots don't have rights and therefore can't have emeralds or stuff.",
         "s_inventory": "'s inventory'"
       },
-      "deposit": {
+      "dep": {
         "poor_loser": "You don't have enough emeralds to deposit.",
         "stupid_1": "You can't deposit less than one emerald block.",
         "stupid_2": "You don't have enough space for that.",
         "deposited": "Deposited {}{} ({}{}) into your vault."
       },
-      "withdraw": {
+      "with": {
         "poor_loser": "You don't have enough emerald blocks to withdraw.",
         "stupid_1": "You can't withdraw less than one emerald block.",
         "stupid_2": "You can't withdraw more than you have.",
