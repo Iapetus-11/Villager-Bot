@@ -39,9 +39,9 @@ bot = commands.AutoShardedBot(  # setup bot
 )
 
 
-async def send(self, location, message: str):  # send function/method for easy sending of embed messages with small amounts of text
+async def send(_bot, location, message: str):  # send function/method for easy sending of embed messages with small amounts of text
     try:
-        await location.send(embed=discord.Embed(color=bot.d.cc, description=message))
+        await location.send(embed=discord.Embed(color=_bot.d.cc, description=message))
         return True
     except discord.Forbidden:
         return False
