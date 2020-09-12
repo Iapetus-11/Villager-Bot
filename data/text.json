@@ -80,10 +80,8 @@
         }
       },
       "econ": {
-        "misc": {
-          "use_a_number_stupid": "You have to use a number.",
-          "page": "Page"
-        },
+        "use_a_number_stupid": "You have to use a number.",
+        "page": "Page",
         "math_problem": {
           "problem": "Please solve this problem to continue: `{}`",
           "timeout": "You ran out of time, what a slowpoke...",
