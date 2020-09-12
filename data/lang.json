@@ -155,7 +155,13 @@
           "roll": "Your roll: `{}` **|** Bot roll: `{}`",
           "win": "You won! Villager Bot {} {}{}",
           "lose": "You lost {} to Villager Bot...",
-          "tie": "Tie! Maybe Villager Bot will steal your emeralds anyways..."
+          "tie": "Tie! Maybe Villager Bot will steal your emeralds anyways...",
+          "actions": [
+            "forks over",
+            "gives you",
+            "hands over",
+            "passes you"
+          ]
         },
         "beg": {
 
