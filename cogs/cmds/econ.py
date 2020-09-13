@@ -333,7 +333,7 @@ class Econ(commands.Cog):
             amount = math.floor(db_user['emeralds'] / self.d.shop_items[item][1])
 
             if amount < 1:
-                await self.bot.send(ctx, 'You don\'t have enough emeralds to buy any of this item.')
+                await self.bot.send(ctx, ctx.l.econ.buy.poor_loser_1)
                 return
         else:
             split = amount_item.split(' ')
@@ -349,13 +349,13 @@ class Econ(commands.Cog):
                 item = ' '.join(split)
 
         if amount < 1:
-            await self.bot.send(ctx, 'You can\'t buy less than one of an item.')
+            await self.bot.send(ctx, ctx.l.econ.buy.stupid_1)
             return
 
         shop_item = self.d.shop_items.get(item)
 
         if shop_item is None:
-            await self.bot.send(ctx, f'`{item}` is invalid or isn\'t in the Villager Shop.')
+            await self.bot.send(ctx, ctx.l.econ.buy.stupid_2.format(item))
             return
 
         db_item = await self.db.fetch_item(ctx.author.id, shop_item[3][0])
@@ -364,7 +364,7 @@ class Econ(commands.Cog):
             amount = 1
 
         if shop_item[1] * amount > db_user['emeralds']:
-            await self.bot.send(ctx, f'You don\'t have enough emeralds to buy `{amount}x` **{shop_item[3][0]}**.')
+            await self.bot.send(ctx, ctx.l.econ.buy.poor_loser_2.format(amount, shop_item[3][0]))
             return
 
         if db_item is not None:
@@ -385,24 +385,29 @@ class Econ(commands.Cog):
                 if db_scrap is not None and db_scrap['amount'] >= required:
                     await self.db.remove_item(ctx.author.id, 'Netherite Scrap', required)
                 else:
-                    await self.bot.send(ctx, f'You need a total of {required}{self.bot.cusom_emojis["netherite"]} '
-                                             f'(Netherite Scrap) to buy this item.')
+                    await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(required, self.d.emojis.netherite))
                     return
 
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
 
-            await self.bot.send(ctx, f'You have bought {amount}x **{shop_item[3][0]}**! '
-            f'for {await self.format_required(shop_item, amount)} (You have {amount + db_item_count} total)')
+            await self.bot.send(ctx,
+                ctx.l.econ.buy.you_done_bought.format(
+                    amount,
+                    shop_item[3][0],
+                    await self.format_required(shop_item, amount),
+                    amount+db_item_count
+                )
+            )
 
             if shop_item[3][0] == 'Rich Person Trophy':
                 await self.db.rich_trophy_wipe(ctx.author.id)
 
         else:
-            if shop_item[2] == 'db_item_count < 1':
-                await self.bot.send(ctx, 'You can\'t buy any more of this item.')
+            if shop_item[2].startswith('db_item_count <'):
+                await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_1)
             else:
-                await self.bot.send(ctx, 'For some reason, you can\'t buy this item.')
+                await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_2)
 
     @commands.command(name='sell')
     async def sell(self, ctx, *, amount_item):
