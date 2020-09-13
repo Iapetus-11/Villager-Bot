@@ -271,7 +271,7 @@ class Econ(commands.Cog):
             for item in items_chunked[page]:
                 embed.add_field(name=f'{item[3][0]} ({await self.format_required(item)})', value=f'`{ctx.prefix}buy {item[3][0].lower()}`', inline=False)
 
-            embed.set_footer(text=f'Page {page+1}/{page_max}')
+            embed.set_footer(text=f'{ctx.l.econ.page} {page+1}/{page_max}')
 
             if msg is None:
                 msg = await ctx.send(embed=embed)
