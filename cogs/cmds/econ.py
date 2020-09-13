@@ -306,19 +306,19 @@ class Econ(commands.Cog):
     async def shop_tools(self, ctx):
         """Allows you to shop for tools"""
 
-        await self.shop_logic(ctx, 'tools', 'Villager Shop [Tools]')
+        await self.shop_logic(ctx, 'tools', f'{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.tools}]')
 
     @shop.command(name='magic')
     async def shop_magic(self, ctx):
         """Allows you to shop for magic items"""
 
-        await self.shop_logic(ctx, 'magic', 'Villager Shop [Magic]')
+        await self.shop_logic(ctx, 'magic', f'{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic}]')
 
     @shop.command(name='other')
     async def shop_other(self, ctx):
         """Allows you to shop for other/miscellaneous items"""
 
-        await self.shop_logic(ctx, 'other', 'Villager Shop [Other]')
+        await self.shop_logic(ctx, 'other', f'{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other}]')
 
     @commands.command(name='buy')
     async def buy(self, ctx, *, amount_item):
