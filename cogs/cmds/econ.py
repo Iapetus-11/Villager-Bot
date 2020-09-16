@@ -438,22 +438,23 @@ class Econ(commands.Cog):
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
         if db_item is None:
-            await self.bot.send(ctx, 'Either that item is invalid or you don\'t have it.')
+            await self.bot.send(ctx, ctx.l.econ.sell.invalid_item)
             return
 
         if amount > db_item['amount']:
-            await self.bot.send(ctx, 'You can\'t sell more than you have of that item.')
+            await self.bot.send(ctx, ctx.l.econ.sell.stupid_1)
             return
 
         if amount < 1:
-            await self.bot.send(ctx, 'You can\'t sell less than one of an item.')
+            await self.bot.send(ctx, ctx.l.econ.sell.stupid_2)
             return
 
         await self.db.balance_add(ctx.author.id, amount * db_item['sell_price'])
         await self.db.remove_item(ctx.author.id, db_item['name'], amount)
 
-        await self.bot.send(ctx, f'You have sold {amount}x **{db_item["name"]}** for '
-                             f'a total of {amount*db_item["sell_price"]}{self.d.emojis.emerald}')
+        await self.bot.send(ctx, ctx.l.econ.sell.you_done_sold.format(amount, db_item['name'],
+                                                                      amount*db_item['sell_price'],
+                                                                      self.d.emojis.emerald))
 
     @commands.command(name='give')
     async def give(self, ctx, user: discord.User, *, amount_item):
