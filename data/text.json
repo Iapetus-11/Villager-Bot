@@ -185,7 +185,9 @@
         ]
       },
       "mine": {
-        "found_item_1": "You {} {} {} (Worth {}{}) {}",
+        "a": "a",
+        "an": "an",
+        "found_item_1": "You {}{} {} (Worth {}{}) {}",
         "found_item_2": "You {} {} {} {}",
         "found_emeralds": "You {} {}{}!",
         "actions": [
