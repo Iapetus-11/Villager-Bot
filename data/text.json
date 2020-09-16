@@ -138,8 +138,7 @@
         "stupid_2": "You can't give someone less than one of something.",
         "and_i_oop": "You can't trade/gift this item.",
         "stupid_3": "You can't give someone more emeralds than you have.",
-        "stupid_4": "You can't give an item you don't even have.",
-        "stupid_5": "You can't give more of an item than you have.",
+        "stupid_4": "You can't give more of an item than you have.",
         "gave": "{} gave {}x **{}** to {}"
       },
       "gamble": {
