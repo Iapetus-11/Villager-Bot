@@ -710,8 +710,8 @@ class Econ(commands.Cog):
             await self.db.balance_sub(victim.id, stolen)
             await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
 
-            await self.bot.send(ctx, random.choice(self.d.pillaging.u_win.user).format(adjusted, self.d.emojis.emerald))
-            await self.bot.send(victim, random.choice(self.d.pillaging.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald))
+            await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
+            await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald))
 
             await self.db.update_lb(ctx.author.id, 'pillages', 1, 'add')
             await self.db.update_lb(ctx.author.id, 'pillages_amount', adjusted, 'add')
@@ -721,8 +721,8 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, penalty)
             await self.db.balance_add(victim.id, penalty)
 
-            await self.bot.send(ctx, random.choice(self.d.pillaging.u_lose.user).format(penalty, self.d.emojis.emerald))
-            await self.bot.send(victim, random.choice(self.d.pillaging.u_lose.victim).format(ctx.author.mention))
+            await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
+            await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name='chug')
     async def chug(self, ctx, *, _pot):
