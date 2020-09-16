@@ -655,29 +655,29 @@ class Econ(commands.Cog):
     async def pillage(self, ctx, victim: discord.User):
         if victim.bot:
             if victim.id == self.bot.user.id:
-                await self.bot.send(ctx, 'You imbecile, Villager Bot cannot be defeated, Villager Bot is immortal and all powerful.')
+                await self.bot.send(ctx, ctx.l.econ.pillage.bot_1)
             else:
-                await self.bot.send(ctx, 'You can\'t pillage bots as they don\'t have rights and therefore can\'t have emeralds.')
+                await self.bot.send(ctx, ctx.l.econ.pillage.bot_2)
             return
 
         if ctx.author.id == victim.id:
-            await self.bot.send(ctx, 'You can\'t pillage yourself, dummy.')
+            await self.bot.send(ctx, ctx.l.econ.pillage.stupid_1)
             return
 
         if ctx.guild.get_member(victim.id) is None:
-            await self.bot.send(ctx, 'You can\'t pillage people from other servers...')
+            await self.bot.send(ctx, ctx.l.econ.pillage.stupid_2)
             return
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if db_user['emeralds'] < 64:
-            await self.bot.send(ctx, f'You can only pillage people if you have more than 64{self.d.emojis.emerald}')
+            await self.bot.send(ctx, ctx.l.econ.pillage.stupid_3.format(self.d.emojis.emerald))
             return
 
         db_victim = await self.db.fetch_user(victim.id)
 
         if db_user['emeralds'] < 64:
-            await self.bot.send(ctx, f'You can only pillage a person if they have more than 64{self.d.emojis.emerald}')
+            await self.bot.send(ctx, ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
         pillage_commands = self.d.pillagers.get(ctx.author.id, 0)
@@ -689,6 +689,7 @@ class Econ(commands.Cog):
         victim_bees = await self.db.fetch_item(victim.id, 'Jar Of Bees')
         victim_bees = 0 if victim_bees is None else victim_bees['amount']
 
+        # lmao
         if pillage_commands > 7:
             chances = [False]*20 + [True]
         elif await self.db.fetch_item(victim.id, 'Bane Of Pillagers Amulet'):
