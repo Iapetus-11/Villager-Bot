@@ -795,6 +795,7 @@ class Econ(commands.Cog):
     @commands.command(name='harvesthoney', aliases=['honey', 'horny'])  # ~~a strange urge occurs in me~~
     async def harvest_honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
+        
         if bees is not None:
             bees = bees['amount']
         else:
