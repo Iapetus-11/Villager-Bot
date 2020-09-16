@@ -733,13 +733,13 @@ class Econ(commands.Cog):
         current_pots = self.d.chuggers.get(ctx.author.id)
 
         if pot in ([] if current_pots is None else current_pots):
-            await self.bot.send(ctx, 'You can\'t use more than one of each type of potion at once.')
+            await self.bot.send(ctx, ctx.l.econ.chug.stupid_1)
             return
 
         db_item = await self.db.fetch_item(ctx.author.id, pot)
 
         if db_item is None:
-            await self.bot.send(ctx, 'You can\'t use an item you don\'t even have.')
+            await self.bot.send(ctx, ctx.l.econ.chug.stupid_2)
             return
 
         if pot == 'haste i potion':
@@ -748,11 +748,11 @@ class Econ(commands.Cog):
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
             self.d.chuggers[ctx.author.id].append(pot)
 
-            await self.bot.send(ctx, self.d.potions.chug.format('Haste I Potion', 6))
+            await self.bot.send(ctx, ctx.l.econ.chug.chug.format('Haste I Potion', 6))
 
             await asyncio.sleep(60 * 6)
 
-            await self.bot.send(ctx.author, self.d.potions.done.format('Haste I Potion'))
+            await self.bot.send(ctx.author, ctx.l.econ.chug.done.format('Haste I Potion'))
 
             self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index(pot))  # pop pot from active potion fx
             return
@@ -763,11 +763,11 @@ class Econ(commands.Cog):
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
             self.d.chuggers[ctx.author.id].append(pot)
 
-            await self.bot.send(ctx, self.d.chuggers.chug.format('Haste II Potion', 4.5))
+            await self.bot.send(ctx, ctx.l.econ.chug.chug.format('Haste II Potion', 4.5))
 
             await asyncio.sleep(60 * 6)
 
-            await self.bot.send(ctx.author, self.d.chuggers.done.format('Haste II Potion'))
+            await self.bot.send(ctx.author, ctx.l.econ.chug.done.format('Haste II Potion'))
 
             self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index(pot))  # pop pot from active potion fx
             return
@@ -776,7 +776,7 @@ class Econ(commands.Cog):
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user['vault_max'] > 1999:
-                await self.bot.send(ctx, 'You cannot expand your vault further via this method.')
+                await self.bot.send(ctx, ctx.l.econ.chug.vault_max)
                 return
 
             add = random.randint(9, 15)
@@ -787,10 +787,10 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, 'Vault Potion', 1)
             await self.db.set_vault(ctx.author.id, db_user['vault_bal'], db_user['vault_max'] + add)
 
-            await self.bot.send(ctx, f'You\'ve chugged a **Vault Potion**. Your vault space has increased by {add} spaces.')
+            await self.bot.send(ctx, ctx.l.econ.chug.vault_pot.format(add))
             return
 
-        await self.bot.send(ctx, 'Either that isn\'t a potion, or it doesn\'t exist.')
+        await self.bot.send(ctx, ctx.l.econ.chug.stupid_3)
 
     @commands.command(name='harvesthoney', aliases=['honey', 'horny'])  # ~~a strange urge occurs in me~~
     async def harvest_honey(self, ctx):
