@@ -534,21 +534,21 @@ class Econ(commands.Cog):
             try:
                 amount = int(amount)
             except ValueError:
-                await self.bot.send(ctx, 'You have to use a number.')
+                await self.bot.send(ctx, ctx.l.econ.use_a_number_stupid)
                 return
 
         if amount > db_user['emeralds']:
-            await self.bot.send(ctx, 'You can\'t gamble more emeralds than you have.')
+            await self.bot.send(ctx, ctx.l.econ.gamble.stupid_1)
             return
 
         if amount < 10:
-            await self.bot.send(ctx, 'You have to gamble 10 or more emeralds at a time.')
+            await self.bot.send(ctx, ctx.l.econ.gamble.stupid_2)
             return
 
         u_roll = random.randint(1, 6) + random.randint(1, 6)
         b_roll = random.randint(1, 6) + random.randint(1, 6)
 
-        await self.bot.send(ctx, f'Your roll: `{u_roll}` **|** Bot roll: `{b_roll}`')
+        await self.bot.send(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
 
         if u_roll > b_roll:
             multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 75
@@ -557,12 +557,12 @@ class Econ(commands.Cog):
             multi /= 100
 
             await self.db.balance_add(ctx.author.id, int(multi * amount))
-            await self.bot.send(ctx, f'You won! Villager Bot {random.choice(self.d.gamble)} {int(multi * amount)}{self.d.emojis.emerald}')
+            await self.bot.send(ctx, ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), int(multi*amount), self.d.emojis.emerald))
         elif u_roll < b_roll:
             await self.db.balance_sub(ctx.author.id, amount)
-            await self.bot.send(ctx, f'You lost {amount} to Villager Bot...')
+            await self.bot.send(ctx, ctx.l.econ.gamble.lose.format(amount))
         else:
-            await self.bot.send(ctx, 'Tie! Maybe Villager Bot will steal your emeralds anyways...')
+            await self.bot.send(ctx, ctx.l.econ.gamble.tie)
 
     @commands.command(name='beg')
     async def beg(self, ctx):
