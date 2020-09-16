@@ -804,7 +804,6 @@ class Econ(commands.Cog):
 
         if bees < 100:
             await self.bot.send(ctx, random.choice(self.d.honey.not_viable))
-            ctx.command.reset_cooldown(ctx)
             return
 
         jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
