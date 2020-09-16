@@ -795,7 +795,7 @@ class Econ(commands.Cog):
     @commands.command(name='harvesthoney', aliases=['honey', 'horny'])  # ~~a strange urge occurs in me~~
     async def harvest_honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
-        
+
         if bees is not None:
             bees = bees['amount']
         else:
@@ -804,15 +804,20 @@ class Econ(commands.Cog):
         if bees > 1024: bees = 1024
 
         if bees < 100:
-            await self.bot.send(ctx, random.choice(self.d.honey.not_viable))
+            await self.bot.send(ctx, random.choice(ctx.l.econ.honey.stupid_1))
             return
 
         jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
         await self.db.add_item(ctx.author.id, 'Honey Jar', 1, jars)
-        await self.bot.send(ctx, random.choice(self.d.honey.honey).format(jars))
+
+        await self.bot.send(ctx, random.choice(ctx.l.econ.honey.honey).format(jars))
 
         if random.choice([False]*3 + [True]):
             bees_lost = random.randint(math.ceil(bees / 75), math.ceil(bees / 50))
+
+            await self.db.remove_item(ctx.author.id, 'Jar Of Bees', bees_lost)
+
+            await self.bot.send(ctx, random.choice(ctx.l.econ.honey.ded).format(bees_lost))
 
 
 def setup(bot):
