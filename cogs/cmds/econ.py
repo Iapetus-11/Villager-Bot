@@ -462,13 +462,13 @@ class Econ(commands.Cog):
 
         if user.bot:
             if user.id == self.bot.user.id:
-                await self.bot.send(ctx, 'Villager Bot already has a full inventory (About 100000000000000000 unique items!)')
+                await self.bot.send(ctx, ctx.l.econ.give.bot_1)
             else:
-                await self.bot.send(ctx, 'You can\'t give stuff bots as they don\'t have rights and therefore can\'t have emeralds or stuff.')
+                await self.bot.send(ctx, ctx.l.econ.give.bot_2)
             return
 
         if ctx.author.id == user.id:
-            await self.bot.send(ctx, 'You can\'t give stuff to yourself!')
+            await self.bot.send(ctx, ctx.l.econ.give.stupid_1)
             return
 
         amount_item = amount_item.lower()
@@ -488,43 +488,39 @@ class Econ(commands.Cog):
             item = ' '.join(split)
 
         if amount < 1:
-            await self.bot.send(ctx, 'You can\'t give someone less than one of an item.')
+            await self.bot.send(ctx, ctx.l.econ.give.stupid_2)
             return
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if 'pickaxe' in item.lower() or 'sword' in item.lower() or 'trophy' in item.lower():
-            await self.bot.send(ctx, 'You can\'t trade/gift this item.')
+            await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
             return
 
         if item in ('emerald', 'emeralds', ':emerald:',):
             if amount > db_user["emeralds"]:
-                await self.bot.send(ctx, 'You can\'t give someone more emeralds than you have.')
+                await self.bot.send(ctx, ctx.l.econ.give.stupid_3)
                 return
 
             await self.db.balance_sub(ctx.author.id, amount)
             await self.db.balance_add(user.id, amount)
 
-            await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}{self.d.emojis.emerald} to {user.mention}!')
+            await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention))
         else:
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
-            if db_item is None:
-                await self.bot.send(ctx, 'You can\'t give an item you don\'t even have.')
-                return
-
-            if amount > db_item['amount']:
-                await self.bot.send(ctx, 'You can\'t give more of an item than you have.')
+            if db_item is None or amount > db_item['amount']:
+                await self.bot.send(ctx, ctx.l.econ.give.stupid_4)
                 return
 
             if amount < 1:
-                await self.bot.send(ctx, 'You can\'t give less than one of an item.')
+                await self.bot.send(ctx, ctx.l.econ.give.stupid_2)
                 return
 
             await self.db.remove_item(ctx.author.id, item, amount)
             await self.db.add_item(user.id, db_item['name'], db_item['sell_price'], amount)
 
-            await self.bot.send(ctx, f'{ctx.author.mention} gave {amount}x **{db_item["name"]}** to {user.mention}')
+            await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
     @commands.command(name='gamble')
     async def gamble(self, ctx, amount):
