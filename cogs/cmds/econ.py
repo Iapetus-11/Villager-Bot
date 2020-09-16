@@ -616,25 +616,35 @@ class Econ(commands.Cog):
                 if random.randint(0, item[2]) == 1:
                     await self.db.add_item(ctx.author.id, item[0], item[2], 1)
 
-                    a = 'a'
-                    if item[0][0] in self.d.vowels:
-                        a = 'an'
+                    """
+                    # god I hate multi language support fucking kill me
+                    a = ''
+                    if ctx.l.lang == 'en-us':
+                        a = ' a'
+                        if item[0][0] in self.d.vowels:  # angry noises
+                            a = ' an'
+                    """
 
-                    await self.bot.send(ctx,
-                        f'You {random.choice(self.d.item_finds_text.actions)} '
-                        f'{a} {c[0]} (Worth {c[1]}{self.d.emojis.emerald}) '
-                        f'{random.choice(self.d.item_finds_text.places)}'
-                    )
+                    await self.bot.send(ctx, ctx.l.econ.mine.found_item_1.format(
+                        random.choice(ctx.l.econ.mine.actions),
+                        1, c[0], c[1],  # shhhhh ignore the pep8 violations and move on
+                        self.d.emojis.emerald,
+                        random.choice(ctx.l.econ.mine.places)
+                    ))
 
                     return
 
-            await self.bot.send(ctx, f'You {random.choice(self.d.mining.item_finds_text.actions)} {random.randint(1, 6)} '
-                                     f'{random.choice(self.d.mining.item_finds_text.useless)} {random.choice(fake_finds)}')
+            await self.bot.send(ctx, ctx.l.econ.mine.found_item_2.format(
+                random.choice(ctx.l.econ.mine.actions),
+                random.randint(1, 6),
+                random.choice(ctx.l.econ.mine.useless),
+                random.choice(fake_finds)
+            ))
         else:
             found = int(found)
 
             if await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None:
-                found *= 2
+                found *= 2  # sekret
 
             await self.db.balance_add(ctx.author.id, found)
 
