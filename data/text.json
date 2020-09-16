@@ -194,26 +194,20 @@
           "got",
           "dug up"
         ],
-        "item_finds_text": {
-          "actions": [
-            "found",
-            "got"
-          ],
-          "places": [
-            "in an abandoned mineshaft",
-            "in a chest while mining",
-            "in a chest",
-            "in an abandoned chest",
-            "in a chest near a monster spawner",
-            "while mining"
-          ],
-          "useless": [
-            "useless",
-            "stupid",
-            "dumb",
-            "worthless"
-          ]
-        }
+        "places": [
+          "in an abandoned mineshaft",
+          "in a chest while mining",
+          "in a chest",
+          "in an abandoned chest",
+          "in a chest near a monster spawner",
+          "while mining"
+        ],
+        "useless": [
+          "useless",
+          "stupid",
+          "dumb",
+          "worthless"
+        ]
       },
       "pillage": {
         "bot_1": "Hey dumb dumb, Villager Bot cannot be defeated, Villager Bot is immortal and all powerful.",
