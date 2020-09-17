@@ -107,6 +107,7 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
     'cogs.core.events',
     #'cogs.cmds.useful',
+    'cogs.cmds.owner',
     'cogs.cmds.mc',
     'cogs.cmds.mod',
     'cogs.cmds.fun',
