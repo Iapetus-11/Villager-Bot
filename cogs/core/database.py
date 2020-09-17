@@ -6,6 +6,8 @@ class Database(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.d = self.bot.d
+
         self.db = self.bot.db  # the asyncpg pool
 
     async def fetch_all_botbans(self):
@@ -98,12 +100,12 @@ class Database(commands.Cog):
     async def fetch_pickaxe(self, uid):
         items_names = [item['name'] for item in await self.fetch_items(uid)]
 
-        for pickaxe in self.bot.d.mining.pickaxes:
+        for pickaxe in self.d.mining.pickaxes:
             if pickaxe in items_names:
                 return pickaxe
 
         await self.add_item(uid, 'Wood Pickaxe', 0, 1)
-        return self.bot.d.mining.pickaxes[-1]
+        return self.d.mining.pickaxes[-1]
 
     async def fetch_sword(self, uid):
         pass
@@ -140,8 +142,11 @@ class Database(commands.Cog):
             async with self.db.acquire() as con:
                 await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', value, uid)
 
-    async def set_botbanned(self, uid, botbanned=True):
+    async def set_botbanned(self, uid, botbanned):
         await self.fetch_user(uid)
+
+        if botbanned:
+            self.d.ban_cache.append(uid)
 
         async with self.db.acquire() as con:
             await con.execute('UPDATE users SET bot_banned = $1 WHERE uid = $2', botbanned, uid)
