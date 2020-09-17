@@ -417,7 +417,7 @@ class Econ(commands.Cog):
 
         if amount_item.startswith('max ') or amount_item.startswith('all '):
             item = amount_item[4:]
-            db_item = await self.db.fetch_item(item)
+            db_item = await self.db.fetch_item(ctx.author.id, item)
 
             amount = db_item['amount']
         else:
