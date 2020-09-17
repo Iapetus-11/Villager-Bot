@@ -140,6 +140,12 @@ class Database(commands.Cog):
             async with self.db.acquire() as con:
                 await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', value, uid)
 
+    async def set_botbanned(self, uid, botbanned=True):
+        await self.fetch_user(uid)
+
+        async with self.db.acquire() as con:
+            await con.execute('UPDATE users SET bot_banned = $1 WHERE uid = $2', botbanned, uid)
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
