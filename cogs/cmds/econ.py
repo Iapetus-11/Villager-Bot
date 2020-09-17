@@ -52,7 +52,7 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.math_problem.timeout)
                 return False
 
-            if m.content != prob[1]
+            if m.content != prob[1]:
                 await self.bot.send(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
                 return False
 
