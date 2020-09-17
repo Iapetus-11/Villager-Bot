@@ -628,7 +628,7 @@ class Econ(commands.Cog):
 
                     await self.bot.send(ctx, ctx.l.econ.mine.found_item_1.format(
                         random.choice(ctx.l.econ.mine.actions),
-                        1, c[0], c[1],  # shhhhh ignore the pep8 violations and move on
+                        1, item[0], item[1],  # shhhhh ignore the pep8 violations and move on
                         self.d.emojis.emerald,
                         random.choice(ctx.l.econ.mine.places)
                     ))
