@@ -42,21 +42,25 @@ class Owner(commands.Cog):
 
     @commands.command(name='botban')
     @commands.is_owner()
-    async def botban_user(self, ctx, uid: int, uids: commands.Greedy[int]):
-        await self.db.set_botbanned(uid, True)
+    async def botban_user(self, ctx, users: commands.Greedy[discord.User]):
+        if len(users) == 0:
+            await self.bot.send('You have to specify a user.')
+            return
 
-        for uid in uids:
-            await self.db.set_botbanned(uid, True)
+        for user in users:
+            await self.db.set_botbanned(user.id, True)
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name='unbotban', aliases=['botunban'])
     @commands.is_owner()
-    async def unbotban_user(self, ctx, uid: int, uids: commands.Greedy[int]):
-        await self.db.set_botbanned(uid, False)
+    async def unbotban_user(self, ctx, users: commands.Greedy[discord.User]):
+        if len(users) == 0:
+            await self.bot.send('You have to specify a user.')
+            return
 
-        for uid in uids:
-            await self.db.set_botbanned(uid, False)
+        for user in users:
+            await self.db.set_botbanned(user.id, False)
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
