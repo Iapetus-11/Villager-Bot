@@ -8,13 +8,14 @@ CREATE TABLE IF NOT EXISTS guilds(
 );
 
 CREATE TABLE IF NOT EXISTS users(
-  uid        bigint, -- user id
-  emeralds   bigint, -- amount of emeralds user has outside of the vault
-  vault_bal  int, -- amount of emerald BLOCKS which are currently in the vault
-  vault_max  int, -- maximum amount of emerald BLOCKS which can be stored in the vault
-  health     int, -- user health, out of 20
-  votes      int, -- total votes on sites like disbots.gg and top.gg
-  bot_banned bool -- is banned from using the bot
+  uid           bigint, -- user id
+  emeralds      bigint, -- amount of emeralds user has outside of the vault
+  vault_bal     int, -- amount of emerald BLOCKS which are currently in the vault
+  vault_max     int, -- maximum amount of emerald BLOCKS which can be stored in the vault
+  health        int, -- user health, out of 20
+  disbots_votes int, -- votes on disbots.gg
+  topgg_votes   int, -- votes on top.gg
+  bot_banned    bool -- is banned from using the bot
 );
 
 CREATE TABLE IF NOT EXISTS items(
@@ -34,9 +35,7 @@ CREATE TABLE IF NOT EXISTS leaderboards(
   uid             bigint,
   pillages        int, -- number of pillages
   pillages_amount bigint, -- number of pillaged emeralds
-  mobs_killed     bigint,
-  topgg_votes     int,
-  disbots_votes   int
+  mobs_killed     bigint
 );
 
 CREATE TABLE IF NOT EXISTS warnings( -- moderation warnings
