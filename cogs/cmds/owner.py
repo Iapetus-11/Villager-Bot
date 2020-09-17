@@ -40,6 +40,18 @@ class Owner(commands.Cog):
     async def await_eval_stuff(self, ctx, *, stuff):
         await ctx.send(f'```{await eval(stuff)}```')
 
+    @commands.command(name='botban')
+    @commands.is_owner()
+    async def botban_user(self, ctx, uids: commands.Greedy[int]):
+        for uid in uids:
+            await self.db.set_botbanned(uid, True)
+
+    @commands.command(name='unbotban', aliases=['botunban'])
+    @commands.is_owner()
+    async def unbotban_user(self, ctx, uids: commands.Greedy[int]):
+        for uid in uids:
+            await self.db.set_botbanned(uid, False)
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
