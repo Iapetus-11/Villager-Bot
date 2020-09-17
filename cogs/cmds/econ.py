@@ -649,7 +649,7 @@ class Econ(commands.Cog):
 
             await self.db.balance_add(ctx.author.id, found)
 
-            await self.bot.send(ctx, ctx.l.econ.mine.found_emeralds.format(ctx.l.econ.mine.actions, found, self.d.emojis.emerald))
+            await self.bot.send(ctx, ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald))
 
     @commands.command(name='pillage')
     async def pillage(self, ctx, victim: discord.User):
