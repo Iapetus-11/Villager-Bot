@@ -23,4 +23,19 @@ class Owner(commands.Cog):
     async def reload_cog(self, ctx, cog):
         self.bot.reload_extension(f'cogs.{cog}')
 
+    @commands.command(name='eval')
+    @commands.is_owner()
+    async def eval_stuff(self, ctx, *, stuff):
+        await ctx.send(f'```{eval(stuff)}```')
+
+    @commands.command(name='exec')
+    @commands.is_owner()
+    async def exec_stuff(self, ctx, *, stuff):
+        await ctx.send(f'```{exec(stuff)}```')
+
+    @commands.command(name='awaiteval')
+    @commands.is_owner()
+    async def await_eval_stuff(self, ctx, *, stuff):
+        await ctx.send(f'```{await eval(stuff)}```')
+
 def setup(bot):
