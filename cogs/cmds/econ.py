@@ -37,9 +37,9 @@ class Econ(commands.Cog):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
         self.d.miners[ctx.author.id] = mine_commands + 1
 
-        if mine_commands >= 100*source_multi:
-            self.d.miners[ctx.author.id] = 0
+        print(mine_commands)
 
+        if mine_commands >= 100*source_multi:
             prob = f'{random.randint(0, 45)}{random.choice(("+", "-",))}{random.randint(0, 25)}'
             prob = (prob, str(eval(prob)),)
 
@@ -54,12 +54,12 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.math_problem.timeout)
                 return False
 
-            if m.content == prob[1]:
-                await self.bot.send(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
-                return True
+            if m.content != prob[1]
+                await self.bot.send(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
+                return False
 
-            await self.bot.send(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
-            return False
+            self.d.miners[ctx.author.id] = 0
+            await self.bot.send(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
 
         return True
 
