@@ -185,7 +185,7 @@ class Minecraft(commands.Cog):
         )
 
         embed.add_field(
-            name=ctx.l.minecraft.mccolors.,
+            name=ctx.l.minecraft.mccolors.more_colors,
             value=f'<:dark_red:697541699488055426> **{cs.dark_red}** `§4`\n'
                   f'<:gold:697541699639050382> **{cs.gold}** `§6`\n'
                   f'<:dark_green:697541699500769420> **{cs.dark_green}** `§2`\n'
@@ -197,7 +197,7 @@ class Minecraft(commands.Cog):
         )
 
         embed.add_field(
-            name='Formatting Codes',
+            name=ctx.l.minecraft.mccolors.formatting,
             value=f'<:bold:697541699488186419> **{cs.bold}** `§l`\n'
                   f'<:strikethrough:697541699768942711> ~~{cs.strikethrough}~~ `§m`\n'
                   f'<:underline:697541699806953583> {cs.underline} `§n`\n'
