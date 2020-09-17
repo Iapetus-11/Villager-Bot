@@ -32,7 +32,7 @@ async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the da
 bot = commands.AutoShardedBot(  # setup bot
     command_prefix=get_prefix,
     case_insensitive=True,
-    help_command=None
+    #help_command=None
 )
 
 async def send(_bot, location, message: str):  # send function/method for easy sending of embed messages with small amounts of text
@@ -106,7 +106,7 @@ for key in list(bot.d.fun_langs.enchant):  # reverse the enchant lang to get the
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
     'cogs.core.events',
-    'cogs.cmds.useful',
+    #'cogs.cmds.useful',
     'cogs.cmds.mc',
     'cogs.cmds.mod',
     'cogs.cmds.fun',
