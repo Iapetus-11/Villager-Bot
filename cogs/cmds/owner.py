@@ -6,6 +6,8 @@ class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.db = self.bot.get_cog('Database')
+
         self.d = self.bot.d
 
     @commands.command(name='load')
@@ -38,4 +40,6 @@ class Owner(commands.Cog):
     async def await_eval_stuff(self, ctx, *, stuff):
         await ctx.send(f'```{await eval(stuff)}```')
 
+
 def setup(bot):
+    bot.add_cog(Owner(bot))
