@@ -146,7 +146,7 @@ class Database(commands.Cog):
                 await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', value, uid)
 
     async def fetch_all_leaderboard(self, lb):
-        return await self.db.fetch(f'SELECT {lb} FROM leaderboards')
+        return await self.db.fetch(f'SELECT uid, {lb} FROM leaderboards')
 
     async def set_botbanned(self, uid, botbanned):
         await self.fetch_user(uid)
