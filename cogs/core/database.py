@@ -115,7 +115,7 @@ class Database(commands.Cog):
 
     async def rich_trophy_wipe(self, uid):
         await self.set_balance(uid, 0)
-        await self.set_vault(uid, 0, 0)
+        await self.set_vault(uid, 0, 1)
 
         async with self.db.acquire() as con:
             await con.execute('DELETE FROM items WHERE uid = $1 AND name != $2 AND name != $3',
