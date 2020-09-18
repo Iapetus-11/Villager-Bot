@@ -817,6 +817,49 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.honey.ded).format(bees_lost))
 
+    @commands.group(name='leaderboards', aliases=['lb', 'lbs', 'leaderboard'])
+    async def leaderboards(self, ctx):
+        if ctx.invoked_subcommand is None:
+            embed = discord.Embed(color=self.d.cc, title='__**Villager Bot Leaderboards**__')
+
+            embed.add_field(name='Emeralds', value=f'`{ctx.prefix}leaderboard emeralds`', inline=False)
+            embed.add_field(name='Total Wealth', value=f'`{ctx.prefix}leaderboard totalwealth`', inline=False)
+            embed.add_field(name='Pillages', value=f'`{ctx.prefix}leaderboard pillages`', inline=False)
+            embed.add_field(name='Emeralds Stolen', value=f'`{ctx.prefix}leaderboard stolen`', inline=False)
+            embed.add_field(name='Mobs Killed', value=f'`{ctx.prefix}leaderboard mobkills`', inline=False)
+            embed.add_field(name='Jars Of Bees', value=f'`{ctx.prefix}leaderboard bees`', inline=False)
+
+            await ctx.send(embed=embed)
+
+    # assumes list is sorted prior
+    # assumes list consists of tuple(uid, value)
+    # rank_fstr is the template for each line
+    # header is the title of the embed
+    async def leaderboard_logic(self, _list, origin_uid, rank_fstr, header):
+        # find the rank/place on lb of the origin user
+        u_place = -1
+        for i in range(len(lb)):
+            if _list[i][0] == origin_uid:
+                u_place = i + 1
+
+        # shorten list
+        _list = _list[:9] if u_place > 9 else _list[:10]
+
+        body = ''
+
+        for place, entry in enumerate(_list):
+            u = self.bot.get_user(entry[0])
+
+            if user is None:
+                user = 'Deleted User'
+            else:
+                user = user.display_name
+
+            body += rank_fstr.format(place+1, entry[1], user)
+
+        await ctx.send(discord.Embed(color=self.d.cc, title=header, description=body))
+
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
