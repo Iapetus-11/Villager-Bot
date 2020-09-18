@@ -841,6 +841,7 @@ class Econ(commands.Cog):
         for i in range(len(lb)):
             if _list[i][0] == origin_uid:
                 u_place = i + 1
+                break
 
         # shorten list
         _list = _list[:9] if u_place > 9 else _list[:10]
