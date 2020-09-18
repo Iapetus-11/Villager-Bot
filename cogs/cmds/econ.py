@@ -863,7 +863,7 @@ class Econ(commands.Cog):
 
         return body
 
-    @leaderboards.command(name='emeralds', aliases=['ems', 'em'])
+    @leaderboards.command(name='emeralds', aliases=['ems'])
     async def leaderboard_emeralds(self, ctx):
         emeralds = [(r[0], r[1]) for r in await self.db.fetch_all_balances()]
         emeralds = sorted(emeralds, key=(lambda tup: tup[1]), reverse=True)
@@ -881,6 +881,16 @@ class Econ(commands.Cog):
         lb = await self.leaderboard_logic(self, pillages, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Emeralds Stolen Leaderboard**__{0}'.format(self.d.emojis.emerald))
+        await ctx.send(embed=embed)
+
+    @leaderboards.command(name='mobkills', aliases=['kil'])
+    async def leaderboard_pillages(self, ctx):
+        kills = [(r[0], r[1]) for r in await self.db.fetch_all_leaderboard('mobs_killed')]
+        kills = sorted(kills, key=(lambda tup: tup[1]), reverse=True)
+
+        lb = await self.leaderboard_logic(self, kills, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
+
+        embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Mobs Killed Leaderboard**__{0}'.format(self.d.emojis.stevegun))
         await ctx.send(embed=embed)
 
 
