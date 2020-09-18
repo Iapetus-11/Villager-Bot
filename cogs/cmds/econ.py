@@ -835,12 +835,13 @@ class Econ(commands.Cog):
     # assumes list consists of tuple(uid, value)
     # rank_fstr is the template for each line
     # header is the title of the embed
-    async def leaderboard_logic(self, _list, origin_uid, origin_value, rank_fstr, header):
+    async def leaderboard_logic(self, _list, origin_uid, rank_fstr, header):
         # find the rank/place on lb of the origin user
         u_place = -1
         for i in range(len(lb)):
             if _list[i][0] == origin_uid:
                 u_place = i + 1
+                origin_value = _list[i][1]
                 break
 
         # shorten list
