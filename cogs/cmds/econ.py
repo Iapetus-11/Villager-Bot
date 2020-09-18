@@ -823,7 +823,8 @@ class Econ(commands.Cog):
             embed = discord.Embed(color=self.d.cc, title='__**Villager Bot Leaderboards**__')
 
             embed.add_field(name='Emeralds', value=f'`{ctx.prefix}leaderboard emeralds`', inline=False)
-            embed.add_field(name='Total Wealth', value=f'`{ctx.prefix}leaderboard totalwealth`', inline=False)
+            # Can't do tw due to the immense amount of resources required to calculate it for all users in the db (as is required)
+            #embed.add_field(name='Total Wealth', value=f'`{ctx.prefix}leaderboard totalwealth`', inline=False)
             embed.add_field(name='Pillages', value=f'`{ctx.prefix}leaderboard pillages`', inline=False)
             embed.add_field(name='Emeralds Stolen', value=f'`{ctx.prefix}leaderboard stolen`', inline=False)
             embed.add_field(name='Mobs Killed', value=f'`{ctx.prefix}leaderboard mobkills`', inline=False)
@@ -834,8 +835,7 @@ class Econ(commands.Cog):
     # assumes list is sorted prior
     # assumes list consists of tuple(uid, value)
     # rank_fstr is the template for each line
-    # header is the title of the embed
-    async def leaderboard_logic(self, _list, origin_uid, rank_fstr, header):
+    async def leaderboard_logic(self, _list, origin_uid, rank_fstr):
         # find the rank/place on lb of the origin user
         u_place = -1
         for i in range(len(lb)):
@@ -862,7 +862,17 @@ class Econ(commands.Cog):
         if place > 9:
             body += '⋮\n' + rank_fstr.format(u_place, origin_value, self.bot.get_user(origin_uid).display_name)
 
-        await ctx.send(discord.Embed(color=self.d.cc, title=header, description=body))
+        return body
+
+    @leaderboards.command(name='emeralds', aliases=['ems', 'em'])
+    async def leaderboard_emeralds(self, ctx):
+        emeralds = [(r[0], r[1]) for r in await self.db.fetch_all_balances()]
+        emeralds = sorted(emeralds, key=(lambda tup: tup[1]), reverse=True)
+
+        lb = await self.leaderboard_logic(self, emeralds, ctx.author.id, '`{}.` **{}** {}')
+
+        embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Emerald Leaderboard**__{0}'.format(self.d.emojis.emerald))
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
