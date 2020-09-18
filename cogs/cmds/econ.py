@@ -825,7 +825,6 @@ class Econ(commands.Cog):
             embed.add_field(name='Emeralds', value=f'`{ctx.prefix}leaderboard emeralds`', inline=False)
             # Can't do tw due to the immense amount of resources required to calculate it for all users in the db (as is required)
             #embed.add_field(name='Total Wealth', value=f'`{ctx.prefix}leaderboard totalwealth`', inline=False)
-            embed.add_field(name='Pillages', value=f'`{ctx.prefix}leaderboard pillages`', inline=False)
             embed.add_field(name='Emeralds Stolen', value=f'`{ctx.prefix}leaderboard stolen`', inline=False)
             embed.add_field(name='Mobs Killed', value=f'`{ctx.prefix}leaderboard mobkills`', inline=False)
             embed.add_field(name='Jars Of Bees', value=f'`{ctx.prefix}leaderboard bees`', inline=False)
@@ -869,9 +868,19 @@ class Econ(commands.Cog):
         emeralds = [(r[0], r[1]) for r in await self.db.fetch_all_balances()]
         emeralds = sorted(emeralds, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(self, emeralds, ctx.author.id, '`{}.` **{}** {}')
+        lb = await self.leaderboard_logic(self, emeralds, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Emerald Leaderboard**__{0}'.format(self.d.emojis.emerald))
+        await ctx.send(embed=embed)
+
+    @leaderboards.command(name='pillages', aliases=['pil'])
+    async def leaderboard_pillages(self, ctx):
+        pillages = [(r[0], r[1]) for r in await self.db.fetch_all_leaderboard('pillages')]
+        pillages = sorted(pillages, key=(lambda tup: tup[1]), reverse=True)
+
+        lb = await self.leaderboard_logic(self, pillages, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+
+        embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Emeralds Stolen Leaderboard**__{0}'.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
 
 
