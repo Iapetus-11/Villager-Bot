@@ -53,7 +53,7 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name='4chan')
+    @commands.command(name='4chan', aliases=['greentext'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def greentext(self, ctx):
         """Sends a greentext from r/greentext"""
