@@ -32,10 +32,9 @@ CREATE TABLE IF NOT EXISTS give_logs(
 );
 
 CREATE TABLE IF NOT EXISTS leaderboards(
-  uid             bigint,
-  pillages        int, -- number of pillages
-  pillages_amount bigint, -- number of pillaged emeralds
-  mobs_killed     bigint
+  uid          bigint,
+  pillages     bigint, -- number of pillaged emeralds
+  mobs_killed  bigint
 );
 
 CREATE TABLE IF NOT EXISTS warnings( -- moderation warnings
