@@ -835,7 +835,7 @@ class Econ(commands.Cog):
     # assumes list consists of tuple(uid, value)
     # rank_fstr is the template for each line
     # header is the title of the embed
-    async def leaderboard_logic(self, _list, origin_uid, rank_fstr, header):
+    async def leaderboard_logic(self, _list, origin_uid, origin_value, rank_fstr, header):
         # find the rank/place on lb of the origin user
         u_place = -1
         for i in range(len(lb)):
@@ -857,8 +857,10 @@ class Econ(commands.Cog):
 
             body += rank_fstr.format(place+1, entry[1], user)
 
-        await ctx.send(discord.Embed(color=self.d.cc, title=header, description=body))
+        if place > 9:
+            body += '⋮\n' + rank_fstr.format(u_place, origin_value, self.bot.get_user(origin_uid).display_name)
 
+        await ctx.send(discord.Embed(color=self.d.cc, title=header, description=body))
 
 
 def setup(bot):
