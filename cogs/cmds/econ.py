@@ -885,7 +885,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name='mobkills', aliases=['kil'])
     async def leaderboard_pillages(self, ctx):
-        kills = [(r[0], r[1]) for r in await self.db.fetch_all_leaderboard('mobs_killed')]
+        kills = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('mobs_killed')]
         kills = sorted(kills, key=(lambda tup: tup[1]), reverse=True)
 
         lb = await self.leaderboard_logic(self, kills, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
