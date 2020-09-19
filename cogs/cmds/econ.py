@@ -232,6 +232,7 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, ctx.l.econ.withd.withdrew.format(amount, self.d.emojis.emerald_block, amount*9, self.d.emojis.emerald))
 
     @commands.group(name='shop')
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def shop(self, ctx):
         """Shows the available options in the Villager Shop"""
 
@@ -319,6 +320,7 @@ class Econ(commands.Cog):
         await self.shop_logic(ctx, 'other', f'{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other}]')
 
     @commands.command(name='buy')
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def buy(self, ctx, *, amount_item):
         """Allows you to buy items"""
 
@@ -408,6 +410,7 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_2)
 
     @commands.command(name='sell')
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def sell(self, ctx, *, amount_item):
         """Allows you to sell items"""
 
@@ -455,6 +458,7 @@ class Econ(commands.Cog):
                                                                       self.d.emojis.emerald))
 
     @commands.command(name='give')
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def give(self, ctx, user: discord.User, *, amount_item):
         """Give an item or emeralds to another person"""
 
@@ -521,6 +525,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
     @commands.command(name='gamble')
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
 
@@ -563,6 +568,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.gamble.tie)
 
     @commands.command(name='beg')
+    @commands.cooldown(1, 60*60, commands.BucketType.user)
     async def beg(self, ctx):
         """Beg for emeralds"""
 
@@ -591,6 +597,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, random.choice(ctx.l.econ.beg.negative).format(f'{amount}{self.d.emojis.emerald}'))
 
     @commands.command(name='mine', aliases=['mein', 'eun'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def mine(self, ctx):
         if not await self.math_problem(ctx): return
 
@@ -651,6 +658,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald))
 
     @commands.command(name='pillage')
+    @commands.cooldown(1, 5*60, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
         if victim.bot:
             if victim.id == self.bot.user.id:
@@ -724,6 +732,7 @@ class Econ(commands.Cog):
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name='chug')
+    @commands.cooldown(1, 1, commands.BucketType.user)
     async def chug(self, ctx, *, _pot):
         """Allows you to use potions"""
 
@@ -792,6 +801,7 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, ctx.l.econ.chug.stupid_3)
 
     @commands.command(name='harvesthoney', aliases=['honey', 'horny'])  # ~~a strange urge occurs in me~~
+    @commands.cooldown(1, 24*60*60, commands.BucketType.user)
     async def harvest_honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
 
@@ -819,8 +829,11 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, random.choice(ctx.l.econ.honey.ded).format(bees_lost))
 
     @commands.group(name='leaderboards', aliases=['lb', 'lbs', 'leaderboard'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def leaderboards(self, ctx):
         if ctx.invoked_subcommand is None:
+            ctx.command.reset_cooldown(ctx)
+
             embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
 
             embed.add_field(name=ctx.l.econ.lb.emeralds, value=f'`{ctx.prefix}leaderboard emeralds`', inline=False)
