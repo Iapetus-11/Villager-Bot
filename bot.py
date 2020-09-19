@@ -1,9 +1,9 @@
+from discord.ext import commands
+import classyjson as cj
 import asyncio
 import asyncpg
 import discord
 import logging
-from discord.ext import commands
-import classyjson as cj
 
 
 global DEBUG
