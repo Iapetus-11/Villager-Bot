@@ -820,14 +820,14 @@ class Econ(commands.Cog):
     @commands.group(name='leaderboards', aliases=['lb', 'lbs', 'leaderboard'])
     async def leaderboards(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(color=self.d.cc, title='__**Villager Bot Leaderboards**__')
+            embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
 
-            embed.add_field(name='Emeralds', value=f'`{ctx.prefix}leaderboard emeralds`', inline=False)
+            embed.add_field(name=ctx.l.econ.lb.emeralds, value=f'`{ctx.prefix}leaderboard emeralds`', inline=False)
             # Can't do tw due to the immense amount of resources required to calculate it for all users in the db (as is required)
             #embed.add_field(name='Total Wealth', value=f'`{ctx.prefix}leaderboard totalwealth`', inline=False)
-            embed.add_field(name='Emeralds Stolen', value=f'`{ctx.prefix}leaderboard stolen`', inline=False)
-            embed.add_field(name='Mobs Killed', value=f'`{ctx.prefix}leaderboard mobkills`', inline=False)
-            embed.add_field(name='Jars Of Bees', value=f'`{ctx.prefix}leaderboard bees`', inline=False)
+            embed.add_field(name=ctx.l.econ.lb.stolen, value=f'`{ctx.prefix}leaderboard stolen`', inline=False)
+            embed.add_field(name=ctx.l.econ.lb.kills, value=f'`{ctx.prefix}leaderboard mobkills`', inline=False)
+            embed.add_field(name=ctx.l.econ.lb.bees, value=f'`{ctx.prefix}leaderboard bees`', inline=False)
 
             await ctx.send(embed=embed)
 
@@ -848,7 +848,7 @@ class Econ(commands.Cog):
 
         body = ''
 
-        for place, entry in enumerate(_list):
+        for place, entry in enumerate(_list):  # enumerate() gives me a boner
             u = self.bot.get_user(entry[0])
 
             if user is None:
@@ -870,7 +870,7 @@ class Econ(commands.Cog):
 
         lb = await self.leaderboard_logic(self, emeralds, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Emerald Leaderboard**__{0}'.format(self.d.emojis.emerald))
+        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='pillages', aliases=['pil'])
@@ -880,7 +880,7 @@ class Econ(commands.Cog):
 
         lb = await self.leaderboard_logic(self, pillages, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Emeralds Stolen Leaderboard**__{0}'.format(self.d.emojis.emerald))
+        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='mobkills', aliases=['kil'])
@@ -890,7 +890,7 @@ class Econ(commands.Cog):
 
         lb = await self.leaderboard_logic(self, kills, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Mobs Killed Leaderboard**__{0}'.format(self.d.emojis.stevegun))
+        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='bees', aliases=['jarofbees'])
@@ -900,7 +900,7 @@ class Econ(commands.Cog):
 
         lb = await self.leaderboard_logic(self, bees, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Total Bees Leaderboard**__{0}'.format(self.d.emojis.anibee))
+        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
         await ctx.send(embed=embed)
 
 
