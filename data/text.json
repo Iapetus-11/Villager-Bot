@@ -267,6 +267,19 @@
           "Oops, apparently bees get pretty mad when you try and steal from them, who knew!? You lost {} of them to suicide.",
           "Looks like bees get pretty angry when you try and steal from them, you lost {} to suicide..."
         ]
+      },
+      "lb": {
+        "main": {
+          "title": "__**Villager Bot Leaderboards**__",
+          "emeralds": "Emeralds",
+          "stolen": "Emeralds Stolen",
+          "kills": "Mobs Killed",
+          "bees": "Jars Of Bees"
+        },
+        "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
+        "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
+        "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
+        "lb_bee": "{0}__**Total Bees Leaderboard**__{0}"
       }
     }
   }
