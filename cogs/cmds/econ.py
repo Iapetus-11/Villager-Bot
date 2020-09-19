@@ -893,6 +893,10 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Mobs Killed Leaderboard**__{0}'.format(self.d.emojis.stevegun))
         await ctx.send(embed=embed)
 
+    @leaderboards.command(name='bees', aliases=['jarofbees'])
+    async def leaderboard_bees(self, ctx):
+        pass
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
