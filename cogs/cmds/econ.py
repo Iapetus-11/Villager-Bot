@@ -458,8 +458,9 @@ class Econ(commands.Cog):
                                                                       self.d.emojis.emerald))
 
     @commands.command(name='give')
+    @commands.guild_only()
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def give(self, ctx, user: discord.User, *, amount_item):
+    async def give(self, ctx, user: discord.Member, *, amount_item):
         """Give an item or emeralds to another person"""
 
         if user.bot:
@@ -597,6 +598,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, random.choice(ctx.l.econ.beg.negative).format(f'{amount}{self.d.emojis.emerald}'))
 
     @commands.command(name='mine', aliases=['mein', 'eun'])
+    @commands.guild_only()
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def mine(self, ctx):
         if not await self.math_problem(ctx): return
@@ -658,6 +660,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald))
 
     @commands.command(name='pillage')
+    @commands.guild_only()
     @commands.cooldown(1, 5*60, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
         if victim.bot:
@@ -829,6 +832,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, random.choice(ctx.l.econ.honey.ded).format(bees_lost))
 
     @commands.group(name='leaderboards', aliases=['lb', 'lbs', 'leaderboard'])
+    @commands.guild_only()
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def leaderboards(self, ctx):
         if ctx.invoked_subcommand is None:
