@@ -94,6 +94,7 @@ class Fun(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='cursed', aliases=['cursedmc'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def cursed_mc(self, ctx):
         async with ctx.typing():
             if random.choice((True, False,)):
