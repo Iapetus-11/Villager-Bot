@@ -895,7 +895,13 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name='bees', aliases=['jarofbees'])
     async def leaderboard_bees(self, ctx):
-        pass
+        bees = [(r['uid'], r['amount']) for r in await self.db.mass_fetch_item('Jar Of Bees')]
+        bees = sorted(bees, key=(lambda tup: tup[1]), reverse=True)
+
+        lb = await self.leaderboard_logic(self, bees, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
+
+        embed = discord.Embed(color=self.d.cc, description=lb, title='{0}__**Total Bees Leaderboard**__{0}'.format(self.d.emojis.anibee))
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
