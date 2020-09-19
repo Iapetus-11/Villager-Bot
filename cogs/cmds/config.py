@@ -14,15 +14,21 @@ class Config(commands.Cog):
     @commands.guild_only()
     async def config(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(color=self.d.cc)
 
-            guild_conf = 'bruh'
+            embed = discord.Embed(color=self.d.cc, title='__**Villager Bot Settings**__')
+
+            guild_conf = 'Change the server prefix - `{0}config prefix <newprefix>`\n' \
+                         'Change whether bot should respond to "emeralds" - `{0}config replies <on/off>`\n' \
+                         'Changes the difficulty of mobs, and some other things - `{0}config difficulty <peaceful/easy/hard>`\n' \
+                         'Changes the language that Villager Bot is in - `{0}config lang <language>`\n'
+
             embed.add_field(name='Server/Guild Configuration', value=guild_conf)
 
-            user_conf = 'bruh2.0'
-            embed.add_field(name='Per User Configuration', value=user_conf)
+            #user_conf = 'bruh2.0'
+            #embed.add_field(name='Per User Configuration', value=user_conf)
 
             await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Config(bot))
