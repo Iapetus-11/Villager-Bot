@@ -1,10 +1,9 @@
 import asyncio
 import asyncpg
 import discord
-import json
 import logging
 from discord.ext import commands
-import classyjson
+import classyjson as cj
 
 
 global DEBUG
@@ -15,10 +14,10 @@ logging.basicConfig(level=logging.WARNING)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)  # hide annoying asyncio warnings
 
 with open("data/keys.json", "r") as k:  # load bot keys
-    keys = json.load(k)
+    keys = cj.load(k)
 
 with open("data/config.json", "r") as c:  # load config
-    config = json.load(c)
+    config = cj.load(c)
 
 async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
     if ctx.guild is None:
@@ -70,10 +69,10 @@ async def setup_database():  # init pool connection to database
 asyncio.get_event_loop().run_until_complete(setup_database())
 
 with open('data/text.json', 'r', encoding='utf8') as l:
-    bot.langs = classyjson.load(l)  # turns it into dot accessible dicts for ez access ~~nice dict bro~~
+    bot.langs = cj.load(l)  # turns it into dot accessible dicts for ez access ~~nice dict bro~~
 
 with open('data/data.json', 'r', encoding='utf8') as d:
-    bot.d = classyjson.load(d)  # classyjson automatically turns json into sets of nested classes and attributes for easy access
+    bot.d = cj.load(d)  # cj automatically turns json into sets of nested classes and attributes for easy access
 
 bot.d.cc = discord.Color.green()  # embed color
 
