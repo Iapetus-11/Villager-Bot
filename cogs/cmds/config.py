@@ -29,6 +29,10 @@ class Config(commands.Cog):
 
             await ctx.send(embed=embed)
 
+    @config.command(name='prefix')
+    async def config_prefix(self, ctx):
+        pass
+
 
 def setup(bot):
     bot.add_cog(Config(bot))
