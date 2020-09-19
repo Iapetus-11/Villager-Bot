@@ -93,6 +93,24 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name='cursed', aliases=['cursedmc'])
+    async def cursed_mc(self, ctx):
+        async with ctx.typing():
+            if random.choice((True, False,)):
+                jj = {'nsfw': True}
+
+                while jj['nsfw']:
+                    jj = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/CursedMinecraft')).json()
+
+                embed = discord.Embed(color=self.d.cc)
+                embed.set_image(url=jj['url'])
+
+                await ctx.send(embed=embed)
+            else:
+                # should put image from web server or something
+                pass
+
+
     @commands.command(name='say')
     async def say_text(self, ctx, *, _text):
         """Sends whatever is put into the command"""
