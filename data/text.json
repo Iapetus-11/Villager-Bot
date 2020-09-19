@@ -269,13 +269,11 @@
         ]
       },
       "lb": {
-        "main": {
-          "title": "__**Villager Bot Leaderboards**__",
-          "emeralds": "Emeralds",
-          "stolen": "Emeralds Stolen",
-          "kills": "Mobs Killed",
-          "bees": "Jars Of Bees"
-        },
+        "title": "__**Villager Bot Leaderboards**__",
+        "emeralds": "Emeralds",
+        "stolen": "Emeralds Stolen",
+        "kills": "Mobs Killed",
+        "bees": "Jars Of Bees",
         "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
         "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
         "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
