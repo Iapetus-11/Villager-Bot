@@ -43,7 +43,7 @@ class Database(commands.Cog):
         # we can do this because self.fetch_user ensures user is not None
         return (await self.fetch_user(uid))['emeralds']
 
-    async def fetch_all_balances(self):
+    async def mass_fetch_balances(self):
         return await self.db.fetch('SELECT uid, emeralds FROM users')
 
     async def set_balance(self, uid, emeralds):
