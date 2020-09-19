@@ -389,7 +389,7 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
 
-            await self.bot.send(ctx,
+            await self.bot.send(ctx,  # pep8 wants to kil me
                 ctx.l.econ.buy.you_done_bought.format(
                     amount,
                     shop_item[3][0],
@@ -576,7 +576,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.beg.positive).format(f'{amount}{self.d.emojis.emerald}'))
         else:
-            amount = 9 + math.ceil(math.log(db_user['emeralds']+1, 1.3)) + random.randint(1, 5)
+            amount = 9 + math.ceil(math.log(db_user['emeralds']+1, 1.3)) + random.randint(1, 5)  # ah yes, meth
 
             if amount < 1:
                 amount = random.randint(1, 4)
@@ -598,6 +598,7 @@ class Econ(commands.Cog):
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
 
         # only works cause num of pickaxes is 6 and levels of fake finds is 3
+        # please don't bug me about jank code, I know
         fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe)/2)]
 
         yield_ = self.d.mining.yields_pickaxes[pickaxe] # [chance, out of]
@@ -703,7 +704,7 @@ class Econ(commands.Cog):
 
         if success:
             stolen = math.ceil(db_victim['emeralds'] * (random.randint(10, 40) / 100))
-            adjusted = math.ceil(stolen * .92)
+            adjusted = math.ceil(stolen * .92)  # villager bot will steal ur stuff
 
             await self.db.balance_sub(victim.id, stolen)
             await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
@@ -808,7 +809,7 @@ class Econ(commands.Cog):
         jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
         await self.db.add_item(ctx.author.id, 'Honey Jar', 1, jars)
 
-        await self.bot.send(ctx, random.choice(ctx.l.econ.honey.honey).format(jars))
+        await self.bot.send(ctx, random.choice(ctx.l.econ.honey.honey).format(jars))  # uwu so sticky oWo
 
         if random.choice([False]*3 + [True]):
             bees_lost = random.randint(math.ceil(bees / 75), math.ceil(bees / 50))
