@@ -13,7 +13,7 @@ class Econ(commands.Cog):
 
         self.db = self.bot.get_cog("Database")
 
-        self.ses = aiohttp.ClientSession(loop=self.bot.loop)
+        # self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
     """
     async def mine_captcha(ctx):
