@@ -11,6 +11,7 @@ class Config(commands.Cog):
         self.db = self.bot.db
 
     @commands.group(name='config', aliases=['settings', 'conf'])
+    @commands.guild_only()
     async def config(self, ctx):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(color=self.d.cc)
