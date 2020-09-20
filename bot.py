@@ -75,7 +75,6 @@ with open('data/data.json', 'r', encoding='utf8') as d:
     bot.d = cj.load(d)  # cj automatically turns json into sets of nested classes and attributes for easy access
 
 bot.d.cc = discord.Color.green()  # embed color
-bot.d.default_prefix = '/'
 
 bot.d.votes_topgg = 0
 bot.d.votes_disbots = 0
@@ -93,11 +92,6 @@ bot.d.chuggers = {}  # {user_id: [potion, potion]}
 bot.d.ban_cache = []  # [uid, uid,..]
 bot.d.prefix_cache = {}  # {gid: 'prefix'}
 bot.d.lang_cache = {}  # {gid: 'lang'}
-
-bot.d.splash_logo = 'http://olimone.ddns.net/images/villagerbotsplash1.png'
-bot.d.support = 'https://discord.gg/39DwwUV'
-bot.d.invite = 'https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=8&scope=bot'
-bot.d.topgg = 'https://top.gg/bot/639498607632056321'
 
 bot.d.fun_langs.unenchant = {}
 for key in list(bot.d.fun_langs.enchant):  # reverse the enchant lang to get the unenchant lang

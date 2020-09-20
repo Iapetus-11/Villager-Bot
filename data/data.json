@@ -1,4 +1,9 @@
 {
+  "default_prefix": "/",
+  "splash_logo": "http://olimone.ddns.net/images/villagerbotsplash1.png",
+  "support": "https://discord.gg/39DwwUV",
+  "invite": "https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=8&scope=bot",
+  "topgg": "https://top.gg/bot/639498607632056321",
   "playing_list": [
     "Minecraft",
     "!!vote for emeralds!",
