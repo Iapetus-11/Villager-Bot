@@ -12,8 +12,10 @@ class Config(commands.Cog):
 
     @commands.group(name='config', aliases=['settings', 'conf'])
     @commands.guild_only()
+    @commands.cooldown(1, 4, commands.BucketType.user)
     async def config(self, ctx):
         if ctx.invoked_subcommand is None:
+            ctx.reset_cooldown(ctx)
 
             embed = discord.Embed(color=self.d.cc, title='__**Villager Bot Settings**__')
 
@@ -30,8 +32,13 @@ class Config(commands.Cog):
             await ctx.send(embed=embed)
 
     @config.command(name='prefix')
-    async def config_prefix(self, ctx):
-        pass
+    async def config_prefix(self, ctx, prefix=None):
+        if prefix is None:
+            prev = self.d.prefix_cache.get(ctx.guild.id, self.bot.d.default_prefix)
+            await self.bot.send(f'The prefix in this server is: `{prev}`')
+            return
+
+        
 
 
 def setup(bot):
