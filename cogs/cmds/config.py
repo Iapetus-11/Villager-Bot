@@ -35,10 +35,20 @@ class Config(commands.Cog):
     async def config_prefix(self, ctx, prefix=None):
         if prefix is None:
             prev = self.d.prefix_cache.get(ctx.guild.id, self.bot.d.default_prefix)
-            await self.bot.send(f'The prefix in this server is: `{prev}`')
+            await self.bot.send(ctx, f'The prefix in this server is: `{prev}`')
             return
 
-        
+        if len(prefix) > 15:
+            await self.bot.send(ctx, 'You cannot have a prefix longer than `15` characters.')
+            return
+
+        for char in prefix:
+            if char not in self.d.acceptable_prefix_chars:
+                await self.bot.send(ctx, f'`{char}` is not allowed in a prefix.')
+                return
+
+        await self.db.set_prefix(ctx.guild.id, prefix)
+        await self.bot.send(ctx, f'Set the server prefix to `{prefix}`')
 
 
 def setup(bot):
