@@ -21,11 +21,11 @@ with open("data/config.json", "r") as c:  # load config
 
 async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
     if ctx.guild is None:
-        return '/'
+        return _bot.d.default_prefix
 
     prefix = _bot.d.prefix_cache.get(ctx.guild.id)
 
-    return '/' if prefix is None else prefix[0]
+    return _bot.d.default_prefix if prefix is None else prefix[0]
 
 
 bot = commands.AutoShardedBot(  # setup bot
@@ -75,6 +75,7 @@ with open('data/data.json', 'r', encoding='utf8') as d:
     bot.d = cj.load(d)  # cj automatically turns json into sets of nested classes and attributes for easy access
 
 bot.d.cc = discord.Color.green()  # embed color
+bot.d.default_prefix = '/'
 
 bot.d.votes_topgg = 0
 bot.d.votes_disbots = 0
