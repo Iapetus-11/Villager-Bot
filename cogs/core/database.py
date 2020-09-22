@@ -37,7 +37,7 @@ class Database(commands.Cog):
         return g
 
     async def set_guild_attr(self, gid, attr, value):
-        await self.fetch_guild()
+        await self.fetch_guild(gid)
         async with self.db.acquire() as con:
             await con.execute(f'UPDATE guilds SET {attr} = $1 WHERE gid = $2', value, gid)
 
