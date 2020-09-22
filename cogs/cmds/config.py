@@ -49,7 +49,6 @@ class Config(commands.Cog):
                 return
 
         await self.db.set_prefix(ctx.guild.id, prefix)
-        self.d.prefix_cache[ctx.guild.id] = p
         await self.bot.send(ctx, f'Set the server prefix to `{prefix}`')
 
     @config.command(name='replies')
