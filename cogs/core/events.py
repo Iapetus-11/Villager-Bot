@@ -2,6 +2,7 @@ from discord.ext import commands
 import traceback
 import discord
 import logging
+import asyncio
 import random
 
 
@@ -26,6 +27,12 @@ class Events(commands.Cog):
         self.logger.info(f"\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]")
 
     @commands.Cog.listener()
+    async def on_guild_join(self, guild):
+        await asyncio.sleep(1)
+
+        if guild.system_channel is
+
+    @commands.Cog.listener()
     async def on_message(self, m):
         if  m.content.startswith('<@!639498607632056321>'):
             prefix = '/'
@@ -44,8 +51,8 @@ class Events(commands.Cog):
             if m.guild is not None:
                 guild = await self.db.fetch_guild(m.guild.id)
 
-            if guild['replies']:
-                await ctx.send(random.choice(self.d.hmms))
+                if guild['replies']:
+                    await ctx.send(random.choice(self.d.hmms))
         elif '@someone' in m.content and m.guild is not None:
             someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id)]
             if len(someones) > 0:
