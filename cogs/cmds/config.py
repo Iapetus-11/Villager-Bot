@@ -12,10 +12,10 @@ class Config(commands.Cog):
 
     @commands.group(name='config', aliases=['settings', 'conf'])
     @commands.guild_only()
-    @commands.cooldown(1, 4, commands.BucketType.user)
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def config(self, ctx):
         if ctx.invoked_subcommand is None:
-            ctx.reset_cooldown(ctx)
+            ctx.command.reset_cooldown(ctx)
 
             embed = discord.Embed(color=self.d.cc, title='__**Villager Bot Settings**__')
 
