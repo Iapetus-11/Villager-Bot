@@ -7,7 +7,7 @@ import logging
 
 
 # set up basic logging
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)  # hide annoying asyncio warnings
 
 with open("data/keys.json", "r") as k:  # load bot keys
