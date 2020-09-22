@@ -112,7 +112,7 @@ class Events(commands.Cog):
             await self.bot.send(ctx.l.misc.errors.bad_arg)
         else:
             traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
-            final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'
+            final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'.replace('```', '\`\`\`')
             await self.bot.send(self.bot.get_channel(642446655022432267), f'```{final[:1023 - 6]}```')
 
 
