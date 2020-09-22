@@ -91,7 +91,7 @@ class Config(commands.Cog):
     async def config_language(self, ctx, lang=None):
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await self.bot.send(ctx, f'The server language is currently set to `{guild["lang"].replace("_", "_")}`.')
+            await self.bot.send(ctx, f'The server language is currently set to `{guild["lang"].replace("_", "-")}`.')
             return
 
         lang_codes = [l.replace('_', '-') for l in list(self.bot.langs)]
