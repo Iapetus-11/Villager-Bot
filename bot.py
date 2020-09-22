@@ -6,9 +6,6 @@ import discord
 import logging
 
 
-global DEBUG
-DEBUG = True
-
 # set up basic logging
 logging.basicConfig(level=logging.WARNING)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)  # hide annoying asyncio warnings
@@ -114,9 +111,6 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
-    if DEBUG and ctx.channel.id not in (643648150778675202, 750788275383435395,):
-        return False
-
     if bot.is_ready() and ctx.author.id not in bot.d.ban_cache:
         ctx.l = await bot.get_lang(ctx)
         return True
