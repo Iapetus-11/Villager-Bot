@@ -24,7 +24,7 @@ class Config(commands.Cog):
                          'Changes the difficulty of mobs, and some other things - `{0}config difficulty <peaceful/easy/hard>`\n' \
                          'Changes the language that Villager Bot is in - `{0}config lang <language>`\n'
 
-            embed.add_field(name='Server/Guild Configuration', value=guild_conf)
+            embed.add_field(name='Server/Guild Configuration', value=guild_conf.format(ctx.prefix))
 
             #user_conf = 'bruh2.0'
             #embed.add_field(name='Per User Configuration', value=user_conf)
