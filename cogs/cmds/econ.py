@@ -902,7 +902,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='mobkills', aliases=['kil'])
-    async def leaderboard_pillages(self, ctx):
+    async def leaderboard_mobkills(self, ctx):
         kills = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('mobs_killed')]
         kills = sorted(kills, key=(lambda tup: tup[1]), reverse=True)
 
