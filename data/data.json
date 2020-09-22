@@ -142,6 +142,23 @@
     "on the Nether Update",
     "Minecraft - 'Rona Edition"
   ],
+  "kills": [
+    "{0} was suicided",
+    "{0} died by death",
+    "{0} died by fall damage",
+    "{0} dug straight down",
+    "{0} was killed by {1}",
+    "{0} choked on a dorito and died",
+    "{0} was killed in a tragic accident involving doritos and {1}",
+    "We regret to inform you, {0} has been died",
+    "{0} is now dead.",
+    "A creeper blew up {0}",
+    "{0} suicided by creeper",
+    "{0} was yeeted into the void",
+    "{0} was yeeted into the void by an enderman",
+    "{0} fell into lava",
+    "{0} was smited by Villager Bot"
+  ],
   "mining": {
     "finds": [
       ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore"],
