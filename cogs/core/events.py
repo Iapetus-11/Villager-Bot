@@ -97,19 +97,19 @@ class Events(commands.Cog):
             if minutes > 0: time += f'{minutes} minutes, '
             time += f'{seconds} seconds'
 
-            await self.bot.send(random.choice(ctx.l.misc.cooldown_msgs).format(time))
+            await self.bot.send(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time))
         elif isinstance(e, commands.NoPrivateMessage):
-            await self.bot.send(ctx.l.misc.errors.private)
+            await self.bot.send(ctx, ctx.l.misc.errors.private)
         elif isinstance(e, commands.MissingPermissions):
-            await self.bot.send(ctx.l.misc.errors.user_perms)
+            await self.bot.send(ctx, ctx.l.misc.errors.user_perms)
         elif isinstance(e, commands.BotMissingPermissions):
-            await self.bot.send(ctx.l.misc.errors.bot_perms)
+            await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
         elif isinstance(e, commands.MaxConcurrencyReached):
-            await self.bot.send(ctx.l.misc.errors.concurrency)
+            await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
         elif isinstance(e, commands.MissingRequiredArgument):
-            await self.bot.send(ctx.l.misc.errors.missing_arg)
+            await self.bot.send(ctx, ctx.l.misc.errors.missing_arg)
         elif isinstance(e, commands.BadArgument) or isinstance(e, commands.errors.ExpectedClosingQuoteError):
-            await self.bot.send(ctx.l.misc.errors.bad_arg)
+            await self.bot.send(ctx, ctx.l.misc.errors.bad_arg)
         else:
             traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
             final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'.replace('```', '\`\`\`')
