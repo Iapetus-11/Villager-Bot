@@ -893,7 +893,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name='pillages', aliases=['pil'])
     async def leaderboard_pillages(self, ctx):
-        pillages = [(r[0], r[1]) for r in await self.db.fetch_all_leaderboard('pillages')]
+        pillages = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('pillages')]
         pillages = sorted(pillages, key=(lambda tup: tup[1]), reverse=True)
 
         lb = await self.leaderboard_logic(pillages, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
