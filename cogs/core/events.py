@@ -27,14 +27,10 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, m):
-        if '@someone' in m.content and m.guild is not None:
-            someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id)]
-            if len(someones) > 0:
-                await m.channel.send(random.choice(someones).mention)
-        elif m.content.startswith('<@!639498607632056321>'):
-            prefix = '!!'
+        if  m.content.startswith('<@!639498607632056321>'):
+            prefix = '/'
             if m.guild is not None:
-                prefix = await self.db.fetch_prefix(ctx.guild.id)
+                prefix = await self.d.prefix_cache.get(m.guild.id, '/')
 
             embed = discord.Embed(
                 color=self.d.cc,
@@ -44,6 +40,12 @@ class Events(commands.Cog):
             embed.set_footer('Made by Iapetus11#6821')
 
             await ctx.send(embed=embed)
+        elif 'emerald' in m.content:
+            await ctx.send(random.choice(self.d.hmms))
+        elif '@someone' in m.content and m.guild is not None:
+            someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id)]
+            if len(someones) > 0:
+            await m.channel.send(random.choice(someones).mention)
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
@@ -68,13 +70,23 @@ class Events(commands.Cog):
             if minutes > 0: time += f'{minutes} minutes, '
             time += f'{seconds} seconds'
 
-            await ctx.send('COOLDOWN ERROR:\n' + time)
-
-            return
-
-        traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
-        final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'
-        await self.bot.send(ctx, f'```{final[:1023 - 6]}```')
+            await self.bot.send(random.choice(ctx.l.misc.cooldown_msgs).format(time))
+        elif isinstance(e, commands.NoPrivateMessage):
+            await self.bot.send(ctx.l.misc.errors.private)
+        elif isinstance(e, commands.MissingPermissions):
+            await self.bot.send(ctx.l.misc.errors.user_perms)
+        elif isinstance(e, commands.BotMissingPermissions):
+            await self.bot.send(ctx.l.misc.errors.bot_perms)
+        elif isinstance(e, commands.MaxConcurrencyReached):
+            await self.bot.send(ctx.l.misc.errors.concurrency)
+        elif isinstance(e, commands.MissingRequiredArgument):
+            await self.bot.send(ctx.l.misc.errors.missing_arg)
+        elif isinstance(e, commands.BadArgument) or isinstance(e, commands.errors.ExpectedClosingQuoteError):
+            await self.bot.send(ctx.l.misc.errors.bad_arg)
+        else:
+            traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
+            final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'
+            await self.bot.send(self.bot.get_channel(642446655022432267), f'```{final[:1023 - 6]}```')
 
 
 def setup(bot):
