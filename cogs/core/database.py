@@ -22,7 +22,7 @@ class Database(commands.Cog):
         prefix_records = await self.db.fetch('SELECT gid, prefix FROM guilds WHERE prefix != $1 AND prefix != $2', None, '/')
         return dict((r[0], r[1],) for r in prefix_records)  # needs to be a dict
 
-    async def fetch_guild(gid):
+    async def fetch_guild(self, gid):
         g = await self.db.fetchrow('SELECT * FROM guilds WHERE gid = $1', gid)
 
         if g is None:
@@ -36,12 +36,12 @@ class Database(commands.Cog):
 
         return g
 
-    async def set_guild_attr(gid, attr, value):
+    async def set_guild_attr(self, gid, attr, value):
         await self.fetch_guild()
         async with self.db.acquire() as con:
             await con.execute(f'UPDATE guilds SET {attr} = $1 WHERE gid = $2', value, gid)
 
-    async def drop_guild(gid):
+    async def drop_guild(self, gid):
         async with self.db.acquire() as con:
             await con.execute('DELETE FROM guilds WHERE gid = $1', gid)
 
