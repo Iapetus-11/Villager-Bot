@@ -37,10 +37,6 @@ class Minecraft(commands.Cog):
             async with self.ses.get(f'https://betterapi.net/mc/mcping?host={combined}&k={self.d.k}') as res:  # fetch status from api
                 jj = await res.json()
 
-                j = jj.copy()
-                j.pop('favicon')
-                await ctx.send(j)
-
         if not jj['success'] or not jj['online']:
             embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined))
             await ctx.send(embed=embed)
