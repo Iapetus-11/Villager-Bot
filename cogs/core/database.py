@@ -36,6 +36,10 @@ class Database(commands.Cog):
 
         return g
 
+    async def drop_guild(gid):
+        async with self.db.acquire() as con:
+            await con.execute('DELETE FROM guilds WHERE gid = $1', gid)
+
     async def set_prefix(self, gid, prefix):
         await self.fetch_guild(gid)
 
