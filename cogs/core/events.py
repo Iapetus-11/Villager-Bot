@@ -66,7 +66,7 @@ class Events(commands.Cog):
         elif '@someone' in m.content and m.guild is not None:
             someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id)]
             if len(someones) > 0:
-            await m.channel.send(random.choice(someones).mention)
+                await m.channel.send(random.choice(someones).mention)
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
