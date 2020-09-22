@@ -886,7 +886,7 @@ class Econ(commands.Cog):
         emeralds = [(r[0], r[1]) for r in await self.db.mass_fetch_balances()]
         emeralds = sorted(emeralds, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(self, emeralds, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+        lb = await self.leaderboard_logic(emeralds, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
@@ -896,7 +896,7 @@ class Econ(commands.Cog):
         pillages = [(r[0], r[1]) for r in await self.db.fetch_all_leaderboard('pillages')]
         pillages = sorted(pillages, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(self, pillages, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+        lb = await self.leaderboard_logic(pillages, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
@@ -906,7 +906,7 @@ class Econ(commands.Cog):
         kills = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('mobs_killed')]
         kills = sorted(kills, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(self, kills, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
+        lb = await self.leaderboard_logic(kills, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
 
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
         await ctx.send(embed=embed)
@@ -916,7 +916,7 @@ class Econ(commands.Cog):
         bees = [(r['uid'], r['amount']) for r in await self.db.mass_fetch_item('Jar Of Bees')]
         bees = sorted(bees, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(self, bees, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
+        lb = await self.leaderboard_logic(bees, ctx.author.id, '`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
 
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
         await ctx.send(embed=embed)
