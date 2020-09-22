@@ -52,6 +52,26 @@ class Events(commands.Cog):
             if isinstance(e, e_type):
                 return
 
+        if isinstance(e, commands.CommandOnCooldown):
+            seconds = round(e.retry_after, 2)
+
+            if seconds == 0:
+                await ctx.reinvoke()
+                return
+
+            hours = int(seconds / 3600)
+            minutes = int(seconds / 60) % 60
+            seconds -= round((hours * 60 * 60) + (minutes * 60), 2)
+
+            time = ''
+            if hours > 0: time += f'{hours} hours, '
+            if minutes > 0: time += f'{minutes} minutes, '
+            time += f'{seconds} seconds'
+
+            await ctx.send('COOLDOWN ERROR:\n' + time)
+
+            return
+
         traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
         final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'
         await self.bot.send(ctx, f'```{final[:1023 - 6]}```')
