@@ -30,7 +30,17 @@ class Events(commands.Cog):
     async def on_guild_join(self, guild):
         await asyncio.sleep(1)
 
-        if guild.system_channel is
+        for channel in guild.text_channels:
+            if 'general' in channel.name:
+                await channel.send(
+                    'Hey ya\'ll! Type `/help` to get started with Villager Bot!\n'
+                    'If you need any more help, check out the **[Support Server]({self.d.support})**!'
+                )
+                break
+
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild):
+        await self.db.drop_guild(guild.id)
 
     @commands.Cog.listener()
     async def on_message(self, m):
