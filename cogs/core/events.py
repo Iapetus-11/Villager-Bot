@@ -41,7 +41,11 @@ class Events(commands.Cog):
 
             await ctx.send(embed=embed)
         elif 'emerald' in m.content:
-            await ctx.send(random.choice(self.d.hmms))
+            if m.guild is not None:
+                guild = await self.db.fetch_guild(m.guild.id)
+
+            if guild['replies']:
+                await ctx.send(random.choice(self.d.hmms))
         elif '@someone' in m.content and m.guild is not None:
             someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id)]
             if len(someones) > 0:
