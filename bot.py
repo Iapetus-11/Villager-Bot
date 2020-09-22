@@ -31,6 +31,8 @@ bot = commands.AutoShardedBot(  # setup bot
     #help_command=None
 )
 
+bot.logger = logging.getLogger(__name__)
+
 async def send(_bot, location, message):  # send function/method for easy sending of embed messages with small amounts of text
     try:
         await location.send(embed=discord.Embed(color=_bot.d.cc, description=message))
@@ -108,6 +110,7 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list
+    bot.logger.info(f'Loading Extension: {cog}')
     bot.load_extension(cog)
 
 @bot.check  # everythingggg goes through here
