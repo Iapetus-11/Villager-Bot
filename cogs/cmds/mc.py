@@ -108,9 +108,7 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
-        res_profile = await self.ses.get(
-            f'https://sessionserver.mojang.com/session/minecraft/profile/{uuid}?unsigned=false'
-        )
+        res_profile = await self.ses.get(f'https://sessionserver.mojang.com/session/minecraft/profile/{uuid}?unsigned=false')
         profile_content = await res_profile.json()
 
         if 'error' in profile_content or len(profile_content['properties']) == 0:
