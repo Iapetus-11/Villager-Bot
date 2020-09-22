@@ -44,7 +44,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, m):
-        if  m.content.startswith('<@!639498607632056321>'):
+        if m.content.startswith('<@!639498607632056321>'):
             prefix = '/'
             if m.guild is not None:
                 prefix = await self.d.prefix_cache.get(m.guild.id, '/')
@@ -57,19 +57,18 @@ class Events(commands.Cog):
             embed.set_footer('Made by Iapetus11#6821')
 
             await ctx.send(embed=embed)
-        elif '@someone' in m.content and m.guild is not None:
+        elif m.guild is not None and '@someone' in m.content:
             someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id)]
             if len(someones) > 0:
                 await m.channel.send(random.choice(someones).mention)
-        else:
-            if m.author.id != self.bot.user.id:
-                guild = await self.db.fetch_guild(m.guild.id)
+        elif m.guild is not None and m.author.id != self.bot.user.id:
+            guild = await self.db.fetch_guild(m.guild.id)
 
-                if guild['replies']:
-                    if 'emerald' in m.content:
-                        await m.channel.send(random.choice(self.d.hmms))
-                    elif 'creeper' in m.content:
-                        await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
+            if guild['replies'] and not m.content.startswith(self.d.prefix_cache.get(m.guild.id,  '/')):
+                if 'emerald' in m.content:
+                    await m.channel.send(random.choice(self.d.hmms))
+                elif 'creeper' in m.content:
+                    await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
