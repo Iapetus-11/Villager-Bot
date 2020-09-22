@@ -8,7 +8,7 @@ class Config(commands.Cog):
 
         self.d = self.bot.d
 
-        self.db = self.bot.db
+        self.db = self.bot.get_cog('Database')
 
     @commands.group(name='config', aliases=['settings', 'conf'])
     @commands.guild_only()
