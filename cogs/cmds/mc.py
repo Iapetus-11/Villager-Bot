@@ -34,7 +34,7 @@ class Minecraft(commands.Cog):
             combined = f'{host}{port_str}'
 
         async with ctx.typing():
-            async with self.ses.get(f'https://theapi.info/mc/mcping?host={combined}') as res:  # fetch status from api
+            async with self.ses.get(f'https://betterapi.net:6400/mc/mcping?host={combined}') as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -49,7 +49,7 @@ class Minecraft(commands.Cog):
         players_online = jj['players_online']  # int
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
-        # should probably set thumbnail to server favicon or add image from theapi.info/mc/mcpingimg
+        # should probably set thumbnail to server favicon or add image from betterapi.net:6400/mc/mcpingimg
 
         embed.add_field(name=ctx.l.minecraft.latency, value=jj['latency'])
         embed.add_field(name=ctx.l.minecraft.version, value=jj['version'].get('brand', 'Unknown'))
@@ -73,10 +73,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://theapi.info/mc/mcpingimg?host={combined}&imgonly=true&v={random.random()*100000}')
+        embed.set_image(url=f'https://betterapi.net:6400/mc/mcpingimg?host={combined}&imgonly=true&v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://theapi.info/mc/serverfavi?host={combined}')
+            embed.set_thumbnail(url=f'https://betterapi.net:6400/mc/serverfavi?host={combined}')
 
         if ctx.command.name == 'randommc':
             if note is not None:
