@@ -68,7 +68,7 @@ class Config(commands.Cog):
         else:
             await self.bot.send(ctx, 'That\'s not a valid option. (Valid options are `on`, `off`)')
 
-    @config.command(name='difficulty')
+    @config.command(name='difficulty', aliases=['diff'])
     async def config_difficulty(self, ctx, diff=None):
         if diff is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
@@ -87,7 +87,7 @@ class Config(commands.Cog):
         else:
             await self.bot.send(ctx, 'That\'s not a valid option. (Valid options are `peaceful`, `easy`, `hard`)')
 
-    @config.command(name='language')
+    @config.command(name='language', aliases=['lang'])
     async def config_language(self, ctx, lang=None):
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
