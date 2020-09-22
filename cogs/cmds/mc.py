@@ -35,6 +35,7 @@ class Minecraft(commands.Cog):
 
         async with ctx.typing():
             async with self.ses.get(f'https://betterapi.net/mc/mcping?host={combined}&k={self.d.k}') as res:  # fetch status from api
+                print(res)
                 print(await res.text())
                 jj = await res.json()
 
