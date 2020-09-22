@@ -1,7 +1,6 @@
 from discord.ext import commands
 import traceback
 import discord
-import logging
 import asyncio
 import random
 
@@ -13,9 +12,6 @@ class Events(commands.Cog):
 
         self.db = self.bot.get_cog('Database')
 
-        self.logger = logging.getLogger("Events")
-        self.logger.setLevel(logging.INFO)
-
     @commands.Cog.listener()
     async def on_ready(self):
         await self.bot.change_presence(activity=discord.Game(name=random.choice(self.d.playing_list)))
@@ -24,7 +20,7 @@ class Events(commands.Cog):
         self.d.lang_cache = await self.db.fetch_all_guild_langs()
         self.d.prefix_cache = await self.db.fetch_all_guild_prefixes()
 
-        self.logger.info(f"\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]")
+        self.bot.logger.info(f"\u001b[36;1m CONNECTED \u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]")
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
