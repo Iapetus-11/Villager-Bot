@@ -867,7 +867,7 @@ class Econ(commands.Cog):
         body = ''
 
         for place, entry in enumerate(_list):  # enumerate() gives me a boner
-            u = self.bot.get_user(entry[0])
+            user = self.bot.get_user(entry[0])
 
             if user is None:
                 user = 'Deleted User'
