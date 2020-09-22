@@ -12,6 +12,7 @@ class Config(commands.Cog):
 
     @commands.group(name='config', aliases=['settings', 'conf'])
     @commands.guild_only()
+    @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def config(self, ctx):
         if ctx.invoked_subcommand is None:
@@ -48,6 +49,7 @@ class Config(commands.Cog):
                 return
 
         await self.db.set_prefix(ctx.guild.id, prefix)
+        self.d.prefix_cache[ctx.guild.id] = p
         await self.bot.send(ctx, f'Set the server prefix to `{prefix}`')
 
     @config.command(name='replies')
