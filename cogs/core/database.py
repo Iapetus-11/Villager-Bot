@@ -51,6 +51,8 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute('UPDATE guilds SET prefix = $1 WHERE gid = $2', prefix, gid)
 
+        self.d.prefix_cache[gid] = prefix
+
     async def fetch_user(self, uid):
         user = await self.db.fetchrow('SELECT * FROM users WHERE uid = $1', uid)
 
