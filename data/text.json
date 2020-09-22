@@ -3,12 +3,13 @@
     "lang": "en-us",
     "misc": {
       "cooldown_msgs": [
-        "Didn't your parents tell you that [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another {}.",
-        "Hey, you need to wait another {} before doing that again.",
-        "Hrmmm, looks like you need to wait another {} before doing that again.",
-        "Don't you know that [patience is a virtue](http://www.patience-is-a-virtue.org/)! Wait another {}.",
-        "Hold on and wait another {}."
-      ]
+        "Didn't your parents tell you that [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another **{}**.",
+        "Hey, you need to wait another **{}** before doing that again.",
+        "Hrmmm, looks like you need to wait another **{}** before doing that again.",
+        "Don't you know that [patience is a virtue](http://www.patience-is-a-virtue.org/)! Wait another **{}**.",
+        "Hold on and wait another **{}**."
+      ],
+      "andioop": "Oops! Something went really wrong... Please take a screenshot and report it on the [**Support Server**]({}), thank you!"
     },
     "fun": {
       "too_long": "That message would be too long to convert.",
