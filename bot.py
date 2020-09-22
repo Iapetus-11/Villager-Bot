@@ -75,6 +75,7 @@ with open('data/data.json', 'r', encoding='utf8') as d:
     bot.d = cj.load(d)  # cj automatically turns json into sets of nested classes and attributes for easy access
 
 bot.d.cc = discord.Color.green()  # embed color
+bot.d.k = keys.ap
 
 bot.d.votes_topgg = 0
 bot.d.votes_disbots = 0
