@@ -63,6 +63,12 @@ class Events(commands.Cog):
 
                 if guild['replies']:
                     await ctx.send(random.choice(self.d.hmms))
+        elif 'creeper' in m.content:
+            if m.guild is not None:
+                guild = await self.db.fetch_guild(m.guild.id)
+
+                if guild['replies']:
+                    await ctx.send('awww{} man'.format(random.randint(1, 5)*'w'))
         elif '@someone' in m.content and m.guild is not None:
             someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id)]
             if len(someones) > 0:
