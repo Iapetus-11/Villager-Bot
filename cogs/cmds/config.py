@@ -50,6 +50,22 @@ class Config(commands.Cog):
         await self.db.set_prefix(ctx.guild.id, prefix)
         await self.bot.send(ctx, f'Set the server prefix to `{prefix}`')
 
+    @config.command(name='replies')
+    async def config_replies(self, ctx, replies=None):
+        if replies is None:
+            guild = await self.db.fetch_guild(ctx.guild.id)
+            await self.bot.send(ctx, f'Message replies (like to "emerald") are {"enabled"*guild["replies"] + "disabled"*(not guild["replies"])}')
+            return
+
+        if replies.lower() in ('yes', 'true', 'on'):
+            await self.db.set_guild_attr(ctx.guild.id, 'replies', True)
+            await self.bot.send(ctx, 'Turned message replies `on`.')
+        elif replies.lower() in ('no', 'false', 'off'):
+            await self.db.set_guild_attr(ctx.guild.id, 'replies', False)
+            await self.bot.send(ctx, 'Turned message replies `off`.')
+        else:
+            await self.bot.send(ctx, 'That\'s not a valid option. (Valid options are `on` or `off`)')
+
 
 def setup(bot):
     bot.add_cog(Config(bot))
