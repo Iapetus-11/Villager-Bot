@@ -48,7 +48,7 @@ class Config(commands.Cog):
                 await self.bot.send(ctx, f'`{char}` is not allowed in a prefix.')
                 return
 
-        await self.db.set_guild_attr(ctx.guild.id, 'prpefix', prefix)
+        await self.db.set_guild_attr(ctx.guild.id, 'prefix', prefix)
         self.d.prefix_cache[ctx.guild.id] = prefix
         await self.bot.send(ctx, f'Set the server prefix to `{prefix}`')
 
