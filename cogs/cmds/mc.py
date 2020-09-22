@@ -51,24 +51,24 @@ class Minecraft(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
         # should probably set thumbnail to server favicon or add image from betterapi.net:6400/mc/mcpingimg
 
-        embed.add_field(name=ctx.l.minecraft.latency, value=jj['latency'])
-        embed.add_field(name=ctx.l.minecraft.version, value=jj['version'].get('brand', 'Unknown'))
+        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
+        embed.add_field(name=ctx.l.minecraft.mcping.version, value=jj['version'].get('brand', 'Unknown'))
 
         player_list_cut = player_list[:24]
 
         if jj['version']['method'] != 'query' and len(player_list_cut) < 1:
             embed.add_field(
-                name=ctx.l.minecraft.field_online_players.name.format(players_online, jj['players_max']),
-                value=ctx.l.minecraft.field_online_players.value,
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
+                value=ctx.l.minecraft.mcping.field_online_players.value,
                 inline=False
             )
         else:
             extra = ''
             if len(player_list_cut) < players_online:
-                extra = ctx.l.minecraft.and_other_players.format(players_online - len(player_list_cut))
+                extra = ctx.l.minecraft.mcping.and_other_players.format(players_online - len(player_list_cut))
 
             embed.add_field(
-                name=ctx.l.minecraft.field_online_players.name.format(players_online, jj['players_max']),
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
                 value='`' + '`, `'.join(player_list_cut) + '`' + extra,
                 inline=False
             )
