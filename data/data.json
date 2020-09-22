@@ -159,6 +159,17 @@
     "{0} fell into lava",
     "{0} was smited by Villager Bot"
   ],
+  "hmms": [
+    "ehhrrrh'hhhdhrmhmhrrrh shrmhmrgghmhrmhmhhhhrmhmhrrrhhhhghhhhhrrrhegh hhhdhrmhmhrrrhehhrrrhhhhhrmhmhrrrhhhhghhhhhrrrhegh hhhhrrrhhhhghhhhhrmhmghhrrrh hhrrrhmmhrrrhehhhhhrrrhmmhhrrrhmmhrrrhehhhhrrrhhhhhrrrhhrmhmhhhhhrrrhhhrrrhmmghhhdhrmhmhrrrhshrmhmrgghm",
+    "hurrhrmhmhhrrrhmmhhrrrhmmhurr hhrrrhmmhrrrhehhhhhrrrhmmhhrrrhmmhrrrhehhhhrrrhhhhhrrrhhrmhmhhhhhrrrhhhrrrhmmghhhdhrmhmhrrrhshrmhmrgghm",
+    "ehhrrrh hhrrrhmmhrrrhehhhhhhhrrrhhrmhmhhhehrrg shrmhmrgghmhhrrrhmmhhhhrrrhhrmhmhhhhhrrrhhhrrrhmmghhrrrhhhrrrhmmg hhhhrmhmhrrrhhhhghhhhhhehhrrrhhhrrrhhhrrrhmmghhhdhrmhmhrrrhhrrrhhhrrrhmmhrrrhehhhhmeh",
+    "hrmhmhwurghhrmhm hhhdhrmhmhrrrhhhhhrrrhhrmhmhhhhhhdhrmhmhrrrhhhhdhrmhmhrrrhhurr hhhhrmhmhrrrhhhhghhhhrmhmhhrrrhmm ehhrrrhhmeh hhrrrhmmhhrrrhmmhrrrhehhh",
+    "hrmmmmmmmmm",
+    "hrmmm",
+    "hrmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+    "hmrmrmmhhhhhmmmmmmm",
+    "hhrrrhmmhrrrhehhhhrmhmhmeh hhrmhmghhwurghhmehshrmhmrgghm hhrrrhmmhhrrrhmmhrrrhehhh"
+  ],
   "mining": {
     "finds": [
       ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore"],
