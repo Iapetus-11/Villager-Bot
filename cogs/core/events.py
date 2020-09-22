@@ -57,22 +57,19 @@ class Events(commands.Cog):
             embed.set_footer('Made by Iapetus11#6821')
 
             await ctx.send(embed=embed)
-        elif 'emerald' in m.content:
-            if m.guild is not None:
-                guild = await self.db.fetch_guild(m.guild.id)
-
-                if guild['replies']:
-                    await m.channel.send(random.choice(self.d.hmms))
-        elif 'creeper' in m.content:
-            if m.guild is not None:
-                guild = await self.db.fetch_guild(m.guild.id)
-
-                if guild['replies']:
-                    await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
         elif '@someone' in m.content and m.guild is not None:
             someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id)]
             if len(someones) > 0:
                 await m.channel.send(random.choice(someones).mention)
+        else:
+            if m.author.id != self.bot.user.id:
+                guild = await self.db.fetch_guild(m.guild.id)
+
+                if guild['replies']:
+                    if 'emerald' in m.content:
+                        await m.channel.send(random.choice(self.d.hmms))
+                    elif 'creeper' in m.content:
+                        await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
