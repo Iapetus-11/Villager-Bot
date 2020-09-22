@@ -64,7 +64,26 @@ class Config(commands.Cog):
             await self.db.set_guild_attr(ctx.guild.id, 'replies', False)
             await self.bot.send(ctx, 'Turned message replies `off`.')
         else:
-            await self.bot.send(ctx, 'That\'s not a valid option. (Valid options are `on` or `off`)')
+            await self.bot.send(ctx, 'That\'s not a valid option. (Valid options are `on`, `off`)')
+
+    @config.command(name='difficulty')
+    async def config_difficulty(self, ctx, diff=None):
+        if diff is None:
+            guild = await self.db.fetch_guild(ctx.guild.id)
+            await self.bot.send(ctx, f'The server difficulty is currently set to `{guild["difficulty"]}`.')
+            return
+
+        if diff.lower() == 'peaceful':
+            await self.db.set_guild_attr(ctx.guild.id, 'difficulty', 'peaceful')
+            await self.bot.send(ctx, 'Set the server difficulty to `peaceful`.')
+        elif diff.lower() == 'easy':
+            await self.db.set_guild_attr(ctx.guild.id, 'difficulty', 'easy')
+            await self.bot.send(ctx, 'Set the server difficulty to `easy`.')
+        elif diff.lower() == 'hard':
+            await self.db.set_guild_attr(ctx.guild.id, 'difficulty', 'hard')
+            await self.bot.send(ctx, 'Set the server difficulty to `hard`.')
+        else:
+            await self.bot.send(ctx, 'That\'s not a valid option. (Valid options are `peaceful`, `easy`, `hard`)')
 
 
 def setup(bot):
