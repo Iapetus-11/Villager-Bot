@@ -31,7 +31,7 @@ bot = commands.AutoShardedBot(  # setup bot
     #help_command=None
 )
 
-async def send(_bot, location, message: str):  # send function/method for easy sending of embed messages with small amounts of text
+async def send(_bot, location, message):  # send function/method for easy sending of embed messages with small amounts of text
     try:
         await location.send(embed=discord.Embed(color=_bot.d.cc, description=message))
         return True
