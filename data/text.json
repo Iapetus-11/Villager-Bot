@@ -9,7 +9,15 @@
         "Don't you know that [patience is a virtue](http://www.patience-is-a-virtue.org/)! Wait another **{}**.",
         "Hold on and wait another **{}**."
       ],
-      "andioop": "Oops! Something went really wrong... Please take a screenshot and report it on the [**Support Server**]({}), thank you!"
+      "errors": {
+        "andioop": "Oops! Something went really wrong... Please take a screenshot and report it on the [**Support Server**]({}), thank you!",
+        "private": "This command can't be used in private chat channels.",
+        "user_perms": "Nice try stupid, but you don't have the permissions to do that!",
+        "bot_perms": "You didn't give me the proper permissions to do that, dummy.",
+        "concurrency": "Hold on! You're using this command tooooo fast!",
+        "missing_arg": "Looks like you're forgetting to put something in!",
+        "bad_arg": "Looks like you didn't type something correctly, try typing it right the first time, dum dum."
+      }
     },
     "fun": {
       "too_long": "That message would be too long to convert.",
@@ -69,7 +77,7 @@
       }
     },
     "mod": {
-      "no_perms": "You don't have the permissions to do that!",
+      "no_perms": "Nice try, but you don't have the permissions to do that!",
       "kick": {
         "error": "You cannot kick yourself",
         "success": "Kicked **{}**"
