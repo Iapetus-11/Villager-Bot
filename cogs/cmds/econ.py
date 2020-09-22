@@ -855,7 +855,7 @@ class Econ(commands.Cog):
     async def leaderboard_logic(self, _list, origin_uid, rank_fstr):
         # find the rank/place on lb of the origin user
         u_place = -1
-        for i in range(len(lb)):
+        for i in range(len(_list)):
             if _list[i][0] == origin_uid:
                 u_place = i + 1
                 origin_value = _list[i][1]
