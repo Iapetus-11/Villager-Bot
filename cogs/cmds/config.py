@@ -56,7 +56,7 @@ class Config(commands.Cog):
     async def config_replies(self, ctx, replies=None):
         if replies is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await self.bot.send(ctx, f'Message replies (like to "emerald") are {"enabled"*guild["replies"] + "disabled"*(not guild["replies"])}')
+            await self.bot.send(ctx, f'Message replies (like to "emerald") are `{"enabled"*guild["replies"] + "disabled"*(not guild["replies"])}`')
             return
 
         if replies.lower() in ('yes', 'true', 'on'):
