@@ -549,8 +549,8 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.gamble.stupid_2)
             return
 
-        u_roll = random.randint(1, 6) + random.randint(1, 6)
-        b_roll = random.randint(1, 6) + random.randint(1, 6)
+        u_roll = random.randint(2, 13)
+        b_roll = random.randint(2, 13)
 
         await self.bot.send(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
 
