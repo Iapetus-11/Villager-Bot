@@ -881,6 +881,7 @@ class Econ(commands.Cog):
             embed.add_field(name=ctx.l.econ.lb.stolen, value=f'`{ctx.prefix}leaderboard stolen`', inline=False)
             embed.add_field(name=ctx.l.econ.lb.kills, value=f'`{ctx.prefix}leaderboard mobkills`', inline=False)
             embed.add_field(name=ctx.l.econ.lb.bees, value=f'`{ctx.prefix}leaderboard bees`', inline=False)
+            embed.add_field(name=ctx.l.econ.lb.cmds, value=f'`{ctx.prefix}leaderboard commands`', inline=False)
 
             await ctx.send(embed=embed)
 
@@ -954,6 +955,16 @@ class Econ(commands.Cog):
         lb = await self.leaderboard_logic(bees, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
 
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
+        await ctx.send(embed=embed)
+
+    @leaderboards.command(name='commands', aliases=['cmds'])
+    async def leaderboard_commands(self, ctx):
+        cmds = [(u, self.d.cmd_lb[u]) for u in list(self.d.cmd_lb)]
+        cmds = sorted(cmds, key=(lambda tup: tup[1]), reverse=True)
+
+        lb = await self.leaderboard_logic(cmds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
+
+        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_cmds.format(':keyboard:'))
         await ctx.send(embed=embed)
 
 

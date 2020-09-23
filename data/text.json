@@ -298,10 +298,12 @@
         "stolen": "Emeralds Stolen",
         "kills": "Mobs Killed",
         "bees": "Jars Of Bees",
+        "cmds": "Commands Sent",
         "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
         "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
         "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
-        "lb_bee": "{0}__**Total Bees Leaderboard**__{0}"
+        "lb_bee": "{0}__**Total Bees Leaderboard**__{0}",
+        "lb_cmds": "{0}__**Commands Sent Leaderboard**__{0}"
       }
     }
   }
