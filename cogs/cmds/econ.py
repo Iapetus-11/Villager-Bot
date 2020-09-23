@@ -61,8 +61,24 @@ class Econ(commands.Cog):
 
         return True
 
-    @commands.command(name='bal', aliases=['balance'])
-    async def bal(self, ctx, user: discord.User = None):
+    async def make_stat_bar(self, value, max, slots, full, empty):  # Slots should be 10 cause 10 hearts / 2 idk bro I just bsed this function lmao
+        occupado = math.floor((value / max) * slots)
+        return (full * occupado) + empty * math.floor(slots - occupado)
+
+    @commands.command(name='profile', aliases=['pp'])
+    async def profile(self, ctx, user: discord.User = None):
+        if user is None:
+            user = ctx.author
+
+        if user.bot:
+            if user.id == self.bot.user.id:
+                await self.bot.send('Hey dumb dumb, Villager Bot has wayy to much stuff to show here.')
+            else:
+                await self.bot.send('Hey dumb dumb, bots don\'t have rights and therefore can\'t have items or emeralds.')
+            return
+
+    @commands.command(name='balance', aliases=['bal'])
+    async def balance(self, ctx, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
 
         if user is None:
