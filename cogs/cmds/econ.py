@@ -77,6 +77,25 @@ class Econ(commands.Cog):
                 await self.bot.send('Hey dumb dumb, bots don\'t have rights and therefore can\'t have items or emeralds.')
             return
 
+        db_user = await self.db.fetch_user(user.id)
+        u_items = await self.db.fetch_items(user.id)
+
+        total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] * u_it['amount'] for u_it in u_items])
+        health_bar = await self.make_stat_bar(db_user['health'], 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)
+
+        embed = discord.Embed(color=self.d.cc, description=health_bar)
+        embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
+
+        embed.add_field(name='Total Wealth', value=f'{total_wealth}{self.d.emojis.emerald}')
+        embed.add_field(name='\uFEFF', value='\uFEFF')
+        embed.add_field(name='Commands Sent', value=self.d.cmd_lb.get(user.id, 0))
+
+        embed.add_field(name='Pickaxe', value=(await self.db.fetch_pickaxe(user.id)))
+        embed.add_field(name='\uFEFF', value='\uFEFF')
+        embed.add_field(name='Sword', value=(await self.db.fetch_sword(user.id)))
+
+        await ctx.send(embed=embed)
+
     @commands.command(name='balance', aliases=['bal'])
     async def balance(self, ctx, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
