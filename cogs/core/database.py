@@ -134,10 +134,17 @@ class Database(commands.Cog):
                 return pickaxe
 
         await self.add_item(uid, 'Wood Pickaxe', 0, 1)
-        return self.d.mining.pickaxes[-1]
+        return 'Wood Pickaxe'
 
     async def fetch_sword(self, uid):
-        pass
+        items_names = [item['name'] for item in await self.fetch_items(uid)]
+
+        for sword in ('Netherite Sword', 'Diamond Sword', 'Gold Sword', 'Iron Sword', 'Stone Sword', 'Wood Sword'):
+            if sword in items_names:
+                return sword
+
+        await self.add_item(uid, 'Wood Sword', 0, 1)
+        return 'Wood Sword'
 
     async def rich_trophy_wipe(self, uid):
         await self.set_balance(uid, 0)
