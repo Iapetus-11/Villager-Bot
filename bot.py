@@ -118,6 +118,7 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 async def global_check(ctx):
     if bot.is_ready() and ctx.author.id not in bot.d.ban_cache:
         ctx.l = await bot.get_lang(ctx)
+        bot.d.cmd_lb[ctx.author.id] = bot.d.cmd_lb.get(ctx.author.id, 0) + 1
         return True
 
     return False
