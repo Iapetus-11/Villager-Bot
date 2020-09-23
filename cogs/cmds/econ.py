@@ -575,7 +575,7 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
-        if random.choice([True, True, True, True, True, False]):
+        if random.choice([True, True, True, True, True, False]) or db_user['emeralds'] < 2:
             amount = 9 + math.ceil(math.log(db_user['emeralds']+1, 1.5)) + random.randint(1, 5)
             amount = random.randint(1, 4) if amount < 1 else amount
 
