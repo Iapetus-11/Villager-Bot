@@ -72,9 +72,9 @@ class Econ(commands.Cog):
 
         if user.bot:
             if user.id == self.bot.user.id:
-                await self.bot.send('Hey dumb dumb, Villager Bot has wayy to much stuff to show here.')
+                await self.bot.send(ctx.l.econ.pp.bot_1)
             else:
-                await self.bot.send('Hey dumb dumb, bots don\'t have rights and therefore can\'t have items or emeralds.')
+                await self.bot.send(ctx.l.econ.pp.bot_2)
             return
 
         db_user = await self.db.fetch_user(user.id)
@@ -86,9 +86,9 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
 
-        embed.add_field(name='Total Wealth', value=f'{total_wealth}{self.d.emojis.emerald}')
+        embed.add_field(name=ctx.l.econ.pp.total_wealth, value=f'{total_wealth}{self.d.emojis.emerald}')
         embed.add_field(name='\uFEFF', value='\uFEFF')
-        embed.add_field(name='Commands Sent', value=self.d.cmd_lb.get(user.id, 0))
+        embed.add_field(name=ctx.l.econ.pp.cmds_sent, value=self.d.cmd_lb.get(user.id, 0))
 
         embed.add_field(name='Pickaxe', value=(await self.db.fetch_pickaxe(user.id)))
         embed.add_field(name='\uFEFF', value='\uFEFF')
