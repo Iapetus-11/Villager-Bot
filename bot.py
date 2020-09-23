@@ -88,6 +88,7 @@ bot.d.mining.pickaxes = list(reversed(list(bot.d.mining.yields_pickaxes)))  # ge
 bot.d.findables = bot.d.special_findables + bot.d.default_findables
 bot.d.pillagers = {}  # {user_id: daily_pillages}
 bot.d.chuggers = {}  # {user_id: [potion, potion]}
+self.d.cmd_lb = {}  # {user_id: command_count}
 
 bot.d.ban_cache = []  # [uid, uid,..]
 bot.d.prefix_cache = {}  # {gid: 'prefix'}
