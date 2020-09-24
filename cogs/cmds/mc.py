@@ -65,7 +65,7 @@ class Minecraft(commands.Cog):
 
         if not jj['success'] or not jj['online']:
             if ctx.command.name == 'randommc':
-                await self.randommc(ctx)
+                await self.random_mc_server(ctx)
                 return
             embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined))
             await ctx.send(embed=embed)
