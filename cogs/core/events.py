@@ -44,7 +44,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, m):
-        if m.content.startswith(f'<@!{self.bot.user.id}>') or m.content.startswith():
+        if m.content.startswith(f'<@!{self.bot.user.id}>'):
             prefix = '/'
             if m.guild is not None:
                 prefix = self.d.prefix_cache.get(m.guild.id, '/')
