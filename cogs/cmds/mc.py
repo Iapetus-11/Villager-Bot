@@ -74,6 +74,10 @@ class Minecraft(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
         # should probably set thumbnail to server favicon or add image from betterapi.net:6400/mc/mcpingimg
 
+        if ctx.command.name == 'randommc':
+            if note is not None:
+                embed.description = note
+
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=jj['version'].get('brand', 'Unknown'))
 
@@ -101,10 +105,6 @@ class Minecraft(commands.Cog):
         if jj['favicon'] is not None:
             embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavi?host={combined}&k={self.d.k}')
 
-        if ctx.command.name == 'randommc':
-            if note is not None:
-                embed.set_footer(text=note)
-
         await ctx.send(embed=embed)
 
     """
@@ -119,7 +119,7 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def random_mc_server(self, ctx):
         server = random.choice(self.server_list)
-        await self.mcping(ctx, s['ip'])
+        await self.mcping(ctx, s[0], f'You can learn more about this server [here]({s[1]})!')
 
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
