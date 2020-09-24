@@ -1,6 +1,7 @@
 {
   "en_us": {
     "lang": "en-us",
+    "name": "English",
     "misc": {
       "cooldown_msgs": [
         "Didn't your parents tell you that [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another **{}**.",
