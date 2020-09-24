@@ -47,7 +47,7 @@ class Minecraft(commands.Cog):
         """Checks the status of a given Minecraft server"""
 
         if host is None:
-            combined = await self.db.fetch_default_mcserver(ctx.guild.id)
+            combined = (await self.db.fetch_guild(ctx.guild.id))['mcserver']
             if combined is None:
                 await self.bot.send(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
         else:

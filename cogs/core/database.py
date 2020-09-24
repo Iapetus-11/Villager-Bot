@@ -41,10 +41,6 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute(f'UPDATE guilds SET {attr} = $1 WHERE gid = $2', value, gid)
 
-    async def fetch_default_mcserver(self, gid):
-        await self.fetch_guild(gid)
-
-
     async def drop_guild(self, gid):
         async with self.db.acquire() as con:
             await con.execute('DELETE FROM guilds WHERE gid = $1', gid)
