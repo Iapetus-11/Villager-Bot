@@ -1,5 +1,4 @@
 from discord.ext import commands
-from ..cogs.core.exceptions import *
 import traceback
 import discord
 import asyncio
@@ -113,9 +112,9 @@ class Events(commands.Cog):
             await self.bot.send(ctx, ctx.l.misc.errors.missing_arg)
         elif isinstance(e, commands.BadArgument) or isinstance(e, commands.errors.ExpectedClosingQuoteError):
             await self.bot.send(ctx, ctx.l.misc.errors.bad_arg)
-        elif isinstance(e, BotNotReadyException):
+        elif ctx.custom_err == 'not_ready':
             await self.bot.send(ctx, ctx.l.misc.errors.not_ready)
-        elif isinstance(e, BotBannedException):
+        elif ctx.custom_err == 'bot_banned':
             pass
         else:
             traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))

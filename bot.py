@@ -117,7 +117,7 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
     if ctx.author.id in bot.d.ban_cache:
-        ctx.custom_err = 'botbanned'
+        ctx.custom_err = 'bot_banned'
         return False
 
     if not bot.is_ready():
