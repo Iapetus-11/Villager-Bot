@@ -254,7 +254,7 @@ class Fun(commands.Cog):
                     await self.bot.send(ctx, ctx.l.fun.bubblewrap.invalid_size_2)
                     return
 
-        bubble = '||***pop***||'
+        bubble = '||**pop**||'
         await self.bot.send(ctx, f'{bubble*size[0]}\n'*size[1])
 
 
