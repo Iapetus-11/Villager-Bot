@@ -33,7 +33,7 @@ class Events(commands.Cog):
                     description='Hey ya\'ll! Type `/help` to get started with Villager Bot!\n'
                                 'If you need any more help, check out the **[Support Server]({self.d.support})**!'
                 )
-                
+
                 embed.set_author(name='Villager Bot', icon_url=self.d.splash_logo)
                 embed.set_footer(text='Made by Iapetus11#6821')
 
@@ -61,7 +61,7 @@ class Events(commands.Cog):
             embed.set_footer(text='Made by Iapetus11#6821')
 
             await m.channel.send(embed=embed)
-        elif m.guild is not None and '@someone' in m.content:
+        elif m.guild is not None and m.content == '@someone' or ' @someone ' in m.content:
             someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id)]
             if len(someones) > 0:
                 await m.channel.send(random.choice(someones).mention)
