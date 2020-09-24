@@ -1,5 +1,5 @@
 from discord.ext import commands
-from core.exceptions import *
+from .core.exceptions import *
 import classyjson as cj
 import asyncio
 import asyncpg
@@ -125,7 +125,7 @@ async def global_check(ctx):
 
     ctx.l = await bot.get_lang(ctx)
     bot.d.cmd_lb[ctx.author.id] = bot.d.cmd_lb.get(ctx.author.id, 0) + 1
-    
+
     return True
 
 
