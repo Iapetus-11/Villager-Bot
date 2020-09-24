@@ -70,7 +70,7 @@ class Events(commands.Cog):
                     await m.channel.send(random.choice(self.d.hmms))
                 elif 'creeper' in m.content.lower():
                     await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
-                elif 'reeeee' in m.content.lower():
+                elif 'reee' in m.content.lower():
                     await m.channel.send(random.choice(self.d.emojis.reees))
 
     @commands.Cog.listener()
