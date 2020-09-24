@@ -93,6 +93,13 @@
         "success": "Unbanned **{}**"
       }
     },
+    "config": {
+      "invalid": "That is not a valid option.",
+      "valid": "(Valid options: `{}`)",
+      "main": {
+        ""
+      }
+    },
     "econ": {
       "use_a_number_stupid": "You have to use a number.",
       "page": "Page",
