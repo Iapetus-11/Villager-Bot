@@ -112,6 +112,8 @@
         "set": "Set the server prefix to `{}`"
       },
       "replies": {
+        "enabled": "enabled",
+        "disabled": "disabled",
         "this_server": "Message replies are **{}**",
         "set": "Turned message replies **{}**",
       },
