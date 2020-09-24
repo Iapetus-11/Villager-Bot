@@ -34,7 +34,7 @@ class Events(commands.Cog):
                                 'If you need any more help, check out the **[Support Server]({self.d.support})**!'
                 )
                 embed.set_author(name='Villager Bot', icon_url=self.d.splash_logo)
-                embed.set_footer('Made by Iapetus11#6821')
+                embed.set_footer(text='Made by Iapetus11#6821')
                 await channel.send(embed=embed)
                 break
 
@@ -55,7 +55,7 @@ class Events(commands.Cog):
                             f'If you are in need of more help, you can join the **[Support Server]({self.d.support})**.'
             )
             embed.set_author(name='Villager Bot', icon_url=self.d.splash_logo)
-            embed.set_footer('Made by Iapetus11#6821')
+            embed.set_footer(text='Made by Iapetus11#6821')
 
             await ctx.send(embed=embed)
         elif m.guild is not None and '@someone' in m.content:
