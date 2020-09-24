@@ -121,7 +121,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def random_mc_server(self, ctx):
-        server = random.choice(self.server_list)
+        s = random.choice(self.server_list)
         await self.mcping(ctx, s[0], f'You can learn more about this server [here]({s[1]})!')
 
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
