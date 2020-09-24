@@ -22,7 +22,7 @@ async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the da
 
     prefix = _bot.d.prefix_cache.get(ctx.guild.id)
 
-    return _bot.d.default_prefix if prefix is None else prefix[0]
+    return _bot.d.default_prefix if prefix is None else prefix
 
 
 bot = commands.AutoShardedBot(  # setup bot
