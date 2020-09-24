@@ -1,5 +1,5 @@
 from discord.ext import commands
-from ..core.exceptions import *
+from .cogs.core.exceptions import *
 import classyjson as cj
 import asyncio
 import asyncpg
