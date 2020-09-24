@@ -28,10 +28,14 @@ class Events(commands.Cog):
 
         for channel in guild.text_channels:
             if 'general' in channel.name:
-                await channel.send(
-                    'Hey ya\'ll! Type `/help` to get started with Villager Bot!\n'
-                    'If you need any more help, check out the **[Support Server]({self.d.support})**!'
+                embed = discord.Embed(
+                    color=self.d.cc,
+                    description='Hey ya\'ll! Type `/help` to get started with Villager Bot!\n'
+                                'If you need any more help, check out the **[Support Server]({self.d.support})**!'
                 )
+                embed.set_author(name='Villager Bot', icon_url=self.d.splash_logo)
+                embed.set_footer('Made by Iapetus11#6821')
+                await channel.send(embed=embed)
                 break
 
     @commands.Cog.listener()
@@ -50,6 +54,7 @@ class Events(commands.Cog):
                 description=f'The prefix for this server is ``{prefix}`` and the help command is ``{prefix}help``\n'
                             f'If you are in need of more help, you can join the **[Support Server]({self.d.support})**.'
             )
+            embed.set_author(name='Villager Bot', icon_url=self.d.splash_logo)
             embed.set_footer('Made by Iapetus11#6821')
 
             await ctx.send(embed=embed)
