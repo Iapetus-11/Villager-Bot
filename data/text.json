@@ -99,9 +99,9 @@
         "title": "__**Villager Bot Settings**__",
         "guild_content": [
           "Change the server prefix - `{0}config prefix <newprefix>`\n",
-          "Change whether bot should respond to messages like \"emeralds\" - `{0}config replies <on/off>`\n",
-          "Changes the difficulty of mobs, and some other things - `{0}config difficulty <peaceful/easy/hard>`\n",
-          "Changes the language that Villager Bot is in - `{0}config lang <language>`\n"
+          "Change if bot should respond to messages like \"emeralds\" - `{0}config replies <on/off>`\n",
+          "Changes the difficulty of the rpg - `{0}config difficulty <peaceful/easy/hard>`\n",
+          "Changes the language of Villager Bot - `{0}config lang <language>`\n"
         ],
         "guild_conf": "Server/Guild Configuration"
       },
