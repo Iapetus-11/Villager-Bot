@@ -57,10 +57,10 @@ class Config(commands.Cog):
 
         if replies.lower() in ('yes', 'true', 'on'):
             await self.db.set_guild_attr(ctx.guild.id, 'replies', True)
-            await self.bot.send(ctx, ctx.l.config.replies.set('on'))
+            await self.bot.send(ctx, ctx.l.config.replies.set.format('on'))
         elif replies.lower() in ('no', 'false', 'off'):
             await self.db.set_guild_attr(ctx.guild.id, 'replies', False)
-            await self.bot.send(ctx, ctx.l.config.replies.set('off'))
+            await self.bot.send(ctx, ctx.l.config.replies.set.format('off'))
         else:
             await self.bot.send(ctx, ctx.l.config.invalid.format('`on`, `off`'))
 
@@ -68,20 +68,20 @@ class Config(commands.Cog):
     async def config_difficulty(self, ctx, diff=None):
         if diff is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await self.bot.send(ctx, f'The server difficulty is currently set to `{guild["difficulty"]}`.')
+            await self.bot.send(ctx, ctx.l.config.diff.this_server.format(guild['difficulty']))
             return
 
         if diff.lower() == 'peaceful':
             await self.db.set_guild_attr(ctx.guild.id, 'difficulty', 'peaceful')
-            await self.bot.send(ctx, 'Set the server difficulty to `peaceful`.')
+            await self.bot.send(ctx, ctx.l.config.diff.set.format('peaceful'))
         elif diff.lower() == 'easy':
             await self.db.set_guild_attr(ctx.guild.id, 'difficulty', 'easy')
-            await self.bot.send(ctx, 'Set the server difficulty to `easy`.')
+            await self.bot.send(ctx, ctx.l.config.diff.set.format('easy'))
         elif diff.lower() == 'hard':
             await self.db.set_guild_attr(ctx.guild.id, 'difficulty', 'hard')
-            await self.bot.send(ctx, 'Set the server difficulty to `hard`.')
+            await self.bot.send(ctx, ctx.l.config.diff.set.format('hard'))
         else:
-            await self.bot.send(ctx, 'That\'s not a valid option. (Valid options are `peaceful`, `easy`, `hard`)')
+            await self.bot.send(ctx, ctx.l.config.invalid.format('`peaceful`, `easy`, `hard`'))
 
     @config.command(name='language', aliases=['lang'])
     async def config_language(self, ctx, lang=None):
