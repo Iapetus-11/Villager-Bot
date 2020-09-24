@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS guilds(
   prefix     varchar(15), -- prefix in that server
   replies    bool, -- whether or not the should reply to "emeralds" and "villager bot"
   difficulty varchar(15), -- difficulty for mob spawns and other things
-  lang       varchar(5) -- language used leave null for en-us
+  lang       varchar(5), -- language used leave null for en-us
+  mcserver   varchar(30)
 );
 
 CREATE TABLE IF NOT EXISTS users(
