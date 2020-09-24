@@ -112,9 +112,9 @@ class Events(commands.Cog):
             await self.bot.send(ctx, ctx.l.misc.errors.missing_arg)
         elif isinstance(e, commands.BadArgument) or isinstance(e, commands.errors.ExpectedClosingQuoteError):
             await self.bot.send(ctx, ctx.l.misc.errors.bad_arg)
-        elif ctx.custom_err == 'not_ready':
+        elif ctx.__dict__.get('custom_err') == 'not_ready':
             await self.bot.send(ctx, ctx.l.misc.errors.not_ready)
-        elif ctx.custom_err == 'bot_banned':
+        elif ctx.__dict__.get('custom_err') == 'bot_banned':
             pass
         else:
             traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
