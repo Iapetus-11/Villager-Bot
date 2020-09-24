@@ -87,7 +87,7 @@ class Config(commands.Cog):
     async def config_language(self, ctx, lang=None):
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await self.bot.send(ctx, f'The server language is currently set to `{guild["lang"].replace("_", "-")}`.')
+            await self.bot.send(ctx, ctx.l.config.lang.this_server.format(guild['lang'].replace('_', '-')))
             return
 
         lang_codes = [l.replace('_', '-') for l in list(self.bot.langs)]
@@ -95,9 +95,9 @@ class Config(commands.Cog):
         if lang.lower() in lang_codes:
             await self.db.set_guild_attr(ctx.guild.id, 'lang', lang.replace('-', '_'))
             self.d.lang_cache[ctx.guild.id] = lang.replace('-', '_')
-            await self.bot.send(ctx, f'Set the server language to `{lang.lower()}`.')
+            await self.bot.send(ctx, ctx.l.config.lang.set.format(lang.lower()))
         else:
-            await self.bot.send(ctx, 'That\'s not a valid option. (Valid options are: `{}`)'.format('`, `'.join(lang_codes)))
+            await self.bot.send(ctx, ctx.l.config.invalid.format('`{}`'.format('`, `'.join(lang_codes))))
 
 
 def setup(bot):
