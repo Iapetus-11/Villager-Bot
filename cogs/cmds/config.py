@@ -18,14 +18,9 @@ class Config(commands.Cog):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)
 
-            embed = discord.Embed(color=self.d.cc, title='__**Villager Bot Settings**__')
+            embed = discord.Embed(color=self.d.cc, title=ctx.l.config.main.title)
 
-            guild_conf = 'Change the server prefix - `{0}config prefix <newprefix>`\n' \
-                         'Change whether bot should respond to "emeralds" - `{0}config replies <on/off>`\n' \
-                         'Changes the difficulty of mobs, and some other things - `{0}config difficulty <peaceful/easy/hard>`\n' \
-                         'Changes the language that Villager Bot is in - `{0}config lang <language>`\n'
-
-            embed.add_field(name='Server/Guild Configuration', value=guild_conf.format(ctx.prefix))
+            embed.add_field(name=ctx.l.config.main.guild_conf, value=''.join(ctx.l.config.main.guild_content).format(ctx.prefix))
 
             #user_conf = 'bruh2.0'
             #embed.add_field(name='Per User Configuration', value=user_conf)
