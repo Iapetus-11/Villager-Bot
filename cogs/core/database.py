@@ -51,8 +51,8 @@ class Database(commands.Cog):
         if user is None:
             async with self.db.acquire() as con:
                 await con.execute(
-                    'INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7)',
-                    uid, 0, 0, 1, 20, 0, False
+                    'INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+                    uid, 0, 0, 1, 20, 0, 0, False
                 )
 
                 await self.add_item(uid, 'Wood Pickaxe', 0, 1)
