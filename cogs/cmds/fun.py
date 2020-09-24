@@ -1,7 +1,8 @@
-import discord
 from discord.ext import commands
-import random
+import discord
 import aiohttp
+import random
+import typing
 
 
 class Fun(commands.Cog):
@@ -256,6 +257,13 @@ class Fun(commands.Cog):
 
         bubble = '||**pop**||'
         await self.bot.send(ctx, f'{bubble*size[0]}\n'*size[1])
+
+    @commands.command(name='kill', aliases=['die', 'kil', 'dorito'])
+    async def kill_thing(self, ctx, thing: typing.Union[discord.User, str]):
+        if isinstance(thing, discord.User):
+            thing = thing.mention
+
+        await self.bot.send(ctx, random.choice(self.d.kills).format(thing, ctx.author.mention)
 
 
 def setup(bot):
