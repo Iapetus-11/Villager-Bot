@@ -18,6 +18,8 @@ class Minecraft(commands.Cog):
 
         self.server_list = []
 
+        self.update_server_list.start()
+
     def cog_unload(self):
         self.bot.loop.create_task(self.ses.close())
 
