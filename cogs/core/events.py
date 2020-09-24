@@ -47,7 +47,7 @@ class Events(commands.Cog):
         if m.content.startswith('<@!639498607632056321>'):
             prefix = '/'
             if m.guild is not None:
-                prefix = await self.d.prefix_cache.get(m.guild.id, '/')
+                prefix = self.d.prefix_cache.get(m.guild.id, '/')
 
             embed = discord.Embed(
                 color=self.d.cc,
