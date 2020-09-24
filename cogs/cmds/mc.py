@@ -50,6 +50,7 @@ class Minecraft(commands.Cog):
             combined = (await self.db.fetch_guild(ctx.guild.id))['mcserver']
             if combined is None:
                 await self.bot.send(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
+                return
         else:
             port_str = ''
             if port is not None:
