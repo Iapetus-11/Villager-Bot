@@ -55,7 +55,7 @@ class Minecraft(commands.Cog):
                 return
         else:
             port_str = ''
-            if port is not None:
+            if port is not None and port != 0:
                 port_str = f':{port}'
             combined = f'{host}{port_str}'
 
@@ -122,7 +122,7 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def random_mc_server(self, ctx):
         s = random.choice(self.server_list)
-        await self.mcping(ctx, s[0], f'You can learn more about this server [here]({s[1]})!')
+        await self.mcping(ctx, s[0], 0, f'You can learn more about this server [here]({s[1]})!')
 
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
