@@ -1,5 +1,5 @@
 from discord.ext import commands
-from .core.exceptions import *
+from ..core.exceptions import *
 import traceback
 import discord
 import asyncio
