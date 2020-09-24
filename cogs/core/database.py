@@ -19,8 +19,8 @@ class Database(commands.Cog):
         return dict((r[0], r[1],) for r in lang_records)  # needs to be a dict
 
     async def fetch_all_guild_prefixes(self):
-        prefix_records = await self.db.fetch('SELECT gid, prefix FROM guilds WHERE prefix NOT IN ($1, $2)', None, '/')
-        return dict((r[0], r[1],) for r in prefix_records)  # needs to be a dict
+        prefix_records = await self.db.fetch('SELECT gid, prefix FROM guilds')
+        return dict((r[0], r[1],) for r in prefix_records if (r[1] != self.d.default_prefix and r[1] != None))  # needs to be a dict
 
     async def fetch_guild(self, gid):
         g = await self.db.fetchrow('SELECT * FROM guilds WHERE gid = $1', gid)
