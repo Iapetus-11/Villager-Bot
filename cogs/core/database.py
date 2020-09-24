@@ -28,8 +28,8 @@ class Database(commands.Cog):
         if g is None:
             async with self.db.acquire() as con:
                 await con.execute(
-                    'INSERT INTO guilds VALUES ($1, $2, $3, $4, $5)',
-                    gid, '/', True, 'easy', 'en_us'
+                    'INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6)',
+                    gid, '/', True, 'easy', 'en_us', None
                 )
 
             return await self.fetch_guild(gid)
@@ -37,9 +37,13 @@ class Database(commands.Cog):
         return g
 
     async def set_guild_attr(self, gid, attr, value):
-        await self.fetch_guild(gid)
+        await self.fetch_guild(gid)  # ensure it exists in db
         async with self.db.acquire() as con:
             await con.execute(f'UPDATE guilds SET {attr} = $1 WHERE gid = $2', value, gid)
+
+    async def fetch_default_mcserver(self, gid):
+        await self.fetch_guild(gid)
+
 
     async def drop_guild(self, gid):
         async with self.db.acquire() as con:
