@@ -1,9 +1,10 @@
+from discord.ext import commands, tasks
+from bs4 import BeautifulSoup as bs
 import aiohttp
-import base64
 import discord
-import json
 import random
-from discord.ext import commands
+import base64
+import json
 
 
 class Minecraft(commands.Cog):
@@ -15,8 +16,30 @@ class Minecraft(commands.Cog):
 
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
+        self.server_list = []
+
     def cog_unload(self):
         self.bot.loop.create_task(self.ses.close())
+
+    @tasks.loop(minutes=10)
+    async def update_server_list(self):
+        async with self.ses.get('https://mc-lists.org') as res:
+            soup = bs(await res.text(), 'html.parser')
+
+            servers_nice = []
+            elems = soup.find(class_='ui striped table servers serversa').find_all('tr')
+
+            for elem in elems:
+                split = str(elem).split('\n')
+                url = split[9][9:-2]
+                ip = split[16][46:-2].replace('https://', '').replace('http://', '')
+                servers_nice.append((ip, url,))
+
+            self.server_list = list(set(servers_nice))
+
+    @update_server_list.before_loop
+    async def before_update_server_list(self):
+        await self.bot.wait_until_ready()
 
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
@@ -84,11 +107,19 @@ class Minecraft(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    """
     @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def random_mc_server(self, ctx):
         s = await self.db.fetch_random_server()
         await self.mcping(ctx, s['address'], s['port'], s['note'])
+    """
+
+    @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
+    async def random_mc_server(self, ctx):
+        server = random.choice(self.server_list)
+        await self.mcping(ctx, s['ip'])
 
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
