@@ -51,17 +51,18 @@ class Config(commands.Cog):
     async def config_replies(self, ctx, replies=None):
         if replies is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await self.bot.send(ctx, f'Message replies (like to "emerald") are `{"enabled"*guild["replies"] + "disabled"*(not guild["replies"])}`')
+            state = ctx.l.config.replies.enabled*guild['replies'] + ctx.l.config.replies.disabled*(not guild['replies'])
+            await self.bot.send(ctx, ctx.l.config.replies.this_server.format(state))
             return
 
         if replies.lower() in ('yes', 'true', 'on'):
             await self.db.set_guild_attr(ctx.guild.id, 'replies', True)
-            await self.bot.send(ctx, 'Turned message replies `on`.')
+            await self.bot.send(ctx, ctx.l.config.replies.set('on'))
         elif replies.lower() in ('no', 'false', 'off'):
             await self.db.set_guild_attr(ctx.guild.id, 'replies', False)
-            await self.bot.send(ctx, 'Turned message replies `off`.')
+            await self.bot.send(ctx, ctx.l.config.replies.set('off'))
         else:
-            await self.bot.send(ctx, 'That\'s not a valid option. (Valid options are `on`, `off`)')
+            await self.bot.send(ctx, ctx.l.config.invalid.format('`on`, `off`'))
 
     @config.command(name='difficulty', aliases=['diff'])
     async def config_difficulty(self, ctx, diff=None):
