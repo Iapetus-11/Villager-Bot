@@ -96,7 +96,7 @@
     "config": {
       "invalid": "That is not a valid option. (Valid options are: {})",
       "main": {
-        "title": "__**Villager Bot Settings**__",
+        "title": "Villager Bot Settings",
         "guild_content": [
           "Change the server prefix - `{0}config prefix <newprefix>`\n",
           "Change if bot should respond to messages like \"emeralds\" - `{0}config replies <on/off>`\n",
