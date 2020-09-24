@@ -1,5 +1,4 @@
 from discord.ext import commands
-from .cogs.core.exceptions import *
 import classyjson as cj
 import asyncio
 import asyncpg
@@ -118,10 +117,12 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
     if ctx.author.id in bot.d.ban_cache:
-        raise BotBannedException
+        ctx.custom_err = 'botbanned'
+        return False
 
     if not bot.is_ready():
-        raise BotNotReadyException
+        ctx.custom_err = 'not_ready'
+        return False
 
     ctx.l = await bot.get_lang(ctx)
     bot.d.cmd_lb[ctx.author.id] = bot.d.cmd_lb.get(ctx.author.id, 0) + 1
