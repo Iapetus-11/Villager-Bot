@@ -1,6 +1,6 @@
 
-class BotBanned(Exception):
+class BotBannedException(Exception):
     pass
 
-class NotReady(Exception):
+class BotNotReadyException(Exception):
     pass
