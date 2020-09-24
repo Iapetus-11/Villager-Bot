@@ -17,7 +17,8 @@
         "bot_perms": "You didn't give me the proper permissions to do that, dummy.",
         "concurrency": "Hold on! You're using this command tooooo fast!",
         "missing_arg": "Looks like you're forgetting to put something in!",
-        "bad_arg": "Looks like you didn't type something correctly, try typing it right the first time, dum dum."
+        "bad_arg": "Looks like you didn't type something correctly, try typing it right the first time, dum dum.",
+        "not_ready": "Hold on! Villager Bot is still starting up!"
       }
     },
     "fun": {
