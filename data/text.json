@@ -94,9 +94,34 @@
       }
     },
     "config": {
-      "invalid": "That is not a valid option.",
-      "valid": "(Valid options: `{}`)",
+      "invalid": "That is not a valid option. (Valid options are: {})",
       "main": {
+        "title": "__**Villager Bot Settings**__",
+        "guild_content": [
+          "Change the server prefix - `{0}config prefix <newprefix>`\n",
+          "Change whether bot should respond to messages like \"emeralds\" - `{0}config replies <on/off>`\n",
+          "Changes the difficulty of mobs, and some other things - `{0}config difficulty <peaceful/easy/hard>`\n",
+          "Changes the language that Villager Bot is in - `{0}config lang <language>`\n"
+        ],
+        "guild_conf": "Server/Guild Configuration"
+      },
+      "prefix": {
+        "this_server": "The prefix in this server is `{}`",
+        "error_1": "You cannot have a prefix longer than `{}` characters.",
+        "error_2": "`{}` is not allowed to be in a prefix.",
+        "done": "Set the server prefix to `{}`"
+      },
+      "replies": {
+        "this_server": "Message replies are **{}**",
+        "set": "Turned message replies **{}**",
+      },
+      "diff": {
+        "this_server": "The server difficulty is currently set to **{}**",
+        "set": "Set the server difficulty to **{}**",
+      },
+      "lang": {
+        "this_server": "The server language is currently set to **{}**",
+        "set": "Set the server language to **{}**"
       }
     },
     "econ": {
