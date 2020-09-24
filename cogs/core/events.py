@@ -66,7 +66,7 @@ class Events(commands.Cog):
                 elif 'creeper' in m.content.lower():
                     await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
                 elif 'reeeee' in m.content.lower():
-                    await m.channel.send(random.choice(self.d.reees))
+                    await m.channel.send(random.choice(self.d.emojis.reees))
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
