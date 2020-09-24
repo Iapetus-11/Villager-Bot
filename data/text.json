@@ -115,11 +115,11 @@
         "enabled": "enabled",
         "disabled": "disabled",
         "this_server": "Message replies are **{}**",
-        "set": "Turned message replies **{}**",
+        "set": "Turned message replies **{}**"
       },
       "diff": {
         "this_server": "The server difficulty is currently set to **{}**",
-        "set": "Set the server difficulty to **{}**",
+        "set": "Set the server difficulty to **{}**"
       },
       "lang": {
         "this_server": "The server language is currently set to **{}**",
