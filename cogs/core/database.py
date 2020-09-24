@@ -15,8 +15,8 @@ class Database(commands.Cog):
         return [r[0] for r in botban_records]
 
     async def fetch_all_guild_langs(self):
-        lang_records = await self.db.fetch('SELECT gid, lang FROM guilds WHERE lang != $1 AND lang != $2', None, 'en_us')
-        return dict((r[0], r[1],) for r in lang_records)  # needs to be a dict
+        lang_records = await self.db.fetch('SELECT gid, lang FROM guilds')
+        return dict((r[0], r[1],) for r in lang_records if (r[1] != 'en_us' and r[1] != None))  # needs to be a dict
 
     async def fetch_all_guild_prefixes(self):
         prefix_records = await self.db.fetch('SELECT gid, prefix FROM guilds')
