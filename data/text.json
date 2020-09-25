@@ -104,7 +104,8 @@
           "Change the server prefix - `{0}config prefix <newprefix>`\n",
           "Change if bot should respond to messages like \"emeralds\" - `{0}config replies <on/off>`\n",
           "Changes the difficulty of the rpg - `{0}config difficulty <peaceful/easy/hard>`\n",
-          "Changes the language of Villager Bot - `{0}config lang <language>`\n"
+          "Changes the language of Villager Bot - `{0}config lang <language>`\n",
+          "Changes the server that is pinged if you don't specify a server in `/mcping` - `{0}config mcserver <mcserver>`"
         ],
         "guild_conf": "Server/Guild Configuration"
       },

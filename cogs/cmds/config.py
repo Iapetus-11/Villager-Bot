@@ -99,6 +99,10 @@ class Config(commands.Cog):
         else:
             await self.bot.send(ctx, ctx.l.config.invalid.format('`{}`'.format('`, `'.join(lang_codes))))
 
+    @config.command(name='defaultserver', aliases=['defaultmcserver', 'mcserver'])
+    async def config_default_mcserver(self, ctx, mcserver=None):
+        pass
+
 
 def setup(bot):
     bot.add_cog(Config(bot))
