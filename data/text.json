@@ -128,6 +128,11 @@
       "lang": {
         "this_server": "The server language is currently set to **{}**",
         "set": "Set the server language to **{}**"
+      },
+      "mcs": {
+        "this_server": "The default Minecraft server is currently set to **`{}`**",
+        "error_1": "That is too long, you can't make it more than `{}` characters.",
+        "set": "Set the default Minecraft server to **`{}`**"
       }
     },
     "econ": {
