@@ -76,7 +76,8 @@ class Minecraft(commands.Cog):
         # should probably set thumbnail to server favicon or add image from betterapi.net:6400/mc/mcpingimg
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
-        embed.add_field(name=ctx.l.minecraft.mcping.version, value=jj['version'].get('brand', 'Unknown'))
+        ver = jj['version'].get('brand', 'Unknown')
+        embed.add_field(name=ctx.l.minecraft.mcping.version, value=('Unknown' if ver is None else ver))
 
         player_list_cut = player_list[:24]
 
