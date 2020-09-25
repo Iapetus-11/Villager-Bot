@@ -120,18 +120,7 @@ class Minecraft(commands.Cog):
         """Checks the status of a random Minecraft server"""
 
         s = random.choice(self.server_list)
-        host = s[0]
-
-        if host is None:
-            combined = (await self.db.fetch_guild(ctx.guild.id))['mcserver']
-            if combined is None:
-                await self.bot.send(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
-                return
-        else:
-            port_str = ''
-            if port is not None and port != 0:
-                port_str = f':{port}'
-            combined = f'{host}{port_str}'
+        combined = s[0]
 
         async with ctx.typing():
             async with self.ses.get(f'https://betterapi.net/mc/mcping?host={combined}&k={self.d.k}') as res:  # fetch status from api
