@@ -68,9 +68,7 @@ class Minecraft(commands.Cog):
             await ctx.send(embed=embed)
             return
 
-        player_list = jj.get('players_names', [])  # list
-        if player_list is None:
-            player_list = []
+        player_list = jj.get('players_names', [])
 
         players_online = jj['players_online']  # int@
 
@@ -82,7 +80,7 @@ class Minecraft(commands.Cog):
 
         player_list_cut = player_list[:24]
 
-        if jj['version']['method'] != 'query' and len(player_list_cut) < 1:
+        if jj['version']['method'] != 'query' or len(player_list_cut) < 1:
             embed.add_field(
                 name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
