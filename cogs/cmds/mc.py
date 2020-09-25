@@ -115,7 +115,7 @@ class Minecraft(commands.Cog):
     """
 
     @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def random_mc_server(self, ctx):
         s = random.choice(self.server_list)
         combined = s[0]
