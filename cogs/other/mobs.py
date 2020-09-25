@@ -5,6 +5,11 @@ import discord
 class Mobs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.d = self.bot.d
+
+        self.db = self.bot.get_cog('Database')
+
+        self.bot.loop.create_task(self.spawn_events())
 
     async def spawn_event(self, ctx):
         pass

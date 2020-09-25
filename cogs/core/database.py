@@ -5,7 +5,6 @@ from discord.ext import commands
 class Database(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
         self.d = self.bot.d
 
         self.db = self.bot.db  # the asyncpg pool
