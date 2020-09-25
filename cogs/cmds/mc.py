@@ -45,8 +45,83 @@ class Minecraft(commands.Cog):
 
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def mcping(self, ctx, host=None, port: int = None, note: str = None):
+    async def mcping(self, ctx, host=None, port: int = None):
         """Checks the status of a given Minecraft server"""
+
+        if host is None:
+            combined = (await self.db.fetch_guild(ctx.guild.id))['mcserver']
+            if combined is None:
+                await self.bot.send(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
+                return
+        else:
+            port_str = ''
+            if port is not None and port != 0:
+                port_str = f':{port}'
+            combined = f'{host}{port_str}'
+
+        async with ctx.typing():
+            async with self.ses.get(f'https://betterapi.net/mc/mcping?host={combined}&k={self.d.k}') as res:  # fetch status from api
+                jj = await res.json()
+
+        if not jj['success'] or not jj['online']:
+            embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined))
+            await ctx.send(embed=embed)
+            return
+
+        player_list = jj.get('players_names', [])  # list
+        if player_list is None:
+            player_list = []
+
+        players_online = jj['players_online']  # int@
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
+        # should probably set thumbnail to server favicon or add image from betterapi.net:6400/mc/mcpingimg
+
+        if ctx.command.name == 'randommc':
+            if note is not None:
+                embed.description = note
+
+        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
+        embed.add_field(name=ctx.l.minecraft.mcping.version, value=jj['version'].get('brand', 'Unknown'))
+
+        player_list_cut = player_list[:24]
+
+        if jj['version']['method'] != 'query' and len(player_list_cut) < 1:
+            embed.add_field(
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
+                value=ctx.l.minecraft.mcping.field_online_players.value,
+                inline=False
+            )
+        else:
+            extra = ''
+            if len(player_list_cut) < players_online:
+                extra = ctx.l.minecraft.mcping.and_other_players.format(players_online - len(player_list_cut))
+
+            embed.add_field(
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
+                value='`' + '`, `'.join(player_list_cut) + '`' + extra,
+                inline=False
+            )
+
+        embed.set_image(url=f'https://betterapi.net/mc/mcpingimg?host={combined}&imgonly=true&v={random.random()*100000}&k={self.d.k}')
+
+        if jj['favicon'] is not None:
+            embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavi?host={combined}&k={self.d.k}')
+
+        await ctx.send(embed=embed)
+
+    """
+    @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
+    async def random_mc_server(self, ctx):
+        s = await self.db.fetch_random_server()
+        await self.mcping(ctx, s['address'], s['port'], s['note'])
+    """
+
+    @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
+    async def random_mc_server(self, ctx):
+        s = random.choice(self.server_list)
 
         if host is None:
             combined = (await self.db.fetch_guild(ctx.guild.id))['mcserver']
@@ -112,20 +187,6 @@ class Minecraft(commands.Cog):
             embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavi?host={combined}&k={self.d.k}')
 
         await ctx.send(embed=embed)
-
-    """
-    @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def random_mc_server(self, ctx):
-        s = await self.db.fetch_random_server()
-        await self.mcping(ctx, s['address'], s['port'], s['note'])
-    """
-
-    @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def random_mc_server(self, ctx):
-        s = random.choice(self.server_list)
-        await self.mcping(ctx, s[0], 0, f'You can learn more about this server [here]({s[1]})!')
 
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
