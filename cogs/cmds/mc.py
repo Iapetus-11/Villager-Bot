@@ -117,38 +117,44 @@ class Minecraft(commands.Cog):
     @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def random_mc_server(self, ctx):
-        s = random.choice(self.server_list)
-        combined = s[0]
+        """Checks the status of a random Minecraft server"""
+
+        if host is None:
+            combined = (await self.db.fetch_guild(ctx.guild.id))['mcserver']
+            if combined is None:
+                await self.bot.send(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
+                return
+        else:
+            port_str = ''
+            if port is not None and port != 0:
+                port_str = f':{port}'
+            combined = f'{host}{port_str}'
 
         async with ctx.typing():
             async with self.ses.get(f'https://betterapi.net/mc/mcping?host={combined}&k={self.d.k}') as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
-            if ctx.command.name == 'randommc':
-                await self.random_mc_server(ctx)
-                return
             embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined))
             await ctx.send(embed=embed)
             return
 
-        player_list = jj.get('players_names', [])  # list
-        if player_list is None:
-            player_list = []
+        player_list = jj.get('players_names', [])
+        if player_list is None: player_list = []
 
-        players_online = jj['players_online']  # int
+        players_online = jj['players_online']  # int@
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
-        # should probably set thumbnail to server favicon or add image from betterapi.net:6400/mc/mcpingimg
-
+        
         embed.description = ctx.l.minecraft.mcping.learn_more.format(s[1])
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
-        embed.add_field(name=ctx.l.minecraft.mcping.version, value=jj['version'].get('brand', 'Unknown'))
+        ver = jj['version'].get('brand', 'Unknown')
+        embed.add_field(name=ctx.l.minecraft.mcping.version, value=('Unknown' if ver is None else ver))
 
         player_list_cut = player_list[:24]
 
-        if jj['version']['method'] != 'query' and len(player_list_cut) < 1:
+        if jj['version']['method'] != 'query' or len(player_list_cut) < 1:
             embed.add_field(
                 name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
