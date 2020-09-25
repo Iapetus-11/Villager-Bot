@@ -141,7 +141,7 @@ class Minecraft(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
         # should probably set thumbnail to server favicon or add image from betterapi.net:6400/mc/mcpingimg
 
-        embed.description = f'You can learn more about this server [here]({s[1]})'
+        embed.description = ctx.l.minecraft.mcping.learn_more.format(s[1])
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=jj['version'].get('brand', 'Unknown'))

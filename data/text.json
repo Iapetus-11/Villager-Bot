@@ -40,7 +40,8 @@
           "name": "Online Players ({}/{})",
           "value": "Player list is not available for this server."
         },
-        "and_other_players": ", and {} others..."
+        "and_other_players": ", and {} others...",
+        "learn_more": "You can learn more about this server [here]({})"
       },
       "stealskin": {
         "error_1": "Oops, something went wrong while fetching that player's profile.",
