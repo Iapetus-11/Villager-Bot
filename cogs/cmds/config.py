@@ -101,7 +101,17 @@ class Config(commands.Cog):
 
     @config.command(name='defaultserver', aliases=['defaultmcserver', 'mcserver'])
     async def config_default_mcserver(self, ctx, mcserver=None):
-        pass
+        if mcserver is None:
+            guild = await self.db.fetch_guild(ctx.guild.id)
+            await self.bot.send(ctx, ctx.l.config.mcs.this_server.format(guild['mcserver']))
+            return
+
+        if len(mcserver) > 30:
+            await self.bot.send(ctx, ctx.l.config.mcs.error_1.format(30))
+            return
+
+        await self.db.set_guild_attr(ctx.guild.id, 'mcserver', mcserver)
+        await self.bot.send(ctx, ctx.l.config.mcs.set.format(mcserver))
 
 
 def setup(bot):
