@@ -77,10 +77,6 @@ class Minecraft(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
         # should probably set thumbnail to server favicon or add image from betterapi.net:6400/mc/mcpingimg
 
-        if ctx.command.name == 'randommc':
-            if note is not None:
-                embed.description = note
-
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=jj['version'].get('brand', 'Unknown'))
 
@@ -122,17 +118,7 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def random_mc_server(self, ctx):
         s = random.choice(self.server_list)
-
-        if host is None:
-            combined = (await self.db.fetch_guild(ctx.guild.id))['mcserver']
-            if combined is None:
-                await self.bot.send(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
-                return
-        else:
-            port_str = ''
-            if port is not None and port != 0:
-                port_str = f':{port}'
-            combined = f'{host}{port_str}'
+        combined = s[0]
 
         async with ctx.typing():
             async with self.ses.get(f'https://betterapi.net/mc/mcping?host={combined}&k={self.d.k}') as res:  # fetch status from api
@@ -155,9 +141,7 @@ class Minecraft(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
         # should probably set thumbnail to server favicon or add image from betterapi.net:6400/mc/mcpingimg
 
-        if ctx.command.name == 'randommc':
-            if note is not None:
-                embed.description = note
+        embed.description = f'You can learn more about this server [here]({s[1]})'
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=jj['version'].get('brand', 'Unknown'))
