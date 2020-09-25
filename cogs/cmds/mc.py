@@ -69,6 +69,7 @@ class Minecraft(commands.Cog):
             return
 
         player_list = jj.get('players_names', [])
+        if player_list is None: player_list = []
 
         players_online = jj['players_online']  # int@
 
