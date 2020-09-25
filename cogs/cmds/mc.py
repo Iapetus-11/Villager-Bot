@@ -119,6 +119,9 @@ class Minecraft(commands.Cog):
     async def random_mc_server(self, ctx):
         """Checks the status of a random Minecraft server"""
 
+        s = random.choice(self.server_list)
+        host = s[0]
+
         if host is None:
             combined = (await self.db.fetch_guild(ctx.guild.id))['mcserver']
             if combined is None:
@@ -145,7 +148,7 @@ class Minecraft(commands.Cog):
         players_online = jj['players_online']  # int@
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
-        
+
         embed.description = ctx.l.minecraft.mcping.learn_more.format(s[1])
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
