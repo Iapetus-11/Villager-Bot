@@ -1,5 +1,6 @@
 from discord.ext import commands
 import discord
+import arrow
 
 
 class Useful(commands.Cog):
@@ -49,6 +50,28 @@ class Useful(commands.Cog):
             return
 
         await self.bot.send(ctx, f'{self.d.emojis.aniheart} {pp} \uFEFF `{round(self.bot.latency*1000, 2)} ms`')
+
+    @commands.command(name='uptime', aliases=['isvillagerbotdown'])
+    async def bot_uptime(self, ctx):
+        now = arrow.utcnow()
+        diff = now - self.d.start_time
+
+        if days := diff.days == 1:
+            dd = 'day'
+        else:
+            dd = 'days'
+
+        if hours := int(diff.seconds / 3600) == 1:
+            hh = 'hour'
+        else:
+            hh = 'hours'
+
+        if minutes := int(diff.seconds / 60) % 60 == 1:
+            mm = 'minute'
+        else:
+            mm = 'minutes'
+
+        await self.bot.send(ctx, f'Bot has been online for {days} {dd}, {hours} {hh}, {minutes} {mm}.')
 
 
 def setup(bot):
