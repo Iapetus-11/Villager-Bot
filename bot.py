@@ -31,7 +31,7 @@ bot = commands.AutoShardedBot(  # setup bot
     #help_command=None
 )
 
-bot.logger = logging.getLogger(__name__)
+bot.logger = logging.getLogger('main')
 
 async def send(_bot, location, message):  # send function/method for easy sending of embed messages with small amounts of text
     try:
