@@ -23,7 +23,7 @@ class Minecraft(commands.Cog):
     def cog_unload(self):
         self.bot.loop.create_task(self.ses.close())
 
-    @tasks.loop(minutes=10)
+    @tasks.loop(hours=2)
     async def update_server_list(self):
         self.bot.logger.info('Scraping mc-lists.org...')
 
