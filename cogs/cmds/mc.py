@@ -25,7 +25,7 @@ class Minecraft(commands.Cog):
 
     @tasks.loop(minutes=10)
     async def update_server_list(self):
-        self.bot.logger.INFO('Scraping mc-lists.org...')
+        self.bot.logger.info('Scraping mc-lists.org...')
 
         servers_nice = []
 
@@ -42,7 +42,7 @@ class Minecraft(commands.Cog):
 
         self.server_list = list(set(servers_nice))
 
-        self.bot.logger.INFO('Finished scraping mc-lists.org')
+        self.bot.logger.info('Finished scraping mc-lists.org')
 
     @update_server_list.before_loop
     async def before_update_server_list(self):
