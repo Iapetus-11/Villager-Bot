@@ -73,6 +73,10 @@ class Useful(commands.Cog):
 
         await self.bot.send(ctx, f'Bot has been online for {days} {dd}, {hours} {hh}, {minutes} {mm}.')
 
+    @commands.command(name='stats', aliases=['bs'])
+    async def bot_stats(self, ctx):
+        pass
+
 
 def setup(bot):
     bot.add_cog(Useful(bot))
