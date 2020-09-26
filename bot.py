@@ -102,7 +102,7 @@ for key in list(bot.d.fun_langs.enchant):  # reverse the enchant lang to get the
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
     'cogs.core.events',
-    #'cogs.cmds.useful',
+    'cogs.cmds.useful',
     'cogs.cmds.owner',
     'cogs.cmds.mc',
     'cogs.cmds.mod',
