@@ -8,6 +8,7 @@ class Useful(commands.Cog):
 
         self.d = self.bot.d
 
+    """
     @commands.group(name='help')
     async def help(self, ctx):
         if ctx.invoked_subcommand is None:
@@ -27,6 +28,27 @@ class Useful(commands.Cog):
             embed.add_field(name='Support', value=f'[**Click Me**]({self.d.support})')
 
             await ctx.send(embed=embed)
+    """
+
+    @commands.command(name='ping', aliases=['pong', 'ding', 'dong', 'shing', 'shling', 'schlong'])
+    async def ping_pong(self, ctx):
+        content = ctx.message.content.lower()
+
+        if 'ping' in content:
+            pp = 'Pong'
+        elif 'pong' in content:
+            pp = 'Ping'
+        elif 'ding' in content:
+            pp = 'Dong'
+        elif 'dong' in content:
+            pp = 'Ding'
+        elif 'shing' or 'shling' in content:
+            pp = 'Schlong'
+        elif 'schlong' in content:
+            await self.bot.send(ctx, f'{self.d.emojis.aniheart} \uFEFF `69.00 ms`')
+            return
+
+        await self.bot.send(ctx, f'{self.d.emojis.aniheart} \uFEFF `{round(self.bot.latency*1000, 2)} ms`')
 
 
 def setup(bot):
