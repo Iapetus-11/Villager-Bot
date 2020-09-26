@@ -25,19 +25,24 @@ class Minecraft(commands.Cog):
 
     @tasks.loop(minutes=10)
     async def update_server_list(self):
-        async with self.ses.get('https://mc-lists.org') as res:
-            soup = bs(await res.text(), 'html.parser')
+        self.bot.logger.INFO('Scraping mc-lists.org...')
 
-            servers_nice = []
-            elems = soup.find(class_='ui striped table servers serversa').find_all('tr')
+        servers_nice = []
 
-            for elem in elems:
-                split = str(elem).split('\n')
-                url = split[9][9:-2]
-                ip = split[16][46:-2].replace('https://', '').replace('http://', '')
-                servers_nice.append((ip, url,))
+        for i in range(1, 26):
+            async with self.ses.get(f'https://mc-lists.org/pg.{i}') as res:
+                soup = bs(await res.text(), 'html.parser')
+                elems = soup.find(class_='ui striped table servers serversa').find_all('tr')
 
-            self.server_list = list(set(servers_nice))
+                for elem in elems:
+                    split = str(elem).split('\n')
+                    url = split[9][9:-2]
+                    ip = split[16][46:-2].replace('https://', '').replace('http://', '')
+                    servers_nice.append((ip, url,))
+
+        self.server_list = list(set(servers_nice))
+
+        self.bot.logger.INFO('Finished scraping mc-lists.org')
 
     @update_server_list.before_loop
     async def before_update_server_list(self):
