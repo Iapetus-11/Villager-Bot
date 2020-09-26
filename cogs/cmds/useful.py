@@ -52,7 +52,7 @@ class Useful(commands.Cog):
         await self.bot.send(ctx, f'{self.d.emojis.aniheart} {pp} \uFEFF `{round(self.bot.latency*1000, 2)} ms`')
 
     @commands.command(name='uptime', aliases=['isvillagerbotdown'])
-    async def bot_uptime(self, ctx):
+    async def uptime(self, ctx):
         now = arrow.utcnow()
         diff = now - self.d.start_time
 
@@ -74,7 +74,7 @@ class Useful(commands.Cog):
         await self.bot.send(ctx, f'Bot has been online for {days} {dd}, {hours} {hh}, {minutes} {mm}.')
 
     @commands.command(name='stats', aliases=['bs'])
-    async def bot_stats(self, ctx):
+    async def stats(self, ctx):
         pass
 
 
