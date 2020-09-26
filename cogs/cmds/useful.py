@@ -35,6 +35,9 @@ class Useful(commands.Cog):
     async def ping_pong(self, ctx):
         content = ctx.message.content.lower()
 
+        print(content)
+        print('schlong' in content)
+
         if 'ping' in content:
             pp = 'Pong'
         elif 'pong' in content:
@@ -43,9 +46,10 @@ class Useful(commands.Cog):
             pp = 'Dong'
         elif 'dong' in content:
             pp = 'Ding'
-        elif 'shing' or 'shling' in content:
+        elif 'shing' in content or 'shling' in content:
             pp = 'Schlong'
         elif 'schlong' in content:
+            print(1)
             await self.bot.send(ctx, f'{self.d.emojis.aniheart} Magnum Dong! \uFEFF `69.00 ms`')
             return
 
