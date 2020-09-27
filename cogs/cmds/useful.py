@@ -137,7 +137,7 @@ class Useful(commands.Cog):
                   f'Emojis: `{len(guild.emojis)}`\n'
 
         villager = f'Prefix: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n' \
-                   f'Language: `{self.d.lang_cache.get(guild.idid, "en-us").replace("_", "-")}`\n' \
+                   f'Language: `{self.d.lang_cache.get(guild.id, "en-us").replace("_", "-")}`\n' \
                    f'Difficulty: `{db_guild["difficulty"]}`\n'
 
         embed.add_field(name='General', value=general)
