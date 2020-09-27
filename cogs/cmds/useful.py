@@ -101,8 +101,22 @@ class Useful(commands.Cog):
         embed.set_author(name='Vote for Villager Bot!', icon_url=self.d.splash_logo)
 
         embed.description = f'**[Click Here]({self.d.topgg})\n' \
-                            f'[Or Here!]({self.d.disbots})\n'
-                            
+                            f'\n[Or Here!]({self.d.disbots})**'
+
+        await ctx.send(embed=embed)
+
+    @commands.command(name='links', aliases=['invite', 'support', 'usefullinks', 'website'])
+    async def useful_links(self, ctx):
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_author(name='Useful Links', icon_url=self.d.splash_logo)
+
+        embed.description = f'**[Support Server]({self.d.support})\n' \
+                            f'\n[Bot Invite Link]({self.d.invite})\n' \
+                            f'\n[Disbots.gg Page]({self.d.disbots})\n' \
+                            f'\n[Top.gg Page]({self.d.topgg})\n' \
+                            f'\n[Website]({self.d.website})\n' \
+                            f'\n[Source Code]({self.d.github})**'
+
         await ctx.send(embed=embed)
 
     @commands.command(name='stats', aliases=['bs'])
