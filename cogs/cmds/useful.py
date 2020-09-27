@@ -6,8 +6,9 @@ import arrow
 class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
         self.d = self.bot.d
+
+        self.db = self.bot.get_cog('Database')
 
     """
     @commands.group(name='help')
@@ -115,6 +116,20 @@ class Useful(commands.Cog):
         embed.set_author(name='Villager Bot Statistics', icon_url=self.d.splash_logo)
 
         await ctx.send(embed=embed)
+
+    @commands.command(name='guildinfo', aliases=['server', 'serverinfo'])
+    @commands.guild_only()
+    async def guild_info(self, ctx, gid: int = None):
+        if gid == None:
+            guild = ctx.guild
+        else:
+            guild = self.bot.get_guild(gid)
+
+        db_guild = await self.db.fetch_guild()
+
+        embed = discord.Embed(color=self.d.cc)
+
+        embed.set_author()
 
 
 def setup(bot):
