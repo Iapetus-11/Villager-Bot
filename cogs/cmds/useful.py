@@ -76,7 +76,25 @@ class Useful(commands.Cog):
 
     @commands.command(name='stats', aliases=['bs'])
     async def stats(self, ctx):
-        pass
+        uptime = (arrow.utcnow() - self.d.start_time)
+        uptime_seconds = uptime.seconds + (uptime.days * 24 * 3600)
+
+        body = f'Server Count: `{len(self.bot.guilds)}`' \
+               f'DM Channel Count: `{len(self.bot.private_channels)}/128`' \
+               f'User Count: `{len(self.bot.users)}`' \
+               f'Session Message Count: `{self.d.msg_count}`' \
+               f'Session Command Count: `{self.d.cmd_count}` `({round((self.g.cmd_count / self.g.msg_count) * 100, 2)}% of all msgs)`' \
+               f'Commands/Second: `{round(self.d.cmd_count / uptime_seconds, 2)}`' \
+               f'Session Vote Count: `{self.d.votes_disbots + self.d.votes_topgg}`' \
+               f'Disbots.gg Votes / Hour: `{round((self.d.votes_disbots / uptime_seconds) * 3600, 2)}`' \
+               f'Top.gg Votes / Hour: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`' \
+               f'Shard Count: `{self.bot.shard_count}`' \
+               f'Latency/Ping: `{round(self.bot.latency * 1000, 2)} ms`'
+
+        embed = discord.Embed(color=self.d.cc, description=body)
+        embed.set_author(name='Villager Bot Statistics', icon_url=self.d.splash_logo)
+
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
