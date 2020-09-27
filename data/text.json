@@ -88,7 +88,8 @@
       "ban": {
         "error_1": "You cannot ban yourself",
         "error_2": "**{}** is already banned",
-        "success": "Banned **{}**"
+        "success": "Banned **{}**",
+        "error_3": "Oops, something went wrong while banning that user."
       },
       "unban": {
         "error_1": "You cannot unban yourself",
