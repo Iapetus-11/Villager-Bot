@@ -74,6 +74,26 @@ class Useful(commands.Cog):
 
         await self.bot.send(ctx, f'Bot has been online for {days} {dd}, {hours} {hh}, {minutes} {mm}.')
 
+    @commands.command(name='info', aliases=['information'])
+    async def info(self, ctx):
+        embed = discord.Embed(color=self.d.cc)
+
+        embed.add_field(name='Bot Library', value='Discord.py')
+        embed.add_field(name='Command Prefix', value=ctx.prefix)
+        embed.add_field(name='Creator', value='Iapetus11#6821')
+
+        embed.add_field(name='Total Servers', value=str(len(self.bot.guilds)))
+        embed.add_field(name='Shards', value=str(self.bot.shard_count))
+        embed.add_field(name='Total Users', value=str(len(self.bot.users)))
+
+        embed.add_field(name='More Info', value=f'[Click Here]({self.d.disbots})')
+        embed.add_field(name='Website', value=f'[Click Here]({self.d.website})')
+        embed.add_field(name='Support', value=f'[Click Here]({self.d.support})')
+
+        embed.set_author(name='Villager Bot Information', icon_url=self.d.splash_logo)
+
+        await ctx.send(embed=embed)
+
     @commands.command(name='stats', aliases=['bs'])
     async def stats(self, ctx):
         uptime = (arrow.utcnow() - self.d.start_time)
