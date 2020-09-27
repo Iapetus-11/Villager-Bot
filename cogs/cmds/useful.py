@@ -140,8 +140,8 @@ class Useful(commands.Cog):
                    f'Language: `{self.d.lang_cache.get(guild.id, "en-us").replace("_", "-")}`\n' \
                    f'Difficulty: `{db_guild["difficulty"]}`\n'
 
-        embed.add_field(name='General', value=general)
-        embed.add_field(name='Villager Bot', value=villager)
+        embed.add_field(name='General', value=general, inline=False)
+        embed.add_field(name='Villager Bot', value=villager, inline=False)
 
         await ctx.send(embed=embed)
 
