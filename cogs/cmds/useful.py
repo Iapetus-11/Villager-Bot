@@ -128,8 +128,22 @@ class Useful(commands.Cog):
         db_guild = await self.db.fetch_guild()
 
         embed = discord.Embed(color=self.d.cc)
+        embed.set_author(name=f'{guild.name} Information', icon_url=guild.icon_url)
 
-        embed.set_author()
+        general = f'Owner: {guild.owner.mention} (`{guild.owner.id}`)\n' \
+                  f'Members: `{guild.member_count}`\n' \
+                  f'Channels: `{len(guild.channels)}`\n ' \
+                  f'Roles: `{len(guild.roles)}`\n' \
+                  f'Emojis: `{len(guild.emojis)}`\n'
+
+        villager = f'Prefix: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n' \
+                   f'Language: `{self.d.lang_cache.get(guild_id, "en-us").replace("_", "-")}`\n' \
+                   f'Difficulty: `{db_guild["difficulty"]}`\n'
+
+        embed.add_field(name='General', value=general)
+        embed.add_field(name='Villager Bot', value=villager)
+
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
