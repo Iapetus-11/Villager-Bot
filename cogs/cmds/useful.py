@@ -143,6 +143,8 @@ class Useful(commands.Cog):
         embed.add_field(name='General', value=general, inline=False)
         embed.add_field(name='Villager Bot', value=villager, inline=False)
 
+        embed.set_thumbnail(url=guild.icon_url)
+
         await ctx.send(embed=embed)
 
 
