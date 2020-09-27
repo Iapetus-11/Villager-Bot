@@ -130,7 +130,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f'{guild.name} Information', icon_url=guild.icon_url)
 
-        general = f'Owner: {guild.owner.mention} (`{guild.owner.id}`)\n' \
+        general = f'Owner: {guild.owner.mention}\n' \
                   f'Members: `{guild.member_count}`\n' \
                   f'Channels: `{len(guild.channels)}`\n ' \
                   f'Roles: `{len(guild.roles)}`\n' \
