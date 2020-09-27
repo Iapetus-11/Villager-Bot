@@ -103,7 +103,7 @@ class Useful(commands.Cog):
                f'DM Channel Count: `{len(self.bot.private_channels)}/128`\n' \
                f'User Count: `{len(self.bot.users)}`\n' \
                f'Session Message Count: `{self.d.msg_count}`\n' \
-               f'Session Command Count: `{self.d.cmd_count}` `({round((self.d.cmd_count / self.d.msg_count) * 100, 2)}% of all msgs)`\n' \
+               f'Session Command Count: `{self.d.cmd_count}` `({round((self.d.cmd_count / (self.d.msg_count + .000001)) * 100, 2)}% of all msgs)`\n' \
                f'Commands/Second: `{round(self.d.cmd_count / uptime_seconds, 2)}`\n' \
                f'Session Vote Count: `{self.d.votes_disbots + self.d.votes_topgg}`\n' \
                f'Disbots.gg Votes / Hour: `{round((self.d.votes_disbots / uptime_seconds) * 3600, 2)}`\n' \
