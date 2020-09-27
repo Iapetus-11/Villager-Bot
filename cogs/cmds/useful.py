@@ -95,6 +95,16 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name='vote', aliases=['votelink', 'votelinks'])
+    async def votelinks(self, ctx):
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_author(name='Vote for Villager Bot!', icon_url=self.d.splash_logo)
+
+        embed.description = f'**[Click Here]({self.d.topgg})\n' \
+                            f'[Or Here!]({self.d.disbots})\n'
+                            
+        await ctx.send(embed=embed)
+
     @commands.command(name='stats', aliases=['bs'])
     async def stats(self, ctx):
         uptime = (arrow.utcnow() - self.d.start_time)
