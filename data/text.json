@@ -136,6 +136,18 @@
         "set": "Set the default Minecraft server to **`{}`**"
       }
     },
+    "useful": {
+      "uptime": {
+        "online_for": "Bot has been online for {}.",
+        "day": "day",
+        "days": "days",
+        "hour": "hour",
+        "hours": "hours",
+        "minute": "minute",
+        "minutes": "minute"
+      },
+      ""
+    },
     "econ": {
       "use_a_number_stupid": "You have to use a number.",
       "page": "Page",
