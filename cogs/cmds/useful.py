@@ -35,9 +35,6 @@ class Useful(commands.Cog):
     async def ping_pong(self, ctx):
         content = ctx.message.content.lower()
 
-        print(content)
-        print('schlong' in content)
-
         if 'ping' in content:
             pp = 'Pong'
         elif 'pong' in content:
