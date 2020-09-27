@@ -120,12 +120,12 @@ class Useful(commands.Cog):
     @commands.command(name='guildinfo', aliases=['server', 'serverinfo', 'guild'])
     @commands.guild_only()
     async def guild_info(self, ctx, gid: int = None):
-        if gid == None:
+        if gid is None:
             guild = ctx.guild
         else:
             guild = self.bot.get_guild(gid)
 
-        db_guild = await self.db.fetch_guild(gid)
+        db_guild = await self.db.fetch_guild(guild.id)
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f'{guild.name} Information', icon_url=guild.icon_url)
@@ -137,7 +137,7 @@ class Useful(commands.Cog):
                   f'Emojis: `{len(guild.emojis)}`\n'
 
         villager = f'Prefix: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n' \
-                   f'Language: `{self.d.lang_cache.get(guild_id, "en-us").replace("_", "-")}`\n' \
+                   f'Language: `{self.d.lang_cache.get(guild.idid, "en-us").replace("_", "-")}`\n' \
                    f'Difficulty: `{db_guild["difficulty"]}`\n'
 
         embed.add_field(name='General', value=general)
