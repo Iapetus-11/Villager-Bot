@@ -128,6 +128,7 @@ async def global_check(ctx):
         return False
 
     bot.d.cmd_lb[ctx.author.id] = bot.d.cmd_lb.get(ctx.author.id, 0) + 1
+    bot.d.cmd_count += 1
 
     return True
 
