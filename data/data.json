@@ -5,6 +5,7 @@
   "invite": "https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=8&scope=bot",
   "topgg": "https://top.gg/bot/639498607632056321",
   "disbots": "https://disbots.gg/bot/639498607632056321",
+  "website": "https://villagerbot.xyz",
   "acceptable_prefix_chars": [
     "a",
     "b",
