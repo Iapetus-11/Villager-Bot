@@ -91,7 +91,7 @@ class Useful(commands.Cog):
                f'Shard Count:             `{self.bot.shard_count}`\n' \
                f'Latency/Ping:            `{round(self.bot.latency * 1000, 2)} ms`\n'
 
-        embed = discord.Embed(color=self.d.cc, description=body)
+        embed = discord.Embed(color=self.d.cc, description=body.replace('  ', ' \uFEFF '))
         embed.set_author(name='Villager Bot Statistics', icon_url=self.d.splash_logo)
 
         await ctx.send(embed=embed)
