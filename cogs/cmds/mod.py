@@ -51,7 +51,7 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def ban_user(self, ctx, user: discord.Member, *, reason='No reason provided.'):
+    async def ban_user(self, ctx, user: Union[discord.Member, int], *, reason='No reason provided.'):
         """Bans the given user from the current Discord server"""
 
         if ctx.author.id == user.id:
@@ -67,8 +67,11 @@ class Mod(commands.Cog):
                 await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.error_2.format(user)))
                 return
 
-        await ctx.guild.ban(user, reason=reason, delete_message_days=0)
-        await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.success.format(user)))
+        try:
+            await ctx.guild.ban(user, reason=reason, delete_message_days=0)
+            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.success.format(user)))
+        except Exception:
+            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.error_3))
 
     @commands.command(name='pardon', aliases=['unban'])
     @commands.guild_only()
