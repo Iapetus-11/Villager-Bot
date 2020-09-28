@@ -146,7 +146,19 @@
         "minute": "minute",
         "minutes": "minute"
       },
-      ""
+      "info": {
+        "lib": "Bot Library",
+        "prefix": "Command Prefix",
+        "creator": "Creator",
+        "servers": "Total Servers",
+        "shards": "Shards",
+        "users": "Total Users",
+        "more": "More Info",
+        "website": "Website",
+        "support": "Support",
+        "clickhere": "Click Here",
+        "title": "Villager Bot Information"
+      }
     },
     "econ": {
       "use_a_number_stupid": "You have to use a number.",
