@@ -87,9 +87,9 @@ class Useful(commands.Cog):
         embed.add_field(name='Shards', value=str(self.bot.shard_count))
         embed.add_field(name='Total Users', value=str(len(self.bot.users)))
 
-        embed.add_field(name='[More Info]', value=f'[Click Here]({self.d.disbots})')
-        embed.add_field(name='[Website]', value=f'[Click Here]({self.d.website})')
-        embed.add_field(name='[Support]', value=f'[Click Here]({self.d.support})')
+        embed.add_field(name='More Info', value=f'[Click Here]({self.d.disbots})')
+        embed.add_field(name='Website]', value=f'[Click Here]({self.d.website})')
+        embed.add_field(name='Support', value=f'[Click Here]({self.d.support})')
 
         embed.set_author(name='Villager Bot Information', icon_url=self.d.splash_logo)
 
