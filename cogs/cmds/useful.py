@@ -110,12 +110,12 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name='Useful Links', icon_url=self.d.splash_logo)
 
-        embed.description = f'**[Support Server]({self.d.support})\n' \
-                            f'\n[Bot Invite]({self.d.invite})\n' \
-                            f'\n[Disbots.gg Page]({self.d.disbots})\n' \
-                            f'\n[Top.gg Page]({self.d.topgg})\n' \
-                            f'\n[Website]({self.d.website})\n' \
-                            f'\n[Source Code]({self.d.github})**'
+        embed.description = f'**[{ctx.l.useful.links.support}]({self.d.support})\n' \
+                            f'\n[{ctx.l.useful.links.invite}]({self.d.invite})\n' \
+                            f'\n[{ctx.l.useful.links.disbots}]({self.d.disbots})\n' \
+                            f'\n[{ctx.l.useful.links.topgg}]({self.d.topgg})\n' \
+                            f'\n[{ctx.l.useful.links.website}]({self.d.website})\n' \
+                            f'\n[{ctx.l.useful.links.source}]({self.d.github})**'
 
         await ctx.send(embed=embed)
 
