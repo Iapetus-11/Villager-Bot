@@ -66,20 +66,24 @@ class Events(commands.Cog):
             embed.set_footer(text='Made by Iapetus11#6821')
 
             await m.channel.send(embed=embed)
-        elif m.guild is not None and '@someone' in m.content:
-            someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id and u.permissions_in(m.channel).read_messages)]
-            if len(someones) > 0:
-                await m.channel.send(f'@someone ||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​|||| |||| ||  {random.choice(someones).mention}{m.author.mention}')
-        elif m.guild is not None and m.author.id != self.bot.user.id:
-            guild = await self.db.fetch_guild(m.guild.id)
+            return
 
-            if guild['replies'] and not m.content.startswith(self.d.prefix_cache.get(m.guild.id,  '/')):
-                if 'emerald' in m.content.lower():
-                    await m.channel.send(random.choice(self.d.hmms))
-                elif 'creeper' in m.content.lower():
-                    await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
-                elif 'reee' in m.content.lower():
-                    await m.channel.send(random.choice(self.d.emojis.reees))
+        if m.guild is not None:
+            if '@someone' in m.content:
+                someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id and u.permissions_in(m.channel).read_messages)]
+
+                if len(someones) > 0:
+                    await m.channel.send(f'@someone ||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​|||| |||| ||  {random.choice(someones).mention}{m.author.mention}')
+            else:
+                guild = await self.db.fetch_guild(m.guild.id)
+
+                if guild['replies'] and not m.content.startswith(self.d.prefix_cache.get(m.guild.id,  '/')):
+                    if 'emerald' in m.content.lower():
+                        await m.channel.send(random.choice(self.d.hmms))
+                    elif 'creeper' in m.content.lower():
+                        await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
+                    elif 'reee' in m.content.lower():
+                        await m.channel.send(random.choice(self.d.emojis.reees))
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
