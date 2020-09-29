@@ -70,11 +70,11 @@ async def setup_database():  # init pool connection to database
 
 asyncio.get_event_loop().run_until_complete(setup_database())
 
-logger('loading villager bot text from data/text.json...')
+logger.info('loading villager bot text from data/text.json...')
 with open('data/text.json', 'r', encoding='utf8') as l:
     bot.langs = cj.load(l)  # turns it into dot accessible dicts for ez access ~~nice dict bro~~
 
-logger('loading villager bot constant data from data/data.json...')
+logger.info('loading villager bot constant data from data/data.json...')
 with open('data/data.json', 'r', encoding='utf8') as d:
     bot.d = cj.load(d)  # cj automatically turns json into sets of nested classes and attributes for easy access
 
@@ -118,7 +118,7 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list
-    bot.logger.info(f'loading extension: {cog}')
+    logger.info(f'loading extension: {cog}')
     bot.load_extension(cog)
 
 @bot.check  # everythingggg goes through here
