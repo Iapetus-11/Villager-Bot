@@ -163,7 +163,27 @@
         "click_1": "Click Here",
         "click_2": "Or Here!"
       },
-      ""
+      "links": {
+        "support": "Support Server",
+        "invite": "Bot Invite",
+        "disbots": "Disbots.gg Page",
+        "topgg": "Top.gg Page",
+        "website": "Website",
+        "source": "Source Code"
+      },
+      "stats": {
+        "servers": "Server Count",
+        "dms": "DM Channel Count",
+        "users": "User Count",
+        "msgs": "Session Message Count",
+        "cmds": "Session Command Count",
+        "cmds_sec": "Commands/Second",
+        "votes": "Session Vote Count",
+        "disbots": "Disbots.gg Votes / Hour",
+        "topgg": "Top.gg Votes / Hour",
+        "shards": "Shard Count",
+        "ping": "Latency/Ping"
+      }
     },
     "econ": {
       "use_a_number_stupid": "You have to use a number.",
