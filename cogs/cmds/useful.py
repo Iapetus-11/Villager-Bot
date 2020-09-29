@@ -124,17 +124,17 @@ class Useful(commands.Cog):
         uptime = (arrow.utcnow() - self.d.start_time)
         uptime_seconds = uptime.seconds + (uptime.days * 24 * 3600)
 
-        body = f'Server Count: `{len(self.bot.guilds)}`\n' \
-               f'DM Channel Count: `{len(self.bot.private_channels)}/128`\n' \
-               f'User Count: `{len(self.bot.users)}`\n' \
-               f'Session Message Count: `{self.d.msg_count}`\n' \
-               f'Session Command Count: `{self.d.cmd_count}` `({round((self.d.cmd_count / (self.d.msg_count + .000001)) * 100, 2)}%)`\n' \
-               f'Commands/Second: `{round(self.d.cmd_count / uptime_seconds, 2)}`\n' \
-               f'Session Vote Count: `{self.d.votes_disbots + self.d.votes_topgg}`\n' \
-               f'Disbots.gg Votes / Hour: `{round((self.d.votes_disbots / uptime_seconds) * 3600, 2)}`\n' \
-               f'Top.gg Votes / Hour: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n' \
-               f'Shard Count: `{self.bot.shard_count}`\n' \
-               f'Latency/Ping: `{round(self.bot.latency * 1000, 2)} ms`\n'
+        body = f'{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n' \
+               f'{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n' \
+               f'{ctx.l.useful.stats.users}: `{len(self.bot.users)}`\n' \
+               f'{ctx.l.useful.stats.msgs}: `{self.d.msg_count}`\n' \
+               f'{ctx.l.useful.stats.cmds}: `{self.d.cmd_count}` `({round((self.d.cmd_count / (self.d.msg_count + .000001)) * 100, 2)}%)`\n' \
+               f'{ctx.l.useful.stats.cmds_sec}: `{round(self.d.cmd_count / uptime_seconds, 2)}`\n' \
+               f'{ctx.l.useful.stats.votes}: `{self.d.votes_disbots + self.d.votes_topgg}`\n' \
+               f'{ctx.l.useful.stats.disbots}: `{round((self.d.votes_disbots / uptime_seconds) * 3600, 2)}`\n' \
+               f'{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n' \
+               f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
+               f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n'
 
         embed = discord.Embed(color=self.d.cc, description=body)
         embed.set_author(name='Villager Bot Statistics', icon_url=self.d.splash_logo)
