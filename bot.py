@@ -6,7 +6,6 @@ import discord
 import logging
 import arrow
 
-
 # set up basic logging
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("asyncio").setLevel(logging.CRITICAL)  # hide annoying asyncio warnings
@@ -75,7 +74,9 @@ with open('data/data.json', 'r', encoding='utf8') as d:
     bot.d = cj.load(d)  # cj automatically turns json into sets of nested classes and attributes for easy access
 
 bot.d.cc = discord.Color.green()  # embed color
-bot.d.k = keys.ap
+
+bot.d.vapi_key = keys.vapi_key
+bot.d.vapi_qkey = keys.vapi_qkey
 
 bot.d.votes_topgg = 0
 bot.d.votes_disbots = 0
