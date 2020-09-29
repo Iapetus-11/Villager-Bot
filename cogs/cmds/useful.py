@@ -111,7 +111,7 @@ class Useful(commands.Cog):
         embed.set_author(name='Useful Links', icon_url=self.d.splash_logo)
 
         embed.description = f'**[Support Server]({self.d.support})\n' \
-                            f'\n[Bot Invite Link]({self.d.invite})\n' \
+                            f'\n[Bot Invite]({self.d.invite})\n' \
                             f'\n[Disbots.gg Page]({self.d.disbots})\n' \
                             f'\n[Top.gg Page]({self.d.topgg})\n' \
                             f'\n[Website]({self.d.website})\n' \
