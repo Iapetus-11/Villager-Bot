@@ -17,7 +17,6 @@ class Minecraft(commands.Cog):
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
         self.server_list = []
-
         self.update_server_list.start()
 
     def cog_unload(self):
