@@ -172,7 +172,6 @@
         "source": "Source Code"
       },
       "stats": {
-        "info": "Information",
         "servers": "Server Count",
         "dms": "DM Channel Count",
         "users": "User Count",
@@ -186,6 +185,7 @@
         "ping": "Latency/Ping"
       },
       "ginf": {
+        "info": "Information",
         "owner": "Owner",
         "members": "Members",
         "channels": "Channels",
