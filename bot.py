@@ -8,7 +8,8 @@ import arrow
 
 # set up basic logging
 logging.basicConfig(level=logging.INFO)
-logging.getLogger("asyncio").setLevel(logging.CRITICAL)  # hide annoying asyncio warnings
+logging.getLogger('asyncio').setLevel(logging.CRITICAL)  # hide annoying asyncio warnings
+logger = logging.getLogger('main')
 
 with open("data/keys.json", "r") as k:  # load bot keys
     keys = cj.load(k)
@@ -31,7 +32,7 @@ bot = commands.AutoShardedBot(  # setup bot
     #help_command=None
 )
 
-bot.logger = logging.getLogger('main')
+bot.logger = logger
 
 async def send(_bot, location, message):  # send function/method for easy sending of embed messages with small amounts of text
     try:
