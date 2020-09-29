@@ -183,6 +183,16 @@
         "topgg": "Top.gg Votes / Hour",
         "shards": "Shard Count",
         "ping": "Latency/Ping"
+      },
+      "ginf": {
+        "owner": "Owner",
+        "members": "Members",
+        "channels": "Channels",
+        "roles": "Roles",
+        "emojis": "Emojis",
+        "cmd_prefix": "Prefix",
+        "lang": "Language",
+        "diff": "Difficulty"
       }
     },
     "econ": {
