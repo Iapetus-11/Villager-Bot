@@ -152,17 +152,17 @@ class Useful(commands.Cog):
         db_guild = await self.db.fetch_guild(guild.id)
 
         embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=f'{guild.name} Information', icon_url=guild.icon_url)
+        embed.set_author(name=f'{guild.name} {ctx.l.useful.ginf.info}', icon_url=guild.icon_url)
 
-        general = f'Owner: {guild.owner.mention}\n' \
-                  f'Members: `{guild.member_count}`\n' \
-                  f'Channels: `{len(guild.channels)}`\n ' \
-                  f'Roles: `{len(guild.roles)}`\n' \
-                  f'Emojis: `{len(guild.emojis)}`\n'
+        general = f'{ctx.l.useful.ginf.owner}: {guild.owner.mention}\n' \
+                  f'{ctx.l.useful.ginf.members}: `{guild.member_count}`\n' \
+                  f'{ctx.l.useful.ginf.channels}: `{len(guild.channels)}`\n ' \
+                  f'{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n' \
+                  f'{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n'
 
-        villager = f'Prefix: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n' \
-                   f'Language: `{self.d.lang_cache.get(guild.id, "en-us").replace("_", "-")}`\n' \
-                   f'Difficulty: `{db_guild["difficulty"]}`\n'
+        villager = f'{ctx.l.useful.ginf.cmd_prefix}: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n' \
+                   f'{ctx.l.useful.ginf.lang}: `{self.d.lang_cache.get(guild.id, "en-us").replace("_", "-")}`\n' \
+                   f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
 
         embed.add_field(name='General', value=general, inline=False)
         embed.add_field(name='Villager Bot', value=villager, inline=False)
