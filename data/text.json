@@ -172,6 +172,7 @@
         "source": "Source Code"
       },
       "stats": {
+        "info": "Information",
         "servers": "Server Count",
         "dms": "DM Channel Count",
         "users": "User Count",
