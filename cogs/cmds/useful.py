@@ -59,39 +59,39 @@ class Useful(commands.Cog):
         diff = now - self.d.start_time
 
         if days := diff.days == 1:
-            dd = 'day'
+            dd = ctx.l.useful.uptime.day
         else:
-            dd = 'days'
+            dd = ctx.l.useful.uptime.days
 
         if hours := int(diff.seconds / 3600) == 1:
-            hh = 'hour'
+            hh = ctx.l.useful.uptime.hour
         else:
-            hh = 'hours'
+            hh = ctx.l.useful.uptime.hours
 
         if minutes := int(diff.seconds / 60) % 60 == 1:
-            mm = 'minute'
+            mm = ctx.l.useful.uptime.minute
         else:
-            mm = 'minutes'
+            mm = ctx.l.useful.uptime.minutes
 
-        await self.bot.send(ctx, f'Bot has been online for {days} {dd}, {hours} {hh}, {minutes} {mm}.')
+        await slef.bot.send(ctx, ctx.l.useful.uptime.online_for.format(f'{days} {dd}, {hours} {hh}, {minutes} {mm}'))
 
     @commands.command(name='info', aliases=['information'])
     async def info(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.add_field(name='Bot Library', value='Discord.py')
-        embed.add_field(name='Command Prefix', value=ctx.prefix)
-        embed.add_field(name='Creator', value='Iapetus11#6821')
+        embed.add_field(name=ctx.l.useful.info.lib, value='Discord.py')
+        embed.add_field(name=ctx.l.useful.info.prefix, value=ctx.prefix)
+        embed.add_field(name=ctx.l.useful.info.creator, value='Iapetus11#6821')
 
-        embed.add_field(name='Total Servers', value=str(len(self.bot.guilds)))
-        embed.add_field(name='Shards', value=str(self.bot.shard_count))
-        embed.add_field(name='Total Users', value=str(len(self.bot.users)))
+        embed.add_field(name=ctx.l.useful.info.servers, value=str(len(self.bot.guilds)))
+        embed.add_field(name=ctx.l.useful.info.shards, value=str(self.bot.shard_count))
+        embed.add_field(name=ctx.l.useful.info.users, value=str(len(self.bot.users)))
 
-        embed.add_field(name='More Info', value=f'[Click Here]({self.d.disbots})')
-        embed.add_field(name='Website', value=f'[Click Here]({self.d.website})')
-        embed.add_field(name='Support', value=f'[Click Here]({self.d.support})')
+        embed.add_field(name=ctx.l.useful.info.more, value=f'{ctx.l.useful.info.click_here}]({self.d.disbots})')
+        embed.add_field(name=ctx.l.useful.info.website, value=f'[{ctx.l.useful.info.click_here}]({self.d.website})')
+        embed.add_field(name=ctx.l.useful.info.support, value=f'[{ctx.l.useful.info.click_here}]({self.d.support})')
 
-        embed.set_author(name='Villager Bot Information', icon_url=self.d.splash_logo)
+        embed.set_author(name=ctx.l.useful.info.title, icon_url=self.d.splash_logo)
 
         await ctx.send(embed=embed)
 
