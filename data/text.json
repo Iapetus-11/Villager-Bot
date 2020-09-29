@@ -158,7 +158,12 @@
         "support": "Support",
         "clickhere": "Click Here",
         "title": "Villager Bot Information"
-      }
+      },
+      "vote": {
+        "click_1": "Click Here",
+        "click_2": "Or Here!"
+      },
+      ""
     },
     "econ": {
       "use_a_number_stupid": "You have to use a number.",
