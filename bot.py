@@ -19,6 +19,7 @@ logger.info('loading config...')
 with open("data/config.json", "r") as c:  # load config
     config = cj.load(c)
 
+
 async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
     if ctx.guild is None:
         return _bot.d.default_prefix
@@ -35,6 +36,7 @@ bot = commands.AutoShardedBot(  # setup bot
 )
 
 bot.logger = logger
+
 
 async def send(_bot, location, message):  # send function/method for easy sending of embed messages with small amounts of text
     try:
@@ -59,6 +61,7 @@ async def get_lang(_bot, ctx):
 bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
 bot.get_lang = get_lang.__get__(bot)
 
+
 async def setup_database():  # init pool connection to database
     bot.db = await asyncpg.create_pool(
         host=config['database']['host'],  # where db is hosted
@@ -67,6 +70,7 @@ async def setup_database():  # init pool connection to database
         password=keys['database'],  # password which goes with user
         command_timeout=5
     )
+
 
 asyncio.get_event_loop().run_until_complete(setup_database())
 
