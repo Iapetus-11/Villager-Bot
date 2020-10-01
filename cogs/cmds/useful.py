@@ -73,7 +73,7 @@ class Useful(commands.Cog):
         else:
             mm = ctx.l.useful.uptime.minutes
 
-        await slef.bot.send(ctx, ctx.l.useful.uptime.online_for.format(f'{days} {dd}, {hours} {hh}, {minutes} {mm}'))
+        await self.bot.send(ctx, ctx.l.useful.uptime.online_for.format(f'{days} {dd}, {hours} {hh}, {minutes} {mm}'))
 
     @commands.command(name='info', aliases=['information'])
     async def info(self, ctx):
