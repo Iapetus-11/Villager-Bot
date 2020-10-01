@@ -40,7 +40,15 @@ class Mobs(commands.Cog):
         return math.ceil(dmg)
 
     async def spawn_event(self, ctx):
-        pass
+        self.d.spawn_queue.pop(self.d.spawn_queue.index(ctx))
+
+        if ctx.guild is None:
+            return
+
+        db_guild = await self.d.fetch_guild(ctx.guild.id)
+
+        if db_guild['difficulty'] == 'easy':
+            return
 
     async def spawn_events(self):
         while True:
