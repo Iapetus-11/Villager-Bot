@@ -100,6 +100,7 @@ bot.d.findables = bot.d.special_findables + bot.d.default_findables
 bot.d.pillagers = {}  # {user_id: daily_pillages}
 bot.d.chuggers = {}  # {user_id: [potion, potion]}
 bot.d.cmd_lb = {}  # {user_id: command_count}
+bot.d.spawn_queue = []  # [ctx, ctx,..]
 
 bot.d.ban_cache = []  # [uid, uid,..]
 bot.d.prefix_cache = {}  # {gid: 'prefix'}
