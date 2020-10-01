@@ -173,6 +173,9 @@
     "hmrmrmmhhhhhmmmmmmm",
     "hhrrrhmmhrrrhehhhhrmhmhmeh hhrmhmghhwurghhmehshrmhmrgghm hhrrrhmmhhrrrhmmhrrrhehhh"
   ],
+  "mobspawns": {
+    
+  },
   "mining": {
     "finds": [
       ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore"],
