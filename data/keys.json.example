@@ -6,5 +6,5 @@
   "disbotsgg": "disbots.gg token",
   "disbotsgg_auth": "disbots.gg webhook auth",
   "googl": ["google custom search keys"]
-  "vbapi_auth": "villager bot api ratelimit bypass auth"
+  "vb_api_key": "villager bot api ratelimit bypass auth"
 }

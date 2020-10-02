@@ -84,8 +84,7 @@ with open('data/data.json', 'r', encoding='utf8') as d:
 
 bot.d.cc = discord.Color.green()  # embed color
 
-bot.d.vapi_key = keys.vapi_key
-bot.d.vapi_qkey = keys.vapi_qkey
+bot.d.vb_api_key = keys.vb_api_key
 
 bot.d.votes_topgg = 0
 bot.d.votes_disbots = 0
