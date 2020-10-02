@@ -5,7 +5,6 @@
   "topgg_webhook": "top.gg/dbl webhook auth",
   "disbotsgg": "disbots.gg token",
   "disbotsgg_auth": "disbots.gg webhook auth",
-  "googl": ["google custom search keys"],
-  "vapi_key": "villager bot api main auth",
-  "vapi_qkey": "villager bot api second auth"
+  "googl": ["google custom search keys"]
+  "vbapi_auth": "villager bot api ratelimit bypass auth"
 }
