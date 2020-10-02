@@ -1,4 +1,4 @@
-# **Villager Bot Rewrite (COMPLETE rewrite!)**
+# **Villager Bot Rewrite (AKA Villager Bot's GF) (COMPLETE rewrite!)**
 [![Bot Status](https://disbots.gg/api/widget/639498607632056321/status)](https://disbots.gg/bot/639498607632056321)
 [![Server Count](https://disbots.gg/api/widget/639498607632056321/servers)](https://disbots.gg/bot/639498607632056321)
 [![Support Server](https://img.shields.io/discord/641117791272960031?color=51B780&label=Discord%20Server)](https://discord.gg/39DwwUV)
