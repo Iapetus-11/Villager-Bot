@@ -47,9 +47,13 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             while meme['spoiler'] or (not do_nsfw and meme['nsfw']):
-                meme = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/meme+memes+me_irl+dankmemes')).json()
+                resp = await self.ses.get(
+                    'https://betterapi.net/reddit/gimme/meme+memes+me_irl+dankmemes',
+                    headers={'Authorization': self.d.vb_api_key}
+                )
+                meme = await resp.json()
 
-        embed = discord.Embed(color=self.d.cc, title=meme['title'], url=meme['postLink'])
+        embed = discord.Embed(color=self.d.cc, title=meme['title'], url=meme['permalink'])
         embed.set_image(url=meme['url'])
 
         await ctx.send(embed=embed)
@@ -67,9 +71,13 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             while not do_nsfw and jj['nsfw']:
-                jj = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/greentext')).json()
+                resp = await self.ses.get(
+                    'https://betterapi.net/reddit/gimme/4chan+greentext',
+                    headers={'Authorization': self.d.vb_api_key}
+                )
+                jj = await resp.json()
 
-        embed = discord.Embed(color=self.d.cc, title=jj['title'], url=jj['postLink'])
+        embed = discord.Embed(color=self.d.cc, title=jj['title'], url=jj['permalink'])
         embed.set_image(url=jj['url'])
 
         await ctx.send(embed=embed)
@@ -87,9 +95,13 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             while not do_nsfw and jj['nsfw']:
-                jj = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/comics')).json()
+                resp = await self.ses.get(
+                    'https://betterapi.net/reddit/gimme/comics',
+                    headers={'Authorization': self.d.vb_api_key}
+                )
+                jj = await resp.json()
 
-        embed = discord.Embed(color=self.d.cc, title=jj['title'], url=jj['postLink'])
+        embed = discord.Embed(color=self.d.cc, title=jj['title'], url=jj['permalink'])
         embed.set_image(url=jj['url'])
 
         await ctx.send(embed=embed)
@@ -102,7 +114,11 @@ class Fun(commands.Cog):
                 jj = {'nsfw': True}
 
                 while jj['nsfw']:
-                    jj = await (await self.ses.get('https://meme-api.herokuapp.com/gimme/CursedMinecraft')).json()
+                    resp = await self.ses.get(
+                        'https://betterapi.net/reddit/gimme/CursedMinecraft',
+                        headers={'Authorization': self.d.vb_api_key}
+                    )
+                    jj = await resp.json()
 
                 embed = discord.Embed(color=self.d.cc)
                 embed.set_image(url=jj['url'])
@@ -111,7 +127,6 @@ class Fun(commands.Cog):
             else:
                 # should put image from web server or something
                 pass
-
 
     @commands.command(name='say')
     async def say_text(self, ctx, *, _text):
