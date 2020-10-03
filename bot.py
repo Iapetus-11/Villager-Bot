@@ -28,10 +28,10 @@ async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the da
 
     return _bot.d.default_prefix if prefix is None else prefix
 
-
 bot = commands.AutoShardedBot(  # setup bot
     command_prefix=get_prefix,
     case_insensitive=True,
+    intents=discord.Intents.all()
     #help_command=None
 )
 
