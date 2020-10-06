@@ -229,7 +229,19 @@
       ]
     },
     "cave_spider": {
-      
+      "nice": "Cave Spider",
+      "health": 12,
+      "image": "linktoimage",
+      "attacks": [
+        "The cave spider's fangs digs deep onto your skin",
+        "The cave spider gives you a toxic kiss",
+        "The cave spider bites you and inflicts poison damage"
+      ],
+      "finishers": [
+        "You died a slow, painful death from poison damage!",
+        "The cave spider injects one last lethal dose of venom!",
+        "The cave spider buries its fangs deep into you and fills you with venom!"
+      ]
     }
   },
   "mining": {
