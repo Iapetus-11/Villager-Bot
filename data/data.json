@@ -238,9 +238,27 @@
         "The cave spider bites you and inflicts poison damage"
       ],
       "finishers": [
-        "You died a slow, painful death from poison damage!",
-        "The cave spider injects one last lethal dose of venom!",
-        "The cave spider buries its fangs deep into you and fills you with venom!"
+        "You died a slow, painful death from poison damage",
+        "The cave spider injects one last lethal dose of venom",
+        "The cave spider buries its fangs deep into you and fills you with venom"
+      ]
+    },
+    "creeper": {
+      "nice": "Creeper",
+      "health": 20,
+      "image": "linktoimage",
+      "attacks": [
+        "You hear a fuse ignite...",
+        "The creeper flashes and fizzles...",
+        "The creeper fizzles and flashes...",
+        "The creeper prepares for its imminent suicide...",
+        "From behind you, a fuse ignites..."
+      ],
+      "finishers": [
+        "The creeper goes BOOM!",
+        "Creeper used SELF-DESTRUCT! *It's super effective!*",
+        "The creeper explodes, yeeting your bloody corpse across the map!",
+        "You were blown to pixels by the creeper!"
       ]
     }
   },
