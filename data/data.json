@@ -173,8 +173,64 @@
     "hmrmrmmhhhhhmmmmmmm",
     "hhrrrhmmhrrrhehhhhrmhmhmeh hhrmhmghhwurghhmehshrmhmrgghm hhrrrhmmhhrrrhmmhrrrhehhh"
   ],
-  "mobspawns": {
-    
+  "mobs": {
+    "zombie": {
+      "nice": "Zombie",
+      "health": 20,
+      "image": "linktoimage",
+      "attacks": [
+        "The zombie ran, lashing at your arms",
+        "The zombie gives you a painful hug",
+        "The zombie groans and gives you a painful hug",
+        "The zombie punches you in your face",
+        "The zombie claws you with its overgrown, decaying nails",
+        "The zombie punches you in your face with its decaying hand",
+        "The zombie scratches you with its overgrown, decaying nails"
+      ],
+      "finishers": [
+        "The zombie lunges for your throat, and bites!",
+        "The zombie disembowels you and eats your remains!",
+        "The zombie guts you and devoures your remains!",
+      ]
+    },
+    "skeleton": {
+      "nice": "Skeleton",
+      "health": 16,
+      "image": "linktoimage",
+      "attacks": [
+        "The skeleboi yeets an arrow at your face",
+        "The skeleton turns around and 360 no scopes you!",
+        "An arrow rains from the skeleton, only one",
+        "One headshot from skeleton for you",
+        "BOOM! HEADSHOT! - Skeleton 2020"
+      ],
+      "finishers": [
+        "The skeleton 360 noscopes you for the last time!",
+        "A rain of arrows whistle towards you and turn you into swiss cheese!",
+        "You hear the whistle of hundreds of arrows and then you die!",
+        "Arrows rain from the sky, piercing your flesh and killing you!"
+      ]
+    },
+    "spider": {
+      "nice": "Spider",
+      "health": 20,
+      "image": "linktoimage",
+      "attacks": [
+        "The spider jumps on top of you and sinks its fangs into your arm",
+        "The spider knocks you down and bites your leg",
+        "The spider jumps at you in an attempt to bite your face off",
+        "The spider dunks on you",
+        "The spider lunges at you and bites your leg"
+      ],
+      "finishers": [
+        "The spider jumps on you, spins around, and sinks its fangs into your skull!",
+        "The spider dunks on you one last time, and bites your face off!",
+        "The spider rips your face off, your last sight being 8 murderous red eyes staring back",
+      ]
+    },
+    "cave_spider": {
+      
+    }
   },
   "mining": {
     "finds": [
