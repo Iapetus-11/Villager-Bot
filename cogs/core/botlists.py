@@ -9,6 +9,8 @@ class BotLists(commands.Cog):
         self.bot = bot
         self.d = self.bot.d
 
+        self.db = self.bot.get_cog('Database')
+
         self.ses = aiohttp.ClientSession()
         self.webhook_server = None
 
@@ -37,8 +39,45 @@ class BotLists(commands.Cog):
     @commands.Cog.listener()
     async def on_disbots_event(self, data):
         if data.type != 'like':
+            self.bot.logger.info('\u001b[35m disbots.gg webhooks test\u001b[0m')
             await self.bot.get_channel(self.d.error_channel_id).send('DISBOTS.GG WEBHOOKS TEST')
+            return
+
+        self.bot.logger.info(f'\u001b[32;1m{data.user} voted on top.gg\u001b[0m')
+
+        amount = self.d.disbots_reward * self.d.base_multi
+        await self.db.balance_add(data.user_id, amount)
+
+        user = self.bot.get_user(data.user_id)
+        user_str = 'an unknown user' if user is None else user.display_name
+
+        await self.bot.get_channel(725551439165784115).send(f':tada::tada: **{user_str}** has voted! :tada::tada:')
+
+        if user is not None:
+            try:
+                await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
+            except Exception:
+                pass
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):
-        pass
+        if data.type != 'upvote':
+            self.bot.logger.info('\u001b[35m top.gg webhooks test\u001b[0m')
+            await self.bot.get_channel(self.d.error_channel_id).send('TOP.GG WEBHOOKS TEST')
+            return
+
+        self.bot.logger.info(f'\u001b[32;1m{data.user} voted on top.gg\u001b[0m DEBUG/TESTING: {data}')
+
+        amount = self.d.disbots_reward * self.d.base_multi * (self.d.weekend_multi * data.isWeekend)
+        await self.db.balance_add(data.user, amount)
+
+        user = self.bot.get_user(data.user)
+        user_str = 'an unknown user' if user is None else user.display_name
+
+        await self.bot.get_channel(725551439165784115).send(f':tada::tada: **{user_str}** has voted! :tada::tada:')
+
+        if user is not None:
+            try:
+                await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
+            except Exception:
+                pass

@@ -11,6 +11,10 @@
   "github": "https://github.com/Villager-Dev/Villager-Bot",
   "hooksport": 5000,
   "hookspath": "/votehook",
+  "disbots_reward": 16,
+  "topgg_reward": 32,
+  "base_multi": 1,
+  "weekend_multi": 2,
   "acceptable_prefix_chars": [
     "a",
     "b",
