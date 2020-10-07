@@ -74,4 +74,4 @@ class BotLists(commands.Cog):
 
         amount = self.d.disbots_reward * self.d.base_multi * (self.d.weekend_multi * data.isWeekend)
 
-        await self.uniform_reward(data.user_id, amount)
+        await self.uniform_reward(data.user, amount)
