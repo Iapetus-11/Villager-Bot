@@ -36,6 +36,20 @@ class BotLists(commands.Cog):
 
         self.webhook_server = aiohttp.web.TCPSite(runner, '0.0.0.0', self.d.hooksport)
 
+    async def uniform_reward(user_id, amount):
+        await self.db.balance_add(user_id, amount)
+
+        user = self.bot.get_user(user_id)
+        user_str = 'an unknown user' if user is None else discord.utils.escape_markdown(user.display_name)
+
+        await self.bot.get_channel(self.d.vote_channel_id).send(f':tada::tada: **{user_str}** has voted! :tada::tada:')
+
+        if user is not None:
+            try:
+                await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
+            except Exception:
+                pass
+
     @commands.Cog.listener()
     async def on_disbots_event(self, data):
         if data.type != 'like':
@@ -43,21 +57,11 @@ class BotLists(commands.Cog):
             await self.bot.get_channel(self.d.error_channel_id).send('DISBOTS.GG WEBHOOKS TEST')
             return
 
-        self.bot.logger.info(f'\u001b[32;1m{data.user} voted on top.gg\u001b[0m')
+        self.bot.logger.info(f'\u001b[32;1m{data.user_id} voted on disbots.gg\u001b[0m')
 
         amount = self.d.disbots_reward * self.d.base_multi
-        await self.db.balance_add(data.user_id, amount)
 
-        user = self.bot.get_user(data.user_id)
-        user_str = 'an unknown user' if user is None else user.display_name
-
-        await self.bot.get_channel(725551439165784115).send(f':tada::tada: **{user_str}** has voted! :tada::tada:')
-
-        if user is not None:
-            try:
-                await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
-            except Exception:
-                pass
+        await self.uniform_reward(data.user_id, amount)
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):
@@ -69,15 +73,5 @@ class BotLists(commands.Cog):
         self.bot.logger.info(f'\u001b[32;1m{data.user} voted on top.gg\u001b[0m DEBUG/TESTING: {data}')
 
         amount = self.d.disbots_reward * self.d.base_multi * (self.d.weekend_multi * data.isWeekend)
-        await self.db.balance_add(data.user, amount)
 
-        user = self.bot.get_user(data.user)
-        user_str = 'an unknown user' if user is None else user.display_name
-
-        await self.bot.get_channel(725551439165784115).send(f':tada::tada: **{user_str}** has voted! :tada::tada:')
-
-        if user is not None:
-            try:
-                await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
-            except Exception:
-                pass
+        await self.uniform_reward(data.user_id, amount)
