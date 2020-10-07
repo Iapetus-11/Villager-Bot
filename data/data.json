@@ -8,6 +8,7 @@
   "website": "https://villagerbot.xyz",
   "github": "https://github.com/Villager-Dev/Villager-Bot",
   "hooksport": 5000,
+  "hookspath": "/votehook",
   "acceptable_prefix_chars": [
     "a",
     "b",
