@@ -4,7 +4,7 @@ import random
 import math
 
 
-class Mobs(commands.Cog):
+class Mobs(commands.Cog):  # fuck I really don't want to work on this
     def __init__(self, bot):
         self.bot = bot
         self.d = self.bot.d
@@ -54,7 +54,7 @@ class Mobs(commands.Cog):
         while True:
             await asyncio.sleep(.05)  # don't fucking remove this or else
             for ctx in self.d.spawn_queue:
-                self.bot.loop.create_task(self.spawn_event(ctx))
+                self.bot.loop.create_task(self.spawn_event(ctx))  # ah yes eficeicncy
 
 def setup(bot):
     bot.add_cog(Mobs(bot))

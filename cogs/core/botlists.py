@@ -41,7 +41,7 @@ class BotLists(commands.Cog):
 
             await asyncio.sleep(3600)
 
-    async def webhooks_setup(self):
+    async def webhooks_setup(self):  # holy fucking shit that's hot
         async def handler(req):
             if req.headers.get('Authorization') == self.d.disbots_auth:
                 self.bot.dispatch('disbots_event', cj.classify(await req.json()))
