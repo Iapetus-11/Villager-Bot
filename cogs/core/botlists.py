@@ -1,3 +1,4 @@
+from discord.ext import commands
 from aiohttp import web
 import classyjson as cj
 import aiohttp
@@ -15,6 +16,30 @@ class BotLists(commands.Cog):
         self.webhook_server = None
 
         self.bot.loop.create_task(webhooks_setup())
+
+        self.bot.loop.create_task(update_stats())
+
+    async def update_stats(self):
+        while True:
+            try:
+                await self.ses.put(
+                    'https://disbots.gg/api/stats',
+                    headers={'Authorization': self.d.disbots_auth},
+                    json={'servers': str(len(self.bot.guilds))}
+                )
+            except Exception as e:
+                self.bot.logger.error(e)
+
+            try:
+                await self.ses.post(
+                    f'https://top.gg/api/bots/{self.bot.user.id}/stats',
+                    headers={'Authorization': self.d.topgg_post_auth},
+                    json={'server_count': str(len(self.bot.guilds))}
+                )
+            except Exception as e:
+                self.bot.logger.error(e)
+
+            await asyncio.sleep(3600)
 
     async def webhooks_setup(self):
         async def handler(req):
