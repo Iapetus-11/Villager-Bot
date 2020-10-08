@@ -52,14 +52,14 @@ class BotLists(commands.Cog):
 
             return web.Response()
 
-        app = aiohttp.web.Application()
+        app = web.Application()
 
         app.router.add_post(self.d.hookspath, handler)
 
-        runner = aiohttp.web.AppRunner(app)
+        runner = web.AppRunner(app)
         await runner.setup()
 
-        self.webhook_server = aiohttp.web.TCPSite(runner, '0.0.0.0', self.d.hooksport)
+        self.webhook_server = web.TCPSite(runner, '0.0.0.0', self.d.hooksport)
 
     async def uniform_reward(user_id, amount):
         await self.db.balance_add(user_id, amount)
