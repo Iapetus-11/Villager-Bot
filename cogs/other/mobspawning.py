@@ -184,7 +184,7 @@ class MobSpawning(commands.Cog):
             emeralds_multi = 1.5
 
         h_user = await self.db.get_health(u.id)
-        hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
+        hh = ["<:heart_full:758316816283467796>", "<:heart_empty:758316816329867284>"]
 
         def check(m):
             return m.author.id == u.id and m.channel.id == ctx.channel.id and m.content.lower() in ["attack", "fight",
