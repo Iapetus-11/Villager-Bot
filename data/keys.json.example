@@ -4,7 +4,6 @@
   "topgg": "top.gg/dbl token",
   "topgg_webhook": "top.gg/dbl webhook auth",
   "disbotsgg": "disbots.gg token",
-  "disbotsgg_auth": "disbots.gg webhook auth",
   "googl": ["google custom search keys"]
   "vb_api_key": "villager bot api ratelimit bypass auth"
 }
