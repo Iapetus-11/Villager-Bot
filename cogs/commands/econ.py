@@ -81,7 +81,7 @@ class Econ(commands.Cog):
 
         pp.set_author(name=f"{u.display_name}'s Profile", icon_url=str(u.avatar_url_as(static_format="png")))
 
-        hh = ["<:heart_full:717535027604488243>", "<:heart_empty:717535027319144489>"]
+        hh = ["<:heart_full:758316816283467796>", "<:heart_empty:758316816329867284>"]
         pp.add_field(name="Health",
                      value=await self.db.calc_stat_bar(ceil(await self.db.get_health(u.id) / 2), 10, 10, hh[0], hh[1]),
                      inline=False)
