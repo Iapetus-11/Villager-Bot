@@ -50,6 +50,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         if db_guild['difficulty'] == 'easy':
             return
 
+
+
     async def spawn_events(self):
         while True:
             await asyncio.sleep(.05)  # don't fucking remove this or else
