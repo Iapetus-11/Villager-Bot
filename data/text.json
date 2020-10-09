@@ -149,6 +149,24 @@
             "The creeper explodes, yeeting your bloody corpse across the map!",
             "You were blown to pixels by the creeper!"
           ]
+        },
+        "baby_slime": {
+          "attacks": [
+            "The baby slime jumps on you",
+            "The baby slime looks cute",
+            "The baby slime jumps on your head",
+            "You encourage the baby slime"
+          ],
+          "finishers": [
+            "You die from the cuteness",
+            "The baby slime looks so cute you just follow it around for the rest of your life and keep it safe",
+            "You follow the baby slime around because it's so cute, it despawns, you die from sadness",
+            "The baby slime despawns right in front of you, you die from extreme depression",
+            "The baby slime finally does some damage",
+            "You feel bad that the baby slime can't hurt you so you commit suicide",
+            "You feel bad that the baby slime can't hurt you so you commit dig straight down",
+            "There can only be one winner, the baby slime says, you type in /kill"
+          ]
         }
       }
     },

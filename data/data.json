@@ -207,6 +207,11 @@
         "nice": "Creeper",
         "health": 20,
         "image": "linktoimage"
+      },
+      "baby_slime": {
+        "nice": "Baby Slime",
+        "health": 20,
+        "image": "linktoimage"
       }
     }
   },
