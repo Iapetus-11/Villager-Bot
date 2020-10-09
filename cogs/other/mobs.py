@@ -27,7 +27,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         elif sword == 'stone sword':
             dmg = random.randint(1, 3)
         else:
-            dmg = randint(1, 2)
+            dmg = random.randint(1, 2)
 
         if diff_multi > 1:
             dmg = dmg / 1.3
@@ -46,11 +46,19 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             return
 
         db_guild = await self.d.fetch_guild(ctx.guild.id)
+        diff = db_guild['difficulty']
 
-        if db_guild['difficulty'] == 'easy':
+        if diff == 'easy':
             return
 
+        # difficulty multiplier
+        diff_multi = 1
+        if diff == 'hard':
+            diff_multi *= 1.5
 
+        # type of mob that will be spawned, just a string
+        mob_key = random.choice(list(self.d.mobs_mech.mobs))
+        mob_d = self.d.mobs_mech[mob_key].copy().update()
 
     async def spawn_events(self):
         while True:
