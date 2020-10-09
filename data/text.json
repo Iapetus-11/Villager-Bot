@@ -28,78 +28,128 @@
         "invalid_size_2": "The size must be between 1 and 12"
       }
     },
-    "mobs": {
-      "zombie": {
-        "attacks": [
-          "The zombie ran, lashing at your arms",
-          "The zombie gives you a painful hug",
-          "The zombie groans and gives you a painful hug",
-          "The zombie punches you in your face",
-          "The zombie claws you with its overgrown, decaying nails",
-          "The zombie punches you in your face with its decaying hand",
-          "The zombie scratches you with its overgrown, decaying nails"
-        ],
-        "finishers": [
-          "The zombie lunges for your throat, and bites!",
-          "The zombie disembowels you and eats your remains!",
-          "The zombie guts you and devoures your remains!",
-        ]
-      },
-      "skeleton": {
-        "attacks": [
-          "The skeleboi yeets an arrow at your face",
-          "The skeleton turns around and 360 no scopes you!",
-          "An arrow rains from the skeleton, only one",
-          "One headshot from skeleton for you",
-          "BOOM! HEADSHOT! - Skeleton 2020"
-        ],
-        "finishers": [
-          "The skeleton 360 noscopes you for the last time!",
-          "A rain of arrows whistle towards you and turn you into swiss cheese!",
-          "You hear the whistle of hundreds of arrows and then you die!",
-          "Arrows rain from the sky, piercing your flesh and killing you!"
-        ]
-      },
-      "spider": {
-        "attacks": [
-          "The spider jumps on top of you and sinks its fangs into your arm",
-          "The spider knocks you down and bites your leg",
-          "The spider jumps at you in an attempt to bite your face off",
-          "The spider dunks on you",
-          "The spider lunges at you and bites your leg"
-        ],
-        "finishers": [
-          "The spider jumps on you, spins around, and sinks its fangs into your skull!",
-          "The spider dunks on you one last time, and bites your face off!",
-          "The spider rips your face off, your last sight being 8 murderous red eyes staring back",
-        ]
-      },
-      "cave_spider": {
-        "attacks": [
-          "The cave spider's fangs digs deep onto your skin",
-          "The cave spider gives you a toxic kiss",
-          "The cave spider bites you and inflicts poison damage"
-        ],
-        "finishers": [
-          "You died a slow, painful death from poison damage",
-          "The cave spider injects one last lethal dose of venom",
-          "The cave spider buries its fangs deep into you and fills you with venom"
-        ]
-      },
-      "creeper": {
-        "attacks": [
-          "You hear a fuse ignite...",
-          "The creeper flashes and fizzles...",
-          "The creeper fizzles and flashes...",
-          "The creeper prepares for its imminent suicide...",
-          "From behind you, a fuse ignites..."
-        ],
-        "finishers": [
-          "The creeper goes BOOM!",
-          "Creeper used SELF-DESTRUCT! *It's super effective!*",
-          "The creeper explodes, yeeting your bloody corpse across the map!",
-          "You were blown to pixels by the creeper!"
-        ]
+    "mobs_mech": {
+      "user_attacks": [
+        "You slashed the {0} with your {1}!",
+        "Your {1} stabbed deep into the {0}!",
+        "You hacked at the {0} with your {1}!",
+        "You swung your {1} at the {0}!",
+        "You poked the {0} with your {1}!",
+        "You poked your {1} deep into the {0}!",
+        "You hacked pieces off the {0} with your {1}!",
+        "You poked the {0} in the eye with your {1}!",
+        "You lunged at the {0} and stabbed it with your {1}!",
+        "You charged at the {0} and hacked at it with your {1}!",
+        "You charged at the {0} and stabbed it with your {1}!",
+        "You charged at the {0} and hacked at it with your {1}!",
+        "You charged at the {0} and with all your might poked it with your {1}"
+      ],
+      "user_finishers": [
+        "You swung the {1} as hard as you could and decapitated the {0}!",
+        "You tripped and let go of your {1}, landing it in the {0} and killing it!",
+        "You, with all your might, buried the {1} deep into the chest of the {0}!",
+        "Slashing your {1} one last time, you banished the {0} from existence!",
+        "Swinging your {1} one last time, you slashed the {0} in half!",
+        "With one last hack from your {1}, you cut the {0} in half!",
+        "With one last swing from your {1}, you banished the {0} from this world!",
+        "You hacked at the {0} with all your might, and decapitated it with your {1}!",
+        "With the last of your strength, you buried the {1} deep into the chest of the {0}!",
+        "Landing the {1} on the neck of the {0}, it finally died!",
+        "With the last of your strength, your {1} rips through the {0}!",
+        "With the last of your strength, your {1} tears through the {0}!",
+        "You hacked with the {1} as hard as you could, and decapitated the {0}!",
+        "Missing the {0} with your sword, it died from disappointment..."
+      ],
+      "mob_drops": [
+        "A wild {0} has found you!",
+        "A vicious {0} has seen you!",
+        "A lurking {0} has seen you!",
+        "A lurking {0} has found you!",
+        "A creepy {0} has seen you!",
+        "A creepy {0} has found you!",
+        "You have been found by a wild {0}!",
+        "You have been seen by a vicious {0}!",
+        "You have been found by a crazy {0}!",
+        "A crazy {0} has seen you!",
+        "You ran into a wild {0}!",
+        "You ran into a crazy {0}!",
+        "You ran into a {0}!",
+        "You ran into a creepy {0}!",
+        "You ran into a vicious {0}!"
+      ],
+      "mobs": {
+        "zombie": {
+          "attacks": [
+            "The zombie ran, lashing at your arms",
+            "The zombie gives you a painful hug",
+            "The zombie groans and gives you a painful hug",
+            "The zombie punches you in your face",
+            "The zombie claws you with its overgrown, decaying nails",
+            "The zombie punches you in your face with its decaying hand",
+            "The zombie scratches you with its overgrown, decaying nails"
+          ],
+          "finishers": [
+            "The zombie lunges for your throat, and bites!",
+            "The zombie disembowels you and eats your remains!",
+            "The zombie guts you and devoures your remains!",
+          ]
+        },
+        "skeleton": {
+          "attacks": [
+            "The skeleboi yeets an arrow at your face",
+            "The skeleton turns around and 360 no scopes you!",
+            "An arrow rains from the skeleton, only one",
+            "One headshot from skeleton for you",
+            "BOOM! HEADSHOT! - Skeleton 2020"
+          ],
+          "finishers": [
+            "The skeleton 360 noscopes you for the last time!",
+            "A rain of arrows whistle towards you and turn you into swiss cheese!",
+            "You hear the whistle of hundreds of arrows and then you die!",
+            "Arrows rain from the sky, piercing your flesh and killing you!"
+          ]
+        },
+        "spider": {
+          "attacks": [
+            "The spider jumps on top of you and sinks its fangs into your arm",
+            "The spider knocks you down and bites your leg",
+            "The spider jumps at you in an attempt to bite your face off",
+            "The spider dunks on you",
+            "The spider lunges at you and bites your leg"
+          ],
+          "finishers": [
+            "The spider jumps on you, spins around, and sinks its fangs into your skull!",
+            "The spider dunks on you one last time, and bites your face off!",
+            "The spider rips your face off, your last sight being 8 murderous red eyes staring back",
+          ]
+        },
+        "cave_spider": {
+          "attacks": [
+            "The cave spider's fangs digs deep onto your skin",
+            "The cave spider gives you a toxic kiss",
+            "The cave spider bites you and inflicts poison damage"
+          ],
+          "finishers": [
+            "You died a slow, painful death from poison damage",
+            "The cave spider injects one last lethal dose of venom",
+            "The cave spider buries its fangs deep into you and fills you with venom"
+          ]
+        },
+        "creeper": {
+          "attacks": [
+            "You hear a fuse ignite...",
+            "The creeper flashes and fizzles...",
+            "The creeper fizzles and flashes...",
+            "The creeper prepares for its imminent suicide...",
+            "From behind you, a fuse ignites..."
+          ],
+          "finishers": [
+            "The creeper goes BOOM!",
+            "Creeper used SELF-DESTRUCT! *It's super effective!*",
+            "The creeper explodes, yeeting your bloody corpse across the map!",
+            "You were blown to pixels by the creeper!"
+          ]
+        }
       }
     },
     "minecraft": {
