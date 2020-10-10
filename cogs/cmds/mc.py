@@ -75,10 +75,10 @@ class Minecraft(commands.Cog):
             mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600)
             _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
-        with open('testfile.png', 'w+') as f:
-            f.write(img_bytes)
+        # with open('testfile.png', 'wb+') as f:
+        #     f.write(img_bytes)
 
-        await ctx.send(file=discord.File(bin, filename=img.filename))
+        await ctx.send(file=discord.File(img_bytes.tobytes(), filename=img.filename))
 
 
     @commands.command(name='mcping', aliases=['mcstatus'])
