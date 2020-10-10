@@ -62,8 +62,8 @@ class Minecraft(commands.Cog):
 
         img = files[0]
 
-        if not img.filename.lower()[4:] in ('.jpg', '.png',):
-            await self.bot.send(ctx, 'Please use either the png or jpg image format.')
+        if not img.filename.lower()[-4:] in ('.jpg', '.png',):
+            await self.bot.send(ctx, f'Please use either the png or jpg image format. (You used retarded format: {img.filename.lower()[4:]})')
             return
 
         try:
