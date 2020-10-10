@@ -31,7 +31,7 @@ async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the da
 bot = commands.AutoShardedBot(  # setup bot
     command_prefix=get_prefix,
     case_insensitive=True,
-    intents=discord.Intents.all()
+    #intents=discord.Intents.all()
     #help_command=None
 )
 
