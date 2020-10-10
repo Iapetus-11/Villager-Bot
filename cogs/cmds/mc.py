@@ -78,7 +78,7 @@ class Minecraft(commands.Cog):
         # with open('testfile.png', 'wb+') as f:
         #     f.write(img_bytes)
 
-        await ctx.send(file=discord.File(img_bytes.tobytes(), filename=img.filename))
+        await ctx.send(file=discord.File(bytes(img_bytes), filename=img.filename))
 
 
     @commands.command(name='mcping', aliases=['mcstatus'])
