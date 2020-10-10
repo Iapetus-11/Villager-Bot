@@ -46,7 +46,7 @@ def generate(img_src: str, max_dim: int):
 
         source = cv2.resize(source, (int(new_w), int(new_h)))
 
-    source = cv2.resize(source, (int(source.shape[1]/xi), int(source.shape[0]*yi)))
+    source = cv2.resize(source, (int(source.shape[1]/xi), int(source.shape[0]/yi)))
     source = cv2.blur(source, (2, 2))
 
     canvas = np.zeros((source.shape[0]*xi, source.shape[1]*yi, 3), np.uint8)
@@ -65,7 +65,6 @@ def generate(img_src: str, max_dim: int):
                 pal_key = palette_bi.get((int(pix[2]/128), int(pix[1]/128), int(pix[0]/128)))
 
             if pal_key is None:
-                print(f'No match for pixel ({pix[2]}, {pix[1]}, {pix[0]}) found, using random.')
                 pal_key = palette_oct[random.choice([*palette_oct.keys()])]
 
             draw_image(canvas, palette_map[pal_key], x, y)
