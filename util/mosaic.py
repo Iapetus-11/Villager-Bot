@@ -18,7 +18,7 @@ with open('../data/block_palette.json', 'r') as d:
 palette_bi = dict([(tuple(entry[0]), entry[1]) for entry in data['bi']])
 palette_quad = dict([(tuple(entry[0]), entry[1]) for entry in data['quad']])
 palette_oct = dict([(tuple(entry[0]), entry[1]) for entry in data['oct']])
-palette_map = {k: im_from_64(v) for k, v in data['palette'].items()}
+palette_map = {k: im_from_b64(v) for k, v in data['palette'].items()}
 
 xi = data['dims'][0]
 yi = data['dims'][1]
