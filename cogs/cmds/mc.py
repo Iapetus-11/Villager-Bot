@@ -54,7 +54,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='mcimage', aliases=['mcpixelart'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def mcpixelart(self, ctx):
-        files = ctx.messages.attachments
+        files = ctx.message.attachments
 
         if len(files) < 1:
             await self.bot.send(ctx, 'You have to upload an image in the same message you use the command.')
