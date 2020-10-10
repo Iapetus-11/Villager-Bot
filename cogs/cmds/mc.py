@@ -77,7 +77,7 @@ class Minecraft(commands.Cog):
 
             source_tmp.write(await img.read(use_cached=True))
 
-            with concurrent.futures.ProcessPoolExecutor() as pool:
+            with concurrent.futures.ThreadPoolExecutor() as pool:
                 mosaic_gen_partial = functools.partial(mosaic.generate, tmp_name, 1600)
                 raw_img = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
