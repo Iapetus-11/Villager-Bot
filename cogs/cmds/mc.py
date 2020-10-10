@@ -77,7 +77,7 @@ class Minecraft(commands.Cog):
             _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
         with tempfile.NamedTemporaryFile(mode='wb+') as tmp:
-            tmp.name = f'{img.filename}-{img.width}x{img.height}-{len(str(img_bytes))}-{random.randint(10000000, 99999999)}.png'
+            tmp.name = f'{img.filename}-{img.width}x{img.height}--{random.randint(10000000, 99999999)}.png'
             tmp.write(img_bytes)
             tmp.seek(0)
 
