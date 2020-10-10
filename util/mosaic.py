@@ -12,7 +12,7 @@ def draw_image(canvas, img, x, y):
         for j, pix in enumerate(row):
             canvas[i+y][j+x] = pix
 
-with open('../data/block_palette.json', 'r') as d:
+with open('/data/block_palette.json', 'r') as d:
     data = json.load(d)
 
 palette_bi = dict([(tuple(entry[0]), entry[1]) for entry in data['bi']])
