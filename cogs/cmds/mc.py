@@ -54,7 +54,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='mcimage', aliases=['mcpixelart'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def mcpixelart(self, ctx):
-        files = ctx.attachments
+        files = ctx.messages.attachments
 
         if len(files) < 1:
             await self.bot.send(ctx, 'You have to upload an image in the same message you use the command.')
@@ -75,7 +75,7 @@ class Minecraft(commands.Cog):
         with tempfile.NamedTemporaryFile() as source_tmp:
             tmp_name = f'{source_tmp.name}{img.filename[4:]}'
 
-            source_tmp.write(img.read(use_cached=True))
+            source_tmp.write(await img.read(use_cached=True))
 
             with concurrent.futures.ProcessPoolExecutor() as pool:
                 mosaic_gen_partial = functools.partial(mosaic.generate, tmp_name, 1600)
