@@ -78,6 +78,7 @@ class Minecraft(commands.Cog):
 
         with tempfile.SpooledTemporaryFile() as tmp:
             tmp.write(img_bytes)
+            tmp.seek(0)
             await ctx.send(file=discord.File(tmp.read()))
 
 
