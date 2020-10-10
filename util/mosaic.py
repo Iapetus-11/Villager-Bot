@@ -29,6 +29,8 @@ def generate(img_src: str, max_dim: int):
     sw = source.shape[1]
     sh = source.shape[0]
 
+    print(source.shape)
+
     if sw > max_dim or sh > max_dim:
         ratio = sw/sh
 
@@ -44,7 +46,7 @@ def generate(img_src: str, max_dim: int):
 
         source = cv2.resize(source, (int(new_w), int(new_h)))
 
-    source = cv2.resize(source, (int(xi), int(yi)))
+    source = cv2.resize(source, (int(source.shape[1]/xi), int(source.shape[0]*yi)))
     source = cv2.blur(source, (2, 2))
 
     canvas = np.zeros((source.shape[0]*xi, source.shape[1]*yi, 3), np.uint8)
