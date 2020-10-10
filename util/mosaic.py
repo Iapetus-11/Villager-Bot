@@ -29,8 +29,6 @@ def generate(source_bytes, max_dim: int):
     sw = source.shape[1]
     sh = source.shape[0]
 
-    print(source.shape)
-
     if sw > max_dim or sh > max_dim:
         ratio = sw/sh
 
