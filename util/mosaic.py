@@ -4,8 +4,8 @@ import base64
 import json
 import cv2
 
-def im_from_b64(b64_data):
-    return cv2.imdecode(np.frombuffer(base64.b64decode(b64_data), np.uint8), cv2.IMREAD_COLOR)
+def im_from_bytes(bytes):
+    return cv2.imdecode(np.frombuffer(bytes, np.uint8), cv2.IMREAD_COLOR)
 
 def draw_image(canvas, img, x, y):
     for i, row in enumerate(img):
@@ -18,13 +18,13 @@ with open('data/block_palette.json', 'r') as d:
 palette_bi = dict([(tuple(entry[0]), entry[1]) for entry in data['bi']])
 palette_quad = dict([(tuple(entry[0]), entry[1]) for entry in data['quad']])
 palette_oct = dict([(tuple(entry[0]), entry[1]) for entry in data['oct']])
-palette_map = {k: im_from_b64(v) for k, v in data['palette'].items()}
+palette_map = {k: im_from_bytes(base64.b64decode(v)) for k, v in data['palette'].items()}
 
 xi = data['dims'][0]
 yi = data['dims'][1]
 
-def generate(img_src: str, max_dim: int):
-    source = cv2.imread(img_src)
+def generate(source_bytes, max_dim: int):
+    source = im_from_bytes(source_bytes)
 
     sw = source.shape[1]
     sh = source.shape[0]

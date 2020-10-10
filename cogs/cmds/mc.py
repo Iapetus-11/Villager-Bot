@@ -72,19 +72,14 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, 'That is not a valid image.')
             return
 
-        with tempfile.NamedTemporaryFile() as source_tmp:
-            tmp_name = f'{source_tmp.name}{img.filename[4:]}'
+        with concurrent.futures.ThreadPoolExecutor() as pool:
+            mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600)
+            raw_img = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
-            source_tmp.write(await img.read(use_cached=True))
+        with tempfile.SpooledTemporaryFile() as tmp:
+            tmp.write(raw_img)
 
-            with concurrent.futures.ThreadPoolExecutor() as pool:
-                mosaic_gen_partial = functools.partial(mosaic.generate, tmp_name, 1600)
-                raw_img = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
-
-            with tempfile.SpooledTemporaryFile() as tmp:
-                tmp.write(raw_img)
-
-                await ctx.send(file=discord.File(tmp.read()))
+            await ctx.send(file=discord.File(tmp.read()))
 
 
     @commands.command(name='mcping', aliases=['mcstatus'])
