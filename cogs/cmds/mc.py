@@ -79,7 +79,7 @@ class Minecraft(commands.Cog):
         with tempfile.SpooledTemporaryFile(mode='wb+', encoding='utf8') as tmp:
             tmp.write(img_bytes)
             tmp.seek(0)
-            await ctx.send(file=discord.File(tmp.read(), filename=img.filename))
+            await ctx.send(file=discord.File(tmp, filename=img.filename))
 
 
     @commands.command(name='mcping', aliases=['mcstatus'])
