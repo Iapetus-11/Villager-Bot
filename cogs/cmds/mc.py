@@ -8,6 +8,7 @@ import discord
 import random
 import base64
 import json
+import io
 
 
 class Minecraft(commands.Cog):
@@ -75,7 +76,10 @@ class Minecraft(commands.Cog):
             mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600)
             _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
-        await ctx.send(file=discord.File(img_bytes.tobytes()))
+        with io.BytesIO as bin:
+            bin.write(img_bytes)
+            bin.seek(0)
+            await ctx.send(file=discord.File(bin, filename=img.filename))
 
 
     @commands.command(name='mcping', aliases=['mcstatus'])
