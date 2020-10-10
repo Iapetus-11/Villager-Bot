@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup as bs
 import util.mosaic as mosaic
 import concurrent.futures
 import functools
+import tempfile
 import aiohttp
 import discord
 import random
@@ -75,10 +76,10 @@ class Minecraft(commands.Cog):
             mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600)
             _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
-        # with open('testfile.png', 'wb+') as f:
-        #     f.write(img_bytes)
-
-        await ctx.send(file=discord.File(bytes(img_bytes), filename=img.filename))
+        with tempfile.SpooledTemporaryFile(mode='wb+', encoding='utf8') as tmp:
+            tmp.write(img_bytes)
+            tmp.seek(0)
+            await ctx.send(file=discord.File(tmp.read(), filename=img.filename))
 
 
     @commands.command(name='mcping', aliases=['mcstatus'])
