@@ -62,7 +62,7 @@ class Minecraft(commands.Cog):
 
         img = files[0]
 
-        if not img.filename.endswith('.png') and not img.filename.endswith('.jpg'):
+        if not img.filename.lower(:4) in ('.jpg', '.png'):
             await self.bot.send(ctx, 'Please use either the png or jpg image format.')
             return
 
