@@ -1,5 +1,9 @@
 from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as bs
+import util.mosaic as mosaic
+import concurrent.futures
+import functools
+import tempfile
 import aiohttp
 import discord
 import random
@@ -46,6 +50,42 @@ class Minecraft(commands.Cog):
     @update_server_list.before_loop
     async def before_update_server_list(self):
         await self.bot.wait_until_ready()
+
+    @commands.command(name='mcimage', aliases=['mcpixelart'])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def mcpixelart(self, ctx):
+        files = ctx.attachments
+
+        if len(files) < 1:
+            await self.bot.send(ctx, 'You have to upload an image in the same message you use the command.')
+            return
+
+        img = files[0]
+
+        if not img.filename.endswith('.png') and not img.filename.endswith('.jpg'):
+            await self.bot.send(ctx, 'Please use either the png or jpg image format.')
+            return
+
+        try:
+            img.height
+        except Exception:
+            await self.bot.send(ctx, 'That is not a valid image.')
+            return
+
+        with tempfile.NamedTemporaryFile() as source_tmp:
+            tmp_name = f'{source_tmp.name}' # {img.filename[4:]}
+
+            source_tmp.write(img.read(use_cached=True))
+
+            with concurrent.futures.ProcessPoolExecutor() as pool:
+                mosaic_gen_partial = functools.partial(mosaic.generate, tmp_name, 1600)
+                raw_img = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
+
+            with tempfile.SpooledTemporaryFile() as tmp:
+                tmp.write(raw_img)
+
+                await ctx.send(file=discord.File(tmp.read()))
+
 
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)

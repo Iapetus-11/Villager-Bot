@@ -72,4 +72,4 @@ def generate(img_src: str, max_dim: int):
             x += xi
         y += yi
 
-    return canvas
+    return cv2.imencode('.png', canvas)
