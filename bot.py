@@ -28,10 +28,30 @@ async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the da
 
     return _bot.d.default_prefix if prefix is None else prefix
 
+intents = discord.Intents.default()
+intents.guilds = True
+intents.members = True
+intents.bans = False
+intents.emojis = True
+intents.integrations = False
+intents.webhooks = False
+intents.invites = False
+intents.voice_states = False
+intents.presences = False
+intents.messages = True
+# intents.guild_messages = True
+# intents.dm_messages = True
+intents.reactions = True
+# intents.guild_reactions = True
+# intents.dm_reactions = True
+intents.typing = False
+# intents.guild_typing = False
+# intents.dm_typing = False
+
 bot = commands.AutoShardedBot(  # setup bot
     command_prefix=get_prefix,
     case_insensitive=True,
-    intents=discord.Intents.all()
+    intents=intents
     #help_command=None
 )
 
