@@ -46,7 +46,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, m):
-        if m.author.id == self.bot.user.id:
+        if m.author.bot:
             return
 
         self.d.msg_count += 1
