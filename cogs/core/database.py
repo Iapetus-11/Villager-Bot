@@ -196,10 +196,10 @@ class Database(commands.Cog):
                 uid, gid, mod_id, reason
             )
 
-    async def fetch_warns(uid, gid):
+    async def fetch_warns(self, uid, gid):
         return await self.db.fetch('SELECT * FROM warnings WHERE uid = $1 AND gid = $2')
 
-    async def clear_warns(uid, gid):
+    async def clear_warns(self, uid, gid):
         async with self.db.acquire() as con:
             await con.execute('DELETE FROM warnings WHERE uid = $1 AND gid = $2', uid, gid)
 
