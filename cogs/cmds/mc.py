@@ -57,19 +57,19 @@ class Minecraft(commands.Cog):
         files = ctx.message.attachments
 
         if len(files) < 1:
-            await self.bot.send(ctx, 'You have to upload an image in the same message you use the command.')
+            await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_1)
             return
 
         img = files[0]
 
         if img.filename.lower()[-4:] not in ('.jpg', '.png',) and not img.filename.lower()[-5:] in ('.jpeg'):
-            await self.bot.send(ctx, f'Please use either the png or jpg image format. (You used retarded format: {img.filename.lower()[4:]})')
+            await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_2)
             return
 
         try:
             img.height
         except Exception:
-            await self.bot.send(ctx, 'That is not a valid image.')
+            await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_3)
             return
 
         detailed = False
