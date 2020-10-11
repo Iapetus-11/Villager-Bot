@@ -58,17 +58,17 @@ class Useful(commands.Cog):
         now = arrow.utcnow()
         diff = now - self.d.start_time
 
-        if days := diff.days == 1:
+        if (days := diff.days) == 1:
             dd = ctx.l.useful.uptime.day
         else:
             dd = ctx.l.useful.uptime.days
 
-        if hours := int(diff.seconds / 3600) == 1:
+        if (hours := int(diff.seconds / 3600)) == 1:
             hh = ctx.l.useful.uptime.hour
         else:
             hh = ctx.l.useful.uptime.hours
 
-        if minutes := int(diff.seconds / 60) % 60 == 1:
+        if (minutes := int(diff.seconds / 60) % 60) == 1:
             mm = ctx.l.useful.uptime.minute
         else:
             mm = ctx.l.useful.uptime.minutes
