@@ -172,6 +172,11 @@
     },
     "minecraft": {
       "invalid_player": "That player is invalid or doesn't exist.",
+      "mcimage": {
+        "stupid_1": "You have to upload an image in the same message you use the command.",
+        "stupid_2": "Please use either the png or jpg image format.",
+        "stupid_3": "That is not a valid image."
+      },
       "mcping": {
         "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
         "title_offline": "{} no server found at `{}`",
