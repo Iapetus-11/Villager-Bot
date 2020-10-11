@@ -130,7 +130,7 @@ class Mod(commands.Cog):
         embed.set_author(name=f'{user}\'s warnings ({len(warns)} total):', icon_url=user.avatar_url_as())
 
         if len(warns) < 1:
-            embed.add_field(name=f'{user} has no warnings.', value='\uFEFF')
+            embed.add_field(name='\uFEFF', value=f'{user} has no warnings.')
         else:
             for warn in warns:
                 reason = ctx.l.mod.warn.no_reason
@@ -138,7 +138,7 @@ class Mod(commands.Cog):
                 if warn['reason'] is not None:
                     reason = warn['reason']
 
-                embed.add_field(name=f'**Warning by {self.bot.get_user(warn["mod_id"]).mention}**: *{reason}*', value='\uFEFF', inline=False)
+                embed.add_field(name='\uFEFF', value=f'**Warning by {self.bot.get_user(warn["mod_id"]).mention}**: *{reason}*', inline=False)
 
         await ctx.send(embed=embed)
 
