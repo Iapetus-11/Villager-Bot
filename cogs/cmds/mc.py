@@ -78,7 +78,7 @@ class Minecraft(commands.Cog):
 
         with ctx.typing():
             with concurrent.futures.ThreadPoolExecutor() as pool:
-                mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1920, detailed)
+                mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
                 _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
             filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
