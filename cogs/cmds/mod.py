@@ -95,14 +95,45 @@ class Mod(commands.Cog):
     @commands.command(name='warn')
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
-    async def warn(self, ctx, user: discord.User, *, reason='No reason provided.'):
+    async def warn(self, ctx, user: discord.User, *, reason=None):
         if ctx.author.id == user.id:
             await self.bot.send(ctx, ctx.l.mod.warn.stupid_1)
             return
 
+        if not await self.perm_check(ctx.author, user):
+            await self.bot.send(ctx, ctx.l.mod.no_perms)
+            return
 
+        await self.db.add_warn(user.id, ctx.guild.id, ctx.author.id, reason)
 
+    @commands.command(name='warns', aliases=['warnings', 'karens'])
+    @commands.guild_only()
+    async def warnings(self, ctx, user=None):
+        if user is None:
+            user = ctx.author
 
+        if ctx.author.id != user.id:
+            if not await self.perm_check(ctx.author, user):
+                await self.bot.send(ctx, ctx.l.mod.no_perms)
+                return
+
+        warns = await self.db.fetch_warns(user.id, ctx.guild.id)
+
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_author(author=f'{user}\'s warnings ({len(warns)} total):')
+
+        if len(warns) < 1:
+            embed.add_field(name=f'{user} has no warnings.')
+        else:
+            for warn in warns:
+                reason = ctx.l.mod.warn.no_reason
+
+                if warn['reason'] is not None:
+                    reason = warn['reason']
+
+                embed.add_field(name=f'**Warning by {self.bot.get_user(warn["mod_id"]).mention}**: *{reason}*', value='\uFEFF', inline=False)
+
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Mod(bot))
