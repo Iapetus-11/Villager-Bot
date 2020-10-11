@@ -44,10 +44,10 @@ CREATE TABLE IF NOT EXISTS warnings( -- moderation warnings
   reason varchar(500) -- reason for the warning, null for no reason
 );
 
-CREATE TABLE IF NOT EXISTS mc_servers( -- used for the !!randommc command
-  owner_id bigint, -- discord user id of the owner
-  address  varchar(100), -- address of the server
-  port     int, -- port which the server is on
-  version  varchar(50), -- Java Edition <version> OR Bedrock Edition
-  note     varchar(250) -- optional note
-);
+-- CREATE TABLE IF NOT EXISTS mc_servers( -- used for the !!randommc command
+--   owner_id bigint, -- discord user id of the owner
+--   address  varchar(100), -- address of the server
+--   port     int, -- port which the server is on
+--   version  varchar(50), -- Java Edition <version> OR Bedrock Edition
+--   note     varchar(250) -- optional note
+-- );
