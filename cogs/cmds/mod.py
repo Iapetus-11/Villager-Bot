@@ -9,7 +9,7 @@ class Mod(commands.Cog):
         self.d = self.bot.d
 
     async def perm_check(self, author, victim):
-        if author.id == author.guild.owner.id: return True
+        if isinstance(author, discord.Member) and author.id == author.guild.owner.id: return True
         guild_roles = author.guild.roles
         return guild_roles.index(author.top_role) > guild_roles.index(
             victim.top_role) and not victim.id == author.guild.owner.id
@@ -20,8 +20,8 @@ class Mod(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     async def purge(self, ctx, to_purge: Union[discord.Member, int], amount=20):
         """Purges the given amount of messages from the current channel"""
-        
-        if type(to_purge) is discord.Member:
+
+        if isinstance(to_purge, discord.User):
             def check(m):
                 return m.author.id == to_purge.id
 
