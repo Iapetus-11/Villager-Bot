@@ -57,20 +57,21 @@ class Minecraft(commands.Cog):
         files = ctx.message.attachments
 
         if len(files) < 1:
-            await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_1)
-            return
+            img = await ctx.author.avatar_url_as(format='png').read()
+        else:
+            img = files[0]
 
-        img = files[0]
+            if img.filename.lower()[-4:] not in ('.jpg', '.png',) and not img.filename.lower()[-5:] in ('.jpeg'):
+                await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_2)
+                return
 
-        if img.filename.lower()[-4:] not in ('.jpg', '.png',) and not img.filename.lower()[-5:] in ('.jpeg'):
-            await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_2)
-            return
-
-        try:
-            img.height
-        except Exception:
-            await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_3)
-            return
+            try:
+                img.height
+            except Exception:
+                await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_3)
+                return
+            else:
+                img = await img.read(use_cached=True)
 
         detailed = False
         if 'large' in ctx.message.content or 'high' in ctx.message.content:
@@ -78,7 +79,7 @@ class Minecraft(commands.Cog):
 
         with ctx.typing():
             with concurrent.futures.ThreadPoolExecutor() as pool:
-                mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
+                mosaic_gen_partial = functools.partial(mosaic.generate, actual_img, 1600, detailed)
                 _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
             filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
