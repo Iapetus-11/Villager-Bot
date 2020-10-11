@@ -21,7 +21,7 @@ class Mod(commands.Cog):
     async def purge(self, ctx, to_purge: Union[discord.Member, int], amount=20):
         """Purges the given amount of messages from the current channel"""
 
-        if type(to_purge) is discord.User:
+        if isinstance(to_purge, discord.User):
             def check(m):
                 return m.author.id == to_purge.id
 
@@ -37,15 +37,15 @@ class Mod(commands.Cog):
         """Kicks the given user from the current Discord server"""
 
         if ctx.author.id == user.id:
-            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.kick.error))
+            await self.bot.send(ctx, ctx.l.mod.kick.stupid_1)
             return
 
         if not await self.perm_check(ctx.author, user):
-            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.no_perms))
+            await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
         await ctx.guild.kick(user, reason=reason)
-        await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.kick.success.format(user)))
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name='ban', aliases=['megayeet'])
     @commands.guild_only()
@@ -55,23 +55,23 @@ class Mod(commands.Cog):
         """Bans the given user from the current Discord server"""
 
         if ctx.author.id == user.id:
-            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.error_1))
+            await self.bot.send(ctx, ctx.l.mod.ban.stupid_1)
             return
 
         if not await self.perm_check(ctx.author, user):
-            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.no_perms))
+            await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
-                await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.error_2.format(user)))
+                await self.bot.send(ctx, ctx.l.mod.ban.stupid_2.format(user))
                 return
 
         try:
             await ctx.guild.ban(user, reason=reason, delete_message_days=0)
-            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.success.format(user)))
+            await ctx.message.add_reaction(self.d.emojis.yes)
         except Exception:
-            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.ban.error_3))
+            await self.bot.send(ctx, ctx.l.mod.ban.stupid_3)
 
     @commands.command(name='pardon', aliases=['unban'])
     @commands.guild_only()
@@ -81,21 +81,26 @@ class Mod(commands.Cog):
         """Unbans / pardons the given user from the current Discord server"""
 
         if ctx.author.id == user.id:
-            await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.unban.error_1))
+            await self.bot.send(ctx, ctx.l.mod.unban.stupid_1)
             return
 
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
                 await ctx.guild.unban(user, reason=reason)
-                await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.unban.success.format(user)))
+                await ctx.message.add_reaction(self.d.emojis.yes)
                 return
 
-        await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.unban.error_2.format(user)))
+        await self.bot.send(ctx, ctx.l.mod.unban.stupid_2.format(user))
 
     @commands.command(name='warn')
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
-    async def warn(self, ctx, user: discord.User):
+    async def warn(self, ctx, user: discord.User, *, reason='No reason provided.'):
+        if ctx.author.id == user.id:
+            await self.bot.send(ctx, ctx.l.mod.warn.stupid_1))
+            return
+
+
 
 
 

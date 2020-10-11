@@ -235,22 +235,19 @@
     "mod": {
       "no_perms": "Nice try, but you don't have the permissions to do that!",
       "kick": {
-        "error": "You cannot kick yourself",
-        "success": "Kicked **{}**"
+        "stupid_1": "You cannot kick yourself"
       },
       "ban": {
-        "error_1": "You cannot ban yourself",
-        "error_2": "**{}** is already banned",
-        "success": "Banned **{}**",
-        "error_3": "Oops, something went wrong while banning that user."
+        "stupid_1": "You cannot ban yourself",
+        "stupid_2": "**{}** is already banned",
+        "stupid_3": "Oops, something went wrong while banning that user."
       },
       "unban": {
-        "error_1": "You cannot unban yourself",
-        "error_2": "**{}** isn't banned",
-        "success": "Unbanned **{}**"
+        "stupid_1": "You cannot unban yourself",
+        "stupid_2": "**{}** isn't banned"
       },
       "warn": {
-        "error_1": "You cannot warn yourself"
+        "stupid_1": "You cannot warn yourself"
       }
     },
     "config": {
