@@ -97,7 +97,7 @@ class Mod(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def warn(self, ctx, user: discord.User, *, reason='No reason provided.'):
         if ctx.author.id == user.id:
-            await self.bot.send(ctx, ctx.l.mod.warn.stupid_1))
+            await self.bot.send(ctx, ctx.l.mod.warn.stupid_1)
             return
 
 
