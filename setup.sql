@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS leaderboards(
 
 CREATE TABLE IF NOT EXISTS warnings( -- moderation warnings
   uid    bigint, -- receiver of the warning
+  gid bigint, -- guild in which the warning was done
   mod_id bigint, -- moderator who did the warning
   reason varchar(500) -- reason for the warning, null for no reason
 );
