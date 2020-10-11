@@ -51,7 +51,7 @@ class Minecraft(commands.Cog):
     async def before_update_server_list(self):
         await self.bot.wait_until_ready()
 
-    @commands.command(name='mcimage', aliases=['mcpixelart'])
+    @commands.command(name='mcimage', aliases=['mcpixelart', 'mcart', 'mcimg'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def mcpixelart(self, ctx):
         files = ctx.message.attachments
