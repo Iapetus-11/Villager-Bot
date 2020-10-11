@@ -189,6 +189,20 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute('UPDATE users SET bot_banned = $1 WHERE uid = $2', botbanned, uid)
 
+    async def add_warn(self, uid, gid, mod_id, reason):
+        async with self.db.acquire() as con:
+            await con.execute(
+                'INSERT INTO warnings VALUES ($1, $2, $3, $4)',
+                uid, gid, mod_id, reason
+            )
+
+    async def fetch_warns(uid, gid):
+        return await self.db.fetch('SELECT * FROM warnings WHERE uid = $1 AND gid = $2')
+
+    async def clear_warns(uid, gid):
+        async with self.db.acquire() as con:
+            await con.execute('DELETE FROM warnings WHERE uid = $1 AND gid = $2', uid, gid)
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
