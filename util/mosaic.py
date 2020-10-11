@@ -61,10 +61,10 @@ def generate(source_bytes, max_dim: int):
 
         source = cv2.resize(source, (int(new_w), int(new_h)))
 
-    source = cv2.resize(source, (int(source.shape[1]/xi), int(source.shape[0]/yi)))
+    source = cv2.resize(source, (int(source.shape[1]), int(source.shape[0])))
     #source = cv2.blur(source, (2, 2))
 
-    canvas = np.zeros((source.shape[0]*xi, source.shape[1]*yi, 3), np.uint8)
+    canvas = np.zeros((source.shape[0], source.shape[1], 3), np.uint8)
 
     y = 0
 
