@@ -29,6 +29,7 @@ def generate(source_bytes, max_dim: int):
     sw = source.shape[1]
     sh = source.shape[0]
 
+    # rescale if too big
     if sw > max_dim or sh > max_dim:
         ratio = sw/sh
 
@@ -40,6 +41,22 @@ def generate(source_bytes, max_dim: int):
             new_h = max_dim
         else:
             new_h = max_dim
+            new_w = new_h*ratio
+
+        source = cv2.resize(source, (int(new_w), int(new_h)))
+
+    # rescale if tiny
+    if sw < 200 or sh < 200:
+        ratio = sw/sh
+
+        if sw > sh:
+            new_w = 200
+            new_h = new_w/ratio
+        elif sw == sh:
+            new_w = 200
+            new_h = 200
+        else:
+            new_h = 200
             new_w = new_h*ratio
 
         source = cv2.resize(source, (int(new_w), int(new_h)))
