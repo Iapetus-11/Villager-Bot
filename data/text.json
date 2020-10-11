@@ -247,7 +247,9 @@
         "stupid_2": "**{}** isn't banned"
       },
       "warn": {
-        "stupid_1": "You cannot warn yourself"
+        "stupid_1": "You cannot warn yourself",
+        "no_reason": "No reason specified",
+        "by": "Warning by"
       }
     },
     "config": {

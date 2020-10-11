@@ -138,7 +138,7 @@ class Mod(commands.Cog):
                 if warn['reason'] is not None:
                     reason = warn['reason']
 
-                embed.add_field(name='\uFEFF', value=f'**Warning by {self.bot.get_user(warn["mod_id"]).mention}**: *{reason}*', inline=False)
+                embed.add_field(name='\uFEFF', value=f'**{ctx.l.mod.warn.by} {self.bot.get_user(warn["mod_id"]).mention}**: *{reason}*', inline=False)
 
         await ctx.send(embed=embed)
 
