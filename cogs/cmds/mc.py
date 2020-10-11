@@ -57,7 +57,7 @@ class Minecraft(commands.Cog):
         files = ctx.message.attachments
 
         if len(files) < 1:
-            img = await ctx.author.avatar_url_as(format='png').read()
+            actual_image = await ctx.author.avatar_url_as(format='png').read()
         else:
             img = files[0]
 
@@ -71,7 +71,7 @@ class Minecraft(commands.Cog):
                 await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_3)
                 return
             else:
-                img = await img.read(use_cached=True)
+                actual_image = await img.read(use_cached=True)
 
         detailed = False
         if 'large' in ctx.message.content or 'high' in ctx.message.content:
@@ -79,7 +79,7 @@ class Minecraft(commands.Cog):
 
         with ctx.typing():
             with concurrent.futures.ThreadPoolExecutor() as pool:
-                mosaic_gen_partial = functools.partial(mosaic.generate, img, 1600, detailed)
+                mosaic_gen_partial = functools.partial(mosaic.generate, actual_img, 1600, detailed)
                 _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
             filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
