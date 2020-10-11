@@ -23,11 +23,13 @@ palette_map = {k: im_from_bytes(base64.b64decode(v)) for k, v in data['palette']
 xi = data['dims'][0]
 yi = data['dims'][1]
 
-def generate(source_bytes, max_dim: int, detailed):
+def generate(source_bytes, max_dim, detailed):
     source = im_from_bytes(source_bytes)
 
     sw = source.shape[1]
     sh = source.shape[0]
+
+    t = 512
 
     # rescale if too big
     if sw > max_dim or sh > max_dim or detailed:
@@ -44,10 +46,7 @@ def generate(source_bytes, max_dim: int, detailed):
             new_w = new_h*ratio
 
         source = cv2.resize(source, (int(new_w), int(new_h)))
-
-    # rescale if tiny
-    t = 512
-    if sw < t or sh < t:
+    elif sw < t or sh < t:
         ratio = sw/sh
 
         if sw > sh:
