@@ -130,7 +130,7 @@ class Mod(commands.Cog):
         embed.set_author(name=f'{user}\'s warnings ({len(warns)} total):', icon_url=user.avatar_url_as())
 
         if len(warns) < 1:
-            embed.add_field(name=f'{user} has no warnings.')
+            embed.add_field(name=f'{user} has no warnings.', value='\uFEFF')
         else:
             for warn in warns:
                 reason = ctx.l.mod.warn.no_reason
