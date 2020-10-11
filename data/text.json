@@ -166,6 +166,12 @@
             "You feel bad that the baby slime can't hurt you so you commit suicide",
             "You feel bad that the baby slime can't hurt you so you commit dig straight down",
             "There can only be one winner, the baby slime says, you type in /kill"
+          ],
+          "misses": [
+            "You swing your {0} as hard as you can, you miss the baby slime",
+            "You slash your {0} at the baby slime as hard as you can. The baby slime is fine",
+            "You miss, swinging your {0} at the baby slime.",
+            "You swing your {0}, the baby slime makes a cute face, you miss."
           ]
         }
       }
