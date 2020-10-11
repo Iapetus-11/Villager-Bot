@@ -1,6 +1,6 @@
-import discord
 from discord.ext import commands
 from typing import Union
+import discord
 
 
 class Mod(commands.Cog):
@@ -25,9 +25,9 @@ class Mod(commands.Cog):
             def check(m):
                 return m.author.id == to_purge.id
 
-            await ctx.channel.purge(check=check, limit=amount + 1)
+            await ctx.channel.purge(check=check, limit=amount+1)
         else:
-            await ctx.channel.purge(limit=to_purge + 1)
+            await ctx.channel.purge(limit=to_purge+1)
 
     @commands.command(name='kick', aliases=['yeet'])
     @commands.guild_only()
@@ -91,6 +91,12 @@ class Mod(commands.Cog):
                 return
 
         await ctx.send(embed=discord.Embed(color=self.d.cc, title=ctx.l.mod.unban.error_2.format(user)))
+
+    @commands.command(name='warn')
+    @commands.guild_only()
+    @commands.has_permissions(kick_members=True)
+    async def warn(self, ctx, user: discord.User):
+
 
 
 def setup(bot):

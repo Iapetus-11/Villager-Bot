@@ -248,6 +248,9 @@
         "error_1": "You cannot unban yourself",
         "error_2": "**{}** isn't banned",
         "success": "Unbanned **{}**"
+      },
+      "warn": {
+        "error_1": "You cannot warn yourself"
       }
     },
     "config": {
