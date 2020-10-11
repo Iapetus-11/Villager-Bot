@@ -106,6 +106,10 @@ class Mod(commands.Cog):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
+        if reason is not None:
+            if len(reason) > 245:
+                reason = f'{reason[:245]}...'
+
         await self.db.add_warn(user.id, ctx.guild.id, ctx.author.id, reason)
         await ctx.message.add_reaction(self.d.emojis.yes)
 
