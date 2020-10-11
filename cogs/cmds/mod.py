@@ -21,7 +21,7 @@ class Mod(commands.Cog):
     async def purge(self, ctx, to_purge: Union[discord.Member, int], amount=20):
         """Purges the given amount of messages from the current channel"""
 
-        if isinstance(to_purge, discord.User):
+        if isinstance(to_purge, discord.Member):
             def check(m):
                 return m.author.id == to_purge.id
 
