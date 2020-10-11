@@ -51,7 +51,7 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def ban_user(self, ctx, user: Union[discord.Member, int], *, reason='No reason provided.'):
+    async def ban_user(self, ctx, user: discord.Member, *, reason='No reason provided.'):
         """Bans the given user from the current Discord server"""
 
         if ctx.author.id == user.id:
@@ -95,7 +95,7 @@ class Mod(commands.Cog):
     @commands.command(name='warn')
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
-    async def warn(self, ctx, user: discord.User, *, reason=None):
+    async def warn(self, ctx, user: discord.Member, *, reason=None):
         if ctx.author.id == user.id:
             await self.bot.send(ctx, ctx.l.mod.warn.stupid_1)
             return
@@ -105,10 +105,11 @@ class Mod(commands.Cog):
             return
 
         await self.db.add_warn(user.id, ctx.guild.id, ctx.author.id, reason)
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name='warns', aliases=['warnings', 'karens'])
     @commands.guild_only()
-    async def warnings(self, ctx, user=None):
+    async def warnings(self, ctx, user: discord.Member = None):
         if user is None:
             user = ctx.author
 
@@ -134,6 +135,20 @@ class Mod(commands.Cog):
                 embed.add_field(name=f'**Warning by {self.bot.get_user(warn["mod_id"]).mention}**: *{reason}*', value='\uFEFF', inline=False)
 
         await ctx.send(embed=embed)
+
+    @commands.command(name='delwarns', aliases=['clearwarns', 'remwarns', 'removewarns', 'delwarnings'])
+    @commands.guild_only()
+    async def clear_warnings(self, ctx, user: discord.Member):
+        if ctx.author.id == user.id and ctx.guild.owner.id != ctx.author.id:
+            await self.bot.send(ctx, ctx.l.mod.warn.stupid_1)
+            return
+
+        if not await self.perm_check(ctx.author, user):
+            await self.bot.send(ctx, ctx.l.mod.no_perms)
+            return
+
+        await self.db.clear_warns(user.id, ctx.guild.id)
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
 def setup(bot):
     bot.add_cog(Mod(bot))
