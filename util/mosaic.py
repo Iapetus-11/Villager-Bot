@@ -46,25 +46,26 @@ def generate(source_bytes, max_dim: int):
         source = cv2.resize(source, (int(new_w), int(new_h)))
 
     # rescale if tiny
-    if sw < 200 or sh < 200:
+    t = 512
+    if sw < t or sh < t:
         ratio = sw/sh
 
         if sw > sh:
-            new_w = 200
+            new_w = t
             new_h = new_w/ratio
         elif sw == sh:
-            new_w = 200
-            new_h = 200
+            new_w = t
+            new_h = t
         else:
-            new_h = 200
+            new_h = t
             new_w = new_h*ratio
 
         source = cv2.resize(source, (int(new_w), int(new_h)))
 
-    source = cv2.resize(source, (int(source.shape[1]), int(source.shape[0])))
+    source = cv2.resize(source, (int(source.shape[1]/xi), int(source.shape[0]/yi)))
     #source = cv2.blur(source, (2, 2))
 
-    canvas = np.zeros((source.shape[0], source.shape[1], 3), np.uint8)
+    canvas = np.zeros((source.shape[0]*xi, source.shape[1]*yi, 3), np.uint8)
 
     y = 0
 
