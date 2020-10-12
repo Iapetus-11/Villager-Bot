@@ -2,6 +2,7 @@ from discord.ext import commands
 import asyncio
 import discord
 import random
+import arrow
 import math
 
 
@@ -14,15 +15,22 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         self.bot.loop.create_task(self.spawn_events())
 
-    def first_time_check(self, m, ctx):
+        self.make_stat_bar = self.bot.get_cog('Econ').make_stat_bar
+
+    def engage_check(self, m, ctx):
         u = m.author
+        u_db = await self.db.fetch_user(u.id)
+
+        if u_db['health'] < 2:
+            await ctx.send('You don\'t have enough health to fight this mob!')
+            return False
 
         if m.content not in self.d.mobs_mech.valid_attacks:
             return False
 
         return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache and u.id not in list(self.d.pause_econ)
 
-    def regular_check(self, m, ctx):
+    def author_check(self, m, ctx):
         pass
 
     async def calc_sword_damage(self, uid, sword, diff_multi):
@@ -85,14 +93,22 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         embed_msg = await ctx.send(embed=embed)
 
         try:
-            drop_announce = await self.bot.wait_for('message', check=self.first_time_check, timeout=15)
+            drop_announce = await self.bot.wait_for('message', check=self.engage_check, timeout=15)
         except asyncio.TimeoutError:
             await drop_announce.edit(suppress=True)
             return
 
         u = drop_announce.author
+        u_db = await self.db.fetch_user(u.id)
 
-        self.d.pause_econ.append()
+        self.d.pause_econ[u.id] = arrow.utcnow()
+
+        u_health = u_db['health']
+
+        iteration = 0
+
+        while u_health > 0 and mob.health > 0:
+
 
     async def spawn_events(self):
         while True:
