@@ -58,7 +58,18 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         # type of mob that will be spawned, just a string
         mob_key = random.choice(list(self.d.mobs_mech.mobs))
-        mob_d = self.d.mobs_mech[mob_key].copy().update()
+
+        mob = self.d.mobs_mech[mob_key].copy()
+        mob.update(ctx.l.mobs_mech.mobs[mob_key])
+
+        embed = discord.Embed(
+            color=self.d.cc,
+            title=f'**{random.choice(ctx.l.mobs_mech.mob_drops).format(mob.nice).lower()}**',
+            description='Do you want to `fight` the mob?'  # fight it you little baby
+        )
+
+        embed.set_image(url=mob.image)
+
 
     async def spawn_events(self):
         while True:
