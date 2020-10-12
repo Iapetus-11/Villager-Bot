@@ -73,9 +73,7 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_3)
             return
 
-        detailed = False
-        if 'large' in ctx.message.content or 'high' in ctx.message.content:
-            detailed = True
+        detailed = ('large' in ctx.message.content or 'high' in ctx.message.content)
 
         with ctx.typing():
             with concurrent.futures.ThreadPoolExecutor() as pool:
