@@ -1,4 +1,5 @@
 from discord.ext import commands
+import asyncio
 import discord
 import random
 import math
@@ -19,7 +20,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         if m.content not in self.d.mobs_mech.valid_attacks:
             return False
 
-        return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache and u.id not in self.d.pause_econ
+        return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache and u.id not in list(self.d.pause_econ)
 
     def regular_check(self, m, ctx):
         pass
@@ -84,7 +85,14 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         embed_msg = await ctx.send(embed=embed)
 
         try:
-            
+            drop_announce = await self.bot.wait_for('message', check=self.first_time_check, timeout=15)
+        except asyncio.TimeoutError:
+            await drop_announce.edit(suppress=True)
+            return
+
+        u = drop_announce.author
+
+        self.d.pause_econ.append()
 
     async def spawn_events(self):
         while True:
