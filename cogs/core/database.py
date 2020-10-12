@@ -14,7 +14,7 @@ class Database(commands.Cog):
     def cog_unload(self):
         self.update_user_health.cancel()
 
-    @tasks.loop(seconds=15)
+    @tasks.loop(seconds=10)
     async def update_user_health(self):
         async with self.db.acquire() as con:
             await con.execute('UPDATE users SET health = health + 2 WHERE health < 20')
