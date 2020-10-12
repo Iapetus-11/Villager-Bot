@@ -130,9 +130,7 @@ bot.d.ban_cache = []  # [uid, uid,..]
 bot.d.prefix_cache = {}  # {gid: 'prefix'}
 bot.d.lang_cache = {}  # {gid: 'lang'}
 
-bot.d.fun_langs.unenchant = {}
-for key in list(bot.d.fun_langs.enchant):  # reverse the enchant lang to get the unenchant lang
-    bot.d.fun_langs.unenchant[bot.d.fun_langs.enchant[key]] = key
+bot.d.fun_langs.unenchant = {v: k for k, v in bot.d.fun_langs.enchant.items()}  # reverse dict to create unenchantment lang
 
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
