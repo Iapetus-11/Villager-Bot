@@ -1,4 +1,5 @@
 from discord.ext import commands
+import classyjson as cj
 import discord
 import aiohttp
 import random
@@ -51,10 +52,11 @@ class Fun(commands.Cog):
                     'https://betterapi.net/reddit/gimme/meme+memes+me_irl+dankmemes',
                     headers={'Authorization': self.d.vb_api_key}
                 )
-                meme = await resp.json()
+                meme = cj.classify(await resp.json())
 
-        embed = discord.Embed(color=self.d.cc, title=meme['title'], url=meme['permalink'])
-        embed.set_image(url=meme['url'])
+        embed = discord.Embed(color=self.d.cc, title=f'[{meme.title}]({meme.permalink}) | {meme.upvotes}{self.d.emojis.updoot}')
+        embed.set_footer(text=f'u/{meme.author}')
+        embed.set_image(url=meme.url)
 
         await ctx.send(embed=embed)
 
@@ -77,7 +79,7 @@ class Fun(commands.Cog):
                 )
                 jj = await resp.json()
 
-        embed = discord.Embed(color=self.d.cc, title=jj['title'], url=jj['permalink'])
+        embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=jj['url'])
 
         await ctx.send(embed=embed)
@@ -101,7 +103,7 @@ class Fun(commands.Cog):
                 )
                 jj = await resp.json()
 
-        embed = discord.Embed(color=self.d.cc, title=jj['title'], url=jj['permalink'])
+        embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=jj['url'])
 
         await ctx.send(embed=embed)
