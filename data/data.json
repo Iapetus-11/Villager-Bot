@@ -2,7 +2,7 @@
   "default_prefix": "/",
   "error_channel_id": 642446655022432267,
   "vote_channel_id": 725551439165784115,
-  "splash_logo": "http://olimone.ddns.net/images/villagerbotsplash1.png",
+  "splash_logo": "http://home.betterapi.net/images/villagerbotsplash1.png",
   "support": "https://discord.gg/39DwwUV",
   "invite": "https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=8&scope=bot",
   "topgg": "https://top.gg/bot/639498607632056321",
@@ -15,6 +15,7 @@
   "topgg_reward": 32,
   "base_multi": 1,
   "weekend_multi": 2,
+  "base_url": "https://home.betterapi.net",
   "acceptable_prefix_chars": [
     "a",
     "b",
