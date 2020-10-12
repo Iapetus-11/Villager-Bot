@@ -24,6 +24,7 @@ class Minecraft(commands.Cog):
         self.update_server_list.start()
 
     def cog_unload(self):
+        self.update_server_list.cancel()
         self.bot.loop.create_task(self.ses.close())
 
     @tasks.loop(hours=2)
