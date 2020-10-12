@@ -1,4 +1,4 @@
-from discord.ext import commands
+from discord.ext import commands, tasks
 import discord
 
 
@@ -8,6 +8,18 @@ class Database(commands.Cog):
         self.d = self.bot.d
 
         self.db = self.bot.db  # the asyncpg pool
+
+    def cog_unload(self):
+        self.update_user_health.cancel()
+
+    @tasks.loop(seconds=15)
+    async def update_user_health(self):
+        async with self.db.acquire() as con:
+            await con.execute('UPDATE users SET health = health + 2 WHERE health < 20')
+
+    @update_user_health.before_loop
+    async def before_update_user_health(self):
+        await self.bot.wait_until_ready()
 
     async def fetch_all_botbans(self):
         botban_records = await self.db.fetch('SELECT uid FROM users WHERE bot_banned = true')  # returns [Record<uid=>, Record<uid=>,..]
