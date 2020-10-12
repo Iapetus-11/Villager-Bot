@@ -183,6 +183,15 @@
     "hhrrrhmmhrrrhehhhhrmhmhmeh hhrmhmghhwurghhmehshrmhmrgghm hhrrrhmmhhrrrhmmhrrrhehhh"
   ],
   "mobs_mech": {
+    "valid_attacks": [
+      "attack",
+      "fight",
+      "punch",
+      "atk",
+      "kill",
+      "kil",
+      "atack"
+    ],
     "mobs": {
       "zombie": {
         "nice": "Zombie",
