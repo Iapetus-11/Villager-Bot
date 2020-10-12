@@ -9,6 +9,8 @@ class Database(commands.Cog):
 
         self.db = self.bot.db  # the asyncpg pool
 
+        self.update_user_health.start()
+
     def cog_unload(self):
         self.update_user_health.cancel()
 
