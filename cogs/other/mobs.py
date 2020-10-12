@@ -13,6 +13,17 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         self.bot.loop.create_task(self.spawn_events())
 
+    def first_time_check(self, m, ctx):
+        u = m.author
+
+        if m.content not in self.d.mobs_mech.valid_attacks:
+            return False
+
+        return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache and u.id not in self.d.pause_econ
+
+    def regular_check(self, m, ctx):
+        pass
+
     async def calc_sword_damage(self, uid, sword, diff_multi):
         sword = sword.lower()
 
@@ -70,6 +81,10 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         embed.set_image(url=mob.image)
 
+        embed_msg = await ctx.send(embed=embed)
+
+        try:
+            
 
     async def spawn_events(self):
         while True:
