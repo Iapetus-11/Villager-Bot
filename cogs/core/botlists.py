@@ -21,14 +21,14 @@ class BotLists(commands.Cog):
 
     async def update_stats(self):
         while True:
-            try:
-                await self.ses.put(  # best botlist comes first lol
-                    'https://disbots.gg/api/stats',
-                    headers={'Authorization': self.d.disbots_auth},
-                    json={'servers': str(len(self.bot.guilds))}
-                )
-            except Exception as e:
-                self.bot.logger.error(e)
+            # try:
+            #     await self.ses.put(  # best botlist comes first lol
+            #         'https://disbots.gg/api/stats',
+            #         headers={'Authorization': self.d.disbots_auth},
+            #         json={'servers': str(len(self.bot.guilds))}
+            #     )
+            # except Exception as e:
+            #     self.bot.logger.error(e)
 
             try:
                 await self.ses.post(
