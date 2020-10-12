@@ -77,16 +77,18 @@ class BotLists(commands.Cog):
 
     @commands.Cog.listener()
     async def on_disbots_event(self, data):
-        if data.type != 'like':
-            self.bot.logger.info('\u001b[35m disbots.gg webhooks test\u001b[0m')
-            await self.bot.get_channel(self.d.error_channel_id).send('DISBOTS.GG WEBHOOKS TEST')
-            return
+        # if data.type != 'like':
+        #     self.bot.logger.info('\u001b[35m disbots.gg webhooks test\u001b[0m')
+        #     await self.bot.get_channel(self.d.error_channel_id).send('DISBOTS.GG WEBHOOKS TEST')
+        #     return
+        #
+        # self.bot.logger.info(f'\u001b[32;1m{data.user_id} voted on disbots.gg\u001b[0m')
+        #
+        # amount = self.d.disbots_reward * self.d.base_multi
+        #
+        # await self.uniform_reward(data.user_id, amount)
 
-        self.bot.logger.info(f'\u001b[32;1m{data.user_id} voted on disbots.gg\u001b[0m')
-
-        amount = self.d.disbots_reward * self.d.base_multi
-
-        await self.uniform_reward(data.user_id, amount)
+        pass
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):
