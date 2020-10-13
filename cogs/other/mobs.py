@@ -38,7 +38,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         if m.content.lower() not in self.d.mobs_mech.valid_attacks:
             return False
 
-        return m.channel.id == ctx.channel.id and m.author.id ==
+        return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id
 
     async def calc_sword_damage(self, uid, sword, diff_multi):
         sword = sword.lower()
