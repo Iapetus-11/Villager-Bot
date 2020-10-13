@@ -112,6 +112,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             iteration += 1
 
             embed = discord.Embed(color=self.d.cc, title='Do you want to `attack` or `flee`?')
+            embed.set_image(url=mob.image)
 
             embed.add_field(
                 name=f'**{u.display_name}**',
@@ -128,6 +129,10 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     )
                 )
             )
+
+            msg = await ctx.send(embed=embed)
+
+
 
     async def spawn_events(self):
         while True:
