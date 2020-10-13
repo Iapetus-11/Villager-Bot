@@ -19,19 +19,26 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
     def engage_check(self, m, ctx):
         u = m.author
+
+        if u.id in list(self.d.pause_econ):
+            return False
+
+        if m.content.lower() not in self.d.mobs_mech.valid_attacks:
+            return False
+
         u_db = await self.db.fetch_user(u.id)
 
         if u_db['health'] < 2:
             await ctx.send('You don\'t have enough health to fight this mob!')
             return False
 
+        return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache and u.id == ctx.author.id
+
+    def attack_check(self, m, ctx):
         if m.content.lower() not in self.d.mobs_mech.valid_attacks:
             return False
 
-        return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache and u.id not in list(self.d.pause_econ)
-
-    def author_check(self, m, ctx):
-        pass
+        return m.channel.id == ctx.channel.id and m.author.id ==
 
     async def calc_sword_damage(self, uid, sword, diff_multi):
         sword = sword.lower()
