@@ -25,7 +25,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             await ctx.send('You don\'t have enough health to fight this mob!')
             return False
 
-        if m.content not in self.d.mobs_mech.valid_attacks:
+        if m.content.lower() not in self.d.mobs_mech.valid_attacks:
             return False
 
         return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache and u.id not in list(self.d.pause_econ)
