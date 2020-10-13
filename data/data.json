@@ -196,32 +196,32 @@
       "zombie": {
         "nice": "Zombie",
         "health": 20,
-        "image": "linktoimage"
+        "image": "https://home.betterapi.net/images/mob_spawns/zombie.png"
       },
       "skeleton": {
         "nice": "Skeleton",
         "health": 16,
-        "image": "linktoimage"
+        "image": "https://home.betterapi.net/images/mob_spawns/skeleton.png"
       },
       "spider": {
         "nice": "Spider",
         "health": 20,
-        "image": "linktoimage"
+        "image": "https://home.betterapi.net/images/mob_spawns/spider.png"
       },
       "cave_spider": {
         "nice": "Cave Spider",
         "health": 12,
-        "image": "linktoimage"
+        "image": "https://home.betterapi.net/images/mob_spawns/cave_spider.png"
       },
       "creeper": {
         "nice": "Creeper",
         "health": 20,
-        "image": "linktoimage"
+        "image": "https://home.betterapi.net/images/mob_spawns/creeper.png"
       },
       "baby_slime": {
         "nice": "Baby Slime",
         "health": 20,
-        "image": "linktoimage"
+        "image": "https://home.betterapi.net/images/mob_spawns/baby_slime.png"
       }
     }
   },
