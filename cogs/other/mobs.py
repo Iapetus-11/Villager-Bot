@@ -104,11 +104,30 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         self.d.pause_econ[u.id] = arrow.utcnow()
 
         u_health = u_db['health']
+        mob_max_health = self.d.mobs_mech.mobs[mob_key].health
 
         iteration = 0
 
         while u_health > 0 and mob.health > 0:
+            iteration += 1
 
+            embed = discord.Embed(color=self.d.cc, title='Do you want to `attack` or `flee`?')
+
+            embed.add_field(
+                name=f'**{u.display_name}**',
+                value=(await self.make_stat_bar(u_health, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty))
+            )
+
+            embed.add_field(
+                name=f'**{mob.nice}**',
+                value=(await self.make_stat_bar(
+                    mob.health, mob_max_health,
+                    mob_max_health/2,
+                    self.d.emojis.heart_full,
+                    self.d.emojis.heart_empty
+                    )
+                )
+            )
 
     async def spawn_events(self):
         while True:
