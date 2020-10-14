@@ -159,8 +159,29 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             u_dmg = await self.calc_sword_damage(u.id, u_sword, diff_multi)  # calculate damage
             mob.health -= u_dmg
 
+            await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice, u_sword))  # user attack message
 
+            if mob.health < 1:  # user wins
+                break
 
+            await asyncio.sleep(1)
+
+            m_dmg = random.choice((2, 4, 6,))
+
+            if mob_key == 'creeper':
+                if iteration > 2:
+                    if random.choice((True, False, False)):
+                        u_health = 0
+                        break
+
+                m_dmg = 0
+
+            u_health -= m_dmg
+
+            if u_health < 1:  # mob wins
+                break
+
+            
 
     async def spawn_events(self):
         while True:
