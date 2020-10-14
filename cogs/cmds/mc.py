@@ -152,14 +152,6 @@ class Minecraft(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    """
-    @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def random_mc_server(self, ctx):
-        s = await self.db.fetch_random_server()
-        await self.mcping(ctx, s['address'], s['port'], s['note'])
-    """
-
     @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def random_mc_server(self, ctx):
