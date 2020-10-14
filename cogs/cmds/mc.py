@@ -106,7 +106,7 @@ class Minecraft(commands.Cog):
             combined = f'{host}{port_str}'
 
         async with ctx.typing():
-            async with self.ses.get(f'https://betterapi.net/mc/mcping?host={combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://betterapi.net/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -145,10 +145,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://betterapi.net/mc/mcpingimg?host={combined}&imgonly=true&v={random.random()*100000}')
+        embed.set_image(url=f'https://betterapi.net/mc/servercard/{combined}&v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavi?host={combined}')
+            embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavi/{combined}')
 
         await ctx.send(embed=embed)
 
