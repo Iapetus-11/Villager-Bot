@@ -139,6 +139,18 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             msg = await ctx.send(embed=embed)
 
+            try:
+                resp = await self.bot.wait_for('message', check=self.attack_check, timeout=15)
+            except asyncio.TimeoutError:
+                await self.bot.send('insert random.choice(insults)')
+                return
+
+            if resp.content.lower() in ('flee', 'run away'):
+                await msg.edit(suppress=True)
+                await self.bot.send('fien, run away leik litul babee')
+                return
+
+
 
 
     async def spawn_events(self):
