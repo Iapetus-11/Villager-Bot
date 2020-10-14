@@ -122,12 +122,12 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             embed = discord.Embed(color=self.d.cc, title='Do you want to `attack` or `flee`?')
             embed.set_image(url=mob.image)
 
-            embed.add_field(
+            embed.add_field(  # user health bar
                 name=f'**{u.display_name}**',
                 value=(await self.make_stat_bar(u_health, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty))
             )
 
-            embed.add_field(
+            embed.add_field(  # mob health bar
                 name=f'**{mob.nice}**',
                 value=(await self.make_stat_bar(
                     mob.health, mob_max_health,
@@ -141,22 +141,24 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             msg = await ctx.send(embed=embed)
 
             try:
-                resp = await self.bot.wait_for('message', check=self.attack_check, timeout=15)
-            except asyncio.TimeoutError:
+                resp = await self.bot.wait_for('message', check=self.attack_check, timeout=15)  # wait for response
+            except asyncio.TimeoutError:  # user didn't respond
                 await msg.edit(suppress=True)
                 self.d.pause_econ.pop(u.id)
 
                 await self.bot.send('insert random.choice(insults)')
                 return
 
-            if resp.content.lower() in ('flee', 'run away'):
+            if resp.content.lower() in ('flee', 'run away'):  # user decides to not fight mob anymore cause they a little baby
                 await msg.edit(suppress=True)
                 self.d.pause_econ.pop(u.id)
 
                 await self.bot.send('fien, run away leik litul babee')
                 return
 
-            u_dmg = await self.calc_sword_damage(u_sword)
+            u_dmg = await self.calc_sword_damage(u.id, u_sword, diff_multi)  # calculate damage
+
+            mob
 
 
 
