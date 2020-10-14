@@ -141,7 +141,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             msg = await ctx.send(embed=embed)
 
             try:
-                resp = await self.bot.wait_for('message', check=self.attack_check, timeout=15)  # wait for response
+                resp = await self.bot.wait_for('message', check=(lambda m: self.attack_check(m, ctx)), timeout=15)  # wait for response
             except asyncio.TimeoutError:  # user didn't respond
                 await msg.edit(suppress=True)
                 self.d.pause_econ.pop(u.id)
