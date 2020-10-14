@@ -20,7 +20,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
     def engage_check(self, m, ctx):
         u = m.author
 
-        if u.id in list(self.d.pause_econ):
+        if self.d.pause_econ.get(u.id):
             return False
 
         if m.content.lower() not in self.d.mobs_mech.valid_attacks:
@@ -107,6 +107,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         u = drop_announce.author
         u_db = await self.db.fetch_user(u.id)
+        u_sword = await self.db.fetch_sword(u.id)
 
         self.d.pause_econ[u.id] = arrow.utcnow()
 
@@ -142,13 +143,20 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             try:
                 resp = await self.bot.wait_for('message', check=self.attack_check, timeout=15)
             except asyncio.TimeoutError:
+                await msg.edit(suppress=True)
+                self.d.pause_econ.pop(u.id)
+
                 await self.bot.send('insert random.choice(insults)')
                 return
 
             if resp.content.lower() in ('flee', 'run away'):
                 await msg.edit(suppress=True)
+                self.d.pause_econ.pop(u.id)
+
                 await self.bot.send('fien, run away leik litul babee')
                 return
+
+            u_dmg = await self.calc_sword_damage()
 
 
 
