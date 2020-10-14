@@ -145,7 +145,7 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://betterapi.net/mc/servercard/{combined}&v={random.random()*100000}')
+        embed.set_image(url=f'https://betterapi.net/mc/servercard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
             embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavicon/{combined}')
@@ -201,7 +201,7 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://betterapi.net/mc/servercard/{combined}&v={random.random()*100000}')
+        embed.set_image(url=f'https://betterapi.net/mc/servercard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
             embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavicon/{combined}')
