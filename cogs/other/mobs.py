@@ -56,13 +56,13 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         else:
             dmg = random.randint(1, 2)
 
-        if diff_multi > 1:
-            dmg = dmg / 1.3
-
         if await self.db.fetch_item(uid, 'Sharpness II Book') is not None:
             dmg *= 1.5
         elif await self.db.fetch_item(uid, 'Sharpness I Book') is not None:
             dmg *= 1.25
+
+        if diff_multi > 1:
+            dmg = dmg / 1.3
 
         return math.ceil(dmg)
 
@@ -156,7 +156,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 await self.bot.send('fien, run away leik litul babee')
                 return
 
-            u_dmg = await self.calc_sword_damage()
+            u_dmg = await self.calc_sword_damage(u_sword)
 
 
 
