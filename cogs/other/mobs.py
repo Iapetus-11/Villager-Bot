@@ -109,7 +109,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         u_db = await self.db.fetch_user(u.id)
         u_sword = await self.db.fetch_sword(u.id)
 
-        self.d.pause_econ[u.id] = arrow.utcnow()
+        self.d.pause_econ[u.id] = arrow.utcnow()  # used later on to clear pause_econ based on who's been in there for tooo long
 
         u_health = u_db['health']
         mob_max_health = self.d.mobs_mech.mobs[mob_key].health
@@ -157,8 +157,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 return
 
             u_dmg = await self.calc_sword_damage(u.id, u_sword, diff_multi)  # calculate damage
-
-            mob
+            mob.health -= u_dmg
 
 
 
