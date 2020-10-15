@@ -3,8 +3,7 @@ arrow
 dblpy
 discord.py
 async-cse
-mcstatus
 asyncpg
-PyRakLib
 classy-json
 bs4
+opencv-python
