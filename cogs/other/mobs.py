@@ -223,9 +223,10 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         await ctx.send(embed=embed)
 
         u_db = await self.db.fetch_user(u.id)
+        u_bal = u_db['emeralds']
 
         if u_health > 0:  # user win
-            if diff == "easy":  # copied this ~~meth~~ math from the old code idek what it does lmao
+            if diff == 'easy':  # copied this ~~meth~~ math from the old code idek what it does lmao
                 ems_won = int(u_bal * (1 / random.choice((3, 3.25, 3.5, 3.75, 4)))) if u_bal < 256 else int(
                     512 * (1 / random.choice((3, 3.25, 3.5, 3.75, 4))))
             else:  # diff hard
@@ -238,6 +239,11 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
         else:  # mob win
+            if diff == 'easy':  # haha code copying go brrrrrrrrr
+                ems_lost = int(u_bal * (1 / (random.choice([3.05, 3.3, 3.55, 3.8])+.3))) if u_bal > 10 else random.randint(2, 4)
+            else:  # diff hard
+                ems_lost = int(u_bal * (1 / (random.choice([1.45, 1.55, 1.65, 1.75])+.3))) if u_bal > 10 else random.randint(5, 9)
+
 
 
     async def spawn_events(self):
