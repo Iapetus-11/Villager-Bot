@@ -98,6 +98,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         embed.set_image(url=mob.image)
 
+        print('sending first embed')
         embed_msg = await ctx.send(embed=embed)
 
         u_db = await self.db.fetch_user(u.id)
