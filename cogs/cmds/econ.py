@@ -13,8 +13,6 @@ class Econ(commands.Cog):
 
         self.db = self.bot.get_cog("Database")
 
-        
-
     async def format_required(self, item, amount=1):
         if item[3][0] == 'Netherite Pickaxe':
             return f' {item[1] * amount}{self.d.emojis.emerald} + {4 * amount}{self.d.emojis.netherite}'
