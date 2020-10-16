@@ -13,16 +13,7 @@ class Econ(commands.Cog):
 
         self.db = self.bot.get_cog("Database")
 
-        # self.ses = aiohttp.ClientSession(loop=self.bot.loop)
-
-    """
-    async def mine_captcha(ctx):
-        self.d.miners[ctx.author.id] = self.d.miners.get(ctx.author.id, 0) + 1
-
-        jj = await (await self.ses.get('http://betterapi.net/gen/captcha')).json()
-
-        pass
-    """
+        
 
     async def format_required(self, item, amount=1):
         if item[3][0] == 'Netherite Pickaxe':
