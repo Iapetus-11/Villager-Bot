@@ -29,6 +29,13 @@
       }
     },
     "mobs_mech": {
+      "flee_insults": [
+        "Fine, run away like a little baby",
+        "Fine, run to mommy like a little baby",
+        "Go to mommy little baby",
+        "Ok little baby, run away to mommy",
+        "Fine, run away like the crybaby toddler you are"
+      ],
       "user_attacks": [
         "You slashed the {0} with your {1}!",
         "Your {1} stabbed deep into the {0}!",
