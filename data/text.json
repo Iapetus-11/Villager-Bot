@@ -526,6 +526,7 @@
         "stupid_2": "You can't pillage people from other servers...",
         "stupid_3": "You can only pillage people if you have more than 64{}",
         "stupid_4": "You can only pillage a person if they have more than 64{}",
+        "stupid_5": "You can't pillage any more today.",
         "u_win": {
           "user": [
             "You escaped with {}{}",

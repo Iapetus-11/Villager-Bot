@@ -1,4 +1,4 @@
-from discord.ext import commands
+from discord.ext import commands, tasks
 import discord
 import asyncio
 import aiohttp
@@ -18,6 +18,15 @@ class Econ(commands.Cog):
 
     def cog_unload(self):
         self.d.honey_buckets = self.honey._buckets
+        self.pillage_cap_reset.cancel()
+
+    @tasks.loop(hours=12)
+    async def pillage_cap_reset(self):
+        self.d.pillagers = {}
+
+    @pillage_cap_reset.before_loop
+    async def before_pillage_cap_reset(self):
+        await self.bot.wait_until_ready()
 
     async def format_required(self, item, amount=1):
         if item[3][0] == 'Netherite Pickaxe':
@@ -706,6 +715,10 @@ class Econ(commands.Cog):
 
         if ctx.guild.get_member(victim.id) is None:
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_2)
+            return
+
+        if self.d.pillagers.get(ctx.author.id, 0) > 7:
+            await self.bot.send(ctx, ctx.l.econ.pillage.stupid_5)
             return
 
         db_user = await self.db.fetch_user(ctx.author.id)
