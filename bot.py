@@ -135,14 +135,14 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
     'cogs.core.events',
     'cogs.core.botlists',
-    'cogs.other.mobs',
     'cogs.cmds.useful',
     'cogs.cmds.owner',
     'cogs.cmds.mc',
     'cogs.cmds.mod',
     'cogs.cmds.fun',
     'cogs.cmds.econ',
-    'cogs.cmds.config'
+    'cogs.cmds.config',
+    'cogs.other.mobs'
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list
