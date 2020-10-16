@@ -64,6 +64,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
     async def spawn_event(self, ctx):
         try:
+            await asyncio.sleep(random.randint(1, 200)/100)
+
             self.d.spawn_queue.pop(self.d.spawn_queue.index(ctx))
 
             if ctx.guild is None:
