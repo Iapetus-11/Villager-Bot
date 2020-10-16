@@ -109,7 +109,7 @@ class Events(commands.Cog):
                 elif 'Haste I Potion' in self.d.chuggers.get(ctx.author.id, []):
                     e.retry_after -= .5
 
-            if seconds < .04:
+            if seconds <= .05:
                 await ctx.reinvoke()
                 return
 
