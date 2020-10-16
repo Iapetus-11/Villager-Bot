@@ -66,8 +66,6 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         try:
             await asyncio.sleep(random.randint(1, 200)/100)
 
-            self.d.spawn_queue.pop(ctx)
-
             if ctx.guild is None:
                 return
 
@@ -272,6 +270,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         while True:
             await asyncio.sleep(.05)  # don't fucking remove this or else
             for ctx in list(self.d.spawn_queue):
+                self.d.spawn_queue.pop(ctx)
                 self.bot.loop.create_task(self.spawn_event(ctx))  # ah yes eficeicncy
 
 def setup(bot):
