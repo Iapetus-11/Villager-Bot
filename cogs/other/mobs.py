@@ -97,7 +97,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             embed = discord.Embed(
                 color=self.d.cc,
-                title=f'**{random.choice(ctx.l.mobs_mech.mob_drops).format(mob.nice).lower()}**',
+                title=f'**{random.choice(ctx.l.mobs_mech.mob_drops).format(mob.nice.lower())}**',
                 description='Do you want to `fight` the mob?'  # fight it you little baby
             )
 
