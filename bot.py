@@ -134,6 +134,8 @@ bot.d.fun_langs.unenchant = {v: k for k, v in bot.d.fun_langs.enchant.items()}  
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
     'cogs.core.events',
+    'cogs.core.botlists',
+    'cogs.other.mobs',
     'cogs.cmds.useful',
     'cogs.cmds.owner',
     'cogs.cmds.mc',
