@@ -244,7 +244,12 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             else:  # diff hard
                 ems_lost = int(u_bal * (1 / (random.choice([1.45, 1.55, 1.65, 1.75])+.3))) if u_bal > 10 else random.randint(5, 9)
 
+            await self.db.balance_sub(u.id, ems_lost)
 
+            if mob_key == 'creeper':
+                await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.lose.creeper).format(ems_lost, self.d.emojis.emerald))
+            else:
+                await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.lose.normal).format(mob.nice, ems_lost, self.d.emojis.emerald))
 
     async def spawn_events(self):
         while True:
