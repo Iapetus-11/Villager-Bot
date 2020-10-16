@@ -223,6 +223,9 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             embed = discord.Embed(color=self.d.cc)  # create new embed which shows health to show that user has lost / won
             embed.set_image(url=mob.image)
 
+            if u_health == 1: u_health = 2
+            if mob.health == 1: mob.health = 2
+
             embed.add_field(  # user health bar
                 name=f'**{u.display_name}**',
                 value=(await self.make_stat_bar(u_health, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)),
