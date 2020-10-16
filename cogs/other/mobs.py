@@ -27,7 +27,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             return False
 
         if u_db['health'] < 2:
-            await ctx.send('You don\'t have enough health to fight this mob!')
+            self.bot.loop.create_task(ctx.send('You don\'t have enough health to fight this mob!'))
             return False
 
         return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache and u.id == ctx.author.id
