@@ -100,8 +100,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name='Vote for Villager Bot!', icon_url=self.d.splash_logo)
 
-        embed.description = f'**[{ctx.l.useful.vote.click_1}]({self.d.topgg})\n' \
-                            f'\n[{ctx.l.useful.vote.click_2}]({self.d.disbots})**'
+        embed.description = f'**[{ctx.l.useful.vote.click_1}]({self.d.topgg})**'
 
         await ctx.send(embed=embed)
 
