@@ -150,16 +150,20 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     resp = await self.bot.wait_for('message', check=(lambda m: self.attack_check(m, ctx)), timeout=15)  # wait for response
                 except asyncio.TimeoutError:  # user didn't respond
                     await msg.edit(suppress=True)
+
                     self.d.pause_econ.pop(u.id)
 
-                    await self.bot.send('insert random.choice(insults)')
+                    await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.flee_insults))
+
                     return
 
                 if resp.content.lower() in ('flee', 'run away'):  # user decides to not fight mob anymore cause they a little baby
                     await msg.edit(suppress=True)
+
                     self.d.pause_econ.pop(u.id)
 
-                    await self.bot.send('fien, run away leik litul babee')
+                    await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.flee_insults))
+
                     return
 
                 u_dmg = await self.calc_sword_damage(u.id, u_sword, diff_multi)  # calculate damage
