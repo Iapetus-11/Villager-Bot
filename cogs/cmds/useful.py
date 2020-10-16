@@ -128,8 +128,7 @@ class Useful(commands.Cog):
                f'{ctx.l.useful.stats.msgs}: `{self.d.msg_count}`\n' \
                f'{ctx.l.useful.stats.cmds}: `{self.d.cmd_count}` `({round((self.d.cmd_count / (self.d.msg_count + .000001)) * 100, 2)}%)`\n' \
                f'{ctx.l.useful.stats.cmds_sec}: `{round(self.d.cmd_count / uptime_seconds, 2)}`\n' \
-               f'{ctx.l.useful.stats.votes}: `{self.d.votes_disbots + self.d.votes_topgg}`\n' \
-               f'{ctx.l.useful.stats.disbots}: `{round((self.d.votes_disbots / uptime_seconds) * 3600, 2)}`\n' \
+               f'{ctx.l.useful.stats.votes}: `{self.d.votes_topgg}`\n' \
                f'{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n' \
                f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
                f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n'
