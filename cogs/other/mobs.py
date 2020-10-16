@@ -68,12 +68,14 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         self.d.spawn_queue.pop(self.d.spawn_queue.index(ctx))
 
         if ctx.guild is None:
+            print('returning cause guild is None')
             return
 
         db_guild = await self.d.fetch_guild(ctx.guild.id)
         diff = db_guild['difficulty']
 
         if diff == 'peaceful':
+            print('returning cause diff is ez baby mode')
             return
 
         # difficulty multiplier
