@@ -157,9 +157,19 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 return
 
             u_dmg = await self.calc_sword_damage(u.id, u_sword, diff_multi)  # calculate damage
+
+            if mob_key == 'baby_slime':
+                if iteration <= 4:
+                    u_dmg = 0
+                elif iteration > 4 and random.choice((True, False)):
+                    u_dmg = 0
+
             mob.health -= u_dmg
 
-            await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice, u_sword))  # user attack message
+            if mob_key == 'baby_slime' and m_dmg = 0:
+                await self.bot.send(ctx, random.choice(mob.misses).format(u_sword))
+            else:
+                await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice, u_sword))  # user attack message
 
             if mob.health < 1:  # user wins
                 self.d.pause_econ.pop(u.id)
