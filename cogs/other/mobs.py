@@ -222,6 +222,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     await self.bot.send(ctx, random.choice(mob.attacks))
 
                 await asyncio.sleep(1.75)
+                
+                await msg.edit(suppress=True)
 
             await msg.edit(suppress=True)  # remove old Message
 
