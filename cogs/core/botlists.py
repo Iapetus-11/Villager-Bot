@@ -22,15 +22,6 @@ class BotLists(commands.Cog):
         await self.bot.wait_until_ready()
 
         while True:
-            # try:
-            #     await self.ses.put(  # best botlist comes first lol
-            #         'https://disbots.gg/api/stats',
-            #         headers={'Authorization': self.d.disbots_auth},
-            #         json={'servers': str(len(self.bot.guilds))}
-            #     )
-            # except Exception as e:
-            #     self.bot.logger.error(e)
-
             try:
                 await self.ses.post(
                     f'https://top.gg/api/bots/{self.bot.user.id}/stats',
@@ -44,9 +35,7 @@ class BotLists(commands.Cog):
 
     async def webhooks_setup(self):  # holy fucking shit that's hot
         async def handler(req):
-            if req.headers.get('Authorization') == self.d.disbots_auth:
-                self.bot.dispatch('disbots_event', cj.classify(await req.json()))
-            elif req.headers.get('Authorization') == self.d.topgg_hooks_auth:
+            if req.headers.get('Authorization') == self.d.topgg_hooks_auth:
                 self.bot.dispatch('topgg_event', cj.classify(await req.json()))
             else:
                 return web.Response(status=401)
@@ -75,21 +64,6 @@ class BotLists(commands.Cog):
                 await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
             except Exception:
                 pass
-
-    @commands.Cog.listener()
-    async def on_disbots_event(self, data):
-        # if data.type != 'like':
-        #     self.bot.logger.info('\u001b[35m disbots.gg webhooks test\u001b[0m')
-        #     await self.bot.get_channel(self.d.error_channel_id).send('DISBOTS.GG WEBHOOKS TEST')
-        #     return
-        #
-        # self.bot.logger.info(f'\u001b[32;1m{data.user_id} voted on disbots.gg\u001b[0m')
-        #
-        # amount = self.d.disbots_reward * self.d.base_multi
-        #
-        # await self.reward(data.user_id, amount)
-
-        pass
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):
