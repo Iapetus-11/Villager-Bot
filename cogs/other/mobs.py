@@ -140,9 +140,9 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                         mob_max_health/2,
                         self.d.emojis.heart_full,
                         self.d.emojis.heart_empty
-                        ),
+                        )
+                    ),
                     inline=False
-                    )
                 )
 
                 msg = await ctx.send(embed=embed)
