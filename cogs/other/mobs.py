@@ -254,8 +254,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.lose.creeper).format(ems_lost, self.d.emojis.emerald))
                 else:
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.lose.normal).format(mob.nice, ems_lost, self.d.emojis.emerald))
-    except Exception as e:
-        await self.events.debug_error(ctx, e)
+        except Exception as e:
+            await self.events.debug_error(ctx, e)
 
     async def spawn_events(self):
         while True:
