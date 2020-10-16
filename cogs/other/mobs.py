@@ -99,12 +99,12 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             while True:
                 try:
-                    drop_announce = await self.bot.wait_for('message', check=(lambda m: self.engage_check(m, ctx)), timeout=15)
+                    engage_msg = await self.bot.wait_for('message', check=(lambda m: self.engage_check(m, ctx)), timeout=15)
                 except asyncio.TimeoutError:
-                    await drop_announce.edit(suppress=True)
+                    await embed_msg.edit(suppress=True)
                     return
 
-                u = drop_announce.author
+                u = engage_msg.author
                 u_db = await self.db.fetch_user(u.id)
 
                 if u_db['health'] < 2:
