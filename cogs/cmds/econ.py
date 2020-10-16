@@ -11,7 +11,7 @@ class Econ(commands.Cog):
         self.bot = bot
         self.d = self.bot.d
 
-        self.db = self.bot.get_cog('database')
+        self.db = self.bot.get_cog('Database')
 
         if self.d.honey_buckets is not None:
             self.honey._buckets = self.d.honey_buckets
