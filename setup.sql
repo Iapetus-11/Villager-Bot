@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS users(
   vault_bal     int, -- amount of emerald BLOCKS which are currently in the vault
   vault_max     int, -- maximum amount of emerald BLOCKS which can be stored in the vault
   health        int, -- user health, out of 20
-  disbots_votes int, -- votes on disbots.gg
   topgg_votes   int, -- votes on top.gg
   bot_banned    bool -- is banned from using the bot
 );
