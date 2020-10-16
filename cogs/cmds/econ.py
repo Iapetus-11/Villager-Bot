@@ -782,7 +782,7 @@ class Econ(commands.Cog):
     async def chug(self, ctx, *, _pot):
         """Allows you to use potions"""
 
-        pot = _pot.lower()
+        pot = _pot.lower()  # everyday bois
 
         current_pots = self.d.chuggers.get(ctx.author.id)
 
@@ -799,7 +799,7 @@ class Econ(commands.Cog):
         if pot == 'haste i potion':
             await self.db.remove_item(ctx.author.id, pot, 1)
 
-            self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
+            self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])  # ensure user has stuff there
             self.d.chuggers[ctx.author.id].append('Haste I Potion')
 
             await self.bot.send(ctx, ctx.l.econ.chug.chug.format('Haste I Potion', 6))
