@@ -4,6 +4,7 @@ import asyncio
 import asyncpg
 import discord
 import logging
+import random
 import arrow
 
 # set up basic logging
