@@ -111,7 +111,6 @@ bot.d.topgg_hooks_auth = keys.topgg_webhook
 bot.d.topgg_post_auth = keys.topgg
 
 bot.d.votes_topgg = 0
-bot.d.votes_disbots = 0
 bot.d.cmd_count = 0
 bot.d.msg_count = 0
 bot.d.start_time = arrow.utcnow()
