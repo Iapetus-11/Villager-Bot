@@ -100,7 +100,7 @@ class Events(commands.Cog):
         if isinstance(e, commands.CommandOnCooldown):
             seconds = round(e.retry_after, 2)
 
-            if seconds == 0:
+            if seconds < .04:
                 await ctx.reinvoke()
                 return
 
