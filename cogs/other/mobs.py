@@ -129,7 +129,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 embed.add_field(  # user health bar
                     name=f'**{u.display_name}**',
-                    value=(await self.make_stat_bar(u_health, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty))
+                    value=(await self.make_stat_bar(u_health, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)),
+                    inline=False
                 )
 
                 embed.add_field(  # mob health bar
@@ -139,7 +140,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                         mob_max_health/2,
                         self.d.emojis.heart_full,
                         self.d.emojis.heart_empty
-                        )
+                        ),
+                    inline=False
                     )
                 )
 
