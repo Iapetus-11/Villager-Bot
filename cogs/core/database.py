@@ -94,6 +94,7 @@ class Database(commands.Cog):
 
     async def balance_sub(self, uid, amount):
         new_bal = await self.fetch_balance(uid) - amount
+        new_bal = new_bal if new_bal >= 0 else 0
         await self.set_balance(uid, new_bal)
         return new_bal
 
