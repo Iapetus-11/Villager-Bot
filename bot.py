@@ -125,7 +125,7 @@ bot.d.chuggers = {}  # {user_id: [potion, potion]}
 bot.d.cmd_lb = {}  # {user_id: command_count}
 
 bot.d.pause_econ = {}  # {uid: starttime}
-bot.d.spawn_queue = []  # [ctx, ctx,..]
+bot.d.spawn_queue = {}  # {ctx: starttime}
 
 bot.d.ban_cache = []  # [uid, uid,..]
 bot.d.prefix_cache = {}  # {gid: 'prefix'}
