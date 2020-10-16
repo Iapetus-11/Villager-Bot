@@ -173,6 +173,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             if mob.health < 1:  # user wins
                 self.d.pause_econ.pop(u.id)
+                await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice, u_sword))
                 break
 
             await asyncio.sleep(1)
@@ -193,6 +194,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             if u_health < 1:  # mob wins
                 self.d.pause_econ.pop(u.id)
+                await self.bot.send(ctx, random.choice(mob.finishers))
                 break
 
             await asyncio.sleep(1.75)
@@ -236,7 +238,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
         else:  # mob win
-            
+
 
     async def spawn_events(self):
         while True:
