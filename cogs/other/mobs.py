@@ -202,7 +202,12 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 if mob_key == 'creeper':
                     if iteration > 2:
                         if random.choice((True, False, False)):
+                            self.d.pause_econ.pop(u.id)
+
                             u_health = 0
+
+                            await self.bot.send(ctx, random.choice(mob.finishers))
+
                             break
 
                     m_dmg = 0
