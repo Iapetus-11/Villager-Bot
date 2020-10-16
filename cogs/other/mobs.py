@@ -58,7 +58,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             dmg *= 1.25
 
         if diff_multi > 1:
-            dmg = dmg / 1.3
+            dmg /= 1.3
 
         return math.ceil(dmg)
 
