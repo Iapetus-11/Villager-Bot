@@ -42,7 +42,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache and u.id == ctx.author.id
 
     def attack_check(self, m, ctx):
-        if m.content.lower() not in self.d.mobs_mech.valid_attacks:
+        if m.content.lower() not in self.d.mobs_mech.valid_attacks or m.content.lower() not in self.d.mobs_mech.valid_flees:
             return False
 
         return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id
@@ -166,7 +166,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                     return
 
-                if resp.content.lower() in ('flee', 'run away'):  # user decides to not fight mob anymore cause they a little baby
+                if resp.content.lower() in self.d.valid_flees:  # user decides to not fight mob anymore cause they a little baby
                     await msg.edit(suppress=True)
 
                     self.d.pause_econ.pop(u.id)
@@ -222,7 +222,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     await self.bot.send(ctx, random.choice(mob.attacks))
 
                 await asyncio.sleep(1.75)
-                
+
                 await msg.edit(suppress=True)
 
             await msg.edit(suppress=True)  # remove old Message
