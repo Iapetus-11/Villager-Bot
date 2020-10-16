@@ -166,7 +166,10 @@ async def global_check(ctx):
     bot.d.cmd_lb[ctx.author.id] = bot.d.cmd_lb.get(ctx.author.id, 0) + 1
     bot.d.cmd_count += 1
 
-    if ctx.command.cog.__cog_name__ == 'Econ':  # make sure it's an econ command
+    if not ctx.command.cog:
+        print(ctx.command)
+
+    if ctx.command.cog and ctx.command.cog.__cog_name__ == 'Econ':  # make sure it's an econ command
         if bot.d.pause_econ.get(ctx.author.id):
             ctx.custom_err = 'econ_paused'
             return False
