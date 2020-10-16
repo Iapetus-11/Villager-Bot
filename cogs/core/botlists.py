@@ -15,9 +15,8 @@ class BotLists(commands.Cog):
         self.ses = aiohttp.ClientSession()
         self.webhook_server = None
 
-        self.bot.loop.create_task(webhooks_setup())
-
-        self.bot.loop.create_task(update_stats())
+        self.bot.loop.create_task(self.webhooks_setup())
+        self.bot.loop.create_task(self.update_stats())
 
     async def update_stats(self):
         while True:
