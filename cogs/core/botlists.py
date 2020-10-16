@@ -62,7 +62,7 @@ class BotLists(commands.Cog):
 
         self.webhook_server = web.TCPSite(runner, '0.0.0.0', self.d.hooksport)
 
-    async def uniform_reward(user_id, amount):
+    async def reward(user_id, amount):
         await self.db.balance_add(user_id, amount)
 
         user = self.bot.get_user(user_id)
@@ -87,7 +87,7 @@ class BotLists(commands.Cog):
         #
         # amount = self.d.disbots_reward * self.d.base_multi
         #
-        # await self.uniform_reward(data.user_id, amount)
+        # await self.reward(data.user_id, amount)
 
         pass
 
@@ -100,9 +100,9 @@ class BotLists(commands.Cog):
 
         self.bot.logger.info(f'\u001b[32;1m{data.user} voted on top.gg\u001b[0m DEBUG/TESTING: {data}')
 
-        amount = self.d.disbots_reward * self.d.base_multi * (self.d.weekend_multi * data.isWeekend)
+        amount = self.d.topgg_reward * self.d.base_multi * (self.d.weekend_multi * data.isWeekend)
 
-        await self.uniform_reward(data.user, amount)
+        await self.reward(data.user, amount)
 
 
 def setup(bot):
