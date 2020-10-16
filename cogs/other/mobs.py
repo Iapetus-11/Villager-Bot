@@ -17,7 +17,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         self.make_stat_bar = self.bot.get_cog('Econ').make_stat_bar
 
-    async def engage_check(self, m, ctx):
+    def engage_check(self, m, ctx, u_db):
         u = m.author
 
         if self.d.pause_econ.get(u.id):
@@ -25,8 +25,6 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         if m.content.lower() not in self.d.mobs_mech.valid_attacks:
             return False
-
-        u_db = await self.db.fetch_user(u.id)
 
         if u_db['health'] < 2:
             await ctx.send('You don\'t have enough health to fight this mob!')
@@ -99,14 +97,15 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         embed_msg = await ctx.send(embed=embed)
 
+        u_db = await self.db.fetch_user(u.id)
+
         try:
-            drop_announce = await self.bot.wait_for('message', check=(lambda m: await self.engage_check(m, ctx)), timeout=15)
+            drop_announce = await self.bot.wait_for('message', check=(lambda m: self.engage_check(m, ctx, u_db)), timeout=15)
         except asyncio.TimeoutError:
             await drop_announce.edit(suppress=True)
             return
 
         u = drop_announce.author
-        u_db = await self.db.fetch_user(u.id)
         u_sword = await self.db.fetch_sword(u.id)
 
         self.d.pause_econ[u.id] = arrow.utcnow()  # used later on to clear pause_econ based on who's been in there for tooo long
