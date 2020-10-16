@@ -84,6 +84,17 @@
         "You glance at the ground and see {}{}",
         "You find {}{} next to the fallen mob"
       ],
+      "lost": {
+        "creeper": [
+          "The creeper also blew up {}{} that was yours...",
+          "The creeper made {}{} that was yours go up in a poof of smoke...",
+          "The creeper also obliterated {}{} that was yours..."
+        ],
+        "normal": [
+          "The {} also stole {}{} that was yours...",
+          "The {} also got away with {}{} that was yours..."
+        ]
+      },
       "mobs": {
         "zombie": {
           "attacks": [
