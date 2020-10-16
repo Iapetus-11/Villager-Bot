@@ -19,6 +19,8 @@ class BotLists(commands.Cog):
         self.bot.loop.create_task(self.update_stats())
 
     async def update_stats(self):
+        await self.bot.wait_until_ready()
+
         while True:
             # try:
             #     await self.ses.put(  # best botlist comes first lol
