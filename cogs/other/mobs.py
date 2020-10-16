@@ -197,7 +197,46 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             await asyncio.sleep(1.75)
 
+        await msg.edit(suppress=True)  # remove old Message
 
+        embed = discord.Embed(color=self.d.cc)  # create new embed which shows health to show that user has lost / won
+        embed.set_image(url=mob.image)
+
+        embed.add_field(  # user health bar
+            name=f'**{u.display_name}**',
+            value=(await self.make_stat_bar(u_health, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty))
+        )
+
+        embed.add_field(  # mob health bar
+            name=f'**{mob.nice}**',
+            value=(await self.make_stat_bar(
+                mob.health, mob_max_health,
+                mob_max_health/2,
+                self.d.emojis.heart_full,
+                self.d.emojis.heart_empty
+                )
+            )
+        )
+
+        await ctx.send(embed=embed)
+
+        u_db = await self.db.fetch_user(u.id)
+
+        if u_health > 0:  # user win
+            if diff == "easy":  # copied this ~~meth~~ math from the old code idek what it does lmao
+                ems_won = int(u_bal * (1 / random.choice((3, 3.25, 3.5, 3.75, 4)))) if u_bal < 256 else int(
+                    512 * (1 / random.choice((3, 3.25, 3.5, 3.75, 4))))
+            else:  # diff hard
+                ems_won = int(u_bal * (1 / random.choice((1.75, 2, 2.25, 2.5)))) if u_bal < 256 else int(
+                    512 * (1 / random.choice((1.75, 2, 2.25, 2.5))))
+
+            ems_won = int((ems_won if ems_won > 0 else 1) * diff_multi)
+
+            await self.db.balance_add(u.id, ems_won)
+
+            await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
+        else:  # mob win
+            
 
     async def spawn_events(self):
         while True:
