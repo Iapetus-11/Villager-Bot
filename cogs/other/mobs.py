@@ -13,9 +13,9 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         self.db = self.bot.get_cog('Database')
 
-        self.bot.loop.create_task(self.spawn_events())
-
         self.make_stat_bar = self.bot.get_cog('Econ').make_stat_bar
+
+        self.bot.loop.create_task(self.spawn_events())
 
     def engage_check(self, m, ctx, u_db):
         u = m.author
@@ -254,6 +254,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         while True:
             await asyncio.sleep(.05)  # don't fucking remove this or else
             for ctx in self.d.spawn_queue:
+                self.bot.logger.info('spawning in event...')
                 self.bot.loop.create_task(self.spawn_event(ctx))  # ah yes eficeicncy
 
 def setup(bot):
