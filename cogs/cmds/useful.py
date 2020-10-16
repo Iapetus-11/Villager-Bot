@@ -87,7 +87,7 @@ class Useful(commands.Cog):
         embed.add_field(name=ctx.l.useful.info.shards, value=str(self.bot.shard_count))
         embed.add_field(name=ctx.l.useful.info.users, value=str(len(self.bot.users)))
 
-        embed.add_field(name=ctx.l.useful.info.more, value=f'{ctx.l.useful.info.click_here}]({self.d.disbots})')
+        embed.add_field(name=ctx.l.useful.info.more, value=f'{ctx.l.useful.info.click_here}]({self.d.topgg})')
         embed.add_field(name=ctx.l.useful.info.website, value=f'[{ctx.l.useful.info.click_here}]({self.d.website})')
         embed.add_field(name=ctx.l.useful.info.support, value=f'[{ctx.l.useful.info.click_here}]({self.d.support})')
 
