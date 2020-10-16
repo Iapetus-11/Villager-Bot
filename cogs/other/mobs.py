@@ -112,7 +112,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         self.d.pause_econ[u.id] = arrow.utcnow()  # used later on to clear pause_econ based on who's been in there for tooo long
 
         u_health = u_db['health']
-        mob_max_health = self.d.mobs_mech.mobs[mob_key].health
+        mob_max_health = mob.health
 
         iteration = 0
 
@@ -162,6 +162,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice, u_sword))  # user attack message
 
             if mob.health < 1:  # user wins
+                self.d.pause_econ.pop(u.id)
                 break
 
             await asyncio.sleep(1)
@@ -178,10 +179,15 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             u_health -= m_dmg
 
+            await self.bot.send(ctx, random.choice(mob.attacks))
+
             if u_health < 1:  # mob wins
+                self.d.pause_econ.pop(u.id)
                 break
 
-            
+            await asyncio.sleep(1.75)
+
+
 
     async def spawn_events(self):
         while True:
