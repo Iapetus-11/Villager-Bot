@@ -92,7 +92,8 @@
         ],
         "normal": [
           "The {} also stole {}{} that was yours...",
-          "The {} also got away with {}{} that was yours..."
+          "The {} also got away with {}{} that was yours...",
+          "The {} stole {}{} off your dead corpse..."
         ]
       },
       "mobs": {
