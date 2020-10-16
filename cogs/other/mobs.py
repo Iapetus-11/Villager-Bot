@@ -99,7 +99,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             while True:
                 try:
-                    drop_announce = await self.bot.wait_for('message', check=(lambda m: self.engage_check(m, ctx, u_db)), timeout=15)
+                    drop_announce = await self.bot.wait_for('message', check=(lambda m: self.engage_check(m, ctx)), timeout=15)
                 except asyncio.TimeoutError:
                     await drop_announce.edit(suppress=True)
                     return
