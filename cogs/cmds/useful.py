@@ -161,7 +161,7 @@ class Useful(commands.Cog):
                   f'{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n'
 
         villager = f'{ctx.l.useful.ginf.cmd_prefix}: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n' \
-                   f'{ctx.l.useful.ginf.lang}: `{self.d.lang_cache.get(guild.id, "en-us").replace("_", "-")}`\n' \
+                   f'{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n' \
                    f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
 
         embed.add_field(name='General', value=general, inline=False)
