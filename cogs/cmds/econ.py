@@ -11,7 +11,13 @@ class Econ(commands.Cog):
         self.bot = bot
         self.d = self.bot.d
 
-        self.db = self.bot.get_cog("Database")
+        self.db = self.bot.get_cog('database')
+
+        if self.d.honey_buckets is not None:
+            self.honey._buckets = self.d.honey_buckets
+
+    def cog_unload(self):
+        self.d.honey_buckets = self.honey._buckets
 
     async def format_required(self, item, amount=1):
         if item[3][0] == 'Netherite Pickaxe':
@@ -829,7 +835,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='harvesthoney', aliases=['honey', 'horny'])  # ~~a strange urge occurs in me~~
     @commands.cooldown(1, 24*60*60, commands.BucketType.user)
-    async def harvest_honey(self, ctx):
+    async def honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
 
         if bees is not None:
