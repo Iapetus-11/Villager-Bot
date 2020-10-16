@@ -167,7 +167,9 @@ async def global_check(ctx):
     bot.d.cmd_count += 1
 
     if random.randint(0, 30) == 1:  # spawn mob
-        bot.d.spawn_queue.append(ctx)
+        if ctx.command.cog.__cog_name__ == 'Econ':  # make sure it's an econ command
+            if ctx.command._buckets._cooldown != None:  # if command has a cooldown on it
+                bot.d.spawn_queue.append(ctx)
 
     return True
 
