@@ -90,6 +90,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             mob = self.d.mobs_mech.mobs[mob_key].copy()
             mob.update(ctx.l.mobs_mech.mobs[mob_key])
+            mob = cj.classify(mob)
 
             embed = discord.Embed(
                 color=self.d.cc,
