@@ -162,6 +162,9 @@ async def global_check(ctx):
     bot.d.cmd_lb[ctx.author.id] = bot.d.cmd_lb.get(ctx.author.id, 0) + 1
     bot.d.cmd_count += 1
 
+    if random.randint(0, 30) == 1:  # spawn mob
+        bot.d.spawn_queue.append(ctx)
+
     return True
 
 
