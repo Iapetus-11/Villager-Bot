@@ -273,7 +273,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 if mob_key == 'creeper':
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.lost.creeper).format(ems_lost, self.d.emojis.emerald))
                 else:
-                    await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.lost.normal).format(mob.nice, ems_lost, self.d.emojis.emerald))
+                    await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.lost.normal).format(mob.nice.lower(), ems_lost, self.d.emojis.emerald))
         except Exception as e:
             await self.events.debug_error(ctx, e)
 
