@@ -88,7 +88,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             # type of mob that will be spawned, just a string
             mob_key = random.choice(list(self.d.mobs_mech.mobs))
 
-            mob = self.d.mobs_mech[mob_key].copy()
+            mob = self.d.mobs_mech.mobs[mob_key].copy()
             mob.update(ctx.l.mobs_mech.mobs[mob_key])
 
             embed = discord.Embed(
