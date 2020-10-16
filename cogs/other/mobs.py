@@ -1,4 +1,4 @@
-from discord.ext import commands
+from discord.ext import commands, tasks
 import classyjson as cj
 import asyncio
 import discord
@@ -17,7 +17,18 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         self.make_stat_bar = self.bot.get_cog('Econ').make_stat_bar
 
-        self.bot.loop.create_task(self.spawn_events())
+        self.spawn_events.start()
+        self.clear_pauses.start()
+
+    def cog_unload(self):
+        self.spawn_event.cancel()
+        self.clear_pauses.cancel()
+
+    @tasks.loop(seconds=30)
+    async def clear_pauses(self):
+        for uid in list(self.d.pause_econ):
+            if (arrow.utcnow() - self.d.pause_econ[uid]).seconds > 30:
+                self.d.pause_econ.pop(uid)
 
     def engage_check(self, m, ctx):
         u = m.author
@@ -263,12 +274,12 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         except Exception as e:
             await self.events.debug_error(ctx, e)
 
+    @tasks.loop(seconds=.05)
     async def spawn_events(self):
-        while True:
-            await asyncio.sleep(.05)  # don't fucking remove this or else
-            for ctx in list(self.d.spawn_queue):
-                self.d.spawn_queue.pop(ctx)
-                self.bot.loop.create_task(self.spawn_event(ctx))  # ah yes eficeicncy
+        for ctx in list(self.d.spawn_queue):
+            self.d.spawn_queue.pop(ctx)
+            self.bot.loop.create_task(self.spawn_event(ctx))  # ah yes eficeicncy
+
 
 def setup(bot):
     bot.add_cog(Mobs(bot))
