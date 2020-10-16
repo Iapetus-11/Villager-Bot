@@ -19,17 +19,13 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         self.bot.loop.create_task(self.spawn_events())
 
-    def engage_check(self, m, ctx, u_db):
+    def engage_check(self, m, ctx):
         u = m.author
 
         if self.d.pause_econ.get(u.id):
             return False
 
         if m.content.lower() not in self.d.mobs_mech.valid_attacks:
-            return False
-
-        if u_db['health'] < 2:
-            self.bot.loop.create_task(ctx.send('You don\'t have enough health to fight this mob!'))
             return False
 
         return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache and u.id == ctx.author.id
@@ -71,14 +67,12 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             self.d.spawn_queue.pop(self.d.spawn_queue.index(ctx))
 
             if ctx.guild is None:
-
                 return
 
             db_guild = await self.db.fetch_guild(ctx.guild.id)
             diff = db_guild['difficulty']
 
             if diff == 'peaceful':
-
                 return
 
             # difficulty multiplier
@@ -101,18 +95,23 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             embed.set_image(url=mob.image)
 
-
             embed_msg = await ctx.send(embed=embed)
 
-            u_db = await self.db.fetch_user(u.id)
+            while True:
+                try:
+                    drop_announce = await self.bot.wait_for('message', check=(lambda m: self.engage_check(m, ctx, u_db)), timeout=15)
+                except asyncio.TimeoutError:
+                    await drop_announce.edit(suppress=True)
+                    return
 
-            try:
-                drop_announce = await self.bot.wait_for('message', check=(lambda m: self.engage_check(m, ctx, u_db)), timeout=15)
-            except asyncio.TimeoutError:
-                await drop_announce.edit(suppress=True)
-                return
+                u = drop_announce.author
+                u_db = await self.db.fetch_user(u.id)
 
-            u = drop_announce.author
+                if u_db['health'] < 2:
+                    await self.bot.send(ctx, ctx.l.mobs_mech.no_health)
+                else:
+                    break
+
             u_sword = await self.db.fetch_sword(u.id)
 
             self.d.pause_econ[u.id] = arrow.utcnow()  # used later on to clear pause_econ based on who's been in there for tooo long
