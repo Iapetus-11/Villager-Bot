@@ -85,6 +85,11 @@ class Events(commands.Cog):
                     elif 'reee' in m.content.lower():
                         await m.channel.send(random.choice(self.d.emojis.reees))
 
+    async def debug_error(self, ctx, e):
+        traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
+        final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'.replace('``', '\`\`\`')
+        await self.bot.send(self.bot.get_channel(self.d.error_channel_id), f'```{final[:1023 - 6]}```')
+
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
         # errors to ignore
@@ -126,9 +131,7 @@ class Events(commands.Cog):
         elif ctx.__dict__.get('custom_err') == 'bot_banned':
             pass
         else:
-            traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
-            final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'.replace('``', '\`\`\`')
-            await self.bot.send(self.bot.get_channel(self.d.error_channel_id), f'```{final[:1023 - 6]}```')
+            await self.debug_error(ctx, e)
 
 
 def setup(bot):
