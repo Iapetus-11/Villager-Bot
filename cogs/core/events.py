@@ -130,6 +130,8 @@ class Events(commands.Cog):
             await self.bot.send(ctx, ctx.l.misc.errors.not_ready)
         elif ctx.__dict__.get('custom_err') == 'bot_banned':
             pass
+        elif ctx.__dict__.get('custom_err') == 'econ_paused':
+            await self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy)
         else:
             await self.debug_error(ctx, e)
 
