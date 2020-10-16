@@ -7,3 +7,4 @@ asyncpg
 classy-json
 bs4
 opencv-python
+numpy
