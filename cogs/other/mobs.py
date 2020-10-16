@@ -17,7 +17,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         self.make_stat_bar = self.bot.get_cog('Econ').make_stat_bar
 
-    def engage_check(self, m, ctx):
+    async def engage_check(self, m, ctx):
         u = m.author
 
         if self.d.pause_econ.get(u.id):
@@ -100,7 +100,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         embed_msg = await ctx.send(embed=embed)
 
         try:
-            drop_announce = await self.bot.wait_for('message', check=(lambda m: self.engage_check(m, ctx)), timeout=15)
+            drop_announce = await self.bot.wait_for('message', check=(lambda m: await self.engage_check(m, ctx)), timeout=15)
         except asyncio.TimeoutError:
             await drop_announce.edit(suppress=True)
             return
