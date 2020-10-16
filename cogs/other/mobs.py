@@ -73,7 +73,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         db_guild = await self.d.fetch_guild(ctx.guild.id)
         diff = db_guild['difficulty']
 
-        if diff == 'easy':
+        if diff == 'peaceful':
             return
 
         # difficulty multiplier
