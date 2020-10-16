@@ -169,7 +169,7 @@ async def global_check(ctx):
     if random.randint(0, 30) == 1:  # spawn mob
         if ctx.command.cog.__cog_name__ == 'Econ':  # make sure it's an econ command
             if ctx.command._buckets._cooldown != None:  # if command has a cooldown on it
-                bot.d.spawn_queue.append(ctx)
+                bot.d.spawn_queue[ctx] = arrow.utcnow()
 
     return True
 
