@@ -166,7 +166,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             mob.health -= u_dmg
 
-            if mob_key == 'baby_slime' and m_dmg = 0:
+            if mob_key == 'baby_slime' and m_dmg == 0:
                 await self.bot.send(ctx, random.choice(mob.misses).format(u_sword))
             else:
                 await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice, u_sword))  # user attack message
