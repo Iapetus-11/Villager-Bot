@@ -65,6 +65,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         return math.ceil(dmg)
 
     async def spawn_event(self, ctx):
+        print('in function')
         self.d.spawn_queue.pop(self.d.spawn_queue.index(ctx))
 
         if ctx.guild is None:
