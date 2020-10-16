@@ -29,6 +29,7 @@
       }
     },
     "mobs_mech": {
+      "no_health": "You don't have enough health to fight this mob.",
       "flee_insults": [
         "Fine, run away like a little baby",
         "Fine, run to mommy like a little baby",
