@@ -120,6 +120,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 else:
                     break
 
+            await embed_msg.edit(suppress=True)
+
             u_sword = await self.db.fetch_sword(u.id)
 
             self.d.pause_econ[u.id] = arrow.utcnow()  # used later on to clear pause_econ based on who's been in there for tooo long
