@@ -177,15 +177,15 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 mob.health -= u_dmg
 
-                if mob_key == 'baby_slime' and m_dmg == 0:
-                    await self.bot.send(ctx, random.choice(mob.misses).format(u_sword))
-                else:
-                    await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice, u_sword))  # user attack message
-
                 if mob.health < 1:  # user wins
                     self.d.pause_econ.pop(u.id)
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice, u_sword))
                     break
+                else:
+                    if mob_key == 'baby_slime' and m_dmg == 0:
+                        await self.bot.send(ctx, random.choice(mob.misses).format(u_sword))
+                    else:
+                        await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice, u_sword))  # user attack message
 
                 await asyncio.sleep(1)
 
@@ -201,12 +201,12 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 u_health -= m_dmg
 
-                await self.bot.send(ctx, random.choice(mob.attacks))
-
                 if u_health < 1:  # mob wins
                     self.d.pause_econ.pop(u.id)
                     await self.bot.send(ctx, random.choice(mob.finishers))
                     break
+                else:
+                    await self.bot.send(ctx, random.choice(mob.attacks))
 
                 await asyncio.sleep(1.75)
 
