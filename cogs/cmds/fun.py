@@ -282,6 +282,10 @@ class Fun(commands.Cog):
 
         await self.bot.send(ctx, random.choice(self.d.kills).format(thing, ctx.author.mention))
 
+    @commands.command(name='coinflip', aliases=['flipcoin'])
+    async def coin_flip(self, ctx):
+        await self.bot.send(random.choice(('heads', 'tails')))
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
