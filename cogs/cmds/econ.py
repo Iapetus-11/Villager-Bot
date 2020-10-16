@@ -800,7 +800,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, pot, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
-            self.d.chuggers[ctx.author.id].append(pot)
+            self.d.chuggers[ctx.author.id].append('Haste I Potion')
 
             await self.bot.send(ctx, ctx.l.econ.chug.chug.format('Haste I Potion', 6))
 
@@ -815,7 +815,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, pot, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
-            self.d.chuggers[ctx.author.id].append(pot)
+            self.d.chuggers[ctx.author.id].append('Haste II Potion')
 
             await self.bot.send(ctx, ctx.l.econ.chug.chug.format('Haste II Potion', 4.5))
 
