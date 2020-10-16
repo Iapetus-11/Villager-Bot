@@ -190,6 +190,14 @@
       "kil",
       "atack"
     ],
+    "valid_flees": [
+      "flee",
+      "run",
+      "iamababy",
+      "run away",
+      "i am a baby",
+      "mommy"
+    ],
     "mobs": {
       "zombie": {
         "nice": "Zombie",
