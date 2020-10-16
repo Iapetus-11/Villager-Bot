@@ -121,7 +121,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             iteration = 0
 
-            while u_health > 0 and mob.health > 0:
+            while True:
                 iteration += 1
 
                 embed = discord.Embed(color=self.d.cc, title='Do you want to `attack` or `flee`?')
