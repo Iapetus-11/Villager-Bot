@@ -40,6 +40,16 @@ class Owner(commands.Cog):
     async def await_eval_stuff(self, ctx, *, stuff):
         await ctx.send(f'```{await eval(stuff)}```')
 
+    @commands.command(name='gitpull')
+    @commands.is_owner()
+    async def gitpull(self, ctx):
+        os.system('git pull > git_pull_log 2>&1')
+
+        with open('git_pull_log', 'r') as f:
+            await self.bot.send(ctx, f'```diff\n{f.read()}\n```')
+
+        os.remove('git_pull_log')
+
     @commands.command(name='botban')
     @commands.is_owner()
     async def botban_user(self, ctx, users: commands.Greedy[discord.User]):
