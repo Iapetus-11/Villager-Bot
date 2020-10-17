@@ -52,8 +52,8 @@ intents.typing = False
 bot = commands.AutoShardedBot(  # setup bot
     command_prefix=get_prefix,
     case_insensitive=True,
-    intents=intents
-    #help_command=None
+    intents=intents,
+    help_command=None
 )
 
 bot.logger = logger
