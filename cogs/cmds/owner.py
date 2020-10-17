@@ -84,10 +84,13 @@ class Owner(commands.Cog):
         if isinstance(obj, dict):
             for k, v in new.items():
                 obj[k] = self.recursive_update(obj[k], v)
+                print(obj[k])
         elif isinstance(obj, list):
             for i, v in enumerate(new):
                 obj[i] = self.recursive_update(obj[i], v)
+                print(obj[i])
         else:
+            print(new)
             return new
 
     @commands.command(name='update')
