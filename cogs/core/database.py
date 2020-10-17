@@ -173,10 +173,7 @@ class Database(commands.Cog):
 
         if lbs is None:
             async with self.db.acquire() as con:
-                await con.execute(
-                    'INSERT INTO leaderboards VALUES ($1, $2, $3, $4, $5, $6)',
-                    uid, 0, 0, 0, 0, 0
-                )
+                await con.execute('INSERT INTO leaderboards VALUES ($1, $2, $3)', uid, 0, 0)
 
     async def update_lb(self, uid, lb, value, mode='add'):
         prev = await self.fetch_user_lb(uid)
