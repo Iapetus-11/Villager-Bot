@@ -83,10 +83,10 @@ class Owner(commands.Cog):
     def recursive_update(self, obj, new):
         if isinstance(obj, dict):
             for k, v in new.items():
-                obj[k] = recursive_update(obj[k], v)
+                obj[k] = self.recursive_update(obj[k], v)
         elif isinstance(obj, list):
             for i, v in enumerate(new):
-                obj[i] = recursive_update(obj[i], v)
+                obj[i] = self.recursive_update(obj[i], v)
         else:
             return new
 
@@ -95,7 +95,7 @@ class Owner(commands.Cog):
     async def update(self, ctx, thing):
         if thing.lower() == 'data':
             with open('data/data.json', 'r', encoding='utf8') as d:
-                recursive_update(self.d, cj.load(d))
+                self.recursive_update(self.d, cj.load(d))
         elif thing.lower() == 'text':
             with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
                 self.bot.langs.update(cj.load(d))
