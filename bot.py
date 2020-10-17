@@ -14,11 +14,11 @@ logging.getLogger('asyncio').setLevel(logging.CRITICAL)  # hide annoying asyncio
 logger = logging.getLogger('main')
 
 logger.info('loading private keys...')
-with open("data/keys.json", "r") as k:  # load bot keys
+with open('data/keys.json', 'r') as k:  # load bot keys
     keys = cj.load(k)
 
 logger.info('loading config...')
-with open("data/config.json", "r") as c:  # load config
+with open('data/config.json', 'r') as c:  # load config
     config = cj.load(c)
 
 
