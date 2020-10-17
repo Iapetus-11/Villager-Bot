@@ -92,7 +92,7 @@ class Owner(commands.Cog):
                 for k, v in cj.load(d).items():  # for some reason .update() doesn't work here
                     self.bot.langs[k] = v
         else:
-            await self.bot.send('Invalid, options are "data" or "text"')
+            await self.bot.send(ctx, 'Invalid, options are "data" or "text"')
             return
 
         await ctx.message.add_reaction(self.d.emojis.yes)
