@@ -93,6 +93,20 @@ class Useful(commands.Cog):
         embed.set_author(name='Villager Bot Commands [Utility]', icon_url=self.d.splash_logo)
         embed.set_footer(text='Made by Iapetus11#6821')
 
+        p = ctx.prefix
+
+        embed.description = f'`{p}help` *view helpful information about Villager Bot*\n\n' \
+                            f'`{p}config` *configure / setup the bot to your liking*\n\n' \
+                            f'`{p}ping` *view the latency between Discord and Villager Bot*\n\n' \
+                            f'`{p}server` *view information about the current server*\n\n' \
+                            f'`{p}links` *view useful links relating to Villager Bot*\n\n' \
+                            f'`{p}vote` *earn emeralds from voting for Villager Bot on certain websites*\n\n' \
+                            f'`{p}info` *view information about Villager Bot*\n\n' \
+                            f'`{p}stats` *view statistics about Villager Bot*\n\n' \
+                            f'`{p}uptime` *view how long the bot has been online*\n\n'
+
+        await ctx.send(embed=embed)
+
     @help.command(name='fun')
     async def help_fun(self, ctx):
         pass
