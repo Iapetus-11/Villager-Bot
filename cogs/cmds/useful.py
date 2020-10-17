@@ -75,7 +75,7 @@ class Useful(commands.Cog):
 
         p = ctx.prefix
 
-        embed.description = f'`{p}mcstatus <server>` *checks the status of any type of Minecraft server*\n\n' \
+        embed.description = f'`{p}mcstatus [optional: server]` *checks the status of any type of Minecraft server*\n\n' \
                             f'`{p}randommc` *shows a random Minecraft server if you want a new place to explore*\n\n' \
                             f'`{p}mcimage` *turns whatever image you upload into Minecraft blocks / pixel art*\n\n' \
                             f'`{p}stealskin <username>` *fetches the skin of a Minecraft Java Edition player*\n\n' \
