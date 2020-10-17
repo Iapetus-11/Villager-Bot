@@ -1,4 +1,5 @@
 from discord.ext import commands, tasks
+from util.misc import make_stat_bar
 import classyjson as cj
 import asyncio
 import discord
@@ -14,8 +15,6 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         self.db = self.bot.get_cog('Database')
         self.events = self.bot.get_cog('Events')
-
-        self.make_stat_bar = self.bot.get_cog('Econ').make_stat_bar
 
         self.spawn_events.start()
         self.clear_pauses.start()
@@ -139,13 +138,13 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 embed.add_field(  # user health bar
                     name=f'**{u.display_name}**',
-                    value=(await self.make_stat_bar(u_health, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)),
+                    value=(make_stat_bar(u_health, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)),
                     inline=False
                 )
 
                 embed.add_field(  # mob health bar
                     name=f'**{mob.nice}**',
-                    value=(await self.make_stat_bar(
+                    value=(make_stat_bar(
                         mob.health, mob_max_health,
                         mob_max_health/2,
                         self.d.emojis.heart_full,
@@ -237,13 +236,13 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             embed.add_field(  # user health bar
                 name=f'**{u.display_name}**',
-                value=(await self.make_stat_bar(u_health, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)),
+                value=(make_stat_bar(u_health, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)),
                 inline=False
             )
 
             embed.add_field(  # mob health bar
                 name=f'**{mob.nice}**',
-                value=(await self.make_stat_bar(
+                value=(make_stat_bar(
                     mob.health, mob_max_health,
                     mob_max_health/2,
                     self.d.emojis.heart_full,

@@ -1,3 +1,4 @@
+from util.misc import recursive_update
 from discord.ext import commands
 import classyjson as cj
 import discord
@@ -80,24 +81,12 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    def recursive_update(self, obj, new):  # hOlY FUCKING SHIT this is so big brained I AM A GOD
-        if isinstance(obj, dict):
-            for k, v in new.items():
-                obj[k] = self.recursive_update(obj[k], v)
-        elif isinstance(obj, list):
-            for i, v in enumerate(new):
-                obj[i] = self.recursive_update(obj[i], v)
-        else:
-            return new
-
-        return obj
-
     @commands.command(name='update')
     @commands.is_owner()
     async def update(self, ctx, thing):
         if thing.lower() == 'data':
             with open('data/data.json', 'r', encoding='utf8') as d:
-                self.d = self.recursive_update(self.d, cj.load(d))
+                self.d = recursive_update(self.d, cj.load(d))
         elif thing.lower() == 'text':
             with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
                 self.bot.langs.update(cj.load(d))

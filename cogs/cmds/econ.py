@@ -1,4 +1,5 @@
 from discord.ext import commands, tasks
+from util.misc import make_stat_bar
 import discord
 import asyncio
 import aiohttp
@@ -65,10 +66,6 @@ class Econ(commands.Cog):
 
         return True
 
-    async def make_stat_bar(self, value, max, slots, full, empty):  # Slots should be 10 cause 10 hearts / 2 idk bro I just bsed this function lmao
-        occupado = math.floor((value / max) * slots)
-        return (full * occupado) + empty * math.floor(slots - occupado)
-
     @commands.command(name='profile', aliases=['pp'])
     async def profile(self, ctx, user: discord.User = None):
         if user is None:
@@ -85,7 +82,7 @@ class Econ(commands.Cog):
         u_items = await self.db.fetch_items(user.id)
 
         total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] * u_it['amount'] for u_it in u_items])
-        health_bar = await self.make_stat_bar(db_user['health'], 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)
+        health_bar = make_stat_bar(db_user['health'], 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)
 
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
