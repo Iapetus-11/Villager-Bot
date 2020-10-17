@@ -40,7 +40,9 @@ class Useful(commands.Cog):
     @help.command(name='economy', aliases=['econ'])
     async def help_economy(self, ctx):
         embed = discord.Embed(color=self.d.cc)
+
         embed.set_author(name='Villager Bot Commands [Economy]', icon_url=self.d.splash_logo)
+        embed.set_footer(text='Made by Iapetus11#6821')
 
         p = ctx.prefix
 
@@ -66,7 +68,23 @@ class Useful(commands.Cog):
 
     @help.command(name='minecraft', aliases=['mc'])
     async def help_minecraft(self, ctx):
-        pass
+        embed = discord.Embed(color=self.d.cc)
+
+        embed.set_author(name='Villager Bot Commands [Minecraft]', icon_url=self.d.splash_logo)
+        embed.set_footer(text='Made by Iapetus11#6821')
+
+        p = ctx.prefix
+
+        embed.description = f'`{p}mcstatus <server>` *checks the status of any type of Minecraft server*\n\n' \
+                            f'`{p}randommc` *shows a random Minecraft server if you want a new place to explore*\n\n' \
+                            f'`{p}mcimage` *turns whatever image you upload into Minecraft blocks / pixel art*\n\n' \
+                            f'`{p}stealskin <username>` *fetches the skin of a Minecraft Java Edition player*\n\n' \
+                            f'`{p}buildidea` *sends a random build idea for if you\'re bored and need inspiration*\n\n' \
+                            f'`{p}mccolors` *shows the Minecraft colors and how to use them in the ingame chat*\n\n' \
+                            f'`{p}nametouuid <username>` *turns a MC Java Edition username into a uuid*\n\n' \
+                            f'`{p}uuidtoname <uuid>` *turns a MC Java Edition uuid into a username\n\n'
+
+        await ctx.send(embed=embed)
 
     @help.command(name='utility', aliases=['util', 'useful'])
     async def help_utility(self, ctx):
