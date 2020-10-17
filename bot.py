@@ -1,4 +1,5 @@
-if __import__('os').name == 'nt': import colorama; colorama.init()
+if __import__('os').name == 'nt':
+    import colorama; colorama.init()
 from discord.ext import commands
 import classyjson as cj
 import asyncio
