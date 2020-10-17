@@ -80,17 +80,25 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
+    def recursive_update(self, obj, new):
+        if isinstance(obj, dict):
+            for k, v in new.items():
+                obj[k] = recursive_update(obj[k], v)
+        elif isinstance(obj, list):
+            for i, v in enumerate(new):
+                obj[i] = recursive_update(obj[i], v)
+        else:
+            return new
+
     @commands.command(name='update')
     @commands.is_owner()
     async def update(self, ctx, thing):
         if thing.lower() == 'data':
             with open('data/data.json', 'r', encoding='utf8') as d:
-                for k, v in cj.load(d).items():  # for some reason .update() doesn't work here
-                    self.d[k] = v
+                recursive_update(self.d, cj.load(d))
         elif thing.lower() == 'text':
-            with open('data/text.json', 'r', encoding='utf8') as t:
-                for k, v in cj.load(d).items():  # for some reason .update() doesn't work here
-                    self.bot.langs[k] = v
+            with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
+                self.bot.langs.update(cj.load(d))
         else:
             await self.bot.send(ctx, 'Invalid, options are "data" or "text"')
             return
