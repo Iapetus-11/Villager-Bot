@@ -10,7 +10,7 @@ import random
 import arrow
 
 # set up basic logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(name)s: %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s: %(message)s')
 logging.getLogger('asyncio').setLevel(logging.WARNING)  # hide annoying asyncio info
 logging.getLogger('discord.gateway').setLevel(logging.WARNING)  # hide annoying gateway info
 logger = logging.getLogger('main')
