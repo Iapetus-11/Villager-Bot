@@ -15,16 +15,19 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def load_cog(self, ctx, cog):
         self.bot.load_extension(f'cogs.{cog}')
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name='unload')
     @commands.is_owner()
     async def unload_cog(self, ctx, cog):
         self.bot.unload_extension(f'cogs.{cog}')
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name='reload')
     @commands.is_owner()
     async def reload_cog(self, ctx, cog):
         self.bot.reload_extension(f'cogs.{cog}')
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name='eval')
     @commands.is_owner()
