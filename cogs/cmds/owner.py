@@ -1,5 +1,6 @@
 from discord.ext import commands
 import discord
+import os
 
 
 class Owner(commands.Cog):
