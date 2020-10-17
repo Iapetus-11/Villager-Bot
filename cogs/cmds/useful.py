@@ -12,6 +12,13 @@ class Useful(commands.Cog):
 
     @commands.group(name='help')
     async def help(self, ctx):
+        stripped = ctx.message.content.replace(f'{ctx.prefix}help', '')
+
+        if len(stripped) > 0:
+            if stripped in [cmd.name for cmd in self.bot.commands]:
+                # this is for individual help commands
+                return
+
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(color=self.d.cc)
             embed.set_author(name='Villager Bot Commands', icon_url=self.d.splash_logo)
