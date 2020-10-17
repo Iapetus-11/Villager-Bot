@@ -82,7 +82,7 @@ class Useful(commands.Cog):
                             f'`{p}buildidea` *sends a random build idea for if you\'re bored and need inspiration*\n\n' \
                             f'`{p}mccolors` *shows the Minecraft colors and how to use them in the ingame chat*\n\n' \
                             f'`{p}nametouuid <username>` *turns a MC Java Edition username into a uuid*\n\n' \
-                            f'`{p}uuidtoname <uuid>` *turns a MC Java Edition uuid into a username\n\n'
+                            f'`{p}uuidtoname <uuid>` *turns a MC Java Edition uuid into a username*\n\n'
 
         await ctx.send(embed=embed)
 
