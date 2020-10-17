@@ -1,4 +1,5 @@
 from discord.ext import commands
+import classyjson as cj
 import discord
 import os
 
@@ -75,6 +76,21 @@ class Owner(commands.Cog):
 
         for user in users:
             await self.db.set_botbanned(user.id, False)
+
+        await ctx.message.add_reaction(self.d.emojis.yes)
+
+    @commands.command(name='update')
+    @commands.is_owner()
+    async def update(self, ctx, thing):
+        if thing.lower() == 'data':
+            with open('data/data.json', 'r') as d:
+                self.d.update(cj.load(d))
+        elif thing.lower() == 'text':
+            with open('data/text.json', 'r') as t:
+                bot.langs.update(cj.load(t))
+        else:
+            await self.bot.send('Invalid, options are "data" or "text"')
+            return
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
