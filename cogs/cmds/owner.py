@@ -85,10 +85,12 @@ class Owner(commands.Cog):
     async def update(self, ctx, thing):
         if thing.lower() == 'data':
             with open('data/data.json', 'r', encoding='utf8') as d:
-                self.d.update(cj.load(d))
+                for k, v in cj.load(d).items():  # for some reason .update() doesn't work here
+                    self.d[k] = v
         elif thing.lower() == 'text':
             with open('data/text.json', 'r', encoding='utf8') as t:
-                bot.langs.update(cj.load(t))
+                for k, v in cj.load(d).items():  # for some reason .update() doesn't work here
+                    self.bot.langs[k] = v
         else:
             await self.bot.send('Invalid, options are "data" or "text"')
             return
