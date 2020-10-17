@@ -80,7 +80,7 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    def recursive_update(self, obj, new):
+    def recursive_update(self, obj, new):  # hOlY FUCKING SHIT this is so big brained I AM A GOD
         if isinstance(obj, dict):
             for k, v in new.items():
                 obj[k] = self.recursive_update(obj[k], v)
