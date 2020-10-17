@@ -88,7 +88,10 @@ class Useful(commands.Cog):
 
     @help.command(name='utility', aliases=['util', 'useful'])
     async def help_utility(self, ctx):
-        pass
+        embed = discord.Embed(color=self.d.cc)
+
+        embed.set_author(name='Villager Bot Commands [Utility]', icon_url=self.d.splash_logo)
+        embed.set_footer(text='Made by Iapetus11#6821')
 
     @help.command(name='fun')
     async def help_fun(self, ctx):
