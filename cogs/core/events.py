@@ -20,7 +20,7 @@ class Events(commands.Cog):
         self.d.lang_cache = await self.db.fetch_all_guild_langs()
         self.d.prefix_cache = await self.db.fetch_all_guild_prefixes()
 
-        self.bot.logger.info(f'\u001b[36;1m CONNECTED\u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]')
+        self.bot.logger.info(f'\u001b[36;1mCONNECTED\u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]')
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
