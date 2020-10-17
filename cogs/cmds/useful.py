@@ -97,19 +97,44 @@ class Useful(commands.Cog):
 
         embed.description = f'`{p}help` *view helpful information about Villager Bot*\n\n' \
                             f'`{p}config` *configure / setup the bot to your liking*\n\n' \
-                            f'`{p}ping` *view the latency between Discord and Villager Bot*\n\n' \
+                            f'`{p}ping` *shows the latency between Discord and Villager Bot*\n\n' \
                             f'`{p}server` *view information about the current server*\n\n' \
                             f'`{p}links` *view useful links relating to Villager Bot*\n\n' \
                             f'`{p}vote` *earn emeralds from voting for Villager Bot on certain websites*\n\n' \
                             f'`{p}info` *view information about Villager Bot*\n\n' \
-                            f'`{p}stats` *view statistics about Villager Bot*\n\n' \
+                            f'`{p}stats` *shows statistics about Villager Bot*\n\n' \
                             f'`{p}uptime` *view how long the bot has been online*\n\n'
 
         await ctx.send(embed=embed)
 
     @help.command(name='fun')
     async def help_fun(self, ctx):
-        pass
+        embed = discord.Embed(color=self.d.cc)
+
+        embed.set_author(name='Villager Bot Commands [Utility]', icon_url=self.d.splash_logo)
+        embed.set_footer(text='Made by Iapetus11#6821')
+
+        p = ctx.prefix
+
+        embed.description = f'`{p}cursed` *sends a random cursed Minecraft image*\n\n' \
+                            f'`{p}meme` *sends a random meme from reddit*\n\n' \
+                            f'`{p}4chan` *shows a funny screenshot from 4chan*\n\n' \
+                            f'`{p}comic` *sends a random comic from r/comics on reddit*\n\n' \
+                            f'`{p}say <text>` *makes the bot say the text you put in*\n\n' \
+                            f'`{p}enchant <text>` *turns text into the Minecraft enchantment table language*\n\n' \
+                            f'`{p}unenchant <text>` *turns the enchantment table language back into text*\n\n' \
+                            f'`{p}villagerspeak <text>` *turns text into villager sounds*\n\n' \
+                            f'`{p}clap <text>` *:clap: puts :clap: the :clap: emoji :clap: between :clap: text*\n\n' \
+                            f'`{p}emojify <text>` *:regional_indicator_t: :regional_indicator_u: :regional_indicator_r: :regional_indicator_n: :regional_indicator_s: ﻿ ﻿ ﻿  :regional_indicator_t: :regional_indicator_e: :regional_indicator_x: :regional_indicator_t: ﻿ ﻿ ﻿  :regional_indicator_i: :regional_indicator_n: :regional_indicator_t: :regional_indicator_o: ﻿ ﻿ ﻿  :regional_indicator_e: :regional_indicator_m: :regional_indicator_o: :regional_indicator_j: :regional_indicator_i: :regional_indicator_s:\n\n' \
+                            f'`{p}sarcastic <text>` *turn text into the spongebob sarcastic text*\n\n' \
+                            f'`{p}owo <text>` *owofies the given text uwu*\n\n' \
+                            f'`{p}vaporwave <text>` *makes text into the vaporwave style*\n\n' \
+                            f'`{p}kill <user>` *fake kill another user*\n\n' \
+                            f'`{p}bubblewrap` *sends virtual bubblewrap for you to pop*\n\n' \
+                            f'`{p}coinflip` *flips a coin and says the result in the chat*\n\n'
+
+        await ctx.send(embed=embed)
+
 
     @help.command(name='administrator', aliases=['mod', 'moderation', 'administrative', 'admin'])
     async def help_administrative(self, ctx):
