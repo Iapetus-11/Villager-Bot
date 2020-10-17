@@ -39,7 +39,30 @@ class Useful(commands.Cog):
 
     @help.command(name='economy', aliases=['econ'])
     async def help_economy(self, ctx):
-        pass
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_author(name='Villager Bot Commands [Economy]', icon_url=self.d.splash_logo)
+
+        p = ctx.prefix
+
+        embed.description = f'`{p}profile [optional: user]` *shows the profile of you or the specified user*\n\n' \
+                            f'`{p}balance [optional: user]` *shows the balance of you or the specified user*\n\n' \
+                            f'`{p}inventory [optional: user]` *shows the inventory of you or the specified user*\n\n' \
+                            f'`{p}deposit <emerald blocks>` *deposit emeralds into the vault*\n\n' \
+                            f'`{p}withdraw <emerald blocks>` *withdraw emeralds from the vault*\n\n' \
+                            f'`{p}give <user> <amount> <item>` *give another user an item or emeralds*\n\n' \
+                            f'`{p}mine` *mine for emeralds*\n\n' \
+                            f'`{p}beg` *beg for emeralds*\n\n' \
+                            f'`{p}honey` *harvest honey from the bees you own*\n\n' \
+                            f'`{p}gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*\n\n' \
+                            f'`{p}pillage <user>` *pillage emeralds from another user*\n\n' \
+                            f'`{p}chug <potion>` *use the specified potion*\n\n' \
+                            f'`{p}shop` *shows the Villager Shop*\n\n' \
+                            f'`{p}buy [optional: amount of item] <item>` *buy an item from the Villager Shop*\n\n' \
+                            f'`{p}sell <amount> <item>` *sell items back to Villager Bot*\n\n' \
+                            f'`{p}leaderboards` *shows the leaderboards*\n\n'
+
+        await ctx.send(embed=embed)
+
 
     @help.command(name='minecraft', aliases=['mc'])
     async def help_minecraft(self, ctx):
