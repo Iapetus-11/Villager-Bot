@@ -763,8 +763,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald))
 
-            await self.db.update_lb(ctx.author.id, 'pillages', 1, 'add')
-            await self.db.update_lb(ctx.author.id, 'pillages_amount', adjusted, 'add')
+            await self.db.update_lb(ctx.author.id, 'pillages', adjusted, 'add')
         else:
             penalty = 32
 
