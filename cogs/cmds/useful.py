@@ -125,7 +125,7 @@ class Useful(commands.Cog):
                             f'`{p}unenchant <text>` *turns the enchantment table language back into text*\n\n' \
                             f'`{p}villagerspeak <text>` *turns text into villager sounds*\n\n' \
                             f'`{p}clap <text>` *:clap: puts :clap: the :clap: emoji :clap: between :clap: text*\n\n' \
-                            f'`{p}emojify <text>` *:regional_indicator_t::regional_indicator_u::regional_indicator_r::regional_indicator_n::regional_indicator_s: ﻿ ﻿ ﻿  :regional_indicator_t::regional_indicator_e::regional_indicator_x::regional_indicator_t: ﻿ ﻿ ﻿  :regional_indicator_i::regional_indicator_n::regional_indicator_t::regional_indicator_o: ﻿ ﻿ ﻿  :regional_indicator_e::regional_indicator_m::regional_indicator_o::regional_indicator_j::regional_indicator_i: :regional_indicator_s:*\n\n' \
+                            f'`{p}emojify <text>` *:regional_indicator_t::regional_indicator_u::regional_indicator_r::regional_indicator_n::regional_indicator_s: ﻿ ﻿ ﻿:regional_indicator_t::regional_indicator_e::regional_indicator_x::regional_indicator_t: ﻿ ﻿ ﻿:regional_indicator_i::regional_indicator_n::regional_indicator_t::regional_indicator_o: ﻿ ﻿ ﻿:regional_indicator_e::regional_indicator_m::regional_indicator_o::regional_indicator_j::regional_indicator_i::regional_indicator_s:*\n\n' \
                             f'`{p}sarcastic <text>` *turn text into the spongebob sarcastic text*\n\n' \
                             f'`{p}owo <text>` *owofies the given text uwu*\n\n' \
                             f'`{p}vaporwave <text>` *makes text into the vaporwave style*\n\n' \
