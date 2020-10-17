@@ -111,7 +111,7 @@ class Useful(commands.Cog):
     async def help_fun(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name='Villager Bot Commands [Utility]', icon_url=self.d.splash_logo)
+        embed.set_author(name='Villager Bot Commands [Fun]', icon_url=self.d.splash_logo)
         embed.set_footer(text='Made by Iapetus11#6821')
 
         p = ctx.prefix
@@ -138,7 +138,22 @@ class Useful(commands.Cog):
 
     @help.command(name='administrator', aliases=['mod', 'moderation', 'administrative', 'admin'])
     async def help_administrative(self, ctx):
-        pass
+        embed = discord.Embed(color=self.d.cc)
+
+        embed.set_author(name='Villager Bot Commands [Admin]', icon_url=self.d.splash_logo)
+        embed.set_footer(text='Made by Iapetus11#6821')
+
+        p = ctx.prefix
+
+        embed.description = f'`{p}warn <user> <reason>` *warn a user for a specified reason*\n\n' \
+                            f'`{p}warns <user>` *view the warns a user has, leave blank to see your warnings*\n\n' \
+                            f'`{p}purge [optional: user] <amount>` *purge messages from the current channel*\n\n' \
+                            f'`{p}delwarns <user>` *clears the warns that user has in this server*\n\n' \
+                            f'`{p}kick <user>` *kicks the user from the current Discord server*\n\n' \
+                            f'`{p}ban <user>` *bans the user from the current Discord server*\n\n' \
+                            f'`{p}pardon <user>` *unban the user from the current Discord server*\n\n' \
+
+        await ctx.send(embed=embed)
 
     @commands.command(name='ping', aliases=['pong', 'ding', 'dong', 'shing', 'shling', 'schlong'])
     async def ping_pong(self, ctx):
