@@ -20,7 +20,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         self.clear_pauses.start()
 
     def cog_unload(self):
-        self.spawn_event.cancel()
+        self.spawn_events.cancel()
         self.clear_pauses.cancel()
 
     @tasks.loop(seconds=30)
