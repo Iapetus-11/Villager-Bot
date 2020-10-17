@@ -111,7 +111,7 @@ class Useful(commands.Cog):
     async def help_fun(self, ctx):
         pass
 
-    @help.command(name='administrator', aliases=['mod', 'moderation', 'administrative'])
+    @help.command(name='administrator', aliases=['mod', 'moderation', 'administrative', 'admin'])
     async def help_administrative(self, ctx):
         pass
 
