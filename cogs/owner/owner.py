@@ -450,7 +450,7 @@ class Owner(commands.Cog):
 
         await ctx.send(f"{fixed} vaults were fixed.")
 
-    @commands.command(name='dumpdb')
+    @commands.command(name='dumpdb', aliases=['dbdump'])
     @commands.is_owner()
     async def dump_db(self, ctx):
         await ctx.send('dumping db to db.json...')
@@ -460,10 +460,12 @@ class Owner(commands.Cog):
         data = {}
 
         for table in tables:
-            data[table["tablename"]] = await self.db.db.fetch(f'SELECT * FROM {table["tablename"]}')
+            data[table["tablename"]] = [dict(item) for item in await self.db.db.fetch(f'SELECT * FROM {table["tablename"]}')]
 
         with open('db.json', 'w+') as f:
             f.write(json.dumps(data))
+
+        await ctx.send('done')
 
 
 def setup(bot):
