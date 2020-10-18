@@ -108,7 +108,10 @@ class Useful(commands.Cog):
                             f'`{p}vote` *earn emeralds from voting for Villager Bot on certain websites*\n\n' \
                             f'`{p}info` *view information about Villager Bot*\n\n' \
                             f'`{p}stats` *shows statistics about Villager Bot*\n\n' \
-                            f'`{p}uptime` *view how long the bot has been online*\n\n'
+                            f'`{p}uptime` *view how long the bot has been online*\n\n' \
+                            f'`{p}google <search>` *searches on google for your query*\n\n' \
+                            f'`{p}youtube <search>` *searches on youtube for your query*\n\n' \
+                            f'`{p}image <search>` *searches google images for your query*\n\n'
 
         await ctx.send(embed=embed)
 
