@@ -450,13 +450,20 @@ class Owner(commands.Cog):
 
         await ctx.send(f"{fixed} vaults were fixed.")
 
-    @commands.command(name='dump_db')
+    @commands.command(name='dumpdb')
     @commands.is_owner()
     async def dump_db(self, ctx):
         await ctx.send('dumping db to db.json...')
 
-        with open('bruh.txt', 'w+') as f:
-            f.write(str(await self.db.db.fetch("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';")))
+        tables = await self.db.db.fetch("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';")
+
+        data = {}
+
+        for table in tables:
+            data[table["tablename"]] = await self.db.db.fetch(f'SELECT * FROM {table["tablename"]}')
+
+        with open('db.json', 'w+') as f:
+            f.write(json.dumps(data))
 
 
 def setup(bot):
