@@ -94,7 +94,7 @@
         "`{0}sarcastic <text>` *turn text into the spongebob sarcastic text*\n\n",
         "`{0}owo <text>` *owofies the given text uwu*\n\n",
         "`{0}vaporwave <text>` *makes text into the vaporwave style*\n\n",
-        "`{0}kill <user>` *fake kill another user*\n\n",
+        "`{0}kill <user>` *brutally murder another user*\n\n",
         "`{0}bubblewrap` *sends virtual bubblewrap for you to pop*\n\n",
         "`{0}coinflip` *flips a coin and says the result in the chat*\n\n"
       ],
