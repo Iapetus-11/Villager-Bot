@@ -208,7 +208,6 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                             u_health = 0
 
                             await self.bot.send(ctx, random.choice(mob.finishers))
-
                             break
 
                     m_dmg = 0
@@ -253,6 +252,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             )
 
             await ctx.send(embed=embed)
+
+            await self.db.update_user(u.id, 'health', u_health)
 
             u_db = await self.db.fetch_user(u.id)
             u_bal = u_db['emeralds']
