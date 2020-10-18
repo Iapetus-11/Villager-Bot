@@ -26,19 +26,18 @@ class Useful(commands.Cog):
 
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(color=self.d.cc)
-            embed.set_author(name='Villager Bot Commands', icon_url=self.d.splash_logo)
-            embed.description = f'Need more help? Check out the [**Support Server**]({self.d.support})!\n' \
-                                f'Enjoying the bot? Vote for us on [**top.gg**]({self.d.topgg}) and earn emeralds!'
+            embed.set_author(name=ctx.l.help.n.title, icon_url=self.d.splash_logo)
+            embed.description = ctx.l.help.main.desc.format(self.d.support, self.d.topgg)
 
             p = ctx.prefix
 
-            embed.add_field(name='Economy', value=f'`{p}help econ`')
-            embed.add_field(name='Minecraft', value=f'`{p}help mc`')
-            embed.add_field(name='Utility', value=f'`{p}help util`')
+            embed.add_field(name=ctx.l.help.n.economy, value=f'`{p}help econ`')
+            embed.add_field(name=ctx.l.help.n.minecraft, value=f'`{p}help mc`')
+            embed.add_field(name=ctx.l.help.n.utility, value=f'`{p}help util`')
 
-            embed.add_field(name='Fun', value=f'`{p}help fun`')
-            embed.add_field(name='Admin', value=f'`{p}help admin`')
-            embed.add_field(name='Support', value=f'[**Click Me**]({self.d.support})')
+            embed.add_field(name=ctx.l.help.n.fun, value=f'`{p}help fun`')
+            embed.add_field(name=ctx.l.help.n.admin, value=f'`{p}help admin`')
+            embed.add_field(name=ctx.l.help.main.support, value=f'[**{ctx.l.help.main.clickme}**]({self.d.support})')
 
             await ctx.send(embed=embed)
 
