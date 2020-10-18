@@ -278,7 +278,7 @@ class Useful(commands.Cog):
 
             if len(line) > max_len: max_len = len(line)
 
-        embed.description = '```' + body.format('\uFEFF '*max_len).replace('`', '') + '```'
+        embed.description = '```' + body.format('\uFEFF '*(max_len+2)).replace('`', '') + '```'
 
         await ctx.send(embed=embed)
 
