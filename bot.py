@@ -112,6 +112,7 @@ bot.d.cc = discord.Color.green()  # embed color
 bot.d.vb_api_key = keys.vb_api_key
 bot.d.topgg_hooks_auth = keys.topgg_webhook
 bot.d.topgg_post_auth = keys.topgg
+bot.d.google_keys = keys.googl
 
 bot.d.votes_topgg = 0
 bot.d.cmd_count = 0
