@@ -266,7 +266,6 @@ class Useful(commands.Cog):
                 f'{ctx.l.useful.stats.uptime}: `{uptime_seconds}s`\n'
 
         body = ''
-        max_len = 0
         col_2_split = col_2.split('\n')
 
         for i, line in enumerate(col_1.split('\n')):
@@ -274,11 +273,9 @@ class Useful(commands.Cog):
             if i < len(col_2_split):
                 second = col_2_split[i]
 
-                if len(line) > max_len: max_len = len(line)
+            body += f'{line}{" "*(len(line)+4)}{second}\n'
 
-            body += f'{line}{"{0}"}{second}\n'
-
-        embed.description = '```py\n' + body.format(' '*(max_len+2)).replace('`', '') + '```'
+        embed.description = f'```py\n{body.replace("`", "")}```'
 
         await ctx.send(embed=embed)
 
