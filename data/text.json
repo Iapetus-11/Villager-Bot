@@ -380,6 +380,9 @@
         "cmd_prefix": "Prefix",
         "lang": "Language",
         "diff": "Difficulty"
+      },
+      "meth": {
+        "oops": "Oops, something went wrong..."
       }
     },
     "econ": {

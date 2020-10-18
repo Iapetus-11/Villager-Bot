@@ -1,4 +1,5 @@
 from discord.ext import commands
+import math_parser
 import discord
 import psutil
 import arrow
@@ -304,6 +305,13 @@ class Useful(commands.Cog):
         embed.set_thumbnail(url=guild.icon_url)
 
         await ctx.send(embed=embed)
+
+    @commands.command(name='math', aliases=['solve'])
+    async def math(self, ctx, *, problem):
+        try:
+            await self.bot.send(ctx, f'```{math_parser.parse(problem)}```')
+        except Exception:
+            await self.bot.send(ctx, ctx.l.useful.meth.oops)
 
 
 def setup(bot):
