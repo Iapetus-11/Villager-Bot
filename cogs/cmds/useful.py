@@ -1,5 +1,6 @@
 from discord.ext import commands
 import util.math
+import async_cse
 import discord
 import psutil
 import arrow
@@ -9,6 +10,8 @@ class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.d = self.bot.d
+
+        self.google_client = async_cse.Search(self.d.google_keys)
 
         self.db = self.bot.get_cog('Database')
 
@@ -306,12 +309,34 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name='math', aliases=['solve'])
+    @commands.command(name='math', aliases=['solve', 'meth'])
     async def math(self, ctx, *, problem):
         try:
             await self.bot.send(ctx, f'```{util.math.parse(problem)}```')
         except Exception:
             await self.bot.send(ctx, ctx.l.useful.meth.oops)
+
+    @commands.command(name='google', aliases=['search', 'thegoogle'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def google(self, ctx, *, query):
+        try:
+            with ctx.typing():
+                res = await self.google_client.search(query, safesearch=ctx.channel.is_nsfw())
+        except async_cse.search.NoResults:
+            await self.bot.send(ctx, 'No results found...')
+            return
+        except async_cse.search.APIError:
+            await self.bot.send(ctx, 'Oops, something went wrong...')
+            return
+
+        if len(res) == 0:
+            await self.bot.send(ctx, 'No results found...')
+            return
+
+        res = res[0]
+
+        embed = discord.Embed(color=self.d.cc, title=res.title, description=res.description, url=res.url)
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
