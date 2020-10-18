@@ -249,7 +249,9 @@ class Useful(commands.Cog):
         mem_usage = psutil.Process().memory_full_info().uss
 
         embed = discord.Embed(color=self.d.cc)
+        
         embed.set_author(name='Villager Bot Statistics', icon_url=self.d.splash_logo)
+        embed.set_footer(text='Made by Iapetus11#6821')
 
         col_1 = f'{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n' \
                 f'{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n' \
@@ -265,17 +267,8 @@ class Useful(commands.Cog):
                 f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
                 f'{ctx.l.useful.stats.uptime}: `{uptime_seconds}s`\n'
 
-        body = ''
-        col_2_split = col_2.split('\n')
-
-        for i, line in enumerate(col_1.split('\n')):
-            second = ''
-            if i < len(col_2_split):
-                second = col_2_split[i]
-
-            body += f'{line}{" "*(len(line)+4)}{second}\n'
-
-        embed.description = f'```py\n{body.replace("`", "")}```'
+        embed.add_field(name='\uFEFF', value=col_1+'\uFEFF')
+        embed.add_field(name='\uFEFF', value=col_2+'\uFEFF')
 
         await ctx.send(embed=embed)
 
