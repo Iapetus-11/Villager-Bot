@@ -22,6 +22,22 @@
         "nrn_buddy": "Hold on, you can't use that command right now!"
       }
     },
+    "help": {
+      "names": {
+        "economy": "Economy",
+        "minecraft": "Minecraft",
+        "utility": "Utility",
+        "fun": "Fun",
+        "admin": "Admin"
+      }
+      "main": {
+        "title": "Villager Bot Commands",
+        "desc": "Need more help? Check out the [**Support Server**]({})!\nEnjoying the bot? Vote for us on [**top.gg**]({}) and earn emeralds!",
+        "support": "Support",
+        "clickme": "Click Me"
+      },
+      ""
+    },
     "fun": {
       "too_long": "That message would be too long to convert.",
       "bubblewrap": {
