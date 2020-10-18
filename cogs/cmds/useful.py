@@ -1,5 +1,5 @@
 from discord.ext import commands
-import math_parser
+import util.math
 import discord
 import psutil
 import arrow
@@ -309,7 +309,7 @@ class Useful(commands.Cog):
     @commands.command(name='math', aliases=['solve'])
     async def math(self, ctx, *, problem):
         try:
-            await self.bot.send(ctx, f'```{math_parser.parse(problem)}```')
+            await self.bot.send(ctx, f'```{util.math.parse(problem)}```')
         except Exception:
             await self.bot.send(ctx, ctx.l.useful.meth.oops)
 
