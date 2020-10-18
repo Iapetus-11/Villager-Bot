@@ -56,14 +56,12 @@ class Events(commands.Cog):
             if m.guild is not None:
                 prefix = self.d.prefix_cache.get(m.guild.id, '/')
 
-            embed = discord.Embed(
-                color=self.d.cc,
-                description=f'The prefix for this server is `{prefix}` and the help command is `{prefix}help`\n'
-                            f'If you are in need of more help, you can join the **[Support Server]({self.d.support})**.'
-            )
+            lang = self.bot.get_lang(m)
+
+            embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
 
             embed.set_author(name='Villager Bot', icon_url=self.d.splash_logo)
-            embed.set_footer(text='Made by Iapetus11#6821')
+            embed.set_footer(text=lang.misc.petus)
 
             await m.channel.send(embed=embed)
             return
