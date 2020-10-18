@@ -35,7 +35,7 @@ class Fun(commands.Cog):
         cmd_len = len(f'{ctx.prefix}{ctx.invoked_with} ')
         return ctx.message.clean_content[cmd_len:]
 
-    @commands.command(name='meme')
+    @commands.command(name='meme', aliases=['meemee', 'meem', 'maymay', 'mehmeh'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def meme(self, ctx):
         """Sends a meme from reddit"""
