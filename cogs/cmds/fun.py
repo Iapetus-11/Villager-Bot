@@ -54,8 +54,8 @@ class Fun(commands.Cog):
                 )
                 meme = cj.classify(await resp.json())
 
-        embed = discord.Embed(color=self.d.cc, title=f'{meme.title} | {meme.upvotes}{self.d.emojis.updoot}', url=meme.permalink)
-        embed.set_footer(text=f'u/{meme.author}')
+        embed = discord.Embed(color=self.d.cc, title=f'{meme.title}', url=meme.permalink)
+        embed.set_footer(text=f'{meme.upvotes} | u/{meme.author}', icon_url=self.bot.get_emoji(self.d.emojis.updoot.split(':')[-1].replace('>', '')).url)
         embed.set_image(url=meme.url)
 
         await ctx.send(embed=embed)
