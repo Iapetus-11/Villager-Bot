@@ -273,10 +273,10 @@ class Useful(commands.Cog):
             second = ''
             if i < len(col_2_split):
                 second = col_2_split[i]
+                
+                if len(line) > max_len: max_len = len(line)
 
             body += f'{line}{"{0}"}{second}\n'
-
-            if len(line) > max_len: max_len = len(line)
 
         embed.description = '```' + body.format('\uFEFF '*(max_len+2)).replace('`', '') + '```'
 
