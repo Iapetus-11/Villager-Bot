@@ -3,6 +3,7 @@
     "lang": "en-us",
     "name": "English",
     "misc": {
+      "petus": "Made by Iapetus11#6821",
       "cooldown_msgs": [
         "Didn't your parents tell you that [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another **{}**.",
         "Hey, you need to wait another **{}** before doing that again.",
@@ -29,8 +30,7 @@
         "minecraft": "Minecraft",
         "utility": "Utility",
         "fun": "Fun",
-        "admin": "Admin",
-        "petus": "Made by Iapetus11#6821"
+        "admin": "Admin"
       },
       "main": {
         "desc": "Need more help? Check out the [**Support Server**]({})!\nEnjoying the bot? Vote for us on [**top.gg**]({}) and earn emeralds!",

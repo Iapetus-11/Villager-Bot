@@ -45,48 +45,21 @@ class Useful(commands.Cog):
     async def help_economy(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name='Villager Bot Commands [Economy]', icon_url=self.d.splash_logo)
-        embed.set_footer(text='Made by Iapetus11#6821')
+        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.economy}]', icon_url=self.d.splash_logo)
+        embed.set_footer(text=ctx.l.misc.petus)
 
-        p = ctx.prefix
-
-        embed.description = f'`{p}profile [optional: user]` *shows the profile of you or the specified user*\n\n' \
-                            f'`{p}balance [optional: user]` *shows the balance of you or the specified user*\n\n' \
-                            f'`{p}inventory [optional: user]` *shows the inventory of you or the specified user*\n\n' \
-                            f'`{p}deposit <emerald blocks>` *deposit emeralds into the vault*\n\n' \
-                            f'`{p}withdraw <emerald blocks>` *withdraw emeralds from the vault*\n\n' \
-                            f'`{p}give <user> <amount> <item>` *give another user an item or emeralds*\n\n' \
-                            f'`{p}mine` *mine for emeralds*\n\n' \
-                            f'`{p}beg` *beg for emeralds*\n\n' \
-                            f'`{p}honey` *harvest honey from the bees you own*\n\n' \
-                            f'`{p}gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*\n\n' \
-                            f'`{p}pillage <user>` *pillage emeralds from another user*\n\n' \
-                            f'`{p}chug <potion>` *use the specified potion*\n\n' \
-                            f'`{p}shop` *shows the Villager Shop*\n\n' \
-                            f'`{p}buy [optional: amount of item] <item>` *buy an item from the Villager Shop*\n\n' \
-                            f'`{p}sell <amount> <item>` *sell items back to Villager Bot*\n\n' \
-                            f'`{p}leaderboards` *shows the leaderboards*\n\n'
+        embed.description = ''.join(ctx.l.help.econ).format(ctx.prefix)
 
         await ctx.send(embed=embed)
-
 
     @help.command(name='minecraft', aliases=['mc'])
     async def help_minecraft(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name='Villager Bot Commands [Minecraft]', icon_url=self.d.splash_logo)
-        embed.set_footer(text='Made by Iapetus11#6821')
+        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]', icon_url=self.d.splash_logo)
+        embed.set_footer(text=ctx.l.misc.petus)
 
-        p = ctx.prefix
-
-        embed.description = f'`{p}mcstatus [optional: server]` *checks the status of any type of Minecraft server*\n\n' \
-                            f'`{p}randommc` *shows a random Minecraft server if you want a new place to explore*\n\n' \
-                            f'`{p}mcimage` *turns whatever image you upload into Minecraft blocks / pixel art*\n\n' \
-                            f'`{p}stealskin <username>` *fetches the skin of a Minecraft Java Edition player*\n\n' \
-                            f'`{p}buildidea` *sends a random build idea for if you\'re bored and need inspiration*\n\n' \
-                            f'`{p}mccolors` *shows the Minecraft colors and how to use them in the ingame chat*\n\n' \
-                            f'`{p}nametouuid <username>` *turns a MC Java Edition username into a uuid*\n\n' \
-                            f'`{p}uuidtoname <uuid>` *turns a MC Java Edition uuid into a username*\n\n'
+        embed.description = ''.join(ctx.l.help.mc).format(ctx.prefix)
 
         await ctx.send(embed=embed)
 
@@ -94,23 +67,12 @@ class Useful(commands.Cog):
     async def help_utility(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name='Villager Bot Commands [Utility]', icon_url=self.d.splash_logo)
-        embed.set_footer(text='Made by Iapetus11#6821')
+        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.utility}]', icon_url=self.d.splash_logo)
+        embed.set_footer(text=ctx.l.misc.petus)
 
         p = ctx.prefix
 
-        embed.description = f'`{p}help` *view helpful information about Villager Bot*\n\n' \
-                            f'`{p}config` *configure / setup the bot to your liking*\n\n' \
-                            f'`{p}ping` *shows the latency between Discord and Villager Bot*\n\n' \
-                            f'`{p}server` *view information about the current server*\n\n' \
-                            f'`{p}links` *view useful links relating to Villager Bot*\n\n' \
-                            f'`{p}vote` *earn emeralds from voting for Villager Bot on certain websites*\n\n' \
-                            f'`{p}info` *view information about Villager Bot*\n\n' \
-                            f'`{p}stats` *shows statistics about Villager Bot*\n\n' \
-                            f'`{p}uptime` *view how long the bot has been online*\n\n' \
-                            f'`{p}google <search>` *searches on google for your query*\n\n' \
-                            f'`{p}youtube <search>` *searches on youtube for your query*\n\n' \
-                            f'`{p}image <search>` *searches google images for your query*\n\n'
+        embed.description = ''.join(ctx.l.help.util).format(ctx.prefix)
 
         await ctx.send(embed=embed)
 
@@ -118,27 +80,12 @@ class Useful(commands.Cog):
     async def help_fun(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name='Villager Bot Commands [Fun]', icon_url=self.d.splash_logo)
-        embed.set_footer(text='Made by Iapetus11#6821')
+        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.fun}]', icon_url=self.d.splash_logo)
+        embed.set_footer(text=ctx.l.misc.petus)
 
         p = ctx.prefix
 
-        embed.description = f'`{p}cursed` *sends a random cursed Minecraft image*\n\n' \
-                            f'`{p}meme` *sends a random meme from reddit*\n\n' \
-                            f'`{p}4chan` *shows a funny screenshot from 4chan*\n\n' \
-                            f'`{p}comic` *sends a random comic from r/comics on reddit*\n\n' \
-                            f'`{p}say <text>` *makes the bot say the text you put in*\n\n' \
-                            f'`{p}enchant <text>` *turns text into the Minecraft enchantment table language*\n\n' \
-                            f'`{p}unenchant <text>` *turns the enchantment table language back into text*\n\n' \
-                            f'`{p}villagerspeak <text>` *turns text into villager sounds*\n\n' \
-                            f'`{p}clap <text>` *:clap: puts :clap: the :clap: emoji :clap: between :clap: text*\n\n' \
-                            f'`{p}emojify <text>` \uFEFF *:regional_indicator_t::regional_indicator_u::regional_indicator_r::regional_indicator_n::regional_indicator_s: ﻿ ﻿ ﻿:regional_indicator_t::regional_indicator_e::regional_indicator_x::regional_indicator_t: ﻿ ﻿ ﻿:regional_indicator_i::regional_indicator_n::regional_indicator_t::regional_indicator_o: ﻿ ﻿ ﻿:regional_indicator_e::regional_indicator_m::regional_indicator_o::regional_indicator_j::regional_indicator_i::regional_indicator_s:*\n\n' \
-                            f'`{p}sarcastic <text>` *turn text into the spongebob sarcastic text*\n\n' \
-                            f'`{p}owo <text>` *owofies the given text uwu*\n\n' \
-                            f'`{p}vaporwave <text>` *makes text into the vaporwave style*\n\n' \
-                            f'`{p}kill <user>` *fake kill another user*\n\n' \
-                            f'`{p}bubblewrap` *sends virtual bubblewrap for you to pop*\n\n' \
-                            f'`{p}coinflip` *flips a coin and says the result in the chat*\n\n'
+        embed.description = ''.join(ctx.l.help.fun).format(ctx.prefix)
 
         await ctx.send(embed=embed)
 
@@ -147,18 +94,12 @@ class Useful(commands.Cog):
     async def help_administrative(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name='Villager Bot Commands [Admin]', icon_url=self.d.splash_logo)
-        embed.set_footer(text='Made by Iapetus11#6821')
+        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.admin}]', icon_url=self.d.splash_logo)
+        embed.set_footer(text=ctx.l.misc.petus)
 
         p = ctx.prefix
 
-        embed.description = f'`{p}warn <user> <reason>` *warn a user for a specified reason*\n\n' \
-                            f'`{p}warns <user>` *view the warns a user has, leave blank to see your warnings*\n\n' \
-                            f'`{p}purge [optional: user] <amount>` *purge messages from the current channel*\n\n' \
-                            f'`{p}delwarns <user>` *clears the warns that user has in this server*\n\n' \
-                            f'`{p}kick <user>` *kicks the user from the current Discord server*\n\n' \
-                            f'`{p}ban <user>` *bans the user from the current Discord server*\n\n' \
-                            f'`{p}pardon <user>` *unban the user from the current Discord server*\n\n'
+        embed.description = ''.join(ctx.l.help.mod).format(ctx.prefix)
 
         await ctx.send(embed=embed)
 
