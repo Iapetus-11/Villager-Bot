@@ -931,7 +931,7 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
 
-    @leaderboards.command(name='pillages', aliases=['pil'])
+    @leaderboards.command(name='pillages', aliases=['pil', 'stolen'])
     async def leaderboard_pillages(self, ctx):
         pillages = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('pillages')]
         pillages = sorted(pillages, key=(lambda tup: tup[1]), reverse=True)
@@ -941,7 +941,7 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
 
-    @leaderboards.command(name='mobkills', aliases=['kil'])
+    @leaderboards.command(name='mobkills', aliases=['kil', 'kills'])
     async def leaderboard_mobkills(self, ctx):
         kills = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('mobs_killed')]
         kills = sorted(kills, key=(lambda tup: tup[1]), reverse=True)
@@ -951,7 +951,7 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
         await ctx.send(embed=embed)
 
-    @leaderboards.command(name='bees', aliases=['jarofbees'])
+    @leaderboards.command(name='bees', aliases=['jarofbees', 'jarsofbees'])
     async def leaderboard_bees(self, ctx):
         bees = [(r['uid'], r['amount']) for r in await self.db.mass_fetch_item('Jar Of Bees')]
         bees = sorted(bees, key=(lambda tup: tup[1]), reverse=True)
