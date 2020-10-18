@@ -75,6 +75,12 @@ class Database(commands.Cog):
 
         return user
 
+    async def update_user(self, uid, key, value):
+        await self.fetch_user(uid)
+
+        async with self.db.acquire() as con:
+            await con.execute(f'UPDATE users SET {key} = $1 WHERE uid = $2', value, uid)
+
     async def fetch_balance(self, uid):  # fetches the amount of emeralds a user has
         # we can do this because self.fetch_user ensures user is not None
         return (await self.fetch_user(uid))['emeralds']
