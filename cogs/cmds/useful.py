@@ -246,6 +246,8 @@ class Useful(commands.Cog):
         uptime = (arrow.utcnow() - self.d.start_time)
         uptime_seconds = uptime.seconds + (uptime.days * 24 * 3600)
 
+        mem_usage = psutil.Process().memory_full_info().uss
+
         body = f'{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n' \
                f'{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n' \
                f'{ctx.l.useful.stats.users}: `{len(self.bot.users)}`\n' \
@@ -256,7 +258,7 @@ class Useful(commands.Cog):
                f'{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n' \
                f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
                f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
-               f'{ctx.l.useful.stats.mem}: `{psutil.Process().memory_full_info().uss // 1048576} MiB`\n'
+               f'{ctx.l.useful.stats.mem}: `{round(mem_usage / 1048576, 2)} MiB / {round(mem_usage / 1000000, 2)} MB`\n'
 
         embed = discord.Embed(color=self.d.cc, description=body)
         embed.set_author(name='Villager Bot Statistics', icon_url=self.d.splash_logo)
