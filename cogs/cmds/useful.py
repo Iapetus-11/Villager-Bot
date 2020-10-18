@@ -259,14 +259,26 @@ class Useful(commands.Cog):
                 f'{ctx.l.useful.stats.cmds_sec}: `{round(self.d.cmd_count / uptime_seconds, 2)}`\n' \
                 f'{ctx.l.useful.stats.votes}: `{self.d.votes_topgg}`\n' \
                 f'{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n'
-        embed.add_field(name=col_1, value='\uFEFF')
-
 
         col_2 = f'{ctx.l.useful.stats.mem}: `{round(mem_usage / 1048576, 2)} MiB / {round(mem_usage / 1000000, 2)} MB`\n' \
                 f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
                 f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
                 f'{ctx.l.useful.stats.uptime}: `{uptime_seconds}s`\n'
-        embed.add_field(name=col_2, value='\uFEFF')
+
+        body = ''
+        max_len = 0
+        col_2_split = col_2.split('\n')
+
+        for i, line in enumerate(col_1.split('\n')):
+            second = ''
+            if i < len(col_2_split):
+                second = col_2_split[i]
+
+            body += f'{line}{"{0}"}{second}\n'
+
+            if len(line) > max_len: max_len = len(line)
+
+        embed.description = body.format('\uFEFF '*max_len)
 
         await ctx.send(embed=embed)
 
