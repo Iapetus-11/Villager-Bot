@@ -318,7 +318,7 @@ class Useful(commands.Cog):
 
     @commands.command(name='google', aliases=['search', 'thegoogle'])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def google(self, ctx, *, query):
+    async def google_search(self, ctx, *, query):
         try:
             with ctx.typing():
                 res = await self.google_client.search(query, safesearch=ctx.channel.is_nsfw())
@@ -337,6 +337,50 @@ class Useful(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=res.title, description=res.description, url=res.url)
         await ctx.send(embed=embed)
+
+    @commands.command(name='youtube', aliases=['ytsearch', 'yt'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def youtube_search(self, ctx, *, query):
+        try:
+            with ctx.typing():
+                res = await self.google_client.search(query, safesearch=ctx.channel.is_nsfw())
+        except async_cse.search.NoResults:
+            await self.bot.send(ctx, 'No results found...')
+            return
+        except async_cse.search.APIError:
+            await self.bot.send(ctx, 'Oops, something went wrong...')
+            return
+
+        res = filter((lambda r: 'youtube' in r.url), res)
+
+        if len(res) == 0:
+            await self.bot.send(ctx, 'No results found...')
+            return
+
+        res = res[0]
+
+        await ctx.send(res.url)
+
+    @commands.command(name='image', aliases=['imagesearch', 'img'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def image_search(self, ctx, *, query):
+        try:
+            with ctx.typing():
+                res = await self.google_client.search(query, safesearch=ctx.channel.is_nsfw(), image_search=True)
+        except async_cse.search.NoResults:
+            await self.bot.send(ctx, 'No results found...')
+            return
+        except async_cse.search.APIError:
+            await self.bot.send(ctx, 'Oops, something went wrong...')
+            return
+
+        if len(res) == 0:
+            await self.bot.send(ctx, 'No results found...')
+            return
+
+        res = res[0]
+
+        await ctx.send(res.url)
 
 
 def setup(bot):
