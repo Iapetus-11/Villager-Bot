@@ -274,11 +274,11 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
             else:  # mob win
                 if diff == 'easy':  # haha code copying go brrrrrrrrr
-                    ems_lost = int(u_bal * (1 / (random.choice([3.05, 3.3, 3.55, 3.8])+.3))) if u_bal > 10 else random.randint(2, 4)
+                    ems_lost = int(u_bal * (1 / (random.choice([3.05, 3.3, 3.55, 3.8])+.3))) if u_bal > 20 else random.randint(2, 4)
                 else:  # diff hard
-                    ems_lost = int(u_bal * (1 / (random.choice([1.45, 1.55, 1.65, 1.75])+.3))) if u_bal > 10 else random.randint(5, 9)
+                    ems_lost = int(u_bal * (1 / (random.choice([1.45, 1.55, 1.65, 1.75])+.3))) if u_bal > 20 else random.randint(5, 9)
 
-                await self.db.balance_sub(u.id, ems_lost)
+                ems_lost = await self.db.balance_sub(u.id, ems_lost)
 
                 if mob_key == 'creeper':
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.lost.creeper).format(ems_lost, self.d.emojis.emerald))
