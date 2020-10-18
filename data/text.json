@@ -383,6 +383,10 @@
       },
       "meth": {
         "oops": "Oops, something went wrong..."
+      },
+      "search": {
+        "nope": "No results found...",
+        "error": "Oops, something went wrong..."
       }
     },
     "econ": {

@@ -326,14 +326,14 @@ class Useful(commands.Cog):
             with ctx.typing():
                 res = await self.google_client.search(query, safesearch=ctx.channel.is_nsfw())
         except async_cse.search.NoResults:
-            await self.bot.send(ctx, 'No results found...')
+            await self.bot.send(ctx, ctx.l.useful.search.nope)
             return
         except async_cse.search.APIError:
-            await self.bot.send(ctx, 'Oops, something went wrong...')
+            await self.bot.send(ctx, ctx.l.useful.search.error)
             return
 
         if len(res) == 0:
-            await self.bot.send(ctx, 'No results found...')
+            await self.bot.send(ctx, ctx.l.useful.search.nope)
             return
 
         res = res[0]
@@ -348,16 +348,16 @@ class Useful(commands.Cog):
             with ctx.typing():
                 res = await self.google_client.search(query, safesearch=ctx.channel.is_nsfw())
         except async_cse.search.NoResults:
-            await self.bot.send(ctx, 'No results found...')
+            await self.bot.send(ctx, ctx.l.useful.search.nope)
             return
         except async_cse.search.APIError:
-            await self.bot.send(ctx, 'Oops, something went wrong...')
+            await self.bot.send(ctx, ctx.l.useful.search.error)
             return
 
         res = (*filter((lambda r: 'youtube' in r.url), res),)
 
         if len(res) == 0:
-            await self.bot.send(ctx, 'No results found...')
+            await self.bot.send(ctx, ctx.l.useful.search.nope)
             return
 
         res = res[0]
@@ -371,14 +371,14 @@ class Useful(commands.Cog):
             with ctx.typing():
                 res = await self.google_client.search(query, safesearch=ctx.channel.is_nsfw(), image_search=True)
         except async_cse.search.NoResults:
-            await self.bot.send(ctx, 'No results found...')
+            await self.bot.send(ctx, ctx.l.useful.search.nope)
             return
         except async_cse.search.APIError:
-            await self.bot.send(ctx, 'Oops, something went wrong...')
+            await self.bot.send(ctx, ctx.l.useful.search.error)
             return
 
         if len(res) == 0:
-            await self.bot.send(ctx, 'No results found...')
+            await self.bot.send(ctx, ctx.l.useful.search.nope)
             return
 
         res = res[0]
