@@ -273,12 +273,12 @@ class Useful(commands.Cog):
             second = ''
             if i < len(col_2_split):
                 second = col_2_split[i]
-                
+
                 if len(line) > max_len: max_len = len(line)
 
             body += f'{line}{"{0}"}{second}\n'
 
-        embed.description = '```' + body.format('\uFEFF '*(max_len+2)).replace('`', '') + '```'
+        embed.description = '```py\n' + body.format('\uFEFF '*(max_len+2)).replace('`', '') + '```'
 
         await ctx.send(embed=embed)
 
