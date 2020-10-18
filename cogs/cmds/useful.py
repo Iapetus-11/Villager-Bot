@@ -383,7 +383,7 @@ class Useful(commands.Cog):
 
         res = res[0]
 
-        await ctx.send(res.url)
+        await ctx.send(res.image_url)
 
 
 def setup(bot):
