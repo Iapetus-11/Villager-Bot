@@ -89,7 +89,6 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-
     @help.command(name='administrator', aliases=['mod', 'moderation', 'administrative', 'admin'])
     async def help_administrative(self, ctx):
         embed = discord.Embed(color=self.d.cc)
