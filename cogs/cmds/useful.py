@@ -248,7 +248,7 @@ class Useful(commands.Cog):
 
         proc =  psutil.Process()
         mem_usage = proc.memory_full_info().uss
-        proc.cpu_percent()
+        proc.cpu_percent(interval=.75)
 
         embed = discord.Embed(color=self.d.cc)
 
