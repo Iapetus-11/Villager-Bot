@@ -366,7 +366,8 @@
         "topgg": "Top.gg Votes / Hour",
         "shards": "Shard Count",
         "ping": "Latency/Ping",
-        "mem": "Memory Usage"
+        "mem": "Memory Usage",
+        "uptime": "Uptime"
       },
       "ginf": {
         "info": "Information",

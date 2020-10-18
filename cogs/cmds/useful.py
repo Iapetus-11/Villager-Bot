@@ -245,23 +245,27 @@ class Useful(commands.Cog):
     async def stats(self, ctx):
         uptime = (arrow.utcnow() - self.d.start_time)
         uptime_seconds = uptime.seconds + (uptime.days * 24 * 3600)
-
         mem_usage = psutil.Process().memory_full_info().uss
 
-        body = f'{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n' \
-               f'{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n' \
-               f'{ctx.l.useful.stats.users}: `{len(self.bot.users)}`\n' \
-               f'{ctx.l.useful.stats.msgs}: `{self.d.msg_count}`\n' \
-               f'{ctx.l.useful.stats.cmds}: `{self.d.cmd_count}` `({round((self.d.cmd_count / (self.d.msg_count + .000001)) * 100, 2)}%)`\n' \
-               f'{ctx.l.useful.stats.cmds_sec}: `{round(self.d.cmd_count / uptime_seconds, 2)}`\n' \
-               f'{ctx.l.useful.stats.votes}: `{self.d.votes_topgg}`\n' \
-               f'{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n' \
-               f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
-               f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
-               f'{ctx.l.useful.stats.mem}: `{round(mem_usage / 1048576, 2)} MiB / {round(mem_usage / 1000000, 2)} MB`\n'
-
-        embed = discord.Embed(color=self.d.cc, description=body)
+        embed = discord.Embed(color=self.d.cc)
         embed.set_author(name='Villager Bot Statistics', icon_url=self.d.splash_logo)
+
+        col_1 = f'{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n' \
+                f'{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n' \
+                f'{ctx.l.useful.stats.users}: `{len(self.bot.users)}`\n' \
+                f'{ctx.l.useful.stats.msgs}: `{self.d.msg_count}`\n' \
+                f'{ctx.l.useful.stats.cmds}: `{self.d.cmd_count}` `({round((self.d.cmd_count / (self.d.msg_count + .000001)) * 100, 2)}%)`\n' \
+                f'{ctx.l.useful.stats.cmds_sec}: `{round(self.d.cmd_count / uptime_seconds, 2)}`\n' \
+                f'{ctx.l.useful.stats.votes}: `{self.d.votes_topgg}`\n' \
+                f'{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n'
+        embed.add_field(name='\uFEFF', value=col_1)
+
+
+        col_2 = f'{ctx.l.useful.stats.mem}: `{round(mem_usage / 1048576, 2)} MiB / {round(mem_usage / 1000000, 2)} MB`\n' \
+                f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
+                f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
+                f'{ctx.l.useful.stats.uptime}: `{uptime_seconds}`\n'
+        embed.add_field(name='\uFEFF', value=col_2)
 
         await ctx.send(embed=embed)
 
