@@ -1,6 +1,5 @@
 aiohttp
 arrow
-dblpy
 discord.py
 async-cse
 asyncpg
