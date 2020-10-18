@@ -57,6 +57,21 @@ class Owner(commands.Cog):
 
         os.remove('git_pull_log')
 
+    @commands.command(name='update')
+    @commands.is_owner()
+    async def update(self, ctx, thing):
+        if thing.lower() == 'data':
+            with open('data/data.json', 'r', encoding='utf8') as d:
+                self.d = recursive_update(self.d, cj.load(d))
+        elif thing.lower() == 'text':
+            with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
+                self.bot.langs.update(cj.load(d))
+        else:
+            await self.bot.send(ctx, 'Invalid, options are "data" or "text"')
+            return
+
+        await ctx.message.add_reaction(self.d.emojis.yes)
+
     @commands.command(name='botban')
     @commands.is_owner()
     async def botban_user(self, ctx, users: commands.Greedy[discord.User]):
@@ -78,21 +93,6 @@ class Owner(commands.Cog):
 
         for user in users:
             await self.db.set_botbanned(user.id, False)
-
-        await ctx.message.add_reaction(self.d.emojis.yes)
-
-    @commands.command(name='update')
-    @commands.is_owner()
-    async def update(self, ctx, thing):
-        if thing.lower() == 'data':
-            with open('data/data.json', 'r', encoding='utf8') as d:
-                self.d = recursive_update(self.d, cj.load(d))
-        elif thing.lower() == 'text':
-            with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
-                self.bot.langs.update(cj.load(d))
-        else:
-            await self.bot.send(ctx, 'Invalid, options are "data" or "text"')
-            return
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
