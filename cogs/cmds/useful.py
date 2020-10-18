@@ -278,7 +278,7 @@ class Useful(commands.Cog):
 
             body += f'{line}{"{0}"}{second}\n'
 
-        embed.description = '```py\n' + body.format('\uFEFF '*(max_len+2)).replace('`', '') + '```'
+        embed.description = '```py\n' + body.format(' '*(max_len+2)).replace('`', '') + '```'
 
         await ctx.send(embed=embed)
 
