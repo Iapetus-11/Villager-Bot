@@ -56,7 +56,7 @@ class Events(commands.Cog):
             if m.guild is not None:
                 prefix = self.d.prefix_cache.get(m.guild.id, '/')
 
-            lang = self.bot.get_lang(m)
+            lang = await self.bot.get_lang(m)
 
             embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
 
