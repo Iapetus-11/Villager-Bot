@@ -59,6 +59,7 @@ class Owner(commands.Cog):
         await ctx.send(f'```{await eval(stuff)}```')
 
     @commands.command(name='gitpull')
+    @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
     @commands.is_owner()
     async def gitpull(self, ctx):
         async with ctx.typing():
@@ -70,6 +71,7 @@ class Owner(commands.Cog):
         os.remove('git_pull_log')
 
     @commands.command(name='update')
+    @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
     @commands.is_owner()
     async def update(self, ctx, thing):
         if thing.lower() == 'data':
