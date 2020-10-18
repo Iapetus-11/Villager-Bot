@@ -1,3 +1,4 @@
+db.json
 *.env
 data/keys.json
 cogs/core/hentai.py
