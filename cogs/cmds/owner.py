@@ -77,7 +77,7 @@ class Owner(commands.Cog):
                 self.d = recursive_update(self.d, cj.load(d))
         elif thing.lower() == 'text':
             with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
-                self.bot.langs.update(cj.load(d))
+                self.bot.langs.update(cj.load(t))
         else:
             await self.bot.send(ctx, 'Invalid, options are "data" or "text"')
             return
