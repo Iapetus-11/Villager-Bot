@@ -365,7 +365,8 @@
         "disbots": "Disbots.gg Votes / Hour",
         "topgg": "Top.gg Votes / Hour",
         "shards": "Shard Count",
-        "ping": "Latency/Ping"
+        "ping": "Latency/Ping",
+        "mem": "Memory Usage"
       },
       "ginf": {
         "info": "Information",

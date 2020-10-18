@@ -1,5 +1,6 @@
 from discord.ext import commands
 import discord
+import psutil
 import arrow
 
 
@@ -254,7 +255,8 @@ class Useful(commands.Cog):
                f'{ctx.l.useful.stats.votes}: `{self.d.votes_topgg}`\n' \
                f'{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n' \
                f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
-               f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n'
+               f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
+               f'{ctx.l.useful.stats.mem}: `{psutil.Process().memory_info().rss / 1048576} MiB`\n'
 
         embed = discord.Embed(color=self.d.cc, description=body)
         embed.set_author(name='Villager Bot Statistics', icon_url=self.d.splash_logo)
