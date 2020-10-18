@@ -354,7 +354,7 @@ class Useful(commands.Cog):
             await self.bot.send(ctx, ctx.l.useful.search.error)
             return
 
-        res = (*filter((lambda r: 'youtube' in r.url), res),)
+        res = (*filter((lambda r: 'youtube.com/watch' in r.url), res),)
 
         if len(res) == 0:
             await self.bot.send(ctx, ctx.l.useful.search.nope)
