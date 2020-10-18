@@ -23,20 +23,89 @@
       }
     },
     "help": {
-      "names": {
+      "n": {
+        "title": "Villager Bot Commands",
         "economy": "Economy",
         "minecraft": "Minecraft",
         "utility": "Utility",
         "fun": "Fun",
-        "admin": "Admin"
+        "admin": "Admin",
+        "petus": "Made by Iapetus11#6821"
       }
       "main": {
-        "title": "Villager Bot Commands",
         "desc": "Need more help? Check out the [**Support Server**]({})!\nEnjoying the bot? Vote for us on [**top.gg**]({}) and earn emeralds!",
         "support": "Support",
         "clickme": "Click Me"
       },
-      ""
+      "econ": [
+        "`{0}profile [optional: user]` *shows the profile of you or the specified user*\n\n",
+        "`{0}balance [optional: user]` *shows the balance of you or the specified user*\n\n",
+        "`{0}inventory [optional: user]` *shows the inventory of you or the specified user*\n\n",
+        "`{0}deposit <emerald blocks>` *deposit emeralds into the vault*\n\n",
+        "`{0}withdraw <emerald blocks>` *withdraw emeralds from the vault*\n\n",
+        "`{0}give <user> <amount> <item>` *give another user an item or emeralds*\n\n",
+        "`{0}mine` *mine for emeralds*\n\n",
+        "`{0}beg` *beg for emeralds*\n\n",
+        "`{0}honey` *harvest honey from the bees you own*\n\n",
+        "`{0}gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*\n\n",
+        "`{0}pillage <user>` *pillage emeralds from another user*\n\n",
+        "`{0}chug <potion>` *use the specified potion*\n\n",
+        "`{0}shop` *shows the Villager Shop*\n\n",
+        "`{0}buy [optional: amount of item] <item>` *buy an item from the Villager Shop*\n\n",
+        "`{0}sell <amount> <item>` *sell items back to Villager Bot*\n\n",
+        "`{0}leaderboards` *shows the leaderboards*\n\n"
+      ],
+      "mc": [
+        "`{0}mcstatus [optional: server]` *checks the status of any type of Minecraft server*\n\n",
+        "`{0}randommc` *shows a random Minecraft server if you want a new place to explore*\n\n",
+        "`{0}mcimage` *turns whatever image you upload into Minecraft blocks / pixel art*\n\n",
+        "`{0}stealskin <username>` *fetches the skin of a Minecraft Java Edition player*\n\n",
+        "`{0}buildidea` *sends a random build idea for if you're bored and need inspiration*\n\n",
+        "`{0}mccolors` *shows the Minecraft colors and how to use them in the ingame chat*\n\n",
+        "`{0}nametouuid <username>` *turns a MC Java Edition username into a uuid*\n\n",
+        "`{0}uuidtoname <uuid>` *turns a MC Java Edition uuid into a username*\n\n"
+      ],
+      "util": [
+        "`{0}help` *view helpful information about Villager Bot*\n\n",
+        "`{0}config` *configure / setup the bot to your liking*\n\n",
+        "`{0}ping` *shows the latency between Discord and Villager Bot*\n\n",
+        "`{0}server` *view information about the current server*\n\n",
+        "`{0}links` *view useful links relating to Villager Bot*\n\n",
+        "`{0}vote` *earn emeralds from voting for Villager Bot on certain websites*\n\n",
+        "`{0}info` *view information about Villager Bot*\n\n",
+        "`{0}stats` *shows statistics about Villager Bot*\n\n",
+        "`{0}uptime` *view how long the bot has been online*\n\n",
+        "`{0}google <search>` *searches on google for your query*\n\n",
+        "`{0}youtube <search>` *searches on youtube for your query*\n\n",
+        "`{0}image <search>` *searches google images for your query*\n\n"
+      ],
+      "fun": [
+        "`{0}cursed` *sends a random cursed Minecraft image*\n\n",
+        "`{0}meme` *sends a random meme from reddit*\n\n",
+        "`{0}4chan` *shows a funny screenshot from 4chan*\n\n",
+        "`{0}comic` *sends a random comic from r/comics on reddit*\n\n",
+        "`{0}say <text>` *makes the bot say the text you put in*\n\n",
+        "`{0}enchant <text>` *turns text into the Minecraft enchantment table language*\n\n",
+        "`{0}unenchant <text>` *turns the enchantment table language back into text*\n\n",
+        "`{0}villagerspeak <text>` *turns text into villager sounds*\n\n",
+        "`{0}clap <text>` *:clap: puts :clap: the :clap: emoji :clap: between :clap: text*\n\n",
+        "`{0}emojify <text>` *turns text into emojis*\n\n",
+        "`{0}sarcastic <text>` *turn text into the spongebob sarcastic text*\n\n",
+        "`{0}owo <text>` *owofies the given text uwu*\n\n",
+        "`{0}vaporwave <text>` *makes text into the vaporwave style*\n\n",
+        "`{0}kill <user>` *fake kill another user*\n\n",
+        "`{0}bubblewrap` *sends virtual bubblewrap for you to pop*\n\n",
+        "`{0}coinflip` *flips a coin and says the result in the chat*\n\n"
+      ],
+      "mod": [
+        "`{0}warn <user> <reason>` *warn a user for a specified reason*\n\n",
+        "`{0}warns <user>` *view the warns a user has, leave blank to see your warnings*\n\n",
+        "`{0}purge [optional: user] <amount>` *purge messages from the current channel*\n\n",
+        "`{0}delwarns <user>` *clears the warns that user has in this server*\n\n",
+        "`{0}kick <user>` *kicks the user from the current Discord server*\n\n",
+        "`{0}ban <user>` *bans the user from the current Discord server*\n\n",
+        "`{0}pardon <user>` *unban the user from the current Discord server*\n\n"
+      ]
     },
     "fun": {
       "too_long": "That message would be too long to convert.",
