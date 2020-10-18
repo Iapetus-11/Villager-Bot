@@ -264,7 +264,7 @@ class Useful(commands.Cog):
                 f'{ctx.l.useful.stats.votes}: `{self.d.votes_topgg}`\n' \
                 f'{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n'
 
-        col_2 = f'{ctx.l.useful.stats.mem}: `{round(mem_usage / 1048576, 2)} MiB / {round(mem_usage / 1000000, 2)} MB`\n' \
+        col_2 = f'{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000, 2)} MB`\n' \
                 f'{ctx.l.useful.stats.cpu}: `{round(proc.cpu_percent() / psutil.cpu_count(), 2)}%`\n' \
                 f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
                 f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
