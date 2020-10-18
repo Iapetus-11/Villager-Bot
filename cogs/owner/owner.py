@@ -450,6 +450,14 @@ class Owner(commands.Cog):
 
         await ctx.send(f"{fixed} vaults were fixed.")
 
+    @commands.command(name='dump_db')
+    @commands.is_owner()
+    async def dump_db(self, ctx):
+        await ctx.send('dumping db to db.json...')
+
+        with open('bruh.txt', 'w+') as f:
+            f.write(str(await self.db.db.fetch("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';")))
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
