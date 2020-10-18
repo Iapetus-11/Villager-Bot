@@ -29,7 +29,18 @@ class Owner(commands.Cog):
     @commands.command(name='reload')
     @commands.is_owner()
     async def reload_cog(self, ctx, cog):
-        self.bot.reload_extension(f'cogs.{cog}')
+        if cog == 'all':
+            await self.reload_all_cogs(ctx)
+        else:
+            self.bot.reload_extension(f'cogs.{cog}')
+            await ctx.message.add_reaction(self.d.emojis.yes)
+
+    @commands.command(name='reloadall')
+    @commands.is_owner()
+    async def reload_all_cogs(self, ctx):
+        for cog in self.bot.cogs_list:
+            self.bot.reload_extension(cog)
+
         await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name='eval')
