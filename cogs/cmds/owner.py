@@ -116,5 +116,6 @@ class Owner(commands.Cog):
         else:
             await self.bot.send(guilds)
 
+
 def setup(bot):
     bot.add_cog(Owner(bot))
