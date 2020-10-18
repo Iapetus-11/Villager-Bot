@@ -1,5 +1,6 @@
 from util.misc import recursive_update
 from discord.ext import commands
+from typing import Union
 import classyjson as cj
 import discord
 import os
@@ -96,6 +97,24 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
+    @commands.command(name='lookup')
+    @commands.is_owner()
+    async def lookup(self, ctx, user: Union[discord.User, int]):
+        if isinstance(user, discord.User):
+            uid = user.id
+        else:
+            uid = user
+
+        guilds = ''
+
+        for guild in self.bot.guilds:
+            if guild.get_member(uid) is not None:
+                guilds += f'{guild} **|** `{guild.id}`'
+
+        if guilds == '':
+            await self.bot.send('No results...')
+        else:
+            await self.bot.send(guilds)
 
 def setup(bot):
     bot.add_cog(Owner(bot))
