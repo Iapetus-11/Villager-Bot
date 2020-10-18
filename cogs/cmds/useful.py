@@ -159,7 +159,7 @@ class Useful(commands.Cog):
                             f'`{p}delwarns <user>` *clears the warns that user has in this server*\n\n' \
                             f'`{p}kick <user>` *kicks the user from the current Discord server*\n\n' \
                             f'`{p}ban <user>` *bans the user from the current Discord server*\n\n' \
-                            f'`{p}pardon <user>` *unban the user from the current Discord server*\n\n' \
+                            f'`{p}pardon <user>` *unban the user from the current Discord server*\n\n'
 
         await ctx.send(embed=embed)
 
