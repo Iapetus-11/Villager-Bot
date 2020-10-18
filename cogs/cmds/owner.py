@@ -129,6 +129,39 @@ class Owner(commands.Cog):
         else:
             await self.bot.send(guilds)
 
+    @commands.command(name='migrateguilds')
+    @commands.is_owner()
+    async def migrate_guilds(self, ctx):
+        await ctx.send('opening db.json')
+        with open('db.json', 'r') as f:
+            data = cj.load(f)
+
+        await ctx.send('migrating prefix')
+        async with self.db.acquire() as con:
+            for g in data.prefixes:
+                await con.execute(
+                    'INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6)',
+                    g.gid, g.prefix, True, 'easy', 'en_us', None
+                )
+
+        await ctx.send('migrating mc server')
+        async with self.db.acquire() as con:
+            for g in data.mcservers:
+                await con.execute(
+                    'UPDATE guilds SET mcserver = $1 WHERE gid = $2',
+                    g.server, g.gid
+                )
+
+        await ctx.send('migrating warns')
+        async with self.db.acquire() as con:
+            for w in data.warns:
+                await con.execute(
+                    'INSERT INTO warnings VALUES ($1, $2, $3, $4)',
+                    w.uid, w.gid, w.mod, w.reason[:199]
+                )
+
+        await ctx.send('done.')
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
