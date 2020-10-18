@@ -367,6 +367,7 @@
         "shards": "Shard Count",
         "ping": "Latency/Ping",
         "mem": "Memory Usage",
+        "cpu": "CPU Usage",
         "uptime": "Uptime"
       },
       "ginf": {
