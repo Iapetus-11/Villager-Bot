@@ -99,10 +99,7 @@ class Events(commands.Cog):
                 return
 
         if isinstance(e, commands.CommandOnCooldown):
-            seconds = round(e.retry_after, 2)
-
             if ctx.command.name == 'mine':
-                await ctx.send('mine cooldown debug - ignore')
                 if await self.db.fetch_item(ctx.author.id, 'Efficiency I Book') is not None:
                     e.retry_after -= .5
 
@@ -110,6 +107,8 @@ class Events(commands.Cog):
                     e.retry_after -= 1
                 elif 'Haste I Potion' in self.d.chuggers.get(ctx.author.id, []):
                     e.retry_after -= .5
+
+            seconds = round(e.retry_after, 2)
 
             if seconds <= .05:
                 await ctx.reinvoke()
