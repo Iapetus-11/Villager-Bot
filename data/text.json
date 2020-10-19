@@ -557,7 +557,7 @@
         "stupid_2": "You have to gamble 10 or more emeralds at a time.",
         "roll": "Your roll: `{}` **|** Bot roll: `{}`",
         "win": "You won! Villager Bot {} {}{}",
-        "lose": "You lost {} to Villager Bot...",
+        "lose": "You lost {}{} to Villager Bot...",
         "tie": "Tie! Maybe Villager Bot will steal your emeralds anyways...",
         "actions": [
           "forks over",
