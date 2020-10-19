@@ -171,7 +171,7 @@ class Owner(commands.Cog):
 
         await ctx.send('migrating items...')
         async with self.db.db.acquire() as con:
-            for item in data.__dict__.get('items'):
+            for item in data['items']:
                 await con.execute(
                     'INSERT INTO items VALUES ($1, $2, $3, $4)',
                     item.id, item.item, item.val, item.num
