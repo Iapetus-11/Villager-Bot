@@ -196,8 +196,10 @@ class Useful(commands.Cog):
         uptime_seconds = uptime.seconds + (uptime.days * 24 * 3600)
 
         proc =  psutil.Process()
-        mem_usage = proc.memory_full_info().uss
-        proc.cpu_percent(interval=.25)
+        with proc.oneshot():
+            mem_usage = proc.memory_full_info().uss
+            threads = proc.num_threads()
+            proc.cpu_percent(interval=.1)
 
         embed = discord.Embed(color=self.d.cc)
 
@@ -215,6 +217,7 @@ class Useful(commands.Cog):
 
         col_2 = f'{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000, 2)} MB`\n' \
                 f'{ctx.l.useful.stats.cpu}: `{round(proc.cpu_percent() / psutil.cpu_count(), 2)}%`\n' \
+                f'{ctx.l.useful.stats.threads}: `{threads}`\n' \
                 f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
                 f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
                 f'{ctx.l.useful.stats.uptime}: `{uptime_seconds}s`\n'
