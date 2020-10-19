@@ -241,8 +241,8 @@ class Useful(commands.Cog):
                   f'{ctx.l.useful.ginf.members}: `{guild.member_count}`\n' \
                   f'{ctx.l.useful.ginf.channels}: `{len(guild.channels)}`\n ' \
                   f'{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n' \
-                  f'{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n'
-                  f'{ctx.l.useful.ginf.bans}: `{len(await ctx.guild.bans())}`'
+                  f'{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n' \
+                  f'{ctx.l.useful.ginf.bans}: `{len(await ctx.guild.bans())}`\n'
 
         villager = f'{ctx.l.useful.ginf.cmd_prefix}: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n' \
                    f'{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n' \
