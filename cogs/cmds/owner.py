@@ -230,6 +230,17 @@ class Owner(commands.Cog):
 
         await ctx.send('done')
 
+    @commands.command(name='removeduplicateitementries')
+    @commands.is_owner()
+    async def remove_duplicate_item_entries(self, ctx):
+        db = self.db.db
+
+        async with db.acquire() as con:
+            await con.execute('CREATE TABLE items_temp LIKE(items)')
+            await con.execute('INSERT INTO items_temp(uid, name, sell_price, amount) SELECT DISTINCT ON (name) uid, name, sell_price, amount')
+            await con.execute('DROP TABLE items')
+            await con.execute('ALTER TABLE items_temp RENAME TO items')
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
