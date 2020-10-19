@@ -12,7 +12,8 @@ def im_from_bytes(bytes):
 #         for j, pix in enumerate(row):
 #             canvas[i+y][j+x] = pix
 
-def draw_image(canvas, img, x, y):
+def draw_image(canvas, img, x, y, lgr):
+    lgr.info(f'{y}:{y+img.shape[0]} | {x}:{x+img.shape[1]}')
     canvas[y:y+img.shape[0], x:x+img.shape[1]] = img
 
 with open('data/block_palette.json', 'r') as d:
@@ -26,7 +27,7 @@ palette_map = {k: im_from_bytes(base64.b64decode(v)) for k, v in data['palette']
 xi = data['dims'][0]
 yi = data['dims'][1]
 
-def generate(source_bytes, max_dim, detailed):
+def generate(source_bytes, max_dim, detailed, lgr):
     source = im_from_bytes(source_bytes)
 
     sw = source.shape[1]
@@ -89,7 +90,7 @@ def generate(source_bytes, max_dim, detailed):
             if pal_key is None:
                 pal_key = palette_oct[random.choice((*palette_oct.keys(),))]
 
-            draw_image(canvas, palette_map[pal_key], x, y)
+            draw_image(canvas, palette_map[pal_key], x, y, lgr)
 
             x += xi
         y += yi
