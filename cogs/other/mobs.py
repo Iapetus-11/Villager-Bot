@@ -235,7 +235,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             embed.add_field(  # user health bar
                 name=f'**{u.display_name}**',
-                value=(make_stat_bar(0, 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)),
+                value=(make_stat_bar((u_health if u_health >= 0 else 0), 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)),
                 inline=False
             )
 
