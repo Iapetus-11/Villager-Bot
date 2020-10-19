@@ -238,7 +238,7 @@ class Owner(commands.Cog):
         async with db.acquire() as con:
             await con.execute("""
 CREATE TABLE items_tmp (LIKE items);
-INSERT INTO items_tmp(uid, name, sell_price, amount) SELECT DISTINCT ON (name) uid, name, sell_price, amount;
+INSERT INTO items_tmp SELECT DISTINCT ON (name) uid, name, sell_price, amount;
 DROP TABLE items;
 ALTER TABLE items_tmp RENAME TO items;
             """)
