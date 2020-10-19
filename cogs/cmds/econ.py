@@ -809,7 +809,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx.author, ctx.l.econ.chug.done.format('Haste I Potion'))
 
-            self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index(pot))  # pop pot from active potion fx
+            self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index('Haste I Potion'))  # pop pot from active potion fx
             return
 
         if pot == 'haste ii potion':
@@ -824,7 +824,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx.author, ctx.l.econ.chug.done.format('Haste II Potion'))
 
-            self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index(pot))  # pop pot from active potion fx
+            self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index('Haste II Potion'))  # pop pot from active potion fx
             return
 
         if pot == 'vault potion':
