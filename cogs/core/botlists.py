@@ -53,7 +53,7 @@ class BotLists(commands.Cog):
         self.server_runner = web.AppRunner(app)
         await self.server_runner.setup()
 
-        self.webhook_server = web.TCPSite(runner, '0.0.0.0', self.d.hooksport)
+        self.webhook_server = web.TCPSite(self.server_runner, '0.0.0.0', self.d.hooksport)
         await self.webhook_server.start()
 
     async def reward(user_id, amount):
