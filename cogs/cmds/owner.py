@@ -182,6 +182,8 @@ class Owner(commands.Cog):
             for b in data.currency:
                 await con.execute('INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7)', b.id, b.amount, None, None, 20, 0, False)
 
+        await ctx.send(len(data.vault))
+
         await ctx.send('migrating vaults...')
         async with self.db.db.acquire() as con:
             for v in data.vault:
