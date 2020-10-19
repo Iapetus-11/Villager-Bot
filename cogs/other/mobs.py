@@ -242,7 +242,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             embed.add_field(  # mob health bar
                 name=f'**{mob.nice}**',
                 value=(make_stat_bar(
-                    mob.health, mob_max_health,
+                    0, mob_max_health,
                     mob_max_health/2,
                     self.d.emojis.heart_full,
                     self.d.emojis.heart_empty
