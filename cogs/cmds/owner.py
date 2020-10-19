@@ -131,9 +131,9 @@ class Owner(commands.Cog):
 
     @commands.command(name='setactivity')
     @commands.is_owner()
-    async def set_activity(self, ctx *, activity):
+    async def set_activity(self, ctx, *, activity):
         await self.bot.change_presence(activity=discord.Game(name=activity))
-        
+
         await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name='migrateguilds')
