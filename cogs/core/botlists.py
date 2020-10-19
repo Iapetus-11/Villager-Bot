@@ -56,7 +56,7 @@ class BotLists(commands.Cog):
         self.webhook_server = web.TCPSite(self.server_runner, '0.0.0.0', self.d.hooksport)
         await self.webhook_server.start()
 
-    async def reward(user_id, amount):
+    async def reward(self, user_id, amount):
         await self.db.balance_add(user_id, amount)
 
         user = self.bot.get_user(user_id)
