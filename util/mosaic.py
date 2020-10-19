@@ -71,7 +71,6 @@ def generate(source_bytes, max_dim, detailed):
 
     y = 0
 
-    lgr.info('drawing blocks')
     for row in source:
         x = 0
         for pix in row: # bgr
@@ -95,5 +94,4 @@ def generate(source_bytes, max_dim, detailed):
             x += xi
         y += yi
 
-    lgr.info('returning')
     return cv2.imencode('.png', canvas)
