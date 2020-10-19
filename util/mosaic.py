@@ -28,6 +28,7 @@ xi = data['dims'][0]
 yi = data['dims'][1]
 
 def generate(source_bytes, max_dim, detailed, lgr):
+    lgr.info('loading src')
     source = im_from_bytes(source_bytes)
 
     sw = source.shape[1]
@@ -35,6 +36,7 @@ def generate(source_bytes, max_dim, detailed, lgr):
 
     t = 512
 
+    lgr.info('resizing')
     # rescale if too big
     if sw > max_dim or sh > max_dim or detailed:
         ratio = sw/sh
@@ -65,13 +67,16 @@ def generate(source_bytes, max_dim, detailed, lgr):
 
         source = cv2.resize(source, (int(new_w), int(new_h)))
 
+    lgr.info('resizing final')
     source = cv2.resize(source, (int(source.shape[1]/xi), int(source.shape[0]/yi)))
     #source = cv2.blur(source, (2, 2))
 
+    lgr.info('drawing canvas')
     canvas = np.zeros((source.shape[0]*xi, source.shape[1]*yi, 3), np.uint8)
 
     y = 0
 
+    lgr.info('drawing blocks')
     for row in source:
         x = 0
         for pix in row: # bgr
@@ -95,4 +100,5 @@ def generate(source_bytes, max_dim, detailed, lgr):
             x += xi
         y += yi
 
+    lgr.info('returning')
     return cv2.imencode('.png', canvas)
