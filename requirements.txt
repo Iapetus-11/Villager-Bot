@@ -8,3 +8,4 @@ bs4
 opencv-python
 numpy
 psutil
+colorama
