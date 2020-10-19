@@ -78,7 +78,7 @@ class BotLists(commands.Cog):
         amount = self.d.topgg_reward * self.d.base_multi * (self.d.weekend_multi * data.isWeekend)
         amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(self.d.mining.pickaxes[await self.db.fetch_pickaxe(data.user)])
 
-        await self.reward(data.user, amount)
+        await self.reward(int(data.user), amount)
 
 
 def setup(bot):
