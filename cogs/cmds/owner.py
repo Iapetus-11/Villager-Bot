@@ -129,6 +129,13 @@ class Owner(commands.Cog):
         else:
             await self.bot.send(guilds)
 
+    @commands.command(name='setactivity')
+    @commands.is_owner()
+    async def set_activity(self, ctx *, activity):
+        await self.bot.change_presence(activity=discord.Game(name=activity))
+        
+        await ctx.message.add_reaction(self.d.emojis.yes)
+
     @commands.command(name='migrateguilds')
     @commands.is_owner()
     async def migrate_guilds(self, ctx):
@@ -222,7 +229,7 @@ class Owner(commands.Cog):
                 )
 
         await ctx.send('done')
-        
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
