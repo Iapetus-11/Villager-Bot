@@ -4,11 +4,11 @@
 [![Support Server](https://img.shields.io/discord/641117791272960031?color=51B780&label=Discord%20Server)](https://discord.gg/39DwwUV)
 
 ## Notable Features
-* Ability to generate Minecraft pixel art from images sent in the chat
-* Ability to ping / check the status of any Minecraft server
-* Expansive economy system (based upon emeralds obviously!)
-* Multi-language support and other customization options
-* Made by Iapetus11 so it must be good right?!
+* Ability to generate Minecraft pixel art from images sent in the chat.
+* Ability to ping / check the status of any Minecraft server.
+* Expansive economy system (based upon emeralds obviously!).
+* Multi-language support and other customization options.
+* Made by Iapetus11, so it must be good right?!
 
 ## Support/Contact Information
 * [Discord Support Server](https://discord.gg/39DwwUV)
