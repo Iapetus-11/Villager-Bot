@@ -120,7 +120,6 @@ class Minecraft(commands.Cog):
         players_online = jj['players_online']  # int@
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
-        # should probably set thumbnail to server favicon or add image from betterapi.net:6400/mc/mcpingimg
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
         ver = jj['version'].get('brand', 'Unknown')
