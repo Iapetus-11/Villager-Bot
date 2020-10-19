@@ -74,15 +74,16 @@ class Events(commands.Cog):
                     if len(someones) > 0:
                         await m.channel.send(f'@someone ||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​|||| |||| ||  {random.choice(someones).mention}{m.author.mention}')
                 else:
-                    guild = await self.db.fetch_guild(m.guild.id)
-
-                    if guild['replies'] and not m.content.startswith(self.d.prefix_cache.get(m.guild.id,  '/')):
+                    if not m.content.startswith(self.d.prefix_cache.get(m.guild.id,  '/')):
                         if 'emerald' in m.content.lower():
-                            await m.channel.send(random.choice(self.d.hmms))
+                            if (await self.db.fetch_guild(m.guild.id))['replies']:
+                                await m.channel.send(random.choice(self.d.hmms))
                         elif 'creeper' in m.content.lower():
-                            await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
+                            if (await self.db.fetch_guild(m.guild.id))['replies']:
+                                await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
                         elif 'reee' in m.content.lower():
-                            await m.channel.send(random.choice(self.d.emojis.reees))
+                            if (await self.db.fetch_guild(m.guild.id))['replies']:
+                                await m.channel.send(random.choice(self.d.emojis.reees))
         except discord.errors.Forbidden:
             pass
 
