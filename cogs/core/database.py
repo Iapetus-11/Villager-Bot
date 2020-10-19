@@ -205,7 +205,7 @@ class Database(commands.Cog):
             self.d.ban_cache.append(uid)
         else:
             try:
-                self.d.ban_cache.pop(uid)
+                self.d.ban_cache.pop(float(uid))
             except KeyError:
                 pass
 
