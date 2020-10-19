@@ -410,7 +410,7 @@
     },
     "useful": {
       "uptime": {
-        "online_for": "Bot has been online for {}.",
+        "online_for": "I've been online for {}.",
         "day": "day",
         "days": "days",
         "hour": "hour",
