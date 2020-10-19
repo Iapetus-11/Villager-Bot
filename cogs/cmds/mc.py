@@ -1,6 +1,5 @@
 from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as bs
-import util.mosaic as mosaic
 import concurrent.futures
 import functools
 import aiohttp
@@ -13,6 +12,8 @@ import os
 
 class Minecraft(commands.Cog):
     def __init__(self, bot):
+        import util.mosaic as mosaic  # so I can pull and use the new code from the new changes
+
         self.bot = bot
         self.d = self.bot.d
 
@@ -24,6 +25,7 @@ class Minecraft(commands.Cog):
         self.update_server_list.start()
 
     def cog_unload(self):
+        del mosaic
         self.update_server_list.cancel()
         self.bot.loop.create_task(self.ses.close())
 
