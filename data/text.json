@@ -466,6 +466,7 @@
         "channels": "Channels",
         "roles": "Roles",
         "emojis": "Emojis",
+        "bans": "Bans",
         "cmd_prefix": "Prefix",
         "lang": "Language",
         "diff": "Difficulty"
