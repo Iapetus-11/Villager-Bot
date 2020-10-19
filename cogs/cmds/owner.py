@@ -184,7 +184,7 @@ class Owner(commands.Cog):
 
         await ctx.send('migrating vaults...')
         async with self.db.db.acquire() as con:
-            for v in data.vaults:
+            for v in data.vault:
                 await con.execute('UPDATE users SET vault_bal = $1, vault_max = $2 WHERE uid = $3', v.amount, v.max, v.id)
 
         await ctx.send('done')
