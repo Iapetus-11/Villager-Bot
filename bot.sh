@@ -1,1 +1,1 @@
-python3 bot.py
+sudo python3 bot.py
