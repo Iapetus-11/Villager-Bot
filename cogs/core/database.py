@@ -203,6 +203,11 @@ class Database(commands.Cog):
 
         if botbanned:
             self.d.ban_cache.append(uid)
+        else:
+            try:
+                self.d.ban_cache.pop(uid)
+            except KeyError:
+                pass
 
         async with self.db.acquire() as con:
             await con.execute('UPDATE users SET bot_banned = $1 WHERE uid = $2', botbanned, uid)
