@@ -161,7 +161,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 except asyncio.TimeoutError:  # user didn't respond
                     await msg.edit(suppress=True)
 
-                    self.d.pause_econ.pop(u.id)
+                    self.d.pause_econ.pop(u.id, None)
 
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.flee_insults))
 
@@ -170,7 +170,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 if resp.content.lower() in self.d.mobs_mech.valid_flees:  # user decides to not fight mob anymore cause they a little baby
                     await msg.edit(suppress=True)
 
-                    self.d.pause_econ.pop(u.id)
+                    self.d.pause_econ.pop(u.id, None)
 
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.flee_insults))
 
@@ -187,7 +187,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 mob.health -= u_dmg
 
                 if mob.health < 1:  # user wins
-                    self.d.pause_econ.pop(u.id)
+                    self.d.pause_econ.pop(u.id, None)
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice, u_sword))
                     break
                 else:
@@ -203,7 +203,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 if mob_key == 'creeper':
                     if iteration > 2:
                         if random.choice((True, False, False)):
-                            self.d.pause_econ.pop(u.id)
+                            self.d.pause_econ.pop(u.id, None)
 
                             u_health = 0
 
@@ -215,7 +215,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 u_health -= m_dmg
 
                 if u_health < 1:  # mob wins
-                    self.d.pause_econ.pop(u.id)
+                    self.d.pause_econ.pop(u.id, None)
                     await self.bot.send(ctx, random.choice(mob.finishers))
                     break
                 else:
