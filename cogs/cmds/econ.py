@@ -127,6 +127,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='inv', aliases=['inventory', 'pocket'])
+    @commands.cooldown(2, 10, commands.BucketType.user)
     async def inventory(self, ctx, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
 
@@ -268,7 +269,7 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, ctx.l.econ.withd.withdrew.format(amount, self.d.emojis.emerald_block, amount*9, self.d.emojis.emerald))
 
     @commands.group(name='shop')
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.cooldown(2, 10, commands.BucketType.user)
     async def shop(self, ctx):
         """Shows the available options in the Villager Shop"""
 
