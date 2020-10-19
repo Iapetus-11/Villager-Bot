@@ -5,7 +5,7 @@ import base64
 import json
 import cv2
 
-pool = multiprocessing.Pool(processes=10)
+pool = multiprocessing.Pool(processes=24)
 
 def im_from_bytes(bytes):
     return cv2.imdecode(np.frombuffer(bytes, np.uint8), cv2.IMREAD_COLOR)
