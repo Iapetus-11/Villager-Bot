@@ -348,6 +348,9 @@
     },
     "mod": {
       "no_perms": "Nice try, but you don't have the permissions to do that!",
+      "purge": {
+        "oop": "Oops... something went wrong..."
+      },
       "kick": {
         "stupid_1": "You cannot kick yourself"
       },

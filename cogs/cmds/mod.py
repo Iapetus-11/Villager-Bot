@@ -23,13 +23,16 @@ class Mod(commands.Cog):
     async def purge(self, ctx, to_purge: Union[discord.Member, int], amount=20):
         """Purges the given amount of messages from the current channel"""
 
-        if isinstance(to_purge, discord.Member):
-            def check(m):
-                return m.author.id == to_purge.id
+        try:
+            if isinstance(to_purge, discord.Member):
+                def check(m):
+                    return m.author.id == to_purge.id
 
-            await ctx.channel.purge(check=check, limit=amount+1)
-        else:
-            await ctx.channel.purge(limit=to_purge+1)
+                await ctx.channel.purge(check=check, limit=amount+1)
+            else:
+                await ctx.channel.purge(limit=to_purge+1)
+        except asyncio.queues.QueueEmpty:
+            await self.bot.send(ctx, ctx.l.mod.purge.oop)
 
     @commands.command(name='kick', aliases=['yeet'])
     @commands.guild_only()
