@@ -95,7 +95,7 @@ class Events(commands.Cog):
     async def on_command_error(self, ctx, e):
         # errors to ignore
         for e_type in (commands.CommandNotFound, commands.NotOwner, discord.errors.Forbidden,):
-            if isinstance(e, e_type):
+            if isinstance(e, e_type) or isinstance(e.__dict__.get('original'), e_type):
                 return
 
         if isinstance(e, commands.CommandOnCooldown):
