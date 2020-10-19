@@ -27,7 +27,6 @@ xi = data['dims'][0]
 yi = data['dims'][1]
 
 def generate(source_bytes, max_dim, detailed):
-    print('loading')
     source = im_from_bytes(source_bytes)
 
     sw = source.shape[1]
@@ -35,7 +34,6 @@ def generate(source_bytes, max_dim, detailed):
 
     t = 512
 
-    print('rescaling')
     # rescale if too big
     if sw > max_dim or sh > max_dim or detailed:
         ratio = sw/sh
@@ -66,28 +64,31 @@ def generate(source_bytes, max_dim, detailed):
 
         source = cv2.resize(source, (int(new_w), int(new_h)))
 
-    print('rescale to final')
     source = cv2.resize(source, (int(source.shape[1]/xi), int(source.shape[0]/yi)))
     #source = cv2.blur(source, (2, 2))
 
-    print('draw blank canvas')
     canvas = np.zeros((source.shape[0]*xi, source.shape[1]*yi, 3), np.uint8)
 
     y = 0
 
-    print('convert')
     for row in source:
         x = 0
         for pix in row: # bgr
             pal_key = palette_oct.get((int(pix[2]/32), int(pix[1]/32), int(pix[0]/32)))
 
-            if pal_key is None:
+            if pal_key is not None:
+                continue
+            else:
                 pal_key = palette_quad.get((int(pix[2]/64), int(pix[1]/64), int(pix[0]/64)))
 
-            if pal_key is None:
+            if pal_key is not None:
+                continue
+            else:
                 pal_key = palette_bi.get((int(pix[2]/128), int(pix[1]/128), int(pix[0]/128)))
 
-            if pal_key is None:
+            if pal_key is not None:
+                continue
+            else:
                 pal_key = palette_oct[random.choice([*palette_oct.keys()])]
 
             draw_image(canvas, palette_map[pal_key], x, y)
@@ -95,5 +96,4 @@ def generate(source_bytes, max_dim, detailed):
             x += xi
         y += yi
 
-    print('imencode')
     return cv2.imencode('.png', canvas)
