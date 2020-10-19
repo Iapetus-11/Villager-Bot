@@ -3,6 +3,7 @@ from aiohttp import web
 import classyjson as cj
 import aiohttp  # aiohttp makes me hard
 import asyncio
+import discord
 
 
 class BotLists(commands.Cog):
