@@ -1,3 +1,4 @@
+config.json
 db.json
 *.env
 data/keys.json
