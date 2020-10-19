@@ -12,7 +12,7 @@ import os
 
 class Minecraft(commands.Cog):
     def __init__(self, bot):
-        import util.mosaic as mosaic  # so I can pull and use the new code from the new changes
+        self.mosaic = __import__('util.mosaic')  # so I can pull and use the new code from the new changes
 
         self.bot = bot
         self.d = self.bot.d
@@ -25,7 +25,7 @@ class Minecraft(commands.Cog):
         self.update_server_list.start()
 
     def cog_unload(self):
-        del mosaic
+        del self.mosaic
         self.update_server_list.cancel()
         self.bot.loop.create_task(self.ses.close())
 
@@ -79,7 +79,7 @@ class Minecraft(commands.Cog):
 
         with ctx.typing():
             with concurrent.futures.ThreadPoolExecutor() as pool:
-                mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
+                mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
                 _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
             filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
