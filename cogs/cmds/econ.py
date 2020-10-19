@@ -366,7 +366,12 @@ class Econ(commands.Cog):
 
         if amount_item.startswith('max ') or amount_item.startswith('all '):
             item = amount_item[4:]
-            amount = math.floor(db_user['emeralds'] / self.d.shop_items[item][1])
+
+            try:
+                amount = math.floor(db_user['emeralds'] / self.d.shop_items[item][1])
+            except KeyError:
+                await self.bot.send(ctx, ctx.l.econ.buy.stupid_2.format(item))
+                return
 
             if amount < 1:
                 await self.bot.send(ctx, ctx.l.econ.buy.poor_loser_1)
