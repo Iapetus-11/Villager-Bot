@@ -179,9 +179,9 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 u_dmg = await self.calc_sword_damage(u.id, u_sword, diff_multi)  # calculate damage
 
                 if mob_key == 'baby_slime':
-                    if iteration <= 4:
+                    if iteration < 3:
                         u_dmg = 0
-                    elif iteration > 4 and random.choice((True, False)):
+                    elif iteration >= 3 and random.choice((True, False)):
                         u_dmg = 0
 
                 mob.health -= u_dmg
