@@ -80,7 +80,11 @@ class BotLists(commands.Cog):
 
         self.bot.logger.info(f'\u001b[32;1m{data.user} voted on top.gg\u001b[0m DEBUG/TESTING: {data}')
 
-        amount = self.d.topgg_reward * self.d.base_multi * (self.d.weekend_multi * data.isWeekend)
+        amount = self.d.topgg_reward * self.d.base_multi
+
+        if data.isWeekend:
+            amount *= self.d.weekend_multi
+
         amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(int(data.user)))
 
         await self.reward(int(data.user), amount)
