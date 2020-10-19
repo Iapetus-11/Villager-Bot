@@ -8,7 +8,7 @@
 * Ability to ping / check the status of any Minecraft server
 * Expansive economy system (based upon emeralds obviously!)
 * Multi-language support and other customization options
-* Made by Iapetus11 so it must be good right?!
+* Made by Iapetus11, so it must be good right?!
 
 ## Support/Contact Information
 * [Discord Support Server](https://discord.gg/39DwwUV)
