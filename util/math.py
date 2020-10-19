@@ -43,14 +43,19 @@ def parse(s):
     s = str(s).replace(' ', '').replace('*', 'x').replace('xx', '**').replace('×', 'x').replace('÷', '/')
 
     # reverse order of operations here because it's resolved bottom up cause it's a tree
-    if len(split := s.split('+')) > 1: return add(split)
+    split = s.split('+')
+    if len(split) > 1: return add(split)
 
-    if len(split := s.split('-')) > 1: return subtract(split)
+    split = s.split('-')
+    if len(split) > 1: return subtract(split)
 
-    if len(split := s.split('x')) > 1: return multiply(split)
+    split = s.split('x')
+    if len(split) > 1: return multiply(split)
 
-    if len(split := s.split('/')) > 1: return divide(split)
+    split = s.split('/')
+    if len(split) > 1: return divide(split)
 
-    if len(split := s.split('**')) > 1: return exponentiate(split)
+    split = s.split('**')
+    if len(split) > 1: return exponentiate(split)
 
     return float(s)  # if there's no more parsing that can be done
