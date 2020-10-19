@@ -40,11 +40,11 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache
 
-    def attack_check(self, m, ctx):
+    def attack_check(self, m, e_msg):
         if m.content.lower() not in self.d.mobs_mech.valid_attacks and m.content.lower() not in self.d.mobs_mech.valid_flees:
             return False
 
-        return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id
+        return m.channel.id == e_msg.channel.id and m.author.id == e_msg.author.id
 
     async def calc_sword_damage(self, uid, sword, diff_multi):
         sword = sword.lower()
@@ -157,7 +157,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 msg = await ctx.send(embed=embed)
 
                 try:
-                    resp = await self.bot.wait_for('message', check=(lambda m: self.attack_check(m, ctx)), timeout=15)  # wait for response
+                    resp = await self.bot.wait_for('message', check=(lambda m: self.attack_check(m, engage_msg)), timeout=15)  # wait for response
                 except asyncio.TimeoutError:  # user didn't respond
                     await msg.edit(suppress=True)
 
