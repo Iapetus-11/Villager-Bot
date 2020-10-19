@@ -236,7 +236,7 @@ class Owner(commands.Cog):
         db = self.db.db
 
         async with db.acquire() as con:
-            await con.execute('CREATE TABLE items_temp LIKE(items)')
+            await con.execute('CREATE TABLE items_temp (LIKE items)')
             await con.execute('INSERT INTO items_temp(uid, name, sell_price, amount) SELECT DISTINCT ON (name) uid, name, sell_price, amount')
             await con.execute('DROP TABLE items')
             await con.execute('ALTER TABLE items_temp RENAME TO items')
