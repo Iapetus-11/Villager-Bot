@@ -13,10 +13,14 @@ class BotLists(commands.Cog):
         self.db = self.bot.get_cog('Database')
 
         self.ses = aiohttp.ClientSession()
+        self.server_runner = None
         self.webhook_server = None
 
         self.bot.loop.create_task(self.webhooks_setup())
         self.bot.loop.create_task(self.update_stats())
+
+    def cog_unload(self):
+        self.bot.loop.create_task(self.server_runner.cleanup())
 
     async def update_stats(self):
         await self.bot.wait_until_ready()
@@ -46,8 +50,8 @@ class BotLists(commands.Cog):
 
         app.router.add_post(self.d.hookspath, handler)
 
-        runner = web.AppRunner(app)
-        await runner.setup()
+        self.server_runner = web.AppRunner(app)
+        await self.server_runner.setup()
 
         self.webhook_server = web.TCPSite(runner, '0.0.0.0', self.d.hooksport)
         await self.webhook_server.start()
