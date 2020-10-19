@@ -125,9 +125,9 @@ class Owner(commands.Cog):
                 guilds += f'{guild} **|** `{guild.id}`'
 
         if guilds == '':
-            await self.bot.send('No results...')
+            await self.bot.send(ctx, 'No results...')
         else:
-            await self.bot.send(guilds)
+            await self.bot.send(ctx, guilds)
 
     @commands.command(name='setactivity')
     @commands.is_owner()
