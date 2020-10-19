@@ -51,37 +51,40 @@ class Events(commands.Cog):
 
         self.d.msg_count += 1
 
-        if m.content.startswith(f'<@!{self.bot.user.id}>'):
-            prefix = '/'
+        try:
+            if m.content.startswith(f'<@!{self.bot.user.id}>'):
+                prefix = '/'
+                if m.guild is not None:
+                    prefix = self.d.prefix_cache.get(m.guild.id, '/')
+
+                lang = await self.bot.get_lang(m)
+
+                embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
+
+                embed.set_author(name='Villager Bot', icon_url=self.d.splash_logo)
+                embed.set_footer(text=lang.misc.petus)
+
+                await m.channel.send(embed=embed)
+                return
+
             if m.guild is not None:
-                prefix = self.d.prefix_cache.get(m.guild.id, '/')
+                if '@someone' in m.content:
+                    someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id and u.permissions_in(m.channel).read_messages)]
 
-            lang = await self.bot.get_lang(m)
+                    if len(someones) > 0:
+                        await m.channel.send(f'@someone ||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​|||| |||| ||  {random.choice(someones).mention}{m.author.mention}')
+                else:
+                    guild = await self.db.fetch_guild(m.guild.id)
 
-            embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
-
-            embed.set_author(name='Villager Bot', icon_url=self.d.splash_logo)
-            embed.set_footer(text=lang.misc.petus)
-
-            await m.channel.send(embed=embed)
-            return
-
-        if m.guild is not None:
-            if '@someone' in m.content:
-                someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id and u.permissions_in(m.channel).read_messages)]
-
-                if len(someones) > 0:
-                    await m.channel.send(f'@someone ||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​|||| |||| ||  {random.choice(someones).mention}{m.author.mention}')
-            else:
-                guild = await self.db.fetch_guild(m.guild.id)
-
-                if guild['replies'] and not m.content.startswith(self.d.prefix_cache.get(m.guild.id,  '/')):
-                    if 'emerald' in m.content.lower():
-                        await m.channel.send(random.choice(self.d.hmms))
-                    elif 'creeper' in m.content.lower():
-                        await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
-                    elif 'reee' in m.content.lower():
-                        await m.channel.send(random.choice(self.d.emojis.reees))
+                    if guild['replies'] and not m.content.startswith(self.d.prefix_cache.get(m.guild.id,  '/')):
+                        if 'emerald' in m.content.lower():
+                            await m.channel.send(random.choice(self.d.hmms))
+                        elif 'creeper' in m.content.lower():
+                            await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
+                        elif 'reee' in m.content.lower():
+                            await m.channel.send(random.choice(self.d.emojis.reees))
+        except discord.errors.Forbidden:
+            pass
 
     async def debug_error(self, ctx, e):
         traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
