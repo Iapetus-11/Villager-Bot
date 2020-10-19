@@ -7,10 +7,13 @@ import cv2
 def im_from_bytes(bytes):
     return cv2.imdecode(np.frombuffer(bytes, np.uint8), cv2.IMREAD_COLOR)
 
+# def draw_image(canvas, img, x, y):
+#     for i, row in enumerate(img):
+#         for j, pix in enumerate(row):
+#             canvas[i+y][j+x] = pix
+
 def draw_image(canvas, img, x, y):
-    for i, row in enumerate(img):
-        for j, pix in enumerate(row):
-            canvas[i+y][j+x] = pix
+    canvas[y:len(img)][x:len(img[0])] = img
 
 with open('data/block_palette.json', 'r') as d:
     data = json.load(d)
