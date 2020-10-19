@@ -102,6 +102,7 @@ class Events(commands.Cog):
             seconds = round(e.retry_after, 2)
 
             if ctx.command.name == 'mine':
+                print('mine')
                 if await self.db.fetch_item(ctx.author.id, 'Efficiency I Book') is not None:
                     e.retry_after -= .5
 
