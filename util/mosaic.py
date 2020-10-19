@@ -1,8 +1,11 @@
+import multiprocessing
 import numpy as np
 import random
 import base64
 import json
 import cv2
+
+pool = multiprocessing.Pool(processes=4)
 
 def im_from_bytes(bytes):
     return cv2.imdecode(np.frombuffer(bytes, np.uint8), cv2.IMREAD_COLOR)
@@ -71,6 +74,8 @@ def generate(source_bytes, max_dim, detailed):
 
     y = 0
 
+    tasks = []
+
     for row in source:
         x = 0
         for pix in row: # bgr
@@ -89,9 +94,12 @@ def generate(source_bytes, max_dim, detailed):
             if pal_key is None:
                 pal_key = palette_oct[random.choice([*palette_oct.keys()])]
 
-            draw_image(canvas, palette_map[pal_key], x, y)
+            tasks.append(pool.apply_async(draw_image, (canvas, palette_map[pal_key], x, y,)))
 
             x += xi
         y += yi
+
+    for t in tasks:
+        t.get()
 
     return cv2.imencode('.png', canvas)
