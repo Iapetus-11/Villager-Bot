@@ -149,7 +149,7 @@ class Owner(commands.Cog):
             for g in data.mcservers:
                 await con.execute(
                     'UPDATE guilds SET mcserver = $1 WHERE gid = $2',
-                    g.server, g.gid
+                    g.server[:50], g.gid
                 )
 
         await ctx.send('migrating warns')
