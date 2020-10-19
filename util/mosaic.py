@@ -85,7 +85,7 @@ def generate(source_bytes, max_dim, detailed):
                 pal_key = palette_quad.get((int(r/64), int(g/64), int(b/64)))
 
             if pal_key is None:
-                pal_key = palette_bi.get((int(r/128), int(g128), int(b/128)))
+                pal_key = palette_bi.get((int(r/128), int(g/128), int(b/128)))
 
             if pal_key is None:
                 pal_key = palette_oct[random.choice((*palette_oct.keys(),))]
