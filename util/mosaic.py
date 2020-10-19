@@ -13,7 +13,7 @@ def im_from_bytes(bytes):
 #             canvas[i+y][j+x] = pix
 
 def draw_image(canvas, img, x, y):
-    canvas[y:y+img.shape[0]][x:x+img.shape[1]] = img
+    canvas[y:y+img.shape[0], x:x+img.shape[1]] = img
 
 with open('data/block_palette.json', 'r') as d:
     data = json.load(d)
