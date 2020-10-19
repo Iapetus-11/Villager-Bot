@@ -137,7 +137,7 @@ class Owner(commands.Cog):
             data = cj.load(f)
 
         await ctx.send('migrating prefix')
-        async with self.db.acquire() as con:
+        async with self.db.db.acquire() as con:
             for g in data.prefixes:
                 await con.execute(
                     'INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6)',
@@ -145,7 +145,7 @@ class Owner(commands.Cog):
                 )
 
         await ctx.send('migrating mc server')
-        async with self.db.acquire() as con:
+        async with self.db.db.acquire() as con:
             for g in data.mcservers:
                 await con.execute(
                     'UPDATE guilds SET mcserver = $1 WHERE gid = $2',
@@ -153,7 +153,7 @@ class Owner(commands.Cog):
                 )
 
         await ctx.send('migrating warns')
-        async with self.db.acquire() as con:
+        async with self.db.db.acquire() as con:
             for w in data.warns:
                 await con.execute(
                     'INSERT INTO warnings VALUES ($1, $2, $3, $4)',
@@ -170,7 +170,7 @@ class Owner(commands.Cog):
             data = cj.load(f)
 
         await ctx.send('migrating items...')
-        async with self.db.acquire() as con:
+        async with self.db.db.acquire() as con:
             for item in data.items:
                 await con.execute(
                     'INSERT INTO items VALUES ($1, $2, $3, $4)',
@@ -178,12 +178,12 @@ class Owner(commands.Cog):
                 )
 
         await ctx.send('migrating balances...')
-        async with self.db.acquire() as con:
+        async with self.db.db.acquire() as con:
             for b in data.currency:
                 await con.execute('INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7)', b.id, b.amount, None, None, 20, 0, False)
 
         await ctx.send('migrating vaults...')
-        async with self.db.acquire() as con:
+        async with self.db.db.acquire() as con:
             for v in data.vaults:
                 await con.execute('UPDATE users SET vault_bal = $1, vault_max = $2 WHERE uid = $3', v.amount, v.max, v.id)
 
