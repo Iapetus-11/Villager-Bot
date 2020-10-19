@@ -191,6 +191,38 @@ class Owner(commands.Cog):
 
         await ctx.send('done')
 
+    @commands.command(name='migratepicks')
+    @commands.is_owner()
+    async def migrate_pickaxes(self, ctx):
+        await ctx.send('opening db.json')
+        with open('db.json', 'r') as f:
+            data = cj.load(f)
+
+        await ctx.send('migrating pickaxes...')
+        async with self.db.db.acquire() as con:
+            for p in data.pickaxes:
+                if p.pickaxe == 'wood':
+                    pick = ('Wood Pickaxe', 0)
+                elif p.pickaxe == 'stone':
+                    pick = ('Stone Pickaxe', 8)
+                elif p.pickaxe == 'iron':
+                    pick = ('Iron Pickaxe', 32)
+                elif p.pickaxe == 'gold':
+                    pick = ('Gold Pickaxe', 128)
+                elif p.pickaxe == 'diamond':
+                    pick = ('Diamond Pickaxe', 512)
+                elif p.pickaxe == 'netherite':
+                    pick = ('Netherite Pickaxe', 2048)
+                else:
+                    pick = ('Wood Pickaxe', 0)
+
+                await con.execute(
+                    'INSERT INTO items VALUES ($1, $2, $3, $4)',
+                    p.id, pick[0], pick[1], 1
+                )
+
+        await ctx.send('done')
+        
 
 def setup(bot):
     bot.add_cog(Owner(bot))
