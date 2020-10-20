@@ -19,6 +19,5 @@ def make_stat_bar(value, max, slots, full, empty):  # will fuck up for sure if v
     return (full * occupado) + empty * math.floor(slots - occupado)
 
 def make_health_bar(health, max_health, full, half, empty):
-    assert max % 2 == 0
-
+    assert max_health % 2 == 0
     return (full * (health // 2)) + (half * (health % 2)) + (empty * max_health)
