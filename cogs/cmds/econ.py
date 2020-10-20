@@ -73,9 +73,9 @@ class Econ(commands.Cog):
 
         if user.bot:
             if user.id == self.bot.user.id:
-                await self.bot.send(ctx.l.econ.pp.bot_1)
+                await self.bot.send(ctx, ctx.l.econ.pp.bot_1)
             else:
-                await self.bot.send(ctx.l.econ.pp.bot_2)
+                await self.bot.send(ctx, ctx.l.econ.pp.bot_2)
             return
 
         db_user = await self.db.fetch_user(user.id)
