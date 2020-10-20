@@ -268,6 +268,11 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 ems_won = int((ems_won if ems_won > 0 else 1) * diff_multi)
 
+                if await self.db.fetch_item(u.id, 'Looting II') is not None:
+                    ems_won = int(ems_won * 1.75)
+                elif await self.db.fetch_item(u.id, 'Looting I') is not None:
+                    ems_won = int(ems_won * 1.25)
+
                 await self.db.balance_add(u.id, ems_won)
                 await self.db.update_lb(u.id, 'mobs_killed', 1, 'add')
 
