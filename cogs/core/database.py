@@ -141,7 +141,7 @@ class Database(commands.Cog):
 
         async with self.db.acquire() as con:
             if prev['amount'] - amount < 1:
-                await con.execute('DELETE FROM items WHERE uid = $1 AND name = $2', uid, name)
+                await con.execute('DELETE FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)', uid, name)
             else:
                 await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
                                   prev['amount'] - amount, uid, name)
