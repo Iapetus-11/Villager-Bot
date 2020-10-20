@@ -81,7 +81,7 @@ class Econ(commands.Cog):
         db_user = await self.db.fetch_user(user.id)
         u_items = await self.db.fetch_items(user.id)
 
-        total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] * u_it['amount'] for u_it in u_items])
+        total_wealth = db_user['emeralds'] + db_user.get('vault_bal', 0) * 9 + sum([u_it.get('sell_price', 0) * u_it['amount'] for u_it in u_items])
         health_bar = make_health_bar(db_user['health'], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty)
 
         embed = discord.Embed(color=self.d.cc, description=health_bar)
@@ -114,7 +114,7 @@ class Econ(commands.Cog):
         db_user = await self.db.fetch_user(user.id)
 
         u_items = await self.db.fetch_items(user.id)
-        total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] * u_it['amount'] for u_it in u_items])
+        total_wealth = db_user['emeralds'] + db_user.get('vault_bal', 0) * 9 + sum([u_it.get('sell_price', 0) * u_it['amount'] for u_it in u_items])
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=user.avatar_url_as())
