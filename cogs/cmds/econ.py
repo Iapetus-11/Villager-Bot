@@ -97,7 +97,7 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name='balance', aliases=['bal'])
+    @commands.command(name='balance', aliases=['bal', 'vault'])
     async def balance(self, ctx, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
 
