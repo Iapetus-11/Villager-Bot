@@ -7,7 +7,7 @@ def recursive_update(obj, new):  # hOlY FUCKING SHIT this is so big brained I AM
             obj[k] = recursive_update(obj.get(k, cj.classify({})), v)
     elif isinstance(obj, list):
         for i, v in enumerate(new):
-            obj[i] = recursive_update(obj[i], v)
+            obj[i] = recursive_update(obj[i], v) if i < len(obj) else v
     else:
         return new
 
