@@ -142,10 +142,10 @@ class Owner(commands.Cog):
     async def who_ya_daddy(self, ctx):
         await ctx.send(f'Iapetus11 is {random.choice(self.d.owos)}')
 
-    @commands.command(name='topten', aliases=['toptenguilds'])
+    @commands.command(name='topguilds')
     @commands.is_owner()
-    async def top_ten_guilds(self, ctx):
-        guilds = sorted(self.bot.guilds, reverse=True, key=(lambda g: g.member_count))
+    async def top_guilds(self, ctx):
+        guilds = sorted(self.bot.guilds, reverse=True, key=(lambda g: g.member_count))[:20]
 
         body = ''
         for g in guilds:
