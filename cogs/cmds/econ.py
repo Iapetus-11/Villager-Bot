@@ -701,6 +701,10 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald))
 
+        if random.randint(0, 200) == 1:
+            if db_user['vault_max'] < 2000:
+                await self.db.update_user(ctx.author.id, 'vault_max', db_user['vault_max']+1)
+
     @commands.command(name='pillage')
     @commands.guild_only()
     @commands.cooldown(1, 5*60, commands.BucketType.user)
