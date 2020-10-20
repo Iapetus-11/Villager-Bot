@@ -499,73 +499,73 @@ class Econ(commands.Cog):
                                                                       amount*db_item['sell_price'],
                                                                       self.d.emojis.emerald))
 
-    @commands.command(name='give')
-    @commands.guild_only()
-    @commands.cooldown(1, 10, commands.BucketType.user)
-    async def give(self, ctx, user: discord.Member, *, amount_item):
-        """Give an item or emeralds to another person"""
-
-        if user.bot:
-            if user.id == self.bot.user.id:
-                await self.bot.send(ctx, ctx.l.econ.give.bot_1)
-            else:
-                await self.bot.send(ctx, ctx.l.econ.give.bot_2)
-            return
-
-        if ctx.author.id == user.id:
-            await self.bot.send(ctx, ctx.l.econ.give.stupid_1)
-            return
-
-        amount_item = amount_item.lower()
-
-        try:
-            # to be given is emeralds
-            amount = int(amount_item)
-            item = 'emerald'
-        except Exception:
-            split = amount_item.split(' ')
-
-            try:
-                amount = int(split.pop(0))
-            except Exception:
-                amount = 1
-
-            item = ' '.join(split)
-
-        if amount < 1:
-            await self.bot.send(ctx, ctx.l.econ.give.stupid_2)
-            return
-
-        db_user = await self.db.fetch_user(ctx.author.id)
-
-        if 'pickaxe' in item.lower() or 'sword' in item.lower() or 'trophy' in item.lower():
-            await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
-            return
-
-        if item in ('emerald', 'emeralds', ':emerald:',):
-            if amount > db_user["emeralds"]:
-                await self.bot.send(ctx, ctx.l.econ.give.stupid_3)
-                return
-
-            await self.db.balance_sub(ctx.author.id, amount)
-            await self.db.balance_add(user.id, amount)
-
-            await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention))
-        else:
-            db_item = await self.db.fetch_item(ctx.author.id, item)
-
-            if db_item is None or amount > db_item['amount']:
-                await self.bot.send(ctx, ctx.l.econ.give.stupid_4)
-                return
-
-            if amount < 1:
-                await self.bot.send(ctx, ctx.l.econ.give.stupid_2)
-                return
-
-            await self.db.remove_item(ctx.author.id, item, amount)
-            await self.db.add_item(user.id, db_item['name'], db_item['sell_price'], amount)
-
-            await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
+    # @commands.command(name='give')
+    # @commands.guild_only()
+    # @commands.cooldown(1, 10, commands.BucketType.user)
+    # async def give(self, ctx, user: discord.Member, *, amount_item):
+    #     """Give an item or emeralds to another person"""
+    #
+    #     if user.bot:
+    #         if user.id == self.bot.user.id:
+    #             await self.bot.send(ctx, ctx.l.econ.give.bot_1)
+    #         else:
+    #             await self.bot.send(ctx, ctx.l.econ.give.bot_2)
+    #         return
+    #
+    #     if ctx.author.id == user.id:
+    #         await self.bot.send(ctx, ctx.l.econ.give.stupid_1)
+    #         return
+    #
+    #     amount_item = amount_item.lower()
+    #
+    #     try:
+    #         # to be given is emeralds
+    #         amount = int(amount_item)
+    #         item = 'emerald'
+    #     except Exception:
+    #         split = amount_item.split(' ')
+    #
+    #         try:
+    #             amount = int(split.pop(0))
+    #         except Exception:
+    #             amount = 1
+    #
+    #         item = ' '.join(split)
+    #
+    #     if amount < 1:
+    #         await self.bot.send(ctx, ctx.l.econ.give.stupid_2)
+    #         return
+    #
+    #     db_user = await self.db.fetch_user(ctx.author.id)
+    #
+    #     if 'pickaxe' in item.lower() or 'sword' in item.lower() or 'trophy' in item.lower():
+    #         await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
+    #         return
+    #
+    #     if item in ('emerald', 'emeralds', ':emerald:',):
+    #         if amount > db_user["emeralds"]:
+    #             await self.bot.send(ctx, ctx.l.econ.give.stupid_3)
+    #             return
+    #
+    #         await self.db.balance_sub(ctx.author.id, amount)
+    #         await self.db.balance_add(user.id, amount)
+    #
+    #         await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention))
+    #     else:
+    #         db_item = await self.db.fetch_item(ctx.author.id, item)
+    #
+    #         if db_item is None or amount > db_item['amount']:
+    #             await self.bot.send(ctx, ctx.l.econ.give.stupid_4)
+    #             return
+    #
+    #         if amount < 1:
+    #             await self.bot.send(ctx, ctx.l.econ.give.stupid_2)
+    #             return
+    #
+    #         await self.db.remove_item(ctx.author.id, item, amount)
+    #         await self.db.add_item(user.id, db_item['name'], db_item['sell_price'], amount)
+    #
+    #         await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
     @commands.command(name='gamble', aliases=['bet'])
     @commands.cooldown(1, 10, commands.BucketType.user)
