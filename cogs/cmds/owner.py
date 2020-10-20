@@ -3,6 +3,7 @@ from discord.ext import commands
 from typing import Union
 import classyjson as cj
 import discord
+import random
 import os
 
 
@@ -135,6 +136,22 @@ class Owner(commands.Cog):
         await self.bot.change_presence(activity=discord.Game(name=activity))
 
         await ctx.message.add_reaction(self.d.emojis.yes)
+
+    @commands.command(name='whoyadaddy', aliases=['whodaddy'])
+    @commands.is_owner()
+    async def who_ya_daddy(self, ctx):
+        await ctx.send(f'Iapetus11 is {random.choice(self.d.owos)}')
+
+    @commands.command(name='topten', aliases=['toptenguilds'])
+    @commands.is_owner()
+    async def top_ten_guilds(self, ctx):
+        guilds = sorted(self.bot.guilds, reverse=True, key=(lambda g: g.member_count))
+
+        body = ''
+        for g in guilds:
+            body += f'**{g.member_count}** {g} *{g.id}*\n'
+
+        await self.bot.send(ctx, body)
 
 
 def setup(bot):
