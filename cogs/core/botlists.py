@@ -79,6 +79,7 @@ class BotLists(commands.Cog):
             return
 
         self.bot.logger.info(f'\u001b[32;1m{data.user} voted on top.gg\u001b[0m DEBUG/TESTING: {data}')
+        self.d.votes_topgg += 1
 
         amount = self.d.topgg_reward * self.d.base_multi
 
