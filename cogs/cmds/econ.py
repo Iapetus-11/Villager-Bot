@@ -1,5 +1,5 @@
 from discord.ext import commands, tasks
-from util.misc import make_stat_bar
+from util.misc import make_health_bar
 import discord
 import asyncio
 import aiohttp
@@ -82,7 +82,7 @@ class Econ(commands.Cog):
         u_items = await self.db.fetch_items(user.id)
 
         total_wealth = db_user['emeralds'] + db_user['vault_bal'] * 9 + sum([u_it['sell_price'] * u_it['amount'] for u_it in u_items])
-        health_bar = make_stat_bar(db_user['health'], 20, 10, self.d.emojis.heart_full, self.d.emojis.heart_empty)
+        health_bar = make_health_bar(db_user['health'], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty)
 
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
