@@ -122,7 +122,7 @@ class Owner(commands.Cog):
 
         for guild in self.bot.guilds:
             if guild.get_member(uid) is not None:
-                guilds += f'{guild} **|** `{guild.id}`'
+                guilds += f'{guild} **|** `{guild.id}`\n'
 
         if guilds == '':
             await self.bot.send(ctx, 'No results...')
