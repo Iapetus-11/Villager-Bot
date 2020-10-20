@@ -366,7 +366,8 @@
       "warn": {
         "stupid_1": "You cannot warn yourself",
         "no_reason": "No reason specified",
-        "by": "Warning by"
+        "by": "Warning by",
+        "confirm": "{} Warned {} for reason: *{}*"
       }
     },
     "config": {

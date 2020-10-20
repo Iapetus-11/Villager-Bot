@@ -114,7 +114,9 @@ class Mod(commands.Cog):
                 reason = f'{reason[:245]}...'
 
         await self.db.add_warn(user.id, ctx.guild.id, ctx.author.id, reason)
-        await ctx.message.add_reaction(self.d.emojis.yes)
+
+        warns = await self.db.fetch_warns(user.id, ctx.guild.id)
+        await self.bot.send(ctx.l.mod.warn.confirm.format(self.d.emojis.yes, user.mention, reason))
 
     @commands.command(name='warns', aliases=['warnings', 'karens'])
     @commands.guild_only()
