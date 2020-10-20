@@ -148,7 +148,7 @@ class Owner(commands.Cog):
         guilds = sorted(self.bot.guilds, reverse=True, key=(lambda g: g.member_count))[:20]
 
         body = ''
-        for i, g in enumerate(guilds):
+        for i, g in enumerate(guilds, start=1):
             body += f'{i}. **{g.member_count}** {g} *{g.id}*\n'
 
         await self.bot.send(ctx, body)
