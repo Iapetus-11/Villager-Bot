@@ -20,4 +20,4 @@ def make_stat_bar(value, max, slots, full, empty):  # will fuck up for sure if v
 
 def make_health_bar(health, max_health, full, half, empty):
     assert max_health % 2 == 0
-    return (full * (health // 2)) + (half * (health % 2)) + (empty * max_health)
+    return (full * (health // 2)) + (half * (health % 2)) + (empty * (max_health // 2 - (health // 2)))
