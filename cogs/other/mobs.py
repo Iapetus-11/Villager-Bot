@@ -198,7 +198,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 await asyncio.sleep(1)
 
-                m_dmg = random.choice((2, 4, 6,))
+                m_dmg = random.randint(2, 6)
 
                 if mob_key == 'creeper':
                     if iteration > 2:
