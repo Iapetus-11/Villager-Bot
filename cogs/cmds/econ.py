@@ -218,7 +218,11 @@ class Econ(commands.Cog):
                 return
 
         if amount < 1:
-            await self.bot.send(ctx, ctx.l.econ.dep.stupid_1)
+            if emerald_blocks.lower() in ('all', 'max',):
+                await self.bot.send(ctx, ctx.l.econ.dep.stupid_2)
+            else:
+                await self.bot.send(ctx, ctx.l.econ.dep.stupid_1)
+
             return
 
         if amount > c_v_max - c_v_bal:
