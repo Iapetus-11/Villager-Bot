@@ -206,7 +206,7 @@
       },
       "skeleton": {
         "nice": "Skeleton",
-        "health": 16,
+        "health": 20,
         "image": "https://home.betterapi.net/images/mob_spawns/skeleton.png"
       },
       "spider": {
