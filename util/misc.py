@@ -1,9 +1,10 @@
+import classyjson as cj
 import math
 
 def recursive_update(obj, new):  # hOlY FUCKING SHIT this is so big brained I AM A GOD
     if isinstance(obj, dict):
         for k, v in new.items():
-            obj[k] = recursive_update(obj[k], v)
+            obj[k] = recursive_update(obj.get(k, cj.classify({})), v)
     elif isinstance(obj, list):
         for i, v in enumerate(new):
             obj[i] = recursive_update(obj[i], v)
