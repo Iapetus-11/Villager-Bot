@@ -1,0 +1,98 @@
+{
+  "stone sword": [
+    32,
+    "db_item_count < 1",
+    [
+      "Stone Sword",
+      8
+    ]
+  ],
+  "iron sword": [
+    128,
+    "db_item_count < 1",
+    [
+      "Iron Sword",
+      32
+    ]
+  ],
+  "gold sword": [
+    512,
+    "db_item_count < 1",
+    [
+      "Gold Sword",
+      128
+    ]
+  ],
+  "diamond sword": [
+    2048,
+    "db_item_count < 1",
+    [
+      "Diamond Sword",
+      512
+    ]
+  ],
+  "netherite sword": [
+    8192,
+    "db_item_count < 1",
+    [
+      "Netherite Sword",
+      2048
+    ]
+  ],
+  "haste i potion": [
+    120,
+    "True",
+    [
+      "Haste I Potion",
+      32
+    ]
+  ],
+  "fortune i book": [
+    120,
+    "True",
+    [
+      "Fortune I Book",
+      24
+    ]
+  ],
+  "jar of bees": [
+    8,
+    "True",
+    [
+      "Jar Of Bees",
+      2
+    ]
+  ],
+  "netherite scrap": [
+    32,
+    "True",
+    [
+      "Netherite Scrap",
+      8
+    ]
+  ],
+  "rich person trophy": [
+    36000,
+    "db_item_count < 1",
+    [
+      "Rich Person Trophy",
+      10
+    ]
+  ],
+  "vault potion": [
+    81,
+    "True",
+    [
+      "Vault Potion",
+      30
+    ]
+  ],
+  "sharpness i book": [
+    120,
+    "True",
+    [
+      "Sharpness I Book",
+      32
+    ]
+  ]
+}
