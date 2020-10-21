@@ -100,7 +100,7 @@ class Database(commands.Cog):
 
     async def balance_sub(self, uid, taken):
         bal = await self.fetch_balance(uid)
-        taken = 0 if bal - taken <= 0 else taken
+        taken = 0 if bal - taken < 0 else taken
         await self.set_balance(uid, bal - taken)
         return taken
 
