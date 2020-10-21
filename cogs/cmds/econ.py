@@ -703,7 +703,7 @@ class Econ(commands.Cog):
         else:
             found = int(found)
 
-            if await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None:
+            if await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None:
                 found *= 2  # sekret
 
             await self.db.balance_add(ctx.author.id, found)
