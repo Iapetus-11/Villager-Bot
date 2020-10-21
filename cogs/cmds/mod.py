@@ -56,8 +56,14 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def ban_user(self, ctx, user: discord.Member, *, reason='No reason provided.'):
+    async def ban_user(self, ctx, user: Union[discord.Member, int], *, reason='No reason provided.'):
         """Bans the given user from the current Discord server"""
+
+        if type(user) == int:
+            try:
+                user = await self.bot.fetch_user(user)
+            except discord.HTTPException:
+                raise commands.BadArgument
 
         if ctx.author.id == user.id:
             await self.bot.send(ctx, ctx.l.mod.ban.stupid_1)
