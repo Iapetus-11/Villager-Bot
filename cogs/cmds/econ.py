@@ -176,19 +176,21 @@ class Econ(commands.Cog):
                 await msg.add_reaction('➡️')
                 await asyncio.sleep(.1)
 
-            try:
-                def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+                try:
+                    def author_check(react, r_user):
+                        return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
-                react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
-            except asyncio.TimeoutError:
-                return
+                    react, r_user = await self.bot.wait_for('reaction_add', check=author_check, timeout=180)  # wait for reaction from message author (3min)
+                except asyncio.TimeoutError:
+                    return
 
-            await react.remove(ctx.author)
+                await react.remove(ctx.author)
 
-            if react.emoji == '⬅️': page -= 1 if page-1 >= 0 else 0
-            if react.emoji == '➡️': page += 1 if page+1 <= page_max else 0
-            await asyncio.sleep(.1)
+                if react.emoji == '⬅️': page -= 1 if page-1 >= 0 else 0
+                if react.emoji == '➡️': page += 1 if page+1 <= page_max else 0
+                await asyncio.sleep(.1)
+            else:
+                break
 
     @commands.command(name='deposit', aliases=['dep'])
     @commands.cooldown(1, 2, commands.BucketType.user)
