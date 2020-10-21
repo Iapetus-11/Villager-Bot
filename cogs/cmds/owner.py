@@ -91,7 +91,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def botban_user(self, ctx, users: commands.Greedy[discord.User]):
         if len(users) == 0:
-            await self.bot.send('You have to specify a user.')
+            await self.bot.send(ctx, 'You have to specify a user.')
             return
 
         for user in users:
@@ -103,7 +103,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def unbotban_user(self, ctx, users: commands.Greedy[discord.User]):
         if len(users) == 0:
-            await self.bot.send('You have to specify a user.')
+            await self.bot.send(ctx, 'You have to specify a user.')
             return
 
         for user in users:
