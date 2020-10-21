@@ -162,7 +162,8 @@ async def global_check(ctx):
     ctx.l = await bot.get_lang(ctx)
 
     if ctx.author.id != 536986067140608041:
-        return
+        ctx.custom_err = 'ignore'
+        return False
 
     if ctx.author.id in bot.d.ban_cache:
         ctx.custom_err = 'bot_banned'
