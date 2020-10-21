@@ -153,6 +153,12 @@ class Owner(commands.Cog):
 
         await self.bot.send(ctx, body)
 
+    @commands.command(name='toggleownerlock', aliases=['ownerlock'])
+    @commands.is_owner()
+    async def toggle_owner_lock(self, ctx):
+        self.bot.owner_locked = not self.bot.owner_locked
+        await self.bot.send(ctx, f'All commands owner only: {self.bot.owner_locked}')
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))

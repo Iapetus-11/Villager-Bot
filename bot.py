@@ -139,6 +139,8 @@ bot.d.lang_cache = {}  # {gid: 'lang'}
 
 bot.d.fun_langs.unenchant = {v: k for k, v in bot.d.fun_langs.enchant.items()}  # reverse dict to create unenchantment lang
 
+bot.owner_locked = False
+
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
     'cogs.core.events',
@@ -161,7 +163,7 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
 async def global_check(ctx):
     ctx.l = await bot.get_lang(ctx)
 
-    if ctx.author.id != 536986067140608041:
+    if bot.owner_locked and ctx.author.id != 536986067140608041:
         ctx.custom_err = 'ignore'
         return False
 
