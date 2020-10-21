@@ -269,9 +269,13 @@ class Useful(commands.Cog):
     @commands.command(name='google', aliases=['search', 'thegoogle'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def google_search(self, ctx, *, query):
+        safesearch = True
+        if isinstance(ctx.channel, discord.TextChannel):
+            safesearch = not ctx.channel.is_nsfw()
+
         try:
             with ctx.typing():
-                res = await self.google_client.search(query, safesearch=ctx.channel.is_nsfw())
+                res = await self.google_client.search(query, safesearch=safesearch)
         except async_cse.search.NoResults:
             await self.bot.send(ctx, ctx.l.useful.search.nope)
             return
@@ -291,9 +295,13 @@ class Useful(commands.Cog):
     @commands.command(name='youtube', aliases=['ytsearch', 'yt'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def youtube_search(self, ctx, *, query):
+        safesearch = True
+        if isinstance(ctx.channel, discord.TextChannel):
+            safesearch = not ctx.channel.is_nsfw()
+
         try:
             with ctx.typing():
-                res = await self.google_client.search(query, safesearch=ctx.channel.is_nsfw())
+                res = await self.google_client.search(query, safesearch=safesearch)
         except async_cse.search.NoResults:
             await self.bot.send(ctx, ctx.l.useful.search.nope)
             return
@@ -314,9 +322,13 @@ class Useful(commands.Cog):
     @commands.command(name='image', aliases=['imagesearch', 'img'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def image_search(self, ctx, *, query):
+        safesearch = True
+        if isinstance(ctx.channel, discord.TextChannel):
+            safesearch = not ctx.channel.is_nsfw()
+
         try:
             with ctx.typing():
-                res = await self.google_client.search(query, safesearch=ctx.channel.is_nsfw(), image_search=True)
+                res = await self.google_client.search(query, safesearch=safesearch, image_search=True)
         except async_cse.search.NoResults:
             await self.bot.send(ctx, ctx.l.useful.search.nope)
             return
