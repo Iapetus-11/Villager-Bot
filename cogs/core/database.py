@@ -98,11 +98,11 @@ class Database(commands.Cog):
         await self.set_balance(uid, new_bal)
         return new_bal
 
-    async def balance_sub(self, uid, amount):
-        new_bal = await self.fetch_balance(uid) - amount
-        new_bal = new_bal if new_bal >= 0 else 0
-        await self.set_balance(uid, new_bal)
-        return new_bal
+    async def balance_sub(self, uid, taken):
+        bal = await self.fetch_balance(uid)
+        taken = 0 if bal - taken <= 0 else taken
+        await self.set_balance(uid, bal - taken)
+        return taken
 
     async def fetch_vault(self, uid):  # fetches a user's vault in the form (vault_amount, vault_max)
         await self.fetch_user(uid)
