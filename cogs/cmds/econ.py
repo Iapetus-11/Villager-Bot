@@ -153,6 +153,7 @@ class Econ(commands.Cog):
             page_max = 0
 
         msg = None
+        first_time = True
 
         while True:
             body = ''  # text for that page
@@ -171,11 +172,11 @@ class Econ(commands.Cog):
                 await msg.edit(embed=embed)
 
             if page_max > 0:
-                await msg.add_reaction('⬅️')
-                await asyncio.sleep(.1)
-                await msg.add_reaction('➡️')
-                await asyncio.sleep(.1)
-
+                if first_time:
+                    await msg.add_reaction('⬅️')
+                    await asyncio.sleep(.1)
+                    await msg.add_reaction('➡️')
+                    await asyncio.sleep(.1)
                 try:
                     def author_check(react, r_user):
                         return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
@@ -191,6 +192,8 @@ class Econ(commands.Cog):
                 await asyncio.sleep(.1)
             else:
                 break
+
+            first_time = False
 
     @commands.command(name='deposit', aliases=['dep'])
     @commands.cooldown(1, 2, commands.BucketType.user)
