@@ -1,6 +1,7 @@
 config.json
 db.json
 *.env
+bot.sh
 data/keys.json
 cogs/core/hentai.py
 
