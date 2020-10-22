@@ -1,8 +1,11 @@
 aiohttp
 arrow
-dblpy
-discord.py
+discord.py==1.4.2
 async-cse
-mcstatus
 asyncpg
-PyRakLib
+classy-json
+bs4
+opencv-python
+numpy
+psutil
+colorama
