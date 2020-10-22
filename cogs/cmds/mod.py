@@ -115,6 +115,10 @@ class Mod(commands.Cog):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
+        if len(warns) >= 20:
+            await self.bot.send(ctx, ctx.l.mod.warn.thats_too_much_man)
+            return
+
         if reason is not None:
             if len(reason) > 245:
                 reason = f'{reason[:245]}...'
@@ -136,10 +140,6 @@ class Mod(commands.Cog):
                 return
 
         warns = await self.db.fetch_warns(user.id, ctx.guild.id)
-
-        if len(warns) >= 20:
-            await self.bot.send(ctx, ctx.l.mod.warn.thats_too_much_man)
-            return
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f'{user}\'s warnings ({len(warns)} total):', icon_url=user.avatar_url_as())
