@@ -129,7 +129,7 @@ class Fun(commands.Cog):
             else:
                 embed = discord.Embed(color=self.d.cc)
                 embed.set_image(url=f'{self.d.base_url}/images/cursed_minecraft/{random.choice(self.d.cursed_images)}')
-                
+
                 await ctx.send(embed=embed)
 
     @commands.command(name='say')
@@ -278,7 +278,7 @@ class Fun(commands.Cog):
         await self.bot.send(ctx, f'{bubble*size[0]}\n'*size[1])
 
     @commands.command(name='kill', aliases=['die', 'kil', 'dorito'])
-    async def kill_thing(self, ctx, thing: typing.Union[discord.User, str]):
+    async def kill_thing(self, ctx, *, thing: typing.Union[discord.User, str]):
         if isinstance(thing, discord.User):
             thing = thing.mention
 
