@@ -1029,5 +1029,27 @@
       "y": "ｙ",
       "z": "ｚ"
     }
+  },
+  "books":{
+
+    "max_books": [
+        "Fortune III Book",
+        "Efficiency I Book",
+        "Looting II Book",
+        "Sharpness II Book"
+    ],
+
+    "regular_books": [
+      "Fortune I Book",
+      "Fortune II Book",
+      "Fortune III Book",
+      "Efficiency I Book",
+      "Looting I Book",
+      "Sharpness I Book",
+      "Looting II Book",
+      "Sharpness II Book"
+    ]
+
   }
+
 }
