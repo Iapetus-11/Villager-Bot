@@ -114,7 +114,7 @@ class Mod(commands.Cog):
         if not await self.perm_check(ctx.author, user):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
-            
+
         warns = await self.db.fetch_warns(user.id, ctx.guild.id)
 
         if len(warns) >= 20:
@@ -127,7 +127,7 @@ class Mod(commands.Cog):
 
         await self.db.add_warn(user.id, ctx.guild.id, ctx.author.id, reason)
 
-        await self.bot.send(ctx, ctx.l.mod.warn.confirm.format(self.d.emojis.yes, user.mention, len(warns), reason))
+        await self.bot.send(ctx, ctx.l.mod.warn.confirm.format(self.d.emojis.yes, user.mention, len(warns)+1, reason))
 
     @commands.command(name='warns', aliases=['warnings', 'karens'])
     @commands.guild_only()
