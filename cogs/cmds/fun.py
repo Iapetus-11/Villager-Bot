@@ -49,7 +49,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while meme['spoiler'] or (not do_nsfw and meme['nsfw']):
                 resp = await self.ses.get(
-                    'https://betterapi.net/reddit/gimme/meme+memes+me_irl+dankmemes',
+                    'https://betterapi.net/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 meme = cj.classify(await resp.json())
