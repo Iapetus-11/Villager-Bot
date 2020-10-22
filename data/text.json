@@ -694,6 +694,15 @@
         "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
         "lb_bee": "{0}__**Total Bees Leaderboard**__{0}",
         "lb_cmds": "{0}__**Commands Sent Leaderboard**__{0}"
+      },
+      "anvil": {
+        "you_combined": "You combined **4x** **{}** into one ****{}****!",
+        "not_enough_emeralds": "You don't have enough emeralds! (you need **{}** more emeralds)",
+        "not_enough_books": "You don't have enough books! (you need **{}** more books)",
+        "not_enough_books_emeralds": "You don't have enough books and emeralds! You need **{}** more {}s and **{}** more emeralds",
+        "you_dont_have_this": "You can't combine books you don't have!",
+        "max_book": "This is the strongest book of his kind!",
+        "not_a_book": "You can only combine enchantment books"
       }
     }
   }
