@@ -137,7 +137,7 @@ class Mod(commands.Cog):
 
         warns = await self.db.fetch_warns(user.id, ctx.guild.id)
 
-        if len(warns) > 20:
+        if len(warns) >= 20:
             await self.bot.send(ctx, ctx.l.mod.warn.thats_too_much_man)
             return
 
