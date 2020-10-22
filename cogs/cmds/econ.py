@@ -994,7 +994,7 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_cmds.format(':keyboard:'))
         await ctx.send(embed=embed)
 
-    @commands.command(name="anvil", aliases=["comb", "combine", "anv"])
+    @commands.command(name='anvil', aliases=['comb', 'combine', 'anv'])
     async def anvil(self, ctx, *book):
         db_user = await self.db.fetch_user(ctx.author.id)
         user_items = await self.db.fetch_items(ctx.author.id)
@@ -1009,6 +1009,7 @@ class Econ(commands.Cog):
             else:
                 await self.bot.send(ctx, ctx.l.econ.inv.bot_2)
             return
+
         # checking if the book is actually a valid book
         if book not in self.d.books.regular_books:
             await self.bot.send(ctx, ctx.l.econ.anvil.not_a_book)
@@ -1020,42 +1021,54 @@ class Econ(commands.Cog):
 
         if book_tier == 'I':
             anvil_fee = 500
+
         elif book_tier == 'II':
             anvil_fee = 1000
 
         for item in user_items:
             has_enough_book = False
             has_enough_emeralds = False
+
             if item['name'] == book:
                 print(item)
                 price_of_upgraded_item = 0
+
                 if int(item['amount']) >= 4:
                     has_enough_book = True
+
                 price_of_item = item['sell_price']
+                upgraded_book = org_book[0] + " " + org_book[1] + "I " + org_book[2]
+
                 if int(db_user['emeralds']) >= (price_of_item * 4 + anvil_fee):
                     has_enough_emeralds = True
 
-                upgraded_book = org_book[0] + " " + org_book[1] + "I " + org_book[2]
                 try:
                     price_of_upgraded_item = (await self.db.fetch_item(ctx.author.id, upgraded_book))['sell_price']
+
                 except Exception as e:
                     print(e)
+
                 if has_enough_book and has_enough_emeralds:
                     await self.db.add_item(ctx.author.id, upgraded_book, price_of_upgraded_item, 1)
                     await self.db.remove_item(ctx.author.id, book, 4)
                     await self.db.balance_sub(ctx.author.id, (price_of_item * 4 + anvil_fee))
                     await self.bot.send(ctx, ctx.l.econ.anvil.you_combined.format(book, upgraded_book))
                     return
+
                 emeralds_needed = (price_of_item * 4 + anvil_fee) - int(db_user['emeralds'])
+
                 if not has_enough_book and not has_enough_emeralds:
                     await self.bot.send(ctx, ctx.l.econ.anvil.not_enough_books_emeralds.format(4 - item['amount'], book, emeralds_needed))
                     return
+
                 if not has_enough_emeralds:
                     await self.bot.send(ctx, ctx.l.econ.anvil.not_enough_emeralds.format(emeralds_needed))
                     return
+
                 if not has_enough_book:
                     await self.bot.send(ctx, ctx.l.econ.anvil.not_enough_books.format(4 - item['amount']))
                     return
+
         # if the item isn't in the user's items
         await self.bot.send(ctx, ctx.l.econ.anvil.you_dont_have_this)
 
