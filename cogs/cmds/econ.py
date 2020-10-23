@@ -749,7 +749,7 @@ class Econ(commands.Cog):
 
         db_victim = await self.db.fetch_user(victim.id)
 
-        if db_user['emeralds'] < 64:
+        if db_victim['emeralds'] < 64:
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
