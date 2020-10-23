@@ -114,7 +114,9 @@ class Econ(commands.Cog):
         db_user = await self.db.fetch_user(user.id)
 
         u_items = await self.db.fetch_items(user.id)
-        total_wealth = db_user['emeralds'] + db_user.get('vault_bal', 0) * 9 + sum([u_it.get('sell_price', 0) * u_it.get('amount', 0) for u_it in u_items])
+        total_wealth = db_user['emeralds']
+        total_wealth += db_user.get('vault_bal', 0) * 9
+        total_wealth += sum([u_it.get('sell_price', 0) * u_it.get('amount', 0) for u_it in u_items])
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=user.avatar_url_as())
