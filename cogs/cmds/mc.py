@@ -298,7 +298,7 @@ class Minecraft(commands.Cog):
 
         xuid = text.split()[-1]
 
-        await self.bot.send(ctx, f'**{username}**: `{xuid}` / `{xuid[:19].replace("-", "").upper()}`')
+        await self.bot.send(ctx, f'**{username}**: `{xuid}` / `{xuid[19:].replace("-", "").upper()}`')
 
     @commands.command(name='mccolors', aliases=['minecraftcolors', 'chatcolors', 'colorcodes'])
     async def color_codes(self, ctx):
