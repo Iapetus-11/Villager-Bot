@@ -279,6 +279,21 @@ class Minecraft(commands.Cog):
 
         await self.bot.send(ctx, f'**{username}**: `{uuid}`')
 
+    @commands.command(name='nametoxuid', aliases=['grabxuid', 'benametoxuid'])
+    async def name_to_xuid(self, ctx, *, username):
+        """Turns a Minecraft BE username/gamertag into an xuid"""
+
+        res = await self.ses.get('https://floodgate-uuid.heathmitchell1.repl.co/uuid', params={'gamertag': username})
+        text = await res.text()
+
+        if 'User not found' in text or 'The UUID of' not in text:
+            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+            return
+
+        xuid = text.split()[-1]
+
+        await self.bot.send(ctx, f'**{username}**: `{xuid}`')
+
     @commands.command(name='mccolors', aliases=['minecraftcolors', 'chatcolors', 'colorcodes'])
     async def color_codes(self, ctx):
         """Shows the Minecraft chat color codes"""
