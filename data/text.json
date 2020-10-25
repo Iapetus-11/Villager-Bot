@@ -64,7 +64,8 @@
         "`{0}buildidea` *sends a random build idea for if you're bored and need inspiration*\n\n",
         "`{0}mccolors` *shows the Minecraft colors and how to use them in the ingame chat*\n\n",
         "`{0}nametouuid <username>` *turns a MC Java Edition username into a uuid*\n\n",
-        "`{0}uuidtoname <uuid>` *turns a MC Java Edition uuid into a username*\n\n"
+        "`{0}uuidtoname <uuid>` *turns a MC Java Edition uuid into a username*\n\n",
+        "`{0}nametoxuid <username>` *turns an MC Bedrock Edition gamertag into an xuid*\n\n"
       ],
       "util": [
         "`{0}help` *view helpful information about Villager Bot*\n\n",
