@@ -296,7 +296,9 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
-        await self.bot.send(ctx, f'**{username}**: `{text.split()[-1]}`')
+        xuid = text.split()[-1]
+
+        await self.bot.send(ctx, f'**{username}**: `{xuid}` / `{xuid[:19].replace("-", "").upper()}`')
 
     @commands.command(name='mccolors', aliases=['minecraftcolors', 'chatcolors', 'colorcodes'])
     async def color_codes(self, ctx):
