@@ -1,5 +1,6 @@
 from discord.ext import commands
 from typing import Union
+import asyncio
 import discord
 
 
@@ -32,6 +33,8 @@ class Mod(commands.Cog):
             else:
                 await ctx.channel.purge(limit=to_purge+1)
         except asyncio.queues.QueueEmpty:
+            await self.bot.send(ctx, ctx.l.mod.purge.oop)
+        except discord.errors.NotFound:
             await self.bot.send(ctx, ctx.l.mod.purge.oop)
 
     @commands.command(name='kick', aliases=['yeet'])
