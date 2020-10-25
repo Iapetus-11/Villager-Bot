@@ -107,7 +107,7 @@ class Minecraft(commands.Cog):
                 port_str = f':{port}'
             combined = f'{host}{port_str}'
 
-        async with ctx.typing():
+        with ctx.typing():
             async with self.ses.get(f'https://betterapi.net/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
                 jj = await res.json()
 
@@ -161,7 +161,7 @@ class Minecraft(commands.Cog):
         s = random.choice(self.server_list)
         combined = s[0]
 
-        async with ctx.typing():
+        with ctx.typing():
             async with self.ses.get(f'https://betterapi.net/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
                 jj = await res.json()
 
@@ -214,7 +214,7 @@ class Minecraft(commands.Cog):
     async def steal_skin(self, ctx, player):
         """"steals" the skin of a Minecraft player"""
 
-        async with ctx.typing():
+        with ctx.typing():
             res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{player}')
 
         if res.status == 204:
@@ -252,7 +252,8 @@ class Minecraft(commands.Cog):
     async def uuid_to_username(self, ctx, uuid):
         """Turns a Minecraft uuid into a username"""
 
-        res = await self.ses.get(f'https://api.mojang.com/user/profiles/{uuid}/names')
+        with ctx.typing():
+            res = await self.ses.get(f'https://api.mojang.com/user/profiles/{uuid}/names')
 
         if res.status == 204:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
@@ -268,7 +269,9 @@ class Minecraft(commands.Cog):
     async def username_to_uuid(self, ctx, username):
         """Turns a Minecraft username into a Minecraft uuid"""
 
-        res = await self.ses.post('https://api.mojang.com/profiles/minecraft', json=[username])
+        with ctx.typing():
+            res = await self.ses.post('https://api.mojang.com/profiles/minecraft', json=[username])
+
         jj = await res.json()
 
         if not jj or res.status == 204:
@@ -284,7 +287,9 @@ class Minecraft(commands.Cog):
     async def name_to_xuid(self, ctx, *, username):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
-        res = await self.ses.get('https://floodgate-uuid.heathmitchell1.repl.co/uuid', params={'gamertag': username})
+        with ctx.typing():
+            res = await self.ses.get('https://floodgate-uuid.heathmitchell1.repl.co/uuid', params={'gamertag': username})
+
         text = await res.text()
 
         if 'User not found' in text or 'The UUID of' not in text:
