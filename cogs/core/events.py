@@ -136,6 +136,7 @@ class Events(commands.Cog):
         elif isinstance(e, commands.MissingRequiredArgument):
             await self.bot.send(ctx, ctx.l.misc.errors.missing_arg)
         elif isinstance(e, commands.BadArgument) or isinstance(e, commands.errors.ExpectedClosingQuoteError) or isinstance(e, commands.errors.BadUnionArgument):
+            print(e)
             await self.bot.send(ctx, ctx.l.misc.errors.bad_arg)
         elif ctx.__dict__.get('custom_err') == 'not_ready':
             await self.bot.send(ctx, ctx.l.misc.errors.not_ready)

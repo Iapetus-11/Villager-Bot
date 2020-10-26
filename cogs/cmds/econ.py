@@ -5,6 +5,8 @@ import asyncio
 import aiohttp
 import random
 import math
+from discord.ext.commands import MemberConverter
+
 
 
 class Econ(commands.Cog):
@@ -67,9 +69,14 @@ class Econ(commands.Cog):
         return True
 
     @commands.command(name='profile', aliases=['pp'])
-    async def profile(self, ctx, user: discord.User = None):
-        if user is None:
+    async def profile(self, ctx, *user):
+        user = ' '.join(user)
+        converter = MemberConverter()
+        if user == "":
             user = ctx.author
+        else:
+            user = await converter.convert(ctx, user)
+
 
         if user.bot:
             if user.id == self.bot.user.id:
@@ -98,11 +105,13 @@ class Econ(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='balance', aliases=['bal', 'vault'])
-    async def balance(self, ctx, user: discord.User = None):
-        """Shows the balance of a user or the message sender"""
-
-        if user is None:
+    async def balance(self, ctx,  *user):
+        user = ' '.join(user)
+        converter = MemberConverter()
+        if user == "":
             user = ctx.author
+        else:
+            user = await converter.convert(ctx, user)
 
         if user.bot:
             if user.id == self.bot.user.id:
@@ -130,13 +139,17 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
+
     @commands.command(name='inv', aliases=['inventory', 'pocket'])
     @commands.cooldown(2, 10, commands.BucketType.user)
-    async def inventory(self, ctx, user: discord.User = None):
+    async def inventory(self, ctx, *user):
         """Shows the inventory of a user or the message sender"""
-
-        if user is None:
+        user = ' '.join(user)
+        converter = MemberConverter()
+        if user == "":
             user = ctx.author
+        else:
+            user = await converter.convert(ctx, user)
 
         if user.bot:
             if user.id == self.bot.user.id:
@@ -721,7 +734,13 @@ class Econ(commands.Cog):
     @commands.command(name='pillage')
     @commands.guild_only()
     @commands.cooldown(1, 5*60, commands.BucketType.user)
-    async def pillage(self, ctx, victim: discord.User):
+    async def pillage(self, ctx, *victim):
+        victim = ' '.join(victim)
+        converter = MemberConverter()
+        if victim == "":
+            victim = ctx.author
+        else:
+            victim = await converter.convert(ctx, victim)
         if victim.bot:
             if victim.id == self.bot.user.id:
                 await self.bot.send(ctx, ctx.l.econ.pillage.bot_1)
