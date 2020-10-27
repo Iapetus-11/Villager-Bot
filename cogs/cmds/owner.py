@@ -64,7 +64,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def gitpull(self, ctx):
         async with ctx.typing():
-            os.system('git pull > git_pull_log 2>&1')
+            os.system('sudo git pull > git_pull_log 2>&1')
 
         with open('git_pull_log', 'r') as f:
             await self.bot.send(ctx, f'```diff\n{f.read()}\n```')

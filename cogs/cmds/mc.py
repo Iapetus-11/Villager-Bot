@@ -260,7 +260,12 @@ class Minecraft(commands.Cog):
             return
 
         jj = await res.json()
-        name = jj[len(jj) - 1]['name']
+
+        try:
+            name = jj[-1]['name']
+        except KeyError:
+            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+            return
 
         await self.bot.send(ctx, f'**{uuid}**: `{name}`')
 

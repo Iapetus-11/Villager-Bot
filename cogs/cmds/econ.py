@@ -121,7 +121,7 @@ class Econ(commands.Cog):
             return
 
         db_user = await self.db.fetch_user(user.id)
-        
+
         u_items = await self.db.fetch_items(user.id)
 
         vault_bal = db_user['vault_bal']
@@ -489,6 +489,10 @@ class Econ(commands.Cog):
         if amount_item.startswith('max ') or amount_item.startswith('all '):
             item = amount_item[4:]
             db_item = await self.db.fetch_item(ctx.author.id, item)
+
+            if db_item is None:
+                await self.bot.send(ctx, ctx.l.econ.sell.invalid_item)
+                return
 
             amount = db_item['amount']
         else:
