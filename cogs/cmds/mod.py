@@ -91,8 +91,14 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def pardon_user(self, ctx, user: discord.User, *, reason='No reason provided.'):
+    async def pardon_user(self, ctx, user: Union[discord.User, int], *, reason='No reason provided.'):
         """Unbans / pardons the given user from the current Discord server"""
+
+        if type(user) == int:
+            try:
+                user = await self.bot.fetch_user(user)
+            except discord.HTTPException:
+                raise commands.BadArgument
 
         if ctx.author.id == user.id:
             await self.bot.send(ctx, ctx.l.mod.unban.stupid_1)
