@@ -190,4 +190,4 @@ async def global_check(ctx):
     return True
 
 
-bot.run(keys['discord'])  # run the bot, this is a blocking call
+bot.run(keys.discord)  # run the bot, this is a blocking call
