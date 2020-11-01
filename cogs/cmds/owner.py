@@ -78,7 +78,6 @@ class Owner(commands.Cog):
         if thing.lower() == 'data':
             with open('data/data.json', 'r', encoding='utf8') as d:
                 self.d = recursive_update(self.d, cj.load(d))
-                await ctx.send(self.d.special_findables)
         elif thing.lower() == 'text':
             with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
                 self.bot.langs.update(cj.load(t))
