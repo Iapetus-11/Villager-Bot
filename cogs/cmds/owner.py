@@ -84,7 +84,7 @@ class Owner(commands.Cog):
         elif thing.lower() == 'items' or thing.lower() == 'findables':
             self.bot.d.findables = self.bot.d.special_findables + self.bot.d.default_findables
         else:
-            await self.bot.send(ctx, 'Invalid, options are "data" or "text"')
+            await self.bot.send(ctx, 'Invalid, options are "data", "text", or "findables"')
             return
 
         await ctx.message.add_reaction(self.d.emojis.yes)
