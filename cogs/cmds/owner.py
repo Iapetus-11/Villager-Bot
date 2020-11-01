@@ -77,7 +77,9 @@ class Owner(commands.Cog):
     async def update(self, ctx, thing):
         if thing.lower() == 'data':
             with open('data/data.json', 'r', encoding='utf8') as d:
-                self.d = recursive_update(self.d, cj.load(d))
+                data = cj.load(d)
+                await ctx.send(data.special_findables)
+                self.d = recursive_update(self.d, data)
         elif thing.lower() == 'text':
             with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
                 self.bot.langs.update(cj.load(t))
