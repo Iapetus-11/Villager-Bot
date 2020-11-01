@@ -45,6 +45,10 @@ class Events(commands.Cog):
         await self.db.drop_guild(guild.id)
 
     @commands.Cog.listener()
+    async def on_member_ban(self, guild, user):
+        await self.db.clear_warns(user.id, guild.id)
+
+    @commands.Cog.listener()
     async def on_message(self, m):
         if m.author.bot:
             return
