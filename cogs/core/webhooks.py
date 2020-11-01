@@ -93,8 +93,13 @@ class Webhooks(commands.Cog):
         await self.reward(int(data.user), amount)
 
     @commands.Cog.listener()
-    async def on_topgg_hs_vote(self, data):
-        pass
+    async def on_topgg_hs_vote(self, data):  # data should be {uid: (user id) int, weekend: (is the weekend according to top.gg) bool}
+        amount = self.d.topgg_reward * self.d.base_multi
+
+        if data.weekend:
+            amount *= self.d.weekend_multi
+
+        await self.reward(data.uid, amount)
 
 
 def setup(bot):
