@@ -143,7 +143,7 @@ bot.owner_locked = False
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
     'cogs.core.events',
-    'cogs.core.botlists',
+    'cogs.core.webhooks',
     'cogs.cmds.useful',
     'cogs.cmds.owner',
     'cogs.cmds.mc',
