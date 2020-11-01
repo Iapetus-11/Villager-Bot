@@ -183,7 +183,7 @@ async def global_check(ctx):
             ctx.custom_err = 'econ_paused'
             return False
 
-        if random.randint(0, 30) == 1:  # spawn mob
+        if random.randint(0, 40) == 1:  # spawn mob
             if ctx.command._buckets._cooldown != None:  # if command has a cooldown on it
                 bot.d.spawn_queue[ctx] = arrow.utcnow()
 
