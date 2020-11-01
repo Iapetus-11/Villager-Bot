@@ -1,12 +1,12 @@
 from discord.ext import commands
 from aiohttp import web
 import classyjson as cj
-import aiohttp  # aiohttp makes me hard
+import aiohttp  # ~~aiohttp makes me ****~~
 import asyncio
 import discord
 
 
-class BotLists(commands.Cog):
+class Webhooks(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.d = self.bot.d
@@ -92,4 +92,4 @@ class BotLists(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(BotLists(bot))
+    bot.add_cog(Webhooks(bot))
