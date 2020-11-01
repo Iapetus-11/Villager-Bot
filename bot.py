@@ -36,7 +36,7 @@ async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the da
 intents = discord.Intents.default()
 intents.guilds = True
 intents.members = True
-intents.bans = False
+intents.bans = True
 intents.emojis = True
 intents.integrations = False
 intents.webhooks = False
