@@ -412,6 +412,10 @@
       }
     },
     "useful": {
+      "aliases": {
+        "aliases": "Aliases for command `{}`: `{}`",
+        "none": "No aliases found for command `{}`"
+      }
       "uptime": {
         "online_for": "I've been online for {}.",
         "day": "day",

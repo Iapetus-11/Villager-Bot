@@ -102,6 +102,19 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name='aliases')
+    async def show_aliases(self, ctx, command):
+        command = command.lower()
+        all_cmds = [[str(c), *[str(a) for a in c.aliases]] for c in self.bot.commands]
+
+        for alias_group in all_cmds:
+            if command in alias_group:
+                if len(alias_group) > 1:
+                    await ctx.send(ctx.l.useful.aliases.aliases.format(command, '`, `'.join(alias_group)))
+                    return
+
+        await ctx.send(ctx.l.useful.aliases.none.format(command))
+
     @commands.command(name='ping', aliases=['pong', 'ding', 'dong', 'shing', 'shling', 'schlong'])
     async def ping_pong(self, ctx):
         content = ctx.message.content.lower()
