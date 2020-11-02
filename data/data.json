@@ -556,24 +556,9 @@
   ],
   "special_findables": [
     [
-      "Party Popper",
+      "Leftover Party Confetti",
       250,
-      250
-    ],
-    [
-      "Party Hat",
-      500,
-      1000
-    ],
-    [
-      "Gift Bag",
-      1000,
-      5000
-    ],
-    [
-      "2 Year Birthday Cake Slice",
-      2000,
-      10000
+      1
     ]
   ],
   "shop_items": {
