@@ -80,7 +80,7 @@
         "`{0}google <search>` *searches on google for your query*\n\n",
         "`{0}youtube <search>` *searches on youtube for your query*\n\n",
         "`{0}image <search>` *searches google images for your query*\n\n",
-        "`{0}aliases <command> ` *shows the aliases for that command*\n\n"
+        "`{0}aliases <command>` *shows the aliases for that command*\n\n"
       ],
       "fun": [
         "`{0}cursed` *sends a random cursed Minecraft image*\n\n",
@@ -416,7 +416,7 @@
       "aliases": {
         "aliases": "Aliases for command `{}`: `{}`",
         "none": "No aliases found for command `{}`"
-      }
+      },
       "uptime": {
         "online_for": "I've been online for {}.",
         "day": "day",
