@@ -382,8 +382,7 @@
           "Change if bot should respond to messages like \"emeralds\" - `{0}config replies <on/off>`\n",
           "Changes the difficulty of the rpg - `{0}config difficulty <peaceful/easy/hard>`\n",
           "Changes the language of Villager Bot - `{0}config lang <language>`\n",
-          "Changes the server that is pinged if you don't specify a server in `/mcping` - `{0}config mcserver <mcserver>`\n",
-          "Changes if the bot insults you - `{0}config insults <on/off>`"
+          "Changes the server that is pinged if you don't specify a server in `/mcping` - `{0}config mcserver <mcserver>`\n"
         ],
         "guild_conf": "Server/Guild Configuration"
       },
@@ -398,12 +397,6 @@
         "disabled": "disabled",
         "this_server": "Message replies are **{}**",
         "set": "Turned message replies **{}**"
-      },
-      "insults": {
-        "enabled": "enabled",
-        "disabled": "disabled",
-        "this_server": "Message insults are **{}**",
-        "set": "Turned message insults **{}**"
       },
       "diff": {
         "this_server": "The server difficulty is currently set to **{}**",
@@ -1107,12 +1100,6 @@
         "disabled": "disabled",
         "this_server": "Message replies are **{}**",
         "set": "Turned message replies **{}**"
-      },
-      "insults": {
-        "enabled": "enabled",
-        "disabled": "disabled",
-        "this_server": "Message insults are **{}**",
-        "set": "Turned message insults **{}**"
       },
       "diff": {
         "this_server": "The server difficulty is currently set to **{}**",

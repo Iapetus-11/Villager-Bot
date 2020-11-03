@@ -113,29 +113,7 @@ class Config(commands.Cog):
         await self.db.set_guild_attr(ctx.guild.id, 'mcserver', mcserver)
         await self.bot.send(ctx, ctx.l.config.mcs.set.format(mcserver))
 
-    @config.command(name='insults')
-    async def config_insults(self, ctx, insults=None):
-        guild = await self.db.fetch_guild(ctx.guild.id)
 
-        if insults is None:
-            state = ctx.l.config.insults.enabled*guild['insults'] + ctx.l.config.insults.disabled*(not guild['insults'])
-            await self.bot.send(ctx, ctx.l.config.insults.this_server.format(state))
-            return
-
-        if insults.lower() in ('yes', 'true', 'on'):
-            await self.db.set_guild_attr(ctx.guild.id, 'lang', 'en_us')
-            self.d.lang_cache[ctx.guild.id] = 'en_us'
-            await self.bot.send(ctx, ctx.l.config.insults.set.format('on'))
-            return
-
-        elif insults.lower() in ('no', 'false', 'off'):
-            await self.db.set_guild_attr(ctx.guild.id, 'lang', 'en_us_nice')
-            self.d.lang_cache[ctx.guild.id] = 'en_us_nice'
-            await self.bot.send(ctx, ctx.l.config.insults.set.format('off'))
-            return
-
-        else:
-            await self.bot.send(ctx, ctx.l.config.invalid.format('on, off'))
 
 
 def setup(bot):
