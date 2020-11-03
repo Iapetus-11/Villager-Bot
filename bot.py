@@ -36,7 +36,7 @@ async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the da
 intents = discord.Intents.default()
 intents.guilds = True
 intents.members = True
-intents.bans = False
+intents.bans = True
 intents.emojis = True
 intents.integrations = False
 intents.webhooks = False
@@ -112,6 +112,7 @@ with open('data/data.json', 'r', encoding='utf8') as d:
 bot.d.cc = discord.Color.green()  # embed color
 
 bot.d.vb_api_key = keys.vb_api_key
+bot.d.hs_hook_auth = keys.hs_hook_auth
 bot.d.topgg_hooks_auth = keys.topgg_webhook
 bot.d.topgg_post_auth = keys.topgg
 bot.d.google_keys = keys.googl
@@ -143,7 +144,7 @@ bot.owner_locked = False
 bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
     'cogs.core.events',
-    'cogs.core.botlists',
+    'cogs.core.webhooks',
     'cogs.cmds.useful',
     'cogs.cmds.owner',
     'cogs.cmds.mc',
@@ -182,11 +183,11 @@ async def global_check(ctx):
             ctx.custom_err = 'econ_paused'
             return False
 
-        if random.randint(0, 30) == 1:  # spawn mob
+        if random.randint(0, 40) == 1:  # spawn mob
             if ctx.command._buckets._cooldown != None:  # if command has a cooldown on it
                 bot.d.spawn_queue[ctx] = arrow.utcnow()
 
     return True
 
 
-bot.run(keys['discord'])  # run the bot, this is a blocking call
+bot.run(keys.discord)  # run the bot, this is a blocking call

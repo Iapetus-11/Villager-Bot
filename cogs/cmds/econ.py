@@ -939,12 +939,12 @@ class Econ(commands.Cog):
             if user is None:
                 user = 'Deleted User'
             else:
-                user = user.display_name
+                user = discord.utils.escape_markdown(user.display_name)
 
             body += rank_fstr.format(place+1, entry[1], user)
 
         if u_place > 9:
-            body += '\n⋮' + rank_fstr.format(u_place, origin_value, self.bot.get_user(origin_uid).display_name)
+            body += '\n⋮' + rank_fstr.format(u_place, origin_value, discord.utils.escape_markdown(self.bot.get_user(origin_uid).display_name))
 
         return body
 

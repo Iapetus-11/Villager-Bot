@@ -58,6 +58,11 @@
     "?",
     "~"
   ],
+  "tips": [
+    "Got a suggestion? Found a bug? Need help? Want to trade? Join the Support Server https://discord.gg/39DwwUV",
+    "In need of emeralds? Vote for us on top.gg! https://top.gg/bot/639498607632056321",
+    "In need of emeralds? Check out the #paid-stuff channel on the Support Server https://discord.gg/39DwwUV"
+  ],
   "cursed_images": [
     "4dimensionalbed.png",
     "airr.png",
@@ -550,81 +555,6 @@
     ]
   ],
   "special_findables": [
-    [
-      "500 Tons Of Candy Corn",
-      512,
-      9999
-    ],
-    [
-      "SpOoKy Jack O Lantern",
-      64,
-      1000
-    ],
-    [
-      "Evil Jelly Beans",
-      64,
-      1000
-    ],
-    [
-      "XL KitKat Bar",
-      48,
-      750
-    ],
-    [
-      "Bag Of Skittles",
-      32,
-      500
-    ],
-    [
-      "Bag Of M&Ms",
-      32,
-      500
-    ],
-    [
-      "Hersheys Bar",
-      32,
-      500
-    ],
-    [
-      "Pack Of Jolly Ranchers",
-      16,
-      500
-    ],
-    [
-      "Blue Flavored Lolipop",
-      16,
-      500
-    ],
-    [
-      "Red Flavored Lolipop",
-      16,
-      500
-    ],
-    [
-      "Green Flavored Lolipop",
-      16,
-      500
-    ],
-    [
-      "Purple Flavored Lolipop",
-      16,
-      500
-    ],
-    [
-      "Orange Flavored Lolipop",
-      16,
-      500
-    ],
-    [
-      "Pink Flavored Lolipop",
-      16,
-      500
-    ],
-    [
-      "Empty Candy Wrapper",
-      0,
-      75
-    ]
   ],
   "shop_items": {
     "stone pickaxe": [

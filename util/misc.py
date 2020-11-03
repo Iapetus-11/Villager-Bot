@@ -6,8 +6,9 @@ def recursive_update(obj, new):  # hOlY FUCKING SHIT this is so big brained I AM
         for k, v in new.items():
             obj[k] = recursive_update(obj.get(k, cj.classify({})), v)
     elif isinstance(obj, list) and isinstance(new, list):
+        obj = []  # obj here needs to be reset to zero to avoid weird list issues (see /update command in cogs/cmds/owner.py)
         for i, v in enumerate(new):
-            obj[i] = recursive_update(obj[i], v) if i < len(obj) else v
+            obj.append(recursive_update(obj[i], v) if i < len(obj) else v)
     else:
         return new
 

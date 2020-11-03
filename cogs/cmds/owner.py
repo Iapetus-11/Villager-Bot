@@ -81,8 +81,10 @@ class Owner(commands.Cog):
         elif thing.lower() == 'text':
             with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
                 self.bot.langs.update(cj.load(t))
+        elif thing.lower() == 'items' or thing.lower() == 'findables':
+            self.d.findables = cj.classify(self.d.special_findables + self.d.default_findables)
         else:
-            await self.bot.send(ctx, 'Invalid, options are "data" or "text"')
+            await self.bot.send(ctx, 'Invalid, options are "data", "text", or "findables"')
             return
 
         await ctx.message.add_reaction(self.d.emojis.yes)
