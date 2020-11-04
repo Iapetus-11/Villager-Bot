@@ -770,7 +770,7 @@ class Econ(commands.Cog):
         victim_bees = 0 if victim_bees is None else victim_bees['amount']
 
         # lmao
-        if pillager_pillages > 7 or times_pillaged > 5:
+        if pillager_pillages > 7 or times_pillaged > 3:
             chances = [False]*50 + [True]
         elif await self.db.fetch_item(victim.id, 'Bane Of Pillagers Amulet'):
             chances = [False]*5 + [True]
