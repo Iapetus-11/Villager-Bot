@@ -17,10 +17,11 @@ class Econ(commands.Cog):
         if self.d.honey_buckets is not None:
             self.honey._buckets = self.d.honey_buckets
 
-        pillage_cap_reset.start()
+        self.pillage_cap_reset.start()
 
     def cog_unload(self):
         self.d.honey_buckets = self.honey._buckets
+
         self.pillage_cap_reset.cancel()
 
     @tasks.loop(hours=12)
