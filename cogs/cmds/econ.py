@@ -24,6 +24,7 @@ class Econ(commands.Cog):
     @tasks.loop(hours=12)
     async def pillage_cap_reset(self):
         self.d.pillagers = {}
+        self.d.pillages = {}
 
     @pillage_cap_reset.before_loop
     async def before_pillage_cap_reset(self):
