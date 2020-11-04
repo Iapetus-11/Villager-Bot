@@ -757,8 +757,11 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
-        pillage_commands = self.d.pillagers.get(ctx.author.id, 0)
-        self.d.pillagers[ctx.author.id] = pillage_commands + 1
+        pillager_pillages = self.d.pillagers.get(ctx.author.id, 0)
+        self.d.pillagers[ctx.author.id] = pillager_pillages + 1
+
+        times_pillaged = self.d.pillages.get(victim.id)
+        self.d.pillages[victim.id] = times_pillaged + 1
 
         user_bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
         user_bees = 0 if user_bees is None else user_bees['amount']
@@ -767,8 +770,8 @@ class Econ(commands.Cog):
         victim_bees = 0 if victim_bees is None else victim_bees['amount']
 
         # lmao
-        if pillage_commands > 7:
-            chances = [False]*20 + [True]
+        if pillager_pillages > 7 or times_pillaged > 5:
+            chances = [False]*50 + [True]
         elif await self.db.fetch_item(victim.id, 'Bane Of Pillagers Amulet'):
             chances = [False]*5 + [True]
         elif user_bees > victim_bees:
