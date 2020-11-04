@@ -16,8 +16,8 @@ class Database(commands.Cog):
 
     @tasks.loop(seconds=8)
     async def update_user_health(self):
-    async with self.db.acquire() as con:
-        await con.execute('UPDATE users SET health = health + 1 WHERE health < 20')
+        async with self.db.acquire() as con:
+            await con.execute('UPDATE users SET health = health + 1 WHERE health < 20')
 
     @update_user_health.before_loop
     async def before_update_user_health(self):
