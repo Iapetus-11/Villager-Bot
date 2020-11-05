@@ -129,9 +129,6 @@ class Minecraft(commands.Cog):
 
         player_list_cut = player_list[:24]
 
-        if 'xenonmc.ml' in host:
-            print(player_list_cut)
-
         if jj['version']['method'] != 'query' or len(player_list_cut) < 1:
             embed.add_field(
                 name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
