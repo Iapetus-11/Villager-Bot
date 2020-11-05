@@ -111,6 +111,10 @@ class Minecraft(commands.Cog):
             async with self.ses.get(f'https://betterapi.net/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
                 jj = await res.json()
 
+                if host is not None and 'xenonmc.ml' in host:
+                    jj.pop('favicon')
+                    print(jj)
+
         if not jj['success'] or not jj['online']:
             embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined))
             await ctx.send(embed=embed)
