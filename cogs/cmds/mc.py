@@ -46,7 +46,7 @@ class Minecraft(commands.Cog):
                     ip = split[16][46:-2].replace('https://', '').replace('http://', '')
                     servers_nice.append((ip, url,))
 
-        self.server_list = list(set(servers_nice)) + ('xenonmc.ml', 'https://discord.gg/VtE3rtV')
+        self.server_list = list(set(servers_nice)) + [('xenonmc.ml', 'https://discord.gg/VtE3rtV')]
 
         self.bot.logger.info('finished scraping mc-lists.org')
 
