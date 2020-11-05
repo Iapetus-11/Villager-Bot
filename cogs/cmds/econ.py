@@ -764,7 +764,7 @@ class Econ(commands.Cog):
         pillager_pillages = self.d.pillagers.get(ctx.author.id, 0)
         self.d.pillagers[ctx.author.id] = pillager_pillages + 1
 
-        times_pillaged = self.d.pillages.get(victim.id)
+        times_pillaged = self.d.pillages.get(victim.id, 0)
         self.d.pillages[victim.id] = times_pillaged + 1
 
         user_bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
