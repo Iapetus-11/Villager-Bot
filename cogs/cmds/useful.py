@@ -110,7 +110,7 @@ class Useful(commands.Cog):
         for alias_group in all_cmds:
             if command in alias_group:
                 if len(alias_group) > 1:
-                    alias_group.pop(command)
+                    alias_group.pop(alias_group.index(command))
                     await self.bot.send(ctx, ctx.l.useful.aliases.aliases.format(command, '`, `'.join(alias_group)))
                     return
 
