@@ -78,7 +78,6 @@ class Fun(commands.Cog):
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 jj = await resp.json()
-                print(jj)
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=jj['url'])
