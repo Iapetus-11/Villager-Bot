@@ -14,6 +14,12 @@ class Database(commands.Cog):
     def cog_unload(self):
         self.update_user_health.cancel()
 
+    async def populate_caches(self):
+        self.d.ban_cache = await self.fetch_all_botbans()
+        self.d.lang_cache = await self.fetch_all_guild_langs()
+        self.d.prefix_cache = await self.fetch_all_guild_prefixes()
+        self.d.additional_mcservers = await self.fetch_all_mcservers()
+
     @tasks.loop(seconds=8)
     async def update_user_health(self):
         async with self.db.acquire() as con:
