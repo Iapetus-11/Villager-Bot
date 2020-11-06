@@ -60,6 +60,10 @@
   p {
   	color: black !important;
   }
+
+  .comment-username {
+  	color: black !important;
+  }
 </style>
 
 # **Villager Bot**
