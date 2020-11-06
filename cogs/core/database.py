@@ -35,6 +35,10 @@ class Database(commands.Cog):
         prefix_records = await self.db.fetch('SELECT gid, prefix FROM guilds')
         return dict((r[0], r[1],) for r in prefix_records if (r[1] != self.d.default_prefix and r[1] != None))  # needs to be a dict
 
+    async def fetch_all_mcservers(self):
+        servers = await self.db.fetch('SELECT host, link FROM mcservers')
+        return [(s['host'], s['link'],) for s in servers]
+
     async def fetch_guild(self, gid):
         g = await self.db.fetchrow('SELECT * FROM guilds WHERE gid = $1', gid)
 
