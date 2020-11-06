@@ -177,7 +177,8 @@ class Minecraft(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
 
-        embed.description = ctx.l.minecraft.mcping.learn_more.format(s[1])
+        if s[1] is not None:
+            embed.description = ctx.l.minecraft.mcping.learn_more.format(s[1])
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
         ver = jj['version'].get('brand', 'Unknown')
