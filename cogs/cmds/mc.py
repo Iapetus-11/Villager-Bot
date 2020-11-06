@@ -248,6 +248,12 @@ class Minecraft(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name='achievement', aliases=['mcachieve'])
+    async def minecraft_achievement(self, *, text):
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_image(url=f'https://minecraftskinstealer.com/achievement/1/Achievement+Get%21/{text.replace(' ', '+')}')
+        await ctx.send(embed=embed)
+
     @commands.command(name='uuidtoname', aliases=['uuidtousername', 'uuid2name'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def uuid_to_username(self, ctx, uuid):
