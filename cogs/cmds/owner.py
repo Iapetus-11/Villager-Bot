@@ -78,13 +78,15 @@ class Owner(commands.Cog):
         if thing.lower() == 'data':
             with open('data/data.json', 'r', encoding='utf8') as d:
                 self.d = recursive_update(self.d, cj.load(d))
+
+            self.d.findables = cj.classify(self.d.special_findables + self.d.default_findables)
         elif thing.lower() == 'text':
             with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
                 self.bot.langs.update(cj.load(t))
-        elif thing.lower() == 'items' or thing.lower() == 'findables':
-            self.d.findables = cj.classify(self.d.special_findables + self.d.default_findables)
+        elif thing.lower() == 'mcservers':
+            self.d.additional_mcservers = await self.db.fetch_all_mcservers()
         else:
-            await self.bot.send(ctx, 'Invalid, options are "data", "text", or "findables"')
+            await self.bot.send(ctx, 'Invalid, options are "data", "text", or "mcservers"')
             return
 
         await ctx.message.add_reaction(self.d.emojis.yes)
