@@ -249,7 +249,7 @@ class Minecraft(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='achievement', aliases=['mcachieve'])
-    async def minecraft_achievement(self, *, text):
+    async def minecraft_achievement(self, ctx, *, text):
         embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=f'https://minecraftskinstealer.com/achievement/1/Achievement+Get%21/{text.replace(" ", "+")}')
         await ctx.send(embed=embed)
