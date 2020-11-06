@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS warnings ( -- moderation warnings
   reason varchar(250) -- reason for the warning, null for no reason
 );
 
-CREATE TABLE IF NOT EXISTS mc_servers (
+CREATE TABLE IF NOT EXISTS mcservers (
   owner_id bigint, -- discord owner id of the server
   host varchar(100), -- hostname/ip/address of server
   link varchar(250) -- learn more link
