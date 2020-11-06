@@ -21,7 +21,7 @@ class Minecraft(commands.Cog):
 
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
-        self.server_list = []
+        self.d.mcserver_list = []
         self.update_server_list.start()
 
     def cog_unload(self):
@@ -46,7 +46,7 @@ class Minecraft(commands.Cog):
                     ip = split[16][46:-2].replace('https://', '').replace('http://', '')
                     servers_nice.append((ip, url,))
 
-        self.server_list = list(set(servers_nice)) + self.d.additional_mcservers
+        self.d.mcserver_list = list(set(servers_nice)) + self.d.additional_mcservers
 
         self.bot.logger.info('finished scraping mc-lists.org')
 
@@ -158,7 +158,7 @@ class Minecraft(commands.Cog):
     async def random_mc_server(self, ctx):
         """Checks the status of a random Minecraft server"""
 
-        s = random.choice(self.server_list)
+        s = random.choice(self.d.mcserver_list)
         combined = s[0]
 
         with ctx.typing():
@@ -166,7 +166,7 @@ class Minecraft(commands.Cog):
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
-            self.server_list.pop(self.server_list.index(s))
+            self.d.mcserver_list.pop(self.d.mcserver_list.index(s))
             await self.random_mc_server(ctx)
             return
 
