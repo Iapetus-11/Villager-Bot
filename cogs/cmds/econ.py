@@ -585,7 +585,7 @@ class Econ(commands.Cog):
 
             await self.db.remove_item(ctx.author.id, item, amount)
             await self.db.add_item(user.id, db_item['name'], db_item['sell_price'], amount)
-
+            await self.bot.send(user, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention)
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
     @commands.command(name='gamble', aliases=['bet'])
