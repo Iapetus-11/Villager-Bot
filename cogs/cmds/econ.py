@@ -723,12 +723,12 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald))
 
         if random.randint(0, 200) == 1:
-            if db_user['vault_max'] < 2000:
+            if db_user['vault_max'] < 2500:
                 await self.db.update_user(ctx.author.id, 'vault_max', db_user['vault_max']+1)
 
     @commands.command(name='pillage')
     @commands.guild_only()
-    @commands.cooldown(1, 5*60, commands.BucketType.user)
+    @commands.cooldown(1, 15*60, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
         if victim.bot:
             if victim.id == self.bot.user.id:
@@ -751,13 +751,13 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
-        if db_user['emeralds'] < 64:
+        if db_user['emeralds'] < 512:
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_3.format(self.d.emojis.emerald))
             return
 
         db_victim = await self.db.fetch_user(victim.id)
 
-        if db_victim['emeralds'] < 64:
+        if db_victim['emeralds'] < 512:
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
@@ -799,7 +799,7 @@ class Econ(commands.Cog):
 
             await self.db.update_lb(ctx.author.id, 'pillages', adjusted, 'add')
         else:
-            penalty = 32
+            penalty = 256
 
             await self.db.balance_sub(ctx.author.id, penalty)
             await self.db.balance_add(victim.id, penalty)
@@ -859,14 +859,14 @@ class Econ(commands.Cog):
         if pot == 'vault potion':
             db_user = await self.db.fetch_user(ctx.author.id)
 
-            if db_user['vault_max'] > 1999:
+            if db_user['vault_max'] > 2499:
                 await self.bot.send(ctx, ctx.l.econ.chug.vault_max)
                 return
 
             add = random.randint(9, 15)
 
-            if db_user['vault_max'] + add > 2000:
-                add = 2000 - db_user['vault_max']
+            if db_user['vault_max'] + add >2499:
+                add = 2499 - db_user['vault_max']
 
             await self.db.remove_item(ctx.author.id, 'Vault Potion', 1)
             await self.db.set_vault(ctx.author.id, db_user['vault_bal'], db_user['vault_max'] + add)
@@ -886,7 +886,7 @@ class Econ(commands.Cog):
         else:
             bees = 0
 
-        if bees > 1024: bees = 1024
+        if bees > 2048: bees = 2048
 
         if bees < 100:
             await self.bot.send(ctx, random.choice(ctx.l.econ.honey.stupid_1))
@@ -1008,3 +1008,7 @@ class Econ(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Econ(bot))
+
+                    
+        
+                
