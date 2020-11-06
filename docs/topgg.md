@@ -19,6 +19,7 @@
   	background-color: rgba(237, 247, 239, .85) !important;
     border: .5px solid 3c3c3c;
     border-radius: 5px;
+    color: black !important;
   }
 
   .content {
@@ -54,6 +55,10 @@
   #bot-details-page .bot-img {
     border-radius: 50%;
     box-shadow: 0 7px 11px 0 rgba(0, 0, 0, 0.65), 0 10px 15px 0 rgba(0, 0, 0, 0.35), 0 12px 20px 0 rgba(0, 0, 0, 0.23);
+  }
+
+  p {
+  	color: black !important;
   }
 </style>
 
