@@ -12,14 +12,8 @@ class Mod(commands.Cog):
         self.db = self.bot.get_cog('Database')
 
     async def perm_check(self, author, victim):
-        if isinstance(author, discord.Member):
-            if author.id == author.guild.owner.id:
-                return True
-            elif victim.id == author.guild.owner.id:
-                return False
-
+        if isinstance(author, discord.Member) and author.id == author.guild.owner.id: return True
         guild_roles = author.guild.roles
-        
         return guild_roles.index(author.top_role) > guild_roles.index(victim.top_role) and not victim.id == author.guild.owner.id
 
     @commands.command(name='purge', aliases=['p'])
