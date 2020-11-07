@@ -406,7 +406,7 @@ class Minecraft(commands.Cog):
                 await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
                 return
 
-            if db_guild['mcserver_rcon'] is not None:
+            if db_guild['mcserver_rcon'] is None:
                 try:
                     await self.bot.send(ctx.author, 'Now type in the RCON port (rcon.port in the server.properties file)')
                 except Exception:
