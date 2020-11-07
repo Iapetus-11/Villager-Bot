@@ -9,3 +9,4 @@ opencv-python
 numpy
 psutil
 colorama
+aiomcrcon
