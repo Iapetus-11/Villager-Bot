@@ -418,8 +418,8 @@ class Minecraft(commands.Cog):
 
             try:
                 s = db_guild['mcserver'].split(':')[0]+f':{port}'
-                print(f'|{s}|')
                 self.d.rcon_connection_cache[key] = (rcon.Client(s, auth_msg.content, 2.5, loop=self.bot.loop), arrow.utcnow())
+                await self.d.rcon_connection_cache[key][0].setup()
             except Exception:
                 await self.bot.send(ctx, 'Connection to the server failed')
                 self.d.rcon_connection_cache.pop(key, None)
