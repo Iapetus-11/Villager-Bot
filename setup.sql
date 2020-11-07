@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS items (
 );
 
 CREATE TABLE IF NOT EXISTS give_logs (
-  item_name  varchar(250),
+  item  varchar(250),
   amount     bigint,
   time_stamp bigint,
   giver_uid  bigint,
