@@ -379,7 +379,7 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, 'You have to set a Minecraft server for this guild via the `/config mcserver` command first.')
             return
 
-        key = (ctx.guild.id, ctx.author.id)
+        key = (ctx.guild.id, ctx.author.id, db_guild['mcserver'])
         cached = self.d.rcon_connection_cache.get(key)
 
         if cached is None:
