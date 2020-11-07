@@ -4,6 +4,7 @@ import discord
 import asyncio
 import aiohttp
 import random
+import arrow
 import math
 
 
@@ -570,7 +571,7 @@ class Econ(commands.Cog):
 
             await self.db.balance_sub(ctx.author.id, amount)
             await self.db.balance_add(user.id, amount)
-            await self.db.log_transaction('emerald', amount, ctx.author.id, user.id)
+            await self.db.log_transaction('emerald', amount, arrow.utcnow().timestamp, ctx.author.id, user.id)
 
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention))
         else:
@@ -588,7 +589,7 @@ class Econ(commands.Cog):
             await self.db.add_item(user.id, db_item['name'], db_item['sell_price'], amount)
             await self.db.log_transaction(db_item['name'], amount, ctx.author.id, user.id)
 
-            await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
+            await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, arrow.utcnow().timestamp, db_item['name'], user.mention))
 
     @commands.command(name='gamble', aliases=['bet'])
     @commands.cooldown(1, 10, commands.BucketType.user)
