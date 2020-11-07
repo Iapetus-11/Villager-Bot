@@ -411,7 +411,10 @@ class Minecraft(commands.Cog):
             try:
                 port = int(port_msg.content)
             except Exception:
-                pass
+                port = 25575
+
+            if 0 > port > 65535:
+                port = 25575
 
             try:
                 self.d.rcon_connection_cache[key] = (rcon.Client(db_guild['mcserver'], auth_msg.content, 2.5, loop=self.bot.loop), arrow.utcnow())
