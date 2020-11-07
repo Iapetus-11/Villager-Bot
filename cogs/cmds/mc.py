@@ -421,7 +421,7 @@ class Minecraft(commands.Cog):
                 print(s)
                 self.d.rcon_connection_cache[key] = (rcon.Client(s, auth_msg.content, 2.5, loop=self.bot.loop), arrow.utcnow())
                 await self.d.rcon_connection_cache[key][0].setup()
-            except Exception:
+            except aiomcrcon.Errors.ConnectionFailedError:
                 await self.bot.send(ctx, 'Connection to the server failed')
                 self.d.rcon_connection_cache.pop(key, None)
                 return
