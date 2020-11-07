@@ -461,6 +461,7 @@ class Minecraft(commands.Cog):
                     resp_text += resp[0][i]
 
             await ctx.send('```{}```'.format(resp_text.replace('\\n', '\n')))
+            
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
