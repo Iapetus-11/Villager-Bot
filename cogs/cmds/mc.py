@@ -423,6 +423,7 @@ class Minecraft(commands.Cog):
             except aiomcrcon.Errors.ConnectionFailedError:
                 await self.bot.send(ctx, 'Connection to the server failed')
                 self.d.rcon_connection_cache.pop(key, None)
+                return
 
             rcon_con = self.d.rcon_connection_cache[key][0]
         else:
