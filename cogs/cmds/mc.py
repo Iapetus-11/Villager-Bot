@@ -390,7 +390,7 @@ class Minecraft(commands.Cog):
                 return
 
             try:
-                auth_msg = await self.bot.wait_for('message', check=(lambda m: ctx.author.id == m.author.id and ctx.author.DMChannel.id == m.channel.id), timeout=60)
+                auth_msg = await self.bot.wait_for('message', check=(lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id), timeout=60)
             except asyncio.TimeoutError:
                 await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
                 return
