@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS items (
 );
 
 CREATE TABLE IF NOT EXISTS give_logs (
-  item  varchar(250),
+  item       varchar(250),
   amount     bigint,
   ts         bigint,
   giver_uid  bigint,
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS warnings ( -- moderation warnings
 
 CREATE TABLE IF NOT EXISTS mcservers (
   owner_id bigint, -- discord owner id of the server
-  host varchar(100), -- hostname/ip/address of server
-  link varchar(250) -- learn more link
+  host     varchar(100), -- hostname/ip/address of server
+  link     varchar(250) -- learn more link
 )
 
 -- CREATE TABLE IF NOT EXISTS mc_servers( -- used for the !!randommc command
