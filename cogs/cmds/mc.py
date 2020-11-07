@@ -439,7 +439,7 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, f'For some reason, an error ocurred whilst sending that command to the server. DEBUG: `{e}`')
             return
 
-        await ctx.send(f'```{resp[0]}```')
+        await ctx.send(f'```{resp[0].replace('\\n', '\n')}```')
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
