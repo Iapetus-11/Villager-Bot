@@ -25,9 +25,11 @@ CREATE TABLE IF NOT EXISTS items (
 );
 
 CREATE TABLE IF NOT EXISTS give_logs (
-  item_name             varchar(250),
-  amount                bigint,
-  transaction_timestamp bigint
+  item_name  varchar(250),
+  amount     bigint,
+  time_stamp bigint,
+  giver_uid  bigint,
+  recvr_uid  bigint
 );
 
 CREATE TABLE IF NOT EXISTS leaderboards (
