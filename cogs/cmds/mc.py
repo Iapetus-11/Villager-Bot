@@ -370,13 +370,15 @@ class Minecraft(commands.Cog):
 
         await self.bot.send(ctx, f'{prefix} {idea}!')
 
-    async def close_rcon_con(self, key):
+    async def close_rcon_con(self, key, gid):
         try:
             await self.d.rcon_connection_cache[key][0].close()
         except Exception:
             pass
 
         self.d.rcon_connection_cache.pop(key, None)
+
+        await self.db.set_guild_attr(gid, 'mcserver_rcon', None)  # port could be invalid, so reset it
 
     @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'servercommand', 'scmd'])
     @commands.is_owner()
@@ -404,26 +406,31 @@ class Minecraft(commands.Cog):
                 await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
                 return
 
-            try:
-                await self.bot.send(ctx.author, 'Now type in the RCON port (rcon.port in the server.properties file)')
-            except Exception:
-                await self.bot.send(ctx, 'I need to be able to DM you, either something went wrong or I don\'t have the permissions to.')
-                return
+            if db_guild['mcserver_rcon'] is not None:
+                try:
+                    await self.bot.send(ctx.author, 'Now type in the RCON port (rcon.port in the server.properties file)')
+                except Exception:
+                    await self.bot.send(ctx, 'I need to be able to DM you, either something went wrong or I don\'t have the permissions to.')
+                    return
 
-            try:
-                port_msg = await self.bot.wait_for('message', check=author_check, timeout=60)
-            except asyncio.TimeoutError:
-                await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
-                return
+                try:
+                    port_msg = await self.bot.wait_for('message', check=author_check, timeout=60)
+                except asyncio.TimeoutError:
+                    await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
+                    return
 
-            port = 25575
-            try:
-                port = int(port_msg.content)
-            except Exception:
                 port = 25575
+                try:
+                    port = int(port_msg.content)
+                except Exception:
+                    port = 25575
 
-            if 0 > port > 65535:
-                port = 25575
+                if 0 > port > 65535:
+                    port = 25575
+
+                await self.db.set_guild_attr(ctx.guild.id, 'mcserver_rcon', port)  # update value in db
+            else:
+                port = db_guild['mcserver_rcon']
 
             try:
                 s = db_guild['mcserver'].split(':')[0]+f':{port}'
@@ -431,7 +438,7 @@ class Minecraft(commands.Cog):
                 await self.d.rcon_connection_cache[key][0].setup()
             except rcon.Errors.ConnectionFailedError:
                 await self.bot.send(ctx, 'Connection to the server failed')
-                await self.close_rcon_con(key)
+                await self.close_rcon_con(key, ctx.guild.id)
                 return
 
             rcon_con = self.d.rcon_connection_cache[key][0]
@@ -443,10 +450,10 @@ class Minecraft(commands.Cog):
             resp = await rcon_con.send_cmd(cmd[:1446])  # shorten to avoid unecessary timeouts
         except asyncio.TimeoutError:
             await self.bot.send(ctx, 'A timeout occurred while sending that command to the server')
-            await self.close_rcon_con(key)
+            await self.close_rcon_con(key, ctx.guild.id)
         except Exception:
             await self.bot.send(ctx, f'For some reason, an error ocurred while sending that command to the server')
-            await self.close_rcon_con(key)
+            await self.close_rcon_con(key, ctx.guild.id)
         else:
             resp_text = ''
             for i in range(1, len(resp[0])):
