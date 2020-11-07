@@ -1,11 +1,14 @@
 from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as bs
 import concurrent.futures
+import aiomcrcon as rcon
 import functools
 import aiohttp
 import discord
+import asyncio
 import random
 import base64
+import arrow
 import json
 import os
 
@@ -367,6 +370,49 @@ class Minecraft(commands.Cog):
 
         await self.bot.send(ctx, f'{prefix} {idea}!')
 
+    @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'servercommand', 'scmd'])
+    @commands.is_owner()
+    async def rcon_command(self, ctx, *, cmd):
+        db_guild = await self.db.fetch_guild(ctx.guild.id)
+
+        if db_guild['mcserver'] is None:
+            await self.bot.send(ctx, 'You have to set a Minecraft server for this guild via the `/config mcserver` command first.')
+            return
+
+        key = (ctx.guild.id, ctx.author.id)
+        rcon_con = self.d.rcon_connection_cache.get(key)[0]
+
+        if rcon_con is None:
+            try:
+                await self.bot.send(ctx.author, 'Type in the remote console password (rcon.password in the server.properties file) here.\nThis password will be stored for 10 minutes after the last command sent to the Minecraft server occurs.')
+            except Exception:
+                await self.bot.send(ctx, 'I need to be able to DM you, either something went wrong or I don\'t have the permissions to.')
+                return
+
+            try:
+                auth_msg = await self.bot.wait_for('message', check=(lambda m: ctx.author.id == m.author.id and ctx.author.DMChannel.id == m.channel.id), timeout=60)
+            except asyncio.TimeoutError:
+                await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
+                return
+
+            try:
+                self.d.rcon_connection_cache[key] = (rcon.Client(db_guild['mcserver'], auth_msg.content, 2), arrow.utcnow())
+            except aiomcrcon.Errors.ConnectionFailedError:
+                await self.bot.send(ctx, 'Connection to the server failed')
+                self.d.rcon_connection_cache.pop(key, None)
+
+            rcon_con = self.d.rcon_connection_cache[key][0]
+        else:
+            self.d.rcon_connection_cache[key] = (rcon_con[0], arrow.utcnow())  # update time
+
+        try:
+            resp = await asyncio.wait_for(rcon_con.send_cmd(cmd[:1446]), timeout=2)  # shorten to avoid unecessary timeouts
+        except asyncio.TimeoutError:
+            await self.bot.send(ctx, 'A timeout occurred while sending that command')
+            self.d.rcon_connection_cache.pop(key, None)
+            return
+
+        await ctx.send(f'```{resp}```')
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
