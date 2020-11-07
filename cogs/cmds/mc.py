@@ -370,6 +370,14 @@ class Minecraft(commands.Cog):
 
         await self.bot.send(ctx, f'{prefix} {idea}!')
 
+    async def close_rcon_con(self, key):
+        try:
+            await self.d.rcon_connection_cache[key][0].close()
+        except Exception:
+            pass
+
+        self.d.rcon_connection_cache.pop(key, None)
+
     @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'servercommand', 'scmd'])
     @commands.is_owner()
     async def rcon_command(self, ctx, *, cmd):
@@ -422,7 +430,7 @@ class Minecraft(commands.Cog):
                 await self.d.rcon_connection_cache[key][0].setup()
             except rcon.Errors.ConnectionFailedError:
                 await self.bot.send(ctx, 'Connection to the server failed')
-                self.d.rcon_connection_cache.pop(key, None)
+                await self.close_rcon_con(key)
                 return
 
             rcon_con = self.d.rcon_connection_cache[key][0]
@@ -433,18 +441,18 @@ class Minecraft(commands.Cog):
         try:
             resp = await rcon_con.send_cmd(cmd[:1446])  # shorten to avoid unecessary timeouts
         except asyncio.TimeoutError:
-            await self.bot.send(ctx, 'A timeout occurred while sending that command to the server.')
-            return
-        except Exception as e:
-            await self.bot.send(ctx, f'For some reason, an error ocurred whilst sending that command to the server. DEBUG: `{e}`')
-            return
+            await self.bot.send(ctx, 'A timeout occurred while sending that command to the server')
+            await self.close_rcon_con(key)
+        except Exception:
+            await self.bot.send(ctx, f'For some reason, an error ocurred while sending that command to the server')
+            await self.close_rcon_con(key)
+        else:
+            resp_text = ''
+            for i in range(1, len(resp[0])):
+                if resp[0][i] != '§' and resp[0][i-1] != '§':
+                    resp_text += resp[0][i]
 
-        resp_text = ''
-        for i in range(1, len(resp[0])):
-            if resp[0][i] != '§' and resp[0][i-1] != '§':
-                resp_text += resp[0][i]
-
-        await ctx.send('```{}```'.format(resp_text.replace('\\n', '\n')))
+            await ctx.send('```{}```'.format(resp_text.replace('\\n', '\n')))
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
