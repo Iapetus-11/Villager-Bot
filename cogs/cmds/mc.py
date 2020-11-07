@@ -417,7 +417,9 @@ class Minecraft(commands.Cog):
                 port = 25575
 
             try:
-                self.d.rcon_connection_cache[key] = (rcon.Client(db_guild['mcserver'].split(':')[0]+f':{port}', auth_msg.content, 2.5, loop=self.bot.loop), arrow.utcnow())
+                s = db_guild['mcserver'].split(':')[0]+f':{port}'
+                print(s)
+                self.d.rcon_connection_cache[key] = (rcon.Client(s, auth_msg.content, 2.5, loop=self.bot.loop), arrow.utcnow())
             except aiomcrcon.Errors.ConnectionFailedError:
                 await self.bot.send(ctx, 'Connection to the server failed')
                 self.d.rcon_connection_cache.pop(key, None)
