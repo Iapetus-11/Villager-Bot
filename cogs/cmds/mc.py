@@ -406,7 +406,7 @@ class Minecraft(commands.Cog):
             self.d.rcon_connection_cache[key] = (cached[0], arrow.utcnow())  # update time
             rcon_con = cached[0]
 
-        await rcon_con.send_cmd(cmd[:1446]  # shorten to avoid unecessary timeouts
+        await rcon_con.send_cmd(cmd[:1446])  # shorten to avoid unecessary timeouts
 
         await ctx.send(f'```{resp}```')
 
