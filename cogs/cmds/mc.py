@@ -430,7 +430,14 @@ class Minecraft(commands.Cog):
             self.d.rcon_connection_cache[key] = (cached[0], arrow.utcnow())  # update time
             rcon_con = cached[0]
 
-        await rcon_con.send_cmd(cmd[:1446])  # shorten to avoid unecessary timeouts
+        try:
+            resp = await rcon_con.send_cmd(cmd[:1446])  # shorten to avoid unecessary timeouts
+        except asyncio.TimeoutError:
+            await self.bot.send(ctx, 'A timeout occurred while sending that command to the server.')
+            return
+        except Exception as e:
+            await self.bot.send(ctx, f'For some reason, an error ocurred whilst sending that command to the server. DEBUG: `{e}`')
+            return
 
         await ctx.send(f'```{resp}```')
 
