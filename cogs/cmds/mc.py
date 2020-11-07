@@ -405,7 +405,7 @@ class Minecraft(commands.Cog):
 
         if cached is None:
             try:
-                await self.bot.send(ctx.author, 'Type in the remote console password (rcon.password in the server.properties file) here. This password will be stored for 10 minutes after the last command sent to the Minecraft server occurs.')
+                await self.bot.send(ctx.author, 'Type in the remote console password (rcon.password in the server.properties file) here. This password can be stored for up to 10 minutes past the last rcon command.')
             except Exception:
                 await self.bot.send(ctx, 'I need to be able to DM you, either something went wrong or I don\'t have the permissions to.')
                 return
