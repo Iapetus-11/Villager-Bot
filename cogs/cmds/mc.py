@@ -381,6 +381,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'servercommand', 'scmd'])
     @commands.is_owner()
     async def rcon_command(self, ctx, *, cmd):
+        author_check = (lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id)
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
         if db_guild['mcserver'] is None:
@@ -398,7 +399,7 @@ class Minecraft(commands.Cog):
                 return
 
             try:
-                auth_msg = await self.bot.wait_for('message', check=(lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id), timeout=60)
+                auth_msg = await self.bot.wait_for('message', check=author_check, timeout=60)
             except asyncio.TimeoutError:
                 await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
                 return
@@ -410,7 +411,7 @@ class Minecraft(commands.Cog):
                 return
 
             try:
-                port_msg = await self.bot.wait_for('message', check=(lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id), timeout=60)
+                port_msg = await self.bot.wait_for('message', check=author_check, timeout=60)
             except asyncio.TimeoutError:
                 await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
                 return
@@ -435,8 +436,8 @@ class Minecraft(commands.Cog):
 
             rcon_con = self.d.rcon_connection_cache[key][0]
         else:
-            self.d.rcon_connection_cache[key] = (cached[0], arrow.utcnow())  # update time
             rcon_con = cached[0]
+            self.d.rcon_connection_cache[key] = (rcon_con, arrow.utcnow())  # update time
 
         try:
             resp = await rcon_con.send_cmd(cmd[:1446])  # shorten to avoid unecessary timeouts
