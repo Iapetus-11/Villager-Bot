@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS guilds (
-  gid        bigint, -- guild id
-  prefix     varchar(15), -- prefix in that server
-  replies    bool, -- whether or not the should reply to "emeralds" and "villager bot"
-  difficulty varchar(15), -- difficulty for mob spawns and other things
-  lang       varchar(10), -- language used leave null for en-us
-  mcserver   varchar(50) -- default mcserver for the /mcstatus command
+  gid            bigint, -- guild id
+  prefix         varchar(15), -- prefix in that server
+  replies        bool, -- whether or not the should reply to "emeralds" and "villager bot"
+  difficulty     varchar(15), -- difficulty for mob spawns and other things
+  lang           varchar(10), -- language used leave null for en-us
+  mcserver       varchar(50), -- default mcserver for the /mcstatus command
+  mcserver_rcon  int -- rcon port for the mc server
 );
 
 CREATE TABLE IF NOT EXISTS users (
