@@ -25,7 +25,9 @@ class Minecraft(commands.Cog):
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
         self.d.mcserver_list = []
+
         self.update_server_list.start()
+        self.clear_rcon_cache.start()
 
     def cog_unload(self):
         del self.mosaic
@@ -56,6 +58,12 @@ class Minecraft(commands.Cog):
     @update_server_list.before_loop
     async def before_update_server_list(self):
         await self.bot.wait_until_ready()
+
+    @tasks.loop(seconds=30)
+    async def clear_rcon_cache(self):
+        for key in list(self.d.rcon_connection_cache):
+            if (arrow.utcnow() - self.d.rcon_connection_cache[key][1]).seconds > 10*60:
+                self.d.rcon_connection_cache.pop(key, None)
 
     @commands.command(name='mcimage', aliases=['mcpixelart', 'mcart', 'mcimg'])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -381,7 +389,9 @@ class Minecraft(commands.Cog):
         await self.db.set_guild_attr(gid, 'mcserver_rcon', None)  # port could be invalid, so reset it
 
     @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'servercommand', 'scmd'])
-    @commands.is_owner()
+    @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.guild_only()
     async def rcon_command(self, ctx, *, cmd):
         author_check = (lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id)
         db_guild = await self.db.fetch_guild(ctx.guild.id)
@@ -461,7 +471,7 @@ class Minecraft(commands.Cog):
                     resp_text += resp[0][i]
 
             await ctx.send('```{}```'.format(resp_text.replace('\\n', '\n')))
-            
+
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
