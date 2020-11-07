@@ -456,8 +456,8 @@ class Minecraft(commands.Cog):
             await self.close_rcon_con(key, ctx.guild.id)
         else:
             resp_text = ''
-            for i in range(1, len(resp[0])):
-                if resp[0][i] != '§' and resp[0][i-1] != '§':
+            for i in range(0, len(resp[0])):
+                if resp[0][i] != '§' and (i == 0 or resp[0][i-1] != '§'):
                     resp_text += resp[0][i]
 
             await ctx.send('```{}```'.format(resp_text.replace('\\n', '\n')))
