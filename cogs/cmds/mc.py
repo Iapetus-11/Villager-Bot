@@ -380,9 +380,9 @@ class Minecraft(commands.Cog):
             return
 
         key = (ctx.guild.id, ctx.author.id)
-        rcon_con = self.d.rcon_connection_cache.get(key)[0]
+        cached = self.d.rcon_connection_cache.get(key)
 
-        if rcon_con is None:
+        if cached is None:
             try:
                 await self.bot.send(ctx.author, 'Type in the remote console password (rcon.password in the server.properties file) here.\nThis password will be stored for 10 minutes after the last command sent to the Minecraft server occurs.')
             except Exception:
@@ -403,7 +403,8 @@ class Minecraft(commands.Cog):
 
             rcon_con = self.d.rcon_connection_cache[key][0]
         else:
-            self.d.rcon_connection_cache[key] = (rcon_con[0], arrow.utcnow())  # update time
+            self.d.rcon_connection_cache[key] = (cached[0], arrow.utcnow())  # update time
+            rcon_con = cached[0]
 
         try:
             resp = await asyncio.wait_for(rcon_con.send_cmd(cmd[:1446]), timeout=2)  # shorten to avoid unecessary timeouts
