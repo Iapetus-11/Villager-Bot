@@ -396,6 +396,24 @@ class Minecraft(commands.Cog):
                 return
 
             try:
+                await self.bot.send(ctx.author, 'Now type in the RCON port (rcon.port in the server.properties file)')
+            except Exception:
+                await self.bot.send(ctx, 'I need to be able to DM you, either something went wrong or I don\'t have the permissions to.')
+                return
+
+            try:
+                port_msg = await self.bot.wait_for('message', check=(lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id), timeout=60)
+            except asyncio.TimeoutError:
+                await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
+                return
+
+            port = 25575
+            try:
+                port = int(port_msg.content)
+            except Exception:
+                pass
+
+            try:
                 self.d.rcon_connection_cache[key] = (rcon.Client(db_guild['mcserver'], auth_msg.content, 2.5, loop=self.bot.loop), arrow.utcnow())
             except aiomcrcon.Errors.ConnectionFailedError:
                 await self.bot.send(ctx, 'Connection to the server failed')
