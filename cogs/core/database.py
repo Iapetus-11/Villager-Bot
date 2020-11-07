@@ -163,6 +163,10 @@ class Database(commands.Cog):
                 await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
                                   prev['amount'] - amount, uid, name)
 
+    async def log_transaction(self, item, amount, giver, receiver):
+        async with self.db.acquire() as con:
+            await con.execute('INSERT INTO give_logs VALUES ($1, $2, $3, $4)', item, amount, giver, receiver)
+
     async def fetch_pickaxe(self, uid):
         items_names = [item['name'] for item in await self.fetch_items(uid)]
 
