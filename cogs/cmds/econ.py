@@ -587,9 +587,9 @@ class Econ(commands.Cog):
 
             await self.db.remove_item(ctx.author.id, item, amount)
             await self.db.add_item(user.id, db_item['name'], db_item['sell_price'], amount)
-            await self.db.log_transaction(db_item['name'], amount, ctx.author.id, user.id)
+            await self.db.log_transaction(db_item['name'], arrow.utcnow().timestamp, amount, ctx.author.id, user.id)
 
-            await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, arrow.utcnow().timestamp, db_item['name'], user.mention))
+            await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, db_item['name'], user.mention))
 
     @commands.command(name='gamble', aliases=['bet'])
     @commands.cooldown(1, 10, commands.BucketType.user)
