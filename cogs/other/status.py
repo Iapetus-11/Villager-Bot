@@ -6,6 +6,8 @@ class Status(commands.Cog):
         self.bot = bot
         self.d = self.bot.d
 
+        self.change_status.start()
+
     @tasks.loop(minutes=45)
     async def change_status(self):
         await self.bot.change_presence(activity=discord.Game(name=random.choice(self.d.playing_list)))
