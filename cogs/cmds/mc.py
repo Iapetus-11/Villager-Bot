@@ -141,10 +141,10 @@ class Minecraft(commands.Cog):
         player_list_cut = []
 
         for p in player_list:
-            if '§' not in p and len(p) < 16 and ' ' not in p:
+            if not ('§' in p or len(p) > 16 or ' ' in p or '-' in p):
                 player_list_cut.append(p)
 
-        player_list_cut = player_list[:24]
+        player_list_cut = player_list_cut[:24]
 
         if len(player_list_cut) < 1:
             embed.add_field(
@@ -204,10 +204,10 @@ class Minecraft(commands.Cog):
         player_list_cut = []
 
         for p in player_list:
-            if '§' not in p and len(p) < 16 and ' ' not in p:
+            if not ('§' in p or len(p) > 16 or ' ' in p or '-' in p):
                 player_list_cut.append(p)
 
-        player_list_cut = player_list[:24]
+        player_list_cut = player_list_cut[:24]
 
         if len(player_list_cut) < 1:
             embed.add_field(
