@@ -1,5 +1,6 @@
 from discord.ext import commands, tasks
 import discord
+import random
 
 
 class Status(commands.Cog):
