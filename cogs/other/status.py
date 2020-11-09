@@ -1,4 +1,5 @@
 from discord.ext import commands, tasks
+import discord
 
 
 class Status(commands.Cog):
