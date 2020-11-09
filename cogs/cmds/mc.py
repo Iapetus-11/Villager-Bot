@@ -140,8 +140,8 @@ class Minecraft(commands.Cog):
 
         player_list_cut = []
 
-        for i, p in enumerate(player_list):
-            if not ('§' in p or len(p) > 16 or ' ' in p):
+        for p in player_list:
+            if '§' not in p and len(p) < 16 and ' ' not in p:
                 player_list_cut.append(p)
 
         player_list_cut = player_list[:24]
@@ -203,8 +203,8 @@ class Minecraft(commands.Cog):
 
         player_list_cut = []
 
-        for i, p in enumerate(player_list):
-            if not ('§' in p or len(p) > 16 or ' ' in p):
+        for p in player_list:
+            if '§' not in p and len(p) < 16 and ' ' not in p:
                 player_list_cut.append(p)
 
         player_list_cut = player_list[:24]
