@@ -158,7 +158,8 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.fun',
     'cogs.cmds.econ',
     'cogs.cmds.config',
-    'cogs.other.mobs'
+    'cogs.other.mobs',
+    'cogs.other.status'
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list
