@@ -14,10 +14,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.bot.change_presence(activity=discord.Game(name=random.choice(self.d.playing_list)))
-
         await self.db.populate_caches()
-
         self.bot.logger.info(f'\u001b[36;1mCONNECTED\u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]')
 
     @commands.Cog.listener()
