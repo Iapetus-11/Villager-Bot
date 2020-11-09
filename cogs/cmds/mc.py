@@ -138,9 +138,15 @@ class Minecraft(commands.Cog):
         ver = jj['version'].get('brand', 'Unknown')
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=('Unknown' if ver is None else ver))
 
+        player_list_cut = []
+
+        for i, p in enumerate(player_list):
+            if not ('§' in p or len(p) > 16 or ' ' in p):
+                player_list_cut.append(p)
+
         player_list_cut = player_list[:24]
 
-        if len(player_list_cut) < 1 or any(['§' in l for l in player_list_cut]):
+        if len(player_list_cut) < 1:
             embed.add_field(
                 name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
@@ -195,9 +201,15 @@ class Minecraft(commands.Cog):
         ver = jj['version'].get('brand', 'Unknown')
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=('Unknown' if ver is None else ver))
 
+        player_list_cut = []
+
+        for i, p in enumerate(player_list):
+            if not ('§' in p or len(p) > 16 or ' ' in p):
+                player_list_cut.append(p)
+
         player_list_cut = player_list[:24]
 
-        if len(player_list_cut) < 1 or any(['§' in l for l in player_list_cut]):
+        if len(player_list_cut) < 1:
             embed.add_field(
                 name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
