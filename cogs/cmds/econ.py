@@ -623,11 +623,15 @@ class Econ(commands.Cog):
         if u_roll > b_roll:
             multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 75
             multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20)
-            multi = 200 + random.randint(-5, 0) if multi >= 200 else multi
+            multi = (200 + random.randint(-5, 0)) if multi >= 200 else multi
             multi /= 100
 
-            await self.db.balance_add(ctx.author.id, int(multi * amount))
-            await self.bot.send(ctx, ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), int(multi*amount), self.d.emojis.emerald))
+            won = int(multi * amount)
+            if won > 45000:
+                won = 45000 + random.randint(-5000, 5000)
+
+            await self.db.balance_add(ctx.author.id, won)
+            await self.bot.send(ctx, ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), won, self.d.emojis.emerald))
         elif u_roll < b_roll:
             await self.db.balance_sub(ctx.author.id, amount)
             await self.bot.send(ctx, ctx.l.econ.gamble.lose.format(amount, self.d.emojis.emerald))
