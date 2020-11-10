@@ -1,6 +1,6 @@
 aiohttp
 arrow
-discord.py==1.4.2
+discord.py
 async-cse
 asyncpg
 classy-json
