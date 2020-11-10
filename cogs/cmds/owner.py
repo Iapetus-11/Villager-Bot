@@ -163,6 +163,17 @@ class Owner(commands.Cog):
         self.bot.owner_locked = not self.bot.owner_locked
         await self.bot.send(ctx, f'All commands owner only: {self.bot.owner_locked}')
 
+    @commands.command(name='setbal')
+    @commands.is_owner()
+    async def set_user_bal(self, user: Union[discord.User, int], balance: int):
+        if isinstance(user, discord.User):
+            uid = user.id
+        else:
+            uid = user
+
+        await self.db.update_user(uid, 'emeralds', 0)
+        await ctx.message.add_reaction(self.d.emojis.yes)
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
