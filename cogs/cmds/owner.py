@@ -171,7 +171,7 @@ class Owner(commands.Cog):
         else:
             uid = user
 
-        await self.db.update_user(uid, 'emeralds', 0)
+        await self.db.update_user(uid, 'emeralds', balance)
         await ctx.message.add_reaction(self.d.emojis.yes)
 
 
