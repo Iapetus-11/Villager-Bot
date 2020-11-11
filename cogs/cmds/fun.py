@@ -49,7 +49,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while meme['spoiler'] or (not do_nsfw and meme['nsfw']):
                 resp = await self.ses.get(
-                    'https://betterapi.net/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
+                    'https://api.iapetus11.xyz/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 meme = cj.classify(await resp.json())
@@ -74,7 +74,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while not do_nsfw and jj['nsfw']:
                 resp = await self.ses.get(
-                    'https://betterapi.net/reddit/gimme/4chan+greentext',
+                    'https://api.iapetus11.xyz/reddit/gimme/4chan+greentext',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 jj = await resp.json()
@@ -98,7 +98,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while not do_nsfw and jj['nsfw']:
                 resp = await self.ses.get(
-                    'https://betterapi.net/reddit/gimme/comics',
+                    'https://api.iapetus11.xyz/reddit/gimme/comics',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 jj = await resp.json()
@@ -117,7 +117,7 @@ class Fun(commands.Cog):
 
                 while jj['nsfw']:
                     resp = await self.ses.get(
-                        'https://betterapi.net/reddit/gimme/CursedMinecraft',
+                        'https://api.iapetus11.xyz/reddit/gimme/CursedMinecraft',
                         headers={'Authorization': self.d.vb_api_key}
                     )
                     jj = await resp.json()
