@@ -274,7 +274,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='achievement', aliases=['mcachieve'])
     async def minecraft_achievement(self, ctx, *, text):
         embed = discord.Embed(color=self.d.cc)
-        embed.set_image(url=f'https://api.iapetus11.xyz/mc/{text[:26]}')
+        embed.set_image(url=f'https://api.iapetus11.xyz/mc/{text[:26].replace(" ", "%20")}')
         await ctx.send(embed=embed)
 
     @commands.command(name='uuidtoname', aliases=['uuidtousername', 'uuid2name'])
