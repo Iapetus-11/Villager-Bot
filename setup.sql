@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS items (
   uid          bigint, -- owner of the item
   name         varchar(250), -- name of the item
   sell_price   bigint, -- sell price for ONE of that item
-  amount       bigint  -- amount of the item
+  amount       bigint,  -- amount of the item
+  tradable     bool
 );
 
 CREATE TABLE IF NOT EXISTS give_logs (
