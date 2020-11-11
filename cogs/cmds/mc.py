@@ -276,6 +276,12 @@ class Minecraft(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=f'https://minecraftskinstealer.com/achievement/1/Achievement+Get%21/{text.replace(" ", "+")}')
         await ctx.send(embed=embed)
+    
+    @commands.command(name='challenge', aliases=['mcchallenge'])
+    async def minecraft_challenge(self, ctx, *, text):
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_image(url=f'https://api.alexflipnote.dev/challenge?text={text.replace(" ", "+")}')
+        await ctx.send(embed=embed)
 
     @commands.command(name='uuidtoname', aliases=['uuidtousername', 'uuid2name'])
     @commands.cooldown(1, 2, commands.BucketType.user)
