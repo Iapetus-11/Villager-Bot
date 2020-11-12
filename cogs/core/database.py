@@ -38,7 +38,7 @@ class Database(commands.Cog):
             roles = []
 
             for role in member.roles:
-                if role.id not in role_map_values:
+                if role.id not in role_map_values and role.id != self.d.support_server_id:
                     roles.append(role)
 
             pickaxe = await self.fetch_pickaxe(member.id)
