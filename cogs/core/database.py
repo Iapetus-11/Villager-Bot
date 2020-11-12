@@ -41,13 +41,12 @@ class Database(commands.Cog):
                 if role.id not in role_map_values and role.id != self.d.support_server_id:
                     roles.append(role)
 
-            pickaxe = await self.fetch_pickaxe(member.id)
-            roles.append(support_guild.get_role(self.d.role_mappings.get(pickaxe)))
+            pickaxe_role = self.d.role_mappings.get(await self.fetch_pickaxe(member.id))
+            if pickaxe_role is not None:
+                roles.append(support_guild.get_role(pickaxe_role))
 
             if await self.fetch_item(member.id, 'Bane Of Pillagers Amulet') is not None:
                 roles.append(support_guild.get_role(self.d.role_mappings.get('BOP')))
-
-            print(roles)
 
             if roles != member.roles:
                 await member.edit(roles=roles)
