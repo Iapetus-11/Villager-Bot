@@ -1,3 +1,4 @@
+from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as bs
 import concurrent.futures
@@ -274,7 +275,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='achievement', aliases=['mcachieve'])
     async def minecraft_achievement(self, ctx, *, text):
         embed = discord.Embed(color=self.d.cc)
-        embed.set_image(url=f'https://api.iapetus11.xyz/mc/achievement/{text[:26].replace(" ", "%20")}')
+        embed.set_image(url=f'https://api.iapetus11.xyz/mc/achievement/{urlquote(text[:26])}')
         await ctx.send(embed=embed)
 
     @commands.command(name='uuidtoname', aliases=['uuidtousername', 'uuid2name'])
