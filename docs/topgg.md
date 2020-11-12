@@ -26,6 +26,7 @@
   	background-color: rgba(237, 247, 239, .85) !important;
     border: .5px solid 3c3c3c;
     border-radius: 5px;
+    color: black !important;
   }
 
   .shapes-background {
@@ -42,6 +43,7 @@
 
   h1 {
   	text-align: center !important;
+    color: black !important;
   }
 
   #upvotebutton {
@@ -60,8 +62,29 @@
   p {
   	color: black !important;
   }
-
+  
   .comment-username {
+  	color: black !important;
+  }
+  
+  code {
+  	color: #7289DA !important;
+    background-color: white !important;
+  }
+  
+  .content h2:not(.override) {
+    color: black !important;
+  }
+  
+  .content h3:not(:first-child) {
+  	color: black !important;
+  }
+  
+  #bot-details-page .bot-name {
+  	color: black !important;
+  }
+  
+  .btn-like span {
   	color: black !important;
   }
 </style>
