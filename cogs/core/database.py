@@ -22,7 +22,7 @@ class Database(commands.Cog):
         self.d.prefix_cache = await self.fetch_all_guild_prefixes()
         self.d.additional_mcservers = await self.fetch_all_mcservers()
 
-    @tasks.loop(seconds=8)
+    @tasks.loop(seconds=12)
     async def update_user_health(self):
         async with self.db.acquire() as con:
             await con.execute('UPDATE users SET health = health + 1 WHERE health < 20')
