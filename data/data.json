@@ -403,6 +403,14 @@
     "on the Nether Update",
     "Minecraft - 'Rona Edition"
   ],
+  "role_mappings": {
+    "Stone Pickaxe": 697457637763186809,
+    "Iron Pickaxe": 697457970661031957,
+    "Gold Pickaxe": 697458756958552114,
+    "Diamond Pickaxe": 697457399295901786,
+    "Netherite Pickaxe": 697457303477026856,
+    "BOP": 706604490274504754
+  },
   "kills": [
     "{0} was suicided",
     "{0} died by death",
