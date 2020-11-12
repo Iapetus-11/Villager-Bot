@@ -47,6 +47,9 @@ class Database(commands.Cog):
             if await self.fetch_item(member.id, 'Bane Of Pillagers Amulet') is not None:
                 roles.append(support_guild.get_role(self.d.role_mappings.get('BOP')))
 
+            print(roles)
+            return
+
             if roles != member.roles:
                 await member.edit(roles=roles)
 
