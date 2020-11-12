@@ -49,6 +49,7 @@ class Database(commands.Cog):
                 roles.append(support_guild.get_role(self.d.role_mappings.get('BOP')))
 
             if roles != member.roles:
+                print(roles)
                 await member.edit(roles=roles)
 
     async def fetch_all_botbans(self):
