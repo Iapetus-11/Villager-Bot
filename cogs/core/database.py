@@ -48,7 +48,6 @@ class Database(commands.Cog):
                 roles.append(support_guild.get_role(self.d.role_mappings.get('BOP')))
 
             print(roles)
-            return
 
             if roles != member.roles:
                 await member.edit(roles=roles)
