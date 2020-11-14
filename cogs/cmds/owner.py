@@ -218,9 +218,9 @@ class Owner(commands.Cog):
         users = {}
 
         for item in items:
-            prev = users.get(item['id'], 0)
+            prev = users.get(item['uid'], 0)
 
-            users[item['id']] = prev + (item['amount'] * item['sell_price'])
+            users[item['uid']] = prev + (item['amount'] * item['sell_price'])
 
         users = users.items()
         users_sorted = sorted(users, key=(lambda e: e[1]), reverse=True)[:30]
