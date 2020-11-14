@@ -172,7 +172,22 @@ class Owner(commands.Cog):
             uid = user
 
         await self.db.update_user(uid, 'emeralds', balance)
-        await ctx.message.add_reaction(self.d.emojis.yes)\
+        await ctx.message.add_reaction(self.d.emojis.yes)
+
+    @commands.command(name='massunban')
+    @commands.is_owner()
+    async def mass_unban(self, ctx):
+        exempt = [m.id for m in self.bot.get_guild(730519472863051910)]
+
+        # remove botbans
+        async with self.db.acquire() as con:
+            await con.execute('UPDATE users SET bot_banned = false WHERE uid = ANY($1::bigint[])', exempt)
+
+        await ctx.send('Finished bot-bans.')
+
+        # server bans
+        bans = await self.bot.get_guild(self.d.support_server_id).bans()
+        await ctx.send(bans[0].__dict__)
 
 
 def setup(bot):
