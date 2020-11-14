@@ -243,12 +243,14 @@ class Database(commands.Cog):
     async def set_botbanned(self, uid, botbanned):
         await self.fetch_user(uid)
 
-        if botbanned:
+        if botbanned and uid not in self.d.ban_cache:
             self.d.ban_cache.append(uid)
         else:
             try:
                 self.d.ban_cache.pop(self.d.ban_cache.index(uid))
             except KeyError:
+                pass
+            except ValueError:
                 pass
 
         async with self.db.acquire() as con:
