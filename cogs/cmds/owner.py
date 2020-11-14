@@ -185,9 +185,13 @@ class Owner(commands.Cog):
 
         await ctx.send('Finished bot-bans.')
 
+        support_guild = self.bot.get_guild(self.d.support_server_id)
+
         # server bans
-        bans = await self.bot.get_guild(self.d.support_server_id).bans()
-        await ctx.send(bans[0])
+        bans = await support_guild.bans()
+        for ban in bans:
+            if ban.user.id not in exempt:
+                await support_guild.unban(ban.user.id, reason='Mass pardon of Nov 14th')
 
 
 def setup(bot):
