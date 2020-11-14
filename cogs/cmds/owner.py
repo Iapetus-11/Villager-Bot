@@ -180,7 +180,7 @@ class Owner(commands.Cog):
         exempt = [m.id for m in self.bot.get_guild(730519472863051910).members]
 
         # remove botbans
-        async with self.db.acquire() as con:
+        async with self.db.db.acquire() as con:
             await con.execute('UPDATE users SET bot_banned = false WHERE uid = ANY($1::bigint[])', exempt)
 
         await ctx.send('Finished bot-bans.')
