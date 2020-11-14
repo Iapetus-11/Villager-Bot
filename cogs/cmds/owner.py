@@ -172,20 +172,7 @@ class Owner(commands.Cog):
             uid = user
 
         await self.db.update_user(uid, 'emeralds', balance)
-        await ctx.message.add_reaction(self.d.emojis.yes)
-
-    @commands.command(name='getguildbans')
-    @commands.is_owner()
-    async def get_guild_bans(self, ctx):
-        bans = await ctx.guild.bans()
-
-        await ctx.send(bans[0].__dict__)
-        return
-
-        body = ''
-        for i, ban in enumerate(bans):
-            if i % 30 != 0:
-                body += f'{}'
+        await ctx.message.add_reaction(self.d.emojis.yes)\
 
 
 def setup(bot):
