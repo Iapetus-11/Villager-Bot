@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS give_logs (
   recvr_uid  bigint
 );
 
-CREATE TABLE IF NOT EXISTS leaderboards (
+CREATE TABLE IF NOT EXISTS leaderboards ( -- there are more leaderboards than this, not all of them are stored here
   uid          bigint,
   pillages     bigint, -- number of pillaged emeralds
   mobs_killed  bigint
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS warnings ( -- moderation warnings
   reason varchar(250) -- reason for the warning, null for no reason
 );
 
-CREATE TABLE IF NOT EXISTS mcservers (
+CREATE TABLE IF NOT EXISTS mcservers ( -- used in /randommc command
   owner_id bigint, -- discord owner id of the server
   host     varchar(100), -- hostname/ip/address of server
   link     varchar(250) -- learn more link
