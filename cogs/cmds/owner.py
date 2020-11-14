@@ -193,6 +193,8 @@ class Owner(commands.Cog):
             if ban.user.id not in exempt:
                 await support_guild.unban(ban.user.id, reason='Mass pardon of Nov 14th')
 
+        await ctx.send('Done guild unbanning.')
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
