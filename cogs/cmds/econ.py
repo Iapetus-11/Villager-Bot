@@ -680,11 +680,13 @@ class Econ(commands.Cog):
         # please don't bug me about jank code, I know
         fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe)/2)]
 
+        # calculate if user finds emeralds OR not
         yield_ = self.d.mining.yields_pickaxes[pickaxe] # [xTrue, xFalse]
         yield_chance_list = [True]*yield_[0] + [False]*yield_[1]
         found = random.choice(yield_chance_list)
 
-        # what the fuck?
+        # ~~what the fuck?~~
+        # calculate bonus emeralds from enchantment items
         for item in list(self.d.mining.yields_enchant_items):
             if await self.db.fetch_item(ctx.author.id, item) is not None:
                 found += random.choice(self.d.mining.yields_enchant_items[item]) if found else 0
