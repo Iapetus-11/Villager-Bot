@@ -680,7 +680,7 @@ class Econ(commands.Cog):
         # please don't bug me about jank code, I know
         fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe)/2)]
 
-        yield_ = self.d.mining.yields_pickaxes[pickaxe] # [chance, out of]
+        yield_ = self.d.mining.yields_pickaxes[pickaxe] # [xTrue, xFalse]
         yield_chance_list = [True]*yield_[0] + [False]*yield_[1]
         found = random.choice(yield_chance_list)
 
