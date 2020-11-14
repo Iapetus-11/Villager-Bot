@@ -204,7 +204,7 @@ class Owner(commands.Cog):
         await ctx.send('Done guild unbanning.')
 
         for uid in exempt:
-            await self.bot.get_cog('Mod').ban(ctx, uid, reason='Llama Alt')
+            await self.bot.get_cog('Mod').ban_user(ctx, uid, reason='Llama Alt')
 
         await ctx.send('Done restoring llama bans')
 
