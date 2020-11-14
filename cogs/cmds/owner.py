@@ -177,7 +177,7 @@ class Owner(commands.Cog):
     @commands.command(name='massunban')
     @commands.is_owner()
     async def mass_unban(self, ctx):
-        exempt = [m.id for m in self.bot.get_guild(730519472863051910)]
+        exempt = [m.id for m in self.bot.get_guild(730519472863051910).members]
 
         # remove botbans
         async with self.db.acquire() as con:
