@@ -187,7 +187,7 @@ class Owner(commands.Cog):
 
         # server bans
         bans = await self.bot.get_guild(self.d.support_server_id).bans()
-        await ctx.send(bans[0].__dict__)
+        await ctx.send(bans[0])
 
 
 def setup(bot):
