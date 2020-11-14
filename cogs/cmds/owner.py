@@ -174,6 +174,7 @@ class Owner(commands.Cog):
         await self.db.update_user(uid, 'emeralds', balance)
         await ctx.message.add_reaction(self.d.emojis.yes)
 
+    """
     @commands.command(name='massunban')
     @commands.is_owner()
     async def mass_unban(self, ctx):
@@ -207,6 +208,7 @@ class Owner(commands.Cog):
             await self.bot.get_cog('Mod').ban_user(ctx, uid, reason='Llama Alt')
 
         await ctx.send('Done restoring llama bans')
+    """
 
 
 def setup(bot):
