@@ -111,10 +111,10 @@ class Fun(commands.Cog):
     @commands.command(name='cursed', aliases=['cursedmc'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def cursed_mc(self, ctx):
-        async with ctx.typing():
-            if random.choice((True, False,)):
-                jj = {'nsfw': True}
+        if random.choice((True, False,)):
+            jj = {'nsfw': True}
 
+            async with ctx.typing():
                 while jj['nsfw']:
                     resp = await self.ses.get(
                         'https://api.iapetus11.xyz/reddit/gimme/CursedMinecraft',
@@ -122,15 +122,15 @@ class Fun(commands.Cog):
                     )
                     jj = await resp.json()
 
-                embed = discord.Embed(color=self.d.cc)
-                embed.set_image(url=jj['url'])
+            embed = discord.Embed(color=self.d.cc)
+            embed.set_image(url=jj['url'])
 
-                await ctx.send(embed=embed)
-            else:
-                embed = discord.Embed(color=self.d.cc)
-                embed.set_image(url=f'{self.d.base_url}/images/cursed_minecraft/{random.choice(self.d.cursed_images)}')
+            await ctx.send(embed=embed)
+        else:
+            embed = discord.Embed(color=self.d.cc)
+            embed.set_image(url=f'{self.d.base_url}/images/cursed_minecraft/{random.choice(self.d.cursed_images)}')
 
-                await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
 
     @commands.command(name='say')
     async def say_text(self, ctx, *, _text):
