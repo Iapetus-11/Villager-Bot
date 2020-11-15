@@ -291,14 +291,14 @@ class Fun(commands.Cog):
     @commands.command(name='pat')
     async def pat(self, ctx, thing: typing.Union[discord.User, str]):
         if isinstance(thing, discord.User):
-            thing = thing.mention
+            thing = thing.display_name
         else:
             thing = thing
 
         resp = await self.ses.get('https://rra.ram.moe/i/r?type=pat')
         image_url = 'https://rra.ram.moe' + (await resp.json())['path']
 
-        embed = discord.Embed(color=self.d.cc, title=f'{ctx.author.mention} pats {thing}')
+        embed = discord.Embed(color=self.d.cc, title=f'{ctx.author.display_name} pats {thing}')
         embed.set_image(url=image_url)
 
         await ctx.send(embed=embed)
