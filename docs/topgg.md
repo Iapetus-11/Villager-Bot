@@ -62,28 +62,28 @@
   p {
   	color: black !important;
   }
-  
+
   .comment-username {
   	color: black !important;
   }
-  
+
   code {
   	color: #7289DA !important;
     background-color: white !important;
   }
-  
+
   .content h2:not(.override) {
     color: black !important;
   }
-  
+
   .content h3:not(:first-child) {
   	color: black !important;
   }
-  
+
   #bot-details-page .bot-name {
   	color: black !important;
   }
-  
+
   .btn-like span {
   	color: black !important;
   }
@@ -166,6 +166,7 @@
 * `/kill <user>` *brutally murder another user*
 * `/bubblewrap` *sends virtual bubblewrap for you to pop*
 * `/coinflip` *flips a coin and says the result in the chat*
+* `/pat <thing>` *pats the mentioned user or thing*
 
 ### Moderation
 * `/warn <user> <reason>` *warn a user for a specified reason*
