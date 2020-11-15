@@ -295,6 +295,8 @@ class Fun(commands.Cog):
         else:
             thing = thing
 
+        await ctx.send(type(thing))
+
         resp = await self.ses.get('https://rra.ram.moe/i/r?type=pat')
         image_url = 'https://rra.ram.moe' + (await resp.json())['path']
 
