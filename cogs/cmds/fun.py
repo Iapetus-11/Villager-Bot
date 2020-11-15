@@ -290,12 +290,10 @@ class Fun(commands.Cog):
 
     @commands.command(name='pat')
     async def pat(self, ctx, thing: typing.Union[discord.User, str]):
-        if isinstance(thing, discord.User):
+        if isinstance(thing, discord.User) or isinstance(thing, discord.user.ClientUser):
             thing = thing.display_name
         else:
             thing = thing
-
-        await ctx.send(type(thing))
 
         resp = await self.ses.get('https://rra.ram.moe/i/r?type=pat')
         image_url = 'https://rra.ram.moe' + (await resp.json())['path']
