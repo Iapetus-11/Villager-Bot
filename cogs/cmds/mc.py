@@ -89,23 +89,17 @@ class Minecraft(commands.Cog):
 
         detailed = ('large' in ctx.message.content or 'high' in ctx.message.content)
 
-        # with ctx.typing():
-        #     with concurrent.futures.ThreadPoolExecutor() as pool:
-        #         mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
-        #         _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
-        #
-        #     filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
-        #
-        #     with open(filename, 'wb+') as tmp:
-        #         tmp.write(img_bytes)
-        #
-        #     await ctx.send(file=discord.File(filename, filename=img.filename))
-
         with ctx.typing():
-            with ThreadPoolExecutor() as pool:
+            with concurrent.futures.ThreadPoolExecutor() as pool:
                 mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
-                _, img_data = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
-            await ctx.send(file=discord.File(img_data.tobytes(), filename=img.filename))
+                _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
+
+            filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
+
+            with open(filename, 'wb+') as tmp:
+                tmp.write(img_bytes)
+
+            await ctx.send(file=discord.File(filename, filename=img.filename))
 
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
