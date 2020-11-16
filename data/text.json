@@ -355,12 +355,14 @@
         "oop": "Oops... something went wrong..."
       },
       "kick": {
-        "stupid_1": "You cannot kick yourself"
+        "stupid_1": "You cannot kick yourself",
+        "stupid_2": "You cannot kick the server owner(no one can)"
       },
       "ban": {
         "stupid_1": "You cannot ban yourself",
         "stupid_2": "**{}** is already banned",
-        "stupid_3": "Oops, something went wrong while banning that user."
+        "stupid_3": "Oops, something went wrong while banning that user.",
+        "stupid_4": "You cannot ban the server owner(no one can)"
       },
       "unban": {
         "stupid_1": "You cannot unban yourself",
