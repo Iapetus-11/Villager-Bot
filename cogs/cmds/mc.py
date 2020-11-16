@@ -1,7 +1,10 @@
+
+from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as bs
 import aiomcrcon as rcon
+import functools
 import aiohttp
 import discord
 import asyncio
@@ -99,7 +102,9 @@ class Minecraft(commands.Cog):
         #     await ctx.send(file=discord.File(filename, filename=img.filename))
 
         with ctx.typing():
-            _, img_data = await asyncio.to_thread(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
+            with ThreadPoolExecutor() as pool:
+                mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
+                _, img_data = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
             await ctx.send(file=discord.File(img_data.tobytes(), filename=img.filename))
 
     @commands.command(name='mcping', aliases=['mcstatus'])
