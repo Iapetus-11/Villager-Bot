@@ -59,11 +59,15 @@
     box-shadow: 0 7px 11px 0 rgba(0, 0, 0, 0.65), 0 10px 15px 0 rgba(0, 0, 0, 0.35), 0 12px 20px 0 rgba(0, 0, 0, 0.23);
   }
 
-  p {
+  .comment {
   	color: black !important;
   }
 
   .comment-username {
+  	color: black !important;
+  }
+  
+  .bot-description {
   	color: black !important;
   }
 
@@ -87,6 +91,14 @@
   .btn-like span {
   	color: black !important;
   }
+  
+  .text-secondary {
+  	color: black !important;
+  }
+  
+  .bot-tags-title {
+  	color: black !important;
+  }
 </style>
 
 # **Villager Bot**
@@ -102,6 +114,7 @@
 ## Support / Contact Information
 * [Discord Support Server](https://discord.gg/39DwwUV)
 * Discord Username: `Iapetus11#6821`
+
 
 ## Commands
 ### Economy
