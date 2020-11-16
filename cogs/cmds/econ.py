@@ -754,10 +754,6 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_2)
             return
 
-        if self.d.pillagers.get(ctx.author.id, 0) > 7:
-            await self.bot.send(ctx, ctx.l.econ.pillage.stupid_5)
-            return
-
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if db_user['emeralds'] < 64:
