@@ -737,7 +737,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='pillage')
     @commands.guild_only()
-    @commands.cooldown(1, 5*60, commands.BucketType.user)
+    @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
         if victim.bot:
             if victim.id == self.bot.user.id:
