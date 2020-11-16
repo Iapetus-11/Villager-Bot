@@ -90,7 +90,7 @@ class Minecraft(commands.Cog):
         detailed = ('large' in ctx.message.content or 'high' in ctx.message.content)
 
         with ctx.typing():
-            with concurrent.futures.ThreadPoolExecutor() as pool:
+            with ThreadPoolExecutor() as pool:
                 mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
                 _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
