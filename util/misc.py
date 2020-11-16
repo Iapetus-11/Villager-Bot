@@ -14,10 +14,10 @@ def recursive_update(obj, new):  # hOlY FUCKING SHIT this is so big brained I AM
 
     return obj
 
-# Slots should be 10 cause 10 hearts / 2 idk bro I just bsed this function lmao
-def make_stat_bar(value, max, slots, full, empty):  # will fuck up for sure if value is negative
-    occupado = math.floor((value / max) * slots)
-    return (full * occupado) + empty * math.floor(slots - occupado)
+# # Slots should be 10 cause 10 hearts / 2 idk bro I just bsed this function lmao
+# def make_stat_bar(value, max, slots, full, empty):  # will fuck up for sure if value is negative
+#     occupado = math.floor((value / max) * slots)
+#     return (full * occupado) + empty * math.floor(slots - occupado)
 
 def make_health_bar(health, max_health, full, half, empty):
     assert max_health % 2 == 0
