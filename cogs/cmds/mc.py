@@ -1,9 +1,7 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as bs
-import concurrent.futures
 import aiomcrcon as rcon
-import functools
 import aiohttp
 import discord
 import asyncio
@@ -11,7 +9,6 @@ import random
 import base64
 import arrow
 import json
-import os
 
 
 class Minecraft(commands.Cog):
@@ -89,19 +86,21 @@ class Minecraft(commands.Cog):
 
         detailed = ('large' in ctx.message.content or 'high' in ctx.message.content)
 
+        # with ctx.typing():
+        #     with concurrent.futures.ThreadPoolExecutor() as pool:
+        #         mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
+        #         _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
+        #
+        #     filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
+        #
+        #     with open(filename, 'wb+') as tmp:
+        #         tmp.write(img_bytes)
+        #
+        #     await ctx.send(file=discord.File(filename, filename=img.filename))
+
         with ctx.typing():
-            with concurrent.futures.ThreadPoolExecutor() as pool:
-                mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
-                _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
-
-            filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
-
-            with open(filename, 'wb+') as tmp:
-                tmp.write(img_bytes)
-
-            await ctx.send(file=discord.File(filename, filename=img.filename))
-
-        os.remove(filename)
+            _, img_data = await asyncio.to_thread(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
+            await ctx.send(file=discord.File(img_data.tobytes(), filename=img.filename))
 
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
