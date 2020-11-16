@@ -47,6 +47,10 @@ class Mod(commands.Cog):
             await self.bot.send(ctx, ctx.l.mod.kick.stupid_1)
             return
 
+        if user.id == ctx.guild.owner.id:
+            await self.bot.send(ctx, ctx.l.mod.ban.stupid_2)
+            return
+
         if not await self.perm_check(ctx.author, user):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
@@ -66,6 +70,10 @@ class Mod(commands.Cog):
                 user = await self.bot.fetch_user(user)
             except discord.HTTPException:
                 raise commands.BadArgument
+
+        if user.id == ctx.guild.owner.id:
+            await self.bot.send(ctx, ctx.l.mod.ban.stupid_4)
+            return
 
         if ctx.author.id == user.id:
             await self.bot.send(ctx, ctx.l.mod.ban.stupid_1)
