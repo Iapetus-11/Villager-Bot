@@ -128,7 +128,7 @@ class Fun(commands.Cog):
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(color=self.d.cc)
-            embed.set_image(url=f'{self.d.base_url}/images/cursed_minecraft/{random.choice(self.d.cursed_images)}')
+            embed.set_image(url=f'https://api.iapetus11.xyz/images/cursed_minecraft/{random.choice(self.d.cursed_images)}')
 
             await ctx.send(embed=embed)
 
