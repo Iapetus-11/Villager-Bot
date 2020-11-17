@@ -169,6 +169,10 @@ class Minecraft(commands.Cog):
 
         await ctx.send(embed=embed)
 
+        if ctx.author.id == 536986067140608041:
+            jj.pop('favicon')
+            await ctx.send(f'```json\n{jj}\n```')
+
     @commands.command(name='randommc', aliases=['randommcserver', 'randomserver'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def random_mc_server(self, ctx):
