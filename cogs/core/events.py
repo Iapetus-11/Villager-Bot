@@ -71,7 +71,8 @@ class Events(commands.Cog):
                     someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id and u.permissions_in(m.channel).read_messages)]
 
                     if len(someones) > 0:
-                        await m.channel.send(f'@someone {("||||\uFEFF"*200)[2:-3]} {random.choice(someones).mention}{m.author.mention}')
+                        invis = ('||||\uFEFF'*200)[2:-3]
+                        await m.channel.send(f'@someone {invis} {random.choice(someones).mention}{m.author.mention}')
 
                     self.bot.d.cmd_lb[m.author.id] = self.bot.d.cmd_lb.get(m.author.id, 0) + 1
                     self.bot.d.cmd_count += 1
