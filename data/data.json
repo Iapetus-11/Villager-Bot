@@ -564,6 +564,21 @@
     ]
   ],
   "special_findables": [
+    [
+      "Moodys Turkey Leg",
+      128,
+      1000
+    ],
+    [
+      "Turkey Feather",
+      64,
+      500
+    ],
+    [
+      "Drip Of Turkey Grease",
+      64,
+      500
+    ]
   ],
   "shop_items": {
     "stone pickaxe": [
