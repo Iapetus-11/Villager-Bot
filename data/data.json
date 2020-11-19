@@ -1,5 +1,6 @@
 {
   "default_prefix": "/",
+  "support_server_id": 641117791272960031,
   "error_channel_id": 642446655022432267,
   "vote_channel_id": 725551439165784115,
   "splash_logo": "http://home.betterapi.net/images/villagerbotsplash1.png",
@@ -310,7 +311,7 @@
   ],
   "playing_list": [
     "Minecraft",
-    "!!vote for emeralds!",
+    "/vote for emeralds!",
     "Minecraft Java Edition",
     "Minecraft with PewDiePie",
     "Minecraft with CaptainSparklez",
@@ -320,7 +321,7 @@
     "Minecraft on Hypixel",
     "Minecraft on a TI-84",
     "Minecraft on a Commodore 64",
-    "!!vote for emeralds!",
+    "/vote for emeralds!",
     "Minecraft on a Raspberry Pi",
     "Minecraft online",
     "Minecraft with Iapetus11",
@@ -338,7 +339,7 @@
     "Minecraft Pocket Edition",
     "Minecraft on Windows XP",
     "Minecraft on Windows 98",
-    "!!vote for emeralds!",
+    "/vote for emeralds!",
     "Minecraft on MS-DOS",
     "Minecraft on a typewriter",
     "Minecraft on a TV remote",
@@ -369,7 +370,7 @@
     "on Hypixel",
     "Skyblock",
     "Spleef",
-    "!!vote for emeralds!",
+    "/vote for emeralds!",
     "Factions",
     "PVP on Hypixel",
     "Hypixel Pit",
@@ -380,7 +381,7 @@
     "01001101 01101001 01101110 01100101 01100011 01110010 01100001 01100110 01110100",
     "FortCraft Mine Royale",
     "with creepers",
-    "!!vote for emeralds!",
+    "/vote for emeralds!",
     "Minecraft with Joe!",
     "Minecraft 1.15.1",
     "Minecraft with a lot of beeeeeeeeeeees",
@@ -402,6 +403,14 @@
     "on the Nether Update",
     "Minecraft - 'Rona Edition"
   ],
+  "role_mappings": {
+    "Stone Pickaxe": 697457637763186809,
+    "Iron Pickaxe": 697457970661031957,
+    "Gold Pickaxe": 697458756958552114,
+    "Diamond Pickaxe": 697457399295901786,
+    "Netherite Pickaxe": 697457303477026856,
+    "BOP": 706604490274504754
+  },
   "kills": [
     "{0} was suicided",
     "{0} died by death",
@@ -555,6 +564,21 @@
     ]
   ],
   "special_findables": [
+    [
+      "Moodys Turkey Leg",
+      128,
+      1000
+    ],
+    [
+      "Turkey Feather",
+      64,
+      500
+    ],
+    [
+      "Drip Of Turkey Grease",
+      64,
+      500
+    ]
   ],
   "shop_items": {
     "stone pickaxe": [

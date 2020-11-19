@@ -78,13 +78,15 @@ class Owner(commands.Cog):
         if thing.lower() == 'data':
             with open('data/data.json', 'r', encoding='utf8') as d:
                 self.d = recursive_update(self.d, cj.load(d))
+
+            self.d.findables = cj.classify(self.d.special_findables + self.d.default_findables)
         elif thing.lower() == 'text':
             with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
                 self.bot.langs.update(cj.load(t))
-        elif thing.lower() == 'items' or thing.lower() == 'findables':
-            self.d.findables = cj.classify(self.d.special_findables + self.d.default_findables)
+        elif thing.lower() == 'mcservers':
+            self.d.additional_mcservers = await self.db.fetch_all_mcservers()
         else:
-            await self.bot.send(ctx, 'Invalid, options are "data", "text", or "findables"')
+            await self.bot.send(ctx, 'Invalid, options are "data", "text", or "mcservers"')
             return
 
         await ctx.message.add_reaction(self.d.emojis.yes)
@@ -160,6 +162,74 @@ class Owner(commands.Cog):
     async def toggle_owner_lock(self, ctx):
         self.bot.owner_locked = not self.bot.owner_locked
         await self.bot.send(ctx, f'All commands owner only: {self.bot.owner_locked}')
+
+    @commands.command(name='setbal')
+    @commands.is_owner()
+    async def set_user_bal(self, ctx, user: Union[discord.User, int], balance: int):
+        if isinstance(user, discord.User):
+            uid = user.id
+        else:
+            uid = user
+
+        await self.db.update_user(uid, 'emeralds', balance)
+        await ctx.message.add_reaction(self.d.emojis.yes)
+
+    """
+    @commands.command(name='massunban')
+    @commands.is_owner()
+    async def mass_unban(self, ctx):
+        exempt = [m.id for m in self.bot.get_guild(730519472863051910).members]
+
+        # remove botbans
+        async with self.db.db.acquire() as con:
+            await con.execute('UPDATE users SET bot_banned = false WHERE uid = ANY($1::bigint[])', exempt)
+
+        await ctx.send('Finished bot-bans.')
+
+        support_guild = self.bot.get_guild(self.d.support_server_id)
+
+        # server bans
+        bans = await support_guild.bans()
+        for ban in bans:
+            if ban.user.id not in exempt:
+                user = self.bot.get_user(ban.user.id)
+
+                if user is None:
+                    try:
+                        user = await self.bot.fetch_user(ban.user.id)
+                    except Exception:
+                        continue
+
+                await support_guild.unban(user, reason='Mass pardon of Nov 14th')
+
+        await ctx.send('Done guild unbanning.')
+
+        for uid in exempt:
+            await self.bot.get_cog('Mod').ban_user(ctx, uid, reason='Llama Alt')
+
+        await ctx.send('Done restoring llama bans')
+    """
+
+    @commands.command(name='itemwealth')
+    @commands.is_owner()
+    async def item_wealth(self, ctx):
+        items = await self.db.db.fetch('SELECT * FROM items')
+
+        users = {}
+
+        for item in items:
+            prev = users.get(item['uid'], 0)
+
+            users[item['uid']] = prev + (item['amount'] * item['sell_price'])
+
+        users = users.items()
+        users_sorted = sorted(users, key=(lambda e: e[1]), reverse=True)[:30]
+
+        body = ''
+        for u in users_sorted:
+            body += f'`{u[0]}` - {u[1]}{self.d.emojis.emerald}\n'
+
+        await ctx.send(body)
 
 
 def setup(bot):

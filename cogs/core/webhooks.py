@@ -42,8 +42,6 @@ class Webhooks(commands.Cog):
         async def handler(req):
             if req.headers.get('Authorization') == self.d.topgg_hooks_auth:
                 self.bot.dispatch('topgg_event', cj.classify(await req.json()))
-            elif req.headers.get('Authorization') == self.d.hs_hook_auth:
-                self.bot.dispatch('topgg_hs_vote', cj.classify(await req.json()))
             else:
                 return web.Response(status=401)
 
@@ -80,7 +78,9 @@ class Webhooks(commands.Cog):
             await self.bot.get_channel(self.d.error_channel_id).send('TOP.GG WEBHOOKS TEST')
             return
 
-        self.bot.logger.info(f'\u001b[32;1m{data.user} voted on top.gg\u001b[0m DEBUG/TESTING: {data}')
+        uid = int(data.user)
+
+        self.bot.logger.info(f'\u001b[32;1m{uid} voted on top.gg\u001b[0m DEBUG/TESTING: {data}')
         self.d.votes_topgg += 1
 
         amount = self.d.topgg_reward * self.d.base_multi
@@ -90,16 +90,10 @@ class Webhooks(commands.Cog):
 
         amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(int(data.user)))
 
-        await self.reward(int(data.user), amount)
+        await self.reward(uid, amount)
 
-    @commands.Cog.listener()
-    async def on_topgg_hs_vote(self, data):  # data should be {uid: (user id) int, weekend: (is the weekend according to top.gg) bool}
-        amount = self.d.topgg_reward * self.d.base_multi
-
-        if data.weekend:
-            amount *= self.d.weekend_multi
-
-        await self.reward(data.uid, amount)
+        db_user = await self.db.fetch_user(uid)
+        await self.db.update_user(uid, 'topgg_votes', db_user['topgg_votes']+1)
 
 
 def setup(bot):

@@ -4,6 +4,7 @@ import discord
 import asyncio
 import aiohttp
 import random
+import arrow
 import math
 
 
@@ -17,13 +18,17 @@ class Econ(commands.Cog):
         if self.d.honey_buckets is not None:
             self.honey._buckets = self.d.honey_buckets
 
+        self.pillage_cap_reset.start()
+
     def cog_unload(self):
         self.d.honey_buckets = self.honey._buckets
+
         self.pillage_cap_reset.cancel()
 
     @tasks.loop(hours=12)
     async def pillage_cap_reset(self):
         self.d.pillagers = {}
+        self.d.pillages = {}
 
     @pillage_cap_reset.before_loop
     async def before_pillage_cap_reset(self):
@@ -566,6 +571,7 @@ class Econ(commands.Cog):
 
             await self.db.balance_sub(ctx.author.id, amount)
             await self.db.balance_add(user.id, amount)
+            await self.db.log_transaction('emerald', amount, arrow.utcnow().timestamp, ctx.author.id, user.id)
 
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention))
         else:
@@ -581,6 +587,7 @@ class Econ(commands.Cog):
 
             await self.db.remove_item(ctx.author.id, item, amount)
             await self.db.add_item(user.id, db_item['name'], db_item['sell_price'], amount)
+            await self.db.log_transaction(db_item['name'], amount, arrow.utcnow().timestamp, ctx.author.id, user.id)
 
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
@@ -616,11 +623,15 @@ class Econ(commands.Cog):
         if u_roll > b_roll:
             multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 75
             multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20)
-            multi = 200 + random.randint(-5, 0) if multi >= 200 else multi
+            multi = (200 + random.randint(-5, 0)) if multi >= 200 else multi
             multi /= 100
 
-            await self.db.balance_add(ctx.author.id, int(multi * amount))
-            await self.bot.send(ctx, ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), int(multi*amount), self.d.emojis.emerald))
+            won = int(multi * amount)
+            if won > 45000:
+                won = 45000 + random.randint(-5000, 5000)
+
+            await self.db.balance_add(ctx.author.id, won)
+            await self.bot.send(ctx, ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), won, self.d.emojis.emerald))
         elif u_roll < b_roll:
             await self.db.balance_sub(ctx.author.id, amount)
             await self.bot.send(ctx, ctx.l.econ.gamble.lose.format(amount, self.d.emojis.emerald))
@@ -669,11 +680,13 @@ class Econ(commands.Cog):
         # please don't bug me about jank code, I know
         fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe)/2)]
 
-        yield_ = self.d.mining.yields_pickaxes[pickaxe] # [chance, out of]
+        # calculate if user finds emeralds OR not
+        yield_ = self.d.mining.yields_pickaxes[pickaxe] # [xTrue, xFalse]
         yield_chance_list = [True]*yield_[0] + [False]*yield_[1]
         found = random.choice(yield_chance_list)
 
-        # what the fuck?
+        # ~~what the fuck?~~
+        # calculate bonus emeralds from enchantment items
         for item in list(self.d.mining.yields_enchant_items):
             if await self.db.fetch_item(ctx.author.id, item) is not None:
                 found += random.choice(self.d.mining.yields_enchant_items[item]) if found else 0
@@ -724,7 +737,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='pillage')
     @commands.guild_only()
-    @commands.cooldown(1, 5*60, commands.BucketType.user)
+    @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
         if victim.bot:
             if victim.id == self.bot.user.id:
@@ -741,10 +754,6 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_2)
             return
 
-        if self.d.pillagers.get(ctx.author.id, 0) > 7:
-            await self.bot.send(ctx, ctx.l.econ.pillage.stupid_5)
-            return
-
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if db_user['emeralds'] < 64:
@@ -757,8 +766,11 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
-        pillage_commands = self.d.pillagers.get(ctx.author.id, 0)
-        self.d.pillagers[ctx.author.id] = pillage_commands + 1
+        pillager_pillages = self.d.pillagers.get(ctx.author.id, 0)
+        self.d.pillagers[ctx.author.id] = pillager_pillages + 1
+
+        times_pillaged = self.d.pillages.get(victim.id, 0)
+        self.d.pillages[victim.id] = times_pillaged + 1
 
         user_bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
         user_bees = 0 if user_bees is None else user_bees['amount']
@@ -767,8 +779,8 @@ class Econ(commands.Cog):
         victim_bees = 0 if victim_bees is None else victim_bees['amount']
 
         # lmao
-        if pillage_commands > 7:
-            chances = [False]*20 + [True]
+        if pillager_pillages > 7 or times_pillaged > 3:
+            chances = [False]*50 + [True]
         elif await self.db.fetch_item(victim.id, 'Bane Of Pillagers Amulet'):
             chances = [False]*5 + [True]
         elif user_bees > victim_bees:

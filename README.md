@@ -45,6 +45,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * `/randommc` *shows a random Minecraft server if you want a new place to explore*
 * `/mcimage` *turns whatever image you upload into Minecraft blocks / pixel art*
 * `/stealskin <username>` *fetches the skin of a Minecraft Java Edition player*
+* `/achievement <text>` *generates a Minecraft achievement from the given text*
 * `/buildidea` *sends a random build idea for if you're bored and need inspiration*
 * `/mccolors` *shows the Minecraft colors and how to use them in the ingame chat*
 * `/nametouuid <username>` *turns a MC Java Edition username into a uuid*
@@ -83,6 +84,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * `/kill <user>` *brutally murder another user*
 * `/bubblewrap` *sends virtual bubblewrap for you to pop*
 * `/coinflip` *flips a coin and says the result in the chat*
+* `/pat <thing>` *pats the mentioned user or thing*
 
 ### Moderation
 * `/warn <user> <reason>` *warn a user for a specified reason*

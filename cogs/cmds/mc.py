@@ -1,11 +1,16 @@
+
+from concurrent.futures import ThreadPoolExecutor
+from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as bs
-import concurrent.futures
+import aiomcrcon as rcon
 import functools
 import aiohttp
 import discord
+import asyncio
 import random
 import base64
+import arrow
 import json
 import os
 
@@ -21,8 +26,10 @@ class Minecraft(commands.Cog):
 
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
-        self.server_list = []
+        self.d.mcserver_list = []
+
         self.update_server_list.start()
+        self.clear_rcon_cache.start()
 
     def cog_unload(self):
         del self.mosaic
@@ -46,13 +53,19 @@ class Minecraft(commands.Cog):
                     ip = split[16][46:-2].replace('https://', '').replace('http://', '')
                     servers_nice.append((ip, url,))
 
-        self.server_list = list(set(servers_nice))
+        self.d.mcserver_list = list(set(servers_nice)) + self.d.additional_mcservers
 
         self.bot.logger.info('finished scraping mc-lists.org')
 
     @update_server_list.before_loop
     async def before_update_server_list(self):
         await self.bot.wait_until_ready()
+
+    @tasks.loop(seconds=30)
+    async def clear_rcon_cache(self):
+        for key in list(self.d.rcon_connection_cache):
+            if (arrow.utcnow() - self.d.rcon_connection_cache[key][1]).seconds > 10*60:
+                self.d.rcon_connection_cache.pop(key, None)
 
     @commands.command(name='mcimage', aliases=['mcpixelart', 'mcart', 'mcimg'])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -78,18 +91,18 @@ class Minecraft(commands.Cog):
         detailed = ('large' in ctx.message.content or 'high' in ctx.message.content)
 
         with ctx.typing():
-            with concurrent.futures.ThreadPoolExecutor() as pool:
+            with ThreadPoolExecutor() as pool:
                 mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
                 _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
-            filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
+            filename = f'tmp/{ctx.message.id}-{img.width}x{img.height}.png'
 
             with open(filename, 'wb+') as tmp:
                 tmp.write(img_bytes)
 
             await ctx.send(file=discord.File(filename, filename=img.filename))
 
-        os.remove(filename)
+            os.remove(filename)
 
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
@@ -108,7 +121,7 @@ class Minecraft(commands.Cog):
             combined = f'{host}{port_str}'
 
         with ctx.typing():
-            async with self.ses.get(f'https://betterapi.net/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.xyz/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -127,9 +140,15 @@ class Minecraft(commands.Cog):
         ver = jj['version'].get('brand', 'Unknown')
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=('Unknown' if ver is None else ver))
 
-        player_list_cut = player_list[:24]
+        player_list_cut = []
 
-        if jj['version']['method'] != 'query' or len(player_list_cut) < 1:
+        for p in player_list:
+            if not ('§' in p or len(p) > 16 or len(p) < 3 or ' ' in p or '-' in p):
+                player_list_cut.append(p)
+
+        player_list_cut = player_list_cut[:24]
+
+        if len(player_list_cut) < 1:
             embed.add_field(
                 name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
@@ -146,10 +165,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://betterapi.net/mc/servercard/{combined}?v={random.random()*100000}')
+        embed.set_image(url=f'https://api.iapetus11.xyz/mc/servercard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavicon/{combined}')
+            embed.set_thumbnail(url=f'https://api.iapetus11.xyz/mc/serverfavicon/{combined}')
 
         await ctx.send(embed=embed)
 
@@ -158,15 +177,15 @@ class Minecraft(commands.Cog):
     async def random_mc_server(self, ctx):
         """Checks the status of a random Minecraft server"""
 
-        s = random.choice(self.server_list)
+        s = random.choice(self.d.mcserver_list)
         combined = s[0]
 
         with ctx.typing():
-            async with self.ses.get(f'https://betterapi.net/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.xyz/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
-            self.server_list.pop(self.server_list.index(s))
+            self.d.mcserver_list.pop(self.d.mcserver_list.index(s))
             await self.random_mc_server(ctx)
             return
 
@@ -177,15 +196,22 @@ class Minecraft(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
 
-        embed.description = ctx.l.minecraft.mcping.learn_more.format(s[1])
+        if s[1] is not None:
+            embed.description = ctx.l.minecraft.mcping.learn_more.format(s[1])
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj['latency'])
         ver = jj['version'].get('brand', 'Unknown')
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=('Unknown' if ver is None else ver))
 
-        player_list_cut = player_list[:24]
+        player_list_cut = []
 
-        if jj['version']['method'] != 'query' or len(player_list_cut) < 1:
+        for p in player_list:
+            if not ('§' in p or len(p) > 16 or len(p) < 3 or ' ' in p or '-' in p):
+                player_list_cut.append(p)
+
+        player_list_cut = player_list_cut[:24]
+
+        if len(player_list_cut) < 1:
             embed.add_field(
                 name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj['players_max']),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
@@ -202,10 +228,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://betterapi.net/mc/servercard/{combined}?v={random.random()*100000}')
+        embed.set_image(url=f'https://api.iapetus11.xyz/mc/servercard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavicon/{combined}')
+            embed.set_thumbnail(url=f'https://api.iapetus11.xyz/mc/serverfavicon/{combined}')
 
         await ctx.send(embed=embed)
 
@@ -245,6 +271,12 @@ class Minecraft(commands.Cog):
         embed.set_thumbnail(url=skin_url)
         embed.set_image(url=f'https://mc-heads.net/body/{player}')
 
+        await ctx.send(embed=embed)
+
+    @commands.command(name='achievement', aliases=['mcachieve'])
+    async def minecraft_achievement(self, ctx, *, text):
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_image(url=f'https://api.iapetus11.xyz/mc/achievement/{urlquote(text[:26])}')
         await ctx.send(embed=embed)
 
     @commands.command(name='uuidtoname', aliases=['uuidtousername', 'uuid2name'])
@@ -359,6 +391,104 @@ class Minecraft(commands.Cog):
         idea = random.choice(self.d.build_ideas['ideas'])
 
         await self.bot.send(ctx, f'{prefix} {idea}!')
+
+    async def close_rcon_con(self, key, gid):
+        try:
+            await self.d.rcon_connection_cache[key][0].close()
+        except Exception:
+            pass
+
+        self.d.rcon_connection_cache.pop(key, None)
+
+        await self.db.set_guild_attr(gid, 'mcserver_rcon', None)  # port could be invalid, so reset it
+
+    @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'servercommand', 'scmd'])
+    @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.guild_only()
+    async def rcon_command(self, ctx, *, cmd):
+        author_check = (lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id)
+        db_guild = await self.db.fetch_guild(ctx.guild.id)
+
+        if db_guild['mcserver'] is None:
+            await self.bot.send(ctx, 'You have to set a Minecraft server for this guild via the `/config mcserver` command first.')
+            return
+
+        key = (ctx.guild.id, ctx.author.id, db_guild['mcserver'])
+        cached = self.d.rcon_connection_cache.get(key)
+
+        if cached is None:
+            try:
+                await self.bot.send(ctx.author, 'Type in the remote console password (rcon.password in the server.properties file) here. This password can be stored for up to 10 minutes past the last rcon command.')
+            except Exception:
+                await self.bot.send(ctx, 'I need to be able to DM you, either something went wrong or I don\'t have the permissions to.')
+                return
+
+            try:
+                auth_msg = await self.bot.wait_for('message', check=author_check, timeout=60)
+            except asyncio.TimeoutError:
+                await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
+                return
+
+            if db_guild['mcserver_rcon'] is None:
+                try:
+                    await self.bot.send(ctx.author, 'Now type in the RCON port (rcon.port in the server.properties file)')
+                except Exception:
+                    await self.bot.send(ctx, 'I need to be able to DM you, either something went wrong or I don\'t have the permissions to.')
+                    return
+
+                try:
+                    port_msg = await self.bot.wait_for('message', check=author_check, timeout=60)
+                except asyncio.TimeoutError:
+                    await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
+                    return
+
+                port = 25575
+                try:
+                    port = int(port_msg.content)
+                except Exception:
+                    port = 25575
+
+                if 0 > port > 65535:
+                    port = 25575
+
+                await self.db.set_guild_attr(ctx.guild.id, 'mcserver_rcon', port)  # update value in db
+            else:
+                port = db_guild['mcserver_rcon']
+
+            try:
+                s = db_guild['mcserver'].split(':')[0]+f':{port}'
+                self.d.rcon_connection_cache[key] = (rcon.Client(s, auth_msg.content, 2.5, loop=self.bot.loop), arrow.utcnow())
+                await self.d.rcon_connection_cache[key][0].setup()
+            except rcon.Errors.ConnectionFailedError:
+                await self.bot.send(ctx, 'Connection to the server failed, is RCON enabled?')
+                await self.close_rcon_con(key, ctx.guild.id)
+                return
+            except rcon.Errors.InvalidAuthError:
+                await self.bot.send(ctx.author, 'The provided RCON password/authentication is invalid')
+                await self.close_rcon_con(key, ctx.guild.id)
+                return
+
+            rcon_con = self.d.rcon_connection_cache[key][0]
+        else:
+            rcon_con = cached[0]
+            self.d.rcon_connection_cache[key] = (rcon_con, arrow.utcnow())  # update time
+
+        try:
+            resp = await rcon_con.send_cmd(cmd[:1446])  # shorten to avoid unecessary timeouts
+        except asyncio.TimeoutError:
+            await self.bot.send(ctx, 'A timeout occurred while sending that command to the server')
+            await self.close_rcon_con(key, ctx.guild.id)
+        except Exception:
+            await self.bot.send(ctx, f'For some reason, an error ocurred while sending that command to the server')
+            await self.close_rcon_con(key, ctx.guild.id)
+        else:
+            resp_text = ''
+            for i in range(0, len(resp[0])):
+                if resp[0][i] != '§' and (i == 0 or resp[0][i-1] != '§'):
+                    resp_text += resp[0][i]
+
+            await ctx.send('```{}```'.format(resp_text.replace('\\n', '\n')))
 
 
 def setup(bot):

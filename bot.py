@@ -126,7 +126,8 @@ bot.d.miners = {}  # {user_id: commands}
 bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)
 bot.d.mining.pickaxes = list(reversed(list(bot.d.mining.yields_pickaxes)))  # get list of pickaxe types from best to worst
 bot.d.findables = bot.d.special_findables + bot.d.default_findables
-bot.d.pillagers = {}  # {user_id: daily_pillages}
+bot.d.pillagers = {}  # {user_id: pillages}
+bot.d.pillages = {}  # {user_id: times_pillaged}
 bot.d.chuggers = {}  # {user_id: [potion, potion]}
 bot.d.cmd_lb = {}  # {user_id: command_count}
 
@@ -136,6 +137,11 @@ bot.d.spawn_queue = {}  # {ctx: starttime}
 bot.d.ban_cache = []  # [uid, uid,..]
 bot.d.prefix_cache = {}  # {gid: 'prefix'}
 bot.d.lang_cache = {}  # {gid: 'lang'}
+
+bot.d.additional_mcservers = []
+bot.d.mcserver_list = []
+
+bot.d.rcon_connection_cache = {}
 
 bot.d.fun_langs.unenchant = {v: k for k, v in bot.d.fun_langs.enchant.items()}  # reverse dict to create unenchantment lang
 
@@ -152,7 +158,8 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.fun',
     'cogs.cmds.econ',
     'cogs.cmds.config',
-    'cogs.other.mobs'
+    'cogs.other.mobs',
+    'cogs.other.status'
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list

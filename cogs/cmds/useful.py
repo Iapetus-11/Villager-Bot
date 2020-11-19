@@ -110,7 +110,7 @@ class Useful(commands.Cog):
         for alias_group in all_cmds:
             if command in alias_group:
                 if len(alias_group) > 1:
-                    alias_group.pop(command)
+                    alias_group.pop(alias_group.index(command))
                     await self.bot.send(ctx, ctx.l.useful.aliases.aliases.format(command, '`, `'.join(alias_group)))
                     return
 
@@ -260,7 +260,7 @@ class Useful(commands.Cog):
                   f'{ctx.l.useful.ginf.channels}: `{len(guild.channels)}`\n ' \
                   f'{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n' \
                   f'{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n' \
-                  f'{ctx.l.useful.ginf.bans}: `{len(await ctx.guild.bans())}`\n'
+                  f'{ctx.l.useful.ginf.bans}: `{len(await guild.bans())}`\n'
 
         villager = f'{ctx.l.useful.ginf.cmd_prefix}: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n' \
                    f'{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n' \

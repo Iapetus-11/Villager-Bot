@@ -1,11 +1,12 @@
 aiohttp
+aiomcrcon
 arrow
-discord.py==1.4.2
 async-cse
 asyncpg
-classy-json
 bs4
-opencv-python
-numpy
-psutil
+classy-json
 colorama
+discord.py
+numpy
+opencv-python
+psutil

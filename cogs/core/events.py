@@ -14,12 +14,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.bot.change_presence(activity=discord.Game(name=random.choice(self.d.playing_list)))
-
-        self.d.ban_cache = await self.db.fetch_all_botbans()
-        self.d.lang_cache = await self.db.fetch_all_guild_langs()
-        self.d.prefix_cache = await self.db.fetch_all_guild_prefixes()
-
+        await self.db.populate_caches()
         self.bot.logger.info(f'\u001b[36;1mCONNECTED\u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]')
 
     @commands.Cog.listener()
@@ -76,7 +71,8 @@ class Events(commands.Cog):
                     someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id and u.permissions_in(m.channel).read_messages)]
 
                     if len(someones) > 0:
-                        await m.channel.send(f'@someone ||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​|||| |||| ||  {random.choice(someones).mention}{m.author.mention}')
+                        invis = ('||||\u200B'*200)[2:-3]
+                        await m.channel.send(f'@someone {invis} {random.choice(someones).mention} {m.author.mention}')
 
                     self.bot.d.cmd_lb[m.author.id] = self.bot.d.cmd_lb.get(m.author.id, 0) + 1
                     self.bot.d.cmd_count += 1
