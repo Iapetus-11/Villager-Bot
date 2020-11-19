@@ -591,7 +591,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
-    @commands.command(name='gamble', aliases=['bet'])
+    @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
