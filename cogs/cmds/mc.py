@@ -12,6 +12,7 @@ import random
 import base64
 import arrow
 import json
+import os
 
 
 class Minecraft(commands.Cog):
