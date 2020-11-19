@@ -980,7 +980,7 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
 
-    @leaderboards.command(name='mobkills', aliases=['kil', 'kills'])
+    @leaderboards.command(name='mobkills', aliases=['kil', 'kills', 'kill', 'bonk'])
     async def leaderboard_mobkills(self, ctx):
         kills = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('mobs_killed')]
         kills = sorted(kills, key=(lambda tup: tup[1]), reverse=True)
