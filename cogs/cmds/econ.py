@@ -523,7 +523,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='give')
     @commands.guild_only()
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.cooldown(1, 120, commands.BucketType.user)
     async def give(self, ctx, user: discord.Member, *, amount_item):
         """Give an item or emeralds to another person"""
 
