@@ -591,7 +591,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
-    @commands.command(name='gamble', aliases=['bet'])
+    @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
@@ -980,7 +980,7 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
 
-    @leaderboards.command(name='mobkills', aliases=['kil', 'kills'])
+    @leaderboards.command(name='mobkills', aliases=['kil', 'kills', 'kill', 'bonk'])
     async def leaderboard_mobkills(self, ctx):
         kills = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('mobs_killed')]
         kills = sorted(kills, key=(lambda tup: tup[1]), reverse=True)
