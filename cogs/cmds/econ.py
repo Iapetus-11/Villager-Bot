@@ -523,7 +523,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='give')
     @commands.guild_only()
-    @commands.cooldown(1, 120, commands.BucketType.user)
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def give(self, ctx, user: discord.Member, *, amount_item):
         """Give an item or emeralds to another person"""
 
@@ -592,7 +592,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
     @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.cooldown(1, 120, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
 
