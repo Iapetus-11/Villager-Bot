@@ -592,7 +592,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
     @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
-    @commands.cooldown(1, 120, commands.BucketType.user)
+    @commands.cooldown(1, 45, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
 
@@ -638,8 +638,8 @@ class Econ(commands.Cog):
         else:
             await self.bot.send(ctx, ctx.l.econ.gamble.tie)
 
-    @commands.command(name='beg')
-    @commands.cooldown(1, 60*60, commands.BucketType.user)
+    @commands.command(name='beg', aliases=['search'])
+    @commands.cooldown(1, 30*60, commands.BucketType.user)
     async def beg(self, ctx):
         """Beg for emeralds"""
 
@@ -779,7 +779,7 @@ class Econ(commands.Cog):
         victim_bees = 0 if victim_bees is None else victim_bees['amount']
 
         # lmao
-        if pillager_pillages > 7 or times_pillaged > 3:
+        if pillager_pillages > 7 or times_pillaged > 4:
             chances = [False]*50 + [True]
         elif await self.db.fetch_item(victim.id, 'Bane Of Pillagers Amulet'):
             chances = [False]*5 + [True]
@@ -813,7 +813,7 @@ class Econ(commands.Cog):
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name='chug')
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.cooldown(1, 0.5, commands.BucketType.user)
     async def chug(self, ctx, *, _pot):
         """Allows you to use potions"""
 
@@ -877,6 +877,15 @@ class Econ(commands.Cog):
             await self.db.set_vault(ctx.author.id, db_user['vault_bal'], db_user['vault_max'] + add)
 
             await self.bot.send(ctx, ctx.l.econ.chug.vault_pot.format(add))
+            return
+
+        if pot == 'honey jar':
+            db_user = await self.db.fetch_user(ctx.author.id)
+
+            if db_user['health'] < 20:
+                await self.db.update_user(ctx.author.id, 'health', db_user['health']+1)
+
+            await self.bot.send(ctx, ctx.l.econ.chug.chug.format('Honey Jar', 1))
             return
 
         await self.bot.send(ctx, ctx.l.econ.chug.stupid_3)
