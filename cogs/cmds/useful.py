@@ -280,7 +280,7 @@ class Useful(commands.Cog):
         except Exception:
             await self.bot.send(ctx, ctx.l.useful.meth.oops)
 
-    @commands.command(name='google', aliases=['search', 'thegoogle'])
+    @commands.command(name='google', aliases=['thegoogle'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def google_search(self, ctx, *, query):
         safesearch = True
