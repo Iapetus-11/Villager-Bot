@@ -560,7 +560,7 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
-        if 'pickaxe' in item.lower() or 'sword' in item.lower() or 'trophy' in item.lower():
+        if 'pickaxe' in item.lower() or 'sword' in item.lower() or 'trophy' in item.lower() or 'amulet' in item.lower():
             await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
             return
 
