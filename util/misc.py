@@ -26,15 +26,3 @@ def make_health_bar(health, max_health, full, half, empty):
 def make_health_bar_debug(health, max_health, full, half, empty):
     assert max_health % 2 == 0
     return (full * (health // 2)) + (half * (health % 2)) + (empty * (max_health // 2 - (health // 2))) + f' ({health}/{max_health})'
-
-def insert_returns(body: str):
-    if isinstance(body[-1], ast.Expr):
-        body[-1] = ast.Return(body[-1].value)
-        ast.fix_missing_locations(body[-1])
-
-    if isinstance(body[-1], ast.If):
-        insert_returns(body[-1].body)
-        insert_returns(body[-1].orelse)
-        
-    if isinstance(body[-1], ast.With):
-        insert_returns(body[-1].body)
