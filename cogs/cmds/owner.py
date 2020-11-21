@@ -1,4 +1,5 @@
 from util.misc import recursive_update
+from util.misc import insert_returns
 from discord.ext import commands
 from typing import Union
 import classyjson as cj
@@ -46,9 +47,33 @@ class Owner(commands.Cog):
 
     @commands.command(name='eval')
     @commands.is_owner()
-    async def eval_stuff(self, ctx, *, stuff):
+    async def eval_stuff(self, ctx, *, code):
         try:
-            await ctx.send(f'```py\n{eval(stuff)}```')
+            code_nice = f'async def eval_code():\n' + '\n'.join(f'    {i}' for i in code.strip(' `py\n ').splitlines())
+            code_parsed = ast.parse(code_nice)
+            code_final = code_parsed.body[0].body
+
+            def insert_returns():
+                if isinstance(code_final[-1], ast.Expr):
+                    code_final[-1] = ast.Return(code_final[-1].value)
+                    ast.fix_missing_locations(code_final[-1])
+
+                if isinstance(code_final[-1], ast.If):
+                    insert_returns(code_final[-1].body)
+                    insert_returns(code_final[-1].orelse)
+
+                if isinstance(code_final[-1], ast.With):
+                    insert_returns(code_final[-1].body)
+
+            insert_returns()
+
+            env = {**locals(), **globals()}
+
+            exec(compile(code_parsed, filename='<ast>', mode='exec'), env)
+            result = (await eval(f'eval_code()', env))
+
+            await ctx.send(f'```py\n{result}```')
+
         except discord.errors.Forbidden:
             await ctx.send('Missing permissions (FORBIDDEN)')
         except Exception as e:
