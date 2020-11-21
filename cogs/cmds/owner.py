@@ -189,6 +189,27 @@ class Owner(commands.Cog):
         await self.db.update_user(uid, 'emeralds', balance)
         await ctx.message.add_reaction(self.d.emojis.yes)
 
+    @commands.command(name='itemwealth')
+    @commands.is_owner()
+    async def item_wealth(self, ctx):
+        items = await self.db.db.fetch('SELECT * FROM items')
+
+        users = {}
+
+        for item in items:
+            prev = users.get(item['uid'], 0)
+
+            users[item['uid']] = prev + (item['amount'] * item['sell_price'])
+
+        users = users.items()
+        users_sorted = sorted(users, key=(lambda e: e[1]), reverse=True)[:30]
+
+        body = ''
+        for u in users_sorted:
+            body += f'`{u[0]}` - {u[1]}{self.d.emojis.emerald}\n'
+
+        await ctx.send(body)
+
     """
     @commands.command(name='massunban')
     @commands.is_owner()
@@ -224,27 +245,6 @@ class Owner(commands.Cog):
 
         await ctx.send('Done restoring llama bans')
     """
-
-    @commands.command(name='itemwealth')
-    @commands.is_owner()
-    async def item_wealth(self, ctx):
-        items = await self.db.db.fetch('SELECT * FROM items')
-
-        users = {}
-
-        for item in items:
-            prev = users.get(item['uid'], 0)
-
-            users[item['uid']] = prev + (item['amount'] * item['sell_price'])
-
-        users = users.items()
-        users_sorted = sorted(users, key=(lambda e: e[1]), reverse=True)[:30]
-
-        body = ''
-        for u in users_sorted:
-            body += f'`{u[0]}` - {u[1]}{self.d.emojis.emerald}\n'
-
-        await ctx.send(body)
 
 
 def setup(bot):
