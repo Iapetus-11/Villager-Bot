@@ -26,6 +26,7 @@
   	background-color: rgba(237, 247, 239, .85) !important;
     border: .5px solid 3c3c3c;
     border-radius: 5px;
+    color: black !important;
   }
 
   .shapes-background {
@@ -42,6 +43,7 @@
 
   h1 {
   	text-align: center !important;
+    color: black !important;
   }
 
   #upvotebutton {
@@ -57,11 +59,44 @@
     box-shadow: 0 7px 11px 0 rgba(0, 0, 0, 0.65), 0 10px 15px 0 rgba(0, 0, 0, 0.35), 0 12px 20px 0 rgba(0, 0, 0, 0.23);
   }
 
-  p {
+  .comment {
   	color: black !important;
   }
 
   .comment-username {
+  	color: black !important;
+  }
+  
+  .bot-description {
+  	color: black !important;
+  }
+
+  code {
+  	color: #7289DA !important;
+    background-color: white !important;
+  }
+
+  .content h2:not(.override) {
+    color: black !important;
+  }
+
+  .content h3:not(:first-child) {
+  	color: black !important;
+  }
+
+  #bot-details-page .bot-name {
+  	color: black !important;
+  }
+
+  .btn-like span {
+  	color: black !important;
+  }
+  
+  .text-secondary {
+  	color: black !important;
+  }
+  
+  .bot-tags-title {
   	color: black !important;
   }
 </style>
@@ -79,6 +114,7 @@
 ## Support / Contact Information
 * [Discord Support Server](https://discord.gg/39DwwUV)
 * Discord Username: `Iapetus11#6821`
+
 
 ## Commands
 ### Economy
@@ -143,6 +179,7 @@
 * `/kill <user>` *brutally murder another user*
 * `/bubblewrap` *sends virtual bubblewrap for you to pop*
 * `/coinflip` *flips a coin and says the result in the chat*
+* `/pat <thing>` *pats the mentioned user or thing*
 
 ### Moderation
 * `/warn <user> <reason>` *warn a user for a specified reason*

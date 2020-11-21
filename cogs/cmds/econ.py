@@ -560,7 +560,7 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
-        if 'pickaxe' in item.lower() or 'sword' in item.lower() or 'trophy' in item.lower():
+        if 'pickaxe' in item.lower() or 'sword' in item.lower() or 'trophy' in item.lower() or 'amulet' in item.lower():
             await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
             return
 
@@ -591,8 +591,8 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
-    @commands.command(name='gamble', aliases=['bet'])
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
+    @commands.cooldown(1, 45, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
 
@@ -638,8 +638,8 @@ class Econ(commands.Cog):
         else:
             await self.bot.send(ctx, ctx.l.econ.gamble.tie)
 
-    @commands.command(name='beg')
-    @commands.cooldown(1, 60*60, commands.BucketType.user)
+    @commands.command(name='beg', aliases=['search'])
+    @commands.cooldown(1, 30*60, commands.BucketType.user)
     async def beg(self, ctx):
         """Beg for emeralds"""
 
@@ -680,11 +680,13 @@ class Econ(commands.Cog):
         # please don't bug me about jank code, I know
         fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe)/2)]
 
-        yield_ = self.d.mining.yields_pickaxes[pickaxe] # [chance, out of]
+        # calculate if user finds emeralds OR not
+        yield_ = self.d.mining.yields_pickaxes[pickaxe] # [xTrue, xFalse]
         yield_chance_list = [True]*yield_[0] + [False]*yield_[1]
         found = random.choice(yield_chance_list)
 
-        # what the fuck?
+        # ~~what the fuck?~~
+        # calculate bonus emeralds from enchantment items
         for item in list(self.d.mining.yields_enchant_items):
             if await self.db.fetch_item(ctx.author.id, item) is not None:
                 found += random.choice(self.d.mining.yields_enchant_items[item]) if found else 0
@@ -735,7 +737,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='pillage')
     @commands.guild_only()
-    @commands.cooldown(1, 5*60, commands.BucketType.user)
+    @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
         if victim.bot:
             if victim.id == self.bot.user.id:
@@ -750,10 +752,6 @@ class Econ(commands.Cog):
 
         if ctx.guild.get_member(victim.id) is None:
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_2)
-            return
-
-        if self.d.pillagers.get(ctx.author.id, 0) > 7:
-            await self.bot.send(ctx, ctx.l.econ.pillage.stupid_5)
             return
 
         db_user = await self.db.fetch_user(ctx.author.id)
@@ -781,7 +779,7 @@ class Econ(commands.Cog):
         victim_bees = 0 if victim_bees is None else victim_bees['amount']
 
         # lmao
-        if pillager_pillages > 7 or times_pillaged > 3:
+        if pillager_pillages > 7 or times_pillaged > 4:
             chances = [False]*50 + [True]
         elif await self.db.fetch_item(victim.id, 'Bane Of Pillagers Amulet'):
             chances = [False]*5 + [True]
@@ -815,7 +813,7 @@ class Econ(commands.Cog):
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name='chug')
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.cooldown(1, 0.5, commands.BucketType.user)
     async def chug(self, ctx, *, _pot):
         """Allows you to use potions"""
 
@@ -879,6 +877,15 @@ class Econ(commands.Cog):
             await self.db.set_vault(ctx.author.id, db_user['vault_bal'], db_user['vault_max'] + add)
 
             await self.bot.send(ctx, ctx.l.econ.chug.vault_pot.format(add))
+            return
+
+        if pot == 'honey jar':
+            db_user = await self.db.fetch_user(ctx.author.id)
+
+            if db_user['health'] < 20:
+                await self.db.update_user(ctx.author.id, 'health', db_user['health']+1)
+
+            await self.bot.send(ctx, ctx.l.econ.chug.chug.format('Honey Jar', 1))
             return
 
         await self.bot.send(ctx, ctx.l.econ.chug.stupid_3)
@@ -982,7 +989,7 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
 
-    @leaderboards.command(name='mobkills', aliases=['kil', 'kills'])
+    @leaderboards.command(name='mobkills', aliases=['kil', 'kills', 'kill', 'bonk'])
     async def leaderboard_mobkills(self, ctx):
         kills = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('mobs_killed')]
         kills = sorted(kills, key=(lambda tup: tup[1]), reverse=True)

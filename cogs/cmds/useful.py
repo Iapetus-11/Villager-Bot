@@ -260,7 +260,7 @@ class Useful(commands.Cog):
                   f'{ctx.l.useful.ginf.channels}: `{len(guild.channels)}`\n ' \
                   f'{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n' \
                   f'{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n' \
-                  f'{ctx.l.useful.ginf.bans}: `{len(await ctx.guild.bans())}`\n'
+                  f'{ctx.l.useful.ginf.bans}: `{len(await guild.bans())}`\n'
 
         villager = f'{ctx.l.useful.ginf.cmd_prefix}: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n' \
                    f'{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n' \
@@ -280,7 +280,7 @@ class Useful(commands.Cog):
         except Exception:
             await self.bot.send(ctx, ctx.l.useful.meth.oops)
 
-    @commands.command(name='google', aliases=['search', 'thegoogle'])
+    @commands.command(name='google', aliases=['thegoogle'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def google_search(self, ctx, *, query):
         safesearch = True

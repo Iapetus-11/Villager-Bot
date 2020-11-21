@@ -49,7 +49,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while meme['spoiler'] or (not do_nsfw and meme['nsfw']):
                 resp = await self.ses.get(
-                    'https://betterapi.net/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
+                    'https://api.iapetus11.xyz/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 meme = cj.classify(await resp.json())
@@ -74,7 +74,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while not do_nsfw and jj['nsfw']:
                 resp = await self.ses.get(
-                    'https://betterapi.net/reddit/gimme/4chan+greentext',
+                    'https://api.iapetus11.xyz/reddit/gimme/4chan+greentext',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 jj = await resp.json()
@@ -98,7 +98,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while not do_nsfw and jj['nsfw']:
                 resp = await self.ses.get(
-                    'https://betterapi.net/reddit/gimme/comics',
+                    'https://api.iapetus11.xyz/reddit/gimme/comics',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 jj = await resp.json()
@@ -111,26 +111,26 @@ class Fun(commands.Cog):
     @commands.command(name='cursed', aliases=['cursedmc'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def cursed_mc(self, ctx):
-        async with ctx.typing():
-            if random.choice((True, False,)):
-                jj = {'nsfw': True}
+        if random.choice((True, False,)):
+            jj = {'nsfw': True}
 
+            async with ctx.typing():
                 while jj['nsfw']:
                     resp = await self.ses.get(
-                        'https://betterapi.net/reddit/gimme/CursedMinecraft',
+                        'https://api.iapetus11.xyz/reddit/gimme/CursedMinecraft',
                         headers={'Authorization': self.d.vb_api_key}
                     )
                     jj = await resp.json()
 
-                embed = discord.Embed(color=self.d.cc)
-                embed.set_image(url=jj['url'])
+            embed = discord.Embed(color=self.d.cc)
+            embed.set_image(url=jj['url'])
 
-                await ctx.send(embed=embed)
-            else:
-                embed = discord.Embed(color=self.d.cc)
-                embed.set_image(url=f'{self.d.base_url}/images/cursed_minecraft/{random.choice(self.d.cursed_images)}')
+            await ctx.send(embed=embed)
+        else:
+            embed = discord.Embed(color=self.d.cc)
+            embed.set_image(url=f'https://iapetus11.xyz/images/cursed_minecraft/{random.choice(self.d.cursed_images)}')
 
-                await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
 
     @commands.command(name='say')
     async def say_text(self, ctx, *, _text):
@@ -287,6 +287,21 @@ class Fun(commands.Cog):
     @commands.command(name='coinflip', aliases=['flipcoin', 'cf'])
     async def coin_flip(self, ctx):
         await self.bot.send(ctx, random.choice(('heads', 'tails')))
+
+    @commands.command(name='pat')
+    async def pat(self, ctx, *, thing: typing.Union[discord.User, str]):
+        if isinstance(thing, discord.User) or isinstance(thing, discord.user.ClientUser):
+            thing = thing.display_name
+        else:
+            thing = thing
+
+        resp = await self.ses.get('https://rra.ram.moe/i/r?type=pat')
+        image_url = 'https://rra.ram.moe' + (await resp.json())['path']
+
+        embed = discord.Embed(color=self.d.cc, title=f'{ctx.author.display_name} pats {thing}')
+        embed.set_image(url=image_url)
+
+        await ctx.send(embed=embed)
 
 
 def setup(bot):

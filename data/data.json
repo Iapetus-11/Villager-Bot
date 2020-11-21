@@ -1,5 +1,6 @@
 {
   "default_prefix": "/",
+  "support_server_id": 641117791272960031,
   "error_channel_id": 642446655022432267,
   "vote_channel_id": 725551439165784115,
   "splash_logo": "http://home.betterapi.net/images/villagerbotsplash1.png",
@@ -402,6 +403,14 @@
     "on the Nether Update",
     "Minecraft - 'Rona Edition"
   ],
+  "role_mappings": {
+    "Stone Pickaxe": 697457637763186809,
+    "Iron Pickaxe": 697457970661031957,
+    "Gold Pickaxe": 697458756958552114,
+    "Diamond Pickaxe": 697457399295901786,
+    "Netherite Pickaxe": 697457303477026856,
+    "BOP": 706604490274504754
+  },
   "kills": [
     "{0} was suicided",
     "{0} died by death",
@@ -555,6 +564,21 @@
     ]
   ],
   "special_findables": [
+    [
+      "Moodys Turkey Leg",
+      128,
+      1000
+    ],
+    [
+      "Turkey Feather",
+      64,
+      500
+    ],
+    [
+      "Drip Of Turkey Grease",
+      64,
+      500
+    ]
   ],
   "shop_items": {
     "stone pickaxe": [
@@ -827,7 +851,22 @@
       "a working redstone elevator",
       "a jelly bean factory",
       "some oompa loompas from Willy Wonka's factory",
-      "Willy Wonka's factory"
+      "Willy Wonka's factory",
+      "a giant ice cream cone with three scoops of ice cream on top",
+      "the Death Star",
+      "a working redstone light bulb",
+      "a statue of a villager with armor killing a pillager",
+      "a secret base inside a secret base",
+      "a super-sized emerald block",
+      "a giant chicken statue with chickens inside",
+      "a massive tree",
+      "a city of skyscrapers",
+      "a giant phone",
+      "a moooshroom golem",
+      "a statue of Obi Wawn Kenobi",
+      "Shrek's swamp",
+      "a giant slab of cheese",
+      "a big swimming pool shaped like a bowl of soup"
     ],
     "prefixes": [
       "You could build",

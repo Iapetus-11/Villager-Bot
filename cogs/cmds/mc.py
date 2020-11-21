@@ -1,6 +1,8 @@
+
+from concurrent.futures import ThreadPoolExecutor
+from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as bs
-import concurrent.futures
 import aiomcrcon as rcon
 import functools
 import aiohttp
@@ -89,18 +91,18 @@ class Minecraft(commands.Cog):
         detailed = ('large' in ctx.message.content or 'high' in ctx.message.content)
 
         with ctx.typing():
-            with concurrent.futures.ThreadPoolExecutor() as pool:
+            with ThreadPoolExecutor() as pool:
                 mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
                 _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
-            filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
+            filename = f'tmp/{ctx.message.id}-{img.width}x{img.height}.png'
 
             with open(filename, 'wb+') as tmp:
                 tmp.write(img_bytes)
 
             await ctx.send(file=discord.File(filename, filename=img.filename))
 
-        os.remove(filename)
+            os.remove(filename)
 
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
@@ -119,7 +121,7 @@ class Minecraft(commands.Cog):
             combined = f'{host}{port_str}'
 
         with ctx.typing():
-            async with self.ses.get(f'https://betterapi.net/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.xyz/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -141,7 +143,7 @@ class Minecraft(commands.Cog):
         player_list_cut = []
 
         for p in player_list:
-            if not ('§' in p or len(p) > 16 or ' ' in p or '-' in p):
+            if not ('§' in p or len(p) > 16 or len(p) < 3 or ' ' in p or '-' in p):
                 player_list_cut.append(p)
 
         player_list_cut = player_list_cut[:24]
@@ -163,10 +165,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://betterapi.net/mc/servercard/{combined}?v={random.random()*100000}')
+        embed.set_image(url=f'https://api.iapetus11.xyz/mc/servercard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavicon/{combined}')
+            embed.set_thumbnail(url=f'https://api.iapetus11.xyz/mc/serverfavicon/{combined}')
 
         await ctx.send(embed=embed)
 
@@ -179,7 +181,7 @@ class Minecraft(commands.Cog):
         combined = s[0]
 
         with ctx.typing():
-            async with self.ses.get(f'https://betterapi.net/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.xyz/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -204,7 +206,7 @@ class Minecraft(commands.Cog):
         player_list_cut = []
 
         for p in player_list:
-            if not ('§' in p or len(p) > 16 or ' ' in p or '-' in p):
+            if not ('§' in p or len(p) > 16 or len(p) < 3 or ' ' in p or '-' in p):
                 player_list_cut.append(p)
 
         player_list_cut = player_list_cut[:24]
@@ -226,10 +228,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://betterapi.net/mc/servercard/{combined}?v={random.random()*100000}')
+        embed.set_image(url=f'https://api.iapetus11.xyz/mc/servercard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://betterapi.net/mc/serverfavicon/{combined}')
+            embed.set_thumbnail(url=f'https://api.iapetus11.xyz/mc/serverfavicon/{combined}')
 
         await ctx.send(embed=embed)
 
@@ -274,7 +276,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='achievement', aliases=['mcachieve'])
     async def minecraft_achievement(self, ctx, *, text):
         embed = discord.Embed(color=self.d.cc)
-        embed.set_image(url=f'https://minecraftskinstealer.com/achievement/1/Achievement+Get%21/{text.replace(" ", "+")}')
+        embed.set_image(url=f'https://api.iapetus11.xyz/mc/achievement/{urlquote(text[:26])}')
         await ctx.send(embed=embed)
 
     @commands.command(name='uuidtoname', aliases=['uuidtousername', 'uuid2name'])

@@ -15,11 +15,8 @@ class Status(commands.Cog):
 
     @tasks.loop(minutes=45)
     async def change_status(self):
-        await self.bot.change_presence(activity=discord.Game(name=random.choice(self.d.playing_list)))
-
-    @change_status.before_loop
-    async def before_change_status(self):
         await self.bot.wait_until_ready()
+        await self.bot.change_presence(activity=discord.Game(name=random.choice(self.d.playing_list)))
 
 def setup(bot):
     bot.add_cog(Status(bot))

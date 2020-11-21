@@ -10,9 +10,11 @@ class Database(commands.Cog):
         self.db = self.bot.db  # the asyncpg pool
 
         self.update_user_health.start()
+        self.update_support_server_member_roles.start()
 
     def cog_unload(self):
         self.update_user_health.cancel()
+        self.update_support_server_member_roles.cancel()
 
     async def populate_caches(self):
         self.d.ban_cache = await self.fetch_all_botbans()
@@ -20,14 +22,34 @@ class Database(commands.Cog):
         self.d.prefix_cache = await self.fetch_all_guild_prefixes()
         self.d.additional_mcservers = await self.fetch_all_mcservers()
 
-    @tasks.loop(seconds=8)
+    @tasks.loop(seconds=16)
     async def update_user_health(self):
         async with self.db.acquire() as con:
             await con.execute('UPDATE users SET health = health + 1 WHERE health < 20')
 
-    @update_user_health.before_loop
-    async def before_update_user_health(self):
+    @tasks.loop(minutes=10)
+    async def update_support_server_member_roles(self):
         await self.bot.wait_until_ready()
+
+        support_guild = self.bot.get_guild(self.d.support_server_id)
+        role_map_values = list(self.d.role_mappings.values())
+
+        for member in support_guild.members:
+            roles = []
+
+            for role in member.roles:
+                if role.id not in role_map_values and role.id != self.d.support_server_id:
+                    roles.append(role)
+
+            pickaxe_role = self.d.role_mappings.get(await self.fetch_pickaxe(member.id))
+            if pickaxe_role is not None:
+                roles.append(support_guild.get_role(pickaxe_role))
+
+            if await self.fetch_item(member.id, 'Bane Of Pillagers Amulet') is not None:
+                roles.append(support_guild.get_role(self.d.role_mappings.get('BOP')))
+
+            if roles != member.roles:
+                await member.edit(roles=roles)
 
     async def fetch_all_botbans(self):
         botban_records = await self.db.fetch('SELECT uid FROM users WHERE bot_banned = true')  # returns [Record<uid=>, Record<uid=>,..]
@@ -221,12 +243,14 @@ class Database(commands.Cog):
     async def set_botbanned(self, uid, botbanned):
         await self.fetch_user(uid)
 
-        if botbanned:
+        if botbanned and uid not in self.d.ban_cache:
             self.d.ban_cache.append(uid)
         else:
             try:
                 self.d.ban_cache.pop(self.d.ban_cache.index(uid))
             except KeyError:
+                pass
+            except ValueError:
                 pass
 
         async with self.db.acquire() as con:
