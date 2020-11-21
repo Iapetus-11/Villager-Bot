@@ -699,7 +699,7 @@ class Econ(commands.Cog):
         if not found:
             for item in self.d.findables:  # try to see if user gets an item
                 if random.randint(0, item[2]) == 1:
-                    await self.db.add_item(ctx.author.id, item[0], item[1], 1)
+                    await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
 
                     """
                     # god I hate multi language support fucking kill me
