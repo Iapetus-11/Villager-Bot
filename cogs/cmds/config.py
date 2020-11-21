@@ -114,7 +114,5 @@ class Config(commands.Cog):
         await self.bot.send(ctx, ctx.l.config.mcs.set.format(mcserver))
 
 
-
-
 def setup(bot):
     bot.add_cog(Config(bot))
