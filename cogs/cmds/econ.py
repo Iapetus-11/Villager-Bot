@@ -449,7 +449,7 @@ class Econ(commands.Cog):
                     return
 
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
-            await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
+            await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount, shop_item[3][2])
 
             await self.bot.send(ctx,  # pep8 wants to kil me
                 ctx.l.econ.buy.you_done_bought.format(
@@ -576,6 +576,10 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention))
         else:
             db_item = await self.db.fetch_item(ctx.author.id, item)
+
+            if db_item['sticky']:
+                await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
+                return
 
             if db_item is None or amount > db_item['amount']:
                 await self.bot.send(ctx, ctx.l.econ.give.stupid_4)
