@@ -1,5 +1,4 @@
 from util.misc import recursive_update
-from util.misc import insert_returns
 from discord.ext import commands
 from typing import Union
 import classyjson as cj
