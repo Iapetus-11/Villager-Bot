@@ -79,26 +79,6 @@ class Owner(commands.Cog):
         except Exception as e:
             raise e
 
-    @commands.command(name='exec')
-    @commands.is_owner()
-    async def exec_stuff(self, ctx, *, stuff):
-        try:
-            await ctx.send(f'```py\n{exec(stuff)}```')
-        except discord.errors.Forbidden:
-            await ctx.send('Missing permissions (FORBIDDEN)')
-        except Exception as e:
-            raise e
-
-    @commands.command(name='awaiteval')
-    @commands.is_owner()
-    async def await_eval_stuff(self, ctx, *, stuff):
-        try:
-            await ctx.send(f'```py\n{await eval(stuff)}```')
-        except discord.errors.Forbidden:
-            await ctx.send('Missing permissions (FORBIDDEN)')
-        except Exception as e:
-            raise e
-
     @commands.command(name='gitpull')
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
     @commands.is_owner()
