@@ -671,6 +671,7 @@
         "vault_pot": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
         "stupid_3": "Either that isn't a potion, or it doesn't exist.",
         "chug": "You've chugged a **{}** (Which lasts {} minutes)",
+        "chug_no_end": "You've chugged a **{}**",
         "done": "The **{}** you chugged earlier has worn off."
       },
       "honey": {
