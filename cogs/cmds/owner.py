@@ -211,6 +211,25 @@ class Owner(commands.Cog):
         await ctx.send(body)
 
     """
+    @commands.command(name='updatesticky')
+    @commands.is_owner()
+    async def update_sticky(self, ctx):
+        await ctx.send('starting...')
+
+        to_be_sticky = [
+            *self.d.mining.pickaxes,
+            'Netherite Sword', 'Diamond Sword', 'Gold Sword', 'Iron Sword', 'Stone Sword', 'Wood Sword',
+            'Bane Of Pillagers Amulet',
+            'Rich Person Tropy'
+        ]
+
+        for item in to_be_sticky:
+            await self.db.db.execute('UPDATE items SET sticky = true WHERE name = $1', item)
+
+        await ctx.send('done.')
+    """
+
+    """
     @commands.command(name='massunban')
     @commands.is_owner()
     async def mass_unban(self, ctx):
