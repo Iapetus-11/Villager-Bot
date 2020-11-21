@@ -835,7 +835,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
-    @commands.command(name='chug')
+    @commands.command(name='chug', aliases=['eat'])
     @commands.cooldown(1, 0.5, commands.BucketType.user)
     async def chug(self, ctx, *, _pot):
         """Allows you to use potions"""
@@ -908,7 +908,7 @@ class Econ(commands.Cog):
             if db_user['health'] < 20:
                 await self.db.update_user(ctx.author.id, 'health', db_user['health']+1)
 
-            await self.bot.send(ctx, ctx.l.econ.chug.chug.format('Honey Jar', 1))
+            await self.bot.send(ctx, ctx.l.econ.chug.chug_no_end.format('Honey Jar'))
             return
 
         await self.bot.send(ctx, ctx.l.econ.chug.stupid_3)

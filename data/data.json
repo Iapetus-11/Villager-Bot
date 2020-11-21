@@ -565,6 +565,11 @@
   ],
   "special_findables": [
     [
+      "Whole Ass Turkey",
+      768,
+      10000
+    ],
+    [
       "Moodys Turkey Leg",
       128,
       1000
@@ -899,7 +904,7 @@
     "+": ":heavy_plus_sign:",
     "-": ":heavy_minus_sign:",
     "$": ":heavy_dollar_sign:",
-    "#": ":hash",
+    "#": ":hash:",
     "*": ":asterisk:",
     "1": ":one:",
     "2": ":two:",

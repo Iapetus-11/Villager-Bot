@@ -1,7 +1,0 @@
-{
-  "database": {
-    "host": "localhost",
-    "name": "villager-bot",
-    "user": "postgres"
-  }
-}
