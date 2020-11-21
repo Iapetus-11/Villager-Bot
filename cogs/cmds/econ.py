@@ -72,7 +72,7 @@ class Econ(commands.Cog):
         return True
 
     @commands.command(name='profile', aliases=['pp'])
-    async def profile(self, ctx, user: discord.User = None):
+    async def profile(self, ctx, *, user: discord.User = None):
         if user is None:
             user = ctx.author
 
@@ -103,7 +103,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='balance', aliases=['bal', 'vault'])
-    async def balance(self, ctx, user: discord.User = None):
+    async def balance(self, ctx, *, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
 
         if user is None:
@@ -137,7 +137,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='inv', aliases=['inventory', 'pocket'])
     @commands.cooldown(2, 10, commands.BucketType.user)
-    async def inventory(self, ctx, user: discord.User = None):
+    async def inventory(self, ctx, *, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
 
         if user is None:
