@@ -89,10 +89,14 @@ class Events(commands.Cog):
         except discord.errors.Forbidden:
             pass
 
-    async def debug_error(self, ctx, e):
+    async def debug_error(self, ctx, e, loc=None):
+        if loc is None:
+            loc = self.bot.get_channel(self.d.error_channel_id)
+
         traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
         final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'.replace('``', '\`\`\`')
-        await self.bot.send(self.bot.get_channel(self.d.error_channel_id), f'```py\n{final[:1023 - 6]}```')
+
+        await self.bot.send(loc, f'```py\n{final[:1023 - 6]}```')
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
