@@ -73,15 +73,10 @@ class Econ(commands.Cog):
         return True
 
     @commands.command(name='profile', aliases=['pp'])
-    async def profile(self, ctx, *user):
+    async def profile(self, ctx, *, user: discord.User = None):
 
-        user = ' '.join(user)
-        converter = MemberConverter()
-        if user == "":
+        if user is None:
             user = ctx.author
-
-        else:
-            user = await converter.convert(ctx, user)
 
         if user.bot:
             if user.id == self.bot.user.id:
@@ -148,15 +143,11 @@ class Econ(commands.Cog):
 
     @commands.command(name='inv', aliases=['inventory', 'pocket'])
     @commands.cooldown(2, 10, commands.BucketType.user)
-    async def inventory(self, ctx, *user):
+    async def inventory(self, ctx, *, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
 
-        user = ' '.join(user)
-        converter = MemberConverter()
-        if user == "":
+        if user is None:
             user = ctx.author
-        else:
-            user = await converter.convert(ctx, user)
 
         if user.bot:
             if user.id == self.bot.user.id:
@@ -757,14 +748,10 @@ class Econ(commands.Cog):
     @commands.command(name='pillage')
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
-    async def pillage(self, ctx, *victim):
+    async def pillage(self, ctx, *, victim: discord.User = None):
 
-        victim = ' '.join(victim)
-        converter = MemberConverter()
-        if victim == "":
+        if victim is None:
             victim = ctx.author
-        else:
-            victim = await converter.convert(ctx, victim)
 
         if victim.bot:
             if victim.id == self.bot.user.id:
