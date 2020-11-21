@@ -169,11 +169,15 @@ class Database(commands.Cog):
 
         async with self.db.acquire() as con:
             if prev is None:
-                await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4, $5)',
-                                  uid, name, sell_price, amount, sticky)
+                await con.execute(
+                    'INSERT INTO items VALUES ($1, $2, $3, $4, $5)',
+                    uid, name, sell_price, amount, sticky
+                )
             else:
-                await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
-                                  amount + prev['amount'], uid, name)
+                await con.execute(
+                    'UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
+                    amount + prev['amount'], uid, name
+                )
 
     async def remove_item(self, uid, name, amount):
         prev = await self.fetch_item(uid, name)
@@ -182,8 +186,10 @@ class Database(commands.Cog):
             if prev['amount'] - amount < 1:
                 await con.execute('DELETE FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)', uid, name)
             else:
-                await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
-                                  prev['amount'] - amount, uid, name)
+                await con.execute(
+                    'UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
+                    prev['amount'] - amount, uid, name
+                )
 
     async def log_transaction(self, item, amount, timestamp, giver, receiver):
         async with self.db.acquire() as con:
@@ -214,8 +220,10 @@ class Database(commands.Cog):
         await self.set_vault(uid, 0, 1)
 
         async with self.db.acquire() as con:
-            await con.execute('DELETE FROM items WHERE uid = $1 AND name != $2 AND name != $3',
-                              uid, 'Rich Person Trophy', 'Bane Of Pillagers Amulet')
+            await con.execute(
+                'DELETE FROM items WHERE uid = $1 AND name != $2 AND name != $3',
+                uid, 'Rich Person Trophy', 'Bane Of Pillagers Amulet'
+            )
 
     async def fetch_user_lb(self, uid):
         lbs = await self.db.fetchrow('SELECT * FROM leaderboards WHERE uid = $1', uid)
