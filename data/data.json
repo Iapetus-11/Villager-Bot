@@ -592,7 +592,8 @@
       "db_item_count < 1",
       [
         "Stone Pickaxe",
-        8
+        8,
+        true
       ]
     ],
     "iron pickaxe": [
@@ -601,7 +602,8 @@
       "db_item_count < 1",
       [
         "Iron Pickaxe",
-        32
+        32,
+        true
       ]
     ],
     "gold pickaxe": [
@@ -610,7 +612,8 @@
       "db_item_count < 1",
       [
         "Gold Pickaxe",
-        128
+        128,
+        true
       ]
     ],
     "diamond pickaxe": [
@@ -619,7 +622,8 @@
       "db_item_count < 1",
       [
         "Diamond Pickaxe",
-        512
+        512,
+        true
       ]
     ],
     "netherite pickaxe": [
@@ -628,7 +632,8 @@
       "db_item_count < 1",
       [
         "Netherite Pickaxe",
-        2048
+        2048,
+        true
       ]
     ],
     "stone sword": [
@@ -637,7 +642,8 @@
       "db_item_count < 1",
       [
         "Stone Sword",
-        8
+        8,
+        true
       ]
     ],
     "iron sword": [
@@ -646,7 +652,8 @@
       "db_item_count < 1",
       [
         "Iron Sword",
-        32
+        32,
+        true
       ]
     ],
     "gold sword": [
@@ -655,7 +662,8 @@
       "db_item_count < 1",
       [
         "Gold Sword",
-        128
+        128,
+        true
       ]
     ],
     "diamond sword": [
@@ -664,7 +672,8 @@
       "db_item_count < 1",
       [
         "Diamond Sword",
-        512
+        512,
+        true
       ]
     ],
     "netherite sword": [
@@ -673,7 +682,8 @@
       "db_item_count < 1",
       [
         "Netherite Sword",
-        2048
+        2048,
+        true
       ]
     ],
     "haste i potion": [
@@ -682,7 +692,8 @@
       "True",
       [
         "Haste I Potion",
-        32
+        32,
+        false
       ]
     ],
     "fortune i book": [
@@ -691,7 +702,8 @@
       "True",
       [
         "Fortune I Book",
-        24
+        24,
+        false
       ]
     ],
     "jar of bees": [
@@ -700,7 +712,8 @@
       "True",
       [
         "Jar Of Bees",
-        2
+        2,
+        false
       ]
     ],
     "netherite scrap": [
@@ -709,7 +722,8 @@
       "True",
       [
         "Netherite Scrap",
-        8
+        8,
+        false
       ]
     ],
     "rich person trophy": [
@@ -718,7 +732,8 @@
       "db_item_count < 1",
       [
         "Rich Person Trophy",
-        10
+        10,
+        true
       ]
     ],
     "vault potion": [
@@ -727,7 +742,8 @@
       "True",
       [
         "Vault Potion",
-        30
+        30,
+        false
       ]
     ],
     "sharpness i book": [
@@ -736,7 +752,8 @@
       "True",
       [
         "Sharpness I Book",
-        32
+        32,
+        false
       ]
     ]
   },
