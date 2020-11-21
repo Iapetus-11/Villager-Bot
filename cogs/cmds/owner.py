@@ -48,7 +48,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def eval_stuff(self, ctx, *, stuff):
         try:
-            await ctx.send(f'```{eval(stuff)}```')
+            await ctx.send(f'```py\n{eval(stuff)}```')
         except discord.errors.Forbidden:
             await ctx.send('Missing permissions (FORBIDDEN)')
         except Exception as e:
@@ -58,7 +58,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def exec_stuff(self, ctx, *, stuff):
         try:
-            await ctx.send(f'```{exec(stuff)}```')
+            await ctx.send(f'```py\n{exec(stuff)}```')
         except discord.errors.Forbidden:
             await ctx.send('Missing permissions (FORBIDDEN)')
         except Exception as e:
@@ -68,7 +68,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def await_eval_stuff(self, ctx, *, stuff):
         try:
-            await ctx.send(f'```{await eval(stuff)}```')
+            await ctx.send(f'```py\n{await eval(stuff)}```')
         except discord.errors.Forbidden:
             await ctx.send('Missing permissions (FORBIDDEN)')
         except Exception as e:
