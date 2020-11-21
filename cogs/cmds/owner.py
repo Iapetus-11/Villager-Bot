@@ -77,7 +77,7 @@ class Owner(commands.Cog):
         except discord.errors.Forbidden:
             await ctx.send('Missing permissions (FORBIDDEN)')
         except Exception as e:
-            raise e
+            await self.bot.get_cog('Events').debug_error(ctx, e, ctx)
 
     @commands.command(name='gitpull')
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
