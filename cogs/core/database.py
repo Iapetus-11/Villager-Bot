@@ -100,8 +100,8 @@ class Database(commands.Cog):
                     uid, 0, 0, 1, 20, 0, False
                 )
 
-                await self.add_item(uid, 'Wood Pickaxe', 0, 1)
-                await self.add_item(uid, 'Wood Sword', 0, 1)
+                await self.add_item(uid, 'Wood Pickaxe', 0, 1, True)
+                await self.add_item(uid, 'Wood Sword', 0, 1, True)
 
             return await self.fetch_user(uid)
 
@@ -196,7 +196,7 @@ class Database(commands.Cog):
             if pickaxe in items_names:
                 return pickaxe
 
-        await self.add_item(uid, 'Wood Pickaxe', 0, 1)
+        await self.add_item(uid, 'Wood Pickaxe', 0, 1, True)
         return 'Wood Pickaxe'
 
     async def fetch_sword(self, uid):
@@ -206,7 +206,7 @@ class Database(commands.Cog):
             if sword in items_names:
                 return sword
 
-        await self.add_item(uid, 'Wood Sword', 0, 1)
+        await self.add_item(uid, 'Wood Sword', 0, 1, True)
         return 'Wood Sword'
 
     async def rich_trophy_wipe(self, uid):
