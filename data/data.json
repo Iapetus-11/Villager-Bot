@@ -899,7 +899,7 @@
     "+": ":heavy_plus_sign:",
     "-": ":heavy_minus_sign:",
     "$": ":heavy_dollar_sign:",
-    "#": ":hash",
+    "#": ":hash:",
     "*": ":asterisk:",
     "1": ":one:",
     "2": ":two:",
