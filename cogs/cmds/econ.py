@@ -464,7 +464,7 @@ class Econ(commands.Cog):
                     return
 
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
-            await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount)
+            await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount, shop_item[3][2])
 
             await self.bot.send(ctx,  # pep8 wants to kil me
                 ctx.l.econ.buy.you_done_bought.format(
@@ -592,6 +592,10 @@ class Econ(commands.Cog):
         else:
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
+            if db_item['sticky']:
+                await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
+                return
+
             if db_item is None or amount > db_item['amount']:
                 await self.bot.send(ctx, ctx.l.econ.give.stupid_4)
                 return
@@ -710,7 +714,7 @@ class Econ(commands.Cog):
         if not found:
             for item in self.d.findables:  # try to see if user gets an item
                 if random.randint(0, item[2]) == 1:
-                    await self.db.add_item(ctx.author.id, item[0], item[1], 1)
+                    await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
 
                     """
                     # god I hate multi language support fucking kill me

@@ -100,8 +100,8 @@ class Database(commands.Cog):
                     uid, 0, 0, 1, 20, 0, False
                 )
 
-                await self.add_item(uid, 'Wood Pickaxe', 0, 1)
-                await self.add_item(uid, 'Wood Sword', 0, 1)
+                await self.add_item(uid, 'Wood Pickaxe', 0, 1, True)
+                await self.add_item(uid, 'Wood Sword', 0, 1, True)
 
             return await self.fetch_user(uid)
 
@@ -164,13 +164,13 @@ class Database(commands.Cog):
     async def mass_fetch_item(self, name):
         return await self.db.fetch('SELECT * FROM items WHERE LOWER(name) = LOWER($1)', name)
 
-    async def add_item(self, uid, name, sell_price, amount):
+    async def add_item(self, uid, name, sell_price, amount, sticky=False):
         prev = await self.fetch_item(uid, name)
 
         async with self.db.acquire() as con:
             if prev is None:
-                await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4)',
-                                  uid, name, sell_price, amount)
+                await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4, $5)',
+                                  uid, name, sell_price, amount, sticky)
             else:
                 await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
                                   amount + prev['amount'], uid, name)
@@ -196,7 +196,7 @@ class Database(commands.Cog):
             if pickaxe in items_names:
                 return pickaxe
 
-        await self.add_item(uid, 'Wood Pickaxe', 0, 1)
+        await self.add_item(uid, 'Wood Pickaxe', 0, 1, True)
         return 'Wood Pickaxe'
 
     async def fetch_sword(self, uid):
@@ -206,7 +206,7 @@ class Database(commands.Cog):
             if sword in items_names:
                 return sword
 
-        await self.add_item(uid, 'Wood Sword', 0, 1)
+        await self.add_item(uid, 'Wood Sword', 0, 1, True)
         return 'Wood Sword'
 
     async def rich_trophy_wipe(self, uid):

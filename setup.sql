@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS items (
   name         varchar(250), -- name of the item
   sell_price   bigint, -- sell price for ONE of that item
   amount       bigint,  -- amount of the item
-  tradable     bool
+  sticky       bool -- if true, item can't be traded
 );
 
 CREATE TABLE IF NOT EXISTS give_logs (

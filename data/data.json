@@ -515,74 +515,88 @@
     [
       "Fortune II Book",
       128,
-      999
+      999,
+      false
     ],
     [
       "Fortune III Book",
       768,
-      9999
+      9999,
+      false
     ],
     [
       "Efficiency I Book",
       512,
-      6669
+      6669,
+      false
     ],
     [
       "Looting I Book",
       128,
-      1000
+      1000,
+      false
     ],
     [
       "Sharpness I Book",
       32,
-      1000
+      1000,
+      false
     ],
     [
       "Looting II Book",
       768,
-      9999
+      9999,
+      false
     ],
     [
       "Sharpness II Book",
       768,
-      9999
+      9999,
+      false
     ],
     [
       "Haste I Potion",
       32,
-      200
+      200,
+      false
     ],
     [
       "Haste II Potion",
       128,
-      1000
+      1000,
+      false
     ],
     [
       "Bane Of Pillagers Amulet",
       4096,
-      500000
+      500000,
+      true
     ]
   ],
   "special_findables": [
     [
       "Whole Ass Turkey",
       768,
-      10000
+      10000,
+      false
     ],
     [
       "Moodys Turkey Leg",
       128,
-      1000
+      1000,
+      false
     ],
     [
       "Turkey Feather",
       64,
-      500
+      500,
+      false
     ],
     [
       "Drip Of Turkey Grease",
       64,
-      500
+      500,
+      false
     ]
   ],
   "shop_items": {
@@ -592,7 +606,8 @@
       "db_item_count < 1",
       [
         "Stone Pickaxe",
-        8
+        8,
+        true
       ]
     ],
     "iron pickaxe": [
@@ -601,7 +616,8 @@
       "db_item_count < 1",
       [
         "Iron Pickaxe",
-        32
+        32,
+        true
       ]
     ],
     "gold pickaxe": [
@@ -610,7 +626,8 @@
       "db_item_count < 1",
       [
         "Gold Pickaxe",
-        128
+        128,
+        true
       ]
     ],
     "diamond pickaxe": [
@@ -619,7 +636,8 @@
       "db_item_count < 1",
       [
         "Diamond Pickaxe",
-        512
+        512,
+        true
       ]
     ],
     "netherite pickaxe": [
@@ -628,7 +646,8 @@
       "db_item_count < 1",
       [
         "Netherite Pickaxe",
-        2048
+        2048,
+        true
       ]
     ],
     "stone sword": [
@@ -637,7 +656,8 @@
       "db_item_count < 1",
       [
         "Stone Sword",
-        8
+        8,
+        true
       ]
     ],
     "iron sword": [
@@ -646,7 +666,8 @@
       "db_item_count < 1",
       [
         "Iron Sword",
-        32
+        32,
+        true
       ]
     ],
     "gold sword": [
@@ -655,7 +676,8 @@
       "db_item_count < 1",
       [
         "Gold Sword",
-        128
+        128,
+        true
       ]
     ],
     "diamond sword": [
@@ -664,7 +686,8 @@
       "db_item_count < 1",
       [
         "Diamond Sword",
-        512
+        512,
+        true
       ]
     ],
     "netherite sword": [
@@ -673,7 +696,8 @@
       "db_item_count < 1",
       [
         "Netherite Sword",
-        2048
+        2048,
+        true
       ]
     ],
     "haste i potion": [
@@ -682,7 +706,8 @@
       "True",
       [
         "Haste I Potion",
-        32
+        32,
+        false
       ]
     ],
     "fortune i book": [
@@ -691,7 +716,8 @@
       "True",
       [
         "Fortune I Book",
-        24
+        24,
+        false
       ]
     ],
     "jar of bees": [
@@ -700,7 +726,8 @@
       "True",
       [
         "Jar Of Bees",
-        2
+        2,
+        false
       ]
     ],
     "netherite scrap": [
@@ -709,7 +736,8 @@
       "True",
       [
         "Netherite Scrap",
-        8
+        8,
+        false
       ]
     ],
     "rich person trophy": [
@@ -718,7 +746,8 @@
       "db_item_count < 1",
       [
         "Rich Person Trophy",
-        10
+        10,
+        true
       ]
     ],
     "vault potion": [
@@ -727,7 +756,8 @@
       "True",
       [
         "Vault Potion",
-        30
+        30,
+        false
       ]
     ],
     "sharpness i book": [
@@ -736,7 +766,8 @@
       "True",
       [
         "Sharpness I Book",
-        32
+        32,
+        false
       ]
     ]
   },
