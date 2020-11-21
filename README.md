@@ -19,7 +19,7 @@
 If a bug or unintended behavior is discovered, please report it by creating an issue [here](https://github.com/Villager-Dev/Villager-Bot/issues) or by reporting it in the **#bug-smasher** channel on the [support server](https://discord.gg/39DwwUV)
 
 ### Development
-If you'd like to contribute code to Villager Bot, then please fork the repository and make any necessary changes there. Then, [make a pull request](https://github.com/Villager-Dev/Villager-Bot/pulls) and it will be reviewed.
+If you'd like to contribute code to Villager Bot, then please fork the repository and make any necessary changes there. Then, [make a pull request](https://github.com/Villager-Dev/Villager-Bot/pulls) and it will be reviewed. Please read the [contribution guidelines](https://github.com/Villager-Dev/Villager-Bot/blob/master/CONTRIBUTING.md) before making changes.
 
 ## Commands
 ### Economy
