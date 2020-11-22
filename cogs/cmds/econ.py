@@ -577,12 +577,12 @@ class Econ(commands.Cog):
         else:
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
-            if db_item['sticky']:
-                await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
-                return
-
             if db_item is None or amount > db_item['amount']:
                 await self.bot.send(ctx, ctx.l.econ.give.stupid_4)
+                return
+
+            if db_item['sticky']:
+                await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
                 return
 
             if amount < 1:
