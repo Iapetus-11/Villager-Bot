@@ -4,6 +4,7 @@ from typing import Union
 import classyjson as cj
 import discord
 import random
+import ast
 import os
 
 
@@ -46,33 +47,37 @@ class Owner(commands.Cog):
 
     @commands.command(name='eval')
     @commands.is_owner()
-    async def eval_stuff(self, ctx, *, stuff):
+    async def eval_stuff(self, ctx, *, code):
         try:
-            await ctx.send(f'```py\n{eval(stuff)}```')
-        except discord.errors.Forbidden:
-            await ctx.send('Missing permissions (FORBIDDEN)')
-        except Exception as e:
-            raise e
+            code_nice = f'async def eval_code():\n' + '\n'.join(f'    {i}' for i in code.strip(' `py\n ').splitlines())
+            code_parsed = ast.parse(code_nice)
+            code_final = code_parsed.body[0].body
 
-    @commands.command(name='exec')
-    @commands.is_owner()
-    async def exec_stuff(self, ctx, *, stuff):
-        try:
-            await ctx.send(f'```py\n{exec(stuff)}```')
-        except discord.errors.Forbidden:
-            await ctx.send('Missing permissions (FORBIDDEN)')
-        except Exception as e:
-            raise e
+            def insert_returns():
+                if isinstance(code_final[-1], ast.Expr):
+                    code_final[-1] = ast.Return(code_final[-1].value)
+                    ast.fix_missing_locations(code_final[-1])
 
-    @commands.command(name='awaiteval')
-    @commands.is_owner()
-    async def await_eval_stuff(self, ctx, *, stuff):
-        try:
-            await ctx.send(f'```py\n{await eval(stuff)}```')
+                if isinstance(code_final[-1], ast.If):
+                    insert_returns(code_final[-1].body)
+                    insert_returns(code_final[-1].orelse)
+
+                if isinstance(code_final[-1], ast.With):
+                    insert_returns(code_final[-1].body)
+
+            insert_returns()
+
+            env = {**locals(), **globals()}
+
+            exec(compile(code_parsed, filename='<ast>', mode='exec'), env)
+            result = (await eval(f'eval_code()', env))
+
+            await ctx.send(f'```py\n{result}```')
+
         except discord.errors.Forbidden:
             await ctx.send('Missing permissions (FORBIDDEN)')
         except Exception as e:
-            raise e
+            await self.bot.get_cog('Events').debug_error(ctx, e, ctx)
 
     @commands.command(name='gitpull')
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
@@ -210,6 +215,7 @@ class Owner(commands.Cog):
 
         await ctx.send(body)
 
+    """
     @commands.command(name='updatesticky')
     @commands.is_owner()
     async def update_sticky(self, ctx):
@@ -226,6 +232,7 @@ class Owner(commands.Cog):
             await self.db.db.execute('UPDATE items SET sticky = true WHERE name = $1', item)
 
         await ctx.send('done.')
+    """
 
     """
     @commands.command(name='massunban')
