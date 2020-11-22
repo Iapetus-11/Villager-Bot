@@ -978,9 +978,15 @@ class Econ(commands.Cog):
         emeralds = [(r[0], r[1]) for r in await self.db.mass_fetch_balances()]
         emeralds = sorted(emeralds, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(emeralds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+        lb_global = await self.leaderboard_logic(emeralds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald))
+        emeralds_local = [u for u in emeralds if ctx.guild.get_member(u[0])]
+        lb_local = await self.leaderboard_logic(emeralds_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald))
+        embed.add_field(name=ctx.l.econ.lb.local, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global, value=lb_global)
+
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='pillages', aliases=['pil', 'stolen'])
@@ -988,7 +994,10 @@ class Econ(commands.Cog):
         pillages = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('pillages')]
         pillages = sorted(pillages, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(pillages, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+        lb_global = await self.leaderboard_logic(pillages, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+
+        pillages_local = [u for u in pillages if ctx.guild.get_member(u[0])]
+        lb_local = await self.leaderboard_logic(pillages_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         await ctx.send(embed=embed)
