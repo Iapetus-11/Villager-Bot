@@ -1038,12 +1038,17 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name='commands', aliases=['cmds'])
     async def leaderboard_commands(self, ctx):
-        cmds = [(u, self.d.cmd_lb[u]) for u in list(self.d.cmd_lb)]
-        cmds = sorted(cmds, key=(lambda tup: tup[1]), reverse=True)
+        cmds = sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(cmds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
+        lb_global = await self.leaderboard_logic(cmds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_cmds.format(':keyboard:'))
+        cmds_local = [u for u in cmds if ctx.guild.get_member(u[0])]
+        lb_local = await self.leaderboard_logic(cmds_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(':keyboard:'))
+        embed.add_field(name=ctx.l.econ.lb.local, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.local, value=lb_global)
+
         await ctx.send(embed=embed)
 
 
