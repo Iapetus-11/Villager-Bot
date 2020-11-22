@@ -692,8 +692,8 @@
       },
       "lb": {
         "title": "__**Villager Bot Leaderboards**__",
-        "global": "Global",
-        "local": "This Server",
+        "global_lb": "Global",
+        "local_lb": "This Server",
         "emeralds": "Emeralds",
         "stolen": "Emeralds Stolen",
         "kills": "Mobs Killed",

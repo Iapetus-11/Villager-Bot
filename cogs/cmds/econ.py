@@ -984,8 +984,8 @@ class Econ(commands.Cog):
         lb_local = await self.leaderboard_logic(emeralds_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald))
-        embed.add_field(name=ctx.l.econ.lb.local, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
@@ -1000,8 +1000,8 @@ class Econ(commands.Cog):
         lb_local = await self.leaderboard_logic(pillages_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
-        embed.add_field(name=ctx.l.econ.lb.local, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
@@ -1016,8 +1016,8 @@ class Econ(commands.Cog):
         lb_local = await self.leaderboard_logic(kills_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
-        embed.add_field(name=ctx.l.econ.lb.local, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
@@ -1031,8 +1031,8 @@ class Econ(commands.Cog):
         bees_local = [u for u in bees if ctx.guild.get_member(u[0])]
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
-        embed.add_field(name=ctx.l.econ.lb.local, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
@@ -1046,8 +1046,8 @@ class Econ(commands.Cog):
         lb_local = await self.leaderboard_logic(cmds_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(':keyboard:'))
-        embed.add_field(name=ctx.l.econ.lb.local, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.local, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
