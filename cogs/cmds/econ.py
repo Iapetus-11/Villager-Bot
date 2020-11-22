@@ -1026,9 +1026,14 @@ class Econ(commands.Cog):
         bees = [(r['uid'], r['amount']) for r in await self.db.mass_fetch_item('Jar Of Bees')]
         bees = sorted(bees, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(bees, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
+        lb_global = await self.leaderboard_logic(bees, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
+        bees_local = [u for u in bees if ctx.guild.get_member(u[0])]
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
+        embed.add_field(name=ctx.l.econ.lb.local, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global, value=lb_global)
+
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='commands', aliases=['cmds'])
