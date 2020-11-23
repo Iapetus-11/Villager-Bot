@@ -311,7 +311,7 @@ class Minecraft(commands.Cog):
 
         jj = await res.json()
 
-        if not jj or res.status == 204:
+        if not jj or len(jj) < 1 or res.status == 204:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
@@ -319,23 +319,21 @@ class Minecraft(commands.Cog):
 
         await self.bot.send(ctx, f'**{username}**: `{uuid}`')
 
-    @commands.command(name='nametoxuid', aliases=['grabxuid', 'benametoxuid'])
+    @commands.command(name='nametoxuid', aliases=['grabxuid', 'benametoxuid', 'bename'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def name_to_xuid(self, ctx, *, username):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
         with ctx.typing():
-            res = await self.ses.get('https://floodgate-uuid.heathmitchell1.repl.co/uuid', params={'gamertag': username})
+            res = await self.ses.get(f'https://xapi.us/v2/xuid/{urlquote(username)}', headers={'X-AUTH': self.d.xapi_key})
 
-        text = await res.text()
-
-        if 'User not found' in text or 'The UUID of' not in text:
+        if res.status != 200:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
-        xuid = text.split()[-1]
+        xuid = f'{"0"*8}-{"0000-"*3}{hex(int(await res.text())).strip("0x")}'
 
-        await self.bot.send(ctx, f'**{username}**: `{xuid}` / `{xuid[19:].replace("-", "").upper()}`')
+        await self.bot.send(ctx, f'**{username}**: `{xuid}` / `{xuid[20:].replace("-", "").upper()}`')
 
     @commands.command(name='mccolors', aliases=['minecraftcolors', 'chatcolors', 'colorcodes'])
     async def color_codes(self, ctx):

@@ -582,12 +582,12 @@ class Econ(commands.Cog):
         else:
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
-            if db_item['sticky']:
-                await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
-                return
-
             if db_item is None or amount > db_item['amount']:
                 await self.bot.send(ctx, ctx.l.econ.give.stupid_4)
+                return
+
+            if db_item['sticky']:
+                await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
                 return
 
             if amount < 1:
@@ -987,9 +987,15 @@ class Econ(commands.Cog):
         emeralds = [(r[0], r[1]) for r in await self.db.mass_fetch_balances()]
         emeralds = sorted(emeralds, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(emeralds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+        lb_global = await self.leaderboard_logic(emeralds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald))
+        emeralds_local = [u for u in emeralds if ctx.guild.get_member(u[0])]
+        lb_local = await self.leaderboard_logic(emeralds_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='pillages', aliases=['pil', 'stolen'])
@@ -997,9 +1003,15 @@ class Econ(commands.Cog):
         pillages = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('pillages')]
         pillages = sorted(pillages, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(pillages, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+        lb_global = await self.leaderboard_logic(pillages, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
+        pillages_local = [u for u in pillages if ctx.guild.get_member(u[0])]
+        lb_local = await self.leaderboard_logic(pillages_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='mobkills', aliases=['kil', 'kills', 'kill', 'bonk'])
@@ -1007,9 +1019,15 @@ class Econ(commands.Cog):
         kills = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('mobs_killed')]
         kills = sorted(kills, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(kills, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
+        lb_global = await self.leaderboard_logic(kills, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
+        kills_local = [u for u in kills if ctx.guild.get_member(u[0])]
+        lb_local = await self.leaderboard_logic(kills_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='bees', aliases=['jarofbees', 'jarsofbees'])
@@ -1017,19 +1035,30 @@ class Econ(commands.Cog):
         bees = [(r['uid'], r['amount']) for r in await self.db.mass_fetch_item('Jar Of Bees')]
         bees = sorted(bees, key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(bees, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
+        lb_global = await self.leaderboard_logic(bees, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
+        bees_local = [u for u in bees if ctx.guild.get_member(u[0])]
+        lb_local = await self.leaderboard_logic(bees_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='commands', aliases=['cmds'])
     async def leaderboard_commands(self, ctx):
-        cmds = [(u, self.d.cmd_lb[u]) for u in list(self.d.cmd_lb)]
-        cmds = sorted(cmds, key=(lambda tup: tup[1]), reverse=True)
+        cmds = sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True)
 
-        lb = await self.leaderboard_logic(cmds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
+        lb_global = await self.leaderboard_logic(cmds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
 
-        embed = discord.Embed(color=self.d.cc, description=lb, title=ctx.l.econ.lb.lb_cmds.format(':keyboard:'))
+        cmds_local = [u for u in cmds if ctx.guild.get_member(u[0])]
+        lb_local = await self.leaderboard_logic(cmds_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(':keyboard:'))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
         await ctx.send(embed=embed)
 
 
