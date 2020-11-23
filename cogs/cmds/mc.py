@@ -331,6 +331,8 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
+        print(await res.text())
+
         xuid = await res.json()
 
         await self.bot.send(ctx, f'**{username}**: `{xuid}` / `{xuid[19:].replace("-", "").upper()}`')
