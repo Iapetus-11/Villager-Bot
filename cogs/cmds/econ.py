@@ -90,7 +90,7 @@ class Econ(commands.Cog):
         health_bar = make_health_bar(db_user['health'], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty)
 
         vote_streak = db_user['vote_streak']
-        voted_today = arrow.utcnow().shift(days=-1) > arrow.get(db_user['streak_time'])
+        voted_today = arrow.utcnow().shift(days=-1) < arrow.get(db_user['streak_time'])
 
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
