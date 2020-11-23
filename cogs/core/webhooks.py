@@ -108,7 +108,7 @@ class Webhooks(commands.Cog):
 
         amount *= vote_streak_extra
 
-        await self.db.update_user(uid, 'last_vote', arrow.utcnow().timestamp)
+        await self.db.update_user(uid, 'streak_time', arrow.utcnow().timestamp)
         await self.db.update_user(uid, 'vote_streak', vote_streak+1)
 
         await self.reward(uid, amount)
