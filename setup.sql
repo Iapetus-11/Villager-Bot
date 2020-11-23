@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS mcservers ( -- used in /randommc command
   owner_id bigint, -- discord owner id of the server
   host     varchar(100), -- hostname/ip/address of server
   link     varchar(250) -- learn more link
-)
+);
 
 -- CREATE TABLE IF NOT EXISTS mc_servers( -- used for the !!randommc command
 --   owner_id bigint, -- discord user id of the owner
