@@ -103,7 +103,7 @@ class Econ(commands.Cog):
         vote_streak = db_user['vote_streak']
         embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak if vote_streak else 0))
         voted_today = arrow.utcnow().shift(days=-1) > arrow.get(db_user['streak_time'])
-        embed.add_field(name=ctx.l.econ.pp.voted, value=voted_today*ctx.l.econ.pp.yep+ctx.l.econ.pp.nope*voted_today)
+        embed.add_field(name=ctx.l.econ.pp.voted, value=voted_today*ctx.l.econ.pp.yep+ctx.l.econ.pp.nope*(not voted_today))
 
         await ctx.send(embed=embed)
 
