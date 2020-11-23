@@ -506,7 +506,9 @@
         "pick": "Pickaxe",
         "sword": "Sword",
         "streak": "Streak",
-        "vote": "Voted Today"
+        "voted": "Voted Today",
+        "yep": "Yep!",
+        "nope": "Nope..."
       },
       "bal": {
         "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
