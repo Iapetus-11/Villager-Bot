@@ -325,15 +325,13 @@ class Minecraft(commands.Cog):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
         with ctx.typing():
-            res = await self.ses.get('https://floodgate-uuid.heathmitchell1.repl.co/uuid', params={'gamertag': username})
+            res = await self.ses.get(f'https://xapi.us/v2/xuid/{urlquote(username)}', headers={'X-AUTH': self.d.xapi_key})
 
-        text = await res.text()
-
-        if 'User not found' in text or 'The UUID of' not in text:
+        if res.status != 200:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
-        xuid = text.split()[-1]
+        xuid = await res.json()
 
         await self.bot.send(ctx, f'**{username}**: `{xuid}` / `{xuid[19:].replace("-", "").upper()}`')
 
