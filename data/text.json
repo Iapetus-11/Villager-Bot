@@ -502,7 +502,11 @@
         "bot_1": "Hey dumb dumb, Villager Bot has wayy to much stuff to show here.",
         "bot_2": "Hey dumb dumb, bots don't have rights and therefore can't have items or emeralds.",
         "total_wealth": "Total Wealth",
-        "cmds_sent": "Commands Sent"
+        "cmds_sent": "Commands Sent",
+        "pick": "Pickaxe",
+        "sword": "Sword",
+        "streak": "Streak",
+        "vote": "Voted Today"
       },
       "bal": {
         "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
