@@ -96,13 +96,13 @@ class Econ(commands.Cog):
         embed.add_field(name='\uFEFF', value='\uFEFF')
         embed.add_field(name=ctx.l.econ.pp.cmds_sent, value=self.d.cmd_lb.get(user.id, 0))
 
-        embed.add_field(name='Pickaxe', value=(await self.db.fetch_pickaxe(user.id)))
+        embed.add_field(name=ctx.l.econ.pp.pick, value=(await self.db.fetch_pickaxe(user.id)))
         embed.add_field(name='\uFEFF', value='\uFEFF')
-        embed.add_field(name='Sword', value=(await self.db.fetch_sword(user.id)))
+        embed.add_field(name=ctx.l.econ.pp.sword, value=(await self.db.fetch_sword(user.id)))
 
-        embed.add_field(name='Vote Streak', value=db_user['vote_streak'])
+        embed.add_field(name=ctx.l.econ.pp.streak, value=db_user['vote_streak'])
         voted_today = arrow.utcnow().shift(days=-1) > arrow.get(db_user['streak_time'])
-        embed.add_field(name='Voted Today', value=voted_today*'Yep!'+'Nope...'*voted_today)
+        embed.add_field(name=ctx.l.econ.pp.voted, value=voted_today*ctx.l.econ.pp.yep+ctx.l.econ.pp.nope*voted_today)
 
         await ctx.send(embed=embed)
 
