@@ -81,7 +81,7 @@ class Webhooks(commands.Cog):
 
         uid = int(data.user)
 
-        self.bot.logger.info(f'\u001b[32;1m{uid} voted on top.gg\u001b[0m DEBUG/TESTING: {data}')
+        self.bot.logger.info(f'\u001b[32;1m{uid} voted on top.gg\u001b[0m')
         self.d.votes_topgg += 1
 
         amount = self.d.topgg_reward * self.d.base_multi
