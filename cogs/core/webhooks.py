@@ -102,7 +102,7 @@ class Webhooks(commands.Cog):
         if arrow.utcnow().shift(days=-1) > arrow.get(streak_time):  # vote expired
             vote_streak = 0
 
-        vote_streak_extra = int((5 if vote_streak > 5 else vote_streak)/2)
+        vote_streak_extra = (5 if vote_streak > 5 else vote_streak)
         if vote_streak_extra < 1:
             vote_streak_extra = 1
 
