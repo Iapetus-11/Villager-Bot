@@ -319,7 +319,7 @@ class Minecraft(commands.Cog):
 
         await self.bot.send(ctx, f'**{username}**: `{uuid}`')
 
-    @commands.command(name='nametoxuid', aliases=['grabxuid', 'benametoxuid'])
+    @commands.command(name='nametoxuid', aliases=['grabxuid', 'benametoxuid', 'bename'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def name_to_xuid(self, ctx, *, username):
         """Turns a Minecraft BE username/gamertag into an xuid"""
