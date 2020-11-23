@@ -1048,7 +1048,7 @@ class Econ(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(':keyboard:'))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
