@@ -379,11 +379,11 @@
       "main": {
         "title": "Villager Bot Settings",
         "guild_content": [
-          "Change the server prefix - `{0}config prefix <newprefix>`\n\n",
-          "Change if bot should respond to messages like \"emeralds\" - `{0}config replies <on/off>`\n\n",
-          "Changes the difficulty of the game - `{0}config difficulty <peaceful/easy/hard>`\n\n",
-          "Changes the language of Villager Bot - `{0}config lang <language>`\n\n",
-          "Changes the server that is pinged if you don't specify a server in `/mcping` - `{0}config mcserver <mcserver>`"
+          "`{0}config prefix <newprefix>` - Change the server prefix\n\n",
+          "`{0}config replies <on/off>` - Change if bot should respond to messages like \"emeralds\"\n\n",
+          "`{0}config difficulty <peaceful/easy/hard>` - Changes the difficulty of the game\n\n",
+          "`{0}config lang <language>` - Changes the language of Villager Bot\n\n",
+          "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`"
         ],
         "guild_conf": "Server/Guild Configuration"
       },
