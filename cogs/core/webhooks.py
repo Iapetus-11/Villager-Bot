@@ -92,9 +92,6 @@ class Webhooks(commands.Cog):
 
         await self.reward(uid, amount)
 
-        db_user = await self.db.fetch_user(uid)
-        await self.db.update_user(uid, 'topgg_votes', db_user['topgg_votes']+1)
-
 
 def setup(bot):
     bot.add_cog(Webhooks(bot))
