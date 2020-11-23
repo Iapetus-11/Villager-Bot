@@ -89,6 +89,9 @@ class Econ(commands.Cog):
         total_wealth = db_user['emeralds'] + db_user.get('vault_bal', 0) * 9 + sum([u_it.get('sell_price', 0) * u_it.get('amount', 0) for u_it in u_items])
         health_bar = make_health_bar(db_user['health'], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty)
 
+        vote_streak = db_user['vote_streak']
+        voted_today = arrow.utcnow().shift(days=-1) > arrow.get(db_user['streak_time'])
+
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
 
@@ -96,14 +99,13 @@ class Econ(commands.Cog):
         embed.add_field(name='\uFEFF', value='\uFEFF')
         embed.add_field(name=ctx.l.econ.pp.cmds_sent, value=self.d.cmd_lb.get(user.id, 0))
 
+        embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak if vote_streak else 0))
+        embed.add_field(name='\uFEFF', value='\uFEFF')
+        embed.add_field(name=ctx.l.econ.pp.voted, value=voted_today*ctx.l.econ.pp.yep+ctx.l.econ.pp.nope*(not voted_today))
+
         embed.add_field(name=ctx.l.econ.pp.pick, value=(await self.db.fetch_pickaxe(user.id)))
         embed.add_field(name='\uFEFF', value='\uFEFF')
         embed.add_field(name=ctx.l.econ.pp.sword, value=(await self.db.fetch_sword(user.id)))
-
-        vote_streak = db_user['vote_streak']
-        embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak if vote_streak else 0))
-        voted_today = arrow.utcnow().shift(days=-1) > arrow.get(db_user['streak_time'])
-        embed.add_field(name=ctx.l.econ.pp.voted, value=voted_today*ctx.l.econ.pp.yep+ctx.l.econ.pp.nope*(not voted_today))
 
         await ctx.send(embed=embed)
 
