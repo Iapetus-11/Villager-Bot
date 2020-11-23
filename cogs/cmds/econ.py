@@ -100,6 +100,10 @@ class Econ(commands.Cog):
         embed.add_field(name='\uFEFF', value='\uFEFF')
         embed.add_field(name='Sword', value=(await self.db.fetch_sword(user.id)))
 
+        embed.add_field(name='Vote Streak', value=db_user['vote_streak'])
+        voted_today = arrow.utcnow().shift(days=-1) > arrow.get(db_user['streak_time'])
+        embed.add_field(name='Voted Today', value=voted_today*'Yep!'+'Nope...'*voted_today)
+
         await ctx.send(embed=embed)
 
     @commands.command(name='balance', aliases=['bal', 'vault'])
