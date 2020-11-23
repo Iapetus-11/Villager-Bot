@@ -311,7 +311,7 @@ class Minecraft(commands.Cog):
 
         jj = await res.json()
 
-        if not jj or res.status == 204:
+        if not jj or len(jj) < 1 or res.status == 204:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
