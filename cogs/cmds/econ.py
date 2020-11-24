@@ -1060,6 +1060,22 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @leaderboards.command(name='votes', aliases=['votestreaks', 'votestreak'])
+    async def leaderboard_votes(self, ctx):
+        vote_streaks = [(r['uid'], r['vote_streak']) for r in await self.db.mass_fetch_votestreaks())]
+        vote_streaks = sorted(vote_streaks, key=(lambda tup: tup[1]), reverse=True)
+
+        lb_global = await self.leaderboard_logic(vote_streaks, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':fire:'))
+
+        vote_streaks_local = [u for u in vote_streaks if ctx.guild.get_member(u[0])]
+        lb_local = await self.leaderboard_logic(vote_streaks_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':fire:'))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(':fire:'))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
+        await ctx.send(embed=embed)
+        
 
 def setup(bot):
     bot.add_cog(Econ(bot))
