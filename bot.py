@@ -117,6 +117,7 @@ bot.d.topgg_hooks_auth = keys.topgg_webhook
 bot.d.topgg_post_auth = keys.topgg
 bot.d.google_keys = keys.googl
 bot.d.xapi_key = keys.xapi_key
+bot.d.statcord_key = keys.statcord_key
 
 bot.d.votes_topgg = 0
 bot.d.cmd_count = 0
