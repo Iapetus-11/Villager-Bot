@@ -946,6 +946,7 @@ class Econ(commands.Cog):
             embed.add_field(name=ctx.l.econ.lb.kills, value=f'`{ctx.prefix}leaderboard mobkills`', inline=False)
             embed.add_field(name=ctx.l.econ.lb.bees, value=f'`{ctx.prefix}leaderboard bees`', inline=False)
             embed.add_field(name=ctx.l.econ.lb.cmds, value=f'`{ctx.prefix}leaderboard commands`', inline=False)
+            embed.add_field(name=ctx.l.econ.lb.votes, value=f'`{ctx.prefix}leaderboard votes`', inline=False)
 
             await ctx.send(embed=embed)
 
