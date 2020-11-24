@@ -73,7 +73,6 @@ class Econ(commands.Cog):
 
     @commands.command(name='profile', aliases=['pp'])
     async def profile(self, ctx, *, user: discord.User = None):
-
         if user is None:
             user = ctx.author
 
@@ -111,15 +110,11 @@ class Econ(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='balance', aliases=['bal', 'vault'])
-    async def balance(self, ctx, *user):
+    async def balance(self, ctx, *, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
-        user = ' '.join(user)
-        converter = MemberConverter()
-        if user == "":
-            user = ctx.author
-        else:
-            user = await converter.convert(ctx, user)
 
+        if user is None:
+            user = ctx.author
 
         if user.bot:
             if user.id == self.bot.user.id:
@@ -754,10 +749,7 @@ class Econ(commands.Cog):
     @commands.command(name='pillage')
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
-    async def pillage(self, ctx, *, victim: discord.User = None):
-
-        if victim is None:
-            victim = ctx.author
+    async def pillage(self, ctx, victim: discord.User):
 
         if victim.bot:
             if victim.id == self.bot.user.id:
@@ -1071,4 +1063,3 @@ class Econ(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Econ(bot))
-
