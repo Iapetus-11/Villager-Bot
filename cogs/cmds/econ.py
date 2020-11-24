@@ -546,19 +546,20 @@ class Econ(commands.Cog):
             return
 
         amount_item = amount_item.lower()
-
         try:
             # to be given is emeralds
             amount = int(amount_item)
             item = 'emerald'
         except Exception:
             split = amount_item.split(' ')
-
             try:
-                amount = int(split.pop(0))
+                temp_split = split[:]
+                amount = int(temp_split.pop(0))
+                split = temp_split
+
             except Exception:
                 amount = 1
-
+                
             item = ' '.join(split)
 
         if amount < 1:
