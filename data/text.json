@@ -723,7 +723,7 @@
         "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
         "lb_bee": "{0}__**Total Bees Leaderboard**__{0}",
         "lb_cmds": "{0}__**Commands Sent Leaderboard**__{0}",
-        "lb_votes": "{0}__**Vote Streak Leaderboard**__{0}",
+        "lb_votes": "{0}__**Vote Streak Leaderboard**__{0}"
       }
     }
   }
