@@ -1062,7 +1062,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name='votes', aliases=['votestreaks', 'votestreak'])
     async def leaderboard_votes(self, ctx):
-        vote_streaks = [(r['uid'], r['vote_streak']) for r in await self.db.mass_fetch_votestreaks())]
+        vote_streaks = [(r['uid'], r['vote_streak']) for r in await self.db.mass_fetch_votestreaks()]
         vote_streaks = sorted(vote_streaks, key=(lambda tup: tup[1]), reverse=True)
 
         lb_global = await self.leaderboard_logic(vote_streaks, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':fire:'))
@@ -1075,7 +1075,7 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
-        
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
