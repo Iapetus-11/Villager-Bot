@@ -1065,12 +1065,12 @@ class Econ(commands.Cog):
         vote_streaks = [(r['uid'], r['vote_streak']) for r in await self.db.mass_fetch_votestreaks()]
         vote_streaks = sorted(vote_streaks, key=(lambda tup: tup[1]), reverse=True)
 
-        lb_global = await self.leaderboard_logic(vote_streaks, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':fire:'))
+        lb_global = await self.leaderboard_logic(vote_streaks, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.updoot))
 
         vote_streaks_local = [u for u in vote_streaks if ctx.guild.get_member(u[0])]
-        lb_local = await self.leaderboard_logic(vote_streaks_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':fire:'))
+        lb_local = await self.leaderboard_logic(vote_streaks_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.updoot))
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(self.d.emojis.updoot))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(':fire:'))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
