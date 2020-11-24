@@ -131,7 +131,6 @@ class Useful(commands.Cog):
         elif 'shing' in content or 'shling' in content:
             pp = 'Schlong'
         elif 'schlong' in content:
-            print(1)
             await self.bot.send(ctx, f'{self.d.emojis.aniheart} Magnum Dong! \uFEFF `69.00 ms`')
             return
 
