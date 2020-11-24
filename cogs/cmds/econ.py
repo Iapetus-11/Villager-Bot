@@ -649,9 +649,9 @@ class Econ(commands.Cog):
         else:
             await self.bot.send(ctx, ctx.l.econ.gamble.tie)
 
-    @commands.command(name='beg', aliases=['search'])
+    @commands.command(name='search', aliases=['beg'])
     @commands.cooldown(1, 30*60, commands.BucketType.user)
-    async def beg(self, ctx):
+    async def search(self, ctx):
         """Beg for emeralds"""
 
         db_user = await self.db.fetch_user(ctx.author.id)
