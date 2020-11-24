@@ -120,6 +120,9 @@ class Database(commands.Cog):
     async def mass_fetch_balances(self):
         return await self.db.fetch('SELECT uid, emeralds FROM users')
 
+    async def mass_fetch_votestreaks(self):
+        return await self.db.fetch('SELECT uid, vote_streak FROM users')
+
     async def set_balance(self, uid, emeralds):
         await self.fetch_user(uid)
         async with self.db.acquire() as con:
