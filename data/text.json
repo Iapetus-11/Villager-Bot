@@ -304,6 +304,7 @@
         "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
         "title_offline": "{} no server found at `{}`",
         "title_online": "{} `{}` is online",
+        "title_plain": "{} `{}`",
         "latency": "Latency/Ping",
         "version": "Version",
         "field_online_players": {
