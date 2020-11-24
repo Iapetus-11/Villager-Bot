@@ -71,6 +71,11 @@ class Econ(commands.Cog):
 
         return True
 
+    @commands.command(name='howenchant', aliases=['howtoenchant', 'enchanthow'])
+    async def howenchant(self, stx):
+        embed = discord.Embed(color=self.d.cc, description="Enchantments are applied automatically as long as they are in your inventory, if there are multiple of the same type of an enchantment, the highest one is used")
+        ctx.send(embed=embed)
+        
     @commands.command(name='profile', aliases=['pp'])
     async def profile(self, ctx, *, user: discord.User = None):
         if user is None:
