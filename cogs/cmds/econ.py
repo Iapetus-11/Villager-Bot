@@ -979,7 +979,7 @@ class Econ(commands.Cog):
         if u_place > 9:
             body += '\n⋮' + rank_fstr.format(u_place, origin_value, discord.utils.escape_markdown(self.bot.get_user(origin_uid).display_name))
 
-        return body
+        return '\uFEFF' + body
 
     @leaderboards.command(name='emeralds', aliases=['ems'])
     async def leaderboard_emeralds(self, ctx):
