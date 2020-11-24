@@ -553,13 +553,13 @@ class Econ(commands.Cog):
         except Exception:
             split = amount_item.split(' ')
             try:
-                temp_split = split[:]
+                temp_split = split.copy()
                 amount = int(temp_split.pop(0))
                 split = temp_split
 
             except Exception:
                 amount = 1
-                
+
             item = ' '.join(split)
 
         if amount < 1:
