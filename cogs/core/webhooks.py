@@ -58,7 +58,7 @@ class Webhooks(commands.Cog):
         self.webhook_server = web.TCPSite(self.server_runner, '0.0.0.0', self.d.hooksport)
         await self.webhook_server.start()
 
-    async def reward(self, user_id, amount):
+    async def reward(self, user_id, amount, streak=None):
         await self.db.balance_add(user_id, amount)
 
         user = self.bot.get_user(user_id)
@@ -68,7 +68,10 @@ class Webhooks(commands.Cog):
 
         if user is not None:
             try:
-                await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
+                if streak is None:
+                    await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
+                else:
+                    await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}! (Vote streak is now {streak})')
             except Exception:
                 pass
 
@@ -111,7 +114,7 @@ class Webhooks(commands.Cog):
         await self.db.update_user(uid, 'streak_time', arrow.utcnow().timestamp)
         await self.db.update_user(uid, 'vote_streak', vote_streak+1)
 
-        await self.reward(uid, amount)
+        await self.reward(uid, amount, vote_streak+1)
 
 
 def setup(bot):
