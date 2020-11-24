@@ -1070,7 +1070,7 @@ class Econ(commands.Cog):
         vote_streaks_local = [u for u in vote_streaks if ctx.guild.get_member(u[0])]
         lb_local = await self.leaderboard_logic(vote_streaks_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':fire:'))
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(':fire:'))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(self.d.emojis.updoot))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
