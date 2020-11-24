@@ -31,7 +31,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * `/withdraw <emerald blocks>` *withdraw emeralds from the vault*
 * `/give <user> <amount> <item>` *give another user an item or emeralds*
 * `/mine` *mine for emeralds*
-* `/beg` *beg for emeralds*
+* `/search` *search for emeralds*
 * `/honey` *harvest honey from the bees you own*
 * `/gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*
 * `/pillage <user>` *pillage emeralds from another user*

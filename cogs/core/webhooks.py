@@ -4,6 +4,7 @@ import classyjson as cj
 import aiohttp  # ~~aiohttp makes me ****~~
 import asyncio
 import discord
+import arrow
 
 
 class Webhooks(commands.Cog):
@@ -80,7 +81,7 @@ class Webhooks(commands.Cog):
 
         uid = int(data.user)
 
-        self.bot.logger.info(f'\u001b[32;1m{uid} voted on top.gg\u001b[0m DEBUG/TESTING: {data}')
+        self.bot.logger.info(f'\u001b[32;1m{uid} voted on top.gg\u001b[0m')
         self.d.votes_topgg += 1
 
         amount = self.d.topgg_reward * self.d.base_multi
@@ -90,10 +91,27 @@ class Webhooks(commands.Cog):
 
         amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(int(data.user)))
 
-        await self.reward(uid, amount)
-
         db_user = await self.db.fetch_user(uid)
-        await self.db.update_user(uid, 'topgg_votes', db_user['topgg_votes']+1)
+
+        streak_time = db_user['streak_time']
+        vote_streak = db_user['vote_streak']
+
+        if streak_time is None:  # time
+            streak_time = 0
+
+        if arrow.utcnow().shift(days=-1) > arrow.get(streak_time):  # vote expired
+            vote_streak = 0
+
+        vote_streak_extra = (5 if vote_streak > 5 else vote_streak)
+        if vote_streak_extra < 1:
+            vote_streak_extra = 1
+
+        amount *= vote_streak_extra
+
+        await self.db.update_user(uid, 'streak_time', arrow.utcnow().timestamp)
+        await self.db.update_user(uid, 'vote_streak', vote_streak+1)
+
+        await self.reward(uid, amount)
 
 
 def setup(bot):

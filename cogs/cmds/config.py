@@ -10,7 +10,7 @@ class Config(commands.Cog):
 
         self.db = self.bot.get_cog('Database')
 
-    @commands.group(name='config', aliases=['settings', 'conf'])
+    @commands.group(name='config', aliases=['settings', 'conf', 'gamerule'])
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 5, commands.BucketType.user)

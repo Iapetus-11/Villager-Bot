@@ -14,8 +14,9 @@ CREATE TABLE IF NOT EXISTS users (
   vault_bal     int, -- amount of emerald BLOCKS which are currently in the vault
   vault_max     int, -- maximum amount of emerald BLOCKS which can be stored in the vault
   health        int, -- user health, out of 20
-  topgg_votes   int, -- votes on top.gg
-  bot_banned    bool -- is banned from using the bot
+  bot_banned    bool, -- is banned from using the bot
+  vote_streak   int,
+  streak_time   bigint
 );
 
 CREATE TABLE IF NOT EXISTS items (
@@ -51,7 +52,7 @@ CREATE TABLE IF NOT EXISTS mcservers ( -- used in /randommc command
   owner_id bigint, -- discord owner id of the server
   host     varchar(100), -- hostname/ip/address of server
   link     varchar(250) -- learn more link
-)
+);
 
 -- CREATE TABLE IF NOT EXISTS mc_servers( -- used for the !!randommc command
 --   owner_id bigint, -- discord user id of the owner

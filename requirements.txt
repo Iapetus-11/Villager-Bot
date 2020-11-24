@@ -10,3 +10,4 @@ discord.py
 numpy
 opencv-python
 psutil
+statcord.py

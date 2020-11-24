@@ -194,7 +194,7 @@ class Minecraft(commands.Cog):
 
         players_online = jj['players_online']  # int@
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, combined))
 
         if s[1] is not None:
             embed.description = ctx.l.minecraft.mcping.learn_more.format(s[1])

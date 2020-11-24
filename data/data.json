@@ -429,15 +429,14 @@
     "{0} was smited by Villager Bot"
   ],
   "hmms": [
-    "ehhrrrh'hhhdhrmhmhrrrh shrmhmrgghmhrmhmhhhhrmhmhrrrhhhhghhhhhrrrhegh hhhdhrmhmhrrrhehhrrrhhhhhrmhmhrrrhhhhghhhhhrrrhegh hhhhrrrhhhhghhhhhrmhmghhrrrh hhrrrhmmhrrrhehhhhhrrrhmmhhrrrhmmhrrrhehhhhrrrhhhhhrrrhhrmhmhhhhhrrrhhhrrrhmmghhhdhrmhmhrrrhshrmhmrgghm",
-    "hurrhrmhmhhrrrhmmhhrrrhmmhurr hhrrrhmmhrrrhehhhhhrrrhmmhhrrrhmmhrrrhehhhhrrrhhhhhrrrhhrmhmhhhhhrrrhhhrrrhmmghhhdhrmhmhrrrhshrmhmrgghm",
-    "ehhrrrh hhrrrhmmhrrrhehhhhhhhrrrhhrmhmhhhehrrg shrmhmrgghmhhrrrhmmhhhhrrrhhrmhmhhhhhrrrhhhrrrhmmghhrrrhhhrrrhmmg hhhhrmhmhrrrhhhhghhhhhhehhrrrhhhrrrhhhrrrhmmghhhdhrmhmhrrrhhrrrhhhrrrhmmhrrrhehhhhmeh",
-    "hrmhmhwurghhrmhm hhhdhrmhmhrrrhhhhhrrrhhrmhmhhhhhhdhrmhmhrrrhhhhdhrmhmhrrrhhurr hhhhrmhmhrrrhhhhghhhhrmhmhhrrrhmm ehhrrrhhmeh hhrrrhmmhhrrrhmmhrrrhehhh",
     "hrmmmmmmmmm",
     "hrmmm",
     "hrmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
     "hmrmrmmhhhhhmmmmmmm",
-    "hhrrrhmmhrrrhehhhhrmhmhmeh hhrmhmghhwurghhmehshrmhmrgghm hhrrrhmmhhrrrhmmhrrrhehhh"
+    "hhrrrhmmhrrrhehhhhrmhmhmeh hhrmhmghhwurghhmehshrmhmrgghm hhrrrhmmhhrrrhmmhrrrhehhh",
+    "hrmhmhwurghhrmhm hhrmhmghhwurghhhrmhmgh hrmhmhwurghhrmhm",
+    "hrrrmehhrrrhhhrrrhhhrrrhmmghhrrrhhhrrrhmmghhhhrrrhhrmhmhhhhhhghhrrrhmmhrrrhehhhhrrrh hhhhrmhmhrrrhhhrmhmghehrrg hhhhrmhmhrrrhhhrrrhmmhrrrhehhhshrmhmrgghmehrrg hhhhrmhmhrrrhhhrmhmghehrrg",
+    "hhhhrmhmhrrrhhhhghhhhhhhhrmhmghhhrrrheghhhrrrhmmhrrrhehhhhhhdhrmhmhrrrh hhrmhmghhmeh hhhdhrmhmhrrrhhhrmhmghhrrrhehhrrrhehrrghhrmhmgh"
   ],
   "mobs_mech": {
     "valid_attacks": [
@@ -447,7 +446,8 @@
       "atk",
       "kill",
       "kil",
-      "atack"
+      "atack",
+      "bonk"
     ],
     "valid_flees": [
       "flee",

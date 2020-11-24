@@ -66,7 +66,7 @@
   .comment-username {
   	color: black !important;
   }
-  
+
   .bot-description {
   	color: black !important;
   }
@@ -91,11 +91,11 @@
   .btn-like span {
   	color: black !important;
   }
-  
+
   .text-secondary {
   	color: black !important;
   }
-  
+
   .bot-tags-title {
   	color: black !important;
   }
@@ -125,7 +125,7 @@
 * `/withdraw <emerald blocks>` *withdraw emeralds from the vault*
 * `/give <user> <amount> <item>` *give another user an item or emeralds*
 * `/mine` *mine for emeralds*
-* `/beg` *beg for emeralds*
+* `/search` *beg for emeralds*
 * `/honey` *harvest honey from the bees you own*
 * `/gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*
 * `/pillage <user>` *pillage emeralds from another user*
