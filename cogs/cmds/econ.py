@@ -750,7 +750,6 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
-
         if victim.bot:
             if victim.id == self.bot.user.id:
                 await self.bot.send(ctx, ctx.l.econ.pillage.bot_1)
