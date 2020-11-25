@@ -984,8 +984,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name='emeralds', aliases=['ems'])
     async def leaderboard_emeralds(self, ctx):
-        emeralds = [(r[0], r[1]) for r in await self.db.mass_fetch_balances()]
-        emeralds = sorted(emeralds, key=(lambda tup: tup[1]), reverse=True)
+        emeralds = sorted((await self.db.mass_fetch_balances()), key=(lambda tup: tup[1]), reverse=True)
 
         lb_global = await self.leaderboard_logic(emeralds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
@@ -1000,8 +999,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name='pillages', aliases=['pil', 'stolen'])
     async def leaderboard_pillages(self, ctx):
-        pillages = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('pillages')]
-        pillages = sorted(pillages, key=(lambda tup: tup[1]), reverse=True)
+        pillages = sorted((await self.db.mass_fetch_leaderboard('pillages')), key=(lambda tup: tup[1]), reverse=True)
 
         lb_global = await self.leaderboard_logic(pillages, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
@@ -1016,8 +1014,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name='mobkills', aliases=['kil', 'kills', 'kill', 'bonk'])
     async def leaderboard_mobkills(self, ctx):
-        kills = [(r[0], r[1]) for r in await self.db.mass_fetch_leaderboard('mobs_killed')]
-        kills = sorted(kills, key=(lambda tup: tup[1]), reverse=True)
+        kills = sorted((await self.db.mass_fetch_leaderboard('mobs_killed')), key=(lambda tup: tup[1]), reverse=True)
 
         lb_global = await self.leaderboard_logic(kills, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
 
@@ -1063,8 +1060,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name='votes', aliases=['votestreaks', 'votestreak'])
     async def leaderboard_votes(self, ctx):
-        vote_streaks = [(r['uid'], r['vote_streak']) for r in await self.db.mass_fetch_votestreaks()]
-        vote_streaks = sorted(vote_streaks, key=(lambda tup: tup[1]), reverse=True)
+        vote_streaks = sorted(await self.db.mass_fetch_votestreaks(), key=(lambda tup: tup[1]), reverse=True)
 
         lb_global = await self.leaderboard_logic(vote_streaks, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.updoot))
 
