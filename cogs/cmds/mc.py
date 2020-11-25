@@ -121,7 +121,7 @@ class Minecraft(commands.Cog):
             combined = f'{host}{port_str}'
 
         with ctx.typing():
-            async with self.ses.get(f'https://api.iapetus11.xyz/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.me/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -165,10 +165,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://api.iapetus11.xyz/mc/servercard/{combined}?v={random.random()*100000}')
+        embed.set_image(url=f'https://api.iapetus11.me/mc/servercard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://api.iapetus11.xyz/mc/serverfavicon/{combined}')
+            embed.set_thumbnail(url=f'https://api.iapetus11.me/mc/serverfavicon/{combined}')
 
         await ctx.send(embed=embed)
 
@@ -181,7 +181,7 @@ class Minecraft(commands.Cog):
         combined = s[0]
 
         with ctx.typing():
-            async with self.ses.get(f'https://api.iapetus11.xyz/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.me/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -228,10 +228,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://api.iapetus11.xyz/mc/servercard/{combined}?v={random.random()*100000}')
+        embed.set_image(url=f'https://api.iapetus11.me/mc/servercard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://api.iapetus11.xyz/mc/serverfavicon/{combined}')
+            embed.set_thumbnail(url=f'https://api.iapetus11.me/mc/serverfavicon/{combined}')
 
         await ctx.send(embed=embed)
 
@@ -276,7 +276,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='achievement', aliases=['mcachieve'])
     async def minecraft_achievement(self, ctx, *, text):
         embed = discord.Embed(color=self.d.cc)
-        embed.set_image(url=f'https://api.iapetus11.xyz/mc/achievement/{urlquote(text[:26])}')
+        embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}')
         await ctx.send(embed=embed)
 
     @commands.command(name='uuidtoname', aliases=['uuidtousername', 'uuid2name'])
