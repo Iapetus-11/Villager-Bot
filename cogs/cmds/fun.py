@@ -49,7 +49,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while meme['spoiler'] or (not do_nsfw and meme['nsfw']):
                 resp = await self.ses.get(
-                    'https://api.iapetus11.xyz/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
+                    'https://api.iapetus11.me/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 meme = cj.classify(await resp.json())
@@ -74,7 +74,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while not do_nsfw and jj['nsfw']:
                 resp = await self.ses.get(
-                    'https://api.iapetus11.xyz/reddit/gimme/4chan+greentext',
+                    'https://api.iapetus11.me/reddit/gimme/4chan+greentext',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 jj = await resp.json()
@@ -98,7 +98,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while not do_nsfw and jj['nsfw']:
                 resp = await self.ses.get(
-                    'https://api.iapetus11.xyz/reddit/gimme/comics',
+                    'https://api.iapetus11.me/reddit/gimme/comics',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 jj = await resp.json()
@@ -117,7 +117,7 @@ class Fun(commands.Cog):
             async with ctx.typing():
                 while jj['nsfw']:
                     resp = await self.ses.get(
-                        'https://api.iapetus11.xyz/reddit/gimme/CursedMinecraft',
+                        'https://api.iapetus11.me/reddit/gimme/CursedMinecraft',
                         headers={'Authorization': self.d.vb_api_key}
                     )
                     jj = await resp.json()
@@ -128,7 +128,7 @@ class Fun(commands.Cog):
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(color=self.d.cc)
-            embed.set_image(url=f'https://iapetus11.xyz/images/cursed_minecraft/{random.choice(self.d.cursed_images)}')
+            embed.set_image(url=f'https://iapetus11.me/images/cursed_minecraft/{random.choice(self.d.cursed_images)}')
 
             await ctx.send(embed=embed)
 
