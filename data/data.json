@@ -14,7 +14,6 @@
   "topgg_reward": 32,
   "base_multi": 1,
   "weekend_multi": 2,
-  "base_url": "https://home.betterapi.net",
   "acceptable_prefix_chars": [
     "a",
     "b",
