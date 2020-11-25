@@ -94,7 +94,7 @@ async def setup_database():  # init pool connection to database
         database=config['database']['name'],  # name of database
         user=config['database']['user'],  # database username
         password=keys['database'],  # password which goes with user
-        max_size=25,
+        max_size=50,
         command_timeout=5
     )
 
@@ -116,6 +116,8 @@ bot.d.hs_hook_auth = keys.hs_hook_auth
 bot.d.topgg_hooks_auth = keys.topgg_webhook
 bot.d.topgg_post_auth = keys.topgg
 bot.d.google_keys = keys.googl
+bot.d.xapi_key = keys.xapi_key
+bot.d.statcord_key = keys.statcord_key
 
 bot.d.votes_topgg = 0
 bot.d.cmd_count = 0
@@ -151,6 +153,7 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
     'cogs.core.events',
     'cogs.core.webhooks',
+    'cogs.core.statcord',
     'cogs.cmds.useful',
     'cogs.cmds.owner',
     'cogs.cmds.mc',

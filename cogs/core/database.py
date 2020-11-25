@@ -22,7 +22,7 @@ class Database(commands.Cog):
         self.d.prefix_cache = await self.fetch_all_guild_prefixes()
         self.d.additional_mcservers = await self.fetch_all_mcservers()
 
-    @tasks.loop(seconds=12)
+    @tasks.loop(seconds=16)
     async def update_user_health(self):
         async with self.db.acquire() as con:
             await con.execute('UPDATE users SET health = health + 1 WHERE health < 20')
@@ -96,12 +96,12 @@ class Database(commands.Cog):
         if user is None:
             async with self.db.acquire() as con:
                 await con.execute(
-                    'INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7)',
-                    uid, 0, 0, 1, 20, 0, False
+                    'INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+                    uid, 0, 0, 1, 20, False, 0, 0
                 )
 
-                await self.add_item(uid, 'Wood Pickaxe', 0, 1)
-                await self.add_item(uid, 'Wood Sword', 0, 1)
+                await self.add_item(uid, 'Wood Pickaxe', 0, 1, True)
+                await self.add_item(uid, 'Wood Sword', 0, 1, True)
 
             return await self.fetch_user(uid)
 
@@ -119,6 +119,9 @@ class Database(commands.Cog):
 
     async def mass_fetch_balances(self):
         return await self.db.fetch('SELECT uid, emeralds FROM users')
+
+    async def mass_fetch_votestreaks(self):
+        return await self.db.fetch('SELECT uid, vote_streak FROM users')
 
     async def set_balance(self, uid, emeralds):
         await self.fetch_user(uid)
@@ -164,16 +167,20 @@ class Database(commands.Cog):
     async def mass_fetch_item(self, name):
         return await self.db.fetch('SELECT * FROM items WHERE LOWER(name) = LOWER($1)', name)
 
-    async def add_item(self, uid, name, sell_price, amount):
+    async def add_item(self, uid, name, sell_price, amount, sticky=False):
         prev = await self.fetch_item(uid, name)
 
         async with self.db.acquire() as con:
             if prev is None:
-                await con.execute('INSERT INTO items VALUES ($1, $2, $3, $4)',
-                                  uid, name, sell_price, amount)
+                await con.execute(
+                    'INSERT INTO items VALUES ($1, $2, $3, $4, $5)',
+                    uid, name, sell_price, amount, sticky
+                )
             else:
-                await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
-                                  amount + prev['amount'], uid, name)
+                await con.execute(
+                    'UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
+                    amount + prev['amount'], uid, name
+                )
 
     async def remove_item(self, uid, name, amount):
         prev = await self.fetch_item(uid, name)
@@ -182,8 +189,10 @@ class Database(commands.Cog):
             if prev['amount'] - amount < 1:
                 await con.execute('DELETE FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)', uid, name)
             else:
-                await con.execute('UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
-                                  prev['amount'] - amount, uid, name)
+                await con.execute(
+                    'UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
+                    prev['amount'] - amount, uid, name
+                )
 
     async def log_transaction(self, item, amount, timestamp, giver, receiver):
         async with self.db.acquire() as con:
@@ -196,7 +205,7 @@ class Database(commands.Cog):
             if pickaxe in items_names:
                 return pickaxe
 
-        await self.add_item(uid, 'Wood Pickaxe', 0, 1)
+        await self.add_item(uid, 'Wood Pickaxe', 0, 1, True)
         return 'Wood Pickaxe'
 
     async def fetch_sword(self, uid):
@@ -206,7 +215,7 @@ class Database(commands.Cog):
             if sword in items_names:
                 return sword
 
-        await self.add_item(uid, 'Wood Sword', 0, 1)
+        await self.add_item(uid, 'Wood Sword', 0, 1, True)
         return 'Wood Sword'
 
     async def rich_trophy_wipe(self, uid):
@@ -214,8 +223,10 @@ class Database(commands.Cog):
         await self.set_vault(uid, 0, 1)
 
         async with self.db.acquire() as con:
-            await con.execute('DELETE FROM items WHERE uid = $1 AND name != $2 AND name != $3',
-                              uid, 'Rich Person Trophy', 'Bane Of Pillagers Amulet')
+            await con.execute(
+                'DELETE FROM items WHERE uid = $1 AND name != $2 AND name != $3',
+                uid, 'Rich Person Trophy', 'Bane Of Pillagers Amulet'
+            )
 
     async def fetch_user_lb(self, uid):
         lbs = await self.db.fetchrow('SELECT * FROM leaderboards WHERE uid = $1', uid)

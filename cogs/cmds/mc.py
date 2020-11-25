@@ -1,7 +1,8 @@
+
+from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as bs
-import concurrent.futures
 import aiomcrcon as rcon
 import functools
 import aiohttp
@@ -90,18 +91,18 @@ class Minecraft(commands.Cog):
         detailed = ('large' in ctx.message.content or 'high' in ctx.message.content)
 
         with ctx.typing():
-            with concurrent.futures.ThreadPoolExecutor() as pool:
+            with ThreadPoolExecutor() as pool:
                 mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
                 _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
-            filename = f'{ctx.message.id}-{img.width}x{img.height}.png'
+            filename = f'tmp/{ctx.message.id}-{img.width}x{img.height}.png'
 
             with open(filename, 'wb+') as tmp:
                 tmp.write(img_bytes)
 
             await ctx.send(file=discord.File(filename, filename=img.filename))
 
-        os.remove(filename)
+            os.remove(filename)
 
     @commands.command(name='mcping', aliases=['mcstatus'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
@@ -193,7 +194,7 @@ class Minecraft(commands.Cog):
 
         players_online = jj['players_online']  # int@
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, combined))
 
         if s[1] is not None:
             embed.description = ctx.l.minecraft.mcping.learn_more.format(s[1])
@@ -310,7 +311,7 @@ class Minecraft(commands.Cog):
 
         jj = await res.json()
 
-        if not jj or res.status == 204:
+        if not jj or len(jj) < 1 or res.status == 204:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
@@ -318,23 +319,21 @@ class Minecraft(commands.Cog):
 
         await self.bot.send(ctx, f'**{username}**: `{uuid}`')
 
-    @commands.command(name='nametoxuid', aliases=['grabxuid', 'benametoxuid'])
+    @commands.command(name='nametoxuid', aliases=['grabxuid', 'benametoxuid', 'bename'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def name_to_xuid(self, ctx, *, username):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
         with ctx.typing():
-            res = await self.ses.get('https://floodgate-uuid.heathmitchell1.repl.co/uuid', params={'gamertag': username})
+            res = await self.ses.get(f'https://xapi.us/v2/xuid/{urlquote(username)}', headers={'X-AUTH': self.d.xapi_key})
 
-        text = await res.text()
-
-        if 'User not found' in text or 'The UUID of' not in text:
+        if res.status != 200:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
-        xuid = text.split()[-1]
+        xuid = f'{"0"*8}-{"0000-"*3}{hex(int(await res.text())).strip("0x")}'
 
-        await self.bot.send(ctx, f'**{username}**: `{xuid}` / `{xuid[19:].replace("-", "").upper()}`')
+        await self.bot.send(ctx, f'**{username}**: `{xuid}` / `{xuid[20:].replace("-", "").upper()}`')
 
     @commands.command(name='mccolors', aliases=['minecraftcolors', 'chatcolors', 'colorcodes'])
     async def color_codes(self, ctx):

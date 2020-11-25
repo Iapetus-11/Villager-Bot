@@ -3,7 +3,8 @@
   "database": "password to the database",
   "topgg": "top.gg/dbl token",
   "topgg_webhook": "top.gg/dbl webhook auth",
-  "hs_hook_auth": "auth for hypixel stats bot reward hooks",
   "googl": ["google custom search keys"],
-  "vb_api_key": "villager bot api ratelimit bypass auth"
+  "vb_api_key": "villager bot api ratelimit bypass auth",
+  "xapi_key": "xapi.us api key",
+  "statcord_key": "statcord key"
 }

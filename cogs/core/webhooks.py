@@ -4,6 +4,7 @@ import classyjson as cj
 import aiohttp  # ~~aiohttp makes me ****~~
 import asyncio
 import discord
+import arrow
 
 
 class Webhooks(commands.Cog):
@@ -42,8 +43,6 @@ class Webhooks(commands.Cog):
         async def handler(req):
             if req.headers.get('Authorization') == self.d.topgg_hooks_auth:
                 self.bot.dispatch('topgg_event', cj.classify(await req.json()))
-            elif req.headers.get('Authorization') == self.d.hs_hook_auth:
-                self.bot.dispatch('topgg_hs_vote', cj.classify(await req.json()))
             else:
                 return web.Response(status=401)
 
@@ -59,7 +58,7 @@ class Webhooks(commands.Cog):
         self.webhook_server = web.TCPSite(self.server_runner, '0.0.0.0', self.d.hooksport)
         await self.webhook_server.start()
 
-    async def reward(self, user_id, amount):
+    async def reward(self, user_id, amount, streak=None):
         await self.db.balance_add(user_id, amount)
 
         user = self.bot.get_user(user_id)
@@ -69,7 +68,10 @@ class Webhooks(commands.Cog):
 
         if user is not None:
             try:
-                await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
+                if streak is None:
+                    await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
+                else:
+                    await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}! (Vote streak is now {streak})')
             except Exception:
                 pass
 
@@ -80,7 +82,9 @@ class Webhooks(commands.Cog):
             await self.bot.get_channel(self.d.error_channel_id).send('TOP.GG WEBHOOKS TEST')
             return
 
-        self.bot.logger.info(f'\u001b[32;1m{data.user} voted on top.gg\u001b[0m DEBUG/TESTING: {data}')
+        uid = int(data.user)
+
+        self.bot.logger.info(f'\u001b[32;1m{uid} voted on top.gg\u001b[0m')
         self.d.votes_topgg += 1
 
         amount = self.d.topgg_reward * self.d.base_multi
@@ -90,16 +94,27 @@ class Webhooks(commands.Cog):
 
         amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(int(data.user)))
 
-        await self.reward(int(data.user), amount)
+        db_user = await self.db.fetch_user(uid)
 
-    @commands.Cog.listener()
-    async def on_topgg_hs_vote(self, data):  # data should be {uid: (user id) int, weekend: (is the weekend according to top.gg) bool}
-        amount = self.d.topgg_reward * self.d.base_multi
+        streak_time = db_user['streak_time']
+        vote_streak = db_user['vote_streak']
 
-        if data.weekend:
-            amount *= self.d.weekend_multi
+        if streak_time is None:  # time
+            streak_time = 0
 
-        await self.reward(data.uid, amount)
+        if arrow.utcnow().shift(days=-1) > arrow.get(streak_time):  # vote expired
+            vote_streak = 0
+
+        vote_streak_extra = (5 if vote_streak > 5 else vote_streak)
+        if vote_streak_extra < 1:
+            vote_streak_extra = 1
+
+        amount *= vote_streak_extra
+
+        await self.db.update_user(uid, 'streak_time', arrow.utcnow().timestamp)
+        await self.db.update_user(uid, 'vote_streak', vote_streak+1)
+
+        await self.reward(uid, amount, vote_streak+1)
 
 
 def setup(bot):

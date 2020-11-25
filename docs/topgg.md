@@ -59,11 +59,15 @@
     box-shadow: 0 7px 11px 0 rgba(0, 0, 0, 0.65), 0 10px 15px 0 rgba(0, 0, 0, 0.35), 0 12px 20px 0 rgba(0, 0, 0, 0.23);
   }
 
-  p {
+  .comment {
   	color: black !important;
   }
 
   .comment-username {
+  	color: black !important;
+  }
+
+  .bot-description {
   	color: black !important;
   }
 
@@ -87,6 +91,14 @@
   .btn-like span {
   	color: black !important;
   }
+
+  .text-secondary {
+  	color: black !important;
+  }
+
+  .bot-tags-title {
+  	color: black !important;
+  }
 </style>
 
 # **Villager Bot**
@@ -103,6 +115,7 @@
 * [Discord Support Server](https://discord.gg/39DwwUV)
 * Discord Username: `Iapetus11#6821`
 
+
 ## Commands
 ### Economy
 * `/profile [optional: user]` *shows the profile of you or the specified user*
@@ -112,7 +125,7 @@
 * `/withdraw <emerald blocks>` *withdraw emeralds from the vault*
 * `/give <user> <amount> <item>` *give another user an item or emeralds*
 * `/mine` *mine for emeralds*
-* `/beg` *beg for emeralds*
+* `/search` *beg for emeralds*
 * `/honey` *harvest honey from the bees you own*
 * `/gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*
 * `/pillage <user>` *pillage emeralds from another user*

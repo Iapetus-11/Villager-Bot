@@ -2,6 +2,7 @@
 [![Bot Status](https://top.gg/api/widget/status/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
 [![Server Count](https://top.gg/api/widget/servers/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
 [![Support Server](https://img.shields.io/discord/641117791272960031?color=51B780&label=Discord%20Server)](https://discord.gg/39DwwUV)
+[![Views](https://api.ghprofile.me/view?username=villager-dev.villager-bot&color=51B780&label=Views&style=flat)](https://github.com/Villager-Dev/Villager-Bot)
 
 ## Notable Features
 * Ability to generate Minecraft pixel art from images sent in the chat
@@ -19,7 +20,7 @@
 If a bug or unintended behavior is discovered, please report it by creating an issue [here](https://github.com/Villager-Dev/Villager-Bot/issues) or by reporting it in the **#bug-smasher** channel on the [support server](https://discord.gg/39DwwUV)
 
 ### Development
-If you'd like to contribute code to Villager Bot, then please fork the repository and make any necessary changes there. Then, [make a pull request](https://github.com/Villager-Dev/Villager-Bot/pulls) and it will be reviewed.
+If you'd like to contribute code to Villager Bot, then please fork the repository and make any necessary changes there. Then, [make a pull request](https://github.com/Villager-Dev/Villager-Bot/pulls) and it will be reviewed. Please read the [contribution guidelines](https://github.com/Villager-Dev/Villager-Bot/blob/master/CONTRIBUTING.md) before making changes.
 
 ## Commands
 ### Economy
@@ -30,7 +31,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * `/withdraw <emerald blocks>` *withdraw emeralds from the vault*
 * `/give <user> <amount> <item>` *give another user an item or emeralds*
 * `/mine` *mine for emeralds*
-* `/beg` *beg for emeralds*
+* `/search` *search for emeralds*
 * `/honey` *harvest honey from the bees you own*
 * `/gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*
 * `/pillage <user>` *pillage emeralds from another user*

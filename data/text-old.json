@@ -304,7 +304,6 @@
         "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
         "title_offline": "{} no server found at `{}`",
         "title_online": "{} `{}` is online",
-        "title_plain": "{} `{}`",
         "latency": "Latency/Ping",
         "version": "Version",
         "field_online_players": {
@@ -380,11 +379,11 @@
       "main": {
         "title": "Villager Bot Settings",
         "guild_content": [
-          "`{0}config prefix <newprefix>` - Change the server prefix\n\n",
-          "`{0}config replies <on/off>` - Change if bot should respond to messages like \"emeralds\"\n\n",
-          "`{0}config difficulty <peaceful/easy/hard>` - Changes the difficulty of the game\n\n",
-          "`{0}config lang <language>` - Changes the language of Villager Bot\n\n",
-          "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`"
+          "Change the server prefix - `{0}config prefix <newprefix>`\n",
+          "Change if bot should respond to messages like \"emeralds\" - `{0}config replies <on/off>`\n",
+          "Changes the difficulty of the rpg - `{0}config difficulty <peaceful/easy/hard>`\n",
+          "Changes the language of Villager Bot - `{0}config lang <language>`\n",
+          "Changes the server that is pinged if you don't specify a server in `/mcping` - `{0}config mcserver <mcserver>`"
         ],
         "guild_conf": "Server/Guild Configuration"
       },
@@ -442,7 +441,7 @@
         "title": "Villager Bot Information"
       },
       "vote": {
-        "click_1": "Click Me!",
+        "click_1": "Click Here",
         "click_2": "Or Here!"
       },
       "links": {
@@ -503,13 +502,7 @@
         "bot_1": "Hey dumb dumb, Villager Bot has wayy to much stuff to show here.",
         "bot_2": "Hey dumb dumb, bots don't have rights and therefore can't have items or emeralds.",
         "total_wealth": "Total Wealth",
-        "cmds_sent": "Commands Sent",
-        "pick": "Pickaxe",
-        "sword": "Sword",
-        "streak": "Daily Vote Streak",
-        "voted": "Voted Today",
-        "yep": "Yep!",
-        "nope": "Nope..."
+        "cmds_sent": "Commands Sent"
       },
       "bal": {
         "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
@@ -590,26 +583,15 @@
           "You find {} left by pillagers in the remnants of a destroyed village...",
           "A villager takes pity on you and drops {} on the ground.",
           "A traveller takes pity on you and drops {} into your hands.",
-          "You mug a beggar and get {}!",
+          "You mug another beggar and get {}!",
           "Out of annoyance, the villagers throw emeralds at you to make you go away, you picked up {}.",
-          "Villager Bot's kindness blesses you, {} appears in your pocket.",
+          "Eun's kindness blesses you, {} appears in your pocket.",
           "While traveling to a village, you come across a chunk error, with exposed emeralds at the bottom. You mined up {}.",
           "As a raid comes to an end the villagers mistake you for the hero, you receive {}.",
           "You gave the piglin a great time. The piglin stops and thinks, and then hands you {}.",
           "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot gave you {}.",
           "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot gave you {}.",
-          "Walking towards your begging spot glistening emeralds catch your eye, you find {}.",
-          "You search inbetween the couch cushions and find {}!",
-          "You climb Mt. Everest in search of emeralds, you find {}!",
-          "You find a hidden trapdoor and behind it lays {}...",
-          "In a dusty corner you spot {}.",
-          "While cleaning your room you find {}, perhaps you should do it more often...",
-          "Underneath a block of dirt you find {}!",
-          "You search your pockets and find {}, covered in old sticky gum...",
-          "Your pet barfs up {}...",
-          "Scrolling to the bottom of the channel list on Discord you find {}!",
-          "You search the Discord server and find {}...",
-          "You search for {} on Google."
+          "Walking towards your begging spot glistening emeralds catch your eye, you find {}."
         ],
         "negative": [
           "A band of piglins doesn't take your interruption lightly and steals {} from you.",
@@ -689,7 +671,6 @@
         "vault_pot": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
         "stupid_3": "Either that isn't a potion, or it doesn't exist.",
         "chug": "You've chugged a **{}** (Which lasts {} minutes)",
-        "chug_no_end": "You've chugged a **{}**",
         "done": "The **{}** you chugged earlier has worn off."
       },
       "honey": {
@@ -710,20 +691,16 @@
       },
       "lb": {
         "title": "__**Villager Bot Leaderboards**__",
-        "global_lb": "Global",
-        "local_lb": "This Server",
         "emeralds": "Emeralds",
         "stolen": "Emeralds Stolen",
         "kills": "Mobs Killed",
         "bees": "Jars Of Bees",
         "cmds": "Commands Sent",
-        "votes": "Vote Streak",
         "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
         "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
         "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
         "lb_bee": "{0}__**Total Bees Leaderboard**__{0}",
-        "lb_cmds": "{0}__**Commands Sent Leaderboard**__{0}",
-        "lb_votes": "{0}__**Vote Streak Leaderboard**__{0}"
+        "lb_cmds": "{0}__**Commands Sent Leaderboard**__{0}"
       }
     }
   }

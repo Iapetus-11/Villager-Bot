@@ -71,10 +71,8 @@ class Events(commands.Cog):
                     someones = [u for u in m.guild.members if (not u.bot and u.status == discord.Status.online and m.author.id != u.id and u.permissions_in(m.channel).read_messages)]
 
                     if len(someones) > 0:
-                        await m.channel.send(f'@someone ||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​|||| |||| ||  {random.choice(someones).mention}{m.author.mention}')
-
-                    self.bot.d.cmd_lb[m.author.id] = self.bot.d.cmd_lb.get(m.author.id, 0) + 1
-                    self.bot.d.cmd_count += 1
+                        invis = ('||||\u200B'*200)[2:-3]
+                        await m.channel.send(f'@someone {invis} {random.choice(someones).mention} {m.author.mention}')
                 else:
                     if not m.content.startswith(self.d.prefix_cache.get(m.guild.id,  '/')):
                         if 'emerald' in m.content.lower():
@@ -88,16 +86,17 @@ class Events(commands.Cog):
                                 await m.channel.send(random.choice(self.d.emojis.reees))
                         else:
                             return
-
-                    self.bot.d.cmd_lb[m.author.id] = self.bot.d.cmd_lb.get(m.author.id, 0) + 1
-                    self.bot.d.cmd_count += 1
         except discord.errors.Forbidden:
             pass
 
-    async def debug_error(self, ctx, e):
+    async def debug_error(self, ctx, e, loc=None):
+        if loc is None:
+            loc = self.bot.get_channel(self.d.error_channel_id)
+
         traceback_text = ''.join(traceback.format_exception(type(e), e, e.__traceback__, 4))
         final = f'{ctx.author}: {ctx.message.content}\n\n{traceback_text}'.replace('``', '\`\`\`')
-        await self.bot.send(self.bot.get_channel(self.d.error_channel_id), f'```{final[:1023 - 6]}```')
+
+        await self.bot.send(loc, f'```py\n{final[:1023 - 6]}```')
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):

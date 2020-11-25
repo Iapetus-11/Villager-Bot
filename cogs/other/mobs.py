@@ -1,5 +1,5 @@
 from discord.ext import commands, tasks
-from util.misc import make_health_bar
+from util.misc import make_health_bar, make_health_bar_debug
 import classyjson as cj
 import asyncio
 import discord
@@ -138,13 +138,13 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 embed.add_field(  # user health bar
                     name=f'**{u.display_name}**',
-                    value=make_health_bar(u_health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty),
+                    value=make_health_bar_debug(u_health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty),
                     inline=False
                 )
 
                 embed.add_field(  # mob health bar
                     name=f'**{mob.nice}**',
-                    value=make_health_bar(
+                    value=make_health_bar_debug(
                         mob.health,
                         mob_max_health,
                         self.d.emojis.heart_full,
@@ -233,22 +233,23 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             # if u_health == 1: u_health = 2
             # if mob.health == 1: mob.health = 2
 
-            if u_health > mob.health:
-                u_health = 1
-                mob.health = 0
-            else:
-                u_health = 0
-                mob.health = 1
+            # if u_health < 1 or mob.health < 1:
+            #     if u_health > mob.health:
+            #         u_health = 1
+            #         mob.health = 0
+            #     else:
+            #         u_health = 0
+            #         mob.health = 1
 
             embed.add_field(  # user health bar
                 name=f'**{u.display_name}**',
-                value=make_health_bar((u_health if u_health >= 0 else 0), 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty),
+                value=make_health_bar_debug((u_health if u_health >= 0 else 0), 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty),
                 inline=False
             )
 
             embed.add_field(  # mob health bar
                 name=f'**{mob.nice}**',
-                value=make_health_bar(
+                value=make_health_bar_debug(
                     0,
                     mob_max_health,
                     self.d.emojis.heart_full,

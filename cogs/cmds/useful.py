@@ -131,7 +131,6 @@ class Useful(commands.Cog):
         elif 'shing' in content or 'shling' in content:
             pp = 'Schlong'
         elif 'schlong' in content:
-            print(1)
             await self.bot.send(ctx, f'{self.d.emojis.aniheart} Magnum Dong! \uFEFF `69.00 ms`')
             return
 
@@ -187,7 +186,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name='Vote for Villager Bot!', icon_url=self.d.splash_logo)
 
-        embed.description = f'**[{ctx.l.useful.vote.click_1}]({self.d.topgg})**'
+        embed.description = f'**[{ctx.l.useful.vote.click_1}]({self.d.topgg + "/vote"})**'
 
         await ctx.send(embed=embed)
 
@@ -280,7 +279,7 @@ class Useful(commands.Cog):
         except Exception:
             await self.bot.send(ctx, ctx.l.useful.meth.oops)
 
-    @commands.command(name='google', aliases=['search', 'thegoogle'])
+    @commands.command(name='google', aliases=['thegoogle'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def google_search(self, ctx, *, query):
         safesearch = True
