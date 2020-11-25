@@ -27,6 +27,7 @@
     border: .5px solid 3c3c3c;
     border-radius: 5px;
     color: black !important;
+    padding: 20px !important;
   }
 
   .shapes-background {
