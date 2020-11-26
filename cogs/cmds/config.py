@@ -129,15 +129,15 @@ class Config(commands.Cog):
     async def config_gift_alert(self, ctx, alert=None):
         if alert is None:
             db_user = await self.db.fetch_user(ctx.author.id)
-            await self.bot.send(ctx, ctx.l.config.vote.this_user.format(db_user['give_alert']*'enabled'+'disabled'*(not db_user['give_alert'])))
+            await self.bot.send(ctx, ctx.l.config.gift.this_user.format(db_user['give_alert']*'enabled'+'disabled'*(not db_user['give_alert'])))
             return
 
         if alert.lower() in ('yes', 'true', 'on'):
             await self.db.update_user(ctx.author.id, 'give_alert', True)
-            await self.bot.send(ctx, ctx.l.config.gift.set.format('enabled'))
+            await self.bot.send(ctx, ctx.l.config.gift.set.format('on'))
         elif alert.lower() in ('no', 'false', 'off'):
             await self.db.update_user(ctx.author.id, 'give_alert', False)
-            await self.bot.send(ctx, ctx.l.config.gift.set.format('disabled'))
+            await self.bot.send(ctx, ctx.l.config.gift.set.format('off'))
         else:
             await self.bot.send(ctx, ctx.l.config.invalid.format('`on`, `off`'))
 
