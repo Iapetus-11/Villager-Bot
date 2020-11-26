@@ -162,6 +162,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     await msg.edit(suppress=True)
 
                     self.d.pause_econ.pop(u.id, None)
+                    await self.db.update_user(u.id, 'health', u_health)
 
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.flee_insults))
 
@@ -171,6 +172,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     await msg.edit(suppress=True)
 
                     self.d.pause_econ.pop(u.id, None)
+                    await self.db.update_user(u.id, 'health', u_health)
 
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.flee_insults))
 
