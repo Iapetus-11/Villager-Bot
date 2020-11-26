@@ -11,14 +11,12 @@ class Config(commands.Cog):
         self.db = self.bot.get_cog('Database')
 
     @commands.group(name='config', aliases=['settings', 'conf', 'gamerule'])
-    @commands.guild_only()
-    @commands.has_permissions(administrator=True)
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def config(self, ctx):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)
 
-            embed = discord.Embed(color=self.d.cc)
+            embed = discord.Embed(color=self.d.cc, description=)
             embed.set_author(name=ctx.l.config.main.title, icon_url=self.d.splash_logo)
             embed.add_field(name=ctx.l.config.main.guild_conf, value=''.join(ctx.l.config.main.guild_content).format(ctx.prefix))
 
@@ -28,6 +26,8 @@ class Config(commands.Cog):
             await ctx.send(embed=embed)
 
     @config.command(name='prefix')
+    @commands.guild_only()
+    @commands.has_permissions(administrator=True)
     async def config_prefix(self, ctx, prefix=None):
         if prefix is None:
             prev = self.d.prefix_cache.get(ctx.guild.id, self.bot.d.default_prefix)
@@ -48,6 +48,8 @@ class Config(commands.Cog):
         await self.bot.send(ctx, ctx.l.config.prefix.set.format(prefix))
 
     @config.command(name='replies')
+    @commands.guild_only()
+    @commands.has_permissions(administrator=True)
     async def config_replies(self, ctx, replies=None):
         if replies is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
@@ -65,6 +67,8 @@ class Config(commands.Cog):
             await self.bot.send(ctx, ctx.l.config.invalid.format('`on`, `off`'))
 
     @config.command(name='difficulty', aliases=['diff'])
+    @commands.guild_only()
+    @commands.has_permissions(administrator=True)
     async def config_difficulty(self, ctx, diff=None):
         if diff is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
@@ -84,6 +88,8 @@ class Config(commands.Cog):
             await self.bot.send(ctx, ctx.l.config.invalid.format('`peaceful`, `easy`, `hard`'))
 
     @config.command(name='language', aliases=['lang'])
+    @commands.guild_only()
+    @commands.has_permissions(administrator=True)
     async def config_language(self, ctx, lang=None):
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
@@ -100,6 +106,8 @@ class Config(commands.Cog):
             await self.bot.send(ctx, ctx.l.config.invalid.format('`{}`'.format('`, `'.join(lang_codes))))
 
     @config.command(name='defaultserver', aliases=['defaultmcserver', 'mcserver'])
+    @commands.guild_only()
+    @commands.has_permissions(administrator=True)
     async def config_default_mcserver(self, ctx, mcserver=None):
         if mcserver is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
