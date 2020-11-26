@@ -71,19 +71,6 @@ class Econ(commands.Cog):
 
         return True
 
-    async def vote_remind(self, db_user):
-        if arrow.utcnow().shift(hours=-12) > arrow.get(db_user['remind_time']):
-            reminds = [
-                'Just reminding ya, you can vote again now! {}',
-                'You wanted me to remind you, vote again! {}',
-                'Just a little reminder to vote, {}',
-                'Here\'s a reminder to vote! {}',
-                'Don\'t forget to vote! {}',
-                'Don\'t forget to vote! {}'
-            ]
-
-            await self.bot.send(bot.get_user(db_user['uid']), random.choice(reminds).format(self.d.topgg + '/vote'))
-
     @commands.command(name='profile', aliases=['pp'])
     async def profile(self, ctx, *, user: discord.User = None):
         if user is None:

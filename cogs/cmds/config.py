@@ -126,28 +126,22 @@ class Config(commands.Cog):
 
     @config.command(name='voteremind', aliases=['vote'])
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def config_vote_reminder(self, ctx, remind=None):
-        if remind is None:
+    async def config_vote_reminder(self, ctx, alert=None):
+        if alert is None:
             db_user = await self.db.fetch_user(ctx.author.id)
-            await self.bot.send(ctx, ctx.l.config.vote.this_user.format(db_user['vote_remind']*'enabled'+'disabled'*(not db_user['vote_remind'])))
+            await self.bot.send(ctx, ctx.l.config.vote.this_user.format(db_user['gift_alert']*'enabled'+'disabled'*(not db_user['gift_alert'])))
             return
 
-        if remind.lower() in ('yes', 'true', 'on'):
+        if alert.lower() in ('yes', 'true', 'on'):
             await self.db.update_user(ctx.author.id, 'vote_remind', True)
             await self.db.update_user(ctx.author.id, 'remind_time', 0)
-            await self.bot.send(ctx, ctx.l.config.vote.set.format('enabled'))
-        elif replies.lower() in ('no', 'false', 'off'):
+            await self.bot.send(ctx, ctx.l.config.gift.set.format('enabled'))
+        elif alert.lower() in ('no', 'false', 'off'):
             await self.db.update_user(ctx.author.id, 'vote_remind', False)
             await self.db.update_user(ctx.author.id, 'remind_time', 0)
-            await self.bot.send(ctx, ctx.l.config.vote.set.format('disabled'))
+            await self.bot.send(ctx, ctx.l.config.gift.set.format('disabled'))
         else:
             await self.bot.send(ctx, ctx.l.config.invalid.format('`on`, `off`'))
-
-    @config.command(name='giftalert', aliases=['givealert'])
-    @commands.cooldown(1, 10, commands.BucketType.user)
-    async def config_gift_alert(self, ctx, alert_gift=None):
-        pass
-
 
 def setup(bot):
     bot.add_cog(Config(bot))

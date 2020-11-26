@@ -17,8 +17,6 @@ CREATE TABLE IF NOT EXISTS users (
   bot_banned    bool, -- is banned from using the bot
   vote_streak   int,
   streak_time   bigint,
-  vote_remind   bool, -- whether to remind users of having to vote or not
-  remind_time   bigint, -- last reminded time
   give_alert    bool -- whether to tell user if someone gave em stuff or not
 );
 

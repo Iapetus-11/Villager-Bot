@@ -418,10 +418,6 @@
         "error_1": "That is too long, you can't make it more than `{}` characters.",
         "set": "Set the default Minecraft server to **`{}`**"
       },
-      "vote": {
-        "this_user": "Vote reminders are currently **{}**",
-        "set": "Turned vote reminders **{}**"
-      },
       "gift": {
         "this_user": "Give/gift alerts are currently **{}**",
         "set": "Turned give/gift alerts **{}**"
