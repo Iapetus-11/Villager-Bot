@@ -583,7 +583,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, ctx.l.econ.give.gaveems.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention))
 
-            if (await self.db.fetch_user(user.id))['gift_alert']:
+            if (await self.db.fetch_user(user.id))['give_alert']:
                 await self.bot.send(user, ctx.l.econ.give.gaveyouems.format(ctx.author.mention, amount, self.d.emojis.emerald))
         else:
             db_item = await self.db.fetch_item(ctx.author.id, item)
