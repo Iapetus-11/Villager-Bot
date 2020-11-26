@@ -577,9 +577,9 @@
         "stupid_3": "You can't give someone more emeralds than you have.",
         "stupid_4": "You can't give more of an item than you have.",
         "gave": "{} gave {}x **{}** to {}",
-        "gaveems": "{} gave {} {} to {}",
+        "gaveems": "{} gave {}{} to {}",
         "gaveyou": "{} gave you {}x **{}**",
-        "gaveyouems": "{} gave you {} {}"
+        "gaveyouems": "{} gave you {}{}"
       },
       "gamble": {
         "stupid_1": "You can't gamble more emeralds than you have.",
