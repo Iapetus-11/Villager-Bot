@@ -124,7 +124,7 @@ class Config(commands.Cog):
         await self.db.set_guild_attr(ctx.guild.id, 'mcserver', mcserver)
         await self.bot.send(ctx, ctx.l.config.mcs.set.format(mcserver))
 
-    @config.command(name='giftalert', aliases=['gift'])
+    @config.command(name='giftalert', aliases=['gift', 'give', 'givealert'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def config_gift_alert(self, ctx, alert=None):
         if alert is None:
