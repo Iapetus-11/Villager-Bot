@@ -69,9 +69,9 @@ class Webhooks(commands.Cog):
         if user is not None:
             try:
                 if streak is None:
-                    await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
+                    await self.bot.send(user, f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
                 else:
-                    await user.send(f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}! (Vote streak is now {streak})')
+                    await self.bot.send(user, f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}! (Vote streak is now {streak})')
             except Exception:
                 pass
 
