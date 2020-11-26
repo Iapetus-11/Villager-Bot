@@ -417,6 +417,10 @@
         "this_server": "The default Minecraft server is currently set to **`{}`**",
         "error_1": "That is too long, you can't make it more than `{}` characters.",
         "set": "Set the default Minecraft server to **`{}`**"
+      },
+      "vote": {
+        "this_user": "Vote reminders are currently **{}**",
+        "set": "Turned vote reminders **{}**"
       }
     },
     "useful": {
