@@ -15,7 +15,7 @@ class Config(commands.Cog):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)
 
-            embed = discord.Embed(color=self.d.cc, description=)
+            embed = discord.Embed(color=self.d.cc)
             embed.set_author(name=ctx.l.config.main.title, icon_url=self.d.splash_logo)
 
             embed.add_field(name=ctx.l.config.main.guild_conf, value=''.join(ctx.l.config.main.guild_content).format(ctx.prefix))
