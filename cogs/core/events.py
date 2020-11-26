@@ -81,7 +81,7 @@ class Events(commands.Cog):
                         elif 'creeper' in m.content.lower():
                             if (await self.db.fetch_guild(m.guild.id))['replies']:
                                 await m.channel.send('awww{} man'.format(random.randint(1, 5)*'w'))
-                        elif 'reee' in m.content.lower():
+                        elif 'reee' in m.content.lower().replace(' ', ''):
                             if (await self.db.fetch_guild(m.guild.id))['replies']:
                                 await m.channel.send(random.choice(self.d.emojis.reees))
                         else:
