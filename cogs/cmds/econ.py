@@ -606,7 +606,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
 
-            if (await self.db.fetch_user(user.id))['gift_alert']:
+            if (await self.db.fetch_user(user.id))['give_alert']:
                 await self.bot.send(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item['name']))
 
     @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
