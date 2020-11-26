@@ -26,7 +26,7 @@ class Events(commands.Cog):
                 embed = discord.Embed(
                     color=self.d.cc,
                     description='Hey ya\'ll! Type `/help` to get started with Villager Bot!\n'
-                                'If you need any more help, check out the **[Support Server]({self.d.support})**!'
+                                f'If you need any more help, check out the **[Support Server]({self.d.support})**!'
                 )
 
                 embed.set_author(name='Villager Bot', icon_url=self.d.splash_logo)
