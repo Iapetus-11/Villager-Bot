@@ -17,10 +17,9 @@ class Config(commands.Cog):
 
             embed = discord.Embed(color=self.d.cc, description=)
             embed.set_author(name=ctx.l.config.main.title, icon_url=self.d.splash_logo)
-            embed.add_field(name=ctx.l.config.main.guild_conf, value=''.join(ctx.l.config.main.guild_content).format(ctx.prefix))
 
-            #user_conf = 'bruh2.0'
-            #embed.add_field(name='Per User Configuration', value=user_conf)
+            embed.add_field(name=ctx.l.config.main.guild_conf, value=''.join(ctx.l.config.main.guild_content).format(ctx.prefix))
+            embed.add_field(name=ctx.l.config.main.user_conf, value=''.join(ctx.l.config.main.user_content).format(ctx.prefix))
 
             await ctx.send(embed=embed)
 
