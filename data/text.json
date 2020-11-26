@@ -379,6 +379,7 @@
       "invalid": "That is not a valid option. (Valid options are: {})",
       "main": {
         "title": "Villager Bot Settings",
+        "guild_conf": "Server/Guild Configuration",
         "guild_content": [
           "`{0}config prefix <newprefix>` - Change the server prefix\n\n",
           "`{0}config replies <on/off>` - Change if bot should respond to messages like \"emeralds\"\n\n",
@@ -386,7 +387,6 @@
           "`{0}config lang <language>` - Changes the language of Villager Bot\n\n",
           "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`"
         ],
-        "guild_conf": "Server/Guild Configuration",
         "user_conf": "Per User Configuration"
       },
       "prefix": {
