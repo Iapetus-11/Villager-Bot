@@ -133,11 +133,15 @@ class Config(commands.Cog):
             return
 
         if remind.lower() in ('yes', 'true', 'on'):
-            pass
+            await self.db.update_user(ctx.author.id, 'vote_remind', True)
+            await self.db.update_user(ctx.author.id, 'remind_time', 0)
+            await self.bot.send(ctx, ctx.l.config.vote.set.format('enabled'))
         elif replies.lower() in ('no', 'false', 'off'):
-            pass
+            await self.db.update_user(ctx.author.id, 'vote_remind', False)
+            await self.db.update_user(ctx.author.id, 'remind_time', 0)
+            await self.bot.send(ctx, ctx.l.config.vote.set.format('disabled'))
         else:
-            await self.bot.send(ctx, ctx.l.config.invalid.format())
+            await self.bot.send(ctx, ctx.l.config.invalid.format('`on`, `off`'))
 
     @config.command(name='giftalert', aliases=['givealert'])
     @commands.cooldown(1, 10, commands.BucketType.user)
