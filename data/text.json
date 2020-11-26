@@ -421,6 +421,10 @@
       "vote": {
         "this_user": "Vote reminders are currently **{}**",
         "set": "Turned vote reminders **{}**"
+      },
+      "gift": {
+        "this_user": "Give/gift alerts are currently **{}**",
+        "set": "Turned give/gift alerts **{}**"
       }
     },
     "useful": {
