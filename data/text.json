@@ -389,7 +389,6 @@
         ],
         "user_conf": "Per User Configuration",
         "user_content": [
-          "`{0}config voteremind <on/off>` - Change whether bot reminds you if you can vote or not\n\n",
           "`{0}config giftalert <on/off>` - Change whether bot tells you if you've been given items or emeralds\n\n"
         ]
       },
