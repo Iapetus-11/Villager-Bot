@@ -573,30 +573,7 @@
     ]
   ],
   "special_findables": [
-    [
-      "Whole Ass Turkey",
-      768,
-      10000,
-      false
-    ],
-    [
-      "Moodys Turkey Leg",
-      128,
-      1000,
-      false
-    ],
-    [
-      "Turkey Feather",
-      64,
-      500,
-      false
-    ],
-    [
-      "Drip Of Turkey Grease",
-      64,
-      500,
-      false
-    ]
+    
   ],
   "shop_items": {
     "stone pickaxe": [
