@@ -386,7 +386,8 @@
           "`{0}config lang <language>` - Changes the language of Villager Bot\n\n",
           "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`"
         ],
-        "guild_conf": "Server/Guild Configuration"
+        "guild_conf": "Server/Guild Configuration",
+        "user_conf": "Per User Configuration"
       },
       "prefix": {
         "this_server": "The prefix in this server is `{}`",
