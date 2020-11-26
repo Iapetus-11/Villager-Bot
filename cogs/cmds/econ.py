@@ -581,7 +581,10 @@ class Econ(commands.Cog):
             await self.db.balance_add(user.id, amount)
             await self.db.log_transaction('emerald', amount, arrow.utcnow().timestamp, ctx.author.id, user.id)
 
-            await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention))
+            await self.bot.send(ctx, ctx.l.econ.give.gaveems.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention))
+
+            if (await self.db.fetch_user(user.id))['gift_alert']:
+                await self.bot.send(user, ctx.l.econ.give.gaveyouems.format(ctx.author.mention, amount, self.d.emojis.emerald))
         else:
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
@@ -602,6 +605,9 @@ class Econ(commands.Cog):
             await self.db.log_transaction(db_item['name'], amount, arrow.utcnow().timestamp, ctx.author.id, user.id)
 
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item['name'], user.mention))
+
+            if (await self.db.fetch_user(user.id))['gift_alert']:
+                await self.bot.send(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item['name']))
 
     @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
     @commands.cooldown(1, 45, commands.BucketType.user)
