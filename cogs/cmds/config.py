@@ -124,6 +124,26 @@ class Config(commands.Cog):
         await self.db.set_guild_attr(ctx.guild.id, 'mcserver', mcserver)
         await self.bot.send(ctx, ctx.l.config.mcs.set.format(mcserver))
 
+    @config.command(name='voteremind', aliases=['vote'])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def config_vote_reminder(self, ctx, remind=None):
+        if remind is None:
+            db_user = await self.db.fetch_user(ctx.author.id)
+            await self.bot.send(ctx, ctx.l.config.vote.this_user.format(db_user['vote_remind']*'enabled'+'disabled'*(not db_user['vote_remind'])))
+            return
+
+        if remind.lower() in ('yes', 'true', 'on'):
+            pass
+        elif replies.lower() in ('no', 'false', 'off'):
+            pass
+        else:
+            await self.bot.send(ctx, ctx.l.config.invalid.format())
+
+    @config.command(name='giftalert', aliases=['givealert'])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def config_gift_alert(self, ctx, alert_gift=None):
+        pass
+
 
 def setup(bot):
     bot.add_cog(Config(bot))
