@@ -107,7 +107,6 @@ class Events(commands.Cog):
 
         if isinstance(e, commands.CommandOnCooldown):
             if ctx.command.name == 'mine':
-                await ctx.send('DEBUG (ignore pls)')
                 if await self.db.fetch_item(ctx.author.id, 'Efficiency I Book') is not None:
                     e.retry_after -= .5
 
