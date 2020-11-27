@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS guilds (
   difficulty     varchar(15), -- difficulty for mob spawns and other things
   lang           varchar(10), -- language used leave null for en-us
   mcserver       varchar(50), -- default mcserver for the /mcstatus command
-  mcserver_rcon  int -- rcon port for the mc server
+  mcserver_rcon  int, -- rcon port for the mc server
+  premium        bool
 );
 
 CREATE TABLE IF NOT EXISTS users (
