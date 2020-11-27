@@ -683,7 +683,7 @@
           "user": [
             "You got caught while pillaging and paid {}{}",
             "You got caught and had to pay {}{}",
-            "You dirty little thief, you got caught and had to pay {}{}"
+            "You dirty thief, you got caught and had to pay {}{}"
           ],
           "victim": [
             "{} absolutely failed at pillaging you!",
