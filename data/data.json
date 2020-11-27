@@ -573,7 +573,7 @@
     ]
   ],
   "special_findables": [
-    
+
   ],
   "shop_items": {
     "stone pickaxe": [
@@ -878,7 +878,10 @@
       "a statue of Obi Wawn Kenobi",
       "Shrek's swamp",
       "a giant slab of cheese",
-      "a big swimming pool shaped like a bowl of soup"
+      "a big swimming pool shaped like a bowl of soup",
+      "a giant-sized rubics cube",
+      "a hot-air balloon",
+      "a massive redstone working mech suit"
     ],
     "prefixes": [
       "You could build",
