@@ -1,5 +1,5 @@
 from discord.ext import commands, tasks
-from util.misc import make_health_bar, make_health_bar_debug
+from util.misc import make_health_bar
 import discord
 import asyncio
 import aiohttp
@@ -87,7 +87,7 @@ class Econ(commands.Cog):
         u_items = await self.db.fetch_items(user.id)
 
         total_wealth = db_user['emeralds'] + db_user.get('vault_bal', 0) * 9 + sum([u_it.get('sell_price', 0) * u_it.get('amount', 0) for u_it in u_items])
-        health_bar = make_health_bar_debug(db_user['health'], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty)
+        health_bar = make_health_bar(db_user['health'], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty)
 
         vote_streak = db_user['vote_streak']
         voted_today = arrow.utcnow().shift(days=-1) < arrow.get(0 if db_user['streak_time'] is None else db_user['streak_time'])
