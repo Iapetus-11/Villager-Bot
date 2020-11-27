@@ -6,6 +6,7 @@ import discord
 import random
 import ast
 import os
+import inspect # is needed for the src command
 
 
 class Owner(commands.Cog):
@@ -45,6 +46,17 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
+    @commands.command()
+    @commands.is_owner()
+        async def source(self, ctx, command):
+            source = inspect.getsource(self.bot.get_command(command).callback)
+        if not source:
+            return await ctx.send(f'{command} is not a valid villager bot command')
+        try:
+            await ctx.send(f'```py\n{source}\n```')
+        except:
+            await ctx.send(f'Looks like it\'s above 2000 lines..')
+            
     @commands.command(name='eval')
     @commands.is_owner()
     async def eval_stuff(self, ctx, *, code):
