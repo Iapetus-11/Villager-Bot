@@ -90,6 +90,9 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute('DELETE FROM guilds WHERE gid = $1', gid)
 
+    async def fetch_guild_premium(self, gid):
+        return bool(await self.db.fetchval('SELECT premium FROM guilds WHERE gid = $1', gid))
+
     async def fetch_user(self, uid):
         user = await self.db.fetchrow('SELECT * FROM users WHERE uid = $1', uid)
 
