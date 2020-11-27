@@ -515,7 +515,7 @@
         "pick": "Pickaxe",
         "sword": "Sword",
         "streak": "Vote Streak",
-        "voted": "Voted Today",
+        "can_vote": "Can Vote?",
         "yep": "Yep!",
         "nope": "Nope..."
       },

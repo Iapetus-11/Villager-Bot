@@ -90,7 +90,7 @@ class Econ(commands.Cog):
         health_bar = make_health_bar(db_user['health'], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty)
 
         vote_streak = db_user['vote_streak']
-        voted_today = arrow.utcnow().shift(days=-1) < arrow.get(0 if db_user['streak_time'] is None else db_user['streak_time'])
+        voted = arrow.utcnow().shift(hours=-12) < arrow.get(0 if db_user['streak_time'] is None else db_user['streak_time'])
 
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
@@ -101,7 +101,7 @@ class Econ(commands.Cog):
 
         embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak if vote_streak else 0))
         embed.add_field(name='\uFEFF', value='\uFEFF')
-        embed.add_field(name=ctx.l.econ.pp.voted, value=voted_today*ctx.l.econ.pp.yep+ctx.l.econ.pp.nope*(not voted_today))
+        embed.add_field(name=ctx.l.econ.pp.can_vote, value=voted*ctx.l.econ.pp.nope+ctx.l.econ.pp.yep*(not voted))
 
         embed.add_field(name=ctx.l.econ.pp.pick, value=(await self.db.fetch_pickaxe(user.id)))
         embed.add_field(name='\uFEFF', value='\uFEFF')
