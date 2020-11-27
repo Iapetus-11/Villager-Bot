@@ -46,7 +46,7 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command()
+    @commands.command(name='src')
     @commands.is_owner()
         async def source(self, ctx, command):
             source = inspect.getsource(self.bot.get_command(command).callback)
