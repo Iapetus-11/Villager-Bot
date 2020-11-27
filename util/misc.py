@@ -21,4 +21,4 @@ def recursive_update(obj, new):  # hOlY FUCKING SHIT this is so big brained I AM
 
 def make_health_bar(health, max_health, full, half, empty):
     assert max_health % 2 == 0
-    return (full * math.floor(health / 2)) + (half * (health % 2)) + (empty * (math.floor(max_health // 2) - math.floor(health // 2))) + f' ({health}/{max_health})'
+    return (full * math.floor(health / 2)) + (half * (health % 2)) + (empty * (max_health // 2 - math.floor(health // 2))) + f' ({health}/{max_health})'
