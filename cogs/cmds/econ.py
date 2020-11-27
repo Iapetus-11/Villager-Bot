@@ -7,10 +7,6 @@ import random
 import arrow
 import math
 
-def make_health_bar(health, max_health, full, half, empty):
-    assert max_health % 2 == 0
-    return (full * math.floor(health / 2)) + (half * (health % 2)) + (empty * (math.floor(max_health / 2) - math.ceil(health / 2))) + f' ({health}/{max_health})'
-
 
 class Econ(commands.Cog):
     def __init__(self, bot):
