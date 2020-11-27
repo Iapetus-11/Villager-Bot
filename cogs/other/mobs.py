@@ -269,24 +269,34 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             u_bal = u_db['emeralds']
 
             if u_health > 0:  # user win
-                if diff == 'easy':  # copied this ~~meth~~ math from the old code idek what it does lmao
-                    ems_won = int(u_bal * (1 / random.choice((3, 3.25, 3.5, 3.75, 4)))) if u_bal < 256 else int(
-                        512 * (1 / random.choice((3, 3.25, 3.5, 3.75, 4))))
-                else:  # diff hard
-                    ems_won = int(u_bal * (1 / random.choice((1.75, 2, 2.25, 2.5)))) if u_bal < 256 else int(
-                        512 * (1 / random.choice((1.75, 2, 2.25, 2.5))))
+                if mob_key != 'baby_slime' or random.randint(0, 25) != 1:
+                    if diff == 'easy':  # copied this ~~meth~~ math from the old code idek what it does lmao
+                        ems_won = int(u_bal * (1 / random.choice((3, 3.25, 3.5, 3.75, 4)))) if u_bal < 256 else int(
+                            512 * (1 / random.choice((3, 3.25, 3.5, 3.75, 4))))
+                    else:  # diff hard
+                        ems_won = int(u_bal * (1 / random.choice((1.75, 2, 2.25, 2.5)))) if u_bal < 256 else int(
+                            512 * (1 / random.choice((1.75, 2, 2.25, 2.5))))
 
-                ems_won = int((ems_won if ems_won > 0 else 1) * diff_multi)
+                    ems_won = int((ems_won if ems_won > 0 else 1) * diff_multi)
 
-                if await self.db.fetch_item(u.id, 'Looting II') is not None:
-                    ems_won = int(ems_won * 1.75)
-                elif await self.db.fetch_item(u.id, 'Looting I') is not None:
-                    ems_won = int(ems_won * 1.25)
+                    if await self.db.fetch_item(u.id, 'Looting II') is not None:
+                        ems_won = int(ems_won * 1.75)
+                    elif await self.db.fetch_item(u.id, 'Looting I') is not None:
+                        ems_won = int(ems_won * 1.25)
 
-                await self.db.balance_add(u.id, ems_won)
-                await self.db.update_lb(u.id, 'mobs_killed', 1, 'add')
+                    await self.db.balance_add(u.id, ems_won)
+                    await self.db.update_lb(u.id, 'mobs_killed', 1, 'add')
 
-                await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
+                    await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
+                else:
+                    if diff == 'easy':
+                        balls_won = random.randint(1, 10)
+                    else:
+                        balls_won = random.randint(1, 20)
+
+                    await self.db.add_item(u.id, 'Slime Ball', 5, balls_won, True)
+
+                    await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.found).format(balls_won, self.d.emojis.slimeball))
             else:  # mob win
                 if diff == 'easy':  # haha code copying go brrrrrrrrr
                     ems_lost = int(u_bal * (1 / (random.choice([3.05, 3.3, 3.55, 3.8])+.3))) if u_bal > 20 else random.randint(2, 4)
