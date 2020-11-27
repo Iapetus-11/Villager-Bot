@@ -693,7 +693,7 @@
           ]
         }
       },
-      "chug": {
+      "use": {
         "stupid_1": "You can't use more than one of each type of potion at once.",
         "stupid_2": "You can't use an item you don't even have.",
         "vault_max": "You cannot expand your vault further via this method.",

@@ -830,60 +830,60 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
-    @commands.command(name='chug', aliases=['eat'])
-    @commands.cooldown(1, 0.5, commands.BucketType.user)
-    async def chug(self, ctx, *, _pot):
-        """Allows you to use potions"""
+    @commands.command(name='use', aliases=['eat', 'chug'])
+    @commands.cooldown(1, 0.25, commands.BucketType.user)
+    async def use_item(self, ctx, *, _thing):
+        """Allows you to use potions and some other items"""
 
-        pot = _pot.lower()  # everyday bois
+        thing = _thing.lower()  # everyday bois
 
         current_pots = self.d.chuggers.get(ctx.author.id)
 
-        if pot in ([] if current_pots is None else current_pots):
-            await self.bot.send(ctx, ctx.l.econ.chug.stupid_1)
+        if thing in ([] if current_pots is None else current_pots):
+            await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
             return
 
-        db_item = await self.db.fetch_item(ctx.author.id, pot)
+        db_item = await self.db.fetch_item(ctx.author.id, thing)
 
         if db_item is None:
-            await self.bot.send(ctx, ctx.l.econ.chug.stupid_2)
+            await self.bot.send(ctx, ctx.l.econ.use.stupid_2)
             return
 
-        if pot == 'haste i potion':
-            await self.db.remove_item(ctx.author.id, pot, 1)
+        if thing == 'haste i potion':
+            await self.db.remove_item(ctx.author.id, thing, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])  # ensure user has stuff there
             self.d.chuggers[ctx.author.id].append('Haste I Potion')
 
-            await self.bot.send(ctx, ctx.l.econ.chug.chug.format('Haste I Potion', 6))
+            await self.bot.send(ctx, ctx.l.econ.use.chug.format('Haste I Potion', 6))
 
             await asyncio.sleep(60 * 6)
 
-            await self.bot.send(ctx.author, ctx.l.econ.chug.done.format('Haste I Potion'))
+            await self.bot.send(ctx.author, ctx.l.econ.use.done.format('Haste I Potion'))
 
             self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index('Haste I Potion'))  # pop pot from active potion fx
             return
 
-        if pot == 'haste ii potion':
-            await self.db.remove_item(ctx.author.id, pot, 1)
+        if thing == 'haste ii potion':
+            await self.db.remove_item(ctx.author.id, thing, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
             self.d.chuggers[ctx.author.id].append('Haste II Potion')
 
-            await self.bot.send(ctx, ctx.l.econ.chug.chug.format('Haste II Potion', 4.5))
+            await self.bot.send(ctx, ctx.l.econ.use.chug.format('Haste II Potion', 4.5))
 
             await asyncio.sleep(60 * 6)
 
-            await self.bot.send(ctx.author, ctx.l.econ.chug.done.format('Haste II Potion'))
+            await self.bot.send(ctx.author, ctx.l.econ.use.done.format('Haste II Potion'))
 
             self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index('Haste II Potion'))  # pop pot from active potion fx
             return
 
-        if pot == 'vault potion':
+        if thing == 'vault potion':
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user['vault_max'] > 1999:
-                await self.bot.send(ctx, ctx.l.econ.chug.vault_max)
+                await self.bot.send(ctx, ctx.l.econ.use.vault_max)
                 return
 
             add = random.randint(9, 15)
@@ -894,19 +894,19 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, 'Vault Potion', 1)
             await self.db.set_vault(ctx.author.id, db_user['vault_bal'], db_user['vault_max'] + add)
 
-            await self.bot.send(ctx, ctx.l.econ.chug.vault_pot.format(add))
+            await self.bot.send(ctx, ctx.l.econ.use.vault_pot.format(add))
             return
 
-        if pot == 'honey jar':
+        if thing == 'honey jar':
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user['health'] < 20:
                 await self.db.update_user(ctx.author.id, 'health', db_user['health']+1)
 
-            await self.bot.send(ctx, ctx.l.econ.chug.chug_no_end.format('Honey Jar'))
+            await self.bot.send(ctx, ctx.l.econ.use.chug_no_end.format('Honey Jar'))
             return
 
-        await self.bot.send(ctx, ctx.l.econ.chug.stupid_3)
+        await self.bot.send(ctx, ctx.l.econ.use.stupid_3)
 
     @commands.command(name='harvesthoney', aliases=['honey', 'horny'])  # ~~a strange urge occurs in me~~
     @commands.cooldown(1, 24*60*60, commands.BucketType.user)
