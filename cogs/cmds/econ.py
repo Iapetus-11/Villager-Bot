@@ -238,6 +238,10 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.use_a_number_stupid)
                 return
 
+        if amount * 9 > c_bal:
+            await self.bot.send(ctx, ctx.l.econ.dep.stupid_3)
+            return
+
         if amount < 1:
             if emerald_blocks.lower() in ('all', 'max',):
                 await self.bot.send(ctx, ctx.l.econ.dep.stupid_2)
