@@ -536,6 +536,7 @@
         "poor_loser": "You don't have enough emeralds to deposit.",
         "stupid_1": "You can't deposit less than one emerald block.",
         "stupid_2": "You don't have enough space for that.",
+        "stupid_3": "You can't deposit more emeralds than you have.",
         "deposited": "Deposited {}{} ({}{}) into your vault."
       },
       "withd": {
