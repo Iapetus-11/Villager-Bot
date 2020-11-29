@@ -50,7 +50,7 @@
         "`{0}honey` *harvest honey from the bees you own*\n\n",
         "`{0}gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*\n\n",
         "`{0}pillage <user>` *pillage emeralds from another user*\n\n",
-        "`{0}chug <potion>` *use the specified potion*\n\n",
+        "`{0}use <item>` *use the specified item*\n\n",
         "`{0}shop` *shows the Villager Shop*\n\n",
         "`{0}buy [optional: amount of item] <item>` *buy an item from the Villager Shop*\n\n",
         "`{0}sell <amount> <item>` *sell items back to Villager Bot*\n\n",
@@ -788,7 +788,7 @@
         "`{0}honey` *cosechar la miel de las abejas que tienes*\n\n",
         "`{0}gamble <esmeraldas>` *apostar con el bot por una oportunidad de ganar esmeraldas*\n\n",
         "`{0}pillage <usuario>` *saquear esmeraldas de otro usuario*\n\n",
-        "`{0}chug <poción>` *usar la poción especificada*\n\n",
+        "`{0}use <artículo>` *usar el artículo especificado*\n\n",
         "`{0}shop` *muestra el Villager Tienda*\n\n",
         "`{0}buy [opcional: cantidad de artículos] <artículo>` *comprar un artículo de la tienda del pueblo*\n\n",
         "`{0}sell <cantidad> <artículo>` *vender los artículos de nuevo a Villager Bot*\n\n",
@@ -1256,47 +1256,47 @@
         "nope": "No..."
       },
       "bal": {
-        "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
-        "bot_2": "Bots don't have rights and can't have emeralds or stuff.",
-        "s_emeralds": "{}'s emeralds",
-        "total_wealth": "Total Wealth: {}{}",
-        "pocket": "Pocket",
-        "vault": "Vault"
+        "bot_1": "El Villager Bot tiene demasiadas esmeraldas para mostrarlas.",
+        "bot_2": "Los bots no tienen derechos y no pueden tener esmeraldas o cosas así.",
+        "s_emeralds": "esmeraldas de {}",
+        "total_wealth": "Riqueza Total: {}{}",
+        "pocket": "Bolsillo",
+        "vault": "Bóveda"
       },
       "inv": {
-        "bot_1": "Villager Bot has wayyyyy too many items to show (About 100000000000000000)",
-        "bot_2": "Bots don't have rights and therefore can't have emeralds or stuff.",
-        "s_inventory": "{}'s inventory"
+        "bot_1": "El aldeano Bot tiene demasiados objetos para mostrar (alrededor de 100000000000000000)",
+        "bot_2": "Los robots no tienen derechos y por lo tanto no pueden tener esmeraldas o cosas así.",
+        "s_inventory": "Inventario De {}"
       },
       "dep": {
-        "poor_loser": "You don't have enough emeralds to deposit.",
-        "stupid_1": "You can't deposit less than one emerald block.",
-        "stupid_2": "You don't have enough space for that.",
-        "stupid_3": "You can't deposit more emeralds than you have.",
-        "deposited": "Deposited {}{} ({}{}) into your vault."
+        "poor_loser": "No tienes suficientes esmeraldas para depositar.",
+        "stupid_1": "No puedes depositar menos de un bloque de esmeralda.",
+        "stupid_2": "No tienes suficiente espacio para eso.",
+        "stupid_3": "No tienes suficiente espacio para eso.",
+        "deposited": "Depositado {}{} ({}{}) en su bóveda."
       },
       "withd": {
-        "poor_loser": "You don't have enough emerald blocks to withdraw.",
-        "stupid_1": "You can't withdraw less than one emerald block.",
-        "stupid_2": "You can't withdraw more than you have.",
-        "withdrew": "Withdrew {}{} ({}{}) from your vault."
+        "poor_loser": "No tienes suficientes bloques de esmeralda para retirarte.",
+        "stupid_1": "No puedes retirar menos de un bloque de esmeralda.",
+        "stupid_2": "No puedes retirar más de lo que tienes.",
+        "withdrew": "Retirada {}{} ({}{}) de su bóveda."
       },
       "shop": {
-        "villager_shop": "Villager Shop",
-        "tools": "Tools",
-        "magic": "Magic",
-        "other": "Other",
-        "embed_footer": "Use {}inventory to see what you have!"
+        "villager_shop": "Villager Tienda",
+        "tools": "Herramientas",
+        "magic": "Magia",
+        "other": "Otros",
+        "embed_footer": "Usa {}inventory para ver lo que tienes"
       },
       "buy": {
-        "poor_loser_1": "You don't have enough emeralds to buy any of this item.",
-        "stupid_1": "You can't buy less than one of an item.",
-        "stupid_2": "`{}` is invalid or isn't in the Villager Shop.",
-        "poor_loser_2": "You don't have enough emeralds to buy `{}x` **{}**.",
-        "need_total_of": "You need a total of {}{} (Netherite Scrap) to buy this item.",
-        "you_done_bought": "You have bought {}x **{}** for {} (You have {} total)",
-        "no_to_item_1": "You can't buy any more of this item.",
-        "no_to_item_2": "For some reason, you can't buy this item."
+        "poor_loser_1": "No tienes suficientes esmeraldas para comprar nada de este artículo.",
+        "stupid_1": "No puedes comprar menos de un artículo.",
+        "stupid_2": "`{}` es inválido o no está en la Villager Tienda.",
+        "poor_loser_2": "No tienes suficientes esmeraldas para comprar `{}x` **{}**.",
+        "need_total_of": "Necesitas un total de {}{} (Netherite Scrap) para comprar este artículo.",
+        "you_done_bought": "Has comprado {}x **{}** por {} (Tienes {} total)",
+        "no_to_item_1": "No puedes comprar más de este artículo.",
+        "no_to_item_2": "Por alguna razón, no puedes comprar este artículo."
       },
       "sell": {
         "invalid_item": "Either that item is invalid or you don't have it.",
