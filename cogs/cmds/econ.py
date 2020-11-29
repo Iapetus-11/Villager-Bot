@@ -213,6 +213,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='deposit', aliases=['dep'])
     @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.is_owner()
     async def vault_deposit(self, ctx, emerald_blocks: str):
         """Deposits the given amount of emerald blocks into the vault"""
 
@@ -257,6 +258,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='withdraw', aliases=['with'])
     @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.is_owner()
     async def vault_withdraw(self, ctx, emerald_blocks: str):
         """Withdraws a certain amount of emerald blocks from the vault"""
 
