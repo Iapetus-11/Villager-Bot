@@ -282,7 +282,7 @@ class Fun(commands.Cog):
         if isinstance(thing, discord.User):
             thing = thing.mention
 
-        await self.bot.send(ctx, random.choice(self.d.kills).format(thing, ctx.author.mention))
+        await self.bot.send(ctx, random.choice(self.d.kills).format(thing[:500], ctx.author.mention))
 
     @commands.command(name='coinflip', aliases=['flipcoin', 'cf'])
     async def coin_flip(self, ctx):
