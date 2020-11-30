@@ -664,7 +664,6 @@
         "stupid_2": "You can't pillage people from other servers...",
         "stupid_3": "You can only pillage people if you have more than 64{}",
         "stupid_4": "You can only pillage a person if they have more than 64{}",
-        "stupid_5": "You can't pillage any more today.",
         "u_win": {
           "user": [
             "You escaped with {}{}",
@@ -693,11 +692,11 @@
         }
       },
       "use": {
-        "stupid_1": "You can't use more than one of each type of potion at once.",
+        "stupid_1": "You can't use more than one a type of item at once.",
         "stupid_2": "You can't use an item you don't even have.",
         "vault_max": "You cannot expand your vault further via this method.",
         "vault_pot": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
-        "stupid_3": "Either that isn't a potion, or it doesn't exist.",
+        "stupid_3": "Either that isn't a usable item, or it doesn't exist.",
         "chug": "You've chugged a **{}** (Which lasts {} minutes)",
         "chug_no_end": "You've chugged a **{}**",
         "done": "The **{}** you chugged earlier has worn off."
@@ -1370,107 +1369,105 @@
         ]
       },
       "mine": {
-        "found_item_1": "You {} {} **{}** (Worth {}{}) {}",
-        "found_item_2": "You {} {} {} {}",
-        "found_emeralds": "You {} {}{}!",
+        "found_item_1": "Tu {} {} **{}** (Valor {}{}) {}",
+        "found_item_2": "Tu {} {} {} {}",
+        "found_emeralds": "Tu {} {}{}!",
         "actions": [
-          "mined up",
-          "found",
-          "got",
-          "dug up"
+          "minado",
+          "encontrado",
+          "tiene",
+          "desenterrado"
         ],
         "places": [
-          "in an abandoned mineshaft",
-          "in a chest while mining",
-          "in a chest",
-          "in an abandoned chest",
-          "in a chest near a monster spawner",
-          "while mining"
+          "en un pozo de mina abandonado",
+          "en un cofre mientras se explotaban las minas",
+          "en un pecho",
+          "en un cofre abandonado",
+          "en un pecho cerca de un monstruo desovador",
+          "mientras que la minería"
         ],
         "useless": [
-          "useless",
-          "stupid",
-          "dumb",
-          "worthless"
+          "inútil",
+          "estúpido",
+          "tonto"
         ]
       },
       "pillage": {
-        "bot_1": "Hey dumb dumb, Villager Bot cannot be defeated, Villager Bot is immortal and all powerful.",
-        "bot_2": "You can't pillage bots as they don't have rights and therefore can't have emeralds.",
-        "stupid_1": "You can't pillage yourself, dummy.",
-        "stupid_2": "You can't pillage people from other servers...",
-        "stupid_3": "You can only pillage people if you have more than 64{}",
-        "stupid_4": "You can only pillage a person if they have more than 64{}",
-        "stupid_5": "You can't pillage any more today.",
+        "bot_1": "Hey tonto tonto, el aldeano Bot no puede ser derrotado, el aldeano Bot es inmortal y todopoderoso.",
+        "bot_2": "No se puede saquear a los robots ya que no tienen derechos y por lo tanto no pueden tener esmeraldas.",
+        "stupid_1": "No puedes saquearte a ti mismo, tonto.",
+        "stupid_2": "No puedes saquear a la gente de otros servidores...",
+        "stupid_3": "Sólo puedes saquear a la gente si tienes más de 64{}",
+        "stupid_4": "Sólo puedes saquear a una persona si tiene más de 64{}",
         "u_win": {
           "user": [
-            "You escaped with {}{}",
-            "You got away with {}{}",
-            "You pillaged and stole {}{}"
+            "Escapaste con {}{}",
+            "Te escapaste con {}{}",
+            "Usted saqueó y robó {}{}"
           ],
           "victim": [
-            "{} stole {}{} from you...",
-            "{} pillaged {}{} from you...",
-            "{} pillaged you and stole {}{}...",
-            "{} pillaged you and got {}{}..."
+            "{} robó {}{} de ti...",
+            "{} saqueado {}{} de ti...",
+            "{} te saqueó y robó {}{}...",
+            "{} te saqueó y consiguió {}{}..."
           ]
         },
         "u_lose": {
           "user": [
-            "You got caught while pillaging and paid {}{}",
-            "You got caught and had to pay {}{}",
-            "You dirty thief, you got caught and had to pay {}{}"
+            "Te atraparon mientras saqueabas y pagabas {}{}",
+            "Te atraparon y tuviste que pagar {}{}",
+            "Ladrón sucio, te atraparon y tuviste que pagar {}{}"
           ],
           "victim": [
-            "{} absolutely failed at pillaging you!",
-            "{} got absolutely destroyed at pillaging you!",
-            "{} failed while trying to pillage you with their wooden sword!",
-            "{} tried to pillage you with their wooden sword!"
+            "¡{} fracasó absolutamente en su saqueo!",
+            "¡{} quedó absolutamente destruido por el saqueo!",
+            "¡{} falló al intentar saquearte con su espada de madera!",
+            "¡{} trató de saquearte con su espada de madera!"
           ]
         }
       },
       "use": {
-        "stupid_1": "You can't use more than one of each type of potion at once.",
-        "stupid_2": "You can't use an item you don't even have.",
-        "vault_max": "You cannot expand your vault further via this method.",
-        "vault_pot": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
-        "stupid_3": "Either that isn't a potion, or it doesn't exist.",
-        "chug": "You've chugged a **{}** (Which lasts {} minutes)",
-        "chug_no_end": "You've chugged a **{}**",
-        "done": "The **{}** you chugged earlier has worn off."
+        "stupid_1": "No puedes usar más de un tipo de artículo a la vez.",
+        "stupid_2": "No puedes usar un artículo que ni siquiera tienes.",
+        "vault_max": "No se puede expandir más la bóveda con este método.",
+        "vault_pot": "Te has tragado una **Vault Potion**. El espacio de tu bóveda se ha incrementado en {} espacios.",
+        "stupid_3": "O no es un artículo utilizable, o no existe.",
+        "chug": "Te has tragado un **{}** (Que dura {} minutos)",
+        "chug_no_end": "Te has tragado un **{}**",
+        "done": "El **{}** que has tragado antes ha desaparecido."
       },
       "honey": {
         "stupid_1": [
-          "You don't have enough bees to make this business option viable.",
-          "You need 100 jars of bees to actually make a profit, go away"
+          "No tienes suficientes abejas para hacer viable esta opción de negocio.",
+          "Necesitas 100 frascos de abejas para obtener beneficios, vete."
         ],
         "honey": [
-          "Apparently bees produce honey and you just collected {} jars of it! Who knew?!!",
-          "So, bees make honey and you just got {} jars of it!",
-          "Wow, bees make honey! You just got {} jars of it!"
+          "Aparentemente las abejas producen miel y tú acabas de recoger {} frascos de ella! ¡¿Quién lo diría?!",
+          "¡Así que las abejas hacen miel y tú acabas de conseguir {} frascos de ella!",
+          "¡Wow, las abejas hacen miel! ¡Acabas de conseguir {} frascos de ella!"
         ],
         "ded": [
-          "Also, apparently bees get pretty pissed when you try and steal their honey. You lost {} of em...",
-          "Oops, apparently bees get pretty mad when you try and steal from them, who knew!? You lost {} of them to suicide.",
-          "Looks like bees get pretty angry when you try and steal from them, you lost {} to suicide..."
+          "Además, aparentemente las abejas se enojan mucho cuando tratas de robarles la miel. Perdiste a {} de ellas...",
+          "Oops, aparentemente las abejas se enojan mucho cuando tratas de robarles, ¿quién lo diría? Perdiste {} de ellas por suicidio.",
+          "Parece que las abejas se enojan mucho cuando tratas de robarles, perdiste {} por suicidio..."
         ]
       },
       "lb": {
-        "title": "__**Villager Bot Leaderboards**__",
-        "global_lb": "Global",
-        "local_lb": "This Server",
-        "emeralds": "Emeralds",
-        "stolen": "Emeralds Stolen",
-        "kills": "Mobs Killed",
-        "bees": "Jars Of Bees",
-        "cmds": "Commands Sent",
-        "votes": "Vote Streak",
-        "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
-        "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
-        "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
-        "lb_bee": "{0}__**Total Bees Leaderboard**__{0}",
-        "lb_cmds": "{0}__**Commands Sent Leaderboard**__{0}",
-        "lb_votes": "{0}__**Vote Streak Leaderboard**__{0}"
+        "title": "__**Villager Bot Tablas De Clasificación**__",
+        "global_lb": "Mundial",
+        "local_lb": "Este Servidor",
+        "emeralds": "Esmeraldas",
+        "stolen": "Esmeraldas Robadas",
+        "kills": "Monstruos Muertos",
+        "bees": "Jarrones De Abejas",
+        "cmds": "Comandos Enviados",
+        "votes": "Racha De Votos",
+        "lb_ems": "{0}__**Tabla De Líderes De Esmeraldas**__{0}",
+        "lb_pil": "{0}__**Tabla De Líderes Robados De Esmeraldas**__{0}",
+        "lb_kil": "{0}__**Tabla De Líderes De Monstruos Muertos**__{0}",
+        "lb_bee": "{0}__**Tabla De Líderes De Abejas Total**__{0}",
+        "lb_cmds": "{0}__**Tabla De Líderes De Comandos Enviados**__{0}",
+        "lb_votes": "{0}__**Tabla De Líderes De Racha De Votos**__{0}"
       }
     }
   }
