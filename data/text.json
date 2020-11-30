@@ -372,7 +372,7 @@
         "thats_too_much_man": "User has too many warnings already.",
         "no_reason": "No reason specified",
         "by": "Warning by",
-        "confirm": "{} Warned {} ({} warnings now) for reason: *{}*"
+        "confirm": "{} Warned {} ({} warning(s) now) for reason: *{}*"
       }
     },
     "config": {
