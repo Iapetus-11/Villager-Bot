@@ -57,7 +57,7 @@ class Database(commands.Cog):
 
     async def fetch_all_guild_langs(self):
         lang_records = await self.db.fetch('SELECT gid, lang FROM guilds')
-        return dict((r[0], r[1],) for r in lang_records if (r[1] != 'en_us' and r[1] != None))  # needs to be a dict
+        return dict((r[0], r[1],) for r in lang_records if (r[1] != 'en' and r[1] != None and r[1] != 'en_us'))  # needs to be a dict
 
     async def fetch_all_guild_prefixes(self):
         prefix_records = await self.db.fetch('SELECT gid, prefix FROM guilds')
@@ -74,7 +74,7 @@ class Database(commands.Cog):
             async with self.db.acquire() as con:
                 await con.execute(
                     'INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-                    gid, '/', True, 'easy', 'en_us', None, None, False
+                    gid, '/', True, 'easy', 'en', None, None, False
                 )
 
             return await self.fetch_guild(gid)
