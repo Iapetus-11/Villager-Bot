@@ -100,6 +100,18 @@
   .bot-tags-title {
   	color: black !important;
   }
+  
+  .atag {
+  	background-color: white !important;
+  }
+  
+  .atag:hover {
+  	color: black !important;
+  }
+  
+  .atag::after {
+  	color: white !important;
+  }
 </style>
 
 # **Villager Bot**
