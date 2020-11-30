@@ -73,7 +73,7 @@ async def send(_bot, location, message):  # send function/method for easy sendin
 
 async def get_lang(_bot, ctx):
     if ctx.guild is None:
-        return _bot.langs.en_us
+        return _bot.langs.en
 
     lang = _bot.d.lang_cache.get(ctx.guild.id)
 
