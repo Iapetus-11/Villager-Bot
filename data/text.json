@@ -771,7 +771,7 @@
         "admin": "Administración"
       },
       "main": {
-        "desc": "¿Necesitas más ayuda? Mira el [**Servidor de apoyo**]({})! ¿Disfrutando del bot? ¡Vota por nosotros en [**top.gg**]({}) y gana esmeraldas!",
+        "desc": "¿Necesitas más ayuda? Mira el [**Servidor de apoyo**]({})! ¿Disfrutando del bot?\n¡Vota por nosotros en [**top.gg**]({}) y gana esmeraldas!",
         "support": "Apoyo",
         "clickme": "Haz clic en mí"
       },
