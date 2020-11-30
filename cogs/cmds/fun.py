@@ -279,7 +279,7 @@ class Fun(commands.Cog):
 
     @commands.command(name='kill', aliases=['die', 'kil', 'dorito'])
     async def kill_thing(self, ctx, *, thing: typing.Union[discord.Member, str]):
-        if isinstance(thing, discord.User):
+        if isinstance(thing, discord.Member):
             thing = thing.mention
 
         await self.bot.send(ctx, random.choice(self.d.kills).format(thing[:500], ctx.author.mention))
