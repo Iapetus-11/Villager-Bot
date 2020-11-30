@@ -876,7 +876,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, ctx.l.econ.use.chug.format('Haste II Potion', 4.5))
 
-            await asyncio.sleep(60 * 6)
+            await asyncio.sleep(60 * 4.5)
 
             await self.bot.send(ctx.author, ctx.l.econ.use.done.format('Haste II Potion'))
 
