@@ -757,7 +757,7 @@ class Econ(commands.Cog):
             if db_user['vault_max'] < 2000:
                 await self.db.update_user(ctx.author.id, 'vault_max', db_user['vault_max']+1)
 
-    @commands.command(name='pillage')
+    @commands.command(name='pillage', aliases=['bonk'])
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
