@@ -78,7 +78,7 @@ async def get_lang(_bot, ctx):
     lang = _bot.d.lang_cache.get(ctx.guild.id)
 
     if lang is None:
-        lang = 'en_us'
+        lang = 'en'
 
     return _bot.langs[lang]
 
