@@ -445,6 +445,8 @@
       "kill",
       "kil",
       "atack",
+      "stab",
+      "stabb",
       "bonk"
     ],
     "valid_flees": [
