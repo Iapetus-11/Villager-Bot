@@ -12,8 +12,6 @@
   "hooksport": 5000,
   "hookspath": "/votehook",
   "topgg_reward": 32,
-  "base_multi": 1,
-  "weekend_multi": 2,
   "acceptable_prefix_chars": [
     "a",
     "b",
