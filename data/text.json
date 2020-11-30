@@ -434,7 +434,9 @@
         "hour": "hour",
         "hours": "hours",
         "minute": "minute",
-        "minutes": "minutes"
+        "minutes": "minutes",
+        "second": "second",
+        "seconds": "seconds"
       },
       "info": {
         "lib": "Bot Library",
@@ -1171,7 +1173,9 @@
         "hour": "hora",
         "hours": "horas",
         "minute": "minuto",
-        "minutes": "minutos"
+        "minutes": "minutos",
+        "second": "segundo",
+        "seconds": "segundos"
       },
       "info": {
         "lib": "Biblioteca De Botes",
