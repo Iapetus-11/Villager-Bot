@@ -126,9 +126,9 @@ class Events(commands.Cog):
             seconds -= round((hours * 60 * 60) + (minutes * 60), 2)
 
             time = ''
-            if hours > 0: time += f'{hours} hours, '
-            if minutes > 0: time += f'{minutes} minutes, '
-            time += f'{round(seconds, 2)} seconds'
+            if hours > 0: time += f'{hours} {ctx.l.useful.uptime.hours}, '
+            if minutes > 0: time += f'{minutes} {ctx.l.useful.uptime.minutes}, '
+            time += f'{round(seconds, 2)} {ctx.l.useful.uptime.seconds}'
 
             await self.bot.send(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time))
         elif isinstance(e, commands.NoPrivateMessage):
