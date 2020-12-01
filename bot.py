@@ -163,7 +163,7 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.econ',
     'cogs.cmds.config',
     'cogs.other.mobs',
-    'cogs.other.status'
+    'cogs.other.status',
     'cogs.other.statcord',
 ]
 
