@@ -147,7 +147,13 @@ class Config(commands.Cog):
 
             return
 
-        cmd_true = str(self.bot.get_command(cmd))
+        cmd_true = self.bot.get_command(cmd)
+
+        if cmd_true.cog is None or cmd_true.cog.__cog_name__ in ('Owner', 'Config',) or str(cmd_true) in ('help',):
+            await self.bot.send(ctx, 'You can\'t disable this command.')
+            return
+
+        cmd_true = str(cmd_true)
 
         if cmd_true is None:
             await self.bot.send('Command not found.')
