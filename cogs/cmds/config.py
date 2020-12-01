@@ -132,7 +132,7 @@ class Config(commands.Cog):
         guild = await self.db.fetch_guild(ctx.guild.id)
 
         if not guild['premium']:
-            await self.bot.send(ctx, 'This feature is not enabled in this server.')
+            await self.bot.send(ctx, ctx.l.config.cmd.not_prem)
             return
 
         self.d.disabled_cmds[ctx.guild.id] = self.d.disabled_cmds.get(ctx.guild.id, [])  # ensure
@@ -140,30 +140,30 @@ class Config(commands.Cog):
 
         if cmd is None:
             if len(disabled) > 0:
-                await self.bot.send(ctx, f'Disabled commands: `{"`, `".join(disabled)}`')
+                await self.bot.send(ctx, ctx.l.config.cmd.list_cmds.format('`, `'.join(disabled)))
             else:
-                await self.bot.send(ctx, 'No disabled commands.')
+                await self.bot.send(ctx, ctx.l.config.cmd.nope)
 
             return
 
         cmd_true = self.bot.get_command(cmd.lower())
 
         if cmd_true.cog is None or cmd_true.cog.__cog_name__ in ('Owner', 'Config',) or str(cmd_true) in ('help',):
-            await self.bot.send(ctx, 'You can\'t disable this command.')
+            await self.bot.send(ctx, ctx.l.config.cmd.cant)
             return
 
         cmd_true = str(cmd_true)
 
         if cmd_true is None:
-            await self.bot.send(ctx, 'Command not found.')
+            await self.bot.send(ctx, ctx.l.config.cmd.not_found)
             return
 
         if cmd_true in disabled:
             self.d.disabled_cmds[ctx.guild.id].pop(self.d.disabled_cmds[ctx.guild.id].index(cmd_true))
-            await self.bot.send(ctx, f'Re-enabled command `{cmd_true}`')
+            await self.bot.send(ctx, ctx.l.config.cmd.reenable.format(cmd_true))
         else:
             self.d.disabled_cmds[ctx.guild.id].append(cmd_true)
-            await self.bot.send(ctx, f'Disabled command `{cmd_true}`')
+            await self.bot.send(ctx, ctx.l.config.cmd.disable.format(cmd_true))
 
     @config.command(name='giftalert', aliases=['gift', 'give', 'givealert'])
     @commands.cooldown(1, 10, commands.BucketType.user)
