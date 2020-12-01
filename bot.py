@@ -136,6 +136,8 @@ bot.d.cmd_lb = {}  # {user_id: command_count}
 bot.d.pause_econ = {}  # {uid: starttime}
 bot.d.spawn_queue = {}  # {ctx: starttime}
 
+bot.d.disabled_cmds = {}  # {gid: [disabled cmds]}
+
 bot.d.ban_cache = []  # [uid, uid,..]
 bot.d.prefix_cache = {}  # {gid: 'prefix'}
 bot.d.lang_cache = {}  # {gid: 'lang'}
@@ -183,6 +185,10 @@ async def global_check(ctx):
 
     if not bot.is_ready():
         ctx.custom_err = 'not_ready'
+        return False
+
+    if ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(ctx.guild.id, []):
+        ctx.custom_err = 'disabled'
         return False
 
     bot.d.cmd_lb[ctx.author.id] = bot.d.cmd_lb.get(ctx.author.id, 0) + 1
