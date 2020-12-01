@@ -129,7 +129,6 @@ class Config(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def config_toggle_cmd_enabled(self, ctx, cmd=None):
-        cmd = cmd.lower()
         guild = await self.db.fetch_guild(ctx.guild.id)
 
         if not guild['premium']:
@@ -147,7 +146,7 @@ class Config(commands.Cog):
 
             return
 
-        cmd_true = self.bot.get_command(cmd)
+        cmd_true = self.bot.get_command(cmd.lower())
 
         if cmd_true.cog is None or cmd_true.cog.__cog_name__ in ('Owner', 'Config',) or str(cmd_true) in ('help',):
             await self.bot.send(ctx, 'You can\'t disable this command.')
