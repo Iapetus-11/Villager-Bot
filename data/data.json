@@ -574,36 +574,7 @@
     ]
   ],
   "special_findables": [
-    [
-      "Rona Vaccine",
-      1024,
-      20000,
-      true
-    ],
-    [
-      "Pillager-Proof Hazmat Suit",
-      420,
-      10000,
-      false
-    ],
-    [
-      "Tub Of Hand Sanitizer",
-      128,
-      2000,
-      false
-    ],
-    [
-      "Mask",
-      50,
-      1000,
-      false
-    ],
-    [
-      "Tiny Hand Sanitizer Bottle",
-      50,
-      1000,
-      false
-    ]
+    
   ],
   "shop_items": {
     "stone pickaxe": [
