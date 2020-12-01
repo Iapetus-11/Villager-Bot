@@ -157,6 +157,8 @@ class Events(commands.Cog):
 
                 await self.bot.send(ctx, ctx.l.misc.errors.andioop.format(self.d.support))
                 await self.debug_error(ctx, e)
+        except discord.errors.Forbidden:
+            pass
         except Exception as e:
             await self.debug_error(ctx, e)
 
