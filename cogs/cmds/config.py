@@ -154,7 +154,7 @@ class Config(commands.Cog):
             return
 
         if cmd_true in disabled:
-            self.d.disabled_cmds[ctx.guild.id].pop(cmd_true)
+            self.d.disabled_cmds[ctx.guild.id].pop(self.d.disabled_cmds[ctx.guild.id].index(cmd_true))
             await self.bot.send(ctx, f'Re-enabled command `{cmd_true}`')
         else:
             self.d.disabled_cmds[ctx.guild.id].append(cmd_true)
