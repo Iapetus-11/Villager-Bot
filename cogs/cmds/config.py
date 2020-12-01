@@ -124,6 +124,44 @@ class Config(commands.Cog):
         await self.db.set_guild_attr(ctx.guild.id, 'mcserver', mcserver)
         await self.bot.send(ctx, ctx.l.config.mcs.set.format(mcserver))
 
+    @config.command(name='disablecommand', aliases=['disablecmd', 'disable'])
+    @commands.guild_only()
+    @commands.has_permissions(administrator=True)
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def config_disable_cmd(self, ctx, cmd=None):
+        cmd = cmd.lower()
+        guild = await self.db.fetch_guild(ctx.guild.id)
+
+        if not guild['premium']:
+            await self.bot.send(ctx, 'This feature is not enabled in this server.')
+            return
+
+        self.d.disabled_cmds[ctx.guild.id] = self.d.disabled_cmds.get(ctx.guild.id, [])  # ensure
+        disabled = self.d.disabled_cmds[ctx.guild.id]
+
+        if cmd is None:
+            if len(disabled) > 0:
+                await self.bot.send(ctx, f'Disabled commands: `{"`, `".join(disabled)}`')
+            else:
+                await self.bot.send(ctx, 'No disabled commands.')
+
+            return
+
+        all_cmds = [[str(c), *[str(a) for a in c.aliases]] for c in self.bot.commands]
+
+        for cmd_group in all_cmds:
+            if cmd in cmd_group:
+                if cmd_group[0] in disabled:
+                    self.d.disabled_cmds[ctx.guild.id].pop(cmd_group[0], None)
+                    await self.bot.send(ctx, f'Re-enabled command `{cmd_group[0]}`')
+                else:
+                    self.d.disabled_cmds[ctx.guild.id].append(cmd_group[0])
+                    await self.bot.send(ctx, f'Disabled command `{cmd_group[0]}`')
+
+                return
+
+        await self.bot.send('Command not found.')
+
     @config.command(name='giftalert', aliases=['gift', 'give', 'givealert'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def config_gift_alert(self, ctx, alert=None):
@@ -140,7 +178,7 @@ class Config(commands.Cog):
             await self.bot.send(ctx, ctx.l.config.gift.set.format('off'))
         else:
             await self.bot.send(ctx, ctx.l.config.invalid.format('`on`, `off`'))
-            
+
 
 def setup(bot):
     bot.add_cog(Config(bot))
