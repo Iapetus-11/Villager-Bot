@@ -124,11 +124,11 @@ class Config(commands.Cog):
         await self.db.set_guild_attr(ctx.guild.id, 'mcserver', mcserver)
         await self.bot.send(ctx, ctx.l.config.mcs.set.format(mcserver))
 
-    @config.command(name='disablecommand', aliases=['disablecmd', 'disable'])
+    @config.command(name='toggleenabled', aliases=['togglecmd'])
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_disable_cmd(self, ctx, cmd=None):
+    async def config_toggle_cmd_enabled(self, ctx, cmd=None):
         cmd = cmd.lower()
         guild = await self.db.fetch_guild(ctx.guild.id)
 
