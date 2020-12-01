@@ -160,7 +160,8 @@ class Events(commands.Cog):
         except discord.errors.Forbidden:
             pass
         except Exception as e:
-            await self.debug_error(ctx, e)
+            if not isinstance(e.__dict__.get('original'), discord.errors.Forbidden):
+                await self.debug_error(ctx, e)
 
 
 def setup(bot):
