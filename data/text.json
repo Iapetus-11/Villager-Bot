@@ -1170,6 +1170,15 @@
       "gift": {
         "this_user": "Las alertas de donación/regalo son actualmente **{}**",
         "set": "Se han dado alertas de entrega/regalo a **{}**"
+      },
+      "cmd": {
+        "not_prem": "Esta característica no está habilitada en este servidor.",
+        "list_cmds": "Comandos desactivados: `{}`",
+        "nope": "No hay comandos deshabilitados.",
+        "cant": "No puede desactivar este comando.",
+        "not_found": "Comando no encontrado.",
+        "reenable": "Reactivado el comando `{}`",
+        "disable": "Desactivó el comando `{}`"
       }
     },
     "useful": {
