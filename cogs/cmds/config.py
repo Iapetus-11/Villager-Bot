@@ -140,6 +140,7 @@ class Config(commands.Cog):
             await self.bot.send(ctx, ctx.l.config.gift.set.format('off'))
         else:
             await self.bot.send(ctx, ctx.l.config.invalid.format('`on`, `off`'))
+            
 
 def setup(bot):
     bot.add_cog(Config(bot))
