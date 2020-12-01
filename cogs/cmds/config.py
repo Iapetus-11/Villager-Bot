@@ -156,7 +156,7 @@ class Config(commands.Cog):
         cmd_true = str(cmd_true)
 
         if cmd_true is None:
-            await self.bot.send('Command not found.')
+            await self.bot.send(ctx, 'Command not found.')
             return
 
         if cmd_true in disabled:
