@@ -72,7 +72,7 @@ class Database(commands.Cog):
         disabled = await self.db.fetch('SELECT * FROM disabled')
         disabled_nice = {}
 
-        for entry in disabled_nice:
+        for entry in disabled:
             disabled_nice[entry['gid']] = disabled_nice.get(entry['gid'], []) + [entry[1]]
 
         return disabled_nice
