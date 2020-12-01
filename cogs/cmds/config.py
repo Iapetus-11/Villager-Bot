@@ -160,9 +160,11 @@ class Config(commands.Cog):
 
         if cmd_true in disabled:
             self.d.disabled_cmds[ctx.guild.id].pop(self.d.disabled_cmds[ctx.guild.id].index(cmd_true))
+            await self.db.set_cmd_usable(ctx.guild.id, cmd_true, True)
             await self.bot.send(ctx, ctx.l.config.cmd.reenable.format(cmd_true))
         else:
             self.d.disabled_cmds[ctx.guild.id].append(cmd_true)
+            await self.db.set_cmd_usable(ctx.guild.id, cmd_true, False)
             await self.bot.send(ctx, ctx.l.config.cmd.disable.format(cmd_true))
 
     @config.command(name='giftalert', aliases=['gift', 'give', 'givealert'])
