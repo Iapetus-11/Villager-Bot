@@ -421,6 +421,15 @@
       "gift": {
         "this_user": "Give/gift alerts are currently **{}**",
         "set": "Turned give/gift alerts **{}**"
+      },
+      "cmd": {
+        "not_prem": "This feature is not enabled in this server.",
+        "list_cmds": "Disabled commands: `{}`",
+        "nope": "No disabled commands.",
+        "cant": "You can't disable this command.",
+        "not_found": "Command not found.",
+        "reenable": "Re-enabled command `{}`",
+        "disable": "Disabled command `{}`"
       }
     },
     "useful": {
