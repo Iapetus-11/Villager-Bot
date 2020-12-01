@@ -147,7 +147,7 @@ class Config(commands.Cog):
 
             return
 
-        cmd_true = self.bot.get_command(cmd)
+        cmd_true = str(self.bot.get_command(cmd))
 
         if cmd_true is None:
             await self.bot.send('Command not found.')
