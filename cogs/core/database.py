@@ -21,6 +21,7 @@ class Database(commands.Cog):
         self.d.lang_cache = await self.fetch_all_guild_langs()
         self.d.prefix_cache = await self.fetch_all_guild_prefixes()
         self.d.additional_mcservers = await self.fetch_all_mcservers()
+        self.d.disabled_cmds = await self.fetch_all_disabled_commands()
 
     @tasks.loop(seconds=16)
     async def update_user_health(self):
@@ -66,6 +67,15 @@ class Database(commands.Cog):
     async def fetch_all_mcservers(self):
         servers = await self.db.fetch('SELECT host, link FROM mcservers')
         return [(s['host'], s['link'],) for s in servers]
+
+    async def fetch_all_disabled_commands(self):
+        disabled = await self.db.fetch('SELECT * FROM disabled')
+        disabled_nice = {}
+
+        for entry in disabled_nice:
+            disabled_nice[entry['gid']] = disabled_nice.get(entry['gid'], []) + [entry[1]]
+
+        return disabled_nice
 
     async def fetch_guild(self, gid):
         g = await self.db.fetchrow('SELECT * FROM guilds WHERE gid = $1', gid)
