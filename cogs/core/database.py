@@ -106,7 +106,7 @@ class Database(commands.Cog):
     async def set_cmd_usable(self, gid, cmd, usable):
         async with self.db.acquire() as con:
             if usable:
-                await con.execute('DELETE FROM disabled WHERE gid = $1 AND cmd = $2')
+                await con.execute('DELETE FROM disabled WHERE gid = $1 AND cmd = $2', gid, cmd)
             else:
                 await con.execute('INSERT INTO disabled VALUES ($1, $2)', gid, cmd)
 
