@@ -100,61 +100,64 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
-        if isinstance(e, commands.CommandOnCooldown):
-            if ctx.command.name == 'mine':
-                if await self.db.fetch_item(ctx.author.id, 'Efficiency I Book') is not None:
-                    e.retry_after -= .5
+        try:
+            if isinstance(e, commands.CommandOnCooldown):
+                if ctx.command.name == 'mine':
+                    if await self.db.fetch_item(ctx.author.id, 'Efficiency I Book') is not None:
+                        e.retry_after -= .5
 
-                if 'Haste II Potion' in self.d.chuggers.get(ctx.author.id, []):
-                    e.retry_after -= 1
-                elif 'Haste I Potion' in self.d.chuggers.get(ctx.author.id, []):
-                    e.retry_after -= .5
+                    if 'Haste II Potion' in self.d.chuggers.get(ctx.author.id, []):
+                        e.retry_after -= 1
+                    elif 'Haste I Potion' in self.d.chuggers.get(ctx.author.id, []):
+                        e.retry_after -= .5
 
-            seconds = round(e.retry_after, 2)
+                seconds = round(e.retry_after, 2)
 
-            if seconds <= .05:
-                await ctx.reinvoke()
-                return
-
-            hours = int(seconds / 3600)
-            minutes = int(seconds / 60) % 60
-            seconds -= round((hours * 60 * 60) + (minutes * 60), 2)
-
-            time = ''
-            if hours > 0: time += f'{hours} {ctx.l.useful.uptime.hours}, '
-            if minutes > 0: time += f'{minutes} {ctx.l.useful.uptime.minutes}, '
-            time += f'{round(seconds, 2)} {ctx.l.useful.uptime.seconds}'
-
-            await self.bot.send(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time))
-        elif isinstance(e, commands.NoPrivateMessage):
-            await self.bot.send(ctx, ctx.l.misc.errors.private)
-        elif isinstance(e, commands.MissingPermissions):
-            await self.bot.send(ctx, ctx.l.misc.errors.user_perms)
-        elif isinstance(e, commands.BotMissingPermissions):
-            await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
-        elif isinstance(e, commands.MaxConcurrencyReached):
-            await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
-        elif isinstance(e, commands.MissingRequiredArgument):
-            await self.bot.send(ctx, ctx.l.misc.errors.missing_arg)
-        elif isinstance(e, (commands.BadArgument, commands.errors.UnexpectedQuoteError, commands.errors.ExpectedClosingQuoteError, commands.errors.BadUnionArgument)):
-            await self.bot.send(ctx, ctx.l.misc.errors.bad_arg)
-        elif ctx.__dict__.get('custom_err') == 'not_ready':
-            await self.bot.send(ctx, ctx.l.misc.errors.not_ready)
-        elif ctx.__dict__.get('custom_err') == 'bot_banned':
-            pass
-        elif ctx.__dict__.get('custom_err') == 'econ_paused':
-            await self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy)
-        elif ctx.__dict__.get('custom_err') == 'disabled':
-            await self.bot.send(ctx, ctx.l.misc.errors.disabled)
-        elif ctx.__dict__.get('custom_err') == 'ignore':
-            return
-        else:
-            # errors to ignore
-            for e_type in (commands.CommandNotFound, commands.NotOwner, discord.errors.Forbidden,):
-                if isinstance(e, e_type) or isinstance(e.__dict__.get('original'), e_type):
+                if seconds <= .05:
+                    await ctx.reinvoke()
                     return
 
-            await self.bot.send(ctx, ctx.l.misc.errors.andioop.format(self.d.support))
+                hours = int(seconds / 3600)
+                minutes = int(seconds / 60) % 60
+                seconds -= round((hours * 60 * 60) + (minutes * 60), 2)
+
+                time = ''
+                if hours > 0: time += f'{hours} {ctx.l.useful.uptime.hours}, '
+                if minutes > 0: time += f'{minutes} {ctx.l.useful.uptime.minutes}, '
+                time += f'{round(seconds, 2)} {ctx.l.useful.uptime.seconds}'
+
+                await self.bot.send(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time))
+            elif isinstance(e, commands.NoPrivateMessage):
+                await self.bot.send(ctx, ctx.l.misc.errors.private)
+            elif isinstance(e, commands.MissingPermissions):
+                await self.bot.send(ctx, ctx.l.misc.errors.user_perms)
+            elif isinstance(e, commands.BotMissingPermissions):
+                await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
+            elif isinstance(e, commands.MaxConcurrencyReached):
+                await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
+            elif isinstance(e, commands.MissingRequiredArgument):
+                await self.bot.send(ctx, ctx.l.misc.errors.missing_arg)
+            elif isinstance(e, (commands.BadArgument, commands.errors.UnexpectedQuoteError, commands.errors.ExpectedClosingQuoteError, commands.errors.BadUnionArgument)):
+                await self.bot.send(ctx, ctx.l.misc.errors.bad_arg)
+            elif ctx.__dict__.get('custom_err') == 'not_ready':
+                await self.bot.send(ctx, ctx.l.misc.errors.not_ready)
+            elif ctx.__dict__.get('custom_err') == 'bot_banned':
+                pass
+            elif ctx.__dict__.get('custom_err') == 'econ_paused':
+                await self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy)
+            elif ctx.__dict__.get('custom_err') == 'disabled':
+                await self.bot.send(ctx, ctx.l.misc.errors.disabled)
+            elif ctx.__dict__.get('custom_err') == 'ignore':
+                return
+            else:
+                # errors to ignore
+                for e_type in (commands.CommandNotFound, commands.NotOwner, discord.errors.Forbidden,):
+                    if isinstance(e, e_type) or isinstance(e.__dict__.get('original'), e_type):
+                        return
+
+                await self.bot.send(ctx, ctx.l.misc.errors.andioop.format(self.d.support))
+                await self.debug_error(ctx, e)
+        except Exception as e:
             await self.debug_error(ctx, e)
 
 
