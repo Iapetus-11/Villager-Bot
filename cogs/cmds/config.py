@@ -147,21 +147,19 @@ class Config(commands.Cog):
 
             return
 
-        all_cmds = [[str(c), *[str(a) for a in c.aliases]] for c in self.bot.commands]
+        cmd_true = self.bot.get_command(cmd)
 
-        for cmd_group in all_cmds:
-            if cmd in cmd_group:
-                if cmd_group[0] in disabled:
-                    self.d.disabled_cmds[ctx.guild.id].pop(cmd_group[0], None)
-                    await self.bot.send(ctx, f'Re-enabled command `{cmd_group[0]}`')
-                else:
-                    self.d.disabled_cmds[ctx.guild.id].append(cmd_group[0])
-                    await self.bot.send(ctx, f'Disabled command `{cmd_group[0]}`')
+        if cmd_true is None:
+            await self.bot.send('Command not found.')
+            return
 
-                return
-
-        await self.bot.send('Command not found.')
-
+        if cmd_true in disabled:
+            self.d.disabled_cmds[ctx.guild.id].pop(cmd_group[0], None)
+            await self.bot.send(ctx, f'Re-enabled command `{cmd_group[0]}`')
+        else:
+            self.d.disabled_cmds[ctx.guild.id].append(cmd_group[0])
+            await self.bot.send(ctx, f'Disabled command `{cmd_group[0]}`')
+            
     @config.command(name='giftalert', aliases=['gift', 'give', 'givealert'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def config_gift_alert(self, ctx, alert=None):
