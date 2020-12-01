@@ -409,7 +409,7 @@
         "set": "Set the server difficulty to **{}**"
       },
       "lang": {
-        "this_server": "The server language is currently set to **{}**",
+        "this_server": "The server language is currently set to **{}**\nAvailable languages are: {}",
         "set": "Set the server language to **{}**"
       },
       "mcs": {

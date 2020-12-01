@@ -93,12 +93,12 @@ class Config(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def config_language(self, ctx, lang=None):
+        lang_codes = [l.replace('_', '-') for l in list(self.bot.langs)]
+
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await self.bot.send(ctx, ctx.l.config.lang.this_server.format(guild['lang'].replace('_', '-')))
+            await self.bot.send(ctx, ctx.l.config.lang.this_server.format(guild['lang'].replace('_', '-'), '`{}`'.format('`, `'.join(lang_codes))))
             return
-
-        lang_codes = [l.replace('_', '-') for l in list(self.bot.langs)]
 
         if lang.lower() in lang_codes:
             await self.db.set_guild_attr(ctx.guild.id, 'lang', lang.replace('-', '_'))
