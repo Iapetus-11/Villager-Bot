@@ -149,7 +149,7 @@ class Events(commands.Cog):
             pass
         elif ctx.__dict__.get('custom_err') == 'econ_paused':
             await self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy)
-        elif ctx.__dict__.get('custom_err') == 'cmd_disabled':
+        elif ctx.__dict__.get('custom_err') == 'disabled':
             await self.bot.send(ctx, ctx.l.misc.errors.disabled)
         elif ctx.__dict__.get('custom_err') == 'ignore':
             return
