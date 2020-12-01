@@ -100,11 +100,6 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
-        # errors to ignore
-        for e_type in (commands.CommandNotFound, commands.NotOwner, discord.errors.Forbidden,):
-            if isinstance(e, e_type) or isinstance(e.__dict__.get('original'), e_type):
-                return
-
         if isinstance(e, commands.CommandOnCooldown):
             if ctx.command.name == 'mine':
                 if await self.db.fetch_item(ctx.author.id, 'Efficiency I Book') is not None:
@@ -154,6 +149,11 @@ class Events(commands.Cog):
         elif ctx.__dict__.get('custom_err') == 'ignore':
             return
         else:
+            # errors to ignore
+            for e_type in (commands.CommandNotFound, commands.NotOwner, discord.errors.Forbidden,):
+                if isinstance(e, e_type) or isinstance(e.__dict__.get('original'), e_type):
+                    return
+
             await self.bot.send(ctx, ctx.l.misc.errors.andioop.format(self.d.support))
             await self.debug_error(ctx, e)
 
