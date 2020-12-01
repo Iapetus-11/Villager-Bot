@@ -155,7 +155,6 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.core.database',
     'cogs.core.events',
     'cogs.core.webhooks',
-    'cogs.core.statcord',
     'cogs.cmds.useful',
     'cogs.cmds.owner',
     'cogs.cmds.mc',
@@ -165,6 +164,7 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.config',
     'cogs.other.mobs',
     'cogs.other.status'
+    'cogs.other.statcord',
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list
