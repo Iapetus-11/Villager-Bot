@@ -21,7 +21,8 @@
         "missing_arg": "Looks like you're forgetting to put something in!",
         "bad_arg": "Looks like you didn't type something correctly, try typing it right the first time, dum dum.",
         "not_ready": "Hold on! Villager Bot is still starting up!",
-        "nrn_buddy": "Hold on, you can't use that command right now!"
+        "nrn_buddy": "Hold on, you can't use that command right now!",
+        "disabled": "This command is disabled and can not be used!"
       }
     },
     "help": {
@@ -760,7 +761,8 @@
         "missing_arg": "¡Parece que te olvidas de poner algo!",
         "bad_arg": "Parece que no escribiste algo correctamente, intenta escribirlo bien la primera vez, dum dum.",
         "not_ready": "¡Agárrese! ¡El Villager Bot todavía está arrancando!",
-        "nrn_buddy": "¡Espera, no puedes usar ese comando ahora mismo!"
+        "nrn_buddy": "¡Espera, no puedes usar ese comando ahora mismo!",
+        "disabled": "¡Este comando está desactivado y no puede ser usado!"
       }
     },
     "help": {
