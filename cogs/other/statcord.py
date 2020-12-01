@@ -7,12 +7,24 @@ class StatCord(commands.Cog):
         self.bot = bot
         self.d = self.bot.d
 
-        self.statcord_client = statcord.Client(bot, self.d.statcord_key)
+        self.statcord_client = statcord.Client(bot, self.d.statcord_key, custom1=self.get_vote_count)
         self.statcord_client.start_loop()
+
+        self.vote_count = 0
 
     @commands.Cog.listener()
     async def on_command(self, ctx):
         self.statcord_client.command_run(ctx)
+
+    @commands.Cog.listener()
+    async def on_topgg_event(self, data):
+        if data.type == 'upvote':
+            self.vote_count += 1
+
+    async def get_vote_count(self):
+        vote_count = self.vote_count
+        self.vote_count = 0
+        return vote_count
 
 
 def setup(bot):
