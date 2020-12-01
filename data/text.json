@@ -1149,7 +1149,7 @@
       },
       "lang": {
         "this_server": "El lenguaje del servidor está actualmente configurado a **{}**",
-        "set": "Ponga el idioma del servidor en **{}**"
+        "set": "Ponga el idioma del servidor en **{}**\n\nLos idiomas disponibles son: {}"
       },
       "mcs": {
         "this_server": "El servidor predeterminado de Minecraft está actualmente configurado a **`{}`**",
