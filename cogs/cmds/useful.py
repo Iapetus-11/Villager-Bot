@@ -20,6 +20,8 @@ class Useful(commands.Cog):
         if ctx.invoked_subcommand is None:
             cmd = ctx.message.content.replace('help ', '')
 
+            await ctx.send(cmd)
+
             if cmd != '':
                 cmd_true = self.bot.get_command(cmd.lower())
 
