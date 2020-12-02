@@ -190,7 +190,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 if mob.health < 1:  # user wins
                     self.d.pause_econ.pop(u.id, None)
-                    await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice, u_sword.lower()))
+                    await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice.lower(), u_sword.lower()))
                     break
                 else:
                     if mob_key == 'baby_slime' and u_dmg == 0:
