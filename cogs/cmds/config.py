@@ -103,8 +103,6 @@ class Config(commands.Cog):
         if lang.lower() in lang_codes:
             await self.db.set_guild_attr(ctx.guild.id, 'lang', lang.replace('-', '_'))
             self.d.lang_cache[ctx.guild.id] = lang.replace('-', '_')
-            await ctx.send(lang)
-            await ctx.send(type(lang))
             await self.bot.send(ctx, ctx.l.config.lang.set.format(lang.lower()))
         else:
             await self.bot.send(ctx, ctx.l.config.invalid.format('`{}`'.format('`, `'.join(lang_codes))))
