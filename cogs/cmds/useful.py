@@ -39,8 +39,10 @@ class Useful(commands.Cog):
                         return
 
                     embed = discord.Embed(color=self.d.cc)
+                    
                     embed.set_author(name=ctx.l.help.n.cmd, icon_url=self.d.splash_logo)
                     embed.description = help_text.format(ctx.prefix)
+                    embed.set_footer(text=ctx.l.misc.petus)
 
                     await ctx.send(embed=embed)
 
