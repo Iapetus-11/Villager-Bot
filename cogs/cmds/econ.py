@@ -812,8 +812,13 @@ class Econ(commands.Cog):
         else:
             chances = [True, False]
 
-        if self.d.sword_list.index(await self.db.fetch_sword(ctx.author.id)) > self.d.sword_list.index(await self.db.fetch_sword(victim.id)):
+        pillager_sword_lvl =  self.d.sword_list.index((await self.db.fetch_sword(ctx.author.id)).lower())
+        victim_sword_lvl = self.d.sword_list.index(await self.db.fetch_sword(victim.id))
+
+        if pillager_sword_lvl > victim_sword_lvl:
             chances.append(True)
+        elif pillager_sword_lvl < victim_sword_lvl:
+            chances.append(False)
 
         success = random.choice(chances)
 
