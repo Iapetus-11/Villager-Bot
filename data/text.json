@@ -32,7 +32,8 @@
         "minecraft": "Minecraft",
         "utility": "Utility",
         "fun": "Fun",
-        "admin": "Admin"
+        "admin": "Admin",
+        "cmd": "Command Usage"
       },
       "main": {
         "desc": "Need more help? Check out the [**Support Server**]({})!\nEnjoying the bot? Vote for us on [**top.gg**]({}) and earn emeralds!",
@@ -784,7 +785,8 @@
         "minecraft": "Minecraft",
         "utility": "Utilidad",
         "fun": "Diversión",
-        "admin": "Administración"
+        "admin": "Administración",
+        "cmd": "Uso Del Mando"
       },
       "main": {
         "desc": "¿Necesitas más ayuda? Mira el [**Servidor de apoyo**]({})! ¿Disfrutando del bot?\n¡Vota por nosotros en [**top.gg**]({}) y gana esmeraldas!",
