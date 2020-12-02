@@ -18,9 +18,7 @@ class Useful(commands.Cog):
     @commands.group(name='help')
     async def help(self, ctx):
         if ctx.invoked_subcommand is None:
-            cmd = ctx.message.content.replace('help ', '')
-
-            await ctx.send(cmd)
+            cmd = ctx.message.content.replace(f'{ctx.prefix}help ', '')
 
             if cmd != '':
                 cmd_true = self.bot.get_command(cmd.lower())
