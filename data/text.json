@@ -37,7 +37,8 @@
       "main": {
         "desc": "Need more help? Check out the [**Support Server**]({})!\nEnjoying the bot? Vote for us on [**top.gg**]({}) and earn emeralds!",
         "support": "Support",
-        "clickme": "Click Me"
+        "clickme": "Click Me",
+        "howto": "Do `{0}help <command>` to see how to use that command!"
       },
       "econ": {
         "profile": "`{0}profile [optional: user]` *shows the profile of you or the specified user*",
@@ -787,7 +788,8 @@
       "main": {
         "desc": "¿Necesitas más ayuda? Mira el [**Servidor de apoyo**]({})! ¿Disfrutando del bot?\n¡Vota por nosotros en [**top.gg**]({}) y gana esmeraldas!",
         "support": "Apoyo",
-        "clickme": "Haz clic en mí"
+        "clickme": "Haz clic en mí",
+        "howto": "¡Haz `{0}help <comando>` para ver cómo usar ese comando!"
       },
       "econ": {
         "profile": "`{0}profile [opcional: usuario]` *muestra el perfil de usted o del usuario especificado*",
