@@ -69,6 +69,14 @@
     "Netherite Pickaxe": 697457303477026856,
     "BOP": 706604490274504754
   },
+  "sword_list": [
+    "netherite sword",
+    "diamond sword",
+    "gold sword",
+    "iron sword",
+    "stone sword",
+    "wood sword"
+  ],
   "kills": [
     "{0} was suicided",
     "{0} died by death",
