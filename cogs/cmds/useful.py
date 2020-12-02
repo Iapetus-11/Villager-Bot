@@ -73,8 +73,6 @@ class Useful(commands.Cog):
 
         commands_formatted = '`, `'.join(list(ctx.l.help.econ))
         embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
-        embed.add_field(name='\uFEFF', value='\uFEFF')
-        embed.add_field(name='\uFEFF', value='\uFEFF')
 
         await ctx.send(embed=embed)
 
@@ -99,8 +97,6 @@ class Useful(commands.Cog):
 
         commands_formatted = '`, `'.join(list(ctx.l.help.util))
         embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
-        embed.add_field(name='\uFEFF', value='\uFEFF')
-        embed.add_field(name='\uFEFF', value='\uFEFF')
 
         await ctx.send(embed=embed)
 
@@ -113,8 +109,6 @@ class Useful(commands.Cog):
 
         commands_formatted = '`, `'.join(list(ctx.l.help.fun))
         embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
-        embed.add_field(name='\uFEFF', value='\uFEFF')
-        embed.add_field(name='\uFEFF', value='\uFEFF')
 
         await ctx.send(embed=embed)
 
@@ -127,8 +121,6 @@ class Useful(commands.Cog):
 
         commands_formatted = '`, `'.join(list(ctx.l.help.mod))
         embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
-        embed.add_field(name='\uFEFF', value='\uFEFF')
-        embed.add_field(name='\uFEFF', value='\uFEFF')
 
         await ctx.send(embed=embed)
 
