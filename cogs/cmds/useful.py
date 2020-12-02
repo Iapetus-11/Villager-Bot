@@ -16,9 +16,11 @@ class Useful(commands.Cog):
         self.db = self.bot.get_cog('Database')
 
     @commands.group(name='help')
-    async def help(self, ctx, cmd=None):
+    async def help(self, ctx):
         if ctx.invoked_subcommand is None:
-            if cmd is not None:
+            cmd = ctx.message.content.replace('help ', '')
+
+            if cmd != '':
                 cmd_true = self.bot.get_command(cmd.lower())
 
                 if cmd_true is not None:
@@ -41,7 +43,7 @@ class Useful(commands.Cog):
                     embed.description = help_text.format(ctx.prefix)
 
                     await ctx.send(embed=embed)
-                    
+
                     return
 
             embed = discord.Embed(color=self.d.cc)
