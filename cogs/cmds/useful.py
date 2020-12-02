@@ -16,8 +16,34 @@ class Useful(commands.Cog):
         self.db = self.bot.get_cog('Database')
 
     @commands.group(name='help')
-    async def help(self, ctx):
+    async def help(self, ctx, cmd=None):
         if ctx.invoked_subcommand is None:
+            if cmd is not None:
+                cmd_true = self.bot.get_command(cmd.lower())
+
+                if cmd_true is not None:
+                    all_help = {
+                        **ctx.l.help.econ,
+                        **ctx.l.help.mc,
+                        **ctx.l.help.util,
+                        **ctx.l.help.fun,
+                        **ctx.l.help.mod
+                    }
+
+                    help_text = all_help.get(str(cmd_true))
+
+                    if help_text is None:
+                        await self.bot.send(ctx, ctx.l.help.main.nodoc)
+                        return
+
+                    embed = discord.Embed(color=self.d.cc)
+                    embed.set_author(name=ctx.l.help.n.cmd, icon_url=self.d.splash_logo)
+                    embed.description = help_text.format(ctx.prefix)
+
+                    await ctx.send(embed=embed)
+                    
+                    return
+
             embed = discord.Embed(color=self.d.cc)
             embed.set_author(name=ctx.l.help.n.title, icon_url=self.d.splash_logo)
             embed.description = ctx.l.help.main.desc.format(self.d.support, self.d.topgg)
@@ -41,7 +67,8 @@ class Useful(commands.Cog):
         embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.economy}]', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
-        embed.description = ''.join(ctx.l.help.econ).format(ctx.prefix)
+        commands_formatted = '`, `'.join(list(ctx.l.help.econ))
+        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
 
         await ctx.send(embed=embed)
 
@@ -52,7 +79,8 @@ class Useful(commands.Cog):
         embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
-        embed.description = ''.join(ctx.l.help.mc).format(ctx.prefix)
+        commands_formatted = '`, `'.join(list(ctx.l.help.mc))
+        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
 
         await ctx.send(embed=embed)
 
@@ -63,9 +91,8 @@ class Useful(commands.Cog):
         embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.utility}]', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
-        p = ctx.prefix
-
-        embed.description = ''.join(ctx.l.help.util).format(ctx.prefix)
+        commands_formatted = '`, `'.join(list(ctx.l.help.util))
+        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
 
         await ctx.send(embed=embed)
 
@@ -76,9 +103,8 @@ class Useful(commands.Cog):
         embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.fun}]', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
-        p = ctx.prefix
-
-        embed.description = ''.join(ctx.l.help.fun).format(ctx.prefix)
+        commands_formatted = '`, `'.join(list(ctx.l.help.fun))
+        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
 
         await ctx.send(embed=embed)
 
@@ -89,9 +115,8 @@ class Useful(commands.Cog):
         embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.admin}]', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
-        p = ctx.prefix
-
-        embed.description = ''.join(ctx.l.help.mod).format(ctx.prefix)
+        commands_formatted = '`, `'.join(list(ctx.l.help.mod))
+        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
 
         await ctx.send(embed=embed)
 
