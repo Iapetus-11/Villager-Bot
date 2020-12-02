@@ -73,7 +73,7 @@ class Useful(commands.Cog):
         embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.econ))
-        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
+        embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
 
         await ctx.send(embed=embed)
 
@@ -86,7 +86,7 @@ class Useful(commands.Cog):
         embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.mc))
-        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
+        embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
 
         await ctx.send(embed=embed)
 
@@ -99,7 +99,7 @@ class Useful(commands.Cog):
         embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.util))
-        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
+        embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
 
         await ctx.send(embed=embed)
 
@@ -112,7 +112,7 @@ class Useful(commands.Cog):
         embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.fun))
-        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
+        embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
 
         await ctx.send(embed=embed)
 
@@ -125,7 +125,7 @@ class Useful(commands.Cog):
         embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.mod))
-        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
+        embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
 
         await ctx.send(embed=embed)
 
