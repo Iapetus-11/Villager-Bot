@@ -39,7 +39,7 @@ class Useful(commands.Cog):
                         return
 
                     embed = discord.Embed(color=self.d.cc)
-                    
+
                     embed.set_author(name=ctx.l.help.n.cmd, icon_url=self.d.splash_logo)
                     embed.description = help_text.format(ctx.prefix)
                     embed.set_footer(text=ctx.l.misc.petus)
@@ -70,6 +70,7 @@ class Useful(commands.Cog):
 
         embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.economy}]', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.econ))
         embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
@@ -82,6 +83,7 @@ class Useful(commands.Cog):
 
         embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.mc))
         embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
@@ -94,6 +96,7 @@ class Useful(commands.Cog):
 
         embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.utility}]', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.util))
         embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
@@ -106,6 +109,7 @@ class Useful(commands.Cog):
 
         embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.fun}]', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.fun))
         embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
@@ -118,6 +122,7 @@ class Useful(commands.Cog):
 
         embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.admin}]', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.mod))
         embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
