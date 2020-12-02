@@ -72,7 +72,7 @@ class Useful(commands.Cog):
         embed.set_footer(text=ctx.l.misc.petus)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.econ))
-        embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
+        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
 
         await ctx.send(embed=embed)
 
@@ -84,7 +84,7 @@ class Useful(commands.Cog):
         embed.set_footer(text=ctx.l.misc.petus)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.mc))
-        embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
+        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
 
         await ctx.send(embed=embed)
 
@@ -96,7 +96,7 @@ class Useful(commands.Cog):
         embed.set_footer(text=ctx.l.misc.petus)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.util))
-        embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
+        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
 
         await ctx.send(embed=embed)
 
@@ -108,7 +108,7 @@ class Useful(commands.Cog):
         embed.set_footer(text=ctx.l.misc.petus)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.fun))
-        embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
+        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
 
         await ctx.send(embed=embed)
 
@@ -120,7 +120,7 @@ class Useful(commands.Cog):
         embed.set_footer(text=ctx.l.misc.petus)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.mod))
-        embed.add_field(name='\uFEFF', value=f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}')
+        embed.description = f'`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}'
 
         await ctx.send(embed=embed)
 
