@@ -188,9 +188,9 @@
       ],
       "lost": {
         "creeper": [
-          "The creeper also blew up {}{} that was yours...",
-          "The creeper made {}{} that was yours go up in a poof of smoke...",
-          "The creeper also obliterated {}{} that was yours..."
+          "The **creeper** also blew up {}{} that was yours...",
+          "The **creeper** made {}{} that was yours go up in a poof of smoke...",
+          "The **creeper** also obliterated {}{} that was yours..."
         ],
         "normal": [
           "The {} also stole {}{} that was yours...",
@@ -201,30 +201,30 @@
       "mobs": {
         "zombie": {
           "attacks": [
-            "The zombie ran, lashing at your arms",
-            "The zombie gives you a painful hug",
-            "The zombie groans and gives you a painful hug",
-            "The zombie punches you in your face",
-            "The zombie claws you with its overgrown, decaying nails",
-            "The zombie punches you in your face with its decaying hand",
-            "The zombie scratches you with its overgrown, decaying nails"
+            "The **zombie** ran, lashing at your arms",
+            "The **zombie** gives you a painful hug",
+            "The **zombie** groans and gives you a painful hug",
+            "The **zombie** punches you in your face",
+            "The **zombie** claws you with its overgrown, decaying nails",
+            "The **zombie** punches you in your face with its decaying hand",
+            "The **zombie** scratches you with its overgrown, decaying nails"
           ],
           "finishers": [
-            "The zombie lunges for your throat, and bites!",
-            "The zombie disembowels you and eats your remains!",
-            "The zombie guts you and devoures your remains!"
+            "The **zombie** lunges for your throat, and bites!",
+            "The **zombie** disembowels you and eats your remains!",
+            "The **zombie** guts you and devoures your remains!"
           ]
         },
         "skeleton": {
           "attacks": [
-            "The skeleboi yeets an arrow at your face",
-            "The skeleton turns around and 360 no scopes you!",
-            "An arrow rains from the skeleton, only one",
-            "One headshot from skeleton for you",
-            "BOOM! HEADSHOT! - Skeleton 2020"
+            "The **skeleboi** yeets an arrow at your face",
+            "The **skeleton** turns around and 360 no scopes you!",
+            "An arrow rains from the **skeleton**, only one",
+            "One headshot from **skeleton** for you",
+            "BOOM! HEADSHOT! - **skeleton** 2020"
           ],
           "finishers": [
-            "The skeleton 360 noscopes you for the last time!",
+            "The **skeleton** 360 noscopes you for the last time!",
             "A rain of arrows whistle towards you and turn you into swiss cheese!",
             "You hear the whistle of hundreds of arrows and then you die!",
             "Arrows rain from the sky, piercing your flesh and killing you!"
@@ -232,67 +232,67 @@
         },
         "spider": {
           "attacks": [
-            "The spider jumps on top of you and sinks its fangs into your arm",
-            "The spider knocks you down and bites your leg",
-            "The spider jumps at you in an attempt to bite your face off",
-            "The spider dunks on you",
-            "The spider lunges at you and bites your leg"
+            "The **spider** jumps on top of you and sinks its fangs into your arm",
+            "The **spider** knocks you down and bites your leg",
+            "The **spider** jumps at you in an attempt to bite your face off",
+            "The **spider** dunks on you",
+            "The **spider** lunges at you and bites your leg"
           ],
           "finishers": [
-            "The spider jumps on you, spins around, and sinks its fangs into your skull!",
-            "The spider dunks on you one last time, and bites your face off!",
-            "The spider rips your face off, your last sight being 8 murderous red eyes staring back"
+            "The **spider** jumps on you, spins around, and sinks its fangs into your skull!",
+            "The **spider** dunks on you one last time, and bites your face off!",
+            "The **spider** rips your face off, your last sight being 8 murderous red eyes staring back"
           ]
         },
         "cave_spider": {
           "attacks": [
-            "The cave spider's fangs digs deep onto your skin",
-            "The cave spider gives you a toxic kiss",
-            "The cave spider bites you and inflicts poison damage"
+            "The **cave spider**'s fangs digs deep onto your skin",
+            "The **cave spider** gives you a toxic kiss",
+            "The **cave spider** bites you and inflicts poison damage"
           ],
           "finishers": [
             "You died a slow, painful death from poison damage",
-            "The cave spider injects one last lethal dose of venom",
-            "The cave spider buries its fangs deep into you and fills you with venom"
+            "The **cave spider** injects one last lethal dose of venom",
+            "The **cave spider** buries its fangs deep into you and fills you with venom"
           ]
         },
         "creeper": {
           "attacks": [
             "You hear a fuse ignite...",
-            "The creeper flashes and fizzles...",
-            "The creeper fizzles and flashes...",
-            "The creeper prepares for its imminent suicide...",
+            "The **creeper** flashes and fizzles...",
+            "The **creeper** fizzles and flashes...",
+            "The **creeper** prepares for its imminent suicide...",
             "From behind you, a fuse ignites..."
           ],
           "finishers": [
-            "The creeper goes BOOM!",
-            "Creeper used SELF-DESTRUCT! *It's super effective!*",
-            "The creeper explodes, yeeting your bloody corpse across the map!",
-            "You were blown to pixels by the creeper!"
+            "The **creeper** goes BOOM!",
+            "The **creeper** used SELF-DESTRUCT! *It's super effective!*",
+            "The **creeper** explodes, yeeting your bloody corpse across the map!",
+            "You were blown to pixels by the **creeper**!"
           ]
         },
         "baby_slime": {
           "attacks": [
-            "The baby slime jumps on you",
-            "The baby slime looks cute",
-            "The baby slime jumps on your head",
-            "You encourage the baby slime"
+            "The **baby slime** jumps on you",
+            "The **baby slime** looks cute",
+            "The **baby slime** jumps on your head",
+            "You encourage the **baby slime**"
           ],
           "finishers": [
             "You die from the cuteness",
-            "The baby slime looks so cute you just follow it around for the rest of your life and keep it safe",
-            "You follow the baby slime around because it's so cute, it despawns, you die from sadness",
-            "The baby slime despawns right in front of you, you die from extreme depression",
-            "The baby slime finally does some damage",
-            "You feel bad that the baby slime can't hurt you so you commit suicide",
-            "You feel bad that the baby slime can't hurt you so you commit dig straight down",
-            "There can only be one winner, the baby slime says, you type in /kill"
+            "The **baby slime** looks so cute you just follow it around for the rest of your life and keep it safe",
+            "You follow the **baby slime** around because it's so cute, it despawns, you die from sadness",
+            "The **baby slime** despawns right in front of you, you die from extreme depression",
+            "The **baby slime** finally does some damage",
+            "You feel bad that the **baby slime** can't hurt you so you commit suicide",
+            "You feel bad that the **baby slime** can't hurt you so you commit dig straight down",
+            "There can only be one winner, the **baby slime** says, you type in /kill"
           ],
           "misses": [
-            "You swing your {0} as hard as you can, you miss the baby slime",
-            "You slash your {0} at the baby slime as hard as you can. The baby slime is fine",
-            "You miss, swinging your {0} at the baby slime.",
-            "You swing your {0}, the baby slime makes a cute face, you miss."
+            "You swing your **{0}** as hard as you can, you miss the **baby slime**",
+            "You slash your **{0}** at the **baby slime** as hard as you can. The **baby slime** is fine",
+            "You miss, swinging your {0} at the **baby slime**.",
+            "You swing your **{0}**, the **baby slime** makes a cute face, you miss."
           ]
         }
       }
@@ -941,9 +941,9 @@
       ],
       "lost": {
         "creeper": [
-          "La enredadera también voló {}{} que era tuya...",
-          "La enredadera hizo {}{} que era tuya subir en un puf de humo...",
-          "La enredadera también borró {}{} que era tuya..."
+          "La **enredadera** también voló {}{} que era tuya...",
+          "La **enredadera** hizo {}{} que era tuya subir en un puf de humo...",
+          "La **enredadera** también borró {}{} que era tuya..."
         ],
         "normal": [
           "El {} también robó {}{} que era tuyo...",
@@ -954,30 +954,30 @@
       "mobs": {
         "zombie": {
           "attacks": [
-            "El zombi corrió, azotando tus brazos",
-            "El zombie te da un doloroso abrazo",
-            "El zombi gime y te da un doloroso abrazo",
-            "El zombi te golpea en la cara",
-            "El zombi te araña con sus uñas crecidas y en descomposición...",
-            "El zombi te golpea en la cara con su mano en descomposición",
-            "El zombi te araña con sus uñas crecidas y en descomposición..."
+            "El **zombi** corrió, azotando tus brazos",
+            "El **zombi** te da un doloroso abrazo",
+            "El **zombi** gime y te da un doloroso abrazo",
+            "El **zombi** te golpea en la cara",
+            "El **zombi** te araña con sus uñas crecidas y en descomposición...",
+            "El **zombi** te golpea en la cara con su mano en descomposición",
+            "El **zombi** te araña con sus uñas crecidas y en descomposición..."
           ],
           "finishers": [
-            "¡El zombi se abalanza sobre tu garganta y muerde!",
-            "¡El zombi te destripa y se come tus restos!",
-            "¡El zombi te destripa y devora tus restos!"
+            "¡El **zombi** se abalanza sobre tu garganta y muerde!",
+            "¡El **zombi** te destripa y se come tus restos!",
+            "¡El **zombi** te destripa y devora tus restos!"
           ]
         },
         "skeleton": {
           "attacks": [
-            "El skeleboi te lanza una flecha a la cara",
-            "El esqueleto se da la vuelta y 360 no te mira.",
-            "Una flecha llueve del esqueleto, sólo una",
-            "Un tiro en la cabeza del esqueleto para ti",
-            "¡BOOM! ¡CABEZA DE CHORLITO! - Esqueleto 2020"
+            "El **skeleboi** te lanza una flecha a la cara",
+            "El **esqueleto** se da la vuelta y 360 no te mira.",
+            "Una flecha llueve del **esqueleto**, sólo una",
+            "Un tiro en la cabeza del **esqueleto** para ti",
+            "¡BOOM! ¡CABEZA DE CHORLITO! - **esqueleto** 2020"
           ],
           "finishers": [
-            "El esqueleto 360 noscopa por última vez!",
+            "El **esqueleto** 360 noscopa por última vez!",
             "¡Una lluvia de flechas silba hacia ti y te convierte en queso suizo!",
             "¡Escuchas el silbido de cientos de flechas y luego mueres!",
             "Las flechas llueven del cielo, perforando tu carne y matándote."
@@ -985,67 +985,67 @@
         },
         "spider": {
           "attacks": [
-            "La araña salta sobre ti y hunde sus colmillos en tu brazo",
-            "La araña te derriba y te muerde la pierna",
-            "La araña salta a ti en un intento de morderte la cara...",
-            "La araña se hunde en ti",
-            "La araña se abalanza sobre ti y te muerde la pierna"
+            "La **araña** salta sobre ti y hunde sus colmillos en tu brazo",
+            "La **araña** te derriba y te muerde la pierna",
+            "La **araña** salta a ti en un intento de morderte la cara...",
+            "La **araña** se hunde en ti",
+            "La **araña** se abalanza sobre ti y te muerde la pierna"
           ],
           "finishers": [
-            "¡La araña salta sobre ti, gira y hunde sus colmillos en tu cráneo!",
-            "¡La araña te hunde una última vez y te muerde la cara!",
-            "La araña te arranca la cara, y la última vez que la ves son 8 ojos rojos asesinos que te miran fijamente."
+            "¡La **araña** salta sobre ti, gira y hunde sus colmillos en tu cráneo!",
+            "¡La **araña** te hunde una última vez y te muerde la cara!",
+            "La **araña** te arranca la cara, y la última vez que la ves son 8 ojos rojos asesinos que te miran fijamente."
           ]
         },
         "cave_spider": {
           "attacks": [
-            "Los colmillos de la araña de la cueva se clavan profundamente en tu piel",
-            "La araña de la cueva te da un beso tóxico",
-            "La araña de la cueva te muerde e inflige daños por veneno"
+            "Los colmillos de la **araña de la cueva** se clavan profundamente en tu piel",
+            "La **araña de la cueva** te da un beso tóxico",
+            "La **araña de la cueva** te muerde e inflige daños por veneno"
           ],
           "finishers": [
             "Usted murió una muerte lenta y dolorosa por el daño del veneno",
-            "La araña de la cueva inyecta una última dosis letal de veneno",
-            "La araña de la cueva entierra sus colmillos profundamente en ti y te llena de veneno"
+            "La **araña de la cueva** inyecta una última dosis letal de veneno",
+            "La **araña de la cueva** entierra sus colmillos profundamente en ti y te llena de veneno"
           ]
         },
         "creeper": {
           "attacks": [
             "Oyes que se enciende un fusible...",
-            "La enredadera parpadea y se evapora...",
-            "La enredadera se evapora y parpadea...",
-            "La enredadera se prepara para su inminente suicidio...",
+            "La **enredadera** parpadea y se evapora...",
+            "La **enredadera** se evapora y parpadea...",
+            "La **enredadera** se prepara para su inminente suicidio...",
             "Desde atrás, un fusible se enciende..."
           ],
           "finishers": [
-            "La enredadera hace BOOM!",
-            "Creeper usó el autodestructor. *¡Es súper efectivo!*",
-            "¡La enredadera explota, haciendo que tu maldito cadáver cruce el mapa!",
-            "¡El enredadera te voló en pedazos!"
+            "La **enredadera** hace BOOM!",
+            "La **enredadera** usó el autodestructor. *¡Es súper efectivo!*",
+            "¡La **enredadera** explota, haciendo que tu maldito cadáver cruce el mapa!",
+            "¡El **enredadera** te voló en pedazos!"
           ]
         },
         "baby_slime": {
           "attacks": [
-            "La baba del bebé salta sobre ti",
-            "La baba del bebé se ve linda",
-            "La baba del bebé salta sobre tu cabeza",
-            "Usted anima a la baba del bebé"
+            "La **baba del bebé** salta sobre ti",
+            "La **baba del bebé** se ve linda",
+            "La **baba del bebé** salta sobre tu cabeza",
+            "Usted anima a la **baba del bebé**"
           ],
           "finishers": [
             "Mueres por la monada",
-            "La baba de bebé se ve tan linda que la sigues por el resto de tu vida y la mantienes segura.",
-            "Sigues la baba del bebé porque es tan linda, se desespera, te mueres de tristeza.",
-            "La baba del bebé se desespera delante de ti, mueres de una depresión extrema",
-            "La baba del bebé finalmente hace algo de daño",
-            "Te sientes mal porque la baba del bebé no puede hacerte daño, así que te suicidas.",
-            "Te sientes mal porque la baba del bebé no puede hacerte daño, así que te comprometes a cavar directamente hacia abajo",
-            "Sólo puede haber un ganador, dice la baba del bebé, tecleas /kill"
+            "La **baba del bebé** se ve tan linda que la sigues por el resto de tu vida y la mantienes segura.",
+            "Sigues la **baba del bebé** porque es tan linda, se desespera, te mueres de tristeza.",
+            "La **baba del bebé** se desespera delante de ti, mueres de una depresión extrema",
+            "La **baba del bebé** finalmente hace algo de daño",
+            "Te sientes mal porque la **baba del bebé** no puede hacerte daño, así que te suicidas.",
+            "Te sientes mal porque la **baba del bebé** no puede hacerte daño, así que te comprometes a cavar directamente hacia abajo",
+            "Sólo puede haber un ganador, dice la **baba del bebé**, tecleas /kill"
           ],
           "misses": [
-            "Balanceas tu {0} tan fuerte como puedes, extrañas la baba del bebé",
-            "Le cortas la {0} al baba del bebé tan fuerte como puedas. La baba del bebé está bien",
-            "Fallaste, balanceando tu {0} en la baba del bebé.",
-            "Si balanceas tu {0}, la baba del bebé hace una linda cara, fallas."
+            "Balanceas tu **{0}** tan fuerte como puedes, extrañas la **baba del bebé**",
+            "Le cortas la **{0}** al **baba del bebé** tan fuerte como puedas. La **baba del bebé** está bien",
+            "Fallaste, balanceando tu **{0}** en la **baba del bebé**.",
+            "Si balanceas tu **{0}**, la **baba del bebé** hace una linda cara, fallas."
           ]
         }
       }
