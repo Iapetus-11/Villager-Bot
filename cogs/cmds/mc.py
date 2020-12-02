@@ -4,6 +4,7 @@ from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as bs
 import aiomcrcon as rcon
+import classyjson as cj
 import functools
 import aiohttp
 import discord
@@ -105,12 +106,14 @@ class Minecraft(commands.Cog):
             os.remove(filename)
 
     @commands.command(name='mcping', aliases=['mcstatus'])
-    @commands.guild_only()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def mcping(self, ctx, host=None, port: int = None):
         """Checks the status of a given Minecraft server"""
 
         if host is None:
+            if ctx.guild is None:
+                raise commands.MissingRequiredArgument(cj.ClassyDict({'name': 'host'}))
+
             combined = (await self.db.fetch_guild(ctx.guild.id))['mcserver']
             if combined is None:
                 await self.bot.send(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
