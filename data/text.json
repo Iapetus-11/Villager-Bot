@@ -715,7 +715,13 @@
         "stupid_3": "Either that isn't a usable item, or it doesn't exist.",
         "chug": "You've chugged a **{}** (Which lasts {} minutes)",
         "chug_no_end": "You've chugged a **{}**",
-        "done": "The **{}** you chugged earlier has worn off."
+        "done": "The **{}** you chugged earlier has worn off.",
+        "present": [
+          "You opened your present and found 1x **{}** (Worth {}{})!",
+          "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",
+          "You rip open the present box and find 1x **{}** (Worth {}{})!",
+          "You yeet the box out of the window, it breaks open and you get 1x **{}** (Worth {}{})!"
+        ]
       },
       "honey": {
         "stupid_1": [
@@ -1401,7 +1407,7 @@
         ]
       },
       "mine": {
-        "found_item_1": "Tu {} {} **{}** (Valor {}{}) {}",
+        "found_item_1": "Tu {} {} **{}** (Vale {}{}) {}",
         "found_item_2": "Tu {} {} {} {}",
         "found_emeralds": "Tu {} {}{}!",
         "actions": [
@@ -1466,7 +1472,13 @@
         "stupid_3": "O no es un artículo utilizable, o no existe.",
         "chug": "Te has tragado un **{}** (Que dura {} minutos)",
         "chug_no_end": "Te has tragado un **{}**",
-        "done": "El **{}** que has tragado antes ha desaparecido."
+        "done": "El **{}** que has tragado antes ha desaparecido.",
+        "present": [
+          "Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
+          "Arrancaste el papel de envolver tan rápido como pudiste y conseguiste 1x **{}** (Vale {}{})!",
+          "Abre la caja de regalos y encuentra 1x **{}** (Vale {}{})!",
+          "Si sacas la caja por la ventana, se abre y obtienes 1x **{}** (Vale {}{})!"
+        ]
       },
       "honey": {
         "stupid_1": [
