@@ -68,7 +68,7 @@ class Useful(commands.Cog):
     async def help_economy(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.economy}]', icon_url=self.d.splash_logo)
+        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.economy}] {self.d.emojis.emerald_spinn}', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.econ))
@@ -80,7 +80,7 @@ class Useful(commands.Cog):
     async def help_minecraft(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]', icon_url=self.d.splash_logo)
+        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}] {self.d.emojis.bounce}', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.mc))
@@ -92,7 +92,7 @@ class Useful(commands.Cog):
     async def help_utility(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.utility}]', icon_url=self.d.splash_logo)
+        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.utility}] {self.d.emojis.anichest}', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.util))
@@ -104,7 +104,7 @@ class Useful(commands.Cog):
     async def help_fun(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.fun}]', icon_url=self.d.splash_logo)
+        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.fun}] {self.d.emojis.rainbow_shep}', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.fun))
@@ -116,7 +116,7 @@ class Useful(commands.Cog):
     async def help_administrative(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.admin}]', icon_url=self.d.splash_logo)
+        embed.set_author(name=f'{ctx.l.help.n.title} [{ctx.l.help.n.admin}] {self.d.emojis.netherite_sword}', icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
         commands_formatted = '`, `'.join(list(ctx.l.help.mod))
