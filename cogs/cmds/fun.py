@@ -54,6 +54,9 @@ class Fun(commands.Cog):
                 )
                 meme = cj.classify(await resp.json())
 
+        if jj.get('url') is None:
+            await self.bot.get_channel(self.d.error_channel_id).send(jj)
+
         embed = discord.Embed(color=self.d.cc, title=f'{meme.title}', url=meme.permalink)
         embed.set_footer(text=f'{meme.upvotes}  |  u/{meme.author}', icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(':')[-1].replace('>', ''))).url)
         embed.set_image(url=meme.url)
@@ -79,6 +82,9 @@ class Fun(commands.Cog):
                 )
                 jj = await resp.json()
 
+        if jj.get('url') is None:
+            await self.bot.get_channel(self.d.error_channel_id).send(jj)
+
         embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=jj['url'])
 
@@ -103,6 +109,9 @@ class Fun(commands.Cog):
                 )
                 jj = await resp.json()
 
+        if jj.get('url') is None:
+            await self.bot.get_channel(self.d.error_channel_id).send(jj)
+
         embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=jj['url'])
 
@@ -121,6 +130,9 @@ class Fun(commands.Cog):
                         headers={'Authorization': self.d.vb_api_key}
                     )
                     jj = await resp.json()
+
+            if jj.get('url') is None:
+                await self.bot.get_channel(self.d.error_channel_id).send(jj)
 
             embed = discord.Embed(color=self.d.cc)
             embed.set_image(url=jj['url'])
