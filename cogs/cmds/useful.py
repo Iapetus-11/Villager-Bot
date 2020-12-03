@@ -55,7 +55,7 @@ class Useful(commands.Cog):
             p = ctx.prefix
 
             embed.add_field(name=(self.d.emojis.emerald_spinn + ctx.l.help.n.economy), value=f'`{p}help econ`')
-            embed.add_field(name=(self.d.emojis.bounce + ctx.l.help.n.minecraft), value=f'`{p}help mc`')
+            embed.add_field(name=(self.d.emojis.bounce + ' ' + ctx.l.help.n.minecraft), value=f'`{p}help mc`')
             embed.add_field(name=(self.d.emojis.anichest + ctx.l.help.n.utility), value=f'`{p}help util`')
 
             embed.add_field(name=(self.d.emojis.rainbow_shep + ctx.l.help.n.fun), value=f'`{p}help fun`')
