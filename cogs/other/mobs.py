@@ -194,7 +194,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     break
                 else:
                     if mob_key == 'baby_slime' and u_dmg == 0:
-                        await self.bot.send(ctx, random.choice(mob.misses).format(u_sword))
+                        await self.bot.send(ctx, random.choice(mob.misses).format(u_sword.lower()))
                     else:
                         await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice.lower(), u_sword.lower()))  # user attack message
 
