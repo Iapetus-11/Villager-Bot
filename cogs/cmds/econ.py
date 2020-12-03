@@ -918,6 +918,14 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.use.chug_no_end.format('Honey Jar'))
             return
 
+        if thing == 'present':
+            while True:
+                for item in self.d.findables:
+                    if random.randint(0, (item[2]//2)+2) == 1:
+                        await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                        await self.bot.send(ctx, random.choice(self.d.econ.use.present).format(item, item[1], self.d.emojis.emerald))
+                        return
+
         await self.bot.send(ctx, ctx.l.econ.use.stupid_3)
 
     @commands.command(name='harvesthoney', aliases=['honey', 'horny'])  # ~~a strange urge occurs in me~~
