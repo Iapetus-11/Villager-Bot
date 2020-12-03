@@ -54,7 +54,7 @@ class Fun(commands.Cog):
                 )
                 meme = cj.classify(await resp.json())
 
-        if jj.get('url') is None:
+        if meme.get('url') is None:
             await self.bot.get_channel(self.d.error_channel_id).send(jj)
 
         embed = discord.Embed(color=self.d.cc, title=f'{meme.title}', url=meme.permalink)
