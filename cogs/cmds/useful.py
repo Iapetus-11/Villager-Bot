@@ -62,6 +62,8 @@ class Useful(commands.Cog):
             embed.add_field(name=(self.d.emojis.netherite_sword + ctx.l.help.n.admin), value=f'`{p}help admin`')
             embed.add_field(name=(self.d.emojis.heart_full + ' ' + ctx.l.help.main.support), value=f'[**{ctx.l.help.main.clickme}**]({self.d.support})')
 
+            embed.set_footer(text=ctx.l.misc.petus)
+
             await ctx.send(embed=embed)
 
     @help.command(name='economy', aliases=['econ'])
