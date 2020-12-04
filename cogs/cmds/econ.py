@@ -875,6 +875,8 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, ctx.l.econ.use.chug.format('Haste I Potion', 6))
 
+            self.d.pause_econ.pop(ctx.author.id, None)
+
             await asyncio.sleep(60 * 6)
 
             await self.bot.send(ctx.author, ctx.l.econ.use.done.format('Haste I Potion'))
@@ -889,6 +891,8 @@ class Econ(commands.Cog):
             self.d.chuggers[ctx.author.id].append('Haste II Potion')
 
             await self.bot.send(ctx, ctx.l.econ.use.chug.format('Haste II Potion', 4.5))
+
+            self.d.pause_econ.pop(ctx.author.id, None)
 
             await asyncio.sleep(60 * 4.5)
 
