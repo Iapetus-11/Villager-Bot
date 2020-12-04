@@ -30,27 +30,30 @@ class Database(commands.Cog):
 
     @tasks.loop(minutes=10)
     async def update_support_server_member_roles(self):
-        await self.bot.wait_until_ready()
+        try:
+            await self.bot.wait_until_ready()
 
-        support_guild = self.bot.get_guild(self.d.support_server_id)
-        role_map_values = list(self.d.role_mappings.values())
+            support_guild = self.bot.get_guild(self.d.support_server_id)
+            role_map_values = list(self.d.role_mappings.values())
 
-        for member in support_guild.members:
-            roles = []
+            for member in support_guild.members:
+                roles = []
 
-            for role in member.roles:
-                if role.id not in role_map_values and role.id != self.d.support_server_id:
-                    roles.append(role)
+                for role in member.roles:
+                    if role.id not in role_map_values and role.id != self.d.support_server_id:
+                        roles.append(role)
 
-            pickaxe_role = self.d.role_mappings.get(await self.fetch_pickaxe(member.id))
-            if pickaxe_role is not None:
-                roles.append(support_guild.get_role(pickaxe_role))
+                pickaxe_role = self.d.role_mappings.get(await self.fetch_pickaxe(member.id))
+                if pickaxe_role is not None:
+                    roles.append(support_guild.get_role(pickaxe_role))
 
-            if await self.fetch_item(member.id, 'Bane Of Pillagers Amulet') is not None:
-                roles.append(support_guild.get_role(self.d.role_mappings.get('BOP')))
+                if await self.fetch_item(member.id, 'Bane Of Pillagers Amulet') is not None:
+                    roles.append(support_guild.get_role(self.d.role_mappings.get('BOP')))
 
-            if roles != member.roles:
-                await member.edit(roles=roles)
+                if roles != member.roles:
+                    await member.edit(roles=roles)
+        except Exception as e:
+            await self.bot.get_channel(self.d.error_channel_id).send(e)
 
     async def fetch_all_botbans(self):
         botban_records = await self.db.fetch('SELECT uid FROM users WHERE bot_banned = true')  # returns [Record<uid=>, Record<uid=>,..]
