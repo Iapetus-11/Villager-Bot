@@ -5,7 +5,6 @@ import classyjson as cj
 import discord
 import random
 import ast
-import sys
 import os
 
 
@@ -215,74 +214,6 @@ class Owner(commands.Cog):
             body += f'`{u[0]}` - {u[1]}{self.d.emojis.emerald}\n'
 
         await ctx.send(body)
-
-    async def get_mem_usage(self, obj, seen=None):
-        if seen is None:
-            seen = []
-
-        if obj in seen:
-            return 0
-
-        mem = 0
-
-        if isinstance(obj, dict):
-            for obj_child in obj.values():
-                if obj_child not in seen:
-                    seen.append(obj_child)
-                    mem += await self.get_mem_usage(obj_child, seen)
-
-        if isinstance(obj, list):
-            for obj_child in obj:
-                if obj_child not in seen:
-                    seen.append(obj_child)
-                    mem += await self.get_mem_usage(obj_child, seen)
-
-        try:
-            for obj_child in obj.__dict__.values():
-                if obj_child not in seen:
-                    seen.append(obj_child)
-                    mem += await self.get_mem_usage(obj_child, seen)
-        except AttributeError:
-            pass
-
-        mem += sys.getsizeof(obj)
-
-        return mem
-
-    @commands.command(name='memusage', aliases=['memory', 'mem'])
-    async def memory_usage(self, ctx, *, thing=None):
-        mem_usage = {}
-
-        if thing is None:
-            for cog_name, cog in self.bot.cogs.items():
-                for name, obj in cog.__dict__.items():
-                    mem_usage[name] = await self.get_mem_usage(obj) / 1000000 # mb
-        else:
-            thing = eval(thing)
-
-            if isinstance(thing, dict):
-                for name, obj in thing.items():
-                    mem_usage[name] = await self.get_mem_usage(obj) / 1000000
-            elif isinstance(thing, list):
-                for i, obj in enumerate(thing):
-                    mem_usage[i] = await self.get_mem_usage(obj) / 1000000
-            else:
-                try:
-                    for name, obj in thing.__dict__.items():
-                        mem_usage[name] = await self.get_mem_usage(obj) / 1000000
-                except AttributeError:
-                    mem_usage['thing'] = await self.get_mem_usage(thing) / 1000000
-
-        mem_usage_sorted = sorted(mem_usage.items(), key=(lambda t: t[1]), reverse=True)[:25]
-
-        body = ''
-        total = 0
-
-        for name, value in mem_usage_sorted:
-            body += f'`{name}`: {value} mb\n'
-            total += value
-
-        await ctx.send(f'Total: {total/1000} gb\n' + body)
 
     """
     @commands.command(name='updatesticky')
