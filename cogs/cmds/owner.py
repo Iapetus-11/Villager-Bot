@@ -224,7 +224,7 @@ class Owner(commands.Cog):
                 mem_usage += self.get_mem_usage(obj_child)
 
         if isinstance(obj, list):
-            for obj_child in list:
+            for obj_child in obj:
                 mem_usage += self.get_mem_usage(obj_child)
 
         mem_usage += sys.getsizeof(obj)
