@@ -23,7 +23,7 @@ class Econ(commands.Cog):
         # This links the max concurrency of the with, dep, sell, give, etc.. cmds
         for command in (self.vault_deposit, self.vault_withdraw, self.buy, self.sell, self.give, self.gamble, self.search, self.mine, self.pillage):
             command._max_concurrency = self.max_concurrency_dummy._max_concurrency
-            
+
     def cog_unload(self):
         self.d.honey_buckets = self.honey._buckets
 
@@ -584,6 +584,8 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.give.stupid_2)
             return
 
+        await asyncio.sleep(random.random())
+
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if 'pickaxe' in item.lower() or 'sword' in item.lower() or 'trophy' in item.lower() or 'amulet' in item.lower():
@@ -793,6 +795,8 @@ class Econ(commands.Cog):
         if ctx.guild.get_member(victim.id) is None:
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_2)
             return
+
+        await asyncio.sleep(random.random())
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
