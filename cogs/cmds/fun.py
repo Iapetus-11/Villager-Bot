@@ -47,15 +47,12 @@ class Fun(commands.Cog):
         meme = {'nsfw': True, 'spoiler': True}
 
         async with ctx.typing():
-            while meme['spoiler'] or (not do_nsfw and meme['nsfw']):
+            while meme['spoiler'] or (not do_nsfw and meme['nsfw']) or meme.get('url') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 meme = cj.classify(await resp.json())
-
-        if meme.get('url') is None:
-            await self.bot.get_channel(self.d.error_channel_id).send(jj)
 
         embed = discord.Embed(color=self.d.cc, title=f'{meme.title}', url=meme.permalink)
         embed.set_footer(text=f'{meme.upvotes}  |  u/{meme.author}', icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(':')[-1].replace('>', ''))).url)
@@ -75,15 +72,12 @@ class Fun(commands.Cog):
         jj = {'nsfw': True}
 
         async with ctx.typing():
-            while not do_nsfw and jj['nsfw']:
+            while (not do_nsfw and jj['nsfw']) or jj.get('url') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/4chan+greentext',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 jj = await resp.json()
-
-        if jj.get('url') is None:
-            await self.bot.get_channel(self.d.error_channel_id).send(jj)
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=jj['url'])
@@ -102,15 +96,12 @@ class Fun(commands.Cog):
         jj = {'nsfw': True}
 
         async with ctx.typing():
-            while not do_nsfw and jj['nsfw']:
+            while (not do_nsfw and jj['nsfw']) or jj.get('url') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/comics',
                     headers={'Authorization': self.d.vb_api_key}
                 )
                 jj = await resp.json()
-
-        if jj.get('url') is None:
-            await self.bot.get_channel(self.d.error_channel_id).send(jj)
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=jj['url'])
@@ -124,15 +115,12 @@ class Fun(commands.Cog):
             jj = {'nsfw': True}
 
             async with ctx.typing():
-                while jj['nsfw']:
+                while jj['nsfw'] or jj.get('url') is None:
                     resp = await self.ses.get(
                         'https://api.iapetus11.me/reddit/gimme/CursedMinecraft',
                         headers={'Authorization': self.d.vb_api_key}
                     )
                     jj = await resp.json()
-
-            if jj.get('url') is None:
-                await self.bot.get_channel(self.d.error_channel_id).send(jj)
 
             embed = discord.Embed(color=self.d.cc)
             embed.set_image(url=jj['url'])
