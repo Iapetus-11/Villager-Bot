@@ -216,31 +216,34 @@ class Owner(commands.Cog):
 
         await ctx.send(body)
 
-    def get_mem_usage(self, obj, counted=None):
-        mem_usage = 0
+    def get_mem_usage(self, obj, seen=None):
+        if seen is None:
+            seen = []
+
+        if id(obj) in seen:
+            return 0
+
+        mem = 0
 
         if isinstance(obj, dict):
-            for key, obj_child in obj.items():
-                mem_usage += self.get_mem_usage(obj_child)
+            for obj_child in obj.values():
+                mem += self.get_mem_usage(obj_child)
 
         if isinstance(obj, list):
             for obj_child in obj:
-                mem_usage += self.get_mem_usage(obj_child)
+                mem += self.get_mem_usage(obj_child)
 
         try:
-            if counted is None:
-                counted = []
-
-            for key, obj_child in obj.__dict__.items():
-                if id(obj_child) not in counted:
-                    counted.append(id(obj_child))
-                    mem_usage += self.get_mem_usage(obj_child, counted)
+            for obj_child in obj:
+                if id(obj_child) not in seen:
+                    seen.append(id(obj_child))
+                    mem += self.get_mem_usage(obj_child, seen)
         except AttributeError:
             pass
 
-        mem_usage += sys.getsizeof(obj)
+        mem += sys.getsizeof(obj)
 
-        return mem_usage
+        return mem
 
     @commands.command(name='memusage', aliases=['memory', 'mem'])
     async def memory_usage(self, ctx, *, thing=None):
