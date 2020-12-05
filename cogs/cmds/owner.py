@@ -282,7 +282,7 @@ class Owner(commands.Cog):
             body += f'`{name}`: {value} mb\n
             total += value
 
-        await ctx.send(f'Total: {total/1000} gb\n'body)
+        await ctx.send(f'Total: {total/1000} gb\n' + body)
 
     """
     @commands.command(name='updatesticky')
