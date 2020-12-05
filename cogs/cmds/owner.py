@@ -220,27 +220,27 @@ class Owner(commands.Cog):
         if seen is None:
             seen = []
 
-        if id(obj) in seen:
+        if obj in seen:
             return 0
 
         mem = 0
 
         if isinstance(obj, dict):
             for obj_child in obj.values():
-                if id(obj_child) not in seen:
-                    seen.append(id(obj_child))
+                if obj_child not in seen:
+                    seen.append(obj_child)
                     mem += self.get_mem_usage(obj_child, seen)
 
         if isinstance(obj, list):
             for obj_child in obj:
-                if id(obj_child) not in seen:
-                    seen.append(id(obj_child))
+                if obj_child not in seen:
+                    seen.append(obj_child)
                     mem += self.get_mem_usage(obj_child, seen)
 
         try:
             for obj_child in obj.__dict__.values():
-                if id(obj_child) not in seen:
-                    seen.append(id(obj_child))
+                if obj_child not in seen:
+                    seen.append(obj_child)
                     mem += self.get_mem_usage(obj_child, seen)
         except AttributeError:
             pass
