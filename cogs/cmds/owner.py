@@ -216,7 +216,7 @@ class Owner(commands.Cog):
 
         await ctx.send(body)
 
-    def get_mem_usage(self, obj):
+    def get_mem_usage(self, obj, counted=None):
         mem_usage = 0
 
         if isinstance(obj, dict):
@@ -226,6 +226,17 @@ class Owner(commands.Cog):
         if isinstance(obj, list):
             for obj_child in obj:
                 mem_usage += self.get_mem_usage(obj_child)
+
+        try:
+            if counted is None:
+                counted = []
+
+            for key, obj_child in obj.__dict__.items():
+                if hash(object_child) not in counted:
+                    counted.append(hash(object_child))
+                    mem_usage += self.get_mem_usage(obj_child, counted)
+        except AttributeError:
+            pass
 
         mem_usage += sys.getsizeof(obj)
 
