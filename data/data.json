@@ -70,12 +70,12 @@
     "BOP": 706604490274504754
   },
   "sword_list": [
-    "netherite sword",
-    "diamond sword",
-    "gold sword",
-    "iron sword",
+    "wood sword",
     "stone sword",
-    "wood sword"
+    "iron sword",
+    "gold sword",
+    "diamond sword",
+    "netherite sword"
   ],
   "kills": [
     "{0} was suicided",
