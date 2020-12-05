@@ -227,6 +227,12 @@ class Owner(commands.Cog):
             for obj_child in obj:
                 mem_usage += self.get_mem_usage(obj_child)
 
+        try:
+            for key, obj_child in obj.__dict__.items():
+                mem_usage += self.get_mem_usage(obj_child)
+        except AttributeError:
+            pass
+
         mem_usage += sys.getsizeof(obj)
 
         return mem_usage
