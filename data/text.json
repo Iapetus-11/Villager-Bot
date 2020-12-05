@@ -634,7 +634,7 @@
           "You search your pockets and find {}, covered in old sticky gum...",
           "Your pet barfs up {}...",
           "Scrolling to the bottom of the channel list on Discord you find {}!",
-          "You search the Discord server and find {}...",
+          "You search the [Discord server](discord.gg/39DwwUV) and find {}...",
           "You search for {} on Google."
         ],
         "negative": [
@@ -834,7 +834,7 @@
       "util": {
         "help": "`{0}help` *ver información útil sobre Villager Bot*",
         "config": "`{0}config` *configurar / configurar el bot a su gusto*",
-        "ping": "`{0}ping` *muestra la latencia entre la Discordia y Villager Bot*",
+        "ping": "`{0}ping` *muestra la latencia entre la Discord y Villager Bot*",
         "server": "`{0}server` *ver información sobre el servidor actual*",
         "links": "`{0}links` *ver enlaces útiles relacionados con Villager Bot*",
         "vote": "`{0}vote` *ganan esmeraldas votando por Villager Bot en ciertos sitios web*",
@@ -869,9 +869,9 @@
         "warns": "`{0}warns <usuario>` *ver las advertencias que tiene un usuario, dejar en blanco para ver sus advertencias*",
         "purge": "`{0}purge [opcional: usuario] <cantidad>` *purgar los mensajes del canal actual*",
         "delwarns": "`{0}delwarns <usuario>` *borra las advertencias que el usuario tiene en este servidor*",
-        "kick": "`{0}kick <usuario>` *patea al usuario del actual servidor de Discordia*",
-        "ban": "`{0}ban <usuario>` *prohibe al usuario del actual servidor de Discordia*",
-        "pardon": "`{0}pardon <usuario>` *desbancar al usuario del actual servidor de Discordia*"
+        "kick": "`{0}kick <usuario>` *patea al usuario del actual servidor de Discord*",
+        "ban": "`{0}ban <usuario>` *prohibe al usuario del actual servidor de Discord*",
+        "pardon": "`{0}pardon <usuario>` *desbancar al usuario del actual servidor de Discord*"
       }
     },
     "fun": {
@@ -1391,8 +1391,8 @@
           "Underneath a block of dirt you find {}!",
           "Buscas en tus bolsillos y encuentras {}, cubierto de un viejo chicle pegajoso...",
           "Tu mascota vomita {}...",
-          "¡Desplazándose al final de la lista de canales en Discordia se encuentra {}!",
-          "Busca en el servidor de Discordia y encuentra {}...",
+          "¡Desplazándose al final de la lista de canales en Discord se encuentra {}!",
+          "Busca en el [servidor de Discord](discord.gg/39DwwUV) y encuentra {}...",
           "Busca por {} en Google."
         ],
         "negative": [
