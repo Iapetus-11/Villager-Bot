@@ -218,7 +218,7 @@ class Owner(commands.Cog):
 
     @commands.command(name='memusage', aliases=['memory', 'mem'])
     async def memory_usage(self, ctx):
-        for cog in self.bot.cogs:
+        for cog_name, cog in self.bot.cogs.items():
             for key, val in cog.__dict__.items():
                 await ctx.send(f'{cog.__cog_name__}: **{key}**: {__import__("sys").getsizeof(val)}')
 
