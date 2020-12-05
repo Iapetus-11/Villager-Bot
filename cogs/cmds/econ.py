@@ -21,8 +21,9 @@ class Econ(commands.Cog):
         self.pillage_cap_reset.start()
 
         # This links the max concurrency of the with, dep, sell, give, etc.. cmds
-
-
+        for command in (self.vault_deposit, self.vault_withdraw, self.buy, self.sell, self.give, self.gamble, self.search, self.mine, self.pillage):
+            command._max_concurrency = self.max_concurrency_dummy._max_concurrency
+            
     def cog_unload(self):
         self.d.honey_buckets = self.honey._buckets
 
@@ -73,6 +74,11 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
 
         return True
+
+    @commands.command(name='max_concurrency_dummy')
+    @commands.max_concurrency(1, commands.BucketType.user)
+    async def max_concurrency_dummy(self, ctx):
+        pass
 
     @commands.command(name='profile', aliases=['pp'])
     async def profile(self, ctx, *, user: discord.User = None):
