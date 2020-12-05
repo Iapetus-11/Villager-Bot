@@ -232,8 +232,8 @@ class Owner(commands.Cog):
                 counted = []
 
             for key, obj_child in obj.__dict__.items():
-                if hash(object_child) not in counted:
-                    counted.append(hash(object_child))
+                if hash(obj_child) not in counted:
+                    counted.append(hash(obj_child))
                     mem_usage += self.get_mem_usage(obj_child, counted)
         except AttributeError:
             pass
