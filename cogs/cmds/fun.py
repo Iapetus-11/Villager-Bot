@@ -52,9 +52,11 @@ class Fun(commands.Cog):
                     'https://api.iapetus11.me/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
                     headers={'Authorization': self.d.vb_api_key}
                 )
+
                 meme = cj.classify(await resp.json())
 
         embed = discord.Embed(color=self.d.cc, title=f'{meme.title}', url=meme.permalink)
+        
         embed.set_footer(text=f'{meme.upvotes}  |  u/{meme.author}', icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(':')[-1].replace('>', ''))).url)
         embed.set_image(url=meme.url)
 
@@ -77,6 +79,7 @@ class Fun(commands.Cog):
                     'https://api.iapetus11.me/reddit/gimme/4chan+greentext',
                     headers={'Authorization': self.d.vb_api_key}
                 )
+
                 jj = await resp.json()
 
         embed = discord.Embed(color=self.d.cc)
@@ -101,6 +104,7 @@ class Fun(commands.Cog):
                     'https://api.iapetus11.me/reddit/gimme/comics',
                     headers={'Authorization': self.d.vb_api_key}
                 )
+
                 jj = await resp.json()
 
         embed = discord.Embed(color=self.d.cc)
@@ -120,6 +124,7 @@ class Fun(commands.Cog):
                         'https://api.iapetus11.me/reddit/gimme/CursedMinecraft',
                         headers={'Authorization': self.d.vb_api_key}
                     )
+
                     jj = await resp.json()
 
             embed = discord.Embed(color=self.d.cc)
