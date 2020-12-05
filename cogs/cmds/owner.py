@@ -239,12 +239,17 @@ class Owner(commands.Cog):
             for cog_name, cog in self.bot.cogs.items():
                 for name, obj in cog.__dict__.items():
                     mem_usage[name] = self.get_mem_usage(obj) / 1000000 # mb
-        elif thing == 'd' or thing == 'self.d':
-            for name, obj in self.d.items():
-                mem_usage[name] = self.get_mem_usage(obj) / 1000000
         else:
-            await ctx.send('Invalid thing')
-            return
+            thing = eval(thing)
+
+            if isinstance(thing, dict):
+                for name, obj in thing.items():
+                    mem_usage[name] = self.get_mem_usage(obj) / 1000000
+            elif isinstance(thing, list):
+                for i, obj in enumerate(thing):
+                    mem_usage[i] = self.get_mem_usage(obj) / 1000000
+            else:
+                mem_usage['thing'] = self.get_mem_usage(thing) / 1000000
 
         mem_usage_sorted = sorted(mem_usage.items(), key=(lambda t: t[1]), reverse=True)[:25]
 
