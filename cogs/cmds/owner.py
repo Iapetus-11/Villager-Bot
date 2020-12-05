@@ -218,9 +218,20 @@ class Owner(commands.Cog):
 
     @commands.command(name='memusage', aliases=['memory', 'mem'])
     async def memory_usage(self, ctx):
+        mem_usage = {}
+
         for cog_name, cog in self.bot.cogs.items():
-            for key, val in cog.__dict__.items():
-                await ctx.send(f'{cog.__cog_name__}: **{key}**: {__import__("sys").getsizeof(val)}')
+            for name, obj in cog.__dict__.items():
+                mem_usage[name] = sys.getsizeof(obj)  # Should be bytes
+
+        mem_usage_sorted = sorted(mem_usage.items(), key=(lambda t: t[1]), reverse=True)[:25]
+
+        body = ''
+
+        for name, value in mem_usage_sorted:
+            body += f'{name}: {value} bytes\n'
+
+        await ctx.send(body)
 
     """
     @commands.command(name='updatesticky')
