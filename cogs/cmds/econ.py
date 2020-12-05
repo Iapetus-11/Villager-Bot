@@ -71,12 +71,6 @@ class Econ(commands.Cog):
 
         return True
 
-    async def cog_before_invoke(self, ctx):
-        self.d.pause_econ[ctx.author.id] = arrow.utcnow()
-
-    async def cog_after_invoke(self, ctx):
-        self.d.pause_econ.pop(ctx.author.id, None)
-
     @commands.command(name='profile', aliases=['pp'])
     async def profile(self, ctx, *, user: discord.User = None):
         if user is None:
