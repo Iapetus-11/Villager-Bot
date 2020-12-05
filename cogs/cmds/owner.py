@@ -232,12 +232,19 @@ class Owner(commands.Cog):
         return mem_usage
 
     @commands.command(name='memusage', aliases=['memory', 'mem'])
-    async def memory_usage(self, ctx):
+    async def memory_usage(self, ctx, *, thing=None):
         mem_usage = {}
 
-        for cog_name, cog in self.bot.cogs.items():
-            for name, obj in cog.__dict__.items():
-                mem_usage[name] = self.get_mem_usage(obj)  # Should be bytes
+        if thing is None:
+            for cog_name, cog in self.bot.cogs.items():
+                for name, obj in cog.__dict__.items():
+                    mem_usage[name] = self.get_mem_usage(obj)  # Should be bytes
+        elif thing == 'd' or thing == 'self.d':
+            for name, obj in self.d.items():
+                mem_usage[name] = self.get_mem_usage(obj)
+        else:
+            await ctx.send('Invalid thing')
+            return
 
         mem_usage_sorted = sorted(mem_usage.items(), key=(lambda t: t[1]), reverse=True)[:25]
 
