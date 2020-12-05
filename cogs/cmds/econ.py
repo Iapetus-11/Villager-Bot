@@ -20,6 +20,9 @@ class Econ(commands.Cog):
 
         self.pillage_cap_reset.start()
 
+        # This links the max concurrency of the with, dep, sell, give, etc.. cmds
+
+
     def cog_unload(self):
         self.d.honey_buckets = self.honey._buckets
 
@@ -213,6 +216,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='deposit', aliases=['dep'])
     @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
     async def vault_deposit(self, ctx, emerald_blocks: str):
         """Deposits the given amount of emerald blocks into the vault"""
 
@@ -261,6 +265,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='withdraw', aliases=['with'])
     @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
     async def vault_withdraw(self, ctx, emerald_blocks: str):
         """Withdraws a certain amount of emerald blocks from the vault"""
 
@@ -387,6 +392,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='buy')
     @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
     async def buy(self, ctx, *, amount_item):
         """Allows you to buy items"""
 
@@ -482,6 +488,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='sell')
     @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
     async def sell(self, ctx, *, amount_item):
         """Allows you to sell items"""
 
@@ -535,6 +542,7 @@ class Econ(commands.Cog):
     @commands.command(name='give', aliases=['gift', 'share'])
     @commands.guild_only()
     @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
     async def give(self, ctx, user: discord.Member, *, amount_item):
         """Give an item or emeralds to another person"""
 
@@ -615,6 +623,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
     @commands.cooldown(1, 45, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
 
@@ -662,6 +671,7 @@ class Econ(commands.Cog):
 
     @commands.command(name='search', aliases=['beg'])
     @commands.cooldown(1, 30*60, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
     async def search(self, ctx):
         """Beg for emeralds"""
 
@@ -692,6 +702,7 @@ class Econ(commands.Cog):
     @commands.command(name='mine', aliases=['mein', 'eun'])
     @commands.guild_only()
     @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
     async def mine(self, ctx):
         if not await self.math_problem(ctx): return
 
@@ -760,6 +771,7 @@ class Econ(commands.Cog):
     @commands.command(name='pillage', aliases=['bonk'])
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.User):
         if victim.bot:
             if victim.id == self.bot.user.id:
