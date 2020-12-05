@@ -227,11 +227,15 @@ class Owner(commands.Cog):
 
         if isinstance(obj, dict):
             for obj_child in obj.values():
-                mem += self.get_mem_usage(obj_child)
+                if id(obj_child) not in seen:
+                    seen.append(id(obj_child))
+                    mem += self.get_mem_usage(obj_child, seen)
 
         if isinstance(obj, list):
             for obj_child in obj:
-                mem += self.get_mem_usage(obj_child)
+                if id(obj_child) not in seen:
+                    seen.append(id(obj_child))
+                    mem += self.get_mem_usage(obj_child, seen)
 
         try:
             for obj_child in obj.__dict__.values():
