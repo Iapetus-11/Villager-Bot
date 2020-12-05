@@ -584,8 +584,6 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.give.stupid_2)
             return
 
-        await asyncio.sleep(random.random())
-
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if 'pickaxe' in item.lower() or 'sword' in item.lower() or 'trophy' in item.lower() or 'amulet' in item.lower():
@@ -795,8 +793,6 @@ class Econ(commands.Cog):
         if ctx.guild.get_member(victim.id) is None:
             await self.bot.send(ctx, ctx.l.econ.pillage.stupid_2)
             return
-
-        await asyncio.sleep(random.random())
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
