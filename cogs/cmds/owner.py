@@ -279,7 +279,7 @@ class Owner(commands.Cog):
         total = 0
 
         for name, value in mem_usage_sorted:
-            body += f'`{name}`: {value} mb\n
+            body += f'`{name}`: {value} mb\n'
             total += value
 
         await ctx.send(f'Total: {total/1000} gb\n' + body)
