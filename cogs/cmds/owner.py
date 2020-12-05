@@ -238,10 +238,10 @@ class Owner(commands.Cog):
         if thing is None:
             for cog_name, cog in self.bot.cogs.items():
                 for name, obj in cog.__dict__.items():
-                    mem_usage[name] = self.get_mem_usage(obj)  # Should be bytes
+                    mem_usage[name] = self.get_mem_usage(obj) / 1000000 # mb
         elif thing == 'd' or thing == 'self.d':
             for name, obj in self.d.items():
-                mem_usage[name] = self.get_mem_usage(obj)
+                mem_usage[name] = self.get_mem_usage(obj) / 1000000
         else:
             await ctx.send('Invalid thing')
             return
@@ -251,7 +251,7 @@ class Owner(commands.Cog):
         body = ''
 
         for name, value in mem_usage_sorted:
-            body += f'{name}: {value} bytes\n'
+            body += f'{name}: {value} mb\n'
 
         await ctx.send(body)
 
