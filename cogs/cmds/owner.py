@@ -220,12 +220,12 @@ class Owner(commands.Cog):
         mem_usage = 0
 
         if isinstance(obj, dict):
-            for key, obj in dict.items():
-                mem_usage += self.get_mem_usage(obj)
+            for key, obj_child in obj.items():
+                mem_usage += self.get_mem_usage(obj_child)
 
         if isinstance(obj, list):
-            for obj in list:
-                mem_usage += self.get_mem_usage(obj)
+            for obj_child in list:
+                mem_usage += self.get_mem_usage(obj_child)
 
         mem_usage += sys.getsizeof(obj)
 
