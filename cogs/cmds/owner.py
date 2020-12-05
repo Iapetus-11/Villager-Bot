@@ -216,13 +216,28 @@ class Owner(commands.Cog):
 
         await ctx.send(body)
 
+    def get_mem_usage(self, obj):
+        mem_usage = 0
+
+        if isinstance(obj, dict):
+            for key, obj in dict.items():
+                mem_usage += self.get_mem_usage(obj)
+
+        if isinstance(obj, list):
+            for obj in list:
+                mem_usage += self.get_mem_usage(obj)
+
+        mem_usage += sys.getsizeof(obj)
+
+        return mem_usage
+
     @commands.command(name='memusage', aliases=['memory', 'mem'])
     async def memory_usage(self, ctx):
         mem_usage = {}
 
         for cog_name, cog in self.bot.cogs.items():
             for name, obj in cog.__dict__.items():
-                mem_usage[name] = sys.getsizeof(obj)  # Should be bytes
+                mem_usage[name] = self.get_mem_usage(obj)  # Should be bytes
 
         mem_usage_sorted = sorted(mem_usage.items(), key=(lambda t: t[1]), reverse=True)[:25]
 
