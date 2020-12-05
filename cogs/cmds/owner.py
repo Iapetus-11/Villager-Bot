@@ -234,7 +234,7 @@ class Owner(commands.Cog):
                 mem += self.get_mem_usage(obj_child)
 
         try:
-            for obj_child in obj:
+            for obj_child in obj.__dict__.values():
                 if id(obj_child) not in seen:
                     seen.append(id(obj_child))
                     mem += self.get_mem_usage(obj_child, seen)
