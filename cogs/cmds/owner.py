@@ -5,6 +5,7 @@ import classyjson as cj
 import discord
 import random
 import ast
+import sys
 import os
 
 
@@ -214,6 +215,12 @@ class Owner(commands.Cog):
             body += f'`{u[0]}` - {u[1]}{self.d.emojis.emerald}\n'
 
         await ctx.send(body)
+
+    @commands.command(name='memusage', aliases=['memory', 'mem'])
+    async def memory_usage(self, ctx):
+        for cog in self.bot.cogs:
+            for key, val in cog.__dict__.items():
+                await ctx.send(f'{cog.__cog_name__}: **{key}**: {__import__("sys").getsizeof(val)}')
 
     """
     @commands.command(name='updatesticky')
