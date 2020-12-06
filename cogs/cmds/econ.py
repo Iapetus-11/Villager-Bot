@@ -858,7 +858,7 @@ class Econ(commands.Cog):
             await self.db.balance_add(victim.id, penalty)
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
-            await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
+            await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention, (await self.db.fetch_sword(ctx.author.id)).lower()))
 
     @commands.command(name='use', aliases=['eat', 'chug'])
     @commands.cooldown(1, 0.25, commands.BucketType.user)
