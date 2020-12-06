@@ -51,7 +51,7 @@ class Econ(commands.Cog):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
         self.d.miners[ctx.author.id] = mine_commands + 1
 
-        if True:
+        if mine_commands >= 100*source_multi:
             prob = f'{random.randint(0, 45)}{random.choice(("+", "+",))}{random.randint(0, 25)}'
             prob = (prob, str(eval(prob)),)
 
