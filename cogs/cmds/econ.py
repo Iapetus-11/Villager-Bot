@@ -628,7 +628,7 @@ class Econ(commands.Cog):
                 await self.bot.send(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item['name']))
 
     @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
-    @commands.cooldown(1, 45, commands.BucketType.user)
+    @commands.cooldown(1, 20, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
@@ -658,14 +658,15 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
 
         if u_roll > b_roll:
-            multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 75
+            multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 20
             multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20)
-            multi = (200 + random.randint(-5, 0)) if multi >= 200 else multi
+            multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
             multi /= 100
 
-            won = int(multi * amount)
-            if won > 45000:
-                won = 45000 + random.randint(-5000, 5000)
+            if amount > 500:
+                won = math.ceil(multi * math.ceil(math.log(amount, 1.009)))
+            else:
+                won = math.ceil(multi * amount)
 
             await self.db.balance_add(ctx.author.id, won)
             await self.bot.send(ctx, ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), won, self.d.emojis.emerald))
