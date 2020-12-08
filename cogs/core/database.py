@@ -142,15 +142,11 @@ class Database(commands.Cog):
 
     async def mass_fetch_balances(self):
         async with self.db.acquire() as con:
-            async with con.transaction():
-                async for record in con.cursor('SELECT uid, emeralds FROM users'):
-                    yield record
+            return await con.fetch('SELECT uid, emeralds FROM users')
 
     async def mass_fetch_votestreaks(self):
         async with self.db.acquire() as con:
-            async with con.transaction():
-                async for record in con.cursor('SELECT uid, vote_streak FROM users'):
-                    yield record
+            return await con.fetch('SELECT uid, vote_streak FROM users')
 
     async def set_balance(self, uid, emeralds):
         await self.fetch_user(uid)
