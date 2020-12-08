@@ -1035,7 +1035,12 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name='emeralds', aliases=['ems'])
     async def leaderboard_emeralds(self, ctx):
-        emeralds = sorted((r async for r in self.db.mass_fetch_balances()), key=(lambda tup: tup[1]), reverse=True)
+        emeralds = []
+
+        async for r in self.db.mass_fetch_balances():
+            emeralds.append(r)
+
+        emeralds = sorted(emeralds, key=(lambda tup: tup[1]), reverse=True)
 
         lb_global = await self.leaderboard_logic(emeralds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
