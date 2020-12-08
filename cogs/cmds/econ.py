@@ -628,7 +628,7 @@ class Econ(commands.Cog):
                 await self.bot.send(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item['name']))
 
     @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
-    @commands.cooldown(1, 45, commands.BucketType.user)
+    @commands.cooldown(1, 20, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
