@@ -56,23 +56,33 @@ class Database(commands.Cog):
             await self.bot.get_channel(self.d.error_channel_id).send(e)
 
     async def fetch_all_botbans(self):
-        botban_records = await self.db.fetch('SELECT uid FROM users WHERE bot_banned = true')  # returns [Record<uid=>, Record<uid=>,..]
+        async with self.db.acquire() as con:
+            botban_records = await con.fetch('SELECT uid FROM users WHERE bot_banned = true')  # returns [Record<uid=>, Record<uid=>,..]
+
         return [r[0] for r in botban_records]
 
     async def fetch_all_guild_langs(self):
-        lang_records = await self.db.fetch('SELECT gid, lang FROM guilds')
+        async with self.db.acquire() as con:
+            lang_records = await con.fetch('SELECT gid, lang FROM guilds')
+
         return dict((r[0], r[1],) for r in lang_records if (r[1] != 'en' and r[1] != None and r[1] != 'en_us'))  # needs to be a dict
 
     async def fetch_all_guild_prefixes(self):
-        prefix_records = await self.db.fetch('SELECT gid, prefix FROM guilds')
+        async with self.db.acquire() as con:
+            prefix_records = await self.db.fetch('SELECT gid, prefix FROM guilds')
+
         return dict((r[0], r[1],) for r in prefix_records if (r[1] != self.d.default_prefix and r[1] != None))  # needs to be a dict
 
     async def fetch_all_mcservers(self):
-        servers = await self.db.fetch('SELECT host, link FROM mcservers')
+        async with self.db.acquire() as con:
+            servers = await con.fetch('SELECT host, link FROM mcservers')
+
         return [(s['host'], s['link'],) for s in servers]
 
     async def fetch_all_disabled_commands(self):
-        disabled = await self.db.fetch('SELECT * FROM disabled')
+        async with self.db.acquire() as con:
+            disabled = await con.fetch('SELECT * FROM disabled')
+
         disabled_nice = {}
 
         for entry in disabled:
