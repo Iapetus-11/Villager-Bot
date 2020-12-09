@@ -470,6 +470,10 @@ class Minecraft(commands.Cog):
                 await self.bot.send(ctx.author, 'The provided RCON password/authentication is invalid')
                 await self.close_rcon_con(key, ctx.guild.id)
                 return
+            except Exception:
+                await self.bot.send(ctx, 'Something went wrong while connecting to the server.')
+                await self.close_rcon_con(key, ctx.guild.id)
+                return
 
             rcon_con = self.d.rcon_connection_cache[key][0]
         else:
