@@ -93,6 +93,8 @@
     "{0} was yeeted into the void by an enderman",
     "{0} fell into lava",
     "{0} was smited by Villager Bot"
+    "{0} was too soft for this world"
+    "{0} was too soft for this world ({1} helped)"
   ],
   "hmms": [
     "hrmmmmmmmmm",
