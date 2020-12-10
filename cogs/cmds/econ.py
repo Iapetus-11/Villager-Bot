@@ -829,13 +829,13 @@ class Econ(commands.Cog):
 
         # lmao
         if pillager_pillages > 7 or times_pillaged > 4:
-            chances = [False] * 50 + [True]
+            chances = [False]*50 + [True]
         elif await self.db.fetch_item(victim.id, 'Bane Of Pillagers Amulet'):
-            chances = [False] * 5 + [True]
+            chances = [False]*5 + [True]
         elif user_bees > victim_bees:
-            chances = [False] * 3 + [True] * 5
+            chances = [False]*3 + [True]*5
         elif user_bees < victim_bees:
-            chances = [False] * 5 + [True] * 3
+            chances = [False]*5 + [True]*3
         else:
             chances = [True, False]
 
@@ -866,7 +866,7 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, penalty)
             await self.db.balance_add(victim.id, penalty)
 
-            await self.bot.send(ctx,random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
+            await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name='use', aliases=['eat', 'chug'])
