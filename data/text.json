@@ -704,8 +704,8 @@
           "victim": [
             "{} absolutely failed at pillaging you!",
             "{} got absolutely destroyed at pillaging you!",
-            "{} failed while trying to pillage you with their {}!",
-            "{} tried to pillage you with their {}!"
+            "{} failed while trying to pillage you with their wooden sword!",
+            "{} tried to pillage you with their wooden sword!"
           ]
         }
       },

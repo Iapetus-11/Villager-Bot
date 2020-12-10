@@ -57,11 +57,11 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, ctx.l.econ.math_problem.problem.format(prob[0]))
 
-            def check(m):
-                return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id and m.content.isdigit()
+            def author_check(m):
+                return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id
 
             try:
-                m = await self.bot.wait_for('message', check=check, timeout=10)
+                m = await self.bot.wait_for('message', check=author_check, timeout=10)
             except asyncio.TimeoutError:
                 await self.bot.send(ctx, ctx.l.econ.math_problem.timeout)
                 return False
@@ -857,7 +857,7 @@ class Econ(commands.Cog):
             await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
-            await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald))
+            await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
             await self.db.update_lb(ctx.author.id, 'pillages', adjusted, 'add')
         else:
