@@ -56,23 +56,33 @@ class Database(commands.Cog):
             await self.bot.get_channel(self.d.error_channel_id).send(e)
 
     async def fetch_all_botbans(self):
-        botban_records = await self.db.fetch('SELECT uid FROM users WHERE bot_banned = true')  # returns [Record<uid=>, Record<uid=>,..]
+        async with self.db.acquire() as con:
+            botban_records = await con.fetch('SELECT uid FROM users WHERE bot_banned = true')  # returns [Record<uid=>, Record<uid=>,..]
+
         return [r[0] for r in botban_records]
 
     async def fetch_all_guild_langs(self):
-        lang_records = await self.db.fetch('SELECT gid, lang FROM guilds')
+        async with self.db.acquire() as con:
+            lang_records = await con.fetch('SELECT gid, lang FROM guilds')
+
         return dict((r[0], r[1],) for r in lang_records if (r[1] != 'en' and r[1] != None and r[1] != 'en_us'))  # needs to be a dict
 
     async def fetch_all_guild_prefixes(self):
-        prefix_records = await self.db.fetch('SELECT gid, prefix FROM guilds')
+        async with self.db.acquire() as con:
+            prefix_records = await con.fetch('SELECT gid, prefix FROM guilds')
+
         return dict((r[0], r[1],) for r in prefix_records if (r[1] != self.d.default_prefix and r[1] != None))  # needs to be a dict
 
     async def fetch_all_mcservers(self):
-        servers = await self.db.fetch('SELECT host, link FROM mcservers')
+        async with self.db.acquire() as con:
+            servers = await con.fetch('SELECT host, link FROM mcservers')
+
         return [(s['host'], s['link'],) for s in servers]
 
     async def fetch_all_disabled_commands(self):
-        disabled = await self.db.fetch('SELECT * FROM disabled')
+        async with self.db.acquire() as con:
+            disabled = await con.fetch('SELECT * FROM disabled')
+
         disabled_nice = {}
 
         for entry in disabled:
@@ -81,18 +91,18 @@ class Database(commands.Cog):
         return disabled_nice
 
     async def fetch_guild(self, gid):
-        g = await self.db.fetchrow('SELECT * FROM guilds WHERE gid = $1', gid)
+        async with self.db.acquire() as con:
+            g = await con.fetchrow('SELECT * FROM guilds WHERE gid = $1', gid)
 
-        if g is None:
-            async with self.db.acquire() as con:
+            if g is None:
                 await con.execute(
                     'INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
                     gid, '/', True, 'easy', 'en', None, None, False
                 )
 
-            return await self.fetch_guild(gid)
+                return await self.fetch_guild(gid)
 
-        return g
+            return g
 
     async def set_guild_attr(self, gid, attr, value):
         await self.fetch_guild(gid)  # ensure it exists in db
@@ -104,7 +114,8 @@ class Database(commands.Cog):
             await con.execute('DELETE FROM guilds WHERE gid = $1', gid)
 
     async def fetch_guild_premium(self, gid):
-        return bool(await self.db.fetchval('SELECT premium FROM guilds WHERE gid = $1', gid))
+        async with self.db.acquire() as con:
+            return bool(await con.fetchval('SELECT premium FROM guilds WHERE gid = $1', gid))
 
     async def set_cmd_usable(self, gid, cmd, usable):
         async with self.db.acquire() as con:
@@ -114,10 +125,10 @@ class Database(commands.Cog):
                 await con.execute('INSERT INTO disabled VALUES ($1, $2)', gid, cmd)
 
     async def fetch_user(self, uid):
-        user = await self.db.fetchrow('SELECT * FROM users WHERE uid = $1', uid)
+        async with self.db.acquire() as con:
+            user = await con.fetchrow('SELECT * FROM users WHERE uid = $1', uid)
 
-        if user is None:
-            async with self.db.acquire() as con:
+            if user is None:
                 await con.execute(
                     'INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
                     uid, 0, 0, 1, 20, False, 0, 0, False
@@ -126,9 +137,9 @@ class Database(commands.Cog):
                 await self.add_item(uid, 'Wood Pickaxe', 0, 1, True)
                 await self.add_item(uid, 'Wood Sword', 0, 1, True)
 
-            return await self.fetch_user(uid)
+                return await self.fetch_user(uid)
 
-        return user
+            return user
 
     async def update_user(self, uid, key, value):
         await self.fetch_user(uid)
@@ -171,7 +182,8 @@ class Database(commands.Cog):
 
     async def fetch_vault(self, uid):  # fetches a user's vault in the form (vault_amount, vault_max)
         await self.fetch_user(uid)
-        return await self.db.fetchrow('SELECT vault_bal, vault_max FROM users WHERE uid = $1', uid)
+        async with self.db.acquire() as con:
+            return await con.fetchrow('SELECT vault_bal, vault_max FROM users WHERE uid = $1', uid)
 
     async def set_vault(self, uid, vault_bal, vault_max):
         await self.fetch_user(uid)
@@ -183,14 +195,17 @@ class Database(commands.Cog):
 
     async def fetch_items(self, uid):
         await self.fetch_user(uid)
-        return await self.db.fetch('SELECT * FROM items WHERE uid = $1', uid)
+        async with self.db.acquire() as con:
+            return await con.fetch('SELECT * FROM items WHERE uid = $1', uid)
 
     async def fetch_item(self, uid, name):
         await self.fetch_user(uid)
-        return await self.db.fetchrow('SELECT * FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)', uid, name)
+        async with self.db.acquire() as con:
+            return await con.fetchrow('SELECT * FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)', uid, name)
 
     async def mass_fetch_item(self, name):
-        return await self.db.fetch('SELECT * FROM items WHERE LOWER(name) = LOWER($1)', name)
+        async with self.db.acquire() as con:
+            return await con.fetch('SELECT * FROM items WHERE LOWER(name) = LOWER($1)', name)
 
     async def add_item(self, uid, name, sell_price, amount, sticky=False):
         prev = await self.fetch_item(uid, name)
@@ -254,10 +269,10 @@ class Database(commands.Cog):
             )
 
     async def fetch_user_lb(self, uid):
-        lbs = await self.db.fetchrow('SELECT * FROM leaderboards WHERE uid = $1', uid)
+        async with self.db.acquire() as con:
+            lbs = await con.fetchrow('SELECT * FROM leaderboards WHERE uid = $1', uid)
 
-        if lbs is None:
-            async with self.db.acquire() as con:
+            if lbs is None:
                 await con.execute('INSERT INTO leaderboards VALUES ($1, $2, $3)', uid, 0, 0)
 
     async def update_lb(self, uid, lb, value, mode='add'):
@@ -274,7 +289,8 @@ class Database(commands.Cog):
                 await con.execute(f'UPDATE leaderboards SET {lb} = $1 WHERE uid = $2', value, uid)
 
     async def mass_fetch_leaderboard(self, lb):
-        return await self.db.fetch(f'SELECT uid, {lb} FROM leaderboards')
+        async with self.db.acquire() as con:
+            return await con.fetch(f'SELECT uid, {lb} FROM leaderboards')
 
     async def set_botbanned(self, uid, botbanned):
         await self.fetch_user(uid)
@@ -300,7 +316,8 @@ class Database(commands.Cog):
             )
 
     async def fetch_warns(self, uid, gid):
-        return await self.db.fetch('SELECT * FROM warnings WHERE uid = $1 AND gid = $2', uid, gid)
+        async with self.db.acquire() as con:
+            return await con.fetch('SELECT * FROM warnings WHERE uid = $1 AND gid = $2', uid, gid)
 
     async def clear_warns(self, uid, gid):
         async with self.db.acquire() as con:
