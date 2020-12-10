@@ -839,7 +839,7 @@ class Econ(commands.Cog):
         else:
             chances = [True, False]
 
-        pillager_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(ctx.author.id)).lower())
+        pillager_sword_lvl =  self.d.sword_list.index((await self.db.fetch_sword(ctx.author.id)).lower())
         victim_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(victim.id)).lower())
 
         if pillager_sword_lvl > victim_sword_lvl:
