@@ -667,9 +667,9 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
 
         if u_roll > b_roll:
-            multi = random.randint(25, 180) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 20
+            multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 20
             multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20)
-            multi = (200 + random.randint(-5, 0)) if multi >= 200 else multi
+            multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
             multi /= 100
 
             won = math.ceil(multi * amount)
