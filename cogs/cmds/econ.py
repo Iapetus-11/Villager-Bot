@@ -829,17 +829,17 @@ class Econ(commands.Cog):
 
         # lmao
         if pillager_pillages > 7 or times_pillaged > 4:
-            chances = [False]*50 + [True]
+            chances = [False] * 50 + [True]
         elif await self.db.fetch_item(victim.id, 'Bane Of Pillagers Amulet'):
-            chances = [False]*5 + [True]
+            chances = [False] * 5 + [True]
         elif user_bees > victim_bees:
-            chances = [False]*3 + [True]*5
+            chances = [False] * 3 + [True] * 5
         elif user_bees < victim_bees:
-            chances = [False]*5 + [True]*3
+            chances = [False] * 5 + [True] * 3
         else:
             chances = [True, False]
 
-        pillager_sword_lvl =  self.d.sword_list.index((await self.db.fetch_sword(ctx.author.id)).lower())
+        pillager_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(ctx.author.id)).lower())
         victim_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(victim.id)).lower())
 
         if pillager_sword_lvl > victim_sword_lvl:
@@ -857,7 +857,7 @@ class Econ(commands.Cog):
             await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
-            await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
+            await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald))
 
             await self.db.update_lb(ctx.author.id, 'pillages', adjusted, 'add')
         else:
@@ -866,8 +866,8 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, penalty)
             await self.db.balance_add(victim.id, penalty)
 
-            await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
-            await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention, (await self.db.fetch_sword(ctx.author.id)).lower()))
+            await self.bot.send(ctx,random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
+            await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name='use', aliases=['eat', 'chug'])
     @commands.cooldown(1, 0.25, commands.BucketType.user)
