@@ -676,11 +676,9 @@ class Econ(commands.Cog):
 
             await self.db.balance_add(ctx.author.id, won)
             await self.bot.send(ctx, ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), won, self.d.emojis.emerald))
-
         elif u_roll < b_roll:
             await self.db.balance_sub(ctx.author.id, amount)
             await self.bot.send(ctx, ctx.l.econ.gamble.lose.format(amount, self.d.emojis.emerald))
-
         else:
             await self.bot.send(ctx, ctx.l.econ.gamble.tie)
 
