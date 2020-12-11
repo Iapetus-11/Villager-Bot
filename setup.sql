@@ -60,6 +60,13 @@ CREATE TABLE IF NOT EXISTS disabled (
   cmd varchar(20)
 );
 
+CREATE TABLE IF NOT EXISTS user_rcon (
+  uid bigint,
+  mcserver varchar(50),
+  rcon_port int,
+  password varchar(50)
+)
+
 -- CREATE TABLE IF NOT EXISTS mc_servers( -- used for the !!randommc command
 --   owner_id bigint, -- discord user id of the owner
 --   address  varchar(100), -- address of the server
