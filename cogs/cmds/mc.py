@@ -393,7 +393,7 @@ class Minecraft(commands.Cog):
     @commands.guild_only()
     async def rcon_command(self, ctx, *, cmd):
         await ctx.trigger_typing()
-        
+
         dm_check = (lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id)
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
@@ -451,7 +451,7 @@ class Minecraft(commands.Cog):
             rcon_con = rcon.Client((db_guild['mcserver'].split(':')[0] + f':{rcon_port}'), password, 2.5, loop=self.bot.loop)
             await rcon_con.setup()
         except Exception as e:
-            if isinstance(e, rcon.Errors.InvalidAuthError):
+            if isinstance(e, rcon.errors.InvalidAuthError):
                 await self.bot.send(ctx, 'Provided password is incorrect. Run the command again to try again.')
             else:
                 await self.bot.send(ctx, 'Something went wrong while connecting to the server, is the server online and RCON enabled?')
