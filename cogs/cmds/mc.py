@@ -466,6 +466,7 @@ class Minecraft(commands.Cog):
                 self.d.rcon_cache[(ctx.author.id, db_guild['mcserver'])] = (rcon_con, arrow.utcnow())
             else:
                 rcon_con = rcon_con[0]
+                self.d.rcon_cache[(ctx.author.id, db_guild['mcserver'])] = (rcon_con, arrow.utcnow())
 
             await rcon_con.setup()
         except Exception as e:
