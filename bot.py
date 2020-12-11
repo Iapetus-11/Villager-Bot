@@ -137,6 +137,8 @@ bot.d.cmd_lb = {}  # {user_id: command_count}
 bot.d.pause_econ = {}  # {uid: starttime}
 bot.d.spawn_queue = {}  # {ctx: starttime}
 
+bot.d.rcon_cache = {}  # {uid: rcon_client}
+
 bot.d.disabled_cmds = {}  # {gid: [disabled cmds]}
 
 bot.d.ban_cache = []  # [uid, uid,..]
