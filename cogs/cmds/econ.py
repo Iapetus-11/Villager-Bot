@@ -657,7 +657,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.gamble.stupid_3)
             return
 
-        if db_user['emeralds'] >= 1000000:
+        if db_user['emeralds'] >= 200000:
             await self.bot.send(ctx, ctx.l.econ.gamble.too_rich)
             return
 
