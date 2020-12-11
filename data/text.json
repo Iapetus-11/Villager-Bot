@@ -115,7 +115,8 @@
         "vaporwave": "`{0}vaporwave <text>` *makes text into the vaporwave style*",
         "kill": "`{0}kill <user>` *brutally murder another user*",
         "bubblewrap": "`{0}bubblewrap` *sends virtual bubblewrap for you to pop*",
-        "coinflip": "`{0}coinflip` *flips a coin and says the result in the chat*"
+        "coinflip": "`{0}coinflip` *flips a coin and says the result in the chat*",
+        "pat": "`{0}pat <user>` *brutally pat someone on the head*"
       },
       "mod": {
         "warn": "`{0}warn <user> <reason>` *warn a user for a specified reason*",
@@ -884,7 +885,8 @@
         "vaporwave": "`{0}vaporwave <texto>` *hace que el texto se convierta en el estilo de la onda de vapor*",
         "kill": "`{0}kill <usuario>` *asesinar brutalmente a otro usuario*",
         "bubblewrap": "`{0}bubblewrap` *envía un envoltorio de burbujas virtual para que reviente*",
-        "coinflip": "`{0}coinflip` *lanza una moneda y dice el resultado en el chat*"
+        "coinflip": "`{0}coinflip` *lanza una moneda y dice el resultado en el chat*",
+        "pat": "`{0}pat <usuario>` *dar una palmadita brutal a alguien en la cabeza*"
       },
       "mod": {
         "warn": "`{0}warn <usuario> <razón>` *avisar a un usuario por una razón específica*",
