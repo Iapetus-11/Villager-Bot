@@ -408,23 +408,23 @@ class Minecraft(commands.Cog):
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
         if db_guild['mcserver'] is None:
-            await self.bot.send(ctx, 'You have to set a Minecraft server for this guild via the `/config mcserver` command first.')
+            await self.bot.send(ctx, ctx.l.minecraft.rcon.stupid_1)
             return
 
         db_user_rcon = await self.db.fetch_user_rcon(ctx.author.id, db_guild['mcserver'])
 
         if db_user_rcon is None:
             try:
-                await self.bot.send(ctx.author, 'Type in the remote console port (rcon.port in the server.properties)')
+                await self.bot.send(ctx.author, ctx.l.minecraft.rcon.port)
             except Exception:
-                await self.bot.send(ctx, 'I need to be able to DM you to complete the process.')
+                await self.bot.send(ctx, ctx.l.minecraft.rcon.dm_error)
                 return
 
             try:
                 port_msg = await self.bot.wait_for('message', check=dm_check, timeout=60)
             except asyncio.TimeoutError:
                 try:
-                    await self.bot.send(ctx, 'I\'ve stopped waiting for a response, run the command again to continue.')
+                    await self.bot.send(ctx, ctx.l.minecraft.rcon.msg_timeout)
                 except Exception:
                     pass
                 return
@@ -438,16 +438,16 @@ class Minecraft(commands.Cog):
                 rcon_port = 25575
 
             try:
-                await self.bot.send(ctx.author, 'Type in the remote console password (rcon.password in the server.properties)')
+                await self.bot.send(ctx.author, ctx.l.minecraft.rcon.passw)
             except Exception:
-                await self.bot.send(ctx, 'I need to be able to DM you to complete the process.')
+                await self.bot.send(ctx, ctx.l.minecraft.rcon.dm_error)
                 return
 
             try:
                 auth_msg = await self.bot.wait_for('message', check=dm_check, timeout=60)
             except asyncio.TimeoutError:
                 try:
-                    await self.bot.send(ctx, 'I\'ve stopped waiting for a response, run the command again to continue.')
+                    await self.bot.send(ctx, ctx.l.minecraft.rcon.msg_timeout)
                 except Exception:
                     pass
                 return
@@ -472,9 +472,9 @@ class Minecraft(commands.Cog):
             await rcon_con.setup()
         except Exception as e:
             if isinstance(e, rcon.errors.InvalidAuthError):
-                await self.bot.send(ctx, 'Provided password is incorrect. Run the command again to try again.')
+                await self.bot.send(ctx, ctx.l.minecraft.rcon.stupid_2)
             else:
-                await self.bot.send(ctx, 'Something went wrong while connecting to the server, is the server online and RCON enabled?')
+                await self.bot.send(ctx, ctx.l.minecraft.rcon.err_con)
 
             await self.db.delete_user_rcon(ctx.author.id, db_guild['mcserver'])
             await rcon_con.close()
@@ -489,7 +489,7 @@ class Minecraft(commands.Cog):
         try:
             resp = await rcon_con.send_cmd(cmd[:1445])
         except Exception:
-            await self.bot.send(ctx, 'Something went wrong while sending a command to the server, is the server online and RCON enabled?')
+            await self.bot.send(ctx, ctx.l.minecraft.rcon.err_cmd)
             await rcon_con.close()
             self.d.rcon_cache.pop((ctx.author.id, db_guild['mcserver']), None)
 
