@@ -52,7 +52,8 @@
         "support": "Support",
         "clickme": "Click Me",
         "howto": "Do `{0}help <command>` to see how to use that command!",
-        "nodoc": "No documentation exists for that command."
+        "nodoc": "No documentation exists for that command.",
+        "aliases": "Aliases: `{}`"
       },
       "econ": {
         "profile": "`{0}profile [optional: user]` *shows the profile of you or the specified user*",
@@ -96,8 +97,7 @@
         "uptime": "`{0}uptime` *view how long the bot has been online*",
         "google": "`{0}google <search>` *searches on google for your query*",
         "youtube": "`{0}youtube <search>` *searches on youtube for your query*",
-        "image": "`{0}image <search>` *searches google images for your query*",
-        "aliases": "`{0}aliases <command>` *shows the aliases for that command*"
+        "image": "`{0}image <search>` *searches google images for your query*"
       },
       "fun": {
         "cursed": "`{0}cursed` *sends a random cursed Minecraft image*",
@@ -449,10 +449,6 @@
       }
     },
     "useful": {
-      "aliases": {
-        "aliases": "Aliases for command `{}`: `{}`",
-        "none": "No aliases found for command `{}`"
-      },
       "uptime": {
         "online_for": "I've been online for {}.",
         "day": "day",
@@ -825,7 +821,8 @@
         "support": "Apoyo",
         "clickme": "Haz clic en mí",
         "howto": "¡Haz `{0}help <comando>` para ver cómo usar ese comando!",
-        "nodoc": "No existe documentación para ese comando."
+        "nodoc": "No existe documentación para ese comando.",
+        "aliases": "Alias: `{}`"
       },
       "econ": {
         "profile": "`{0}profile [opcional: usuario]` *muestra el perfil de usted o del usuario especificado*",
@@ -869,8 +866,7 @@
         "uptime": "`{0}uptime` *ver cuánto tiempo ha estado el bot en línea*",
         "google": "`{0}google <consulta>` *busca en google para tu consulta*",
         "youtube": "`{0}youtube <consulta>` *busca en youtube para tu consulta*",
-        "image": "`{0}image <consulta>` *busca imágenes de google para tu consulta*",
-        "aliases": "`{0}aliases <comando>` *muestra los alias de ese comando*"
+        "image": "`{0}image <consulta>` *busca imágenes de google para tu consulta*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envía una imagen Minecraft maldita al azar*",
@@ -1222,10 +1218,6 @@
       }
     },
     "useful": {
-      "aliases": {
-        "aliases": "Alias para el comando `{}`: `{}`",
-        "none": "No se encontraron alias para el comando `{}`"
-      },
       "uptime": {
         "online_for": "He estado en línea por {}.",
         "day": "día",
