@@ -205,7 +205,7 @@ async def global_check(ctx):
                 bot.d.spawn_queue[ctx] = arrow.utcnow()
                 return True
 
-    if random.randint(1, 100) == 1:
+    if random.randint(1, bot.d.tip_chance) == 1:
         await ctx.send(f'{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}')
 
     return True

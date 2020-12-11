@@ -9,6 +9,7 @@
   "topgg": "https://top.gg/bot/639498607632056321",
   "website": "https://villagerbot.xyz",
   "github": "https://github.com/Villager-Dev/Villager-Bot",
+  "tip_chance": 200,
   "hooksport": 5000,
   "hookspath": "/votehook",
   "topgg_reward": 32,
