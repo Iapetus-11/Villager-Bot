@@ -501,7 +501,7 @@ class Minecraft(commands.Cog):
             if resp[0][i] != '§' and (i == 0 or resp[0][i-1] != '§'):
                 resp_text += resp[0][i]
 
-        await ctx.send('```{}```'.format(resp_text.replace('\\n', '\n')[:2000-6]))
+        await ctx.send('```\uFEFF{}```'.format(resp_text.replace('\\n', '\n')[:2000-7]))
 
 
 def setup(bot):
