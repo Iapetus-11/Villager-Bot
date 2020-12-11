@@ -416,7 +416,7 @@ class Minecraft(commands.Cog):
 
         if db_user_rcon is None:
             try:
-                await self.bot.send(ctx.author, 'Type in the remote console port (rcon.port in the server.properties) below.')
+                await self.bot.send(ctx.author, 'Type in the remote console port (rcon.port in the server.properties)')
             except Exception:
                 await self.bot.send(ctx, 'I need to be able to DM you to complete the process.')
                 return
@@ -439,7 +439,7 @@ class Minecraft(commands.Cog):
                 rcon_port = 25575
 
             try:
-                await self.bot.send(ctx.author, 'Type in the remote console password (rcon.password in the server.properties) below.')
+                await self.bot.send(ctx.author, 'Type in the remote console password (rcon.password in the server.properties)')
             except Exception:
                 await self.bot.send(ctx, 'I need to be able to DM you to complete the process.')
                 return
