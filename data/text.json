@@ -365,6 +365,16 @@
         "colors": "Colors",
         "more_colors": "More Colors",
         "formatting": "Formatting"
+      },
+      "rcon": {
+        "stupid_1": "You have to set a Minecraft server for this server via the `/config mcserver` command first.",
+        "dm_error": "I need to be able to DM you to complete the process.",
+        "msg_timeout": "I've stopped waiting for a response, run the command again to continue.",
+        "port": "Type in the remote console port (rcon.port in the server.properties)",
+        "passw": "Type in the remote console password (rcon.password in the server.properties)",
+        "stupid_2": "Incorrect password! Run the command to enter it again.",
+        "err_con": "Something went wrong while connecting to the server, is the server online and RCON enabled?",
+        "err_cmd": "Something went wrong while sending a command to the server, is the server online and RCON enabled?"
       }
     },
     "mod": {
