@@ -326,6 +326,20 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute('DELETE FROM warnings WHERE uid = $1 AND gid = $2', uid, gid)
 
+    async def fetch_user_rcon(self, uid, mcserver):
+        async with self.db.acquire() as con:
+            return await con.fetchrow(
+                'SELECT * FROM user_rcon WHERE uid = $1 AND mcserver = $2',
+                uid, mcserver
+            )
+
+    async def edit_user_rcon(self, uid, mcserver, key, value):
+        async with self.db.acquire() as con:
+            await con.execute(
+                f'UPDATE user_rcon SET {key} = $1 WHERE uid = $2 AND mcserver = $3',
+                value, uid, mcserver
+            )
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
