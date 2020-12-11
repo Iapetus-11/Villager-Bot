@@ -99,8 +99,8 @@ class Database(commands.Cog):
 
             if g is None:
                 await con.execute(
-                    'INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-                    gid, '/', True, 'easy', 'en', None, None, False
+                    'INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7)',
+                    gid, '/', True, 'easy', 'en', None, False
                 )
 
                 return await self.fetch_guild(gid)
