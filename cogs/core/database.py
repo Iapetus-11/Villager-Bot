@@ -341,7 +341,7 @@ class Database(commands.Cog):
             )
 
     async def delete_user_rcon(self, uid, mcserver):
-        async with self.db.acquire() as coN:
+        async with self.db.acquire() as con:
             await con.execute(
                 'DELETE FROM user_rcon WHERE uid = $1 AND mcserver = $2',
                 uid, mcserver
