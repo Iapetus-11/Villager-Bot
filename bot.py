@@ -145,8 +145,6 @@ bot.d.lang_cache = {}  # {gid: 'lang'}
 bot.d.additional_mcservers = []
 bot.d.mcserver_list = []
 
-bot.d.rcon_connection_cache = {}
-
 bot.d.fun_langs.unenchant = {v: k for k, v in bot.d.fun_langs.enchant.items()}  # reverse dict to create unenchantment lang
 
 bot.owner_locked = False
