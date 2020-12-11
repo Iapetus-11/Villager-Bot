@@ -392,6 +392,8 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.guild_only()
     async def rcon_command(self, ctx, *, cmd):
+        await ctx.trigger_typing()
+        
         dm_check = (lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id)
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
@@ -444,8 +446,6 @@ class Minecraft(commands.Cog):
         else:
             rcon_port = db_user_rcon['rcon_port']
             password = Fernet(self.d.fernet_key).decrypt(db_user_rcon['password'].encode('utf-8')).decode('utf-8')  # decrypt to plaintext
-
-        await ctx.trigger_typing()
 
         try:
             rcon_con = rcon.Client((db_guild['mcserver'].split(':')[0] + f':{rcon_port}'), password, 2.5, loop=self.bot.loop)
