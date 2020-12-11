@@ -87,7 +87,12 @@
     "{0} was yeeted into the void",
     "{0} was yeeted into the void by an enderman",
     "{0} fell into lava",
-    "{0} was smited by Villager Bot"
+    "{0} was smited by Villager Bot",
+    "{0} was yeeted into the void by {1}",
+    "{0} exploded in the microwave",
+    "{0} was cut in half to demonstrate the power of flex tape",
+    "{0} was yeeted across the map by a creeper",
+    "{0} was bonked by {1}"
   ],
   "hmms": [
     "hrmmmmmmmmm",
