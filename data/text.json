@@ -303,7 +303,7 @@
           "misses": [
             "You swing your **{0}** as hard as you can, you miss the **baby slime**",
             "You slash your **{0}** at the **baby slime** as hard as you can. The **baby slime** is fine",
-            "You miss, swinging your {0} at the **baby slime**.",
+            "You miss, swinging your **{0}** at the **baby slime**.",
             "You swing your **{0}**, the **baby slime** makes a cute face, you miss."
           ]
         }
