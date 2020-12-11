@@ -46,7 +46,7 @@ class Useful(commands.Cog):
                     embed.description = help_text.format(ctx.prefix)
 
                     if len(cmd_true.aliases) > 0:
-                        embed.description += ctx.l.help.main.aliases.format('\n\n' + '`, `'.join(cmd_true.aliases))
+                        embed.description += '\n\n' + ctx.l.help.main.aliases.format('`, `'.join(cmd_true.aliases))
 
                     await ctx.send(embed=embed)
 
