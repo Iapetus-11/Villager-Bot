@@ -155,10 +155,14 @@ class Database(commands.Cog):
         return (await self.fetch_user(uid))['emeralds']
 
     async def mass_fetch_balances(self):
+        records = []
+
         async with self.db.acquire() as con:
             async with con.transaction():
                 async for record in con.cursor('SELECT uid, emeralds FROM users'):
-                    yield record
+                    records.append(record)
+
+        return records
 
     async def mass_fetch_votestreaks(self):
         async with self.db.acquire() as con:
