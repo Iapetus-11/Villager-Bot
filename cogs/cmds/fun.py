@@ -298,7 +298,7 @@ class Fun(commands.Cog):
         if isinstance(thing, discord.User) or isinstance(thing, discord.user.ClientUser):
             thing = thing.display_name
         else:
-            thing = thing
+            thing = ctx.message.clean_content[len(ctx.prefix)+4:]
 
         resp = await self.ses.get('https://rra.ram.moe/i/r?type=pat')
         image_url = 'https://rra.ram.moe' + (await resp.json())['path']
