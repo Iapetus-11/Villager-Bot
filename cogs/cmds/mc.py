@@ -445,6 +445,8 @@ class Minecraft(commands.Cog):
             rcon_port = db_user_rcon['rcon_port']
             password = Fernet(self.d.fernet_key).decrypt(db_user_rcon['password'].encode('utf-8')).decode('utf-8')  # decrypt to plaintext
 
+        await ctx.trigger_typing()
+
         try:
             rcon_con = rcon.Client((db_guild['mcserver'].split(':')[0] + f':{rcon_port}'), password, 2.5, loop=self.bot.loop)
             await rcon_con.setup()
