@@ -56,7 +56,7 @@ class Fun(commands.Cog):
                 meme = cj.classify(await resp.json())
 
         embed = discord.Embed(color=self.d.cc, title=f'{meme.title}', url=meme.permalink)
-        
+
         embed.set_footer(text=f'{meme.upvotes}  |  u/{meme.author}', icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(':')[-1].replace('>', ''))).url)
         embed.set_image(url=meme.url)
 
@@ -293,7 +293,7 @@ class Fun(commands.Cog):
     async def coin_flip(self, ctx):
         await self.bot.send(ctx, random.choice(('heads', 'tails')))
 
-    @commands.command(name='pat')
+    @commands.command(name='pat', aliases=['pet'])
     async def pat(self, ctx, *, thing: typing.Union[discord.User, str]):
         if isinstance(thing, discord.User) or isinstance(thing, discord.user.ClientUser):
             thing = thing.display_name
