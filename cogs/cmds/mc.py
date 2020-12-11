@@ -424,7 +424,7 @@ class Minecraft(commands.Cog):
                 port_msg = await self.bot.wait_for('message', check=dm_check, timeout=60)
             except asyncio.TimeoutError:
                 try:
-                    await self.bot.send(ctx, ctx.l.minecraft.rcon.msg_timeout)
+                    await self.bot.send(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
                 except Exception:
                     pass
                 return
@@ -447,7 +447,7 @@ class Minecraft(commands.Cog):
                 auth_msg = await self.bot.wait_for('message', check=dm_check, timeout=60)
             except asyncio.TimeoutError:
                 try:
-                    await self.bot.send(ctx, ctx.l.minecraft.rcon.msg_timeout)
+                    await self.bot.send(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
                 except Exception:
                     pass
                 return
