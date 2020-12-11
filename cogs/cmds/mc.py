@@ -448,8 +448,12 @@ class Minecraft(commands.Cog):
         try:
             rcon_con = rcon.Client((db_guild['mcserver'].split(':')[0] + f':{rcon_port}'), password, 2.5, loop=self.bot.loop)
             await rcon_con.setup()
-        except Exception:
-            await self.bot.send(ctx, 'Something went wrong while connecting to the server, is the server online and RCON enabled?')
+        except Exception as e:
+            if isinstance(e, rcon.Errors.InvalidAuthError):
+                await self.bot.send(ctx, 'Provided password is incorrect. Run the command again to try again.')
+            else:
+                await self.bot.send(ctx, 'Something went wrong while connecting to the server, is the server online and RCON enabled?')
+
             await self.db.delete_user_rcon(ctx.author.id, db_guild['mcserver'])
             await rcon_con.close()
             return
@@ -473,98 +477,6 @@ class Minecraft(commands.Cog):
                 resp_text += resp[0][i]
 
         await ctx.send('```{}```'.format(resp_text.replace('\\n', '\n')[:2000-6]))
-
-    @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'servercommand', 'scmd'])
-    @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
-    @commands.cooldown(1, 1, commands.BucketType.user)
-    @commands.guild_only()
-    async def rcon_command(self, ctx, *, cmd):
-        author_check = (lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id)
-        db_guild = await self.db.fetch_guild(ctx.guild.id)
-
-        if db_guild['mcserver'] is None:
-            await self.bot.send(ctx, 'You have to set a Minecraft server for this guild via the `/config mcserver` command first.')
-            return
-
-        key = (ctx.guild.id, ctx.author.id, db_guild['mcserver'])
-        cached = self.d.rcon_connection_cache.get(key)
-
-        if cached is None:
-            try:
-                await self.bot.send(ctx.author, 'Type in the remote console password (rcon.password in the server.properties file) here. This password can be stored for up to 10 minutes past the last rcon command.')
-            except Exception:
-                await self.bot.send(ctx, 'I need to be able to DM you, either something went wrong or I don\'t have the permissions to.')
-                return
-
-            try:
-                auth_msg = await self.bot.wait_for('message', check=author_check, timeout=60)
-            except asyncio.TimeoutError:
-                await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
-                return
-
-            if db_guild['mcserver_rcon'] is None:
-                try:
-                    await self.bot.send(ctx.author, 'Now type in the RCON port (rcon.port in the server.properties file)')
-                except Exception:
-                    await self.bot.send(ctx, 'I need to be able to DM you, either something went wrong or I don\'t have the permissions to.')
-                    return
-
-                try:
-                    port_msg = await self.bot.wait_for('message', check=author_check, timeout=60)
-                except asyncio.TimeoutError:
-                    await self.bot.send(ctx.author, 'I\'ve stopped waiting for a response.')
-                    return
-
-                port = 25575
-                try:
-                    port = int(port_msg.content)
-                except Exception:
-                    port = 25575
-
-                if 0 > port > 65535:
-                    port = 25575
-
-                await self.db.set_guild_attr(ctx.guild.id, 'mcserver_rcon', port)  # update value in db
-            else:
-                port = db_guild['mcserver_rcon']
-
-            try:
-                s = db_guild['mcserver'].split(':')[0]+f':{port}'
-                self.d.rcon_connection_cache[key] = (rcon.Client(s, auth_msg.content, 2.5, loop=self.bot.loop), arrow.utcnow())
-                await self.d.rcon_connection_cache[key][0].setup()
-            except rcon.Errors.ConnectionFailedError:
-                await self.bot.send(ctx, 'Connection to the server failed, is RCON enabled?')
-                await self.close_rcon_con(key, ctx.guild.id)
-                return
-            except rcon.Errors.InvalidAuthError:
-                await self.bot.send(ctx.author, 'The provided RCON password/authentication is invalid')
-                await self.close_rcon_con(key, ctx.guild.id)
-                return
-            except Exception:
-                await self.bot.send(ctx, 'Something went wrong while connecting to the server.')
-                await self.close_rcon_con(key, ctx.guild.id)
-                return
-
-            rcon_con = self.d.rcon_connection_cache[key][0]
-        else:
-            rcon_con = cached[0]
-            self.d.rcon_connection_cache[key] = (rcon_con, arrow.utcnow())  # update time
-
-        try:
-            resp = await rcon_con.send_cmd(cmd[:1446])  # shorten to avoid unecessary timeouts
-        except asyncio.TimeoutError:
-            await self.bot.send(ctx, 'A timeout occurred while sending that command to the server')
-            await self.close_rcon_con(key, ctx.guild.id)
-        except Exception:
-            await self.bot.send(ctx, f'For some reason, an error ocurred while sending that command to the server')
-            await self.close_rcon_con(key, ctx.guild.id)
-        else:
-            resp_text = ''
-            for i in range(0, len(resp[0])):
-                if resp[0][i] != '§' and (i == 0 or resp[0][i-1] != '§'):
-                    resp_text += resp[0][i]
-
-            await ctx.send('```{}```'.format(resp_text.replace('\\n', '\n')))
 
 
 def setup(bot):
