@@ -469,6 +469,7 @@ class Minecraft(commands.Cog):
 
             await rcon_con.setup()
         except Exception as e:
+            await ctx.send(e)
             if isinstance(e, rcon.errors.InvalidAuthError):
                 await self.bot.send(ctx, 'Provided password is incorrect. Run the command again to try again.')
             else:
