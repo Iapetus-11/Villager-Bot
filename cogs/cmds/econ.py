@@ -637,6 +637,7 @@ class Econ(commands.Cog):
 
         if amount.lower() in ('all', 'max',):
             amount = db_user['emeralds']
+
         else:
             try:
                 amount = int(amount)
@@ -652,6 +653,14 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.gamble.stupid_2)
             return
 
+        if amount > 25000:
+            await self.bot.send(ctx, ctx.l.econ.gamble.stupid_3)
+            return
+
+        if db_user['emeralds'] >= 1000000:
+            await self.bot.send(ctx, ctx.l.econ.gamble.too_rich)
+            return
+
         u_roll = random.randint(2, 12)
         b_roll = random.randint(2, 12)
 
@@ -663,10 +672,7 @@ class Econ(commands.Cog):
             multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
             multi /= 100
 
-            if amount > 500:
-                won = math.ceil(multi * math.ceil(math.log(amount, 1.009)))
-            else:
-                won = math.ceil(multi * amount)
+            won = math.ceil(multi * amount)
 
             await self.db.balance_add(ctx.author.id, won)
             await self.bot.send(ctx, ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), won, self.d.emojis.emerald))
