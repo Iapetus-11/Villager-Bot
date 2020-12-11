@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS user_rcon (
   uid       bigint,
   mcserver  varchar(50),
   rcon_port int,
-  password  varchar(50)
+  password  varchar(300)
 )
 
 -- CREATE TABLE IF NOT EXISTS mc_servers( -- used for the !!randommc command
