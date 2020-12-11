@@ -75,6 +75,7 @@
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [optional: server]` *checks the status of any type of Minecraft server*",
+        "rcon": "`{0}rcon <command>` *executes commands on a Minecraft server from Discord*",
         "randommc": "`{0}randommc` *shows a random Minecraft server if you want a new place to explore*",
         "mcimage": "`{0}mcimage` *turns whatever image you upload into Minecraft blocks / pixel art*",
         "stealskin": "`{0}stealskin <username>` *fetches the skin of a Minecraft Java Edition player*",
@@ -855,6 +856,7 @@
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [opcional: servidor]` *comprueba el estado de cualquier tipo de servidor Minecraft*",
+        "rcon": "`{0}rcon <comando>` *ejecuta comandos en un servidor de Minecraft desde Discord*",
         "randommc": "`{0}randommc` *muestra un servidor Minecraft al azar si quieres un nuevo lugar para explorar*",
         "mcimage": "`{0}mcimage` *convierte cualquier imagen que suba en bloques Minecraft / arte de los píxeles*",
         "stealskin": "`{0}stealskin <nombre de usuario>` *se obtiene la piel de un jugador de Minecraft Java Edition*",
