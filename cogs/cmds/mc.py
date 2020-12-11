@@ -459,11 +459,13 @@ class Minecraft(commands.Cog):
             password = Fernet(self.d.fernet_key).decrypt(db_user_rcon['password'].encode('utf-8')).decode('utf-8')  # decrypt to plaintext
 
         try:
-            rcon_con = self.d.rcon_cache.get((ctx.author.id, db_guild['mcserver']))[0]
+            rcon_con = self.d.rcon_cache.get((ctx.author.id, db_guild['mcserver']))
 
             if rcon_con is None:
                 rcon_con = rcon.Client((db_guild['mcserver'].split(':')[0] + f':{rcon_port}'), password, 2.5, loop=self.bot.loop)
                 self.d.rcon_cache[(ctx.author.id, db_guild['mcserver'])] = (rcon_con, arrow.utcnow())
+            else:
+                rcon_con = rcon_con[0]
 
             await rcon_con.setup()
         except Exception as e:
