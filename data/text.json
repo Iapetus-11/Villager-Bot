@@ -23,7 +23,13 @@
         "not_ready": "Hold on! Villager Bot is still starting up!",
         "nrn_buddy": "Wait a second, you can't use that command right now!",
         "disabled": "This command is disabled and can not be used!"
-      }
+      },
+      "tips": [
+        "Got a suggestion? Found a bug? Need help? Want to trade? Join the Support Server! https://discord.gg/39DwwUV",
+        "In need of emeralds? Vote for us on top.gg! https://top.gg/bot/639498607632056321",
+        "In need of emeralds? Check out the #paid-stuff channel on the Support Server! https://discord.gg/39DwwUV",
+        "Broke because of those pillagers? Vote for us to get emeralds! https://top.gg/bot/639498607632056321"
+      ]
     },
     "help": {
       "n": {
@@ -784,7 +790,13 @@
         "not_ready": "¡Agárrese! ¡El Villager Bot todavía está arrancando!",
         "nrn_buddy": "Espera un segundo, ¡no puedes usar ese comando ahora mismo!",
         "disabled": "¡Este comando está desactivado y no puede ser usado!"
-      }
+      },
+      "tips": [
+        "¿Tienes una sugerencia? ¿Encontraste un micrófono? ¿Necesitas ayuda? ¿Quieres hacer un intercambio? Únete al Servidor de Soporte! https://discord.gg/39DwwUV",
+        "¿Necesita esmeraldas? ¡Vótanos en top.gg! https://top.gg/bot/639498607632056321",
+        "¿Necesita esmeraldas? ¡Mira el canal de #paid-stuff en el servidor de soporte! https://discord.gg/39DwwUV",
+        "¿Quebrado por esos saqueadores? ¡Voten por nosotros para conseguir esmeraldas! https://top.gg/bot/639498607632056321"
+      ]
     },
     "help": {
       "n": {
