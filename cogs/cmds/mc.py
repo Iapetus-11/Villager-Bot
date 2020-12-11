@@ -12,7 +12,6 @@ import asyncio
 import random
 import base64
 import arrow
-import json
 import os
 
 
@@ -271,7 +270,7 @@ class Minecraft(commands.Cog):
             return
 
         try:
-            decoded_jj = json.loads(base64.b64decode(profile_content['properties'][0]['value']))
+            decoded_jj = cj.loads(base64.b64decode(profile_content['properties'][0]['value']))
             skin_url = decoded_jj['textures']['SKIN']['url']
         except Exception:
             await self.bot.send(ctx, ctx.l.minecraft.stealskin.error_1)
