@@ -1,7 +1,7 @@
-
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
+from cryptography.fernet import Fernet
 from bs4 import BeautifulSoup as bs
 import aiomcrcon as rcon
 import classyjson as cj
@@ -30,7 +30,6 @@ class Minecraft(commands.Cog):
         self.d.mcserver_list = []
 
         self.update_server_list.start()
-        self.clear_rcon_cache.start()
 
     def cog_unload(self):
         del self.mosaic
@@ -61,12 +60,6 @@ class Minecraft(commands.Cog):
     @update_server_list.before_loop
     async def before_update_server_list(self):
         await self.bot.wait_until_ready()
-
-    @tasks.loop(seconds=30)
-    async def clear_rcon_cache(self):
-        for key in list(self.d.rcon_connection_cache):
-            if (arrow.utcnow() - self.d.rcon_connection_cache[key][1]).seconds > 10*60:
-                self.d.rcon_connection_cache.pop(key, None)
 
     @commands.command(name='mcimage', aliases=['mcpixelart', 'mcart', 'mcimg'])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -394,15 +387,92 @@ class Minecraft(commands.Cog):
 
         await self.bot.send(ctx, f'{prefix} {idea}!')
 
-    async def close_rcon_con(self, key, gid):
+    @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'scmd'])
+    @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.guild_only()
+    async def rcon_command(self, ctx, *, cmd):
+        dm_check = (lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id)
+        db_guild = await self.db.fetch_guild(ctx.guild.id)
+
+        if db_guild['mcserver'] is None:
+            await self.bot.send(ctx, 'You have to set a Minecraft server for this guild via the `/config mcserver` command first.')
+            return
+
+        db_user_rcon = await self.db.fetch_user_rcon(ctx.author.id, db_guild['mcserver'])
+
+        if db_user_rcon is None:
+            try:
+                await self.bot.send(ctx.author, 'Type in the remote console port (rcon.port in the server.properties) below.')
+            except Exception:
+                await self.bot.send(ctx, 'I need to be able to DM you to complete the process.')
+                return
+
+            try:
+                port_msg = await self.bot.wait_for('message', check=dm_check, timeout=60)
+            except asyncio.TimeoutError:
+                try:
+                    await self.bot.send(ctx, 'I\'ve stopped waiting for a response, run the command again to continue.')
+                except Exception:
+                    pass
+                return
+
+            try:
+                rcon_port = int(port_msg.content)
+
+                if 0 > rcon_port > 65535:
+                    rcon_port = 25575
+            except Exception:
+                rcon_port = 25575
+
+            try:
+                await self.bot.send(ctx.author, 'Type in the remote console password (rcon.password in the server.properties) below.')
+            except Exception:
+                await self.bot.send(ctx, 'I need to be able to DM you to complete the process.')
+                return
+
+            try:
+                auth_msg = await self.bot.wait_for('message', check=dm_check, timeout=60)
+            except asyncio.TimeoutError:
+                try:
+                    await self.bot.send(ctx, 'I\'ve stopped waiting for a response, run the command again to continue.')
+                except Exception:
+                    pass
+                return
+
+            password = auth_msg.content
+        else:
+            rcon_port = db_user_rcon['rcon_port']
+            password = Fernet(self.d.fernet_key).decrypt(db_user_rcon['password'].encode('utf-8')).decode('utf-8')  # decrypt to plaintext
+
         try:
-            await self.d.rcon_connection_cache[key][0].close()
+            rcon_con = rcon.Client((db_guild['mcserver'].split(':')[0] + f':{rcon_port}'), password, 2.5, loop=self.bot.loop)
+            await rcon_con.setup()
         except Exception:
-            pass
+            await self.bot.send(ctx, 'Something went wrong while connecting to the server, is the server online and RCON enabled?')
+            await self.db.delete_user_rcon(ctx.author.id, db_guild['mcserver'])
+            await rcon_con.close()
+            return
 
-        self.d.rcon_connection_cache.pop(key, None)
+        if db_user_rcon is not None:
+            encrypted_password = Fernet(self.d.fernet_key).encrypt(password.encode('utf-8')).decode('utf-8')
+            await self.db.add_user_rcon(ctx.author.id, db_guild['mcserver'], rcon_port, encrypted_password)
 
-        await self.db.set_guild_attr(gid, 'mcserver_rcon', None)  # port could be invalid, so reset it
+        try:
+            resp = await rcon_con.send_cmd(cmd[:1445])
+        except Exception:
+            await self.bot.send(ctx, 'Something went wrong while sending a command to the server, is the server online and RCON enabled?')
+            await rcon_con.close()
+            return
+
+        await rcon_con.close()
+
+        resp_text = ''
+        for i in range(0, len(resp[0])):
+            if resp[0][i] != '§' and (i == 0 or resp[0][i-1] != '§'):
+                resp_text += resp[0][i]
+
+        await ctx.send('```{}```'.format(resp_text.replace('\\n', '\n')[:2000-6]))
 
     @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'servercommand', 'scmd'])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
