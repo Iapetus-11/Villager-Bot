@@ -199,9 +199,13 @@ async def global_check(ctx):
             ctx.custom_err = 'econ_paused'
             return False
 
-        if random.randint(0, 40) == 1:  # spawn mob
+        if random.randint(1, 40) == 1:  # spawn mob
             if ctx.command._buckets._cooldown != None:  # if command has a cooldown on it
                 bot.d.spawn_queue[ctx] = arrow.utcnow()
+                return True
+
+    if random.randint(1, 75) == 1:
+        await ctx.send(f'{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}')
 
     return True
 
