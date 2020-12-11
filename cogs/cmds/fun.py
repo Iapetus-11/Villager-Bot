@@ -293,7 +293,7 @@ class Fun(commands.Cog):
     async def coin_flip(self, ctx):
         await self.bot.send(ctx, random.choice(('heads', 'tails')))
 
-    @commands.command(name='pat', aliases=['pet'])
+    @commands.command(name='pat')
     async def pat(self, ctx, *, thing: typing.Union[discord.User, str]):
         if isinstance(thing, discord.User) or isinstance(thing, discord.user.ClientUser):
             thing = thing.display_name
