@@ -469,7 +469,6 @@ class Minecraft(commands.Cog):
 
             await rcon_con.setup()
         except Exception as e:
-            await ctx.send(e)
             if isinstance(e, rcon.errors.InvalidAuthError):
                 await self.bot.send(ctx, 'Provided password is incorrect. Run the command again to try again.')
             else:
@@ -477,6 +476,8 @@ class Minecraft(commands.Cog):
 
             await self.db.delete_user_rcon(ctx.author.id, db_guild['mcserver'])
             await rcon_con.close()
+            self.d.rcon_cache.pop((ctx.author.id, db_guild['mcserver']), None)
+
             return
 
         if db_user_rcon is None:
@@ -488,9 +489,9 @@ class Minecraft(commands.Cog):
         except Exception:
             await self.bot.send(ctx, 'Something went wrong while sending a command to the server, is the server online and RCON enabled?')
             await rcon_con.close()
-            return
+            self.d.rcon_cache.pop((ctx.author.id, db_guild['mcserver']), None)
 
-        await rcon_con.close()
+            return
 
         resp_text = ''
         for i in range(0, len(resp[0])):
