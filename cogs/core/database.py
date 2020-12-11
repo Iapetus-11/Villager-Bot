@@ -333,11 +333,18 @@ class Database(commands.Cog):
                 uid, mcserver
             )
 
-    async def edit_user_rcon(self, uid, mcserver, key, value):
+    async def add_user_rcon(self, uid, mcserver, rcon_port, password):
         async with self.db.acquire() as con:
             await con.execute(
-                f'UPDATE user_rcon SET {key} = $1 WHERE uid = $2 AND mcserver = $3',
-                value, uid, mcserver
+                'INSERT INTO user_rcon VALUES ($1, $2, $3, $4)',
+                uid, mcserver, rcon_port, password
+            )
+
+    async def delete_user_rcon(self, uid, mcserver):
+        async with self.db.acquire() as coN:
+            await con.execute(
+                'DELETE FROM user_rcon WHERE uid = $1 AND mcserver = $2',
+                uid, mcserver
             )
 
 
