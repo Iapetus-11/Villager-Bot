@@ -30,10 +30,12 @@ class Minecraft(commands.Cog):
         self.d.mcserver_list = []
 
         self.update_server_list.start()
+        self.clear_rcon_cache.start()
 
     def cog_unload(self):
         del self.mosaic
         self.update_server_list.cancel()
+        self.clear_rcon_cache.cancel()
         self.bot.loop.create_task(self.ses.close())
 
     @tasks.loop(hours=2)
@@ -60,6 +62,17 @@ class Minecraft(commands.Cog):
     @update_server_list.before_loop
     async def before_update_server_list(self):
         await self.bot.wait_until_ready()
+
+    @tasks.loop(seconds=15)
+    async def clear_rcon_cache(self):
+        for key, con in self.d.rcon_cache.items():
+            if arrow.utcnow().shift(minutes=-1) > con[1]:
+                try:
+                    await con[0].close()
+                except Exception:
+                    pass
+
+                self.d.rcon_cache.pop(key, None)
 
     @commands.command(name='mcimage', aliases=['mcpixelart', 'mcart', 'mcimg'])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -392,8 +405,6 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.guild_only()
     async def rcon_command(self, ctx, *, cmd):
-        await ctx.trigger_typing()
-
         dm_check = (lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id)
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
@@ -448,7 +459,12 @@ class Minecraft(commands.Cog):
             password = Fernet(self.d.fernet_key).decrypt(db_user_rcon['password'].encode('utf-8')).decode('utf-8')  # decrypt to plaintext
 
         try:
-            rcon_con = rcon.Client((db_guild['mcserver'].split(':')[0] + f':{rcon_port}'), password, 2.5, loop=self.bot.loop)
+            rcon_con = self.d.rcon_cache.get((ctx.author.id, db_guild['mcserver']))[0]
+
+            if rcon_con is None:
+                rcon_con = rcon.Client((db_guild['mcserver'].split(':')[0] + f':{rcon_port}'), password, 2.5, loop=self.bot.loop)
+                self.d.rcon_cache[(ctx.author.id, db_guild['mcserver'])] = (rcon_con, arrow.utcnow())
+
             await rcon_con.setup()
         except Exception as e:
             if isinstance(e, rcon.errors.InvalidAuthError):
