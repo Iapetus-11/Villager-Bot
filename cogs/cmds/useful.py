@@ -152,7 +152,7 @@ class Useful(commands.Cog):
 
     @commands.command(name='uptime', aliases=['isvillagerbotdown', 'isthebestbotintheworldoffline'])
     async def uptime(self, ctx):
-        uptime = arrow.utcnow() - self.d.start_time
+        uptime = arrow.utcnow().shift(seconds=(arrow.utcnow() - self.d.start_time).total_seconds())
         await self.bot.send(ctx, ctx.l.useful.uptime.online_for.format(uptime.humanize(locale=ctx.l.lang, only_distance=True)))
 
     @commands.command(name='vote', aliases=['votelink', 'votelinks'])
