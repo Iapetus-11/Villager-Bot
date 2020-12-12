@@ -22,7 +22,7 @@
         "bad_arg": "Looks like you didn't type something correctly, try typing it right the first time, dum dum.",
         "not_ready": "Hold on! Villager Bot is still starting up!",
         "nrn_buddy": "Wait a second, you can't use that command right now!",
-        "disabled": "This command is disabled and can not be used!"
+        "disabled": "This command is disabled in this server and can not be used!"
       },
       "tips": [
         "Got a suggestion? Found a bug? Need help? Want to trade? Join the Support Server! https://discord.gg/39DwwUV",
@@ -803,7 +803,7 @@
         "bad_arg": "Parece que no escribiste algo correctamente, intenta escribirlo bien la primera vez, dum dum.",
         "not_ready": "¡Agárrese! ¡El Villager Bot todavía está arrancando!",
         "nrn_buddy": "Espera un segundo, ¡no puedes usar ese comando ahora mismo!",
-        "disabled": "¡Este comando está desactivado y no puede ser usado!"
+        "disabled": "¡Este comando está deshabilitado en este servidor y no puede ser usado!"
       },
       "tips": [
         "¿Tienes una sugerencia? ¿Encontraste un micrófono? ¿Necesitas ayuda? ¿Quieres hacer un intercambio? Únete al Servidor de Soporte! https://discord.gg/39DwwUV",
