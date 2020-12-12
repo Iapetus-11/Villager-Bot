@@ -17,7 +17,7 @@
   }
 
   .entity-content__section {
-  	background-color: rgba(245, 255, 255, .75) !important;
+  	background-color: rgba(245, 255, 255, .80) !important;
     padding: 2.5% !important;
     border-radius: 4px !important;
   }
@@ -30,6 +30,12 @@
 
   .entity-header__image {
   	border-radius: 50% !important;
+  }
+
+  .entity-header__actions {
+  	padding: 1% 0 !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
   }
 </style>
 
