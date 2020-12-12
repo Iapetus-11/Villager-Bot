@@ -206,8 +206,7 @@ async def global_check(ctx):
                 return True
 
     if random.randint(1, bot.d.tip_chance) == 1:
-        if bot.d.cmd_lb.get(ctx.author.id, 1) > 10:
-            await ctx.send(f'{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}')
+        await ctx.send(f'{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}')
 
     return True
 
