@@ -77,6 +77,7 @@
 * `/mcstatus [optional: server]` *checks the status of any type of Minecraft server*
 * `/randommc` *shows a random Minecraft server if you want a new place to explore*
 * `/mcimage` *turns whatever image you upload into Minecraft blocks / pixel art*
+* `/rcon <command>` *executes commands on a Minecraft server from Discord*
 * `/stealskin <username>` *fetches the skin of a Minecraft Java Edition player*
 * `/achievement <text>` *generates a Minecraft achievement from the given text*
 * `/buildidea` *sends a random build idea for if you're bored and need inspiration*
