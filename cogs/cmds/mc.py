@@ -356,47 +356,6 @@ class Minecraft(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name='uuidtoname', aliases=['uuidtousername', 'uuid2name'])
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    async def uuid_to_username(self, ctx, uuid):
-        """Turns a Minecraft uuid into a username"""
-
-        with ctx.typing():
-            res = await self.ses.get(f'https://api.mojang.com/user/profiles/{uuid}/names')
-
-        if res.status == 204:
-            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
-            return
-
-        jj = await res.json()
-
-        try:
-            name = jj[-1]['name']
-        except KeyError:
-            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
-            return
-
-        await self.bot.send(ctx, f'**{uuid}**: `{name}`')
-
-    @commands.command(name='nametouuid', aliases=['usernametouuid', 'name2uuid'])
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    async def username_to_uuid(self, ctx, username):
-        """Turns a Minecraft username into a Minecraft uuid"""
-
-        with ctx.typing():
-            res = await self.ses.post('https://api.mojang.com/profiles/minecraft', json=[username])
-
-        jj = await res.json()
-
-        if not jj or len(jj) < 1 or res.status == 204:
-            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
-            return
-
-        uuid = jj[0]['id']
-        uuid_dashed = f'{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}'
-
-        await self.bot.send(ctx, f'**{username}**: `{uuid}` / `{uuid_dashed}`')
-
     @commands.command(name='nametoxuid', aliases=['grabxuid', 'benametoxuid', 'bename'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def name_to_xuid(self, ctx, *, username):
