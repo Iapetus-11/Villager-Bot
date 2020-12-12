@@ -25,7 +25,7 @@ class Events(commands.Cog):
             if 'general' in channel.name:
                 embed = discord.Embed(
                     color=self.d.cc,
-                    description='Hey ya\'ll! Type `/help` to get started with Villager Bot!\n'
+                    description='Hey y\'all! Type `/help` to get started with Villager Bot!\n'
                                 f'If you need any more help, check out the **[Support Server]({self.d.support})**!'
                 )
 
