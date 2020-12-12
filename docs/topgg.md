@@ -97,7 +97,6 @@
 * `/google <search>` *searches on google for your query*
 * `/youtube <search>` *searches on youtube for your query*
 * `/image <search>` *searches google images for your query*
-* `/aliases <command>` *shows the aliases of that command*
 
 ### Fun
 * `/cursed` *sends a random cursed Minecraft image*
