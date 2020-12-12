@@ -164,7 +164,7 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name='links', aliases=['invite', 'support', 'usefullinks', 'website'])
+    @commands.command(name='links', aliases=['invite', 'support', 'usefullinks', 'website', 'source'])
     async def useful_links(self, ctx):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name='Useful Links', icon_url=self.d.splash_logo)
