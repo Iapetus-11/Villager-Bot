@@ -335,6 +335,7 @@ class Minecraft(commands.Cog):
         name_hist = '\uFEFF'
 
         for i, name in enumerate(name_hist):
+            await ctx.send(name)
             time = name.get('changedToAt')
 
             if time is None:
