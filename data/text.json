@@ -35,7 +35,17 @@
         "**How to become god gamer tip #1:**",
         "**Handy Dandy Tip:**",
         "**Pro Tip #1:**"
-      ]
+      ],
+      "time": {
+        "day": "day",
+        "days": "days",
+        "hour": "hour",
+        "hours": "hours",
+        "minute": "minute",
+        "minutes": "minutes",
+        "second": "second",
+        "seconds": "seconds"
+      }
     },
     "help": {
       "n": {
@@ -465,17 +475,6 @@
       }
     },
     "useful": {
-      "uptime": {
-        "online_for": "I've been online for {}.",
-        "day": "day",
-        "days": "days",
-        "hour": "hour",
-        "hours": "hours",
-        "minute": "minute",
-        "minutes": "minutes",
-        "second": "second",
-        "seconds": "seconds"
-      },
       "vote": {
         "click_1": "Click Me!",
         "click_2": "Or Here!"
@@ -807,7 +806,17 @@
         "**Cómo convertirse en el dios jugador punta #1:**",
         "**Útil Punta:**",
         "**Pro Punta #1:**"
-      ]
+      ],
+      "time": {
+        "day": "día",
+        "days": "días",
+        "hour": "hora",
+        "hours": "horas",
+        "minute": "minuto",
+        "minutes": "minutos",
+        "second": "segundo",
+        "seconds": "segundos"
+      }
     },
     "help": {
       "n": {
@@ -1237,17 +1246,6 @@
       }
     },
     "useful": {
-      "uptime": {
-        "online_for": "He estado en línea por {}.",
-        "day": "día",
-        "days": "días",
-        "hour": "hora",
-        "hours": "horas",
-        "minute": "minuto",
-        "minutes": "minutos",
-        "second": "segundo",
-        "seconds": "segundos"
-      },
       "vote": {
         "click_1": "Haz Clic En Mí!",
         "click_2": "O Aquí!"
