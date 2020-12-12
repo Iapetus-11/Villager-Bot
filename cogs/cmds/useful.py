@@ -180,8 +180,8 @@ class Useful(commands.Cog):
     @commands.command(name='stats', aliases=['bs'])
     async def stats(self, ctx):
         with ctx.typing():
-            uptime = (arrow.utcnow() - self.d.start_time)
-            uptime_seconds = uptime.seconds + (uptime.days * 24 * 3600)
+            uptime = arrow.utcnow().shift(seconds=(arrow.utcnow() - self.d.start_time).total_seconds())
+            uptime = uptime.humanize(locale=ctx.l.lang, only_distance=True)
 
             proc =  psutil.Process()
             with proc.oneshot():
@@ -208,7 +208,7 @@ class Useful(commands.Cog):
                     f'{ctx.l.useful.stats.threads}: `{threads}`\n' \
                     f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
                     f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
-                    f'{ctx.l.useful.stats.uptime}: `{uptime_seconds}s`\n'
+                    f'{ctx.l.useful.stats.uptime}: `{uptime}`\n'
 
             embed.add_field(name='\uFEFF', value=col_1+'\uFEFF')
             embed.add_field(name='\uFEFF', value=col_2+'\uFEFF')
