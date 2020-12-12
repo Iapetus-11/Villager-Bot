@@ -82,8 +82,6 @@
 * `/achievement <text>` *generates a Minecraft achievement from the given text*
 * `/buildidea` *sends a random build idea for if you're bored and need inspiration*
 * `/mccolors` *shows the Minecraft colors and how to use them in the ingame chat*
-* `/nametouuid <username>` *turns a MC Java Edition username into a uuid*
-* `/uuidtoname <uuid>` *turns a MC Java Edition uuid into a username*
 * `/nametoxuid <username>` *turns an MC Bedrock Edition gamertag into an xuid*
 
 ### Utility
