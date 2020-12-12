@@ -325,8 +325,9 @@ class Minecraft(commands.Cog):
             return
 
         uuid = jj[0]['id']
+        uuid_dashed = f'{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}'
 
-        await self.bot.send(ctx, f'**{username}**: `{uuid}`')
+        await self.bot.send(ctx, f'**{username}**: `{uuid}` / `{uuid_dashed}`')
 
     @commands.command(name='nametoxuid', aliases=['grabxuid', 'benametoxuid', 'bename'])
     @commands.cooldown(1, 2, commands.BucketType.user)
