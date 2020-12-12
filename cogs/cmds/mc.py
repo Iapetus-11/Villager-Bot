@@ -288,6 +288,74 @@ class Minecraft(commands.Cog):
         embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}')
         await ctx.send(embed=embed)
 
+    @commands.command(name='mcprofile', aliases=['minecraftprofile', 'nametouuid', 'uuidtoname'])
+    @commands.cooldown(1, 4, commands.BucketType.user)
+    async def minecraft_profile(self, ctx, player):
+        if 17 > len(username) > 0 and not any([(name_c.lower() not in 'abcdefghijklmnopqrstuvwxyz_') for name_c in player]):  # player is a username
+            with ctx.typing():
+                res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{username}')
+
+            if res.status == 204:
+                await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+                return
+            elif res.status != 200:
+                await self.bot.send(ctx, 'Something went wrong while fetching that user\'s profile...')
+                return
+
+            jj = await res.json()
+            uuid = jj['id']
+        elif len(uuid) in (32, 36,) and not any([(uuid_c.lower() not in 'abcdefghijklmnopqrstuvwxyz-') for uuid_c in player]):  # player is a uuid
+            uuid = player.replace('-', '')
+        else:
+            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+            return
+
+        with ctx.typing():
+            resps = await asyncio.gather(
+                self.ses.get(f'https://api.mojang.com/user/profiles/{uuid}/names'),
+                self.ses.get(f'https://sessionserver.mojang.com/session/minecraft/profile/{uuid}')
+            )
+
+        for res in resps:
+            if res.status == 204:
+                await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+                return
+            elif res.status != 200:
+                await self.bot.send(ctx, 'Something went wrong while fetching that user\'s profile...')
+                return
+
+        names = cj.classify(await resps[0].json())
+        profile = cj.classify(await resps[1].json())
+
+        for property in profile['properties']:
+            if property['name'] == 'textures':
+                skin_link = cj.loads(base64.b64decode(property['value'])).textures.get('SKIN', {}).get('url')
+                break
+
+        name_hist = ''
+
+        for i, name in enumerate(name_hist):
+            time = name.get('changedToAt')
+
+            if time is None:
+                time = 'First username'
+            else:
+                time = arrow.fromtimestamp(time)
+                time = time.format('MMM D, YYYY', locale=ctx.l.lang) + ', ' + time.humanize(locale=ctx.l.lang)
+
+            name_hist += f'**{len(name_hist)-i}.** `{name.name}` - {time}\n'
+
+        embed = discord.Embed(color=self.d.cc, title=f'Minecraft profile for `{profile.name}`')
+
+        embed.add_field(name='UUID', value=f'{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}\n{uuid}', inline=False)
+
+        if skin_link is not None:
+            embed.add_field(name=f'[Skin Download Link]({skin_link})', value='\uFEFF', inline=False)
+
+        embed.add_field(name='Name History', value=name_hist, value=False)
+
+        await ctx.send(embed=embed)
+
     @commands.command(name='uuidtoname', aliases=['uuidtousername', 'uuid2name'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def uuid_to_username(self, ctx, uuid):
