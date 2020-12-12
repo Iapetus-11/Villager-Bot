@@ -377,7 +377,7 @@
       "profile": {
         "error": "Something went wrong while fetching that user's profile...",
         "first": "First username",
-        "mcpp": "Minecraft Profile For",
+        "mcpp": "Minecraft Profile For `{}`",
         "skin": "Skin Download Link",
         "hist": "Name History"
       }
@@ -1149,7 +1149,7 @@
       "profile": {
         "error": "Algo salió mal mientras buscaba el perfil de ese usuario...",
         "first": "Primer nombre de usuario",
-        "mcpp": "Perfil De Minecraft Para {}",
+        "mcpp": "Perfil De Minecraft Para `{}`",
         "skin": "Enlace De Descarga De La Piel",
         "hist": "Historia Del Nombre"
       }
