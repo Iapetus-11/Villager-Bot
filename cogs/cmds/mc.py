@@ -288,7 +288,7 @@ class Minecraft(commands.Cog):
         embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}')
         await ctx.send(embed=embed)
 
-    @commands.command(name='mcprofile', aliases=['minecraftprofile', 'nametouuid', 'uuidtoname'])
+    @commands.command(name='mcprofile', aliases=['minecraftprofile', 'nametouuid', 'uuidtoname', 'mcp'])
     @commands.cooldown(1, 4, commands.BucketType.user)
     async def minecraft_profile(self, ctx, player):
         if 17 > len(player) > 1 and all([(name_c.lower() in 'abcdefghijklmnopqrstuvwxyz1234567890_') for name_c in player]):  # player is a username
