@@ -345,7 +345,7 @@ class Minecraft(commands.Cog):
 
             name_hist += f'**{len(names)-i}.** `{name.name}` - {time}\n'
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.profile.mcpp.format(name.name))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.profile.mcpp.format(profile.name))
 
         if skin_link is not None:
             embed.description = f'[**{ctx.l.minecraft.profile.skin}**]({skin_link})'
