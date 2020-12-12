@@ -341,7 +341,7 @@ class Minecraft(commands.Cog):
             if time is None:
                 time = 'First username'
             else:
-                time = arrow.fromtimestamp(time)
+                time = arrow.Arrow.fromtimestamp(time)
                 time = time.format('MMM D, YYYY', locale=ctx.l.lang) + ', ' + time.humanize(locale=ctx.l.lang)
 
             name_hist += f'**{len(name_hist)-i}.** `{name.name}` - {time}\n'
