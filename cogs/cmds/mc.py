@@ -293,7 +293,7 @@ class Minecraft(commands.Cog):
     async def minecraft_profile(self, ctx, player):
         if 17 > len(player) > 1 and all([(name_c.lower() in 'abcdefghijklmnopqrstuvwxyz1234567890_') for name_c in player]):  # player is a username
             with ctx.typing():
-                res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{username}')
+                res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{player}')
 
             if res.status == 204:
                 await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
