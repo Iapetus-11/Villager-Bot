@@ -352,8 +352,8 @@ class Minecraft(commands.Cog):
 
         embed.set_thumbnail(url=f'https://mc-heads.net/head/{uuid}/left')
 
-        embed.add_field(name='UUID', value=f'`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`', inline=False)
-        embed.add_field(name=ctx.l.minecraft.profile.hist, value=name_hist, inline=False)
+        embed.add_field(name='UUID :link:', value=f'`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`', inline=False)
+        embed.add_field(name=ctx.l.minecraft.profile.hist + ' :label:', value=name_hist, inline=False)
 
         await ctx.send(embed=embed)
 
