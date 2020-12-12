@@ -304,7 +304,7 @@ class Minecraft(commands.Cog):
 
             jj = await res.json()
             uuid = jj['id']
-        elif len(uuid) in (32, 36,) and not any([(uuid_c.lower() not in 'abcdefghijklmnopqrstuvwxyz-') for uuid_c in player]):  # player is a uuid
+        elif len(player) in (32, 36,) and not any([(uuid_c.lower() not in 'abcdefghijklmnopqrstuvwxyz-') for uuid_c in player]):  # player is a uuid
             uuid = player.replace('-', '')
         else:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
