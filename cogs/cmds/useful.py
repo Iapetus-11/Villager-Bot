@@ -152,28 +152,8 @@ class Useful(commands.Cog):
 
     @commands.command(name='uptime', aliases=['isvillagerbotdown', 'isthebestbotintheworldoffline'])
     async def uptime(self, ctx):
-        now = arrow.utcnow()
-        diff = now - self.d.start_time
-
-        days = diff.days
-        if days == 1:
-            dd = ctx.l.useful.uptime.day
-        else:
-            dd = ctx.l.useful.uptime.days
-
-        hours = int(diff.seconds / 3600)
-        if hours == 1:
-            hh = ctx.l.useful.uptime.hour
-        else:
-            hh = ctx.l.useful.uptime.hours
-
-        minutes = int(diff.seconds / 60) % 60
-        if minutes == 1:
-            mm = ctx.l.useful.uptime.minute
-        else:
-            mm = ctx.l.useful.uptime.minutes
-
-        await self.bot.send(ctx, ctx.l.useful.uptime.online_for.format(f'{days} {dd}, {hours} {hh}, {minutes} {mm}'))
+        uptime = arrow.utcnow() - self.d.start_time
+        await self.bot.send(ctx, ctx.l.useful.uptime.online_for.format(uptime.humanize(locale=ctx.l.lang, only_distance=True)))
 
     @commands.command(name='vote', aliases=['votelink', 'votelinks'])
     async def votelinks(self, ctx):
