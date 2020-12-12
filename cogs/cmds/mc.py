@@ -338,22 +338,22 @@ class Minecraft(commands.Cog):
             time = name.get('changedToAt')
 
             if time is None:
-                time = 'First username'
+                time = ctx.l.minecraft.profile.first
             else:
                 time = arrow.Arrow.fromtimestamp(time)
                 time = time.format('MMM D, YYYY', locale=ctx.l.lang) + ', ' + time.humanize(locale=ctx.l.lang)
 
             name_hist += f'**{len(names)-i}.** `{name.name}` - {time}\n'
 
-        embed = discord.Embed(color=self.d.cc, title=f'Minecraft profile for `{profile.name}`')
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.profile.mcpp.format(name.name))
 
         if skin_link is not None:
-            embed.description = f'[**Skin Download Link**]({skin_link})'
+            embed.description = f'[**{ctx.l.minecraft.profile.skin}**]({skin_link})'
 
         embed.set_thumbnail(url=f'https://mc-heads.net/head/{uuid}/left')
 
         embed.add_field(name='UUID', value=f'`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`', inline=False)
-        embed.add_field(name='Name History', value=name_hist, inline=False)
+        embed.add_field(name=ctx.l.minecraft.profile.hist, value=name_hist, inline=False)
 
         await ctx.send(embed=embed)
 
