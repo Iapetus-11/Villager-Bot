@@ -332,7 +332,7 @@ class Minecraft(commands.Cog):
                 skin_link = cj.loads(base64.b64decode(property['value'])).textures.get('SKIN', {}).get('url')
                 break
 
-        name_hist = ''
+        name_hist = '\uFEFF'
 
         for i, name in enumerate(name_hist):
             time = name.get('changedToAt')
