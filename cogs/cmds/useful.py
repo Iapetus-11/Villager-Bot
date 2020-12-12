@@ -150,11 +150,6 @@ class Useful(commands.Cog):
 
         await self.bot.send(ctx, f'{self.d.emojis.aniheart} {pp} \uFEFF `{round(self.bot.latency*1000, 2)} ms`')
 
-    @commands.command(name='uptime', aliases=['isvillagerbotdown', 'isthebestbotintheworldoffline'])
-    async def uptime(self, ctx):
-        uptime = arrow.utcnow().shift(seconds=(arrow.utcnow() - self.d.start_time).total_seconds())
-        await self.bot.send(ctx, ctx.l.useful.uptime.online_for.format(uptime.humanize(locale=ctx.l.lang, only_distance=True)))
-
     @commands.command(name='vote', aliases=['votelink', 'votelinks'])
     async def votelinks(self, ctx):
         embed = discord.Embed(color=self.d.cc)
