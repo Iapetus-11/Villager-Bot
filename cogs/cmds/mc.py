@@ -291,7 +291,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='mcprofile', aliases=['minecraftprofile', 'nametouuid', 'uuidtoname'])
     @commands.cooldown(1, 4, commands.BucketType.user)
     async def minecraft_profile(self, ctx, player):
-        if 17 > len(username) > 0 and not any([(name_c.lower() not in 'abcdefghijklmnopqrstuvwxyz_') for name_c in player]):  # player is a username
+        if 17 > len(player) > 0 and not any([(name_c.lower() not in 'abcdefghijklmnopqrstuvwxyz_') for name_c in player]):  # player is a username
             with ctx.typing():
                 res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{username}')
 
