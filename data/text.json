@@ -375,7 +375,11 @@
         "err_cmd": "Something went wrong while sending a command to the server, is the server online and RCON enabled?"
       },
       "profile": {
-        "error": "Something went wrong while fetching that user's profile..."
+        "error": "Something went wrong while fetching that user's profile...",
+        "first": "First username",
+        "mcpp": "Minecraft Profile For",
+        "skin": "Skin Download Link",
+        "hist": "Name History"
       }
     },
     "mod": {
@@ -1143,7 +1147,11 @@
         "err_cmd": "Algo salió mal al enviar un comando al servidor, ¿está el servidor en línea y RCON habilitado?"
       },
       "profile": {
-        "error": "Algo salió mal mientras buscaba el perfil de ese usuario..."
+        "error": "Algo salió mal mientras buscaba el perfil de ese usuario...",
+        "first": "Primer nombre de usuario",
+        "mcpp": "Perfil De Minecraft Para {}",
+        "skin": "Enlace De Descarga De La Piel",
+        "hist": "Historia Del Nombre"
       }
     },
     "mod": {
