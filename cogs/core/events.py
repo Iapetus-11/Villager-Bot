@@ -122,9 +122,22 @@ class Events(commands.Cog):
                 seconds -= round((hours * 60 * 60) + (minutes * 60), 2)
 
                 time = ''
-                if hours > 0: time += f'{hours} {ctx.l.useful.uptime.hours}, '
-                if minutes > 0: time += f'{minutes} {ctx.l.useful.uptime.minutes}, '
-                time += f'{round(seconds, 2)} {ctx.l.useful.uptime.seconds}'
+
+                if hours == 1:
+                    time += f'{hours} {ctx.l.misc.time.hour}, '
+                elif hours > 0:
+                    time += f'{hours} {ctx.l.misc.time.hours}, '
+
+
+                if minutes == 1:
+                    time += f'{minutes} {ctx.l.misc.time.minute}, '
+                elif minutes > 0:
+                    time += f'{minutes} {ctx.l.misc.time.minutes}, '
+
+                if seconds == 1:
+                    time += f'{round(seconds, 2)} {ctx.l.misc.time.second}'
+                elif seconds > 0:
+                    time += f'{round(seconds, 2)} {ctx.l.misc.time.seconds}'
 
                 await self.bot.send(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time))
             elif isinstance(e, commands.NoPrivateMessage):
