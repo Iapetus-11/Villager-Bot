@@ -93,7 +93,6 @@
         "links": "`{0}links` *view useful links relating to Villager Bot*",
         "vote": "`{0}vote` *earn emeralds from voting for Villager Bot on certain websites*",
         "stats": "`{0}stats` *shows statistics about Villager Bot*",
-        "uptime": "`{0}uptime` *view how long the bot has been online*",
         "google": "`{0}google <search>` *searches on google for your query*",
         "youtube": "`{0}youtube <search>` *searches on youtube for your query*",
         "image": "`{0}image <search>` *searches google images for your query*"
@@ -866,7 +865,6 @@
         "links": "`{0}links` *ver enlaces útiles relacionados con Villager Bot*",
         "vote": "`{0}vote` *ganan esmeraldas votando por Villager Bot en ciertos sitios web*",
         "stats": "`{0}stats` *muestra estadísticas sobre Villager Bot*",
-        "uptime": "`{0}uptime` *ver cuánto tiempo ha estado el bot en línea*",
         "google": "`{0}google <consulta>` *busca en google para tu consulta*",
         "youtube": "`{0}youtube <consulta>` *busca en youtube para tu consulta*",
         "image": "`{0}image <consulta>` *busca imágenes de google para tu consulta*"
