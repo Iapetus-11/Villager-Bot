@@ -180,7 +180,7 @@ class Useful(commands.Cog):
     @commands.command(name='stats', aliases=['bs'])
     async def stats(self, ctx):
         with ctx.typing():
-            uptime_seconds = arrow.utcnow() - self.d.start_time).total_seconds()
+            uptime_seconds = (arrow.utcnow() - self.d.start_time).total_seconds()
             uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
 
             proc =  psutil.Process()
