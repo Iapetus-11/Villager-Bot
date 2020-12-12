@@ -299,7 +299,7 @@ class Minecraft(commands.Cog):
                 await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
                 return
             elif res.status != 200:
-                await self.bot.send(ctx, 'Something went wrong while fetching that user\'s profile...')
+                await self.bot.send(ctx, ctx.l.minecraft.profile.error)
                 return
 
             jj = await res.json()
@@ -321,7 +321,7 @@ class Minecraft(commands.Cog):
                 await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
                 return
             elif res.status != 200:
-                await self.bot.send(ctx, 'Something went wrong while fetching that user\'s profile...')
+                await self.bot.send(ctx, ctx.l.minecraft.profile.error)
                 return
 
         names = cj.classify(await resps[0].json())
