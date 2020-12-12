@@ -343,7 +343,7 @@ class Minecraft(commands.Cog):
                 time = arrow.Arrow.fromtimestamp(time)
                 time = time.format('MMM D, YYYY', locale=ctx.l.lang) + ', ' + time.humanize(locale=ctx.l.lang)
 
-            name_hist += f'**{i}.** `{name.name}` - {time}\n'
+            name_hist += f'**{len(names)-i}.** `{name.name}` - {time}\n'
 
         embed = discord.Embed(color=self.d.cc, title=f'Minecraft profile for `{profile.name}`')
 
