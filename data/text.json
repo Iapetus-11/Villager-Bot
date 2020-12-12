@@ -82,8 +82,6 @@
         "achievement": "`{0}achievement <text>` *generates a Minecraft achievement from the given text*",
         "buildidea": "`{0}buildidea` *sends a random build idea for if you're bored and need inspiration*",
         "mccolors": "`{0}mccolors` *shows the Minecraft colors and how to use them in the ingame chat*",
-        "nametouuid": "`{0}nametouuid <username>` *turns a MC Java Edition username into a uuid*",
-        "uuidtoname": "`{0}uuidtoname <uuid>` *turns a MC Java Edition uuid into a username*",
         "nametoxuid": "`{0}nametoxuid <username>` *turns an MC Bedrock Edition gamertag into an xuid*"
       },
       "util": {
@@ -375,6 +373,9 @@
         "stupid_2": "Incorrect password! Run the command to enter it again.",
         "err_con": "Something went wrong while connecting to the server, is the server online and RCON enabled?",
         "err_cmd": "Something went wrong while sending a command to the server, is the server online and RCON enabled?"
+      },
+      "profile": {
+        "error": "Something went wrong while fetching that user's profile..."
       }
     },
     "mod": {
@@ -849,8 +850,6 @@
         "achievement": "`{0}achievement <texto>` *genera un logro de Minecraft a partir del texto dado*",
         "buildidea": "`{0}buildidea` *envía una idea de construcción aleatoria para si te aburres y necesitas inspiración*",
         "mccolors": "`{0}mccolors` *muestra los colores Minecraft y cómo utilizarlos en el chat del juego*",
-        "nametouuid": "`{0}nametouuid <nombre de usuario>` *convierte un nombre de usuario de MC Java Edition en un uuid*",
-        "uuidtoname": "`{0}uuidtoname <uuid>` *convierte un uuid de MC Java Edition en un nombre de usuario*",
         "nametoxuid": "`{0}nametoxuid <nombre de usuario>` *convierte un gamertag de la edición MC Bedrock en un xuid*"
       },
       "util": {
@@ -1142,6 +1141,9 @@
         "stupid_2": "¡Contraseña incorrecta! Ejecute el comando para introducirla de nuevo.",
         "err_con": "Algo salió mal mientras se conectaba al servidor, ¿está el servidor en línea y RCON habilitado?",
         "err_cmd": "Algo salió mal al enviar un comando al servidor, ¿está el servidor en línea y RCON habilitado?"
+      },
+      "profile": {
+        "error": "Algo salió mal mientras buscaba el perfil de ese usuario..."
       }
     },
     "mod": {
