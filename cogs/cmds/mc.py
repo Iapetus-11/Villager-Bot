@@ -352,7 +352,7 @@ class Minecraft(commands.Cog):
         if skin_link is not None:
             embed.add_field(name=f'[Skin Download Link]({skin_link})', value='\uFEFF', inline=False)
 
-        embed.add_field(name='Name History', value=name_hist, value=False)
+        embed.add_field(name='Name History', value=name_hist, inline=False)
 
         await ctx.send(embed=embed)
 
