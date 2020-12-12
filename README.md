@@ -61,7 +61,6 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * `/links` *view useful links relating to Villager Bot*
 * `/vote` *earn emeralds from voting for Villager Bot on certain websites*
 * `/stats` *shows statistics about Villager Bot*
-* `/uptime` *view how long the bot has been online*
 * `/google <search>` *searches on google for your query*
 * `/youtube <search>` *searches on youtube for your query*
 * `/image <search>` *searches google images for your query*
