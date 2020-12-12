@@ -64,7 +64,7 @@ class Minecraft(commands.Cog):
 
     @tasks.loop(seconds=15)
     async def clear_rcon_cache(self):
-        for key, con in self.d.rcon_cache.items():
+        for key, con in self.d.rcon_cache.copy().items():
             if arrow.utcnow().shift(minutes=-1) > con[1]:
                 try:
                     await con[0].close()
