@@ -325,7 +325,6 @@ class Minecraft(commands.Cog):
                 return
 
         names = cj.classify(await resps[0].json())
-        await ctx.send(names)
         profile = cj.classify(await resps[1].json())
 
         for property in profile['properties']:
