@@ -84,7 +84,7 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * `/kill <user>` *brutally murder another user*
 * `/bubblewrap` *sends virtual bubblewrap for you to pop*
 * `/coinflip` *flips a coin and says the result in the chat*
-* `/pat <thing>` *pats the mentioned user or thing*
+* `/pat <user>` *brutally pat someone on the head*
 
 ### Moderation
 * `/warn <user> <reason>` *warn a user for a specified reason*
