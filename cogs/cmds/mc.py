@@ -291,7 +291,7 @@ class Minecraft(commands.Cog):
     @commands.command(name='mcprofile', aliases=['minecraftprofile', 'nametouuid', 'uuidtoname'])
     @commands.cooldown(1, 4, commands.BucketType.user)
     async def minecraft_profile(self, ctx, player):
-        if 17 > len(player) > 0 and not any([(name_c.lower() not in 'abcdefghijklmnopqrstuvwxyz_') for name_c in player]):  # player is a username
+        if 17 > len(player) > 1 and all([(name_c.lower() in 'abcdefghijklmnopqrstuvwxyz_') for name_c in player]):  # player is a username
             with ctx.typing():
                 res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{username}')
 
@@ -304,7 +304,7 @@ class Minecraft(commands.Cog):
 
             jj = await res.json()
             uuid = jj['id']
-        elif len(player) in (32, 36,) and not any([(uuid_c.lower() not in 'abcdefghijklmnopqrstuvwxyz-') for uuid_c in player]):  # player is a uuid
+        elif len(player) in (32, 36,) and all([(uuid_c.lower() in 'abcdefghijklmnopqrstuvwxyz-') for uuid_c in player]):  # player is a uuid
             uuid = player.replace('-', '')
         else:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
