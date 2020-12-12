@@ -350,6 +350,8 @@ class Minecraft(commands.Cog):
         if skin_link is not None:
             embed.description = f'[**Skin Download Link**]({skin_link})'
 
+        embed.set_thumbnail(url=f'https://mc-heads.net/head/{uuid}/left')
+
         embed.add_field(name='UUID', value=f'`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`', inline=False)
         embed.add_field(name='Name History', value=name_hist, inline=False)
 
