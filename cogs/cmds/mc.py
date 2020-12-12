@@ -343,15 +343,14 @@ class Minecraft(commands.Cog):
                 time = arrow.Arrow.fromtimestamp(time)
                 time = time.format('MMM D, YYYY', locale=ctx.l.lang) + ', ' + time.humanize(locale=ctx.l.lang)
 
-            name_hist += f'**{len(name_hist)-i}.** `{name.name}` - {time}\n'
+            name_hist += f'**{len(names)-i}.** `{name.name}` - {time}\n'
 
         embed = discord.Embed(color=self.d.cc, title=f'Minecraft profile for `{profile.name}`')
 
-        embed.add_field(name='UUID', value=f'{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}\n{uuid}', inline=False)
-
         if skin_link is not None:
-            embed.add_field(name=f'[Skin Download Link]({skin_link})', value='\uFEFF', inline=False)
+            embed.description = f'[Skin Download Link]({skin_link})'
 
+        embed.add_field(name='UUID', value=f'`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`', inline=False)
         embed.add_field(name='Name History', value=name_hist, inline=False)
 
         await ctx.send(embed=embed)
