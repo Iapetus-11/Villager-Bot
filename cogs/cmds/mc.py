@@ -348,7 +348,7 @@ class Minecraft(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=f'Minecraft profile for `{profile.name}`')
 
         if skin_link is not None:
-            embed.description = f'[Skin Download Link]({skin_link})'
+            embed.description = f'[**Skin Download Link**]({skin_link})'
 
         embed.add_field(name='UUID', value=f'`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`', inline=False)
         embed.add_field(name='Name History', value=name_hist, inline=False)
