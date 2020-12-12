@@ -175,26 +175,6 @@ class Useful(commands.Cog):
 
         await self.bot.send(ctx, ctx.l.useful.uptime.online_for.format(f'{days} {dd}, {hours} {hh}, {minutes} {mm}'))
 
-    @commands.command(name='info', aliases=['information'])
-    async def info(self, ctx):
-        embed = discord.Embed(color=self.d.cc)
-
-        embed.add_field(name=ctx.l.useful.info.lib, value='Discord.py')
-        embed.add_field(name=ctx.l.useful.info.prefix, value=ctx.prefix)
-        embed.add_field(name=ctx.l.useful.info.creator, value='Iapetus11#6821')
-
-        embed.add_field(name=ctx.l.useful.info.servers, value=str(len(self.bot.guilds)))
-        embed.add_field(name=ctx.l.useful.info.shards, value=str(self.bot.shard_count))
-        embed.add_field(name=ctx.l.useful.info.users, value=str(len(self.bot.users)))
-
-        embed.add_field(name=ctx.l.useful.info.more, value=f'[{ctx.l.useful.info.click_here}]({self.d.topgg})')
-        embed.add_field(name=ctx.l.useful.info.website, value=f'[{ctx.l.useful.info.click_here}]({self.d.website})')
-        embed.add_field(name=ctx.l.useful.info.support, value=f'[{ctx.l.useful.info.click_here}]({self.d.support})')
-
-        embed.set_author(name=ctx.l.useful.info.title, icon_url=self.d.splash_logo)
-
-        await ctx.send(embed=embed)
-
     @commands.command(name='vote', aliases=['votelink', 'votelinks'])
     async def votelinks(self, ctx):
         embed = discord.Embed(color=self.d.cc)

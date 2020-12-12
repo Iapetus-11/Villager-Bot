@@ -92,7 +92,6 @@
 * `/server` *view information about the current server*
 * `/links` *view useful links relating to Villager Bot*
 * `/vote` *earn emeralds from voting for Villager Bot on certain websites*
-* `/info` *view information about Villager Bot*
 * `/stats` *shows statistics about Villager Bot*
 * `/uptime` *view how long the bot has been online*
 * `/google <search>` *searches on google for your query*

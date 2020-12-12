@@ -93,7 +93,6 @@
         "server": "`{0}server` *view information about the current server*",
         "links": "`{0}links` *view useful links relating to Villager Bot*",
         "vote": "`{0}vote` *earn emeralds from voting for Villager Bot on certain websites*",
-        "info": "`{0}info` *view information about Villager Bot*",
         "stats": "`{0}stats` *shows statistics about Villager Bot*",
         "uptime": "`{0}uptime` *view how long the bot has been online*",
         "google": "`{0}google <search>` *searches on google for your query*",
@@ -471,19 +470,6 @@
         "minutes": "minutes",
         "second": "second",
         "seconds": "seconds"
-      },
-      "info": {
-        "lib": "Bot Library",
-        "prefix": "Command Prefix",
-        "creator": "Creator",
-        "servers": "Total Servers",
-        "shards": "Shards",
-        "users": "Total Users",
-        "more": "More Info",
-        "website": "Website",
-        "support": "Support",
-        "click_here": "Click Here",
-        "title": "Villager Bot Information"
       },
       "vote": {
         "click_1": "Click Me!",
@@ -874,7 +860,6 @@
         "server": "`{0}server` *ver información sobre el servidor actual*",
         "links": "`{0}links` *ver enlaces útiles relacionados con Villager Bot*",
         "vote": "`{0}vote` *ganan esmeraldas votando por Villager Bot en ciertos sitios web*",
-        "info": "`{0}info` *ver información sobre Villager Bot*",
         "stats": "`{0}stats` *muestra estadísticas sobre Villager Bot*",
         "uptime": "`{0}uptime` *ver cuánto tiempo ha estado el bot en línea*",
         "google": "`{0}google <consulta>` *busca en google para tu consulta*",
@@ -1252,19 +1237,6 @@
         "minutes": "minutos",
         "second": "segundo",
         "seconds": "segundos"
-      },
-      "info": {
-        "lib": "Biblioteca De Botes",
-        "prefix": "Prefijo Del Comando",
-        "creator": "Creador",
-        "servers": "Total De Servidores",
-        "shards": "Fragmentos",
-        "users": "Total De Usuarios",
-        "more": "Más Información",
-        "website": "Página Web",
-        "support": "Apoyo",
-        "click_here": "Haga Clic Aquí",
-        "title": "Villager Bot Información"
       },
       "vote": {
         "click_1": "Haz Clic En Mí!",
