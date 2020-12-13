@@ -101,6 +101,9 @@ class Econ(commands.Cog):
         vote_streak = db_user['vote_streak']
         voted = arrow.utcnow().shift(hours=-12) < arrow.get(0 if db_user['streak_time'] is None else db_user['streak_time'])
 
+        if arrow.utcnow().shift(days=-1, minutes=-10) < arrow.get(0 if db_user['streak_time'] is None else db_user['streak_time']):
+            vote_streak = 0
+
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
 
