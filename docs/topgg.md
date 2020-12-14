@@ -115,6 +115,7 @@
 * `/coinflip` *flips a coin and says the result in the chat*
 * `/pat <user>` *brutally pat someone on the head*
 * `/achievement <text>` *generates a Minecraft achievement from the given text*
+* `/splashtext <text>` *generates a Minecraft splash screen with the given text*
 
 ### Moderation
 * `/warn <user> <reason>` *warn a user for a specified reason*
