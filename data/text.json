@@ -340,7 +340,8 @@
         "learn_more": "You can learn more about this server [here]({})"
       },
       "stealskin": {
-        "error_1": "Oops, something went wrong while fetching that player's profile.",
+        "error": "Oops, something went wrong while fetching that player's skin.",
+        "no_skin": "This player doesn't have a skin.",
         "embed_desc": "{}'s skin\n[**[Download]**]({})"
       },
       "mccolors": {
@@ -1111,8 +1112,9 @@
         "learn_more": "Puedes aprender más sobre este servidor [aquí]({})"
       },
       "stealskin": {
-        "error_1": "Oops, algo salió mal mientras buscaba el perfil de ese jugador.",
-        "embed_desc": "{}'s piel\n[**[Descargue]**]({})"
+        "error": "Oops, algo salió mal mientras buscaba la piel de ese jugador.",
+        "no_skin": "Este jugador no tiene piel.",
+        "embed_desc": "Piel de {}\n[**[Descargue]**]({})"
       },
       "mccolors": {
         "embed_desc": "El texto en Minecraft puede ser formateado usando diferentes códigos y el símbolo de la sección (`§`).",

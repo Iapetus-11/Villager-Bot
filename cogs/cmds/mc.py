@@ -255,28 +255,33 @@ class Minecraft(commands.Cog):
         if res.status == 204:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
-
-        uuid = (await res.json()).get('id')
-
-        if uuid is None:
-            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+        elif res.status != 200:
+            await self.bot.send(ctx, ctx.l.minecraft.stealskin.error)
             return
 
-        res_profile = await self.ses.get(f'https://sessionserver.mojang.com/session/minecraft/profile/{uuid}?unsigned=false')
-        profile_content = await res_profile.json()
+        uuid = (await res.json())['id']
 
-        if 'error' in profile_content or len(profile_content['properties']) == 0:
-            await self.bot.send(ctx, ctx.l.minecraft.stealskin.error_1)
+        with ctx.typing():
+            res = await self.ses.get(f'https://sessionserver.mojang.com/session/minecraft/profile/{uuid}')
+
+        if res.status != 200:
+            await self.bot.send(ctx, ctx.l.minecraft.stealskin.error)
             return
 
-        try:
-            decoded_jj = cj.loads(base64.b64decode(profile_content['properties'][0]['value']))
-            skin_url = decoded_jj['textures']['SKIN']['url']
-        except Exception:
-            await self.bot.send(ctx, ctx.l.minecraft.stealskin.error_1)
+        profile = await res.json()
+        skin_url = None
+
+        for prop in profile['properties']:
+            if prop['name'] == 'textures':
+                skin_url = cj.loads(base64.b64decode(prop['value'])).textures.get('SKIN', {}).get('url')
+                break
+
+        if skin_url is None:
+            await self.bot.send(ctx, ctx.l.minecraft.stealskin.no_skin)
             return
 
-        embed = discord.Embed(color=self.d.cc, description=ctx.l.minecraft.stealskin.embed_desc.format(player, skin_url))
+        embed = discord.Embed(color=self.d.cc, description=ctx.l.minecraft.stealskin.embed_desc.format(profile['name'], skin_url))
+        
         embed.set_thumbnail(url=skin_url)
         embed.set_image(url=f'https://visage.surgeplay.com/full/{uuid}.png')
 
@@ -326,10 +331,11 @@ class Minecraft(commands.Cog):
 
         names = cj.classify(await resps[0].json())
         profile = cj.classify(await resps[1].json())
+        skin_url = None
 
-        for property in profile['properties']:
-            if property['name'] == 'textures':
-                skin_link = cj.loads(base64.b64decode(property['value'])).textures.get('SKIN', {}).get('url')
+        for prop in profile['properties']:
+            if prop['name'] == 'textures':
+                skin_url = cj.loads(base64.b64decode(prop['value'])).textures.get('SKIN', {}).get('url')
                 break
 
         name_hist = '\uFEFF'
@@ -347,8 +353,8 @@ class Minecraft(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.profile.mcpp.format(profile.name))
 
-        if skin_link is not None:
-            embed.description = f'[**{ctx.l.minecraft.profile.skin}**]({skin_link})'
+        if skin_url is not None:
+            embed.description = f'[**{ctx.l.minecraft.profile.skin}**]({skin_url})'
 
         embed.set_thumbnail(url=f'https://visage.surgeplay.com/head/{uuid}.png')
 
