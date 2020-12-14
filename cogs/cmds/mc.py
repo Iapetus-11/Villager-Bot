@@ -350,7 +350,7 @@ class Minecraft(commands.Cog):
         if skin_link is not None:
             embed.description = f'[**{ctx.l.minecraft.profile.skin}**]({skin_link})'
 
-        embed.set_thumbnail(url=f'https://mc-heads.net/head/{uuid}/left')
+        embed.set_thumbnail(url=f'https://visage.surgeplay.com/head/{uuid}')
 
         embed.add_field(name=':link: UUID', value=f'`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`', inline=False)
         embed.add_field(name=(':label: ' + ctx.l.minecraft.profile.hist), value=name_hist, inline=False)
