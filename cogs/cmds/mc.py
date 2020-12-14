@@ -278,7 +278,7 @@ class Minecraft(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, description=ctx.l.minecraft.stealskin.embed_desc.format(player, skin_url))
         embed.set_thumbnail(url=skin_url)
-        embed.set_image(url=f'https://visage.surgeplay.com/full/{player}')
+        embed.set_image(url=f'https://visage.surgeplay.com/full/{player}.png')
 
         await ctx.send(embed=embed)
 
@@ -350,7 +350,7 @@ class Minecraft(commands.Cog):
         if skin_link is not None:
             embed.description = f'[**{ctx.l.minecraft.profile.skin}**]({skin_link})'
 
-        embed.set_thumbnail(url=f'https://visage.surgeplay.com/head/{uuid}')
+        embed.set_thumbnail(url=f'https://visage.surgeplay.com/head/{uuid}.png')
 
         embed.add_field(name=':link: UUID', value=f'`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`', inline=False)
         embed.add_field(name=(':label: ' + ctx.l.minecraft.profile.hist), value=name_hist, inline=False)
