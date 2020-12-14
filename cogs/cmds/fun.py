@@ -320,7 +320,7 @@ class Fun(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_splash_screen(self, ctx, *, text):
         embed = discord.Embed(color=self.d.cc)
-        embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:27])}')
+        embed.set_image(url=f'https://api.iapetus11.me/mc/splashscreen/{urlquote(text[:27])}')
         await ctx.send(embed=embed)
 
 
