@@ -310,9 +310,17 @@ class Fun(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='achievement', aliases=['mcachieve'])
+    @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_achievement(self, ctx, *, text):
         embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}')
+        await ctx.send(embed=embed)
+
+    @commands.command(name='splashtext', aliases=['mcsplash', 'splashscreen', 'splash'])
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    async def minecraft_splash_screen(self, ctx, *, text):
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:27])}')
         await ctx.send(embed=embed)
 
 
