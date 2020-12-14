@@ -247,19 +247,24 @@ class Minecraft(commands.Cog):
     @commands.command(name='stealskin', aliases=['getskin', 'skin', 'mcskin'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def steal_skin(self, ctx, player):
-        """"steals" the skin of a Minecraft player"""
+        if 17 > len(player) > 1 and player.lower().strip('abcdefghijklmnopqrstuvwxyz1234567890_') == '':
+            with ctx.typing():
+                res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{player}')
 
-        with ctx.typing():
-            res = await self.ses.get(f'https://api.mojang.com/users/profiles/minecraft/{player}')
+            if res.status == 204:
+                await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+                return
+            elif res.status != 200:
+                await self.bot.send(ctx, ctx.l.minecraft.stealskin.error)
+                return
 
-        if res.status == 204:
+            jj = await res.json()
+            uuid = jj['id']
+        elif len(player) in (32, 36,) and player.lower().strip('abcdefghijklmnopqrstuvwxyz1234567890-') == '':  # player is a uuid
+            uuid = player.replace('-', '')
+        else:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
-        elif res.status != 200:
-            await self.bot.send(ctx, ctx.l.minecraft.stealskin.error)
-            return
-
-        uuid = (await res.json())['id']
 
         with ctx.typing():
             res = await self.ses.get(f'https://sessionserver.mojang.com/session/minecraft/profile/{uuid}')
