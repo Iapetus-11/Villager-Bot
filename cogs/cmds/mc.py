@@ -433,12 +433,6 @@ class Minecraft(commands.Cog):
 
         await self.bot.send(ctx, f'{prefix} {idea}!')
 
-    @commands.command(name='achievement', aliases=['mcachieve'])
-    async def minecraft_achievement(self, ctx, *, text):
-        embed = discord.Embed(color=self.d.cc)
-        embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}')
-        await ctx.send(embed=embed)
-
     @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'scmd'])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     @commands.cooldown(1, 1, commands.BucketType.user)

@@ -89,7 +89,6 @@
         "randommc": "`{0}randommc` *shows a random Minecraft server if you want a new place to explore*",
         "mcimage": "`{0}mcimage` *turns whatever image you upload into Minecraft blocks / pixel art*",
         "stealskin": "`{0}stealskin <username>` *fetches the skin of a Minecraft Java Edition player*",
-        "achievement": "`{0}achievement <text>` *generates a Minecraft achievement from the given text*",
         "buildidea": "`{0}buildidea` *sends a random build idea for if you're bored and need inspiration*",
         "mccolors": "`{0}mccolors` *shows the Minecraft colors and how to use them in the ingame chat*",
         "mcprofile": "`{0}mcprofile <username>` *shows information on a Minecraft Java Edition player*",
@@ -124,7 +123,8 @@
         "kill": "`{0}kill <user>` *brutally murder another user*",
         "bubblewrap": "`{0}bubblewrap` *sends virtual bubblewrap for you to pop*",
         "coinflip": "`{0}coinflip` *flips a coin and says the result in the chat*",
-        "pat": "`{0}pat <user>` *brutally pat someone on the head*"
+        "pat": "`{0}pat <user>` *brutally pat someone on the head*",
+        "achievement": "`{0}achievement <text>` *generates a Minecraft achievement from the given text*"
       },
       "mod": {
         "warn": "`{0}warn <user> <reason>` *warn a user for a specified reason*",
@@ -861,7 +861,6 @@
         "randommc": "`{0}randommc` *muestra un servidor Minecraft al azar si quieres un nuevo lugar para explorar*",
         "mcimage": "`{0}mcimage` *convierte cualquier imagen que suba en bloques Minecraft / arte de los píxeles*",
         "stealskin": "`{0}stealskin <nombre de usuario>` *se obtiene la piel de un jugador de Minecraft Java Edition*",
-        "achievement": "`{0}achievement <texto>` *genera un logro de Minecraft a partir del texto dado*",
         "buildidea": "`{0}buildidea` *envía una idea de construcción aleatoria para si te aburres y necesitas inspiración*",
         "mccolors": "`{0}mccolors` *muestra los colores Minecraft y cómo utilizarlos en el chat del juego*",
         "mcprofile": "`{0}mcprofile <nombre de usuario>` *muestra información sobre un reproductor de Minecraft Java Edition*",
@@ -896,7 +895,8 @@
         "kill": "`{0}kill <usuario>` *asesinar brutalmente a otro usuario*",
         "bubblewrap": "`{0}bubblewrap` *envía un envoltorio de burbujas virtual para que reviente*",
         "coinflip": "`{0}coinflip` *lanza una moneda y dice el resultado en el chat*",
-        "pat": "`{0}pat <usuario>` *dar una palmadita brutal a alguien en la cabeza*"
+        "pat": "`{0}pat <usuario>` *dar una palmadita brutal a alguien en la cabeza*",
+        "achievement": "`{0}achievement <texto>` *genera un logro de Minecraft a partir del texto dado*"
       },
       "mod": {
         "warn": "`{0}warn <usuario> <razón>` *avisar a un usuario por una razón específica*",

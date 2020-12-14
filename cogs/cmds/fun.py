@@ -1,3 +1,4 @@
+from urllib.parse import quote as urlquote
 from discord.ext import commands
 import classyjson as cj
 import discord
@@ -306,6 +307,12 @@ class Fun(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=f'{ctx.author.display_name} pats {thing}')
         embed.set_image(url=image_url)
 
+        await ctx.send(embed=embed)
+
+    @commands.command(name='achievement', aliases=['mcachieve'])
+    async def minecraft_achievement(self, ctx, *, text):
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}')
         await ctx.send(embed=embed)
 
 
