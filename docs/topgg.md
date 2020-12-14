@@ -79,7 +79,6 @@
 * `/mcimage` *turns whatever image you upload into Minecraft blocks / pixel art*
 * `/rcon <command>` *executes commands on a Minecraft server from Discord*
 * `/stealskin <username>` *fetches the skin of a Minecraft Java Edition player*
-* `/achievement <text>` *generates a Minecraft achievement from the given text*
 * `/buildidea` *sends a random build idea for if you're bored and need inspiration*
 * `/mccolors` *shows the Minecraft colors and how to use them in the ingame chat*
 * `/mcprofile <username>` *shows information on a Minecraft Java Edition player*
@@ -115,6 +114,7 @@
 * `/bubblewrap` *sends virtual bubblewrap for you to pop*
 * `/coinflip` *flips a coin and says the result in the chat*
 * `/pat <user>` *brutally pat someone on the head*
+* `/achievement <text>` *generates a Minecraft achievement from the given text*
 
 ### Moderation
 * `/warn <user> <reason>` *warn a user for a specified reason*
