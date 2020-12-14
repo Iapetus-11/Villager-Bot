@@ -124,7 +124,8 @@
         "bubblewrap": "`{0}bubblewrap` *sends virtual bubblewrap for you to pop*",
         "coinflip": "`{0}coinflip` *flips a coin and says the result in the chat*",
         "pat": "`{0}pat <user>` *brutally pat someone on the head*",
-        "achievement": "`{0}achievement <text>` *generates a Minecraft achievement from the given text*"
+        "achievement": "`{0}achievement <text>` *generates a Minecraft achievement from the given text*",
+        "splashtext": "`{0}splashtext <text>` *generates a Minecraft splash screen with the given text*"
       },
       "mod": {
         "warn": "`{0}warn <user> <reason>` *warn a user for a specified reason*",
@@ -896,7 +897,8 @@
         "bubblewrap": "`{0}bubblewrap` *envía un envoltorio de burbujas virtual para que reviente*",
         "coinflip": "`{0}coinflip` *lanza una moneda y dice el resultado en el chat*",
         "pat": "`{0}pat <usuario>` *dar una palmadita brutal a alguien en la cabeza*",
-        "achievement": "`{0}achievement <texto>` *genera un logro de Minecraft a partir del texto dado*"
+        "achievement": "`{0}achievement <texto>` *genera un logro de Minecraft a partir del texto dado*",
+        "splashtext": "`{0}splashtext <texto>` *genera una pantalla de salpicadura Minecraft con el texto dado*"
       },
       "mod": {
         "warn": "`{0}warn <usuario> <razón>` *avisar a un usuario por una razón específica*",
