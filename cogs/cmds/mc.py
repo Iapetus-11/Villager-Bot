@@ -281,16 +281,10 @@ class Minecraft(commands.Cog):
             return
 
         embed = discord.Embed(color=self.d.cc, description=ctx.l.minecraft.stealskin.embed_desc.format(profile['name'], skin_url))
-        
+
         embed.set_thumbnail(url=skin_url)
         embed.set_image(url=f'https://visage.surgeplay.com/full/{uuid}.png')
 
-        await ctx.send(embed=embed)
-
-    @commands.command(name='achievement', aliases=['mcachieve'])
-    async def minecraft_achievement(self, ctx, *, text):
-        embed = discord.Embed(color=self.d.cc)
-        embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}')
         await ctx.send(embed=embed)
 
     @commands.command(name='mcprofile', aliases=['minecraftprofile', 'nametouuid', 'uuidtoname', 'mcp'])
@@ -433,6 +427,12 @@ class Minecraft(commands.Cog):
         idea = random.choice(self.d.build_ideas['ideas'])
 
         await self.bot.send(ctx, f'{prefix} {idea}!')
+
+    @commands.command(name='achievement', aliases=['mcachieve'])
+    async def minecraft_achievement(self, ctx, *, text):
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}')
+        await ctx.send(embed=embed)
 
     @commands.command(name='rcon', aliases=['mccmd', 'servercmd', 'scmd'])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
