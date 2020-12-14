@@ -312,20 +312,22 @@ class Fun(commands.Cog):
     @commands.command(name='achievement', aliases=['mcachieve'])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_achievement(self, ctx, *, text):
+        url = f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}'
         embed = discord.Embed(color=self.d.cc)
-        
-        embed.set_image(url=f'https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}')
-        embed.set_footer(text='\uFEFF')
+
+        embed.description = ctx.l.fun.dl_img.format(url)
+        embed.set_image(url=url)
 
         await ctx.send(embed=embed)
 
     @commands.command(name='splashtext', aliases=['mcsplash', 'splashscreen', 'splash'])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_splash_screen(self, ctx, *, text):
+        url = f'https://api.iapetus11.me/mc/splashscreen/{urlquote(text[:27])}'
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_image(url=f'https://api.iapetus11.me/mc/splashscreen/{urlquote(text[:27])}')
-        embed.set_footer(text='\uFEFF')
+        embed.description = ctx.l.fun.dl_img.format(url)
+        embed.set_image(url=url)
 
         await ctx.send(embed=embed)
 

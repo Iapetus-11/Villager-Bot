@@ -139,6 +139,7 @@
     },
     "fun": {
       "too_long": "That message would be too long to convert.",
+      "dl_img": "[**[Download Image]**]({})",
       "bubblewrap": {
         "invalid_size_1": "That is not a valid size. Example of a valid size: `10x10`",
         "invalid_size_2": "The size must be between 1 and 12"
@@ -912,6 +913,7 @@
     },
     "fun": {
       "too_long": "Ese mensaje sería demasiado largo para convertirlo.",
+      "dl_img": "[**[Descargar Imagen]**]({})",
       "bubblewrap": {
         "invalid_size_1": "Esa no es una talla válida. Ejemplo de una talla válida: `10x10`",
         "invalid_size_2": "El tamaño debe estar entre 1 y 12"
