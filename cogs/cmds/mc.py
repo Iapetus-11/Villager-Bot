@@ -278,7 +278,7 @@ class Minecraft(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, description=ctx.l.minecraft.stealskin.embed_desc.format(player, skin_url))
         embed.set_thumbnail(url=skin_url)
-        embed.set_image(url=f'https://mc-heads.net/body/{player}')
+        embed.set_image(url=f'https://visage.surgeplay.com/full/{player}')
 
         await ctx.send(embed=embed)
 
