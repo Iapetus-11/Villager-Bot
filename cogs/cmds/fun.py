@@ -53,7 +53,7 @@ class Fun(commands.Cog):
             while meme['spoiler'] or (not do_nsfw and meme['nsfw']) or meme.get('url') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
-                    headers={'Authorization': self.k.vb_api_key}
+                    headers={'Authorization': self.k.vb_api}
                 )
 
                 meme = cj.classify(await resp.json())
@@ -80,7 +80,7 @@ class Fun(commands.Cog):
             while (not do_nsfw and jj['nsfw']) or jj.get('url') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/4chan+greentext',
-                    headers={'Authorization': self.k.vb_api_key}
+                    headers={'Authorization': self.k.vb_api}
                 )
 
                 jj = await resp.json()
@@ -105,7 +105,7 @@ class Fun(commands.Cog):
             while (not do_nsfw and jj['nsfw']) or jj.get('url') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/comics',
-                    headers={'Authorization': self.k.vb_api_key}
+                    headers={'Authorization': self.k.vb_api}
                 )
 
                 jj = await resp.json()
@@ -125,7 +125,7 @@ class Fun(commands.Cog):
                 while jj['nsfw'] or jj.get('url') is None:
                     resp = await self.ses.get(
                         'https://api.iapetus11.me/reddit/gimme/CursedMinecraft',
-                        headers={'Authorization': self.k.vb_api_key}
+                        headers={'Authorization': self.k.vb_api}
                     )
 
                     jj = await resp.json()
