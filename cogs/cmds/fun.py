@@ -10,7 +10,9 @@ import typing
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
         self.d = self.bot.d
+        self.k = self.bot.k
 
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
@@ -51,7 +53,7 @@ class Fun(commands.Cog):
             while meme['spoiler'] or (not do_nsfw and meme['nsfw']) or meme.get('url') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
-                    headers={'Authorization': self.d.vb_api_key}
+                    headers={'Authorization': self.k.vb_api_key}
                 )
 
                 meme = cj.classify(await resp.json())
@@ -78,7 +80,7 @@ class Fun(commands.Cog):
             while (not do_nsfw and jj['nsfw']) or jj.get('url') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/4chan+greentext',
-                    headers={'Authorization': self.d.vb_api_key}
+                    headers={'Authorization': self.k.vb_api_key}
                 )
 
                 jj = await resp.json()
@@ -103,7 +105,7 @@ class Fun(commands.Cog):
             while (not do_nsfw and jj['nsfw']) or jj.get('url') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/comics',
-                    headers={'Authorization': self.d.vb_api_key}
+                    headers={'Authorization': self.k.vb_api_key}
                 )
 
                 jj = await resp.json()
@@ -123,7 +125,7 @@ class Fun(commands.Cog):
                 while jj['nsfw'] or jj.get('url') is None:
                     resp = await self.ses.get(
                         'https://api.iapetus11.me/reddit/gimme/CursedMinecraft',
-                        headers={'Authorization': self.d.vb_api_key}
+                        headers={'Authorization': self.k.vb_api_key}
                     )
 
                     jj = await resp.json()
