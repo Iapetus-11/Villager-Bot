@@ -548,7 +548,7 @@ class Econ(commands.Cog):
                                                                       amount*db_item['sell_price'],
                                                                       self.d.emojis.emerald))
 
-    @commands.command(name='give', aliases=['gift', 'share','gib'])
+    @commands.command(name='give', aliases=['gift', 'share', 'gib'])
     @commands.guild_only()
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
