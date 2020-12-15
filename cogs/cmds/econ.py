@@ -11,9 +11,10 @@ import math
 class Econ(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.d = self.bot.d
 
-        self.db = self.bot.get_cog('Database')
+        self.d = bot.d
+
+        self.db = bot.get_cog('Database')
 
         if self.d.honey_buckets is not None:
             self.honey._buckets = self.d.honey_buckets
