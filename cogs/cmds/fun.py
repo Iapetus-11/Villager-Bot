@@ -11,8 +11,8 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        self.d = self.bot.d
-        self.k = self.bot.k
+        self.d = bot.d
+        self.k = bot.k
 
         self.ses = aiohttp.ClientSession(loop=self.bot.loop)
 
