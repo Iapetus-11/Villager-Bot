@@ -187,8 +187,6 @@ class Useful(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc)
 
-        embed.description = ctx.l.useful.stats.more.format(self.d.statcord)
-
         embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
@@ -207,6 +205,8 @@ class Useful(commands.Cog):
                 f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
                 f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
                 f'{ctx.l.useful.stats.uptime}: `{uptime}`\n'
+
+        col_2 += '\n' + ctx.l.useful.stats.more.format(self.d.statcord)
 
         embed.add_field(name='\uFEFF', value=col_1+'\uFEFF')
         embed.add_field(name='\uFEFF', value=col_2+'\uFEFF')
