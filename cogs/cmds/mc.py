@@ -20,7 +20,9 @@ class Minecraft(commands.Cog):
         self.mosaic = __import__('util.mosaic').mosaic  # so I can pull and use the new code from the new changes
 
         self.bot = bot
+
         self.d = self.bot.d
+        self.k = self.bot.k
 
         self.db = self.bot.get_cog('Database')
 
