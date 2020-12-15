@@ -33,7 +33,6 @@ class Minecraft(commands.Cog):
         self.clear_rcon_cache.start()
 
     def cog_unload(self):
-        del self.mosaic
         self.update_server_list.cancel()
         self.clear_rcon_cache.cancel()
         self.bot.loop.create_task(self.ses.close())
