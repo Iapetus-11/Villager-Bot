@@ -330,11 +330,15 @@ class Minecraft(commands.Cog):
 
         names = cj.classify(await resps[0].json())
         profile = cj.classify(await resps[1].json())
+
         skin_url = None
+        cape_url = None
 
         for prop in profile['properties']:
             if prop['name'] == 'textures':
-                skin_url = cj.loads(base64.b64decode(prop['value'])).textures.get('SKIN', {}).get('url')
+                textures = cj.loads(base64.b64decode(prop['value'])).textures
+                skin_url = textures.get('SKIN', {}).get('url')
+                cape_url = textures.get('CAPE', {}).get('url')
                 break
 
         name_hist = '\uFEFF'
@@ -354,6 +358,9 @@ class Minecraft(commands.Cog):
 
         if skin_url is not None:
             embed.description = f'[**{ctx.l.minecraft.profile.skin}**]({skin_url})'
+
+        if cape_url is not None:
+            embed.description += f' | [**{ctx.l.minecraft.profile.cape}**]({cape_url})'
 
         embed.set_thumbnail(url=f'https://visage.surgeplay.com/head/{uuid}.png')
 
