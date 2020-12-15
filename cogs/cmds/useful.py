@@ -9,9 +9,10 @@ import arrow
 class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
         self.d = self.bot.d
 
-        self.google_client = async_cse.Search(self.d.google_keys)
+        self.google_client = async_cse.Search(self.bot.k.google)
 
         self.db = self.bot.get_cog('Database')
 
