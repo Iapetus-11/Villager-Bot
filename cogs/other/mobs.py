@@ -11,10 +11,11 @@ import math
 class Mobs(commands.Cog):  # fuck I really don't want to work on this
     def __init__(self, bot):
         self.bot = bot
-        self.d = self.bot.d
 
-        self.db = self.bot.get_cog('Database')
-        self.events = self.bot.get_cog('Events')
+        self.d = bot.d
+
+        self.db = bot.get_cog('Database')
+        self.events = bot.get_cog('Events')
 
         self.spawn_events.start()
         self.clear_pauses.start()
