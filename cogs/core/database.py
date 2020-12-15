@@ -5,9 +5,10 @@ import discord
 class Database(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.d = self.bot.d
 
-        self.db = self.bot.db  # the asyncpg pool
+        self.d = bot.d
+
+        self.db = bot.db  # the asyncpg pool
 
         self.update_user_health.start()
         self.update_support_server_member_roles.start()
