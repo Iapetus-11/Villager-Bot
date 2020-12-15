@@ -7,7 +7,8 @@ import discord
 class Mod(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.d = self.bot.d
+
+        self.d = bot.d
 
         self.db = self.bot.get_cog('Database')
 
