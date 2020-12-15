@@ -1,4 +1,4 @@
-mosaicfrom concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from cryptography.fernet import Fernet
