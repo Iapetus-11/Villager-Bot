@@ -498,7 +498,7 @@ class Minecraft(commands.Cog):
             password = auth_msg.content
         else:
             rcon_port = db_user_rcon['rcon_port']
-            password = Fernet(self.d.fernet_key).decrypt(db_user_rcon['password'].encode('utf-8')).decode('utf-8')  # decrypt to plaintext
+            password = Fernet(self.k.fernet).decrypt(db_user_rcon['password'].encode('utf-8')).decode('utf-8')  # decrypt to plaintext
 
         await ctx.trigger_typing()
 
@@ -526,7 +526,7 @@ class Minecraft(commands.Cog):
             return
 
         if db_user_rcon is None:
-            encrypted_password = Fernet(self.d.fernet_key).encrypt(password.encode('utf-8')).decode('utf-8')
+            encrypted_password = Fernet(self.k.fernet).encrypt(password.encode('utf-8')).decode('utf-8')
             await self.db.add_user_rcon(ctx.author.id, db_guild['mcserver'], rcon_port, encrypted_password)
 
         try:
