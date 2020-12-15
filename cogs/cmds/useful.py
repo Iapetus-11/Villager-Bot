@@ -10,11 +10,11 @@ class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        self.d = self.bot.d
+        self.d = bot.d
 
-        self.google_client = async_cse.Search(self.bot.k.google)
+        self.google_client = async_cse.Search(bot.k.google)
 
-        self.db = self.bot.get_cog('Database')
+        self.db = bot.get_cog('Database')
 
     @commands.group(name='help')
     async def help(self, ctx):
