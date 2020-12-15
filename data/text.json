@@ -432,7 +432,8 @@
           "`{0}config difficulty <peaceful/easy/hard>` - Changes the difficulty of the game\n\n",
           "`{0}config lang <language>` - Changes the language of Villager Bot\n\n",
           "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`\n\n",
-          "`{0}config togglecmd <cmd>` - Change whether the specified command can be used or not\n\n"
+          "`{0}config togglecmd <cmd>` - Change whether the specified command can be used or not\n\n",
+          "`{0}config clearrconpasswords` - Clear your saved remote console passwords from the database\n\n"
         ],
         "user_conf": "Per User Configuration",
         "user_content": [
@@ -476,6 +477,11 @@
         "not_found": "Command not found.",
         "reenable": "Re-enabled command `{}`",
         "disable": "Disabled command `{}`"
+      },
+      "rcon": {
+        "none": "You didn't have any saved passwords",
+        "one": "Unsaved/deleted 1 password",
+        "multi": "Unsaved/deleted {} passwords"
       }
     },
     "useful": {
@@ -1209,7 +1215,8 @@
           "`{0}config difficulty <pacífico/fácil/difícil>` - Cambia la dificultad del juego\n\n",
           "`{0}config lang <idioma>` - Cambia el lenguaje de Villager Bot\n\n",
           "`{0}config mcserver <mcserver>` - Cambia el servidor que se hace ping si no especificas un servidor en `/mcping`\n\n",
-          "`{0}config togglecmd <comando>` - Cambiar si el comando especificado puede ser utilizado o no\n\n"
+          "`{0}config togglecmd <comando>` - Cambiar si el comando especificado puede ser utilizado o no\n\n",
+          "`{0}config clearrconpasswords` - Borre sus contraseñas guardadas de la consola remota de la base de datos\n\n"
         ],
         "user_conf": "Configuración Por Usuario",
         "user_content": [
@@ -1253,6 +1260,11 @@
         "not_found": "Comando no encontrado.",
         "reenable": "Reactivado el comando `{}`",
         "disable": "Desactivó el comando `{}`"
+      },
+      "rcon": {
+        "none": "No tenías ninguna contraseña guardada",
+        "one": "No guardado/borrado 1 contraseña",
+        "multi": "No guardado/borrado {} contraseñas"
       }
     },
     "useful": {
