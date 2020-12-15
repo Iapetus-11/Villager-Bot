@@ -242,6 +242,13 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute('INSERT INTO give_logs VALUES ($1, $2, $3, $4, $5)', item, amount, timestamp, giver, receiver)
 
+    async def fetch_transactions(self, uid, limit):
+        async with self.db.acquire() as con:
+            return await con.fetch(
+                'SELECT * FROM give_logs WHERE uid = $1 ORDER BY ts DESC LIMIT $2',
+                uid, limit
+            )
+
     async def fetch_pickaxe(self, uid):
         items_names = [item['name'] for item in await self.fetch_items(uid)]
 
