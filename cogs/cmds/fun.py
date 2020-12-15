@@ -331,6 +331,10 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name='kirbo', aliases=['<("<)', '(<")>'])
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    async def kirbo(self, ctx, *, text):
+        await self.bot.send(ctx, f'(>")> {text.strip()} <("<)')
 
 def setup(bot):
     bot.add_cog(Fun(bot))
