@@ -86,10 +86,10 @@ bot.get_lang = get_lang.__get__(bot)
 async def setup_database():  # init pool connection to database
     logger.info('setting up connection to database and db pool...')
     bot.db = await asyncpg.create_pool(
-        host=config['database']['host'],  # where db is hosted
-        database=config['database']['name'],  # name of database
-        user=config['database']['user'],  # database username
-        password=keys['database'],  # password which goes with user
+        host=keys.database.host,  # where db is hosted
+        database=keys.database.name,  # name of database
+        user=keys.database.user,  # database username
+        password=keys.database.pass,  # password which goes with user
         max_size=50,
         command_timeout=5
     )
@@ -115,6 +115,8 @@ bot.d.google_keys = keys.googl
 bot.d.xapi_key = keys.xapi_key
 bot.d.statcord_key = keys.statcord_key
 bot.d.fernet_key = keys.fernet_key.encode('utf-8')
+
+bot.k = keys
 
 bot.d.votes_topgg = 0
 bot.d.cmd_count = 0
@@ -161,7 +163,7 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.config',
     'cogs.other.mobs',
     'cogs.other.status',
-    'cogs.other.statcord',
+    'cogs.other.statcord'
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list
