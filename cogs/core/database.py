@@ -349,7 +349,7 @@ class Database(commands.Cog):
 
     async def mass_delete_user_rcon(self, uid):
         async with self.db.acquire() as con:
-            return await con.execute('DELETE FROM user_rcon WHERE uid = $1 RETURNING *', uid)
+            return await con.execute('DELETE FROM user_rcon WHERE uid = $1 RETURNING mcserver', uid)
 
 
 def setup(bot):
