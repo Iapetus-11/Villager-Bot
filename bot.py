@@ -19,10 +19,6 @@ logger.info('loading private keys...')
 with open('data/keys.json', 'r') as k:  # load bot keys
     keys = cj.load(k)
 
-logger.info('loading config...')
-with open('data/config.json', 'r') as c:  # load config
-    config = cj.load(c)
-
 
 async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
     if ctx.guild is None:
