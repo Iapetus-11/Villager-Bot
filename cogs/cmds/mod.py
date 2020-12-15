@@ -10,7 +10,7 @@ class Mod(commands.Cog):
 
         self.d = bot.d
 
-        self.db = self.bot.get_cog('Database')
+        self.db = bot.get_cog('Database')
 
     async def perm_check(self, author, victim):
         if isinstance(author, discord.Member) and author.id == author.guild.owner.id: return True
