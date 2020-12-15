@@ -132,7 +132,7 @@ class Minecraft(commands.Cog):
             combined = f'{host}{port_str}'
 
         with ctx.typing():
-            async with self.ses.get(f'https://api.iapetus11.me/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.me/mc/mcstatus/{combined}', headers={'Authorization': self.k.vb_api}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -192,7 +192,7 @@ class Minecraft(commands.Cog):
         combined = s[0]
 
         with ctx.typing():
-            async with self.ses.get(f'https://api.iapetus11.me/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.me/mc/mcstatus/{combined}', headers={'Authorization': self.k.vb_api}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -377,7 +377,7 @@ class Minecraft(commands.Cog):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
         with ctx.typing():
-            res = await self.ses.get(f'https://xapi.us/v2/xuid/{urlquote(username)}', headers={'X-AUTH': self.d.xapi_key})
+            res = await self.ses.get(f'https://xapi.us/v2/xuid/{urlquote(username)}', headers={'X-AUTH': self.k.xapi})
 
         if res.status != 200:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
