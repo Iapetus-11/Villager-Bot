@@ -5,6 +5,7 @@ from cryptography.fernet import Fernet
 from bs4 import BeautifulSoup as bs
 import aiomcrcon as rcon
 import classyjson as cj
+from util import mosaic
 import functools
 import aiohttp
 import discord
@@ -17,8 +18,6 @@ import os
 
 class Minecraft(commands.Cog):
     def __init__(self, bot):
-        self.mosaic = __import__('util.mosaic').mosaic  # so I can pull and use the new code from the new changes
-
         self.bot = bot
 
         self.d = bot.d
