@@ -187,6 +187,8 @@ class Useful(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc)
 
+        embed.description = ctx.l.useful.stats.more.format(self.d.statcord)
+
         embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 

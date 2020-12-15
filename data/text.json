@@ -492,6 +492,7 @@
       },
       "stats": {
         "stats": "Villager Bot Statistics",
+        "more": "[More Statistics]({})",
         "servers": "Server Count",
         "dms": "DM Channel Count",
         "users": "User Count",
@@ -1268,6 +1269,7 @@
       },
       "stats": {
         "stats": "Villager Bot Estadísticas",
+        "more": "[Más Estadísticas]({})",
         "servers": "Recuento De Servidores",
         "dms": "Recuento Del Canal DM",
         "users": "Recuento De Usuarios",
