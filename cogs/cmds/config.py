@@ -6,9 +6,9 @@ class Config(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        self.d = self.bot.d
+        self.d = bot.d
 
-        self.db = self.bot.get_cog('Database')
+        self.db = bot.get_cog('Database')
 
     @commands.group(name='config', aliases=['settings', 'conf', 'gamerule'])
     async def config(self, ctx):
