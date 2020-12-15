@@ -1,6 +1,11 @@
 {
   "discord": "discord_token",
-  "database": "password to the database",
+  "database": {
+    "host": "localhost",
+    "name": "villager-bot",
+    "user": "pi",
+    "pass": "pasword to the database"
+  },
   "topgg": "top.gg/dbl token",
   "topgg_webhook": "top.gg/dbl webhook auth",
   "googl": ["google custom search keys"],
