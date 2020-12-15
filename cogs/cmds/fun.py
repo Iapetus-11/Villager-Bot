@@ -14,7 +14,7 @@ class Fun(commands.Cog):
         self.d = bot.d
         self.k = bot.k
 
-        self.ses = aiohttp.ClientSession(loop=self.bot.loop)
+        self.ses = aiohttp.ClientSession(loop=bot.loop)
 
     def cog_unload(self):
         self.bot.loop.create_task(self.ses.close())
