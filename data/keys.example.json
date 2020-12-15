@@ -4,7 +4,7 @@
     "host": "where the database is hosted",
     "name": "name of the database",
     "user": "username for the database user",
-    "pass": "password for the database user"
+    "passw": "password for the database user"
   },
   "topgg_api": "top.gg/dbl api token/key",
   "topgg_webhook": "top.gg/dbl webhook auth",

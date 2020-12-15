@@ -89,7 +89,7 @@ async def setup_database():  # init pool connection to database
         host=keys.database.host,  # where db is hosted
         database=keys.database.name,  # name of database
         user=keys.database.user,  # database username
-        password=keys.database.pass,  # password which goes with user
+        password=keys.database.passw,  # password which goes with user
         max_size=50,
         command_timeout=5
     )
