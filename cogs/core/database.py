@@ -242,10 +242,10 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute('INSERT INTO give_logs VALUES ($1, $2, $3, $4, $5)', item, amount, timestamp, giver, receiver)
 
-    async def fetch_transactions(self, uid, limit):
+    async def fetch_transactions_by_sender(self, uid, limit):
         async with self.db.acquire() as con:
             return await con.fetch(
-                'SELECT * FROM give_logs WHERE uid = $1 ORDER BY ts DESC LIMIT $2',
+                'SELECT * FROM give_logs WHERE giver_uid = $1 ORDER BY ts DESC LIMIT $2',
                 uid, limit
             )
 

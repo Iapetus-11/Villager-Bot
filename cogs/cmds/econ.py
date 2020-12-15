@@ -671,7 +671,7 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
 
         if u_roll > b_roll:
-            past_transactions = await self.db.fetch_transactions(ctx.author.id, 7)
+            past_transactions = await self.db.fetch_transactions_by_sender(ctx.author.id, 7)
             multi = None
 
             for record in past_transactions:
