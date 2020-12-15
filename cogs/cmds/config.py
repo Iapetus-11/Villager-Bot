@@ -189,14 +189,14 @@ class Config(commands.Cog):
     @config.command(name='clearrconpasswords', aliases=['clearpasswords', 'deletepasswords', 'delrconpasswords'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def config_clear_rcon_passwords(self, ctx):
-        deleted = await self.db.mass_delete_user_rcon(ctx.author.id)
+        deleted = len(await self.db.mass_delete_user_rcon(ctx.author.id))
 
-        if len(deleted) < 1:
-            await self.bot.send(ctx, 'You didn\'t have any saved passwords')
-        elif len(deleted) == 1:
-            await self.bot.send(ctx, 'Removed 1 password from the database')
+        if deleted < 1:
+            await self.bot.send(ctx, ctx.l.config.rcon.none)
+        elif deleted == 1:
+            await self.bot.send(ctx, ctx.l.config.rcon.one)
         else:
-            await self.bot.send(ctx, f'Removed {len(deleted)} passwords from the database')
+            await self.bot.send(ctx, ctx.l.config.rcon.multi.format(deleted))
 
 
 def setup(bot):
