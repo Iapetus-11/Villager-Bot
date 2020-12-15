@@ -174,39 +174,40 @@ class Useful(commands.Cog):
 
     @commands.command(name='stats', aliases=['bs'])
     async def stats(self, ctx):
-        with ctx.typing():
-            uptime_seconds = (arrow.utcnow() - self.d.start_time).total_seconds()
-            uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
+        await ctx.trigger_typing()
 
-            proc =  psutil.Process()
-            with proc.oneshot():
-                mem_usage = proc.memory_full_info().uss
-                threads = proc.num_threads()
-                proc.cpu_percent(interval=.1)
+        uptime_seconds = (arrow.utcnow() - self.d.start_time).total_seconds()
+        uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
 
-            embed = discord.Embed(color=self.d.cc)
+        proc =  psutil.Process()
+        with proc.oneshot():
+            mem_usage = proc.memory_full_info().uss
+            threads = proc.num_threads()
+            proc.cpu_percent(interval=.1)
 
-            embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
-            embed.set_footer(text=ctx.l.misc.petus)
+        embed = discord.Embed(color=self.d.cc)
 
-            col_1 = f'{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n' \
-                    f'{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n' \
-                    f'{ctx.l.useful.stats.users}: `{len(self.bot.users)}`\n' \
-                    f'{ctx.l.useful.stats.msgs}: `{self.d.msg_count}`\n' \
-                    f'{ctx.l.useful.stats.cmds}: `{self.d.cmd_count}` `({round((self.d.cmd_count / (self.d.msg_count + .000001)) * 100, 2)}%)`\n' \
-                    f'{ctx.l.useful.stats.cmds_sec}: `{round(self.d.cmd_count / uptime_seconds, 2)}`\n' \
-                    f'{ctx.l.useful.stats.votes}: `{self.d.votes_topgg}`\n' \
-                    f'{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n'
+        embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
+        embed.set_footer(text=ctx.l.misc.petus)
 
-            col_2 = f'{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000, 2)} MB`\n' \
-                    f'{ctx.l.useful.stats.cpu}: `{round(proc.cpu_percent() / psutil.cpu_count(), 2)}%`\n' \
-                    f'{ctx.l.useful.stats.threads}: `{threads}`\n' \
-                    f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
-                    f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
-                    f'{ctx.l.useful.stats.uptime}: `{uptime}`\n'
+        col_1 = f'{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n' \
+                f'{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n' \
+                f'{ctx.l.useful.stats.users}: `{len(self.bot.users)}`\n' \
+                f'{ctx.l.useful.stats.msgs}: `{self.d.msg_count}`\n' \
+                f'{ctx.l.useful.stats.cmds}: `{self.d.cmd_count}` `({round((self.d.cmd_count / (self.d.msg_count + .000001)) * 100, 2)}%)`\n' \
+                f'{ctx.l.useful.stats.cmds_sec}: `{round(self.d.cmd_count / uptime_seconds, 2)}`\n' \
+                f'{ctx.l.useful.stats.votes}: `{self.d.votes_topgg}`\n' \
+                f'{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n'
 
-            embed.add_field(name='\uFEFF', value=col_1+'\uFEFF')
-            embed.add_field(name='\uFEFF', value=col_2+'\uFEFF')
+        col_2 = f'{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000, 2)} MB`\n' \
+                f'{ctx.l.useful.stats.cpu}: `{round(proc.cpu_percent() / psutil.cpu_count(), 2)}%`\n' \
+                f'{ctx.l.useful.stats.threads}: `{threads}`\n' \
+                f'{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n' \
+                f'{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n' \
+                f'{ctx.l.useful.stats.uptime}: `{uptime}`\n'
+
+        embed.add_field(name='\uFEFF', value=col_1+'\uFEFF')
+        embed.add_field(name='\uFEFF', value=col_2+'\uFEFF')
 
         await ctx.send(embed=embed)
 
