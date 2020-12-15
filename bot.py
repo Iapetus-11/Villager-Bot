@@ -107,16 +107,8 @@ with open('data/data.json', 'r', encoding='utf8') as d:
 
 bot.d.cc = discord.Color.green()  # embed color
 
-bot.d.vb_api_key = keys.vb_api_key
-bot.d.hs_hook_auth = keys.hs_hook_auth
-bot.d.topgg_hooks_auth = keys.topgg_webhook
-bot.d.topgg_post_auth = keys.topgg
-bot.d.google_keys = keys.googl
-bot.d.xapi_key = keys.xapi_key
-bot.d.statcord_key = keys.statcord_key
-bot.d.fernet_key = keys.fernet_key.encode('utf-8')
-
 bot.k = keys
+bot.k.fernet = bot.k.fernet.encode('utf-8')
 
 bot.d.votes_topgg = 0
 bot.d.cmd_count = 0
