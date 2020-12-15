@@ -6,6 +6,7 @@ asyncpg
 bs4
 classy-json
 colorama
+cryptography
 discord.py
 numpy
 opencv-python
