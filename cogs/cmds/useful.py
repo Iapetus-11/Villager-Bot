@@ -186,8 +186,8 @@ class Useful(commands.Cog):
 
             embed = discord.Embed(color=self.d.cc)
 
-            embed.set_author(name='Villager Bot Statistics', icon_url=self.d.splash_logo)
-            embed.set_footer(text='Made by Iapetus11#6821')
+            embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
+            embed.set_footer(text=ctx.l.misc.petus)
 
             col_1 = f'{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n' \
                     f'{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n' \

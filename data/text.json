@@ -491,6 +491,7 @@
         "source": "Source Code"
       },
       "stats": {
+        "stats": "Villager Bot Statistics",
         "servers": "Server Count",
         "dms": "DM Channel Count",
         "users": "User Count",
@@ -1266,6 +1267,7 @@
         "source": "El Código Fuente"
       },
       "stats": {
+        "stats": "Villager Bot Estadísticas",
         "servers": "Recuento De Servidores",
         "dms": "Recuento Del Canal DM",
         "users": "Recuento De Usuarios",
