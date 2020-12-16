@@ -110,7 +110,7 @@ class Minecraft(commands.Cog):
 
             os.remove(filename)
 
-    @commands.command(name='mcstatus', aliases=['mcping'])
+    @commands.command(name='mcstatus', aliases=['mcping', 'mcserver'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def mcstatus(self, ctx, host=None, port: int = None):
         """Checks the status of a given Minecraft server"""
