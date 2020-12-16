@@ -725,7 +725,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.beg.negative).format(f'{amount}{self.d.emojis.emerald}'))
 
-    @commands.command(name='mine', aliases=['mein', 'meinkampf'])
+    @commands.command(name='mine', aliases=['mein'])
     @commands.guild_only()
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
