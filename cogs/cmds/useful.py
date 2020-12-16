@@ -214,9 +214,9 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name='guildinfo', aliases=['server', 'serverinfo', 'guild'])
+    @commands.command(name='serverinfo', aliases=['server', 'guild'])
     @commands.guild_only()
-    async def guild_info(self, ctx, gid: int = None):
+    async def server_info(self, ctx, gid: int = None):
         if gid is None:
             guild = ctx.guild
         else:
