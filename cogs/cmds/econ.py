@@ -155,7 +155,7 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name='inv', aliases=['inventory', 'pocket'])
+    @commands.command(name='inventory', aliases=['inv', 'pocket'])
     @commands.cooldown(2, 10, commands.BucketType.user)
     async def inventory(self, ctx, *, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
