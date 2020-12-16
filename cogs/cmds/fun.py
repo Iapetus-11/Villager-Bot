@@ -325,7 +325,7 @@ class Fun(commands.Cog):
     @commands.command(name='splashtext', aliases=['mcsplash', 'splashscreen', 'splash'])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_splash_screen(self, ctx, *, text):
-        url = f'https://api.iapetus11.me/mc/splashscreen/{urlquote(text[:27])}'
+        url = f'https://api.iapetus11.me/mc/splash/{urlquote(text[:27])}'
         embed = discord.Embed(color=self.d.cc)
 
         embed.description = ctx.l.fun.dl_img.format(url)

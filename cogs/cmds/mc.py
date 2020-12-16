@@ -130,7 +130,7 @@ class Minecraft(commands.Cog):
             combined = f'{host}{port_str}'
 
         with ctx.typing():
-            async with self.ses.get(f'https://api.iapetus11.me/mc/mcstatus/{combined}', headers={'Authorization': self.k.vb_api}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.me/mc/status/{combined}', headers={'Authorization': self.k.vb_api}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -174,10 +174,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://api.iapetus11.me/mc/servercard/{combined}?v={random.random()*100000}')
+        embed.set_image(url=f'https://api.iapetus11.me/mc/statuscard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://api.iapetus11.me/mc/serverfavicon/{combined}')
+            embed.set_thumbnail(url=f'https://api.iapetus11.me/mc/favicon/{combined}')
 
         await ctx.send(embed=embed)
 
@@ -190,7 +190,7 @@ class Minecraft(commands.Cog):
         combined = s[0]
 
         with ctx.typing():
-            async with self.ses.get(f'https://api.iapetus11.me/mc/mcstatus/{combined}', headers={'Authorization': self.k.vb_api}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.me/mc/status/{combined}', headers={'Authorization': self.k.vb_api}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -237,10 +237,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://api.iapetus11.me/mc/servercard/{combined}?v={random.random()*100000}')
+        embed.set_image(url=f'https://api.iapetus11.me/mc/statuscard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://api.iapetus11.me/mc/serverfavicon/{combined}')
+            embed.set_thumbnail(url=f'https://api.iapetus11.me/mc/favicon/{combined}')
 
         await ctx.send(embed=embed)
 
