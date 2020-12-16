@@ -676,7 +676,7 @@ class Econ(commands.Cog):
 
             for record in past_transactions:
                 if record['item'] == 'emerald' and record['amount'] > 2048:
-                    multi = 1.01
+                    multi = (random.random() / 2) + .075
                     break
 
             if multi is None:
