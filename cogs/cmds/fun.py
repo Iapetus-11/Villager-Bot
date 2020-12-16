@@ -61,7 +61,7 @@ class Fun(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=f'{meme.title}', url=meme.permalink)
 
         embed.set_footer(text=f'{meme.upvotes}  |  u/{meme.author}', icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(':')[-1].replace('>', ''))).url)
-        embed.set_image(url=meme.url)
+        embed.set_image(url=meme.image)
 
         await ctx.send(embed=embed)
 
