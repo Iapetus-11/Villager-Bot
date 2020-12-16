@@ -271,7 +271,8 @@
     [
       "Gingerbread Man",
       512,
-      10000
+      10000,
+      false
     ],
     [
       "Present",
