@@ -77,7 +77,7 @@ class Fun(commands.Cog):
         jj = {'nsfw': True}
 
         async with ctx.typing():
-            while (not do_nsfw and jj['nsfw') or jj.get('image') is None:
+            while (not do_nsfw and jj['nsfw']) or jj.get('image') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/4chan+greentext',
                     headers={'Authorization': self.k.vb_api}
