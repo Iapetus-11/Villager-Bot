@@ -971,7 +971,7 @@ class Econ(commands.Cog):
 
         await self.bot.send(ctx, ctx.l.econ.use.stupid_3)
 
-    @commands.command(name='harvesthoney', aliases=['honey', 'horny'])  # ~~a strange urge occurs in me~~
+    @commands.command(name='honey', aliases=['harvesthoney', 'horny'])  # ~~a strange urge occurs in me~~
     @commands.cooldown(1, 24*60*60, commands.BucketType.user)
     async def honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')
