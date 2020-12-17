@@ -5,9 +5,10 @@ import discord
 class Database(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.d = self.bot.d
 
-        self.db = self.bot.db  # the asyncpg pool
+        self.d = bot.d
+
+        self.db = bot.db  # the asyncpg pool
 
         self.update_user_health.start()
         self.update_support_server_member_roles.start()
@@ -241,6 +242,13 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await con.execute('INSERT INTO give_logs VALUES ($1, $2, $3, $4, $5)', item, amount, timestamp, giver, receiver)
 
+    async def fetch_transactions_by_sender(self, uid, limit):
+        async with self.db.acquire() as con:
+            return await con.fetch(
+                'SELECT * FROM give_logs WHERE giver_uid = $1 ORDER BY ts DESC LIMIT $2',
+                uid, limit
+            )
+
     async def fetch_pickaxe(self, uid):
         items_names = [item['name'] for item in await self.fetch_items(uid)]
 
@@ -346,6 +354,10 @@ class Database(commands.Cog):
                 'DELETE FROM user_rcon WHERE uid = $1 AND mcserver = $2',
                 uid, mcserver
             )
+
+    async def mass_delete_user_rcon(self, uid):
+        async with self.db.acquire() as con:
+            return await con.fetch('DELETE FROM user_rcon WHERE uid = $1 RETURNING *', uid)
 
 
 def setup(bot):

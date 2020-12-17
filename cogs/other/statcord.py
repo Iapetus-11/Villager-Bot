@@ -5,9 +5,8 @@ import statcord
 class StatCord(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.d = self.bot.d
 
-        self.statcord_client = statcord.Client(bot, self.d.statcord_key, custom1=self.get_vote_count)
+        self.statcord_client = statcord.Client(bot, bot.k.statcord, custom1=self.get_vote_count)
         self.statcord_client.start_loop()
 
         self.vote_count = 0

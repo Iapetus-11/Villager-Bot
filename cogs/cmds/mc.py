@@ -5,6 +5,7 @@ from cryptography.fernet import Fernet
 from bs4 import BeautifulSoup as bs
 import aiomcrcon as rcon
 import classyjson as cj
+from util import mosaic
 import functools
 import aiohttp
 import discord
@@ -17,14 +18,14 @@ import os
 
 class Minecraft(commands.Cog):
     def __init__(self, bot):
-        self.mosaic = __import__('util.mosaic').mosaic  # so I can pull and use the new code from the new changes
-
         self.bot = bot
-        self.d = self.bot.d
 
-        self.db = self.bot.get_cog('Database')
+        self.d = bot.d
+        self.k = bot.k
 
-        self.ses = aiohttp.ClientSession(loop=self.bot.loop)
+        self.db = bot.get_cog('Database')
+
+        self.ses = aiohttp.ClientSession(loop=bot.loop)
 
         self.d.mcserver_list = []
 
@@ -32,7 +33,6 @@ class Minecraft(commands.Cog):
         self.clear_rcon_cache.start()
 
     def cog_unload(self):
-        del self.mosaic
         self.update_server_list.cancel()
         self.clear_rcon_cache.cancel()
         self.bot.loop.create_task(self.ses.close())
@@ -98,7 +98,7 @@ class Minecraft(commands.Cog):
 
         with ctx.typing():
             with ThreadPoolExecutor() as pool:
-                mosaic_gen_partial = functools.partial(self.mosaic.generate, await img.read(use_cached=True), 1600, detailed)
+                mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
                 _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
 
             filename = f'tmp/{ctx.message.id}-{img.width}x{img.height}.png'
@@ -110,9 +110,9 @@ class Minecraft(commands.Cog):
 
             os.remove(filename)
 
-    @commands.command(name='mcping', aliases=['mcstatus'])
+    @commands.command(name='mcstatus', aliases=['mcping', 'mcserver'])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def mcping(self, ctx, host=None, port: int = None):
+    async def mcstatus(self, ctx, host=None, port: int = None):
         """Checks the status of a given Minecraft server"""
 
         if host is None:
@@ -130,7 +130,7 @@ class Minecraft(commands.Cog):
             combined = f'{host}{port_str}'
 
         with ctx.typing():
-            async with self.ses.get(f'https://api.iapetus11.me/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.me/mc/status/{combined}', headers={'Authorization': self.k.vb_api}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -174,10 +174,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://api.iapetus11.me/mc/servercard/{combined}?v={random.random()*100000}')
+        embed.set_image(url=f'https://api.iapetus11.me/mc/statuscard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://api.iapetus11.me/mc/serverfavicon/{combined}')
+            embed.set_thumbnail(url=f'https://api.iapetus11.me/mc/favicon/{combined}')
 
         await ctx.send(embed=embed)
 
@@ -190,7 +190,7 @@ class Minecraft(commands.Cog):
         combined = s[0]
 
         with ctx.typing():
-            async with self.ses.get(f'https://api.iapetus11.me/mc/mcstatus/{combined}', headers={'Authorization': self.d.vb_api_key}) as res:  # fetch status from api
+            async with self.ses.get(f'https://api.iapetus11.me/mc/status/{combined}', headers={'Authorization': self.k.vb_api}) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj['success'] or not jj['online']:
@@ -237,10 +237,10 @@ class Minecraft(commands.Cog):
                 inline=False
             )
 
-        embed.set_image(url=f'https://api.iapetus11.me/mc/servercard/{combined}?v={random.random()*100000}')
+        embed.set_image(url=f'https://api.iapetus11.me/mc/statuscard/{combined}?v={random.random()*100000}')
 
         if jj['favicon'] is not None:
-            embed.set_thumbnail(url=f'https://api.iapetus11.me/mc/serverfavicon/{combined}')
+            embed.set_thumbnail(url=f'https://api.iapetus11.me/mc/favicon/{combined}')
 
         await ctx.send(embed=embed)
 
@@ -330,11 +330,15 @@ class Minecraft(commands.Cog):
 
         names = cj.classify(await resps[0].json())
         profile = cj.classify(await resps[1].json())
+
         skin_url = None
+        cape_url = None
 
         for prop in profile['properties']:
             if prop['name'] == 'textures':
-                skin_url = cj.loads(base64.b64decode(prop['value'])).textures.get('SKIN', {}).get('url')
+                textures = cj.loads(base64.b64decode(prop['value'])).textures
+                skin_url = textures.get('SKIN', {}).get('url')
+                cape_url = textures.get('CAPE', {}).get('url')
                 break
 
         name_hist = '\uFEFF'
@@ -355,6 +359,9 @@ class Minecraft(commands.Cog):
         if skin_url is not None:
             embed.description = f'[**{ctx.l.minecraft.profile.skin}**]({skin_url})'
 
+        if cape_url is not None:
+            embed.description += f' | [**{ctx.l.minecraft.profile.cape}**]({cape_url})'
+
         embed.set_thumbnail(url=f'https://visage.surgeplay.com/head/{uuid}.png')
 
         embed.add_field(name=':link: UUID', value=f'`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`', inline=False)
@@ -368,7 +375,7 @@ class Minecraft(commands.Cog):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
         with ctx.typing():
-            res = await self.ses.get(f'https://xapi.us/v2/xuid/{urlquote(username)}', headers={'X-AUTH': self.d.xapi_key})
+            res = await self.ses.get(f'https://xapi.us/v2/xuid/{urlquote(username)}', headers={'X-AUTH': self.k.xapi})
 
         if res.status != 200:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
@@ -489,7 +496,7 @@ class Minecraft(commands.Cog):
             password = auth_msg.content
         else:
             rcon_port = db_user_rcon['rcon_port']
-            password = Fernet(self.d.fernet_key).decrypt(db_user_rcon['password'].encode('utf-8')).decode('utf-8')  # decrypt to plaintext
+            password = Fernet(self.k.fernet).decrypt(db_user_rcon['password'].encode('utf-8')).decode('utf-8')  # decrypt to plaintext
 
         await ctx.trigger_typing()
 
@@ -517,7 +524,7 @@ class Minecraft(commands.Cog):
             return
 
         if db_user_rcon is None:
-            encrypted_password = Fernet(self.d.fernet_key).encrypt(password.encode('utf-8')).decode('utf-8')
+            encrypted_password = Fernet(self.k.fernet).encrypt(password.encode('utf-8')).decode('utf-8')
             await self.db.add_user_rcon(ctx.author.id, db_guild['mcserver'], rcon_port, encrypted_password)
 
         try:

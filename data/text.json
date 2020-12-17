@@ -98,7 +98,7 @@
         "help": "`{0}help` *view helpful information about Villager Bot*",
         "config": "`{0}config` *configure / setup the bot to your liking*",
         "ping": "`{0}ping` *shows the latency between Discord and Villager Bot*",
-        "server": "`{0}server` *view information about the current server*",
+        "serverinfo": "`{0}server` *view information about the current server*",
         "links": "`{0}links` *view useful links relating to Villager Bot*",
         "vote": "`{0}vote` *earn emeralds from voting for Villager Bot on certain websites*",
         "stats": "`{0}stats` *shows statistics about Villager Bot*",
@@ -391,7 +391,8 @@
         "error": "Something went wrong while fetching that user's profile...",
         "first": "first username",
         "mcpp": "Minecraft profile for `{}`",
-        "skin": "Skin Download Link",
+        "skin": "Skin Download",
+        "cape": "Cape Download",
         "hist": "Name History"
       }
     },
@@ -435,7 +436,8 @@
         ],
         "user_conf": "Per User Configuration",
         "user_content": [
-          "`{0}config giftalert <on/off>` - Change whether bot tells you if you've been given items or emeralds\n\n"
+          "`{0}config giftalert <on/off>` - Change whether bot tells you if you've been given items or emeralds\n\n",
+          "`{0}config clearrconpasswords` - Clear your saved remote console passwords from the database\n\n"
         ]
       },
       "prefix": {
@@ -475,6 +477,11 @@
         "not_found": "Command not found.",
         "reenable": "Re-enabled command `{}`",
         "disable": "Disabled command `{}`"
+      },
+      "rcon": {
+        "none": "You didn't have any saved passwords",
+        "one": "Unsaved/deleted 1 password",
+        "multi": "Unsaved/deleted {} passwords"
       }
     },
     "useful": {
@@ -490,6 +497,8 @@
         "source": "Source Code"
       },
       "stats": {
+        "stats": "Villager Bot Statistics",
+        "more": "[More Statistics]({})",
         "servers": "Server Count",
         "dms": "DM Channel Count",
         "users": "User Count",
@@ -872,7 +881,7 @@
         "help": "`{0}help` *ver información útil sobre Villager Bot*",
         "config": "`{0}config` *configurar / configurar el bot a su gusto*",
         "ping": "`{0}ping` *muestra la latencia entre la Discord y Villager Bot*",
-        "server": "`{0}server` *ver información sobre el servidor actual*",
+        "serverinfo": "`{0}server` *ver información sobre el servidor actual*",
         "links": "`{0}links` *ver enlaces útiles relacionados con Villager Bot*",
         "vote": "`{0}vote` *ganan esmeraldas votando por Villager Bot en ciertos sitios web*",
         "stats": "`{0}stats` *muestra estadísticas sobre Villager Bot*",
@@ -1165,7 +1174,8 @@
         "error": "Algo salió mal mientras buscaba el perfil de ese usuario...",
         "first": "primer nombre de usuario",
         "mcpp": "Perfil De Minecraft Para `{}`",
-        "skin": "Enlace De Descarga De La Piel",
+        "skin": "Descarga Del Piel",
+        "cape": "Descarga Del Cabo",
         "hist": "Historia Del Nombre"
       }
     },
@@ -1209,7 +1219,8 @@
         ],
         "user_conf": "Configuración Por Usuario",
         "user_content": [
-          "`{0}config giftalert <encendido/apagado>` - Cambia si el bot te dice si te han dado artículos o esmeraldas\n\n"
+          "`{0}config giftalert <encendido/apagado>` - Cambia si el bot te dice si te han dado artículos o esmeraldas\n\n",
+          "`{0}config clearrconpasswords` - Borre sus contraseñas guardadas de la consola remota de la base de datos\n\n"
         ]
       },
       "prefix": {
@@ -1249,6 +1260,11 @@
         "not_found": "Comando no encontrado.",
         "reenable": "Reactivado el comando `{}`",
         "disable": "Desactivó el comando `{}`"
+      },
+      "rcon": {
+        "none": "No tenías ninguna contraseña guardada",
+        "one": "No guardado/borrado 1 contraseña",
+        "multi": "No guardado/borrado {} contraseñas"
       }
     },
     "useful": {
@@ -1264,6 +1280,8 @@
         "source": "El Código Fuente"
       },
       "stats": {
+        "stats": "Villager Bot Estadísticas",
+        "more": "[Más Estadísticas]({})",
         "servers": "Recuento De Servidores",
         "dms": "Recuento Del Canal DM",
         "users": "Recuento De Usuarios",

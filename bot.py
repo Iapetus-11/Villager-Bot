@@ -19,10 +19,6 @@ logger.info('loading private keys...')
 with open('data/keys.json', 'r') as k:  # load bot keys
     keys = cj.load(k)
 
-logger.info('loading config...')
-with open('data/config.json', 'r') as c:  # load config
-    config = cj.load(c)
-
 
 async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
     if ctx.guild is None:
@@ -90,10 +86,10 @@ bot.get_lang = get_lang.__get__(bot)
 async def setup_database():  # init pool connection to database
     logger.info('setting up connection to database and db pool...')
     bot.db = await asyncpg.create_pool(
-        host=config['database']['host'],  # where db is hosted
-        database=config['database']['name'],  # name of database
-        user=config['database']['user'],  # database username
-        password=keys['database'],  # password which goes with user
+        host=keys.database.host,  # where db is hosted
+        database=keys.database.name,  # name of database
+        user=keys.database.user,  # database username
+        password=keys.database.passw,  # password which goes with user
         max_size=50,
         command_timeout=5
     )
@@ -111,14 +107,8 @@ with open('data/data.json', 'r', encoding='utf8') as d:
 
 bot.d.cc = discord.Color.green()  # embed color
 
-bot.d.vb_api_key = keys.vb_api_key
-bot.d.hs_hook_auth = keys.hs_hook_auth
-bot.d.topgg_hooks_auth = keys.topgg_webhook
-bot.d.topgg_post_auth = keys.topgg
-bot.d.google_keys = keys.googl
-bot.d.xapi_key = keys.xapi_key
-bot.d.statcord_key = keys.statcord_key
-bot.d.fernet_key = keys.fernet_key.encode('utf-8')
+bot.k = keys
+bot.k.fernet = bot.k.fernet.encode('utf-8')
 
 bot.d.votes_topgg = 0
 bot.d.cmd_count = 0
@@ -165,7 +155,7 @@ bot.cog_list = [  # list of cogs which are to be loaded in the bot
     'cogs.cmds.config',
     'cogs.other.mobs',
     'cogs.other.status',
-    'cogs.other.statcord',
+    'cogs.other.statcord'
 ]
 
 for cog in bot.cog_list:  # load every cog in bot.cog_list

@@ -7,9 +7,10 @@ import discord
 class Mod(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.d = self.bot.d
 
-        self.db = self.bot.get_cog('Database')
+        self.d = bot.d
+
+        self.db = bot.get_cog('Database')
 
     async def perm_check(self, author, victim):
         if isinstance(author, discord.Member) and author.id == author.guild.owner.id: return True

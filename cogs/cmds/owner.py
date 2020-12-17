@@ -12,9 +12,9 @@ class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        self.db = self.bot.get_cog('Database')
+        self.d = bot.d
 
-        self.d = self.bot.d
+        self.db = bot.get_cog('Database')
 
     @commands.command(name='load')
     @commands.is_owner()

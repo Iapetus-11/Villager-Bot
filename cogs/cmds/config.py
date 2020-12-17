@@ -6,9 +6,9 @@ class Config(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        self.d = self.bot.d
+        self.d = bot.d
 
-        self.db = self.bot.get_cog('Database')
+        self.db = bot.get_cog('Database')
 
     @commands.group(name='config', aliases=['settings', 'conf', 'gamerule'])
     async def config(self, ctx):
@@ -185,6 +185,18 @@ class Config(commands.Cog):
             await self.bot.send(ctx, ctx.l.config.gift.set.format('off'))
         else:
             await self.bot.send(ctx, ctx.l.config.invalid.format('`on`, `off`'))
+
+    @config.command(name='clearrconpasswords', aliases=['clearpasswords', 'deletepasswords', 'delrconpasswords'])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def config_clear_rcon_passwords(self, ctx):
+        deleted = len(await self.db.mass_delete_user_rcon(ctx.author.id))
+
+        if deleted < 1:
+            await self.bot.send(ctx, ctx.l.config.rcon.none)
+        elif deleted == 1:
+            await self.bot.send(ctx, ctx.l.config.rcon.one)
+        else:
+            await self.bot.send(ctx, ctx.l.config.rcon.multi.format(deleted))
 
 
 def setup(bot):

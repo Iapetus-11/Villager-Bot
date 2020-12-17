@@ -11,9 +11,10 @@ import math
 class Econ(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.d = self.bot.d
 
-        self.db = self.bot.get_cog('Database')
+        self.d = bot.d
+
+        self.db = bot.get_cog('Database')
 
         if self.d.honey_buckets is not None:
             self.honey._buckets = self.d.honey_buckets
@@ -154,7 +155,7 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name='inv', aliases=['inventory', 'pocket'])
+    @commands.command(name='inventory', aliases=['inv', 'pocket'])
     @commands.cooldown(2, 10, commands.BucketType.user)
     async def inventory(self, ctx, *, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
@@ -548,7 +549,7 @@ class Econ(commands.Cog):
                                                                       amount*db_item['sell_price'],
                                                                       self.d.emojis.emerald))
 
-    @commands.command(name='give', aliases=['gift', 'share'])
+    @commands.command(name='give', aliases=['gift', 'share', 'gib'])
     @commands.guild_only()
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
@@ -631,7 +632,7 @@ class Econ(commands.Cog):
                 await self.bot.send(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item['name']))
 
     @commands.command(name='gamble', aliases=['bet', 'stonk', 'stonks'])
-    @commands.cooldown(1, 20, commands.BucketType.user)
+    @commands.cooldown(1, 30, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
@@ -670,10 +671,19 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
 
         if u_roll > b_roll:
-            multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 20
-            multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20)
-            multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
-            multi /= 100
+            past_transactions = await self.db.fetch_transactions_by_sender(ctx.author.id, 7)
+            multi = None
+
+            for record in past_transactions:
+                if record['item'] == 'emerald' and record['amount'] > 2048:
+                    multi = (random.random() / 2) + .075
+                    break
+
+            if multi is None:
+                multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 20
+                multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20)
+                multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
+                multi /= 100
 
             won = math.ceil(multi * amount)
 
@@ -872,10 +882,10 @@ class Econ(commands.Cog):
 
     @commands.command(name='use', aliases=['eat', 'chug'])
     @commands.cooldown(1, 0.25, commands.BucketType.user)
-    async def use_item(self, ctx, *, _thing):
+    async def use_item(self, ctx, *, thing):
         """Allows you to use potions and some other items"""
 
-        thing = _thing.lower()  # everyday bois
+        thing = thing.lower()
 
         current_pots = self.d.chuggers.get(ctx.author.id)
 
@@ -893,7 +903,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, thing, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])  # ensure user has stuff there
-            self.d.chuggers[ctx.author.id].append('Haste I Potion')
+            self.d.chuggers[ctx.author.id].append('haste i potion')
 
             await self.bot.send(ctx, ctx.l.econ.use.chug.format('Haste I Potion', 6))
 
@@ -903,14 +913,14 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx.author, ctx.l.econ.use.done.format('Haste I Potion'))
 
-            self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index('Haste I Potion'))  # pop pot from active potion fx
+            self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index('haste i potion'))  # pop pot from active potion fx
             return
 
         if thing == 'haste ii potion':
             await self.db.remove_item(ctx.author.id, thing, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
-            self.d.chuggers[ctx.author.id].append('Haste II Potion')
+            self.d.chuggers[ctx.author.id].append('haste ii potion')
 
             await self.bot.send(ctx, ctx.l.econ.use.chug.format('Haste II Potion', 4.5))
 
@@ -920,7 +930,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx.author, ctx.l.econ.use.done.format('Haste II Potion'))
 
-            self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index('Haste II Potion'))  # pop pot from active potion fx
+            self.d.chuggers[ctx.author.id].pop(self.d.chuggers[ctx.author.id].index('haste ii potion'))  # pop pot from active potion fx
             return
 
         if thing == 'vault potion':
@@ -961,7 +971,7 @@ class Econ(commands.Cog):
 
         await self.bot.send(ctx, ctx.l.econ.use.stupid_3)
 
-    @commands.command(name='harvesthoney', aliases=['honey', 'horny'])  # ~~a strange urge occurs in me~~
+    @commands.command(name='honey', aliases=['harvesthoney', 'horny'])  # ~~a strange urge occurs in me~~
     @commands.cooldown(1, 24*60*60, commands.BucketType.user)
     async def honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, 'Jar Of Bees')

@@ -10,9 +10,11 @@ import typing
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.d = self.bot.d
 
-        self.ses = aiohttp.ClientSession(loop=self.bot.loop)
+        self.d = bot.d
+        self.k = bot.k
+
+        self.ses = aiohttp.ClientSession(loop=bot.loop)
 
     def cog_unload(self):
         self.bot.loop.create_task(self.ses.close())
@@ -48,10 +50,10 @@ class Fun(commands.Cog):
         meme = {'nsfw': True, 'spoiler': True}
 
         async with ctx.typing():
-            while meme['spoiler'] or (not do_nsfw and meme['nsfw']) or meme.get('url') is None:
+            while meme['spoiler'] or (not do_nsfw and meme['nsfw']) or meme.get('image') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes',
-                    headers={'Authorization': self.d.vb_api_key}
+                    headers={'Authorization': self.k.vb_api}
                 )
 
                 meme = cj.classify(await resp.json())
@@ -59,7 +61,7 @@ class Fun(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=f'{meme.title}', url=meme.permalink)
 
         embed.set_footer(text=f'{meme.upvotes}  |  u/{meme.author}', icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(':')[-1].replace('>', ''))).url)
-        embed.set_image(url=meme.url)
+        embed.set_image(url=meme.image)
 
         await ctx.send(embed=embed)
 
@@ -75,16 +77,16 @@ class Fun(commands.Cog):
         jj = {'nsfw': True}
 
         async with ctx.typing():
-            while (not do_nsfw and jj['nsfw']) or jj.get('url') is None:
+            while (not do_nsfw and jj['nsfw']) or jj.get('image') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/4chan+greentext',
-                    headers={'Authorization': self.d.vb_api_key}
+                    headers={'Authorization': self.k.vb_api}
                 )
 
                 jj = await resp.json()
 
         embed = discord.Embed(color=self.d.cc)
-        embed.set_image(url=jj['url'])
+        embed.set_image(url=jj['image'])
 
         await ctx.send(embed=embed)
 
@@ -100,16 +102,16 @@ class Fun(commands.Cog):
         jj = {'nsfw': True}
 
         async with ctx.typing():
-            while (not do_nsfw and jj['nsfw']) or jj.get('url') is None:
+            while (not do_nsfw and jj['nsfw']) or jj.get('image') is None:
                 resp = await self.ses.get(
                     'https://api.iapetus11.me/reddit/gimme/comics',
-                    headers={'Authorization': self.d.vb_api_key}
+                    headers={'Authorization': self.k.vb_api}
                 )
 
                 jj = await resp.json()
 
         embed = discord.Embed(color=self.d.cc)
-        embed.set_image(url=jj['url'])
+        embed.set_image(url=jj['image'])
 
         await ctx.send(embed=embed)
 
@@ -120,16 +122,16 @@ class Fun(commands.Cog):
             jj = {'nsfw': True}
 
             async with ctx.typing():
-                while jj['nsfw'] or jj.get('url') is None:
+                while jj['nsfw'] or jj.get('image') is None:
                     resp = await self.ses.get(
                         'https://api.iapetus11.me/reddit/gimme/CursedMinecraft',
-                        headers={'Authorization': self.d.vb_api_key}
+                        headers={'Authorization': self.k.vb_api}
                     )
 
                     jj = await resp.json()
 
             embed = discord.Embed(color=self.d.cc)
-            embed.set_image(url=jj['url'])
+            embed.set_image(url=jj['image'])
 
             await ctx.send(embed=embed)
         else:
@@ -323,7 +325,7 @@ class Fun(commands.Cog):
     @commands.command(name='splashtext', aliases=['mcsplash', 'splashscreen', 'splash'])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_splash_screen(self, ctx, *, text):
-        url = f'https://api.iapetus11.me/mc/splashscreen/{urlquote(text[:27])}'
+        url = f'https://api.iapetus11.me/mc/splash/{urlquote(text[:27])}'
         embed = discord.Embed(color=self.d.cc)
 
         embed.description = ctx.l.fun.dl_img.format(url)

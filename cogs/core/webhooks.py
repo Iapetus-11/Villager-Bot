@@ -10,16 +10,18 @@ import arrow
 class Webhooks(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.d = self.bot.d
 
-        self.db = self.bot.get_cog('Database')
+        self.d = bot.d
+        self.k = bot.k
+
+        self.db = bot.get_cog('Database')
 
         self.ses = aiohttp.ClientSession()
         self.server_runner = None
         self.webhook_server = None
 
-        self.bot.loop.create_task(self.webhooks_setup())
-        self.bot.loop.create_task(self.update_stats())
+        bot.loop.create_task(self.webhooks_setup())
+        bot.loop.create_task(self.update_stats())
 
     def cog_unload(self):
         self.bot.loop.create_task(self.server_runner.cleanup())
@@ -31,7 +33,7 @@ class Webhooks(commands.Cog):
             try:
                 await self.ses.post(
                     f'https://top.gg/api/bots/{self.bot.user.id}/stats',
-                    headers={'Authorization': self.d.topgg_post_auth},
+                    headers={'Authorization': self.k.topgg_api},
                     json={'server_count': str(len(self.bot.guilds))}
                 )
             except Exception as e:
@@ -41,7 +43,7 @@ class Webhooks(commands.Cog):
 
     async def webhooks_setup(self):  # holy fucking shit that's hot
         async def handler(req):
-            if req.headers.get('Authorization') == self.d.topgg_hooks_auth:
+            if req.headers.get('Authorization') == self.k.topgg_webhook:
                 self.bot.dispatch('topgg_event', cj.classify(await req.json()))
             else:
                 return web.Response(status=401)
