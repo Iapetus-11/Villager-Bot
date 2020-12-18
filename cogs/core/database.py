@@ -316,7 +316,7 @@ class Database(commands.Cog):
 
     async def mass_fetch_leaderboard(self, lb):
         async with self.db.acquire() as con:
-            return await con.fetch(f'SELECT uid, {lb} FROM leaderboards WHERE bot_banned = false')
+            return await con.fetch(f'SELECT uid, {lb} FROM leaderboards')
 
     async def set_botbanned(self, uid, botbanned):
         async with self.db.acquire() as con:
