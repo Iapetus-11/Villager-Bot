@@ -136,8 +136,13 @@ class Database(commands.Cog):
             else:
                 await con.execute('INSERT INTO disabled VALUES ($1, $2)', gid, cmd)
 
-    async def fetch_user(self, uid):
-        async with self.db.acquire() as con:
+    async def fetch_user(self, uid, con=None):
+        made_con = False
+        if con is None:
+            con = await self.db.acquire()
+            made_con = True
+
+        try:
             user = await con.fetchrow('SELECT * FROM users WHERE uid = $1', uid)
 
             if user is None:
@@ -152,6 +157,9 @@ class Database(commands.Cog):
                 return await self.fetch_user(uid)
 
             return user
+        finally:
+            if made_con:
+                await self.db.release(con)
 
     async def update_user(self, uid, key, value):
         await self.fetch_user(uid)
