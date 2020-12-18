@@ -94,8 +94,13 @@ class Database(commands.Cog):
 
         return disabled_nice
 
-    async def fetch_guild(self, gid):
-        async with self.db.acquire() as con:
+    async def fetch_guild(self, gid, con=None):
+        made_con = False
+        if con is None:
+            con = await self.db.acquire()
+            made_con = True
+
+        try:
             g = await con.fetchrow('SELECT * FROM guilds WHERE gid = $1', gid)
 
             if g is None:
@@ -107,6 +112,9 @@ class Database(commands.Cog):
                 return await self.fetch_guild(gid)
 
             return g
+        finally:
+            if made_con:
+                await self.db.release(con)
 
     async def set_guild_attr(self, gid, attr, value):
         await self.fetch_guild(gid)  # ensure it exists in db
