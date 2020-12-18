@@ -109,7 +109,7 @@ class Database(commands.Cog):
                     gid, '/', True, 'easy', 'en', None, False
                 )
 
-                return await self.fetch_guild(gid)
+                return await self.fetch_guild(gid, con)
 
             return g
         finally:
@@ -117,8 +117,8 @@ class Database(commands.Cog):
                 await self.db.release(con)
 
     async def set_guild_attr(self, gid, attr, value):
-        await self.fetch_guild(gid)  # ensure it exists in db
         async with self.db.acquire() as con:
+            await self.fetch_guild(gid, con)  # ensure it exists in db
             await con.execute(f'UPDATE guilds SET {attr} = $1 WHERE gid = $2', value, gid)
 
     async def drop_guild(self, gid):
