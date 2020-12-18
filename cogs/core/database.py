@@ -154,7 +154,7 @@ class Database(commands.Cog):
                 await self.add_item(uid, 'Wood Pickaxe', 0, 1, True)
                 await self.add_item(uid, 'Wood Sword', 0, 1, True)
 
-                return await self.fetch_user(uid)
+                return await self.fetch_user(uid, con)
 
             return user
         finally:
@@ -162,9 +162,8 @@ class Database(commands.Cog):
                 await self.db.release(con)
 
     async def update_user(self, uid, key, value):
-        await self.fetch_user(uid)
-
         async with self.db.acquire() as con:
+            await self.fetch_user(uid, con)
             await con.execute(f'UPDATE users SET {key} = $1 WHERE uid = $2', value, uid)
 
     async def fetch_balance(self, uid):  # fetches the amount of emeralds a user has
@@ -180,8 +179,8 @@ class Database(commands.Cog):
             return await con.fetch('SELECT uid, vote_streak FROM users WHERE vote_streak > 0 AND bot_banned = false')
 
     async def set_balance(self, uid, emeralds):
-        await self.fetch_user(uid)
         async with self.db.acquire() as con:
+            await self.fetch_user(uid, con)
             await con.execute('UPDATE users SET emeralds = $1 WHERE uid = $2', emeralds, uid)
 
     async def balance_add(self, uid, amount):
@@ -201,26 +200,26 @@ class Database(commands.Cog):
         return amount
 
     async def fetch_vault(self, uid):  # fetches a user's vault in the form (vault_amount, vault_max)
-        await self.fetch_user(uid)
         async with self.db.acquire() as con:
+            await self.fetch_user(uid, con)
             return await con.fetchrow('SELECT vault_bal, vault_max FROM users WHERE uid = $1', uid)
 
     async def set_vault(self, uid, vault_bal, vault_max):
-        await self.fetch_user(uid)
         async with self.db.acquire() as con:
+            await self.fetch_user(uid, con)
             await con.execute(
                 'UPDATE users SET vault_bal = $1, vault_max = $2 WHERE uid = $3',
                 vault_bal, vault_max, uid
             )
 
     async def fetch_items(self, uid):
-        await self.fetch_user(uid)
         async with self.db.acquire() as con:
+            await self.fetch_user(uid, con)
             return await con.fetch('SELECT * FROM items WHERE uid = $1', uid)
 
     async def fetch_item(self, uid, name):
-        await self.fetch_user(uid)
         async with self.db.acquire() as con:
+            await self.fetch_user(uid, con)
             return await con.fetchrow('SELECT * FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)', uid, name)
 
     async def mass_fetch_item(self, name):
@@ -320,19 +319,19 @@ class Database(commands.Cog):
             return await con.fetch(f'SELECT uid, {lb} FROM leaderboards WHERE bot_banned = false')
 
     async def set_botbanned(self, uid, botbanned):
-        await self.fetch_user(uid)
-
-        if botbanned and uid not in self.d.ban_cache:
-            self.d.ban_cache.append(uid)
-        else:
-            try:
-                self.d.ban_cache.pop(self.d.ban_cache.index(uid))
-            except KeyError:
-                pass
-            except ValueError:
-                pass
-
         async with self.db.acquire() as con:
+            await self.fetch_user(uid, con)
+
+            if botbanned and uid not in self.d.ban_cache:
+                self.d.ban_cache.append(uid)
+            else:
+                try:
+                    self.d.ban_cache.pop(self.d.ban_cache.index(uid))
+                except KeyError:
+                    pass
+                except ValueError:
+                    pass
+
             await con.execute('UPDATE users SET bot_banned = $1 WHERE uid = $2', botbanned, uid)
 
     async def add_warn(self, uid, gid, mod_id, reason):
