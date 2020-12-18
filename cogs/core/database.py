@@ -157,11 +157,11 @@ class Database(commands.Cog):
 
     async def mass_fetch_balances(self):
         async with self.db.acquire() as con:
-            return await con.fetch('SELECT uid, emeralds FROM users WHERE emeralds > 0')
+            return await con.fetch('SELECT uid, emeralds FROM users WHERE emeralds > 0 AND bot_banned = false')
 
     async def mass_fetch_votestreaks(self):
         async with self.db.acquire() as con:
-            return await con.fetch('SELECT uid, vote_streak FROM users WHERE vote_streak > 0')
+            return await con.fetch('SELECT uid, vote_streak FROM users WHERE vote_streak > 0 AND bot_banned = false')
 
     async def set_balance(self, uid, emeralds):
         await self.fetch_user(uid)
@@ -301,7 +301,7 @@ class Database(commands.Cog):
 
     async def mass_fetch_leaderboard(self, lb):
         async with self.db.acquire() as con:
-            return await con.fetch(f'SELECT uid, {lb} FROM leaderboards')
+            return await con.fetch(f'SELECT uid, {lb} FROM leaderboards WHERE bot_banned = false')
 
     async def set_botbanned(self, uid, botbanned):
         await self.fetch_user(uid)
