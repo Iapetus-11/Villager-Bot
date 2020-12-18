@@ -157,7 +157,7 @@ class Database(commands.Cog):
 
     async def mass_fetch_balances(self):
         async with self.db.acquire() as con:
-            return await con.fetch('SELECT uid, emeralds FROM users')
+            return await con.fetch('SELECT uid, emeralds FROM users WHERE emeralds > 0')
 
     async def mass_fetch_votestreaks(self):
         async with self.db.acquire() as con:
