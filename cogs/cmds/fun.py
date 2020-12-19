@@ -306,7 +306,7 @@ class Fun(commands.Cog):
         resp = await self.ses.get('https://rra.ram.moe/i/r?type=pat')
         image_url = 'https://rra.ram.moe' + (await resp.json())['path']
 
-        embed = discord.Embed(color=self.d.cc, title=f'{ctx.author.display_name} pats {thing}')
+        embed = discord.Embed(color=self.d.cc, title=f'{ctx.author.display_name} pats {thing[:200]}')
         embed.set_image(url=image_url)
 
         await ctx.send(embed=embed)
