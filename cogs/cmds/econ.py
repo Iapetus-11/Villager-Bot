@@ -956,6 +956,7 @@ class Econ(commands.Cog):
 
             if db_user['health'] < 20:
                 await self.db.update_user(ctx.author.id, 'health', db_user['health']+1)
+                await self.db.remove_item(ctx.author.id, 'Honey Jar', 1)
 
             await self.bot.send(ctx, ctx.l.econ.use.chug_no_end.format('Honey Jar'))
             return
