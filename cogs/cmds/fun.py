@@ -65,6 +65,31 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name='aww', aliases=['cute'])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def aww(self, ctx):
+        """sends cute random animal pics"""
+
+        do_nsfw = False
+        if isinstance(ctx.channel, discord.TextChannel):
+           do_nsfw = ctx.channel.is_nsfw()
+
+           jj = {'nsfw': True}
+
+           async with ctx.typing():
+               while (not do_nsfw and jj['nsfw']) or jj.get('image') is None:
+                   resp = await self.ses.get(
+                   'https://image/reddit/gimme/aww+cute'
+                   headers={'Authorization': self.k.vb.apu}
+                )
+
+                jj = await resp.json()
+
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_image(url=jj['image'])
+
+        await ctx.send(embed=embed)
+
     @commands.command(name='4chan', aliases=['greentext'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def greentext(self, ctx):
