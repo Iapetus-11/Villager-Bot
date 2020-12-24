@@ -680,8 +680,8 @@ class Econ(commands.Cog):
                     break
 
             if multi is None:
-                multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 20
-                multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20)
+                multi = 40 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 20
+                multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 40)
                 multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
                 multi /= 100
 
