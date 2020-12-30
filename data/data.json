@@ -244,42 +244,7 @@
     ]
   ],
   "special_findables": [
-    [
-      "Christmas Tree",
-      2048,
-      25000,
-      false
-    ],
-    [
-      "Menorah",
-      2048,
-      25000,
-      false
-    ],
-    [
-      "Santa Hat",
-      1024,
-      20000,
-      false
-    ],
-    [
-      "Bottle Of Menorah Oil",
-      1024,
-      20000,
-      false
-    ],
-    [
-      "Gingerbread Man",
-      512,
-      10000,
-      false
-    ],
-    [
-      "Present",
-      1,
-      1000,
-      false
-    ]
+
   ],
   "shop_items": {
     "stone pickaxe": [
