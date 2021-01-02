@@ -249,7 +249,7 @@ class Fun(commands.Cog):
         else:
             await ctx.send(text)
 
-    @commands.command(name='owo', aliases=['owofy'])
+    @commands.command(name='owo', aliases=['owofy', 'furryspeak'])
     async def owofy_text(self, ctx, *, text):
         """Make any string more cringe"""
 
