@@ -416,6 +416,46 @@
         32,
         false
       ]
+    ],
+    "villager bot trophy": [
+      "other",
+      50000,
+      "True",
+      [
+        "Villager Bot Trophy",
+        1,
+        false
+      ]
+    ],
+    "juan statue": [
+       "other",
+       69420,
+       "True",
+       [
+         "Juan Statue",
+         69,
+         false
+       ]
+    ],
+    "silver plaque": [
+        "other",
+        10000,
+        "True",
+        [
+          "Silver Plaque",
+          4098,
+          false
+        ]
+    ],
+    "gold plaque": [
+        "other",
+        100000,
+        "True",
+        [
+           "Gold Plaque",
+           4098,
+           false
+        ]
     ]
   },
   "emojis": {
