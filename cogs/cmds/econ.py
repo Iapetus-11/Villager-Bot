@@ -323,7 +323,7 @@ class Econ(commands.Cog):
 
             embed.add_field(name=f'__**{ctx.l.econ.shop.tools}**__', value=f'`{ctx.prefix}shop tools`')
             embed.add_field(name=f'__**{ctx.l.econ.shop.magic}**__', value=f'`{ctx.prefix}shop magic`')
-            embed.add_field(name=f'__**{ctx.l.econ.shop.other}**__', value=f'`{ctx.prefix}shop other`')
+            embed.add_field(name=f'__**{ctx.l.econ.shop.other}**__', value=f'`{ctx.prefix}shop trophies`')
 
             embed.set_footer(text=ctx.l.econ.shop.embed_footer.format(ctx.prefix))
 
@@ -394,9 +394,9 @@ class Econ(commands.Cog):
 
         await self.shop_logic(ctx, 'magic', f'{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic}]')
 
-    @shop.command(name='other')
+    @shop.command(name='trophies' aliases=['other'])
     async def shop_other(self, ctx):
-        """Allows you to shop for other/miscellaneous items"""
+        """Allows you to shop for trophy items and miscellaneous items"""
 
         await self.shop_logic(ctx, 'other', f'{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other}]')
 
