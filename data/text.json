@@ -585,7 +585,7 @@
         "villager_shop": "Villager Shop",
         "tools": "Tools",
         "magic": "Magic",
-        "other": "Other",
+        "other": "Trophies",
         "embed_footer": "Use {}inventory to see what you have!"
       },
       "buy": {
@@ -1368,7 +1368,7 @@
         "villager_shop": "Villager Tienda",
         "tools": "Herramientas",
         "magic": "Magia",
-        "other": "Otros",
+        "other": "Trofeos",
         "embed_footer": "Usa {}inventory para ver lo que tienes"
       },
       "buy": {
