@@ -39,12 +39,15 @@ class Econ(commands.Cog):
     async def before_pillage_cap_reset(self):
         await self.bot.wait_until_ready()
 
-    async def format_required(self, item, amount=1):
+    def format_required(self, item, amount=1):
         if item[3][0] == 'Netherite Pickaxe':
             return f' {item[1] * amount}{self.d.emojis.emerald} + {4 * amount}{self.d.emojis.netherite}'
 
         if item[3][0] == 'Netherite Sword':
             return f' {item[1] * amount}{self.d.emojis.emerald} + {6 * amount}{self.d.emojis.netherite}'
+
+        if item[3][0] == 'Slime Trophy':
+            return f' {item[1] * amount}{self.d.emojis.emerald} + {36 * amount}{self.d.emojis.slimeball}'
 
         return f' {item[1] * amount}{self.d.emojis.emerald}'
 
@@ -349,7 +352,7 @@ class Econ(commands.Cog):
             embed.set_author(name=header, icon_url=self.d.splash_logo)
 
             for item in items_chunked[page]:
-                embed.add_field(name=f'{item[3][0]} ({await self.format_required(item)})', value=f'`{ctx.prefix}buy {item[3][0].lower()}`', inline=False)
+                embed.add_field(name=f'{item[3][0]} ({self.format_required(item)})', value=f'`{ctx.prefix}buy {item[3][0].lower()}`', inline=False)
 
             embed.set_footer(text=f'{ctx.l.econ.page} {page+1}/{page_max}')
 
@@ -490,7 +493,7 @@ class Econ(commands.Cog):
                 ctx.l.econ.buy.you_done_bought.format(
                     amount,
                     shop_item[3][0],
-                    await self.format_required(shop_item, amount),
+                    self.format_required(shop_item, amount),
                     amount+db_item_count
                 )
             )
