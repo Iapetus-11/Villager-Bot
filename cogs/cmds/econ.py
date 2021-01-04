@@ -47,7 +47,7 @@ class Econ(commands.Cog):
             return f' {item[1] * amount}{self.d.emojis.emerald} + {6 * amount}{self.d.emojis.netherite}'
 
         if item[3][0] == 'Slime Trophy':
-            return f' {item[1] * amount}{self.d.emojis.emerald} + {36 * amount}{self.d.emojis.slimeball}'
+            return f' {item[1] * amount}{self.d.emojis.emerald} + {24 * amount}{self.d.emojis.slimeball}'
 
         return f' {item[1] * amount}{self.d.emojis.emerald}'
 
@@ -480,10 +480,10 @@ class Econ(commands.Cog):
             elif shop_item[3][0] == 'Slime Trophy':
                 db_slime = await self.db.fetch_item(ctx.author.id, 'Slime Ball')
 
-                if db_slime is not None and db_slime['amount'] >= 36:
-                    await self.db.remove_item(ctx.author.id, 'Slime Ball', 36)
+                if db_slime is not None and db_slime['amount'] >= 24:
+                    await self.db.remove_item(ctx.author.id, 'Slime Ball', 24)
                 else:
-                    await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(36, self.d.emojis.slimeball, 'Slime Ball'))
+                    await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(24, self.d.emojis.slimeball, 'Slime Ball'))
                     return
 
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
