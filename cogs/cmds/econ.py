@@ -474,6 +474,14 @@ class Econ(commands.Cog):
                 else:
                     await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(required, self.d.emojis.netherite, 'Netherite Scrap'))
                     return
+            elif shop_item[3][0] == 'Slime Trophy':
+                db_slime = await self.db.fetch_item(ctx.author.id, 'Slime Ball')
+
+                if db_slime is not None and db_slime['amount'] >= 36:
+                    await self.db.remove_item(ctx.author.id, 'Slime Ball', 36)
+                else:
+                    await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(36, self.d.emojis.slimeball, 'Slime Ball'))
+                    return
 
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount, shop_item[3][2])

@@ -416,6 +416,16 @@
         32,
         false
       ]
+    ],
+    "slime trophy": [
+      "other",
+      48000,
+      "db_item_count < 1",
+      [
+        "Slime Trophy",
+        10,
+        true
+      ]
     ]
   },
   "emojis": {
