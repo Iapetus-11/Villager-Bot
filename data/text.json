@@ -593,7 +593,7 @@
         "stupid_1": "You can't buy less than one of an item.",
         "stupid_2": "`{}` is invalid or isn't in the Villager Shop.",
         "poor_loser_2": "You don't have enough emeralds to buy `{}x` **{}**.",
-        "need_total_of": "You need a total of {}{} (Netherite Scrap) to buy this item.",
+        "need_total_of": "You need a total of {}{} ({}) to buy this item.",
         "you_done_bought": "You have bought {}x **{}** for {} (You have {} total)",
         "no_to_item_1": "You can't buy any more of this item.",
         "no_to_item_2": "For some reason, you can't buy this item."
@@ -1376,7 +1376,7 @@
         "stupid_1": "No puedes comprar menos de un artículo.",
         "stupid_2": "`{}` es inválido o no está en la Villager Tienda.",
         "poor_loser_2": "No tienes suficientes esmeraldas para comprar `{}x` **{}**.",
-        "need_total_of": "Necesitas un total de {}{} (Netherite Scrap) para comprar este artículo.",
+        "need_total_of": "Necesitas un total de {}{} ({}) para comprar este artículo.",
         "you_done_bought": "Has comprado {}x **{}** por {} (Tienes {} total)",
         "no_to_item_1": "No puedes comprar más de este artículo.",
         "no_to_item_2": "Por alguna razón, no puedes comprar este artículo."

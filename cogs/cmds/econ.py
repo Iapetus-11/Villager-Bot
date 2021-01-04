@@ -39,12 +39,15 @@ class Econ(commands.Cog):
     async def before_pillage_cap_reset(self):
         await self.bot.wait_until_ready()
 
-    async def format_required(self, item, amount=1):
+    def format_required(self, item, amount=1):
         if item[3][0] == 'Netherite Pickaxe':
             return f' {item[1] * amount}{self.d.emojis.emerald} + {4 * amount}{self.d.emojis.netherite}'
 
         if item[3][0] == 'Netherite Sword':
             return f' {item[1] * amount}{self.d.emojis.emerald} + {6 * amount}{self.d.emojis.netherite}'
+
+        if item[3][0] == 'Slime Trophy':
+            return f' {item[1] * amount}{self.d.emojis.emerald} + {36 * amount}{self.d.emojis.slimeball}'
 
         return f' {item[1] * amount}{self.d.emojis.emerald}'
 
@@ -349,7 +352,7 @@ class Econ(commands.Cog):
             embed.set_author(name=header, icon_url=self.d.splash_logo)
 
             for item in items_chunked[page]:
-                embed.add_field(name=f'{item[3][0]} ({await self.format_required(item)})', value=f'`{ctx.prefix}buy {item[3][0].lower()}`', inline=False)
+                embed.add_field(name=f'{item[3][0]} ({self.format_required(item)})', value=f'`{ctx.prefix}buy {item[3][0].lower()}`', inline=False)
 
             embed.set_footer(text=f'{ctx.l.econ.page} {page+1}/{page_max}')
 
@@ -472,7 +475,15 @@ class Econ(commands.Cog):
                 if db_scrap is not None and db_scrap['amount'] >= required:
                     await self.db.remove_item(ctx.author.id, 'Netherite Scrap', required)
                 else:
-                    await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(required, self.d.emojis.netherite))
+                    await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(required, self.d.emojis.netherite, 'Netherite Scrap'))
+                    return
+            elif shop_item[3][0] == 'Slime Trophy':
+                db_slime = await self.db.fetch_item(ctx.author.id, 'Slime Ball')
+
+                if db_slime is not None and db_slime['amount'] >= 36:
+                    await self.db.remove_item(ctx.author.id, 'Slime Ball', 36)
+                else:
+                    await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(36, self.d.emojis.slimeball, 'Slime Ball'))
                     return
 
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
@@ -482,7 +493,7 @@ class Econ(commands.Cog):
                 ctx.l.econ.buy.you_done_bought.format(
                     amount,
                     shop_item[3][0],
-                    await self.format_required(shop_item, amount),
+                    self.format_required(shop_item, amount),
                     amount+db_item_count
                 )
             )
@@ -680,8 +691,8 @@ class Econ(commands.Cog):
                     break
 
             if multi is None:
-                multi = 100 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 20
-                multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 20)
+                multi = 40 + random.randint(5, 30) + (await self.db.fetch_item(ctx.author.id, 'Bane Of Pillagers Amulet') is not None) * 20
+                multi += ((await self.db.fetch_item(ctx.author.id, 'Rich Person Trophy') is not None) * 40)
                 multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
                 multi /= 100
 
