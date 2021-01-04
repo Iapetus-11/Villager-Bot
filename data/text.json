@@ -81,7 +81,7 @@
         "shop": "`{0}shop` *shows the Villager Shop*",
         "buy": "`{0}buy [optional: amount of item] <item>` *buy an item from the Villager Shop*",
         "sell": "`{0}sell <amount> <item>` *sell items back to Villager Bot*",
-        "leaderboards": "`{0}leaderboards [optional: global]` *shows the leaderboards*"
+        "leaderboards": "`{0}leaderboards` *shows the leaderboards*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [optional: server]` *checks the status of any type of Minecraft server*",
@@ -864,7 +864,7 @@
         "shop": "`{0}shop` *muestra el Villager Tienda*",
         "buy": "`{0}buy [opcional: cantidad de artículos] <artículo>` *comprar un artículo de la tienda del pueblo*",
         "sell": "`{0}sell <cantidad> <artículo>` *vender los artículos de nuevo a Villager Bot*",
-        "leaderboards": "`{0}leaderboards [optional: global]` *muestra las tablas de clasificación*"
+        "leaderboards": "`{0}leaderboards` *muestra las tablas de clasificación*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [opcional: servidor]` *comprueba el estado de cualquier tipo de servidor Minecraft*",

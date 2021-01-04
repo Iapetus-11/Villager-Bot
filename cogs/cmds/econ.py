@@ -1065,105 +1065,99 @@ class Econ(commands.Cog):
         return body + '\uFEFF'
 
     @leaderboards.command(name='emeralds', aliases=['ems'])
-    async def leaderboard_emeralds(self, ctx, is_global=None):
+    async def leaderboard_emeralds(self, ctx):
         with ctx.typing():
             emeralds = sorted((await self.db.mass_fetch_balances()), key=(lambda tup: tup[1]), reverse=True)
 
-            embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(self.d.emojis.emerald))
+            lb_global = await self.leaderboard_logic(emeralds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
-            if is_global.lower() == 'global':
-                lb_global = await self.leaderboard_logic(emeralds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
-                embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
-            else:
-                emeralds_local = [u for u in emeralds if ctx.guild.get_member(u[0])]
-                lb_local = await self.leaderboard_logic(emeralds_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
-                embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+            emeralds_local = [u for u in emeralds if ctx.guild.get_member(u[0])]
+            lb_local = await self.leaderboard_logic(emeralds_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='pillages', aliases=['pil', 'stolen'])
-    async def leaderboard_pillages(self, ctx, is_global):
+    async def leaderboard_pillages(self, ctx):
         with ctx.typing():
             pillages = sorted((await self.db.mass_fetch_leaderboard('pillages')), key=(lambda tup: tup[1]), reverse=True)
 
-            embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(self.d.emojis.emerald))
+            lb_global = await self.leaderboard_logic(pillages, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
 
-            if is_global.lower() == 'global':
-                lb_global = await self.leaderboard_logic(pillages, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
-                embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
-            else:
-                pillages_local = [u for u in pillages if ctx.guild.get_member(u[0])]
-                lb_local = await self.leaderboard_logic(pillages_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
-                embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+            pillages_local = [u for u in pillages if ctx.guild.get_member(u[0])]
+            lb_local = await self.leaderboard_logic(pillages_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.emerald))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='mobkills', aliases=['kil', 'kills', 'kill', 'bonk'])
-    async def leaderboard_mobkills(self, ctx, is_global=None):
+    async def leaderboard_mobkills(self, ctx):
         with ctx.typing():
             kills = sorted((await self.db.mass_fetch_leaderboard('mobs_killed')), key=(lambda tup: tup[1]), reverse=True)
 
-            embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(self.d.emojis.stevegun))
+            lb_global = await self.leaderboard_logic(kills, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
 
-            if is_global.lower() == 'global':
-                lb_global = await self.leaderboard_logic(kills, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
-                embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
-            else:
-                kills_local = [u for u in kills if ctx.guild.get_member(u[0])]
-                lb_local = await self.leaderboard_logic(kills_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
-                embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+            kills_local = [u for u in kills if ctx.guild.get_member(u[0])]
+            lb_local = await self.leaderboard_logic(kills_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.stevegun))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='bees', aliases=['jarofbees', 'jarsofbees'])
-    async def leaderboard_bees(self, ctx, is_global=None):
+    async def leaderboard_bees(self, ctx):
         with ctx.typing():
             bees = [(r['uid'], r['amount']) for r in await self.db.mass_fetch_item('Jar Of Bees')]
             bees = sorted(bees, key=(lambda tup: tup[1]), reverse=True)
 
-            embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(self.d.emojis.anibee))
+            lb_global = await self.leaderboard_logic(bees, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
 
-            if is_global.lower() == 'global':
-                lb_global = await self.leaderboard_logic(bees, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.anibee))
-                embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
-            else:
-                bees_local = [u for u in bees if ctx.guild.get_member(u[0])]
-                lb_local = await self.leaderboard_logic(bees_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.anibee))
-                embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+            bees_local = [u for u in bees if ctx.guild.get_member(u[0])]
+            lb_local = await self.leaderboard_logic(bees_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.bee))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='commands', aliases=['cmds'])
-    async def leaderboard_commands(self, ctx, is_global=None):
+    async def leaderboard_commands(self, ctx):
         with ctx.typing():
             cmds = sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True)
 
-            embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(':keyboard:'))
+            lb_global = await self.leaderboard_logic(cmds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
 
-            if is_global.lower() == 'global':
-                lb_global = await self.leaderboard_logic(cmds, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
-                embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
-            else:
-                cmds_local = [u for u in cmds if ctx.guild.get_member(u[0])]
-                lb_local = await self.leaderboard_logic(cmds_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
-                embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+            cmds_local = [u for u in cmds if ctx.guild.get_member(u[0])]
+            lb_local = await self.leaderboard_logic(cmds_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':keyboard:'))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(':keyboard:'))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
     @leaderboards.command(name='votes', aliases=['votestreaks', 'votestreak'])
-    async def leaderboard_votes(self, ctx, is_global=None):
+    async def leaderboard_votes(self, ctx):
         with ctx.typing():
             vote_streaks = sorted(await self.db.mass_fetch_votestreaks(), key=(lambda tup: tup[1]), reverse=True)
 
-            embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(':fire:'))
+            lb_global = await self.leaderboard_logic(vote_streaks, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.updoot))
 
-            if is_global.lower() == 'global':
-                lb_global = await self.leaderboard_logic(vote_streaks, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':fire:'))
-                embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
-            else:
-                votes_local = [u for u in vote_streaks if ctx.guild.get_member(u[0])]
-                lb_local = await self.leaderboard_logic(votes_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', ':fire:'))
-                embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+            vote_streaks_local = [u for u in vote_streaks if ctx.guild.get_member(u[0])]
+            lb_local = await self.leaderboard_logic(vote_streaks_local, ctx.author.id, '\n`{0}.` **{0}**{1} {0}'.format('{}', self.d.emojis.updoot))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(':fire:'))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
