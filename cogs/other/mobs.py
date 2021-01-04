@@ -123,6 +123,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             await embed_msg.edit(suppress=True)
 
             u_sword = await self.db.fetch_sword(u.id)
+            slime_trophy = await self.db.fetch_item(u.id, 'Slime Trophy')
 
             self.d.pause_econ[u.id] = arrow.utcnow()  # used later on to clear pause_econ based on who's been in there for tooo long
 
@@ -182,9 +183,11 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 u_dmg = await self.calc_sword_damage(u.id, u_sword, diff_multi)  # calculate damage
 
                 if mob_key == 'baby_slime':
-                    if iteration < 3:
+                    if iteration < 3 and slime_trophy is None:
                         u_dmg = 0
-                    elif iteration >= 3 and random.choice((True, False)):
+                    elif slime_trophy is not None and random.choice((True, False, False,)):
+                        u_dmg = 0
+                    elif iteration >= 3 and random.choice((True, False,)):
                         u_dmg = 0
 
                 mob.health -= u_dmg
