@@ -290,7 +290,10 @@ class Useful(commands.Cog):
         elif type == 'user':
             await ctx.send('user')
         else:
-            await ctx.send('not found fucker')
+            await ctx.send(type_)
+            await ctx.send(snowflake)
+            await ctx.send(user)
+            await ctx.send(guild)
 
     @commands.command(name='math', aliases=['solve', 'meth'])
     async def math(self, ctx, *, problem):
