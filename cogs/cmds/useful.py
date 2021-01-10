@@ -248,7 +248,7 @@ class Useful(commands.Cog):
     @commands.command(name='info', aliases=['i'])
     @commands.is_owner()
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def info(self, ctx, thing):
+    async def info(self, ctx, *, thing):
         type_ = None
 
         try:
