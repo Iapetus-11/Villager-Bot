@@ -249,6 +249,8 @@ class Useful(commands.Cog):
     @commands.is_owner()
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def info(self, ctx, *, thing):
+        await ctx.send('execute')
+
         type_ = None
 
         try:
@@ -273,6 +275,7 @@ class Useful(commands.Cog):
 
             if user is None:
                 try:
+                    await ctx.send('api for user snowflake')
                     user = await self.bot.fetch_user(snowflake)
                 except Exception:
                     pass
