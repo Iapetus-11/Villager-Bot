@@ -3,6 +3,7 @@ import util.math
 import async_cse
 import discord
 import psutil
+import typing
 import arrow
 
 
@@ -244,6 +245,15 @@ class Useful(commands.Cog):
         embed.set_thumbnail(url=guild.icon_url)
 
         await ctx.send(embed=embed)
+
+    @commands.command(name='info', aliases=['i'])
+    @commands.is_owner()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def info(self, ctx, thing: typing.Union[discord.User, discord.Guild]):
+        if isinstance(thing, discord.User):
+            await ctx.send('user')
+        elif isinstance(thing, discord.Guild):
+            await self.server_info(ctx, thing.id)
 
     @commands.command(name='math', aliases=['solve', 'meth'])
     async def math(self, ctx, *, problem):
