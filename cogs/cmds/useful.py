@@ -285,15 +285,13 @@ class Useful(commands.Cog):
                 if guild is not None:
                     type_ = 'guild'
 
-        if type == 'guild':
+        if type_ == 'guild':
             await self.server_info(ctx, guild.id)
-        elif type == 'user':
+        elif type_ == 'user':
             await ctx.send('user')
         else:
             await ctx.send(type_)
             await ctx.send(snowflake)
-            await ctx.send(user)
-            await ctx.send(guild)
 
     @commands.command(name='math', aliases=['solve', 'meth'])
     async def math(self, ctx, *, problem):
