@@ -3,7 +3,6 @@ import util.math
 import async_cse
 import discord
 import psutil
-import typing
 import arrow
 
 
@@ -249,11 +248,49 @@ class Useful(commands.Cog):
     @commands.command(name='info', aliases=['i'])
     @commands.is_owner()
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def info(self, ctx, thing: typing.Union[discord.User, discord.Guild]):
-        if isinstance(thing, discord.User):
+    async def info(self, ctx, thing):
+        type_ = None
+
+        try:
+            snowflake = int(thing)
+            type_ = 'id'
+        except Exception:
+            user = discord.utils.find((lambda u: u.name == thing), ctx.guild.members)
+
+            if user is None:
+                user = discord.utils.find((lambda u: u.name == thing), self.bot.users)
+
+            if user is not None:
+                type_ = 'user'
+            else:
+                guild = discord.utils.find((lambda g: g.name == thing), self.bot.guilds)
+
+                if guild is not None:
+                    type_ = 'guild'
+
+        if type_ == 'id':
+            user = self.bot.get_user(snowflake)
+
+            if user is None:
+                try:
+                    user = await self.bot.fetch_user(snowflake)
+                except Exception:
+                    pass
+
+            if user is not None:
+                type_ = 'user'
+            else:
+                guild = self.bot.get_guild(snowflake)
+
+                if guild is not None:
+                    type_ = 'guild'
+
+        if type == 'guild':
+            await self.server_info(ctx, guild.id)
+        elif type == 'user':
             await ctx.send('user')
-        elif isinstance(thing, discord.Guild):
-            await self.server_info(ctx, thing.id)
+        else:
+            await ctx.send('not found fucker')
 
     @commands.command(name='math', aliases=['solve', 'meth'])
     async def math(self, ctx, *, problem):
