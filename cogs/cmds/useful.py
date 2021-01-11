@@ -224,7 +224,7 @@ class Useful(commands.Cog):
 
         db_guild = await self.db.fetch_guild(guild.id)
 
-        time = arrow.Arrow.fromtimestamp(time)
+        time = arrow.get(discord.utils.snowflake_time(guild.id))
         time = time.format('MMM D, YYYY', locale=ctx.l.lang) + ', ' + time.humanize(locale=ctx.l.lang)
 
         embed = discord.Embed(color=self.d.cc)
