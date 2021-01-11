@@ -228,7 +228,7 @@ class Useful(commands.Cog):
         time = time.format('MMM D, YYYY', locale=ctx.l.lang) + ', ' + time.humanize(locale=ctx.l.lang)
 
         embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=f'{guild.name} {ctx.l.useful.ginf.info}', icon_url=guild.icon_url)
+        embed.set_author(name=f'{guild.name} `{ctx.l.useful.ginf.info}`', icon_url=guild.icon_url)
 
         embed.description = f'{ctx.l.useful.ginf.age}: {time}'
 
@@ -243,8 +243,8 @@ class Useful(commands.Cog):
                    f'{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n' \
                    f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
 
-        embed.add_field(name='General', value=general, inline=False)
-        embed.add_field(name='Villager Bot', value=villager, inline=False)
+        embed.add_field(name='General', value=general, inline=True)
+        embed.add_field(name='Villager Bot', value=villager, inline=True)
 
         embed.set_thumbnail(url=guild.icon_url)
 
