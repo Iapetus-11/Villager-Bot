@@ -228,9 +228,9 @@ class Useful(commands.Cog):
         time = time.format('MMM D, YYYY', locale=ctx.l.lang) + ', ' + time.humanize(locale=ctx.l.lang)
 
         embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=f'{guild.name} `{ctx.l.useful.ginf.info}`', icon_url=guild.icon_url)
+        embed.set_author(name=f'{guild.name} {ctx.l.useful.ginf.info}', icon_url=guild.icon_url)
 
-        embed.description = f'{ctx.l.useful.ginf.age}: {time}'
+        embed.description = f'{ctx.l.useful.ginf.age}: `{time}`'
 
         general = f'{ctx.l.useful.ginf.owner}: {guild.owner.mention}\n' \
                   f'{ctx.l.useful.ginf.members}: `{guild.member_count}`\n' \
