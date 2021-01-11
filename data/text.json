@@ -517,6 +517,7 @@
       },
       "ginf": {
         "info": "Information",
+        "age": "Created At",
         "owner": "Owner",
         "members": "Members",
         "channels": "Channels",
@@ -1301,6 +1302,7 @@
       },
       "ginf": {
         "info": "Información",
+        "age": "Creado En"
         "owner": "Propietario",
         "members": "Miembros",
         "channels": "Canales",
