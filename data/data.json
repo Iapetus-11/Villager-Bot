@@ -244,7 +244,11 @@
     ]
   ],
   "special_findables": [
-
+      [
+          "BLM Flag",
+          64,
+          1000
+      ]
   ],
   "shop_items": {
     "stone pickaxe": [
