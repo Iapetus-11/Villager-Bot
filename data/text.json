@@ -675,9 +675,9 @@
         ]
       },
       "mine": {
-        "found_item_1": "You {} {} **{}** (Worth {}{}) {}",
-        "found_item_2": "You {} {} {} {}",
-        "found_emeralds": "You {} {}{}!",
+        "found_item_1": "You {0} {1} **{2}** (Worth {3}{4}) {5}",
+        "found_item_2": "You {0} {1} {2} {3}",
+        "found_emeralds": "You {0} {1}{2}!",
         "actions": [
           "mined up",
           "found",
@@ -1459,9 +1459,9 @@
         ]
       },
       "mine": {
-        "found_item_1": "Tu {} {} **{}** (Vale {}{}) {}",
-        "found_item_2": "Tu {} {} {} {}",
-        "found_emeralds": "Tu {} {}{}!",
+        "found_item_1": "Tu {0} {1} **{2}** (Vale {3}{4}) {5}",
+        "found_item_2": "Tu {0} {1} {2} {3}",
+        "found_emeralds": "Tu {0} {1}{2}!",
         "actions": [
           "minado",
           "encontrado",
