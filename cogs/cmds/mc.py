@@ -357,8 +357,9 @@ class Minecraft(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.profile.mcpp.format(profile.name))
 
         if skin_url is not None:
-            embed.description = f'[**{ctx.l.minecraft.profile.skin}**]({skin_url})'
+            embed.description = f'**[{ctx.l.minecraft.profile.skin}]({skin_url})**'
 
+        print(cape_url)
         if cape_url is not None:
             embed.description += f'**[{ctx.l.minecraft.profile.cape}]({cape_url})**'
 
