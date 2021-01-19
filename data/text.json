@@ -843,7 +843,7 @@
         "cmd": "Uso Del Mando"
       },
       "main": {
-        "desc": "¿Necesitas más ayuda? Mira el **[Servidor de apoyo**]({})**! ¿Disfrutando del bot?\n¡Vota por nosotros en **[top.gg]({})** y gana esmeraldas!",
+        "desc": "¿Necesitas más ayuda? Mira el **[Servidor de apoyo]({})**! ¿Disfrutando del bot?\n¡Vota por nosotros en **[top.gg]({})** y gana esmeraldas!",
         "support": "Apoyo",
         "clickme": "Haz clic en mí",
         "howto": "¡Haz `{0}help <comando>` para ver cómo usar ese comando!",
@@ -1178,7 +1178,7 @@
         "mcpp": "Perfil De Minecraft Para `{}`",
         "skin": "Descarga Del Piel",
         "cape": "Descarga Del Cabo",
-        "nocape": "**[Obtener Una Capa Personalizada](https://discord.gg/ettnFrkNyW)**gti",
+        "nocape": "**[Obtener Una Capa Personalizada](https://discord.gg/ettnFrkNyW)**",
         "hist": "Historia Del Nombre"
       }
     },
