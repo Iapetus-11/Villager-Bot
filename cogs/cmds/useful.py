@@ -224,8 +224,13 @@ class Useful(commands.Cog):
 
         db_guild = await self.db.fetch_guild(guild.id)
 
+        time = arrow.get(discord.utils.snowflake_time(guild.id))
+        time = time.format('MMM D, YYYY', locale=ctx.l.lang) + ', ' + time.humanize(locale=ctx.l.lang)
+
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f'{guild.name} {ctx.l.useful.ginf.info}', icon_url=guild.icon_url)
+
+        embed.description = f'{ctx.l.useful.ginf.age}: `{time}`'
 
         general = f'{ctx.l.useful.ginf.owner}: {guild.owner.mention}\n' \
                   f'{ctx.l.useful.ginf.members}: `{guild.member_count}`\n' \
@@ -238,12 +243,63 @@ class Useful(commands.Cog):
                    f'{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n' \
                    f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
 
-        embed.add_field(name='General', value=general, inline=False)
-        embed.add_field(name='Villager Bot', value=villager, inline=False)
+        embed.add_field(name='General', value=general, inline=True)
+        embed.add_field(name='Villager Bot', value=villager, inline=True)
 
         embed.set_thumbnail(url=guild.icon_url)
 
         await ctx.send(embed=embed)
+
+    @commands.command(name='info', aliases=['i'])
+    @commands.is_owner()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def info(self, ctx, *, thing):
+        await ctx.send('execute')
+
+        type_ = None
+
+        try:
+            snowflake = int(thing)
+            type_ = 'id'
+        except Exception:
+            user = discord.utils.find((lambda u: u.name == thing), ctx.guild.members)
+
+            if user is None:
+                user = discord.utils.find((lambda u: u.name == thing), self.bot.users)
+
+            if user is not None:
+                type_ = 'user'
+            else:
+                guild = discord.utils.find((lambda g: g.name == thing), self.bot.guilds)
+
+                if guild is not None:
+                    type_ = 'guild'
+
+        if type_ == 'id':
+            user = self.bot.get_user(snowflake)
+
+            if user is None:
+                try:
+                    await ctx.send('api for user snowflake')
+                    user = await self.bot.fetch_user(snowflake)
+                except Exception:
+                    pass
+
+            if user is not None:
+                type_ = 'user'
+            else:
+                guild = self.bot.get_guild(snowflake)
+
+                if guild is not None:
+                    type_ = 'guild'
+
+        if type_ == 'guild':
+            await self.server_info(ctx, guild.id)
+        elif type_ == 'user':
+            await ctx.send('user')
+        else:
+            await ctx.send(type_)
+            await ctx.send(snowflake)
 
     @commands.command(name='math', aliases=['solve', 'meth'])
     async def math(self, ctx, *, problem):

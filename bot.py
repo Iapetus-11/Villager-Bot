@@ -162,6 +162,12 @@ for cog in bot.cog_list:  # load every cog in bot.cog_list
     logger.info(f'loading extension: {cog}')
     bot.load_extension(cog)
 
+
+async def send_tip(ctx):
+    await asyncio.sleep(1)
+    await ctx.send(f'{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}')
+
+
 @bot.check  # everythingggg goes through here
 async def global_check(ctx):
     ctx.l = await bot.get_lang(ctx)
@@ -196,7 +202,7 @@ async def global_check(ctx):
                 return True
 
     if random.randint(1, bot.d.tip_chance) == 1:
-        await ctx.send(f'{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}')
+        bot.loop.create_task(send_tip(ctx))
 
     return True
 

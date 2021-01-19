@@ -361,6 +361,8 @@ class Minecraft(commands.Cog):
 
         if cape_url is not None:
             embed.description += f' | [**{ctx.l.minecraft.profile.cape}**]({cape_url})'
+        else:
+            embed.description += f' | {ctx.l.minecraft.profile.nocape}'
 
         embed.set_thumbnail(url=f'https://visage.surgeplay.com/head/{uuid}.png')
 
