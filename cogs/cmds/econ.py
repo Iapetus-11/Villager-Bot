@@ -696,7 +696,7 @@ class Econ(commands.Cog):
                 multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
                 multi /= 100
 
-            won = round(multi * amount)
+            won = math.ceil(multi * amount)
 
             await self.db.balance_add(ctx.author.id, won)
             await self.bot.send(ctx, ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), won, self.d.emojis.emerald))
