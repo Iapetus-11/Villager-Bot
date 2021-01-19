@@ -360,7 +360,8 @@ class Minecraft(commands.Cog):
             embed.description = f'[**{ctx.l.minecraft.profile.skin}**]({skin_url})'
 
         if cape_url is not None:
-            embed.description += f' | [**{ctx.l.minecraft.profile.cape}**]({cape_url})'
+            embed.description += f'**[{ctx.l.minecraft.profile.cape}]({cape_url})**'
+
         else:
             embed.description += f' | {ctx.l.minecraft.profile.nocape}'
 
