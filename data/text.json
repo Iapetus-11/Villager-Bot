@@ -789,7 +789,7 @@
     "name": "Español",
     "misc": {
       "petus": "Hecho por Iapetus11#6821",
-      "pingpong": "El prefijo de este servidor es `{0}` y el comando de ayuda es `{0}help`nSi necesita más ayuda, puede unirse al **[Servidor de Apoyo]({1})**.",
+      "pingpong": "El prefijo de este servidor es `{0}` y el comando de ayuda es `{0}help`nSi necesitas más ayuda, puedes unirte al **[Servidor de Apoyo]({1})**.",
       "cooldown_msgs": [
         "¿No te dijeron tus padres que [la paciencia es una virtud](http://www.patience-is-a-virtue.org/)? Cálmate y espera otro **{}**.",
         "Oye, tienes que esperar otro **{}** antes de hacer eso de nuevo.",
@@ -798,28 +798,28 @@
         "Espera y espera otro **{}**."
       ],
       "errors": {
-        "andioop": "¡Uy! Algo salió muy mal... Por favor, tome una captura de pantalla e infórmelo en el [**Servidor de soporte**]({}), ¡gracias!",
+        "andioop": "¡Uy! Algo salió muy mal... Por favor, toma una captura de pantalla e infórmalo en el [**Servidor de soporte**]({}), ¡gracias!",
         "private": "Este comando no puede ser usado en canales de chat privados.",
         "user_perms": "¡Buen intento estúpido, pero no tienes los permisos para hacer eso!",
         "bot_perms": "No me diste los permisos adecuados para hacerlo, tonto.",
-        "concurrency": "¡Agárrese! ¡Estás usando este comando demasiado rápido!",
+        "concurrency": "¡Espera! ¡Estás usando este comando demasiado rápido!",
         "missing_arg": "¡Parece que te olvidas de poner algo!",
-        "bad_arg": "Parece que no escribiste algo correctamente, intenta escribirlo bien la primera vez, dum dum.",
-        "not_ready": "¡Agárrese! ¡El Villager Bot todavía está arrancando!",
+        "bad_arg": "Parece que escribiste algo mal, intenta escribirlo bien la primera vez, dum dum.",
+        "not_ready": "¡Espera! ¡El Villager Bot todavía está arrancando!",
         "nrn_buddy": "Espera un segundo, ¡no puedes usar ese comando ahora mismo!",
         "disabled": "¡Este comando está deshabilitado en este servidor y no puede ser usado!"
       },
       "tips": [
-        "¿Tienes una sugerencia? ¿Encontraste un micrófono? ¿Necesitas ayuda? ¿Quieres hacer un intercambio? Únete al Servidor de Soporte! https://discord.gg/39DwwUV",
-        "¿Necesita esmeraldas? ¡Vótanos en top.gg! https://top.gg/bot/639498607632056321",
-        "¿Necesita esmeraldas? ¡Mira el canal de #paid-stuff en el servidor de soporte! https://discord.gg/39DwwUV",
-        "¿Quebrado por esos saqueadores? ¡Voten por nosotros para conseguir esmeraldas! https://top.gg/bot/639498607632056321"
+        "¿Tienes una sugerencia? ¿Encontraste un bug? ¿Necesitas ayuda? ¿Quieres hacer un intercambio? Únete al Servidor de Soporte! https://discord.gg/39DwwUV",
+        "¿Necesitas esmeraldas? ¡Vótanos en top.gg! https://top.gg/bot/639498607632056321",
+        "¿Necesitas esmeraldas? ¡Mira el canal de #paid-stuff en el servidor de soporte! https://discord.gg/39DwwUV",
+        "¿En quiebra por esos ladrones? ¡Voten por nosotros para conseguir esmeraldas! https://top.gg/bot/639498607632056321"
       ],
       "tip_intros": [
-        "**PRO PUNTA:**",
-        "**Cómo convertirse en el dios jugador punta #1:**",
-        "**Útil Punta:**",
-        "**Pro Punta #1:**"
+        "**PRO TIP:**",
+        "**Cómo convertirse en el dios gamer tip #1:**",
+        "**Tip Útil:**",
+        "**Pro tip #1:**"
       ],
       "time": {
         "day": "día",
@@ -840,98 +840,98 @@
         "utility": "Utilidad",
         "fun": "Diversión",
         "admin": "Administración",
-        "cmd": "Uso Del Mando"
+        "cmd": "Uso De Comandos"
       },
       "main": {
         "desc": "¿Necesitas más ayuda? Mira el [**Servidor de apoyo**]({})! ¿Disfrutando del bot?\n¡Vota por nosotros en [**top.gg**]({}) y gana esmeraldas!",
-        "support": "Apoyo",
+        "support": "Apoyanos",
         "clickme": "Haz clic en mí",
         "howto": "¡Haz `{0}help <comando>` para ver cómo usar ese comando!",
         "nodoc": "No existe documentación para ese comando.",
         "aliases": "Alias: `{}`"
       },
       "econ": {
-        "profile": "`{0}profile [opcional: usuario]` *muestra el perfil de usted o del usuario especificado*",
-        "balance": "`{0}balance [opcional: usuario]` *muestra el balance de usted o del usuario especificado*",
-        "inventory": "`{0}inventory [opcional: usuario]` *muestra el inventario de usted o del usuario especificado*",
+        "profile": "`{0}profile [opcional: usuario]` *muestra tu perfil o el del usuario especificado*",
+        "balance": "`{0}balance [opcional: usuario]` *muestra el tu balance o el del usuario especificado*",
+        "inventory": "`{0}inventory [opcional: usuario]` *muestra tu inventario o el del usuario especificado*",
         "deposit": "`{0}deposit <bloques de esmeralda>` *depositar las esmeraldas en la bóveda*",
         "withdraw": "`{0}withdraw <bloques de esmeralda>` *retirar las esmeraldas de la bóveda*",
         "give": "`{0}give <usuario> <cantidad> <artículo>` *dar a otro usuario un artículo o esmeraldas*",
-        "mine": "`{0}mine` *la mina de esmeraldas*",
-        "search": "`{0}search` *búsqueda de esmeraldas*",
+        "mine": "`{0}mine` *minar esmeraldas*",
+        "search": "`{0}search` *busca esmeraldas*",
         "honey": "`{0}honey` *cosechar la miel de las abejas que tienes*",
         "gamble": "`{0}gamble <esmeraldas>` *apostar con el bot por una oportunidad de ganar esmeraldas*",
-        "pillage": "`{0}pillage <usuario>` *saquear esmeraldas de otro usuario*",
+        "pillage": "`{0}pillage <usuario>` *robar esmeraldas a otro usuario*",
         "use": "`{0}use <artículo>` *usar el artículo especificado*",
-        "shop": "`{0}shop` *muestra el Villager Tienda*",
-        "buy": "`{0}buy [opcional: cantidad de artículos] <artículo>` *comprar un artículo de la tienda del pueblo*",
-        "sell": "`{0}sell <cantidad> <artículo>` *vender los artículos de nuevo a Villager Bot*",
+        "shop": "`{0}shop` *muestra la tienda del Aldeano*",
+        "buy": "`{0}buy [opcional: cantidad de artículos] <artículo>` *comprar un artículo de la tienda del Aldeano*",
+        "sell": "`{0}sell <cantidad> <artículo>` *vender los artículos de nuevo al Aldeano*",
         "leaderboards": "`{0}leaderboards` *muestra las tablas de clasificación*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [opcional: servidor]` *comprueba el estado de cualquier tipo de servidor Minecraft*",
         "rcon": "`{0}rcon <comando>` *ejecuta comandos en un servidor de Minecraft desde Discord*",
         "randommc": "`{0}randommc` *muestra un servidor Minecraft al azar si quieres un nuevo lugar para explorar*",
-        "mcimage": "`{0}mcimage` *convierte cualquier imagen que suba en bloques Minecraft / arte de los píxeles*",
-        "stealskin": "`{0}stealskin <nombre de usuario>` *se obtiene la piel de un jugador de Minecraft Java Edition*",
-        "buildidea": "`{0}buildidea` *envía una idea de construcción aleatoria para si te aburres y necesitas inspiración*",
-        "mccolors": "`{0}mccolors` *muestra los colores Minecraft y cómo utilizarlos en el chat del juego*",
-        "mcprofile": "`{0}mcprofile <nombre de usuario>` *muestra información sobre un reproductor de Minecraft Java Edition*",
+        "mcimage": "`{0}mcimage` *convierte cualquier imagen que subas en bloques Minecraft / pixel art*",
+        "stealskin": "`{0}stealskin <nombre de usuario>` *obtiene la skin de un jugador de Minecraft Java Edition*",
+        "buildidea": "`{0}buildidea` *envía una idea aleatoria de construcción por si te aburres y necesitas inspiración*",
+        "mccolors": "`{0}mccolors` *muestra los colores de Minecraft y cómo utilizarlos en el chat del juego*",
+        "mcprofile": "`{0}mcprofile <nombre de usuario>` *muestra información sobre un jugador de Minecraft Java Edition*",
         "nametoxuid": "`{0}nametoxuid <nombre de usuario>` *convierte un gamertag de la edición MC Bedrock en un xuid*"
       },
       "util": {
         "help": "`{0}help` *ver información útil sobre Villager Bot*",
-        "config": "`{0}config` *configurar / configurar el bot a su gusto*",
-        "ping": "`{0}ping` *muestra la latencia entre la Discord y Villager Bot*",
+        "config": "`{0}config` *configurar el bot a tu gusto*",
+        "ping": "`{0}ping` *muestra el ping entre Discord y Villager Bot*",
         "serverinfo": "`{0}server` *ver información sobre el servidor actual*",
         "links": "`{0}links` *ver enlaces útiles relacionados con Villager Bot*",
-        "vote": "`{0}vote` *ganan esmeraldas votando por Villager Bot en ciertos sitios web*",
+        "vote": "`{0}vote` *gana esmeraldas votando por Villager Bot en ciertos sitios web*",
         "stats": "`{0}stats` *muestra estadísticas sobre Villager Bot*",
-        "google": "`{0}google <consulta>` *busca en google para tu consulta*",
-        "youtube": "`{0}youtube <consulta>` *busca en youtube para tu consulta*",
-        "image": "`{0}image <consulta>` *busca imágenes de google para tu consulta*"
+        "google": "`{0}google <consulta>` *busca algo en google *",
+        "youtube": "`{0}youtube <consulta>` *busca algo en youtube*",
+        "image": "`{0}image <consulta>` *busca imágenes de google*"
       },
       "fun": {
-        "cursed": "`{0}cursed` *envía una imagen Minecraft maldita al azar*",
+        "cursed": "`{0}cursed` *envía una imagen maldita de Minecraft al azar*",
         "meme": "`{0}meme` *envía un meme al azar desde reddit*",
-        "4chan": "`{0}4chan` *muestra una divertida captura de pantalla de 4chan*",
+        "4chan": "`{0}4chan` *muestra una captura de pantalla divertida de 4chan*",
         "comic": "`{0}comic` *envía un cómic al azar de r/comics en reddit*",
-        "say": "`{0}say <texto>` *hace que el robot diga que el texto que has puesto*",
-        "enchant": "`{0}enchant <texto>` *convierte el texto en el lenguaje de la tabla de encantamiento Minecraft*",
-        "unenchant": "`{0}unenchant <texto>` *convierte el lenguaje de la tabla de hechizos de nuevo en texto*",
-        "villagerspeak": "`{0}villagerspeak <texto>` *convierte el texto en sonidos de aldeanos*",
+        "say": "`{0}say <texto>` *hace que el bot diga que el texto que has escrito*",
+        "enchant": "`{0}enchant <texto>` *convierte el texto al lenguaje de la mesa de encantamientos de Minecraft*",
+        "unenchant": "`{0}unenchant <texto>` *convierte el lenguaje de la mesa de encantamientos de nuevo a texto*",
+        "villagerspeak": "`{0}villagerspeak <texto>` *convierte el texto a sonidos de aldeanos*",
         "clap": "`{0}clap <texto>` *:clap: pone :clap: el :clap: emoji :clap: de :clap: aplauso :clap: entre :clap: el :clap: texto :clap:*",
         "emojify": "`{0}emojify <texto>` *convierte el texto en emojis*",
-        "sarcastic": "`{0}sarcastic <texto>` *convertir el texto en el texto sarcástico de SpongeBob*",
-        "owo": "`{0}owo <texto>` *owofies el texto dado uwu*",
-        "vaporwave": "`{0}vaporwave <texto>` *hace que el texto se convierta en el estilo de la onda de vapor*",
-        "kill": "`{0}kill <usuario>` *asesinar brutalmente a otro usuario*",
-        "bubblewrap": "`{0}bubblewrap` *envía un envoltorio de burbujas virtual para que reviente*",
+        "sarcastic": "`{0}sarcastic <texto>` *convertir el texto en texto sarcástico de SpongeBob*",
+        "owo": "`{0}owo <texto>` *owofica el texto dado uwu*",
+        "vaporwave": "`{0}vaporwave <texto>` *convierte el texto a estilo vaporwave*",
+        "kill": "`{0}kill <usuario>` *asesina brutalmente a otro usuario*",
+        "bubblewrap": "`{0}bubblewrap` *envía papel de burbujas virtual para que lo revientes*",
         "coinflip": "`{0}coinflip` *lanza una moneda y dice el resultado en el chat*",
         "pat": "`{0}pat <usuario>` *dar una palmadita brutal a alguien en la cabeza*",
         "achievement": "`{0}achievement <texto>` *genera un logro de Minecraft a partir del texto dado*",
-        "splashtext": "`{0}splashtext <texto>` *genera una pantalla de salpicadura Minecraft con el texto dado*"
+        "splashtext": "`{0}splashtext <texto>` *genera una pantalla principal de Minecraft con el texto dado*"
       },
       "mod": {
-        "warn": "`{0}warn <usuario> <razón>` *avisar a un usuario por una razón específica*",
-        "warns": "`{0}warns <usuario>` *ver las advertencias que tiene un usuario, dejar en blanco para ver sus advertencias*",
+        "warn": "`{0}warn <usuario> <razón>` *advertir a un usuario por una razón específica*",
+        "warns": "`{0}warns <usuario>` *ver las advertencias que tiene un usuario, dejar en blanco para ver tus advertencias*",
         "purge": "`{0}purge [opcional: usuario] <cantidad>` *purgar los mensajes del canal actual*",
-        "delwarns": "`{0}delwarns <usuario>` *borra las advertencias que el usuario tiene en este servidor*",
-        "kick": "`{0}kick <usuario>` *patea al usuario del actual servidor de Discord*",
-        "ban": "`{0}ban <usuario>` *prohibe al usuario del actual servidor de Discord*",
-        "pardon": "`{0}pardon <usuario>` *desbancar al usuario del actual servidor de Discord*"
+        "delwarns": "`{0}delwarns <usuario>` *borrar las advertencias que el usuario tiene en este servidor*",
+        "kick": "`{0}kick <usuario>` *expulsar al usuario del servidor de Discord*",
+        "ban": "`{0}ban <usuario>` *banear al usuario del servidor de Discord*",
+        "pardon": "`{0}pardon <usuario>` *desbanear al usuario del servidor de Discord*"
       }
     },
     "fun": {
-      "too_long": "Ese mensaje sería demasiado largo para convertirlo.",
+      "too_long": "Ese mensaje es demasiado largo.",
       "dl_img": "[**[Descargar Imagen]**]({})",
       "bubblewrap": {
-        "invalid_size_1": "Esa no es una talla válida. Ejemplo de una talla válida: `10x10`",
-        "invalid_size_2": "El tamaño debe estar entre 1 y 12"
+        "invalid_size_1": "Ese no es un tamaño válido. Ejemplo de un tamaño válido: `10x10`",
+        "invalid_size_2": "El tamaño debe ser de entre 1 y 12"
       }
     },
     "mobs_mech": {
-      "no_health": "No tienes suficiente salud para luchar contra esta mafia.",
+      "no_health": "No tienes suficiente salud para luchar contra este monstruo.",
       "flee_insults": [
         "Bien, huye como un pequeño bebé",
         "Bien, corre hacia mamá como un pequeño bebé",
@@ -940,65 +940,65 @@
         "Bien, huye como el niño llorón que eres."
       ],
       "user_attacks": [
-        "¡Acuchillaste a la **{0}** con tu **{1}**!",
-        "¡Tu **{1}** se clavó profundamente en el **{0}**!",
-        "¡Hackeaste el **{0}** con tu **{1}**!",
-        "¡Le diste a tu **{1}** en el **{0}**!",
-        "¡Has pinchado el **{0}** con tu **{1}**!",
-        "¡Has metido tu **{1}** en lo profundo del **{0}**!",
-        "¡Has cortado las piezas de la **{0}** con tu **{1}**!",
-        "¡Le metiste el **{0}** en el ojo con tu **{1}**!",
-        "¡Te abalanzaste sobre el **{0}** y lo apuñalaste con tu **{1}**!",
-        "¡Usted cargó contra el **{0}** y lo hackeó con su **{1}**!",
-        "¡Usted cargó contra el **{0}** y lo apuñaló con su **{1}**!",
-        "¡Usted cargó contra el **{0}** y lo hackeó con su **{1}**!",
-        "Usted cargó contra el **{0}** y con todas sus fuerzas lo pinchó con su **{1}**"
+        "¡Apuñalaste a un/una **{0}** con tu **{1}**!",
+        "¡Tu **{1}** se clavó profundamente en el/la **{0}**!",
+        "¡Mutilaste a un/una **{0}** con tu **{1}**!",
+        "¡Le diste con tu **{1}** a un/una **{0}**!",
+        "¡Has pinchado a un/una **{0}** con tu **{1}**!",
+        "¡Has metido tu **{1}** en lo profundo de un/una **{0}**!",
+        "¡Has cortado las piezas de el/la **{0}** con tu **{1}**!",
+        "¡Le metiste tu **{1}** en el ojo a un/una **{0}**!",
+        "¡Te abalanzaste sobre un/una **{0}** y lo/la apuñalaste con tu **{1}**!",
+        "¡Embestiste a un/una **{0}** y lo/la mutilaste con tu **{1}**!",
+        "¡Embestiste a un/una **{0}** y lo/la apuñalaste con tu **{1}**!",
+        "¡Embestiste a un/una **{0}** y lo/la mutilaste con tu **{1}**!",
+        "Embestiste a un/una **{0}** y con todas tus fuerzas lo/la pinchaste con tu **{1}**"
       ],
       "user_finishers": [
-        "¡Moviste el **{1}** tan fuerte como pudiste y decapitaste el **{0}**!",
-        "¡Se tropezó y se soltó de su **{1}**, aterrizando en el **{0}** y matándolo!",
-        "¡Tú, con todas tus fuerzas, enterraste a la **{1}** hasta el fondo del pecho de la **{0}**!",
-        "¡Acuchillando a tu **{1}** por última vez, desterraste a los **{0}** de la existencia!",
+        "¡Moviste el **{1}** tan fuerte como pudiste y decapitaste al **{0}**!",
+        "¡Te tropezaste y soltaste tu **{1}**, aterrizando en el **{0}** y matándolo!",
+        "¡Tú, con todas tus fuerzas, enterraste la **{1}** hasta el fondo del pecho de la **{0}**!",
+        "¡Acuchillaste a tu **{1}** por última vez, desterraste a los **{0}** de la existencia!",
         "Al balancear su **{1}** por última vez, cortaste el **{0}** por la mitad!",
         "¡Con un último corte de tu **{1}**, cortaste la **{0}** por la mitad!",
         "¡Con un último golpe de tu **{1}**, desterraste a los **{0}** de este mundo!",
         "¡Hackeaste al **{0}** con todas tus fuerzas, y lo decapitaste con tu **{1}**!",
-        "¡Con las últimas fuerzas que te quedaban, enterraste a los **{1}** dentro del pecho de los **{0}**!",
-        "Aterrizando el **{1}** en el cuello del **{0}**, ¡finalmente murió!",
+        "¡Con las últimas fuerzas que te quedaban, enterraste los **{1}** dentro del pecho de los **{0}**!",
+        "Clavaste el **{1}** en el cuello del **{0}**, ¡finalmente murió!",
         "¡Con lo último de tu fuerza, tu **{1}** atraviesa el **{0}**!",
         "¡Con las últimas fuerzas que te quedan, tu **{1}** se desgarra a través de la **{0}**!",
-        "¡Hackeaste con el **{1}** tan fuerte como pudiste, y decapitaste al **{0}**!",
-        "Al perder el **{0}** con su espada, murió de decepción..."
+        "¡Mutilaste con el **{1}** tan fuerte como pudiste, y decapitaste al **{0}**!",
+        "Al errarle al **{0}** con tu espada, murió de decepción..."
       ],
       "mob_drops": [
-        "¡Un {0} salvaje te ha encontrado!",
-        "¡Un vicioso {0} te ha visto!",
-        "¡Un acechador {0} te ha visto!",
-        "¡Un acechador {0} te ha encontrado!",
-        "¡Un espeluznante {0} te ha visto!",
-        "¡Un espeluznante {0} te ha encontrado!",
-        "¡Has sido encontrado por un salvaje {0}!",
-        "¡Has sido visto por un vicioso {0}!",
-        "¡Has sido encontrado por un loco {0}!",
-        "¡Un loco {0} te ha visto!",
-        "¡Te has topado con un salvaje {0}!",
-        "¡Te encontraste con un loco {0}!",
-        "¡Te has topado con un {0}!",
-        "¡Te topaste con un espeluznante {0}!",
-        "¡Te encontraste con un vicioso {10}!"
+        "¡Un/una {0} salvaje te ha encontrado!",
+        "¡Un/una vicioso/a {0} te ha visto!",
+        "¡Un/una acechador/a {0} te ha visto!",
+        "¡Un/una acechador/a {0} te ha encontrado!",
+        "¡Un/una espeluznante {0} te ha visto!",
+        "¡Un/una espeluznante {0} te ha encontrado!",
+        "¡Has sido encontrado por un/una salvaje {0}!",
+        "¡Has sido visto por un/una vicioso/a {0}!",
+        "¡Has sido encontrado por un/una loco/a {0}!",
+        "¡Un/una loco/a {0} te ha visto!",
+        "¡Te has topado con un/una salvaje {0}!",
+        "¡Te encontraste con un/una loco/a {0}!",
+        "¡Te has topado con un/una {0}!",
+        "¡Te topaste con un/una espeluznante {0}!",
+        "¡Te encontraste con un/una vicioso/a {10}!"
       ],
       "found": [
         "¡Wow, mira eso! Encontraste {}{} justo ahí en el suelo",
-        "A través del humo blanco de la muchedumbre asesinada que se ve {}{}!",
+        "A través del humo blanco de los mobs asesinados puedes ver {}{}!",
         "El monstruo cae {}{}",
         "Miras al suelo y ves {}{}",
-        "Se encuentra {}{} junto al monstruo caído"
+        "Encuentras {}{} junto al monstruo caído"
       ],
       "lost": {
         "creeper": [
-          "La **enredadera** también voló {}{} que era tuya...",
-          "La **enredadera** hizo {}{} que era tuya subir en un puf de humo...",
-          "La **enredadera** también borró {}{} que era tuya..."
+          "El **creeper** también voló {}{} que era tuya...",
+          "El **creeper** hizo {}{} que era tuya subir en un puf de humo...",
+          "El **creeper** también borró {}{} que era tuya..."
         ],
         "normal": [
           "El {} también robó {}{} que era tuyo...",
@@ -1018,22 +1018,22 @@
             "El **zombi** te araña con sus uñas crecidas y en descomposición..."
           ],
           "finishers": [
-            "¡El **zombi** se abalanza sobre tu garganta y muerde!",
+            "¡El **zombi** se abalanza sobre tu garganta y te muerde!",
             "¡El **zombi** te destripa y se come tus restos!",
             "¡El **zombi** te destripa y devora tus restos!"
           ]
         },
         "skeleton": {
           "attacks": [
-            "El **skeleboi** te lanza una flecha a la cara",
-            "El **esqueleto** se da la vuelta y 360 no te mira.",
+            "El **esqueleto** te lanza una flecha a la cara",
+            "El **esqueleto** se da la vuelta y te da sin apuntar.",
             "Una flecha llueve del **esqueleto**, sólo una",
-            "Un tiro en la cabeza del **esqueleto** para ti",
+            "Una flecha en la cabeza del **esqueleto** para ti",
             "¡BOOM! ¡CABEZA DE CHORLITO! - **esqueleto** 2021"
           ],
           "finishers": [
-            "El **esqueleto** 360 noscopa por última vez!",
-            "¡Una lluvia de flechas silba hacia ti y te convierte en queso suizo!",
+            "El **esqueleto** te dispara por última vez!",
+            "¡Una lluvia de flechas va hacia ti y te convierte en queso suizo!",
             "¡Escuchas el silbido de cientos de flechas y luego mueres!",
             "Las flechas llueven del cielo, perforando tu carne y matándote."
           ]
@@ -1043,64 +1043,64 @@
             "La **araña** salta sobre ti y hunde sus colmillos en tu brazo",
             "La **araña** te derriba y te muerde la pierna",
             "La **araña** salta a ti en un intento de morderte la cara...",
-            "La **araña** se hunde en ti",
+            "La **araña** te perfora",
             "La **araña** se abalanza sobre ti y te muerde la pierna"
           ],
           "finishers": [
             "¡La **araña** salta sobre ti, gira y hunde sus colmillos en tu cráneo!",
-            "¡La **araña** te hunde una última vez y te muerde la cara!",
-            "La **araña** te arranca la cara, y la última vez que la ves son 8 ojos rojos asesinos que te miran fijamente."
+            "¡La **araña** te perfora una última vez y te muerde la cara!",
+            "La **araña** te arranca la cara, y lo último que ves son 8 ojos rojos asesinos que te miran fijamente."
           ]
         },
         "cave_spider": {
           "attacks": [
-            "Los colmillos de la **araña de la cueva** se clavan profundamente en tu piel",
-            "La **araña de la cueva** te da un beso tóxico",
-            "La **araña de la cueva** te muerde e inflige daños por veneno"
+            "Los colmillos de la **araña de cueva** se clavan profundamente en tu piel",
+            "La **araña de cueva** te da un beso tóxico",
+            "La **araña de cueva** te muerde e inflige daños por veneno"
           ],
           "finishers": [
-            "Usted murió una muerte lenta y dolorosa por el daño del veneno",
-            "La **araña de la cueva** inyecta una última dosis letal de veneno",
-            "La **araña de la cueva** entierra sus colmillos profundamente en ti y te llena de veneno"
+            "Mueres lenta y dolorosamente por el daño del veneno",
+            "La **araña de cueva** inyecta una última dosis letal de veneno",
+            "La **araña de cueva** entierra sus colmillos profundamente en ti y te llena de veneno"
           ]
         },
         "creeper": {
           "attacks": [
             "Oyes que se enciende un fusible...",
-            "La **enredadera** parpadea y se evapora...",
-            "La **enredadera** se evapora y parpadea...",
-            "La **enredadera** se prepara para su inminente suicidio...",
+            "El **creeper** parpadea y se evapora...",
+            "El **creeper** se evapora y parpadea...",
+            "El **creeper** se prepara para su inminente suicidio...",
             "Desde atrás, un fusible se enciende..."
           ],
           "finishers": [
-            "La **enredadera** hace BOOM!",
-            "La **enredadera** usó el autodestructor. *¡Es súper efectivo!*",
-            "¡La **enredadera** explota, haciendo que tu maldito cadáver cruce el mapa!",
-            "¡El **enredadera** te voló en pedazos!"
+            "El **creeper** hace BOOM!",
+            "El **creeper** usó el autodestructor. *¡Es súper efectivo!*",
+            "¡El **ecreeper** explota, haciendo que tu maldito cadáver cruce el mapa!",
+            "¡El **creeper** te voló en pedazos!"
           ]
         },
         "baby_slime": {
           "attacks": [
-            "La **baba del bebé** salta sobre ti",
-            "La **baba del bebé** se ve linda",
-            "La **baba del bebé** salta sobre tu cabeza",
-            "Usted anima a la **baba del bebé**"
+            "El **slime bebé** salta sobre ti",
+            "El **slime bebé** se ve lindo",
+            "El **slime bebé** salta sobre tu cabeza",
+            "Animas al **slime bebé**"
           ],
           "finishers": [
-            "Mueres por la monada",
-            "La **baba del bebé** se ve tan linda que la sigues por el resto de tu vida y la mantienes segura.",
-            "Sigues la **baba del bebé** porque es tan linda, se desespera, te mueres de tristeza.",
-            "La **baba del bebé** se desespera delante de ti, mueres de una depresión extrema",
-            "La **baba del bebé** finalmente hace algo de daño",
-            "Te sientes mal porque la **baba del bebé** no puede hacerte daño, así que te suicidas.",
-            "Te sientes mal porque la **baba del bebé** no puede hacerte daño, así que te comprometes a cavar directamente hacia abajo",
-            "Sólo puede haber un ganador, dice la **baba del bebé**, tecleas /kill"
+            "Mueres de ternura",
+            "El **slime bebé** se ve tan lindo que lo sigues por el resto de tu vida y lo mantienes segura.",
+            "Sigues al **slime bebé** porque es tan lindo, desaparece, te mueres de tristeza.",
+            "El **slime bebé** desaparece delante de ti, mueres de una depresión extrema",
+            "El **slime bebé** finalmente hace algo de daño",
+            "Te sientes mal porque el **slime bebé** no puede hacerte daño, así que te suicidas.",
+            "Te sientes mal porque el **slime bebé** no puede hacerte daño, así que te comprometes a cavar directamente hacia abajo",
+            "Sólo puede haber un ganador, dice el **slime bebé**, tecleas /kill"
           ],
           "misses": [
-            "Balanceas tu **{0}** tan fuerte como puedes, extrañas la **baba del bebé**",
-            "Le cortas la **{0}** al **baba del bebé** tan fuerte como puedas. La **baba del bebé** está bien",
-            "Fallaste, balanceando tu **{0}** en la **baba del bebé**.",
-            "Si balanceas tu **{0}**, la **baba del bebé** hace una linda cara, fallas."
+            "Balanceas tu **{0}** tan fuerte como puedes, extrañas al **slime bebé**",
+            "Cortas con tu **{0}** al **slime bebé** tan fuerte como puedes. El **slime bebé** está bien",
+            "Fallaste balanceando tu **{0}** en el **slime bebé**.",
+            "Balanceas tu **{0}**, el **slime bebé** hace una linda cara, fallas."
           ]
         }
       }
@@ -1109,11 +1109,11 @@
       "invalid_player": "Ese jugador es inválido o no existe.",
       "mcimage": {
         "stupid_1": "Tienes que subir una imagen en el mismo mensaje que usas el comando.",
-        "stupid_2": "Por favor, use el formato de imagen png o jpg.",
+        "stupid_2": "Por favor, usa el formato de imagen png o jpg.",
         "stupid_3": "Esa no es una imagen válida."
       },
       "mcping": {
-        "shortcut_error": "Para utilizar este atajo, usted debe configurar un servidor predeterminado de Minecraft a ping a través de `{}config`",
+        "shortcut_error": "Para utilizar este atajo, debes configurar un servidor predeterminado de Minecraft a ping a través de `{}config`",
         "title_offline": "{} no se encuentra ningún servidor en `{}`",
         "title_online": "{} `{}` está en línea",
         "title_plain": "{} `{}`",
@@ -1127,9 +1127,9 @@
         "learn_more": "Puedes aprender más sobre este servidor [aquí]({})"
       },
       "stealskin": {
-        "error": "Oops, algo salió mal mientras buscaba la piel de ese jugador.",
-        "no_skin": "Este jugador no tiene piel.",
-        "embed_desc": "Piel de {}\n[**[Descargue]**]({})"
+        "error": "Oops, algo salió mal mientras buscaba la skin de ese jugador.",
+        "no_skin": "Este jugador no tiene skin.",
+        "embed_desc": "Skin de {}\n[**[Descargue]**]({})"
       },
       "mccolors": {
         "embed_desc": "El texto en Minecraft puede ser formateado usando diferentes códigos y el símbolo de la sección (`§`).",
@@ -1144,7 +1144,7 @@
           "white": "Blanco",
           "gray": "Gris",
           "dark_red": "Rojo Oscuro",
-          "gold": "Oro",
+          "gold": "Dorado",
           "dark_green": "Verde Oscuro",
           "dark_aqua": "Aqua Oscuro",
           "dark_blue": "Azul Oscuro",
@@ -1153,7 +1153,7 @@
           "black": "Negro",
           "bold": "Negrita",
           "strikethrough": "Tachado",
-          "underline": "Subraye",
+          "underline": "Subrayado",
           "italic": "Cursiva",
           "obfuscated": "Ofuscado",
           "reset": "Reiniciar"
@@ -1163,23 +1163,23 @@
         "formatting": "Formato"
       },
       "rcon": {
-        "stupid_1": "Usted tiene que establecer un servidor de Minecraft para este servidor a través del comando `/config mcserver` primero.",
+        "stupid_1": "Tienes que establecer un servidor de Minecraft para este servidor a través del comando `/config mcserver` primero.",
         "dm_error": "Necesito poder dirigir el mensaje para completar el proceso.",
-        "msg_timeout": "He dejado de esperar una respuesta, ejecute el comando de nuevo para continuar.",
-        "port": "Escriba el puerto de la consola remota (rcon.port en el server.properties)",
-        "passw": "Escriba la contraseña de la consola remota (rcon.password en el server.properties)",
-        "stupid_2": "¡Contraseña incorrecta! Ejecute el comando para introducirla de nuevo.",
+        "msg_timeout": "He dejado de esperar una respuesta, ejecuta el comando de nuevo para continuar.",
+        "port": "Escribe el puerto de la consola remota (rcon.port en el server.properties)",
+        "passw": "Escribe la contraseña de la consola remota (rcon.password en el server.properties)",
+        "stupid_2": "¡Contraseña incorrecta! Ejecuta el comando para introducirla de nuevo.",
         "err_con": "Algo salió mal mientras se conectaba al servidor, ¿está el servidor en línea y RCON habilitado?",
         "err_cmd": "Algo salió mal al enviar un comando al servidor, ¿está el servidor en línea y RCON habilitado?"
       },
       "profile": {
         "error": "Algo salió mal mientras buscaba el perfil de ese usuario...",
         "first": "primer nombre de usuario",
-        "mcpp": "Perfil De Minecraft Para `{}`",
-        "skin": "Descarga Del Piel",
-        "cape": "Descarga Del Cabo",
+        "mcpp": "Perfil De Minecraft de `{}`",
+        "skin": "Descarga de la Skin",
+        "cape": "Descarga de la Capa",
         "nocape": "[**Obtener Una Capa Personalizada**](https://discord.gg/ettnFrkNyW)",
-        "hist": "Historia Del Nombre"
+        "hist": "Historial Del Nombre"
       }
     },
     "mod": {
@@ -1188,16 +1188,16 @@
         "oop": "Oops... algo salió mal..."
       },
       "kick": {
-        "stupid_1": "No puedes patearte a ti mismo"
+        "stupid_1": "No puedes expulsarte a ti mismo"
       },
       "ban": {
-        "stupid_1": "No puedes prohibirte a ti mismo",
-        "stupid_2": "**{}** ya está prohibido",
-        "stupid_3": "Oops, algo salió mal al prohibir a ese usuario."
+        "stupid_1": "No puedes banearte a ti mismo",
+        "stupid_2": "**{}** ya está baneado",
+        "stupid_3": "Oops, algo salió mal al banear a ese usuario."
       },
       "unban": {
-        "stupid_1": "No puedes desbancarte a ti mismo",
-        "stupid_2": "**{}** no está prohibido"
+        "stupid_1": "No puedes desbanearte a ti mismo",
+        "stupid_2": "**{}** no está baneado"
       },
       "warn": {
         "stupid_1": "No puedes advertirte a ti mismo",
@@ -1214,7 +1214,7 @@
         "guild_conf": "Configuración del Servidor/Construcción",
         "guild_content": [
           "`{0}config prefix <nuevo prefijo>` - Cambiar el prefijo del comando en este servidor\n\n",
-          "`{0}config replies <encendido/apagado>` - Cambiar si el robot debe responder a mensajes como \"esmeraldas\".\n\n",
+          "`{0}config replies <encendido/apagado>` - Cambiar si el bot debe responder a mensajes como \"esmeraldas\".\n\n",
           "`{0}config difficulty <pacífico/fácil/difícil>` - Cambia la dificultad del juego\n\n",
           "`{0}config lang <idioma>` - Cambia el lenguaje de Villager Bot\n\n",
           "`{0}config mcserver <mcserver>` - Cambia el servidor que se hace ping si no especificas un servidor en `/mcping`\n\n",
@@ -1228,46 +1228,46 @@
       },
       "prefix": {
         "this_server": "El prefijo en este servidor es `{}`",
-        "error_1": "No puedes tener un prefijo más largo que los caracteres `{}`.",
-        "error_2": "`{}` no se permite estar en un prefijo.",
-        "set": "Ponga el prefijo del servidor en `{}`"
+        "error_1": "No puedes tener un prefijo más largo que `{}` caracteres.",
+        "error_2": "`{}` no puede estar en un prefijo.",
+        "set": "Configura el prefijo del servidor a `{}`"
       },
       "replies": {
         "enabled": "habilitado",
-        "disabled": "discapacitados",
+        "disabled": "deshabilitado",
         "this_server": "Las respuestas a los mensajes son **{}**",
-        "set": "Las respuestas de los mensajes girados a **{}**"
+        "set": "Las respuestas de los mensajes se cambiaron a **{}**"
       },
       "diff": {
         "this_server": "La dificultad del servidor está actualmente fijada en **{}**",
-        "set": "Establezca la dificultad del servidor a **{}**"
+        "set": "Cambia la dificultad del servidor a **{}**"
       },
       "lang": {
         "this_server": "El lenguaje del servidor está actualmente configurado a **{}**\n\nLos idiomas disponibles son: {}",
-        "set": "Ponga el idioma del servidor en **{}**"
+        "set": "Cambia el idioma del servidor a **{}**"
       },
       "mcs": {
         "this_server": "El servidor predeterminado de Minecraft está actualmente configurado a **`{}`**",
-        "error_1": "Eso es demasiado largo, no puedes hacer más que caracteres `{}`.",
-        "set": "Establecer el servidor predeterminado de Minecraft a **`{}`**"
+        "error_1": "Eso es demasiado largo, no puedes ser mas largo que `{}` caracteres.",
+        "set": "Cambiar el servidor predeterminado de Minecraft a **`{}`**"
       },
       "gift": {
         "this_user": "Las alertas de donación/regalo son actualmente **{}**",
-        "set": "Se han dado alertas de entrega/regalo a **{}**"
+        "set": "Se han cambiado las alertas de entrega/regalo a **{}**"
       },
       "cmd": {
         "not_prem": "Esta característica no está habilitada en este servidor.",
         "list_cmds": "Comandos desactivados: `{}`",
         "nope": "No hay comandos deshabilitados.",
-        "cant": "No puede desactivar este comando.",
+        "cant": "No puedes desactivar este comando.",
         "not_found": "Comando no encontrado.",
-        "reenable": "Reactivado el comando `{}`",
-        "disable": "Desactivó el comando `{}`"
+        "reenable": "Comando reactivado `{}`",
+        "disable": "Comando desactivado `{}`"
       },
       "rcon": {
         "none": "No tenías ninguna contraseña guardada",
-        "one": "No guardado/borrado 1 contraseña",
-        "multi": "No guardado/borrado {} contraseñas"
+        "one": "Se ha eliminado una contraseña",
+        "multi": "Se han eliminado {} contraseñas"
       }
     },
     "useful": {
@@ -1276,17 +1276,17 @@
         "click_2": "O Aquí!"
       },
       "links": {
-        "support": "Servidor De Apoyo",
-        "invite": "Bot Invita",
-        "topgg": "Top.gg Página",
+        "support": "Servidor De Soporte",
+        "invite": "Invitación del Bot",
+        "topgg": "Página deTop.gg",
         "website": "Página Web",
-        "source": "El Código Fuente"
+        "source": "Código Fuente"
       },
       "stats": {
-        "stats": "Villager Bot Estadísticas",
+        "stats": "Estadísticas de Villager Bot ",
         "more": "[Más Estadísticas]({})",
         "servers": "Recuento De Servidores",
-        "dms": "Recuento Del Canal DM",
+        "dms": "Recuento De Canal De DM",
         "users": "Recuento De Usuarios",
         "msgs": "Recuento De Mensajes De La Sesión",
         "cmds": "Recuento De Comandos De La Sesión",
@@ -1308,7 +1308,7 @@
         "channels": "Canales",
         "roles": "Roles",
         "emojis": "Emojis",
-        "bans": "Prohibiciones",
+        "bans": "Baneos",
         "cmd_prefix": "Prefijo",
         "lang": "Idioma",
         "diff": "Dificultad"
@@ -1326,24 +1326,24 @@
       "page": "Página",
       "math_problem": {
         "problem": "Por favor, resuelva este problema para continuar: `{}`",
-        "timeout": "You ran out of time, what a slowpoke...",
+        "timeout": "Te quedaste sin tiempo, que lento...",
         "correct": "{} ¡Respuesta correcta!",
         "incorrect": "{} ¡Respuesta incorrecta!"
       },
       "pp": {
-        "bot_1": "Oye, tonto, tonto, el Villager Bot tiene muchas cosas que mostrar aquí.",
+        "bot_1": "Oye, tontito, el Villager Bot tiene demasiadas cosas.",
         "bot_2": "Hey tonto, los bots no tienen derechos y por lo tanto no pueden tener artículos o esmeraldas.",
         "total_wealth": "Riqueza Total",
         "cmds_sent": "Comandos Enviados",
-        "pick": "Pickaxe",
+        "pick": "Pico",
         "sword": "Espada",
-        "streak": "Vota Streak",
+        "streak": "Racha de votos",
         "can_vote": "¿Puede Votar?",
         "yep": "¡Sí!",
         "nope": "No..."
       },
       "bal": {
-        "bot_1": "El Villager Bot tiene demasiadas esmeraldas para mostrarlas.",
+        "bot_1": "El Villager Bot tiene demasiadas esmeraldas.",
         "bot_2": "Los bots no tienen derechos y no pueden tener esmeraldas o cosas así.",
         "s_emeralds": "esmeraldas de {}",
         "total_wealth": "Riqueza Total: {}{}",
@@ -1351,7 +1351,7 @@
         "vault": "Bóveda"
       },
       "inv": {
-        "bot_1": "El aldeano Bot tiene demasiados objetos para mostrar (alrededor de 100000000000000000)",
+        "bot_1": "El aldeano Bot tiene demasiados objetos (alrededor de 100000000000000000)",
         "bot_2": "Los robots no tienen derechos y por lo tanto no pueden tener esmeraldas o cosas así.",
         "s_inventory": "Inventario De {}"
       },
@@ -1359,24 +1359,24 @@
         "poor_loser": "No tienes suficientes esmeraldas para depositar.",
         "stupid_1": "No puedes depositar menos de un bloque de esmeralda.",
         "stupid_2": "No tienes suficiente espacio para eso.",
-        "stupid_3": "No tienes suficiente espacio para eso.",
-        "deposited": "Depositado {}{} ({}{}) en su bóveda."
+        "stupid_3": "No puedes depositar mas esmeraldas de las que tienes.",
+        "deposited": "Depositaste {}{} ({}{}) en su bóveda."
       },
       "withd": {
-        "poor_loser": "No tienes suficientes bloques de esmeralda para retirarte.",
+        "poor_loser": "No tienes suficientes bloques de esmeralda para retirar.",
         "stupid_1": "No puedes retirar menos de un bloque de esmeralda.",
         "stupid_2": "No puedes retirar más de lo que tienes.",
-        "withdrew": "Retirada {}{} ({}{}) de su bóveda."
+        "withdrew": "Retiraste {}{} ({}{}) de su bóveda."
       },
       "shop": {
-        "villager_shop": "Villager Tienda",
+        "villager_shop": "Tienda del Aldeano",
         "tools": "Herramientas",
         "magic": "Magia",
         "other": "Otros",
         "embed_footer": "Usa {}inventory para ver lo que tienes"
       },
       "buy": {
-        "poor_loser_1": "No tienes suficientes esmeraldas para comprar nada de este artículo.",
+        "poor_loser_1": "No tienes suficientes esmeraldas para comprar este artículo.",
         "stupid_1": "No puedes comprar menos de un artículo.",
         "stupid_2": "`{}` es inválido o no está en la Villager Tienda.",
         "poor_loser_2": "No tienes suficientes esmeraldas para comprar `{}x` **{}**.",
@@ -1387,20 +1387,20 @@
       },
       "sell": {
         "invalid_item": "O ese artículo es inválido o no lo tienes.",
-        "stupid_1": "No puedes vender más de lo que tienes de ese artículo.",
+        "stupid_1": "No puedes vender más de lo que tienes.",
         "stupid_2": "No puedes vender menos de un artículo.",
-        "you_done_sold": "Usted ha vendido {}x **{}** por un total de {}{}"
+        "you_done_sold": "Has vendido {}x **{}** por un total de {}{}"
       },
       "give": {
-        "bot_1": "El Villager Bot ya tiene un inventario completo (¡Alrededor de 100000000000000000 artículos únicos!)",
-        "bot_2": "No puedes dar cosas a los robots ya que no tienen derechos y no pueden tener esmeraldas o cosas.",
+        "bot_1": "El Villager Bot ya tiene el inventario completo (¡Alrededor de 100000000000000000 artículos únicos!)",
+        "bot_2": "No puedes dar cosas a los bots ya que no tienen derechos y no pueden tener esmeraldas o cosas.",
         "stupid_1": "¡No puedes darte cosas a ti mismo!",
-        "stupid_2": "No puedes darle a alguien menos de algo.",
+        "stupid_2": "No puedes darle a alguien menos de una unidad.",
         "and_i_oop": "No puedes intercambiar/regalar este artículo.",
         "stupid_3": "No puedes darle a alguien más esmeraldas de las que tienes.",
         "stupid_4": "No puedes dar más de lo que tienes.",
-        "gave": "{} dio {}x **{}** a {}",
-        "gaveems": "{} dio {}{} a {}",
+        "gave": "{} le dio {}x **{}** a {}",
+        "gaveems": "{} le dio {}{} a {}",
         "gaveyou": "{} te dio {}x **{}**",
         "gaveyouems": "{} te dio {}{}"
       },
@@ -1409,72 +1409,72 @@
         "stupid_2": "Tienes que apostar 10 o más esmeraldas a la vez.",
         "stupid_3": "No puedes jugar mas de 25000 esmeraldas a la vez.",
         "too_rich": "Tienes demasiadas esmeraldas Ve a hacer algo con tu vida!",
-        "roll": "Tu rollo: `{}` **|** El rollo de bot: `{}`",
+        "roll": "Tu tirada: `{}` **|** La tirada de bot: `{}`",
         "win": "¡Ganaste! Villager Bot {} {}{}",
-        "lose": "Perdiste {}{} por Villager Bot...",
-        "tie": "¡Corbata! Tal vez el Villager Bot robe tus esmeraldas de todos modos...",
+        "lose": "Perdiste {}{} contra Villager Bot...",
+        "tie": "¡Empate! Tal vez el Villager Bot robe tus esmeraldas de todos modos...",
         "actions": [
           "te da",
-          "entrega",
-          "las manos a ti"
+          "te entrega",
+          "te alcanza"
         ]
       },
       "beg": {
         "positive": [
-          "Un cerdito tira {}, ya que sólo le importa el oro.",
-          "Te encuentras con {} dejados por los saqueadores después de una redada.",
-          "Encuentra {} dejados por los saqueadores en los restos de una aldea destruida...",
+          "Un cerdín tira {}, ya que sólo le importa el oro.",
+          "Te encuentras con {} dejadas por los ladrones después de una invasión.",
+          "Encuentras {} dejadas por los ladrones en los restos de una aldea destruida...",
           "Un aldeano se apiada de ti y deja caer {} al suelo.",
           "Un viajero se apiada de ti y deja caer {} en tus manos.",
           "¡Asaltaste a un mendigo y obtuviste {}!",
-          "Por fastidio, los aldeanos te tiran esmeraldas para que te vayas, tú cogiste {}.",
-          "La bondad del Villager Bot te bendice, {} aparece en tu bolsillo.",
-          "Al viajar a un pueblo, te encuentras con un error de trozos, con esmeraldas expuestas en el fondo. Usted minó {}.",
-          "Cuando una redada llega a su fin los aldeanos te confunden con el héroe, recibes {}.",
-          "Le diste al cerdito un gran momento. El cerdito se detiene y piensa, y luego te entrega {}.",
+          "Por fastidio, los aldeanos te tiran esmeraldas para que te vayas, agarraste {}.",
+          "La bondad del Villager Bot te bendice, {} aparecen en tu bolsillo.",
+          "Al viajar a un pueblo, te encuentras con un error de chunk, con esmeraldas expuestas en el fondo. Minaste {}.",
+          "Cuando una invasión llega a su fin los aldeanos te confunden con el héroe, recibes {}.",
+          "Pasaste un gran momento con el cerdín. El cerdín se detiene y piensa, y luego te entrega {}.",
           "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot te dio {}.",
           "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot te dio {}.",
-          "Caminando hacia tu lugar de mendigar, las esmeraldas relucientes te llaman la atención, encuentras {}.",
-          "¡Busca entre los cojines del sofá y encuentra {}!",
-          "Si escalas el Monte Everest en busca de esmeraldas, ¡encuentras {}!",
-          "Encuentras una trampilla oculta y detrás de ella se encuentra {}...",
-          "En un rincón polvoriento se ve {}.",
+          "Caminando hacia el lugar donde mendigas, las esmeraldas relucientes te llaman la atención, encuentras {}.",
+          "¡Buscas entre los cojines del sofá y encuentra {}!",
+          "Escalas el Monte Everest en busca de esmeraldas, ¡encuentras {}!",
+          "Encuentras una trampilla oculta y detrás de ella hay {}...",
+          "En un rincón polvoriento se ven {}.",
           "Mientras limpias tu habitación encuentras {}, tal vez deberías hacerlo más a menudo...",
-          "Underneath a block of dirt you find {}!",
+          "Encuentras {} debajo de un bloque de tierra!",
           "Buscas en tus bolsillos y encuentras {}, cubierto de un viejo chicle pegajoso...",
           "Tu mascota vomita {}...",
           "¡Desplazándose al final de la lista de canales en Discord se encuentra {}!",
-          "Busca en el [servidor de Discord](discord.gg/39DwwUV) y encuentra {}...",
-          "Busca por {} en Google."
+          "Buscas en [servidor de Discord](discord.gg/39DwwUV) y encuentra {}...",
+          "Buscas {} en Google."
         ],
         "negative": [
-          "Una banda de cerditos no se toma a la ligera tu interrupción y te roba {}",
-          "Te encuentras con un grupo de saqueadores que te roban {}.",
-          "Te golpean en la cabeza con un poco de pan mientras los aldeanos te persiguen fuera de la aldea. Se te cayó {} mientras escapabas.",
+          "Una banda de cerdines no se toma a la ligera tu interrupción y te roba {}",
+          "Te encuentras con un grupo de ladrones que te roban {}.",
+          "Te golpean en la cabeza con un pan mientras los aldeanos te persiguen fuera de la aldea. Se te cayeron {} mientras escapabas.",
           "Otro mendigo te asalta y te roba {}.",
-          "Preguntarle a una enredadera no fue tan bien, perdiste {} por la explosión resultante.",
-          "Mientras buscabas más esmeraldas, perdiste las tuyas, perdiendo {}.",
+          "Pedirle a un creeper no fue buena idea, perdiste {} por la explosión.",
+          "Mientras buscabas más esmeraldas, no sabes donde dejaste las tuyas, pierdes {}.",
           "Aparece un ilusionista, divagando sobre la duplicación de esmeraldas con este truco que una vez fue simple. Le das {} y desaparece en una bocanada de humo.",
-          "Mientras mendigabas en un pueblo te quedaste atrapado en una redada, un desbocado te golpea en la cabeza a través del mapa. Te dejas caer {} a mitad del vuelo."
+          "Mientras mendigabas en un pueblo te quedaste atrapado en una invasión, un devastador te golpea en la cabeza y te lanza por todo el mapa. Dejas caer {} a mitad del vuelo."
         ]
       },
       "mine": {
-        "found_item_1": "Tu {0} {1} **{2}** (Vale {3}{4}) {5}",
-        "found_item_2": "Tu {0} {1} {2} {3}",
-        "found_emeralds": "Tu {0} {1}{2}!",
+        "found_item_1": " {0} {1} **{2}** (Vale {3}{4}) {5}",
+        "found_item_2": " {0} {1} {2} {3}",
+        "found_emeralds": " {0} {1}{2}!",
         "actions": [
-          "minado",
-          "encontrado",
-          "tiene",
-          "desenterrado"
+          "minaste",
+          "encontraste",
+          "tienes",
+          "desenterraste"
         ],
         "places": [
-          "en un pozo de mina abandonado",
-          "en un cofre mientras se explotaban las minas",
-          "en un pecho",
+          "en una mina abandonada",
+          "en un cofre mientras minabas",
+          "en un cofre",
           "en un cofre abandonado",
-          "en un pecho cerca de un monstruo desovador",
-          "mientras que la minería"
+          "en un cofre cerca de un generador de monstruos",
+          "mientras minabas"
         ],
         "useless": [
           "inútil",
@@ -1483,36 +1483,36 @@
         ]
       },
       "pillage": {
-        "bot_1": "Hey tonto tonto, el aldeano Bot no puede ser derrotado, el aldeano Bot es inmortal y todopoderoso.",
-        "bot_2": "No se puede saquear a los robots ya que no tienen derechos y por lo tanto no pueden tener esmeraldas.",
-        "stupid_1": "No puedes saquearte a ti mismo, tonto.",
-        "stupid_2": "No puedes saquear a la gente de otros servidores...",
-        "stupid_3": "Sólo puedes saquear a la gente si tienes más de 64{}",
-        "stupid_4": "Sólo puedes saquear a una persona si tiene más de 64{}",
+        "bot_1": "Hey tonto tonto, el Villager Bot no puede ser derrotado, el Villager Bot es inmortal y todopoderoso.",
+        "bot_2": "No se puede robar a los robots ya que no tienen derechos y por lo tanto no pueden tener esmeraldas.",
+        "stupid_1": "No puedes robarte a ti mismo, tonto.",
+        "stupid_2": "No puedes robarle a la gente de otros servidores...",
+        "stupid_3": "Sólo puedes robarle a la gente si tienes más de 64{}",
+        "stupid_4": "Sólo puedes robarle a una persona si tiene más de 64{}",
         "u_win": {
           "user": [
             "Escapaste con {}{}",
             "Te escapaste con {}{}",
-            "Usted saqueó y robó {}{}"
+            "Robaste {}{}"
           ],
           "victim": [
-            "{} robó {}{} de ti...",
-            "{} saqueado {}{} de ti...",
-            "{} te saqueó y robó {}{}...",
-            "{} te saqueó y consiguió {}{}..."
+            "{} te robó {}{} ...",
+            "{} te ha robado {}{} ...",
+            "{} te robó y obtuvo {}{}...",
+            "{} te robó y consiguió {}{}..."
           ]
         },
         "u_lose": {
           "user": [
-            "Te atraparon mientras saqueabas y pagabas {}{}",
+            "Te atraparon mientras robabas y pagas {}{}",
             "Te atraparon y tuviste que pagar {}{}",
             "Ladrón sucio, te atraparon y tuviste que pagar {}{}"
           ],
           "victim": [
-            "¡{} fracasó absolutamente en su saqueo!",
-            "¡{} quedó absolutamente destruido por el saqueo!",
-            "¡{} falló al intentar saquearte con su espada de madera!",
-            "¡{} trató de saquearte con su espada de madera!"
+            "¡{} fracasó absolutamente en su robo!",
+            "¡{} quedó absolutamente destruido por el robo!",
+            "¡{} falló al intentar robarte con su espada de madera!",
+            "¡{} trató de robarte con su espada de madera!"
           ]
         }
       },
@@ -1520,32 +1520,32 @@
         "stupid_1": "No puedes usar más de un tipo de artículo a la vez.",
         "stupid_2": "No puedes usar un artículo que ni siquiera tienes.",
         "vault_max": "No se puede expandir más la bóveda con este método.",
-        "vault_pot": "Te has tragado una **Vault Potion**. El espacio de tu bóveda se ha incrementado en {} espacios.",
+        "vault_pot": "Te has tomado una **Vault Potion**. El espacio de tu bóveda se ha incrementado en {} espacios.",
         "stupid_3": "O no es un artículo utilizable, o no existe.",
-        "chug": "Te has tragado un **{}** (Que dura {} minutos)",
-        "chug_no_end": "Te has tragado un **{}**",
-        "done": "El **{}** que has tragado antes ha desaparecido.",
+        "chug": "Te has tomado una **{}** (Que dura {} minutos)",
+        "chug_no_end": "Te has tomado una **{}**",
+        "done": "La **{}** que has tomado antes ha desaparecido.",
         "present": [
           "Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
           "Arrancaste el papel de envolver tan rápido como pudiste y conseguiste 1x **{}** (Vale {}{})!",
-          "Abre la caja de regalos y encuentra 1x **{}** (Vale {}{})!",
+          "Abres la caja de regalos y encuentras 1x **{}** (Vale {}{})!",
           "Si sacas la caja por la ventana, se abre y obtienes 1x **{}** (Vale {}{})!"
         ]
       },
       "honey": {
         "stupid_1": [
-          "No tienes suficientes abejas para hacer viable esta opción de negocio.",
+          "No tienes suficientes abejas para hacer este negocio posible.",
           "Necesitas 100 frascos de abejas para obtener beneficios, vete."
         ],
         "honey": [
-          "Aparentemente las abejas producen miel y tú acabas de recoger {} frascos de ella! ¡¿Quién lo diría?!",
-          "¡Así que las abejas hacen miel y tú acabas de conseguir {} frascos de ella!",
+          "Aparentemente las abejas producen miel y acabas de recoger {} frascos de ella! ¡¿Quién lo diría?!",
+          "¡Las abejas hacen miel y acabas de conseguir {} frascos de ella!",
           "¡Wow, las abejas hacen miel! ¡Acabas de conseguir {} frascos de ella!"
         ],
         "ded": [
           "Además, aparentemente las abejas se enojan mucho cuando tratas de robarles la miel. Perdiste a {} de ellas...",
-          "Oops, aparentemente las abejas se enojan mucho cuando tratas de robarles, ¿quién lo diría? Perdiste {} de ellas por suicidio.",
-          "Parece que las abejas se enojan mucho cuando tratas de robarles, perdiste {} por suicidio..."
+          "Oops, aparentemente las abejas se enojan mucho cuando tratas de robarles, ¿quién lo diría? Perdiste {} de ellas, se suicidaron.",
+          "Parece que las abejas se enojan mucho cuando tratas de robarles, perdiste {} , se suicidaron..."
         ]
       },
       "lb": {
@@ -1559,7 +1559,7 @@
         "cmds": "Comandos Enviados",
         "votes": "Racha De Votos",
         "lb_ems": "{0}__**Tabla De Líderes De Esmeraldas**__{0}",
-        "lb_pil": "{0}__**Tabla De Líderes Robados De Esmeraldas**__{0}",
+        "lb_pil": "{0}__**Tabla De Líderes De Esmeraldas Robadas**__{0}",
         "lb_kil": "{0}__**Tabla De Líderes De Monstruos Muertos**__{0}",
         "lb_bee": "{0}__**Tabla De Líderes De Abejas Total**__{0}",
         "lb_cmds": "{0}__**Tabla De Líderes De Comandos Enviados**__{0}",
