@@ -985,7 +985,7 @@
         "¡Te encontraste con un loco {0}!",
         "¡Te has topado con un {0}!",
         "¡Te topaste con un espeluznante {0}!",
-        "¡Te encontraste con un vicioso {10}!"
+        "¡Te encontraste con un vicioso {0}!"
       ],
       "found": [
         "¡Wow, mira eso! Encontraste {}{} justo ahí en el suelo",
