@@ -267,7 +267,19 @@
       768,
       9999,
       false
-    ]
+    ],
+    [
+      "Heart Shaped Chocolates",
+      128,
+      999,
+      false
+     ],
+     [
+       "Soulmates T-shirt",
+       1000,
+       14999,
+       true
+     ]
   ],
   "shop_items": {
     "stone pickaxe": [
