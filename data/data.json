@@ -244,7 +244,30 @@
     ]
   ],
   "special_findables": [
-      
+    [
+      "Forever Alone Trophy",
+      64,
+      500,
+      false
+    ],
+    [
+      "A Kiss",
+      9223372036854775807,
+      9223372036854775807,
+      true
+    ],
+    [
+      "Box Of Chocolates",
+      768,
+      9999,
+      false
+    ],
+    [
+      "Flower Bouquet",
+      768,
+      9999,
+      false
+    ]
   ],
   "shop_items": {
     "stone pickaxe": [
