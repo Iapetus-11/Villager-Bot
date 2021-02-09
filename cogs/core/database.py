@@ -13,6 +13,8 @@ class Database(commands.Cog):
         self.update_user_health.start()
         self.update_support_server_member_roles.start()
 
+        self._user_cache = {}  # {uid: record}
+
     def cog_unload(self):
         self.update_user_health.cancel()
         self.update_support_server_member_roles.cancel()
@@ -23,6 +25,15 @@ class Database(commands.Cog):
         self.d.prefix_cache = await self.fetch_all_guild_prefixes()
         self.d.additional_mcservers = await self.fetch_all_mcservers()
         self.d.disabled_cmds = await self.fetch_all_disabled_commands()
+
+    def cache_user(self, uid, user):
+        self._user_cache[uid] = user
+
+    def uncache_user(self, uid):
+        try:
+            del self._user_cache[uid]
+        except KeyError:
+            pass
 
     @tasks.loop(seconds=16)
     async def update_user_health(self):
@@ -137,6 +148,11 @@ class Database(commands.Cog):
                 await con.execute('INSERT INTO disabled VALUES ($1, $2)', gid, cmd)
 
     async def fetch_user(self, uid, con=None):
+        try:
+            return self._user_cache[uid]
+        except KeyError:
+            self.uncache_user(uid)
+
         made_con = False
         if con is None:
             con = await self.db.acquire()
@@ -156,7 +172,7 @@ class Database(commands.Cog):
 
                 return await self.fetch_user(uid, con)
 
-            return user
+            return self.cache_user(uid, user)
         finally:
             if made_con:
                 await self.db.release(con)
@@ -165,6 +181,8 @@ class Database(commands.Cog):
         async with self.db.acquire() as con:
             await self.fetch_user(uid, con)
             await con.execute(f'UPDATE users SET {key} = $1 WHERE uid = $2', value, uid)
+
+        self.uncache_user(uid)
 
     async def fetch_balance(self, uid):  # fetches the amount of emeralds a user has
         # we can do this because self.fetch_user ensures user is not None
@@ -183,9 +201,12 @@ class Database(commands.Cog):
             await self.fetch_user(uid, con)
             await con.execute('UPDATE users SET emeralds = $1 WHERE uid = $2', emeralds, uid)
 
+        self.uncache_user(uid)
+
     async def balance_add(self, uid, amount):
         new_bal = await self.fetch_balance(uid) + amount
         await self.set_balance(uid, new_bal)
+        self.uncache_user(uid)
         return new_bal
 
     async def balance_sub(self, uid, amount):
@@ -197,6 +218,7 @@ class Database(commands.Cog):
             new = 0
 
         await self.set_balance(uid, new)
+        self.uncache_user(uid)
         return amount
 
     async def fetch_vault(self, uid):  # fetches a user's vault in the form (vault_amount, vault_max)
@@ -211,6 +233,8 @@ class Database(commands.Cog):
                 'UPDATE users SET vault_bal = $1, vault_max = $2 WHERE uid = $3',
                 vault_bal, vault_max, uid
             )
+
+        self.uncache_user(uid)
 
     async def fetch_items(self, uid):
         async with self.db.acquire() as con:
@@ -294,6 +318,8 @@ class Database(commands.Cog):
                 uid, 'Rich Person Trophy', 'Bane Of Pillagers Amulet'
             )
 
+        self.uncache_user(uid)
+
     async def fetch_user_lb(self, uid):
         async with self.db.acquire() as con:
             lbs = await con.fetchrow('SELECT * FROM leaderboards WHERE uid = $1', uid)
@@ -333,6 +359,8 @@ class Database(commands.Cog):
                     pass
 
             await con.execute('UPDATE users SET bot_banned = $1 WHERE uid = $2', botbanned, uid)
+
+        self.uncache_user(uid)
 
     async def add_warn(self, uid, gid, mod_id, reason):
         async with self.db.acquire() as con:
