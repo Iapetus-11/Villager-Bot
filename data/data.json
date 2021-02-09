@@ -279,6 +279,36 @@
        1000,
        14999,
        true
+     ],
+     [
+       "Rona Vaccine",
+       1024,
+       2000,
+       true
+     ],
+     [
+       "Pillager-Proof Hazmat Suit",
+       420,
+       10000,
+       false
+     ],
+     [
+       "Tub Of Hand Sanitizer",
+       128,
+       2000,
+       false
+     ],
+     [
+       "Mask",
+       50,
+       2000,
+       false
+     ],
+     [
+       "Tiny Hand Sanitizer Bottle",
+       50,
+       2000,
+       false
      ]
   ],
   "shop_items": {
