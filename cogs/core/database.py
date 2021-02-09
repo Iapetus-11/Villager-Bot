@@ -28,6 +28,7 @@ class Database(commands.Cog):
 
     def cache_user(self, uid, user):
         self._user_cache[uid] = user
+        return user
 
     def uncache_user(self, uid):
         try:
