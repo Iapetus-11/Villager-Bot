@@ -7,10 +7,10 @@ import asyncpg
 import discord
 import logging
 import random
-import uvloop
+# import uvloop
 import arrow
 
-uvloop.install()
+# uvloop.install()
 
 # set up basic logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s: %(message)s')
