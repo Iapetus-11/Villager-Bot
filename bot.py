@@ -89,13 +89,19 @@ bot.get_lang = get_lang.__get__(bot)
 
 async def setup_database():  # init pool connection to database
     logger.info('setting up connection to database and db pool...')
-    bot.db = await asyncpg.create_pool(
+    # bot.db = await asyncpg.create_pool(
+    #     host=keys.database.host,  # where db is hosted
+    #     database=keys.database.name,  # name of database
+    #     user=keys.database.user,  # database username
+    #     password=keys.database.passw,  # password which goes with user
+    #     max_size=50,
+    #     command_timeout=5
+    # )
+    bot.db = await asyncpg.connect(
         host=keys.database.host,  # where db is hosted
         database=keys.database.name,  # name of database
         user=keys.database.user,  # database username
         password=keys.database.passw,  # password which goes with user
-        max_size=50,
-        command_timeout=5
     )
 
 
