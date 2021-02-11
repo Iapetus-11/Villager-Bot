@@ -983,7 +983,7 @@ class Econ(commands.Cog):
 
         if thing == 'barrel':
             await self.db.remove_item(ctx.author.id, 'Barrel', 1)
-            for _ in range(7):
+            for _ in range(10):
                 for item in self.d.findables:
                     if random.randint(0, (item[2]//1.5)+5) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
