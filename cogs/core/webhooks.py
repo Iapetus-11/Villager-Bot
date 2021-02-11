@@ -61,8 +61,6 @@ class Webhooks(commands.Cog):
         await self.webhook_server.start()
 
     async def reward(self, user_id, amount, streak=None):
-        await self.db.balance_add(user_id, amount)
-
         user = self.bot.get_user(user_id)
         user_str = 'an unknown user' if user is None else discord.utils.escape_markdown(user.display_name)
 
@@ -71,8 +69,14 @@ class Webhooks(commands.Cog):
         if user is not None:
             try:
                 if streak is None:
+                    await self.db.balance_add(user_id, amount)
                     await self.bot.send(user, f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
+                if streak % 24 == 0:
+                    barrels = int(streak//48 + 1)
+                    await self.db.add_item(ctx.author.id, 'Barrel', 1024, barrels)
+                    await self.bot.send(user, f'Thanks for voting! You\'ve received {barrels}x **Barrel**!')
                 else:
+                    await self.db.balance_add(user_id, amount)
                     await self.bot.send(user, f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}! (Vote streak is now {streak})')
             except Exception:
                 pass
