@@ -978,7 +978,7 @@ class Econ(commands.Cog):
                 for item in self.d.findables:
                     if random.randint(0, (item[2]//2)+2) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
-                        await self.bot.send(ctx, random.choice(ctx.l.econ.use.open).format(item[0], item[1], self.d.emojis.emerald))
+                        await self.bot.send(ctx, random.choice(ctx.l.econ.use.present).format(item[0], item[1], self.d.emojis.emerald))
                         return
 
         if thing == 'barrel':
