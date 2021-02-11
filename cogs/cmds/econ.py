@@ -978,8 +978,22 @@ class Econ(commands.Cog):
                 for item in self.d.findables:
                     if random.randint(0, (item[2]//2)+2) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
-                        await self.bot.send(ctx, random.choice(ctx.l.econ.use.present).format(item[0], item[1], self.d.emojis.emerald))
+                        await self.bot.send(ctx, random.choice(ctx.l.econ.use.open).format(item[0], item[1], self.d.emojis.emerald))
                         return
+
+        if thing == 'barrel':
+            await self.db.remove_item(ctx.author.id, 'Barrel', 1)
+            for _ in range(7):
+                for item in self.d.findables:
+                    if random.randint(0, (item[2]//1.5)+5) == 1:
+                        await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                        await self.bot.send(ctx, random.choice(ctx.l.econ.use.barrel_item).format(item[0], item[1], self.d.emojis.emerald))
+                        return
+
+            ems = random.randint(2, 2000)
+            await self.bot.send(ctx, random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
+            await self.db.balance_add(ctx.author.id, ems)
+            return
 
         await self.bot.send(ctx, ctx.l.econ.use.stupid_3)
 
