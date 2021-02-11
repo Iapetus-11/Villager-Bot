@@ -747,6 +747,27 @@
           "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",
           "You rip open the present box and find 1x **{}** (Worth {}{})!",
           "You yeet the box out of the window, it breaks open and you get 1x **{}** (Worth {}{})!"
+        ],
+        "barrel_item": [
+          "You popped the lid of the barrel and found 1x **{}** (Worth {}{})!",
+          "You yeeted the barrel out the window, and it breaks open revealing 1x **{}** (Worth {}{})!",
+          "You kick the barrel and it opens, revealing 1x **{}** (Worth {}{})!",
+          "You open the barrel and find 1x **{}** (Worth {}{})!",
+          "You open the barel to find 1x **{}** (Worth {}{})!",
+          "You hack the barell open with an axe to find 1x **{}** (Worth {}{})!",
+          "You throw emeralds at the barrel till it breaks open to reveal 1x **{}** (Worth {}{})!",
+          "You enlist the help of some pillagers to open the barrel containing 1x **{}** (Worth {}{})!",
+          "Yoinks scoob looks like you found 1x **{}** (Worth {}{}) in the barrel!"
+        ],
+        "barrel_ems": [
+          "You popped the lid of the barrel and found {}{}!",
+          "You yeeted the barrel out the window, and it breaks open revealing {}{}!",
+          "You kick the barrel and it opens, revealing {}{}!",
+          "You open the barrel and find {}{}!",
+          "You open the barrel to find {}{}!",
+          "You hack the barell open with an axe to find {}{}!",
+          "You throw emeralds at the barrel till it breaks open to reveal {}{}!",
+          "You enlist the help of some pillagers to open the barrel containing {}{}!"
         ]
       },
       "honey": {
