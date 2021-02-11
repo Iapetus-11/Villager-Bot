@@ -753,8 +753,8 @@
           "You yeeted the barrel out the window, and it breaks open revealing 1x **{}** (Worth {}{})!",
           "You kick the barrel and it opens, revealing 1x **{}** (Worth {}{})!",
           "You open the barrel and find 1x **{}** (Worth {}{})!",
-          "You open the barel to find 1x **{}** (Worth {}{})!",
-          "You hack the barell open with an axe to find 1x **{}** (Worth {}{})!",
+          "You open the barrel to find 1x **{}** (Worth {}{})!",
+          "You hack the barrel open with an axe to find 1x **{}** (Worth {}{})!",
           "You throw emeralds at the barrel till it breaks open to reveal 1x **{}** (Worth {}{})!",
           "You enlist the help of some pillagers to open the barrel containing 1x **{}** (Worth {}{})!",
           "Yoinks scoob looks like you found 1x **{}** (Worth {}{}) in the barrel!"
@@ -765,7 +765,7 @@
           "You kick the barrel and it opens, revealing {}{}!",
           "You open the barrel and find {}{}!",
           "You open the barrel to find {}{}!",
-          "You hack the barell open with an axe to find {}{}!",
+          "You hack the barrel open with an axe to find {}{}!",
           "You throw emeralds at the barrel till it breaks open to reveal {}{}!",
           "You enlist the help of some pillagers to open the barrel containing {}{}!"
         ]
