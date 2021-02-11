@@ -990,7 +990,7 @@ class Econ(commands.Cog):
                         await self.bot.send(ctx, random.choice(ctx.l.econ.use.barrel_item).format(item[0], item[1], self.d.emojis.emerald))
                         return
 
-            ems = random.randint(2, 2000)
+            ems = random.randint(2, 4096)
             await self.bot.send(ctx, random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
             await self.db.balance_add(ctx.author.id, ems)
             return
