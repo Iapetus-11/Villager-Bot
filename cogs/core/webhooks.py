@@ -71,7 +71,7 @@ class Webhooks(commands.Cog):
                 if streak is None:
                     await self.db.balance_add(user_id, amount)
                     await self.bot.send(user, f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
-                if streak % 24 == 0:
+                elif streak % 24 == 0:
                     barrels = int(streak//48 + 1)
                     await self.db.add_item(ctx.author.id, 'Barrel', 1024, barrels)
                     await self.bot.send(user, f'Thanks for voting! You\'ve received {barrels}x **Barrel**!')
