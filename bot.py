@@ -201,7 +201,7 @@ async def global_check(ctx):
             return False
 
         if random.randint(1, 40) == 1:  # spawn mob
-            if ctx.command._buckets._cooldown != None:  # if command has a cooldown on it
+            if ctx.command._buckets._cooldown != None and ctx.command._buckets._cooldown >= 2:
                 bot.d.spawn_queue[ctx] = arrow.utcnow()
                 return True
 
@@ -212,4 +212,3 @@ async def global_check(ctx):
 
 
 bot.run(keys.discord)  # run the bot, this is a blocking call
-
