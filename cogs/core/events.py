@@ -52,6 +52,11 @@ class Events(commands.Cog):
         self.d.msg_count += 1
 
         try:
+            if m.type in (discord.MessageType.premium_guild_subscription, discord.MessageType.premium_guild_tier_1, discord.MessageType.premium_guild_tier_2, discord.MessageType.premium_guild_tier_3):
+                await self.db.add_item(m.author.id, 'Barrel', 1, 1024)
+                await self.bot.send(m.author, f'Thanks for boosting the support server! You\'ve received 1x **Barrel**!')
+                return
+
             if m.content.startswith(f'<@!{self.bot.user.id}>'):
                 prefix = '/'
                 if m.guild is not None:
