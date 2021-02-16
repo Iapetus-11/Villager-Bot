@@ -217,8 +217,13 @@ class Database(commands.Cog):
         self.uncache_user(uid)
 
     async def fetch_items(self, uid):
+        try:
+            return self._item_cache[uid]
+        except KeyError:
+            self.uncache_items(uid)
+
         await self.fetch_user(uid)
-        return await self.db.fetch('SELECT * FROM items WHERE uid = $1', uid)
+        return self.cache_items(await self.db.fetch('SELECT * FROM items WHERE uid = $1', uid))
 
     async def fetch_item(self, uid, name):
         await self.fetch_user(uid)
@@ -241,6 +246,8 @@ class Database(commands.Cog):
                 amount + prev['amount'], uid, name
             )
 
+        self.uncache_items(uid)
+
     async def remove_item(self, uid, name, amount):
         prev = await self.fetch_item(uid, name)
 
@@ -251,6 +258,8 @@ class Database(commands.Cog):
                 'UPDATE items SET amount = $1 WHERE uid = $2 AND LOWER(name) = LOWER($3)',
                 prev['amount'] - amount, uid, name
             )
+
+        self.uncache_items(uid)
 
     async def log_transaction(self, item, amount, timestamp, giver, receiver):
         await self.db.execute('INSERT INTO give_logs VALUES ($1, $2, $3, $4, $5)', item, amount, timestamp, giver, receiver)
@@ -291,6 +300,7 @@ class Database(commands.Cog):
         )
 
         self.uncache_user(uid)
+        self.uncache_items(uid)
 
     async def fetch_user_lb(self, uid):
         lbs = await self.db.fetchrow('SELECT * FROM leaderboards WHERE uid = $1', uid)
