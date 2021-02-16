@@ -14,7 +14,7 @@ class Webhooks(commands.Cog):
         self.d = bot.d
         self.k = bot.k
 
-        self.db = bot.get_cog('Database')
+        self.db = bot.get_cog("Database")
 
         self.ses = aiohttp.ClientSession()
         self.server_runner = None
@@ -32,9 +32,9 @@ class Webhooks(commands.Cog):
         while True:
             try:
                 await self.ses.post(
-                    f'https://top.gg/api/bots/{self.bot.user.id}/stats',
-                    headers={'Authorization': self.k.topgg_api},
-                    json={'server_count': str(len(self.bot.guilds))}
+                    f"https://top.gg/api/bots/{self.bot.user.id}/stats",
+                    headers={"Authorization": self.k.topgg_api},
+                    json={"server_count": str(len(self.bot.guilds))},
                 )
             except Exception as e:
                 self.bot.logger.error(e)
@@ -43,8 +43,8 @@ class Webhooks(commands.Cog):
 
     async def webhooks_setup(self):  # holy fucking shit that's hot
         async def handler(req):
-            if req.headers.get('Authorization') == self.k.topgg_webhook:
-                self.bot.dispatch('topgg_event', cj.classify(await req.json()))
+            if req.headers.get("Authorization") == self.k.topgg_webhook:
+                self.bot.dispatch("topgg_event", cj.classify(await req.json()))
             else:
                 return web.Response(status=401)
 
@@ -57,40 +57,43 @@ class Webhooks(commands.Cog):
         self.server_runner = web.AppRunner(app)
         await self.server_runner.setup()
 
-        self.webhook_server = web.TCPSite(self.server_runner, '0.0.0.0', self.d.hooksport)
+        self.webhook_server = web.TCPSite(self.server_runner, "0.0.0.0", self.d.hooksport)
         await self.webhook_server.start()
 
     async def reward(self, user_id, amount, streak=None):
         user = self.bot.get_user(user_id)
-        user_str = 'an unknown user' if user is None else discord.utils.escape_markdown(user.display_name)
+        user_str = "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
 
-        await self.bot.get_channel(self.d.vote_channel_id).send(f':tada::tada: **{user_str}** has voted! :tada::tada:')
+        await self.bot.get_channel(self.d.vote_channel_id).send(f":tada::tada: **{user_str}** has voted! :tada::tada:")
 
         if user is not None:
             try:
                 if streak is None:
                     await self.db.balance_add(user_id, amount)
-                    await self.bot.send(user, f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}!')
+                    await self.bot.send(user, f"Thanks for voting! You've received **{amount}**{self.d.emojis.emerald}!")
                 elif streak % 24 == 0:
-                    barrels = int(streak//48 + 1)
-                    await self.db.add_item(ctx.author.id, 'Barrel', 1024, barrels)
-                    await self.bot.send(user, f'Thanks for voting! You\'ve received {barrels}x **Barrel**!')
+                    barrels = int(streak // 48 + 1)
+                    await self.db.add_item(ctx.author.id, "Barrel", 1024, barrels)
+                    await self.bot.send(user, f"Thanks for voting! You've received {barrels}x **Barrel**!")
                 else:
                     await self.db.balance_add(user_id, amount)
-                    await self.bot.send(user, f'Thanks for voting! You\'ve received **{amount}**{self.d.emojis.emerald}! (Vote streak is now {streak})')
+                    await self.bot.send(
+                        user,
+                        f"Thanks for voting! You've received **{amount}**{self.d.emojis.emerald}! (Vote streak is now {streak})",
+                    )
             except Exception:
                 pass
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):
-        if data.type != 'upvote':
-            self.bot.logger.info('\u001b[35m top.gg webhooks test\u001b[0m')
-            await self.bot.get_channel(self.d.error_channel_id).send('TOP.GG WEBHOOKS TEST')
+        if data.type != "upvote":
+            self.bot.logger.info("\u001b[35m top.gg webhooks test\u001b[0m")
+            await self.bot.get_channel(self.d.error_channel_id).send("TOP.GG WEBHOOKS TEST")
             return
 
         uid = int(data.user)
 
-        self.bot.logger.info(f'\u001b[32;1m{uid} voted on top.gg\u001b[0m')
+        self.bot.logger.info(f"\u001b[32;1m{uid} voted on top.gg\u001b[0m")
         self.d.votes_topgg += 1
 
         amount = self.d.topgg_reward
@@ -102,8 +105,8 @@ class Webhooks(commands.Cog):
 
         db_user = await self.db.fetch_user(uid)
 
-        streak_time = db_user['streak_time']
-        vote_streak = db_user['vote_streak']
+        streak_time = db_user["streak_time"]
+        vote_streak = db_user["vote_streak"]
 
         if vote_streak is None or vote_streak is 0:
             vote_streak = 0
@@ -116,10 +119,10 @@ class Webhooks(commands.Cog):
         if arrow.utcnow().shift(days=-1, minutes=-10) > arrow.get(streak_time):  # vote expired
             vote_streak = 1
 
-        amount *= (5 if vote_streak > 5 else vote_streak)
+        amount *= 5 if vote_streak > 5 else vote_streak
 
-        await self.db.update_user(uid, 'streak_time', arrow.utcnow().timestamp)
-        await self.db.update_user(uid, 'vote_streak', vote_streak)
+        await self.db.update_user(uid, "streak_time", arrow.utcnow().timestamp)
+        await self.db.update_user(uid, "vote_streak", vote_streak)
 
         await self.reward(uid, amount, vote_streak)
 

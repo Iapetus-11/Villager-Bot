@@ -17,7 +17,7 @@ class StatCord(commands.Cog):
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):
-        if data.type == 'upvote':
+        if data.type == "upvote":
             self.vote_count += 1
 
     async def get_vote_count(self):
