@@ -223,7 +223,7 @@ class Database(commands.Cog):
             self.uncache_items(uid)
 
         await self.fetch_user(uid)
-        return self.cache_items(await self.db.fetch('SELECT * FROM items WHERE uid = $1', uid))
+        return self.cache_items(uid, await self.db.fetch('SELECT * FROM items WHERE uid = $1', uid))
 
     async def fetch_item(self, uid, name):
         await self.fetch_user(uid)
