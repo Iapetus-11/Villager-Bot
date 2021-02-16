@@ -49,7 +49,10 @@ class Database(commands.Cog):
 
     @tasks.loop(seconds=32)
     async def update_user_health(self):
-        await self.db.execute('UPDATE users SET health = health + 1 WHERE health < 20')
+        uids = await self.db.fetch('UPDATE users SET health = health + 1 WHERE health < 20 RETURNING uid')
+
+        for uid in uids:
+            self.uncache_user(uid)
 
     @tasks.loop(minutes=10)
     async def update_support_server_member_roles(self):
