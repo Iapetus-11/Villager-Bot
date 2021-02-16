@@ -57,7 +57,7 @@ class Events(commands.Cog):
                 discord.MessageType.premium_guild_tier_1,
                 discord.MessageType.premium_guild_tier_2,
                 discord.MessageType.premium_guild_tier_3,
-            ):
+            ) and m.guild is not None and m.guild.id == self.d.support_server_id:
                 await self.db.add_item(m.author.id, "Barrel", 1024, 1)
                 await self.bot.send(m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!")
                 return
