@@ -204,8 +204,8 @@ class Database(commands.Cog):
         return amount
 
     async def fetch_vault(self, uid):  # fetches a user's vault in the form (vault_amount, vault_max)
-        await self.fetch_user(uid)
-        return await self.db.fetchrow('SELECT vault_bal, vault_max FROM users WHERE uid = $1', uid)
+        user = await self.fetch_user(uid)
+        return {"vault_bal": user["vault_bal"], 0: user["vault_bal"], "vault_max": user["vault_max"], 1: user["vault_max"]}
 
     async def set_vault(self, uid, vault_bal, vault_max):
         await self.fetch_user(uid)
