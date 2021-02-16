@@ -47,7 +47,7 @@ class Database(commands.Cog):
         except KeyError:
             pass
 
-    @tasks.loop(seconds=16)
+    @tasks.loop(seconds=32)
     async def update_user_health(self):
         await self.db.execute('UPDATE users SET health = health + 1 WHERE health < 20')
 
