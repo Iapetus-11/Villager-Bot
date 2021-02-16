@@ -255,7 +255,10 @@ class Fun(commands.Cog):
 
         text = text.lower().replace('l', 'w').replace('r', 'w')
 
-        await ctx.send(f'{text} {random.choice(self.d.owos)}')
+        if len(text) > 1950:
+            await self.bot.send(ctx, ctx.l.fun.too_long)
+        else:
+            await ctx.send(f'{text} {random.choice(self.d.owos)}')
 
     @commands.command(name='bubblewrap', aliases=['pop'])
     async def bubblewrap(self, ctx, size=None):
