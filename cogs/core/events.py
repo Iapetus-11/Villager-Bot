@@ -53,7 +53,7 @@ class Events(commands.Cog):
 
         try:
             if m.type in (discord.MessageType.premium_guild_subscription, discord.MessageType.premium_guild_tier_1, discord.MessageType.premium_guild_tier_2, discord.MessageType.premium_guild_tier_3):
-                await self.db.add_item(m.author.id, 'Barrel', 1, 1024)
+                await self.db.add_item(m.author.id, 'Barrel', 1024, 1)
                 await self.bot.send(m.author, f'Thanks for boosting the support server! You\'ve received 1x **Barrel**!')
                 return
 
