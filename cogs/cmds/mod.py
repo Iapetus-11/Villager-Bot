@@ -52,7 +52,7 @@ class Mod(commands.Cog):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
-        await ctx.guild.kick(user, reason=reason)
+        await ctx.guild.kick(user, reason=f'{ctx.author} | {reason}')
         await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name='ban', aliases=['megayeet'])
@@ -82,7 +82,7 @@ class Mod(commands.Cog):
                 return
 
         try:
-            await ctx.guild.ban(user, reason=reason, delete_message_days=0)
+            await ctx.guild.ban(user, reason=f'{ctx.author} | {reason}', delete_message_days=0)
             await ctx.message.add_reaction(self.d.emojis.yes)
         except Exception:
             await self.bot.send(ctx, ctx.l.mod.ban.stupid_3)
@@ -106,7 +106,7 @@ class Mod(commands.Cog):
 
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
-                await ctx.guild.unban(user, reason=reason)
+                await ctx.guild.unban(user, reason=f'{ctx.author} | {reason}')
                 await ctx.message.add_reaction(self.d.emojis.yes)
                 return
 
