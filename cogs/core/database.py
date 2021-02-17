@@ -64,7 +64,9 @@ class Database(commands.Cog):
         for member in support_guild.members:
             roles = []
 
-            if support_guild.get_member(member.id) is None:
+            member = support_guild.get_member(member.id)
+
+            if member is None:
                 continue
 
             for role in member.roles:
