@@ -309,18 +309,18 @@ class Useful(commands.Cog):
 
     @commands.command(name="rules", aliases=["botrules"])
     async def rules(self, ctx):
-        embed = discord.Embed(color=self.d.cc, description="Penalty for breaking these rules may include a reset/wipe, in-game penalty / debuff, or a **permanent ban from the support server or using the bot**.")
+        embed = discord.Embed(color=self.d.cc, description=ctx.l.useful.rules.penalty)
 
-        embed.set_author(name="Villager Bot Rules", icon_url=self.d.splash_logo)
+        embed.set_author(name=ctx.l.useful.rules.rules, icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
-        embed.add_field(name="\uFEFF", value="**1.** Don't abuse bugs, report them in the #bug-smasher channel on the support server for a reward!")
+        embed.add_field(name="\uFEFF", value=ctx.l.useful.rules.rule_1.format(self.d.support))
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name="\uFEFF", value="**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items.")
+        embed.add_field(name="\uFEFF", value=ctx.l.useful.rules.rule_2)
 
-        embed.add_field(name="\uFEFF", value="**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.")
+        embed.add_field(name="\uFEFF", value=ctx.l.useful.rules.rule_3)
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name="\uFEFF", value="**4.** Don't use the bot to promote any content not sanctioned by the bot owner.")
+        embed.add_field(name="\uFEFF", value=ctx.l.useful.rules.rule_4)
 
         await ctx.send(embed=embed)
 
