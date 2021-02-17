@@ -1609,8 +1609,8 @@
       }
     }
   },
-  "zh-Hant": {
-    "lang": "zh-Hant",
+  "zh-hant": {
+    "lang": "zh-hant",
     "name": "繁體中文",
     "misc": {
       "petus": "Iapetus11#6821所做",
