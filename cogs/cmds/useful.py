@@ -318,6 +318,8 @@ class Useful(commands.Cog):
         embed.add_field(name="2. Don't be annoying, toxic, or harrass anyone using the bot.", value="\u200B")
         embed.add_field(name="3. Don't use alternate accounts, or other people for storing your emeralds or items.", value="\u200B")
 
+        await ctx.send(embed=embed)
+
     @commands.command(name="math", aliases=["solve", "meth"])
     async def math(self, ctx, *, problem):
         try:
