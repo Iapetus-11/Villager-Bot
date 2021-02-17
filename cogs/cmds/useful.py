@@ -166,7 +166,6 @@ class Useful(commands.Cog):
             f"**[{ctx.l.useful.links.support}]({self.d.support})\n"
             f"\n[{ctx.l.useful.links.invite}]({self.d.invite})\n"
             f"\n[{ctx.l.useful.links.topgg}]({self.d.topgg})\n"
-            f"\n[{ctx.l.useful.links.website}]({self.d.website})\n"
             f"\n[{ctx.l.useful.links.source}]({self.d.github})**"
         )
 
