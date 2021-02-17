@@ -320,7 +320,7 @@ class Useful(commands.Cog):
 
         embed.add_field(name="\uFEFF", value="**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.")
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name="\uFEFF", value="**4.** Don't use alternate accounts or other users for storing your emeralds or items.")
+        embed.add_field(name="\uFEFF", value="**4.** Don't use the bot to promote any content not sanctioned by the bot owner.")
 
         await ctx.send(embed=embed)
 
