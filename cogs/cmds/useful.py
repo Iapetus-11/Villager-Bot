@@ -315,10 +315,11 @@ class Useful(commands.Cog):
         embed.set_footer(text=ctx.l.misc.petus)
 
         embed.add_field(name="\uFEFF", value="**1.** Don't abuse bugs, report them in the #bug-smasher channel on the support server for a reward!")
-        embed.add_field(name="\uFEFF", value="**2.** Don't use alternate accounts or other users for storing your emeralds or items.")
         embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="\uFEFF", value="**2.** Don't use alternate accounts or other users for storing your emeralds or items.")
 
         embed.add_field(name="\uFEFF", value="**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.")
+        embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name="\uFEFF", value="**4.** Don't use alternate accounts or other users for storing your emeralds or items.")
 
         await ctx.send(embed=embed)
