@@ -316,7 +316,7 @@ class Useful(commands.Cog):
 
         embed.add_field(name="\uFEFF", value="**1.** Don't abuse bugs, report them in the #bug-smasher channel on the support server for a reward!")
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name="\uFEFF", value="**2.** Don't use alternate accounts or other users for storing your emeralds or items.")
+        embed.add_field(name="\uFEFF", value="**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items.")
 
         embed.add_field(name="\uFEFF", value="**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.")
         embed.add_field(name="\uFEFF", value="\uFEFF")
