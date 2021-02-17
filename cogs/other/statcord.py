@@ -34,7 +34,6 @@ class StatCord(commands.Cog):
     async def get_error_count(self):
         error_count = self.error_count
         self.error_count = 0
-        print(error_count)
         return error_count
 
 
