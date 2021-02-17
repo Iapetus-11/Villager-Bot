@@ -309,14 +309,14 @@ class Useful(commands.Cog):
 
     @commands.command(name="rules", aliases=["botrules"])
     async def rules(self, ctx):
-        embed = discord.Embed(color=self.d.cc, description="Penalty for breaking these rules includes, but is not limited to: a reset/wipe, in-game penalty / debuff, being banned from using the bot, being banned from the support server, etc...")
+        embed = discord.Embed(color=self.d.cc, description="Penalty for breaking these rules may include a reset/wipe, in-game penalty / debuff, or a **permanent ban from the support server or using the bot**")
 
         embed.set_author(name="Villager Bot Rules", icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
-        embed.add_field(name="\u200b", value="1. Do not abuse bugs, report bugs in the #bug-smasher channel on the support server for a reward!")
-        embed.add_field(name="\u200b", value="2. Don't be annoying, toxic, or harrass anyone using the bot.")
-        embed.add_field(name="\u200b", value="3. Don't use alternate accounts, or other people for storing your emeralds or items.")
+        embed.add_field(name="\u200b", value="**1.** Do not abuse bugs, report bugs in the #bug-smasher channel on the support server for a reward!")
+        embed.add_field(name="\u200b", value="**2.** Don't be annoying, toxic, or harrass anyone using the bot.")
+        embed.add_field(name="\u200b", value="**3.** Don't use alternate accounts, or other people for storing your emeralds or items.")
 
         await ctx.send(embed=embed)
 
