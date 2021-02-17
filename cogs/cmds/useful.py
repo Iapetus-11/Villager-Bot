@@ -307,6 +307,17 @@ class Useful(commands.Cog):
             await ctx.send(type_)
             await ctx.send(snowflake)
 
+    @commands.command(name="rules", aliases=["botrules"])
+    async def rules(self, ctx):
+        embed = discord.Embed(color=self.d.cc, description="Penalty for breaking these rules includes, but is not limited to: a reset/wipe, in-game penalty / debuff, being banned from using the bot, being banned from the support server, etc...")
+
+        embed.set_author(name="Villager Bot Rules", icon_url=self.d.splash_logo)
+        embed.set_footer(text=ctx.l.misc.petus)
+
+        embed.add_field(name="1. Do not abuse bugs, report bugs in the #bug-smasher channel on the support server for a reward!", value="\u200B")
+        embed.add_field(name="2. Don't be annoying, toxic, or harrass anyone using the bot.", value="\u200B")
+        embed.add_field(name="3. Don't use alternate accounts, or other people for storing your emeralds or items.", value="\u200B")
+
     @commands.command(name="math", aliases=["solve", "meth"])
     async def math(self, ctx, *, problem):
         try:
