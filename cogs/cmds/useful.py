@@ -314,9 +314,9 @@ class Useful(commands.Cog):
         embed.set_author(name="Villager Bot Rules", icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.misc.petus)
 
-        embed.add_field(name="\u200b", value="**1.** Do not abuse bugs, report bugs in the #bug-smasher channel on the support server for a reward!")
-        embed.add_field(name="\u200b", value="**2.** Don't be annoying, toxic, or harrass anyone using the bot.")
-        embed.add_field(name="\u200b", value="**3.** Don't use alternate accounts, or other people for storing your emeralds or items.")
+        embed.add_field(name="\u200b", value="**1.** Don't abuse bugs, report them in the #bug-smasher channel on the support server for a reward!")
+        embed.add_field(name="\u200b", value="**2.** Don't use alternate accounts or other users for storing your emeralds or items.")
+        embed.add_field(name="\u200b", value="**3.** Don't use the bot to promote any content not sanctioned by the bot owner.")
 
         await ctx.send(embed=embed)
 
