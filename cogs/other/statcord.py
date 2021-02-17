@@ -27,15 +27,14 @@ class StatCord(commands.Cog):
             self.error_count += 1
 
     async def get_vote_count(self):
-        print('v')
         vote_count = self.vote_count
         self.vote_count = 0
         return vote_count
 
     async def get_error_count(self):
-        print('e')
         error_count = self.error_count
         self.error_count = 0
+        print(error_count)
         return error_count
 
 
