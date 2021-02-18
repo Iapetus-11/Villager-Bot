@@ -36,7 +36,7 @@ class Useful(commands.Cog):
                     embed = discord.Embed(color=self.d.cc)
 
                     embed.set_author(name=ctx.l.help.n.cmd, icon_url=self.d.splash_logo)
-                    embed.set_footer(text=ctx.l.misc.petus + " | " + ctx.l.useful.rules.slashrules)
+                    embed.set_footer(text=ctx.l.misc.petus)
 
                     embed.description = help_text.format(ctx.prefix)
 
@@ -64,7 +64,7 @@ class Useful(commands.Cog):
                 value=f"**[{ctx.l.help.main.clickme}]({self.d.support})**",
             )
 
-            embed.set_footer(text=ctx.l.misc.petus)
+            embed.set_footer(text=ctx.l.misc.petus + " |  " + ctx.l.useful.rules.slashrules)
 
             await ctx.send(embed=embed)
 
