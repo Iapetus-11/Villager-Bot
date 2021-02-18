@@ -775,7 +775,6 @@
           "You open the barrel and find {}{}!",
           "You open the barrel to find {}{}!",
           "You hack the barrel open with an axe to find {}{}!",
-          "You throw emeralds at the barrel till it breaks open to reveal {}{}!",
           "You enlist the help of some pillagers to open the barrel containing {}{}!"
         ]
       },
@@ -2385,7 +2384,6 @@
           "你把木桶打開找到了 {}{}!",
           "木桶裡面有 {}{}!",
           "你用一個斧子砍開了木桶，找到了 {}{}!",
-          "你用綠寶石砸開了木桶，裡面有 {}{}!",
           "你和幫助你的突襲者打開了木桶，裡面有 {}{}!"
         ]
       },
@@ -3198,7 +3196,6 @@
           "Tu ouvres le baril et trouves {}{}!",
           "Tu ouvres le baril pour trouver {}{}!",
           "Tu donnes un coup de hache dans le baril pour trouver {}{}!",
-          "Tu lances des émeraudes sur le baril jusqu'à ce qu'il se brise pour révéler {}{}!",
           "Tu enrôles des pillards pour t'aider à ouvrir le baril contenant {}{}!"
         ]
       },
