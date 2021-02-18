@@ -1562,25 +1562,24 @@
           "Si sacas la caja por la ventana, se abre y obtienes 1x **{}** (Vale {}{})!"
         ],
         "barrel_item": [
-          "You popped the lid of the barrel and found 1x **{}** (Worth {}{})!",
-          "You yeeted the barrel out the window, and it breaks open revealing 1x **{}** (Worth {}{})!",
-          "You kick the barrel and it opens, revealing 1x **{}** (Worth {}{})!",
-          "You open the barrel and find 1x **{}** (Worth {}{})!",
-          "You open the barrel to find 1x **{}** (Worth {}{})!",
-          "You hack the barrel open with an axe to find 1x **{}** (Worth {}{})!",
-          "You throw emeralds at the barrel till it breaks open to reveal 1x **{}** (Worth {}{})!",
-          "You enlist the help of some pillagers to open the barrel containing 1x **{}** (Worth {}{})!",
-          "Yoinks scoob looks like you found 1x **{}** (Worth {}{}) in the barrel!"
+          "¡Has abierto la tapa del barril y has encontrado 1x **{}** (con valor de {}{})!",
+          "¡Has lanzado el barril por la ventana, y se rompe revelando 1x **{}** (Vale {}{})!",
+          "¡Pateas el barril y se abre, revelando 1x **{}** (Vale {}{})!",
+          "¡Abres el barril y encuentras 1x **{}** (Vale {}{})!",
+          "¡Abres el barril y encuentras 1x **{}** (Vale {}{})!",
+          "¡Abres el barril con un hacha y encuentras 1x **{}** (Vale {}{})!",
+          "¡Lanza esmeraldas al barril hasta que se rompa y revele 1x **{}** (Vale {}{})!",
+          "¡Consigues la ayuda de algunos saqueadores para abrir el barril que contiene 1x **{}** (Valor {}{})!",
+          "¡Yoinks scoob parece que has encontrado 1x **{}** (Worth {}{}) en el barril!"
         ],
         "barrel_ems": [
-          "You popped the lid of the barrel and found {}{}!",
-          "You yeeted the barrel out the window, and it breaks open revealing {}{}!",
-          "You kick the barrel and it opens, revealing {}{}!",
-          "You open the barrel and find {}{}!",
-          "You open the barrel to find {}{}!",
-          "You hack the barrel open with an axe to find {}{}!",
-          "You throw emeralds at the barrel till it breaks open to reveal {}{}!",
-          "You enlist the help of some pillagers to open the barrel containing {}{}!"
+          "¡Has abierto la tapa del barril y has encontrado {}{}!",
+          "¡Has lanzado el barril por la ventana, y se abre revelando {}{}!",
+          "¡Pateas el barril y se abre, revelando {}{}!",
+          "¡Abres el barril y encuentras {}{}!",
+          "¡Abres el barril y encuentras {}{}!",
+          "¡Abres el barril con un hacha para encontrar {}{}!",
+          "Consigue la ayuda de algunos saqueadores para abrir el barril que contiene {}{}."
         ]
       },
       "honey": {
