@@ -114,7 +114,7 @@ class Events(commands.Cog):
             loc = self.bot.get_channel(self.d.error_channel_id)
 
         traceback_text = "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
-        final = f"{ctx.author}: {ctx.message.content}\n\n{traceback_text}".replace("``", "\`\`\`")
+        final = f"{ctx.author} (lang={ctx.__dict__.get("l")}): {ctx.message.content}\n\n{traceback_text}".replace("``", "\`\`\`")
 
         await self.bot.send(loc, f"```py\n{final[:1023 - 6]}```")
 
