@@ -64,7 +64,7 @@ class Useful(commands.Cog):
                 value=f"**[{ctx.l.help.main.clickme}]({self.d.support})**",
             )
 
-            embed.set_footer(text=ctx.l.misc.petus + " |  " + ctx.l.useful.rules.slashrules)
+            embed.set_footer(text=ctx.l.misc.petus + "  |  " + ctx.l.useful.rules.slashrules)
 
             await ctx.send(embed=embed)
 
