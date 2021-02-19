@@ -6,7 +6,7 @@ class StatCord(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        self.statcord_client = statcord.Client(bot, bot.k.statcord, custom1=self.get_vote_count)
+        self.statcord_client = statcord.Client(bot, bot.k.statcord, custom1=self.get_vote_count, custom2=self.get_error_count)
         self.statcord_client.start_loop()
 
         self.vote_count = 0
@@ -32,9 +32,10 @@ class StatCord(commands.Cog):
         return vote_count
 
     async def get_error_count(self):
-        error_count = self.error_count
-        self.error_count = 0
-        return error_count
+        # error_count = self.error_count
+        # self.error_count = 0
+        # return error_count
+        return "0"
 
 
 def setup(bot):
