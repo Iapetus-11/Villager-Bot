@@ -17,8 +17,15 @@ class Useful(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
+        # support slash commands
+        self.slash_help = cog_ext.cog_slash(name="help")(self.help)
+        self.slash_help_econ = cog_ext.cog_subcommand(base="help", name="economy")(self.help_economy)
+        self.slash_help_mc = cog_ext.cog_subcommand(base="help", name="mc")(self.help_minecraft)
+        self.slash_help_util = cog_ext.cog_subcommand(base="help", name="util")(self.help_utility)
+        self.slash_help_fun = cog_ext.cog_subcommand(base="help", name="fun")(self.help_fun)
+        self.slash_help_admin = cog_ext.cog_subcommand(base="help", name="admin")(self.help_administrative)
+
     @commands.group(name="help")
-    @cog_ext.cog_slash(name="help")
     async def help(self, ctx):
         if ctx.__dict__.get("l") is None:
             ctx.l = await self.bot.get_lang(ctx)
@@ -74,7 +81,6 @@ class Useful(commands.Cog):
             await ctx.send(embed=embed)
 
     @help.command(name="economy", aliases=["econ"])
-    @cog_ext.cog_subcommand(base="help", name="economy")
     async def help_economy(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
@@ -87,7 +93,6 @@ class Useful(commands.Cog):
         await ctx.send(embed=embed)
 
     @help.command(name="minecraft", aliases=["mc"])
-    @cog_ext.cog_subcommand(base="help", name="mc")
     async def help_minecraft(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
@@ -100,7 +105,6 @@ class Useful(commands.Cog):
         await ctx.send(embed=embed)
 
     @help.command(name="utility", aliases=["util", "useful"])
-    @cog_ext.cog_subcommand(base="help", name="util")
     async def help_utility(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
@@ -113,7 +117,6 @@ class Useful(commands.Cog):
         await ctx.send(embed=embed)
 
     @help.command(name="fun")
-    @cog_ext.cog_subcommand(base="help", name="fun")
     async def help_fun(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
@@ -126,7 +129,6 @@ class Useful(commands.Cog):
         await ctx.send(embed=embed)
 
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
-    @cog_ext.cog_subcommand(base="help", name="admin")
     async def help_administrative(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
