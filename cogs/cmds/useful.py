@@ -18,60 +18,11 @@ class Useful(commands.Cog):
         self.db = bot.get_cog("Database")
 
     @cog_ext.cog_slash(name="help")
-    async def slash_help(self, ctx):
-        ctx.l = await self.bot.get_lang(ctx)
-
-        cmd = ctx.message.content.replace(f"{ctx.prefix}help ", "")
-
-        if cmd != "":
-            cmd_true = self.bot.get_command(cmd.lower())
-
-            if cmd_true is not None:
-                all_help = {**ctx.l.help.econ, **ctx.l.help.mc, **ctx.l.help.util, **ctx.l.help.fun, **ctx.l.help.mod}
-
-                help_text = all_help.get(str(cmd_true))
-
-                if help_text is None:
-                    await self.bot.send(ctx, ctx.l.help.main.nodoc)
-                    return
-
-                embed = discord.Embed(color=self.d.cc)
-
-                embed.set_author(name=ctx.l.help.n.cmd, icon_url=self.d.splash_logo)
-                embed.set_footer(text=ctx.l.misc.petus)
-
-                embed.description = help_text.format(ctx.prefix)
-
-                if len(cmd_true.aliases) > 0:
-                    embed.description += "\n\n" + ctx.l.help.main.aliases.format("`, `".join(cmd_true.aliases))
-
-                await ctx.send(embed=embed)
-
-                return
-
-        embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=ctx.l.help.n.title, icon_url=self.d.splash_logo)
-        embed.description = ctx.l.help.main.desc.format(self.d.support, self.d.topgg)
-
-        p = ctx.prefix
-
-        embed.add_field(name=(self.d.emojis.emerald_spinn + ctx.l.help.n.economy), value=f"`{p}help econ`")
-        embed.add_field(name=(self.d.emojis.bounce + " " + ctx.l.help.n.minecraft), value=f"`{p}help mc`")
-        embed.add_field(name=(self.d.emojis.anichest + ctx.l.help.n.utility), value=f"`{p}help util`")
-
-        embed.add_field(name=(self.d.emojis.rainbow_shep + ctx.l.help.n.fun), value=f"`{p}help fun`")
-        embed.add_field(name=(self.d.emojis.netherite_sword + ctx.l.help.n.admin), value=f"`{p}help admin`")
-        embed.add_field(
-            name=(self.d.emojis.heart_spin + ctx.l.help.main.support),
-            value=f"**[{ctx.l.help.main.clickme}]({self.d.support})**",
-        )
-
-        embed.set_footer(text=ctx.l.misc.petus + "  |  " + ctx.l.useful.rules.slashrules)
-
-        await ctx.send(embed=embed)
-
     @commands.group(name="help")
     async def help(self, ctx):
+        if ctx.__dict__.get("l") is None:
+            ctx.l = await self.bot.get_lang(ctx)
+
         if ctx.invoked_subcommand is None:
             cmd = ctx.message.content.replace(f"{ctx.prefix}help ", "")
 
@@ -122,6 +73,7 @@ class Useful(commands.Cog):
 
             await ctx.send(embed=embed)
 
+    @cog_ext.cog_subcommand(base="help", name="economy")
     @help.command(name="economy", aliases=["econ"])
     async def help_economy(self, ctx):
         embed = discord.Embed(color=self.d.cc)
@@ -134,6 +86,7 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @cog_ext.cog_subcommand(base="help", name="mc")
     @help.command(name="minecraft", aliases=["mc"])
     async def help_minecraft(self, ctx):
         embed = discord.Embed(color=self.d.cc)
@@ -146,6 +99,7 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @cog_ext.cog_subcommand(base="help", name="util")
     @help.command(name="utility", aliases=["util", "useful"])
     async def help_utility(self, ctx):
         embed = discord.Embed(color=self.d.cc)
@@ -158,6 +112,7 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @cog_ext.cog_subcommand(base="help", name="fun")
     @help.command(name="fun")
     async def help_fun(self, ctx):
         embed = discord.Embed(color=self.d.cc)
@@ -170,6 +125,7 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @cog_ext.cog_subcommand(base="help", name="admin")
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
     async def help_administrative(self, ctx):
         embed = discord.Embed(color=self.d.cc)
