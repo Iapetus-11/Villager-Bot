@@ -6,7 +6,7 @@ class StatCord(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        self.statcord_client = statcord.Client(bot, bot.k.statcord, custom1=self.get_vote_count, custom2=self.get_error_count)
+        self.statcord_client = statcord.Client(bot, bot.k.statcord, custom1=self.get_vote_count)
         self.statcord_client.start_loop()
 
         self.vote_count = 0
