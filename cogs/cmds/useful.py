@@ -17,8 +17,8 @@ class Useful(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-    @cog_ext.cog_slash(name="help")
     @commands.group(name="help")
+    @cog_ext.cog_slash(name="help")
     async def help(self, ctx):
         if ctx.__dict__.get("l") is None:
             ctx.l = await self.bot.get_lang(ctx)
@@ -73,8 +73,8 @@ class Useful(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    @cog_ext.cog_subcommand(base="help", name="economy")
     @help.command(name="economy", aliases=["econ"])
+    @cog_ext.cog_subcommand(base="help", name="economy")
     async def help_economy(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
@@ -86,8 +86,8 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @cog_ext.cog_subcommand(base="help", name="mc")
     @help.command(name="minecraft", aliases=["mc"])
+    @cog_ext.cog_subcommand(base="help", name="mc")
     async def help_minecraft(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
@@ -99,8 +99,8 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @cog_ext.cog_subcommand(base="help", name="util")
     @help.command(name="utility", aliases=["util", "useful"])
+    @cog_ext.cog_subcommand(base="help", name="util")
     async def help_utility(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
@@ -112,8 +112,8 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @cog_ext.cog_subcommand(base="help", name="fun")
     @help.command(name="fun")
+    @cog_ext.cog_subcommand(base="help", name="fun")
     async def help_fun(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
@@ -125,8 +125,8 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @cog_ext.cog_subcommand(base="help", name="admin")
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
+    @cog_ext.cog_subcommand(base="help", name="admin")
     async def help_administrative(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
