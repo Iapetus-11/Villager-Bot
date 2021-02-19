@@ -124,7 +124,7 @@ bot.d.start_time = arrow.utcnow()
 
 bot.d.miners = {}  # {user_id: commands}
 bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)
-bot.d.mining.pickaxes = list(reversed(list(bot.d.mining.yields_pickaxes)))  # get list of pickaxe types from best to worst
+bot.d.mining.pickaxes = list(bot.d.mining.yields_pickaxes)[::-1]  # get list of pickaxe types from best to worst
 bot.d.findables = bot.d.special_findables + bot.d.default_findables
 bot.d.pillagers = {}  # {user_id: pillages}
 bot.d.pillages = {}  # {user_id: times_pillaged}
