@@ -21,21 +21,15 @@ class StatCord(commands.Cog):
         if data.type == "upvote":
             self.vote_count += 1
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, e):
-        if not isinstance(e, commands.CommandOnCooldown):
-            self.error_count += 1
-
     async def get_vote_count(self):
         vote_count = self.vote_count
         self.vote_count = 0
         return vote_count
 
     async def get_error_count(self):
-        # error_count = self.error_count
-        # self.error_count = 0
-        # return error_count
-        return "0"
+        error_count = self.error_count
+        self.error_count = 0
+        return str(error_count)
 
 
 def setup(bot):
