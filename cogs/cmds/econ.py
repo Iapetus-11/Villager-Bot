@@ -1092,7 +1092,7 @@ class Econ(commands.Cog):
 
             ems = random.randint(2, 4096)
 
-            if await self.db.fetch_item(ctx.author.id, "Rich Person Trophy" is not None:
+            if await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None:
                 ems *= 1.5
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
