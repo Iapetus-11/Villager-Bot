@@ -17,7 +17,7 @@ class Useful(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-        support slash commands
+        # support slash commands
         desc = "view helpful information about Villager Bot's {} features"
         guilds_ids = [593954944059572235, 641117791272960031, 713053032316665867]
 
