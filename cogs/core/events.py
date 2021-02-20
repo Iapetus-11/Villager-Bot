@@ -31,7 +31,7 @@ class Events(commands.Cog):
                 )
 
                 embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
-                embed.set_footer(text="Made by Iapetus11#6821")
+                embed.set_footer(text="Made by Iapetus11  |  /rules for the rules!")
 
                 await channel.send(embed=embed)
                 break
