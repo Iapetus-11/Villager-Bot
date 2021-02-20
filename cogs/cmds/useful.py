@@ -1,4 +1,4 @@
-from discord_slash import cog_ext
+from discord_slash import cog_ext, SlashContext
 from discord.ext import commands
 import util.math
 import async_cse
@@ -20,16 +20,27 @@ class Useful(commands.Cog):
         # support slash commands
         desc = "view helpful information about Villager Bot's {} features"
         self.slash_help = cog_ext.cog_slash(name="help", description="view helpful information about Villager Bot")(self.help)
-        self.slash_help_econ = cog_ext.cog_subcommand(base="slash_help", name="economy", description=desc.format("economy"))(self.help_economy)
-        self.slash_help_mc = cog_ext.cog_subcommand(base="slash_help", name="mc", description=desc.format("minecraft-related"))(self.help_minecraft)
-        self.slash_help_util = cog_ext.cog_subcommand(base="slash_help", name="util", description=desc.format("utility"))(self.help_utility)
-        self.slash_help_fun = cog_ext.cog_subcommand(base="slash_help", name="fun", description=desc.format("fun and memey"))(self.help_fun)
-        self.slash_help_admin = cog_ext.cog_subcommand(base="slash_help", name="admin", description=desc.format("moderation"))(self.help_administrative)
+        self.slash_help_econ = cog_ext.cog_subcommand(
+            base="slash_help", name="economy", options=[], description=desc.format("economy")
+        )(self.help_economy)
+        self.slash_help_mc = cog_ext.cog_subcommand(
+            base="slash_help", name="mc", options=[], description=desc.format("minecraft-related")
+        )(self.help_minecraft)
+        self.slash_help_util = cog_ext.cog_subcommand(
+            base="slash_help", name="util", options=[], description=desc.format("utility")
+        )(self.help_utility)
+        self.slash_help_fun = cog_ext.cog_subcommand(
+            base="slash_help", name="fun", options=[], description=desc.format("fun and memey")
+        )(self.help_fun)
+        self.slash_help_admin = cog_ext.cog_subcommand(
+            base="slash_help", name="admin", options=[], description=desc.format("moderation")
+        )(self.help_administrative)
 
     @commands.group(name="help")
     async def help(self, ctx):
-        if ctx.__dict__.get("l") is None:
+        if isinstance(ctx, SlashContext):  # it's a slashhhhh command
             ctx.l = await self.bot.get_lang(ctx)
+            await ctx.respond()
 
         if ctx.invoked_subcommand is None:
             cmd = ctx.message.content.replace(f"{ctx.prefix}help ", "")
@@ -83,6 +94,10 @@ class Useful(commands.Cog):
 
     @help.command(name="economy", aliases=["econ"])
     async def help_economy(self, ctx):
+        if isinstance(ctx, SlashContext):  # it's a slashhhhh command
+            ctx.l = await self.bot.get_lang(ctx)
+            await ctx.respond()
+
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.economy}]", icon_url=self.d.splash_logo)
@@ -95,6 +110,10 @@ class Useful(commands.Cog):
 
     @help.command(name="minecraft", aliases=["mc"])
     async def help_minecraft(self, ctx):
+        if isinstance(ctx, SlashContext):  # it's a slashhhhh command
+            ctx.l = await self.bot.get_lang(ctx)
+            await ctx.respond()
+
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]", icon_url=self.d.splash_logo)
@@ -107,6 +126,10 @@ class Useful(commands.Cog):
 
     @help.command(name="utility", aliases=["util", "useful"])
     async def help_utility(self, ctx):
+        if isinstance(ctx, SlashContext):  # it's a slashhhhh command
+            ctx.l = await self.bot.get_lang(ctx)
+            await ctx.respond()
+
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.utility}]", icon_url=self.d.splash_logo)
@@ -119,6 +142,10 @@ class Useful(commands.Cog):
 
     @help.command(name="fun")
     async def help_fun(self, ctx):
+        if isinstance(ctx, SlashContext):  # it's a slashhhhh command
+            ctx.l = await self.bot.get_lang(ctx)
+            await ctx.respond()
+
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.fun}]", icon_url=self.d.splash_logo)
@@ -131,6 +158,10 @@ class Useful(commands.Cog):
 
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
     async def help_administrative(self, ctx):
+        if isinstance(ctx, SlashContext):  # it's a slashhhhh command
+            ctx.l = await self.bot.get_lang(ctx)
+            await ctx.respond()
+
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.admin}]", icon_url=self.d.splash_logo)
