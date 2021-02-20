@@ -1,6 +1,7 @@
 from discord.ext import commands
 from aiohttp import web
 import classyjson as cj
+import traceback
 import aiohttp  # ~~aiohttp makes me ****~~
 import asyncio
 import discord
@@ -81,8 +82,9 @@ class Webhooks(commands.Cog):
                         user,
                         f"Thanks for voting! You've received **{amount}**{self.d.emojis.emerald}! (Vote streak is now {streak})",
                     )
-            except Exception:
-                pass
+            except BaseException as e:
+                traceback_text = "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
+                await self.bot.send(self.bot.get_channel(self.d.error_channel_id), f"Voting error: {user} ```{traceback_text}```")
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):
