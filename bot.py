@@ -1,5 +1,6 @@
 if __import__("os").name == "nt":
     import colorama
+
     colorama.init()
 
 from discord_slash import SlashCommand
