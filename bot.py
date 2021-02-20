@@ -64,8 +64,8 @@ bot = commands.AutoShardedBot(  # setup bot
     help_command=None,
     shard_count=21,
 )
-slash = SlashCommand(bot, override_type=True)
 
+bot.slashbot = SlashCommand(bot, override_type=True)
 
 bot.logger = logger
 
