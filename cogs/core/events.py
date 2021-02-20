@@ -211,6 +211,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_slash_command_error(self, ctx, e):
+        ctx.l = await self.bot.get_lang(ctx)
         await self.on_command_error(ctx, e)
 
 
