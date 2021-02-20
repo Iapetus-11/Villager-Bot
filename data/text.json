@@ -3,7 +3,7 @@
     "lang": "en",
     "name": "English",
     "misc": {
-      "petus": "Made by Iapetus11#6821",
+      "petus": "Made by Iapetus11",
       "pingpong": "The prefix for this server is `{0}` and the help command is `{0}help`\nIf you are in need of more help, you can join the **[Support Server]({1})**.",
       "cooldown_msgs": [
         "Didn't your parents tell you that [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another **{}**.",
@@ -818,7 +818,7 @@
     "lang": "es",
     "name": "Español",
     "misc": {
-      "petus": "Hecho por Iapetus11#6821",
+      "petus": "Hecho por Iapetus11",
       "pingpong": "El prefijo de este servidor es `{0}` y el comando de ayuda es `{0}help`nSi necesita más ayuda, puede unirse al **[Servidor de Apoyo]({1})**.",
       "cooldown_msgs": [
         "¿No te dijeron tus padres que [la paciencia es una virtud](http://www.patience-is-a-virtue.org/)? Cálmate y espera otro **{}**.",
@@ -1631,7 +1631,7 @@
     "lang": "fr",
     "name": "Français",
     "misc": {
-      "petus": "Fait par Iapetus11#6821",
+      "petus": "Fait par Iapetus11",
       "pingpong": "Le préfixe pour ce serveur est `{0}` et la commande d'aide est `{0}help`\nSi tu as besoin de plus d'aide, tu peux rejoindre le **[Serveur de support]({1})**.",
       "cooldown_msgs": [
         "Tes parents ne t'ont jamais appris que [la patience est une vertu](http://www.patience-is-a-virtue.org/) ? Calme toi et attends encore **{}**.",
