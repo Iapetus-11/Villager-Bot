@@ -3,7 +3,7 @@ if __import__("os").name == "nt":
 
     colorama.init()
 
-from discord_slash import SlashCommand
+# from discord_slash import SlashCommand
 from discord.ext import commands
 import classyjson as cj
 import asyncio
@@ -65,14 +65,14 @@ bot = commands.AutoShardedBot(  # setup bot
     shard_count=20,
 )
 
-bot.slashbot = SlashCommand(
-    bot,
-    override_type=True,
-    sync_commands=True,
-    auto_delete=True,
-    sync_on_cog_reload=True,
-    delete_from_unused_guilds=True,
-)
+# bot.slashbot = SlashCommand(
+#     bot,
+#     override_type=True,
+#     sync_commands=True,
+#     auto_delete=True,
+#     sync_on_cog_reload=True,
+#     delete_from_unused_guilds=True,
+# )
 
 bot.logger = logger
 
