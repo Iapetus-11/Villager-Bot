@@ -113,9 +113,9 @@ class Useful(commands.Cog):
 
     @help.command(name="minecraft", aliases=["mc"])
     async def help_minecraft(self, ctx):
-        if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-            ctx.l = await self.bot.get_lang(ctx)
-            await ctx.respond()
+        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
+        #     ctx.l = await self.bot.get_lang(ctx)
+        #     await ctx.respond()
 
         embed = discord.Embed(color=self.d.cc)
 
