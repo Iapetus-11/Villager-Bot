@@ -36,6 +36,7 @@ class Useful(commands.Cog):
         # self.slash_help_admin = cog_ext.cog_subcommand(
         #     base="slash_help", name="admin", options=[], description=desc.format("moderation")
         # )(self.help_administrative)
+        #
 
     @commands.group(name="help")
     async def help(self, ctx):
