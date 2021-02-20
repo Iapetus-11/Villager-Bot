@@ -19,21 +19,23 @@ class Useful(commands.Cog):
 
         # support slash commands
         desc = "view helpful information about Villager Bot's {} features"
+        guild_ids = [641117791272960031, 593954944059572235, 713053032316665867]
+
         self.slash_help = cog_ext.cog_slash(name="help", description="view helpful information about Villager Bot")(self.help)
         self.slash_help_econ = cog_ext.cog_subcommand(
-            base="slash_help", name="economy", options=[], description=desc.format("economy")
+            base="slash_help", name="economy", options=[], description=desc.format("economy"), guild_ids=guild_ids
         )(self.help_economy)
         self.slash_help_mc = cog_ext.cog_subcommand(
-            base="slash_help", name="mc", options=[], description=desc.format("minecraft-related")
+            base="slash_help", name="mc", options=[], description=desc.format("minecraft-related"), guild_ids=guild_ids
         )(self.help_minecraft)
         self.slash_help_util = cog_ext.cog_subcommand(
-            base="slash_help", name="util", options=[], description=desc.format("utility")
+            base="slash_help", name="util", options=[], description=desc.format("utility"), guild_ids=guild_ids
         )(self.help_utility)
         self.slash_help_fun = cog_ext.cog_subcommand(
-            base="slash_help", name="fun", options=[], description=desc.format("fun and memey")
+            base="slash_help", name="fun", options=[], description=desc.format("fun and memey"), guild_ids=guild_ids
         )(self.help_fun)
         self.slash_help_admin = cog_ext.cog_subcommand(
-            base="slash_help", name="admin", options=[], description=desc.format("moderation")
+            base="slash_help", name="admin", options=[], description=desc.format("moderation"), guild_ids=guild_ids
         )(self.help_administrative)
 
     @commands.group(name="help")
