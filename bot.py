@@ -62,7 +62,7 @@ bot = commands.AutoShardedBot(  # setup bot
     case_insensitive=True,
     intents=intents,
     help_command=None,
-    shard_count=21,
+    shard_count=20,
 )
 
 bot.slashbot = SlashCommand(bot, override_type=True)
