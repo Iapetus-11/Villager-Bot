@@ -12,6 +12,7 @@ class Slash(commands.Cog):
 
     async def prep(self, ctx):
         ctx.l = await self.bot.get_lang(ctx)
+        ctx.prefix = "/"
         await ctx.respond()
 
     @cog_ext.cog_slash(name="help", description="View helpful information about Villager Bot!", guild_ids=[713053032316665867])
