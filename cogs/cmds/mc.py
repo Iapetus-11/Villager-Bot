@@ -369,7 +369,7 @@ class Minecraft(commands.Cog):
 
         name_hist = "\uFEFF"
 
-        for i, name in list(enumerate(reversed(names)))[:20]:
+        for i, name in enumerate(reversed(names[:20])):
             time = name.get("changedToAt")
 
             if time is None:
