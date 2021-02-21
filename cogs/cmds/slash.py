@@ -51,6 +51,16 @@ class Slash(commands.Cog):
         await self.prep(ctx)
         await self.useful.help_administrative(ctx)
 
+    @cog_ext.cog_slash(name="vote", description="Earn emeralds from voting for Villager Bot on certain websites!")
+    async def votelinks(self, ctx):
+        await self.prep(ctx)
+        await self.useful.votelinks(ctx)
+
+    @cog_ext.cog_slash(name="invite", description="View the invite link, and some other useful links too!")
+    async def useful_links(self, ctx):
+        await self.prep(ctx)
+        await self.useful.useful_links(ctx)
+
 
 def setup(bot):
     bot.add_cog(Slash(bot))
