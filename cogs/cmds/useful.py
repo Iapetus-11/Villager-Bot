@@ -1,4 +1,3 @@
-# from discord_slash import cog_ext, SlashContext
 from discord.ext import commands
 import util.math
 import async_cse
@@ -41,10 +40,6 @@ class Useful(commands.Cog):
 
     @commands.group(name="help")
     async def help(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         if ctx.invoked_subcommand is None:
             cmd = ctx.message.content.replace(f"{ctx.prefix}help ", "")
 
