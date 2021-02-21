@@ -1,4 +1,6 @@
 from discord_slash import cog_ext
+from discord.ext import commands
+import discord
 
 
 class Slash(commands.Cog):
