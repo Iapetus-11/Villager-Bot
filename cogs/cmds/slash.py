@@ -14,32 +14,32 @@ class Slash(commands.Cog):
         ctx.l = await self.bot.get_lang(ctx)
         await ctx.respond()
 
-    @commands.group(name="help")
+    @cog_ext.cog_slash(name="help", description="View helpful information about Villager Bot!", guild_ids=self.guild_ids)
     async def help(self, ctx):
         await self.prep(ctx)
         await self.useful.help(ctx)
 
-    @help.command(name="economy", aliases=["econ"])
+    @cog_ext.cog_slash(base="help", name="econ", description="View helpful information about Villager Bot's economy commands!", guild_ids=self.guild_ids)
     async def help_economy(self, ctx):
         await self.prep(ctx)
         await self.useful.help_economy(ctx)
 
-    @help.command(name="minecraft", aliases=["mc"])
+    @cog_ext.cog_slash(base="help", name="mc", description="View helpful information about Villager Bot's minecraft-related commands!", guild_ids=self.guild_ids)
     async def help_minecraft(self, ctx):
         await self.prep(ctx)
         await self.useful.help_minecraft(ctx)
 
-    @help.command(name="utility", aliases=["util", "useful"])
+    @cog_ext.cog_slash(base="help", name="util", description="View helpful information about Villager Bot's utility commands!", guild_ids=self.guild_ids)
     async def help_utility(self, ctx):
         await self.prep(ctx)
         await self.useful.help_utility(ctx)
 
-    @help.command(name="fun")
+    @cog_ext.cog_slash(base="help", name="fun", description="View helpful information about Villager Bot's fun & memey commands!", guild_ids=self.guild_ids)
     async def help_fun(self, ctx):
         await self.prep(ctx)
         await self.useful.help_fun(ctx)
 
-    @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
+    @cog_ext.cog_slash(base="help", name="admin", description="View helpful information about Villager Bot's moderation commands!", guild_ids=self.guild_ids)
     async def help_administrative(self, ctx):
         await self.prep(ctx)
         await self.useful.help_administrative(ctx)
