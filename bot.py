@@ -57,7 +57,6 @@ bot = commands.AutoShardedBot(  # setup bot
     case_insensitive=True,
     intents=intents,
     help_command=None,
-    shard_count=21,
 )
 
 bot.logger = logger

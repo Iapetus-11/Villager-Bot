@@ -741,6 +741,8 @@
         "stupid_3": "Either that isn't a usable item, or it doesn't exist.",
         "chug": "You've chugged a **{}** (Which lasts {} minutes)",
         "chug_no_end": "You've chugged a **{}**",
+        "chug_honey": "You've chugged a **{}** (You now have {}/20{})",
+        "full_health": "Your health is already full",
         "done": "The **{}** you chugged earlier has worn off.",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",

@@ -967,10 +967,14 @@ class Econ(commands.Cog):
 
             if db_user['health'] < 20:
                 await self.db.update_user(ctx.author.id, 'health', db_user['health']+1)
+                await self.db.remove_item(ctx.author.id, 'Honey Jar', 1)
+                db_user = await self.db.fetch_user(ctx.author.id) # updates health
+                await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format('Honey Jar', db_user['health'], self.d.emojis.heart_full))
+                return
 
-            await self.db.remove_item(ctx.author.id, 'Honey Jar', 1)
-            await self.bot.send(ctx, ctx.l.econ.use.chug_no_end.format('Honey Jar'))
-            return
+            else:
+                await self.bot.send(ctx, ctx.l.econ.use.full_health)
+                return
 
         if thing == 'present':
             await self.db.remove_item(ctx.author.id, 'Present', 1)
