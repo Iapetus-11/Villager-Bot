@@ -89,14 +89,7 @@ class Minecraft(commands.Cog):
         else:
             img = files[0]
 
-        if (
-            img.filename.lower()[-4:]
-            not in (
-                ".jpg",
-                ".png",
-            )
-            and not img.filename.lower()[-5:] in (".jpeg")
-        ):
+        if img.filename.lower()[-4:] not in (".jpg", ".png") and not img.filename.lower()[-5:] in (".jpeg"):
             await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_2)
             return
 
