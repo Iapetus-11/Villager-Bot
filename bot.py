@@ -1,6 +1,7 @@
 if __name__ == "__main__":
     from discord_slash import SlashCommand
     from discord.ext import commands
+    import concurrent.futures
     import classyjson as cj
     import asyncio
     import asyncpg
@@ -209,4 +210,6 @@ if __name__ == "__main__":
 
         return True
 
-    bot.run(keys.discord)  # run the bot, this is a blocking call
+    with concurrent.futures.ProcessPoolExecutor() as ppool:
+        bot.ppool = ppool
+        bot.run(keys.discord)  # run the bot, this is a blocking call
