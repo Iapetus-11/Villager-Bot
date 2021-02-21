@@ -16,32 +16,32 @@ class Slash(commands.Cog):
         ctx.invoked_subcommand = None
         await ctx.respond()
 
-    @cog_ext.cog_slash(name="help", description="View helpful information about Villager Bot!", guild_ids=[713053032316665867])
+    @cog_ext.cog_slash(name="help", description="View helpful information about Villager Bot!")
     async def help(self, ctx):
         await self.prep(ctx)
         await self.useful.help(ctx)
 
-    @cog_ext.cog_subcommand(base="help", name="econ", description="View helpful information about Villager Bot's economy commands!", guild_ids=[713053032316665867])
+    @cog_ext.cog_subcommand(base="help", name="econ", description="View helpful information about Villager Bot's economy commands!")
     async def help_economy(self, ctx):
         await self.prep(ctx)
         await self.useful.help_economy(ctx)
 
-    @cog_ext.cog_subcommand(base="help", name="mc", description="View helpful information about Villager Bot's minecraft-related commands!", guild_ids=[713053032316665867])
+    @cog_ext.cog_subcommand(base="help", name="mc", description="View helpful information about Villager Bot's minecraft-related commands!")
     async def help_minecraft(self, ctx):
         await self.prep(ctx)
         await self.useful.help_minecraft(ctx)
 
-    @cog_ext.cog_subcommand(base="help", name="util", description="View helpful information about Villager Bot's utility commands!", guild_ids=[713053032316665867])
+    @cog_ext.cog_subcommand(base="help", name="util", description="View helpful information about Villager Bot's utility commands!")
     async def help_utility(self, ctx):
         await self.prep(ctx)
         await self.useful.help_utility(ctx)
 
-    @cog_ext.cog_subcommand(base="help", name="fun", description="View helpful information about Villager Bot's fun & memey commands!", guild_ids=[713053032316665867])
+    @cog_ext.cog_subcommand(base="help", name="fun", description="View helpful information about Villager Bot's fun & memey commands!")
     async def help_fun(self, ctx):
         await self.prep(ctx)
         await self.useful.help_fun(ctx)
 
-    @cog_ext.cog_subcommand(base="help", name="admin", description="View helpful information about Villager Bot's moderation commands!", guild_ids=[713053032316665867])
+    @cog_ext.cog_subcommand(base="help", name="admin", description="View helpful information about Villager Bot's moderation commands!")
     async def help_administrative(self, ctx):
         await self.prep(ctx)
         await self.useful.help_administrative(ctx)
