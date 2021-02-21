@@ -14,6 +14,11 @@ class Slash(commands.Cog):
         ctx.l = await self.bot.get_lang(ctx)
         ctx.prefix = await self.bot.get_prefix(ctx)
         ctx.invoked_subcommand = None
+
+        if ctx.author.id in self.d.ban_cache:
+            ctx.custom_err = "bot_banned"
+            raise Exception("User is botbanned from slash commands")
+
         await ctx.respond()
 
     @cog_ext.cog_slash(name="help", description="View helpful information about Villager Bot!")
