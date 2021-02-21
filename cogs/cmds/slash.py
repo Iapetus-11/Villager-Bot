@@ -18,6 +18,7 @@ class Slash(commands.Cog):
 
     @cog_ext.cog_slash(name="help", description="View helpful information about Villager Bot!", guild_ids=[713053032316665867])
     async def help(self, ctx):
+        await ctx.send("test")
         await self.prep(ctx)
         await self.useful.help(ctx)
 
