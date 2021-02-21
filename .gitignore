@@ -4,6 +4,7 @@ db.json
 bot.sh
 data/keys.json
 cogs/core/hentai.py
+bruh.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

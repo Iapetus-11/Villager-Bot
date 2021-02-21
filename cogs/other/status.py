@@ -19,5 +19,6 @@ class Status(commands.Cog):
         await self.bot.wait_until_ready()
         await self.bot.change_presence(activity=discord.Game(name=random.choice(self.d.playing_list)))
 
+
 def setup(bot):
     bot.add_cog(Status(bot))

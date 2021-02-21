@@ -14,30 +14,30 @@ class Owner(commands.Cog):
 
         self.d = bot.d
 
-        self.db = bot.get_cog('Database')
+        self.db = bot.get_cog("Database")
 
-    @commands.command(name='load')
+    @commands.command(name="load")
     @commands.is_owner()
     async def load_cog(self, ctx, cog):
-        self.bot.load_extension(f'cogs.{cog}')
+        self.bot.load_extension(f"cogs.{cog}")
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name='unload')
+    @commands.command(name="unload")
     @commands.is_owner()
     async def unload_cog(self, ctx, cog):
-        self.bot.unload_extension(f'cogs.{cog}')
+        self.bot.unload_extension(f"cogs.{cog}")
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name='reload')
+    @commands.command(name="reload")
     @commands.is_owner()
     async def reload_cog(self, ctx, cog):
-        if cog == 'all':
+        if cog == "all":
             await self.reload_all_cogs(ctx)
         else:
-            self.bot.reload_extension(f'cogs.{cog}')
+            self.bot.reload_extension(f"cogs.{cog}")
             await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name='reloadall')
+    @commands.command(name="reloadall")
     @commands.is_owner()
     async def reload_all_cogs(self, ctx):
         for cog in self.bot.cog_list:
@@ -45,11 +45,11 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name='eval')
+    @commands.command(name="eval")
     @commands.is_owner()
     async def eval_stuff(self, ctx, *, code):
         try:
-            code_nice = f'async def eval_code():\n' + '\n'.join(f'    {i}' for i in code.strip(' `py\n ').splitlines())
+            code_nice = f"async def eval_code():\n" + "\n".join(f"    {i}" for i in code.strip(" `py\n ").splitlines())
             code_parsed = ast.parse(code_nice)
             code_final = code_parsed.body[0].body
 
@@ -69,41 +69,41 @@ class Owner(commands.Cog):
 
             env = {**locals(), **globals()}
 
-            exec(compile(code_parsed, filename='<ast>', mode='exec'), env)
-            result = (await eval(f'eval_code()', env))
+            exec(compile(code_parsed, filename="<ast>", mode="exec"), env)
+            result = await eval(f"eval_code()", env)
 
-            await ctx.send(f'```py\n{result}```')
+            await ctx.send(f"```py\n{result}```")
 
         except discord.errors.Forbidden:
-            await ctx.send('Missing permissions (FORBIDDEN)')
+            await ctx.send("Missing permissions (FORBIDDEN)")
         except Exception as e:
-            await self.bot.get_cog('Events').debug_error(ctx, e, ctx)
+            await self.bot.get_cog("Events").debug_error(ctx, e, ctx)
 
-    @commands.command(name='gitpull')
+    @commands.command(name="gitpull")
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
     @commands.is_owner()
     async def gitpull(self, ctx):
         async with ctx.typing():
-            os.system('sudo git pull > git_pull_log 2>&1')
+            os.system("sudo git pull > git_pull_log 2>&1")
 
-        with open('git_pull_log', 'r') as f:
-            await self.bot.send(ctx, f'```diff\n{f.read()}\n```')
+        with open("git_pull_log", "r") as f:
+            await self.bot.send(ctx, f"```diff\n{f.read()}\n```")
 
-        os.remove('git_pull_log')
+        os.remove("git_pull_log")
 
-    @commands.command(name='update')
+    @commands.command(name="update")
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
     @commands.is_owner()
     async def update(self, ctx, thing):
-        if thing.lower() == 'data':
-            with open('data/data.json', 'r', encoding='utf8') as d:
+        if thing.lower() == "data":
+            with open("data/data.json", "r", encoding="utf8") as d:
                 self.d = recursive_update(self.d, cj.load(d))
 
             self.d.findables = cj.classify(self.d.special_findables + self.d.default_findables)
-        elif thing.lower() == 'text':
-            with open('data/text.json', 'r', encoding='utf8') as t:  # recursive shit not needed here
+        elif thing.lower() == "text":
+            with open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
                 self.bot.langs.update(cj.load(t))
-        elif thing.lower() == 'mcservers':
+        elif thing.lower() == "mcservers":
             self.d.additional_mcservers = await self.db.fetch_all_mcservers()
         else:
             await self.bot.send(ctx, 'Invalid, options are "data", "text", or "mcservers"')
@@ -111,11 +111,11 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name='botban')
+    @commands.command(name="botban")
     @commands.is_owner()
     async def botban_user(self, ctx, users: commands.Greedy[discord.User]):
         if len(users) == 0:
-            await self.bot.send(ctx, 'You have to specify a user.')
+            await self.bot.send(ctx, "You have to specify a user.")
             return
 
         for user in users:
@@ -123,11 +123,11 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name='unbotban', aliases=['botunban'])
+    @commands.command(name="unbotban", aliases=["botunban"])
     @commands.is_owner()
     async def unbotban_user(self, ctx, users: commands.Greedy[discord.User]):
         if len(users) == 0:
-            await self.bot.send(ctx, 'You have to specify a user.')
+            await self.bot.send(ctx, "You have to specify a user.")
             return
 
         for user in users:
@@ -135,7 +135,7 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name='lookup')
+    @commands.command(name="lookup")
     @commands.is_owner()
     async def lookup(self, ctx, user: Union[discord.User, int]):
         if isinstance(user, discord.User):
@@ -143,47 +143,47 @@ class Owner(commands.Cog):
         else:
             uid = user
 
-        guilds = ''
+        guilds = ""
 
         for guild in self.bot.guilds:
             if guild.get_member(uid) is not None:
-                guilds += f'{guild} **|** `{guild.id}`\n'
+                guilds += f"{guild} **|** `{guild.id}`\n"
 
-        if guilds == '':
-            await self.bot.send(ctx, 'No results...')
+        if guilds == "":
+            await self.bot.send(ctx, "No results...")
         else:
             await self.bot.send(ctx, guilds)
 
-    @commands.command(name='setactivity')
+    @commands.command(name="setactivity")
     @commands.is_owner()
     async def set_activity(self, ctx, *, activity):
         await self.bot.change_presence(activity=discord.Game(name=activity))
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name='whoyadaddy', aliases=['whodaddy'])
+    @commands.command(name="whoyadaddy", aliases=["whodaddy"])
     @commands.is_owner()
     async def who_ya_daddy(self, ctx):
-        await ctx.send(f'Iapetus11 is {random.choice(self.d.owos)}')
+        await ctx.send(f"Iapetus11 is {random.choice(self.d.owos)}")
 
-    @commands.command(name='topguilds')
+    @commands.command(name="topguilds")
     @commands.is_owner()
     async def top_guilds(self, ctx):
         guilds = sorted(self.bot.guilds, reverse=True, key=(lambda g: g.member_count))[:20]
 
-        body = ''
+        body = ""
         for i, g in enumerate(guilds, start=1):
-            body += f'{i}. **{g.member_count}** {g} *{g.id}*\n'
+            body += f"{i}. **{g.member_count}** {g} *{g.id}*\n"
 
         await self.bot.send(ctx, body)
 
-    @commands.command(name='toggleownerlock', aliases=['ownerlock'])
+    @commands.command(name="toggleownerlock", aliases=["ownerlock"])
     @commands.is_owner()
     async def toggle_owner_lock(self, ctx):
         self.bot.owner_locked = not self.bot.owner_locked
-        await self.bot.send(ctx, f'All commands owner only: {self.bot.owner_locked}')
+        await self.bot.send(ctx, f"All commands owner only: {self.bot.owner_locked}")
 
-    @commands.command(name='setbal')
+    @commands.command(name="setbal")
     @commands.is_owner()
     async def set_user_bal(self, ctx, user: Union[discord.User, int], balance: int):
         if isinstance(user, discord.User):
@@ -191,27 +191,27 @@ class Owner(commands.Cog):
         else:
             uid = user
 
-        await self.db.update_user(uid, 'emeralds', balance)
+        await self.db.update_user(uid, "emeralds", balance)
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name='itemwealth')
+    @commands.command(name="itemwealth")
     @commands.is_owner()
     async def item_wealth(self, ctx):
-        items = await self.db.db.fetch('SELECT * FROM items')
+        items = await self.db.db.fetch("SELECT * FROM items")
 
         users = {}
 
         for item in items:
-            prev = users.get(item['uid'], 0)
+            prev = users.get(item["uid"], 0)
 
-            users[item['uid']] = prev + (item['amount'] * item['sell_price'])
+            users[item["uid"]] = prev + (item["amount"] * item["sell_price"])
 
         users = users.items()
         users_sorted = sorted(users, key=(lambda e: e[1]), reverse=True)[:30]
 
-        body = ''
+        body = ""
         for u in users_sorted:
-            body += f'`{u[0]}` - {u[1]}{self.d.emojis.emerald}\n'
+            body += f"`{u[0]}` - {u[1]}{self.d.emojis.emerald}\n"
 
         await ctx.send(body)
 
