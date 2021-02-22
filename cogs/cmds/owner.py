@@ -1,4 +1,4 @@
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from util.misc import recursive_update
 from discord.ext import commands
 from typing import Union
@@ -89,7 +89,7 @@ class Owner(commands.Cog):
         async with ctx.typing():
             system_call = functools.partial(os.system, "sudo git pull > git_pull_log 2>&1")
 
-            with ProcessPoolExecutor() as p:
+            with ThreadPoolExecutor() as p:
                 await self.bot.loop.run_in_executor(p, system_call)
 
         async with aiofile.async_open("git_pull_log", "r") as f:
