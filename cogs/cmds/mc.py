@@ -1,3 +1,4 @@
+from concurrent.futures import ProcessPoolExecutor
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from cryptography.fernet import Fernet
@@ -103,7 +104,9 @@ class Minecraft(commands.Cog):
 
         with ctx.typing():
             mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
-            _, img_bytes = await self.bot.loop.run_in_executor(self.bot.ppool, mosaic_gen_partial)
+
+            with ProcessPoolExecutor() as p:
+                _, img_bytes = await self.bot.loop.run_in_executor(p, mosaic_gen_partial)
 
             filename = f"tmp/{ctx.message.id}-{img.width}x{img.height}.png"
 
