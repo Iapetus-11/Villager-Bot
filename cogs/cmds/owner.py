@@ -99,13 +99,13 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def update(self, ctx, thing):
         if thing.lower() == "data":
-            with open("data/data.json", "r", encoding="utf8") as d:
-                self.d = recursive_update(self.d, cj.load(d))
+            async with aiofile.async_open("data/data.json", "r", encoding="utf8") as d:
+                self.d = recursive_update(self.d, cj.loads(await d.read()))
 
             self.d.findables = cj.classify(self.d.special_findables + self.d.default_findables)
         elif thing.lower() == "text":
-            with open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
-                self.bot.langs.update(cj.load(t))
+            async with aiofile.async_open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
+                self.bot.langs.update(cj.loads(await t.read()))
         elif thing.lower() == "mcservers":
             self.d.additional_mcservers = await self.db.fetch_all_mcservers()
         else:
