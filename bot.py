@@ -210,6 +210,5 @@ if __name__ == "__main__":
 
         return True
 
-    with concurrent.futures.ProcessPoolExecutor() as ppool:
-        bot.ppool = ppool
+    with concurrent.futures.ProcessPoolExecutor() as bot.ppool:
         bot.run(keys.discord)  # run the bot, this is a blocking call
