@@ -81,6 +81,9 @@ class Minecraft(commands.Cog):
     @commands.command(name="mcimage", aliases=["mcpixelart", "mcart", "mcimg"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def mcpixelart(self, ctx):
+        await ctx.send("This command is temporarily disabled.")
+        return
+
         files = ctx.message.attachments
 
         if len(files) < 1:
