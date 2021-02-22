@@ -71,6 +71,11 @@ class Slash(commands.Cog):
         await self.prep(ctx)
         await self.useful.youtube_search(ctx, query)
 
+    @cog_ext.cog_slash(name="image", description="Search on Google images from Discord!")
+    async def google(self, ctx, query: str):
+        await self.prep(ctx)
+        await self.useful.image_search(ctx, query)
+
 
 def setup(bot):
     bot.add_cog(Slash(bot))
