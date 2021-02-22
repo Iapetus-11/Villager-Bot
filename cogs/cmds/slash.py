@@ -61,6 +61,16 @@ class Slash(commands.Cog):
         await self.prep(ctx)
         await self.useful.useful_links(ctx)
 
+    @cog_ext.cog_slash(name="google", description="Search on Google from Discord!")
+    async def google(self, ctx, query: str):
+        await self.prep(ctx)
+        await self.useful.google_search(ctx, query)
+
+    @cog_ext.cog_slash(name="youtube", description="Search on Youtube from Discord!")
+    async def google(self, ctx, query: str):
+        await self.prep(ctx)
+        await self.useful.youtube_search(ctx, query)
+
 
 def setup(bot):
     bot.add_cog(Slash(bot))
