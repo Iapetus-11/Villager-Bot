@@ -13,12 +13,14 @@ class Slash(commands.Cog):
 
     async def prep(self, ctx):
         ctx.l = await self.bot.get_lang(ctx)
-        ctx.prefix = await self.bot.get_prefix(ctx)
-        ctx.invoked_subcommand = None
 
         if ctx.author.id in self.d.ban_cache:
             ctx.custom_err = "bot_banned"
             raise Exception("User is botbanned from slash commands")
+
+        ctx.prefix = await self.bot.get_prefix(ctx)
+        ctx.invoked_subcommand = None
+        ctx.typing = ctx.channel.typing
 
         await ctx.respond()
 
