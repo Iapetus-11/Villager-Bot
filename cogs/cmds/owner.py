@@ -1,4 +1,3 @@
-from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from util.misc import recursive_update
 from discord.ext import commands
 from typing import Union
@@ -87,13 +86,10 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def gitpull(self, ctx):
         async with ctx.typing():
-            system_call = functools.partial(os.system, "sudo git pull > git_pull_log 2>&1")
+            os.system("sudo git pull > git_pull_log 2>&1")
 
-            with ThreadPoolExecutor() as p:
-                await self.bot.loop.run_in_executor(p, system_call)
-
-        async with aiofile.async_open("git_pull_log", "r") as f:
-            await self.bot.send(ctx, f"```diff\n{await f.read()}\n```")
+            async with aiofile.async_open("git_pull_log", "r") as f:
+                await self.bot.send(ctx, f"```diff\n{await f.read()}\n```")
 
         os.remove("git_pull_log")
 
