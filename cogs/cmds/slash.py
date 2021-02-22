@@ -21,11 +21,11 @@ class Slash(commands.Cog):
 
         await ctx.respond()
 
-    @cog_ext.cog_slash(name="help", description="View helpful information about Villager Bot!")
-    async def help(self, ctx):
-        await self.prep(ctx)
-        await self.useful.help(ctx)
-
+    # @cog_ext.cog_slash(name="help", description="View helpful information about Villager Bot!")
+    # async def help(self, ctx):
+    #     await self.prep(ctx)
+    #     await self.useful.help(ctx)
+    #
     # @cog_ext.cog_subcommand(base="help", name="econ", description="View helpful information about Villager Bot's economy commands!")
     # async def help_economy(self, ctx):
     #     await self.prep(ctx)
