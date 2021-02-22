@@ -1,4 +1,3 @@
-from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from cryptography.fernet import Fernet
@@ -7,9 +6,10 @@ import aiomcrcon as rcon
 import classyjson as cj
 from util import mosaic
 import functools
+import aiofile
 import aiohttp
-import discord
 import asyncio
+import discord
 import random
 import base64
 import arrow
@@ -107,11 +107,10 @@ class Minecraft(commands.Cog):
 
             filename = f"tmp/{ctx.message.id}-{img.width}x{img.height}.png"
 
-            with open(filename, "wb+") as tmp:
-                tmp.write(img_bytes)
+            async with aiofile.async_open(filename, "wb+") as tmp:
+                await tmp.write(img_bytes)
 
             await ctx.send(file=discord.File(filename, filename=img.filename))
-
             os.remove(filename)
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
