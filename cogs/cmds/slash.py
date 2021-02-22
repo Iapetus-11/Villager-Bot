@@ -9,6 +9,7 @@ class Slash(commands.Cog):
         self.d = bot.d
 
         self.useful = bot.get_cog("Useful")
+        self.fun = bot.get_cog("Fun")
 
     async def prep(self, ctx):
         ctx.l = await self.bot.get_lang(ctx)
@@ -75,6 +76,11 @@ class Slash(commands.Cog):
     async def google(self, ctx, query: str):
         await self.prep(ctx)
         await self.useful.image_search(ctx, query)
+
+    @cog_ext.cog_slash(name="meme", description="Sends a random meme from Reddit!")
+    async def meme(self, ctx):
+        await self.prep(ctx)
+        await self.fun.meme(ctx)
 
 
 def setup(bot):
