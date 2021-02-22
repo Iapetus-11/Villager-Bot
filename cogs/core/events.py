@@ -115,6 +115,11 @@ class Events(commands.Cog):
         if loc is None:
             loc = self.bot.get_channel(self.d.error_channel_id)
 
+        try:
+            ctx.message.content
+        except AttributeError:
+            ctx.message.content = None
+
         traceback_text = "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
         final = f"{ctx.author} (lang={ctx.__dict__.get('l', {}).get('lang')}): {ctx.message.content}\n\n{traceback_text}".replace("``", "\`\`\`")
 

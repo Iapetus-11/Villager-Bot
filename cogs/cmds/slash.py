@@ -20,11 +20,6 @@ class Slash(commands.Cog):
             ctx.custom_err = "bot_banned"
             raise Exception("User is botbanned from slash commands")
 
-        try:
-            ctx.message.content
-        except BaseException:
-            ctx.message.content = ""
-
         await ctx.respond()
 
     # @cog_ext.cog_slash(name="help", description="View helpful information about Villager Bot!")
