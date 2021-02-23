@@ -14,7 +14,7 @@ class Database(commands.Cog):
         self.update_support_server_member_roles.start()
 
         self._user_cache = {}  # {uid: Record(user)}
-        self._item_cache = {}  # {uid: [Record(item), Record(item)]}
+        self._items_cache = {}  # {uid: [Record(item), Record(item)]}
 
     def cog_unload(self):
         self.update_user_health.cancel()
@@ -38,12 +38,12 @@ class Database(commands.Cog):
             pass
 
     def cache_items(self, uid, items):
-        self._item_cache[uid] = items
+        self._items_cache[uid] = items
         return items
 
     def uncache_items(self, uid):
         try:
-            del self._item_cache[uid]
+            del self._items_cache[uid]
         except KeyError:
             pass
 
@@ -237,7 +237,7 @@ class Database(commands.Cog):
 
     async def fetch_items(self, uid):
         try:
-            return self._item_cache[uid]
+            return self._items_cache[uid]
         except KeyError:
             self.uncache_items(uid)
 
