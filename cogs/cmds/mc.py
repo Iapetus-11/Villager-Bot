@@ -52,12 +52,7 @@ class Minecraft(commands.Cog):
                     split = str(elem).split("\n")
                     url = split[9][9:-2]
                     ip = split[16][46:-2].replace("https://", "").replace("http://", "")
-                    servers_nice.append(
-                        (
-                            ip,
-                            url,
-                        )
-                    )
+                    servers_nice.append((ip, url))
 
         self.d.mcserver_list = list(set(servers_nice)) + self.d.additional_mcservers
 
