@@ -240,7 +240,7 @@ class Econ(commands.Cog):
                         return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
                     react, r_user = await self.bot.wait_for(
-                        "reaction_add", check=author_check, timeout=5 * 60
+                        "reaction_add", check=author_check, timeout=(2 * 60)
                     )  # wait for reaction from message author
                 except asyncio.TimeoutError:
                     return
