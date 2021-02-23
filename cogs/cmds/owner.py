@@ -88,7 +88,7 @@ class Owner(commands.Cog):
         async with ctx.typing():
             os.system("sudo git pull > git_pull_log 2>&1")
 
-            with aiofiles.open("git_pull_log", "r") as f:
+            async with aiofiles.open("git_pull_log", "r") as f:
                 await self.bot.send(ctx, f"```diff\n{await f.read()}\n```")
 
         os.remove("git_pull_log")
