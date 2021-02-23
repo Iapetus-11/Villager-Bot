@@ -239,12 +239,19 @@ class Database(commands.Cog):
         try:
             return self._items_cache[uid]
         except KeyError:
-            self.uncache_items(uid)
+            pass
 
         await self.fetch_user(uid)
         return self.cache_items(uid, await self.db.fetch("SELECT * FROM items WHERE uid = $1", uid))
 
     async def fetch_item(self, uid, name):
+        try:
+            for item_record in self._items_cache[uid]:
+                if name.lower() == item_record["name"].lower():
+                    return item_record
+        except KeyError:
+            pass
+
         await self.fetch_user(uid)
         return await self.db.fetchrow("SELECT * FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)", uid, name)
 
