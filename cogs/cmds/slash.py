@@ -12,6 +12,8 @@ class Slash(commands.Cog):
         self.fun = bot.get_cog("Fun")
 
     async def prep(self, ctx):
+        await ctx.respond()
+
         ctx.l = await self.bot.get_lang(ctx)
 
         if ctx.author.id in self.d.ban_cache:
@@ -21,8 +23,6 @@ class Slash(commands.Cog):
         ctx.prefix = await self.bot.get_prefix(ctx)
         ctx.invoked_subcommand = None
         ctx.typing = ctx.channel.typing
-
-        await ctx.respond()
 
     # @cog_ext.cog_slash(name="help", description="View helpful information about Villager Bot!")
     # async def help(self, ctx):
