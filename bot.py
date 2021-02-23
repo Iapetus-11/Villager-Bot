@@ -59,8 +59,8 @@ if __name__ == "__main__":
     bot.slashbot = SlashCommand(
         bot,
         override_type=True,
-        sync_commands=True,
-        sync_on_cog_reload=True,
+        # sync_commands=True,
+        # sync_on_cog_reload=True,
         delete_from_unused_guilds=True,
     )
 
