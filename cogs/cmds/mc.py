@@ -6,7 +6,7 @@ import aiomcrcon as rcon
 import classyjson as cj
 from util import mosaic
 import functools
-import aiofile
+import aiofiles
 import aiohttp
 import asyncio
 import discord
@@ -76,9 +76,6 @@ class Minecraft(commands.Cog):
     @commands.command(name="mcimage", aliases=["mcpixelart", "mcart", "mcimg"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def mcpixelart(self, ctx):
-        await ctx.send("This command is temporarily disabled.")
-        return
-
         files = ctx.message.attachments
 
         if len(files) < 1:
@@ -106,7 +103,7 @@ class Minecraft(commands.Cog):
 
             filename = f"tmp/{ctx.message.id}-{img.width}x{img.height}.png"
 
-            async with aiofile.async_open(filename, "wb+") as tmp:
+            async with aiofiles.open(filename, "wb+") as tmp:
                 await tmp.write(img_bytes)
 
             await ctx.send(file=discord.File(filename, filename=img.filename))
