@@ -234,6 +234,7 @@ class Econ(commands.Cog):
                     await asyncio.sleep(0.1)
                     await msg.add_reaction("➡️")
                     await asyncio.sleep(0.1)
+
                 try:
 
                     def author_check(react, r_user):
@@ -251,6 +252,7 @@ class Econ(commands.Cog):
                     page -= 1 if page - 1 >= 0 else 0
                 if react.emoji == "➡️":
                     page += 1 if page + 1 <= page_max else 0
+
                 await asyncio.sleep(0.1)
             else:
                 break
@@ -273,10 +275,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.dep.poor_loser)
             return
 
-        if emerald_blocks.lower() in (
-            "all",
-            "max",
-        ):
+        if emerald_blocks.lower() in ("all", "max"):
             amount = c_v_max - c_v_bal
 
             if amount * 9 > c_bal:
