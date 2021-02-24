@@ -130,7 +130,7 @@ class Minecraft(commands.Cog):
 
         with ctx.typing():
             async with self.ses.get(
-                f"https://api.iapetus11.me/mc/status/{combined}", headers={"Authorization": self.k.vb_api}
+                f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}", headers={"Authorization": self.k.vb_api}
             ) as res:  # fetch status from api
                 jj = await res.json()
 
