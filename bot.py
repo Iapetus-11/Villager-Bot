@@ -56,13 +56,13 @@ if __name__ == "__main__":
         shard_count=20,
     )
 
-    bot.slashbot = SlashCommand(
-        bot,
-        override_type=True,
-        # sync_commands=True,
-        # sync_on_cog_reload=True,
-        delete_from_unused_guilds=True,
-    )
+    # bot.slashbot = SlashCommand(
+    #     bot,
+    #     override_type=True,
+    #     # sync_commands=True,
+    #     # sync_on_cog_reload=True,
+    #     delete_from_unused_guilds=True,
+    # )
 
     bot.logger = logger
 
@@ -158,7 +158,7 @@ if __name__ == "__main__":
         "cogs.cmds.fun",
         "cogs.cmds.econ",
         "cogs.cmds.config",
-        "cogs.cmds.slash",
+        # "cogs.cmds.slash",
         "cogs.other.mobs",
         "cogs.other.status",
         "cogs.other.statcord",
