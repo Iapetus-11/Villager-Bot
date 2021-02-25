@@ -99,7 +99,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             embed = discord.Embed(
                 color=self.d.cc,
                 title=f"**{random.choice(ctx.l.mobs_mech.mob_drops).format(mob.nice.lower())}**",
-                description="Do you want to `fight` the mob?",  # fight it you little baby
+                description=ctx.l.mobs_mech.type_engage,  # fight it you little baby
             )
 
             embed.set_image(url=mob.image)
@@ -138,7 +138,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             while True:
                 iteration += 1
 
-                embed = discord.Embed(color=self.d.cc, title="Do you want to `attack` or `flee`?")
+                embed = discord.Embed(color=self.d.cc, title=ctx.l.mobs_mech.attack_or_flee)
                 embed.set_image(url=mob.image)
 
                 embed.add_field(  # user health bar
