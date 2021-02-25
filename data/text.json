@@ -1780,6 +1780,8 @@
     },
     "mobs_mech": {
       "no_health": "Tu n'as pas assez de vie pour combattre ce monstre.",
+      "type_engage": "Type `fight` to fight the mob!",
+      "attack_or_flee": "Type `attack` to attack, or `flee` to run away.",
       "flee_insults": [
         "C'est ça, enfuis-toi comme un petit bébé",
         "C'est ça, va voir maman comme un petit bébé",
