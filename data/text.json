@@ -148,6 +148,8 @@
     },
     "mobs_mech": {
       "no_health": "You don't have enough health to fight this mob.",
+      "type_engage": "Type `fight` to fight the mob!",
+      "attack_or_flee": "Type `attack` to attack, or `flee` to run away.",
       "flee_insults": [
         "Fine, run away like a little baby",
         "Fine, run to mommy like a little baby",
@@ -962,7 +964,9 @@
       }
     },
     "mobs_mech": {
-      "no_health": "No tienes suficiente salud para luchar contra esta mafia.",
+      "no_health": "No tienes suficiente salud para luchar contra esta monstruo.",
+      "type_engage": "Escribe `fight` para combatir al monstruo.",
+      "attack_or_flee": "Escribe `attack` para atacar, o `flee` para huir.",
       "flee_insults": [
         "Bien, huye como un pequeño bebé",
         "Bien, corre hacia mamá como un pequeño bebé",
