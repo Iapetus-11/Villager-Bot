@@ -170,7 +170,7 @@ class Events(commands.Cog):
                 await self.bot.send(ctx, ctx.l.misc.errors.private)
             elif isinstance(e, commands.MissingPermissions):
                 await self.bot.send(ctx, ctx.l.misc.errors.user_perms)
-            elif isinstance(e, commands.BotMissingPermissions):
+            elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
                 await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
             elif isinstance(e, commands.MaxConcurrencyReached):
                 await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
@@ -200,8 +200,7 @@ class Events(commands.Cog):
                 # errors to ignore
                 for e_type in (
                     commands.CommandNotFound,
-                    commands.NotOwner,
-                    discord.errors.Forbidden,
+                    commands.NotOwner
                 ):
                     if isinstance(e, e_type) or isinstance(e.__dict__.get("original"), e_type):
                         return
