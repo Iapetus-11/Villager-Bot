@@ -84,7 +84,9 @@ class Webhooks(commands.Cog):
                     )
             except BaseException as e:
                 traceback_text = "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
-                await self.bot.send(self.bot.get_channel(self.d.error_channel_id), f"Voting error: {user} ```{traceback_text}```")
+                await self.bot.send(
+                    self.bot.get_channel(self.d.error_channel_id), f"Voting error: {user} ```{traceback_text}```"
+                )
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):

@@ -42,7 +42,10 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache
 
     def attack_check(self, m, e_msg):
-        if m.content.lower().replace(ctx.prefix, "", 1) not in self.d.mobs_mech.valid_attacks and m.content.lower() not in self.d.mobs_mech.valid_flees:
+        if (
+            m.content.lower().replace(ctx.prefix, "", 1) not in self.d.mobs_mech.valid_attacks
+            and m.content.lower() not in self.d.mobs_mech.valid_flees
+        ):
             return False
 
         return m.channel.id == e_msg.channel.id and m.author.id == e_msg.author.id

@@ -52,12 +52,17 @@ class Events(commands.Cog):
         self.d.msg_count += 1
 
         try:
-            if m.type in (
-                discord.MessageType.premium_guild_subscription,
-                discord.MessageType.premium_guild_tier_1,
-                discord.MessageType.premium_guild_tier_2,
-                discord.MessageType.premium_guild_tier_3,
-            ) and m.guild is not None and m.guild.id == self.d.support_server_id:
+            if (
+                m.type
+                in (
+                    discord.MessageType.premium_guild_subscription,
+                    discord.MessageType.premium_guild_tier_1,
+                    discord.MessageType.premium_guild_tier_2,
+                    discord.MessageType.premium_guild_tier_3,
+                )
+                and m.guild is not None
+                and m.guild.id == self.d.support_server_id
+            ):
                 await self.db.add_item(m.author.id, "Barrel", 1024, 1)
                 await self.bot.send(m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!")
                 return
@@ -121,7 +126,11 @@ class Events(commands.Cog):
             ctx.message.content = None
 
         traceback_text = "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
-        final = f"{ctx.author} (lang={ctx.__dict__.get('l', {}).get('lang')}): {ctx.message.content}\n\n{traceback_text}".replace("``", "\`\`\`")
+        final = (
+            f"{ctx.author} (lang={ctx.__dict__.get('l', {}).get('lang')}): {ctx.message.content}\n\n{traceback_text}".replace(
+                "``", "\`\`\`"
+            )
+        )
 
         await self.bot.send(loc, f"```py\n{final[:1023 - 6]}```")
 
@@ -198,10 +207,7 @@ class Events(commands.Cog):
                 return
             else:
                 # errors to ignore
-                for e_type in (
-                    commands.CommandNotFound,
-                    commands.NotOwner
-                ):
+                for e_type in (commands.CommandNotFound, commands.NotOwner):
                     if isinstance(e, e_type) or isinstance(e.__dict__.get("original"), e_type):
                         return
 
