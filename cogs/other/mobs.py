@@ -41,7 +41,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
         return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache
 
-    def attack_check(self, m, e_msg):
+    def attack_check(self, m, e_msg, ctx):
         if (
             m.content.lower().replace(ctx.prefix, "", 1) not in self.d.mobs_mech.valid_attacks
             and m.content.lower() not in self.d.mobs_mech.valid_flees
@@ -168,7 +168,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 try:
                     resp = await self.bot.wait_for(
-                        "message", check=(lambda m: self.attack_check(m, engage_msg)), timeout=15
+                        "message", check=(lambda m: self.attack_check(m, engage_msg, ctx)), timeout=15
                     )  # wait for response
                 except asyncio.TimeoutError:  # user didn't respond
                     await msg.edit(suppress=True)
