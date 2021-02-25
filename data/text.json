@@ -558,7 +558,7 @@
       "pp": {
         "bot_1": "Hey dumb dumb, Villager Bot has wayy to much stuff to show here.",
         "bot_2": "Hey dumb dumb, bots don't have rights and therefore can't have items or emeralds.",
-        "total_wealth": "Total Wealth",
+        "total_wealth": "Net Wealth",
         "cmds_sent": "Commands Sent",
         "pick": "Pickaxe",
         "sword": "Sword",
@@ -571,7 +571,7 @@
         "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
         "bot_2": "Bots don't have rights and can't have emeralds or stuff.",
         "s_emeralds": "{}'s emeralds",
-        "total_wealth": "Total Wealth: {}{}",
+        "total_wealth": "Net Wealth: {}{}",
         "pocket": "Pocket",
         "vault": "Vault"
       },
@@ -1373,7 +1373,7 @@
       "pp": {
         "bot_1": "Oye, tonto, tonto, el Villager Bot tiene muchas cosas que mostrar aquí.",
         "bot_2": "Hey tonto, los bots no tienen derechos y por lo tanto no pueden tener artículos o esmeraldas.",
-        "total_wealth": "Riqueza Total",
+        "total_wealth": "Riqueza Neta",
         "cmds_sent": "Comandos Enviados",
         "pick": "Pickaxe",
         "sword": "Espada",
@@ -1386,7 +1386,7 @@
         "bot_1": "El Villager Bot tiene demasiadas esmeraldas para mostrarlas.",
         "bot_2": "Los bots no tienen derechos y no pueden tener esmeraldas o cosas así.",
         "s_emeralds": "esmeraldas de {}",
-        "total_wealth": "Riqueza Total: {}{}",
+        "total_wealth": "Riqueza Neta: {}{}",
         "pocket": "Bolsillo",
         "vault": "Bóveda"
       },
@@ -2186,7 +2186,7 @@
       "pp": {
         "bot_1": "Hey benêt, le Villager Bot a beaucouup trop de choses à afficher ici.",
         "bot_2": "Hey benêt, les bots n'ont pas de droits et donc ne peuvent pas avoir d'objets ou d'émeraudes.",
-        "total_wealth": "Richesse totale",
+        "total_wealth": "Richesse Nette",
         "cmds_sent": "Commandes envoyées",
         "pick": "Pioche",
         "sword": "Épée",
@@ -2199,7 +2199,7 @@
         "bot_1": "Le Villager Bot a bien trop d'émeraudes à afficher !",
         "bot_2": "Les Bots n'ont pas de droits et ne peuvent pas avoir d'émeraudes ou d'équipement.",
         "s_emeralds": "Émeraudes de {}",
-        "total_wealth": "Richesse totale : {}{}",
+        "total_wealth": "Richesse Nette : {}{}",
         "pocket": "Poche",
         "vault": "Coffre"
       },
