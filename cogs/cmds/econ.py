@@ -893,7 +893,7 @@ class Econ(commands.Cog):
             if db_user["vault_max"] < 2000:
                 await self.db.update_user(ctx.author.id, "vault_max", db_user["vault_max"] + 1)
 
-    @commands.command(name="pillage", aliases=["rob"])
+    @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
