@@ -21,11 +21,16 @@ class Webhooks(commands.Cog):
         self.server_runner = None
         self.webhook_server = None
 
-        bot.loop.create_task(self.webhooks_setup())
-        bot.loop.create_task(self.update_stats())
+        self.webhooks_task = bot.loop.create_task(self.webhooks_setup())
+        self.stats_task = bot.loop.create_task(self.update_stats())
 
     def cog_unload(self):
         self.bot.loop.create_task(self.server_runner.cleanup())
+        self.bot.loop.create_task(self.ses.close())
+        self.bot.loop.create_task(self.webhook_server.close())
+
+        self.webhooks_task.cancel()
+        self.stats_task.cancel()
 
     async def update_stats(self):
         await self.bot.wait_until_ready()
