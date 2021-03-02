@@ -124,10 +124,12 @@ class Econ(commands.Cog):
         vote_streak = db_user["vote_streak"]
         voted = arrow.utcnow().shift(hours=-12) < arrow.get(0 if db_user["streak_time"] is None else db_user["streak_time"])
 
-        if arrow.utcnow().shift(days=-1, minutes=-10) > arrow.get(
+        if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(
             0 if db_user["streak_time"] is None else db_user["streak_time"]
         ):
             vote_streak = 0
+            await self.db.update_user(user.id, "vote_streak", 0)
+            await self.db.update_user(user.id, "streak_time", None)
 
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
@@ -234,13 +236,14 @@ class Econ(commands.Cog):
                     await asyncio.sleep(0.1)
                     await msg.add_reaction("➡️")
                     await asyncio.sleep(0.1)
+
                 try:
 
                     def author_check(react, r_user):
                         return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
                     react, r_user = await self.bot.wait_for(
-                        "reaction_add", check=author_check, timeout=5 * 60
+                        "reaction_add", check=author_check, timeout=(2 * 60)
                     )  # wait for reaction from message author
                 except asyncio.TimeoutError:
                     return
@@ -251,6 +254,7 @@ class Econ(commands.Cog):
                     page -= 1 if page - 1 >= 0 else 0
                 if react.emoji == "➡️":
                     page += 1 if page + 1 <= page_max else 0
+
                 await asyncio.sleep(0.1)
             else:
                 break
@@ -273,10 +277,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.dep.poor_loser)
             return
 
-        if emerald_blocks.lower() in (
-            "all",
-            "max",
-        ):
+        if emerald_blocks.lower() in ("all", "max"):
             amount = c_v_max - c_v_bal
 
             if amount * 9 > c_bal:
@@ -894,7 +895,7 @@ class Econ(commands.Cog):
             if db_user["vault_max"] < 2000:
                 await self.db.update_user(ctx.author.id, "vault_max", db_user["vault_max"] + 1)
 
-    @commands.command(name="pillage", aliases=["bonk"])
+    @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)

@@ -1,4 +1,3 @@
-from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from cryptography.fernet import Fernet
@@ -7,9 +6,10 @@ import aiomcrcon as rcon
 import classyjson as cj
 from util import mosaic
 import functools
+import aiofiles
 import aiohttp
-import discord
 import asyncio
+import discord
 import random
 import base64
 import arrow
@@ -52,12 +52,7 @@ class Minecraft(commands.Cog):
                     split = str(elem).split("\n")
                     url = split[9][9:-2]
                     ip = split[16][46:-2].replace("https://", "").replace("http://", "")
-                    servers_nice.append(
-                        (
-                            ip,
-                            url,
-                        )
-                    )
+                    servers_nice.append((ip, url))
 
         self.d.mcserver_list = list(set(servers_nice)) + self.d.additional_mcservers
 
@@ -89,14 +84,7 @@ class Minecraft(commands.Cog):
         else:
             img = files[0]
 
-        if (
-            img.filename.lower()[-4:]
-            not in (
-                ".jpg",
-                ".png",
-            )
-            and not img.filename.lower()[-5:] in (".jpeg")
-        ):
+        if img.filename.lower()[-4:] not in (".jpg", ".png") and not img.filename.lower()[-5:] in (".jpeg"):
             await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_2)
             return
 
@@ -109,17 +97,16 @@ class Minecraft(commands.Cog):
         detailed = "large" in ctx.message.content or "high" in ctx.message.content
 
         with ctx.typing():
-            with ThreadPoolExecutor() as pool:
-                mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
-                _, img_bytes = await self.bot.loop.run_in_executor(pool, mosaic_gen_partial)
+            mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
+
+            _, img_bytes = await self.bot.loop.run_in_executor(self.bot.ppool, mosaic_gen_partial)
 
             filename = f"tmp/{ctx.message.id}-{img.width}x{img.height}.png"
 
-            with open(filename, "wb+") as tmp:
-                tmp.write(img_bytes)
+            async with aiofiles.open(filename, "wb+") as tmp:
+                await tmp.write(img_bytes)
 
             await ctx.send(file=discord.File(filename, filename=img.filename))
-
             os.remove(filename)
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
@@ -143,7 +130,7 @@ class Minecraft(commands.Cog):
 
         with ctx.typing():
             async with self.ses.get(
-                f"https://api.iapetus11.me/mc/status/{combined}", headers={"Authorization": self.k.vb_api}
+                f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}", headers={"Authorization": self.k.vb_api}
             ) as res:  # fetch status from api
                 jj = await res.json()
 
@@ -340,12 +327,7 @@ class Minecraft(commands.Cog):
             jj = await res.json()
             uuid = jj["id"]
         elif (
-            len(player)
-            in (
-                32,
-                36,
-            )
-            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
+            len(player) in (32, 36) and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:
@@ -381,7 +363,7 @@ class Minecraft(commands.Cog):
 
         name_hist = "\uFEFF"
 
-        for i, name in enumerate(reversed(names)):
+        for i, name in enumerate(list(reversed(names))[:20]):
             time = name.get("changedToAt")
 
             if time is None:
@@ -399,9 +381,8 @@ class Minecraft(commands.Cog):
 
         if cape_url is not None:
             embed.description += f" | **[{ctx.l.minecraft.profile.cape}]({cape_url})**"
-
-        else:
-            embed.description += f" | {ctx.l.minecraft.profile.nocape}"
+        # else:
+        #     embed.description += f" | {ctx.l.minecraft.profile.nocape}"
 
         embed.set_thumbnail(url=f"https://visage.surgeplay.com/head/{uuid}.png")
 

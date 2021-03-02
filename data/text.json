@@ -148,6 +148,8 @@
     },
     "mobs_mech": {
       "no_health": "You don't have enough health to fight this mob.",
+      "type_engage": "Type `fight` to fight the mob!",
+      "attack_or_flee": "Type `attack` to attack, or `flee` to run away.",
       "flee_insults": [
         "Fine, run away like a little baby",
         "Fine, run to mommy like a little baby",
@@ -558,7 +560,7 @@
       "pp": {
         "bot_1": "Hey dumb dumb, Villager Bot has wayy to much stuff to show here.",
         "bot_2": "Hey dumb dumb, bots don't have rights and therefore can't have items or emeralds.",
-        "total_wealth": "Total Wealth",
+        "total_wealth": "Net Wealth",
         "cmds_sent": "Commands Sent",
         "pick": "Pickaxe",
         "sword": "Sword",
@@ -571,7 +573,7 @@
         "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
         "bot_2": "Bots don't have rights and can't have emeralds or stuff.",
         "s_emeralds": "{}'s emeralds",
-        "total_wealth": "Total Wealth: {}{}",
+        "total_wealth": "Net Wealth: {}{}",
         "pocket": "Pocket",
         "vault": "Vault"
       },
@@ -964,7 +966,9 @@
       }
     },
     "mobs_mech": {
-      "no_health": "No tienes suficiente salud para luchar contra esta mafia.",
+      "no_health": "No tienes suficiente salud para luchar contra esta monstruo.",
+      "type_engage": "Escribe `fight` para combatir al monstruo.",
+      "attack_or_flee": "Escribe `attack` para atacar, o `flee` para huir.",
       "flee_insults": [
         "Bien, huye como un pequeño bebé",
         "Bien, corre hacia mamá como un pequeño bebé",
@@ -1375,7 +1379,7 @@
       "pp": {
         "bot_1": "Oye, tonto, tonto, el Villager Bot tiene muchas cosas que mostrar aquí.",
         "bot_2": "Hey tonto, los bots no tienen derechos y por lo tanto no pueden tener artículos o esmeraldas.",
-        "total_wealth": "Riqueza Total",
+        "total_wealth": "Riqueza Neta",
         "cmds_sent": "Comandos Enviados",
         "pick": "Pickaxe",
         "sword": "Espada",
@@ -1388,7 +1392,7 @@
         "bot_1": "El Villager Bot tiene demasiadas esmeraldas para mostrarlas.",
         "bot_2": "Los bots no tienen derechos y no pueden tener esmeraldas o cosas así.",
         "s_emeralds": "esmeraldas de {}",
-        "total_wealth": "Riqueza Total: {}{}",
+        "total_wealth": "Riqueza Neta: {}{}",
         "pocket": "Bolsillo",
         "vault": "Bóveda"
       },
@@ -1778,6 +1782,8 @@
     },
     "mobs_mech": {
       "no_health": "Tu n'as pas assez de vie pour combattre ce monstre.",
+      "type_engage": "Écris `fight` pour combattre le monstre !",
+      "attack_or_flee": "Écris `attack` pour attaquer, ou `flee` pour t'enfuir.",
       "flee_insults": [
         "C'est ça, enfuis-toi comme un petit bébé",
         "C'est ça, va voir maman comme un petit bébé",
@@ -2188,7 +2194,7 @@
       "pp": {
         "bot_1": "Hey benêt, le Villager Bot a beaucouup trop de choses à afficher ici.",
         "bot_2": "Hey benêt, les bots n'ont pas de droits et donc ne peuvent pas avoir d'objets ou d'émeraudes.",
-        "total_wealth": "Richesse totale",
+        "total_wealth": "Richesse Nette",
         "cmds_sent": "Commandes envoyées",
         "pick": "Pioche",
         "sword": "Épée",
@@ -2201,7 +2207,7 @@
         "bot_1": "Le Villager Bot a bien trop d'émeraudes à afficher !",
         "bot_2": "Les Bots n'ont pas de droits et ne peuvent pas avoir d'émeraudes ou d'équipement.",
         "s_emeralds": "Émeraudes de {}",
-        "total_wealth": "Richesse totale : {}{}",
+        "total_wealth": "Richesse Nette : {}{}",
         "pocket": "Poche",
         "vault": "Coffre"
       },

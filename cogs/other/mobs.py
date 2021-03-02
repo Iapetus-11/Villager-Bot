@@ -36,13 +36,16 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         if self.d.pause_econ.get(u.id):
             return False
 
-        if m.content.lower() not in self.d.mobs_mech.valid_attacks:
+        if m.content.lower().replace(ctx.prefix, "", 1) not in self.d.mobs_mech.valid_attacks:
             return False
 
         return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache
 
-    def attack_check(self, m, e_msg):
-        if m.content.lower() not in self.d.mobs_mech.valid_attacks and m.content.lower() not in self.d.mobs_mech.valid_flees:
+    def attack_check(self, m, e_msg, ctx):
+        if (
+            m.content.lower().replace(ctx.prefix, "", 1) not in self.d.mobs_mech.valid_attacks
+            and m.content.lower() not in self.d.mobs_mech.valid_flees
+        ):
             return False
 
         return m.channel.id == e_msg.channel.id and m.author.id == e_msg.author.id
@@ -99,7 +102,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             embed = discord.Embed(
                 color=self.d.cc,
                 title=f"**{random.choice(ctx.l.mobs_mech.mob_drops).format(mob.nice.lower())}**",
-                description="Do you want to `fight` the mob?",  # fight it you little baby
+                description=ctx.l.mobs_mech.type_engage,  # fight it you little baby
             )
 
             embed.set_image(url=mob.image)
@@ -138,7 +141,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             while True:
                 iteration += 1
 
-                embed = discord.Embed(color=self.d.cc, title="Do you want to `attack` or `flee`?")
+                embed = discord.Embed(color=self.d.cc, title=ctx.l.mobs_mech.attack_or_flee)
                 embed.set_image(url=mob.image)
 
                 embed.add_field(  # user health bar
@@ -165,7 +168,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 try:
                     resp = await self.bot.wait_for(
-                        "message", check=(lambda m: self.attack_check(m, engage_msg)), timeout=15
+                        "message", check=(lambda m: self.attack_check(m, engage_msg, ctx)), timeout=15
                     )  # wait for response
                 except asyncio.TimeoutError:  # user didn't respond
                     await msg.edit(suppress=True)

@@ -21,11 +21,16 @@ class Webhooks(commands.Cog):
         self.server_runner = None
         self.webhook_server = None
 
-        bot.loop.create_task(self.webhooks_setup())
-        bot.loop.create_task(self.update_stats())
+        self.webhooks_task = bot.loop.create_task(self.webhooks_setup())
+        self.stats_task = bot.loop.create_task(self.update_stats())
 
     def cog_unload(self):
         self.bot.loop.create_task(self.server_runner.cleanup())
+        self.bot.loop.create_task(self.ses.close())
+        self.bot.loop.create_task(self.webhook_server.close())
+
+        self.webhooks_task.cancel()
+        self.stats_task.cancel()
 
     async def update_stats(self):
         await self.bot.wait_until_ready()
@@ -84,7 +89,9 @@ class Webhooks(commands.Cog):
                     )
             except BaseException as e:
                 traceback_text = "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
-                await self.bot.send(self.bot.get_channel(self.d.error_channel_id), f"Voting error: {user} ```{traceback_text}```")
+                await self.bot.send(
+                    self.bot.get_channel(self.d.error_channel_id), f"Voting error: {user} ```{traceback_text}```"
+                )
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):
@@ -118,7 +125,7 @@ class Webhooks(commands.Cog):
         if streak_time is None:  # time
             streak_time = 0
 
-        if arrow.utcnow().shift(days=-1, minutes=-10) > arrow.get(streak_time):  # vote expired
+        if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(streak_time):  # vote expired
             vote_streak = 1
 
         amount *= 5 if vote_streak > 5 else vote_streak

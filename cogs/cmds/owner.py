@@ -2,6 +2,8 @@ from util.misc import recursive_update
 from discord.ext import commands
 from typing import Union
 import classyjson as cj
+import functools
+import aiofiles
 import discord
 import random
 import ast
@@ -84,10 +86,11 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def gitpull(self, ctx):
         async with ctx.typing():
-            os.system("sudo git pull > git_pull_log 2>&1")
+            system_call = functools.partial(os.system, "sudo git pull > git_pull_log 2>&1")
+            await self.bot.loop.run_in_executor(self.bot.ppool, system_call)
 
-        with open("git_pull_log", "r") as f:
-            await self.bot.send(ctx, f"```diff\n{f.read()}\n```")
+            async with aiofiles.open("git_pull_log", "r") as f:
+                await self.bot.send(ctx, f"```diff\n{await f.read()}\n```")
 
         os.remove("git_pull_log")
 
@@ -96,13 +99,13 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def update(self, ctx, thing):
         if thing.lower() == "data":
-            with open("data/data.json", "r", encoding="utf8") as d:
-                self.d = recursive_update(self.d, cj.load(d))
+            async with aiofiles.open("data/data.json", "r", encoding="utf8") as d:
+                self.d = recursive_update(self.d, cj.loads(await d.read()))
 
             self.d.findables = cj.classify(self.d.special_findables + self.d.default_findables)
         elif thing.lower() == "text":
-            with open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
-                self.bot.langs.update(cj.load(t))
+            async with aiofiles.open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
+                self.bot.langs.update(cj.loads(await t.read()))
         elif thing.lower() == "mcservers":
             self.d.additional_mcservers = await self.db.fetch_all_mcservers()
         else:

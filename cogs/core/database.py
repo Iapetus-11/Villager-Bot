@@ -14,7 +14,7 @@ class Database(commands.Cog):
         self.update_support_server_member_roles.start()
 
         self._user_cache = {}  # {uid: Record(user)}
-        self._item_cache = {}  # {uid: [Record(item), Record(item)]}
+        self._items_cache = {}  # {uid: [Record(item), Record(item)]}
 
     def cog_unload(self):
         self.update_user_health.cancel()
@@ -38,12 +38,12 @@ class Database(commands.Cog):
             pass
 
     def cache_items(self, uid, items):
-        self._item_cache[uid] = items
+        self._items_cache[uid] = items
         return items
 
     def uncache_items(self, uid):
         try:
-            del self._item_cache[uid]
+            del self._items_cache[uid]
         except KeyError:
             pass
 
@@ -108,24 +108,13 @@ class Database(commands.Cog):
         prefix_records = await self.db.fetch("SELECT gid, prefix FROM guilds")
 
         return dict(
-            (
-                r[0],
-                r[1]
-            )
-            for r in prefix_records
-            if (r[1] != self.d.default_prefix and r[1] != None)
+            (r[0], r[1]) for r in prefix_records if (r[1] != self.d.default_prefix and r[1] != None)
         )  # needs to be a dict
 
     async def fetch_all_mcservers(self):
         servers = await self.db.fetch("SELECT host, link FROM mcservers")
 
-        return [
-            (
-                s["host"],
-                s["link"]
-            )
-            for s in servers
-        ]
+        return [(s["host"], s["link"]) for s in servers]
 
     async def fetch_all_disabled_commands(self):
         disabled = await self.db.fetch("SELECT * FROM disabled")
@@ -237,14 +226,21 @@ class Database(commands.Cog):
 
     async def fetch_items(self, uid):
         try:
-            return self._item_cache[uid]
+            return self._items_cache[uid]
         except KeyError:
-            self.uncache_items(uid)
+            pass
 
         await self.fetch_user(uid)
         return self.cache_items(uid, await self.db.fetch("SELECT * FROM items WHERE uid = $1", uid))
 
     async def fetch_item(self, uid, name):
+        try:
+            for item_record in self._items_cache[uid]:
+                if name.lower() == item_record["name"].lower():
+                    return item_record
+        except KeyError:
+            pass
+
         await self.fetch_user(uid)
         return await self.db.fetchrow("SELECT * FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)", uid, name)
 
