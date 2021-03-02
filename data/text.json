@@ -1570,6 +1570,8 @@
         "stupid_3": "O no es un artículo utilizable, o no existe.",
         "chug": "Te has tragado un **{}** (Que dura {} minutos)",
         "chug_no_end": "Te has tragado un **{}**",
+        "chug_honey": "You've chugged a **{}** (You now have {}/20{})",
+        "full_health": "Your health is already full",
         "done": "El **{}** que has tragado antes ha desaparecido.",
         "present": [
           "Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
@@ -2387,6 +2389,8 @@
         "stupid_3": "Soit ce n'est pas un objet utilisable, soit il n'existe pas.",
         "chug": "Tu as descendu une **{}** (Qui dure {} minutes)",
         "chug_no_end": "Tu as descendu une **{}**",
+        "chug_honey": "You've chugged a **{}** (You now have {}/20{})",
+        "full_health": "Your health is already full",
         "done": "La **{}** que tu as descendu plus tôt as perdu ses effets.",
         "present": [
           "Tu ouvre ton cadeau et trouve 1x **{}** (Valant {}{})!",
