@@ -128,8 +128,8 @@ class Econ(commands.Cog):
             0 if db_user["streak_time"] is None else db_user["streak_time"]
         ):
             vote_streak = 0
-            await self.db.update_user(uid, "vote_streak", 0)
-            await self.db.update_user(uid, "stream_time", None)
+            await self.db.update_user(user.id, "vote_streak", 0)
+            await self.db.update_user(user.id, "stream_time", None)
 
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
