@@ -2597,6 +2597,8 @@
 		},
 		"mobs_mech": {
 			"no_health": "你沒有足夠的心來和這個怪獸大戰.",
+			"type_engage": "输入 `fight` 跟怪兽打仗!",
+			"attack_or_flee": "输入 `attack` 可以攻击, 或输入 `flee` 可以逃走.",
 			"flee_insults": [
 				"好吧, 像一個寶寶跑吧",
 				"好吧, 小寶寶回到媽媽吧",
