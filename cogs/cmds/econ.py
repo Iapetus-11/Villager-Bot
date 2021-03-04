@@ -1070,7 +1070,7 @@ class Econ(commands.Cog):
                 return
 
             else:
-                await self.bot.send(ctx, ctx.l.econ.use.full_health)
+                await self.bot.send(ctx, ctx.l.econ.use.full_health.format(self.d.emojis.heart_full))
                 return
 
         if thing == "present":
