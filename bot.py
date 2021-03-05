@@ -97,7 +97,6 @@ if __name__ == "__main__":
             user=keys.database.user,  # database username
             password=keys.database.passw,  # password which goes with user
             max_size=50,
-            command_timeout=5,
         )
 
     asyncio.get_event_loop().run_until_complete(setup_database())
