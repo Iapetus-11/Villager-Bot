@@ -753,6 +753,8 @@
         "stupid_3": "Either that isn't a usable item, or it doesn't exist.",
         "chug": "You've chugged a **{}** (Which lasts {} minutes)",
         "chug_no_end": "You've chugged a **{}**",
+        "chug_honey": "You've chugged a **{}** (You now have {}/20{})",
+        "full_health": "You already have 20{}",
         "done": "The **{}** you chugged earlier has worn off.",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",
@@ -1568,6 +1570,8 @@
         "stupid_3": "O no es un artículo utilizable, o no existe.",
         "chug": "Te has tragado un **{}** (Que dura {} minutos)",
         "chug_no_end": "Te has tragado un **{}**",
+        "chug_honey": "You've chugged a **{}** (You now have {}/20{})",
+        "full_health": "You already have 20{}",
         "done": "El **{}** que has tragado antes ha desaparecido.",
         "present": [
           "Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
@@ -2385,6 +2389,8 @@
         "stupid_3": "Soit ce n'est pas un objet utilisable, soit il n'existe pas.",
         "chug": "Tu as descendu une **{}** (Qui dure {} minutes)",
         "chug_no_end": "Tu as descendu une **{}**",
+        "chug_honey": "You've chugged a **{}** (You now have {}/20{})",
+        "full_health": "You already have 20{}",
         "done": "La **{}** que tu as descendu plus tôt as perdu ses effets.",
         "present": [
           "Tu ouvre ton cadeau et trouve 1x **{}** (Valant {}{})!",
@@ -3202,6 +3208,8 @@
 				"stupid_3": "要麼它不是一個可用的東西，或者它不存在.",
 				"chug": "你喝了一個 **{}** (會持續 {} 分鐘)",
 				"chug_no_end": "你喝了一個 **{}**",
+                "chug_honey": "You've chugged a **{}** (You now have {}/20{})",
+                "full_health": "You already have 20{}",
 				"done": "你之前喝的 **{}** 失效了.",
 				"present": [
 					"你打開了禮物，裡面有 1x **{}** (值 {}{})!",
