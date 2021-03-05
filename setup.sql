@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
   health        INT NOT NULL, -- user health, out of 20
   bot_banned    BOOL NOT NULL, -- is banned from using the bot
   vote_streak   INT NOT NULL,
-  streak_time   BIGINT NOT NULL,
+  streak_time   BIGINT,
   give_alert    BOOL NOT NULL -- whether to tell user if someone gave em stuff or not
 );
 
