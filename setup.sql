@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS guilds (
   replies        BOOL NOT NULL, -- whether or not the should reply to "emeralds" and "villager bot"
   difficulty     VARCHAR(15) NOT NULL, -- difficulty for mob spawns and other things
   lang           VARCHAR(10) NOT NULL, -- language used leave null for en-us
-  mcserver       VARCHAR(50) NOT NULL, -- default mcserver for the /mcstatus command
-  premium        BOOL NOT NULL
+  mcserver       VARCHAR(50), -- default mcserver for the /mcstatus command
+  premium        BOOL
 );
 
 CREATE TABLE IF NOT EXISTS users (
