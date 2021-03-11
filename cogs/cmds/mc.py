@@ -101,7 +101,12 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_3)
             return
 
-        detailed = "large" in ctx.message.content or "high" in ctx.message.content
+        detailed = False
+
+        for detailed_keyword in ("large", "high", "big", "quality", "detailed"):
+            if detailed_keyword in ctx.message.content:
+                detailed = True
+                break
 
         with ctx.typing():
             mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
