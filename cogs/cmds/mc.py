@@ -60,7 +60,7 @@ class Minecraft(commands.Cog):
             page = await (await self.ses.get(f"https://mc-lists.org/pg.{i}")).text()
             servers.update(await self.bot.loop.run_in_executor(self.bot.ppool, functools.partial(self.parse_mclists_page, page)))
 
-        self.d.mcserver_list = list(servers_nice) + self.d.additional_mcservers
+        self.d.mcserver_list = list(servers) + self.d.additional_mcservers
 
         self.bot.logger.info("finished scraping mc-lists.org")
 
