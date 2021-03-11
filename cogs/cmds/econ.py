@@ -379,9 +379,8 @@ class Econ(commands.Cog):
     async def shop_logic(self, ctx, _type, header):
         items = []
 
-        for item in [
-            self.d.shop_items[key] for key in list(self.d.shop_items)
-        ]:  # filter out items which aren't of the right _type
+        # filter out items which aren't of the right _type
+        for item in [self.d.shop_items[key] for key in list(self.d.shop_items)]:
             if item[0] == _type:
                 items.append(item)
 
