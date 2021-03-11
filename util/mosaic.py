@@ -78,21 +78,22 @@ def generate(source_bytes, max_dim, detailed):
 
     for row in source:
         x = 0
+
         for pix in row:  # bgr
             r = pix[2]
             g = pix[1]
             b = pix[0]
 
-            pal_key = palette_oct.get((int(r / 32), int(g / 32), int(b / 32)))
+            pal_key = palette_oct.get((r//32, g//32, b//32))
 
             if pal_key is None:
-                pal_key = palette_quad.get((int(r / 64), int(g / 64), int(b / 64)))
+                pal_key = palette_quad.get((r//64, g//64, b//64))
 
-            if pal_key is None:
-                pal_key = palette_bi.get((int(r / 128), int(g / 128), int(b / 128)))
+                if pal_key is None:
+                    pal_key = palette_bi.get((r//128, g//128, b//128))
 
-            if pal_key is None:
-                pal_key = palette_oct[random.choice((*palette_oct.keys(),))]
+                    if pal_key is None:
+                        pal_key = palette_oct[random.choice((*palette_oct.keys(),))]
 
             draw_image(canvas, palette_map[pal_key], x, y)
 
