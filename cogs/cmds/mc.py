@@ -13,7 +13,6 @@ import random
 import base64
 import arrow
 import io
-import os
 
 
 class Minecraft(commands.Cog):
