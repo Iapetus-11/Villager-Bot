@@ -36,7 +36,7 @@ class Minecraft(commands.Cog):
         self.clear_rcon_cache.cancel()
         self.bot.loop.create_task(self.ses.close())
 
-    def parse_mclists_page(page: str) -> set:
+    def parse_mclists_page(self, page: str) -> set:
         servers_nice = set()
 
         soup = bs(page, "html.parser")
