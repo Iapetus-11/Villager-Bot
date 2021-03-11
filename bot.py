@@ -1,5 +1,5 @@
 if __name__ == "__main__":
-    from concurrent.futures import ProcessPoolExecutor
+    from concurrent.futures import ThreadPoolExecutor
     from discord_slash import SlashCommand
     from discord.ext import commands
     import classyjson as cj
@@ -210,5 +210,5 @@ if __name__ == "__main__":
 
         return True
 
-    with ProcessPoolExecutor() as bot.ppool:
+    with ThreadPoolExecutor() as bot.ppool:
         bot.run(keys.discord)  # run the bot, this is a blocking call
