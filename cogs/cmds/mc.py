@@ -6,13 +6,13 @@ import aiomcrcon as rcon
 import classyjson as cj
 from util import mosaic
 import functools
-import aiofiles
 import aiohttp
 import asyncio
 import discord
 import random
 import base64
 import arrow
+import io
 import os
 
 
@@ -113,13 +113,7 @@ class Minecraft(commands.Cog):
 
             _, img_bytes = await self.bot.loop.run_in_executor(self.bot.ppool, mosaic_gen_partial)
 
-            filename = f"tmp/{ctx.message.id}-{img.width}x{img.height}.png"
-
-            async with aiofiles.open(filename, "wb+") as tmp:
-                await tmp.write(img_bytes)
-
-            await ctx.send(file=discord.File(filename, filename=img.filename))
-            os.remove(filename)
+            await ctx.send(file=discord.File(io.BytesIO(img_bytes), filename=img.filename))
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
