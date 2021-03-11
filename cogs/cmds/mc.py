@@ -37,24 +37,31 @@ class Minecraft(commands.Cog):
         self.clear_rcon_cache.cancel()
         self.bot.loop.create_task(self.ses.close())
 
+    def parse_mclists_page(page: str) -> set:
+        servers_nice = set()
+
+        soup = bs(page, "html.parser")
+        elems = soup.find(class_="ui striped table servers serversa").find_all("tr")
+
+        for elem in elems:
+            split = str(elem).split("\n")
+            url = split[9][9:-2]
+            ip = split[16][46:-2].replace("https://", "").replace("http://", "")
+            servers_nice.add((ip, url))
+
+        return servers_nice
+
     @tasks.loop(hours=2)
     async def update_server_list(self):
         self.bot.logger.info("scraping mc-lists.org...")
 
-        servers_nice = []
+        servers = set()
 
         for i in range(1, 26):
-            async with self.ses.get(f"https://mc-lists.org/pg.{i}") as res:
-                soup = bs(await res.text(), "html.parser")
-                elems = soup.find(class_="ui striped table servers serversa").find_all("tr")
+            page = await (await self.ses.get(f"https://mc-lists.org/pg.{i}")).text()
+            servers.update(await self.bot.loop.run_in_executor(self.bot.ppool, functools.partial(parse_mclists_page, page)))
 
-                for elem in elems:
-                    split = str(elem).split("\n")
-                    url = split[9][9:-2]
-                    ip = split[16][46:-2].replace("https://", "").replace("http://", "")
-                    servers_nice.append((ip, url))
-
-        self.d.mcserver_list = list(set(servers_nice)) + self.d.additional_mcservers
+        self.d.mcserver_list = list(servers_nice) + self.d.additional_mcservers
 
         self.bot.logger.info("finished scraping mc-lists.org")
 
