@@ -1,5 +1,5 @@
 if __name__ == "__main__":
-    from concurrent.futures import ThreadPoolExecutor
+    from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
     from discord_slash import SlashCommand
     from discord.ext import commands
     import classyjson as cj
@@ -7,7 +7,7 @@ if __name__ == "__main__":
     import asyncpg
     import discord
     import logging
-    import random
+    import randomProcessPoolExecutor
     import arrow
 
     # set up basic logging
@@ -210,5 +210,6 @@ if __name__ == "__main__":
 
         return True
 
-    with ThreadPoolExecutor() as bot.ppool:
-        bot.run(keys.discord)  # run the bot, this is a blocking call
+    with ProcessPoolExecutor() as bot.ppool:
+        with ThreadPoolExecutor() as bot.tpool:
+            bot.run(keys.discord)  # run the bot, this is a blocking call
