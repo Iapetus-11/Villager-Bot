@@ -984,11 +984,18 @@ class Econ(commands.Cog):
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name="use", aliases=["eat", "chug"])
-    @commands.cooldown(1, 0.5, commands.BucketType.user)
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def use_item(self, ctx, *, thing):
         """Allows you to use potions and some other items"""
 
         thing = thing.lower()
+        split = thing.split()
+
+        try:
+            amount = int(split[0])
+            thing = " ".join(split[1:])
+        except (IndexError, ValueError):
+            amount = 1
 
         current_pots = self.d.chuggers.get(ctx.author.id)
 
