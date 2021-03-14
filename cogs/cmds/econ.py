@@ -1014,6 +1014,10 @@ class Econ(commands.Cog):
             return
 
         if thing == "haste i potion":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, thing, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])  # ensure user has stuff there
@@ -1033,6 +1037,10 @@ class Econ(commands.Cog):
             return
 
         if thing == "haste ii potion":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, thing, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
@@ -1052,6 +1060,10 @@ class Econ(commands.Cog):
             return
 
         if thing == "vault potion":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user["vault_max"] > 1999:
@@ -1089,6 +1101,10 @@ class Econ(commands.Cog):
             return
 
         if thing == "present":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, "Present", 1)
 
             while True:
@@ -1101,6 +1117,10 @@ class Econ(commands.Cog):
                         return
 
         if thing == "barrel":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
 
             for _ in range(10):
