@@ -16,28 +16,6 @@ class Useful(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-        # support slash commands
-
-        # desc = "view helpful information about Villager Bot's {} features"
-        #
-        # self.slash_help = cog_ext.cog_slash(name="help", description="view helpful information about Villager Bot")(self.help)
-        # self.slash_help_econ = cog_ext.cog_subcommand(
-        #     base="slash_help", name="economy", options=[], description=desc.format("economy")
-        # )(self.help_economy)
-        # self.slash_help_mc = cog_ext.cog_subcommand(
-        #     base="slash_help", name="mc", options=[], description=desc.format("minecraft-related")
-        # )(self.help_minecraft)
-        # self.slash_help_util = cog_ext.cog_subcommand(
-        #     base="slash_help", name="util", options=[], description=desc.format("utility")
-        # )(self.help_utility)
-        # self.slash_help_fun = cog_ext.cog_subcommand(
-        #     base="slash_help", name="fun", options=[], description=desc.format("fun and memey")
-        # )(self.help_fun)
-        # self.slash_help_admin = cog_ext.cog_subcommand(
-        #     base="slash_help", name="admin", options=[], description=desc.format("moderation")
-        # )(self.help_administrative)
-        #
-
     @commands.group(name="help")
     async def help(self, ctx):
         if ctx.invoked_subcommand is None:
