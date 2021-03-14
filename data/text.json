@@ -746,8 +746,10 @@
         }
       },
       "use":{
-        "stupid_1":"You can't use more than one a type of item at once.",
+        "stupid_1":"You can't use more than one of this item at once.",
         "stupid_2":"You can't use an item you don't even have.",
+        "stupid_3":"You can't use less than 1 of an item at once, stupid.",
+        "stupid_4":"You can't use more than 100 items at once.",
         "vault_max":"You cannot expand your vault further via this method.",
         "vault_pot":"You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
         "stupid_3":"Either that isn't a usable item, or it doesn't exist.",
@@ -1567,6 +1569,8 @@
       "use":{
         "stupid_1":"No puedes usar más de un tipo de artículo a la vez.",
         "stupid_2":"No puedes usar un artículo que ni siquiera tienes.",
+        "stupid_3":"You can't use less than 1 of an item at once, stupid.",
+        "stupid_4":"You can't use more than 100 items at once.",
         "vault_max":"No se puede expandir más la bóveda con este método.",
         "vault_pot":"Te has tragado una **Vault Potion**. El espacio de tu bóveda se ha incrementado en {} espacios.",
         "stupid_3":"O no es un artículo utilizable, o no existe.",
@@ -2388,6 +2392,8 @@
       "use":{
         "stupid_1":"Tu ne peux pas utiliser plus d'un type d'objet à la fois.",
         "stupid_2":"Tu ne peux pas utiliser un objet que tu ne possèdes pas.",
+        "stupid_3":"You can't use less than 1 of an item at once, stupid.",
+        "stupid_4":"You can't use more than 100 items at once.",
         "vault_max":"Tu ne peux plus aggrandir ton coffre de cette manière.",
         "vault_pot":"Tu as descendu une **Vault Potion**. Ton coffre s'aggrandi de {} espaces.",
         "stupid_3":"Soit ce n'est pas un objet utilisable, soit il n'existe pas.",
