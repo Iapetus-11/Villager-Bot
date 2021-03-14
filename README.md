@@ -8,7 +8,7 @@
 * Ability to generate Minecraft pixel art from images sent in the chat
 * Ability to ping / check the status of any Minecraft server
 * Expansive economy system (based upon emeralds obviously!)
-* Multi-language support! (English, Español, Français)
+* Multi-language support! (English, Español, Français, 繁體中文)
 * Expansive customization options
 * Made by Iapetus11, so it must be good right?!
 
@@ -71,13 +71,13 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 * `/4chan` *shows a funny screenshot from 4chan*
 * `/comic` *sends a random comic from r/comics on reddit*
 * `/say <text>` *makes the bot say the text you put in*
-* `/enchant <text>` *turns text into the Minecraft enchantment table language*
-* `/unenchant <text>` *turns the enchantment table language back into text*
-* `/villagerspeak <text>` *turns text into villager sounds*
-* `/clap <text>` *:clap: puts :clap: the :clap: emoji :clap: between :clap: text*
-* `/emojify <text>` *turns text into emojis*
-* `/sarcastic <text>` *turn text into the spongebob sarcastic text*
-* `/owo <text>` *owofies the given text uwu*
+* `/enchant <text>` *turns text into the Minecraft enchantment table language (⍑ᒷꖎꖎ𝙹!)*
+* `/unenchant <text>` *turns the enchantment table language back into text (hello!)*
+* `/villagerspeak <text>` *turns text into villager sounds (hrmhmgh)*
+* `/clap <text>` *:clap: puts :clap: the :clap: clap :clap: emoji :clap: between :clap: text :clap:*
+* `/emojify <text>` *turns text into regional indicator/number emojis*
+* `/sarcastic <text>` *tUrN tExT iNtO tHe SpOnGeBoB sArCaStIc TeXt*
+* `/owo <text>` *owofies the given text ◕w◕*
 * `/vaporwave <text>` *makes text into the vaporwave style*
 * `/kill <user>` *brutally murder another user*
 * `/bubblewrap` *sends virtual bubblewrap for you to pop*
