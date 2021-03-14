@@ -7,7 +7,7 @@ if __name__ == "__main__":
     import asyncpg
     import discord
     import logging
-    import randomProcessPoolExecutor
+    import random
     import arrow
 
     # set up basic logging
