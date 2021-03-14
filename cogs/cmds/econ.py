@@ -984,7 +984,7 @@ class Econ(commands.Cog):
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name="use", aliases=["eat", "chug"])
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def use_item(self, ctx, *, thing):
         """Allows you to use potions and some other items"""
 
@@ -1007,6 +1007,10 @@ class Econ(commands.Cog):
 
         if db_item is None:
             await self.bot.send(ctx, ctx.l.econ.use.stupid_2)
+            return
+
+        if db_item["amount"] < amount:
+            await self.bot.send(ctx, f"You don't have {amount} of that item to use.")
             return
 
         if thing == "haste i potion":
@@ -1068,18 +1072,27 @@ class Econ(commands.Cog):
         if thing == "honey jar":
             db_user = await self.db.fetch_user(ctx.author.id)
 
-            if db_user['health'] < 20:
-                await self.db.update_user(ctx.author.id, 'health', db_user['health']+1)
-                await self.db.remove_item(ctx.author.id, 'Honey Jar', 1)
-                db_user = await self.db.fetch_user(ctx.author.id) # updates health
-                await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format('Honey Jar', db_user['health'], self.d.emojis.heart_full))
+            if db_user["health"] >= 20:
+                await self.bot.send(ctx, f"You already have full health (20/20 {self.d.emojis.heart_full})")
+            elif db_user["health"] + amount > 20:
+                max_amount = 20 - db_user["health"]
+
+                if max_amount == 0:
+                    await self.bot.send(ctx, f"You can't use any {'Honey Jars'} right now.")
+                else:
+                    await self.bot.send(ctx, f"You can't use any more than {max_amount} {'Honey Jar'} right now.")
             else:
-                await self.bot.send(ctx, ctx.l.econ.use.full_health.format(self.d.emojis.heart_full))
+                await self.db.update_user(ctx.author.id, 'health', db_user['health']+amount)
+                await self.db.remove_item(ctx.author.id, 'Honey Jar', amount)
+
+                new_health = amount + db_user["health"]
+                await self.bot.send(ctx, f"You've chugged {amount}x Honey Jars! (You now have {new_health}/20 {self.d.emojis.heart_full})")
 
             return
 
         if thing == "present":
             await self.db.remove_item(ctx.author.id, "Present", 1)
+
             while True:
                 for item in self.d.findables:
                     if random.randint(0, (item[2] // 2) + 2) == 1:
@@ -1091,6 +1104,7 @@ class Econ(commands.Cog):
 
         if thing == "barrel":
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
+
             for _ in range(10):
                 for item in self.d.findables:
                     if random.randint(0, (item[2] // 1.5) + 5) == 1:
