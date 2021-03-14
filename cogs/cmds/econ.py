@@ -148,7 +148,7 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="balance", aliases=["bal", "vault"])
+    @commands.command(name="balance", aliases=["bal", "vault", "pocket"])
     async def balance(self, ctx, *, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
 
@@ -183,7 +183,7 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="inventory", aliases=["inv", "pocket"])
+    @commands.command(name="inventory", aliases=["inv", "items"])
     @commands.cooldown(2, 10, commands.BucketType.user)
     async def inventory(self, ctx, *, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
