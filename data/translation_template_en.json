@@ -748,7 +748,7 @@
       "use":{
         "stupid_1":"You can't use more than one of this item at once.",
         "stupid_2":"You can't use an item you don't even have.",
-        "stupid_3":"You can't use less than 1 of an item at once, stupid.",
+        "stupid_3":"You can't use less than one of an item at once, stupid.",
         "stupid_4":"You can't use more than 100 items at once.",
         "vault_max":"You cannot expand your vault further via this method.",
         "vault_pot":"You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
