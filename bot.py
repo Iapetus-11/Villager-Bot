@@ -1,5 +1,5 @@
 if __name__ == "__main__":
-    from concurrent.futures import ProcessPoolExecutor
+    from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
     from discord_slash import SlashCommand
     from discord.ext import commands
     import classyjson as cj
@@ -97,7 +97,7 @@ if __name__ == "__main__":
             user=keys.database.user,  # database username
             password=keys.database.passw,  # password which goes with user
             max_size=50,
-            command_timeout=5,
+            command_timeout=10,
         )
 
     asyncio.get_event_loop().run_until_complete(setup_database())
@@ -211,4 +211,5 @@ if __name__ == "__main__":
         return True
 
     with ProcessPoolExecutor() as bot.ppool:
-        bot.run(keys.discord)  # run the bot, this is a blocking call
+        with ThreadPoolExecutor() as bot.tpool:
+            bot.run(keys.discord)  # run the bot, this is a blocking call

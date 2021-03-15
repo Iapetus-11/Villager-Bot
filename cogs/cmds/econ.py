@@ -124,10 +124,12 @@ class Econ(commands.Cog):
         vote_streak = db_user["vote_streak"]
         voted = arrow.utcnow().shift(hours=-12) < arrow.get(0 if db_user["streak_time"] is None else db_user["streak_time"])
 
-        if arrow.utcnow().shift(days=-1, minutes=-10) > arrow.get(
+        if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(
             0 if db_user["streak_time"] is None else db_user["streak_time"]
         ):
             vote_streak = 0
+            await self.db.update_user(user.id, "vote_streak", 0)
+            await self.db.update_user(user.id, "streak_time", None)
 
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
@@ -146,7 +148,7 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="balance", aliases=["bal", "vault"])
+    @commands.command(name="balance", aliases=["bal", "vault", "pocket"])
     async def balance(self, ctx, *, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
 
@@ -181,7 +183,7 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="inventory", aliases=["inv", "pocket"])
+    @commands.command(name="inventory", aliases=["inv", "items"])
     @commands.cooldown(2, 10, commands.BucketType.user)
     async def inventory(self, ctx, *, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
@@ -377,9 +379,8 @@ class Econ(commands.Cog):
     async def shop_logic(self, ctx, _type, header):
         items = []
 
-        for item in [
-            self.d.shop_items[key] for key in list(self.d.shop_items)
-        ]:  # filter out items which aren't of the right _type
+        # filter out items which aren't of the right _type
+        for item in [self.d.shop_items[key] for key in list(self.d.shop_items)]:
             if item[0] == _type:
                 items.append(item)
 
@@ -983,11 +984,26 @@ class Econ(commands.Cog):
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name="use", aliases=["eat", "chug"])
-    @commands.cooldown(1, 0.5, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def use_item(self, ctx, *, thing):
         """Allows you to use potions and some other items"""
 
         thing = thing.lower()
+        split = thing.split()
+
+        try:
+            amount = int(split[0])
+            thing = " ".join(split[1:])
+        except (IndexError, ValueError):
+            amount = 1
+
+        if amount < 1:
+            await self.bot.send(ctx.l.econ.use.stupid_3)
+            return
+
+        if amount > 100:
+            await self.bot.send(ctx.l.econ.use.stupid_4)
+            return
 
         current_pots = self.d.chuggers.get(ctx.author.id)
 
@@ -1001,7 +1017,15 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.use.stupid_2)
             return
 
+        if db_item["amount"] < amount:
+            await self.bot.send(ctx, f"You don't have {amount} of that item to use.")
+            return
+
         if thing == "haste i potion":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, thing, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])  # ensure user has stuff there
@@ -1021,6 +1045,10 @@ class Econ(commands.Cog):
             return
 
         if thing == "haste ii potion":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, thing, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
@@ -1040,6 +1068,10 @@ class Econ(commands.Cog):
             return
 
         if thing == "vault potion":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user["vault_max"] > 1999:
@@ -1060,15 +1092,29 @@ class Econ(commands.Cog):
         if thing == "honey jar":
             db_user = await self.db.fetch_user(ctx.author.id)
 
-            if db_user["health"] < 20:
-                await self.db.update_user(ctx.author.id, "health", db_user["health"] + 1)
+            if db_user["health"] + amount > 20:
+                max_amount = 20 - db_user["health"]
 
-            await self.db.remove_item(ctx.author.id, "Honey Jar", 1)
-            await self.bot.send(ctx, ctx.l.econ.use.chug_no_end.format("Honey Jar"))
+                if max_amount < 1:
+                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_any.format("Honey Jars"))
+                else:
+                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_up_to.format(max_amount, "Honey Jar"))
+            else:
+                await self.db.update_user(ctx.author.id, 'health', db_user['health']+amount)
+                await self.db.remove_item(ctx.author.id, 'Honey Jar', amount)
+
+                new_health = amount + db_user["health"]
+                await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
+
             return
 
         if thing == "present":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, "Present", 1)
+
             while True:
                 for item in self.d.findables:
                     if random.randint(0, (item[2] // 2) + 2) == 1:
@@ -1079,7 +1125,12 @@ class Econ(commands.Cog):
                         return
 
         if thing == "barrel":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
+
             for _ in range(10):
                 for item in self.d.findables:
                     if random.randint(0, (item[2] // 1.5) + 5) == 1:

@@ -271,10 +271,7 @@ class Fun(commands.Cog):
         """Sends bubblewrap to the chat"""
 
         if size is None:
-            size = (
-                10,
-                10,
-            )
+            size = (10, 10)
         else:
             size = size.split("x")
 

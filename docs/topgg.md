@@ -58,7 +58,7 @@
 * Ability to generate Minecraft pixel art from images sent in the chat
 * Ability to ping / check the status of any Minecraft server
 * Expansive economy system (based upon emeralds obviously!)
-* Multi-language support! (English, Español, Français, 繁體中文)
+* Multi-language support! (English, Español, Français)
 * Expansive customization options
 * Made by Iapetus11, so it must be good right?!
 
@@ -67,4 +67,4 @@
 * Discord Username: `Iapetus11#6821`
 
 ### Issues / Bugs
-If a bug or unintended behavior is discovered, please report it by creating an issue [here](https://github.com/Iapetus-11/Villager-Bot/issues) or by reporting it in the **#bug-smasher** channel on the [support server](https://discord.gg/39DwwUV)
+If a bug or unintended behavior is discovered, please report it by creating an issue [here](https://github.com/Iapetus-11/Villager-Bot/issues) or by reporting it in the **#bug-smasher** channel on the [support server](https://discord.gg/39DwwUV).

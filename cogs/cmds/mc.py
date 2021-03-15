@@ -6,14 +6,13 @@ import aiomcrcon as rcon
 import classyjson as cj
 from util import mosaic
 import functools
-import aiofiles
 import aiohttp
 import asyncio
 import discord
 import random
 import base64
 import arrow
-import os
+import io
 
 
 class Minecraft(commands.Cog):
@@ -37,24 +36,31 @@ class Minecraft(commands.Cog):
         self.clear_rcon_cache.cancel()
         self.bot.loop.create_task(self.ses.close())
 
+    def parse_mclists_page(self, page: str) -> set:
+        servers_nice = set()
+
+        soup = bs(page, "html.parser")
+        elems = soup.find(class_="ui striped table servers serversa").find_all("tr")
+
+        for elem in elems:
+            split = str(elem).split("\n")
+            url = split[9][9:-2]
+            ip = split[16][46:-2].replace("https://", "").replace("http://", "")
+            servers_nice.add((ip, url))
+
+        return servers_nice
+
     @tasks.loop(hours=2)
     async def update_server_list(self):
         self.bot.logger.info("scraping mc-lists.org...")
 
-        servers_nice = []
+        servers = set()
 
         for i in range(1, 26):
-            async with self.ses.get(f"https://mc-lists.org/pg.{i}") as res:
-                soup = bs(await res.text(), "html.parser")
-                elems = soup.find(class_="ui striped table servers serversa").find_all("tr")
+            page = await (await self.ses.get(f"https://mc-lists.org/pg.{i}")).text()
+            servers.update(await self.bot.loop.run_in_executor(self.bot.tpool, functools.partial(self.parse_mclists_page, page)))
 
-                for elem in elems:
-                    split = str(elem).split("\n")
-                    url = split[9][9:-2]
-                    ip = split[16][46:-2].replace("https://", "").replace("http://", "")
-                    servers_nice.append((ip, url))
-
-        self.d.mcserver_list = list(set(servers_nice)) + self.d.additional_mcservers
+        self.d.mcserver_list = list(servers) + self.d.additional_mcservers
 
         self.bot.logger.info("finished scraping mc-lists.org")
 
@@ -94,20 +100,19 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_3)
             return
 
-        detailed = "large" in ctx.message.content or "high" in ctx.message.content
+        detailed = False
+
+        for detailed_keyword in ("large", "high", "big", "quality", "detailed"):
+            if detailed_keyword in ctx.message.content:
+                detailed = True
+                break
 
         with ctx.typing():
             mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
 
             _, img_bytes = await self.bot.loop.run_in_executor(self.bot.ppool, mosaic_gen_partial)
 
-            filename = f"tmp/{ctx.message.id}-{img.width}x{img.height}.png"
-
-            async with aiofiles.open(filename, "wb+") as tmp:
-                await tmp.write(img_bytes)
-
-            await ctx.send(file=discord.File(filename, filename=img.filename))
-            os.remove(filename)
+            await ctx.send(file=discord.File(io.BytesIO(img_bytes), filename=img.filename))
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
