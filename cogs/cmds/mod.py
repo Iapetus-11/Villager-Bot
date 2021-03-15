@@ -17,7 +17,7 @@ class Mod(commands.Cog):
             return True
         guild_roles = author.guild.roles
         return (
-                guild_roles.index(author.top_role) > guild_roles.index(victim.top_role) and not victim.id == author.guild.owner.id
+            guild_roles.index(author.top_role) > guild_roles.index(victim.top_role) and not victim.id == author.guild.owner.id
         )
 
     @commands.command(name="purge", aliases=["p"])
