@@ -3207,7 +3207,7 @@
 				"vault_pot": "你和了一個 **Vault Potion**. 你的庫存加大了 {} 塊.",
 				"stupid_3": "要麼它不是一個可用的東西，或者它不存在.",
 				"chug": "你喝了一個 **{}** (會持續 {} 分鐘)",
-				"chug_no_end": "你喝了一個 **{}**",
+                "chug_no_end": "你喝了一個 **{}**",
                 "chug_honey": "You've chugged a **{}** (You now have {}/20{})",
                 "full_health": "You already have 20{}",
 				"done": "你之前喝的 **{}** 失效了.",
