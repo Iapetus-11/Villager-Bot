@@ -423,6 +423,15 @@
         "no_reason":"No reason specified",
         "by":"Warning by",
         "confirm":"{} Warned {} ({} warning(s) now) for reason: *{}*"
+      },
+      "mute": {
+        "stupid_1": "You cannot mute yourself",
+        "mute_msg": "**{}** has been muted."
+      },
+      "unmute": {
+        "stupid_1": "You cannot unmute yourself",
+        "stupid_2": "**{}** isn't muted",
+        "unmute_msg": "**{}** has been unmuted"
       }
     },
     "config":{
@@ -1246,6 +1255,15 @@
         "no_reason":"No se ha especificado ninguna razón",
         "by":"Advertencia de",
         "confirm":"{} Advertido. ({} advertencias ahora) por la razón: *{}*"
+      },
+      "mute": {
+        "stupid_1": "You cannot mute yourself",
+        "mute_msg": "**{}** has been muted."
+      },
+      "unmute": {
+        "stupid_1": "You cannot unmute yourself",
+        "stupid_2": "**{}** isn't muted",
+        "unmute_msg": "**{}** has been unmuted"
       }
     },
     "config":{
@@ -2067,6 +2085,15 @@
         "no_reason":"Pas de raison spécifiée",
         "by":"Avertissement de",
         "confirm":"{} {} a été averti ({} avertissement(s) maintenant) pour la raison : *{}*"
+      },
+      "mute": {
+        "stupid_1": "You cannot mute yourself",
+        "mute_msg": "**{}** has been muted."
+      },
+      "unmute": {
+        "stupid_1": "You cannot unmute yourself",
+        "stupid_2": "**{}** isn't muted",
+        "unmute_msg": "**{}** has been unmuted"
       }
     },
     "config":{
