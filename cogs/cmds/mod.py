@@ -189,7 +189,7 @@ class Mod(commands.Cog):
         await self.db.clear_warns(user.id, ctx.guild.id)
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name="mute", aliases=["shutup", "silence", "shush", ])
+    @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu"])
     @commands.guild_only()
     async def mute(self, ctx, user: discord.Member):
 
@@ -215,7 +215,7 @@ class Mod(commands.Cog):
         await user.add_roles(mute)
         await self.bot.send(ctx, ctx.l.mod.mute.mute_msg.format(user))
 
-    @commands.command(name="unmute", aliases=["unshut"])
+    @commands.command(name="unmute", aliases=["unshut", "shutnt"])
     @commands.guild_only()
     async def unmute(self, ctx, user: discord.Member):
 
