@@ -137,7 +137,7 @@
         "ban":"`{0}ban <user>` *bans the user from the current Discord server*",
         "pardon":"`{0}pardon <user>` *unban the user from the current Discord server*",
         "mute":"`{0}mute <user>` *mutes the user from the current Discord server*",
-        "mute":"`{0}unmute <user>` *unmutes the user from the current Discord server*"
+        "unmute":"`{0}unmute <user>` *unmutes the user from the current Discord server*"
       }
     },
     "fun":{
@@ -971,7 +971,7 @@
         "ban":"`{0}ban <usuario>` *prohibe al usuario del actual servidor de Discord*",
         "pardon":"`{0}pardon <usuario>` *desbancar al usuario del actual servidor de Discord*",
         "mute":"`{0}mute <user>` *mutes the user from the current Discord server*",
-        "mute":"`{0}unmute <user>` *unmutes the user from the current Discord server*"
+        "unmute":"`{0}unmute <user>` *unmutes the user from the current Discord server*"
       }
     },
     "fun":{
@@ -1803,7 +1803,7 @@
         "ban":"`{0}ban <utilisateur>` *bannit l'utilisateur du serveur Discord actuel*",
         "pardon":"`{0}pardon <utilisateur>` *débannit l'utilisateur du serveur Discord actuel*",
         "mute":"`{0}mute <user>` *mutes the user from the current Discord server*",
-        "mute":"`{0}unmute <user>` *unmutes the user from the current Discord server*"
+        "unmute":"`{0}unmute <user>` *unmutes the user from the current Discord server*"
       }
     },
     "fun":{
