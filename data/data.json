@@ -284,6 +284,24 @@
        50,
        2000,
        false
+     ],
+     [
+       "Four Leaf Clover",
+       50,
+       2000,
+       false
+     ],
+     [
+       "Pot Of Gold",
+       420,
+       10000,
+       false
+     ],
+     [
+       "A Literal Rainbow",
+       2048,
+       50000,
+       false
      ]
   ],
   "shop_items": {
