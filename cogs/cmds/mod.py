@@ -210,9 +210,10 @@ class Mod(commands.Cog):
         if mute is None:
             mute = discord.utils.get(await ctx.guild.fetch_roles(), name="Mute")
 
-        for channel in ctx.guild.text_channels:  # fix perms for channels
-            if mute not in channel.overwrites:
-                await channel.set_permissions(mute, send_messages=False, add_reactions=False)
+        with ctx.typing():
+            for channel in ctx.guild.text_channels:  # fix perms for channels
+                if mute not in channel.overwrites:
+                    await channel.set_permissions(mute, send_messages=False, add_reactions=False)
 
         await user.add_roles(mute)
         await self.bot.send(ctx, ctx.l.mod.mute.mute_msg.format(user))
