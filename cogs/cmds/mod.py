@@ -216,6 +216,8 @@ class Mod(commands.Cog):
                     mute, send_messages=False, embed_links=False, attach_files=False, add_reactions=False
                 )  # code do be copy paste tho
 
+                await ctx.send(channel)
+
         mute = discord.utils.get(ctx.guild.roles, name="Mute")
 
         if mute is None:
