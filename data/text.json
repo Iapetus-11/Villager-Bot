@@ -153,11 +153,11 @@
       "type_engage":"Type `fight` to fight the mob!",
       "attack_or_flee":"Type `attack` to attack, or `flee` to run away.",
       "flee_insults":[
-        "Fine, run away like a little baby",
-        "Fine, run to mommy like a little baby",
-        "Go to mommy little baby",
-        "Ok little baby, run away to mommy",
-        "Fine, run away like the crybaby toddler you are"
+        "Fine, run away like a little baby.",
+        "Fine, run to mommy like a little baby.",
+        "Go to mommy little baby.",
+        "Ok little baby, run away to mommy.",
+        "Fine, run away like the crybaby toddler you are."
       ],
       "user_attacks":[
         "You slashed the **{0}** with your **{1}**!",
@@ -208,11 +208,11 @@
         "You ran into a vicious {0}!"
       ],
       "found":[
-        "Wow look at that! You found {}{} just right there on the ground",
+        "Wow look at that! You found {}{} just right there on the ground!",
         "Through the white smoke from the slain mob you spot {}{}!",
-        "The mob drops {}{}",
-        "You glance at the ground and see {}{}",
-        "You find {}{} next to the fallen mob"
+        "The mob drops {}{}!",
+        "You glance at the ground and see {}{}!",
+        "You find {}{} next to the fallen mob!"
       ],
       "lost":{
         "creeper":[
@@ -229,13 +229,13 @@
       "mobs":{
         "zombie":{
           "attacks":[
-            "The **zombie** ran, lashing at your arms",
-            "The **zombie** gives you a painful hug",
-            "The **zombie** groans and gives you a painful hug",
-            "The **zombie** punches you in your face",
-            "The **zombie** claws you with its overgrown, decaying nails",
-            "The **zombie** punches you in your face with its decaying hand",
-            "The **zombie** scratches you with its overgrown, decaying nails"
+            "The **zombie** ran, lashing at your arms!",
+            "The **zombie** gives you a painful hug.",
+            "The **zombie** groans and gives you a painful hug.",
+            "The **zombie** punches you in your face!",
+            "The **zombie** claws you with its overgrown, decaying nails.",
+            "The **zombie** punches you in your face with its decaying hand!",
+            "The **zombie** scratches you with its overgrown, decaying nails!"
           ],
           "finishers":[
             "The **zombie** lunges for your throat, and bites!",
@@ -245,11 +245,11 @@
         },
         "skeleton":{
           "attacks":[
-            "The **skeleboi** yeets an arrow at your face",
+            "The **skeleboi** yeets an arrow at your face!",
             "The **skeleton** turns around and 360 no scopes you!",
-            "An arrow rains from the **skeleton**, only one",
-            "One headshot from **skeleton** for you",
-            "BOOM! HEADSHOT! - **skeleton** 2021"
+            "An arrow rains from the **skeleton**, only one.",
+            "One headshot from **skeleton** for you.",
+            "BOOM! HEADSHOT! - **skeleton** 2021."
           ],
           "finishers":[
             "The **skeleton** 360 noscopes you for the last time!",
@@ -260,28 +260,28 @@
         },
         "spider":{
           "attacks":[
-            "The **spider** jumps on top of you and sinks its fangs into your arm",
-            "The **spider** knocks you down and bites your leg",
-            "The **spider** jumps at you in an attempt to bite your face off",
-            "The **spider** dunks on you",
-            "The **spider** lunges at you and bites your leg"
+            "The **spider** jumps on top of you and sinks its fangs into your arm!",
+            "The **spider** knocks you down and bites your leg!",
+            "The **spider** jumps at you in an attempt to bite your face off!",
+            "The **spider** dunks on you!",
+            "The **spider** lunges at you and bites your leg!"
           ],
           "finishers":[
             "The **spider** jumps on you, spins around, and sinks its fangs into your skull!",
             "The **spider** dunks on you one last time, and bites your face off!",
-            "The **spider** rips your face off, your last sight being 8 murderous red eyes staring back"
+            "The **spider** rips your face off, your last sight being 8 murderous red eyes staring back."
           ]
         },
         "cave_spider":{
           "attacks":[
-            "The **cave spider**'s fangs digs deep onto your skin",
-            "The **cave spider** gives you a toxic kiss",
-            "The **cave spider** bites you and inflicts poison damage"
+            "The **cave spider**'s fangs digs deep onto your skin!",
+            "The **cave spider** gives you a toxic kiss.",
+            "The **cave spider** bites you and inflicts poison damage!"
           ],
           "finishers":[
             "You died a slow, painful death from poison damage",
-            "The **cave spider** injects one last lethal dose of venom",
-            "The **cave spider** buries its fangs deep into you and fills you with venom"
+            "The **cave spider** injects one last lethal dose of venom.",
+            "The **cave spider** buries its fangs deep into you and fills you with venom."
           ]
         },
         "creeper":{
@@ -301,24 +301,24 @@
         },
         "baby_slime":{
           "attacks":[
-            "The **baby slime** jumps on you",
-            "The **baby slime** looks cute",
-            "The **baby slime** jumps on your head",
-            "You encourage the **baby slime**"
+            "The **baby slime** jumps on you!",
+            "The **baby slime** looks cute.",
+            "The **baby slime** jumps on your head!",
+            "You encourage the **baby slime**."
           ],
           "finishers":[
-            "You die from the cuteness",
-            "The **baby slime** looks so cute you just follow it around for the rest of your life and keep it safe",
-            "You follow the **baby slime** around because it's so cute, it despawns, you die from sadness",
-            "The **baby slime** despawns right in front of you, you die from extreme depression",
-            "The **baby slime** finally does some damage",
-            "You feel bad that the **baby slime** can't hurt you so you commit suicide",
-            "You feel bad that the **baby slime** can't hurt you so you commit dig straight down",
-            "There can only be one winner, the **baby slime** says, you type in /kill"
+            "You die from the cuteness.",
+            "The **baby slime** looks so cute you just follow it around for the rest of your life and keep it safe.",
+            "You follow the **baby slime** around because it's so cute, it despawns, you die from sadness.",
+            "The **baby slime** despawns right in front of you, you die from extreme depression.",
+            "The **baby slime** finally does some damage.",
+            "You feel bad that the **baby slime** can't hurt you so you commit suicide.",
+            "You feel bad that the **baby slime** can't hurt you so you commit dig straight down.",
+            "There can only be one winner, the **baby slime** says, you type in /kill."
           ],
           "misses":[
-            "You swing your **{0}** as hard as you can, you miss the **baby slime**",
-            "You slash your **{0}** at the **baby slime** as hard as you can. The **baby slime** is fine",
+            "You swing your **{0}** as hard as you can, you miss the **baby slime*.*",
+            "You slash your **{0}** at the **baby slime** as hard as you can. The **baby slime** is fine.",
             "You miss, swinging your **{0}** at the **baby slime**.",
             "You swing your **{0}**, the **baby slime** makes a cute face, you miss."
           ]
