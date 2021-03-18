@@ -202,26 +202,17 @@ class Mod(commands.Cog):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
-        if not discord.utils.get(ctx.guild.roles, name="Mute"):  # creating the role for the first time
-            perms = discord.Permissions(
-                send_messages=False, embed_links=False, attach_files=False, add_reactions=False
-            )  # pain.
+        if discord.utils.get(ctx.guild.roles, name="Mute") is None:  # check if role exists
+            await ctx.guild.create_role(name="Mute", permissions=discord.Permissions(send_messages=False, add_reactions=False))
 
-            await ctx.guild.create_role(name="Mute", permissions=perms)
-
-            mute = discord.utils.get(ctx.guild.roles, name="Mute")
-
-            for channel in ctx.guild.text_channels:
-                await channel.set_permissions(
-                    mute, send_messages=False, embed_links=False, attach_files=False, add_reactions=False
-                )  # code do be copy paste tho
-
-                await ctx.send(channel)
-
+        # fetch role
         mute = discord.utils.get(ctx.guild.roles, name="Mute")
-
         if mute is None:
             mute = discord.utils.get(await ctx.guild.fetch_roles(), name="Mute")
+
+        for channel in ctx.guild.text_channels:  # fix perms for channels
+            if mute not in channel.overwrites:
+                await channel.set_permissions(mute, discord.Permissions(send_messages=False, add_reactions=False))
 
         await user.add_roles(mute)
         await self.bot.send(ctx, ctx.l.mod.mute.mute_msg.format(user))
