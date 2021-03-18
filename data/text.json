@@ -135,7 +135,9 @@
         "delwarns":"`{0}delwarns <user>` *clears the warns that user has in this server*",
         "kick":"`{0}kick <user>` *kicks the user from the current Discord server*",
         "ban":"`{0}ban <user>` *bans the user from the current Discord server*",
-        "pardon":"`{0}pardon <user>` *unban the user from the current Discord server*"
+        "pardon":"`{0}pardon <user>` *unban the user from the current Discord server*",
+        "mute":"`{0}mute <user>` *mutes the user from the current Discord server*",
+        "unmute":"`{0}unmute <user>` *unmutes the user from the current Discord server*"
       }
     },
     "fun":{
@@ -423,6 +425,15 @@
         "no_reason":"No reason specified",
         "by":"Warning by",
         "confirm":"{} Warned {} ({} warning(s) now) for reason: *{}*"
+      },
+      "mute": {
+        "stupid_1": "You cannot mute yourself",
+        "mute_msg": "**{}** has been muted."
+      },
+      "unmute": {
+        "stupid_1": "You cannot unmute yourself",
+        "stupid_2": "**{}** isn't muted",
+        "unmute_msg": "**{}** has been unmuted"
       }
     },
     "config":{
@@ -958,7 +969,9 @@
         "delwarns":"`{0}delwarns <usuario>` *borra las advertencias que el usuario tiene en este servidor*",
         "kick":"`{0}kick <usuario>` *patea al usuario del actual servidor de Discord*",
         "ban":"`{0}ban <usuario>` *prohibe al usuario del actual servidor de Discord*",
-        "pardon":"`{0}pardon <usuario>` *desbancar al usuario del actual servidor de Discord*"
+        "pardon":"`{0}pardon <usuario>` *desbancar al usuario del actual servidor de Discord*",
+        "mute":"`{0}mute <user>` *mutes the user from the current Discord server*",
+        "unmute":"`{0}unmute <user>` *unmutes the user from the current Discord server*"
       }
     },
     "fun":{
@@ -1246,6 +1259,15 @@
         "no_reason":"No se ha especificado ninguna razón",
         "by":"Advertencia de",
         "confirm":"{} Advertido. ({} advertencias ahora) por la razón: *{}*"
+      },
+      "mute": {
+        "stupid_1": "You cannot mute yourself",
+        "mute_msg": "**{}** has been muted."
+      },
+      "unmute": {
+        "stupid_1": "You cannot unmute yourself",
+        "stupid_2": "**{}** isn't muted",
+        "unmute_msg": "**{}** has been unmuted"
       }
     },
     "config":{
@@ -1779,7 +1801,9 @@
         "delwarns":"`{0}delwarns <utilisateur>` *efface les avertissements qu'un utilisateur a sur ce serveur*",
         "kick":"`{0}kick <utilisateur>` *kick l'utilisateur du serveur Discord actuel*",
         "ban":"`{0}ban <utilisateur>` *bannit l'utilisateur du serveur Discord actuel*",
-        "pardon":"`{0}pardon <utilisateur>` *débannit l'utilisateur du serveur Discord actuel*"
+        "pardon":"`{0}pardon <utilisateur>` *débannit l'utilisateur du serveur Discord actuel*",
+        "mute":"`{0}mute <user>` *mutes the user from the current Discord server*",
+        "unmute":"`{0}unmute <user>` *unmutes the user from the current Discord server*"
       }
     },
     "fun":{
@@ -2067,6 +2091,15 @@
         "no_reason":"Pas de raison spécifiée",
         "by":"Avertissement de",
         "confirm":"{} {} a été averti ({} avertissement(s) maintenant) pour la raison : *{}*"
+      },
+      "mute": {
+        "stupid_1": "You cannot mute yourself",
+        "mute_msg": "**{}** has been muted."
+      },
+      "unmute": {
+        "stupid_1": "You cannot unmute yourself",
+        "stupid_2": "**{}** isn't muted",
+        "unmute_msg": "**{}** has been unmuted"
       }
     },
     "config":{
