@@ -218,6 +218,9 @@ class Mod(commands.Cog):
 
         mute = discord.utils.get(ctx.guild.roles, name="Mute")
 
+        if mute is None:
+            mute = discord.utils.get(await ctx.guild.fetch_roles(), name="Mute")
+
         await user.add_roles(mute)
         await self.bot.send(ctx, ctx.l.mod.mute.mute_msg.format(user))
 
