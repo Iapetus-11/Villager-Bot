@@ -427,13 +427,13 @@
         "confirm":"{} Warned {} ({} warning(s) now) for reason: *{}*"
       },
       "mute": {
-        "stupid_1": "You cannot mute yourself",
+        "stupid_1": "You cannot mute yourself.",
         "mute_msg": "**{}** has been muted."
       },
       "unmute": {
-        "stupid_1": "You cannot unmute yourself",
-        "stupid_2": "**{}** isn't muted",
-        "unmute_msg": "**{}** has been unmuted"
+        "stupid_1": "You cannot unmute yourself.",
+        "stupid_2": "**{}** isn't muted.",
+        "unmute_msg": "**{}** has been unmuted."
       }
     },
     "config":{
