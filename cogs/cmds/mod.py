@@ -212,7 +212,7 @@ class Mod(commands.Cog):
 
         for channel in ctx.guild.text_channels:  # fix perms for channels
             if mute not in channel.overwrites:
-                await channel.set_permissions(mute, permissions=discord.Permissions(send_messages=False, add_reactions=False))
+                await channel.set_permissions(mute, send_messages=False, add_reactions=False)
 
         await user.add_roles(mute)
         await self.bot.send(ctx, ctx.l.mod.mute.mute_msg.format(user))
