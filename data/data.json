@@ -250,10 +250,16 @@
   ],
   "special_findables": [
      [
+       "Toilet Paper Roll (Emerald Patterned)",
+       1000,
+       99999,
+       false
+     ],
+     [
        "Rona Vaccine",
        1024,
        2000,
-       true
+       false
      ],
      [
        "Pillager-Proof Hazmat Suit",
@@ -277,6 +283,24 @@
        "Tiny Hand Sanitizer Bottle",
        50,
        2000,
+       false
+     ],
+     [
+       "Four Leaf Clover",
+       50,
+       2000,
+       false
+     ],
+     [
+       "Pot Of Gold",
+       420,
+       10000,
+       false
+     ],
+     [
+       "A Literal Rainbow",
+       2048,
+       50000,
        false
      ]
   ],

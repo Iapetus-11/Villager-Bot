@@ -87,7 +87,7 @@ class Owner(commands.Cog):
     async def gitpull(self, ctx):
         async with ctx.typing():
             system_call = functools.partial(os.system, "sudo git pull > git_pull_log 2>&1")
-            await self.bot.loop.run_in_executor(self.bot.ppool, system_call)
+            await self.bot.loop.run_in_executor(self.bot.tpool, system_call)
 
             async with aiofiles.open("git_pull_log", "r") as f:
                 await self.bot.send(ctx, f"```diff\n{await f.read()}\n```")

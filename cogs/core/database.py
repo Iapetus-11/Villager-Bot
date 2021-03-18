@@ -145,6 +145,16 @@ class Database(commands.Cog):
     async def drop_guild(self, gid):
         await self.db.execute("DELETE FROM guilds WHERE gid = $1", gid)
 
+        try:
+            del self.d.lang_cache[gid]
+        except KeyError:
+            pass
+
+        try:
+            del self.d.prefix_cache[gid]
+        except KeyError:
+            pass
+
     async def fetch_guild_premium(self, gid):
         return bool(await self.db.fetchval("SELECT premium FROM guilds WHERE gid = $1", gid))
 

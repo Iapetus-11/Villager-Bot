@@ -181,6 +181,8 @@ class Events(commands.Cog):
                 await self.bot.send(ctx, ctx.l.misc.errors.user_perms)
             elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
                 await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
+            elif e.__dict__.get("original") is not None and isinstance(e.original, discord.errors.Forbidden):
+                await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
             elif isinstance(e, commands.MaxConcurrencyReached):
                 await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
             elif isinstance(e, commands.MissingRequiredArgument):
