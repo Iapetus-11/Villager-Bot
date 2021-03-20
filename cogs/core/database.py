@@ -200,11 +200,11 @@ class Database(commands.Cog):
     async def fetch_leaderboard_balances(self, uids: list, *, limit: int = 11):
         return (
             await self.db.fetch(
-                "SELECT uid, emeralds FROM users WHERE emeralds > 0 AND bot_banned = false ORDER BY emeralds DESC LIMIT $1",
+                "SELECT uid, emeralds, ROW_NUMBER() FROM users WHERE emeralds > 0 AND bot_banned = false ORDER BY emeralds DESC LIMIT $1",
                 limit,
             ),
             await self.db.fetch(
-                "SELECT uid, emeralds FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($1::BIGINT[]) ORDER BY emeralds DESC LIMIT $2",
+                "SELECT uid, emeralds, ROW_NUMBER() FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($1::BIGINT[]) ORDER BY emeralds DESC LIMIT $2",
                 uids,
                 limit,
             ),
