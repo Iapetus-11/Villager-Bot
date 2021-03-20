@@ -1239,7 +1239,7 @@ class Econ(commands.Cog):
         lb_list.append(u_entry)
 
         # filter duplicates and sort
-        lb_list = sorted(list(set(lb_list)), key=(lambda e: e[1]), reverse=True)
+        lb_list = sorted([e for i, e in enumerate(lb_list) if lb_list.index(e) == i], key=(lambda e: e[1]), reverse=True)
 
         # shorten list
         lb_list = lb_list[:9] if u_entry[2] > 9 else lb_list[:10]
