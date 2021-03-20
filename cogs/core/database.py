@@ -209,13 +209,13 @@ class Database(commands.Cog):
             #     limit,
             # ),
             await self.db.fetch(
-                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC LIMIT $1) AS position FROM users WHERE emeralds > 0 AND bot_banned = false",
+                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false LIMIT $1",
                 limit,
             ),
             await self.db.fetch(
-                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC LIMIT $1) AS position FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($1::BIGINT[])",
+                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($2::BIGINT[]) LIMIT $1",
                 limit,
-                UIDS,
+                uids,
             ),
         )
 
