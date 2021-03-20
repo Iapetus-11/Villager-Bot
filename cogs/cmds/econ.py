@@ -1272,6 +1272,8 @@ class Econ(commands.Cog):
                 ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
+            await ctx.send(user_entry)
+
             lb_global = self.lb_logic(ems_global, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
             lb_local = self.lb_logic(ems_local, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
