@@ -1237,7 +1237,7 @@ class Econ(commands.Cog):
 
     def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
         # find the rank/place on lb of the origin user
-        u_place = -1
+        u_place = len(lb_list)
 
         for i, e in enumerate(lb_list):
             if lb_list == u_entry[0]:
