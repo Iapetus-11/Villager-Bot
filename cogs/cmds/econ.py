@@ -1245,7 +1245,8 @@ class Econ(commands.Cog):
                 break
 
         # add user entry to list
-        lb_list.append((*u_entry, u_place))
+        u_entry = (*u_entry, u_place)
+        lb_list.append(u_entry)
 
         # sort
         lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
