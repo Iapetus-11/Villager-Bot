@@ -1265,7 +1265,7 @@ class Econ(commands.Cog):
             else:
                 user = discord.utils.escape_markdown(user.display_name)
 
-            body += rank_fstr.format(entry[2] + 1, entry[1], user)
+            body += rank_fstr.format(entry[2], entry[1], user)
 
         # add user if user is missing from the leaderboard
         if u_entry[2] > 9:
