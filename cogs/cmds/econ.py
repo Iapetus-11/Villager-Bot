@@ -1262,8 +1262,8 @@ class Econ(commands.Cog):
             user_entry = [(ctx.author.id, db_user["emeralds"])]
 
             ems_global, ems_local = await self.db.fetch_leaderboard_balances([m.id for m in ctx.guild.members if not m.bot])
-            ems_global = sorted((ems_global + user_entry), key=(lambda tup: tup[1]), reverse=True)
-            ems_local = sorted((ems_local + user_entry), key=(lambda tup: tup[1]), reverse=True)
+            ems_global = dict(sorted((ems_global + user_entry), key=(lambda e: e[1]), reverse=True)).items()
+            ems_local = dict(sorted((ems_local + user_entry), key=(lambda tup: tup[1]), reverse=True)).items()
 
             lb_global = await self.leaderboard_logic(
                 ems_global, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)

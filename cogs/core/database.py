@@ -197,7 +197,7 @@ class Database(commands.Cog):
     async def mass_fetch_balances(self):
         return await self.db.fetch("SELECT uid, emeralds FROM users WHERE emeralds > 0 AND bot_banned = false")
 
-    async def fetch_leaderboard_balances(self, uids: list, *, limit: int = 10):
+    async def fetch_leaderboard_balances(self, uids: list, *, limit: int = 11):
         return (
             await self.db.fetch(
                 "SELECT uid, emeralds FROM users WHERE emeralds > 0 AND bot_banned = false ORDER BY emeralds DESC LIMIT $1",
