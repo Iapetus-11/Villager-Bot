@@ -1236,8 +1236,16 @@ class Econ(commands.Cog):
         return body + "\uFEFF"
 
     def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
-        # add base leaderboard and user
-        lb_list = set(lb_list + [u_entry])
+        # find the rank/place on lb of the origin user
+        u_place = -1
+
+        for i, e in enumerate(lb_list):
+            if lb_list == u_entry[0]:
+                u_place = i + 1
+                break
+
+        # add user entry to list
+        lb_list.append((*u_entry, u_place))
 
         # sort
         lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
