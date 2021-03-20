@@ -1248,8 +1248,8 @@ class Econ(commands.Cog):
         u_entry = (*u_entry, u_place)
         lb_list.append(u_entry)
 
-        # sort
-        lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
+        # filter duplicates and sort
+        lb_list = sorted(list(set(lb_list)), key=(lambda e: e[1]), reverse=True)
 
         # shorten list
         lb_list = lb_list[:9] if u_entry[2] > 9 else lb_list[:10]
