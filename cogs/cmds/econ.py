@@ -1267,18 +1267,16 @@ class Econ(commands.Cog):
     async def leaderboard_emeralds(self, ctx):
         with ctx.typing():
             db_user = await self.db.fetch_user(ctx.author.id)
-            user_entry = [(ctx.author.id, db_user["emeralds"])]
+            user_entry = (ctx.author.id, db_user["emeralds"])
 
             ems_global, ems_local = await self.db.fetch_leaderboard_balances([m.id for m in ctx.guild.members if not m.bot])
-            ems_global = list(dict(sorted((ems_global + user_entry), key=(lambda e: e[1]), reverse=True)).items())
-            ems_local = list(dict(sorted((ems_local + user_entry), key=(lambda tup: tup[1]), reverse=True)).items())
 
-            lb_global = await self.leaderboard_logic(
-                ems_global, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            lb_global = self.lb_logic(
+                ems_global, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
             )
 
-            lb_local = await self.leaderboard_logic(
-                ems_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            lb_local = self.lb_logic(
+                ems_local, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
             )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
