@@ -1235,9 +1235,12 @@ class Econ(commands.Cog):
 
         return body + "\uFEFF"
 
-    def lb_logic(self, lb_list, u_entry, rank_fstr):
-        # sort base leaderboard + user, and filter out duplicates
-        lb_list = list(dict(sorted((lb_list + [u_entry]), key=(lambda e: e[1]), reverse=True)).items())
+    def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
+        # add base leaderboard and user
+        lb_list = set(lb_list + [u_entry])
+
+        # sort
+        lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
 
         # shorten list
         lb_list = lb_list[:9] if u_entry[2] > 9 else lb_list[:10]
