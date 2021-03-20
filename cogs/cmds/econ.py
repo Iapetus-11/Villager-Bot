@@ -1261,7 +1261,7 @@ class Econ(commands.Cog):
             db_user = await self.db.fetch_user(ctx.author.id)
             user_entry = [(ctx.author.id, db_user["emeralds"])]
 
-            ems_global, ems_local = await self.db.fetch_top_balances([m.id for m in ctx.guild.members if not member.bot])
+            ems_global, ems_local = await self.db.fetch_leaderboard_balances([m.id for m in ctx.guild.members if not member.bot])
             ems_global = sorted((ems_global + user_entry), key=(lambda tup: tup[1]), reverse=True)
             ems_local = sorted((ems_local + user_entry), key=(lambda tup: tup[1]), reverse=True)
 
