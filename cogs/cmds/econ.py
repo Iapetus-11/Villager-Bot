@@ -1235,18 +1235,42 @@ class Econ(commands.Cog):
 
         return body + "\uFEFF"
 
+    # @leaderboards.command(name="emeralds", aliases=["ems"])
+    # async def leaderboard_emeralds(self, ctx):
+    #     with ctx.typing():
+    #         emeralds = sorted((await self.db.mass_fetch_balances()), key=(lambda tup: tup[1]), reverse=True)
+    #
+    #         lb_global = await self.leaderboard_logic(
+    #             emeralds, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+    #         )
+    #
+    #         emeralds_local = [u for u in emeralds if ctx.guild.get_member(u[0])]
+    #         lb_local = await self.leaderboard_logic(
+    #             emeralds_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+    #         )
+    #
+    #     embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
+    #     embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+    #     embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+    #
+    #     await ctx.send(embed=embed)
+
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
         with ctx.typing():
-            emeralds = sorted((await self.db.mass_fetch_balances()), key=(lambda tup: tup[1]), reverse=True)
+            db_user = await self.db.fetch_user(ctx.author.id)
+            user_entry = [(ctx.author.id, db_user["emeralds"])]
+
+            ems_global, ems_local = await self.db.fetch_top_balances([m.id for m in ctx.guild.members if not member.bot])
+            ems_global = sorted((ems_global + user_entry), key=(lambda tup: tup[1]), reverse=True)
+            ems_local = sorted((ems_local + user_entry), key=(lambda tup: tup[1]), reverse=True)
 
             lb_global = await self.leaderboard_logic(
-                emeralds, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+                ems_global, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
             )
 
-            emeralds_local = [u for u in emeralds if ctx.guild.get_member(u[0])]
             lb_local = await self.leaderboard_logic(
-                emeralds_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+                ems_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
             )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
