@@ -6,7 +6,8 @@ import aiohttp
 import random
 import arrow
 import math
-
+import numpy as np
+import bisect
 
 class Econ(commands.Cog):
     def __init__(self, bot):
@@ -998,11 +999,11 @@ class Econ(commands.Cog):
             amount = 1
 
         if amount < 1:
-            await self.bot.send(ctx.l.econ.use.stupid_3)
+            await self.bot.send(ctx, ctx.l.econ.use.stupid_3)
             return
 
         if amount > 100:
-            await self.bot.send(ctx.l.econ.use.stupid_4)
+            await self.bot.send(ctx, ctx.l.econ.use.stupid_4)
             return
 
         current_pots = self.d.chuggers.get(ctx.author.id)
@@ -1022,8 +1023,9 @@ class Econ(commands.Cog):
             return
 
         if thing == "haste i potion":
+
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format(1, "Haste I Potion"))
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
@@ -1046,7 +1048,7 @@ class Econ(commands.Cog):
 
         if thing == "haste ii potion":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format(1, "Haste II Potion"))
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
@@ -1068,9 +1070,9 @@ class Econ(commands.Cog):
             return
 
         if thing == "vault potion":
-            if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
-                return
+            # if amount > 1:
+            #     await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Vault"))
+            #     return
 
             db_user = await self.db.fetch_user(ctx.author.id)
 
@@ -1078,15 +1080,21 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.use.vault_max)
                 return
 
-            add = random.randint(9, 15)
+            list_result = random.choices(range(9, 16), k=amount) #pain.
+            add = sum(list_result)
+            if add + db_user['vault_max'] > 2000:
+                list_cumu = list(np.asarray(np.cumsum(list_result)) + db_user['vault_max'])
+                pots_used = 1 + bisect.bisect_left(list_cumu, 2000)
+                max_vault, add = 2000 - db_user['vault_max']
 
-            if db_user["vault_max"] + add > 2000:
-                add = 2000 - db_user["vault_max"]
+            else:
+                pots_used = len(list_result)
+                max_vault = db_user['vault_max'] + add
 
-            await self.db.remove_item(ctx.author.id, "Vault Potion", 1)
-            await self.db.set_vault(ctx.author.id, db_user["vault_bal"], db_user["vault_max"] + add)
+            await self.db.remove_item(ctx.author.id, "Vault Potion", pots_used)
+            await self.db.set_vault(ctx.author.id, db_user["vault_bal"], max_vault)
 
-            await self.bot.send(ctx, ctx.l.econ.use.vault_pot.format(add))
+            await self.bot.send(ctx, ctx.l.econ.use.vault_pot.format(pots_used, add))
             return
 
         if thing == "honey jar":
@@ -1097,20 +1105,22 @@ class Econ(commands.Cog):
 
                 if max_amount < 1:
                     await self.bot.send(ctx, ctx.l.econ.use.cant_use_any.format("Honey Jars"))
-                else:
-                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_up_to.format(max_amount, "Honey Jar"))
-            else:
-                await self.db.update_user(ctx.author.id, 'health', db_user['health']+amount)
-                await self.db.remove_item(ctx.author.id, 'Honey Jar', amount)
+                    return
 
-                new_health = amount + db_user["health"]
-                await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
+                else:
+                    amount = max_amount
+
+            await self.db.update_user(ctx.author.id, 'health', db_user['health']+amount)
+            await self.db.remove_item(ctx.author.id, 'Honey Jar', amount)
+
+            new_health = amount + db_user["health"]
+            await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
 
             return
 
         if thing == "present":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format(1, "Present"))
                 return
 
             await self.db.remove_item(ctx.author.id, "Present", 1)
@@ -1126,7 +1136,7 @@ class Econ(commands.Cog):
 
         if thing == "barrel":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format(1, "Barrel"))
                 return
 
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
@@ -1149,7 +1159,7 @@ class Econ(commands.Cog):
             await self.db.balance_add(ctx.author.id, ems)
             return
 
-        await self.bot.send(ctx, ctx.l.econ.use.stupid_3)
+        await self.bot.send(ctx, ctx.l.econ.use.stupid_5)
 
     @commands.command(name="honey", aliases=["harvesthoney", "horny"])  # ~~a strange urge occurs in me~~
     @commands.cooldown(1, 24 * 60 * 60, commands.BucketType.user)
