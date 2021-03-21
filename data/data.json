@@ -3,7 +3,7 @@
   "support_server_id": 641117791272960031,
   "error_channel_id": 642446655022432267,
   "vote_channel_id": 725551439165784115,
-  "splash_logo": "http://home.betterapi.net/images/villagerbotsplash1.png",
+  "splash_logo": "http://iapetus11.me/images/villagerbotsplash1.png",
   "support": "https://discord.gg/39DwwUV",
   "invite": "https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=1074130126&scope=bot%20applications.commands",
   "topgg": "https://top.gg/bot/639498607632056321",
@@ -74,25 +74,25 @@
     "netherite sword"
   ],
   "kills": [
-    "**{0}** was suicided",
-    "**{0}** died by death",
-    "**{0}** died by fall damage",
-    "**{0}** dug straight down",
+    "**{0}** was suicided.",
+    "**{0}** died by death.",
+    "**{0}** died by fall damage.",
+    "**{0}** dug straight down.",
     "**{0}** was killed by **{1}**",
-    "**{0}** choked on a dorito and died",
+    "**{0}** choked on a dorito and died.",
     "**{0}** was killed in a tragic accident involving doritos and **{1}**",
-    "We regret to inform you, **{0}** has been died",
+    "We regret to inform you, **{0}** has been died.",
     "**{0}** is now dead.",
-    "A creeper blew up **{0}**",
-    "**{0}** suicided by creeper",
+    "A creeper blew up **{0}**.",
+    "**{0}** suicided by creeper.",
     "**{0}** was yeeted into the void",
-    "**{0}** was yeeted into the void by an enderman",
-    "**{0}** fell into lava",
-    "**{0}** was smited by Villager Bot",
+    "**{0}** was yeeted into the void by an enderman.",
+    "**{0}** fell into lava.",
+    "**{0}** was smited by Villager Bot.",
     "**{0}** was yeeted into the void by **{1}**",
-    "**{0}** exploded in the microwave",
-    "**{0}** was cut in half to demonstrate the power of flex tape",
-    "**{0}** was yeeted across the map by a creeper",
+    "**{0}** exploded in the microwave.",
+    "**{0}** was cut in half to demonstrate the power of flex tape.",
+    "**{0}** was yeeted across the map by a creeper.",
     "**{0}** was bonked by **{1}**"
   ],
   "hmms": [
@@ -130,32 +130,32 @@
       "zombie": {
         "nice": "Zombie",
         "health": 20,
-        "image": "https://home.betterapi.net/images/mob_spawns/zombie.png"
+        "image": "https://iapetus11.me/images/mob_spawns/zombie.png"
       },
       "skeleton": {
         "nice": "Skeleton",
         "health": 20,
-        "image": "https://home.betterapi.net/images/mob_spawns/skeleton.png"
+        "image": "https://iapetus11.me/images/mob_spawns/skeleton.png"
       },
       "spider": {
         "nice": "Spider",
         "health": 20,
-        "image": "https://home.betterapi.net/images/mob_spawns/spider.png"
+        "image": "https://iapetus11.me/images/mob_spawns/spider.png"
       },
       "cave_spider": {
         "nice": "Cave Spider",
         "health": 12,
-        "image": "https://home.betterapi.net/images/mob_spawns/cave_spider.png"
+        "image": "https://iapetus11.me/images/mob_spawns/cave_spider.png"
       },
       "creeper": {
         "nice": "Creeper",
         "health": 20,
-        "image": "https://home.betterapi.net/images/mob_spawns/creeper.png"
+        "image": "https://iapetus11.me/images/mob_spawns/creeper.png"
       },
       "baby_slime": {
         "nice": "Baby Slime",
         "health": 20,
-        "image": "https://home.betterapi.net/images/mob_spawns/baby_slime.png"
+        "image": "https://iapetus11.me/images/mob_spawns/baby_slime.png"
       }
     }
   },
@@ -283,6 +283,24 @@
        "Tiny Hand Sanitizer Bottle",
        50,
        2000,
+       false
+     ],
+     [
+       "Four Leaf Clover",
+       50,
+       2000,
+       false
+     ],
+     [
+       "Pot Of Gold",
+       420,
+       10000,
+       false
+     ],
+     [
+       "A Literal Rainbow",
+       2048,
+       99999,
        false
      ]
   ],

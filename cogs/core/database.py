@@ -197,6 +197,22 @@ class Database(commands.Cog):
     async def mass_fetch_balances(self):
         return await self.db.fetch("SELECT uid, emeralds FROM users WHERE emeralds > 0 AND bot_banned = false")
 
+    async def fetch_leaderboard_balances(self, uid: int, uids: list, *, limit: int = 11):
+        return (
+            await self.db.fetchrow(
+                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE uid = $1", uid
+            ),
+            await self.db.fetch(
+                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false LIMIT $1",
+                limit,
+            ),
+            await self.db.fetch(
+                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($2::BIGINT[]) LIMIT $1",
+                limit,
+                uids,
+            ),
+        )
+
     async def mass_fetch_votestreaks(self):
         return await self.db.fetch("SELECT uid, vote_streak FROM users WHERE vote_streak > 0 AND bot_banned = false")
 

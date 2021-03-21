@@ -1246,19 +1246,48 @@ class Econ(commands.Cog):
 
         return body + "\uFEFF"
 
+    def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
+        lb_list.append(u_entry)
+
+        # filter duplicates and sort
+        lb_list = sorted([e for i, e in enumerate(lb_list) if lb_list.index(e) == i], key=(lambda e: e[1]), reverse=True)
+
+        # shorten list
+        lb_list = lb_list[:9] if u_entry[2] > 9 else lb_list[:10]
+
+        body = ""
+
+        # create base leaderboard
+        for entry in lb_list:
+            user = self.bot.get_user(entry[0])
+
+            if user is None:
+                user = "Unknown User"
+            else:
+                user = discord.utils.escape_markdown(user.display_name)
+
+            body += rank_fstr.format(entry[2], entry[1], user)
+
+        # add user if user is missing from the leaderboard
+        if u_entry[2] > 9:
+            body += "\n⋮" + rank_fstr.format(
+                u_entry[2], u_entry[1], discord.utils.escape_markdown(self.bot.get_user(u_entry[0]).display_name)
+            )
+
+        return body + "\uFEFF"
+
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
         with ctx.typing():
-            emeralds = sorted((await self.db.mass_fetch_balances()), key=(lambda tup: tup[1]), reverse=True)
-
-            lb_global = await self.leaderboard_logic(
-                emeralds, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            user_entry, ems_global, ems_local = await self.db.fetch_leaderboard_balances(
+                ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            emeralds_local = [u for u in emeralds if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                emeralds_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
-            )
+            await ctx.send(user_entry)
+
+            lb_global = self.lb_logic(ems_global, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
+
+            lb_local = self.lb_logic(ems_local, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)

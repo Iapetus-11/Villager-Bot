@@ -177,6 +177,7 @@ class Mod(commands.Cog):
 
     @commands.command(name="delwarns", aliases=["clearwarns", "remwarns", "removewarns", "delwarnings"])
     @commands.guild_only()
+    @commands.has_permissions(kick_members=True)
     async def clear_warnings(self, ctx, user: discord.Member):
         if ctx.author.id == user.id and ctx.guild.owner.id != ctx.author.id:
             await self.bot.send(ctx, ctx.l.mod.warn.stupid_1)
@@ -191,8 +192,8 @@ class Mod(commands.Cog):
 
     @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu"])
     @commands.guild_only()
+    @commands.has_permissions(kick_members=True)
     async def mute(self, ctx, user: discord.Member):
-
         if ctx.author.id == user.id:
             await self.bot.send(ctx, ctx.l.mod.mute.stupid_1)
             return
@@ -201,24 +202,26 @@ class Mod(commands.Cog):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
-        if not discord.utils.get(ctx.guild.roles, name="Mute"):  # creating the role for the first time
-            perms = discord.Permissions(send_messages=False, embed_links=False, attach_files=False,
-                                        add_reactions=False)  # pain.
+        if discord.utils.get(ctx.guild.roles, name="Mute") is None:  # check if role exists
+            await ctx.guild.create_role(name="Mute", permissions=discord.Permissions(send_messages=False, add_reactions=False))
 
-            await ctx.guild.create_role(name="Mute", permissions=perms)
-            mute = discord.utils.get(ctx.guild.roles, name="Mute")
-            for channel in ctx.guild.text_channels:
-                await channel.set_permissions(mute, send_messages=False, embed_links=False, attach_files=False,
-                                              add_reactions=False)  # code do be copy paste tho
-
+        # fetch role
         mute = discord.utils.get(ctx.guild.roles, name="Mute")
+        if mute is None:
+            mute = discord.utils.get(await ctx.guild.fetch_roles(), name="Mute")
+
+        with ctx.typing():
+            for channel in ctx.guild.text_channels:  # fix perms for channels
+                if mute not in channel.overwrites:
+                    await channel.set_permissions(mute, send_messages=False, add_reactions=False)
+
         await user.add_roles(mute)
         await self.bot.send(ctx, ctx.l.mod.mute.mute_msg.format(user))
 
     @commands.command(name="unmute", aliases=["unshut", "shutnt"])
     @commands.guild_only()
+    @commands.has_permissions(kick_members=True)
     async def unmute(self, ctx, user: discord.Member):
-
         if ctx.author.id == user.id:
             await self.bot.send(ctx, ctx.l.mod.unmute.stupid_1)
             return
@@ -232,7 +235,6 @@ class Mod(commands.Cog):
         if mute:
             await user.remove_roles(mute)
             await self.bot.send(ctx, ctx.l.mod.unmute.unmute_msg.format(user))
-
         else:
             await self.bot.send(ctx, ctx.l.mod.unmute.stupid_2.format(user))
 

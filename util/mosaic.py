@@ -84,13 +84,13 @@ def generate(source_bytes, max_dim, detailed):
             g = pix[1]
             b = pix[0]
 
-            pal_key = palette_oct.get((r//32, g//32, b//32))
+            pal_key = palette_oct.get((r // 32, g // 32, b // 32))
 
             if pal_key is None:
-                pal_key = palette_quad.get((r//64, g//64, b//64))
+                pal_key = palette_quad.get((r // 64, g // 64, b // 64))
 
                 if pal_key is None:
-                    pal_key = palette_bi.get((r//128, g//128, b//128))
+                    pal_key = palette_bi.get((r // 128, g // 128, b // 128))
 
                     if pal_key is None:
                         pal_key = palette_oct[random.choice((*palette_oct.keys(),))]

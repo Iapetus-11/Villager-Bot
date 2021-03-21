@@ -116,9 +116,9 @@
         "enchant":"`{0}enchant <text>` *turns text into the Minecraft enchantment table language*",
         "unenchant":"`{0}unenchant <text>` *turns the enchantment table language back into text*",
         "villagerspeak":"`{0}villagerspeak <text>` *turns text into villager sounds*",
-        "clap":"`{0}clap <text>` *:clap: puts :clap: the :clap: emoji :clap: between :clap: text*",
+        "clap":"`{0}clap <text>` *:clap: puts :clap: the :clap: emoji :clap: between :clap: text :clap:*",
         "emojify":"`{0}emojify <text>` *turns text into emojis*",
-        "sarcastic":"`{0}sarcastic <text>` *turn text into the spongebob sarcastic text*",
+        "sarcastic":"`{0}sarcastic <text>` *tUrN tExT iNtO tHe SpOnGeBoB sArCaStIc TeXt*",
         "owo":"`{0}owo <text>` *owofies the given text uwu*",
         "vaporwave":"`{0}vaporwave <text>` *makes text into the vaporwave style*",
         "kill":"`{0}kill <user>` *brutally murder another user*",
@@ -136,8 +136,8 @@
         "kick":"`{0}kick <user>` *kicks the user from the current Discord server*",
         "ban":"`{0}ban <user>` *bans the user from the current Discord server*",
         "pardon":"`{0}pardon <user>` *unban the user from the current Discord server*",
-        "mute":"`{0}mute <user>` *mutes the user from the current Discord server*",
-        "unmute":"`{0}unmute <user>` *unmutes the user from the current Discord server*"
+        "mute":"`{0}mute <user>` *mutes the user in the current Discord server*",
+        "unmute":"`{0}unmute <user>` *unmutes the user in the current Discord server*"
       }
     },
     "fun":{
@@ -153,11 +153,11 @@
       "type_engage":"Type `fight` to fight the mob!",
       "attack_or_flee":"Type `attack` to attack, or `flee` to run away.",
       "flee_insults":[
-        "Fine, run away like a little baby",
-        "Fine, run to mommy like a little baby",
-        "Go to mommy little baby",
-        "Ok little baby, run away to mommy",
-        "Fine, run away like the crybaby toddler you are"
+        "Fine, run away like a little baby.",
+        "Fine, run to mommy like a little baby.",
+        "Go to mommy little baby.",
+        "Ok little baby, run away to mommy.",
+        "Fine, run away like the crybaby toddler you are."
       ],
       "user_attacks":[
         "You slashed the **{0}** with your **{1}**!",
@@ -172,7 +172,7 @@
         "You charged at the **{0}** and hacked at it with your **{1}**!",
         "You charged at the **{0}** and stabbed it with your **{1}**!",
         "You charged at the **{0}** and hacked at it with your **{1}**!",
-        "You charged at the **{0}** and with all your might poked it with your **{1}**"
+        "You charged at the **{0}** and with all your might poked it with your **{1}**!"
       ],
       "user_finishers":[
         "You swung the **{1}** as hard as you could and decapitated the **{0}**!",
@@ -208,11 +208,11 @@
         "You ran into a vicious {0}!"
       ],
       "found":[
-        "Wow look at that! You found {}{} just right there on the ground",
+        "Wow look at that! You found {}{} just right there on the ground!",
         "Through the white smoke from the slain mob you spot {}{}!",
-        "The mob drops {}{}",
-        "You glance at the ground and see {}{}",
-        "You find {}{} next to the fallen mob"
+        "The mob drops {}{}!",
+        "You glance at the ground and see {}{}!",
+        "You find {}{} next to the fallen mob!"
       ],
       "lost":{
         "creeper":[
@@ -229,13 +229,13 @@
       "mobs":{
         "zombie":{
           "attacks":[
-            "The **zombie** ran, lashing at your arms",
-            "The **zombie** gives you a painful hug",
-            "The **zombie** groans and gives you a painful hug",
-            "The **zombie** punches you in your face",
-            "The **zombie** claws you with its overgrown, decaying nails",
-            "The **zombie** punches you in your face with its decaying hand",
-            "The **zombie** scratches you with its overgrown, decaying nails"
+            "The **zombie** ran, lashing at your arms!",
+            "The **zombie** gives you a painful hug!",
+            "The **zombie** groans and gives you a painful hug!",
+            "The **zombie** punches you in the face!",
+            "The **zombie** claws you with its overgrown, decaying nails!",
+            "The **zombie** punches you in your face with its decaying hand!",
+            "The **zombie** scratches you with its overgrown, decaying nails!"
           ],
           "finishers":[
             "The **zombie** lunges for your throat, and bites!",
@@ -245,10 +245,10 @@
         },
         "skeleton":{
           "attacks":[
-            "The **skeleboi** yeets an arrow at your face",
+            "The **skeleboi** yeets an arrow at your face!",
             "The **skeleton** turns around and 360 no scopes you!",
-            "An arrow rains from the **skeleton**, only one",
-            "One headshot from **skeleton** for you",
+            "An arrow rains from the **skeleton**, only one.",
+            "One headshot from the **skeleton** for you!",
             "BOOM! HEADSHOT! - **skeleton** 2021"
           ],
           "finishers":[
@@ -260,28 +260,28 @@
         },
         "spider":{
           "attacks":[
-            "The **spider** jumps on top of you and sinks its fangs into your arm",
-            "The **spider** knocks you down and bites your leg",
-            "The **spider** jumps at you in an attempt to bite your face off",
-            "The **spider** dunks on you",
-            "The **spider** lunges at you and bites your leg"
+            "The **spider** jumps on top of you and sinks its fangs into your arm!",
+            "The **spider** knocks you down and bites your leg!",
+            "The **spider** jumps at you in an attempt to bite your face off!",
+            "The **spider** dunks on you!",
+            "The **spider** lunges at you and bites your leg!"
           ],
           "finishers":[
             "The **spider** jumps on you, spins around, and sinks its fangs into your skull!",
             "The **spider** dunks on you one last time, and bites your face off!",
-            "The **spider** rips your face off, your last sight being 8 murderous red eyes staring back"
+            "The **spider** rips your face off, your last sight being 8 murderous red eyes staring back."
           ]
         },
         "cave_spider":{
           "attacks":[
-            "The **cave spider**'s fangs digs deep onto your skin",
-            "The **cave spider** gives you a toxic kiss",
-            "The **cave spider** bites you and inflicts poison damage"
+            "The **cave spider**'s fangs digs deep onto your skin!",
+            "The **cave spider** gives you a toxic kiss!",
+            "The **cave spider** bites you and inflicts poison damage!"
           ],
           "finishers":[
-            "You died a slow, painful death from poison damage",
-            "The **cave spider** injects one last lethal dose of venom",
-            "The **cave spider** buries its fangs deep into you and fills you with venom"
+            "You died a slow, painful death from poison damage!",
+            "The **cave spider** injects one last lethal dose of venom!",
+            "The **cave spider** buries its fangs deep into you and fills you with venom!"
           ]
         },
         "creeper":{
@@ -301,26 +301,26 @@
         },
         "baby_slime":{
           "attacks":[
-            "The **baby slime** jumps on you",
-            "The **baby slime** looks cute",
-            "The **baby slime** jumps on your head",
-            "You encourage the **baby slime**"
+            "The **baby slime** jumps on you!",
+            "The **baby slime** looks cute!",
+            "The **baby slime** jumps on your head!",
+            "You encourage the **baby slime**!"
           ],
           "finishers":[
-            "You die from the cuteness",
-            "The **baby slime** looks so cute you just follow it around for the rest of your life and keep it safe",
-            "You follow the **baby slime** around because it's so cute, it despawns, you die from sadness",
-            "The **baby slime** despawns right in front of you, you die from extreme depression",
-            "The **baby slime** finally does some damage",
-            "You feel bad that the **baby slime** can't hurt you so you commit suicide",
-            "You feel bad that the **baby slime** can't hurt you so you commit dig straight down",
-            "There can only be one winner, the **baby slime** says, you type in /kill"
+            "You die from the cuteness.",
+            "The **baby slime** looks so cute you just follow it around for the rest of your life and keep it safe!",
+            "You follow the **baby slime** around because it's so cute, it despawns, you die from sadness.",
+            "The **baby slime** despawns right in front of you, you die from extreme depression.",
+            "The **baby slime** finally does some damage!",
+            "You feel bad that the **baby slime** can't hurt you so you commit suicide.",
+            "You feel bad that the **baby slime** can't hurt you so you commit dig straight down.",
+            "There can only be one winner, the **baby slime** says. You type in `/kill`"
           ],
           "misses":[
-            "You swing your **{0}** as hard as you can, you miss the **baby slime**",
-            "You slash your **{0}** at the **baby slime** as hard as you can. The **baby slime** is fine",
+            "You swing your **{0}** as hard as you can, you miss the **baby slime**.",
+            "You slash your **{0}** at the **baby slime** as hard as you can. The **baby slime** is fine.",
             "You miss, swinging your **{0}** at the **baby slime**.",
-            "You swing your **{0}**, the **baby slime** makes a cute face, you miss."
+            "You swing your **{0}**, the **baby slime** makes a cute face, you miss!"
           ]
         }
       }
@@ -344,7 +344,7 @@
           "value":"Player list is not available for this server."
         },
         "and_other_players":", and {} others...",
-        "learn_more":"You can learn more about this server [here]({})"
+        "learn_more":"You can learn more about this server [here]({})."
       },
       "stealskin":{
         "error":"Oops, something went wrong while fetching that player's skin.",
@@ -386,8 +386,8 @@
         "stupid_1":"You have to set a Minecraft server for this server via the `/config mcserver` command first.",
         "dm_error":"I need to be able to DM you to complete the process.",
         "msg_timeout":"I've stopped waiting for a response, run the command again to continue.",
-        "port":"Type in the remote console port (rcon.port in the server.properties)",
-        "passw":"Type in the remote console password (rcon.password in the server.properties)",
+        "port":"Type in the remote console port (rcon.port in the server.properties).",
+        "passw":"Type in the remote console password (rcon.password in the server.properties).",
         "stupid_2":"Incorrect password! Run the command to enter it again.",
         "err_con":"Something went wrong while connecting to the server, is the server online and RCON enabled?",
         "err_cmd":"Something went wrong while sending a command to the server, is the server online and RCON enabled?"
@@ -408,32 +408,32 @@
         "oop":"Oops... something went wrong..."
       },
       "kick":{
-        "stupid_1":"You cannot kick yourself"
+        "stupid_1":"You cannot kick yourself."
       },
       "ban":{
-        "stupid_1":"You cannot ban yourself",
-        "stupid_2":"**{}** is already banned",
+        "stupid_1":"You cannot ban yourself.",
+        "stupid_2":"**{}** is already banned.",
         "stupid_3":"Oops, something went wrong while banning that user."
       },
       "unban":{
-        "stupid_1":"You cannot unban yourself",
-        "stupid_2":"**{}** isn't banned"
+        "stupid_1":"You cannot unban yourself.",
+        "stupid_2":"**{}** isn't banned."
       },
       "warn":{
-        "stupid_1":"You cannot warn yourself",
+        "stupid_1":"You cannot warn yourself.",
         "thats_too_much_man":"User has too many warnings already.",
-        "no_reason":"No reason specified",
+        "no_reason":"No reason specified.",
         "by":"Warning by",
         "confirm":"{} Warned {} ({} warning(s) now) for reason: *{}*"
       },
       "mute": {
-        "stupid_1": "You cannot mute yourself",
+        "stupid_1": "You cannot mute yourself.",
         "mute_msg": "**{}** has been muted."
       },
       "unmute": {
-        "stupid_1": "You cannot unmute yourself",
-        "stupid_2": "**{}** isn't muted",
-        "unmute_msg": "**{}** has been unmuted"
+        "stupid_1": "You cannot unmute yourself.",
+        "stupid_2": "**{}** isn't muted.",
+        "unmute_msg": "**{}** has been unmuted."
       }
     },
     "config":{
@@ -442,17 +442,17 @@
         "title":"Villager Bot Settings",
         "guild_conf":"Server/Guild Configuration",
         "guild_content":[
-          "`{0}config prefix <new prefix>` - Change the command prefix in this server\n\n",
-          "`{0}config replies <on/off>` - Change if bot should respond to messages like \"emeralds\"\n\n",
-          "`{0}config difficulty <peaceful/easy/hard>` - Changes the difficulty of the game\n\n",
-          "`{0}config lang <language>` - Changes the language of Villager Bot\n\n",
-          "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`\n\n",
-          "`{0}config togglecmd <cmd>` - Change whether the specified command can be used or not\n\n"
+          "`{0}config prefix <new prefix>` - Change the command prefix in this server.\n\n",
+          "`{0}config replies <on/off>` - Change if bot should respond to messages like \"emeralds\".\n\n",
+          "`{0}config difficulty <peaceful/easy/hard>` - Changes the difficulty of the game.\n\n",
+          "`{0}config lang <language>` - Changes the language of Villager Bot.\n\n",
+          "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`.\n\n",
+          "`{0}config togglecmd <cmd>` - Change whether the specified command can be used or not.\n\n"
         ],
         "user_conf":"Per User Configuration",
         "user_content":[
-          "`{0}config giftalert <on/off>` - Change whether bot tells you if you've been given items or emeralds\n\n",
-          "`{0}config clearrconpasswords` - Clear your saved remote console passwords from the database\n\n"
+          "`{0}config giftalert <on/off>` - Change whether bot tells you if you've been given items or emeralds.\n\n",
+          "`{0}config clearrconpasswords` - Clear your saved remote console passwords from the database.\n\n"
         ]
       },
       "prefix":{
@@ -464,16 +464,16 @@
       "replies":{
         "enabled":"enabled",
         "disabled":"disabled",
-        "this_server":"Message replies are **{}**",
-        "set":"Turned message replies **{}**"
+        "this_server":"Message replies are **{}**.",
+        "set":"Turned message replies **{}**."
       },
       "diff":{
-        "this_server":"The server difficulty is currently set to **{}**",
-        "set":"Set the server difficulty to **{}**"
+        "this_server":"The server difficulty is currently set to **{}**.",
+        "set":"Set the server difficulty to **{}**."
       },
       "lang":{
-        "this_server":"The server language is currently set to **{}**\n\nAvailable languages are: {}",
-        "set":"Set the server language to **{}**"
+        "this_server":"The server language is currently set to **{}**.\n\nAvailable languages are: {}",
+        "set":"Set the server language to **{}**."
       },
       "mcs":{
         "this_server":"The default Minecraft server is currently set to **`{}`**",
@@ -481,8 +481,8 @@
         "set":"Set the default Minecraft server to **`{}`**"
       },
       "gift":{
-        "this_user":"Give/gift alerts are currently **{}**",
-        "set":"Turned give/gift alerts **{}**"
+        "this_user":"Give/gift alerts are currently **{}**.",
+        "set":"Turned give/gift alerts **{}**."
       },
       "cmd":{
         "not_prem":"This feature is not enabled in this server.",
@@ -490,13 +490,13 @@
         "nope":"No disabled commands.",
         "cant":"You can't disable this command.",
         "not_found":"Command not found.",
-        "reenable":"Re-enabled command `{}`",
-        "disable":"Disabled command `{}`"
+        "reenable":"Re-enabled command `{}`.",
+        "disable":"Disabled command `{}`."
       },
       "rcon":{
-        "none":"You didn't have any saved passwords",
-        "one":"Unsaved/deleted 1 password",
-        "multi":"Unsaved/deleted {} passwords"
+        "none":"You didn't have any saved passwords.",
+        "one":"Unsaved/deleted 1 password.",
+        "multi":"Unsaved/deleted {} passwords."
       }
     },
     "useful":{
@@ -552,7 +552,7 @@
       "rules":{
         "rules":"Villager Bot Rules",
         "slashrules":"{}rules for the rules!",
-        "penalty":"Penalty for breaking these rules may include a reset/wipe, in-game penalty / debuff, or a **permanent ban from the support server and/or using the bot**.",
+        "penalty":"Penalty for breaking these rules may include a reset/wipe, in-game penalty/debuff, or a **permanent ban from the support server and/or using the bot**.",
         "rule_1":"**1.** Don't abuse bugs, report them in the #bug-smasher channel on the [support server]({}) for a reward!",
         "rule_2":"**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items.",
         "rule_3":"**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.",
@@ -569,7 +569,7 @@
         "incorrect":"{} Incorrect answer!"
       },
       "pp":{
-        "bot_1":"Hey dumb dumb, Villager Bot has wayy to much stuff to show here.",
+        "bot_1":"Hey dumb dumb, Villager Bot has wayyy to much stuff to show here.",
         "bot_2":"Hey dumb dumb, bots don't have rights and therefore can't have items or emeralds.",
         "total_wealth":"Net Wealth",
         "cmds_sent":"Commands Sent",
@@ -619,7 +619,7 @@
         "stupid_2":"`{}` is invalid or isn't in the Villager Shop.",
         "poor_loser_2":"You don't have enough emeralds to buy `{}x` **{}**.",
         "need_total_of":"You need a total of {}{} ({}) to buy this item.",
-        "you_done_bought":"You have bought {}x **{}** for {} (You have {} total)",
+        "you_done_bought":"You have bought {}x **{}** for {} (You have {} total).",
         "no_to_item_1":"You can't buy any more of this item.",
         "no_to_item_2":"For some reason, you can't buy this item."
       },
@@ -631,7 +631,7 @@
       },
       "give":{
         "bot_1":"Villager Bot already has a full inventory (About 100000000000000000 unique items!)",
-        "bot_2":"You can't give stuff bots as they don't have rights and can't have emeralds or stuff.",
+        "bot_2":"You can't give stuff to bots as they don't have rights and can't have emeralds or stuff.",
         "stupid_1":"You can't give stuff to yourself!",
         "stupid_2":"You can't give someone less than one of something.",
         "and_i_oop":"You can't trade/gift this item.",
@@ -698,8 +698,8 @@
         ]
       },
       "mine":{
-        "found_item_1":"You {0} {1} **{2}** (Worth {3}{4}) {5}",
-        "found_item_2":"You {0} {1} {2} {3}",
+        "found_item_1":"You {0} {1} **{2}** (Worth {3}{4}) {5}.",
+        "found_item_2":"You {0} {1} {2} {3}.",
         "found_emeralds":"You {0} {1}{2}!",
         "actions":[
           "mined up",
@@ -723,7 +723,7 @@
         ]
       },
       "pillage":{
-        "bot_1":"Hey dumb dumb, Villager Bot cannot be defeated, Villager Bot is immortal and all powerful.",
+        "bot_1":"Hey dumb dumb, Villager Bot cannot be defeated. Villager Bot is immortal and all powerful.",
         "bot_2":"You can't pillage bots as they don't have rights and therefore can't have emeralds.",
         "stupid_1":"You can't pillage yourself, dummy.",
         "stupid_2":"You can't pillage people from other servers...",
@@ -764,9 +764,9 @@
         "vault_max":"You cannot expand your vault further via this method.",
         "vault_pot":"You've chugged {} **Vault Potion**. Your vault space has increased by {} spaces.",
         "stupid_3":"Either that isn't a usable item, or it doesn't exist.",
-        "chug":"You've chugged a **{}** (Which lasts {} minutes)",
-        "chug_no_end":"You've chugged a **{}**",
-        "chug_honey":"You've chugged {0}x Honey Jar! (You now have {1}/20 {2})",
+        "chug":"You've chugged a **{}** which lasts **{} minutes**.",
+        "chug_no_end":"You've chugged a **{}**!",
+        "chug_honey":"You've chugged {0}x **Honey Jar**! (You now have {1}/20 {2})",
         "cant_use_any":"You can't use any {} right now.",
         "cant_use_up_to":"You can't use any more than {0} {1} right now.",
         "cant_use_1_plus":"You can't use more than {0} **{1}** at a time.",
@@ -801,7 +801,7 @@
       "honey":{
         "stupid_1":[
           "You don't have enough bees to make this business option viable.",
-          "You need 100 jars of bees to actually make a profit, go away"
+          "You need 100 jars of bees to actually make a profit, go away."
         ],
         "honey":[
           "Apparently bees produce honey and you just collected {} jars of it! Who knew?!!",
