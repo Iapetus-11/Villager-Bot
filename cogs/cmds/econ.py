@@ -1085,7 +1085,8 @@ class Econ(commands.Cog):
             if add + db_user['vault_max'] > 2000:
                 list_cumu = list(np.asarray(np.cumsum(list_result)) + db_user['vault_max'])
                 pots_used = 1 + bisect.bisect_left(list_cumu, 2000)
-                max_vault, add = 2000 - db_user['vault_max']
+                add = 2000 - db_user['vault_max']
+                max_vault = 2000
 
             else:
                 pots_used = len(list_result)
