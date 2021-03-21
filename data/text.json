@@ -763,7 +763,7 @@
         "stupid_4":"You can't use more than 100 items at once.",
         "vault_max":"You cannot expand your vault further via this method.",
         "vault_pot":"You've chugged {} **Vault Potion**. Your vault space has increased by {} spaces.",
-        "stupid_3":"Either that isn't a usable item, or it doesn't exist.",
+        "stupid_5":"Either that isn't a usable item, or it doesn't exist.",
         "chug":"You've chugged a **{}** which lasts **{} minutes**.",
         "chug_no_end":"You've chugged a **{}**!",
         "chug_honey":"You've chugged {0}x **Honey Jar**! (You now have {1}/20 {2})",

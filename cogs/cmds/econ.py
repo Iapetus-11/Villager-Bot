@@ -1108,11 +1108,10 @@ class Econ(commands.Cog):
                     return
 
                 else:
-                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_up_to.format(max_amount, "Honey Jar"))
+                    amount = max_amount
 
-            else:
-                await self.db.update_user(ctx.author.id, "health", db_user["health"] + amount)
-                await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
+            await self.db.update_user(ctx.author.id, "health", db_user["health"] + amount)
+            await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
 
             new_health = amount + db_user["health"]
             await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
