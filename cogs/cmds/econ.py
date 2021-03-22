@@ -148,7 +148,7 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="balance", aliases=["bal", "vault"])
+    @commands.command(name="balance", aliases=["bal", "vault", "pocket"])
     async def balance(self, ctx, *, user: discord.User = None):
         """Shows the balance of a user or the message sender"""
 
@@ -183,7 +183,7 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="inventory", aliases=["inv", "pocket"])
+    @commands.command(name="inventory", aliases=["inv", "items"])
     @commands.cooldown(2, 10, commands.BucketType.user)
     async def inventory(self, ctx, *, user: discord.User = None):
         """Shows the inventory of a user or the message sender"""
@@ -379,9 +379,8 @@ class Econ(commands.Cog):
     async def shop_logic(self, ctx, _type, header):
         items = []
 
-        for item in [
-            self.d.shop_items[key] for key in list(self.d.shop_items)
-        ]:  # filter out items which aren't of the right _type
+        # filter out items which aren't of the right _type
+        for item in [self.d.shop_items[key] for key in list(self.d.shop_items)]:
             if item[0] == _type:
                 items.append(item)
 
@@ -985,11 +984,26 @@ class Econ(commands.Cog):
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name="use", aliases=["eat", "chug"])
-    @commands.cooldown(1, 0.5, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def use_item(self, ctx, *, thing):
         """Allows you to use potions and some other items"""
 
         thing = thing.lower()
+        split = thing.split()
+
+        try:
+            amount = int(split[0])
+            thing = " ".join(split[1:])
+        except (IndexError, ValueError):
+            amount = 1
+
+        if amount < 1:
+            await self.bot.send(ctx.l.econ.use.stupid_3)
+            return
+
+        if amount > 100:
+            await self.bot.send(ctx.l.econ.use.stupid_4)
+            return
 
         current_pots = self.d.chuggers.get(ctx.author.id)
 
@@ -1003,7 +1017,15 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.use.stupid_2)
             return
 
+        if db_item["amount"] < amount:
+            await self.bot.send(ctx, f"You don't have {amount} of that item to use.")
+            return
+
         if thing == "haste i potion":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, thing, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])  # ensure user has stuff there
@@ -1023,6 +1045,10 @@ class Econ(commands.Cog):
             return
 
         if thing == "haste ii potion":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, thing, 1)
 
             self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
@@ -1042,6 +1068,10 @@ class Econ(commands.Cog):
             return
 
         if thing == "vault potion":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user["vault_max"] > 1999:
@@ -1062,19 +1092,29 @@ class Econ(commands.Cog):
         if thing == "honey jar":
             db_user = await self.db.fetch_user(ctx.author.id)
 
-            if db_user['health'] < 20:
-                await self.db.update_user(ctx.author.id, 'health', db_user['health']+1)
-                await self.db.remove_item(ctx.author.id, 'Honey Jar', 1)
-                db_user = await self.db.fetch_user(ctx.author.id) # updates health
-                await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format('Honey Jar', db_user['health'], self.d.emojis.heart_full))
-                return
+            if db_user["health"] + amount > 20:
+                max_amount = 20 - db_user["health"]
 
+                if max_amount < 1:
+                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_any.format("Honey Jars"))
+                else:
+                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_up_to.format(max_amount, "Honey Jar"))
             else:
-                await self.bot.send(ctx, ctx.l.econ.use.full_health.format(self.d.emojis.heart_full))
-                return
+                await self.db.update_user(ctx.author.id, "health", db_user["health"] + amount)
+                await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
+
+                new_health = amount + db_user["health"]
+                await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
+
+            return
 
         if thing == "present":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, "Present", 1)
+
             while True:
                 for item in self.d.findables:
                     if random.randint(0, (item[2] // 2) + 2) == 1:
@@ -1085,7 +1125,12 @@ class Econ(commands.Cog):
                         return
 
         if thing == "barrel":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                return
+
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
+
             for _ in range(10):
                 for item in self.d.findables:
                     if random.randint(0, (item[2] // 1.5) + 5) == 1:
@@ -1190,19 +1235,51 @@ class Econ(commands.Cog):
 
         return body + "\uFEFF"
 
+    def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
+        lb_list.append(u_entry)
+
+        # filter duplicates and sort
+        lb_list = sorted([e for i, e in enumerate(lb_list) if lb_list.index(e) == i], key=(lambda e: e[1]), reverse=True)
+
+        # shorten list
+        lb_list = lb_list[:9] if u_entry[2] > 9 else lb_list[:10]
+
+        body = ""
+
+        # create base leaderboard
+        for entry in lb_list:
+            user = self.bot.get_user(entry[0])
+
+            if user is None:
+                user = "Unknown User"
+            else:
+                user = discord.utils.escape_markdown(user.display_name)
+
+            body += rank_fstr.format(entry[2], entry[1], user)
+
+        # add user if user is missing from the leaderboard
+        if u_entry[2] > 9:
+            body += "\n⋮" + rank_fstr.format(
+                u_entry[2], u_entry[1], discord.utils.escape_markdown(self.bot.get_user(u_entry[0]).display_name)
+            )
+
+        return body + "\uFEFF"
+
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
+        await ctx.send("This command is temporarily disabled, thank you for your patience while we fix it.")
+        return
+
         with ctx.typing():
-            emeralds = sorted((await self.db.mass_fetch_balances()), key=(lambda tup: tup[1]), reverse=True)
-
-            lb_global = await self.leaderboard_logic(
-                emeralds, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            user_entry, ems_global, ems_local = await self.db.fetch_leaderboard_balances(
+                ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            emeralds_local = [u for u in emeralds if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                emeralds_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
-            )
+            await ctx.send(user_entry)
+
+            lb_global = self.lb_logic(ems_global, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
+
+            lb_local = self.lb_logic(ems_local, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)

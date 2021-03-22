@@ -141,7 +141,7 @@ class Fun(commands.Cog):
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(color=self.d.cc)
-            embed.set_image(url=f"https://iapetus11.me/images/cursed_minecraft/{random.choice(self.d.cursed_images)}")
+            embed.set_image(url=f"https://iapetus11.me/static/images/cursed_minecraft/{random.choice(self.d.cursed_images)}")
 
             await ctx.send(embed=embed)
 
@@ -271,10 +271,7 @@ class Fun(commands.Cog):
         """Sends bubblewrap to the chat"""
 
         if size is None:
-            size = (
-                10,
-                10,
-            )
+            size = (10, 10)
         else:
             size = size.split("x")
 
