@@ -1277,6 +1277,9 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
+        await ctx.send("This command is temporarily disabled, thank you for your patience while we fix it.")
+        return
+
         with ctx.typing():
             user_entry, ems_global, ems_local = await self.db.fetch_leaderboard_balances(
                 ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
