@@ -300,7 +300,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             await ctx.send(embed=embed)
 
-            await self.db.update_user(u.id, "health", u_health)
+            if u_health <= u_db['health']:
+                await self.db.update_user(u.id, "health", u_health)
 
             u_db = await self.db.fetch_user(u.id)
             u_bal = u_db["emeralds"]
