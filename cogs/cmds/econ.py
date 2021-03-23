@@ -1236,6 +1236,7 @@ class Econ(commands.Cog):
         return body + "\uFEFF"
 
     def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
+        # add user entry to leaderboard
         lb_list.append(u_entry)
 
         # filter duplicates and sort
@@ -1267,19 +1268,13 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
-        await ctx.send("This command is temporarily disabled, thank you for your patience while we fix it.")
-        return
-
         with ctx.typing():
-            user_entry, ems_global, ems_local = await self.db.fetch_leaderboard_balances(
-                ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
-            )
+            ems_global, global_u_entry = await self.db.fetch_global_lb_emeralds(ctx.author.id)
+            ems_local, local_u_entry = await self.db.fetch_local_lb_emeralds(ctx.author.id, [m.id for m in ctx.guild.members if not m.bot])
 
-            await ctx.send(user_entry)
+            lb_global = self.lb_logic(ems_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
-            lb_global = self.lb_logic(ems_global, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
-
-            lb_local = self.lb_logic(ems_local, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
+            lb_local = self.lb_logic(ems_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
