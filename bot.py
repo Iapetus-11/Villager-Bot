@@ -176,30 +176,31 @@ if __name__ == "__main__":
     async def global_check(ctx):
         ctx.l = await bot.get_lang(ctx)
 
+        # if bot is locked down to only accept commands from owner
         if bot.owner_locked and ctx.author.id != 536986067140608041:
             ctx.custom_err = "ignore"
             return False
 
+        # if command author is bot banned
         if ctx.author.id in bot.d.ban_cache:
             ctx.custom_err = "bot_banned"
             return False
 
+        # if bot hasn't completely started up yet
         if not bot.is_ready():
             ctx.custom_err = "not_ready"
             return False
 
+        # if command is disabled
         if ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(ctx.guild.id, []):
             ctx.custom_err = "disabled"
             return False
 
+        # update the leaderboard + session command count
         bot.d.cmd_lb[ctx.author.id] = bot.d.cmd_lb.get(ctx.author.id, 0) + 1
         bot.d.cmd_count += 1
 
         if ctx.command.cog and ctx.command.cog.__cog_name__ == "Econ":  # make sure it's an econ command
-            if bot.d.pause_econ.get(ctx.author.id):
-                ctx.custom_err = "econ_paused"
-                return False
-
             if random.randint(1, 40) == 1:  # spawn mob
                 if ctx.command._buckets._cooldown != None and ctx.command._buckets._cooldown.per >= 2:
                     bot.d.spawn_queue[ctx] = arrow.utcnow()

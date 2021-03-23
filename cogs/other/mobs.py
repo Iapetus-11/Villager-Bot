@@ -27,7 +27,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
     @tasks.loop(seconds=0.75)
     async def clear_pauses(self):
         for uid in list(self.d.pause_econ):
-            if (arrow.utcnow() - self.d.pause_econ[uid]).seconds > 15:
+            if (arrow.utcnow() - self.d.pause_econ[uid]).seconds > 20:
                 self.d.pause_econ.pop(uid, None)
 
     def engage_check(self, m, ctx):
@@ -117,6 +117,10 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     return
 
                 u = engage_msg.author
+
+                if self.d.pause_econ.get(u.id):
+                    continue
+
                 u_db = await self.db.fetch_user(u.id)
 
                 if u_db["health"] < 2:
@@ -129,9 +133,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             u_sword = await self.db.fetch_sword(u.id)
             slime_trophy = await self.db.fetch_item(u.id, "Slime Trophy")
 
-            self.d.pause_econ[
-                u.id
-            ] = arrow.utcnow()  # used later on to clear pause_econ based on who's been in there for tooo long
+            # used later on to clear pause_econ based on who's been in there for tooo long
+            self.d.pause_econ[u.id] = arrow.utcnow()
 
             u_health = u_db["health"]
             mob_max_health = mob.health
