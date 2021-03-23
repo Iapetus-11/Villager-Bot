@@ -144,7 +144,6 @@ if __name__ == "__main__":
     bot.cog_list = [  # list of cogs which are to be loaded in the bot
         "cogs.core.database",
         "cogs.core.events",
-        "cogs.core.webhooks",
         "cogs.cmds.useful",
         "cogs.cmds.owner",
         "cogs.cmds.mc",
@@ -156,6 +155,7 @@ if __name__ == "__main__":
         "cogs.other.mobs",
         "cogs.other.status",
         "cogs.other.statcord",
+        "cogs.other.webhooks",
     ]
 
     for cog in bot.cog_list:  # load every cog in bot.cog_list
