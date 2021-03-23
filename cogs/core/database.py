@@ -194,26 +194,6 @@ class Database(commands.Cog):
         # we can do this because self.fetch_user ensures user is not None
         return (await self.fetch_user(uid))["emeralds"]
 
-    async def fetch_global_lb_emeralds(self, uid: int) -> tuple:
-        return (
-            await self.db.fetch(
-                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false LIMIT 10"
-            ),
-            await self.db.fetchrow(
-                "SELECT * FROM (SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false) AS leaderboard WHERE uid = $1", uid
-            )
-        )
-
-    async def fetch_local_lb_emeralds(self, uid: int, uids: list) -> tuple:
-        return (
-            await self.db.fetch(
-                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($1::BIGINT[]) LIMIT 10", uids
-            ),
-            await self.db.fetchrow(
-                "SELECT * FROM (SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($2::BIGINT[])) AS leaderboard WHERE uid = $1", uid, uids
-            )
-        )
-
     async def mass_fetch_votestreaks(self):
         return await self.db.fetch("SELECT uid, vote_streak FROM users WHERE vote_streak > 0 AND bot_banned = false")
 
@@ -356,6 +336,38 @@ class Database(commands.Cog):
 
     async def mass_fetch_leaderboard(self, lb):
         return await self.db.fetch(f"SELECT uid, {lb} FROM leaderboards")
+
+    async def fetch_global_lb(self, lb: str, uid: int) -> tuple:
+        return (
+            await self.db.fetch(f"SELECT uid, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS positioned FROM leaderboards"),
+            await self.db.fetchrow(f"SELECT * FROM (SELECT uid, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS positioned FROM leaderboards) AS leaderboard WHERE uid = $1", uid)
+        )
+
+    async def fetch_local_lb(self, lb: str, uid: int, uids: list) -> tuple:
+        return (
+            await self.db.fetch(f"SELECT uid, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS positioned FROM leaderboards WHERE uid = ANY($1::BIGINT[])", uids),
+            await self.db.fetchrow(f"SELECT * FROM (SELECT uid, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS positioned FROM leaderboards WHERE uid = ANY($2::BIGINT[])) AS leaderboard WHERE uid = $1", uid, uids)
+        )
+
+    async def fetch_global_lb_emeralds(self, uid: int) -> tuple:
+        return (
+            await self.db.fetch(
+                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS positioned FROM users WHERE emeralds > 0 AND bot_banned = false LIMIT 10"
+            ),
+            await self.db.fetchrow(
+                "SELECT * FROM (SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS positioned FROM users WHERE emeralds > 0 AND bot_banned = false) AS leaderboard WHERE uid = $1", uid
+            )
+        )
+
+    async def fetch_local_lb_emeralds(self, uid: int, uids: list) -> tuple:
+        return (
+            await self.db.fetch(
+                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS positioned FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($1::BIGINT[]) LIMIT 10", uids
+            ),
+            await self.db.fetchrow(
+                "SELECT * FROM (SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS positioned FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($2::BIGINT[])) AS leaderboard WHERE uid = $1", uid, uids
+            )
+        )
 
     async def set_botbanned(self, uid, botbanned):
         await self.fetch_user(uid)
