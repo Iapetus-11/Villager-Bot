@@ -1274,7 +1274,6 @@ class Econ(commands.Cog):
             ems_local, local_u_entry = await self.db.fetch_local_lb_emeralds(ctx.author.id, [m.id for m in ctx.guild.members if not m.bot])
 
             lb_global = self.lb_logic(ems_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
-
             lb_local = self.lb_logic(ems_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
@@ -1286,16 +1285,11 @@ class Econ(commands.Cog):
     @leaderboards.command(name="pillages", aliases=["pil", "stolen"])
     async def leaderboard_pillages(self, ctx):
         with ctx.typing():
-            pillages = sorted((await self.db.mass_fetch_leaderboard("pillages")), key=(lambda tup: tup[1]), reverse=True)
+            pillages_global, global_u_entry = await self.db.fetch_global_lb("pillages", ctx.author.id)
+            pillages_local, local_u_entry = await self.db.fetch_local_lb("pillages", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot])
 
-            lb_global = await self.leaderboard_logic(
-                pillages, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
-            )
-
-            pillages_local = [u for u in pillages if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                pillages_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
-            )
+            lb_global = self.lb_logic(pillages_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
+            lb_local = self.lb_logic(pillages_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
