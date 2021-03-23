@@ -8,7 +8,6 @@ classy-json
 colorama
 cryptography
 discord.py
-discord-py-slash-command
 numpy
 opencv-python
 psutil

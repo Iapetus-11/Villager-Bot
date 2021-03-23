@@ -1,5 +1,4 @@
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-from discord_slash import SlashCommand
 from discord.ext import commands
 import classyjson as cj
 import asyncio
@@ -58,14 +57,6 @@ if __name__ == "__main__":
         intents=intents,
         help_command=None,
     )
-
-    # bot.slashbot = SlashCommand(
-    #     bot,
-    #     override_type=True,
-    #     # sync_commands=True,
-    #     # sync_on_cog_reload=True,
-    #     delete_from_unused_guilds=True,
-    # )
 
     bot.logger = logger
 
