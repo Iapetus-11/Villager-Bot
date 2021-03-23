@@ -36,7 +36,7 @@ if __name__ == "__main__":
     intents.guilds = True
     intents.members = True
     intents.bans = True
-    intents.emojis = True
+    intents.emojis = False
     intents.integrations = False
     intents.webhooks = False
     intents.invites = False
