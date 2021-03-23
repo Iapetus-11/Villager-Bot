@@ -998,11 +998,11 @@ class Econ(commands.Cog):
             amount = 1
 
         if amount < 1:
-            await self.bot.send(ctx.l.econ.use.stupid_3)
+            await self.bot.send(ctx, ctx.l.econ.use.stupid_3)
             return
 
         if amount > 100:
-            await self.bot.send(ctx.l.econ.use.stupid_4)
+            await self.bot.send(ctx, ctx.l.econ.use.stupid_4)
             return
 
         current_pots = self.d.chuggers.get(ctx.author.id)
