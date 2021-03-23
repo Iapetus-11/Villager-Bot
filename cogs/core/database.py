@@ -219,7 +219,17 @@ class Database(commands.Cog):
                 "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false LIMIT 10"
             ),
             await self.db.fetch(
-                "SELECT * FROM (SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users) AS leaderboard WHERE uid = $1", uid
+                "SELECT * FROM (SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false) AS leaderboard WHERE uid = $1", uid
+            )
+        )
+
+    async def fetch_local_lb_emeralds(self, uid: int, uids: list) -> tuple:
+        return (
+            await self.db.fetch(
+                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false AND ANY($1::BIGINT[]) LIMIT 10", uids
+            ),
+            await self.db.fetch(
+                "SELECT * FROM (SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false AND ANY($2::BIGINT[])) AS leaderboard WHERE uid = $1", uid, uids
             )
         )
 
