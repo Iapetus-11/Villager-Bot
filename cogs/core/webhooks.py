@@ -2,7 +2,7 @@ from discord.ext import commands
 from aiohttp import web
 import classyjson as cj
 import traceback
-import aiohttp  # ~~aiohttp makes me ****~~
+import aiohttp
 import asyncio
 import discord
 import arrow
