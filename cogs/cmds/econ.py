@@ -1302,14 +1302,11 @@ class Econ(commands.Cog):
         with ctx.typing():
             kills = sorted((await self.db.mass_fetch_leaderboard("mobs_killed")), key=(lambda tup: tup[1]), reverse=True)
 
-            lb_global = await self.leaderboard_logic(
-                kills, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
-            )
+            kills_global, global_u_entry = await self.db.fetch_global_lb("mobs_killed", ctx.author.id)
+            kills_local, local_u_entry = await self.db.fetch_local_lb("mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot])
 
-            kills_local = [u for u in kills if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                kills_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
-            )
+            lb_global = self.lb_logic(kills_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun))
+            lb_local = self.lb_logic(kills_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
