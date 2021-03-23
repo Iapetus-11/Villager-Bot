@@ -219,7 +219,7 @@ class Database(commands.Cog):
                 "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false LIMIT 10"
             ),
             await self.db.fetch(
-                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE uid = $1", uid
+                "SELECT * FROM (SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users) WHERE uid = $1", uid
             )
         )
 
