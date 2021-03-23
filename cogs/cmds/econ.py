@@ -1273,8 +1273,6 @@ class Econ(commands.Cog):
             ems_global, global_u_entry = await self.db.fetch_global_lb_emeralds(ctx.author.id)
             ems_local, local_u_entry = await self.db.fetch_local_lb_emeralds(ctx.author.id, [m.id for m in ctx.guild.members if not m.bot])
 
-            await ctx.send(str((ems_global, global_u_entry)))
-
             lb_global = self.lb_logic(ems_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
             lb_local = self.lb_logic(ems_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
