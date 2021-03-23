@@ -1300,8 +1300,6 @@ class Econ(commands.Cog):
     @leaderboards.command(name="mobkills", aliases=["kil", "kills", "kill", "bonk"])
     async def leaderboard_mobkills(self, ctx):
         with ctx.typing():
-            kills = sorted((await self.db.mass_fetch_leaderboard("mobs_killed")), key=(lambda tup: tup[1]), reverse=True)
-
             kills_global, global_u_entry = await self.db.fetch_global_lb("mobs_killed", ctx.author.id)
             kills_local, local_u_entry = await self.db.fetch_local_lb("mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot])
 
