@@ -213,6 +213,16 @@ class Database(commands.Cog):
     #         ),
     #     )
 
+    async def fetch_global_lb_emeralds(self, uid: int) -> tuple:
+        return (
+            await self.db.fetch(
+                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false LIMIT 10"
+            ),
+            await self.db.fetch(
+                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE uid = $1", uid
+            )
+        )
+
     async def mass_fetch_votestreaks(self):
         return await self.db.fetch("SELECT uid, vote_streak FROM users WHERE vote_streak > 0 AND bot_banned = false")
 
