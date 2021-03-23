@@ -245,7 +245,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                     m_dmg = 0
 
-                u_health -= m_dmg
+                u_health = u_health - u_dmg if u_health - u_dmg >= 0 else 0
 
                 if u_health < 1:  # mob wins
                     self.d.pause_econ.pop(u.id, None)
@@ -300,11 +300,11 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
             await ctx.send(embed=embed)
 
-            if u_health <= u_db['health']:
-                await self.db.update_user(u.id, "health", u_health)
-
             u_db = await self.db.fetch_user(u.id)
             u_bal = u_db["emeralds"]
+
+            if u_health <= u_db['health']:
+                await self.db.update_user(u.id, "health", u_health)
 
             if u_health > 0:  # user win
                 if mob_key != "baby_slime" or random.randint(0, 25) != 1:
