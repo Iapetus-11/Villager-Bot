@@ -1,14 +1,18 @@
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+from discord_slash import SlashCommand
+from discord.ext import commands
+import classyjson as cj
+import asyncio
+import asyncpg
+import discord
+import logging
+import random
+import uvloop
+import arrow
+
 if __name__ == "__main__":
-    from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-    from discord_slash import SlashCommand
-    from discord.ext import commands
-    import classyjson as cj
-    import asyncio
-    import asyncpg
-    import discord
-    import logging
-    import random
-    import arrow
+    # use uvloop
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
     # set up basic logging
     logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s: %(message)s")
