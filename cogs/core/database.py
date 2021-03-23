@@ -369,6 +369,11 @@ class Database(commands.Cog):
             )
         )
 
+    async def fetch_global_lb_item(self, uid: int) -> tuple:
+        return (
+
+        )
+
     async def set_botbanned(self, uid, botbanned):
         await self.fetch_user(uid)
 
