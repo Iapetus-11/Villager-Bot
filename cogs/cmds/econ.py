@@ -1236,11 +1236,12 @@ class Econ(commands.Cog):
         return body + "\uFEFF"
 
     def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
-        # add user entry to leaderboard
-        lb_list.append(u_entry)
+        # add user entry to leaderboard if it's not there already
+        if u_entry[0] not in [e[0] for e in lb_list]:
+            lb_list.append(u_entry)
 
-        # filter duplicates and sort
-        lb_list = sorted([e for i, e in enumerate(lb_list) if lb_list.index(e) == i], key=(lambda e: e[1]), reverse=True)
+        # sort
+        lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
 
         # shorten list
         lb_list = lb_list[:9] if u_entry[2] > 9 else lb_list[:10]
