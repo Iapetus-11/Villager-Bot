@@ -1362,7 +1362,7 @@ class Econ(commands.Cog):
                 )
             ][:10]
 
-            local_u_entry = global_u_entry = (ctx.author.id, self.d.cmd_lb.get(uid, 0))
+            local_u_entry = global_u_entry = (ctx.author.id, self.d.cmd_lb.get(ctx.author.id, 0))
 
             try:
                 global_u_entry = (*global_u_entry, cmds_global.index(ctx.author.id))
