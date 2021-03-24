@@ -183,9 +183,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                     return
 
-                if (
-                    resp.content.lower() in self.d.mobs_mech.valid_flees
-                ):  # user decides to not fight mob anymore cause they a little baby
+                # user decides to not fight mob anymore cause they a little baby
+                if (resp.content.lower() in self.d.mobs_mech.valid_flees):
                     await msg.edit(suppress=True)
 
                     self.d.pause_econ.pop(u.id, None)
