@@ -1598,8 +1598,8 @@
         "chug":"Te has tomado un **{}** (Que dura {} minutos)",
         "chug_no_end":"Te has tomado un **{}**",
         "chug_honey":"Te has tomado {0}x frascos de miel! (Ahora tienes {1}/20 {2})",
-        "cant_use_any":"No puedes usar {} ahora.",
-        "cant_use_up_to":"No puedes usar más de {0} {1} ahora.",
+        "cant_use_any":"No puedes usar **{}** ahora.",
+        "cant_use_up_to":"No puedes usar más de {0} **{1}** ahora.",
         "done":"El **{}** que has tragado antes ha desaparecido.",
         "present":[
           "Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
@@ -2438,8 +2438,8 @@
         "chug":"Tu as bu une **{}** (L'effet dure {} minutes)",
         "chug_no_end":"Tu as avalé **{}**",
         "chug_honey":"Tu as avalé {0}x Honey Jar! (Tu es maintenant à {1}/20 {2})",
-        "cant_use_any":"Tu ne peux pas utiliser de {} pour l'instant.",
-        "cant_use_up_to":"Tu ne peux pas utiliser plus de {0} {1} pour l'instant.",
+        "cant_use_any":"Tu ne peux pas utiliser de **{}** pour l'instant.",
+        "cant_use_up_to":"Tu ne peux pas utiliser plus de {0} **{1}** pour l'instant.",
         "done":"La **{}** que tu as descendu plus tôt as perdu ses effets.",
         "present":[
           "Tu ouvre ton cadeau et trouve 1x **{}** (Valant {}{})!",
