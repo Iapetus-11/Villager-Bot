@@ -421,6 +421,7 @@
       },
       "warn":{
         "stupid_1":"You cannot warn yourself.",
+        "stupid_2":"You cannot clear your own warnings",
         "thats_too_much_man":"User has too many warnings already.",
         "no_reason":"No reason specified.",
         "by":"Warning by",
@@ -1255,6 +1256,7 @@
       },
       "warn":{
         "stupid_1":"No puedes advertirte a ti mismo",
+        "stupid_2":"You cannot clear your own warnings",
         "thats_too_much_man":"El usuario ya tiene demasiadas advertencias.",
         "no_reason":"No se ha especificado ninguna razón",
         "by":"Advertencia de",
@@ -2087,6 +2089,7 @@
       },
       "warn":{
         "stupid_1":"Tu ne peux pas te donner un avertissement toi-même",
+        "stupid_2":"You cannot clear your own warnings",
         "thats_too_much_man":"L'utilisateur a déjà reçu trop d'avertissements",
         "no_reason":"Pas de raison spécifiée",
         "by":"Avertissement de",
