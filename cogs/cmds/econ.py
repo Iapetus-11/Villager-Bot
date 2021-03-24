@@ -1208,40 +1208,6 @@ class Econ(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    # assumes list is sorted prior
-    # assumes list consists of tuple(uid, value)
-    # rank_fstr is the template for each line
-    async def leaderboard_logic(self, _list, origin_uid, rank_fstr):
-        # find the rank/place on lb of the origin user
-        u_place = -1
-        for i in range(len(_list)):
-            if _list[i][0] == origin_uid:
-                u_place = i + 1
-                origin_value = _list[i][1]
-                break
-
-        # shorten list
-        _list = _list[:9] if u_place > 9 else _list[:10]
-
-        body = ""
-
-        for place, entry in enumerate(_list):  # enumerate() gives me a boner
-            user = self.bot.get_user(entry[0])
-
-            if user is None:
-                user = "Deleted User"
-            else:
-                user = discord.utils.escape_markdown(user.display_name)
-
-            body += rank_fstr.format(place + 1, entry[1], user)
-
-        if u_place > 9:
-            body += "\n⋮" + rank_fstr.format(
-                u_place, origin_value, discord.utils.escape_markdown(self.bot.get_user(origin_uid).display_name)
-            )
-
-        return body + "\uFEFF"
-
     def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
         # add user entry to leaderboard if it's not there already
         if u_entry is not None and u_entry[0] not in [e[0] for e in lb_list]:
