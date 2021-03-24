@@ -1351,16 +1351,7 @@ class Econ(commands.Cog):
             cmds_global = [
                 (*e, i + 1) for i, e in enumerate(sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True))
             ]
-            cmds_local = [
-                (*e, i + 1)
-                for i, e in enumerate(
-                    sorted(
-                        [(uid, self.d.cmd_lb.get(uid, 0)) for uid in [m.id for m in ctx.guild.members if not m.bot]],
-                        key=(lambda tup: tup[1]),
-                        reverse=True,
-                    )
-                )
-            ]
+            cmds_local = [e for e in cmds_global if e in [m.id for m in ctx.guild.members if not m.bot]]
 
             local_u_entry = global_u_entry = (ctx.author.id, self.d.cmd_lb.get(ctx.author.id, 0))
 
