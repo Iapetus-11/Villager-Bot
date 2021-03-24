@@ -195,6 +195,10 @@ if __name__ == "__main__":
         bot.d.cmd_count += 1
 
         if ctx.command.cog and ctx.command.cog.__cog_name__ == "Econ":  # make sure it's an econ command
+            if bot.d.pause_econ.get(ctx.author.id) is not None:
+                ctx.custom_err = "econ_paused"
+                return False
+
             if random.randint(1, 40) == 1:  # spawn mob
                 if ctx.command._buckets._cooldown != None and ctx.command._buckets._cooldown.per >= 2:
                     bot.d.spawn_queue[ctx] = arrow.utcnow()
