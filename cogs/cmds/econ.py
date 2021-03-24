@@ -1349,10 +1349,10 @@ class Econ(commands.Cog):
     async def leaderboard_commands(self, ctx):
         with ctx.typing():
             cmds_global = [
-                (i, *e) for i, e in enumerate(sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True))
+                (*e, i) for i, e in enumerate(sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True))
             ][:10]
             cmds_local = [
-                (i, *e)
+                (*e, i)
                 for i, e in enumerate(
                     sorted(
                         [(uid, self.d.cmd_lb.get(uid, 0)) for uid in [m.id for m in ctx.guild.members if not m.bot]],
