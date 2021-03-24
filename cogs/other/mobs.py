@@ -184,7 +184,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     return
 
                 # user decides to not fight mob anymore cause they a little baby
-                if (resp.content.lower() in self.d.mobs_mech.valid_flees):
+                if resp.content.lower() in self.d.mobs_mech.valid_flees:
                     await msg.edit(suppress=True)
 
                     self.d.pause_econ.pop(u.id, None)
@@ -199,20 +199,9 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 if mob_key == "baby_slime":
                     if iteration < 3 and slime_trophy is None:
                         u_dmg = 0
-                    elif slime_trophy is not None and random.choice(
-                        (
-                            True,
-                            False,
-                            False,
-                        )
-                    ):
+                    elif slime_trophy is not None and random.choice((True, False, False)):
                         u_dmg = 0
-                    elif iteration >= 3 and random.choice(
-                        (
-                            True,
-                            False,
-                        )
-                    ):
+                    elif iteration >= 3 and random.choice((True, False)):
                         u_dmg = 0
 
                 mob.health -= u_dmg
