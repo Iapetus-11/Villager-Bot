@@ -18,17 +18,17 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         self.events = bot.get_cog("Events")
 
         self.spawn_events.start()
-        # self.clear_pauses.start()
+        self.clear_pauses.start()
 
     def cog_unload(self):
         self.spawn_events.cancel()
-        # self.clear_pauses.cancel()
+        self.clear_pauses.cancel()
 
-    # @tasks.loop(seconds=0.75)
-    # async def clear_pauses(self):
-    #     for uid in list(self.d.pause_econ):
-    #         if (arrow.utcnow() - self.d.pause_econ[uid]).seconds > 20:
-    #             self.d.pause_econ.pop(uid, None)
+    @tasks.loop(seconds=1)
+    async def clear_pauses(self):
+        for uid in list(self.d.pause_econ):
+            if (arrow.utcnow() - self.d.pause_econ[uid]).seconds > 20:
+                self.d.pause_econ.pop(uid, None)
 
     def engage_check(self, m, ctx):
         u = m.author
