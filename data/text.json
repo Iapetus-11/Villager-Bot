@@ -1673,14 +1673,7 @@
         "Tes parents ne t'ont jamais appris que [la patience est une vertu](http://www.patience-is-a-virtue.org/) ? Calme toi et attends encore **{}**.",
         "Hey, il faut que tu attendes encore **{}** avant de refaire ça.",
         "Hrmmm, on dirait qu'il faut que tu attendes encore **{}** avant de refaire ça.",
-        "Ne sais-tu pas que [la patience est une vertu](http://www.patience-is-a-virtue.org/
-        if thing == "haste i potion":
-            if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Haste I Potion"))
-                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
-                return
-
-            await self.db.remove_item(ctx.author.id, thing, 1)) ! Attends encore **{}**.",
+        "Ne sais-tu pas que [la patience est une vertu](http://www.patience-is-a-virtue.org/) ! Attends encore **{}**.",
         "Patiente et attends encore **{}**."
       ],
       "errors":{
