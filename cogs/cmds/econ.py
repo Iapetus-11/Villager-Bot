@@ -1334,6 +1334,8 @@ class Econ(commands.Cog):
             bees = [(r["uid"], r["amount"]) for r in await self.db.mass_fetch_item("Jar Of Bees")]
             bees = sorted(bees, key=(lambda tup: tup[1]), reverse=True)
 
+            bees_global, global_u_entry = await self.db.fetch_global_lb_item("Jar Of Bees")
+
             lb_global = await self.leaderboard_logic(
                 bees, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee)
             )
