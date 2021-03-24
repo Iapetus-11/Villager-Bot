@@ -386,7 +386,7 @@ class Database(commands.Cog):
                 "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) LIMIT 10",
                 item,
             ),
-            await self.db.fetch(
+            await self.db.fetchrow(
                 "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) AND uid = $2",
                 item,
                 uid,
@@ -400,7 +400,7 @@ class Database(commands.Cog):
                 item,
                 uids,
             ),
-            await self.db.fetch(
+            await self.db.fetchrow(
                 "SELECT * FROM (SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE uid = ANY($3::BIGINT[]) AND LOWER(name) = LOWER($1)) AS leaderboard WHERE uid = $2",
                 item,
                 uid,
