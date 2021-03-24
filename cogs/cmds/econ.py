@@ -1270,9 +1270,9 @@ class Econ(commands.Cog):
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
         with ctx.typing():
-            ems_global, global_u_entry = await self.db.fetch_global_lb_emeralds(ctx.author.id)
-            ems_local, local_u_entry = await self.db.fetch_local_lb_emeralds(
-                ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            ems_global, global_u_entry = await self.db.fetch_global_lb_user("emeralds", ctx.author.id)
+            ems_local, local_u_entry = await self.db.fetch_local_lb_user(
+                "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
             lb_global = self.lb_logic(
@@ -1349,10 +1349,10 @@ class Econ(commands.Cog):
     async def leaderboard_commands(self, ctx):
         with ctx.typing():
             cmds_global = [
-                (*e, i+1) for i, e in enumerate(sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True))
+                (*e, i + 1) for i, e in enumerate(sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True))
             ][:10]
             cmds_local = [
-                (*e, i+1)
+                (*e, i + 1)
                 for i, e in enumerate(
                     sorted(
                         [(uid, self.d.cmd_lb.get(uid, 0)) for uid in [m.id for m in ctx.guild.members if not m.bot]],
@@ -1367,12 +1367,12 @@ class Econ(commands.Cog):
             try:
                 global_u_entry = (*global_u_entry, cmds_global.index(ctx.author.id))
             except ValueError:
-                global_u_entry = (*global_u_entry, len(self.d.cmd_lb)+1)
+                global_u_entry = (*global_u_entry, len(self.d.cmd_lb) + 1)
 
             try:
                 local_u_entry = (*local_u_entry, cmds_local.index(ctx.author.id))
             except ValueError:
-                local_u_entry = (*local_u_entry, len(cmds_local)+1)
+                local_u_entry = (*local_u_entry, len(cmds_local) + 1)
 
             lb_global = self.lb_logic(cmds_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
             lb_local = self.lb_logic(cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
@@ -1386,16 +1386,15 @@ class Econ(commands.Cog):
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx):
         with ctx.typing():
-            vote_streaks = sorted(await self.db.mass_fetch_votestreaks(), key=(lambda tup: tup[1]), reverse=True)
-
-            lb_global = await self.leaderboard_logic(
-                vote_streaks, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)
+            votes_global, global_u_entry = await self.db.fetch_global_lb_user("vote_streak", ctx.author.id)
+            votes_local, local_u_entry = await self.db.fetch_local_lb_user(
+                "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            vote_streaks_local = [u for u in vote_streaks if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                vote_streaks_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)
+            lb_global = self.lb_logic(
+                votes_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)
             )
+            lb_local = self.lb_logic(votes_local, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(":fire:"))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
