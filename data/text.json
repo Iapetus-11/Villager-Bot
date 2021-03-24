@@ -421,7 +421,7 @@
       },
       "warn":{
         "stupid_1":"You cannot warn yourself.",
-        "stupid_2":"You cannot clear your own warnings",
+        "stupid_2":"You cannot clear your own warnings.",
         "thats_too_much_man":"User has too many warnings already.",
         "no_reason":"No reason specified.",
         "by":"Warning by",
