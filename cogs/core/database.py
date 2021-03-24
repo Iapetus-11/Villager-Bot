@@ -251,9 +251,6 @@ class Database(commands.Cog):
         await self.fetch_user(uid)
         return await self.db.fetchrow("SELECT * FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)", uid, name)
 
-    async def mass_fetch_item(self, name):
-        return await self.db.fetch("SELECT * FROM items WHERE LOWER(name) = LOWER($1)", name)
-
     async def add_item(self, uid, name, sell_price, amount, sticky=False):
         prev = await self.fetch_item(uid, name)
 
