@@ -1078,10 +1078,10 @@
         },
         "skeleton":{
           "attacks":[
-            "El **skeleboi** te lanza una flecha a la cara",
-            "El **esqueleto** se da la vuelta y 360 no te mira.",
-            "Una flecha llueve del **esqueleto**, sólo una",
-            "Un tiro en la cabeza del **esqueleto** para ti",
+            "El **skeleboi** te lanza una flecha a la cara.",
+            "¡El **esqueleto** se da la vuelta y 360 no te mira!",
+            "Una flecha llueve del **esqueleto**, sólo una.",
+            "Un tiro en la cabeza del **esqueleto** para ti.",
             "¡BOOM! ¡CABEZA DE CHORLITO! - **esqueleto** 2021"
           ],
           "finishers":[
