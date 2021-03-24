@@ -1053,7 +1053,7 @@ class Econ(commands.Cog):
 
         if thing == "haste ii potion":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
@@ -1076,7 +1076,7 @@ class Econ(commands.Cog):
 
         if thing == "vault potion":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Vault Potion"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             db_user = await self.db.fetch_user(ctx.author.id)
@@ -1117,7 +1117,7 @@ class Econ(commands.Cog):
 
         if thing == "present":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, "Present", 1)
@@ -1133,7 +1133,7 @@ class Econ(commands.Cog):
 
         if thing == "barrel":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Barrel"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
