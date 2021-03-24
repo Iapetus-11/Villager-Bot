@@ -1023,7 +1023,7 @@ class Econ(commands.Cog):
 
         if thing == "haste i potion":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Haste I Potion"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
