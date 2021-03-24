@@ -1347,41 +1347,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="commands", aliases=["cmds"])
     async def leaderboard_commands(self, ctx):
-        with ctx.typing():
-            cmds_global = [
-                (*e, i + 1) for i, e in enumerate(sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True))
-            ]
-            cmds_local = [
-                (*e, i + 1)
-                for i, e in enumerate(
-                    sorted(
-                        [(uid, self.d.cmd_lb.get(uid, 0)) for uid in [m.id for m in ctx.guild.members if not m.bot]],
-                        key=(lambda tup: tup[1]),
-                        reverse=True,
-                    )
-                )
-            ]
-
-            local_u_entry = global_u_entry = (ctx.author.id, self.d.cmd_lb.get(ctx.author.id, 0))
-
-            try:
-                global_u_entry = (*global_u_entry, cmds_global.index(ctx.author.id))
-            except ValueError:
-                global_u_entry = (*global_u_entry, len(cmds_global) + 1)
-
-            try:
-                local_u_entry = (*local_u_entry, cmds_local.index(ctx.author.id))
-            except ValueError:
-                local_u_entry = (*local_u_entry, len(cmds_local) + 1)
-
-            lb_global = self.lb_logic(cmds_global[:10], global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
-            lb_local = self.lb_logic(cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
-
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":keyboard:"))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
-
-        await ctx.send(embed=embed)
+        await ctx.send("This command is temporarily disabled, thanks for bearing with us while we fix it!")
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx):
