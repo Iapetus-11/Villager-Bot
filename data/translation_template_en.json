@@ -421,6 +421,7 @@
       },
       "warn":{
         "stupid_1":"You cannot warn yourself.",
+        "stupid_2":"You cannot clear your own warnings",
         "thats_too_much_man":"User has too many warnings already.",
         "no_reason":"No reason specified.",
         "by":"Warning by",
@@ -761,6 +762,7 @@
         "stupid_2":"You can't use an item you don't even have.",
         "stupid_3":"You can't use less than one of an item at once, stupid.",
         "stupid_4":"You can't use more than 100 items at once.",
+        "stupid_5":"You can't use more items than you have!",
         "vault_max":"You cannot expand your vault further via this method.",
         "vault_pot":"You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
         "stupid_3":"Either that isn't a usable item, or it doesn't exist.",
