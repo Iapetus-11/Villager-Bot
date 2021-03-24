@@ -194,9 +194,6 @@ class Database(commands.Cog):
         # we can do this because self.fetch_user ensures user is not None
         return (await self.fetch_user(uid))["emeralds"]
 
-    async def mass_fetch_votestreaks(self):
-        return await self.db.fetch("SELECT uid, vote_streak FROM users WHERE vote_streak > 0 AND bot_banned = false")
-
     async def set_balance(self, uid, emeralds):
         await self.fetch_user(uid)
         await self.db.execute("UPDATE users SET emeralds = $1 WHERE uid = $2", emeralds, uid)
