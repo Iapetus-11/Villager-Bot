@@ -1244,7 +1244,7 @@ class Econ(commands.Cog):
         lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
 
         # shorten list
-        lb_list = lb_list[:9] if u_entry[2] > 9 else lb_list[:10]
+        lb_list = lb_list[:9] if (u_entry is not None and u_entry[2] > 9) else lb_list[:10]
 
         body = ""
 
