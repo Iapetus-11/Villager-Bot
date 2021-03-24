@@ -1025,7 +1025,7 @@ class Econ(commands.Cog):
             return
 
         if db_item["amount"] < amount:
-            await self.bot.send(ctx, f"You don't have {amount} of that item to use.")
+            await self.bot.send(ctx, ctx.l.econ.use.stupid_5)
             return
 
         if thing == "haste i potion":
