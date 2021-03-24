@@ -334,9 +334,6 @@ class Database(commands.Cog):
         elif mode == "set":
             await self.db.execute(f"UPDATE leaderboards SET {lb} = $1 WHERE uid = $2", value, uid)
 
-    async def mass_fetch_leaderboard(self, lb):
-        return await self.db.fetch(f"SELECT uid, {lb} FROM leaderboards")
-
     async def fetch_global_lb(self, lb: str, uid: int) -> tuple:
         return (
             await self.db.fetch(f"SELECT uid, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS positioned FROM leaderboards"),
