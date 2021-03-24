@@ -353,25 +353,25 @@ class Database(commands.Cog):
             ),
         )
 
-    async def fetch_global_lb_emeralds(self, uid: int) -> tuple:
+    async def fetch_global_lb_user(self, column: str, uid: int) -> tuple:
         return (
             await self.db.fetch(
-                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS ordered FROM users WHERE emeralds > 0 AND bot_banned = false LIMIT 10"
+                "SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false LIMIT 10".format(column)
             ),
             await self.db.fetchrow(
-                "SELECT * FROM (SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS ordered FROM users WHERE emeralds > 0 AND bot_banned = false) AS leaderboard WHERE uid = $1",
+                "SELECT * FROM (SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false) AS leaderboard WHERE uid = $1".format(column),
                 uid,
             ),
         )
 
-    async def fetch_local_lb_emeralds(self, uid: int, uids: list) -> tuple:
+    async def fetch_local_lb_user(self, column: str, uid: int, uids: list) -> tuple:
         return (
             await self.db.fetch(
-                "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS ordered FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($1::BIGINT[]) LIMIT 10",
+                "SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND uid = ANY($1::BIGINT[]) LIMIT 10".format(column),
                 uids,
             ),
             await self.db.fetchrow(
-                "SELECT * FROM (SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS ordered FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($2::BIGINT[])) AS leaderboard WHERE uid = $1",
+                "SELECT * FROM (SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND uid = ANY($2::BIGINT[])) AS leaderboard WHERE uid = $1".format(column),
                 uid,
                 uids,
             ),
