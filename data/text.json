@@ -1588,7 +1588,7 @@
         }
       },
       "use":{
-        "stupid_1":"No puedes usar mas de una unidad de  este artículo a la vez.",
+        "stupid_1":"No puedes usar mas de una unidad de este artículo a la vez.",
         "stupid_2":"No puedes usar un artículo que ni si quiera tienes.",
         "stupid_3":"No puedes usar menos de un artículo a la vez, estúpido.",
         "stupid_4":"No puedes usar mas de 100 artículos a la vez.",
