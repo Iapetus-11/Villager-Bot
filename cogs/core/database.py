@@ -387,7 +387,7 @@ class Database(commands.Cog):
                 item,
             ),
             await self.db.fetch(
-                "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(item) = LOWER($1) AND uid = $2",
+                "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) AND uid = $2",
                 item,
                 uid,
             ),
