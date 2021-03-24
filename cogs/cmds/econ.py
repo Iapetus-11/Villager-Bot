@@ -1331,19 +1331,13 @@ class Econ(commands.Cog):
     @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
     async def leaderboard_bees(self, ctx):
         with ctx.typing():
-            bees = [(r["uid"], r["amount"]) for r in await self.db.mass_fetch_item("Jar Of Bees")]
-            bees = sorted(bees, key=(lambda tup: tup[1]), reverse=True)
-
-            bees_global, global_u_entry = await self.db.fetch_global_lb_item("Jar Of Bees")
-
-            lb_global = await self.leaderboard_logic(
-                bees, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee)
+            bees_global, global_u_entry = await self.db.fetch_global_lb_item("Jar Of Bees", ctx.author.id)
+            bees_local, local_u_entry = await self.db.fetch_local_lb_item(
+                "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            bees_local = [u for u in bees if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                bees_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee)
-            )
+            lb_global = self.lb_logic(bees_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
+            lb_local = self.lb_logic(bees_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
