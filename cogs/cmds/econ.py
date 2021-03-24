@@ -1367,7 +1367,7 @@ class Econ(commands.Cog):
             try:
                 global_u_entry = (*global_u_entry, cmds_global.index(ctx.author.id))
             except ValueError:
-                global_u_entry = (*global_u_entry, len(cmds_global)+1)
+                global_u_entry = (*global_u_entry, len(self.d.cmd_lb)+1)
 
             try:
                 local_u_entry = (*local_u_entry, cmds_local.index(ctx.author.id))
