@@ -1348,14 +1348,34 @@ class Econ(commands.Cog):
     @leaderboards.command(name="commands", aliases=["cmds"])
     async def leaderboard_commands(self, ctx):
         with ctx.typing():
-            cmds = sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True)
+            cmds_global = [
+                (i, *e) for i, e in enumerate(sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True))
+            ][:10]
+            cmds_local = [
+                (i, *e)
+                for i, e in enumerate(
+                    sorted(
+                        [(uid, self.d.cmd_lb.get(uid, 0)) for uid in [m.id for m in ctx.guild.members if not m.bot]],
+                        key=(lambda tup: tup[1]),
+                        reverse=True,
+                    )
+                )
+            ][:10]
 
-            lb_global = await self.leaderboard_logic(cmds, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
+            local_u_entry = global_u_entry = (ctx.author.id, self.d.cmd_lb.get(uid, 0))
 
-            cmds_local = [u for u in cmds if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                cmds_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:")
-            )
+            try:
+                global_u_entry = (*global_u_entry, cmds_global.index(ctx.author.id))
+            except IndexError:
+                global_u_entry = (*global_u_entry, len(cmds_global))
+            else:
+                try:
+                    local_u_entry = (*local_u_entry, cmds_local.index(ctx.author.id))
+                except IndexError:
+                    local_u_entry = (*local_u_entry, len(cmds_local))
+
+            lb_global = self.lb_logic(cmds_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
+            lb_global = self.lb_logic(cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":keyboard:"))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
