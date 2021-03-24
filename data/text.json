@@ -769,7 +769,6 @@
         "chug_honey":"You've chugged {0}x **Honey Jar**! (You now have {1}/20 {2})",
         "cant_use_any":"You can't use any {} right now.",
         "cant_use_up_to":"You can't use any more than {0} {1} right now.",
-        "cant_use_1_plus":"You can't use more than {0} at a time.",
         "done":"The **{}** you chugged earlier has worn off.",
         "present":[
           "You opened your present and found 1x **{}** (Worth {}{})!",
@@ -1601,7 +1600,6 @@
         "chug_honey":"Te has tomado {0}x frascos de miel! (Ahora tienes {1}/20 {2})",
         "cant_use_any":"No puedes usar {} ahora.",
         "cant_use_up_to":"No puedes usar más de {0} {1} ahora.",
-        "cant_use_1_plus":"No puedes usar más de {0} a la vez.",
         "done":"El **{}** que has tragado antes ha desaparecido.",
         "present":[
           "Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
@@ -2435,7 +2433,6 @@
         "chug_honey":"Tu as avalé {0}x Honey Jar! (Tu es maintenant à {1}/20 {2})",
         "cant_use_any":"Tu ne peux pas utiliser de {} pour l'instant.",
         "cant_use_up_to":"Tu ne peux pas utiliser plus de {0} {1} pour l'instant.",
-        "cant_use_1_plus":"Tu ne peux pas en utiliser plus de {0} à la fois.",
         "done":"La **{}** que tu as descendu plus tôt as perdu ses effets.",
         "present":[
           "Tu ouvre ton cadeau et trouve 1x **{}** (Valant {}{})!",
