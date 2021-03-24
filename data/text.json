@@ -1256,7 +1256,7 @@
       },
       "warn":{
         "stupid_1":"No puedes advertirte a ti mismo",
-        "stupid_2":"You cannot clear your own warnings",
+        "stupid_2":"No puedes quitar tus propias advertencias.",
         "thats_too_much_man":"El usuario ya tiene demasiadas advertencias.",
         "no_reason":"No se ha especificado ninguna razón",
         "by":"Advertencia de",
@@ -1595,7 +1595,7 @@
         "stupid_2":"No puedes usar un artículo que ni si quiera tienes.",
         "stupid_3":"No puedes usar menos de un artículo a la vez, estúpido.",
         "stupid_4":"No puedes usar mas de 100 artículos a la vez.",
-        "stupid_5":"You can't use more items than you have!",
+        "stupid_5":"No puedes usar mas artículos de los que tienes!",
         "vault_max":"No se puede expandir más la bóveda con este método.",
         "vault_pot":"Te has tomado una **Vault Potion**. El espacio de tu bóveda se ha incrementado en {} espacios..",
         "stupid_3":"O no es un artículo utilizable, o no existe.",
