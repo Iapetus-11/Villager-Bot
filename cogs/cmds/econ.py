@@ -1368,11 +1368,11 @@ class Econ(commands.Cog):
                 global_u_entry = (*global_u_entry, cmds_global.index(ctx.author.id))
             except ValueError:
                 global_u_entry = (*global_u_entry, len(cmds_global))
-            else:
-                try:
-                    local_u_entry = (*local_u_entry, cmds_local.index(ctx.author.id))
-                except ValueError:
-                    local_u_entry = (*local_u_entry, len(cmds_local))
+
+            try:
+                local_u_entry = (*local_u_entry, cmds_local.index(ctx.author.id))
+            except ValueError:
+                local_u_entry = (*local_u_entry, len(cmds_local))
 
             lb_global = self.lb_logic(cmds_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
             lb_global = self.lb_logic(cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
