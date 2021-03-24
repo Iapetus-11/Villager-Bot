@@ -383,7 +383,7 @@ class Database(commands.Cog):
     async def fetch_global_lb_item(self, item: str, uid: int) -> tuple:
         return (
             await self.db.fetch(
-                "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE bot_banned = false AND LOWER(name) = LOWER($1) LIMIT 10",
+                "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) LIMIT 10",
                 item,
             ),
             await self.db.fetch(
@@ -396,12 +396,12 @@ class Database(commands.Cog):
     async def fetch_local_lb_item(self, item: str, uid: int, uids: list) -> tuple:
         return (
             await self.db.fetch(
-                "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE bot_banned = false AND uid = ANY($2::BIGINT[]) AND LOWER(name) = LOWER($1) LIMIT 10",
+                "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE uid = ANY($2::BIGINT[]) AND LOWER(name) = LOWER($1) LIMIT 10",
                 item,
                 uids,
             ),
             await self.db.fetch(
-                "SELECT * FROM (SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE bot_banned = false AND uid = ANY($3::BIGINT[]) AND LOWER(name) = LOWER($1)) WHERE uid = $2",
+                "SELECT * FROM (SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE uid = ANY($3::BIGINT[]) AND LOWER(name) = LOWER($1)) WHERE uid = $2",
                 item,
                 uid,
                 uids,
