@@ -85,6 +85,28 @@ if __name__ == "__main__":
 
         return _bot.langs[lang]
 
+    async def update_support_member_role(_bot, member):
+        support_guild = self.bot.get_guild(self.d.support_server_id)
+        role_map_values = list(self.d.role_mappings.values())
+        roles = []
+
+        for role in member.roles:
+            if role.id not in role_map_values and role.id != self.d.support_server_id:
+                roles.append(role)
+
+        pickaxe_role = self.d.role_mappings.get(await self.fetch_pickaxe(member.id))
+        if pickaxe_role is not None:
+            roles.append(support_guild.get_role(pickaxe_role))
+
+        if await self.fetch_item(member.id, "Bane Of Pillagers Amulet") is not None:
+            roles.append(support_guild.get_role(self.d.role_mappings.get("BOP")))
+
+        if roles != member.roles:
+            try:
+                await member.edit(roles=roles)
+            except Exception:
+                pass
+
     bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
     bot.get_lang = get_lang.__get__(bot)
 

@@ -520,10 +520,7 @@ class Econ(commands.Cog):
             db_item_count = 0
 
         if eval(shop_item[2]):
-            if shop_item[3][0] in (
-                "Netherite Sword",
-                "Netherite Pickaxe",
-            ):
+            if shop_item[3][0] in ("Netherite Sword", "Netherite Pickaxe"):
                 db_scrap = await self.db.fetch_item(ctx.author.id, "Netherite Scrap")
 
                 if "Sword" in shop_item[3][0]:
@@ -550,6 +547,12 @@ class Econ(commands.Cog):
 
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount, shop_item[3][2])
+
+            if "Pickaxe" in shop_item[3][0] or shop_item[3][0] == "Bane Of Pillagers Amulet":
+                member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
+
+                if member is not None:
+                    await self.bot.update_support_member_role(member, shop_item[3][0])
 
             await self.bot.send(
                 ctx,  # pep8 wants to kil me
@@ -846,15 +849,6 @@ class Econ(commands.Cog):
                 if random.randint(0, item[2]) == 1:
                     await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
 
-                    """
-                    # god I hate multi language support fucking kill me
-                    a = ''
-                    if ctx.l.lang == 'en-us':
-                        a = ' a'
-                        if item[0][0] in self.d.vowels:  # angry noises
-                            a = ' an'
-                    """
-
                     await self.bot.send(
                         ctx,
                         ctx.l.econ.mine.found_item_1.format(
@@ -917,7 +911,9 @@ class Econ(commands.Cog):
                     for item in self.d.fishing.findables:
                         if random.randint(0, (item[2] // 2) + 2) == 1:
                             await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
-                            await self.bot.send(ctx, f"You fished up 1x {item[0]}! (Worth {item[1]}{self.d.emojis.emerald})", True, True)
+                            await self.bot.send(
+                                ctx, f"You fished up 1x {item[0]}! (Worth {item[1]}{self.d.emojis.emerald})", True, True
+                            )
                             return
 
             return

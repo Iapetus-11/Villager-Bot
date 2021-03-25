@@ -11,14 +11,12 @@ class Database(commands.Cog):
         self.db = bot.db  # the asyncpg pool
 
         self.update_user_health.start()
-        self.update_support_server_member_roles.start()
 
         self._user_cache = {}  # {uid: Record(user)}
         self._items_cache = {}  # {uid: [Record(item), Record(item)]}
 
     def cog_unload(self):
         self.update_user_health.cancel()
-        self.update_support_server_member_roles.cancel()
 
     async def populate_caches(self):
         self.d.ban_cache = await self.fetch_all_botbans()
@@ -53,38 +51,6 @@ class Database(commands.Cog):
 
         for uid in uids:
             self.uncache_user(uid)
-
-    @tasks.loop(minutes=10)
-    async def update_support_server_member_roles(self):
-        await self.bot.wait_until_ready()
-
-        support_guild = self.bot.get_guild(self.d.support_server_id)
-        role_map_values = list(self.d.role_mappings.values())
-
-        for member in support_guild.members:
-            roles = []
-
-            member = support_guild.get_member(member.id)
-
-            if member is None:
-                continue
-
-            for role in member.roles:
-                if role.id not in role_map_values and role.id != self.d.support_server_id:
-                    roles.append(role)
-
-            pickaxe_role = self.d.role_mappings.get(await self.fetch_pickaxe(member.id))
-            if pickaxe_role is not None:
-                roles.append(support_guild.get_role(pickaxe_role))
-
-            if await self.fetch_item(member.id, "Bane Of Pillagers Amulet") is not None:
-                roles.append(support_guild.get_role(self.d.role_mappings.get("BOP")))
-
-            if roles != member.roles:
-                try:
-                    await member.edit(roles=roles)
-                except Exception:
-                    pass
 
     async def fetch_all_botbans(self):
         botban_records = await self.db.fetch(
