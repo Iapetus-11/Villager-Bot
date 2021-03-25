@@ -912,13 +912,13 @@ class Econ(commands.Cog):
 
         if random.randint(1, 8) == 1:
             if random.choice((True, False)):  # junk
-                await self.bot.send(ctx, "You fished up hopes and dreams, unfortunately that's not profitable...", True)
+                await self.bot.send(ctx, "You fished up hopes and dreams, unfortunately that's not profitable...", True, True)
             else:  # item
                 while True:
                     for item in self.d.fishing.findables:
                         if random.randint(0, (item[2] // 2) + 2) == 1:
                             await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
-                            await self.bot.send(ctx, f"You fished up 1x {item[0]}! (Worth {item[1]}{self.d.emojis.emerald})")
+                            await self.bot.send(ctx, f"You fished up 1x {item[0]}! (Worth {item[1]}{self.d.emojis.emerald})", True, True)
                             return
 
             return
@@ -930,7 +930,7 @@ class Econ(commands.Cog):
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish["name"], -1, 1)
-        await self.bot.send(ctx, f"You reeled in one {fish['name']} {self.d.emojis.fish[fish_id]}!", True)
+        await self.bot.send(ctx, f"You reeled in one {fish['name']} {self.d.emojis.fish[fish_id]}!", True, True)
 
     @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.guild_only()
