@@ -180,7 +180,6 @@ if __name__ == "__main__":
         "cogs.cmds.fun",
         "cogs.cmds.econ",
         "cogs.cmds.config",
-        # "cogs.cmds.slash",
         "cogs.other.mobs",
         "cogs.other.status",
         "cogs.other.statcord",
