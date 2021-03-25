@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS items (
   uid          BIGINT PRIMARY KEY NOT NULL, -- owner of the item
   name         VARCHAR(250) NOT NULL, -- name of the item
-  sell_price   BIGINT NOT NULL, -- sell price for ONE of that item
+  sell_price   BIGINT, -- sell price for ONE of that item
   amount       BIGINT NOT NULL,  -- amount of the item
   sticky       BOOL NOT NULL -- if true, item can't be traded
 );
