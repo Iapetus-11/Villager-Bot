@@ -545,14 +545,14 @@ class Econ(commands.Cog):
                     await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(24, self.d.emojis.slimeball, "Slime Ball"))
                     return
 
-            if "Pickaxe" in shop_item[3][0] or shop_item[3][0] == "Bane Of Pillagers Amulet":
+            await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
+            await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount, shop_item[3][2])
+
+            if shop_item[3][0].endswith("Pickaxe") or shop_item[3][0] == "Bane Of Pillagers Amulet":
                 member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
                 if member is not None:
                     await self.bot.update_support_member_role(member)
-
-            await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
-            await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount, shop_item[3][2])
 
             await self.bot.send(
                 ctx,  # pep8 wants to kil me
@@ -616,14 +616,14 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.sell.stupid_2)
             return
 
-        if "Pickaxe" in db_item["name"] or db_item_["name"] == "Bane Of Pillagers Amulet":
+        await self.db.balance_add(ctx.author.id, amount * db_item["sell_price"])
+        await self.db.remove_item(ctx.author.id, db_item["name"], amount)
+
+        if db_item["name"].endswith("Pickaxe" or db_item_["name"] == "Bane Of Pillagers Amulet":
             member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
             if member is not None:
                 await self.bot.update_support_member_role(member)
-
-        await self.db.balance_add(ctx.author.id, amount * db_item["sell_price"])
-        await self.db.remove_item(ctx.author.id, db_item["name"], amount)
 
         await self.bot.send(
             ctx,
