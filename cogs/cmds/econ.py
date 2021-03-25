@@ -219,7 +219,7 @@ class Econ(commands.Cog):
             body = ""  # text for that page
 
             for item in items_chunks[page]:
-                sell_price_nice = f"({item["sell_price"]}{self.d.emojis.emerald})" if item["sell_price"] != -1 else ""
+                sell_price_nice = f'({item["sell_price"]}{self.d.emojis.emerald})' if item["sell_price"] != -1 else ""
                 body += f'`{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
 
             embed = discord.Embed(color=self.d.cc, description=body)
