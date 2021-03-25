@@ -61,12 +61,12 @@ if __name__ == "__main__":
     bot.logger = logger
 
     # send function/method for easy sending of embed messages with small amounts of text
-    async def send(_bot, location, message, respond=False):
+    async def send(_bot, location, message, respond=False, ping=False):
         embed = discord.Embed(color=_bot.d.cc, description=message)
 
         try:
             if respond and hasattr(location, "reply"):
-                await location.reply(embed=embed, mention_author=False)
+                await location.reply(embed=embed, mention_author=ping)
             else:
                 await location.send(embed=embed)
 
