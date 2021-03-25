@@ -201,25 +201,22 @@ if __name__ == "__main__":
         # if bot is locked down to only accept commands from owner
         if bot.owner_locked and ctx.author.id != 536986067140608041:
             ctx.custom_err = "ignore"
-            return False
-
-        # if command author is bot banned
-        if ctx.author.id in bot.d.ban_cache:
+        elif ctx.author.id in bot.d.ban_cache:  # if command author is bot banned
             ctx.custom_err = "bot_banned"
-            return False
-
-        # if bot hasn't completely started up yet
-        if not bot.is_ready():
+        elif not bot.is_ready():  # if bot hasn't completely started up yet
             ctx.custom_err = "not_ready"
-            return False
-
-        # if command is disabled
-        if ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(ctx.guild.id, []):
+        elif ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(ctx.guild.id, []):  # if command is disabled
             ctx.custom_err = "disabled"
+
+        if hasattr(ctx, "custom_err"):
             return False
 
         # update the leaderboard + session command count
-        bot.d.cmd_lb[ctx.author.id] = bot.d.cmd_lb.get(ctx.author.id, 0) + 1
+        try:
+            bot.d.cmd_lb[ctx.author.id] += 1
+        except KeyError:
+            bot.d.cmd_lb[ctx.author.id] = 1
+
         bot.d.cmd_count += 1
 
         if ctx.command.cog and ctx.command.cog.__cog_name__ == "Econ":  # make sure it's an econ command
@@ -230,7 +227,6 @@ if __name__ == "__main__":
             if random.randint(1, 40) == 1:  # spawn mob
                 if ctx.command._buckets._cooldown != None and ctx.command._buckets._cooldown.per >= 2:
                     bot.d.spawn_queue[ctx] = arrow.utcnow()
-                    return True
 
         if random.randint(1, bot.d.tip_chance) == 1:
             bot.loop.create_task(send_tip(ctx))
