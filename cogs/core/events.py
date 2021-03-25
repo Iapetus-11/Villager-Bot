@@ -46,6 +46,8 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        await self.bot.wait_until_ready()
+
         if member.guild.id == self.d.support_server_id:
             await self.bot.update_support_member_role(member)
 
