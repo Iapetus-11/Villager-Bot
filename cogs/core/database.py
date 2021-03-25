@@ -96,12 +96,7 @@ class Database(commands.Cog):
         lang_records = await self.db.fetch("SELECT gid, lang FROM guilds")
 
         return dict(
-            (
-                r[0],
-                r[1],
-            )
-            for r in lang_records
-            if (r[1] != "en" and r[1] != None and r[1] != "en_us")
+            (r[0], r[1]) for r in lang_records if (r[1] != "en" and r[1] != None and r[1] != "en_us")
         )  # needs to be a dict
 
     async def fetch_all_guild_prefixes(self):
