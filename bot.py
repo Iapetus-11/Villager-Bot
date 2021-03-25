@@ -120,7 +120,7 @@ if __name__ == "__main__":
             database=keys.database.name,  # name of database
             user=keys.database.user,  # database username
             password=keys.database.passw,  # password which goes with user
-            max_size=50,
+            max_size=20,
             command_timeout=10,
         )
 
