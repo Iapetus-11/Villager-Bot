@@ -5,7 +5,6 @@ async-cse
 asyncpg
 bs4
 classy-json
-colorama
 cryptography
 discord.py
 numpy
