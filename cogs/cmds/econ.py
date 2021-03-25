@@ -899,8 +899,13 @@ class Econ(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def fish(self, ctx):
+        await ctx.send("You cast your rod out...")
+
         with ctx.typing():
             await asyncio.sleep(random.randint(3, 15))
+
+        if ctx.author.id != 536986067140608041:
+            await ctx.send("Haha you thought bitch")
 
         if random.randint(1, 7) == 1:
             return  # fish up item or junk
