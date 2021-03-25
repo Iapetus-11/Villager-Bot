@@ -924,7 +924,7 @@ class Econ(commands.Cog):
             return
 
         fishes = list(self.d.fishing.fish.keys())
-        weights = [fish_data["rarity"] for fish_data in self.d.fishing.fish.values()]
+        weights = [len(fishes) - fish_data["rarity"] for fish_data in self.d.fishing.fish.values()]
 
         fish_id = random.choices(fishes, weights)[0]
         fish = self.d.fishing.fish[fish_id]
