@@ -1188,7 +1188,7 @@ class Econ(commands.Cog):
             await self.db.balance_add(ctx.author.id, ems)
             return
 
-        await self.bot.send(ctx, ctx.l.econ.use.stupid_3)
+        await self.bot.send(ctx, ctx.l.econ.use.stupid_6)
 
     @commands.command(name="honey", aliases=["harvesthoney", "horny"])  # ~~a strange urge occurs in me~~
     @commands.cooldown(1, 24 * 60 * 60, commands.BucketType.user)
