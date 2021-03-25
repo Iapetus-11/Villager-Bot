@@ -911,7 +911,7 @@ class Econ(commands.Cog):
             return
 
         if random.randint(1, 8) == 1:
-            if random.choice((True, False)):  # junk
+            if random.choice((True, True, False)):  # junk
                 await self.bot.send(ctx, "You fished up hopes and dreams, unfortunately that's not profitable...", True, True)
             else:  # item
                 while True:
