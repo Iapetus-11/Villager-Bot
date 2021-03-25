@@ -222,11 +222,6 @@ class Events(commands.Cog):
             if not isinstance(e.__dict__.get("original"), discord.errors.Forbidden):
                 await self.debug_error(ctx, e)
 
-    @commands.Cog.listener()
-    async def on_slash_command_error(self, ctx, e):
-        ctx.l = await self.bot.get_lang(ctx)
-        await self.on_command_error(ctx, e)
-
 
 def setup(bot):
     bot.add_cog(Events(bot))
