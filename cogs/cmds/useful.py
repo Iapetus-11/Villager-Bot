@@ -276,57 +276,6 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="info", aliases=["i"])
-    @commands.is_owner()
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    async def info(self, ctx, *, thing):
-        await ctx.send("execute")
-
-        type_ = None
-
-        try:
-            snowflake = int(thing)
-            type_ = "id"
-        except Exception:
-            user = discord.utils.find((lambda u: u.name == thing), ctx.guild.members)
-
-            if user is None:
-                user = discord.utils.find((lambda u: u.name == thing), self.bot.users)
-
-            if user is not None:
-                type_ = "user"
-            else:
-                guild = discord.utils.find((lambda g: g.name == thing), self.bot.guilds)
-
-                if guild is not None:
-                    type_ = "guild"
-
-        if type_ == "id":
-            user = self.bot.get_user(snowflake)
-
-            if user is None:
-                try:
-                    await ctx.send("api for user snowflake")
-                    user = await self.bot.fetch_user(snowflake)
-                except Exception:
-                    pass
-
-            if user is not None:
-                type_ = "user"
-            else:
-                guild = self.bot.get_guild(snowflake)
-
-                if guild is not None:
-                    type_ = "guild"
-
-        if type_ == "guild":
-            await self.server_info(ctx, guild.id)
-        elif type_ == "user":
-            await ctx.send("user")
-        else:
-            await ctx.send(type_)
-            await ctx.send(snowflake)
-
     @commands.command(name="rules", aliases=["botrules"])
     async def rules(self, ctx):
         embed = discord.Embed(color=self.d.cc, description=ctx.l.useful.rules.penalty)
