@@ -117,7 +117,6 @@ if __name__ == "__main__":
     bot.d.miners = {}  # {user_id: commands}
     bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)
     bot.d.mining.pickaxes = list(bot.d.mining.yields_pickaxes)[::-1]  # get list of pickaxe types from best to worst
-    bot.d.findables = bot.d.special_mining_findables + bot.d.default_mining_findables
     bot.d.pillagers = {}  # {user_id: pillages}
     bot.d.pillages = {}  # {user_id: times_pillaged}
     bot.d.chuggers = {}  # {user_id: [potion, potion]}

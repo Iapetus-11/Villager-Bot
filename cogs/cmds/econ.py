@@ -841,7 +841,7 @@ class Econ(commands.Cog):
                 break
 
         if not found:
-            for item in self.d.findables:  # try to see if user gets an item
+            for item in self.d.mining.findables:  # try to see if user gets an item
                 if random.randint(0, item[2]) == 1:
                     await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
 
@@ -1133,7 +1133,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Present", 1)
 
             while True:
-                for item in self.d.findables:
+                for item in self.d.mining.findables:
                     if random.randint(0, (item[2] // 2) + 2) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                         await self.bot.send(
@@ -1149,7 +1149,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
 
             for _ in range(10):
-                for item in self.d.findables:
+                for item in self.d.mining.findables:
                     if random.randint(0, (item[2] // 1.5) + 5) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                         await self.bot.send(

@@ -101,8 +101,6 @@ class Owner(commands.Cog):
         if thing.lower() == "data":
             async with aiofiles.open("data/data.json", "r", encoding="utf8") as d:
                 self.d = recursive_update(self.d, cj.loads(await d.read()))
-
-            self.d.findables = cj.classify(self.d.special_mining_findables + self.d.default_mining_findables)
         elif thing.lower() == "text":
             async with aiofiles.open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
                 self.bot.langs.update(cj.loads(await t.read()))
