@@ -7,6 +7,14 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "aiofiles"
+version = "0.6.0"
+description = "File support for asyncio."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "aiohttp"
 version = "3.7.4.post0"
 description = "Async http client/server framework (asyncio)"
@@ -381,12 +389,16 @@ typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7.9"
-content-hash = "4fa35bfa3817543cd45f57ba5491f2fa9d849530801096128862f9d3a6024a7e"
+content-hash = "8fd1812aa6c3296fecb36fab9ba19aa5483de6bdeaac44463f4f723d9a1c4893"
 
 [metadata.files]
 aio-mc-rcon = [
     {file = "aio-mc-rcon-2.0.2.tar.gz", hash = "sha256:cef6357f8141d9899b0e7ce06d4e372beb5608b37c536b403b9065cef6f436c6"},
     {file = "aio_mc_rcon-2.0.2-py3-none-any.whl", hash = "sha256:0ddd7923ff94c3421a7f668308aa32f5ac8cbebf41341c93d5eb4a37d34c1b04"},
+]
+aiofiles = [
+    {file = "aiofiles-0.6.0-py3-none-any.whl", hash = "sha256:bd3019af67f83b739f8e4053c6c0512a7f545b9a8d91aaeab55e6e0f9d123c27"},
+    {file = "aiofiles-0.6.0.tar.gz", hash = "sha256:e0281b157d3d5d59d803e3f4557dcc9a3dff28a4dd4829a9ff478adae50ca092"},
 ]
 aiohttp = [
     {file = "aiohttp-3.7.4.post0-cp36-cp36m-macosx_10_14_x86_64.whl", hash = "sha256:3cf75f7cdc2397ed4442594b935a11ed5569961333d49b7539ea741be2cc79d5"},
