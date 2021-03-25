@@ -196,6 +196,7 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
             else:
                 await self.bot.send(ctx, ctx.l.econ.inv.bot_2)
+
             return
 
         u_items = await self.db.fetch_items(user.id)
