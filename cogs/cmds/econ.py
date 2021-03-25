@@ -217,10 +217,10 @@ class Econ(commands.Cog):
 
         while True:
             body = ""  # text for that page
+
             for item in items_chunks[page]:
-                it_am_txt = f'{item["amount"]}'
-                # it_am_txt += ' \uFEFF' * (len(it_am_txt) - 5)
-                body += f'`{it_am_txt}x` **{item["name"]}** ({item["sell_price"]}{self.d.emojis.emerald})\n'
+                sell_price_nice = f"({item["sell_price"]}{self.d.emojis.emerald})" if item["sell_price"] != -1 else ""
+                body += f'`{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
 
             embed = discord.Embed(color=self.d.cc, description=body)
             embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name), icon_url=user.avatar_url_as())
