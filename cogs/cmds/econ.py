@@ -906,7 +906,7 @@ class Econ(commands.Cog):
             #await asyncio.sleep(random.randint(3, 15))
             await asyncio.sleep(1)
 
-        if ctx.author.id != 536986067140608041:
+        if ctx.author.id not in (536986067140608041, 617882209956659259):
             await ctx.send("Haha you thought bitch")
             return
 
