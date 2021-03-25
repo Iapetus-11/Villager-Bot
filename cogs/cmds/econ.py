@@ -917,8 +917,8 @@ class Econ(commands.Cog):
         fish_id = random.choices(fishes, weights)[0]
         fish = self.d.fishing.fish[fish_id]
 
-        await self.db.add_item(ctx.author.id, caught["name"], None, 1)
-        await self.bot.send(ctx, f"You reeled in one {caught['name']} {self.d.emojis.fish[fish_id]}!")
+        await self.db.add_item(ctx.author.id, fish["name"], None, 1)
+        await self.bot.send(ctx, f"You reeled in one {fish['name']} {self.d.emojis.fish[fish_id]}!")
 
     @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.guild_only()
