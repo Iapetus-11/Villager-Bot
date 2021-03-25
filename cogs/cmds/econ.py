@@ -909,8 +909,8 @@ class Econ(commands.Cog):
             await ctx.send("Haha you thought bitch")
             return
 
-        if random.randint(1, 7) == 1:
-            return  # fish up item or junk
+        # if random.randint(1, 7) == 1:
+        #     return  # fish up item or junk
 
         fishes = list(self.d.fishing.fish.keys())
         weights = [fish_data["rarity"] for fish_data in self.d.fishing.fish.values()]
