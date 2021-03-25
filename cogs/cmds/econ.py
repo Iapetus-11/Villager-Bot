@@ -552,7 +552,7 @@ class Econ(commands.Cog):
                 member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
                 if member is not None:
-                    await self.bot.update_support_member_role(member, shop_item[3][0])
+                    await self.bot.update_support_member_role(member)
 
             await self.bot.send(
                 ctx,  # pep8 wants to kil me
