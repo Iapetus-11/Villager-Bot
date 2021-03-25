@@ -918,7 +918,7 @@ class Econ(commands.Cog):
                     for item in self.d.fishing.findables:
                         if random.randint(0, (item[2] // 2) + 2) == 1:
                             await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
-                            await self.bot.send(f"You fished up 1x {item[0]}! (Worth {item[1]}{self.d.emojis.emerald})")
+                            await self.bot.send(ctx, f"You fished up 1x {item[0]}! (Worth {item[1]}{self.d.emojis.emerald})")
                             return
 
             return
