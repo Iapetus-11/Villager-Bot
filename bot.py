@@ -60,11 +60,16 @@ if __name__ == "__main__":
 
     bot.logger = logger
 
-    async def send(
-        _bot, location, message
-    ):  # send function/method for easy sending of embed messages with small amounts of text
+    # send function/method for easy sending of embed messages with small amounts of text
+    async def send(_bot, location, message, respond=False):
+        embed = discord.Embed(color=_bot.d.cc, description=message)
+
         try:
-            await location.send(embed=discord.Embed(color=_bot.d.cc, description=message))
+            if respond and hasattr(location, "reply"):
+                await location.reply(embed=embed, mention_author=False)
+            else:
+                await location.send(embed=embed)
+
             return True
         except discord.Forbidden:
             return False
