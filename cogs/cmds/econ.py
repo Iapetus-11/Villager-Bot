@@ -910,8 +910,8 @@ class Econ(commands.Cog):
             await ctx.send("Haha you thought bitch")
             return
 
-        # if random.randint(1, 7) == 1:
-        #     return  # fish up item or junk
+        if random.randint(1, 8) == 1:
+            return  # fish up item or junk
 
         fishes = list(self.d.fishing.fish.keys())
         weights = [fish_data["rarity"] for fish_data in self.d.fishing.fish.values()]
@@ -920,7 +920,7 @@ class Econ(commands.Cog):
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish["name"], -1, 1)
-        await self.bot.send(ctx, f"You reeled in one {fish['name']} {self.d.emojis.fish[fish_id]}!")
+        await self.bot.send(ctx, f"You reeled in one {fish['name']} {self.d.emojis.fish[fish_id]}!", True)
 
     @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.guild_only()
