@@ -225,7 +225,7 @@ if __name__ == "__main__":
                 return False
 
             if random.randint(1, 40) == 1:  # spawn mob
-                if ctx.command._buckets._cooldown != None and ctx.command._buckets._cooldown.per >= 2:
+                if ctx.command._buckets._cooldown is not None and ctx.command._buckets._cooldown.per >= 2:
                     bot.d.spawn_queue[ctx] = arrow.utcnow()
 
         if random.randint(1, bot.d.tip_chance) == 1:
