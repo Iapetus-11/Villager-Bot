@@ -53,6 +53,8 @@ async def update_support_member_role(_bot, member):
     if await db.fetch_item(member.id, "Bane Of Pillagers Amulet") is not None:
         roles.append(support_guild.get_role(_bot.d.role_mappings.get("BOP")))
 
+    print(roles)
+
     if roles != member.roles:
         try:
             await member.edit(roles=roles)

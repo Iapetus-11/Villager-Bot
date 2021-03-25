@@ -548,8 +548,6 @@ class Econ(commands.Cog):
             if "Pickaxe" in shop_item[3][0] or shop_item[3][0] == "Bane Of Pillagers Amulet":
                 member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
-                print(member)
-
                 if member is not None:
                     await self.bot.update_support_member_role(member)
 
