@@ -911,7 +911,18 @@ class Econ(commands.Cog):
             return
 
         if random.randint(1, 8) == 1:
-            return  # fish up item or junk
+            if random.choice((True, False)):  # junk
+                await self.bot.send(ctx, "You fished up hopes and dreams, unfortunately that's not profitable...", True)
+            else:  # item
+                while True:
+                    for item in self.d.fishing.findables:
+                        if random.randint(0, (item[2] // 2) + 2) == 1:
+                            await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                            await self.bot.send(f"You fished up {}")
+
+                            return
+
+            return
 
         fishes = list(self.d.fishing.fish.keys())
         weights = [fish_data["rarity"] for fish_data in self.d.fishing.fish.values()]
