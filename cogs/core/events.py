@@ -15,7 +15,6 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.db.populate_caches()
         self.bot.logger.info(f"\u001b[36;1mCONNECTED\u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]")
 
     @commands.Cog.listener()

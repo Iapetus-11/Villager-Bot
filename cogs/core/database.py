@@ -11,6 +11,7 @@ class Database(commands.Cog):
         self.db = bot.db  # the asyncpg pool
 
         self.update_user_health.start()
+        bot.loop.create_task(self.populate_caches())
 
         self._user_cache = {}  # {uid: Record(user)}
         self._items_cache = {}  # {uid: [Record(item), Record(item)]}
