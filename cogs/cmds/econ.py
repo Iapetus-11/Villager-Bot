@@ -1025,7 +1025,7 @@ class Econ(commands.Cog):
             return
 
         if db_item["amount"] < amount:
-            await self.bot.send(ctx, f"You don't have {amount} of that item to use.")
+            await self.bot.send(ctx, ctx.l.econ.use.stupid_5)
             return
 
         if thing == "haste i potion":
@@ -1053,7 +1053,7 @@ class Econ(commands.Cog):
 
         if thing == "haste ii potion":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
@@ -1076,7 +1076,7 @@ class Econ(commands.Cog):
 
         if thing == "vault potion":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Vault Potion"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             db_user = await self.db.fetch_user(ctx.author.id)
@@ -1117,7 +1117,7 @@ class Econ(commands.Cog):
 
         if thing == "present":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Present"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, "Present", 1)
@@ -1133,7 +1133,7 @@ class Econ(commands.Cog):
 
         if thing == "barrel":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Barrel"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
@@ -1207,40 +1207,6 @@ class Econ(commands.Cog):
             embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`", inline=False)
 
             await ctx.send(embed=embed)
-
-    # assumes list is sorted prior
-    # assumes list consists of tuple(uid, value)
-    # rank_fstr is the template for each line
-    async def leaderboard_logic(self, _list, origin_uid, rank_fstr):
-        # find the rank/place on lb of the origin user
-        u_place = -1
-        for i in range(len(_list)):
-            if _list[i][0] == origin_uid:
-                u_place = i + 1
-                origin_value = _list[i][1]
-                break
-
-        # shorten list
-        _list = _list[:9] if u_place > 9 else _list[:10]
-
-        body = ""
-
-        for place, entry in enumerate(_list):  # enumerate() gives me a boner
-            user = self.bot.get_user(entry[0])
-
-            if user is None:
-                user = "Deleted User"
-            else:
-                user = discord.utils.escape_markdown(user.display_name)
-
-            body += rank_fstr.format(place + 1, entry[1], user)
-
-        if u_place > 9:
-            body += "\n⋮" + rank_fstr.format(
-                u_place, origin_value, discord.utils.escape_markdown(self.bot.get_user(origin_uid).display_name)
-            )
-
-        return body + "\uFEFF"
 
     def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
         # add user entry to leaderboard if it's not there already
