@@ -323,7 +323,15 @@
         "value": [600, 800],
         "rarity": 5
       }
-    }
+    },
+    "findables": [
+      [
+        "Lure I Book",
+        32,
+        200,
+        false
+      ]
+    ]
   },
   "shop_items": {
     "stone pickaxe": [
