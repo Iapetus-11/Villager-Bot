@@ -37,19 +37,20 @@ async def get_lang(_bot, ctx):
 
 # update the role of a member in the support server
 async def update_support_member_role(_bot, member):
-    support_guild = self.bot.get_guild(_bot.d.support_server_id)
+    support_guild = _bot.get_guild(_bot.d.support_server_id)
     role_map_values = list(_bot.d.role_mappings.values())
+    db = _bot.get_cog("Database")
     roles = []
 
     for role in member.roles:
         if role.id not in role_map_values and role.id != _bot.d.support_server_id:
             roles.append(role)
 
-    pickaxe_role = _bot.d.role_mappings.get(await self.fetch_pickaxe(member.id))
+    pickaxe_role = _bot.d.role_mappings.get(await db.fetch_pickaxe(member.id))
     if pickaxe_role is not None:
         roles.append(support_guild.get_role(pickaxe_role))
 
-    if await self.fetch_item(member.id, "Bane Of Pillagers Amulet") is not None:
+    if await db.fetch_item(member.id, "Bane Of Pillagers Amulet") is not None:
         roles.append(support_guild.get_role(_bot.d.role_mappings.get("BOP")))
 
     if roles != member.roles:
