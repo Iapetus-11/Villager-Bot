@@ -286,6 +286,45 @@
        false
      ]
   ],
+  "fishing": {
+    "fish": {
+      "cod": {
+        "name": "Cod",
+        "rarity": [15, 30],
+        "rarity_index": 0
+      },
+      "salmon": {
+        "name": "Salmon",
+        "rarity": [20, 60],
+        "rarity_index": 0,
+      },
+      "tropical_fish": {
+        "name": "Tropical Fish",
+        "rarity": [40, 120],
+        "rarity_index": 1
+      },
+      "pufferfish": {
+        "name": "Pufferfish",
+        "rarity": [60, 200],
+        "rarity_index": 3
+      },
+      "rainbow_trout": {
+        "name": "Rainbow Trout",
+        "rarity": [180, 290],
+        "rarity_index": 4
+      },
+      "gold_fish": {
+        "name": "Gold Fish",
+        "rarity": [200, 300],
+        "rarity_index":  4
+      },
+      "emerald_fish": {
+        "name": "Emerald Fish",
+        "rarity": [600, 800],
+        "rarity_index": 5
+      }
+    }
+  },
   "shop_items": {
     "stone pickaxe": [
       "tools",
