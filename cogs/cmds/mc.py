@@ -112,7 +112,7 @@ class Minecraft(commands.Cog):
         with ctx.typing():
             mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
 
-            _, img_bytes = await self.bot.loop.run_in_executor(self.bot.ppool, mosaic_gen_partial)
+            _, img_bytes = await self.bot.loop.run_in_executor(self.bot.tpool, mosaic_gen_partial)
 
             await ctx.send(file=discord.File(io.BytesIO(img_bytes), filename=img.filename))
 

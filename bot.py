@@ -208,6 +208,5 @@ if __name__ == "__main__":
 
         return True
 
-    with ProcessPoolExecutor() as bot.ppool:
-        with ThreadPoolExecutor() as bot.tpool:
-            bot.run(keys.discord)  # run the bot, this is a blocking call
+    with ThreadPoolExecutor() as bot.tpool:
+        bot.run(keys.discord)  # run the bot, this is a blocking call
