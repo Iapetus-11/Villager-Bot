@@ -896,10 +896,20 @@ class Econ(commands.Cog):
 
     @commands.command(name="fish")
     @commands.guild_only()
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def fish(self, ctx):
-        await ctx.send("Haha you thought, fuck off")
+        with ctx.typing():
+            await asyncio.sleep(random.randint(3, 15))
+
+        if random.randint(1, 7) == 1:
+            return  # fish up item or junk
+
+        fish = list(self.d.fishing.fish.keys())
+        weights = [fish_data["rarity"] for fish_data in self.d.fishing.fish.values()]
+        caught = self.d.fishing.fish[random.choices(fish, weights)]
+
+        await self.db.add_item(ctx.author.id, caught["name"], None, 1)
 
     @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.guild_only()
