@@ -180,7 +180,7 @@
       "Netherite Pickaxe": [13, 26]
     }
   },
-  "default_findables": [
+  "default_mining_findables": [
     [
       "Fortune II Book",
       128,
@@ -248,7 +248,7 @@
       true
     ]
   ],
-  "special_findables": [
+  "special_mining_findables": [
      [
        "Toilet Paper Roll (Emerald Patterned)",
        1000,
