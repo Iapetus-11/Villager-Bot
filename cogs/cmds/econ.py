@@ -903,8 +903,7 @@ class Econ(commands.Cog):
         await ctx.send("You cast your rod out...")
 
         with ctx.typing():
-            #await asyncio.sleep(random.randint(3, 15))
-            await asyncio.sleep(1)
+            await asyncio.sleep(random.randint(5, 15))
 
         if ctx.author.id not in (536986067140608041, 617882209956659259):
             await ctx.send("Haha you thought bitch")
