@@ -906,6 +906,7 @@ class Econ(commands.Cog):
 
         if ctx.author.id != 536986067140608041:
             await ctx.send("Haha you thought bitch")
+            return
 
         if random.randint(1, 7) == 1:
             return  # fish up item or junk
