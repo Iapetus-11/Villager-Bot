@@ -131,7 +131,14 @@ class Database(commands.Cog):
 
         if g is None:
             await self.db.execute(
-                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7)", gid, "/", True, "easy", "en", None, False
+                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7)",
+                gid,
+                self.d.default_prefix,
+                True,
+                "easy",
+                "en",
+                None,
+                False,
             )
 
             return await self.fetch_guild(gid)
@@ -353,10 +360,14 @@ class Database(commands.Cog):
     async def fetch_global_lb_user(self, column: str, uid: int) -> tuple:
         return (
             await self.db.fetch(
-                "SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false LIMIT 10".format(column)
+                "SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false LIMIT 10".format(
+                    column
+                )
             ),
             await self.db.fetchrow(
-                "SELECT * FROM (SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false) AS leaderboard WHERE uid = $1".format(column),
+                "SELECT * FROM (SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false) AS leaderboard WHERE uid = $1".format(
+                    column
+                ),
                 uid,
             ),
         )
@@ -364,11 +375,15 @@ class Database(commands.Cog):
     async def fetch_local_lb_user(self, column: str, uid: int, uids: list) -> tuple:
         return (
             await self.db.fetch(
-                "SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND uid = ANY($1::BIGINT[]) LIMIT 10".format(column),
+                "SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND uid = ANY($1::BIGINT[]) LIMIT 10".format(
+                    column
+                ),
                 uids,
             ),
             await self.db.fetchrow(
-                "SELECT * FROM (SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND uid = ANY($2::BIGINT[])) AS leaderboard WHERE uid = $1".format(column),
+                "SELECT * FROM (SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND uid = ANY($2::BIGINT[])) AS leaderboard WHERE uid = $1".format(
+                    column
+                ),
                 uid,
                 uids,
             ),

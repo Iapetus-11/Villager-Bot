@@ -26,12 +26,12 @@ class Events(commands.Cog):
             if "general" in channel.name:
                 embed = discord.Embed(
                     color=self.d.cc,
-                    description="Hey y'all! Type `/help` to get started with Villager Bot!\n"
+                    description=f"Hey y'all! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
                     f"If you need any more help, check out the **[Support Server]({self.d.support})**!",
                 )
 
                 embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
-                embed.set_footer(text="Made by Iapetus11  |  /rules for the rules!")
+                embed.set_footer(text=f"Made by Iapetus11  |  {self.d.default_prefix}rules for the rules!")
 
                 await channel.send(embed=embed)
                 break
@@ -68,9 +68,10 @@ class Events(commands.Cog):
                 return
 
             if m.content.startswith(f"<@!{self.bot.user.id}>"):
-                prefix = "/"
+                prefix = self.d.default_prefix
+
                 if m.guild is not None:
-                    prefix = self.d.prefix_cache.get(m.guild.id, "/")
+                    prefix = self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)
 
                 lang = await self.bot.get_lang(m)
 
@@ -99,7 +100,7 @@ class Events(commands.Cog):
                         invis = ("||||\u200B" * 200)[2:-3]
                         await m.channel.send(f"@someone {invis} {random.choice(someones).mention} {m.author.mention}")
                 else:
-                    if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, "/")):
+                    if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)):
                         if "emerald" in m.content.lower():
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send(random.choice(self.d.hmms))
