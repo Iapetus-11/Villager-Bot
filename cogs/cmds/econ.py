@@ -914,6 +914,9 @@ class Econ(commands.Cog):
         fishes = list(self.d.fishing.fish.keys())
         weights = [fish_data["rarity"] for fish_data in self.d.fishing.fish.values()]
 
+        await ctx.send(fishes)
+        await ctx.send(weights)
+
         fish_id = random.choices(fishes, weights)
         fish = self.d.fishing.fish[fish_id]
 
