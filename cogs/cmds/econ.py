@@ -548,7 +548,7 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount, shop_item[3][2])
 
-            if "Pickaxe" in shop_item[3][0] or shop_item[3][0] == "Bane Of Pillagers Amulet":
+            if shop_item[3][0].endswith("Pickaxe") or shop_item[3][0] == "Bane Of Pillagers Amulet":
                 member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
                 if member is not None:
