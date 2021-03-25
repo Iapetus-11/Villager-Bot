@@ -545,7 +545,7 @@ class Econ(commands.Cog):
                     await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(24, self.d.emojis.slimeball, "Slime Ball"))
                     return
 
-            if shop_item[3][0].endswith("Pickaxe") or shop_item[3][0] == "Bane Of Pillagers Amulet":
+            if "Pickaxe" in shop_item[3][0] or shop_item[3][0] == "Bane Of Pillagers Amulet":
                 member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
                 if member is not None:
@@ -616,7 +616,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.sell.stupid_2)
             return
 
-        if db_item["name"].endswith("Pickaxe") or db_item_["name"] == "Bane Of Pillagers Amulet":
+        if "Pickaxe" in db_item["name"] or db_item_["name"] == "Bane Of Pillagers Amulet":
             member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
             if member is not None:
