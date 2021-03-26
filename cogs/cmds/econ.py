@@ -481,18 +481,77 @@ class Econ(commands.Cog):
 
     @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
     async def fish_market(self, ctx):
-        embed = discord.Embed(
+        embed_template = discord.Embed(
             color=self.d.cc,
             title="{} __Villager Bot Fish Market__ {}".format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
         )
 
-        for fish_id, fish in self.d.fishing.fish.items():
-            embed.add_field(
-                name=f"{self.d.emojis.fish[fish_id]} {fish.name}",
-                value=f"Current Price: {fish.current}{self.d.emojis.emerald}",
+        fields = []
+
+        for i, fish in enumerate(self.d.fishing.fish.items()):
+            fish_id, fish = fish
+
+            fields.append(
+                {
+                    "name": f"{self.d.emojis.fish[fish_id]} {fish.name}",
+                    "value": f"Current Price: {fish.current}{self.d.emojis.emerald}",
+                }
             )
 
-        await ctx.send(embed=embed)
+            if i % 2 == 0:
+                fields.append({"name": "\uFEFF", "value": "\uFEFF"})
+
+                msg = None
+
+        groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
+        page_max = len(groups)
+        page = 0
+
+        while True:
+            embed = embed_template.copy()
+
+            for field in groups[page]:
+                embed.add_field(**field)
+
+            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max}")
+
+            if msg is None:
+                msg = await ctx.send(embed=embed)
+            elif not msg.embeds[0] == embed:
+                    await msg.edit(embed=embed)
+
+            if page_max <= 1:
+                return
+
+            await asyncio.sleep(0.25)
+            await msg.add_reaction("⬅️")
+            await asyncio.sleep(0.25)
+            await msg.add_reaction("➡️")
+
+            try:
+
+                def author_check(react, r_user):
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+
+                # wait for reaction from message author (1 min)
+                react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=60)
+            except asyncio.TimeoutError:
+                return
+
+            await react.remove(ctx.author)
+
+            if react.emoji == "⬅️":
+                page -= 1
+            elif react.emoji == "➡️":
+                page += 1
+
+            if page > page_max - 1:
+                page = page_max - 1
+
+            if page < 0:
+                page = 0
+
+            await asyncio.sleep(0.2)
 
     @commands.command(name="buy")
     @commands.cooldown(1, 5, commands.BucketType.user)
