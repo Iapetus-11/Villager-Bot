@@ -23,6 +23,7 @@ async def send(_bot, location, message, respond=False, ping=False):
     except discord.Forbidden:
         return False
 
+
 # get a lang for a given ctx object
 async def get_lang(_bot, ctx):
     if ctx.guild is None:
@@ -34,6 +35,7 @@ async def get_lang(_bot, ctx):
         lang = "en"
 
     return _bot.langs[lang]
+
 
 # update the role of a member in the support server
 async def update_support_member_role(_bot, member):
@@ -58,6 +60,7 @@ async def update_support_member_role(_bot, member):
             await member.edit(roles=roles)
         except Exception:
             pass
+
 
 if __name__ == "__main__":
     # use uvloop
