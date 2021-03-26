@@ -371,7 +371,7 @@ class Econ(commands.Cog):
 
             embed.add_field(name=f"__**{ctx.l.econ.shop.tools.format(self.d.emojis.netherite_pickaxe)}**__", value=f"`{ctx.prefix}shop tools`")
             embed.add_field(name=f"__**{ctx.l.econ.shop.magic.format(self.d.emojis.enchanted_book)}**__", value=f"`{ctx.prefix}shop magic`")
-            embed.add_field(name=f"__**{ctx.l.econ.shop.other.format(self.d.emojis.netherite_pickaxe)}**__", value=f"`{ctx.prefix}shop other`")
+            embed.add_field(name=f"__**{ctx.l.econ.shop.other.format(self.d.emojis.totem)}**__", value=f"`{ctx.prefix}shop other`")
 
             embed.set_footer(text=ctx.l.econ.shop.embed_footer.format(ctx.prefix))
 
