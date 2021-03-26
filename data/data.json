@@ -161,23 +161,90 @@
   },
   "mining": {
     "finds": [
-      ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore"],
-      ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore", "lapis lazuli", "gold ore"],
-      ["cobblestone", "cobblestone", "dirt", "coal", "coal", "iron ore", "iron ore", "gold ore", "diamond", "redstone"]
+      [
+        "cobblestone",
+        "cobblestone",
+        "dirt",
+        "dirt",
+        "coal",
+        "iron ore"
+      ],
+      [
+        "cobblestone",
+        "cobblestone",
+        "dirt",
+        "dirt",
+        "coal",
+        "iron ore",
+        "lapis lazuli",
+        "gold ore"
+      ],
+      [
+        "cobblestone",
+        "cobblestone",
+        "dirt",
+        "coal",
+        "coal",
+        "iron ore",
+        "iron ore",
+        "gold ore",
+        "diamond",
+        "redstone"
+      ]
     ],
     "yields_enchant_items": {
-      "Bane Of Pillagers Amulet": [2, 3, 4, 5, 6],
-      "Fortune III Book": [1, 1, 2, 3, 4],
-      "Fortune II Book": [1, 1, 1, 2, 3],
-      "Fortune I Book": [1, 1, 2]
+      "Bane Of Pillagers Amulet": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "Fortune III Book": [
+        1,
+        1,
+        2,
+        3,
+        4
+      ],
+      "Fortune II Book": [
+        1,
+        1,
+        1,
+        2,
+        3
+      ],
+      "Fortune I Book": [
+        1,
+        1,
+        2
+      ]
     },
     "yields_pickaxes": {
-      "Wood Pickaxe": [4, 26],
-      "Stone Pickaxe": [5, 26],
-      "Iron Pickaxe": [7, 26],
-      "Gold Pickaxe": [8, 26],
-      "Diamond Pickaxe": [10, 26],
-      "Netherite Pickaxe": [13, 26]
+      "Wood Pickaxe": [
+        4,
+        26
+      ],
+      "Stone Pickaxe": [
+        5,
+        26
+      ],
+      "Iron Pickaxe": [
+        7,
+        26
+      ],
+      "Gold Pickaxe": [
+        8,
+        26
+      ],
+      "Diamond Pickaxe": [
+        10,
+        26
+      ],
+      "Netherite Pickaxe": [
+        13,
+        26
+      ]
     },
     "findables": [
       [
@@ -247,40 +314,40 @@
         true
       ],
       [
-       "Toilet Paper Roll (Emerald Patterned)",
-       1000,
-       99999,
-       false
+        "Toilet Paper Roll (Emerald Patterned)",
+        1000,
+        99999,
+        false
       ],
       [
-       "Rona Vaccine",
-       1024,
-       2000,
-       false
+        "Rona Vaccine",
+        1024,
+        2000,
+        false
       ],
       [
-       "Pillager-Proof Hazmat Suit",
-       420,
-       10000,
-       false
+        "Pillager-Proof Hazmat Suit",
+        420,
+        10000,
+        false
       ],
       [
-       "Tub Of Hand Sanitizer",
-       128,
-       2000,
-       false
+        "Tub Of Hand Sanitizer",
+        128,
+        2000,
+        false
       ],
       [
-       "Mask",
-       50,
-       2000,
-       false
+        "Mask",
+        50,
+        2000,
+        false
       ],
       [
-       "Tiny Hand Sanitizer Bottle",
-       50,
-       2000,
-       false
+        "Tiny Hand Sanitizer Bottle",
+        50,
+        2000,
+        false
       ]
     ]
   },
@@ -288,43 +355,64 @@
     "fish": {
       "cod": {
         "name": "Cod",
-        "value": [15, 30],
+        "value": [
+          15,
+          30
+        ],
         "current": null,
         "rarity": 0
       },
       "salmon": {
         "name": "Salmon",
-        "value": [20, 60],
+        "value": [
+          20,
+          60
+        ],
         "current": null,
         "rarity": 0
       },
       "tropical_fish": {
         "name": "Tropical Fish",
-        "value": [40, 120],
+        "value": [
+          40,
+          120
+        ],
         "current": null,
         "rarity": 1
       },
       "pufferfish": {
         "name": "Pufferfish",
-        "value": [60, 200],
+        "value": [
+          60,
+          200
+        ],
         "current": null,
         "rarity": 3
       },
       "rainbow_trout": {
         "name": "Rainbow Trout",
-        "value": [180, 290],
+        "value": [
+          180,
+          290
+        ],
         "current": null,
         "rarity": 4
       },
       "gold_fish": {
         "name": "Gold Fish",
-        "value": [200, 300],
+        "value": [
+          200,
+          300
+        ],
         "current": null,
-        "rarity":  4
+        "rarity": 4
       },
       "emerald_fish": {
         "name": "Emerald Fish",
-        "value": [600, 800],
+        "value": [
+          600,
+          800
+        ],
         "current": null,
         "rarity": 5
       }
@@ -701,13 +789,7 @@
     "♥(。ᅌ ω ᅌ。)"
   ],
   "emojified": {
-    "!": ":grey_exclamation:",
-    "?": ":grey_question:",
-    "+": ":heavy_plus_sign:",
-    "-": ":heavy_minus_sign:",
-    "$": ":heavy_dollar_sign:",
-    "#": ":hash:",
-    "*": ":asterisk:",
+    "0": ":zero:",
     "1": ":one:",
     "2": ":two:",
     "3": ":three:",
@@ -717,8 +799,14 @@
     "7": ":seven:",
     "8": ":eight:",
     "9": ":nine:",
-    "0": ":zero:",
-    " ": "\uFEFF \uFEFF \uFEFF "
+    "!": ":grey_exclamation:",
+    "?": ":grey_question:",
+    "+": ":heavy_plus_sign:",
+    "-": ":heavy_minus_sign:",
+    "$": ":heavy_dollar_sign:",
+    "#": ":hash:",
+    "*": ":asterisk:",
+    " ": "\ufeff \ufeff \ufeff "
   },
   "fun_langs": {
     "enchant": {
@@ -1117,7 +1205,7 @@
     "PVP on Hypixel",
     "Hypixel Pit",
     "CraftMine 1.0",
-    "\u041c\u0430\u0439\u043d\u043a\u0440\u0430\u0444\u0442",
+    "Майнкрафт",
     "46 75 63 6b 69 6e 67 20 4e 65 72 64",
     "4d 69 6e 65 63 72 61 66 74",
     "01001101 01101001 01101110 01100101 01100011 01110010 01100001 01100110 01110100",
