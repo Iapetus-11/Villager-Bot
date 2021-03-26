@@ -484,7 +484,7 @@ class Econ(commands.Cog):
         embed_template = discord.Embed(
             color=self.d.cc,
             title="{} __Villager Bot Fish Market__ {}".format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
-            description="The prices at which different fish sell for, you can buy a\nfishing rod in the `tools` category.",
+            description="The prices at which different fish sell for, you can buy a\nfishing rod in the tools section of the shop.",
         )
 
         fields = []
