@@ -67,10 +67,7 @@ class Econ(commands.Cog):
 
         if mine_commands >= 100 * source_multi:
             prob = f'{random.randint(0, 45)}{random.choice(("+", "+",))}{random.randint(0, 25)}'
-            prob = (
-                prob,
-                str(eval(prob))
-            )
+            prob = (prob, str(eval(prob)))
 
             await self.bot.send(ctx, ctx.l.econ.math_problem.problem.format(prob[0]))
 
