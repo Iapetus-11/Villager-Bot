@@ -445,6 +445,7 @@ class Econ(commands.Cog):
 
             if page > page_max - 1:
                 page = page_max - 1
+
             if page < 0:
                 page = 0
 
