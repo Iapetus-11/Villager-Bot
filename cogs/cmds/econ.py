@@ -477,7 +477,7 @@ class Econ(commands.Cog):
 
     @shop.command(name="fish")
     async def shop_fish(self, ctx):
-        await self.fish_market(self, ctx)
+        await self.fish_market(ctx)
 
     @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
     async def fish_market(self, ctx):
