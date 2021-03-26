@@ -527,6 +527,16 @@
         true
       ]
     ],
+    "fishing rod": [
+      "tools",
+      128,
+      "db_item_cont < 1",
+      [
+        "Fishing Rod",
+        48,
+        true
+      ]
+    ],
     "haste i potion": [
       "magic",
       120,
