@@ -447,7 +447,7 @@ class Econ(commands.Cog):
             if page < 0:
                 page = 0
 
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.2)
 
     @shop.command(name="tools")
     async def shop_tools(self, ctx):
