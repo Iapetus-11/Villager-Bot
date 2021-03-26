@@ -959,6 +959,7 @@ class Econ(commands.Cog):
                             self.d.emojis.emerald,
                             random.choice(ctx.l.econ.mine.places),
                         ),
+                        True
                     )
 
                     return
@@ -971,6 +972,7 @@ class Econ(commands.Cog):
                     random.choice(ctx.l.econ.mine.useless),
                     random.choice(fake_finds),
                 ),
+                True
             )
         else:
             found = int(found)
@@ -983,6 +985,7 @@ class Econ(commands.Cog):
             await self.bot.send(
                 ctx,
                 ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald),
+                True
             )
 
         if random.randint(0, 50) == 1:
