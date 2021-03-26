@@ -3,7 +3,7 @@ import discord
 import random
 
 
-class Status(commands.Cog):
+class Loops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -21,4 +21,4 @@ class Status(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Status(bot))
+    bot.add_cog(Loops(bot))
