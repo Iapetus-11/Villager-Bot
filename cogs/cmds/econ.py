@@ -1037,6 +1037,12 @@ class Econ(commands.Cog):
             ctx, random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True, True
         )
 
+        if random.randint(0, 50) == 1:
+            db_user = await self.db.fetch_user(ctx.author.id)
+            
+            if db_user["vault_max"] < 2000:
+                await self.db.update_user(ctx.author.id, "vault_max", db_user["vault_max"] + 1)
+
     @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.guild_only()
     @commands.cooldown(1, 300, commands.BucketType.user)
