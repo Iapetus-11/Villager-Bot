@@ -289,36 +289,43 @@
       "cod": {
         "name": "Cod",
         "value": [15, 30],
+        "current": null,
         "rarity": 0
       },
       "salmon": {
         "name": "Salmon",
         "value": [20, 60],
+        "current": null,
         "rarity": 0
       },
       "tropical_fish": {
         "name": "Tropical Fish",
         "value": [40, 120],
+        "current": null,
         "rarity": 1
       },
       "pufferfish": {
         "name": "Pufferfish",
         "value": [60, 200],
+        "current": null,
         "rarity": 3
       },
       "rainbow_trout": {
         "name": "Rainbow Trout",
         "value": [180, 290],
+        "current": null,
         "rarity": 4
       },
       "gold_fish": {
         "name": "Gold Fish",
         "value": [200, 300],
+        "current": null,
         "rarity":  4
       },
       "emerald_fish": {
         "name": "Emerald Fish",
         "value": [600, 800],
+        "current": null,
         "rarity": 5
       }
     },
