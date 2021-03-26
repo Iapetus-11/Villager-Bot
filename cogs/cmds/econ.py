@@ -1005,7 +1005,12 @@ class Econ(commands.Cog):
         await ctx.send("You cast your rod out...")
 
         with ctx.typing():
-            await asyncio.sleep(random.randint(3, 10))
+            wait = random.randint(5, 15)
+
+            if await self.db.fetch_item(ctx.author.id, "Lure I Book") is not None:
+                wait -= 3
+
+            await asyncio.sleep(wait)
 
         # fished up item or junk or somethin not fish
         if random.randint(1, 8) == 1:
