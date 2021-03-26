@@ -1385,7 +1385,9 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title="{} Villager Bot Fish Market {}".format(self.d.emojis.fish.rainbow_trout, self.d.emojis.fish.cod))
 
         for fish_id, fish in self.d.fishing.fish.items():
-            embed.add_field(name=f"{fish.name} {self.d.emojis.fish[fish_id]}", value=f"Worth {fish.current}{self.d.emojis.emerald}")
+            embed.add_field(
+                name=f"{fish.name} {self.d.emojis.fish[fish_id]}", value=f"Worth {fish.current}{self.d.emojis.emerald}"
+            )
 
         await ctx.send(embed=embed)
 
