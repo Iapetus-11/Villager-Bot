@@ -518,7 +518,7 @@ class Econ(commands.Cog):
             if msg is None:
                 msg = await ctx.send(embed=embed)
             elif not msg.embeds[0] == embed:
-                    await msg.edit(embed=embed)
+                await msg.edit(embed=embed)
 
             if page_max <= 1:
                 return
