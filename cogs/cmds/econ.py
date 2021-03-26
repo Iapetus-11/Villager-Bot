@@ -453,19 +453,19 @@ class Econ(commands.Cog):
     async def shop_tools(self, ctx):
         """Allows you to shop for tools"""
 
-        await self.shop_logic(ctx, "tools", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.tools}]")
+        await self.shop_logic(ctx, "tools", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.tools.format(self.d.emojis.netherite_pickaxe)}]")
 
     @shop.command(name="magic")
     async def shop_magic(self, ctx):
         """Allows you to shop for magic items"""
 
-        await self.shop_logic(ctx, "magic", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic}]")
+        await self.shop_logic(ctx, "magic", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic.format(self.d.emojis.enchanted_book)}]")
 
     @shop.command(name="other")
     async def shop_other(self, ctx):
         """Allows you to shop for other/miscellaneous items"""
 
-        await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other}]")
+        await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other.format(self.d.emojis.totem)}]")
 
     @commands.command(name="buy")
     @commands.cooldown(1, 5, commands.BucketType.user)
