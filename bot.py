@@ -62,6 +62,11 @@ async def update_support_member_role(_bot, member):
             pass
 
 
+def update_fishing_prices(_bot):
+    for fish in _bot.d.fishing.fish.values():
+        fish.current = random.choice(fish.value)
+
+
 if __name__ == "__main__":
     # use uvloop
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
