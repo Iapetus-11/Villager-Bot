@@ -369,23 +369,15 @@ class Econ(commands.Cog):
             embed = discord.Embed(color=self.d.cc)
             embed.set_author(name=ctx.l.econ.shop.villager_shop, icon_url=self.d.splash_logo)
 
-            # row one
             embed.add_field(
                 name=f"__**{ctx.l.econ.shop.tools.format(self.d.emojis.netherite_pickaxe)}**__",
                 value=f"`{ctx.prefix}shop tools`",
             )
-            embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(
                 name=f"__**{ctx.l.econ.shop.magic.format(self.d.emojis.enchanted_book)}**__", value=f"`{ctx.prefix}shop magic`"
             )
-
-            # row two
             embed.add_field(
                 name=f"__**{ctx.l.econ.shop.other.format(self.d.emojis.totem)}**__", value=f"`{ctx.prefix}shop other`"
-            )
-            embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(
-                name=f"__**{ctx.l.econ.shop.fish.format(self.d.emojis.fish.cod)}**__", value=f"`{ctx.prefix}shop fish`"
             )
 
             embed.set_footer(text=ctx.l.econ.shop.embed_footer.format(ctx.prefix))
@@ -474,10 +466,6 @@ class Econ(commands.Cog):
         """Allows you to shop for other/miscellaneous items"""
 
         await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other}]")
-
-    @shop.command(name="fish")
-    async def shop_fish(self, ctx):
-        await ctx.send("get baited")
 
     @commands.command(name="buy")
     @commands.cooldown(1, 5, commands.BucketType.user)
