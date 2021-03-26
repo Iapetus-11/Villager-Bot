@@ -69,7 +69,7 @@ async def send_tip(_bot, ctx):
 
 def update_fishing_prices(_bot):
     for fish in _bot.d.fishing.fish.values():
-        fish.current = random.choice(fish.value)
+        fish.current = random.randint(*fish.value)
 
 
 if __name__ == "__main__":
