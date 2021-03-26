@@ -1039,7 +1039,7 @@ class Econ(commands.Cog):
 
         if random.randint(0, 50) == 1:
             db_user = await self.db.fetch_user(ctx.author.id)
-            
+
             if db_user["vault_max"] < 2000:
                 await self.db.update_user(ctx.author.id, "vault_max", db_user["vault_max"] + 1)
 
