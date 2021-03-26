@@ -1393,14 +1393,7 @@ class Econ(commands.Cog):
                 value=f"(Sells for {fish.current}{self.d.emojis.emerald})",
             )
 
-        m = await ctx.send(embed=embed)
-
-        if ctx.author.id == 617882209956659259:
-            await asyncio.sleep(2)
-            await m.edit(
-                suppress=True,
-                content="**get BAITED haha GOTTEM** kenau chugnuz 100 ez 69 fornite dance 69420 epic gaymer wholesome reddit moment 100 ez amogus",
-            )
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
