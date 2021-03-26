@@ -1033,7 +1033,9 @@ class Econ(commands.Cog):
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish.name, -1, 1)
-        await self.bot.send(ctx, random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True, True)
+        await self.bot.send(
+            ctx, random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True, True
+        )
 
     @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.guild_only()
