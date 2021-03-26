@@ -1393,7 +1393,7 @@ class Econ(commands.Cog):
                 value=f"\uFEFF",
             )
 
-        await ctx.send(embed=embed)
+        m = await ctx.send(embed=embed)
 
         if ctx.author.id == 617882209956659259:
             await asyncio.sleep(2)
