@@ -995,10 +995,10 @@ class Econ(commands.Cog):
     @commands.max_concurrency(1, commands.BucketType.user)
     async def fish(self, ctx):
         if await self.db.fetch_item(ctx.author.id, "Fishing Rod") is None:
-            await self.bot.send(ctx, "You can't fish without a fishing rod stupid.")
+            await self.bot.send(ctx, ctx.l.econ.fishing.stupid_1)
             return
 
-        await self.bot.send(ctx, "You cast your rod out...")
+        await self.bot.send(ctx, random.choice(ctx.l.econ.fishing.cast))
 
         with ctx.typing():
             wait = random.randint(8, 20)
@@ -1011,27 +1011,27 @@ class Econ(commands.Cog):
         # fished up item or junk or somethin not fish
         if random.randint(1, 8) == 1:
             if random.choice((True, True, False)):  # junk
-                await self.bot.send(ctx, "You fished up hopes and dreams, unfortunately that's not profitable...", True, True)
+                await self.bot.send(ctx, random.choice(ctx.l.econ.fishing.junk), True, True)
             else:  # item
                 while True:
                     for item in self.d.fishing.findables:
                         if random.randint(0, (item[2] // 2) + 2) == 1:
                             await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                             await self.bot.send(
-                                ctx, f"You fished up 1x {item[0]}! (Worth {item[1]}{self.d.emojis.emerald})", True, True
+                                random.choice(ctx.l.econ.fishing.item.format(item[0], item[1], self.d.emojis.emerald)), True, True
                             )
                             return
 
             return
 
         fishes = list(self.d.fishing.fish.keys())
-        weights = [(len(fishes) - fish_data["rarity"]) ** 2 for fish_data in self.d.fishing.fish.values()]
+        weights = [(len(fishes) - fish_data.rarity) ** 2 for fish_data in self.d.fishing.fish.values()]
 
         fish_id = random.choices(fishes, weights)[0]
         fish = self.d.fishing.fish[fish_id]
 
-        await self.db.add_item(ctx.author.id, fish["name"], -1, 1)
-        await self.bot.send(ctx, f"You reeled in one {fish['name']} {self.d.emojis.fish[fish_id]}!", True, True)
+        await self.db.add_item(ctx.author.id, fish.name, -1, 1)
+        await self.bot.send(ctx, random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]))
 
     @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.guild_only()
