@@ -242,11 +242,6 @@ class Database(commands.Cog):
         self.uncache_items(uid)
 
     async def log_transaction(self, item, amount, timestamp, giver, receiver):
-        print(item)
-        print(amount)
-        print(timestamp)
-        print(giver)
-        print(receiver)
         await self.db.execute("INSERT INTO give_logs VALUES ($1, $2, $3, $4, $5)", item, amount, timestamp, giver, receiver)
 
     async def fetch_transactions_by_sender(self, uid, limit):
