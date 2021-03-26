@@ -710,6 +710,11 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.sell.stupid_2)
             return
 
+        for fish_id, fish in self.d.fishing.fish.items():
+            if db_item["name"] == fish.name:
+                db_item["sell_price"] = fish.current
+                break
+
         await self.db.balance_add(ctx.author.id, amount * db_item["sell_price"])
         await self.db.remove_item(ctx.author.id, db_item["name"], amount)
 
