@@ -552,7 +552,7 @@
       },
       "rules":{
         "rules":"Villager Bot Rules",
-        "slashrules":"{}rules for the rules!",
+        "slashrules":"**{}rules** for the rules!",
         "penalty":"Penalty for breaking these rules may include a reset/wipe, in-game penalty/debuff, or a **permanent ban from the support server and/or using the bot**.",
         "rule_1":"**1.** Don't abuse bugs, report them in the #bug-smasher channel on the [support server]({}) for a reward!",
         "rule_2":"**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items.",
@@ -1387,7 +1387,7 @@
       },
       "rules":{
         "rules":"Villager Bot Rules",
-        "slashrules":"{}rules for the rules!",
+        "slashrules":"**{}rules** for the rules!",
         "penalty":"Penalty for breaking these rules may include a reset/wipe, in-game penalty / debuff, or a **permanent ban from the support server and/or using the bot**.",
         "rule_1":"**1.** Don't abuse bugs, report them in the #bug-smasher channel on the [support server]({}) for a reward!",
         "rule_2":"**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items.",
@@ -2220,7 +2220,7 @@
       },
       "rules":{
         "rules":"Règlement du Villager Bot",
-        "slashrules":"{}rules pour afficher les règles !",
+        "slashrules":"**{}rules** pour afficher les règles !",
         "penalty":"Enfreindre ces règles peut entraîner : un reset/effacement des données, une pénalité / un désavantage en jeu, ou **un ban permanent du serveur de support et/ou de l'utilisation du bot**.",
         "rule_1":"**1.** N'abuse pas des bugs, signale les dans le canal #bug-smasher sur le [serveur de support]({}) pour une récompense !",
         "rule_2":"**2.** Ne triche pas de quelque façon que ce soit, cela inclut l'utilisation de comptes alternatifs ou ceux d'autres utilisateurs pour stocker tes émeraudes ou objets.",
