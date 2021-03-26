@@ -999,7 +999,7 @@ class Econ(commands.Cog):
         with ctx.typing():
             await asyncio.sleep(random.randint(3, 10))
 
-        if ctx.author.id not in (536986067140608041, 617882209956659259):
+        if ctx.author.id not in (536986067140608041,):
             await ctx.send("Haha you thought bitch")
             return
 
