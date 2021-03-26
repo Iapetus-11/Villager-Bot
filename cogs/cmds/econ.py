@@ -775,11 +775,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
             return
 
-        if item in (
-            "emerald",
-            "emeralds",
-            ":emerald:",
-        ):
+        if item in ("emerald", "emeralds", ":emerald:"):
             if amount > db_user["emeralds"]:
                 await self.bot.send(ctx, ctx.l.econ.give.stupid_3)
                 return
