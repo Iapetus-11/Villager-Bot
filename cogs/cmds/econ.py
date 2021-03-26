@@ -1014,19 +1014,24 @@ class Econ(commands.Cog):
         # fished up item or junk or somethin not fish
         if random.randint(1, 8) == 1:
             if random.choice((True, True, False)):  # junk
-                await self.bot.send(ctx, random.choice(ctx.l.econ.fishing.junk), True, True)
-            else:  # item
-                while True:
-                    for item in self.d.fishing.findables:
-                        if random.randint(0, (item[2] // 2) + 2) == 1:
-                            await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
-                            await self.bot.send(
-                                ctx,
-                                random.choice(ctx.l.econ.fishing.item).format(item[0], item[1], self.d.emojis.emerald),
-                                True,
-                                True,
-                            )
-                            return
+                junk = random.choice(ctx.l.econ.fishing.junk)
+                await self.bot.send(ctx, junk, True, True)
+
+                if "meme" in junk:
+                    await self.bot.get_cog("Fun").meme(ctx)
+
+                return
+
+            while True:
+                for item in self.d.fishing.findables:
+                    if random.randint(0, (item[2] // 2) + 2) == 1:
+                        await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                        await self.bot.send(
+                            ctx,
+                            random.choice(ctx.l.econ.fishing.item).format(item[0], item[1], self.d.emojis.emerald),
+                            True,
+                            True,
+                        )
 
             return
 
