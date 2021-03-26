@@ -489,7 +489,7 @@ class Econ(commands.Cog):
         for fish_id, fish in self.d.fishing.fish.items():
             embed.add_field(
                 name=f"{self.d.emojis.fish[fish_id]} {fish.name}",
-                value=f"(Sells for {fish.current}{self.d.emojis.emerald})",
+                value=f"Current Price: {fish.current}{self.d.emojis.emerald}",
             )
 
         await ctx.send(embed=embed)
