@@ -1001,7 +1001,7 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, "You cast your rod out...")
 
         with ctx.typing():
-            wait = random.randint(5, 20)
+            wait = random.randint(8, 20)
 
             if await self.db.fetch_item(ctx.author.id, "Lure I Book") is not None:
                 wait -= 3
