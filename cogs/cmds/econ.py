@@ -1032,8 +1032,7 @@ class Econ(commands.Cog):
                             True,
                             True,
                         )
-
-            return
+                        return
 
         fishes = list(self.d.fishing.fish.keys())
         weights = [(len(fishes) - fish_data.rarity) ** 2 for fish_data in self.d.fishing.fish.values()]
