@@ -205,6 +205,8 @@ if __name__ == "__main__":
         logger.info(f"loading extension: {cog}")
         bot.load_extension(cog)
 
+    bot.update_fishing_prices()
+
     @bot.check  # everythingggg goes through here
     async def global_check(ctx):
         ctx.l = await bot.get_lang(ctx)
