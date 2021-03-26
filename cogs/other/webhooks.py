@@ -49,12 +49,13 @@ class Webhooks(commands.Cog):
 
     async def webhooks_setup(self):  # holy fucking shit that's hot
         async def handler(req):
-            if req.headers.get("Authorization") == self.k.topgg_webhook:
-                self.bot.dispatch("topgg_event", cj.classify(await req.json()))
-            else:
-                return web.Response(status=401)
-
-            return web.Response()
+            try:
+                if req.headers.get("Authorization") == self.k.topgg_webhook:
+                    self.bot.dispatch("topgg_event", cj.classify(await req.json()))
+                else:
+                    return web.Response(status=401)
+            finally:
+                return web.Response()
 
         app = web.Application()
 
