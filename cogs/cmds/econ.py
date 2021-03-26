@@ -475,6 +475,10 @@ class Econ(commands.Cog):
 
         await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other}]")
 
+    @shop.command(name="fish")
+    async def shop_fish(self, ctx):
+        await ctx.send("get baited")
+
     @commands.command(name="buy")
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
