@@ -467,6 +467,10 @@ class Econ(commands.Cog):
 
         await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other[3:]}]")
 
+    @shop.command(name="fish")
+    async def shop_fish(self, ctx):
+        await self.fish_market(self, ctx)
+
     @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
     async def fish_market(self, ctx):
         embed = discord.Embed(
