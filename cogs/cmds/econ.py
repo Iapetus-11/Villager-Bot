@@ -999,10 +999,10 @@ class Econ(commands.Cog):
     @commands.max_concurrency(1, commands.BucketType.user)
     async def fish(self, ctx):
         if await self.db.fetch_item(ctx.author.id, "Fishing Rod") is None:
-            await ctx.send("You can't fish without a fishing rod stupid.")
+            await self.bot.send(ctx, "You can't fish without a fishing rod stupid.")
             return
 
-        await ctx.send("You cast your rod out...")
+        await self.bot.send(ctx, "You cast your rod out...")
 
         with ctx.typing():
             wait = random.randint(5, 15)
