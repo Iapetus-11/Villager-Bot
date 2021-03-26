@@ -62,6 +62,11 @@ async def update_support_member_role(_bot, member):
             pass
 
 
+async def send_tip(_bot, ctx):
+    await asyncio.sleep(1)
+    await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
+
+
 def update_fishing_prices(_bot):
     for fish in _bot.d.fishing.fish.values():
         fish.current = random.choice(fish.value)
@@ -198,10 +203,6 @@ if __name__ == "__main__":
     for cog in bot.cog_list:  # load every cog in bot.cog_list
         logger.info(f"loading extension: {cog}")
         bot.load_extension(cog)
-
-    async def send_tip(ctx):
-        await asyncio.sleep(1)
-        await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
 
     @bot.check  # everythingggg goes through here
     async def global_check(ctx):
