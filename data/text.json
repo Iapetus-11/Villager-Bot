@@ -612,6 +612,7 @@
         "tools":"{} Tools",
         "magic":"{} Magic",
         "other":"{} Other",
+        "fish":"{} Fish",
         "embed_footer":"Use {}inventory to see what you have!"
       },
       "buy":{
@@ -1447,6 +1448,7 @@
         "tools":"{} Herramientas",
         "magic":"{} Magia",
         "other":"{} Otros",
+        "fish":"{} Fish",
         "embed_footer":"Usa {}inventory para ver lo que tienes"
       },
       "buy":{
@@ -2280,6 +2282,7 @@
         "tools":"{} Outils",
         "magic":"{} Magie",
         "other":"{} Autre",
+        "fish":"{} Fish",
         "embed_footer":"Utilise {}inventory pour voir ce que tu possèdes !"
       },
       "buy":{
