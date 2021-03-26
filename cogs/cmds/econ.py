@@ -467,6 +467,21 @@ class Econ(commands.Cog):
 
         await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other[3:]}]")
 
+    @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
+    async def fish_market(self, ctx):
+        embed = discord.Embed(
+            color=self.d.cc,
+            title="{} __Villager Bot Fish Market__ {}".format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
+        )
+
+        for fish_id, fish in self.d.fishing.fish.items():
+            embed.add_field(
+                name=f"{self.d.emojis.fish[fish_id]} {fish.name}",
+                value=f"(Sells for {fish.current}{self.d.emojis.emerald})",
+            )
+
+        await ctx.send(embed=embed)
+
     @commands.command(name="buy")
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
@@ -1377,21 +1392,6 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(":fire:"))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
-
-        await ctx.send(embed=embed)
-
-    @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
-    async def fish_market(self, ctx):
-        embed = discord.Embed(
-            color=self.d.cc,
-            title="{} __Villager Bot Fish Market__ {}".format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
-        )
-
-        for fish_id, fish in self.d.fishing.fish.items():
-            embed.add_field(
-                name=f"{self.d.emojis.fish[fish_id]} {fish.name}",
-                value=f"(Sells for {fish.current}{self.d.emojis.emerald})",
-            )
 
         await ctx.send(embed=embed)
 
