@@ -1382,10 +1382,9 @@ class Econ(commands.Cog):
 
     @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
     async def fish_market(self, ctx):
-        embed = discord.Embed(
-            color=self.d.cc,
-            title="{} Villager Bot Fish Market {}".format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
-        )
+        embed = discord.Embed(color=self.d.cc)
+
+        embed.set_author(name="Fish Market", self.d.splash_logo)
 
         for fish_id, fish in self.d.fishing.fish.items():
             embed.add_field(
