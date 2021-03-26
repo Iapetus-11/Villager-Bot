@@ -1018,7 +1018,9 @@ class Econ(commands.Cog):
                         if random.randint(0, (item[2] // 2) + 2) == 1:
                             await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                             await self.bot.send(
-                                random.choice(ctx.l.econ.fishing.item.format(item[0], item[1], self.d.emojis.emerald)), True, True
+                                random.choice(ctx.l.econ.fishing.item.format(item[0], item[1], self.d.emojis.emerald)),
+                                True,
+                                True,
                             )
                             return
 
