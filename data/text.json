@@ -609,9 +609,9 @@
       },
       "shop":{
         "villager_shop":"Villager Shop",
-        "tools":"Tools",
-        "magic":"Magic",
-        "other":"Other",
+        "tools":"Tools {}",
+        "magic":"Magic {}",
+        "other":"Other {}",
         "embed_footer":"Use {}inventory to see what you have!"
       },
       "buy":{
@@ -1444,9 +1444,9 @@
       },
       "shop":{
         "villager_shop":"Villager Tienda",
-        "tools":"Herramientas",
-        "magic":"Magia",
-        "other":"Otros",
+        "tools":"Herramientas {}",
+        "magic":"Magia {}",
+        "other":"Otros {}",
         "embed_footer":"Usa {}inventory para ver lo que tienes"
       },
       "buy":{
@@ -2277,9 +2277,9 @@
       },
       "shop":{
         "villager_shop":"Magasin du Villager",
-        "tools":"Outils",
-        "magic":"Magie",
-        "other":"Autre",
+        "tools":"Outils {}",
+        "magic":"Magie {}",
+        "other":"Autre {}",
         "embed_footer":"Utilise {}inventory pour voir ce que tu possèdes !"
       },
       "buy":{
