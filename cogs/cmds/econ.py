@@ -1018,6 +1018,7 @@ class Econ(commands.Cog):
                         if random.randint(0, (item[2] // 2) + 2) == 1:
                             await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                             await self.bot.send(
+                                ctx,
                                 random.choice(ctx.l.econ.fishing.item).format(item[0], item[1], self.d.emojis.emerald),
                                 True,
                                 True,
@@ -1039,7 +1040,7 @@ class Econ(commands.Cog):
 
         if random.randint(0, 50) == 1:
             db_user = await self.db.fetch_user(ctx.author.id)
-            
+
             if db_user["vault_max"] < 2000:
                 await self.db.update_user(ctx.author.id, "vault_max", db_user["vault_max"] + 1)
 
