@@ -1384,7 +1384,7 @@ class Econ(commands.Cog):
     async def fish_market(self, ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name="Fish Market", self.d.splash_logo)
+        embed.set_author(name="Fish Market", icon_url=self.d.splash_logo)
 
         for fish_id, fish in self.d.fishing.fish.items():
             embed.add_field(
