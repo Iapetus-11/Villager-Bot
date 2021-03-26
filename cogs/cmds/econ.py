@@ -1007,11 +1007,6 @@ class Econ(commands.Cog):
         with ctx.typing():
             await asyncio.sleep(random.randint(3, 10))
 
-        # remove later
-        if ctx.author.id not in (536986067140608041, 617882209956659259):
-            await ctx.send("Haha you thought bitch")
-            return
-
         # fished up item or junk or somethin not fish
         if random.randint(1, 8) == 1:
             if random.choice((True, True, False)):  # junk
