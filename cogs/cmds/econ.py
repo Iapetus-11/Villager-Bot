@@ -419,9 +419,9 @@ class Econ(commands.Cog):
                 if not msg.embeds[0] == embed:
                     await msg.edit(embed=embed)
 
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.25)
             await msg.add_reaction("⬅️")
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.25)
             await msg.add_reaction("➡️")
 
             try:
@@ -429,9 +429,10 @@ class Econ(commands.Cog):
                 def author_check(react, r_user):
                     return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
+                # wait for reaction from message author (1 min)
                 react, r_user = await self.bot.wait_for(
-                    "reaction_add", check=author_check, timeout=180
-                )  # wait for reaction from message author (3min)
+                    "reaction_add", check=author_check, timeout=60
+                )
             except asyncio.TimeoutError:
                 return
 
@@ -439,7 +440,7 @@ class Econ(commands.Cog):
 
             if react.emoji == "⬅️":
                 page -= 1
-            if react.emoji == "➡️":
+            elif react.emoji == "➡️":
                 page += 1
 
             if page > page_max - 1:
