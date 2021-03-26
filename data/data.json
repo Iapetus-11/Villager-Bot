@@ -530,7 +530,7 @@
     "fishing rod": [
       "tools",
       128,
-      "db_item_cont < 1",
+      "db_item_count < 1",
       [
         "Fishing Rod",
         48,
