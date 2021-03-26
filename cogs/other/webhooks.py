@@ -117,7 +117,7 @@ class Webhooks(commands.Cog):
         streak_time = db_user["streak_time"]
         vote_streak = db_user["vote_streak"]
 
-        if vote_streak is None or vote_streak is 0:
+        if vote_streak is None or vote_streak == 0:
             vote_streak = 0
 
         vote_streak += 1
