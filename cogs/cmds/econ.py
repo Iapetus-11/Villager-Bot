@@ -619,7 +619,7 @@ class Econ(commands.Cog):
         await self.db.balance_add(ctx.author.id, amount * db_item["sell_price"])
         await self.db.remove_item(ctx.author.id, db_item["name"], amount)
 
-        if db_item["name"].endswith("Pickaxe") or db_item_["name"] == "Bane Of Pillagers Amulet":
+        if db_item["name"].endswith("Pickaxe") or db_item["name"] == "Bane Of Pillagers Amulet":
             member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
             if member is not None:
