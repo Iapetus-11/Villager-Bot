@@ -712,8 +712,7 @@ class Econ(commands.Cog):
 
         for fish_id, fish in self.d.fishing.fish.items():
             if db_item["name"] == fish.name:
-                db_item["sell_price"] = fish.current
-                break
+                db_item = {**db_item, "sell_price": fish.current}
 
         await self.db.balance_add(ctx.author.id, amount * db_item["sell_price"])
         await self.db.remove_item(ctx.author.id, db_item["name"], amount)
