@@ -419,6 +419,9 @@ class Econ(commands.Cog):
                 if not msg.embeds[0] == embed:
                     await msg.edit(embed=embed)
 
+            if page_max <= 1:
+                return
+
             await asyncio.sleep(0.25)
             await msg.add_reaction("⬅️")
             await asyncio.sleep(0.25)
