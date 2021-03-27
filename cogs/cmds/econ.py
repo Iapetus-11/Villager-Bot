@@ -997,6 +997,7 @@ class Econ(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def fish(self, ctx):
+        return
         if await self.db.fetch_item(ctx.author.id, "Fishing Rod") is None:
             await self.bot.send(ctx, ctx.l.econ.fishing.stupid_1)
             return
