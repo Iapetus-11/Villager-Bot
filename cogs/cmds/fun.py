@@ -121,12 +121,7 @@ class Fun(commands.Cog):
     @commands.command(name="cursed", aliases=["cursedmc"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def cursed_mc(self, ctx):
-        if random.choice(
-            (
-                True,
-                False,
-            )
-        ):
+        if random.choice((True, False)):
             jj = {"nsfw": True}
 
             async with ctx.typing():
