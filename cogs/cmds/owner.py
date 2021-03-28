@@ -103,7 +103,7 @@ class Owner(commands.Cog):
                 self.d = recursive_update(self.d, cj.loads(await d.read()))
 
             # update some thing swhich were just overwritten
-            bot.populate_null_data_values()
+            self.bot.populate_null_data_values()
         elif thing.lower() == "text":
             async with aiofiles.open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
                 self.bot.langs.update(cj.loads(await t.read()))
