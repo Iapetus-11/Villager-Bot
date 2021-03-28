@@ -738,7 +738,12 @@
         ],
         "caught": [
           "You reeled in one {0} {1}!"
-        ]
+        ],
+        "market": {
+          "title": "{} __Villager Bot Fish Market__ {}",
+          "desc": "The prices at which different fish sell for, you can buy a\nfishing rod in the tools section of the shop.",
+          "current": "Sells For: {0}{1}"
+        }
       },
       "pillage": {
         "bot_1": "Hey dumb dumb, Villager Bot cannot be defeated. Villager Bot is immortal and all powerful.",
@@ -1588,7 +1593,12 @@
         ],
         "caught": [
           "You reeled in one {0} {1}!"
-        ]
+        ],
+        "market": {
+          "title": "{} __Villager Bot Fish Market__ {}",
+          "desc": "The prices at which different fish sell for, you can buy a\nfishing rod in the tools section of the shop.",
+          "current": "Sells For: {0}{1}"
+        }
       },
       "pillage": {
         "bot_1": "Hey tonto tonto, el aldeano Bot no puede ser derrotado, el aldeano Bot es inmortal y todopoderoso.",
@@ -2440,7 +2450,12 @@
         ],
         "caught": [
           "You reeled in one {0} {1}!"
-        ]
+        ],
+        "market": {
+          "title": "{} __Villager Bot Fish Market__ {}",
+          "desc": "The prices at which different fish sell for, you can buy a\nfishing rod in the tools section of the shop.",
+          "current": "Sells For: {0}{1}"
+        }
       },
       "pillage": {
         "bot_1": "Hey benêt, le Villager Bot ne peut pas être vaincu, le Villager Bot est immortel et tout puissant.",
