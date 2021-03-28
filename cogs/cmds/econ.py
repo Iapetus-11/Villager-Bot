@@ -1010,7 +1010,7 @@ class Econ(commands.Cog):
             wait = random.randint(8, 20)
 
             if await self.db.fetch_item(ctx.author.id, "Lure I Book") is not None:
-                wait -= 3
+                wait -= 2
 
             await asyncio.sleep(wait)
 
