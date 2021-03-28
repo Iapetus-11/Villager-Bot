@@ -1012,6 +1012,9 @@ class Econ(commands.Cog):
             if await self.db.fetch_item(ctx.author.id, "Lure I Book") is not None:
                 wait -= 2
 
+            if "seaweed" in self.d.chuggers.get(ctx.author.id, []):
+                wait -= 2
+
             await asyncio.sleep(wait)
 
         # fished up item or junk or somethin not fish
