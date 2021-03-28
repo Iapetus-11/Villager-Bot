@@ -1586,6 +1586,7 @@
         ],
         "useless": [
           "inútil",
+          "inútil",
           "estúpido",
           "tonto"
         ]
@@ -1806,7 +1807,7 @@
         "withdraw": "`{0}withdraw <blocs d'émeraudes>` *retire des émeraudes du coffre*",
         "give": "`{0}give <utilisateur> <quantité> <objet>` *donne un objet ou des émeraudes à un utilisateur*",
         "mine": "`{0}mine` *mine des émeraudes*",
-        "fish": "`{0}fish` *fish for fish and items*",
+        "fish": "`{0}fish` *pêcher des poissons ou des objets*",
         "search": "`{0}search` *cherche des émeraudes*",
         "honey": "`{0}honey` *récolte le miel des abeilles qui t'appartiennent*",
         "gamble": "`{0}gamble <émeraudes>` *parie avec le bot pour tenter de gagner des émeraudes*",
@@ -2458,31 +2459,32 @@
         ]
       },
       "fishing": {
-        "stupid_1": "You can't fish without a fishing rod stupid.",
+        "stupid_1": "Tu ne peux pas pêcher sans canne à pêche, idiot.",
         "cast": [
-          "You cast your rod out...",
-          "You attempt to lure a fish...",
-          "You go fishing..."
+          "Tu lances ta canne à pêche ...",
+          "Tu tentes d'attirer un poisson ...",
+          "Tu vas pêcher ..."
         ],
         "junk": [
-          "You fished up hopes and dreams, unfortunately that's not profitable...",
-          "You reeled in a meme, you can't sell it though...",
-          "You reeled in disappointment..."
+          "Tu as repêché des espoirs et des rêves, malheureusement tu ne peux rien en tirer ...",
+          "Tu as remonté un meme, par contre tu ne peux pas le vendre ...",
+          "Tu as pêché de la déception ..."
         ],
         "item": [
-          "You fished up 1x {0}! (Worth {1}{2})",
-          "You reeled in 1x {0}! (Worth {1}{2})"
+          "Tu as pêché 1x **{0}**! (Valant {1}{2})",
+          "Tu as remonté 1x **{0}**! (Valant {1}{2})"
         ],
         "caught": [
-          "You reeled in one {0} {1}!",
-          "You fished up {0} {1}!",
-          "You feel a bite and reel in one {0} {1}!",
-          "You feel a tug at the end of the line fish up one {0} {1}!"
+          "Tu as remonté un **{0}** {1}!",
+          "Tu as pêché un **{0}** {1}!",
+          "Tu sens que ça mord et remonte un **{0}** {1}!",
+          "Tu sens que ça tire au bout de la ligne, tu attrapes un **{0}** {1}!"
         ],
         "market": {
-          "title": "{} __Villager Bot Fish Market__ {}",
+          "title": "{} __Marché au Poisson du Villager Bot__ {}",
           "desc": "The prices at which different fish sell for, you can buy a\nfishing rod in the tools section of the shop.",
-          "current": "Sells For: {0}{1}"
+          "desc": "Voici les prix de vente des différents poissons, tu peux\nacheter une canne à pêche dans la section outils de la boutique.",
+          "current": "Se vend pour : {0}{1}"
         }
       },
       "pillage": {
