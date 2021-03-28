@@ -140,7 +140,12 @@ class Mod(commands.Cog):
 
         await self.db.add_warn(user.id, ctx.guild.id, ctx.author.id, reason)
 
-        await self.bot.send(ctx, ctx.l.mod.warn.confirm.format(self.d.emojis.yes, user.mention, len(warns) + 1, discord.utils.escape_markdown(reason)))
+        await self.bot.send(
+            ctx,
+            ctx.l.mod.warn.confirm.format(
+                self.d.emojis.yes, user.mention, len(warns) + 1, discord.utils.escape_markdown(reason)
+            ),
+        )
 
     @commands.command(name="warns", aliases=["warnings", "karens"])
     @commands.guild_only()
