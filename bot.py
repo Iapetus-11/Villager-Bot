@@ -66,6 +66,11 @@ def update_fishing_prices(_bot):
     for fish in _bot.d.fishing.fish.values():
         fish.current = random.randint(*fish.value)
 
+def populate_null_data_values(_bot):
+    _bot.update_fishing_prices()
+
+    fishes = _bot.d.fishing.fish_ids = list(_bot.d.fishing.fish.keys())
+    _bot.d.fishing.fish_weights = [(len(fishes) - fish_data.rarity) ** 2 for fish_data in _bot.d.fishing.fish.values()]
 
 async def send_tip(ctx):
     await asyncio.sleep(1)
@@ -127,6 +132,7 @@ if __name__ == "__main__":
     bot.get_lang = get_lang.__get__(bot)
     bot.update_support_member_role = update_support_member_role.__get__(bot)
     bot.update_fishing_prices = update_fishing_prices.__get__(bot)
+    bot.populate_null_data_values = populate_null_data_values.__get__(bot)
 
     async def setup_database():  # init pool connection to database
         logger.info("setting up connection to database and db pool...")
@@ -204,6 +210,8 @@ if __name__ == "__main__":
     for cog in bot.cog_list:  # load every cog in bot.cog_list
         logger.info(f"loading extension: {cog}")
         bot.load_extension(cog)
+
+    bot.populate_null_data_values()
 
     @bot.check  # everythingggg goes through here
     async def global_check(ctx):
