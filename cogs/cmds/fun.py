@@ -122,18 +122,24 @@ class Fun(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def cursed_mc(self, ctx):
         if random.choice((True, False)):
-            jj = {"nsfw": True}
+            meme = {"nsfw": True, "spoiler": True}
 
             async with ctx.typing():
-                while jj["nsfw"] or jj.get("image") is None:
+                while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
                     resp = await self.ses.get(
-                        "https://api.iapetus11.me/reddit/gimme/CursedMinecraft", headers={"Authorization": self.k.vb_api}
+                        "https://api.iapetus11.me/reddit/gimme/CursedMinecraft",
+                        headers={"Authorization": self.k.vb_api},
                     )
 
-                    jj = await resp.json()
+                    meme = cj.classify(await resp.json())
 
-            embed = discord.Embed(color=self.d.cc)
-            embed.set_image(url=jj["image"])
+            embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
+
+            embed.set_footer(
+                text=f"{meme.upvotes}  |  u/{meme.author}",
+                icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(":")[-1].replace(">", ""))).url,
+            )
+            embed.set_image(url=meme.image)
 
             await ctx.send(embed=embed)
         else:
