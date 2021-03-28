@@ -728,17 +728,24 @@
       "fishing": {
         "stupid_1": "You can't fish without a fishing rod stupid.",
         "cast": [
-          "You cast your rod out..."
+          "You cast your rod out...",
+          "You attempt to lure a fish...",
+          "You go fishing..."
         ],
         "junk": [
           "You fished up hopes and dreams, unfortunately that's not profitable...",
-          "You reeled in a meme, you can't sell it though..."
+          "You reeled in a meme, you can't sell it though...",
+          "You reeled in disappointment..."
         ],
         "item": [
-          "You fished up 1x {0}! (Worth {1}{2})"
+          "You fished up 1x {0}! (Worth {1}{2})",
+          "You reeled in 1x {0}! (Worth {1}{2})"
         ],
         "caught": [
-          "You reeled in one {0} {1}!"
+          "You reeled in one {0} {1}!",
+          "You fished up {0} {1}!",
+          "You feel a bite and reel in one {0} {1}!",
+          "You feel a tug at the end of the line fish up one {0} {1}!"
         ],
         "market": {
           "title": "{} __Villager Bot Fish Market__ {}",
@@ -1584,17 +1591,24 @@
       "fishing": {
         "stupid_1": "You can't fish without a fishing rod stupid.",
         "cast": [
-          "You cast your rod out..."
+          "You cast your rod out...",
+          "You attempt to lure a fish...",
+          "You go fishing..."
         ],
         "junk": [
           "You fished up hopes and dreams, unfortunately that's not profitable...",
-          "You reeled in a meme, you can't sell it though..."
+          "You reeled in a meme, you can't sell it though...",
+          "You reeled in disappointment..."
         ],
         "item": [
-          "You fished up 1x {0}! (Worth {1}{2})"
+          "You fished up 1x {0}! (Worth {1}{2})",
+          "You reeled in 1x {0}! (Worth {1}{2})"
         ],
         "caught": [
-          "You reeled in one {0} {1}!"
+          "You reeled in one {0} {1}!",
+          "You fished up {0} {1}!",
+          "You feel a bite and reel in one {0} {1}!",
+          "You feel a tug at the end of the line fish up one {0} {1}!"
         ],
         "market": {
           "title": "{} __Villager Bot Fish Market__ {}",
@@ -2442,17 +2456,24 @@
       "fishing": {
         "stupid_1": "You can't fish without a fishing rod stupid.",
         "cast": [
-          "You cast your rod out..."
+          "You cast your rod out...",
+          "You attempt to lure a fish...",
+          "You go fishing..."
         ],
         "junk": [
           "You fished up hopes and dreams, unfortunately that's not profitable...",
-          "You reeled in a meme, you can't sell it though..."
+          "You reeled in a meme, you can't sell it though...",
+          "You reeled in disappointment..."
         ],
         "item": [
-          "You fished up 1x {0}! (Worth {1}{2})"
+          "You fished up 1x {0}! (Worth {1}{2})",
+          "You reeled in 1x {0}! (Worth {1}{2})"
         ],
         "caught": [
-          "You reeled in one {0} {1}!"
+          "You reeled in one {0} {1}!",
+          "You fished up {0} {1}!",
+          "You feel a bite and reel in one {0} {1}!",
+          "You feel a tug at the end of the line fish up one {0} {1}!"
         ],
         "market": {
           "title": "{} __Villager Bot Fish Market__ {}",
