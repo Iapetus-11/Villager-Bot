@@ -196,7 +196,6 @@ class Econ(commands.Cog):
 
             return
 
-
         fishies = {fish.name: fish.current for fish in self.d.fishing.fish.values()}
         u_items = await self.db.fetch_items(user.id)
 
