@@ -166,7 +166,7 @@ class Econ(commands.Cog):
         vault_bal = db_user["vault_bal"]
 
         total_wealth = db_user["emeralds"] + ((0 if vault_bal is None else vault_bal) * 9)
-        total_wealth += sum([u_it["sell_price"] * u_it.get("amount", 0) for u_it in u_items])
+        total_wealth += sum([u_it["sell_price"] * u_it["amount"] for u_it in u_items if u_it["sell_price"] > 0])
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=user.avatar_url_as())
