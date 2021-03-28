@@ -131,7 +131,7 @@ class Webhooks(commands.Cog):
 
         amount *= 5 if vote_streak > 5 else vote_streak
 
-        await self.db.update_user(uid, "streak_time", arrow.utcnow().timestamp)
+        await self.db.update_user(uid, "streak_time", arrow.utcnow().timestamp())
         await self.db.update_user(uid, "vote_streak", vote_streak)
 
         await self.reward(uid, amount, vote_streak)
