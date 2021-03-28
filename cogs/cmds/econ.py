@@ -112,7 +112,7 @@ class Econ(commands.Cog):
         total_wealth = (
             db_user["emeralds"]
             + db_user.get("vault_bal", 0) * 9
-            + sum([u_it.["sell_price"] * u_it.get("amount", 0) for u_it in u_items if u_it["sell_price"] > 0])
+            + sum([u_it["sell_price"] * u_it.get("amount", 0) for u_it in u_items if u_it["sell_price"] > 0])
         )
         health_bar = make_health_bar(
             db_user["health"], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
