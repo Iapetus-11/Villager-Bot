@@ -110,7 +110,7 @@ class Mod(commands.Cog):
 
         for entry in await ctx.guild.bans():
             if entry[1].id == user.id:
-                await ctx.guild.unban(user, reason=f"{ctx.author} | *{discord.utils.escape_markdown(reason)}*")
+                await ctx.guild.unban(user, reason=f"{ctx.author} | {reason}")
                 await ctx.message.add_reaction(self.d.emojis.yes)
                 return
 
