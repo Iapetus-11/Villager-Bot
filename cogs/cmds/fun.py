@@ -97,24 +97,28 @@ class Fun(commands.Cog):
     async def comic(self, ctx):
         """Sends a comic from r/comics"""
 
-        meme = {"nsfw": True, "spoiler": True}
+        do_nsfw = False
+        if isinstance(ctx.channel, discord.TextChannel):
+            do_nsfw = ctx.channel.is_nsfw()
+
+        comic = {"nsfw": True, "spoiler": True}
 
         async with ctx.typing():
-            while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
+            while comic["spoiler"] or (not do_nsfw and comic["nsfw"]) or comic.get("image") is None:
                 resp = await self.ses.get(
                     "https://api.iapetus11.me/reddit/gimme/comics",
                     headers={"Authorization": self.k.vb_api},
                 )
 
-                meme = cj.classify(await resp.json())
+                comic = cj.classify(await resp.json())
 
-        embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
+        embed = discord.Embed(color=self.d.cc, title=comic.title[:256], url=comic.permalink)
 
         embed.set_footer(
-            text=f"{meme.upvotes}  |  u/{meme.author}",
+            text=f"{comic.upvotes}  |  u/{comic.author}",
             icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(":")[-1].replace(">", ""))).url,
         )
-        embed.set_image(url=meme.image)
+        embed.set_image(url=comic.image)
 
         await ctx.send(embed=embed)
 
@@ -125,7 +129,7 @@ class Fun(commands.Cog):
             meme = {"nsfw": True, "spoiler": True}
 
             async with ctx.typing():
-                while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
+                while meme["spoiler"] or meme["nsfw"] or meme.get("image") is None:
                     resp = await self.ses.get(
                         "https://api.iapetus11.me/reddit/gimme/CursedMinecraft",
                         headers={"Authorization": self.k.vb_api},
