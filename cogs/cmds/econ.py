@@ -483,8 +483,8 @@ class Econ(commands.Cog):
     async def fish_market(self, ctx):
         embed_template = discord.Embed(
             color=self.d.cc,
-            title="{} __Villager Bot Fish Market__ {}".format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
-            description="The prices at which different fish sell for, you can buy a\nfishing rod in the tools section of the shop.",
+            title=ctx.l.econ.fishing.market.title.format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
+            description=ctx.l.econ.fishing.market.desc,
         )
 
         fields = []
@@ -495,7 +495,7 @@ class Econ(commands.Cog):
             fields.append(
                 {
                     "name": f"{self.d.emojis.fish[fish_id]} {fish.name}",
-                    "value": f"Current Price: {fish.current}{self.d.emojis.emerald}",
+                    "value": ctx.l.econ.fishing.market.current.format(fish.current, self.d.emojis.emerald),
                 }
             )
 
