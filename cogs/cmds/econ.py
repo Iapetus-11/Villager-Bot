@@ -1227,6 +1227,22 @@ class Econ(commands.Cog):
             )  # pop pot from active potion fx
             return
 
+        if thing == "seaweed":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
+                return
+
+            await self.db.remove_item(ctx.author.id, thing, 1)
+
+            self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
+            self.d.chuggers[ctx.author.id].append("seaweed")
+
+            await self.bot.send(ctx, ctx.l.econ.use.smoke_seaweed.format(2))
+
+            await asyncio.sleep(60 * 2)
+
+            await self.bot.send(ctx.author, ctx.l.econ.use.seaweed_done)
+
         if thing == "vault potion":
             if amount > 1:
                 await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
