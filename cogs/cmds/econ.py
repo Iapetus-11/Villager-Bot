@@ -196,7 +196,16 @@ class Econ(commands.Cog):
 
             return
 
+
+        fishies = {fish.name: fish.current for fish in self.d.fishing.fish.values()}
         u_items = await self.db.fetch_items(user.id)
+
+        for i, item in enumerate(u_items):
+            try:
+                u_items[i] = {**item, "sell_price": fishies[item["name"]]}
+            except KeyError:
+                pass
+
         items_sorted = sorted(u_items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
         items_chunks = [
             items_sorted[i : i + 16] for i in range(0, len(items_sorted), 16)
