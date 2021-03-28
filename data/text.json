@@ -745,7 +745,7 @@
           "You reeled in one **{0}** {1}!",
           "You fished up **{0}** {1}!",
           "You feel a bite and reel in one **{0}** {1}!",
-          "You feel a tug at the end of the line fish up one **{0}** {1}!"
+          "You feel a tug at the end of the line and fish up one **{0}** {1}!"
         ],
         "market": {
           "title": "{} __Villager Bot Fish Market__ {}",
@@ -1610,7 +1610,7 @@
           "You reeled in one {0} {1}!",
           "You fished up {0} {1}!",
           "You feel a bite and reel in one {0} {1}!",
-          "You feel a tug at the end of the line fish up one {0} {1}!"
+          "You feel a tug at the end of the line and fish up one {0} {1}!"
         ],
         "market": {
           "title": "{} __Villager Bot Fish Market__ {}",
@@ -2477,7 +2477,7 @@
           "You reeled in one {0} {1}!",
           "You fished up {0} {1}!",
           "You feel a bite and reel in one {0} {1}!",
-          "You feel a tug at the end of the line fish up one {0} {1}!"
+          "You feel a tug at the end of the line and fish up one {0} {1}!"
         ],
         "market": {
           "title": "{} __Villager Bot Fish Market__ {}",
