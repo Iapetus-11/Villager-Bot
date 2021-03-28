@@ -1143,7 +1143,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
-    @commands.command(name="use", aliases=["eat", "chug"])
+    @commands.command(name="use", aliases=["eat", "chug", "smoke"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def use_item(self, ctx, *, thing):
         """Allows you to use potions and some other items"""
