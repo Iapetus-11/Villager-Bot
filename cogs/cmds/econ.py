@@ -1051,10 +1051,7 @@ class Econ(commands.Cog):
                         )
                         return
 
-        fishes = list(self.d.fishing.fish.keys())
-        weights = [(len(fishes) - fish_data.rarity) ** 2 for fish_data in self.d.fishing.fish.values()]
-
-        fish_id = random.choices(fishes, weights)[0]
+        fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fish_weights)[0]
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish.name, -1, 1)

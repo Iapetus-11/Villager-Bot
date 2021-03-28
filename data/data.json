@@ -352,6 +352,8 @@
     ]
   },
   "fishing": {
+    "fish_ids": [],
+    "fish_weights": [],
     "fish": {
       "cod": {
         "name": "Cod",
