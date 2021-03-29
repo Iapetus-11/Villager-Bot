@@ -208,7 +208,6 @@ class Econ(commands.Cog):
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name="Materials", value="`{0}inventory materials`")
 
-
     @commands.command(name="inventory", aliases=["inv", "items"])
     @commands.cooldown(2, 10, commands.BucketType.user)
     async def inventory(self, ctx, *, user: discord.User = None):
