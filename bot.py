@@ -15,9 +15,13 @@ async def send(_bot, location, message, respond=False, ping=False):
 
     try:
         if respond and hasattr(location, "reply"):
-            await location.reply(embed=embed, mention_author=ping)
-        else:
-            await location.send(embed=embed)
+            try:
+                await location.reply(embed=embed, mention_author=ping)
+                return True
+            except discord.errors.HTTPException:
+                pass
+
+        await location.send(embed=embed)
 
         return True
     except discord.Forbidden:
