@@ -1029,8 +1029,8 @@ class Econ(commands.Cog):
             await asyncio.sleep(wait)
 
         # fished up item or junk or somethin not fish
-        if random.randint(1, 6) == 1:
-            if random.choice((True, True, True, False)):  # junk
+        if random.randint(1, 5) == 1:
+            if random.choice((True, True, True, True, False)):  # junk
                 junk = random.choice(ctx.l.econ.fishing.junk)
                 await self.bot.send(ctx, junk, True, True)
 
