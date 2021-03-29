@@ -143,7 +143,7 @@ class Mod(commands.Cog):
         await self.bot.send(
             ctx,
             ctx.l.mod.warn.confirm.format(
-                self.d.emojis.yes, user.mention, len(warns) + 1, discord.utils.escape_markdown(reason)
+                self.d.emojis.yes, user.mention, len(warns) + 1, discord.utils.escape_markdown(str(reason))
             ),
         )
 
