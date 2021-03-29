@@ -632,53 +632,53 @@
       ]
     ]
   },
-  "cat": {
-    "categories": [
-      "tools",
-      "magic",
-      "fish",
-      "material"
+  "cats": {
+    "tools": [
+      "Wood Pickaxe",
+      "Stone Pickaxe",
+      "Iron Pickaxe",
+      "Gold Pickaxe",
+      "Diamond Pickaxe",
+      "Netherite Pickaxe",
+      "Wood Sword",
+      "Stone Sword",
+      "Iron Sword",
+      "Gold Sword",
+      "Diamond Sword",
+      "Netherite Sword",
+      "Fishing Rod"
     ],
-    "items": {
-      "Wood Pickaxe": "tools",
-      "Stone Pickaxe": "tools",
-      "Iron Pickaxe": "tools",
-      "Gold Pickaxe": "tools",
-      "Diamond Pickaxe": "tools",
-      "Netherite Pickaxe": "tools",
-      "Wood Sword": "tools",
-      "Stone Sword": "tools",
-      "Iron Sword": "tools",
-      "Gold Sword": "tools",
-      "Diamond Sword": "tools",
-      "Netherite Sword": "tools",
-      "Fishing Rod": "tools",
-      "Fortune I Book": "magic",
-      "Fortune II Book": "magic",
-      "Fortune III Book": "magic",
-      "Efficiency I Book": "magic",
-      "Looting I Book": "magic",
-      "Looting II Book": "magic",
-      "Sharpness I Book": "magic",
-      "Sharpness II Book": "magic",
-      "Haste I Potion": "magic",
-      "Haste II Potion": "magic",
-      "Lure I Book": "magic",
-      "Seaweed": "magic",
-      "Vault Potion": "magic",
-      "Bane Of Pillagers Amulet": "magic",
-      "Slime Trophy": "magic",
-      "Rich Person Trophy": "magic",
-      "Netherite Scrap": "material",
-      "Slime Ball": "material",
-      "Cod": "fish",
-      "Salmon": "fish",
-      "Tropical Fish": "fish",
-      "Pufferfish": "fish",
-      "Rainbow Trout": "fish",
-      "Gold Fish": "fish",
-      "Emerald Fish": "fish"
-    }
+    "magic": [
+      "Fortune I Book",
+      "Fortune II Book",
+      "Fortune III Book",
+      "Efficiency I Book",
+      "Looting I Book",
+      "Looting II Book",
+      "Sharpness I Book",
+      "Sharpness II Book",
+      "Haste I Potion",
+      "Haste II Potion",
+      "Lure I Book",
+      "Seaweed",
+      "Vault Potion",
+      "Bane Of Pillagers Amulet",
+      "Slime Trophy",
+      "Rich Person Trophy"
+    ],
+    "material": [
+      "Netherite Scrap",
+      "Slime Ball"
+    ],
+    "fish": [
+      "Cod",
+      "Salmon",
+      "Tropical Fish",
+      "Pufferfish",
+      "Rainbow Trout",
+      "Gold Fish",
+      "Emerald Fish"
+    ]
   },
   "emojis": {
     "emerald": "<:emerald:807291200083460216>",
