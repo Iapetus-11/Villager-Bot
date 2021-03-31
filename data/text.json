@@ -949,7 +949,7 @@
         "withdraw": "`{0}withdraw <bloques de esmeralda>` *retirar las esmeraldas de la bóveda*",
         "give": "`{0}give <usuario> <cantidad> <artículo>` *dar a otro usuario un artículo o esmeraldas*",
         "mine": "`{0}mine` *la mina de esmeraldas*",
-        "fish": "`{0}fish` *fish for fish and items*",
+        "fish": "`{0}fish` *pesca peces y objetos*",
         "search": "`{0}search` *búsqueda de esmeraldas*",
         "honey": "`{0}honey` *cosechar la miel de las abejas que tienes*",
         "gamble": "`{0}gamble <esmeraldas>` *apostar con el bot por una oportunidad de ganar esmeraldas*",
@@ -1608,31 +1608,31 @@
         ]
       },
       "fishing": {
-        "stupid_1": "You can't fish without a fishing rod stupid.",
+        "stupid_1": "No puedes pescar sin una caña, estúpido.",
         "cast": [
-          "You cast your rod out...",
-          "You attempt to lure a fish...",
-          "You go fishing..."
+          "Lanzas tu caña de pescar...",
+          "Intentas pescar algo...",
+          "Te vas de pesca..."
         ],
         "junk": [
-          "You fished up hopes and dreams, unfortunately that's not profitable...",
-          "You reeled in a meme, you can't sell it though...",
-          "You reeled in disappointment..."
+          "Pescaste tus sueños y esperanzas, desafortunadamente eso no vale nada...",
+          "Pescaste un meme pero puedes venderlo...",
+          "Pescaste decepción..."
         ],
         "item": [
-          "You fished up 1x {0}! (Worth {1}{2})",
-          "You reeled in 1x {0}! (Worth {1}{2})"
+          "Pescaste 1x **{0}**! (Vale {1}{2})",
+          "Has pescado 1x **{0}**! (Vale {1}{2})"
         ],
         "caught": [
-          "You reeled in one {0} {1}!",
-          "You fished up {0} {1}!",
-          "You feel a bite and reel in one {0} {1}!",
-          "You feel a tug at the end of the line and fish up one {0} {1}!"
+          "Pescas **{0}** {1}!",
+          "Has pescado **{0}** {1}!",
+          "Un pez pica y lo pescas **{0}** {1}!",
+          "Sientes un tirón en la caña y pescas **{0}** {1}!"
         ],
         "market": {
-          "title": "{} __Villager Bot Fish Market__ {}",
-          "desc": "The prices at which different fish sell for, you can buy a\nfishing rod in the tools section of the shop.",
-          "current": "Sells For: {0}{1}"
+          "title": "{} __Mercado de peces de Villager Bot__ {}",
+          "desc": "Los precios a los que se venden los peces, la cañas de pescar las puedes comprar en la sección de herramientas.",
+          "current": "Se vende por: {0}{1}"
         }
       },
       "pillage": {
@@ -1678,8 +1678,8 @@
         "stupid_6": "O no es un artículo utilizable, o no existe.",
         "vault_max": "No se puede expandir más la bóveda con este método.",
         "vault_pot": "Te has tomado una **Vault Potion**. El espacio de tu bóveda se ha incrementado en {} espacios..",
-        "smoke_seaweed": "You've eaten some **Seaweed** which lasts **{} minutes**",
-        "seaweed_done": "The **Seaweed** you ate earlier has worn off.",
+        "smoke_seaweed": "Has comido **Seaweed** que dura **{} minutos**",
+        "seaweed_done": "El **Seaweed** que comiste antes ya no tiene efecto.",
         "chug": "Te has tomado un **{}** (Que dura {} minutos)",
         "chug_no_end": "Te has tomado un **{}**",
         "chug_honey": "Te has tomado {0}x frascos de miel! (Ahora tienes {1}/20 {2})",
