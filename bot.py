@@ -232,7 +232,7 @@ if __name__ == "__main__":
             ctx.custom_err = "bot_banned"
         elif not bot.is_ready():  # if bot hasn't completely started up yet
             ctx.custom_err = "not_ready"
-        elif ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(ctx.guild.id, []):  # if command is disabled
+        elif ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(ctx.guild.id, tuple()):  # if command is disabled
             ctx.custom_err = "disabled"
 
         if hasattr(ctx, "custom_err"):
@@ -251,7 +251,7 @@ if __name__ == "__main__":
                 ctx.custom_err = "econ_paused"
                 return False
 
-            if random.randint(1, 40) == 1:  # spawn mob
+            if random.randint(1, bot.d.mob_chance) == 1:  # spawn mob
                 if ctx.command._buckets._cooldown is not None and ctx.command._buckets._cooldown.per >= 2:
                     bot.d.spawn_queue[ctx] = arrow.utcnow()
 
