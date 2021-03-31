@@ -223,7 +223,7 @@ if __name__ == "__main__":
 
     @bot.check  # everythingggg goes through here
     async def global_check(ctx):
-        ctx.l = await bot.get_lang(ctx)
+        ctx.l = bot.get_lang(ctx)
 
         # if bot is locked down to only accept commands from owner
         if bot.owner_locked and ctx.author.id != 536986067140608041:
