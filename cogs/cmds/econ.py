@@ -1598,10 +1598,10 @@ class Econ(commands.Cog):
             )
 
             lb_global = self.lb_logic(
-                votes_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.rainbow_trout)
+                fish_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.rainbow_trout)
             )
             lb_local = self.lb_logic(
-                votes_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.rainbow_trout)
+                fish_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.rainbow_trout)
             )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.cod))
