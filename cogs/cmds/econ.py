@@ -285,7 +285,6 @@ class Econ(commands.Cog):
             try:
                 user = await commands.UserConverter().convert(ctx, " ".join(split[1:]))
             except BaseException:
-                await ctx.send("bruh")
                 raise BadArgument
 
         items = await self.db.fetch_items(user.id)
