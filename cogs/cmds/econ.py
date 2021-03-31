@@ -285,7 +285,7 @@ class Econ(commands.Cog):
             try:
                 user = await commands.UserConverter().convert(ctx, " ".join(split[1:]))
             except BaseException:
-                raise discord.BadArgument
+                raise commands.BadArgument
 
         items = await self.db.fetch_items(user.id)
 
