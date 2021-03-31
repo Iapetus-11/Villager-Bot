@@ -183,10 +183,10 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    async def inventory_logic(self, ctx, user, items: list, cat: str):
+    async def inventory_logic(self, ctx, user, items: list, cat: str, items_per_page: int = 8):
         fishies = {fish.name: fish.current for fish in self.d.fishing.fish.values()}
 
-        for i, item in enumerate(u_items):
+        for i, item in enumerate(items):
             try:
                 items[i] = {**item, "sell_price": fishies[item["name"]]}
             except KeyError:
@@ -194,7 +194,7 @@ class Econ(commands.Cog):
 
         items_sorted = sorted(items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
         items_chunks = [
-            items_sorted[i : i + 16] for i in range(0, len(items_sorted), 16)
+            items_sorted[i : i + items_per_page] for i in range(0, len(items_sorted), items_per_page)
         ]  # split items into chunks of 16 [[16..], [16..], [16..]]
 
         page = 0
@@ -281,7 +281,7 @@ class Econ(commands.Cog):
 
         items = await self.db.fetch_items(user.id)
 
-        await self.inventory_logic(ctx, user, items, "all")
+        await self.inventory_logic(ctx, user, items, "all", 16)
 
     @inventory.group(name="tools", aliases=["tool", "pickaxes", "swords"])
     async def inventory_tools(self, ctx):
