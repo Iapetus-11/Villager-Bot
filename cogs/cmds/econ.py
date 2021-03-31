@@ -292,7 +292,7 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, "all", 16)
 
     @inventory.group(name="tools", aliases=["tool", "pickaxes", "swords"])
-    async def inventory_tools(self, ctx, *, user: discord.User = None):
+    async def inventory_tools(self, ctx, user: discord.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -303,7 +303,7 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, "tools")
 
     @inventory.group(name="magic", aliases=["books", "potions", "enchants"])
-    async def inventory_tools(self, ctx, *, user: discord.User = None):
+    async def inventory_tools(self, ctx, user: discord.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -314,7 +314,7 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, "magic")
 
     @inventory.group(name="materials", aliases=["crafting", "misc", "other"])
-    async def inventory_tools(self, ctx, *, user: discord.User = None):
+    async def inventory_tools(self, ctx, user: discord.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -325,7 +325,7 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, "materials")
 
     @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
-    async def inventory_tools(self, ctx, *, user: discord.User = None):
+    async def inventory_tools(self, ctx, user: discord.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
