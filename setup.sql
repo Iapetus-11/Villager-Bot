@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS give_logs (
 CREATE TABLE IF NOT EXISTS leaderboards ( -- there are more leaderboards than this, not all of them are stored here
   uid          BIGINT PRIMARY KEY NOT NULL,
   pillages     BIGINT NOT NULL, -- number of pillaged emeralds
-  mobs_killed  BIGINT NOT NULL
+  mobs_killed  BIGINT NOT NULL,
+  fish         BIGINT NOT NULL -- number of fish fished up
 );
 
 CREATE TABLE IF NOT EXISTS warnings ( -- moderation warnings
