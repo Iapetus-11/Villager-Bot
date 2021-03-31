@@ -182,7 +182,7 @@ class Owner(commands.Cog):
                     receiver = self.bot.get_user(entry["recvr_uid"])
                     item = entry["item"]
 
-                    if item == "emerald": item = ctx.l.emojis.emerald
+                    if item == "emerald": item = self.d.emojis.emerald
 
                     body += f"__[{giver}]({entry['giver_uid']})__ :arrow_right: __{entry['amount']}x **{entry['item']}**__ :arrow_right: __[{receiver}]({entry['recvr_uid']})__ {arrow.get(entry['ts']).humanize()}\n"
 
