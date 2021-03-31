@@ -2344,13 +2344,13 @@
         "bot_2": "Les Bots n'ont pas de droits et donc ne peuvent pas avoir d'émeraudes ou d'équipement.",
         "s_inventory": "Inventaire de {} [{}]",
         "cats": {
-          "tools": "tools",
-          "magic": "magic",
-          "fish": "fish",
-          "misc": "misc",
-          "all": "all"
+          "tools": "outils",
+          "magic": "magie",
+          "fish": "poissons",
+          "misc": "divers",
+          "all": "tout"
         },
-        "empty": "*It's quite empty in here...*"
+        "empty": "*C'est plutôt vide là-dedans  ...*"
       },
       "dep": {
         "poor_loser": "Tu n'as pas assez d'émeraudes pour faire un dépôt.",
