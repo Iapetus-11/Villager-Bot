@@ -75,7 +75,7 @@ class Events(commands.Cog):
                 if m.guild is not None:
                     prefix = self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)
 
-                lang = await self.bot.get_lang(m)
+                lang = self.bot.get_lang(m)
 
                 embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
 
@@ -86,7 +86,9 @@ class Events(commands.Cog):
                 return
 
             if m.guild is not None:
-                if "@someone" in m.content:
+                content_lowered = m.content.lower()
+
+                if "@someone" in content_lowered:
                     someones = [
                         u
                         for u in m.guild.members
@@ -103,13 +105,13 @@ class Events(commands.Cog):
                         await m.channel.send(f"@someone {invis} {random.choice(someones).mention} {m.author.mention}")
                 else:
                     if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)):
-                        if "emerald" in m.content.lower():
+                        if "emerald" in content_lowered:
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send(random.choice(self.d.hmms))
-                        elif "creeper" in m.content.lower():
+                        elif "creeper" in content_lowered:
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
-                        elif "reee" in m.content.lower().replace(" ", ""):
+                        elif "reee" in content_lowered:
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send(random.choice(self.d.emojis.reees))
                         else:
