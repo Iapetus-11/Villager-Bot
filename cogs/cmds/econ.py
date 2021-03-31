@@ -408,7 +408,7 @@ class Econ(commands.Cog):
 
         if emerald_blocks.lower() in (
             "all",
-            "max",
+            "max"
         ):
             amount = c_v_bal
         else:
