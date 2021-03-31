@@ -232,7 +232,9 @@ if __name__ == "__main__":
             ctx.custom_err = "bot_banned"
         elif not bot.is_ready():  # if bot hasn't completely started up yet
             ctx.custom_err = "not_ready"
-        elif ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(ctx.guild.id, tuple()):  # if command is disabled
+        elif ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(
+            ctx.guild.id, tuple()
+        ):  # if command is disabled
             ctx.custom_err = "disabled"
 
         if hasattr(ctx, "custom_err"):
