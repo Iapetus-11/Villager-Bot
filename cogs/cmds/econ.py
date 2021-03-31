@@ -254,7 +254,7 @@ class Econ(commands.Cog):
 
             first_time = False
 
-    async def inventory_boiler(ctx, user: discord.User = None):
+    async def inventory_boiler(self, ctx, user: discord.User = None):
         if ctx.invoked_subcommand is not None:
             return False, None
 
