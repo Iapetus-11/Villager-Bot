@@ -296,7 +296,7 @@ class Database(commands.Cog):
         lbs = await self.db.fetchrow("SELECT * FROM leaderboards WHERE uid = $1", uid)
 
         if lbs is None:
-            await self.db.execute("INSERT INTO leaderboards VALUES ($1, $2, $3)", uid, 0, 0)
+            await self.db.execute("INSERT INTO leaderboards VALUES ($1, $2, $3, $4)", uid, 0, 0, 0)
 
     async def update_lb(self, uid, lb, value, mode="add"):
         await self.fetch_user_lb(uid)
