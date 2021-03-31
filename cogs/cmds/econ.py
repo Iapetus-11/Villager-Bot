@@ -274,7 +274,7 @@ class Econ(commands.Cog):
     @commands.group(name="inventory", aliases=["inv", "items"])
     @commands.cooldown(2, 2, commands.BucketType.user)
     async def inventory(self, ctx):
-        if ctx.invoked_subcommand is None:
+        if ctx.invoked_subcommand is not None:
             return
 
         split = ctx.message.content.split()
