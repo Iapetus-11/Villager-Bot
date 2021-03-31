@@ -248,7 +248,12 @@ class Database(commands.Cog):
         return await self.db.fetch("SELECT * FROM give_logs WHERE giver_uid = $1 ORDER BY ts DESC LIMIT $2", uid, limit)
 
     async def fetch_transactions_page(self, uid, limit: int = 10, *, page: int = 0) -> list:
-        return await self.db.fetch("SELECT * FROM give_logs WHERE giver_uid = $1 OR recvr_uid = $1 ORDER BY ts DESC LIMIT $2 OFFSET $3", uid, limit, page*limit)
+        return await self.db.fetch(
+            "SELECT * FROM give_logs WHERE giver_uid = $1 OR recvr_uid = $1 ORDER BY ts DESC LIMIT $2 OFFSET $3",
+            uid,
+            limit,
+            page * limit,
+        )
 
     async def fetch_transactions_page_count(self, uid, limit: int = 10) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM give_logs WHERE giver_uid = $1 OR recvr_uid = $1", uid) / limit
