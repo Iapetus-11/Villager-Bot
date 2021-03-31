@@ -126,6 +126,9 @@ class Webhooks(commands.Cog):
         if streak_time is None:  # time
             streak_time = 0
 
+        if arrow.get(streak_time) > arrow.utcnow().shift(hours=-12):
+            return
+
         if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(streak_time):  # vote expired
             vote_streak = 1
 
