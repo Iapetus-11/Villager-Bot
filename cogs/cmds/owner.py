@@ -180,6 +180,9 @@ class Owner(commands.Cog):
                 for entry in entries:
                     giver = self.bot.get_user(entry["giver_uid"])
                     receiver = self.bot.get_user(entry["recvr_uid"])
+                    item = entry["item"]
+
+                    if item == "emerald": item = ctx.l.emojis.emerald
 
                     body += f"__[{giver}]({entry['giver_uid']})__ gave __{entry['amount']}x **{entry['item']}**__ to __[{receiver}]({entry['recvr_uid']})__ {arrow.get(entry['ts']).humanize()}\n"
 
