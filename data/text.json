@@ -593,7 +593,13 @@
       "inv": {
         "bot_1": "Villager Bot has wayyyyy too many items to show (About 100000000000000000)",
         "bot_2": "Bots don't have rights and therefore can't have emeralds or stuff.",
-        "s_inventory": "{}'s inventory [{}]"
+        "s_inventory": "{}'s inventory [{}]",
+        "cats": {
+          "tools": "tools",
+          "magic": "magic",
+          "fish": "fish",
+          "misc": "misc"
+        }
       },
       "dep": {
         "poor_loser": "You don't have enough emeralds to deposit.",
@@ -1460,7 +1466,13 @@
       "inv": {
         "bot_1": "El aldeano Bot tiene demasiados objetos para mostrar (alrededor de 100000000000000000)",
         "bot_2": "Los robots no tienen derechos y por lo tanto no pueden tener esmeraldas o cosas así.",
-        "s_inventory": "Inventario De {} [{}]"
+        "s_inventory": "Inventario De {} [{}]",
+        "cats": {
+          "tools": "tools",
+          "magic": "magic",
+          "fish": "fish",
+          "misc": "misc"
+        }
       },
       "dep": {
         "poor_loser": "No tienes suficientes esmeraldas para depositar.",
@@ -2326,7 +2338,13 @@
       "inv": {
         "bot_1": "Le Villager Bot a beaucouuuuup trop d'objets à montrer (Environ 100000000000000000)",
         "bot_2": "Les Bots n'ont pas de droits et donc ne peuvent pas avoir d'émeraudes ou d'équipement.",
-        "s_inventory": "Inventaire de {} [{}]"
+        "s_inventory": "Inventaire de {} [{}]",
+        "cats": {
+          "tools": "tools",
+          "magic": "magic",
+          "fish": "fish",
+          "misc": "misc"
+        }
       },
       "dep": {
         "poor_loser": "Tu n'as pas assez d'émeraudes pour faire un dépôt.",
