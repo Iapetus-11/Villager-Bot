@@ -183,57 +183,16 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="inventory", aliases=["inv", "items"])
-    @commands.cooldown(2, 2, commands.BucketType.user)
-    async def inventory(self, ctx, *, user: discord.User = None):
-        if user is None:
-            user = ctx.author
-
-        if user.bot:
-            if user.id == self.bot.user.id:
-                await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
-            else:
-                await self.bot.send(ctx, ctx.l.econ.inv.bot_2)
-
-            return
-
-        embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name), icon_url=user.avatar_url_as())
-
-        embed.add_field(name="Tools", value="`{0}inventory tools`")
-        embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name="Magic", value="`{0}inventory magic`")
-
-        embed.add_field(name="Fishing", value="`{0}inventory fish`")
-        embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name="Materials", value="`{0}inventory materials`")
-
-    @commands.command(name="inventory", aliases=["inv", "items"])
-    @commands.cooldown(2, 10, commands.BucketType.user)
-    async def inventory(self, ctx, *, user: discord.User = None):
-        """Shows the inventory of a user or the message sender"""
-
-        if user is None:
-            user = ctx.author
-
-        if user.bot:
-            if user.id == self.bot.user.id:
-                await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
-            else:
-                await self.bot.send(ctx, ctx.l.econ.inv.bot_2)
-
-            return
-
+    async def inventory_logic(self, ctx, user, items: list, cat: str):
         fishies = {fish.name: fish.current for fish in self.d.fishing.fish.values()}
-        u_items = await self.db.fetch_items(user.id)
 
         for i, item in enumerate(u_items):
             try:
-                u_items[i] = {**item, "sell_price": fishies[item["name"]]}
+                items[i] = {**item, "sell_price": fishies[item["name"]]}
             except KeyError:
                 pass
 
-        items_sorted = sorted(u_items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
+        items_sorted = sorted(items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
         items_chunks = [
             items_sorted[i : i + 16] for i in range(0, len(items_sorted), 16)
         ]  # split items into chunks of 16 [[16..], [16..], [16..]]
@@ -256,7 +215,7 @@ class Econ(commands.Cog):
                 body += f'`{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
 
             embed = discord.Embed(color=self.d.cc, description=body)
-            embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name), icon_url=user.avatar_url_as())
+            embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat), icon_url=user.avatar_url_as())
             embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max+1}")
 
             if msg is None:
@@ -294,6 +253,79 @@ class Econ(commands.Cog):
                 break
 
             first_time = False
+
+    async def inventory_boiler(ctx, user: discord.User = None):
+        if ctx.invoked_subcommand is not None:
+            return False, None
+
+        if user is None:
+            user = ctx.author
+
+        if user.bot:
+            if user.id == self.bot.user.id:
+                await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
+            else:
+                await self.bot.send(ctx, ctx.l.econ.inv.bot_2)
+
+            return False, user
+
+        return True, user
+
+    @commands.group(name="inventory", aliases=["inv", "items"])
+    @commands.cooldown(2, 2, commands.BucketType.user)
+    async def inventory(self, ctx, *, user: discord.User = None):
+        valid, user = await inventory_boiler(ctx, user)
+
+        if not valid:
+            return
+
+        items = await self.db.fetch_items(user.id)
+
+        await self.inventory_logic(ctx, user, items, "all")
+
+    @inventory.group(name="tools", aliases=["tool", "pickaxes", "swords"])
+    async def inventory_tools(self, ctx):
+        valid, user = await inventory_boiler(ctx, user)
+
+        if not valid:
+            return
+
+        items = [e for e in await self.db.fetch_items(user.id) if e in self.d.cats.tools]
+
+        await self.inventory_logic(ctx, user, items, "tools")
+
+    @inventory.group(name="magic", aliases=["books", "potions", "enchants"])
+    async def inventory_tools(self, ctx):
+        valid, user = await inventory_boiler(ctx, user)
+
+        if not valid:
+            return
+
+        items = [e for e in await self.db.fetch_items(user.id) if e in self.d.cats.magic]
+
+        await self.inventory_logic(ctx, user, items, "magic")
+
+    @inventory.group(name="materials", aliases=["crafting", "misc", "other"])
+    async def inventory_tools(self, ctx):
+        valid, user = await inventory_boiler(ctx, user)
+
+        if not valid:
+            return
+
+        items = [e for e in await self.db.fetch_items(user.id) if e in self.d.cats.materials]
+
+        await self.inventory_logic(ctx, user, items, "materials")
+
+    @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
+    async def inventory_tools(self, ctx):
+        valid, user = await inventory_boiler(ctx, user)ss
+
+        if not valid:
+            return
+
+        items = [e for e in await self.db.fetch_items(user.id) if e in self.d.cats.fish]
+
+        await self.inventory_logic(ctx, user, items, "fish")
 
     @commands.command(name="deposit", aliases=["dep"])
     @commands.cooldown(1, 2, commands.BucketType.user)
