@@ -1600,9 +1600,7 @@ class Econ(commands.Cog):
             lb_global = self.lb_logic(
                 fish_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)
             )
-            lb_local = self.lb_logic(
-                fish_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)
-            )
+            lb_local = self.lb_logic(fish_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
