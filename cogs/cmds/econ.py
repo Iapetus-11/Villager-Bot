@@ -274,7 +274,7 @@ class Econ(commands.Cog):
     @commands.group(name="inventory", aliases=["inv", "items"])
     @commands.cooldown(2, 2, commands.BucketType.user)
     async def inventory(self, ctx, *, user: discord.User = None):
-        valid, user = await inventory_boiler(ctx, user)
+        valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
             return
@@ -285,7 +285,7 @@ class Econ(commands.Cog):
 
     @inventory.group(name="tools", aliases=["tool", "pickaxes", "swords"])
     async def inventory_tools(self, ctx):
-        valid, user = await inventory_boiler(ctx, user)
+        valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
             return
@@ -296,7 +296,7 @@ class Econ(commands.Cog):
 
     @inventory.group(name="magic", aliases=["books", "potions", "enchants"])
     async def inventory_tools(self, ctx):
-        valid, user = await inventory_boiler(ctx, user)
+        valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
             return
@@ -307,7 +307,7 @@ class Econ(commands.Cog):
 
     @inventory.group(name="materials", aliases=["crafting", "misc", "other"])
     async def inventory_tools(self, ctx):
-        valid, user = await inventory_boiler(ctx, user)
+        valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
             return
@@ -318,7 +318,7 @@ class Econ(commands.Cog):
 
     @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
     async def inventory_tools(self, ctx):
-        valid, user = await inventory_boiler(ctx, user)
+        valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
             return
