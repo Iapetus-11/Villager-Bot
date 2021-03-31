@@ -320,7 +320,7 @@ class Econ(commands.Cog):
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e in self.d.cats.materials]
+        items = [e for e in await self.db.fetch_items(user.id) if e in self.d.cats.material]
 
         await self.inventory_logic(ctx, user, items, "materials")
 
