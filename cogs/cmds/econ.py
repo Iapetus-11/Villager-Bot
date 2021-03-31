@@ -318,7 +318,7 @@ class Econ(commands.Cog):
 
     @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
     async def inventory_tools(self, ctx):
-        valid, user = await inventory_boiler(ctx, user)ss
+        valid, user = await inventory_boiler(ctx, user)
 
         if not valid:
             return
