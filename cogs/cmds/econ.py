@@ -370,7 +370,7 @@ class Econ(commands.Cog):
         if amount < 1:
             if emerald_blocks.lower() in (
                 "all",
-                "max",
+                "max"
             ):
                 await self.bot.send(ctx, ctx.l.econ.dep.stupid_2)
             else:
