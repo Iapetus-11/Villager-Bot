@@ -352,7 +352,7 @@
     ]
   },
   "fishing": {
-    "exponent": 3
+    "exponent": 3,
     "fish_ids": [],
     "fish_weights": [],
     "fish": {
