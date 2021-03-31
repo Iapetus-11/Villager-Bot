@@ -247,6 +247,9 @@ class Database(commands.Cog):
     async def fetch_transactions_by_sender(self, uid, limit):
         return await self.db.fetch("SELECT * FROM give_logs WHERE giver_uid = $1 ORDER BY ts DESC LIMIT $2", uid, limit)
 
+    async def fetch_transactions_page(self, uid, limit: int = 10, *, page: int = 0):
+        return await self.db.fetch("SELECT * FROM give_logs WHERE giver_uid = $1 OR recvr_uid = $1 ORDER BY ts DESC LIMIT $2 OFFSET $3", uid, limit, page*limit)
+
     async def fetch_pickaxe(self, uid):
         items_names = [item["name"] for item in await self.fetch_items(uid)]
 
