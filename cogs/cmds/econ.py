@@ -273,11 +273,19 @@ class Econ(commands.Cog):
 
     @commands.group(name="inventory", aliases=["inv", "items"])
     @commands.cooldown(2, 2, commands.BucketType.user)
-    async def inventory(self, ctx, *, user: discord.User = None):
-        valid, user = await self.inventory_boiler(ctx, user)
-
-        if not valid:
+    async def inventory(self, ctx):
+        if ctx.invoked_subcommand is None:
             return
+
+        split = ctx.message.content.split()
+
+        if len(split) <= 1:
+            user = ctx.author
+        else:
+            try:
+                user = await commands.UserConverter().convert(ctx, " ".join(split[1:]))
+            except BaseException:
+                raise BadArgument
 
         items = await self.db.fetch_items(user.id)
 
