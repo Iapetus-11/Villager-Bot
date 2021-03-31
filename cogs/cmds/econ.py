@@ -316,8 +316,8 @@ class Econ(commands.Cog):
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.magic)
 
-    @inventory.group(name="materials", aliases=["crafting", "misc", "other"])
-    async def inventory_materials(self, ctx, user: discord.User = None):
+    @inventory.group(name="misc", aliases=["other"])
+    async def inventory_misc(self, ctx, user: discord.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
