@@ -53,7 +53,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def eval_stuff(self, ctx, *, code):
         try:
-            code_nice = f"async def eval_code():\n" + "\n".join(f"    {i}" for i in code.strip(" `py\n ").splitlines())
+            code_nice = "async def eval_code():\n" + "\n".join(f"    {i}" for i in code.strip(" `py\n ").splitlines())
             code_parsed = ast.parse(code_nice)
             code_final = code_parsed.body[0].body
 
@@ -74,7 +74,7 @@ class Owner(commands.Cog):
             env = {**locals(), **globals()}
 
             exec(compile(code_parsed, filename="<ast>", mode="exec"), env)
-            result = await eval(f"eval_code()", env)
+            result = await eval("eval_code()", env)
 
             await ctx.send(f"```py\n{result}```")
 
