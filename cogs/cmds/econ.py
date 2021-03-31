@@ -208,15 +208,18 @@ class Econ(commands.Cog):
         first_time = True
 
         while True:
-            body = ""  # text for that page
+            if len(items_chunks) == 0:
+                body = ctx.l.econ.inv.empty
+            else:
+                body = ""  # text for that page
 
-            for item in items_chunks[page]:
-                sell_price_nice = f'({item["sell_price"]}{self.d.emojis.emerald})' if item["sell_price"] != -1 else ""
-                body += f'`{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
+                for item in items_chunks[page]:
+                    sell_price_nice = f'({item["sell_price"]}{self.d.emojis.emerald})' if item["sell_price"] != -1 else ""
+                    body += f'`{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
 
-            embed = discord.Embed(color=self.d.cc, description=body)
-            embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat), icon_url=user.avatar_url_as())
-            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max+1}")
+                embed = discord.Embed(color=self.d.cc, description=body)
+                embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat), icon_url=user.avatar_url_as())
+                embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max+1}")
 
             if msg is None:
                 msg = await ctx.send(embed=embed)
@@ -289,7 +292,7 @@ class Econ(commands.Cog):
 
         items = await self.db.fetch_items(user.id)
 
-        await self.inventory_logic(ctx, user, items, "all", 16)
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.all, 16)
 
     @inventory.group(name="tools", aliases=["tool", "pickaxes", "swords"])
     async def inventory_tools(self, ctx, user: discord.User = None):
@@ -300,7 +303,7 @@ class Econ(commands.Cog):
 
         items = [e for e in await self.db.fetch_items(user.id) if e["name"] in self.d.cats.tools]
 
-        await self.inventory_logic(ctx, user, items, "tools")
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.tools)
 
     @inventory.group(name="magic", aliases=["books", "potions", "enchants"])
     async def inventory_magic(self, ctx, user: discord.User = None):
@@ -311,7 +314,7 @@ class Econ(commands.Cog):
 
         items = [e for e in await self.db.fetch_items(user.id) if e["name"] in self.d.cats.magic]
 
-        await self.inventory_logic(ctx, user, items, "magic")
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.magic)
 
     @inventory.group(name="materials", aliases=["crafting", "misc", "other"])
     async def inventory_materials(self, ctx, user: discord.User = None):
@@ -320,9 +323,10 @@ class Econ(commands.Cog):
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e["name"] in self.d.cats.material]
+        combined_cats = self.d.cats.tools + self.d.cats.magic + self.d.cats.fish
+        items = [e for e in await self.db.fetch_items(user.id) if e["name"] not in combined_cats]
 
-        await self.inventory_logic(ctx, user, items, "materials")
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc)
 
     @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
     async def inventory_fish(self, ctx, user: discord.User = None):
@@ -333,7 +337,7 @@ class Econ(commands.Cog):
 
         items = [e for e in await self.db.fetch_items(user.id) if e["name"] in self.d.cats.fish]
 
-        await self.inventory_logic(ctx, user, items, "fish")
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.fish)
 
     @commands.command(name="deposit", aliases=["dep"])
     @commands.cooldown(1, 2, commands.BucketType.user)
