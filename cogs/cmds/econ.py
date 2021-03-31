@@ -1440,14 +1440,19 @@ class Econ(commands.Cog):
 
             embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
 
-            embed.add_field(name=ctx.l.econ.lb.emeralds, value=f"`{ctx.prefix}leaderboard emeralds`", inline=False)
-            # Can't do tw due to the immense amount of resources required to calculate it for all users in the db (as is required)
-            # embed.add_field(name='Total Wealth', value=f'`{ctx.prefix}leaderboard totalwealth`', inline=False)
-            embed.add_field(name=ctx.l.econ.lb.stolen, value=f"`{ctx.prefix}leaderboard stolen`", inline=False)
-            embed.add_field(name=ctx.l.econ.lb.kills, value=f"`{ctx.prefix}leaderboard mobkills`", inline=False)
-            embed.add_field(name=ctx.l.econ.lb.bees, value=f"`{ctx.prefix}leaderboard bees`", inline=False)
-            embed.add_field(name=ctx.l.econ.lb.cmds, value=f"`{ctx.prefix}leaderboard commands`", inline=False)
-            embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`", inline=False)
+            embed.add_field(name=ctx.l.econ.lb.emeralds, value=f"`{ctx.prefix}leaderboard emeralds`")
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.stolen, value=f"`{ctx.prefix}leaderboard stolen`")
+
+            embed.add_field(name=ctx.l.econ.lb.kills, value=f"`{ctx.prefix}leaderboard mobkills`")
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.bees, value=f"`{ctx.prefix}leaderboard bees`")
+
+            embed.add_field(name=ctx.l.econ.lb.cmds, value=f"`{ctx.prefix}leaderboard commands`")
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`")
+
+            embed.add_field(name="fishies", value=f"`{ctx.prefix}leaderboard fish`")
 
             await ctx.send(embed=embed)
 
@@ -1584,6 +1589,22 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
+    async def leaderboard_fish(self, ctx):
+        with ctx.typing():
+            fish_global, global_u_entry = await self.db.fetch_global_lb_user("fish", ctx.author.id)
+            fish_local, local_u_entry = await self.db.fetch_local_lb_user(
+                "fish", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            )
+
+            lb_global = self.lb_logic(
+                votes_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.rainbow_trout)
+            )
+            lb_local = self.lb_logic(votes_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.rainbow_trout))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(self.d.emojis.fish.cod))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
 def setup(bot):
     bot.add_cog(Econ(bot))
