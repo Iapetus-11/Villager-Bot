@@ -1592,8 +1592,8 @@ class Econ(commands.Cog):
     @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
     async def leaderboard_fish(self, ctx):
         with ctx.typing():
-            fish_global, global_u_entry = await self.db.fetch_global_lb_user("fish", ctx.author.id)
-            fish_local, local_u_entry = await self.db.fetch_local_lb_user(
+            fish_global, global_u_entry = await self.db.fetch_global_lb("fish", ctx.author.id)
+            fish_local, local_u_entry = await self.db.fetch_local_lb(
                 "fish", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
