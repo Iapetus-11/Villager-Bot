@@ -598,7 +598,8 @@
           "tools": "tools",
           "magic": "magic",
           "fish": "fish",
-          "misc": "misc"
+          "misc": "misc",
+          "all": "all"
         },
         "empty": "*It's quite empty in here...*"
       },
@@ -1472,7 +1473,8 @@
           "tools": "tools",
           "magic": "magic",
           "fish": "fish",
-          "misc": "misc"
+          "misc": "misc",
+          "all": "all"
         },
         "empty": "*It's quite empty in here...*"
       },
@@ -2345,7 +2347,8 @@
           "tools": "tools",
           "magic": "magic",
           "fish": "fish",
-          "misc": "misc"
+          "misc": "misc",
+          "all": "all"
         },
         "empty": "*It's quite empty in here...*"
       },
