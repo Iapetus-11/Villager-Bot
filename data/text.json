@@ -599,7 +599,8 @@
           "magic": "magic",
           "fish": "fish",
           "misc": "misc"
-        }
+        },
+        "empty": "*It's quite empty in here...*"
       },
       "dep": {
         "poor_loser": "You don't have enough emeralds to deposit.",
@@ -1472,7 +1473,8 @@
           "magic": "magic",
           "fish": "fish",
           "misc": "misc"
-        }
+        },
+        "empty": "*It's quite empty in here...*"
       },
       "dep": {
         "poor_loser": "No tienes suficientes esmeraldas para depositar.",
@@ -2344,7 +2346,8 @@
           "magic": "magic",
           "fish": "fish",
           "misc": "misc"
-        }
+        },
+        "empty": "*It's quite empty in here...*"
       },
       "dep": {
         "poor_loser": "Tu n'as pas assez d'émeraudes pour faire un dépôt.",
