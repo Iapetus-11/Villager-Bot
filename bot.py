@@ -29,7 +29,7 @@ async def send(_bot, location, message, respond=False, ping=False):
 
 
 # get a lang for a given ctx object
-async def get_lang(_bot, ctx):
+def get_lang(_bot, ctx):
     if ctx.guild is None:
         return _bot.langs.en
 
