@@ -1608,6 +1608,8 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
