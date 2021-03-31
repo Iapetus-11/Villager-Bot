@@ -1452,7 +1452,7 @@ class Econ(commands.Cog):
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`")
 
-            embed.add_field(name="fishies", value=f"`{ctx.prefix}leaderboard fish`")
+            embed.add_field(name=ctx.l.econ.lb.fish, value=f"`{ctx.prefix}leaderboard fish`")
 
             await ctx.send(embed=embed)
 
@@ -1602,7 +1602,7 @@ class Econ(commands.Cog):
             )
             lb_local = self.lb_logic(votes_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.rainbow_trout))
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(self.d.emojis.fish.cod))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.cod))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
