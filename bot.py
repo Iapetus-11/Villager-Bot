@@ -75,7 +75,7 @@ def populate_null_data_values(_bot):
     _bot.update_fishing_prices()
 
     fishes = _bot.d.fishing.fish_ids = list(_bot.d.fishing.fish.keys())
-    _bot.d.fishing.fish_weights = [(len(fishes) - fish_data.rarity) ** 2 for fish_data in _bot.d.fishing.fish.values()]
+    _bot.d.fishing.fish_weights = [(len(fishes) - fish_data.rarity) ** _bot.d.fishing.exponent for fish_data in _bot.d.fishing.fish.values()]
 
 
 async def send_tip(ctx):
