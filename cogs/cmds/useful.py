@@ -364,7 +364,7 @@ class Useful(commands.Cog):
         user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
 
         if user_reminder_count > 5:
-            await ctx.send("You cannot have more than 5 reminders at once.")
+            await ctx.send(ctx.l.useful.remind.reminder_max)
             return
 
         args = args.split()
@@ -400,23 +400,19 @@ class Useful(commands.Cog):
                 else:
                     break
         except ValueError:
-            await ctx.send(
-                f"You used invalid formatting, example: `{ctx.prefix}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes."
-            )
+            await ctx.send(ctx.l.useful.remind.stupid_1)
             return
 
         if i == 0:
-            await ctx.send(
-                f"You used invalid formatting, example: `{ctx.prefix}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes."
-            )
+            await ctx.send(ctx.l.useful.remind.stupid_1)
             return
 
         if at > arrow.utcnow().shift(weeks=8):
-            await ctx.send("You cannot set a reminder more than eight weeks in advance.")
+            await ctx.send(ctx.l.useful.remind.time_max)
             return
 
         await self.db.add_reminder(ctx.author.id, " ".join(args[i:])[:499], ctx.channel.id, at.timestamp())
-        await self.bot.send(ctx, "{0} reminding you in {1}".format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
+        await self.bot.send(ctx, ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
 
 
 def setup(bot):

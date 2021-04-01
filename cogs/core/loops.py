@@ -39,7 +39,7 @@ class Loops(commands.Cog):
                 lang = self.bot.get_lang(channel)
 
                 try:
-                    await channel.send(f"{user.mention}, you wanted me to remind you: *{reminder['reminder']}*")
+                    await channel.send(lang.useful.remind.reminder.format(user.mention, reminder["reminder"]))
                 except Exception:
                     continue
 
