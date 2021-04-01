@@ -559,6 +559,12 @@
         "rule_2": "**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items.",
         "rule_3": "**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.",
         "rule_4": "**4.** Don't use the bot to promote any content not sanctioned by the bot owner."
+      },
+      "remind": {
+        "reminder_max": "You cannot have more than 5 reminders at once.",
+        "stupid_1": "You used invalid formatting, example: `{0}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes.",
+        "time_max": "You cannot set a reminder more than eight weeks in advance.",
+        "remind": "{0} reminding you in {1}"
       }
     },
     "econ": {
@@ -1436,6 +1442,12 @@
         "rule_2": "**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items.",
         "rule_3": "**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.",
         "rule_4": "**4.** Don't use the bot to promote any content not sanctioned by the bot owner."
+      },
+      "remind": {
+        "reminder_max": "You cannot have more than 5 reminders at once.",
+        "stupid_1": "You used invalid formatting, example: `{0}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes.",
+        "time_max": "You cannot set a reminder more than eight weeks in advance.",
+        "remind": "{0} reminding you in {1}"
       }
     },
     "econ": {
@@ -2312,6 +2324,12 @@
         "rule_2": "**2.** Ne triche pas de quelque façon que ce soit, cela inclut l'utilisation de comptes alternatifs ou ceux d'autres utilisateurs pour stocker tes émeraudes ou objets.",
         "rule_3": "**3.** Ne soit pas dérangeant, ou toxique, et n'harcèle personne en utilisant les fonctionnalités du bot.",
         "rule_4": "**4.** N'utilise pas le bot pour promouvoir du contenu non approuvé par le propriétaire du bot."
+      },
+      "remind": {
+        "reminder_max": "You cannot have more than 5 reminders at once.",
+        "stupid_1": "You used invalid formatting, example: `{0}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes.",
+        "time_max": "You cannot set a reminder more than eight weeks in advance.",
+        "remind": "{0} reminding you in {1}"
       }
     },
     "econ": {
