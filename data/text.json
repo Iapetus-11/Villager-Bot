@@ -1472,13 +1472,13 @@
         "bot_2": "Los robots no tienen derechos y por lo tanto no pueden tener esmeraldas o cosas así.",
         "s_inventory": "Inventario De {} [{}]",
         "cats": {
-          "tools": "tools",
-          "magic": "magic",
-          "fish": "fish",
-          "misc": "misc",
-          "all": "all"
+          "tools": "herramientas",
+          "magic": "magia",
+          "fish": "peces",
+          "misc": "misceláneo",
+          "all": "todo"
         },
-        "empty": "*It's quite empty in here...*"
+        "empty": "*Esto está bastante vacío...*"
       },
       "dep": {
         "poor_loser": "No tienes suficientes esmeraldas para depositar.",
