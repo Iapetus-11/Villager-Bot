@@ -1166,7 +1166,7 @@ class Econ(commands.Cog):
 
         if thing == "present":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format(1, "Present"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, "Present", 1)
@@ -1182,7 +1182,7 @@ class Econ(commands.Cog):
 
         if thing == "barrel":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format(1, "Barrel"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
