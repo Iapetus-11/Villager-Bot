@@ -1445,11 +1445,11 @@
         "rule_4": "**4.** Don't use the bot to promote any content not sanctioned by the bot owner."
       },
       "remind": {
-        "reminder_max": "You cannot have more than 5 reminders at once.",
-        "stupid_1": "You used invalid formatting, example: `{0}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes.",
-        "time_max": "You cannot set a reminder more than eight weeks in advance.",
-        "remind": "{0} reminding you in {1}",
-        "reminder": "{0}, you wanted me to remind you: *{1}*"
+        "reminder_max": "No puedes tener mas de 5 recordatorios a la vez.",
+        "stupid_1": "Has usado un formato invalido, ejemplo: `{0}remindme 1w 2d 3h 4m esto es un ejemplo` te recordará en una semana, dos días, tres horas y cuatro minutos.",
+        "time_max": "No puedes poner un recordatorio para mas de ocho semanas.",
+        "remind": "{0} recordatorio en {1}",
+        "reminder": "{0}, querías que te recuerde: *{1}*"
       }
     },
     "econ": {
@@ -1755,14 +1755,14 @@
         "bees": "Jarrones De Abejas",
         "cmds": "Comandos Enviados",
         "votes": "Racha De Votos",
-        "fish": "Fishies Fished",
+        "fish": "Pececitos pescados",
         "lb_ems": "{0}__**Tabla De Líderes De Esmeraldas**__{0}",
         "lb_pil": "{0}__**Tabla De Líderes Robados De Esmeraldas**__{0}",
         "lb_kil": "{0}__**Tabla De Líderes De Monstruos Muertos**__{0}",
         "lb_bee": "{0}__**Tabla De Líderes De Abejas Total**__{0}",
         "lb_cmds": "{0}__**Tabla De Líderes De Comandos Enviados**__{0}",
         "lb_votes": "{0}__**Tabla De Líderes De Racha De Votos**__{0}",
-        "lb_fish": "{0}__**Fish Fished Leaderboard**__{0}"
+        "lb_fish": "{0}__**Tabla de posiciones de peces pescados**__{0}"
       }
     }
   },
@@ -2328,11 +2328,11 @@
         "rule_4": "**4.** N'utilise pas le bot pour promouvoir du contenu non approuvé par le propriétaire du bot."
       },
       "remind": {
-        "reminder_max": "You cannot have more than 5 reminders at once.",
-        "stupid_1": "You used invalid formatting, example: `{0}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes.",
-        "time_max": "You cannot set a reminder more than eight weeks in advance.",
-        "remind": "{0} reminding you in {1}",
-        "reminder": "{0}, you wanted me to remind you: *{1}*"
+        "reminder_max": "Tu ne peux pas avoir plus de 5 rappels à la fois.",
+        "stupid_1": "Tu as utilisé un format invalide, exemple : `{0}remindme 1w 2d 3h 4m ceci est un exemple` te fera un rappel dans une semaine, deux jours, trois heures, et quatre minutes.",
+        "time_max": "Tu ne peux pas créer un rappel plus de huit semaines en avance.",
+        "remind": "{0} rappel dans {1}",
+        "reminder": "{0}, tu voulais que je te rappelle : *{1}*"
       }
     },
     "econ": {
@@ -2640,14 +2640,14 @@
         "bees": "Bocaux d'abeilles",
         "cmds": "Commandes envoyées",
         "votes": "Série de votes",
-        "fish": "Fishies Fished",
+        "fish": "Poissons pêchés",
         "lb_ems": "{0}__**Leaderboard d'émeraudes**__{0}",
         "lb_pil": "{0}__**Leaderboard d'émeraudes volés**__{0}",
         "lb_kil": "{0}__**Leaderboard des monstres tués**__{0}",
         "lb_bee": "{0}__**Leaderboard du nombre total d'abeilles**__{0}",
         "lb_cmds": "{0}__**Leaderboard des commandes envoyées**__{0}",
         "lb_votes": "{0}__**Leaderboard des séries de votes**__{0}",
-        "lb_fish": "{0}__**Fish Fished Leaderboard**__{0}"
+        "lb_fish": "{0}__**Leaderboard des poissons pêchés**__{0}"
       }
     }
   }
