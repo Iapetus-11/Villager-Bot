@@ -250,7 +250,7 @@ if __name__ == "__main__":
 
         if random.choice(1, 10) == 1:
             await ctx.send("Your request to run that command has been denied, here, have a meeeeeme to cheer you up!")
-            await self.bot.get_cog("Fun").meme(ctx)
+            await bot.get_cog("Fun").meme(ctx)
 
         if ctx.command.cog and ctx.command.cog.__cog_name__ == "Econ":  # make sure it's an econ command
             if bot.d.pause_econ.get(ctx.author.id) is not None:
