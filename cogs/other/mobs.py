@@ -24,7 +24,6 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         self.spawn_events.cancel()
         self.clear_pauses.cancel()
 
-
     @tasks.loop(seconds=1)
     async def clear_pauses(self):
         for uid in list(self.d.pause_econ):
