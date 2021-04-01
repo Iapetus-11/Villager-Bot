@@ -9,6 +9,7 @@ import math
 import numpy as np
 import bisect
 
+
 class Econ(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -1226,7 +1227,6 @@ class Econ(commands.Cog):
     async def use_item(self, ctx, *, thing):
         """Allows you to use potions and some other items"""
 
-
         thing = thing.lower()
         split = thing.split()
 
@@ -1363,17 +1363,17 @@ class Econ(commands.Cog):
 
             return
 
-            list_result = random.choices(range(9, 16), k=amount) #pain.
+            list_result = random.choices(range(9, 16), k=amount)  # pain.
             add = sum(list_result)
-            if add + db_user['vault_max'] > 2000:
-                list_cumu = list(np.asarray(np.cumsum(list_result)) + db_user['vault_max'])
+            if add + db_user["vault_max"] > 2000:
+                list_cumu = list(np.asarray(np.cumsum(list_result)) + db_user["vault_max"])
                 pots_used = 1 + bisect.bisect_left(list_cumu, 2000)
-                add = 2000 - db_user['vault_max']
+                add = 2000 - db_user["vault_max"]
                 max_vault = 2000
 
             else:
                 pots_used = len(list_result)
-                max_vault = db_user['vault_max'] + add
+                max_vault = db_user["vault_max"] + add
 
             await self.db.remove_item(ctx.author.id, "Vault Potion", pots_used)
             await self.db.set_vault(ctx.author.id, db_user["vault_bal"], max_vault)
