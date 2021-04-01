@@ -416,6 +416,7 @@ class Useful(commands.Cog):
             return
 
         await self.db.add_reminder(ctx.author.id, " ".join(args[i + 1 :])[:499], ctx.channel.id, at.timestamp())
+        await self.bot.send(ctx, "{0} reminding you in {1}".format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
 
 
 def setup(bot):
