@@ -67,3 +67,10 @@ CREATE TABLE IF NOT EXISTS user_rcon (
   rcon_port INT,
   password  VARCHAR(300)
 );
+
+CREATE TABLE IF NOT EXISTS reminders (
+  uid BIGINT NOT NULL,
+  reminder VARCHAR(500),
+  cid BIGINT NOT NULL,
+  at BIGINT NOT NULL
+);
