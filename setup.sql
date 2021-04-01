@@ -67,11 +67,3 @@ CREATE TABLE IF NOT EXISTS user_rcon (
   rcon_port INT,
   password  VARCHAR(300)
 );
-
--- CREATE TABLE IF NOT EXISTS mc_servers( -- used for the !!randommc command
---   owner_id BIGINT, -- discord user id of the owner
---   address  VARCHAR(100), -- address of the server
---   port     INT, -- port which the server is on
---   version  VARCHAR(50), -- Java Edition <version> OR Bedrock Edition
---   note     VARCHAR(250) -- optional note
--- );
