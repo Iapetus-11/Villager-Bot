@@ -160,7 +160,7 @@ class Config(commands.Cog):
             or cmd_true.cog.__cog_name__
             in (
                 "Owner",
-                "Config",
+                "Config"
             )
             or str(cmd_true) in ("help",)
         ):
