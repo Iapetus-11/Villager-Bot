@@ -989,6 +989,7 @@ class Econ(commands.Cog):
     async def use_item(self, ctx, *, thing):
         """Allows you to use potions and some other items"""
 
+
         thing = thing.lower()
         split = thing.split()
 
@@ -1019,13 +1020,12 @@ class Econ(commands.Cog):
             return
 
         if db_item["amount"] < amount:
-            await self.bot.send(ctx, f"You don't have {amount} of that item to use.")
+            await self.bot.send(ctx, ctx.l.econ.use.stupid_5)
             return
 
         if thing == "haste i potion":
-
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format(1, "Haste I Potion"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
@@ -1048,7 +1048,7 @@ class Econ(commands.Cog):
 
         if thing == "haste ii potion":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format(1, "Haste II Potion"))
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
@@ -1069,16 +1069,62 @@ class Econ(commands.Cog):
             )  # pop pot from active potion fx
             return
 
+        if thing == "seaweed":
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
+                return
+
+            await self.db.remove_item(ctx.author.id, thing, 1)
+
+            self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
+            self.d.chuggers[ctx.author.id].append("seaweed")
+
+            await self.bot.send(ctx, ctx.l.econ.use.smoke_seaweed.format(2))
+
+            await asyncio.sleep(60 * 2)
+
+            await self.bot.send(ctx.author, ctx.l.econ.use.seaweed_done)
+
         if thing == "vault potion":
-            # if amount > 1:
-            #     await self.bot.send(ctx, ctx.l.econ.use.cant_use_1_plus.format("Vault"))
-            #     return
+            if amount > 1:
+                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
+                return
 
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user["vault_max"] > 1999:
                 await self.bot.send(ctx, ctx.l.econ.use.vault_max)
                 return
+
+            add = random.randint(9, 15)
+
+            if db_user["vault_max"] + add > 2000:
+                add = 2000 - db_user["vault_max"]
+
+            await self.db.remove_item(ctx.author.id, "Vault Potion", 1)
+            await self.db.set_vault(ctx.author.id, db_user["vault_bal"], db_user["vault_max"] + add)
+
+            await self.bot.send(ctx, ctx.l.econ.use.vault_pot.format(add))
+            return
+
+        if thing == "honey jar":
+            db_user = await self.db.fetch_user(ctx.author.id)
+
+            if db_user["health"] + amount > 20:
+                max_amount = 20 - db_user["health"]
+
+                if max_amount < 1:
+                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_any.format("Honey Jars"))
+                else:
+                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_up_to.format(max_amount, "Honey Jar"))
+            else:
+                await self.db.update_user(ctx.author.id, "health", db_user["health"] + amount)
+                await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
+
+                new_health = amount + db_user["health"]
+                await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
+
+            return
 
             list_result = random.choices(range(9, 16), k=amount) #pain.
             add = sum(list_result)
