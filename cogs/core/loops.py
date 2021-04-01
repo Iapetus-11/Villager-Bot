@@ -48,5 +48,6 @@ class Loops(commands.Cog):
         for reminder in await self.db.fetch_current_reminders():
             self.bot.loop.create_task(self.remind(reminder))
 
+
 def setup(bot):
     bot.add_cog(Loops(bot))
