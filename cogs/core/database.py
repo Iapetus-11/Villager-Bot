@@ -1,5 +1,6 @@
 from discord.ext import commands, tasks
 import discord
+import arrow
 
 
 class Database(commands.Cog):
@@ -52,6 +53,9 @@ class Database(commands.Cog):
 
         for uid in uids:
             self.uncache_user(uid)
+
+    async def fetch_current_reminders(self):
+        return await self.db.fetch("DELETE FROM reminders WHERE at >= $1 RETURNING *", arrow.utcnow().timestamp())
 
     async def fetch_all_botbans(self):
         botban_records = await self.db.fetch(
