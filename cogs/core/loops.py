@@ -40,8 +40,8 @@ class Loops(commands.Cog):
 
                 try:
                     await channel.send(f"{user.mention}, you wanted me to remind you: *{reminder['reminder']}*")
-                except Exception as e:
-                    print(e)
+                except Exception:
+                    continue
 
     @tasks.loop(seconds=15)
     async def remind_reminders(self):
