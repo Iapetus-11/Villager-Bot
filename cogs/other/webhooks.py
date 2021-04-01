@@ -2,7 +2,7 @@ from discord.ext import commands
 from aiohttp import web
 import classyjson as cj
 import traceback
-import aiohttp  # ~~aiohttp makes me ****~~
+import aiohttp
 import asyncio
 import discord
 import arrow
@@ -49,12 +49,13 @@ class Webhooks(commands.Cog):
 
     async def webhooks_setup(self):  # holy fucking shit that's hot
         async def handler(req):
-            if req.headers.get("Authorization") == self.k.topgg_webhook:
-                self.bot.dispatch("topgg_event", cj.classify(await req.json()))
-            else:
-                return web.Response(status=401)
-
-            return web.Response()
+            try:
+                if req.headers.get("Authorization") == self.k.topgg_webhook:
+                    self.bot.dispatch("topgg_event", cj.classify(await req.json()))
+                else:
+                    return web.Response(status=401)
+            finally:
+                return web.Response()
 
         app = web.Application()
 
@@ -117,7 +118,7 @@ class Webhooks(commands.Cog):
         streak_time = db_user["streak_time"]
         vote_streak = db_user["vote_streak"]
 
-        if vote_streak is None or vote_streak is 0:
+        if vote_streak is None or vote_streak == 0:
             vote_streak = 0
 
         vote_streak += 1
@@ -125,12 +126,15 @@ class Webhooks(commands.Cog):
         if streak_time is None:  # time
             streak_time = 0
 
+        if arrow.get(streak_time) > arrow.utcnow().shift(hours=-12):
+            return
+
         if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(streak_time):  # vote expired
             vote_streak = 1
 
         amount *= 5 if vote_streak > 5 else vote_streak
 
-        await self.db.update_user(uid, "streak_time", arrow.utcnow().timestamp)
+        await self.db.update_user(uid, "streak_time", arrow.utcnow().timestamp())
         await self.db.update_user(uid, "vote_streak", vote_streak)
 
         await self.reward(uid, amount, vote_streak)

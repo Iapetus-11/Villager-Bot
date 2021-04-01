@@ -15,7 +15,6 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.db.populate_caches()
         self.bot.logger.info(f"\u001b[36;1mCONNECTED\u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]")
 
     @commands.Cog.listener()
@@ -26,12 +25,12 @@ class Events(commands.Cog):
             if "general" in channel.name:
                 embed = discord.Embed(
                     color=self.d.cc,
-                    description="Hey y'all! Type `/help` to get started with Villager Bot!\n"
+                    description=f"Hey y'all! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
                     f"If you need any more help, check out the **[Support Server]({self.d.support})**!",
                 )
 
                 embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
-                embed.set_footer(text="Made by Iapetus11  |  /rules for the rules!")
+                embed.set_footer(text=f"Made by Iapetus11  |  {self.d.default_prefix}rules for the rules!")
 
                 await channel.send(embed=embed)
                 break
@@ -45,6 +44,13 @@ class Events(commands.Cog):
         await self.db.clear_warns(user.id, guild.id)
 
     @commands.Cog.listener()
+    async def on_member_join(self, member):
+        await self.bot.wait_until_ready()
+
+        if member.guild.id == self.d.support_server_id:
+            await self.bot.update_support_member_role(member)
+
+    @commands.Cog.listener()
     async def on_message(self, m):
         if m.author.bot:
             return
@@ -52,27 +58,24 @@ class Events(commands.Cog):
         self.d.msg_count += 1
 
         try:
-            if (
-                m.type
-                in (
+            if m.guild is not None and m.guild.id == self.d.support_server_id:
+                if m.type in (
                     discord.MessageType.premium_guild_subscription,
                     discord.MessageType.premium_guild_tier_1,
                     discord.MessageType.premium_guild_tier_2,
                     discord.MessageType.premium_guild_tier_3,
-                )
-                and m.guild is not None
-                and m.guild.id == self.d.support_server_id
-            ):
-                await self.db.add_item(m.author.id, "Barrel", 1024, 1)
-                await self.bot.send(m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!")
-                return
+                ):
+                    await self.db.add_item(m.author.id, "Barrel", 1024, 1)
+                    await self.bot.send(m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!")
+                    return
 
             if m.content.startswith(f"<@!{self.bot.user.id}>"):
-                prefix = "/"
-                if m.guild is not None:
-                    prefix = self.d.prefix_cache.get(m.guild.id, "/")
+                prefix = self.d.default_prefix
 
-                lang = await self.bot.get_lang(m)
+                if m.guild is not None:
+                    prefix = self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)
+
+                lang = self.bot.get_lang(m)
 
                 embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
 
@@ -83,7 +86,9 @@ class Events(commands.Cog):
                 return
 
             if m.guild is not None:
-                if "@someone" in m.content:
+                content_lowered = m.content.lower()
+
+                if "@someone" in content_lowered:
                     someones = [
                         u
                         for u in m.guild.members
@@ -99,18 +104,16 @@ class Events(commands.Cog):
                         invis = ("||||\u200B" * 200)[2:-3]
                         await m.channel.send(f"@someone {invis} {random.choice(someones).mention} {m.author.mention}")
                 else:
-                    if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, "/")):
-                        if "emerald" in m.content.lower():
+                    if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)):
+                        if "emerald" in content_lowered:
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send(random.choice(self.d.hmms))
-                        elif "creeper" in m.content.lower():
+                        elif "creeper" in content_lowered:
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
-                        elif "reee" in m.content.lower().replace(" ", ""):
+                        elif "reee" in content_lowered:
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send(random.choice(self.d.emojis.reees))
-                        else:
-                            return
         except discord.errors.Forbidden:
             pass
 
@@ -220,11 +223,6 @@ class Events(commands.Cog):
         except Exception as e:
             if not isinstance(e.__dict__.get("original"), discord.errors.Forbidden):
                 await self.debug_error(ctx, e)
-
-    @commands.Cog.listener()
-    async def on_slash_command_error(self, ctx, e):
-        ctx.l = await self.bot.get_lang(ctx)
-        await self.on_command_error(ctx, e)
 
 
 def setup(bot):

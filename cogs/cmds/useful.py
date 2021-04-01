@@ -70,10 +70,6 @@ class Useful(commands.Cog):
 
     @help.command(name="economy", aliases=["econ"])
     async def help_economy(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.economy}]", icon_url=self.d.splash_logo)
@@ -86,10 +82,6 @@ class Useful(commands.Cog):
 
     @help.command(name="minecraft", aliases=["mc"])
     async def help_minecraft(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]", icon_url=self.d.splash_logo)
@@ -102,10 +94,6 @@ class Useful(commands.Cog):
 
     @help.command(name="utility", aliases=["util", "useful"])
     async def help_utility(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.utility}]", icon_url=self.d.splash_logo)
@@ -118,10 +106,6 @@ class Useful(commands.Cog):
 
     @help.command(name="fun")
     async def help_fun(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.fun}]", icon_url=self.d.splash_logo)
@@ -134,10 +118,6 @@ class Useful(commands.Cog):
 
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
     async def help_administrative(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.admin}]", icon_url=self.d.splash_logo)
@@ -276,57 +256,6 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="info", aliases=["i"])
-    @commands.is_owner()
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    async def info(self, ctx, *, thing):
-        await ctx.send("execute")
-
-        type_ = None
-
-        try:
-            snowflake = int(thing)
-            type_ = "id"
-        except Exception:
-            user = discord.utils.find((lambda u: u.name == thing), ctx.guild.members)
-
-            if user is None:
-                user = discord.utils.find((lambda u: u.name == thing), self.bot.users)
-
-            if user is not None:
-                type_ = "user"
-            else:
-                guild = discord.utils.find((lambda g: g.name == thing), self.bot.guilds)
-
-                if guild is not None:
-                    type_ = "guild"
-
-        if type_ == "id":
-            user = self.bot.get_user(snowflake)
-
-            if user is None:
-                try:
-                    await ctx.send("api for user snowflake")
-                    user = await self.bot.fetch_user(snowflake)
-                except Exception:
-                    pass
-
-            if user is not None:
-                type_ = "user"
-            else:
-                guild = self.bot.get_guild(snowflake)
-
-                if guild is not None:
-                    type_ = "guild"
-
-        if type_ == "guild":
-            await self.server_info(ctx, guild.id)
-        elif type_ == "user":
-            await ctx.send("user")
-        else:
-            await ctx.send(type_)
-            await ctx.send(snowflake)
-
     @commands.command(name="rules", aliases=["botrules"])
     async def rules(self, ctx):
         embed = discord.Embed(color=self.d.cc, description=ctx.l.useful.rules.penalty)
@@ -394,7 +323,7 @@ class Useful(commands.Cog):
             await self.bot.send(ctx, ctx.l.useful.search.error)
             return
 
-        res = (*filter((lambda r: "youtube.com/watch" in r.url), res),)
+        res = tuple(filter((lambda r: "youtube.com/watch" in r.url), res))
 
         if len(res) == 0:
             await self.bot.send(ctx, ctx.l.useful.search.nope)

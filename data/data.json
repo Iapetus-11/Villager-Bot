@@ -1,5 +1,5 @@
 {
-  "default_prefix": "/",
+  "default_prefix": "!!",
   "support_server_id": 641117791272960031,
   "error_channel_id": 642446655022432267,
   "vote_channel_id": 725551439165784115,
@@ -9,6 +9,7 @@
   "topgg": "https://top.gg/bot/639498607632056321",
   "github": "https://github.com/Iapetus-11/Villager-Bot",
   "statcord": "https://beta.statcord.com/bot/639498607632056321",
+  "mob_chance": 40,
   "tip_chance": 150,
   "hooksport": 5000,
   "hookspath": "/votehook",
@@ -161,149 +162,286 @@
   },
   "mining": {
     "finds": [
-      ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore"],
-      ["cobblestone", "cobblestone", "dirt", "dirt", "coal", "iron ore", "lapis lazuli", "gold ore"],
-      ["cobblestone", "cobblestone", "dirt", "coal", "coal", "iron ore", "iron ore", "gold ore", "diamond", "redstone"]
+      [
+        "cobblestone",
+        "cobblestone",
+        "dirt",
+        "dirt",
+        "coal",
+        "iron ore"
+      ],
+      [
+        "cobblestone",
+        "cobblestone",
+        "dirt",
+        "dirt",
+        "coal",
+        "iron ore",
+        "lapis lazuli",
+        "gold ore"
+      ],
+      [
+        "cobblestone",
+        "cobblestone",
+        "dirt",
+        "coal",
+        "coal",
+        "iron ore",
+        "iron ore",
+        "gold ore",
+        "diamond",
+        "redstone"
+      ]
     ],
     "yields_enchant_items": {
-      "Bane Of Pillagers Amulet": [2, 3, 4, 5, 6],
-      "Fortune III Book": [1, 1, 2, 3, 4],
-      "Fortune II Book": [1, 1, 1, 2, 3],
-      "Fortune I Book": [1, 1, 2]
+      "Bane Of Pillagers Amulet": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "Fortune III Book": [
+        1,
+        1,
+        2,
+        3,
+        4
+      ],
+      "Fortune II Book": [
+        1,
+        1,
+        1,
+        2,
+        3
+      ],
+      "Fortune I Book": [
+        1,
+        1,
+        2
+      ]
     },
     "yields_pickaxes": {
-      "Wood Pickaxe": [4, 26],
-      "Stone Pickaxe": [5, 26],
-      "Iron Pickaxe": [7, 26],
-      "Gold Pickaxe": [8, 26],
-      "Diamond Pickaxe": [10, 26],
-      "Netherite Pickaxe": [13, 26]
-    }
-  },
-  "default_findables": [
-    [
-      "Fortune II Book",
-      128,
-      999,
-      false
-    ],
-    [
-      "Fortune III Book",
-      768,
-      9999,
-      false
-    ],
-    [
-      "Efficiency I Book",
-      512,
-      6669,
-      false
-    ],
-    [
-      "Looting I Book",
-      128,
-      1000,
-      false
-    ],
-    [
-      "Sharpness I Book",
-      32,
-      1000,
-      false
-    ],
-    [
-      "Looting II Book",
-      768,
-      9999,
-      false
-    ],
-    [
-      "Sharpness II Book",
-      768,
-      9999,
-      false
-    ],
-    [
-      "Haste I Potion",
-      32,
-      200,
-      false
-    ],
-    [
-      "Haste II Potion",
-      128,
-      1000,
-      false
-    ],
-    [
-      "Barrel",
-      1024,
-      99999,
-      false
-    ],
-    [
-      "Bane Of Pillagers Amulet",
-      4096,
-      500000,
-      true
+      "Wood Pickaxe": [
+        4,
+        26
+      ],
+      "Stone Pickaxe": [
+        5,
+        26
+      ],
+      "Iron Pickaxe": [
+        7,
+        26
+      ],
+      "Gold Pickaxe": [
+        8,
+        26
+      ],
+      "Diamond Pickaxe": [
+        10,
+        26
+      ],
+      "Netherite Pickaxe": [
+        13,
+        26
+      ]
+    },
+    "findables": [
+      [
+        "Fortune II Book",
+        128,
+        999,
+        false
+      ],
+      [
+        "Fortune III Book",
+        768,
+        9999,
+        false
+      ],
+      [
+        "Efficiency I Book",
+        512,
+        6669,
+        false
+      ],
+      [
+        "Looting I Book",
+        128,
+        1000,
+        false
+      ],
+      [
+        "Sharpness I Book",
+        32,
+        1000,
+        false
+      ],
+      [
+        "Looting II Book",
+        768,
+        9999,
+        false
+      ],
+      [
+        "Sharpness II Book",
+        768,
+        9999,
+        false
+      ],
+      [
+        "Haste I Potion",
+        32,
+        200,
+        false
+      ],
+      [
+        "Haste II Potion",
+        128,
+        1000,
+        false
+      ],
+      [
+        "Barrel",
+        1024,
+        99999,
+        false
+      ],
+      [
+        "Bane Of Pillagers Amulet",
+        4096,
+        500000,
+        true
+      ],
+      [
+        "Toilet Paper Roll (Emerald Patterned)",
+        1000,
+        99999,
+        false
+      ],
+      [
+        "Rona Vaccine",
+        1024,
+        2000,
+        false
+      ],
+      [
+        "Pillager-Proof Hazmat Suit",
+        420,
+        10000,
+        false
+      ],
+      [
+        "Tub Of Hand Sanitizer",
+        128,
+        2000,
+        false
+      ],
+      [
+        "Mask",
+        50,
+        2000,
+        false
+      ],
+      [
+        "Tiny Hand Sanitizer Bottle",
+        50,
+        2000,
+        false
+      ]
     ]
-  ],
-  "special_findables": [
-     [
-       "Toilet Paper Roll (Emerald Patterned)",
-       1000,
-       99999,
-       false
-     ],
-     [
-       "Rona Vaccine",
-       1024,
-       2000,
-       false
-     ],
-     [
-       "Pillager-Proof Hazmat Suit",
-       420,
-       10000,
-       false
-     ],
-     [
-       "Tub Of Hand Sanitizer",
-       128,
-       2000,
-       false
-     ],
-     [
-       "Mask",
-       50,
-       2000,
-       false
-     ],
-     [
-       "Tiny Hand Sanitizer Bottle",
-       50,
-       2000,
-       false
-     ],
-     [
-       "Four Leaf Clover",
-       50,
-       2000,
-       false
-     ],
-     [
-       "Pot Of Gold",
-       420,
-       10000,
-       false
-     ],
-     [
-       "A Literal Rainbow",
-       2048,
-       99999,
-       false
-     ]
-  ],
+  },
+  "fishing": {
+    "exponent": 3,
+    "fish_ids": [],
+    "fish_weights": [],
+    "fish": {
+      "cod": {
+        "name": "Cod",
+        "value": [
+          15,
+          30
+        ],
+        "current": null,
+        "rarity": 0
+      },
+      "salmon": {
+        "name": "Salmon",
+        "value": [
+          20,
+          60
+        ],
+        "current": null,
+        "rarity": 0
+      },
+      "tropical_fish": {
+        "name": "Tropical Fish",
+        "value": [
+          40,
+          120
+        ],
+        "current": null,
+        "rarity": 1
+      },
+      "pufferfish": {
+        "name": "Pufferfish",
+        "value": [
+          60,
+          200
+        ],
+        "current": null,
+        "rarity": 3
+      },
+      "rainbow_trout": {
+        "name": "Rainbow Trout",
+        "value": [
+          180,
+          290
+        ],
+        "current": null,
+        "rarity": 4
+      },
+      "gold_fish": {
+        "name": "Gold Fish",
+        "value": [
+          200,
+          300
+        ],
+        "current": null,
+        "rarity": 4
+      },
+      "emerald_fish": {
+        "name": "Emerald Fish",
+        "value": [
+          600,
+          800
+        ],
+        "current": null,
+        "rarity": 5
+      }
+    },
+    "findables": [
+      [
+        "Lure I Book",
+        32,
+        200,
+        false
+      ],
+      [
+        "Rusty Fishing Hook",
+        128,
+        999,
+        false
+      ],
+      [
+        "Seaweed",
+        420,
+        6669,
+        false
+      ]
+    ]
+  },
   "shop_items": {
     "stone pickaxe": [
       "tools",
@@ -405,6 +543,16 @@
         true
       ]
     ],
+    "fishing rod": [
+      "tools",
+      128,
+      "db_item_count < 1",
+      [
+        "Fishing Rod",
+        48,
+        true
+      ]
+    ],
     "haste i potion": [
       "magic",
       120,
@@ -486,9 +634,59 @@
       ]
     ]
   },
+  "cats": {
+    "tools": [
+      "Wood Pickaxe",
+      "Stone Pickaxe",
+      "Iron Pickaxe",
+      "Gold Pickaxe",
+      "Diamond Pickaxe",
+      "Netherite Pickaxe",
+      "Wood Sword",
+      "Stone Sword",
+      "Iron Sword",
+      "Gold Sword",
+      "Diamond Sword",
+      "Netherite Sword",
+      "Fishing Rod"
+    ],
+    "magic": [
+      "Fortune I Book",
+      "Fortune II Book",
+      "Fortune III Book",
+      "Efficiency I Book",
+      "Looting I Book",
+      "Looting II Book",
+      "Sharpness I Book",
+      "Sharpness II Book",
+      "Haste I Potion",
+      "Haste II Potion",
+      "Lure I Book",
+      "Seaweed",
+      "Vault Potion",
+      "Bane Of Pillagers Amulet",
+      "Slime Trophy",
+      "Rich Person Trophy"
+    ],
+    "material": [
+      "Netherite Scrap",
+      "Slime Ball"
+    ],
+    "fish": [
+      "Cod",
+      "Salmon",
+      "Tropical Fish",
+      "Pufferfish",
+      "Rainbow Trout",
+      "Gold Fish",
+      "Emerald Fish"
+    ]
+  },
   "emojis": {
-    "emerald": "<:emerald:807291200083460216>",
-    "emerald_block": "<:emerald_block:679121595150893057>",
+    "emerald-old": "<:emerald:807291200083460216>",
+    "emerald_block-old": "<:emerald_block:679121595150893057>",
+    "emerald": "<:diamond:827017062291210271>",
+    "emerald_block": "<:diamond_block:827017062689669130>",
     "online": "<:online:692764696075304960>",
     "offline": "<:offline:692764696431951872>",
     "netherite": "<:netherite_scrap:676974675091521539>",
@@ -497,6 +695,23 @@
     "stevegun": "<:stevegun:682057109478834205>",
     "bee": "<:beee:682059180391268352>",
     "anibee": "<a:bee:682057109046951956>",
+    "heart_full": "<:heart_full:781951275008655450>",
+    "heart_half": "<:heart_half:781951274618454107>",
+    "heart_empty": "<:heart_empty:781951275293081670>",
+    "aniheart": "<a:ping:692401875001278494>",
+    "updoot": "<:upvote:682422396636233769>",
+    "downdoot": "<:downvote:682422396774514689>",
+    "slimeball": "<:slimeball:781753960213381150>",
+    "totem": "<:totem:824822285625458708>",
+    "netherite_sword": "<a:netherite_sword:783838353220304906>",
+    "netherite_pickaxe": "<a:netherite_pickaxe:824821206385557514>",
+    "bounce": "<a:bounce:783838342956580886>",
+    "anichest": "<a:anichest:783838343506427904>",
+    "rainbow_shep": "<a:rainbow_shep:783838351001387009>",
+    "emerald_spinn-old": "<a:emerald_spinn:783838348695437353>",
+    "emerald_spinn": "<a:diamond:827017094154813510>",
+    "heart_spin": "<a:heart_spin:789129483809718282>",
+    "enchanted_book": "<a:enchanted_book:824820639965118464>",
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
@@ -507,19 +722,15 @@
       "<a:anireee1:703802166439182357>",
       "<a:anireee2:655438580814053451>"
     ],
-    "heart_full": "<:heart_full:781951275008655450>",
-    "heart_half": "<:heart_half:781951274618454107>",
-    "heart_empty": "<:heart_empty:781951275293081670>",
-    "aniheart": "<a:ping:692401875001278494>",
-    "updoot": "<:upvote:682422396636233769>",
-    "downdoot": "<:downvote:682422396774514689>",
-    "slimeball": "<:slimeball:781753960213381150>",
-    "netherite_sword": "<a:netherite_sword:783838353220304906>",
-    "bounce": "<a:bounce:783838342956580886>",
-    "anichest": "<a:anichest:783838343506427904>",
-    "rainbow_shep": "<a:rainbow_shep:783838351001387009>",
-    "emerald_spinn": "<a:emerald_spinn:783838348695437353>",
-    "heart_spin": "<a:heart_spin:789129483809718282>"
+    "fish": {
+      "cod": "<:cod:824468050703155200>",
+      "salmon": "<:salmon:824468050475483147>",
+      "tropical_fish": "<:tropical_fish:824468050714951680>",
+      "pufferfish": "<:pufferfish:824468050736447498>",
+      "rainbow_trout": "<:rainbow_trout:824468050728321035>",
+      "gold_fish": "<:gold_fish:824468050744442900>",
+      "emerald_fish": "<:emerald_fish:824468050727927838>"
+    }
   },
   "build_ideas": {
     "ideas": [
@@ -655,13 +866,7 @@
     "♥(。ᅌ ω ᅌ。)"
   ],
   "emojified": {
-    "!": ":grey_exclamation:",
-    "?": ":grey_question:",
-    "+": ":heavy_plus_sign:",
-    "-": ":heavy_minus_sign:",
-    "$": ":heavy_dollar_sign:",
-    "#": ":hash:",
-    "*": ":asterisk:",
+    "0": ":zero:",
     "1": ":one:",
     "2": ":two:",
     "3": ":three:",
@@ -671,8 +876,14 @@
     "7": ":seven:",
     "8": ":eight:",
     "9": ":nine:",
-    "0": ":zero:",
-    " ": "\uFEFF \uFEFF \uFEFF "
+    "!": ":grey_exclamation:",
+    "?": ":grey_question:",
+    "+": ":heavy_plus_sign:",
+    "-": ":heavy_minus_sign:",
+    "$": ":heavy_dollar_sign:",
+    "#": ":hash:",
+    "*": ":asterisk:",
+    " ": "\ufeff \ufeff \ufeff "
   },
   "fun_langs": {
     "enchant": {
@@ -1007,7 +1218,7 @@
   ],
   "playing_list": [
     "Minecraft",
-    "/vote for emeralds!",
+    "!!vote for emeralds!",
     "Minecraft Java Edition",
     "Minecraft with PewDiePie",
     "Minecraft with CaptainSparklez",
@@ -1017,7 +1228,7 @@
     "Minecraft on Hypixel",
     "Minecraft on a TI-84",
     "Minecraft on a Commodore 64",
-    "/vote for emeralds!",
+    "!!vote for emeralds!",
     "Minecraft on a Raspberry Pi",
     "Minecraft online",
     "Minecraft with Iapetus11",
@@ -1035,7 +1246,7 @@
     "Minecraft Pocket Edition",
     "Minecraft on Windows XP",
     "Minecraft on Windows 98",
-    "/vote for emeralds!",
+    "!!vote for emeralds!",
     "Minecraft on MS-DOS",
     "Minecraft on a typewriter",
     "Minecraft on a TV remote",
@@ -1066,18 +1277,18 @@
     "on Hypixel",
     "Skyblock",
     "Spleef",
-    "/vote for emeralds!",
+    "!!vote for emeralds!",
     "Factions",
     "PVP on Hypixel",
     "Hypixel Pit",
     "CraftMine 1.0",
-    "\u041c\u0430\u0439\u043d\u043a\u0440\u0430\u0444\u0442",
+    "Майнкрафт",
     "46 75 63 6b 69 6e 67 20 4e 65 72 64",
     "4d 69 6e 65 63 72 61 66 74",
     "01001101 01101001 01101110 01100101 01100011 01110010 01100001 01100110 01110100",
     "FortCraft Mine Royale",
     "with creepers",
-    "/vote for emeralds!",
+    "!!vote for emeralds!",
     "Minecraft with Joe!",
     "Minecraft 1.15.1",
     "Minecraft with a lot of beeeeeeeeeeees",

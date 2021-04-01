@@ -67,11 +67,9 @@ class Econ(commands.Cog):
         self.d.miners[ctx.author.id] = mine_commands + 1
 
         if mine_commands >= 100 * source_multi:
-            prob = f'{random.randint(0, 45)}{random.choice(("+", "+",))}{random.randint(0, 25)}'
-            prob = (
-                prob,
-                str(eval(prob)),
-            )
+            x, y = random.randint(0, 45), random.randint(0, 25)
+            prob = f"{x}+{y}"
+            prob = (prob, str(x + y))
 
             await self.bot.send(ctx, ctx.l.econ.math_problem.problem.format(prob[0]))
 
@@ -116,7 +114,7 @@ class Econ(commands.Cog):
         total_wealth = (
             db_user["emeralds"]
             + db_user.get("vault_bal", 0) * 9
-            + sum([u_it.get("sell_price", 0) * u_it.get("amount", 0) for u_it in u_items])
+            + sum([u_it["sell_price"] * u_it.get("amount", 0) for u_it in u_items if u_it["sell_price"] > 0])
         )
         health_bar = make_health_bar(
             db_user["health"], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
@@ -169,8 +167,11 @@ class Econ(commands.Cog):
 
         vault_bal = db_user["vault_bal"]
 
-        total_wealth = db_user["emeralds"] + ((0 if vault_bal is None else vault_bal) * 9)
-        total_wealth += sum([u_it["sell_price"] * u_it.get("amount", 0) for u_it in u_items])
+        total_wealth = (
+            db_user["emeralds"]
+            + ((0 if vault_bal is None else vault_bal) * 9)
+            + sum([u_it["sell_price"] * u_it["amount"] for u_it in u_items if u_it["sell_price"] > 0])
+        )
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=user.avatar_url_as())
@@ -184,25 +185,18 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="inventory", aliases=["inv", "items"])
-    @commands.cooldown(2, 10, commands.BucketType.user)
-    async def inventory(self, ctx, *, user: discord.User = None):
-        """Shows the inventory of a user or the message sender"""
+    async def inventory_logic(self, ctx, user, items: list, cat: str, items_per_page: int = 8):
+        fishies = {fish.name: fish.current for fish in self.d.fishing.fish.values()}
 
-        if user is None:
-            user = ctx.author
+        for i, item in enumerate(items):
+            try:
+                items[i] = {**item, "sell_price": fishies[item["name"]]}
+            except KeyError:
+                pass
 
-        if user.bot:
-            if user.id == self.bot.user.id:
-                await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
-            else:
-                await self.bot.send(ctx, ctx.l.econ.inv.bot_2)
-            return
-
-        u_items = await self.db.fetch_items(user.id)
-        items_sorted = sorted(u_items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
+        items_sorted = sorted(items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
         items_chunks = [
-            items_sorted[i : i + 16] for i in range(0, len(items_sorted), 16)
+            items_sorted[i : i + items_per_page] for i in range(0, len(items_sorted), items_per_page)
         ]  # split items into chunks of 16 [[16..], [16..], [16..]]
 
         page = 0
@@ -216,15 +210,18 @@ class Econ(commands.Cog):
         first_time = True
 
         while True:
-            body = ""  # text for that page
-            for item in items_chunks[page]:
-                it_am_txt = f'{item["amount"]}'
-                # it_am_txt += ' \uFEFF' * (len(it_am_txt) - 5)
-                body += f'`{it_am_txt}x` **{item["name"]}** ({item["sell_price"]}{self.d.emojis.emerald})\n'
+            if len(items_chunks) == 0:
+                body = ctx.l.econ.inv.empty
+            else:
+                body = ""  # text for that page
 
-            embed = discord.Embed(color=self.d.cc, description=body)
-            embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name), icon_url=user.avatar_url_as())
-            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max+1}")
+                for item in items_chunks[page]:
+                    sell_price_nice = f'({item["sell_price"]}{self.d.emojis.emerald})' if item["sell_price"] != -1 else ""
+                    body += f'`{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
+
+                embed = discord.Embed(color=self.d.cc, description=body)
+                embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat), icon_url=user.avatar_url_as())
+                embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max+1}")
 
             if msg is None:
                 msg = await ctx.send(embed=embed)
@@ -262,6 +259,88 @@ class Econ(commands.Cog):
 
             first_time = False
 
+    async def inventory_boiler(self, ctx, user: discord.User = None):
+        if ctx.invoked_subcommand is not None:
+            return False, None
+
+        if user is None:
+            user = ctx.author
+
+        if user.bot:
+            if user.id == self.bot.user.id:
+                await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
+            else:
+                await self.bot.send(ctx, ctx.l.econ.inv.bot_2)
+
+            return False, user
+
+        return True, user
+
+    @commands.group(name="inventory", aliases=["inv", "items"])
+    @commands.cooldown(2, 2, commands.BucketType.user)
+    async def inventory(self, ctx):
+        if ctx.invoked_subcommand is not None:
+            return
+
+        split = ctx.message.content.split()
+
+        if len(split) <= 1:
+            user = ctx.author
+        else:
+            try:
+                user = await commands.UserConverter().convert(ctx, " ".join(split[1:]))
+            except BaseException:
+                raise commands.BadArgument
+
+        items = await self.db.fetch_items(user.id)
+
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.all, 16)
+
+    @inventory.group(name="tools", aliases=["tool", "pickaxes", "swords"])
+    async def inventory_tools(self, ctx, user: discord.User = None):
+        valid, user = await self.inventory_boiler(ctx, user)
+
+        if not valid:
+            return
+
+        items = [e for e in await self.db.fetch_items(user.id) if e["name"] in self.d.cats.tools]
+
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.tools)
+
+    @inventory.group(name="magic", aliases=["books", "potions", "enchants"])
+    async def inventory_magic(self, ctx, user: discord.User = None):
+        valid, user = await self.inventory_boiler(ctx, user)
+
+        if not valid:
+            return
+
+        items = [e for e in await self.db.fetch_items(user.id) if e["name"] in self.d.cats.magic]
+
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.magic)
+
+    @inventory.group(name="misc", aliases=["other"])
+    async def inventory_misc(self, ctx, user: discord.User = None):
+        valid, user = await self.inventory_boiler(ctx, user)
+
+        if not valid:
+            return
+
+        combined_cats = self.d.cats.tools + self.d.cats.magic + self.d.cats.fish
+        items = [e for e in await self.db.fetch_items(user.id) if e["name"] not in combined_cats]
+
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc)
+
+    @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
+    async def inventory_fish(self, ctx, user: discord.User = None):
+        valid, user = await self.inventory_boiler(ctx, user)
+
+        if not valid:
+            return
+
+        items = [e for e in await self.db.fetch_items(user.id) if e["name"] in self.d.cats.fish]
+
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.fish)
+
     @commands.command(name="deposit", aliases=["dep"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
@@ -295,10 +374,7 @@ class Econ(commands.Cog):
             return
 
         if amount < 1:
-            if emerald_blocks.lower() in (
-                "all",
-                "max",
-            ):
+            if emerald_blocks.lower() in ("all", "max"):
                 await self.bot.send(ctx, ctx.l.econ.dep.stupid_2)
             else:
                 await self.bot.send(ctx, ctx.l.econ.dep.stupid_1)
@@ -333,10 +409,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.withd.poor_loser)
             return
 
-        if emerald_blocks.lower() in (
-            "all",
-            "max",
-        ):
+        if emerald_blocks.lower() in ("all", "max"):
             amount = c_v_bal
         else:
             try:
@@ -369,9 +442,24 @@ class Econ(commands.Cog):
             embed = discord.Embed(color=self.d.cc)
             embed.set_author(name=ctx.l.econ.shop.villager_shop, icon_url=self.d.splash_logo)
 
-            embed.add_field(name=f"__**{ctx.l.econ.shop.tools}**__", value=f"`{ctx.prefix}shop tools`")
-            embed.add_field(name=f"__**{ctx.l.econ.shop.magic}**__", value=f"`{ctx.prefix}shop magic`")
-            embed.add_field(name=f"__**{ctx.l.econ.shop.other}**__", value=f"`{ctx.prefix}shop other`")
+            # row 1
+            embed.add_field(
+                name=f"__**{ctx.l.econ.shop.tools.format(self.d.emojis.netherite_pickaxe)}**__",
+                value=f"`{ctx.prefix}shop tools`",
+            )
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(
+                name=f"__**{ctx.l.econ.shop.magic.format(self.d.emojis.enchanted_book)}**__", value=f"`{ctx.prefix}shop magic`"
+            )
+
+            # row 2
+            embed.add_field(
+                name=f"__**{ctx.l.econ.shop.other.format(self.d.emojis.totem)}**__", value=f"`{ctx.prefix}shop other`"
+            )
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(
+                name=f"__**{ctx.l.econ.shop.fish.format(self.d.emojis.fish.cod)}**__", value=f"`{ctx.prefix}shop fish`"
+            )
 
             embed.set_footer(text=ctx.l.econ.shop.embed_footer.format(ctx.prefix))
 
@@ -412,9 +500,12 @@ class Econ(commands.Cog):
                 if not msg.embeds[0] == embed:
                     await msg.edit(embed=embed)
 
-            await asyncio.sleep(0.1)
+            if page_max <= 1:
+                return
+
+            await asyncio.sleep(0.25)
             await msg.add_reaction("⬅️")
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.25)
             await msg.add_reaction("➡️")
 
             try:
@@ -422,9 +513,8 @@ class Econ(commands.Cog):
                 def author_check(react, r_user):
                     return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
-                react, r_user = await self.bot.wait_for(
-                    "reaction_add", check=author_check, timeout=180
-                )  # wait for reaction from message author (3min)
+                # wait for reaction from message author (1 min)
+                react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=60)
             except asyncio.TimeoutError:
                 return
 
@@ -432,33 +522,113 @@ class Econ(commands.Cog):
 
             if react.emoji == "⬅️":
                 page -= 1
-            if react.emoji == "➡️":
+            elif react.emoji == "➡️":
                 page += 1
 
             if page > page_max - 1:
                 page = page_max - 1
+
             if page < 0:
                 page = 0
 
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.2)
 
     @shop.command(name="tools")
     async def shop_tools(self, ctx):
         """Allows you to shop for tools"""
 
-        await self.shop_logic(ctx, "tools", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.tools}]")
+        await self.shop_logic(ctx, "tools", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.tools[3:]}]")
 
     @shop.command(name="magic")
     async def shop_magic(self, ctx):
         """Allows you to shop for magic items"""
 
-        await self.shop_logic(ctx, "magic", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic}]")
+        await self.shop_logic(ctx, "magic", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic[3:]}]")
 
     @shop.command(name="other")
     async def shop_other(self, ctx):
         """Allows you to shop for other/miscellaneous items"""
 
-        await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other}]")
+        await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other[3:]}]")
+
+    @shop.command(name="fish")
+    async def shop_fish(self, ctx):
+        await self.fish_market(ctx)
+
+    @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
+    async def fish_market(self, ctx):
+        embed_template = discord.Embed(
+            color=self.d.cc,
+            title=ctx.l.econ.fishing.market.title.format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
+            description=ctx.l.econ.fishing.market.desc,
+        )
+
+        fields = []
+
+        for i, fish in enumerate(self.d.fishing.fish.items()):
+            fish_id, fish = fish
+
+            fields.append(
+                {
+                    "name": f"{self.d.emojis.fish[fish_id]} {fish.name}",
+                    "value": ctx.l.econ.fishing.market.current.format(fish.current, self.d.emojis.emerald),
+                }
+            )
+
+            if i % 2 == 0:
+                fields.append({"name": "\uFEFF", "value": "\uFEFF"})
+
+                msg = None
+
+        groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
+        page_max = len(groups)
+        page = 0
+
+        while True:
+            embed = embed_template.copy()
+
+            for field in groups[page]:
+                embed.add_field(**field)
+
+            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max}")
+
+            if msg is None:
+                msg = await ctx.send(embed=embed)
+            elif not msg.embeds[0] == embed:
+                await msg.edit(embed=embed)
+
+            if page_max <= 1:
+                return
+
+            await asyncio.sleep(0.25)
+            await msg.add_reaction("⬅️")
+            await asyncio.sleep(0.25)
+            await msg.add_reaction("➡️")
+
+            try:
+
+                def author_check(react, r_user):
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+
+                # wait for reaction from message author (1 min)
+                react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=60)
+            except asyncio.TimeoutError:
+                return
+
+            await react.remove(ctx.author)
+
+            if react.emoji == "⬅️":
+                page -= 1
+            elif react.emoji == "➡️":
+                page += 1
+
+            if page > page_max - 1:
+                page = page_max - 1
+
+            if page < 0:
+                page = 0
+
+            await asyncio.sleep(0.2)
 
     @commands.command(name="buy")
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -520,10 +690,7 @@ class Econ(commands.Cog):
             db_item_count = 0
 
         if eval(shop_item[2]):
-            if shop_item[3][0] in (
-                "Netherite Sword",
-                "Netherite Pickaxe",
-            ):
+            if shop_item[3][0] in ("Netherite Sword", "Netherite Pickaxe"):
                 db_scrap = await self.db.fetch_item(ctx.author.id, "Netherite Scrap")
 
                 if "Sword" in shop_item[3][0]:
@@ -550,6 +717,12 @@ class Econ(commands.Cog):
 
             await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
             await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount, shop_item[3][2])
+
+            if shop_item[3][0].endswith("Pickaxe") or shop_item[3][0] == "Bane Of Pillagers Amulet":
+                member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
+
+                if member is not None:
+                    await self.bot.update_support_member_role(member)
 
             await self.bot.send(
                 ctx,  # pep8 wants to kil me
@@ -613,8 +786,18 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.sell.stupid_2)
             return
 
+        for fish_id, fish in self.d.fishing.fish.items():
+            if db_item["name"] == fish.name:
+                db_item = {**db_item, "sell_price": fish.current}
+
         await self.db.balance_add(ctx.author.id, amount * db_item["sell_price"])
         await self.db.remove_item(ctx.author.id, db_item["name"], amount)
+
+        if db_item["name"].endswith("Pickaxe") or db_item["name"] == "Bane Of Pillagers Amulet":
+            member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
+
+            if member is not None:
+                await self.bot.update_support_member_role(member)
 
         await self.bot.send(
             ctx,
@@ -668,18 +851,14 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
             return
 
-        if item in (
-            "emerald",
-            "emeralds",
-            ":emerald:",
-        ):
+        if item in ("emerald", "emeralds", ":emerald:"):
             if amount > db_user["emeralds"]:
                 await self.bot.send(ctx, ctx.l.econ.give.stupid_3)
                 return
 
             await self.db.balance_sub(ctx.author.id, amount)
             await self.db.balance_add(user.id, amount)
-            await self.db.log_transaction("emerald", amount, arrow.utcnow().timestamp, ctx.author.id, user.id)
+            await self.db.log_transaction("emerald", amount, arrow.utcnow().timestamp(), ctx.author.id, user.id)
 
             await self.bot.send(
                 ctx, ctx.l.econ.give.gaveems.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention)
@@ -704,7 +883,7 @@ class Econ(commands.Cog):
 
             await self.db.remove_item(ctx.author.id, item, amount)
             await self.db.add_item(user.id, db_item["name"], db_item["sell_price"], amount)
-            await self.db.log_transaction(db_item["name"], amount, arrow.utcnow().timestamp, ctx.author.id, user.id)
+            await self.db.log_transaction(db_item["name"], amount, arrow.utcnow().timestamp(), ctx.author.id, user.id)
 
             await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item["name"], user.mention))
 
@@ -842,18 +1021,9 @@ class Econ(commands.Cog):
                 break
 
         if not found:
-            for item in self.d.findables:  # try to see if user gets an item
+            for item in self.d.mining.findables:  # try to see if user gets an item
                 if random.randint(0, item[2]) == 1:
                     await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
-
-                    """
-                    # god I hate multi language support fucking kill me
-                    a = ''
-                    if ctx.l.lang == 'en-us':
-                        a = ' a'
-                        if item[0][0] in self.d.vowels:  # angry noises
-                            a = ' an'
-                    """
 
                     await self.bot.send(
                         ctx,
@@ -865,6 +1035,7 @@ class Econ(commands.Cog):
                             self.d.emojis.emerald,
                             random.choice(ctx.l.econ.mine.places),
                         ),
+                        True,
                     )
 
                     return
@@ -877,6 +1048,7 @@ class Econ(commands.Cog):
                     random.choice(ctx.l.econ.mine.useless),
                     random.choice(fake_finds),
                 ),
+                True,
             )
         else:
             found = int(found)
@@ -889,9 +1061,74 @@ class Econ(commands.Cog):
             await self.bot.send(
                 ctx,
                 ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald),
+                True,
             )
 
         if random.randint(0, 50) == 1:
+            if db_user["vault_max"] < 2000:
+                await self.db.update_user(ctx.author.id, "vault_max", db_user["vault_max"] + 1)
+
+    @commands.command(name="fish", aliases=["phish", "feesh"])
+    @commands.guild_only()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
+    async def fish(self, ctx):
+        if not await self.math_problem(ctx):
+            return
+
+        if await self.db.fetch_item(ctx.author.id, "Fishing Rod") is None:
+            await self.bot.send(ctx, ctx.l.econ.fishing.stupid_1)
+            return
+
+        await self.bot.send(ctx, random.choice(ctx.l.econ.fishing.cast))
+
+        with ctx.typing():
+            wait = random.randint(8, 20)
+
+            if await self.db.fetch_item(ctx.author.id, "Lure I Book") is not None:
+                wait -= 2
+
+            if "seaweed" in self.d.chuggers.get(ctx.author.id, []):
+                wait -= 2
+
+            await asyncio.sleep(wait)
+
+        # fished up item or junk or somethin not fish
+        if random.randint(1, 6) == 1:
+            if random.choice((True, True, True, True, False)):  # junk
+                junk = random.choice(ctx.l.econ.fishing.junk)
+                await self.bot.send(ctx, junk, True, True)
+
+                if "meme" in junk:
+                    await self.bot.get_cog("Fun").meme(ctx)
+
+                return
+
+            while True:
+                for item in self.d.fishing.findables:
+                    if random.randint(0, (item[2] // 2) + 2) == 1:
+                        await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                        await self.bot.send(
+                            ctx,
+                            random.choice(ctx.l.econ.fishing.item).format(item[0], item[1], self.d.emojis.emerald),
+                            True,
+                            True,
+                        )
+                        return
+
+        fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fish_weights)[0]
+        fish = self.d.fishing.fish[fish_id]
+
+        await self.db.add_item(ctx.author.id, fish.name, -1, 1)
+        await self.bot.send(
+            ctx, random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True, True
+        )
+
+        await self.db.update_lb(ctx.author.id, "fish", 1, "add")
+
+        if random.randint(0, 50) == 1:
+            db_user = await self.db.fetch_user(ctx.author.id)
+
             if db_user["vault_max"] < 2000:
                 await self.db.update_user(ctx.author.id, "vault_max", db_user["vault_max"] + 1)
 
@@ -984,7 +1221,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
             await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
-    @commands.command(name="use", aliases=["eat", "chug"])
+    @commands.command(name="use", aliases=["eat", "chug", "smoke"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def use_item(self, ctx, *, thing):
         """Allows you to use potions and some other items"""
@@ -1172,7 +1409,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Present", 1)
 
             while True:
-                for item in self.d.findables:
+                for item in self.d.mining.findables:
                     if random.randint(0, (item[2] // 2) + 2) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                         await self.bot.send(
@@ -1188,7 +1425,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
 
             for _ in range(10):
-                for item in self.d.findables:
+                for item in self.d.mining.findables:
                     if random.randint(0, (item[2] // 1.5) + 5) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                         await self.bot.send(
@@ -1246,59 +1483,32 @@ class Econ(commands.Cog):
 
             embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
 
-            embed.add_field(name=ctx.l.econ.lb.emeralds, value=f"`{ctx.prefix}leaderboard emeralds`", inline=False)
-            # Can't do tw due to the immense amount of resources required to calculate it for all users in the db (as is required)
-            # embed.add_field(name='Total Wealth', value=f'`{ctx.prefix}leaderboard totalwealth`', inline=False)
-            embed.add_field(name=ctx.l.econ.lb.stolen, value=f"`{ctx.prefix}leaderboard stolen`", inline=False)
-            embed.add_field(name=ctx.l.econ.lb.kills, value=f"`{ctx.prefix}leaderboard mobkills`", inline=False)
-            embed.add_field(name=ctx.l.econ.lb.bees, value=f"`{ctx.prefix}leaderboard bees`", inline=False)
-            embed.add_field(name=ctx.l.econ.lb.cmds, value=f"`{ctx.prefix}leaderboard commands`", inline=False)
-            embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`", inline=False)
+            embed.add_field(name=ctx.l.econ.lb.emeralds, value=f"`{ctx.prefix}leaderboard emeralds`")
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.stolen, value=f"`{ctx.prefix}leaderboard stolen`")
+
+            embed.add_field(name=ctx.l.econ.lb.kills, value=f"`{ctx.prefix}leaderboard mobkills`")
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.bees, value=f"`{ctx.prefix}leaderboard bees`")
+
+            embed.add_field(name=ctx.l.econ.lb.cmds, value=f"`{ctx.prefix}leaderboard commands`")
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`")
+
+            embed.add_field(name=ctx.l.econ.lb.fish, value=f"`{ctx.prefix}leaderboard fish`")
 
             await ctx.send(embed=embed)
 
-    # assumes list is sorted prior
-    # assumes list consists of tuple(uid, value)
-    # rank_fstr is the template for each line
-    async def leaderboard_logic(self, _list, origin_uid, rank_fstr):
-        # find the rank/place on lb of the origin user
-        u_place = -1
-        for i in range(len(_list)):
-            if _list[i][0] == origin_uid:
-                u_place = i + 1
-                origin_value = _list[i][1]
-                break
-
-        # shorten list
-        _list = _list[:9] if u_place > 9 else _list[:10]
-
-        body = ""
-
-        for place, entry in enumerate(_list):  # enumerate() gives me a boner
-            user = self.bot.get_user(entry[0])
-
-            if user is None:
-                user = "Deleted User"
-            else:
-                user = discord.utils.escape_markdown(user.display_name)
-
-            body += rank_fstr.format(place + 1, entry[1], user)
-
-        if u_place > 9:
-            body += "\n⋮" + rank_fstr.format(
-                u_place, origin_value, discord.utils.escape_markdown(self.bot.get_user(origin_uid).display_name)
-            )
-
-        return body + "\uFEFF"
-
     def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
-        lb_list.append(u_entry)
+        # add user entry to leaderboard if it's not there already
+        if u_entry is not None and u_entry[0] not in [e[0] for e in lb_list]:
+            lb_list.append(u_entry)
 
-        # filter duplicates and sort
-        lb_list = sorted([e for i, e in enumerate(lb_list) if lb_list.index(e) == i], key=(lambda e: e[1]), reverse=True)
+        # sort
+        lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
 
         # shorten list
-        lb_list = lb_list[:9] if u_entry[2] > 9 else lb_list[:10]
+        lb_list = lb_list[:9] if (u_entry is not None and u_entry[2] > 9) else lb_list[:10]
 
         body = ""
 
@@ -1314,7 +1524,7 @@ class Econ(commands.Cog):
             body += rank_fstr.format(entry[2], entry[1], user)
 
         # add user if user is missing from the leaderboard
-        if u_entry[2] > 9:
+        if u_entry is not None and u_entry[2] > 9:
             body += "\n⋮" + rank_fstr.format(
                 u_entry[2], u_entry[1], discord.utils.escape_markdown(self.bot.get_user(u_entry[0]).display_name)
             )
@@ -1323,19 +1533,16 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
-        await ctx.send("This command is temporarily disabled, thank you for your patience while we fix it.")
-        return
-
         with ctx.typing():
-            user_entry, ems_global, ems_local = await self.db.fetch_leaderboard_balances(
-                ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            ems_global, global_u_entry = await self.db.fetch_global_lb_user("emeralds", ctx.author.id)
+            ems_local, local_u_entry = await self.db.fetch_local_lb_user(
+                "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            await ctx.send(user_entry)
-
-            lb_global = self.lb_logic(ems_global, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
-
-            lb_local = self.lb_logic(ems_local, user_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
+            lb_global = self.lb_logic(
+                ems_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            )
+            lb_local = self.lb_logic(ems_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1346,15 +1553,16 @@ class Econ(commands.Cog):
     @leaderboards.command(name="pillages", aliases=["pil", "stolen"])
     async def leaderboard_pillages(self, ctx):
         with ctx.typing():
-            pillages = sorted((await self.db.mass_fetch_leaderboard("pillages")), key=(lambda tup: tup[1]), reverse=True)
-
-            lb_global = await self.leaderboard_logic(
-                pillages, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            pillages_global, global_u_entry = await self.db.fetch_global_lb("pillages", ctx.author.id)
+            pillages_local, local_u_entry = await self.db.fetch_local_lb(
+                "pillages", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            pillages_local = [u for u in pillages if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                pillages_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            lb_global = self.lb_logic(
+                pillages_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            )
+            lb_local = self.lb_logic(
+                pillages_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
             )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
@@ -1366,15 +1574,16 @@ class Econ(commands.Cog):
     @leaderboards.command(name="mobkills", aliases=["kil", "kills", "kill", "bonk"])
     async def leaderboard_mobkills(self, ctx):
         with ctx.typing():
-            kills = sorted((await self.db.mass_fetch_leaderboard("mobs_killed")), key=(lambda tup: tup[1]), reverse=True)
-
-            lb_global = await self.leaderboard_logic(
-                kills, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
+            kills_global, global_u_entry = await self.db.fetch_global_lb("mobs_killed", ctx.author.id)
+            kills_local, local_u_entry = await self.db.fetch_local_lb(
+                "mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            kills_local = [u for u in kills if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                kills_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
+            lb_global = self.lb_logic(
+                kills_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
+            )
+            lb_local = self.lb_logic(
+                kills_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
             )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
@@ -1386,17 +1595,13 @@ class Econ(commands.Cog):
     @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
     async def leaderboard_bees(self, ctx):
         with ctx.typing():
-            bees = [(r["uid"], r["amount"]) for r in await self.db.mass_fetch_item("Jar Of Bees")]
-            bees = sorted(bees, key=(lambda tup: tup[1]), reverse=True)
-
-            lb_global = await self.leaderboard_logic(
-                bees, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee)
+            bees_global, global_u_entry = await self.db.fetch_global_lb_item("Jar Of Bees", ctx.author.id)
+            bees_local, local_u_entry = await self.db.fetch_local_lb_item(
+                "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            bees_local = [u for u in bees if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                bees_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee)
-            )
+            lb_global = self.lb_logic(bees_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
+            lb_local = self.lb_logic(bees_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1406,37 +1611,41 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="commands", aliases=["cmds"])
     async def leaderboard_commands(self, ctx):
+        await ctx.send("This command is temporarily disabled, thanks for bearing with us while we fix it!")
+
+    @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
+    async def leaderboard_votes(self, ctx):
         with ctx.typing():
-            cmds = sorted(self.d.cmd_lb.items(), key=(lambda tup: tup[1]), reverse=True)
-
-            lb_global = await self.leaderboard_logic(cmds, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
-
-            cmds_local = [u for u in cmds if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                cmds_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:")
+            votes_global, global_u_entry = await self.db.fetch_global_lb_user("vote_streak", ctx.author.id)
+            votes_local, local_u_entry = await self.db.fetch_local_lb_user(
+                "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":keyboard:"))
+            lb_global = self.lb_logic(
+                votes_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)
+            )
+            lb_local = self.lb_logic(votes_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(":fire:"))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
         await ctx.send(embed=embed)
 
-    @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
-    async def leaderboard_votes(self, ctx):
+    @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
+    async def leaderboard_fish(self, ctx):
         with ctx.typing():
-            vote_streaks = sorted(await self.db.mass_fetch_votestreaks(), key=(lambda tup: tup[1]), reverse=True)
-
-            lb_global = await self.leaderboard_logic(
-                vote_streaks, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)
+            fish_global, global_u_entry = await self.db.fetch_global_lb("fish", ctx.author.id)
+            fish_local, local_u_entry = await self.db.fetch_local_lb(
+                "fish", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            vote_streaks_local = [u for u in vote_streaks if ctx.guild.get_member(u[0])]
-            lb_local = await self.leaderboard_logic(
-                vote_streaks_local, ctx.author.id, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)
+            lb_global = self.lb_logic(
+                fish_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)
             )
+            lb_local = self.lb_logic(fish_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod))
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(":fire:"))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 

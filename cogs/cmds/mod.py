@@ -140,7 +140,12 @@ class Mod(commands.Cog):
 
         await self.db.add_warn(user.id, ctx.guild.id, ctx.author.id, reason)
 
-        await self.bot.send(ctx, ctx.l.mod.warn.confirm.format(self.d.emojis.yes, user.mention, len(warns) + 1, reason))
+        await self.bot.send(
+            ctx,
+            ctx.l.mod.warn.confirm.format(
+                self.d.emojis.yes, user.mention, len(warns) + 1, discord.utils.escape_markdown(str(reason))
+            ),
+        )
 
     @commands.command(name="warns", aliases=["warnings", "karens"])
     @commands.guild_only()
@@ -180,7 +185,7 @@ class Mod(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def clear_warnings(self, ctx, user: discord.Member):
         if ctx.author.id == user.id and ctx.guild.owner.id != ctx.author.id:
-            await self.bot.send(ctx, ctx.l.mod.warn.stupid_1)
+            await self.bot.send(ctx, ctx.l.mod.warn.stupid_2)
             return
 
         if not await self.perm_check(ctx.author, user):

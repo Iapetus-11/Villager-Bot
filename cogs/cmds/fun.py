@@ -101,42 +101,49 @@ class Fun(commands.Cog):
         if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
 
-        jj = {"nsfw": True}
+        comic = {"nsfw": True, "spoiler": True}
 
         async with ctx.typing():
-            while (not do_nsfw and jj["nsfw"]) or jj.get("image") is None:
+            while comic["spoiler"] or (not do_nsfw and comic["nsfw"]) or comic.get("image") is None:
                 resp = await self.ses.get(
-                    "https://api.iapetus11.me/reddit/gimme/comics", headers={"Authorization": self.k.vb_api}
+                    "https://api.iapetus11.me/reddit/gimme/comics",
+                    headers={"Authorization": self.k.vb_api},
                 )
 
-                jj = await resp.json()
+                comic = cj.classify(await resp.json())
 
-        embed = discord.Embed(color=self.d.cc)
-        embed.set_image(url=jj["image"])
+        embed = discord.Embed(color=self.d.cc, title=comic.title[:256], url=comic.permalink)
+
+        embed.set_footer(
+            text=f"{comic.upvotes}  |  u/{comic.author}",
+            icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(":")[-1].replace(">", ""))).url,
+        )
+        embed.set_image(url=comic.image)
 
         await ctx.send(embed=embed)
 
     @commands.command(name="cursed", aliases=["cursedmc"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def cursed_mc(self, ctx):
-        if random.choice(
-            (
-                True,
-                False,
-            )
-        ):
-            jj = {"nsfw": True}
+        if random.choice((True, False)):
+            meme = {"nsfw": True, "spoiler": True}
 
             async with ctx.typing():
-                while jj["nsfw"] or jj.get("image") is None:
+                while meme["spoiler"] or meme["nsfw"] or meme.get("image") is None:
                     resp = await self.ses.get(
-                        "https://api.iapetus11.me/reddit/gimme/CursedMinecraft", headers={"Authorization": self.k.vb_api}
+                        "https://api.iapetus11.me/reddit/gimme/CursedMinecraft",
+                        headers={"Authorization": self.k.vb_api},
                     )
 
-                    jj = await resp.json()
+                    meme = cj.classify(await resp.json())
 
-            embed = discord.Embed(color=self.d.cc)
-            embed.set_image(url=jj["image"])
+            embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
+
+            embed.set_footer(
+                text=f"{meme.upvotes}  |  u/{meme.author}",
+                icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(":")[-1].replace(">", ""))).url,
+            )
+            embed.set_image(url=meme.image)
 
             await ctx.send(embed=embed)
         else:
