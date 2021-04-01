@@ -683,8 +683,10 @@
     ]
   },
   "emojis": {
-    "emerald": "<:emerald:807291200083460216>",
-    "emerald_block": "<:emerald_block:679121595150893057>",
+    "emerald-old": "<:emerald:807291200083460216>",
+    "emerald_block-old": "<:emerald_block:679121595150893057>",
+    "emerald": "<:diamond:827017062291210271>",
+    "emerald_block": "<:diamond_block:827017062689669130>",
     "online": "<:online:692764696075304960>",
     "offline": "<:offline:692764696431951872>",
     "netherite": "<:netherite_scrap:676974675091521539>",
