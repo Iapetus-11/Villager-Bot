@@ -70,10 +70,6 @@ class Useful(commands.Cog):
 
     @help.command(name="economy", aliases=["econ"])
     async def help_economy(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.economy}]", icon_url=self.d.splash_logo)
@@ -86,10 +82,6 @@ class Useful(commands.Cog):
 
     @help.command(name="minecraft", aliases=["mc"])
     async def help_minecraft(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]", icon_url=self.d.splash_logo)
@@ -102,10 +94,6 @@ class Useful(commands.Cog):
 
     @help.command(name="utility", aliases=["util", "useful"])
     async def help_utility(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.utility}]", icon_url=self.d.splash_logo)
@@ -118,10 +106,6 @@ class Useful(commands.Cog):
 
     @help.command(name="fun")
     async def help_fun(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.fun}]", icon_url=self.d.splash_logo)
@@ -134,10 +118,6 @@ class Useful(commands.Cog):
 
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
     async def help_administrative(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.admin}]", icon_url=self.d.splash_logo)
