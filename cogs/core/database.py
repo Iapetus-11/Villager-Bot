@@ -55,7 +55,7 @@ class Database(commands.Cog):
             self.uncache_user(uid)
 
     async def fetch_current_reminders(self) -> list:
-        return await self.db.fetch("DELETE FROM reminders WHERE at >= $1 RETURNING *", arrow.utcnow().timestamp())
+        return await self.db.fetch("DELETE FROM reminders WHERE at <= $1 RETURNING *", arrow.utcnow().timestamp())
 
     async def fetch_user_reminder_count(self, uid: int) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE uid = $1", uid)
