@@ -19,7 +19,7 @@ class Database(commands.Cog):
     def cog_unload(self):
         self.update_user_health.cancel()
 
-    async def populate_caches(self):
+    async def populate_caches(self):  # initial caches for speeeeeed
         self.d.ban_cache = await self.fetch_all_botbans()
         self.d.lang_cache = await self.fetch_all_guild_langs()
         self.d.prefix_cache = await self.fetch_all_guild_prefixes()
