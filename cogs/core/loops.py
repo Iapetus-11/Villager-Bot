@@ -13,10 +13,12 @@ class Loops(commands.Cog):
 
         self.change_status.start()
         self.update_fishing_prices.start()
+        self.remind_reminders.start()
 
     def cog_unload(self):
         self.change_status.cancel()
         self.update_fishing_prices.cancel()
+        self.remind_reminders.cancel()
 
     @tasks.loop(minutes=45)
     async def change_status(self):
