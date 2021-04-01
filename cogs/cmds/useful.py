@@ -400,18 +400,23 @@ class Useful(commands.Cog):
                 else:
                     break
         except ValueError:
-            await ctx.send(f"You used invalid formatting, example: `{ctx.prefix}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes.")
+            await ctx.send(
+                f"You used invalid formatting, example: `{ctx.prefix}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes."
+            )
             return
 
         if i == 0:
-            await ctx.send(f"You used invalid formatting, example: `{ctx.prefix}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes.")
+            await ctx.send(
+                f"You used invalid formatting, example: `{ctx.prefix}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes."
+            )
             return
 
         if at > arrow.utcnow().shift(weeks=8):
             await ctx.send("You cannot set a reminder more than eight weeks in advance.")
             return
 
-        await self.db.add_reminder(ctx.author.id, " ".join(args[i+1:])[:499], ctx.channel.id, at.timestamp())
+        await self.db.add_reminder(ctx.author.id, " ".join(args[i + 1 :])[:499], ctx.channel.id, at.timestamp())
+
 
 def setup(bot):
     bot.add_cog(Useful(bot))
