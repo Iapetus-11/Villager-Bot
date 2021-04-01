@@ -9,6 +9,8 @@ class Loops(commands.Cog):
 
         self.d = bot.d
 
+        self.db = bot.get_cog("Database")
+
         self.change_status.start()
         self.update_fishing_prices.start()
 
@@ -25,6 +27,24 @@ class Loops(commands.Cog):
     async def update_fishing_prices(self):
         self.bot.update_fishing_prices()
 
+    async def remind(self, reminder):
+        channel = self.bot.get_channel(reminder["cid"])
+
+        if channel is not None:
+            user = self.bot.get_user(reminder["uid"])
+
+            if user is not None:
+                lang = self.bot.get_lang(channel)
+
+                try:
+                    await channel.send(f"{user.mention}, you wanted me to remind you: *{reminder['reminder']}*")
+                except Exception:
+                    pass
+
+    @tasks.loop(seconds=15)
+    async def remind_reminders(self):
+        for reminder in await self.db.fetch_current_reminders():
+            self.bot.loop.create_task(self.remind(reminder))
 
 def setup(bot):
     bot.add_cog(Loops(bot))
