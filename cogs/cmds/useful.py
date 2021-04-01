@@ -358,6 +358,60 @@ class Useful(commands.Cog):
 
         await ctx.send(res.image_url)
 
+    @commands.command(name="remindme", aliases=["remind"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def remind_me(self, ctx, *, args: str):
+        user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
+
+        if user_reminder_count > 5:
+            await ctx.send("You cannot have more than 5 reminders at once.")
+            return
+
+        args = args.split()
+        at = arrow.utcnow()
+        i = 0
+
+        try:
+            for i, arg in enumerate(args):
+                if arg.endswith("m"):
+                    at = at.shift(minutes=int(arg[:-1]))
+                elif arg.endswith("minute"):
+                    at = at.shift(minutes=int(arg[:-6]))
+                elif arg.endswith("minutes"):
+                    at = at.shift(minutes=int(arg[:-7]))
+                elif arg.endswith("h"):
+                    at = at.shift(hours=int(arg[:-1]))
+                elif arg.endswith("hour"):
+                    at = at.shift(hours=int(arg[:-4]))
+                elif arg.endswith("hours"):
+                    at = at.shift(hours=int(arg[:-5]))
+                elif arg.endswith("d"):
+                    at = at.shift(days=int(arg[:-1]))
+                elif arg.endswith("day"):
+                    at = at.shift(days=int(arg[:-3]))
+                elif arg.endswith("days"):
+                    at = at.shift(days=int(arg[:-4]))
+                elif arg.endswith("w"):
+                    at = at.shift(weeks=int(arg[:-1]))
+                elif arg.endswith("week"):
+                    at = at.shift(weeks=int(arg[:-4]))
+                elif arg.endswith("weeks"):
+                    at = at.shift(weeks=int(arg[:-5]))
+                else:
+                    break
+        except ValueError:
+            await ctx.send(f"You used invalid formatting, example: `{ctx.prefix}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes.")
+            return
+
+        if i == 0:
+            await ctx.send(f"You used invalid formatting, example: `{ctx.prefix}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes.")
+            return
+
+        if at > arrow.utcnow().shift(weeks=8):
+            await ctx.send("You cannot set a reminder more than eight weeks in advance.")
+            return
+
+        await self.db.add_reminder(ctx.author.id, " ".join(args[i+1:])[:499], ctx.channel.id, at.timestamp())
 
 def setup(bot):
     bot.add_cog(Useful(bot))
