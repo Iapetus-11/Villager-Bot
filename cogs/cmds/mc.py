@@ -208,7 +208,7 @@ class Minecraft(commands.Cog):
                 jj = await res.json()
 
         if not jj["success"] or not jj["online"]:
-            self.d.mcserver_list.pop(self.d.mcserver_list.index(s))
+            self.d.mcserver_list.remove(s)
             await self.random_mc_server(ctx)
             return
 
