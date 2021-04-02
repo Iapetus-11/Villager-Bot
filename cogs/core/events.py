@@ -129,10 +129,8 @@ class Events(commands.Cog):
             ctx.message.content = None
 
         traceback_text = "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
-        final = (
-            f"{ctx.author} (lang={getattr(ctx, 'l', {}).get('lang')}): {ctx.message.content}\n\n{traceback_text}".replace(
-                "``", "\`\`\`"
-            )
+        final = f"{ctx.author} (lang={getattr(ctx, 'l', {}).get('lang')}): {ctx.message.content}\n\n{traceback_text}".replace(
+            "``", "\`\`\`"
         )
 
         await self.bot.send(loc, f"```py\n{final[:1023 - 6]}```")
