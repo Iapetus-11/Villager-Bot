@@ -143,7 +143,7 @@ class Database(commands.Cog):
         else:
             await self.db.execute("INSERT INTO disabled VALUES ($1, $2)", gid, cmd)
 
-    async def fetch_user(self, uid, con=None):
+    async def fetch_user(self, uid):
         try:
             return self._user_cache[uid]
         except KeyError:
