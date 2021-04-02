@@ -12,7 +12,6 @@ import discord
 import random
 import base64
 import arrow
-import io
 
 
 class Minecraft(commands.Cog):
@@ -112,9 +111,9 @@ class Minecraft(commands.Cog):
         with ctx.typing():
             mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
 
-            _, img_bytes = await self.bot.loop.run_in_executor(self.bot.tpool, mosaic_gen_partial)
+            img_data = await self.bot.loop.run_in_executor(self.bot.tpool, mosaic_gen_partial)
 
-            await ctx.send(file=discord.File(io.BytesIO(img_bytes), filename=img.filename))
+            await ctx.send(file=discord.File(img_data, filename=img.filename))
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
