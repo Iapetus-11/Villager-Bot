@@ -402,13 +402,12 @@ class Database(commands.Cog):
     async def set_botbanned(self, uid, botbanned):
         await self.fetch_user(uid)
 
-        if botbanned and uid not in self.d.ban_cache:
-            self.d.ban_cache.append(uid)
+        if botbanned:
+            if uid not in self.d.ban_cache:
+                self.d.ban_cache.append(uid)
         else:
             try:
-                self.d.ban_cache.pop(self.d.ban_cache.index(uid))
-            except KeyError:
-                pass
+                self.d.ban_cache.remove(uid)
             except ValueError:
                 pass
 
