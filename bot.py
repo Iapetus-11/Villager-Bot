@@ -9,6 +9,8 @@ import random
 import uvloop
 import arrow
 
+from util.setup import villager_bot_intents, setup_logging, setup_database
+
 # send function/method for easy sending of embed messages with small amounts of text
 async def send(_bot, location, message, respond=False, ping=False):
     embed = discord.Embed(color=_bot.d.cc, description=message)
@@ -90,10 +92,7 @@ if __name__ == "__main__":
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
     # set up basic logging
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s: %(message)s")
-    logging.getLogger("asyncio").setLevel(logging.WARNING)  # hide annoying asyncio info
-    logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
-    logger = logging.getLogger("main")
+    logger = setup_logging()
 
     logger.info("loading private keys...")
     with open("data/keys.json", "r") as k:  # load bot keys
@@ -107,30 +106,10 @@ if __name__ == "__main__":
 
         return _bot.d.default_prefix if prefix is None else prefix
 
-    intents = discord.Intents.default()
-    intents.guilds = True
-    intents.members = True
-    intents.bans = True
-    intents.emojis = False
-    intents.integrations = False
-    intents.webhooks = False
-    intents.invites = False
-    intents.voice_states = False
-    intents.presences = True
-    intents.messages = True
-    # intents.guild_messages = True
-    # intents.dm_messages = True
-    intents.reactions = True
-    # intents.guild_reactions = True
-    # intents.dm_reactions = True
-    intents.typing = False
-    # intents.guild_typing = False
-    # intents.dm_typing = False
-
     bot = commands.AutoShardedBot(  # setup bot
         command_prefix=get_prefix,
         case_insensitive=True,
-        intents=intents,
+        intents=villager_bot_intents(),
         help_command=None,
     )
 
@@ -142,18 +121,8 @@ if __name__ == "__main__":
     bot.update_fishing_prices = update_fishing_prices.__get__(bot)
     bot.populate_null_data_values = populate_null_data_values.__get__(bot)
 
-    async def setup_database():  # init pool connection to database
-        logger.info("setting up connection to database and db pool...")
-        bot.db = await asyncpg.create_pool(
-            host=keys.database.host,  # where db is hosted
-            database=keys.database.name,  # name of database
-            user=keys.database.user,  # database username
-            password=keys.database.passw,  # password which goes with user
-            max_size=20,
-            command_timeout=10,
-        )
-
-    asyncio.get_event_loop().run_until_complete(setup_database())
+    logger.info("setting up connection to database and db pool...")
+    asyncio.get_event_loop().run_until_complete(setup_database(bot, keys))
 
     logger.info("loading villager bot text from data/text.json...")
     with open("data/text.json", "r", encoding="utf8") as l:
