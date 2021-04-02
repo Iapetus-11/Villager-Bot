@@ -298,7 +298,7 @@ class Database(commands.Cog):
             ["Rich Person Trophy", "Bane Of Pillagers Amulet", "Slime Trophy"]
         )
 
-        self.uncache_user(uid)
+        # self.uncache_user(uid) # done in set_balance() and set_vault()
         self.uncache_items(uid)
 
     async def fetch_user_lb(self, uid):
