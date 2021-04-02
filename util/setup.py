@@ -4,6 +4,7 @@ import discord
 import logging
 import asyncpg
 
+
 def villager_bot_intents() -> discord.Intents:
     intents = discord.Intents.default()
     intents.guilds = True
@@ -26,6 +27,7 @@ def villager_bot_intents() -> discord.Intents:
     # intents.dm_typing = False
 
     return intents
+
 
 def setup_logging() -> logging.Logger:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s: %(message)s")
