@@ -293,10 +293,9 @@ class Database(commands.Cog):
         await self.set_vault(uid, 0, 1)
 
         await self.db.execute(
-            "DELETE FROM items WHERE uid = $1 AND name != $2 AND name != $3",
+            "DELETE FROM items WHERE uid = $1 AND name != ANY($2::VARCHAR(250)[])",
             uid,
-            "Rich Person Trophy",
-            "Bane Of Pillagers Amulet",
+            ["Rich Person Trophy", "Bane Of Pillagers Amulet", "Slime Trophy"]
         )
 
         self.uncache_user(uid)
