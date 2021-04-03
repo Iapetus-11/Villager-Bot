@@ -20,7 +20,6 @@ numpy = "^1.20.1"
 opencv-python = "^4.5.1"
 psutil = "^5.8.0"
 "statcord.py" = "^3.0.8"
-uvloop = "^0.15.2"
 aiofiles = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
