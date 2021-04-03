@@ -992,7 +992,7 @@
         "google": "`{0}google <consulta>` *busca en google para tu consulta*",
         "youtube": "`{0}youtube <consulta>` *busca en youtube para tu consulta*",
         "image": "`{0}image <consulta>` *busca imágenes de google para tu consulta*",
-        "remindme": "`{0}remindme <time> <reminder>` *reminds you in a specified time*"
+        "remindme": "`{0}remindme <tiempo> <recordatorio>` *fija un recordatorio en el tiempo especificado*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envía una imagen Minecraft maldita al azar*",
@@ -1876,7 +1876,7 @@
         "google": "`{0}google <recherche>` *recherche ta requête sur google*",
         "youtube": "`{0}youtube <recherche>` *recherche ta requête sur youtube*",
         "image": "`{0}image <recherche>` *recherche ta requête sur google images*",
-        "remindme": "`{0}remindme <time> <reminder>` *reminds you in a specified time*"
+        "remindme": "`{0}remindme <temps> <rappel>` *te rappelles après un temps spécifié*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envoie une image cursed de Minecraft*",
