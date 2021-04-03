@@ -114,6 +114,9 @@ class Events(commands.Cog):
                         elif "reee" in content_lowered:
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send(random.choice(self.d.emojis.reees))
+                        elif "amogus" in content_lowered:
+                            if (await self.db.fetch_guild(m.guild.id))["replies"]:
+                                await m.channel.send(self.d.emojis.amogus)
         except discord.errors.Forbidden:
             pass
 
