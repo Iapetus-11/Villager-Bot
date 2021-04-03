@@ -35,12 +35,12 @@ def setup_logging() -> logging.Logger:
     logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
     return logging.getLogger("main")
 
-    async def setup_database(bot: commands.AutoShardedBot, keys: ClassyDict) -> None:  # init pool connection to database
-        bot.db = await asyncpg.create_pool(
-            host=keys.database.host,  # where db is hosted
-            database=keys.database.name,  # name of database
-            user=keys.database.user,  # database username
-            password=keys.database.passw,  # password which goes with user
-            max_size=20,
-            command_timeout=10,
-        )
+async def setup_database(bot: commands.AutoShardedBot, keys: ClassyDict) -> None:  # init pool connection to database
+    bot.db = await asyncpg.create_pool(
+        host=keys.database.host,  # where db is hosted
+        database=keys.database.name,  # name of database
+        user=keys.database.user,  # database username
+        password=keys.database.passw,  # password which goes with user
+        max_size=20,
+        command_timeout=10,
+    )
