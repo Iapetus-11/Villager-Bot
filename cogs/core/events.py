@@ -185,7 +185,7 @@ class Events(commands.Cog):
                 await self.bot.send(ctx, ctx.l.misc.errors.user_perms)
             elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
                 await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
-            elif getattr(e, "original") is not None and isinstance(e.original, discord.errors.Forbidden):
+            elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
                 await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
             elif isinstance(e, commands.MaxConcurrencyReached):
                 await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
@@ -201,20 +201,20 @@ class Events(commands.Cog):
                 ),
             ):
                 await self.bot.send(ctx, ctx.l.misc.errors.bad_arg)
-            elif getattr(ctx, "custom_err") == "not_ready":
+            elif getattr(ctx, "custom_err", None) == "not_ready":
                 await self.bot.send(ctx, ctx.l.misc.errors.not_ready)
-            elif getattr(ctx, "custom_err") == "bot_banned":
+            elif getattr(ctx, "custom_err", None) == "bot_banned":
                 pass
-            elif getattr(ctx, "custom_err") == "econ_paused":
+            elif getattr(ctx, "custom_err", None) == "econ_paused":
                 await self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy)
-            elif getattr(ctx, "custom_err") == "disabled":
+            elif getattr(ctx, "custom_err", None) == "disabled":
                 await self.bot.send(ctx, ctx.l.misc.errors.disabled)
-            elif getattr(ctx, "custom_err") == "ignore":
+            elif getattr(ctx, "custom_err", None) == "ignore":
                 return
             else:
                 # errors to ignore
                 for e_type in (commands.CommandNotFound, commands.NotOwner):
-                    if isinstance(e, e_type) or isinstance(getattr(e, "original"), e_type):
+                    if isinstance(e, e_type) or isinstance(getattr(e, "original", None), e_type):
                         return
 
                 await self.bot.send(ctx, ctx.l.misc.errors.andioop.format(self.d.support))
@@ -222,7 +222,7 @@ class Events(commands.Cog):
         except discord.errors.Forbidden:
             pass
         except Exception as e:
-            if not isinstance(getattr(e, "original"), discord.errors.Forbidden):
+            if not isinstance(getattr(e, "original", None), discord.errors.Forbidden):
                 await self.debug_error(ctx, e)
 
 
