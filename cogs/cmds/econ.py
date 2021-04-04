@@ -1579,8 +1579,8 @@ class Econ(commands.Cog):
         cmds_local = [e for e in cmds_global if e in [m.id for m in ctx.guild.members if not m.bot]]
 
         # put them in record structure
-        cmds_global = [e + (i,) for i, e in enumerate(cmds_global)]
-        cmds_local = [e + (i,) for i, e in enumerate(cmds_local)]
+        cmds_global = [e + (i+1,) for i, e in enumerate(cmds_global)]
+        cmds_local = [e + (i+1,) for i, e in enumerate(cmds_local)]
 
         # make default user entries
         u_cmds_amount = self.d.cmd_lb.get(ctx.author.id, 0)
