@@ -87,7 +87,7 @@ class Owner(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
     @commands.is_owner()
     async def gitpull(self, ctx):
-        async async with ctx.typing():
+        async with ctx.typing():
             system_call = functools.partial(os.system, "sudo git pull > git_pull_log 2>&1")
             await self.bot.loop.run_in_executor(self.bot.tpool, system_call)
 

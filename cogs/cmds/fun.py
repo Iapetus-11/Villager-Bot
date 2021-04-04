@@ -49,7 +49,7 @@ class Fun(commands.Cog):
 
         meme = {"nsfw": True, "spoiler": True}
 
-        async async with ctx.typing():
+        async with ctx.typing():
             while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
                 resp = await self.ses.get(
                     "https://api.iapetus11.me/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes",
@@ -79,7 +79,7 @@ class Fun(commands.Cog):
 
         jj = {"nsfw": True}
 
-        async async with ctx.typing():
+        async with ctx.typing():
             while (not do_nsfw and jj["nsfw"]) or jj.get("image") is None:
                 resp = await self.ses.get(
                     "https://api.iapetus11.me/reddit/gimme/4chan+greentext", headers={"Authorization": self.k.vb_api}
@@ -103,7 +103,7 @@ class Fun(commands.Cog):
 
         comic = {"nsfw": True, "spoiler": True}
 
-        async async with ctx.typing():
+        async with ctx.typing():
             while comic["spoiler"] or (not do_nsfw and comic["nsfw"]) or comic.get("image") is None:
                 resp = await self.ses.get(
                     "https://api.iapetus11.me/reddit/gimme/comics",
@@ -128,7 +128,7 @@ class Fun(commands.Cog):
         if random.choice((True, False)):
             meme = {"nsfw": True, "spoiler": True}
 
-            async async with ctx.typing():
+            async with ctx.typing():
                 while meme["spoiler"] or meme["nsfw"] or meme.get("image") is None:
                     resp = await self.ses.get(
                         "https://api.iapetus11.me/reddit/gimme/CursedMinecraft",
