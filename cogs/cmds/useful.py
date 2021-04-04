@@ -367,7 +367,7 @@ class Useful(commands.Cog):
             await ctx.send(ctx.l.useful.remind.reminder_max)
             return
 
-        args = ctx.message.clean_content[len(f"{ctx.prefix}{ctx.invoked_with} "):].split()
+        args = ctx.message.clean_content[len(f"{ctx.prefix}{ctx.invoked_with} ") :].split()
         at = arrow.utcnow()
         i = 0
 
