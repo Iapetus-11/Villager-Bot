@@ -1606,11 +1606,11 @@ class Econ(commands.Cog):
             cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:")
         )
 
-    embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":computer:"))
-    embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-    embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":computer:"))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
-    await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx):
