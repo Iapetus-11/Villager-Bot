@@ -1599,12 +1599,8 @@ class Econ(commands.Cog):
                 local_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
                 break
 
-        lb_global = self.lb_logic(
-            cmds_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:")
-        )
-        lb_local = self.lb_logic(
-            cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:")
-        )
+        lb_global = self.lb_logic(cmds_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
+        lb_local = self.lb_logic(cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
 
     embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":computer:"))
     embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
