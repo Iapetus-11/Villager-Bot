@@ -1576,7 +1576,7 @@ class Econ(commands.Cog):
         cmds_global = sorted(list(self.d.cmd_lb.items()), key=(lambda e: e[1]), reverse=True)
 
         # make sorted local list
-        cmds_local = [e for e in cmds_global if e in [m.id for m in ctx.guild.members if not m.bot]]
+        cmds_local = [e for e in cmds_global if e[0] in [m.id for m in ctx.guild.members if not m.bot]]
 
         # put them in record structure
         cmds_global = [e + (i+1,) for i, e in enumerate(cmds_global)]
