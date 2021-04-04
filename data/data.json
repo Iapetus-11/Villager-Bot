@@ -309,45 +309,129 @@
         false
       ],
       [
-        "Bane Of Pillagers Amulet",
-        4096,
-        500000,
-        true
-      ],
-      [
-        "Toilet Paper Roll (Emerald Patterned)",
-        1000,
-        99999,
+        "Red Easter Egg",
+        64,
+        96,
         false
       ],
       [
-        "Rona Vaccine",
-        1024,
-        2000,
+        "Orange Easter Egg",
+        64,
+        96,
         false
       ],
       [
-        "Pillager-Proof Hazmat Suit",
-        420,
-        10000,
+        "Yellow Easter Egg",
+        64,
+        96,
         false
       ],
       [
-        "Tub Of Hand Sanitizer",
+        "Green Easter Egg",
+        64,
+        96,
+        false
+      ],
+      [
+        "Blue Easter Egg",
+        64,
+        96,
+        false
+      ],
+      [
+        "Purple Easter Egg",
+        64,
+        96,
+        false
+      ],
+      [
+        "Red Striped Easter Egg",
+        96,
         128,
-        2000,
         false
       ],
       [
-        "Mask",
-        50,
-        2000,
+        "Orange Striped Easter Egg",
+        96,
+        128,
         false
       ],
       [
-        "Tiny Hand Sanitizer Bottle",
-        50,
-        2000,
+        "Yellow Striped Easter Egg",
+        96,
+        128,
+        false
+      ],
+      [
+        "Green Striped Easter Egg",
+        96,
+        128,
+        false
+      ],
+      [
+        "Blue Striped Easter Egg",
+        96,
+        128,
+        false
+      ],
+      [
+        "Purple Striped Easter Egg",
+        96,
+        128,
+        false
+      ],
+      [
+        "Red Dotted Easter Egg",
+        96,
+        128,
+        false
+      ],
+      [
+        "Orange Dotted Easter Egg",
+        96,
+        128,
+        false
+      ],
+      [
+        "Yellow Dotted Easter Egg",
+        96,
+        128,
+        false
+      ],
+      [
+        "Green Dotted Easter Egg",
+        96,
+        128,
+        false
+      ],
+      [
+        "Blue Dotted Easter Egg",
+        96,
+        128,
+        false
+      ],
+      [
+        "Purple Dotted Easter Egg",
+        96,
+        128,
+        false
+      ],
+      [
+        "Rainbow Easter Egg",
+        128,
+        256,
+        false
+      ],
+      [
+        "Rainbow Sparkles Easter Egg",
+        256,
+        512,
+        false
+      ],
+      [
+        "Bunny Ears",
+        1000,
+        9999,
         false
       ]
     ]
