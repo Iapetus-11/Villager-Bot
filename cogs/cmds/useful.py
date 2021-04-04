@@ -288,7 +288,7 @@ class Useful(commands.Cog):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
-            with ctx.typing():
+            async with ctx.typing():
                 res = await self.google_client.search(query, safesearch=safesearch)
         except async_cse.search.NoResults:
             await self.bot.send(ctx, ctx.l.useful.search.nope)
@@ -314,7 +314,7 @@ class Useful(commands.Cog):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
-            with ctx.typing():
+            async with ctx.typing():
                 res = await self.google_client.search(query, safesearch=safesearch)
         except async_cse.search.NoResults:
             await self.bot.send(ctx, ctx.l.useful.search.nope)
@@ -341,7 +341,7 @@ class Useful(commands.Cog):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
-            with ctx.typing():
+            async with ctx.typing():
                 res = await self.google_client.search(query, safesearch=safesearch, image_search=True)
         except async_cse.search.NoResults:
             await self.bot.send(ctx, ctx.l.useful.search.nope)

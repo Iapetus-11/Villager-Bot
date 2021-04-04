@@ -108,7 +108,7 @@ class Minecraft(commands.Cog):
                 detailed = True
                 break
 
-        with ctx.typing():
+        async with ctx.typing():
             mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
 
             img_data = await self.bot.loop.run_in_executor(self.bot.tpool, mosaic_gen_partial)
@@ -134,7 +134,7 @@ class Minecraft(commands.Cog):
                 port_str = f":{port}"
             combined = f"{host}{port_str}"
 
-        with ctx.typing():
+        async with ctx.typing():
             async with self.ses.get(
                 f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}", headers={"Authorization": self.k.vb_api}
             ) as res:  # fetch status from api
@@ -201,7 +201,7 @@ class Minecraft(commands.Cog):
         s = random.choice(self.d.mcserver_list)
         combined = s[0]
 
-        with ctx.typing():
+        async with ctx.typing():
             async with self.ses.get(
                 f"https://api.iapetus11.me/mc/status/{combined}", headers={"Authorization": self.k.vb_api}
             ) as res:  # fetch status from api
@@ -263,7 +263,7 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def steal_skin(self, ctx, player):
         if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
-            with ctx.typing():
+            async with ctx.typing():
                 res = await self.ses.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
@@ -288,7 +288,7 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
-        with ctx.typing():
+        async with ctx.typing():
             res = await self.ses.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
 
         if res.status != 200:
@@ -320,7 +320,7 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 4, commands.BucketType.user)
     async def minecraft_profile(self, ctx, player):
         if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
-            with ctx.typing():
+            async with ctx.typing():
                 res = await self.ses.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
@@ -340,7 +340,7 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
             return
 
-        with ctx.typing():
+        async with ctx.typing():
             resps = await asyncio.gather(
                 self.ses.get(f"https://api.mojang.com/user/profiles/{uuid}/names"),
                 self.ses.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"),
@@ -406,7 +406,7 @@ class Minecraft(commands.Cog):
     async def name_to_xuid(self, ctx, *, username):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
-        with ctx.typing():
+        async with ctx.typing():
             res = await self.ses.get(f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi})
 
         if res.status != 200:

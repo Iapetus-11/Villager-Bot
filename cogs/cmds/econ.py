@@ -1081,7 +1081,7 @@ class Econ(commands.Cog):
 
         await self.bot.send(ctx, random.choice(ctx.l.econ.fishing.cast))
 
-        with ctx.typing():
+        async with ctx.typing():
             wait = random.randint(8, 20)
 
             if await self.db.fetch_item(ctx.author.id, "Lure I Book") is not None:
@@ -1493,7 +1493,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
-        with ctx.typing():
+        async with ctx.typing():
             ems_global, global_u_entry = await self.db.fetch_global_lb_user("emeralds", ctx.author.id)
             ems_local, local_u_entry = await self.db.fetch_local_lb_user(
                 "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1512,7 +1512,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="pillages", aliases=["pil", "stolen"])
     async def leaderboard_pillages(self, ctx):
-        with ctx.typing():
+        async with ctx.typing():
             pillages_global, global_u_entry = await self.db.fetch_global_lb("pillages", ctx.author.id)
             pillages_local, local_u_entry = await self.db.fetch_local_lb(
                 "pillages", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1533,7 +1533,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="mobkills", aliases=["kil", "kills", "kill", "bonk"])
     async def leaderboard_mobkills(self, ctx):
-        with ctx.typing():
+        async with ctx.typing():
             kills_global, global_u_entry = await self.db.fetch_global_lb("mobs_killed", ctx.author.id)
             kills_local, local_u_entry = await self.db.fetch_local_lb(
                 "mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1554,7 +1554,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
     async def leaderboard_bees(self, ctx):
-        with ctx.typing():
+        async with ctx.typing():
             bees_global, global_u_entry = await self.db.fetch_global_lb_item("Jar Of Bees", ctx.author.id)
             bees_local, local_u_entry = await self.db.fetch_local_lb_item(
                 "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1571,7 +1571,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="commands", aliases=["cmds"])
     async def leaderboard_commands(self, ctx):
-        with ctx.typing():
+        async with ctx.typing():
             # entry is Record(uid, amount, position)
             # get + items from global leaderboard
             cmds_global = sorted(list(self.d.cmd_lb.items()), key=(lambda e: e[1]), reverse=True)
@@ -1611,7 +1611,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx):
-        with ctx.typing():
+        async with ctx.typing():
             votes_global, global_u_entry = await self.db.fetch_global_lb_user("vote_streak", ctx.author.id)
             votes_local, local_u_entry = await self.db.fetch_local_lb_user(
                 "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1630,7 +1630,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
     async def leaderboard_fish(self, ctx):
-        with ctx.typing():
+        async with ctx.typing():
             fish_global, global_u_entry = await self.db.fetch_global_lb("fish", ctx.author.id)
             fish_local, local_u_entry = await self.db.fetch_local_lb(
                 "fish", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
