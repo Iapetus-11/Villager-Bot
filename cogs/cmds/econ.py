@@ -1571,7 +1571,46 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="commands", aliases=["cmds"])
     async def leaderboard_commands(self, ctx):
-        await ctx.send("This command is temporarily disabled, thanks for bearing with us while we fix it!")
+        # entry is Record(uid, amount, position)
+        # get + items from global leaderboard
+        cmds_global = sorted(list(self.d.lb_cmds.items()), key=(lambda e: e[1]), reverse=True)
+
+        # make sorted local list
+        cmds_local = [e for e in cmds_global if e in [m.id for m in ctx.guild.members if not m.bot]]
+
+        # put them in record structure
+        cmds_global = [e + (i,) for i, e in enumerate(cmds_global)]
+        cmds_local = [e + (i,) for i, e in enumerate(cmds_local)]
+
+        # make default user entries
+        u_cmds_amount = self.d.lb_cmds.get(ctx.author.id, 0)
+        global_u_entry = (ctx.author.id, u_cmds_amount, len(cmds_global))
+        local_u_entry = (ctx.author.id, u_cmds_amount, len(cmds_local))
+
+        # attempt to find user's actual position in global leaderboard
+        for entry in cmds_global:
+            if entry[0] == ctx.author.id:
+                global_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
+                break
+
+        # attempt to find actual position in local leaderboard
+        for entry in cmds_local:
+            if entry[0] == ctx.author.id:
+                local_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
+                break
+
+        lb_global = self.lb_logic(
+            cmds_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:")
+        )
+        lb_local = self.lb_logic(
+            cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:")
+        )
+
+    embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":computer:"))
+    embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+    embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
+    await ctx.send(embed=embed)
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx):
