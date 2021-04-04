@@ -1573,7 +1573,7 @@ class Econ(commands.Cog):
     async def leaderboard_commands(self, ctx):
         # entry is Record(uid, amount, position)
         # get + items from global leaderboard
-        cmds_global = sorted(list(self.d.lb_cmds.items()), key=(lambda e: e[1]), reverse=True)
+        cmds_global = sorted(list(self.d.cmd_lb.items()), key=(lambda e: e[1]), reverse=True)
 
         # make sorted local list
         cmds_local = [e for e in cmds_global if e in [m.id for m in ctx.guild.members if not m.bot]]
@@ -1583,7 +1583,7 @@ class Econ(commands.Cog):
         cmds_local = [e + (i,) for i, e in enumerate(cmds_local)]
 
         # make default user entries
-        u_cmds_amount = self.d.lb_cmds.get(ctx.author.id, 0)
+        u_cmds_amount = self.d.cmd_lb.get(ctx.author.id, 0)
         global_u_entry = (ctx.author.id, u_cmds_amount, len(cmds_global))
         local_u_entry = (ctx.author.id, u_cmds_amount, len(cmds_local))
 
