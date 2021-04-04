@@ -435,6 +435,12 @@
         false
       ],
       [
+        "Golden Easter Egg",
+        512,
+        1024,
+        false
+      ],
+      [
         "Bunny Ears",
         1000,
         9999,
@@ -520,6 +526,12 @@
       ],
       [
         "Rusty Fishing Hook",
+        128,
+        999,
+        false
+      ],
+      [
+        "Sunken Easter Egg",
         128,
         999,
         false
