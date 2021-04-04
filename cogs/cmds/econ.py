@@ -61,11 +61,11 @@ class Econ(commands.Cog):
 
         return f" {item[1] * amount}{self.d.emojis.emerald}"
 
-    async def math_problem(self, ctx, source_multi=1):
+    async def math_problem(self, ctx, addition=1):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
-        self.d.miners[ctx.author.id] = mine_commands + 1
+        self.d.miners[ctx.author.id] = mine_commands + addition
 
-        if mine_commands >= 100 * source_multi:
+        if mine_commands >= 100:
             x, y = random.randint(0, 45), random.randint(0, 25)
             prob = f"{x}+{y}"
             prob = (prob, str(x + y))
@@ -1072,7 +1072,7 @@ class Econ(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def fish(self, ctx):
-        if not await self.math_problem(ctx):
+        if not await self.math_problem(ctx, 2):
             return
 
         if await self.db.fetch_item(ctx.author.id, "Fishing Rod") is None:
