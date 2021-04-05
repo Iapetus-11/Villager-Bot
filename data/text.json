@@ -1785,10 +1785,10 @@
         "andioop": "Oups! Quelque chose a vraiment mal tourné... Prends s'il te plait une capture d'écran et signale ça sur le **[Serveur de Support]({})**, merci !",
         "private": "Cette commande ne peut pas être utilisé dans les canaux de conversation privée.",
         "user_perms": "Bien essayé nigaud, mais tu n'as pas les permissions pour ça !",
-        "bot_perms": "Tu ne m'as pas donnée les bonnes permissions pour faire ça, idiot.",
+        "bot_perms": "Tu ne m'as pas donné les bonnes permissions pour faire ça, idiot.",
         "concurrency": "Attends ! Tu utilises cette commande trooooop vite !",
         "missing_arg": "On dirait que tu as oublié d'entrer quelque chose !",
-        "bad_arg": "On dirait que tu as mal écrit quelque chose, essaye de l'écrire bien du premier coup, p'tit idiot.",
+        "bad_arg": "On dirait que tu as mal écrit quelque chose, essaye de l'écrire bien du premier coup, gros benêt.",
         "not_ready": "Attends ! Le Villager Bot est en train de démarrer !",
         "nrn_buddy": "Attends une seconde, tu ne peux pas utiliser cette commande tout de suite !",
         "disabled": "Cette commande est désactivée sur ce serveur et ne peut pas être utilisée !"
@@ -1820,7 +1820,7 @@
     "help": {
       "n": {
         "title": "Commandes du Villager Bot",
-        "economy": "Economie",
+        "economy": "Économie",
         "minecraft": "Minecraft",
         "utility": "Utilitaire",
         "fun": "Fun",
@@ -1845,7 +1845,7 @@
         "mine": "`{0}mine` *mine des émeraudes*",
         "fish": "`{0}fish` *pêcher des poissons ou des objets*",
         "search": "`{0}search` *cherche des émeraudes*",
-        "honey": "`{0}honey` *récolte le miel des abeilles qui t'appartiennent*",
+        "honey": "`{0}honey` *récolte le miel de tes abeilles*",
         "gamble": "`{0}gamble <émeraudes>` *parie avec le bot pour tenter de gagner des émeraudes*",
         "pillage": "`{0}pillage <utilisateur>` *pille des émeraudes d'un autre utilisateur*",
         "use": "`{0}use <objet>` *utilise l'objet spécifié*",
@@ -1907,8 +1907,8 @@
         "kick": "`{0}kick <utilisateur>` *kick l'utilisateur du serveur Discord actuel*",
         "ban": "`{0}ban <utilisateur>` *bannit l'utilisateur du serveur Discord actuel*",
         "pardon": "`{0}pardon <utilisateur>` *débannit l'utilisateur du serveur Discord actuel*",
-        "mute": "`{0}mute <user>` *mutes the user from the current Discord server*",
-        "unmute": "`{0}unmute <user>` *unmutes the user from the current Discord server*"
+        "mute": "`{0}mute <utilisateur>` *rend l'utilisateur muet sur le serveur Discord actuel*",
+        "unmute": "`{0}unmute <utilisateur>` *redonne la parole à l'utilisateur sur le serveur Discord actuel*"
       }
     },
     "fun": {
@@ -2039,7 +2039,7 @@
           ],
           "finishers": [
             "L'**araignée** te saute dessus, tourne sur elle-même, et enfonce ses crocs dans ton crâne !",
-            "L'**araignée** se jette sur toi une dernière fois, et te déchiquète le visage !",
+            "L'**araignée** se jette sur toi une dernière fois, et te déchiquette le visage !",
             "L'**araignée** te déchire le visage, ta dernière vision étant 8 yeux rouges meurtriers qui te fixent"
           ]
         },
@@ -2105,7 +2105,7 @@
       },
       "mcping": {
         "shortcut_error": "Pour utiliser ce raccourci, tu dois définir un serveur Minecraft à ping par défaut via `{}config`",
-        "title_offline": "{} pad de serveur trouvé à `{}`",
+        "title_offline": "{} pas de serveur trouvé à l'adresse `{}`",
         "title_online": "{} `{}` est en ligne",
         "title_plain": "{} `{}`",
         "latency": "Latence/Ping",
@@ -2164,9 +2164,9 @@
         "err_cmd": "Quelque chose a mal tourné lors de l'envoi d'une commande au serveur, est-ce que le serveur est en ligne RCON activé ?"
       },
       "profile": {
-        "error": "Quelque chose a mal tourné lors de la récupération du profile de cet utilisateur ...",
+        "error": "Quelque chose a mal tourné lors de la récupération du profil de cet utilisateur ...",
         "first": "premier nom d'utilisateur",
-        "mcpp": "Profile Minecraft de `{}`",
+        "mcpp": "Profil Minecraft de `{}`",
         "skin": "Téléchargement skin",
         "cape": "Téléchargement cape",
         "nocape": "**[Obtient une cape personnalisée](https://discord.gg/ettnFrkNyW)**",
@@ -2192,20 +2192,20 @@
       },
       "warn": {
         "stupid_1": "Tu ne peux pas te donner un avertissement toi-même",
-        "stupid_2": "You cannot clear your own warnings",
+        "stupid_2": "Tu ne peux pas retirer tes propres avertissements",
         "thats_too_much_man": "L'utilisateur a déjà reçu trop d'avertissements",
         "no_reason": "Pas de raison spécifiée",
         "by": "Avertissement de",
         "confirm": "{} {} a été averti ({} avertissement(s) maintenant) pour la raison : *{}*"
       },
       "mute": {
-        "stupid_1": "You cannot mute yourself",
-        "mute_msg": "**{}** has been muted."
+        "stupid_1": "Tu ne peux pas te rendre muet",
+        "mute_msg": "**{}** a été rendu muet."
       },
       "unmute": {
-        "stupid_1": "You cannot unmute yourself",
-        "stupid_2": "**{}** isn't muted",
-        "unmute_msg": "**{}** has been unmuted"
+        "stupid_1": "Tu ne peux pas te redonner la parole",
+        "stupid_2": "**{}** n'est pas muet",
+        "unmute_msg": "La parole a été redonnée à **{}**"
       }
     },
     "config": {
@@ -2248,7 +2248,7 @@
         "set": "Réglage de la langue du serveur sur **{}**"
       },
       "mcs": {
-        "this_server": "Le serveur Minecraft par défaut est actuellement réglée sur **`{}`**",
+        "this_server": "Le serveur Minecraft par défaut est actuellement réglé sur **`{}`**",
         "error_1": "C'est trop long, ça ne peut pas être plus long que `{}` caractères.",
         "set": "Réglage du serveur Minecraft par dafaut sur **`{}`**"
       },
@@ -2294,7 +2294,7 @@
         "cmds_sec": "Commande/seconde",
         "votes": "Nombre de vote de la session",
         "topgg": "Top.gg Votes / Heure",
-        "shards": "Shard Count",
+        "shards": "Nombre de Shards",
         "ping": "Latence/Ping",
         "mem": "Mémoire",
         "cpu": "Utilisation du CPU",
@@ -2318,7 +2318,7 @@
         "oops": "Oups, quelque chose a mal tourné ..."
       },
       "search": {
-        "nope": "Pas de résultats trouvés ...",
+        "nope": "Pas de résultat trouvé ...",
         "error": "Oups, quelque chose a mal tourné ..."
       },
       "rules": {
@@ -2534,7 +2534,6 @@
         ],
         "market": {
           "title": "{} __Marché au Poisson du Villager Bot__ {}",
-          "desc": "The prices at which different fish sell for, you can buy a\nfishing rod in the tools section of the shop.",
           "desc": "Voici les prix de vente des différents poissons, tu peux\nacheter une canne à pêche dans la section outils de la boutique.",
           "current": "Se vend pour : {0}{1}"
         }
@@ -2578,7 +2577,7 @@
         "stupid_2": "Tu ne peux pas utiliser un objet que tu ne possèdes même pas.",
         "stupid_3": "Tu ne peux pas utiliser moins d'un objet, idiot.",
         "stupid_4": "Tu ne peux pas utiliser plus de 100 fois un objet.",
-        "stupid_5": "You can't use more items than you have!",
+        "stupid_5": "Tu ne peux pas utiliser plus d'objet que tu en as !",
         "stupid_6": "Soit cet objet est inutilisable, soit il n'existe pas.",
         "vault_max": "Tu ne peux plus agrandir ton coffre de cette manière.",
         "vault_pot": "Tu as descendu une **Vault Potion**. Ton coffre s'est agrandi de {} emplacements.",
@@ -2589,10 +2588,10 @@
         "chug_honey": "Tu as avalé {0}x Honey Jar! (Tu es maintenant à {1}/20 {2})",
         "cant_use_any": "Tu ne peux pas utiliser de **{}** pour l'instant.",
         "cant_use_up_to": "Tu ne peux pas utiliser plus de {0} **{1}** pour l'instant.",
-        "done": "La **{}** que tu as descendu plus tôt as perdu ses effets.",
+        "done": "La **{}** que tu as descendu plus tôt a perdu ses effets.",
         "present": [
           "Tu ouvre ton cadeau et trouve 1x **{}** (Valant {}{})!",
-          "Tu déchiquète le papier cadeau aussi vite que tu le peux et obtiens 1x **{}** (Valant {}{})!",
+          "Tu déchiquettes le papier cadeau aussi vite que tu le peux et obtiens 1x **{}** (Valant {}{})!",
           "You déchire la boîte cadeau et trouve 1x **{}** (Valant {}{})!",
           "Tu balances la boîte par la fenêtre, elle s'ouvre en cassant et tu obtiens 1x **{}** (Valant {}{})!"
         ],
