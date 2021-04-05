@@ -8,7 +8,10 @@
   },
   "topgg_api": "top.gg/dbl api token/key",
   "topgg_webhook": "top.gg/dbl webhook auth",
-  "google": ["google custom search key 1", "google custom search key 2"],
+  "google": [
+    "google custom search key 1",
+    "google custom search key 2"
+  ],
   "vb_api": "villager bot api key",
   "xapi": "xapi.us api key",
   "statcord": "statcord api key",

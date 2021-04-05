@@ -70,10 +70,6 @@ class Useful(commands.Cog):
 
     @help.command(name="economy", aliases=["econ"])
     async def help_economy(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.economy}]", icon_url=self.d.splash_logo)
@@ -86,10 +82,6 @@ class Useful(commands.Cog):
 
     @help.command(name="minecraft", aliases=["mc"])
     async def help_minecraft(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]", icon_url=self.d.splash_logo)
@@ -102,10 +94,6 @@ class Useful(commands.Cog):
 
     @help.command(name="utility", aliases=["util", "useful"])
     async def help_utility(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.utility}]", icon_url=self.d.splash_logo)
@@ -118,10 +106,6 @@ class Useful(commands.Cog):
 
     @help.command(name="fun")
     async def help_fun(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.fun}]", icon_url=self.d.splash_logo)
@@ -134,10 +118,6 @@ class Useful(commands.Cog):
 
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
     async def help_administrative(self, ctx):
-        # if isinstance(ctx, SlashContext):  # it's a slashhhhh command
-        #     ctx.l = await self.bot.get_lang(ctx)
-        #     await ctx.respond()
-
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.admin}]", icon_url=self.d.splash_logo)
@@ -276,57 +256,6 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="info", aliases=["i"])
-    @commands.is_owner()
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    async def info(self, ctx, *, thing):
-        await ctx.send("execute")
-
-        type_ = None
-
-        try:
-            snowflake = int(thing)
-            type_ = "id"
-        except Exception:
-            user = discord.utils.find((lambda u: u.name == thing), ctx.guild.members)
-
-            if user is None:
-                user = discord.utils.find((lambda u: u.name == thing), self.bot.users)
-
-            if user is not None:
-                type_ = "user"
-            else:
-                guild = discord.utils.find((lambda g: g.name == thing), self.bot.guilds)
-
-                if guild is not None:
-                    type_ = "guild"
-
-        if type_ == "id":
-            user = self.bot.get_user(snowflake)
-
-            if user is None:
-                try:
-                    await ctx.send("api for user snowflake")
-                    user = await self.bot.fetch_user(snowflake)
-                except Exception:
-                    pass
-
-            if user is not None:
-                type_ = "user"
-            else:
-                guild = self.bot.get_guild(snowflake)
-
-                if guild is not None:
-                    type_ = "guild"
-
-        if type_ == "guild":
-            await self.server_info(ctx, guild.id)
-        elif type_ == "user":
-            await ctx.send("user")
-        else:
-            await ctx.send(type_)
-            await ctx.send(snowflake)
-
     @commands.command(name="rules", aliases=["botrules"])
     async def rules(self, ctx):
         embed = discord.Embed(color=self.d.cc, description=ctx.l.useful.rules.penalty)
@@ -359,7 +288,7 @@ class Useful(commands.Cog):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
-            with ctx.typing():
+            async with ctx.typing():
                 res = await self.google_client.search(query, safesearch=safesearch)
         except async_cse.search.NoResults:
             await self.bot.send(ctx, ctx.l.useful.search.nope)
@@ -385,7 +314,7 @@ class Useful(commands.Cog):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
-            with ctx.typing():
+            async with ctx.typing():
                 res = await self.google_client.search(query, safesearch=safesearch)
         except async_cse.search.NoResults:
             await self.bot.send(ctx, ctx.l.useful.search.nope)
@@ -394,7 +323,7 @@ class Useful(commands.Cog):
             await self.bot.send(ctx, ctx.l.useful.search.error)
             return
 
-        res = (*filter((lambda r: "youtube.com/watch" in r.url), res),)
+        res = tuple(filter((lambda r: "youtube.com/watch" in r.url), res))
 
         if len(res) == 0:
             await self.bot.send(ctx, ctx.l.useful.search.nope)
@@ -412,7 +341,7 @@ class Useful(commands.Cog):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
-            with ctx.typing():
+            async with ctx.typing():
                 res = await self.google_client.search(query, safesearch=safesearch, image_search=True)
         except async_cse.search.NoResults:
             await self.bot.send(ctx, ctx.l.useful.search.nope)
@@ -428,6 +357,62 @@ class Useful(commands.Cog):
         res = res[0]
 
         await ctx.send(res.image_url)
+
+    @commands.command(name="remindme", aliases=["remind"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def remind_me(self, ctx, *, args: str):
+        user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
+
+        if user_reminder_count > 5:
+            await ctx.send(ctx.l.useful.remind.reminder_max)
+            return
+
+        args = ctx.message.clean_content[len(f"{ctx.prefix}{ctx.invoked_with} ") :].split()
+        at = arrow.utcnow()
+        i = 0
+
+        try:
+            for i, arg in enumerate(args):
+                if arg.endswith("m"):
+                    at = at.shift(minutes=int(arg[:-1]))
+                elif arg.endswith("minute"):
+                    at = at.shift(minutes=int(arg[:-6]))
+                elif arg.endswith("minutes"):
+                    at = at.shift(minutes=int(arg[:-7]))
+                elif arg.endswith("h"):
+                    at = at.shift(hours=int(arg[:-1]))
+                elif arg.endswith("hour"):
+                    at = at.shift(hours=int(arg[:-4]))
+                elif arg.endswith("hours"):
+                    at = at.shift(hours=int(arg[:-5]))
+                elif arg.endswith("d"):
+                    at = at.shift(days=int(arg[:-1]))
+                elif arg.endswith("day"):
+                    at = at.shift(days=int(arg[:-3]))
+                elif arg.endswith("days"):
+                    at = at.shift(days=int(arg[:-4]))
+                elif arg.endswith("w"):
+                    at = at.shift(weeks=int(arg[:-1]))
+                elif arg.endswith("week"):
+                    at = at.shift(weeks=int(arg[:-4]))
+                elif arg.endswith("weeks"):
+                    at = at.shift(weeks=int(arg[:-5]))
+                else:
+                    break
+        except ValueError:
+            await ctx.send(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
+            return
+
+        if i == 0:
+            await ctx.send(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
+            return
+
+        if at > arrow.utcnow().shift(weeks=8):
+            await ctx.send(ctx.l.useful.remind.time_max)
+            return
+
+        await self.db.add_reminder(ctx.author.id, " ".join(args[i:])[:499], ctx.channel.id, at.timestamp())
+        await self.bot.send(ctx, ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
 
 
 def setup(bot):

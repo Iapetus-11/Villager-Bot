@@ -1,20 +1,94 @@
-if __name__ == "__main__":
-    from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-    from discord_slash import SlashCommand
-    from discord.ext import commands
-    import classyjson as cj
-    import asyncio
-    import asyncpg
-    import discord
-    import logging
-    import random
-    import arrow
+from concurrent.futures import ThreadPoolExecutor
+from discord.ext import commands
+import classyjson as cj
+import asyncio
+import asyncpg
+import discord
+import logging
+import random
+import arrow
 
+from util.setup import villager_bot_intents, setup_logging, setup_database
+
+# send function/method for easy sending of embed messages with small amounts of text
+async def send(_bot, location, message, respond=False, ping=False):
+    embed = discord.Embed(color=_bot.d.cc, description=message)
+
+    try:
+        if respond and hasattr(location, "reply"):
+            try:
+                await location.reply(embed=embed, mention_author=ping)
+                return True
+            except discord.errors.HTTPException:
+                pass
+
+        await location.send(embed=embed)
+
+        return True
+    except discord.Forbidden:
+        return False
+
+
+# get a lang for a given ctx object
+def get_lang(_bot, ctx):
+    if ctx.guild is None:
+        return _bot.langs.en
+
+    lang = _bot.d.lang_cache.get(ctx.guild.id)
+
+    if lang is None:
+        lang = "en"
+
+    return _bot.langs[lang]
+
+
+# update the role of a member in the support server
+async def update_support_member_role(_bot, member):
+    support_guild = _bot.get_guild(_bot.d.support_server_id)
+    role_map_values = list(_bot.d.role_mappings.values())
+    db = _bot.get_cog("Database")
+    roles = []
+
+    for role in member.roles:
+        if role.id not in role_map_values and role.id != _bot.d.support_server_id:
+            roles.append(role)
+
+    pickaxe_role = _bot.d.role_mappings.get(await db.fetch_pickaxe(member.id))
+    if pickaxe_role is not None:
+        roles.append(support_guild.get_role(pickaxe_role))
+
+    if await db.fetch_item(member.id, "Bane Of Pillagers Amulet") is not None:
+        roles.append(support_guild.get_role(_bot.d.role_mappings.get("BOP")))
+
+    if roles != member.roles:
+        try:
+            await member.edit(roles=roles)
+        except Exception:
+            pass
+
+
+def update_fishing_prices(_bot):
+    for fish in _bot.d.fishing.fish.values():
+        fish.current = random.randint(*fish.value)
+
+
+def populate_null_data_values(_bot):
+    _bot.update_fishing_prices()
+
+    fishes = _bot.d.fishing.fish_ids = list(_bot.d.fishing.fish.keys())
+    _bot.d.fishing.fish_weights = [
+        (len(fishes) - fish_data.rarity) ** _bot.d.fishing.exponent for fish_data in _bot.d.fishing.fish.values()
+    ]
+
+
+async def send_tip(ctx):
+    await asyncio.sleep(1)
+    await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
+
+
+if __name__ == "__main__":
     # set up basic logging
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s: %(message)s")
-    logging.getLogger("asyncio").setLevel(logging.WARNING)  # hide annoying asyncio info
-    logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
-    logger = logging.getLogger("main")
+    logger = setup_logging()
 
     logger.info("loading private keys...")
     with open("data/keys.json", "r") as k:  # load bot keys
@@ -28,79 +102,23 @@ if __name__ == "__main__":
 
         return _bot.d.default_prefix if prefix is None else prefix
 
-    intents = discord.Intents.default()
-    intents.guilds = True
-    intents.members = True
-    intents.bans = True
-    intents.emojis = True
-    intents.integrations = False
-    intents.webhooks = False
-    intents.invites = False
-    intents.voice_states = False
-    intents.presences = True
-    intents.messages = True
-    # intents.guild_messages = True
-    # intents.dm_messages = True
-    intents.reactions = True
-    # intents.guild_reactions = True
-    # intents.dm_reactions = True
-    intents.typing = False
-    # intents.guild_typing = False
-    # intents.dm_typing = False
-
     bot = commands.AutoShardedBot(  # setup bot
         command_prefix=get_prefix,
         case_insensitive=True,
-        intents=intents,
+        intents=villager_bot_intents(),
         help_command=None,
-        shard_count=20,
     )
-
-    # bot.slashbot = SlashCommand(
-    #     bot,
-    #     override_type=True,
-    #     # sync_commands=True,
-    #     # sync_on_cog_reload=True,
-    #     delete_from_unused_guilds=True,
-    # )
 
     bot.logger = logger
 
-    async def send(
-        _bot, location, message
-    ):  # send function/method for easy sending of embed messages with small amounts of text
-        try:
-            await location.send(embed=discord.Embed(color=_bot.d.cc, description=message))
-            return True
-        except discord.Forbidden:
-            return False
-
-    async def get_lang(_bot, ctx):
-        if ctx.guild is None:
-            return _bot.langs.en
-
-        lang = _bot.d.lang_cache.get(ctx.guild.id)
-
-        if lang is None:
-            lang = "en"
-
-        return _bot.langs[lang]
-
-    bot.send = send.__get__(bot)  # bind send() to bot without subclassing bot
+    bot.send = send.__get__(bot)
     bot.get_lang = get_lang.__get__(bot)
+    bot.update_support_member_role = update_support_member_role.__get__(bot)
+    bot.update_fishing_prices = update_fishing_prices.__get__(bot)
+    bot.populate_null_data_values = populate_null_data_values.__get__(bot)
 
-    async def setup_database():  # init pool connection to database
-        logger.info("setting up connection to database and db pool...")
-        bot.db = await asyncpg.create_pool(
-            host=keys.database.host,  # where db is hosted
-            database=keys.database.name,  # name of database
-            user=keys.database.user,  # database username
-            password=keys.database.passw,  # password which goes with user
-            max_size=50,
-            command_timeout=10,
-        )
-
-    asyncio.get_event_loop().run_until_complete(setup_database())
+    logger.info("setting up connection to database and db pool...")
+    asyncio.get_event_loop().run_until_complete(setup_database(bot, keys))
 
     logger.info("loading villager bot text from data/text.json...")
     with open("data/text.json", "r", encoding="utf8") as l:
@@ -123,7 +141,6 @@ if __name__ == "__main__":
     bot.d.miners = {}  # {user_id: commands}
     bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)
     bot.d.mining.pickaxes = list(bot.d.mining.yields_pickaxes)[::-1]  # get list of pickaxe types from best to worst
-    bot.d.findables = bot.d.special_findables + bot.d.default_findables
     bot.d.pillagers = {}  # {user_id: pillages}
     bot.d.pillages = {}  # {user_id: times_pillaged}
     bot.d.chuggers = {}  # {user_id: [potion, potion]}
@@ -150,7 +167,7 @@ if __name__ == "__main__":
     bot.cog_list = [  # list of cogs which are to be loaded in the bot
         "cogs.core.database",
         "cogs.core.events",
-        "cogs.core.webhooks",
+        "cogs.core.loops",
         "cogs.cmds.useful",
         "cogs.cmds.owner",
         "cogs.cmds.mc",
@@ -158,58 +175,57 @@ if __name__ == "__main__":
         "cogs.cmds.fun",
         "cogs.cmds.econ",
         "cogs.cmds.config",
-        # "cogs.cmds.slash",
         "cogs.other.mobs",
-        "cogs.other.status",
         "cogs.other.statcord",
+        "cogs.other.webhooks",
     ]
 
     for cog in bot.cog_list:  # load every cog in bot.cog_list
         logger.info(f"loading extension: {cog}")
         bot.load_extension(cog)
 
-    async def send_tip(ctx):
-        await asyncio.sleep(1)
-        await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
+    bot.populate_null_data_values()
 
     @bot.check  # everythingggg goes through here
     async def global_check(ctx):
-        ctx.l = await bot.get_lang(ctx)
+        ctx.l = bot.get_lang(ctx)
 
+        # if bot is locked down to only accept commands from owner
         if bot.owner_locked and ctx.author.id != 536986067140608041:
             ctx.custom_err = "ignore"
-            return False
-
-        if ctx.author.id in bot.d.ban_cache:
+        elif ctx.author.id in bot.d.ban_cache:  # if command author is bot banned
             ctx.custom_err = "bot_banned"
-            return False
-
-        if not bot.is_ready():
+        elif not bot.is_ready():  # if bot hasn't completely started up yet
             ctx.custom_err = "not_ready"
-            return False
-
-        if ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(ctx.guild.id, []):
+        elif ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(
+            ctx.guild.id, tuple()
+        ):  # if command is disabled
             ctx.custom_err = "disabled"
+
+        if hasattr(ctx, "custom_err"):
             return False
 
-        bot.d.cmd_lb[ctx.author.id] = bot.d.cmd_lb.get(ctx.author.id, 0) + 1
+        # update the leaderboard + session command count
+        try:
+            bot.d.cmd_lb[ctx.author.id] += 1
+        except KeyError:
+            bot.d.cmd_lb[ctx.author.id] = 1
+
         bot.d.cmd_count += 1
 
         if ctx.command.cog and ctx.command.cog.__cog_name__ == "Econ":  # make sure it's an econ command
-            if bot.d.pause_econ.get(ctx.author.id):
+            if bot.d.pause_econ.get(ctx.author.id) is not None:
                 ctx.custom_err = "econ_paused"
                 return False
 
-            if random.randint(1, 40) == 1:  # spawn mob
-                if ctx.command._buckets._cooldown != None and ctx.command._buckets._cooldown.per >= 2:
+            if random.randint(1, bot.d.mob_chance) == 1:  # spawn mob
+                if ctx.command._buckets._cooldown is not None and ctx.command._buckets._cooldown.per >= 2:
                     bot.d.spawn_queue[ctx] = arrow.utcnow()
-                    return True
 
         if random.randint(1, bot.d.tip_chance) == 1:
             bot.loop.create_task(send_tip(ctx))
 
         return True
 
-    with ProcessPoolExecutor() as bot.ppool:
-        with ThreadPoolExecutor() as bot.tpool:
-            bot.run(keys.discord)  # run the bot, this is a blocking call
+    with ThreadPoolExecutor() as bot.tpool:
+        bot.run(keys.discord)  # run the bot, this is a blocking call

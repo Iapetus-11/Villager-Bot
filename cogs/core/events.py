@@ -15,7 +15,6 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.db.populate_caches()
         self.bot.logger.info(f"\u001b[36;1mCONNECTED\u001b[0m [{self.bot.shard_count} Shards] [{len(self.bot.cogs)} Cogs]")
 
     @commands.Cog.listener()
@@ -26,12 +25,12 @@ class Events(commands.Cog):
             if "general" in channel.name:
                 embed = discord.Embed(
                     color=self.d.cc,
-                    description="Hey y'all! Type `/help` to get started with Villager Bot!\n"
+                    description=f"Hey y'all! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
                     f"If you need any more help, check out the **[Support Server]({self.d.support})**!",
                 )
 
                 embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
-                embed.set_footer(text="Made by Iapetus11  |  /rules for the rules!")
+                embed.set_footer(text=f"Made by Iapetus11  |  {self.d.default_prefix}rules for the rules!")
 
                 await channel.send(embed=embed)
                 break
@@ -45,6 +44,13 @@ class Events(commands.Cog):
         await self.db.clear_warns(user.id, guild.id)
 
     @commands.Cog.listener()
+    async def on_member_join(self, member):
+        await self.bot.wait_until_ready()
+
+        if member.guild.id == self.d.support_server_id:
+            await self.bot.update_support_member_role(member)
+
+    @commands.Cog.listener()
     async def on_message(self, m):
         if m.author.bot:
             return
@@ -52,27 +58,24 @@ class Events(commands.Cog):
         self.d.msg_count += 1
 
         try:
-            if (
-                m.type
-                in (
+            if m.guild is not None and m.guild.id == self.d.support_server_id:
+                if m.type in (
                     discord.MessageType.premium_guild_subscription,
                     discord.MessageType.premium_guild_tier_1,
                     discord.MessageType.premium_guild_tier_2,
                     discord.MessageType.premium_guild_tier_3,
-                )
-                and m.guild is not None
-                and m.guild.id == self.d.support_server_id
-            ):
-                await self.db.add_item(m.author.id, "Barrel", 1024, 1)
-                await self.bot.send(m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!")
-                return
+                ):
+                    await self.db.add_item(m.author.id, "Barrel", 1024, 1)
+                    await self.bot.send(m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!")
+                    return
 
             if m.content.startswith(f"<@!{self.bot.user.id}>"):
-                prefix = "/"
-                if m.guild is not None:
-                    prefix = self.d.prefix_cache.get(m.guild.id, "/")
+                prefix = self.d.default_prefix
 
-                lang = await self.bot.get_lang(m)
+                if m.guild is not None:
+                    prefix = self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)
+
+                lang = self.bot.get_lang(m)
 
                 embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
 
@@ -83,7 +86,9 @@ class Events(commands.Cog):
                 return
 
             if m.guild is not None:
-                if "@someone" in m.content:
+                content_lowered = m.content.lower()
+
+                if "@someone" in content_lowered:
                     someones = [
                         u
                         for u in m.guild.members
@@ -99,18 +104,19 @@ class Events(commands.Cog):
                         invis = ("||||\u200B" * 200)[2:-3]
                         await m.channel.send(f"@someone {invis} {random.choice(someones).mention} {m.author.mention}")
                 else:
-                    if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, "/")):
-                        if "emerald" in m.content.lower():
+                    if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)):
+                        if "emerald" in content_lowered:
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send(random.choice(self.d.hmms))
-                        elif "creeper" in m.content.lower():
+                        elif "creeper" in content_lowered:
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
-                        elif "reee" in m.content.lower().replace(" ", ""):
+                        elif "reee" in content_lowered:
                             if (await self.db.fetch_guild(m.guild.id))["replies"]:
                                 await m.channel.send(random.choice(self.d.emojis.reees))
-                        else:
-                            return
+                        elif "amogus" in content_lowered:
+                            if (await self.db.fetch_guild(m.guild.id))["replies"]:
+                                await m.channel.send(self.d.emojis.amogus)
         except discord.errors.Forbidden:
             pass
 
@@ -126,10 +132,8 @@ class Events(commands.Cog):
             ctx.message.content = None
 
         traceback_text = "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
-        final = (
-            f"{ctx.author} (lang={ctx.__dict__.get('l', {}).get('lang')}): {ctx.message.content}\n\n{traceback_text}".replace(
-                "``", "\`\`\`"
-            )
+        final = f"{ctx.author} (lang={getattr(ctx, 'l', {}).get('lang')}): {ctx.message.content}\n\n{traceback_text}".replace(
+            "``", "\`\`\`"
         )
 
         await self.bot.send(loc, f"```py\n{final[:1023 - 6]}```")
@@ -181,7 +185,7 @@ class Events(commands.Cog):
                 await self.bot.send(ctx, ctx.l.misc.errors.user_perms)
             elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
                 await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
-            elif e.__dict__.get("original") is not None and isinstance(e.original, discord.errors.Forbidden):
+            elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
                 await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
             elif isinstance(e, commands.MaxConcurrencyReached):
                 await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
@@ -197,20 +201,20 @@ class Events(commands.Cog):
                 ),
             ):
                 await self.bot.send(ctx, ctx.l.misc.errors.bad_arg)
-            elif ctx.__dict__.get("custom_err") == "not_ready":
+            elif getattr(ctx, "custom_err", None) == "not_ready":
                 await self.bot.send(ctx, ctx.l.misc.errors.not_ready)
-            elif ctx.__dict__.get("custom_err") == "bot_banned":
+            elif getattr(ctx, "custom_err", None) == "bot_banned":
                 pass
-            elif ctx.__dict__.get("custom_err") == "econ_paused":
+            elif getattr(ctx, "custom_err", None) == "econ_paused":
                 await self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy)
-            elif ctx.__dict__.get("custom_err") == "disabled":
+            elif getattr(ctx, "custom_err", None) == "disabled":
                 await self.bot.send(ctx, ctx.l.misc.errors.disabled)
-            elif ctx.__dict__.get("custom_err") == "ignore":
+            elif getattr(ctx, "custom_err", None) == "ignore":
                 return
             else:
                 # errors to ignore
                 for e_type in (commands.CommandNotFound, commands.NotOwner):
-                    if isinstance(e, e_type) or isinstance(e.__dict__.get("original"), e_type):
+                    if isinstance(e, e_type) or isinstance(getattr(e, "original", None), e_type):
                         return
 
                 await self.bot.send(ctx, ctx.l.misc.errors.andioop.format(self.d.support))
@@ -218,13 +222,8 @@ class Events(commands.Cog):
         except discord.errors.Forbidden:
             pass
         except Exception as e:
-            if not isinstance(e.__dict__.get("original"), discord.errors.Forbidden):
+            if not isinstance(getattr(e, "original", None), discord.errors.Forbidden):
                 await self.debug_error(ctx, e)
-
-    @commands.Cog.listener()
-    async def on_slash_command_error(self, ctx, e):
-        ctx.l = await self.bot.get_lang(ctx)
-        await self.on_command_error(ctx, e)
 
 
 def setup(bot):

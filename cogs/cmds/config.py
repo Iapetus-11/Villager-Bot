@@ -155,15 +155,7 @@ class Config(commands.Cog):
 
         cmd_true = self.bot.get_command(cmd.lower())
 
-        if (
-            cmd_true.cog is None
-            or cmd_true.cog.__cog_name__
-            in (
-                "Owner",
-                "Config",
-            )
-            or str(cmd_true) in ("help",)
-        ):
+        if cmd_true.cog is None or cmd_true.cog.__cog_name__ in ("Owner", "Config") or str(cmd_true) in ("help",):
             await self.bot.send(ctx, ctx.l.config.cmd.cant)
             return
 

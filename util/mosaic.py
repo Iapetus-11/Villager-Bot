@@ -3,16 +3,11 @@ import random
 import base64
 import json
 import cv2
+import io
 
 
 def im_from_bytes(bytes):
     return cv2.imdecode(np.frombuffer(bytes, np.uint8), cv2.IMREAD_COLOR)
-
-
-# def draw_image(canvas, img, x, y):
-#     for i, row in enumerate(img):
-#         for j, pix in enumerate(row):
-#             canvas[i+y][j+x] = pix
 
 
 def draw_image(canvas, img, x, y):
@@ -70,8 +65,6 @@ def generate(source_bytes, max_dim, detailed):
         source = cv2.resize(source, (int(new_w), int(new_h)))
 
     source = cv2.resize(source, (int(source.shape[1] / xi), int(source.shape[0] / yi)))
-    # source = cv2.blur(source, (2, 2))
-
     canvas = np.zeros((source.shape[0] * xi, source.shape[1] * yi, 3), np.uint8)
 
     y = 0
@@ -79,11 +72,7 @@ def generate(source_bytes, max_dim, detailed):
     for row in source:
         x = 0
 
-        for pix in row:  # bgr
-            r = pix[2]
-            g = pix[1]
-            b = pix[0]
-
+        for b, g, r in row:
             pal_key = palette_oct.get((r // 32, g // 32, b // 32))
 
             if pal_key is None:
@@ -100,4 +89,4 @@ def generate(source_bytes, max_dim, detailed):
             x += xi
         y += yi
 
-    return cv2.imencode(".png", canvas)
+    return io.BytesIO(cv2.imencode(".png", canvas)[1])

@@ -1,5 +1,6 @@
 from discord.ext import commands, tasks
 import discord
+import arrow
 
 
 class Database(commands.Cog):
@@ -11,16 +12,15 @@ class Database(commands.Cog):
         self.db = bot.db  # the asyncpg pool
 
         self.update_user_health.start()
-        self.update_support_server_member_roles.start()
+        bot.loop.create_task(self.populate_caches())
 
         self._user_cache = {}  # {uid: Record(user)}
         self._items_cache = {}  # {uid: [Record(item), Record(item)]}
 
     def cog_unload(self):
         self.update_user_health.cancel()
-        self.update_support_server_member_roles.cancel()
 
-    async def populate_caches(self):
+    async def populate_caches(self):  # initial caches for speeeeeed
         self.d.ban_cache = await self.fetch_all_botbans()
         self.d.lang_cache = await self.fetch_all_guild_langs()
         self.d.prefix_cache = await self.fetch_all_guild_prefixes()
@@ -54,37 +54,14 @@ class Database(commands.Cog):
         for uid in uids:
             self.uncache_user(uid)
 
-    @tasks.loop(minutes=10)
-    async def update_support_server_member_roles(self):
-        await self.bot.wait_until_ready()
+    async def fetch_current_reminders(self) -> list:
+        return await self.db.fetch("DELETE FROM reminders WHERE at <= $1 RETURNING *", arrow.utcnow().timestamp())
 
-        support_guild = self.bot.get_guild(self.d.support_server_id)
-        role_map_values = list(self.d.role_mappings.values())
+    async def fetch_user_reminder_count(self, uid: int) -> int:
+        return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE uid = $1", uid)
 
-        for member in support_guild.members:
-            roles = []
-
-            member = support_guild.get_member(member.id)
-
-            if member is None:
-                continue
-
-            for role in member.roles:
-                if role.id not in role_map_values and role.id != self.d.support_server_id:
-                    roles.append(role)
-
-            pickaxe_role = self.d.role_mappings.get(await self.fetch_pickaxe(member.id))
-            if pickaxe_role is not None:
-                roles.append(support_guild.get_role(pickaxe_role))
-
-            if await self.fetch_item(member.id, "Bane Of Pillagers Amulet") is not None:
-                roles.append(support_guild.get_role(self.d.role_mappings.get("BOP")))
-
-            if roles != member.roles:
-                try:
-                    await member.edit(roles=roles)
-                except Exception:
-                    pass
+    async def add_reminder(self, uid: int, reminder: str, cid: int, at: int):
+        await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4)", uid, reminder, cid, at)
 
     async def fetch_all_botbans(self):
         botban_records = await self.db.fetch(
@@ -96,19 +73,14 @@ class Database(commands.Cog):
         lang_records = await self.db.fetch("SELECT gid, lang FROM guilds")
 
         return dict(
-            (
-                r[0],
-                r[1],
-            )
-            for r in lang_records
-            if (r[1] != "en" and r[1] != None and r[1] != "en_us")
+            (r[0], r[1]) for r in lang_records if (r[1] != "en" and r[1] is not None and r[1] != "en_us")
         )  # needs to be a dict
 
     async def fetch_all_guild_prefixes(self):
         prefix_records = await self.db.fetch("SELECT gid, prefix FROM guilds")
 
         return dict(
-            (r[0], r[1]) for r in prefix_records if (r[1] != self.d.default_prefix and r[1] != None)
+            (r[0], r[1]) for r in prefix_records if (r[1] != self.d.default_prefix and r[1] is not None)
         )  # needs to be a dict
 
     async def fetch_all_mcservers(self):
@@ -131,7 +103,14 @@ class Database(commands.Cog):
 
         if g is None:
             await self.db.execute(
-                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7)", gid, "/", True, "easy", "en", None, False
+                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7)",
+                gid,
+                self.d.default_prefix,
+                True,
+                "easy",
+                "en",
+                None,
+                False,
             )
 
             return await self.fetch_guild(gid)
@@ -164,7 +143,7 @@ class Database(commands.Cog):
         else:
             await self.db.execute("INSERT INTO disabled VALUES ($1, $2)", gid, cmd)
 
-    async def fetch_user(self, uid, con=None):
+    async def fetch_user(self, uid):
         try:
             return self._user_cache[uid]
         except KeyError:
@@ -193,28 +172,6 @@ class Database(commands.Cog):
     async def fetch_balance(self, uid):  # fetches the amount of emeralds a user has
         # we can do this because self.fetch_user ensures user is not None
         return (await self.fetch_user(uid))["emeralds"]
-
-    async def mass_fetch_balances(self):
-        return await self.db.fetch("SELECT uid, emeralds FROM users WHERE emeralds > 0 AND bot_banned = false")
-
-    # async def fetch_leaderboard_balances(self, uid: int, uids: list, *, limit: int = 11):
-    #     return (
-    #         await self.db.fetchrow(
-    #             "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE uid = $1", uid
-    #         ),
-    #         await self.db.fetch(
-    #             "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false LIMIT $1",
-    #             limit,
-    #         ),
-    #         await self.db.fetch(
-    #             "SELECT uid, emeralds, ROW_NUMBER() OVER(ORDER BY emeralds DESC) AS position FROM users WHERE emeralds > 0 AND bot_banned = false AND uid = ANY($2::BIGINT[]) LIMIT $1",
-    #             limit,
-    #             uids,
-    #         ),
-    #     )
-
-    async def mass_fetch_votestreaks(self):
-        return await self.db.fetch("SELECT uid, vote_streak FROM users WHERE vote_streak > 0 AND bot_banned = false")
 
     async def set_balance(self, uid, emeralds):
         await self.fetch_user(uid)
@@ -270,9 +227,6 @@ class Database(commands.Cog):
         await self.fetch_user(uid)
         return await self.db.fetchrow("SELECT * FROM items WHERE uid = $1 AND LOWER(name) = LOWER($2)", uid, name)
 
-    async def mass_fetch_item(self, name):
-        return await self.db.fetch("SELECT * FROM items WHERE LOWER(name) = LOWER($1)", name)
-
     async def add_item(self, uid, name, sell_price, amount, sticky=False):
         prev = await self.fetch_item(uid, name)
 
@@ -303,6 +257,17 @@ class Database(commands.Cog):
     async def fetch_transactions_by_sender(self, uid, limit):
         return await self.db.fetch("SELECT * FROM give_logs WHERE giver_uid = $1 ORDER BY ts DESC LIMIT $2", uid, limit)
 
+    async def fetch_transactions_page(self, uid, limit: int = 10, *, page: int = 0) -> list:
+        return await self.db.fetch(
+            "SELECT * FROM give_logs WHERE giver_uid = $1 OR recvr_uid = $1 ORDER BY ts DESC LIMIT $2 OFFSET $3",
+            uid,
+            limit,
+            page * limit,
+        )
+
+    async def fetch_transactions_page_count(self, uid, limit: int = 10) -> int:
+        return await self.db.fetchval("SELECT COUNT(*) FROM give_logs WHERE giver_uid = $1 OR recvr_uid = $1", uid) // limit
+
     async def fetch_pickaxe(self, uid):
         items_names = [item["name"] for item in await self.fetch_items(uid)]
 
@@ -328,20 +293,19 @@ class Database(commands.Cog):
         await self.set_vault(uid, 0, 1)
 
         await self.db.execute(
-            "DELETE FROM items WHERE uid = $1 AND name != $2 AND name != $3",
+            "DELETE FROM items WHERE uid = $1 AND name != ANY($2::VARCHAR(250)[])",
             uid,
-            "Rich Person Trophy",
-            "Bane Of Pillagers Amulet",
+            ["Rich Person Trophy", "Bane Of Pillagers Amulet", "Slime Trophy"],
         )
 
-        self.uncache_user(uid)
+        # self.uncache_user(uid) # done in set_balance() and set_vault()
         self.uncache_items(uid)
 
     async def fetch_user_lb(self, uid):
         lbs = await self.db.fetchrow("SELECT * FROM leaderboards WHERE uid = $1", uid)
 
         if lbs is None:
-            await self.db.execute("INSERT INTO leaderboards VALUES ($1, $2, $3)", uid, 0, 0)
+            await self.db.execute("INSERT INTO leaderboards VALUES ($1, $2, $3, $4)", uid, 0, 0, 0)
 
     async def update_lb(self, uid, lb, value, mode="add"):
         await self.fetch_user_lb(uid)
@@ -353,19 +317,97 @@ class Database(commands.Cog):
         elif mode == "set":
             await self.db.execute(f"UPDATE leaderboards SET {lb} = $1 WHERE uid = $2", value, uid)
 
-    async def mass_fetch_leaderboard(self, lb):
-        return await self.db.fetch(f"SELECT uid, {lb} FROM leaderboards")
+    async def fetch_global_lb(self, lb: str, uid: int) -> tuple:
+        return (
+            await self.db.fetch(f"SELECT uid, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards"),
+            await self.db.fetchrow(
+                f"SELECT * FROM (SELECT uid, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards) AS leaderboard WHERE uid = $1",
+                uid,
+            ),
+        )
+
+    async def fetch_local_lb(self, lb: str, uid: int, uids: list) -> tuple:
+        return (
+            await self.db.fetch(
+                f"SELECT uid, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards WHERE uid = ANY($1::BIGINT[])",
+                uids,
+            ),
+            await self.db.fetchrow(
+                f"SELECT * FROM (SELECT uid, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards WHERE uid = ANY($2::BIGINT[])) AS leaderboard WHERE uid = $1",
+                uid,
+                uids,
+            ),
+        )
+
+    async def fetch_global_lb_user(self, column: str, uid: int) -> tuple:
+        return (
+            await self.db.fetch(
+                "SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false LIMIT 10".format(
+                    column
+                )
+            ),
+            await self.db.fetchrow(
+                "SELECT * FROM (SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false) AS leaderboard WHERE uid = $1".format(
+                    column
+                ),
+                uid,
+            ),
+        )
+
+    async def fetch_local_lb_user(self, column: str, uid: int, uids: list) -> tuple:
+        return (
+            await self.db.fetch(
+                "SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND uid = ANY($1::BIGINT[]) LIMIT 10".format(
+                    column
+                ),
+                uids,
+            ),
+            await self.db.fetchrow(
+                "SELECT * FROM (SELECT uid, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND uid = ANY($2::BIGINT[])) AS leaderboard WHERE uid = $1".format(
+                    column
+                ),
+                uid,
+                uids,
+            ),
+        )
+
+    async def fetch_global_lb_item(self, item: str, uid: int) -> tuple:
+        return (
+            await self.db.fetch(
+                "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) LIMIT 10",
+                item,
+            ),
+            await self.db.fetchrow(
+                "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) AND uid = $2",
+                item,
+                uid,
+            ),
+        )
+
+    async def fetch_local_lb_item(self, item: str, uid: int, uids: list) -> tuple:
+        return (
+            await self.db.fetch(
+                "SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE uid = ANY($2::BIGINT[]) AND LOWER(name) = LOWER($1) LIMIT 10",
+                item,
+                uids,
+            ),
+            await self.db.fetchrow(
+                "SELECT * FROM (SELECT uid, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE uid = ANY($3::BIGINT[]) AND LOWER(name) = LOWER($1)) AS leaderboard WHERE uid = $2",
+                item,
+                uid,
+                uids,
+            ),
+        )
 
     async def set_botbanned(self, uid, botbanned):
         await self.fetch_user(uid)
 
-        if botbanned and uid not in self.d.ban_cache:
-            self.d.ban_cache.append(uid)
+        if botbanned:
+            if uid not in self.d.ban_cache:
+                self.d.ban_cache.append(uid)
         else:
             try:
-                self.d.ban_cache.pop(self.d.ban_cache.index(uid))
-            except KeyError:
-                pass
+                self.d.ban_cache.remove(uid)
             except ValueError:
                 pass
 
