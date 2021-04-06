@@ -12,4 +12,3 @@ numpy
 opencv-python
 psutil
 statcord.py
-uvloop
