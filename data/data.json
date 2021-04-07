@@ -563,7 +563,7 @@
       "db_item_count < 1",
       [
         "Rich Person Trophy",
-        10,
+        1024,
         true
       ]
     ],
@@ -593,7 +593,7 @@
       "db_item_count < 1",
       [
         "Slime Trophy",
-        10,
+        2048,
         true
       ]
     ]
