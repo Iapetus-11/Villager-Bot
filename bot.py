@@ -36,6 +36,11 @@ def get_lang(_bot, ctx):
 
     return _bot.d.lang_cache.get(ctx.guild.id, "en")
 
+def get_prefix(_bot, ctx):  # get a prefix for a given ctx
+    if ctx.guild is None:
+        return _bot.d.default_prefix
+
+    return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
 
 # update the role of a member in the support server
 async def update_support_member_role(_bot, member):
@@ -88,14 +93,6 @@ if __name__ == "__main__":
     logger.info("loading private keys...")
     with open("data/keys.json", "r") as k:  # load bot keys
         keys = cj.load(k)
-
-    async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
-        if ctx.guild is None:
-            return _bot.d.default_prefix
-
-        prefix = _bot.d.prefix_cache.get(ctx.guild.id)
-
-        return _bot.d.default_prefix if prefix is None else prefix
 
     bot = commands.AutoShardedBot(  # setup bot
         command_prefix=get_prefix,
