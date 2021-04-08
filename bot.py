@@ -34,12 +34,7 @@ def get_lang(_bot, ctx):
     if ctx.guild is None:
         return _bot.langs.en
 
-    lang = _bot.d.lang_cache.get(ctx.guild.id)
-
-    if lang is None:
-        lang = "en"
-
-    return _bot.langs[lang]
+    return _bot.d.lang_cache.get(ctx.guild.id, "en")
 
 
 # update the role of a member in the support server
