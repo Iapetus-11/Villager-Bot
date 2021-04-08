@@ -37,11 +37,13 @@ def get_lang(_bot, ctx):
 
     return _bot.d.lang_cache.get(ctx.guild.id, "en")
 
+
 def get_prefix(_bot, ctx):  # get a prefix for a given ctx
     if ctx.guild is None:
         return _bot.d.default_prefix
 
     return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
+
 
 # update the role of a member in the support server
 async def update_support_member_role(_bot, member):
