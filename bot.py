@@ -35,7 +35,7 @@ def get_lang(_bot, ctx):
     if ctx.guild is None:
         return _bot.langs.en
 
-    return _bot.d.lang_cache.get(ctx.guild.id, "en")
+    return _bot.langs[_bot.d.lang_cache.get(ctx.guild.id, "en")]
 
 
 def get_prefix(_bot, ctx):  # get a prefix for a given ctx
