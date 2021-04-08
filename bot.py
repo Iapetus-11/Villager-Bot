@@ -6,6 +6,7 @@ import asyncpg
 import discord
 import logging
 import random
+import uvloop
 import arrow
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
@@ -87,6 +88,9 @@ async def send_tip(ctx):
 
 
 if __name__ == "__main__":
+    # setup uvloop
+    uvloop.install()
+
     # set up basic logging
     logger = setup_logging()
 
