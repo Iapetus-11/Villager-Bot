@@ -897,10 +897,7 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
-        if amount.lower() in (
-            "all",
-            "max",
-        ):
+        if amount.lower() in ("all", "max"):
             amount = db_user["emeralds"]
 
         else:
