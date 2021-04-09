@@ -74,11 +74,3 @@ CREATE TABLE IF NOT EXISTS reminders (
   cid BIGINT NOT NULL,
   at BIGINT NOT NULL
 );
-
-CREATE TABLE IF NOT EXISTS commands (
-  uid BIGINT NOT NULL,
-  cid BIGINT NOT NULL, -- channel id
-  command VARCHAR(50) NOT NULL, -- command name
-  content VARCHAR(2000) NOT NULL,  -- message content
-  at BIGINT NOT NULL -- timestamp
-);
