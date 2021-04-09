@@ -79,6 +79,6 @@ CREATE TABLE IF NOT EXISTS commands (
   uid BIGINT NOT NULL,
   cid BIGINT NOT NULL, -- channel id
   command VARCHAR(50) NOT NULL, -- command name
-  content VARCHAR(200) NOT NULL,  -- message content
+  content VARCHAR(2000) NOT NULL,  -- message content
   at BIGINT NOT NULL -- timestamp
 );
