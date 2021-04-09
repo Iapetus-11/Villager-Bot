@@ -206,7 +206,7 @@ test = ["pytest (>=6.0)", "pytest-cov", "pytest-subtests", "pytest-xdist", "pret
 
 [[package]]
 name = "discord.py"
-version = "1.7.0"
+version = "1.7.1"
 description = "A Python wrapper for the Discord API"
 category = "main"
 optional = false
@@ -552,8 +552,8 @@ cryptography = [
     {file = "cryptography-3.4.7.tar.gz", hash = "sha256:3d10de8116d25649631977cb37da6cbdd2d6fa0e0281d014a5b7d337255ca713"},
 ]
 "discord.py" = [
-    {file = "discord.py-1.7.0-py3-none-any.whl", hash = "sha256:330edfa11e59c1d1eae31e68f02f8cfcea2702813439dfe58dd587018979e1c9"},
-    {file = "discord.py-1.7.0.tar.gz", hash = "sha256:1b05150e767c4a18941d863d819844ecef8395b0ca3784055d78770b8fa70b68"},
+    {file = "discord.py-1.7.1-py3-none-any.whl", hash = "sha256:399b80d576a63fa901300e80080568e1d9cd9c21260ca622fd7145c0009278fa"},
+    {file = "discord.py-1.7.1.tar.gz", hash = "sha256:82bc5e6325ab7557db9c466f638c98e18be03c330f56ad9bf4c18bdcf19faf55"},
 ]
 idna = [
     {file = "idna-3.1-py3-none-any.whl", hash = "sha256:5205d03e7bcbb919cc9c19885f9920d622ca52448306f2377daede5cf3faac16"},
