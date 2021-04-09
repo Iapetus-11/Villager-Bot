@@ -598,6 +598,12 @@
       ]
     ]
   },
+  "rpt_ignore": [
+    "Rich Person Trophy",
+    "Bane Of Pillagers Amulet",
+    "Slime Trophy",
+    "Forever Alone Trophy"
+  ],
   "cats": {
     "tools": [
       "Wood Pickaxe",

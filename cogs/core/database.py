@@ -295,7 +295,7 @@ class Database(commands.Cog):
         await self.db.execute(
             "DELETE FROM items WHERE uid = $1 AND NOT name = ANY($2::VARCHAR(250)[])",
             uid,
-            ["Rich Person Trophy", "Bane Of Pillagers Amulet", "Slime Trophy"],
+            self.d.rpt_ignore,
         )
 
         # self.uncache_user(uid) # done in set_balance() and set_vault()
