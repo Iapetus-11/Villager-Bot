@@ -39,7 +39,12 @@ class Minecraft(commands.Cog):
         servers_nice = set()
 
         soup = bs(page, "html.parser")
-        elems = soup.find(class_="ui striped table servers serversa").find_all("tr")
+        elems = soup.find(class_="ui striped table servers serversa")
+
+        if elems is None:
+            return servers_nice
+
+        elems = elems.find_all("tr")
 
         for elem in elems:
             split = str(elem).split("\n")
