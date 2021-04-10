@@ -317,15 +317,15 @@
     ]
   },
   "fishing": {
-    "exponent": 2.5,
+    "exponent": 3,
     "fish_ids": [],
     "fish_weights": [],
     "fish": {
       "cod": {
         "name": "Cod",
         "value": [
-          15,
-          30
+          2,
+          15
         ],
         "current": null,
         "rarity": 0
@@ -333,8 +333,8 @@
       "salmon": {
         "name": "Salmon",
         "value": [
-          20,
-          60
+          10,
+          40
         ],
         "current": null,
         "rarity": 0
