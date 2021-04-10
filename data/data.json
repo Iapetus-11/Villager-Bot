@@ -509,11 +509,11 @@
     ],
     "fishing rod": [
       "tools",
-      128,
+      1024,
       "db_item_count < 1",
       [
         "Fishing Rod",
-        48,
+        256,
         true
       ]
     ],
