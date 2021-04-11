@@ -208,7 +208,9 @@ class Mod(commands.Cog):
             return
 
         if discord.utils.get(ctx.guild.roles, name="Muted") is None:  # check if role exists
-            await ctx.guild.create_role(name="Muted", permissions=discord.Permissions(send_messages=False, add_reactions=False))
+            await ctx.guild.create_role(
+                name="Muted", permissions=discord.Permissions(send_messages=False, add_reactions=False)
+            )
 
         # fetch role
         mute = discord.utils.get(ctx.guild.roles, name="Muted")
