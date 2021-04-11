@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS warnings ( -- moderation warnings
   uid    BIGINT NOT NULL, -- receiver of the warning
   gid    BIGINT NOT NULL, -- guild in which the warning was done
   mod_id BIGINT NOT NULL, -- moderator who did the warning
-  reason VARCHAR(250) NOT NULL -- reason for the warning, null for no reason
+  reason VARCHAR(250) -- reason for the warning, null for no reason
 );
 
 CREATE TABLE IF NOT EXISTS mcservers ( -- used in /randommc command
