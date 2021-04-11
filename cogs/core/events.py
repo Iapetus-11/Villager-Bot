@@ -188,7 +188,8 @@ class Events(commands.Cog):
             elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
                 await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
             elif isinstance(e, commands.MaxConcurrencyReached):
-                await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
+                # await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
+                await self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy)
             elif isinstance(e, commands.MissingRequiredArgument):
                 await self.bot.send(ctx, ctx.l.misc.errors.missing_arg)
             elif isinstance(
