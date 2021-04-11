@@ -915,7 +915,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.gamble.stupid_2)
             return
 
-        if amount > 25000:
+        if amount > 50000:
             await self.bot.send(ctx, ctx.l.econ.gamble.stupid_3)
             return
 
@@ -929,23 +929,14 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
 
         if u_roll > b_roll:
-            past_transactions = await self.db.fetch_transactions_by_sender(ctx.author.id, 7)
-            multi = None
-
-            for record in past_transactions:
-                if record["item"] == "emerald" and record["amount"] > 2048:
-                    multi = (random.random() / 2) + 0.075
-                    break
-
-            if multi is None:
-                multi = (
-                    40
-                    + random.randint(5, 30)
-                    + (await self.db.fetch_item(ctx.author.id, "Bane Of Pillagers Amulet") is not None) * 20
-                )
-                multi += (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) * 40
-                multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
-                multi /= 100
+            multi = (
+                40
+                + random.randint(5, 30)
+                + (await self.db.fetch_item(ctx.author.id, "Bane Of Pillagers Amulet") is not None) * 20
+            )
+            multi += (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) * 40
+            multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
+            multi /= 100
 
             won = math.ceil(multi * amount)
 
