@@ -740,7 +740,7 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_2)
 
     @commands.command(name="sell")
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def sell(self, ctx, *, amount_item):
         """Allows you to sell items"""
