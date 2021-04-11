@@ -938,7 +938,8 @@ class Econ(commands.Cog):
             multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
             multi /= 100
 
-            won = math.ceil(multi * amount)
+            won = multi * amount
+            won = math.ceil(min(won, math.log(won, 1.001)))
 
             await self.db.balance_add(ctx.author.id, won)
             await self.bot.send(
