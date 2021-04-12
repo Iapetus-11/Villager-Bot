@@ -15,7 +15,7 @@ import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # ensure the current working directory is correct
-os.chdir(os.path.join(os.path.dirname(__file__), ".."))
+os.chdir(os.path.dirname(__file__))
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 
