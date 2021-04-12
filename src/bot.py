@@ -8,6 +8,14 @@ import logging
 import random
 import uvloop
 import arrow
+import sys
+import os
+
+# ensure villager bot util modules are accessible
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# ensure the current working directory is correct
+os.chdir(os.path.join(os.path.dirname(__file__), ".."))
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 
