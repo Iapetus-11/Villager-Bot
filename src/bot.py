@@ -97,7 +97,7 @@ async def send_tip(ctx):
     await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
 
 
-if __name__ == "__main__":
+def main():
     # setup uvloop
     uvloop.install()
 
@@ -235,3 +235,6 @@ if __name__ == "__main__":
 
     with ThreadPoolExecutor() as bot.tpool:
         bot.run(keys.discord)  # run the bot, this is a blocking call
+
+if __name__ == "__main__":
+    main()
