@@ -482,9 +482,6 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.guild_only()
     async def rcon_command(self, ctx, *, cmd):
-        await ctx.send("This command has been temporarily disabled, thanks for your patience while it's fixed!")
-        return
-
         dm_check = lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
