@@ -70,7 +70,7 @@ class Econ(commands.Cog):
             prob = f"{x}+{y}"
             prob = (prob, str(x + y))
 
-            await self.bot.send(ctx, ctx.l.econ.math_problem.problem.format(prob[0]))
+            await self.bot.send(ctx, ctx.l.econ.math_problem.problem.format(prob[0]), True)
 
             def author_check(m):
                 return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id
@@ -82,11 +82,11 @@ class Econ(commands.Cog):
                 return False
 
             if m.content != prob[1]:
-                await self.bot.send(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
+                await self.bot.send(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no), True)
                 return False
 
             self.d.miners[ctx.author.id] = 0
-            await self.bot.send(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
+            await self.bot.send(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes), True)
 
         return True
 
