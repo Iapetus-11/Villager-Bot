@@ -12,7 +12,7 @@ import sys
 import os
 
 # ensure villager bot util modules are accessible
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # ensure the current working directory is correct
 os.chdir(os.path.join(os.path.dirname(__file__), ".."))
