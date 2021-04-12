@@ -32,14 +32,14 @@ async def send(_bot, location, message, respond=False, ping=False):
 
 # get a lang for a given ctx object
 def get_lang(_bot, ctx):
-    if ctx.guild is None:
+    if getattr(ctx, "guild", None) is None:
         return _bot.langs.en
 
     return _bot.langs[_bot.d.lang_cache.get(ctx.guild.id, "en")]
 
 
 def get_prefix(_bot, ctx):  # get a prefix for a given ctx
-    if ctx.guild is None:
+    if getattr(ctx, "guild", None) is None:
         return _bot.d.default_prefix
 
     return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
