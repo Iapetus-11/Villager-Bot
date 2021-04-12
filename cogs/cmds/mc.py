@@ -547,16 +547,16 @@ class Minecraft(commands.Cog):
 
             if rcon_con is None:
                 rcon_con = rcon.Client(
-                    (db_guild["mcserver"].split(":")[0] + f":{rcon_port}"), password, 2.5, loop=self.bot.loop
+                    db_guild["mcserver"].split(":")[0], rcon_port, password
                 )
                 self.d.rcon_cache[(ctx.author.id, db_guild["mcserver"])] = (rcon_con, arrow.utcnow())
             else:
                 rcon_con = rcon_con[0]
                 self.d.rcon_cache[(ctx.author.id, db_guild["mcserver"])] = (rcon_con, arrow.utcnow())
 
-            await rcon_con.setup()
+            await rcon_con.connect(timeout=2.5)
         except Exception as e:
-            if isinstance(e, rcon.errors.InvalidAuthError):
+            if isinstance(e, rcon.IncorrectPasswordError):
                 await self.bot.send(ctx, ctx.l.minecraft.rcon.stupid_2)
             else:
                 await self.bot.send(ctx, ctx.l.minecraft.rcon.err_con)

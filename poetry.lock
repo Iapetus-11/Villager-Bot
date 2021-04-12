@@ -1,6 +1,6 @@
 [[package]]
 name = "aio-mc-rcon"
-version = "2.1.0"
+version = "3.0.2"
 description = "An async library/wrapper for interacting with remote consoles on Minecraft Java Edition servers"
 category = "main"
 optional = false
@@ -389,12 +389,12 @@ typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7.9"
-content-hash = "8fd1812aa6c3296fecb36fab9ba19aa5483de6bdeaac44463f4f723d9a1c4893"
+content-hash = "7d0688aebfbda43ffc58a8eca9237011831de9d5a89d3d2a92161db1f3f1fffc"
 
 [metadata.files]
 aio-mc-rcon = [
-    {file = "aio-mc-rcon-2.1.0.tar.gz", hash = "sha256:792fb421e107f841bbb85fb50e7e51ccc2e8c24fb7324f3e3765588c311ce78a"},
-    {file = "aio_mc_rcon-2.1.0-py3-none-any.whl", hash = "sha256:0daf59ca50f337e195b6ee2de29e3dcb0121efac5d85af93b2abfeab016d3910"},
+    {file = "aio-mc-rcon-3.0.2.tar.gz", hash = "sha256:c727e2503f87493950e3dbc6778eb3fae82bbcc3876a119b249d2f370b3f972e"},
+    {file = "aio_mc_rcon-3.0.2-py3-none-any.whl", hash = "sha256:494a70d7fc74ddde8818f77c19f97191d8f4212cf043e411c88680c669ee0aca"},
 ]
 aiofiles = [
     {file = "aiofiles-0.6.0-py3-none-any.whl", hash = "sha256:bd3019af67f83b739f8e4053c6c0512a7f545b9a8d91aaeab55e6e0f9d123c27"},
