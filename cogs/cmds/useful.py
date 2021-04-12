@@ -400,8 +400,7 @@ class Useful(commands.Cog):
                 else:
                     break
         except ValueError:
-            await ctx.send(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
-            return
+            pass
 
         if i == 0:
             await ctx.send(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
