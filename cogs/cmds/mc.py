@@ -543,9 +543,7 @@ class Minecraft(commands.Cog):
             rcon_con = self.d.rcon_cache.get((ctx.author.id, db_guild["mcserver"]))
 
             if rcon_con is None:
-                rcon_con = rcon.Client(
-                    db_guild["mcserver"].split(":")[0], rcon_port, password
-                )
+                rcon_con = rcon.Client(db_guild["mcserver"].split(":")[0], rcon_port, password)
                 self.d.rcon_cache[(ctx.author.id, db_guild["mcserver"])] = (rcon_con, arrow.utcnow())
             else:
                 rcon_con = rcon_con[0]
