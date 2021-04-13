@@ -410,7 +410,7 @@ class Useful(commands.Cog):
             await ctx.send(ctx.l.useful.remind.time_max)
             return
 
-        await self.db.add_reminder(ctx.author.id, " ".join(args[i:])[:499], ctx.channel.id, ctx.message.id, at.timestamp())
+        await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, " ".join(args[i:])[:499], at.timestamp())
         await self.bot.send(ctx, ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
 
 
