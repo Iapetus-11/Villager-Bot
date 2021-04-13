@@ -275,11 +275,12 @@ class Useful(commands.Cog):
 
     @commands.command(name="math", aliases=["solve", "meth"])
     async def math(self, ctx, *, problem):
-        try:
-            resp = await self.bot.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
-            await self.bot.send(ctx, f"```{float(await resp.text())}```")
-        except Exception:
-            await self.bot.send(ctx, ctx.l.useful.meth.oops)
+        async with ctx.typing():
+            try:
+                resp = await self.bot.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
+                await self.bot.send(ctx, f"```{float(await resp.text())}```")
+            except Exception:
+                await self.bot.send(ctx, ctx.l.useful.meth.oops)
 
     @commands.command(name="google", aliases=["thegoogle"])
     @commands.cooldown(1, 2, commands.BucketType.user)
