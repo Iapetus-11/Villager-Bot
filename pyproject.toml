@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "Villager-Bot"
-version = "2"
+version = "2.0.0"
 description = "Economy, utility, fun, Minecraft, and MORE! You name it? We got it! We have multi-language support too! Español! Français!"
 authors = ["Milo Weinberg <iapetus011@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.7.9"
+python = "^3.7.3"
 "discord.py" = "^1.6.0"
 aiohttp = "^3.7.4"
 aio-mc-rcon = "^3.0.2"
