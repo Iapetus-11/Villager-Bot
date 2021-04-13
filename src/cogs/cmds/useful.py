@@ -277,8 +277,7 @@ class Useful(commands.Cog):
     async def math(self, ctx, *, problem):
         try:
             resp = await self.bot.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
-            print(resp)
-            await self.bot.send(ctx, f"```{await resp.json()}```")
+            await self.bot.send(ctx, f"```{float(await resp.text())}```")
         except Exception:
             await self.bot.send(ctx, ctx.l.useful.meth.oops)
 
