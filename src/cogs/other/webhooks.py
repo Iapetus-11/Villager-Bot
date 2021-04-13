@@ -17,7 +17,6 @@ class Webhooks(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-        self.ses = aiohttp.ClientSession()
         self.server_runner = None
         self.webhook_server = None
 
@@ -26,7 +25,6 @@ class Webhooks(commands.Cog):
 
     def cog_unload(self):
         self.bot.loop.create_task(self.server_runner.cleanup())
-        self.bot.loop.create_task(self.ses.close())
         self.bot.loop.create_task(self.webhook_server.close())
 
         self.webhooks_task.cancel()
@@ -37,7 +35,7 @@ class Webhooks(commands.Cog):
 
         while True:
             try:
-                await self.ses.post(
+                await self.bot.aiohttp.post(
                     f"https://top.gg/api/bots/{self.bot.user.id}/stats",
                     headers={"Authorization": self.k.topgg_api},
                     json={"server_count": str(len(self.bot.guilds))},
