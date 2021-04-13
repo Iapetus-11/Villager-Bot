@@ -117,7 +117,7 @@ def main():
     )
 
     bot.logger = logger
-    bot.aiohttp = aiohttp.ClientSession()
+    bot.aiohttp = aiohttp.ClientSession(loop=bot.loop)
 
     bot.send = send.__get__(bot)
     bot.get_lang = get_lang.__get__(bot)
