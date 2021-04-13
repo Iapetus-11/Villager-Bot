@@ -388,8 +388,8 @@ typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.7.9"
-content-hash = "7d0688aebfbda43ffc58a8eca9237011831de9d5a89d3d2a92161db1f3f1fffc"
+python-versions = "^3.7.3"
+content-hash = "da1c8cf11f2afb46031f9bc27d37b6d4da70f9675e859c186b6712305851ebcc"
 
 [metadata.files]
 aio-mc-rcon = [
