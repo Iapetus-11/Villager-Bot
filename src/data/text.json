@@ -69,7 +69,7 @@
       "econ": {
         "profile": "`{0}profile [optional: user]` *shows the profile of you or the specified user*",
         "balance": "`{0}balance [optional: user]` *shows the balance of you or the specified user*",
-        "inventory": "`{0}inventory [optional: category] [optional: user]` *shows the inventory of you or the specified user; optional categories include tools, magic, fish, or misc*",
+        "inventory": "`{0}inventory [optional: category] [optional: user]` *shows the inventory of you or the specified user; optional categories include `tools`, `magic`, `fish`, or `misc`*",
         "deposit": "`{0}deposit <emerald blocks>` *deposit emeralds into the vault*",
         "withdraw": "`{0}withdraw <emerald blocks>` *withdraw emeralds from the vault*",
         "give": "`{0}give <user> <amount> <item>` *give another user an item or emeralds*",
@@ -954,7 +954,7 @@
       "econ": {
         "profile": "`{0}profile [opcional: usuario]` *muestra el perfil de usted o del usuario especificado*",
         "balance": "`{0}balance [opcional: usuario]` *muestra el balance de usted o del usuario especificado*",
-        "inventory": "`{0}inventory [optional: category] [opcional: usuario]` *muestra el inventario de usted o del usuario especificado; optional categories include tools, magic, fish, or misc*",
+        "inventory": "`{0}inventory [opcional: categoría] [opcional: usuario]` *muestra el inventario de usted o del usuario especificado; las categorías opcionales incluyen `tools`, `magic`, `fish`, o `misc`*",
         "deposit": "`{0}deposit <bloques de esmeralda>` *depositar las esmeraldas en la bóveda*",
         "withdraw": "`{0}withdraw <bloques de esmeralda>` *retirar las esmeraldas de la bóveda*",
         "give": "`{0}give <usuario> <cantidad> <artículo>` *dar a otro usuario un artículo o esmeraldas*",
@@ -1838,7 +1838,7 @@
       "econ": {
         "profile": "`{0}profile [optionnel : utilisateur]` *affiche ton profile ou celui de l'utilisateur spécifié*",
         "balance": "`{0}balance [optionnel : utilisateur]` *affiche ton solde ou celui de l'utilisateur spécifié*",
-        "inventory": "`{0}inventory [optional: category] [optionnel : utilisateur]` *affiche ton inventaire ou celui de l'utilisateur spécifié; optional categories include tools, magic, fish, or misc*",
+        "inventory": "`{0}inventory [optionnel: catégorie] [optionnel : utilisateur]` *affiche ton inventaire ou celui de l'utilisateur spécifié; les catégories optionnelles incluent `tools`, `magic`, `fish`, ou `misc`*",
         "deposit": "`{0}deposit <blocs d'émeraudes>` *dépose des émeraudes dans le coffre*",
         "withdraw": "`{0}withdraw <blocs d'émeraudes>` *retire des émeraudes du coffre*",
         "give": "`{0}give <utilisateur> <quantité> <objet>` *donne un objet ou des émeraudes à un utilisateur*",
