@@ -954,7 +954,7 @@
       "econ": {
         "profile": "`{0}profile [opcional: usuario]` *muestra el perfil de usted o del usuario especificado*",
         "balance": "`{0}balance [opcional: usuario]` *muestra el balance de usted o del usuario especificado*",
-        "inventory": "`{0}inventory [optional: category] [opcional: usuario]` *muestra el inventario de usted o del usuario especificado; optional categories include `tools`, `magic`, `fish`, or `misc`*",
+        "inventory": "`{0}inventory [optional: category] [opcional: usuario]` *muestra el inventario de usted o del usuario especificado; las categorías opcionales incluyen `tools`, `magic`, `fish`, o `misc`*",
         "deposit": "`{0}deposit <bloques de esmeralda>` *depositar las esmeraldas en la bóveda*",
         "withdraw": "`{0}withdraw <bloques de esmeralda>` *retirar las esmeraldas de la bóveda*",
         "give": "`{0}give <usuario> <cantidad> <artículo>` *dar a otro usuario un artículo o esmeraldas*",
