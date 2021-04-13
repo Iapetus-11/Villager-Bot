@@ -1,5 +1,5 @@
+from urllib.parse import quote as urlquote
 from discord.ext import commands
-import util.math
 import async_cse
 import discord
 import psutil
@@ -276,7 +276,8 @@ class Useful(commands.Cog):
     @commands.command(name="math", aliases=["solve", "meth"])
     async def math(self, ctx, *, problem):
         try:
-            await self.bot.send(ctx, f"```{util.math.parse(problem)}```")
+            resp = await self.bot.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
+            await self.bot.send(ctx, f"```{await resp.json()}```")
         except Exception:
             await self.bot.send(ctx, ctx.l.useful.meth.oops)
 
