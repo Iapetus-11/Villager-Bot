@@ -70,7 +70,8 @@ CREATE TABLE IF NOT EXISTS user_rcon (
 
 CREATE TABLE IF NOT EXISTS reminders (
   uid BIGINT NOT NULL,
-  reminder VARCHAR(500),
   cid BIGINT NOT NULL,
+  mid BIGINT NOT NULL,
+  reminder VARCHAR(500),
   at BIGINT NOT NULL
 );
