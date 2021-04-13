@@ -239,6 +239,7 @@ def main():
         bot.run(keys.discord)  # run the bot, this is a blocking call
 
     asyncio.run(bot.aiohttp.close())
+    print("breh")
 
 
 if __name__ == "__main__":
