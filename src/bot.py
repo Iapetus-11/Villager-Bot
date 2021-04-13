@@ -2,6 +2,7 @@ from concurrent.futures import ThreadPoolExecutor
 from discord.ext import commands
 import classyjson as cj
 import asyncio
+import aiohttp
 import asyncpg
 import discord
 import logging
@@ -116,6 +117,7 @@ def main():
     )
 
     bot.logger = logger
+    bot.aiohttp = aiohttp.ClientSession()
 
     bot.send = send.__get__(bot)
     bot.get_lang = get_lang.__get__(bot)
@@ -235,6 +237,8 @@ def main():
 
     with ThreadPoolExecutor() as bot.tpool:
         bot.run(keys.discord)  # run the bot, this is a blocking call
+
+    asyncio.run(bot.aiohttp.close())
 
 
 if __name__ == "__main__":
