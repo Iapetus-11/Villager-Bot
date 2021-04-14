@@ -1023,8 +1023,8 @@
         "kick": "`{0}kick <usuario>` *patea al usuario del actual servidor de Discord*",
         "ban": "`{0}ban <usuario>` *prohibe al usuario del actual servidor de Discord*",
         "pardon": "`{0}pardon <usuario>` *desbancar al usuario del actual servidor de Discord*",
-        "mute": "`{0}mute <user>` *mutes the user from the current Discord server*",
-        "unmute": "`{0}unmute <user>` *unmutes the user from the current Discord server*"
+        "mute": "`{0}mute <usuario>` *silencia a un usuario del servidor actual de Discord*",
+        "unmute": "`{0}unmute <usuario>` *quita el silencio de un usuario del servidor actual de Discord*"
       }
     },
     "fun": {
@@ -1315,13 +1315,13 @@
         "confirm": "{} Advertido. ({} advertencias ahora) por la razón: *{}*"
       },
       "mute": {
-        "stupid_1": "You cannot mute yourself",
-        "mute_msg": "**{}** has been muted."
+        "stupid_1": "No puedes silenciarte a ti mismo",
+        "mute_msg": "**{}** ha sido silenciado."
       },
       "unmute": {
-        "stupid_1": "You cannot unmute yourself",
-        "stupid_2": "**{}** isn't muted",
-        "unmute_msg": "**{}** has been unmuted"
+        "stupid_1": "No puedes quitarte el silencio a ti mismo",
+        "stupid_2": "**{}** no está silenciado",
+        "unmute_msg": "**{}** ya no está silenciado"
       }
     },
     "config": {
@@ -1582,7 +1582,7 @@
           "Encuentras una trampilla oculta y detrás de ella se encuentra {}...",
           "En un rincón polvoriento se ve {}.",
           "Mientras limpias tu habitación encuentras {}, tal vez deberías hacerlo más a menudo...",
-          "Underneath a block of dirt you find {}!",
+          "Encuentras {} debajo de un bloque de tierra!",
           "Buscas en tus bolsillos y encuentras {}, cubierto de un viejo chicle pegajoso...",
           "Tu mascota vomita {}...",
           "¡Desplazándose al final de la lista de canales en Discord se encuentra {}!",
