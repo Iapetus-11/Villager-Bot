@@ -1605,10 +1605,10 @@
         "found_item_2": "Tu {0} {1} {2} {3}",
         "found_emeralds": "Tu {0} {1}{2}!",
         "actions": [
-          "minado",
-          "encontrado",
-          "tiene",
-          "desenterrado"
+          "minaste",
+          "encontraste",
+          "tienes",
+          "desenterraste"
         ],
         "places": [
           "en un pozo de mina abandonado",
