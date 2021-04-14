@@ -21,7 +21,7 @@
         "missing_arg": "Looks like you're forgetting to put something in!",
         "bad_arg": "Looks like you didn't type something correctly, try typing it right the first time, dum dum.",
         "not_ready": "Hold on! Villager Bot is still starting up!",
-        "nrn_buddy": "Wait a second, you can't use that command right now!",
+        "nrn_buddy": "Hold on, you can't use that command right now!",
         "disabled": "This command is disabled in this server and can not be used!"
       },
       "tips": [
@@ -69,7 +69,7 @@
       "econ": {
         "profile": "`{0}profile [optional: user]` *shows the profile of you or the specified user*",
         "balance": "`{0}balance [optional: user]` *shows the balance of you or the specified user*",
-        "inventory": "`{0}inventory [optional: user]` *shows the inventory of you or the specified user*",
+        "inventory": "`{0}inventory [optional: category] [optional: user]` *shows the inventory of you or the specified user; optional categories include `tools`, `magic`, `fish`, or `misc`*",
         "deposit": "`{0}deposit <emerald blocks>` *deposit emeralds into the vault*",
         "withdraw": "`{0}withdraw <emerald blocks>` *withdraw emeralds from the vault*",
         "give": "`{0}give <user> <amount> <item>` *give another user an item or emeralds*",
