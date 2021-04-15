@@ -735,6 +735,10 @@
       "emerald_fish": "<:emerald_fish:824468050727927838>"
     }
   },
+  "emoji_items": {
+    "Netherite Scrap": "netherite",
+    "Slime Ball": "slimeball"
+  },
   "build_ideas": {
     "ideas": [
       "a statue of your skin",
