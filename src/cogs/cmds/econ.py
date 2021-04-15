@@ -638,7 +638,7 @@ class Econ(commands.Cog):
             item = amount_item[4:]
 
             try:
-                amount = math.floor(db_user["emeralds"] / self.d.shop_items[item][1])
+                amount = math.floor(db_user["emeralds"] / self.d.shop_items[item].buy_price)
             except KeyError:
                 await self.bot.send(ctx, ctx.l.econ.buy.stupid_2.format(item))
                 return
