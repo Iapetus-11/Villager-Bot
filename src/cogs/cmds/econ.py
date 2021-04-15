@@ -689,7 +689,7 @@ class Econ(commands.Cog):
             return
 
         # ensure user has required items
-        for req_item, req_amount in shop_item.requires.get("items", {}):
+        for req_item, req_amount in shop_item.requires.get("items", {}).items():
             db_req_item = await self.db.fetch_item(ctx.author.id, req_item)
 
             if db_req_item is None or db_req_item["amount"] < req_amount:
