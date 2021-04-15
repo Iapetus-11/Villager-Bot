@@ -407,196 +407,228 @@
     ]
   },
   "shop_items": {
-    "stone pickaxe": [
-      "tools",
-      32,
-      "db_item_count < 1",
-      [
+    "stone pickaxe": {
+      "cat": "tools",
+      "buy_price": 32,
+      "db_entry": [
         "Stone Pickaxe",
         8,
         true
-      ]
-    ],
-    "iron pickaxe": [
-      "tools",
-      128,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "iron pickaxe": {
+      "cat": "tools",
+      "buy_price": 128,
+      "db_entry": [
         "Iron Pickaxe",
         32,
         true
-      ]
-    ],
-    "gold pickaxe": [
-      "tools",
-      512,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "gold pickaxe": {
+      "cat": "tools",
+      "buy_price": 512,
+      "db_entry": [
         "Gold Pickaxe",
         128,
         true
-      ]
-    ],
-    "diamond pickaxe": [
-      "tools",
-      2048,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "diamond pickaxe": {
+      "cat": "tools",
+      "buy_price": 2048,
+      "db_entry": [
         "Diamond Pickaxe",
         512,
         true
-      ]
-    ],
-    "netherite pickaxe": [
-      "tools",
-      8192,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "netherite pickaxe": {
+      "cat": "tools",
+      "buy_price": 8192,
+      "db_entry": [
         "Netherite Pickaxe",
         2048,
         true
-      ]
-    ],
-    "stone sword": [
-      "tools",
-      32,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1,
+        "items": {
+          "Netherite Scrap": 4
+        }
+      }
+    },
+    "stone sword": {
+      "cat": "tools",
+      "buy_price": 32,
+      "db_entry": [
         "Stone Sword",
         8,
         true
-      ]
-    ],
-    "iron sword": [
-      "tools",
-      128,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "iron sword": {
+      "cat": "tools",
+      "buy_price": 128,
+      "db_entry": [
         "Iron Sword",
         32,
         true
-      ]
-    ],
-    "gold sword": [
-      "tools",
-      512,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "gold sword": {
+      "cat": "tools",
+      "buy_price": 512,
+      "db_entry": [
         "Gold Sword",
         128,
         true
-      ]
-    ],
-    "diamond sword": [
-      "tools",
-      2048,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "diamond sword": {
+      "cat": "tools",
+      "buy_price": 2048,
+      "db_entry": [
         "Diamond Sword",
         512,
         true
-      ]
-    ],
-    "netherite sword": [
-      "tools",
-      8192,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "netherite sword": {
+      "cat": "tools",
+      "buy_price": 8192,
+      "db_entry": [
         "Netherite Sword",
         2048,
         true
-      ]
-    ],
-    "fishing rod": [
-      "tools",
-      1024,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1,
+        "items": {
+          "Netherite Scrap": 6
+        }
+      }
+    },
+    "fishing rod": {
+      "cat": "tools",
+      "buy_price": 1024,
+      "db_entry": [
         "Fishing Rod",
         256,
         true
-      ]
-    ],
-    "haste i potion": [
-      "magic",
-      120,
-      "True",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "haste i potion": {
+      "cat": "magic",
+      "buy_price": 120,
+      "db_entry": [
         "Haste I Potion",
         32,
         false
-      ]
-    ],
-    "fortune i book": [
-      "magic",
-      120,
-      "True",
-      [
+      ],
+      "requires": {}
+    },
+    "fortune i book": {
+      "cat": "magic",
+      "buy_price": 120,
+      "db_entry": [
         "Fortune I Book",
         24,
         false
-      ]
-    ],
-    "jar of bees": [
-      "other",
-      8,
-      "True",
-      [
+      ],
+      "requires": {}
+    },
+    "jar of bees": {
+      "cat": "other",
+      "buy_price": 8,
+      "db_entry": [
         "Jar Of Bees",
         2,
         false
-      ]
-    ],
-    "netherite scrap": [
-      "other",
-      32,
-      "True",
-      [
+      ],
+      "requires": {}
+    },
+    "netherite scrap": {
+      "cat": "other",
+      "buy_price": 32,
+      "db_entry": [
         "Netherite Scrap",
         8,
         false
-      ]
-    ],
-    "rich person trophy": [
-      "other",
-      36000,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {}
+    },
+    "rich person trophy": {
+      "cat": "other",
+      "buy_price": 36000,
+      "db_entry": [
         "Rich Person Trophy",
         1024,
         true
-      ]
-    ],
-    "vault potion": [
-      "magic",
-      81,
-      "True",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "vault potion": {
+      "cat": "magic",
+      "buy_price": 81,
+      "db_entry": [
         "Vault Potion",
         30,
         false
-      ]
-    ],
-    "sharpness i book": [
-      "magic",
-      120,
-      "True",
-      [
+      ],
+      "requires": {}
+    },
+    "sharpness i book": {
+      "cat": "magic",
+      "buy_price": 120,
+      "db_entry": [
         "Sharpness I Book",
         32,
         false
-      ]
-    ],
-    "slime trophy": [
-      "other",
-      48000,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {}
+    },
+    "slime trophy": {
+      "cat": "other",
+      "buy_price": 48000,
+      "db_entry": [
         "Slime Trophy",
         2048,
         true
-      ]
-    ]
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    }
   },
   "rpt_ignore": [
     "Rich Person Trophy",
