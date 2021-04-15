@@ -655,7 +655,7 @@
     },
     "glass jar": {
       "cat": "other",
-      "buy_price": 4,
+      "buy_price": 40000000000,
       "db_entry": [
         "Glass Jar",
         2,
