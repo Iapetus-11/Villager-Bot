@@ -637,6 +637,21 @@
           "Slime Ball": 24
         }
       }
+    },
+    "fishing trophy": {
+      "cat": "other",
+      "buy_price": 48000,
+      "db_entry": [
+        "Fishing Trophy",
+        2048,
+        true
+      ],
+      "requires": {
+        "count_lt": 1,
+        "items": {
+          "Heart Of The Sea": 24
+        }
+      }
     }
   },
   "rpt_ignore": [
