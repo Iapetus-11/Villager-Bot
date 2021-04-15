@@ -652,6 +652,16 @@
           "Heart Of The Sea": 12
         }
       }
+    },
+    "glass jar": {
+      "cat": "other",
+      "buy_price": 4,
+      "db_entry": [
+        "Glass Jar",
+        2,
+        false
+      ],
+      "requires": {}
     }
   },
   "rpt_ignore": [
