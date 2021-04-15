@@ -693,7 +693,9 @@ class Econ(commands.Cog):
             db_req_item = await self.db.fetch_item(ctx.author.id, req_item)
 
             if db_req_item is None or db_req_item["amount"] < req_amount:
-                await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(req_amount, req_item, self.d.emojis[self.d.emoji_items[req_item]]))
+                await self.bot.send(
+                    ctx, ctx.l.econ.buy.need_total_of.format(req_amount, req_item, self.d.emojis[self.d.emoji_items[req_item]])
+                )
                 return
 
         await self.db.balance_sub(ctx.author.id, shop_item.buy_price * amount)
@@ -708,7 +710,12 @@ class Econ(commands.Cog):
         if shop_item.db_entry[0] == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
 
-        await self.bot.send(ctx, ctx.l.econ.buy.you_done_bought.format(amount, shop_item.db_entry[0], self.format_required(shop_item, amount), amount + db_item_count))
+        await self.bot.send(
+            ctx,
+            ctx.l.econ.buy.you_done_bought.format(
+                amount, shop_item.db_entry[0], self.format_required(shop_item, amount), amount + db_item_count
+            ),
+        )
 
     @commands.command(name="sell")
     @commands.cooldown(1, 2, commands.BucketType.user)
