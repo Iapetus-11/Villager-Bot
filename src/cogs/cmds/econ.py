@@ -1061,7 +1061,12 @@ class Econ(commands.Cog):
 
         # fished up item or junk or somethin not fish
         if random.randint(1, 7) == 1:
-            if random.choice((True, True, True, True, False)):  # junk
+            junk_chance = (True, True, True, True, False)
+
+            if await self.db.fetch_item(ctx.author.id, "Fishing Trophy") is not None:
+                junk_chance = (True, True, True, False, False)
+
+            if random.choice(junk_chance):  # junk
                 junk = random.choice(ctx.l.econ.fishing.junk)
                 await self.bot.send(ctx, junk, True, True)
 
@@ -1081,6 +1086,8 @@ class Econ(commands.Cog):
                             True,
                         )
                         return
+
+                    await asyncio.sleep(0)
 
         fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fish_weights)[0]
         fish = self.d.fishing.fish[fish_id]
