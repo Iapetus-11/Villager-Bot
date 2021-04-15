@@ -23,6 +23,8 @@ class Webhooks(commands.Cog):
         self.webhooks_task = bot.loop.create_task(self.webhooks_setup())
         self.stats_task = bot.loop.create_task(self.update_stats())
 
+        self.lock = asyncio.Lock()
+
     def cog_unload(self):
         self.bot.loop.create_task(self.server_runner.cleanup())
         self.bot.loop.create_task(self.webhook_server.close())
@@ -101,39 +103,40 @@ class Webhooks(commands.Cog):
 
         uid = int(data.user)
 
-        self.bot.logger.info(f"\u001b[32;1m{uid} voted on top.gg\u001b[0m")
-        self.d.votes_topgg += 1
+        async with self.lock:
+            db_user = await self.db.fetch_user(uid)
 
-        amount = self.d.topgg_reward
+            streak_time = db_user["streak_time"]
+            vote_streak = db_user["vote_streak"]
 
-        if data.isWeekend:
-            amount *= 2
+            if arrow.get(streak_time) > arrow.utcnow().shift(hours=-12):
+                return
 
-        amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(uid))
+            self.bot.logger.info(f"\u001b[32;1m{uid} voted on top.gg\u001b[0m")
+            self.d.votes_topgg += 1
 
-        db_user = await self.db.fetch_user(uid)
+            amount = self.d.topgg_reward
 
-        streak_time = db_user["streak_time"]
-        vote_streak = db_user["vote_streak"]
+            if data.isWeekend:
+                amount *= 2
 
-        if vote_streak is None or vote_streak == 0:
-            vote_streak = 0
+            amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(uid))
 
-        vote_streak += 1
+            if vote_streak is None or vote_streak == 0:
+                vote_streak = 0
 
-        if streak_time is None:  # time
-            streak_time = 0
+            vote_streak += 1
 
-        if arrow.get(streak_time) > arrow.utcnow().shift(hours=-12):
-            return
+            if streak_time is None:  # time
+                streak_time = 0
 
-        if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(streak_time):  # vote expired
-            vote_streak = 1
+            if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(streak_time):  # vote expired
+                vote_streak = 1
 
-        amount *= 5 if vote_streak > 5 else vote_streak
+            amount *= 5 if vote_streak > 5 else vote_streak
 
-        await self.db.update_user(uid, "streak_time", arrow.utcnow().timestamp())
-        await self.db.update_user(uid, "vote_streak", vote_streak)
+            await self.db.update_user(uid, "streak_time", arrow.utcnow().timestamp())
+            await self.db.update_user(uid, "vote_streak", vote_streak)
 
         await self.reward(uid, amount, vote_streak)
 
