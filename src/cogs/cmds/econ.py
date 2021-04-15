@@ -50,7 +50,7 @@ class Econ(commands.Cog):
         await self.bot.wait_until_ready()
 
     def format_required(self, shop_item, amount=1):
-        base = f" {item.buy_price * amount}{self.d.emojis.emerald}"
+        base = f" {shop_item.buy_price * amount}{self.d.emojis.emerald}"
 
         for req_item, req_amount in shop_item.requires.get("items", {}).items():
             base += f" + {req_amount * amount}{self.d.emojis[self.d.emoji_items[req_item]]}"
