@@ -464,11 +464,11 @@ class Econ(commands.Cog):
         items = []
 
         # filter out items which aren't of the right _type
-        for item in [self.d.shop_items[key] for key in list(self.d.shop_items)]:
-            if item[0] == _type:
+        for item in [self.d.shop_items[key] for key in self.d.shop_items.keys()]:
+            if item.cat == _type:
                 items.append(item)
 
-        items_sorted = sorted(items, key=(lambda item: item[1]))  # sort by buy price
+        items_sorted = sorted(items, key=(lambda item: item.buy_price))  # sort by buy price
         items_chunked = [items_sorted[i : i + 4] for i in range(0, len(items_sorted), 4)]  # split into chunks of 4
 
         page = 0
@@ -482,8 +482,8 @@ class Econ(commands.Cog):
 
             for item in items_chunked[page]:
                 embed.add_field(
-                    name=f"{item[3][0]} ({self.format_required(item)})",
-                    value=f"`{ctx.prefix}buy {item[3][0].lower()}`",
+                    name=f"{item.db_entry[0]} ({self.format_required(item)})",
+                    value=f"`{ctx.prefix}buy {item.db_entry[0].lower()}`",
                     inline=False,
                 )
 
@@ -632,7 +632,6 @@ class Econ(commands.Cog):
         """Allows you to buy items"""
 
         amount_item = amount_item.lower()
-
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if amount_item.startswith("max ") or amount_item.startswith("all "):
@@ -666,74 +665,50 @@ class Econ(commands.Cog):
 
         shop_item = self.d.shop_items.get(item)
 
+        # shop item doesn't exist lol
         if shop_item is None:
             await self.bot.send(ctx, ctx.l.econ.buy.stupid_2.format(item))
             return
 
-        db_item = await self.db.fetch_item(ctx.author.id, shop_item[3][0])
-
-        if shop_item[2] == "db_item_count < 1":
-            amount = 1
-
-        if shop_item[1] * amount > db_user["emeralds"]:
-            await self.bot.send(ctx, ctx.l.econ.buy.poor_loser_2.format(amount, shop_item[3][0]))
+        # check if user can actually afford to buy that amount of that item
+        if shop_item.buy_price * amount > db_user["emeralds"]:
+            await self.bot.send(ctx, ctx.l.econ.buy.poor_loser_2.format(amount, shop_item.db_entry[0]))
             return
 
+        db_item = await self.db.fetch_item(ctx.author.id, shop_item.db_entry[0])
+
+        # get count of item in db for that user
         if db_item is not None:
             db_item_count = db_item["amount"]
         else:
             db_item_count = 0
 
-        if eval(shop_item[2]):
-            if shop_item[3][0] in ("Netherite Sword", "Netherite Pickaxe"):
-                db_scrap = await self.db.fetch_item(ctx.author.id, "Netherite Scrap")
+        # if they already have hit the limit on how many they can buy of that item
+        if db_item_count >= shop_item.requires.get("count_lt"):
+            await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_1)
+            return
 
-                if "Sword" in shop_item[3][0]:
-                    required = 6
+        # ensure user has required items
+        for req_item, req_amount in shop_item.requires.get("items", {}):
+            db_req_item = await self.db.fetch_item(ctx.author.id, req_item)
 
-                if "Pickaxe" in shop_item[3][0]:
-                    required = 4
+            if db_req_item is None or db_req_item["amount"] < req_amount:
+                await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(req_amount, req_item, self.d.emojis[self.d.emoji_items[req_item]]))
+                return
 
-                if db_scrap is not None and db_scrap["amount"] >= required:
-                    await self.db.remove_item(ctx.author.id, "Netherite Scrap", required)
-                else:
-                    await self.bot.send(
-                        ctx, ctx.l.econ.buy.need_total_of.format(required, self.d.emojis.netherite, "Netherite Scrap")
-                    )
-                    return
-            elif shop_item[3][0] == "Slime Trophy":
-                db_slime = await self.db.fetch_item(ctx.author.id, "Slime Ball")
+        await self.db.balance_sub(ctx.author.id, shop_item.buy_price * amount)
+        await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2])
 
-                if db_slime is not None and db_slime["amount"] >= 24:
-                    await self.db.remove_item(ctx.author.id, "Slime Ball", 24)
-                else:
-                    await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(24, self.d.emojis.slimeball, "Slime Ball"))
-                    return
+        if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
+            member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
-            await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
-            await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount, shop_item[3][2])
+            if member is not None:
+                await self.bot.update_support_member_role(member)
 
-            if shop_item[3][0].endswith("Pickaxe") or shop_item[3][0] == "Bane Of Pillagers Amulet":
-                member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
+        if shop_item.db_entry[0] == "Rich Person Trophy":
+            await self.db.rich_trophy_wipe(ctx.author.id)
 
-                if member is not None:
-                    await self.bot.update_support_member_role(member)
-
-            await self.bot.send(
-                ctx,  # pep8 wants to kil me
-                ctx.l.econ.buy.you_done_bought.format(
-                    amount, shop_item[3][0], self.format_required(shop_item, amount), amount + db_item_count
-                ),
-            )
-
-            if shop_item[3][0] == "Rich Person Trophy":
-                await self.db.rich_trophy_wipe(ctx.author.id)
-
-        else:
-            if shop_item[2].startswith("db_item_count <"):
-                await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_1)
-            else:
-                await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_2)
+        await self.bot.send(ctx, ctx.l.econ.buy.you_done_bought.format(amount, shop_item.db_entry[0], self.format_required(shop_item, amount), amount + db_item_count))
 
     @commands.command(name="sell")
     @commands.cooldown(1, 2, commands.BucketType.user)
