@@ -715,6 +715,7 @@
     "heart_spin": "<a:heart_spin:789129483809718282>",
     "enchanted_book": "<a:enchanted_book:824820639965118464>",
     "amogus": "<a:amogus:827212032779747378>",
+    "heart_of_the_sea": "<:heart_of_the_sea:832282916385980427>",
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
@@ -737,7 +738,8 @@
   },
   "emoji_items": {
     "Netherite Scrap": "netherite",
-    "Slime Ball": "slimeball"
+    "Slime Ball": "slimeball",
+    "Heart Of The Sea": "heart_of_the_sea"
   },
   "build_ideas": {
     "ideas": [
