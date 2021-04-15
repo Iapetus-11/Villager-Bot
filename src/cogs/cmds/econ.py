@@ -49,17 +49,13 @@ class Econ(commands.Cog):
     async def before_pillage_cap_reset(self):
         await self.bot.wait_until_ready()
 
-    def format_required(self, item, amount=1):
-        if item[3][0] == "Netherite Pickaxe":
-            return f" {item[1] * amount}{self.d.emojis.emerald} + {4 * amount}{self.d.emojis.netherite}"
+    def format_required(self, shop_item, amount=1):
+        base = f" {item.buy_price * amount}{self.d.emojis.emerald}"
 
-        if item[3][0] == "Netherite Sword":
-            return f" {item[1] * amount}{self.d.emojis.emerald} + {6 * amount}{self.d.emojis.netherite}"
+        for req_item, req_amount in shop_item.requires.get("items", {}).items():
+            base += f" + {req_amount * amount}{self.d.emojis[self.d.emoji_items[req_item]]}"
 
-        if item[3][0] == "Slime Trophy":
-            return f" {item[1] * amount}{self.d.emojis.emerald} + {24 * amount}{self.d.emojis.slimeball}"
-
-        return f" {item[1] * amount}{self.d.emojis.emerald}"
+        return base
 
     async def math_problem(self, ctx, addition=1):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
