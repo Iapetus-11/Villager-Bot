@@ -35,6 +35,8 @@ class Events(commands.Cog):
                 await channel.send(embed=embed)
                 break
 
+            await asyncio.sleep()
+
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         await self.db.drop_guild(guild.id)
@@ -45,9 +47,8 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        await self.bot.wait_until_ready()
-
         if member.guild.id == self.d.support_server_id:
+            await self.bot.wait_until_ready()
             await self.bot.update_support_member_role(member)
 
     @commands.Cog.listener()
