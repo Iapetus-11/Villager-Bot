@@ -625,7 +625,7 @@ class Econ(commands.Cog):
 
             await asyncio.sleep(0.2)
 
-    @commands.command(name="buy")
+    @commands.command(name="buy", aliases=["purchase"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def buy(self, ctx, *, amount_item):
@@ -717,7 +717,7 @@ class Econ(commands.Cog):
             ),
         )
 
-    @commands.command(name="sell")
+    @commands.command(name="sell", aliases=["emeraldify"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def sell(self, ctx, *, amount_item):
@@ -959,7 +959,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.beg.negative).format(f"{amount}{self.d.emojis.emerald}"))
 
-    @commands.command(name="mine", aliases=["mein", "eun"])
+    @commands.command(name="mine", aliases=["mein", "eun", "mien"])
     @commands.guild_only()
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
