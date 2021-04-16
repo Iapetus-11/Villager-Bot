@@ -1376,6 +1376,27 @@ class Econ(commands.Cog):
             await self.db.balance_add(ctx.author.id, ems)
             return
 
+        if thing == "glass beaker":
+            slime_balls = await self.db.fetch_item(ctx.author.id, "Slime Ball")
+
+            if slime_balls is None or slime_balls["amount"] < amount:
+                await ctx.send(ctx.l.econ.use.need_slimy_balls)
+                return
+
+            await self.db.remove_item(ctx.author.id, "Slime Ball", amount)
+            await self.db.remove_item(ctx.author.id, "Glass Beaker", amount)
+            await self.db.add_item(ctx.author.id, "Beaker Of Slime", 13, amount, False)
+
+            await self.bot.send(ctx, ctx.l.econ.use.slimy_balls_funne.format(amount))
+            return
+
+        if thing == "beaker of slime":
+            await self.db.remove_item(ctx.author.id, "Beaker Of Slime", amount)
+            await self.db.add_item(ctx.author.id, "Slime Ball", 5, amount, True)
+
+            await self.bot.send(ctx, ctx.l.econ.use.beaker_of_slime_undo.format(amount))
+            return
+
         await self.bot.send(ctx, ctx.l.econ.use.stupid_6)
 
     @commands.command(name="honey", aliases=["harvesthoney", "horny"])  # ~~a strange urge occurs in me~~
