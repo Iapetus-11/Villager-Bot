@@ -323,7 +323,7 @@ class Econ(commands.Cog):
         combined_cats = self.d.cats.tools + self.d.cats.magic + self.d.cats.fish
         items = [e for e in await self.db.fetch_items(user.id) if e["name"] not in combined_cats]
 
-        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc)
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc, (16 if len(items) > 24 else 8))
 
     @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
     async def inventory_fish(self, ctx, user: discord.User = None):
