@@ -653,11 +653,11 @@
         }
       }
     },
-    "glass jar": {
+    "glass beaker": {
       "cat": "other",
-      "buy_price": 40000000000,
+      "buy_price": 8,
       "db_entry": [
-        "Glass Jar",
+        "Glass Beaker",
         2,
         false
       ],
