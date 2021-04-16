@@ -820,9 +820,9 @@
         "cant_use_any": "You can't use any **{}** right now.",
         "cant_use_up_to": "You can't use any more than {0} **{1}** right now.",
         "done": "The **{}** you chugged earlier has worn off.",
-        "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**",
-        "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**",
-        "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**",
+        "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**.",
+        "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
+        "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",
           "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",
