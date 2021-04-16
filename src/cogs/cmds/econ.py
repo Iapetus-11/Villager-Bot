@@ -699,6 +699,10 @@ class Econ(commands.Cog):
                 return
 
         await self.db.balance_sub(ctx.author.id, shop_item.buy_price * amount)
+
+        for req_item, req_amount in shop_item.requires.get("items", {}).items():
+            await self.db.remove_item(ctx.author.id, req_item, req_amount * amount)
+
         await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2])
 
         if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
