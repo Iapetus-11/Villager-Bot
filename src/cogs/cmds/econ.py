@@ -717,7 +717,7 @@ class Econ(commands.Cog):
             ),
         )
 
-    @commands.command(name="sell", aliases=["flush", "dipose", "emeraldify"])
+    @commands.command(name="sell", aliases=["flush", "dispose", "emeraldify"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def sell(self, ctx, *, amount_item):
