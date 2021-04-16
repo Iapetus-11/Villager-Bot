@@ -30,7 +30,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             if (arrow.utcnow() - self.d.pause_econ[uid]).seconds > 20:
                 self.d.pause_econ.pop(uid, None)
 
-        await asyncio.sleep()
+        await asyncio.sleep(0)
 
     def engage_check(self, m, ctx):
         u = m.author

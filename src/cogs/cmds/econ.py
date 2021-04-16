@@ -189,7 +189,7 @@ class Econ(commands.Cog):
             except KeyError:
                 pass
 
-            await asyncio.sleep()
+            await asyncio.sleep(0)
 
         items_sorted = sorted(items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
         items_chunks = [
@@ -577,7 +577,7 @@ class Econ(commands.Cog):
 
                 msg = None
 
-            await asyncio.sleep()
+            await asyncio.sleep(0)
 
         groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
         page_max = len(groups)
@@ -994,7 +994,7 @@ class Econ(commands.Cog):
                 found += random.choice(self.d.mining.yields_enchant_items[item]) if found else 0
                 break
 
-            await asyncio.sleep()
+            await asyncio.sleep(0)
 
         if not found:
             for item in self.d.mining.findables:  # try to see if user gets an item
@@ -1016,7 +1016,7 @@ class Econ(commands.Cog):
 
                     return
 
-                await asyncio.sleep()
+                await asyncio.sleep(0)
 
             await self.bot.send(
                 ctx,
@@ -1099,7 +1099,7 @@ class Econ(commands.Cog):
                         )
                         return
 
-                    await asyncio.sleep()
+                    await asyncio.sleep(0)
 
         fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fish_weights)[0]
         fish = self.d.fishing.fish[fish_id]
@@ -1364,7 +1364,7 @@ class Econ(commands.Cog):
 
                         return
 
-                    await asyncio.sleep()
+                    await asyncio.sleep(0)
 
         if thing == "barrel":
             if amount > 1:
@@ -1383,7 +1383,7 @@ class Econ(commands.Cog):
 
                         return
 
-                    await asyncio.sleep()
+                    await asyncio.sleep(0)
 
             ems = random.randint(2, 4096)
 
@@ -1607,7 +1607,7 @@ class Econ(commands.Cog):
                     global_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
                     break
 
-                await asyncio.sleep()
+                await asyncio.sleep(0)
 
             # attempt to find actual position in local leaderboard
             for entry in cmds_local:
@@ -1615,7 +1615,7 @@ class Econ(commands.Cog):
                     local_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
                     break
 
-                await asyncio.sleep()
+                await asyncio.sleep(0)
 
             lb_global = self.lb_logic(cmds_global[:10], global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
             lb_local = self.lb_logic(cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))

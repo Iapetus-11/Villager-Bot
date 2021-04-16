@@ -35,7 +35,7 @@ class Events(commands.Cog):
                 await channel.send(embed=embed)
                 break
 
-            await asyncio.sleep()
+            await asyncio.sleep(0)
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):

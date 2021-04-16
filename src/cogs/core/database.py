@@ -54,7 +54,7 @@ class Database(commands.Cog):
 
         for uid in uids:
             self.uncache_user(uid)
-            await asyncio.sleep()
+            await asyncio.sleep(0)
 
     async def fetch_current_reminders(self) -> list:
         return await self.db.fetch("DELETE FROM reminders WHERE at <= $1 RETURNING *", arrow.utcnow().timestamp())
@@ -224,7 +224,7 @@ class Database(commands.Cog):
                 if name.lower() == item_record["name"].lower():
                     return item_record
 
-                await asyncio.sleep()
+                await asyncio.sleep(0)
         except KeyError:
             pass
 
@@ -279,7 +279,7 @@ class Database(commands.Cog):
             if pickaxe in items_names:
                 return pickaxe
 
-            await asyncio.sleep()
+            await asyncio.sleep(0)
 
         await self.add_item(uid, "Wood Pickaxe", 0, 1, True)
         return "Wood Pickaxe"
@@ -291,7 +291,7 @@ class Database(commands.Cog):
             if sword in items_names:
                 return sword
 
-            await asyncio.sleep()
+            await asyncio.sleep(0)
 
         await self.add_item(uid, "Wood Sword", 0, 1, True)
         return "Wood Sword"
