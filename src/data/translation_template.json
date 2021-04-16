@@ -820,6 +820,7 @@
         "cant_use_any": "You can't use any **{}** right now.",
         "cant_use_up_to": "You can't use any more than {0} **{1}** right now.",
         "done": "The **{}** you chugged earlier has worn off.",
+        "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",
           "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",
