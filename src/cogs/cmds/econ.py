@@ -625,7 +625,7 @@ class Econ(commands.Cog):
 
             await asyncio.sleep(0.2)
 
-    @commands.command(name="buy", aliases=["business", "purchase"])
+    @commands.command(name="buy", aliases=["purchase"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def buy(self, ctx, *, amount_item):
@@ -717,7 +717,7 @@ class Econ(commands.Cog):
             ),
         )
 
-    @commands.command(name="sell", aliases=["flush", "dispose", "emeraldify"])
+    @commands.command(name="sell", aliases=["emeraldify"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def sell(self, ctx, *, amount_item):
