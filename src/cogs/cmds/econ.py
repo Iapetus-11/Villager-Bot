@@ -1072,11 +1072,11 @@ class Econ(commands.Cog):
             await asyncio.sleep(wait)
 
         # fished up item or junk or somethin not fish
-        if random.randint(1, 7) == 1:
+        if random.randint(1, 8) == 1:
             junk_chance = (True, True, True, True, False)
 
             if await self.db.fetch_item(ctx.author.id, "Fishing Trophy") is not None:
-                junk_chance = (True, True, True, False, False)
+                junk_chance = (True, True, True, False, False, False)
 
             if random.choice(junk_chance):  # junk
                 junk = random.choice(ctx.l.econ.fishing.junk)
