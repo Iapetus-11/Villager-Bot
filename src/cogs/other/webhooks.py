@@ -109,6 +109,9 @@ class Webhooks(commands.Cog):
             streak_time = db_user["streak_time"]
             vote_streak = db_user["vote_streak"]
 
+            if streak_time is None:  # time
+                streak_time = 0
+
             if arrow.get(streak_time) > arrow.utcnow().shift(hours=-12):
                 return
 
@@ -126,9 +129,6 @@ class Webhooks(commands.Cog):
                 vote_streak = 0
 
             vote_streak += 1
-
-            if streak_time is None:  # time
-                streak_time = 0
 
             if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(streak_time):  # vote expired
                 vote_streak = 1
