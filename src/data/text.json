@@ -543,7 +543,8 @@
         "bans": "Bans",
         "cmd_prefix": "Prefix",
         "lang": "Language",
-        "diff": "Difficulty"
+        "diff": "Difficulty",
+        "prem": "Premium"
       },
       "meth": {
         "oops": "Oops, something went wrong..."
@@ -1431,7 +1432,8 @@
         "bans": "Prohibiciones",
         "cmd_prefix": "Prefijo",
         "lang": "Idioma",
-        "diff": "Dificultad"
+        "diff": "Dificultad",
+        "prem": "Premium"
       },
       "meth": {
         "oops": "Oops, algo salió mal..."
@@ -2318,7 +2320,8 @@
         "bans": "Bans",
         "cmd_prefix": "Préfixe",
         "lang": "Langue",
-        "diff": "Difficulté"
+        "diff": "Difficulté",
+        "prem": "Premium"
       },
       "meth": {
         "oops": "Oups, quelque chose a mal tourné ..."
