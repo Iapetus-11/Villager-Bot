@@ -247,7 +247,7 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.ginf.cmd_prefix}: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n"
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
             f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
-            f'{ctx.l.useful.ginf.prem}: `{db_guild["premium"]}`\n'
+            f'{ctx.l.useful.ginf.prem}: `{str(db_guild["premium"]).lower()}`\n'
         )
 
         embed.add_field(name="General", value=general, inline=True)
