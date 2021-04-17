@@ -278,12 +278,7 @@ class Minecraft(commands.Cog):
             jj = await res.json()
             uuid = jj["id"]
         elif (
-            len(player)
-            in (
-                32,
-                36,
-            )
-            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
+            len(player) in (32, 36) and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:

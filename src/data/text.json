@@ -820,6 +820,9 @@
         "cant_use_any": "You can't use any **{}** right now.",
         "cant_use_up_to": "You can't use any more than {0} **{1}** right now.",
         "done": "The **{}** you chugged earlier has worn off.",
+        "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**.",
+        "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
+        "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",
           "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",
@@ -1704,6 +1707,9 @@
         "cant_use_any": "No puedes usar **{}** ahora.",
         "cant_use_up_to": "No puedes usar más de {0} **{1}** ahora.",
         "done": "El **{}** que has tragado antes ha desaparecido.",
+        "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**.",
+        "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
+        "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
         "present": [
           "Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
           "Arrancaste el papel de envolver tan rápido como pudiste y conseguiste 1x **{}** (Vale {}{})!",
@@ -2589,6 +2595,9 @@
         "cant_use_any": "Tu ne peux pas utiliser de **{}** pour l'instant.",
         "cant_use_up_to": "Tu ne peux pas utiliser plus de {0} **{1}** pour l'instant.",
         "done": "La **{}** que tu as descendu plus tôt a perdu ses effets.",
+        "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**.",
+        "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
+        "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
         "present": [
           "Tu ouvre ton cadeau et trouve 1x **{}** (Valant {}{})!",
           "Tu déchiquettes le papier cadeau aussi vite que tu le peux et obtiens 1x **{}** (Valant {}{})!",

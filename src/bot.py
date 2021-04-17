@@ -65,6 +65,8 @@ async def update_support_member_role(_bot, member):
         if role.id not in role_map_values and role.id != _bot.d.support_server_id:
             roles.append(role)
 
+        await asyncio.sleep(0)
+
     pickaxe_role = _bot.d.role_mappings.get(await db.fetch_pickaxe(member.id))
     if pickaxe_role is not None:
         roles.append(support_guild.get_role(pickaxe_role))

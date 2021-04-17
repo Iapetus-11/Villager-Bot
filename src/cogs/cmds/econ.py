@@ -189,6 +189,8 @@ class Econ(commands.Cog):
             except KeyError:
                 pass
 
+            await asyncio.sleep(0)
+
         items_sorted = sorted(items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
         items_chunks = [
             items_sorted[i : i + items_per_page] for i in range(0, len(items_sorted), items_per_page)
@@ -323,7 +325,7 @@ class Econ(commands.Cog):
         combined_cats = self.d.cats.tools + self.d.cats.magic + self.d.cats.fish
         items = [e for e in await self.db.fetch_items(user.id) if e["name"] not in combined_cats]
 
-        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc)
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc, (16 if len(items) > 24 else 8))
 
     @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
     async def inventory_fish(self, ctx, user: discord.User = None):
@@ -575,6 +577,8 @@ class Econ(commands.Cog):
 
                 msg = None
 
+            await asyncio.sleep(0)
+
         groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
         page_max = len(groups)
         page = 0
@@ -625,7 +629,7 @@ class Econ(commands.Cog):
 
             await asyncio.sleep(0.2)
 
-    @commands.command(name="buy")
+    @commands.command(name="buy", aliases=["purchase"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def buy(self, ctx, *, amount_item):
@@ -699,6 +703,10 @@ class Econ(commands.Cog):
                 return
 
         await self.db.balance_sub(ctx.author.id, shop_item.buy_price * amount)
+
+        for req_item, req_amount in shop_item.requires.get("items", {}).items():
+            await self.db.remove_item(ctx.author.id, req_item, req_amount * amount)
+
         await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2])
 
         if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
@@ -717,7 +725,7 @@ class Econ(commands.Cog):
             ),
         )
 
-    @commands.command(name="sell")
+    @commands.command(name="sell", aliases=["emeraldify"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def sell(self, ctx, *, amount_item):
@@ -959,7 +967,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.beg.negative).format(f"{amount}{self.d.emojis.emerald}"))
 
-    @commands.command(name="mine", aliases=["mein", "eun"])
+    @commands.command(name="mine", aliases=["mein", "eun", "mien"])
     @commands.guild_only()
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
@@ -986,6 +994,8 @@ class Econ(commands.Cog):
                 found += random.choice(self.d.mining.yields_enchant_items[item]) if found else 0
                 break
 
+            await asyncio.sleep(0)
+
         if not found:
             for item in self.d.mining.findables:  # try to see if user gets an item
                 if random.randint(0, item[2]) == 1:
@@ -1005,6 +1015,8 @@ class Econ(commands.Cog):
                     )
 
                     return
+
+                await asyncio.sleep(0)
 
             await self.bot.send(
                 ctx,
@@ -1349,7 +1361,10 @@ class Econ(commands.Cog):
                         await self.bot.send(
                             ctx, random.choice(ctx.l.econ.use.present).format(item[0], item[1], self.d.emojis.emerald)
                         )
+
                         return
+
+                    await asyncio.sleep(0)
 
         if thing == "barrel":
             if amount > 1:
@@ -1365,7 +1380,10 @@ class Econ(commands.Cog):
                         await self.bot.send(
                             ctx, random.choice(ctx.l.econ.use.barrel_item).format(item[0], item[1], self.d.emojis.emerald)
                         )
+
                         return
+
+                    await asyncio.sleep(0)
 
             ems = random.randint(2, 4096)
 
@@ -1374,6 +1392,27 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
             await self.db.balance_add(ctx.author.id, ems)
+            return
+
+        if thing == "glass beaker":
+            slime_balls = await self.db.fetch_item(ctx.author.id, "Slime Ball")
+
+            if slime_balls is None or slime_balls["amount"] < amount:
+                await ctx.send(ctx.l.econ.use.need_slimy_balls)
+                return
+
+            await self.db.remove_item(ctx.author.id, "Slime Ball", amount)
+            await self.db.remove_item(ctx.author.id, "Glass Beaker", amount)
+            await self.db.add_item(ctx.author.id, "Beaker Of Slime", 13, amount, False)
+
+            await self.bot.send(ctx, ctx.l.econ.use.slimy_balls_funne.format(amount))
+            return
+
+        if thing == "beaker of slime":
+            await self.db.remove_item(ctx.author.id, "Beaker Of Slime", amount)
+            await self.db.add_item(ctx.author.id, "Slime Ball", 5, amount, True)
+
+            await self.bot.send(ctx, ctx.l.econ.use.beaker_of_slime_undo.format(amount))
             return
 
         await self.bot.send(ctx, ctx.l.econ.use.stupid_6)
@@ -1568,11 +1607,15 @@ class Econ(commands.Cog):
                     global_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
                     break
 
+                await asyncio.sleep(0)
+
             # attempt to find actual position in local leaderboard
             for entry in cmds_local:
                 if entry[0] == ctx.author.id:
                     local_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
                     break
+
+                await asyncio.sleep(0)
 
             lb_global = self.lb_logic(cmds_global[:10], global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
             lb_local = self.lb_logic(cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))

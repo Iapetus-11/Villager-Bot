@@ -652,13 +652,24 @@
           "Heart Of The Sea": 12
         }
       }
+    },
+    "glass beaker": {
+      "cat": "other",
+      "buy_price": 8,
+      "db_entry": [
+        "Glass Beaker",
+        2,
+        false
+      ],
+      "requires": {}
     }
   },
   "rpt_ignore": [
     "Rich Person Trophy",
     "Bane Of Pillagers Amulet",
     "Slime Trophy",
-    "Forever Alone Trophy"
+    "Fishing Trophy",
+    "Bug Hunter Badge"
   ],
   "cats": {
     "tools": [
