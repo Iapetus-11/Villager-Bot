@@ -113,7 +113,7 @@ class Database(commands.Cog):
                 "en",
                 None,
                 False,
-                False
+                False,
             )
 
             return await self.fetch_guild(gid)
