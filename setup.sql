@@ -2,11 +2,11 @@
 CREATE TABLE IF NOT EXISTS guilds (
   gid            BIGINT PRIMARY KEY NOT NULL, -- guild id
   prefix         VARCHAR(15) NOT NULL, -- prefix in that server
-  replies        BOOL NOT NULL, -- whether or not the should reply to "emeralds" and "villager bot"
+  replies        BOOLEAN NOT NULL, -- whether or not the should reply to "emeralds" and "villager bot"
   difficulty     VARCHAR(15) NOT NULL, -- difficulty for mob spawns and other things
   lang           VARCHAR(10) NOT NULL, -- language used leave null for en-us
   mcserver       VARCHAR(50), -- default mcserver for the /mcstatus command
-  premium        BOOL
+  premium        BOOLEAN
 );
 
 -- a user's economy data
@@ -16,10 +16,10 @@ CREATE TABLE IF NOT EXISTS users (
   vault_bal     INT NOT NULL, -- amount of emerald BLOCKS which are currently in the vault
   vault_max     INT NOT NULL, -- maximum amount of emerald BLOCKS which can be stored in the vault
   health        INT NOT NULL, -- user health, out of 20
-  bot_banned    BOOL NOT NULL, -- is banned from using the bot
+  bot_banned    BOOLEAN NOT NULL, -- is banned from using the bot
   vote_streak   INT NOT NULL,
   streak_time   BIGINT,
-  give_alert    BOOL NOT NULL -- whether to tell user if someone gave em stuff or not
+  give_alert    BOOLEAN NOT NULL -- whether to tell user if someone gave em stuff or not
 );
 
 -- tracks user's items
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS items (
   name         VARCHAR(250) NOT NULL, -- name of the item
   sell_price   BIGINT, -- sell price for ONE of that item
   amount       BIGINT NOT NULL,  -- amount of the item
-  sticky       BOOL NOT NULL -- if true, item can't be traded
+  sticky       BOOLEAN NOT NULL -- if true, item can't be traded
 );
 
 -- tracks economy transactions between users
