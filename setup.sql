@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS guilds (
   difficulty     VARCHAR(15) NOT NULL, -- difficulty for mob spawns and other things
   lang           VARCHAR(10) NOT NULL, -- language used leave null for en-us
   mcserver       VARCHAR(50), -- default mcserver for the /mcstatus command
-  premium        BOOLEAN
+  premium        BOOLEAN,
+  roles_persist  BOOLEAN
 );
 
 -- a user's economy data
