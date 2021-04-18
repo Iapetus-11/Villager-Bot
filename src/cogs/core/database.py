@@ -105,7 +105,7 @@ class Database(commands.Cog):
 
         if g is None:
             await self.db.execute(
-                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7)",
+                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
                 gid,
                 self.d.default_prefix,
                 True,
@@ -113,6 +113,7 @@ class Database(commands.Cog):
                 "en",
                 None,
                 False,
+                False
             )
 
             return await self.fetch_guild(gid)
