@@ -75,3 +75,9 @@ CREATE TABLE IF NOT EXISTS reminders (
   reminder VARCHAR(500),
   at BIGINT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS user_roles ( -- used to store roles of users in guilds with role persistence on
+  uid BIGINT NOT NULL,
+  gid BIGINT NOT NULL,
+  roles BIGINT[] NOT NULL DEFAULT {}
+);
