@@ -312,7 +312,9 @@ class Fun(commands.Cog):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=pat")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
-        embed = discord.Embed(color=self.d.cc, title=f"{ctx.author.display_name} pats {', '.join(u.display_name for u in users)} {text}"[:256])
+        embed = discord.Embed(
+            color=self.d.cc, title=f"{ctx.author.display_name} pats {', '.join(u.display_name for u in users)} {text}"[:256]
+        )
         embed.set_image(url=image_url)
 
         await ctx.send(embed=embed)
@@ -322,7 +324,9 @@ class Fun(commands.Cog):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=slap")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
-        embed = discord.Embed(color=self.d.cc, title=f"{ctx.author.display_name} slaps {', '.join(u.display_name for u in users)} {text}"[:256])
+        embed = discord.Embed(
+            color=self.d.cc, title=f"{ctx.author.display_name} slaps {', '.join(u.display_name for u in users)} {text}"[:256]
+        )
         embed.set_image(url=image_url)
 
         await ctx.send(embed=embed)
