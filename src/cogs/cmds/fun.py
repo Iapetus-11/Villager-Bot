@@ -308,7 +308,7 @@ class Fun(commands.Cog):
         await self.bot.send(ctx, random.choice(("heads", "tails")))
 
     @commands.command(name="pat")
-    async def pat(self, ctx, users: commands.Greedy[discord.User], *, text: str):
+    async def pat(self, ctx, users: commands.Greedy[discord.User], *, text: str = ""):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=pat")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
@@ -318,7 +318,7 @@ class Fun(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="slap")
-    async def slap(self, ctx, users: commands.Greedy[discord.User], *, text: str):
+    async def slap(self, ctx, users: commands.Greedy[discord.User], *, text: str = ""):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=slap")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
