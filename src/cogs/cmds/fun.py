@@ -322,6 +322,21 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name="slap")
+    async def pat(self, ctx, *, thing: typing.Union[discord.User, str]):
+        if isinstance(thing, discord.User) or isinstance(thing, discord.user.ClientUser):
+            thing = thing.display_name
+        else:
+            thing = ctx.message.clean_content[len(ctx.prefix) + 4 :]
+
+        resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=slap")
+        image_url = "https://rra.ram.moe" + (await resp.json())["path"]
+
+        embed = discord.Embed(color=self.d.cc, title=f"{ctx.author.display_name} slaps {thing[:200]}")
+        embed.set_image(url=image_url)
+
+        await ctx.send(embed=embed)
+
     @commands.command(name="achievement", aliases=["mcachieve"])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_achievement(self, ctx, *, text):
