@@ -84,7 +84,9 @@ class Events(commands.Cog):
                         discord.MessageType.premium_guild_tier_3,
                     ):
                         await self.db.add_item(m.author.id, "Barrel", 1024, 1)
-                        await self.bot.send(m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!")
+                        await self.bot.send(
+                            m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!"
+                        )
                         return
 
                 content_lowered = m.content.lower()
