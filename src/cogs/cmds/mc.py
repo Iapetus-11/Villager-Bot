@@ -23,8 +23,6 @@ class Minecraft(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-        self.ses = aiohttp.ClientSession(loop=bot.loop)
-
         self.d.mcserver_list = []
 
         self.update_server_list.start()
@@ -33,13 +31,17 @@ class Minecraft(commands.Cog):
     def cog_unload(self):
         self.update_server_list.cancel()
         self.clear_rcon_cache.cancel()
-        self.bot.loop.create_task(self.ses.close())
 
     def parse_mclists_page(self, page: str) -> set:
         servers_nice = set()
 
         soup = bs(page, "html.parser")
-        elems = soup.find(class_="ui striped table servers serversa").find_all("tr")
+        elems = soup.find(class_="ui striped table servers serversa")
+
+        if elems is None:
+            return servers_nice
+
+        elems = elems.find_all("tr")
 
         for elem in elems:
             split = str(elem).split("\n")
@@ -56,7 +58,7 @@ class Minecraft(commands.Cog):
         servers = set()
 
         for i in range(1, 26):
-            page = await (await self.ses.get(f"https://mc-lists.org/pg.{i}")).text()
+            page = await (await self.bot.aiohttp.get(f"https://mc-lists.org/pg.{i}")).text()
             servers.update(
                 await self.bot.loop.run_in_executor(self.bot.tpool, functools.partial(self.parse_mclists_page, page))
             )
@@ -135,7 +137,7 @@ class Minecraft(commands.Cog):
             combined = f"{host}{port_str}"
 
         async with ctx.typing():
-            async with self.ses.get(
+            async with self.bot.aiohttp.get(
                 f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}", headers={"Authorization": self.k.vb_api}
             ) as res:  # fetch status from api
                 jj = await res.json()
@@ -202,7 +204,7 @@ class Minecraft(commands.Cog):
         combined = s[0]
 
         async with ctx.typing():
-            async with self.ses.get(
+            async with self.bot.aiohttp.get(
                 f"https://api.iapetus11.me/mc/status/{combined}", headers={"Authorization": self.k.vb_api}
             ) as res:  # fetch status from api
                 jj = await res.json()
@@ -264,7 +266,7 @@ class Minecraft(commands.Cog):
     async def steal_skin(self, ctx, player):
         if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
             async with ctx.typing():
-                res = await self.ses.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
+                res = await self.bot.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
                 await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
@@ -276,12 +278,7 @@ class Minecraft(commands.Cog):
             jj = await res.json()
             uuid = jj["id"]
         elif (
-            len(player)
-            in (
-                32,
-                36,
-            )
-            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
+            len(player) in (32, 36) and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:
@@ -289,7 +286,7 @@ class Minecraft(commands.Cog):
             return
 
         async with ctx.typing():
-            res = await self.ses.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
+            res = await self.bot.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
 
         if res.status != 200:
             await self.bot.send(ctx, ctx.l.minecraft.stealskin.error)
@@ -321,7 +318,7 @@ class Minecraft(commands.Cog):
     async def minecraft_profile(self, ctx, player):
         if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
             async with ctx.typing():
-                res = await self.ses.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
+                res = await self.bot.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
                 await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
@@ -342,8 +339,8 @@ class Minecraft(commands.Cog):
 
         async with ctx.typing():
             resps = await asyncio.gather(
-                self.ses.get(f"https://api.mojang.com/user/profiles/{uuid}/names"),
-                self.ses.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"),
+                self.bot.aiohttp.get(f"https://api.mojang.com/user/profiles/{uuid}/names"),
+                self.bot.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"),
             )
 
         for res in resps:
@@ -407,7 +404,7 @@ class Minecraft(commands.Cog):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
         async with ctx.typing():
-            res = await self.ses.get(f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi})
+            res = await self.bot.aiohttp.get(f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi})
 
         if res.status != 200:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
@@ -538,17 +535,15 @@ class Minecraft(commands.Cog):
             rcon_con = self.d.rcon_cache.get((ctx.author.id, db_guild["mcserver"]))
 
             if rcon_con is None:
-                rcon_con = rcon.Client(
-                    (db_guild["mcserver"].split(":")[0] + f":{rcon_port}"), password, 2.5, loop=self.bot.loop
-                )
+                rcon_con = rcon.Client(db_guild["mcserver"].split(":")[0], rcon_port, password)
                 self.d.rcon_cache[(ctx.author.id, db_guild["mcserver"])] = (rcon_con, arrow.utcnow())
             else:
                 rcon_con = rcon_con[0]
                 self.d.rcon_cache[(ctx.author.id, db_guild["mcserver"])] = (rcon_con, arrow.utcnow())
 
-            await rcon_con.setup()
+            await rcon_con.connect(timeout=2.5)
         except Exception as e:
-            if isinstance(e, rcon.errors.InvalidAuthError):
+            if isinstance(e, rcon.IncorrectPasswordError):
                 await self.bot.send(ctx, ctx.l.minecraft.rcon.stupid_2)
             else:
                 await self.bot.send(ctx, ctx.l.minecraft.rcon.err_con)

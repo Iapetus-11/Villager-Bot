@@ -1,4 +1,5 @@
 from discord.ext import commands, tasks
+import asyncio
 import discord
 import arrow
 
@@ -53,6 +54,7 @@ class Database(commands.Cog):
 
         for uid in uids:
             self.uncache_user(uid)
+            await asyncio.sleep(0)
 
     async def fetch_current_reminders(self) -> list:
         return await self.db.fetch("DELETE FROM reminders WHERE at <= $1 RETURNING *", arrow.utcnow().timestamp())
@@ -60,8 +62,8 @@ class Database(commands.Cog):
     async def fetch_user_reminder_count(self, uid: int) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE uid = $1", uid)
 
-    async def add_reminder(self, uid: int, reminder: str, cid: int, at: int):
-        await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4)", uid, reminder, cid, at)
+    async def add_reminder(self, uid: int, cid: int, mid: int, reminder: str, at: int):
+        await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", uid, mid, cid, reminder, at)
 
     async def fetch_all_botbans(self):
         botban_records = await self.db.fetch(
@@ -103,13 +105,14 @@ class Database(commands.Cog):
 
         if g is None:
             await self.db.execute(
-                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7)",
+                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
                 gid,
                 self.d.default_prefix,
                 True,
                 "easy",
                 "en",
                 None,
+                False,
                 False,
             )
 
@@ -221,6 +224,8 @@ class Database(commands.Cog):
             for item_record in self._items_cache[uid]:
                 if name.lower() == item_record["name"].lower():
                     return item_record
+
+                await asyncio.sleep(0)
         except KeyError:
             pass
 
@@ -275,6 +280,8 @@ class Database(commands.Cog):
             if pickaxe in items_names:
                 return pickaxe
 
+            await asyncio.sleep(0)
+
         await self.add_item(uid, "Wood Pickaxe", 0, 1, True)
         return "Wood Pickaxe"
 
@@ -285,6 +292,8 @@ class Database(commands.Cog):
             if sword in items_names:
                 return sword
 
+            await asyncio.sleep(0)
+
         await self.add_item(uid, "Wood Sword", 0, 1, True)
         return "Wood Sword"
 
@@ -293,9 +302,9 @@ class Database(commands.Cog):
         await self.set_vault(uid, 0, 1)
 
         await self.db.execute(
-            "DELETE FROM items WHERE uid = $1 AND name != ANY($2::VARCHAR(250)[])",
+            "DELETE FROM items WHERE uid = $1 AND NOT name = ANY($2::VARCHAR(250)[])",
             uid,
-            ["Rich Person Trophy", "Bane Of Pillagers Amulet", "Slime Trophy"],
+            self.d.rpt_ignore,
         )
 
         # self.uncache_user(uid) # done in set_balance() and set_vault()

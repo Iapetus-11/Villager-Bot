@@ -2,11 +2,21 @@ from concurrent.futures import ThreadPoolExecutor
 from discord.ext import commands
 import classyjson as cj
 import asyncio
+import aiohttp
 import asyncpg
 import discord
 import logging
 import random
+import uvloop
 import arrow
+import sys
+import os
+
+# ensure villager bot modules are accessible
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
+# ensure the current working directory is correct
+os.chdir(os.path.dirname(__file__))
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 
@@ -31,15 +41,17 @@ async def send(_bot, location, message, respond=False, ping=False):
 
 # get a lang for a given ctx object
 def get_lang(_bot, ctx):
-    if ctx.guild is None:
+    if getattr(ctx, "guild", None) is None:
         return _bot.langs.en
 
-    lang = _bot.d.lang_cache.get(ctx.guild.id)
+    return _bot.langs[_bot.d.lang_cache.get(ctx.guild.id, "en")]
 
-    if lang is None:
-        lang = "en"
 
-    return _bot.langs[lang]
+def get_prefix(_bot, ctx):  # get a prefix for a given ctx
+    if getattr(ctx, "guild", None) is None:
+        return _bot.d.default_prefix
+
+    return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
 
 
 # update the role of a member in the support server
@@ -52,6 +64,8 @@ async def update_support_member_role(_bot, member):
     for role in member.roles:
         if role.id not in role_map_values and role.id != _bot.d.support_server_id:
             roles.append(role)
+
+        await asyncio.sleep(0)
 
     pickaxe_role = _bot.d.role_mappings.get(await db.fetch_pickaxe(member.id))
     if pickaxe_role is not None:
@@ -86,21 +100,16 @@ async def send_tip(ctx):
     await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
 
 
-if __name__ == "__main__":
+def main():
+    # setup uvloop
+    uvloop.install()
+
     # set up basic logging
     logger = setup_logging()
 
     logger.info("loading private keys...")
     with open("data/keys.json", "r") as k:  # load bot keys
         keys = cj.load(k)
-
-    async def get_prefix(_bot, ctx):  # async function to fetch a prefix from the database
-        if ctx.guild is None:
-            return _bot.d.default_prefix
-
-        prefix = _bot.d.prefix_cache.get(ctx.guild.id)
-
-        return _bot.d.default_prefix if prefix is None else prefix
 
     bot = commands.AutoShardedBot(  # setup bot
         command_prefix=get_prefix,
@@ -110,6 +119,7 @@ if __name__ == "__main__":
     )
 
     bot.logger = logger
+    bot.aiohttp = aiohttp.ClientSession(loop=bot.loop)
 
     bot.send = send.__get__(bot)
     bot.get_lang = get_lang.__get__(bot)
@@ -176,7 +186,7 @@ if __name__ == "__main__":
         "cogs.cmds.econ",
         "cogs.cmds.config",
         "cogs.other.mobs",
-        "cogs.other.statcord",
+        # "cogs.other.statcord",
         "cogs.other.webhooks",
     ]
 
@@ -229,3 +239,9 @@ if __name__ == "__main__":
 
     with ThreadPoolExecutor() as bot.tpool:
         bot.run(keys.discord)  # run the bot, this is a blocking call
+
+    asyncio.run(bot.aiohttp.close())
+
+
+if __name__ == "__main__":
+    main()

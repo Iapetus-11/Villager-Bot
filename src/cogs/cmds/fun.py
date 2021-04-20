@@ -14,11 +14,6 @@ class Fun(commands.Cog):
         self.d = bot.d
         self.k = bot.k
 
-        self.ses = aiohttp.ClientSession(loop=bot.loop)
-
-    def cog_unload(self):
-        self.bot.loop.create_task(self.ses.close())
-
     async def lang_convert(self, msg, lang):
         keys = list(lang)
 
@@ -51,7 +46,7 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
-                resp = await self.ses.get(
+                resp = await self.bot.aiohttp.get(
                     "https://api.iapetus11.me/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes",
                     headers={"Authorization": self.k.vb_api},
                 )
@@ -81,7 +76,7 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             while (not do_nsfw and jj["nsfw"]) or jj.get("image") is None:
-                resp = await self.ses.get(
+                resp = await self.bot.aiohttp.get(
                     "https://api.iapetus11.me/reddit/gimme/4chan+greentext", headers={"Authorization": self.k.vb_api}
                 )
 
@@ -105,7 +100,7 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             while comic["spoiler"] or (not do_nsfw and comic["nsfw"]) or comic.get("image") is None:
-                resp = await self.ses.get(
+                resp = await self.bot.aiohttp.get(
                     "https://api.iapetus11.me/reddit/gimme/comics",
                     headers={"Authorization": self.k.vb_api},
                 )
@@ -130,7 +125,7 @@ class Fun(commands.Cog):
 
             async with ctx.typing():
                 while meme["spoiler"] or meme["nsfw"] or meme.get("image") is None:
-                    resp = await self.ses.get(
+                    resp = await self.bot.aiohttp.get(
                         "https://api.iapetus11.me/reddit/gimme/CursedMinecraft",
                         headers={"Authorization": self.k.vb_api},
                     )
@@ -313,16 +308,33 @@ class Fun(commands.Cog):
         await self.bot.send(ctx, random.choice(("heads", "tails")))
 
     @commands.command(name="pat")
-    async def pat(self, ctx, *, thing: typing.Union[discord.User, str]):
-        if isinstance(thing, discord.User) or isinstance(thing, discord.user.ClientUser):
-            thing = thing.display_name
-        else:
-            thing = ctx.message.clean_content[len(ctx.prefix) + 4 :]
-
-        resp = await self.ses.get("https://rra.ram.moe/i/r?type=pat")
+    @commands.guild_only()
+    async def pat(self, ctx, users: commands.Greedy[discord.Member] = [], *, text: str = ""):
+        resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=pat")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
-        embed = discord.Embed(color=self.d.cc, title=f"{ctx.author.display_name} pats {thing[:200]}")
+        embed = discord.Embed(
+            color=self.d.cc,
+            title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** pats {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
+                :256
+            ],
+        )
+        embed.set_image(url=image_url)
+
+        await ctx.send(embed=embed)
+
+    @commands.command(name="slap")
+    @commands.guild_only()
+    async def slap(self, ctx, users: commands.Greedy[discord.Member] = [], *, text: str = ""):
+        resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=slap")
+        image_url = "https://rra.ram.moe" + (await resp.json())["path"]
+
+        embed = discord.Embed(
+            color=self.d.cc,
+            title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
+                :256
+            ],
+        )
         embed.set_image(url=image_url)
 
         await ctx.send(embed=embed)

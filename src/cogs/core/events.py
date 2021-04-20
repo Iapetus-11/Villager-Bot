@@ -35,6 +35,8 @@ class Events(commands.Cog):
                 await channel.send(embed=embed)
                 break
 
+            await asyncio.sleep(0)
+
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         await self.db.drop_guild(guild.id)
@@ -45,9 +47,8 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        await self.bot.wait_until_ready()
-
         if member.guild.id == self.d.support_server_id:
+            await self.bot.wait_until_ready()
             await self.bot.update_support_member_role(member)
 
     @commands.Cog.listener()
@@ -121,7 +122,7 @@ class Events(commands.Cog):
             pass
 
     async def debug_error(self, ctx, e, loc=None):
-        self.bot.get_cog("StatCord").error_count += 1
+        # self.bot.get_cog("StatCord").error_count += 1
 
         if loc is None:
             loc = self.bot.get_channel(self.d.error_channel_id)
@@ -188,7 +189,8 @@ class Events(commands.Cog):
             elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
                 await self.bot.send(ctx, ctx.l.misc.errors.bot_perms)
             elif isinstance(e, commands.MaxConcurrencyReached):
-                await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
+                # await self.bot.send(ctx, ctx.l.misc.errors.concurrency)
+                await self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy)
             elif isinstance(e, commands.MissingRequiredArgument):
                 await self.bot.send(ctx, ctx.l.misc.errors.missing_arg)
             elif isinstance(

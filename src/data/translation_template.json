@@ -21,7 +21,7 @@
         "missing_arg": "Looks like you're forgetting to put something in!",
         "bad_arg": "Looks like you didn't type something correctly, try typing it right the first time, dum dum.",
         "not_ready": "Hold on! Villager Bot is still starting up!",
-        "nrn_buddy": "Wait a second, you can't use that command right now!",
+        "nrn_buddy": "Hold on, you can't use that command right now!",
         "disabled": "This command is disabled in this server and can not be used!"
       },
       "tips": [
@@ -69,7 +69,7 @@
       "econ": {
         "profile": "`{0}profile [optional: user]` *shows the profile of you or the specified user*",
         "balance": "`{0}balance [optional: user]` *shows the balance of you or the specified user*",
-        "inventory": "`{0}inventory [optional: user]` *shows the inventory of you or the specified user*",
+        "inventory": "`{0}inventory [optional: category] [optional: user]` *shows the inventory of you or the specified user; optional categories include `tools`, `magic`, `fish`, or `misc`*",
         "deposit": "`{0}deposit <emerald blocks>` *deposit emeralds into the vault*",
         "withdraw": "`{0}withdraw <emerald blocks>` *withdraw emeralds from the vault*",
         "give": "`{0}give <user> <amount> <item>` *give another user an item or emeralds*",
@@ -664,7 +664,7 @@
       "gamble": {
         "stupid_1": "You can't gamble more emeralds than you have.",
         "stupid_2": "You have to gamble 10 or more emeralds at a time.",
-        "stupid_3": "You can't gamble more than 25000 emeralds at a time.",
+        "stupid_3": "You can't gamble more than 50000 emeralds at a time.",
         "too_rich": "You have too much emeralds, go do something else with your life!",
         "roll": "Your roll: `{}` **|** Bot's roll: `{}`",
         "win": "You won! Villager Bot {} {}{}",
@@ -820,6 +820,9 @@
         "cant_use_any": "You can't use any **{}** right now.",
         "cant_use_up_to": "You can't use any more than {0} **{1}** right now.",
         "done": "The **{}** you chugged earlier has worn off.",
+        "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**.",
+        "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
+        "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",
           "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",

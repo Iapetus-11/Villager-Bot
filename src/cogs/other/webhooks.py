@@ -17,16 +17,16 @@ class Webhooks(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-        self.ses = aiohttp.ClientSession()
         self.server_runner = None
         self.webhook_server = None
 
         self.webhooks_task = bot.loop.create_task(self.webhooks_setup())
         self.stats_task = bot.loop.create_task(self.update_stats())
 
+        self.lock = asyncio.Lock()
+
     def cog_unload(self):
         self.bot.loop.create_task(self.server_runner.cleanup())
-        self.bot.loop.create_task(self.ses.close())
         self.bot.loop.create_task(self.webhook_server.close())
 
         self.webhooks_task.cancel()
@@ -37,7 +37,7 @@ class Webhooks(commands.Cog):
 
         while True:
             try:
-                await self.ses.post(
+                await self.bot.aiohttp.post(
                     f"https://top.gg/api/bots/{self.bot.user.id}/stats",
                     headers={"Authorization": self.k.topgg_api},
                     json={"server_count": str(len(self.bot.guilds))},
@@ -103,39 +103,40 @@ class Webhooks(commands.Cog):
 
         uid = int(data.user)
 
-        self.bot.logger.info(f"\u001b[32;1m{uid} voted on top.gg\u001b[0m")
-        self.d.votes_topgg += 1
+        async with self.lock:
+            db_user = await self.db.fetch_user(uid)
 
-        amount = self.d.topgg_reward
+            streak_time = db_user["streak_time"]
+            vote_streak = db_user["vote_streak"]
 
-        if data.isWeekend:
-            amount *= 2
+            if streak_time is None:  # time
+                streak_time = 0
 
-        amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(uid))
+            if arrow.get(streak_time) > arrow.utcnow().shift(hours=-12):
+                return
 
-        db_user = await self.db.fetch_user(uid)
+            self.bot.logger.info(f"\u001b[32;1m{uid} voted on top.gg\u001b[0m")
+            self.d.votes_topgg += 1
 
-        streak_time = db_user["streak_time"]
-        vote_streak = db_user["vote_streak"]
+            amount = self.d.topgg_reward
 
-        if vote_streak is None or vote_streak == 0:
-            vote_streak = 0
+            if data.isWeekend:
+                amount *= 2
 
-        vote_streak += 1
+            amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(uid))
 
-        if streak_time is None:  # time
-            streak_time = 0
+            if vote_streak is None or vote_streak == 0:
+                vote_streak = 0
 
-        if arrow.get(streak_time) > arrow.utcnow().shift(hours=-12):
-            return
+            vote_streak += 1
 
-        if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(streak_time):  # vote expired
-            vote_streak = 1
+            if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(streak_time):  # vote expired
+                vote_streak = 1
 
-        amount *= 5 if vote_streak > 5 else vote_streak
+            amount *= 5 if vote_streak > 5 else vote_streak
 
-        await self.db.update_user(uid, "streak_time", arrow.utcnow().timestamp())
-        await self.db.update_user(uid, "vote_streak", vote_streak)
+            await self.db.update_user(uid, "streak_time", arrow.utcnow().timestamp())
+            await self.db.update_user(uid, "vote_streak", vote_streak)
 
         await self.reward(uid, amount, vote_streak)
 

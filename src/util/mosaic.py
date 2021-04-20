@@ -82,7 +82,7 @@ def generate(source_bytes, max_dim, detailed):
                     pal_key = palette_bi.get((r // 128, g // 128, b // 128))
 
                     if pal_key is None:
-                        pal_key = palette_oct[random.choice((*palette_oct.keys(),))]
+                        pal_key = palette_oct[random.choice(tuple(palette_oct.keys()))]
 
             draw_image(canvas, palette_map[pal_key], x, y)
 

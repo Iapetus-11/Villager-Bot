@@ -207,13 +207,15 @@ class Mod(commands.Cog):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
-        if discord.utils.get(ctx.guild.roles, name="Mute") is None:  # check if role exists
-            await ctx.guild.create_role(name="Mute", permissions=discord.Permissions(send_messages=False, add_reactions=False))
+        if discord.utils.get(ctx.guild.roles, name="Muted") is None:  # check if role exists
+            await ctx.guild.create_role(
+                name="Muted", permissions=discord.Permissions(send_messages=False, add_reactions=False)
+            )
 
         # fetch role
-        mute = discord.utils.get(ctx.guild.roles, name="Mute")
+        mute = discord.utils.get(ctx.guild.roles, name="Muted")
         if mute is None:
-            mute = discord.utils.get(await ctx.guild.fetch_roles(), name="Mute")
+            mute = discord.utils.get(await ctx.guild.fetch_roles(), name="Muted")
 
         async with ctx.typing():
             for channel in ctx.guild.text_channels:  # fix perms for channels
@@ -235,7 +237,7 @@ class Mod(commands.Cog):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
-        mute = discord.utils.get(user.roles, name="Mute")
+        mute = discord.utils.get(user.roles, name="Muted")
 
         if mute:
             await user.remove_roles(mute)

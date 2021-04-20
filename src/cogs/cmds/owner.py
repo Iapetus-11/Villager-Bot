@@ -52,43 +52,45 @@ class Owner(commands.Cog):
     @commands.command(name="eval")
     @commands.is_owner()
     async def eval_stuff(self, ctx, *, code):
+        if code.startswith("```"):
+            code = code.lstrip(" `py\n ").rstrip(" `\n ")
+
+        code_nice = "async def eval_code():\n" + "\n".join(f"    {i}" for i in code.splitlines())
+        code_parsed = ast.parse(code_nice)
+        code_final = code_parsed.body[0].body
+
+        def insert_returns():
+            if isinstance(code_final[-1], ast.Expr):
+                code_final[-1] = ast.Return(code_final[-1].value)
+                ast.fix_missing_locations(code_final[-1])
+
+            if isinstance(code_final[-1], ast.If):
+                insert_returns(code_final[-1].body)
+                insert_returns(code_final[-1].orelse)
+
+            if isinstance(code_final[-1], ast.With):
+                insert_returns(code_final[-1].body)
+
+        insert_returns()
+
+        env = {**locals(), **globals()}
+
         try:
-            code_nice = "async def eval_code():\n" + "\n".join(f"    {i}" for i in code.strip(" `py\n ").splitlines())
-            code_parsed = ast.parse(code_nice)
-            code_final = code_parsed.body[0].body
-
-            def insert_returns():
-                if isinstance(code_final[-1], ast.Expr):
-                    code_final[-1] = ast.Return(code_final[-1].value)
-                    ast.fix_missing_locations(code_final[-1])
-
-                if isinstance(code_final[-1], ast.If):
-                    insert_returns(code_final[-1].body)
-                    insert_returns(code_final[-1].orelse)
-
-                if isinstance(code_final[-1], ast.With):
-                    insert_returns(code_final[-1].body)
-
-            insert_returns()
-
-            env = {**locals(), **globals()}
-
             exec(compile(code_parsed, filename="<ast>", mode="exec"), env)
             result = await eval("eval_code()", env)
-
-            await ctx.send(f"```py\n{result}```")
-
         except discord.errors.Forbidden:
             await ctx.send("Missing permissions (FORBIDDEN)")
         except Exception as e:
             await self.bot.get_cog("Events").debug_error(ctx, e, ctx)
+        else:
+            await ctx.send(f"```py\n{result}```")
 
     @commands.command(name="gitpull")
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
     @commands.is_owner()
     async def gitpull(self, ctx):
         async with ctx.typing():
-            system_call = functools.partial(os.system, "sudo git pull > git_pull_log 2>&1")
+            system_call = functools.partial(os.system, "git pull > git_pull_log 2>&1")
             await self.bot.loop.run_in_executor(self.bot.tpool, system_call)
 
             async with aiofiles.open("git_pull_log", "r") as f:

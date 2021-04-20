@@ -21,7 +21,7 @@
         "missing_arg": "Looks like you're forgetting to put something in!",
         "bad_arg": "Looks like you didn't type something correctly, try typing it right the first time, dum dum.",
         "not_ready": "Hold on! Villager Bot is still starting up!",
-        "nrn_buddy": "Wait a second, you can't use that command right now!",
+        "nrn_buddy": "Hold on, you can't use that command right now!",
         "disabled": "This command is disabled in this server and can not be used!"
       },
       "tips": [
@@ -69,7 +69,7 @@
       "econ": {
         "profile": "`{0}profile [optional: user]` *shows the profile of you or the specified user*",
         "balance": "`{0}balance [optional: user]` *shows the balance of you or the specified user*",
-        "inventory": "`{0}inventory [optional: user]` *shows the inventory of you or the specified user*",
+        "inventory": "`{0}inventory [optional: category] [optional: user]` *shows the inventory of you or the specified user; optional categories include `tools`, `magic`, `fish`, or `misc`*",
         "deposit": "`{0}deposit <emerald blocks>` *deposit emeralds into the vault*",
         "withdraw": "`{0}withdraw <emerald blocks>` *withdraw emeralds from the vault*",
         "give": "`{0}give <user> <amount> <item>` *give another user an item or emeralds*",
@@ -127,6 +127,7 @@
         "bubblewrap": "`{0}bubblewrap` *sends virtual bubblewrap for you to pop*",
         "coinflip": "`{0}coinflip` *flips a coin and says the result in the chat*",
         "pat": "`{0}pat <user>` *brutally pat someone on the head*",
+        "slap": "`{0}slap <user>` *gently slap someone*",
         "achievement": "`{0}achievement <text>` *generates a Minecraft achievement from the given text*",
         "splashtext": "`{0}splashtext <text>` *generates a Minecraft splash screen with the given text*"
       },
@@ -543,7 +544,8 @@
         "bans": "Bans",
         "cmd_prefix": "Prefix",
         "lang": "Language",
-        "diff": "Difficulty"
+        "diff": "Difficulty",
+        "prem": "Premium"
       },
       "meth": {
         "oops": "Oops, something went wrong..."
@@ -664,7 +666,7 @@
       "gamble": {
         "stupid_1": "You can't gamble more emeralds than you have.",
         "stupid_2": "You have to gamble 10 or more emeralds at a time.",
-        "stupid_3": "You can't gamble more than 25000 emeralds at a time.",
+        "stupid_3": "You can't gamble more than 50000 emeralds at a time.",
         "too_rich": "You have too much emeralds, go do something else with your life!",
         "roll": "Your roll: `{}` **|** Bot's roll: `{}`",
         "win": "You won! Villager Bot {} {}{}",
@@ -759,7 +761,7 @@
         ],
         "caught": [
           "You reeled in one **{0}** {1}!",
-          "You fished up **{0}** {1}!",
+          "You fished up one **{0}** {1}!",
           "You feel a bite and reel in one **{0}** {1}!",
           "You feel a tug at the end of the line and fish up one **{0}** {1}!"
         ],
@@ -820,6 +822,9 @@
         "cant_use_any": "You can't use any **{}** right now.",
         "cant_use_up_to": "You can't use any more than {0} **{1}** right now.",
         "done": "The **{}** you chugged earlier has worn off.",
+        "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**.",
+        "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
+        "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",
           "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",
@@ -954,7 +959,7 @@
       "econ": {
         "profile": "`{0}profile [opcional: usuario]` *muestra el perfil de usted o del usuario especificado*",
         "balance": "`{0}balance [opcional: usuario]` *muestra el balance de usted o del usuario especificado*",
-        "inventory": "`{0}inventory [opcional: usuario]` *muestra el inventario de usted o del usuario especificado*",
+        "inventory": "`{0}inventory [opcional: categoría] [opcional: usuario]` *muestra el inventario de usted o del usuario especificado; las categorías opcionales incluyen `tools`, `magic`, `fish`, o `misc`*",
         "deposit": "`{0}deposit <bloques de esmeralda>` *depositar las esmeraldas en la bóveda*",
         "withdraw": "`{0}withdraw <bloques de esmeralda>` *retirar las esmeraldas de la bóveda*",
         "give": "`{0}give <usuario> <cantidad> <artículo>` *dar a otro usuario un artículo o esmeraldas*",
@@ -1012,6 +1017,7 @@
         "bubblewrap": "`{0}bubblewrap` *envía un envoltorio de burbujas virtual para que reviente*",
         "coinflip": "`{0}coinflip` *lanza una moneda y dice el resultado en el chat*",
         "pat": "`{0}pat <usuario>` *dar una palmadita brutal a alguien en la cabeza*",
+        "slap": "`{0}slap <user>` *gently slap someone*",
         "achievement": "`{0}achievement <texto>` *genera un logro de Minecraft a partir del texto dado*",
         "splashtext": "`{0}splashtext <texto>` *genera una pantalla de salpicadura Minecraft con el texto dado*"
       },
@@ -1023,8 +1029,8 @@
         "kick": "`{0}kick <usuario>` *patea al usuario del actual servidor de Discord*",
         "ban": "`{0}ban <usuario>` *prohibe al usuario del actual servidor de Discord*",
         "pardon": "`{0}pardon <usuario>` *desbancar al usuario del actual servidor de Discord*",
-        "mute": "`{0}mute <user>` *mutes the user from the current Discord server*",
-        "unmute": "`{0}unmute <user>` *unmutes the user from the current Discord server*"
+        "mute": "`{0}mute <usuario>` *silencia a un usuario del servidor actual de Discord*",
+        "unmute": "`{0}unmute <usuario>` *quita el silencio de un usuario del servidor actual de Discord*"
       }
     },
     "fun": {
@@ -1315,13 +1321,13 @@
         "confirm": "{} Advertido. ({} advertencias ahora) por la razón: *{}*"
       },
       "mute": {
-        "stupid_1": "You cannot mute yourself",
-        "mute_msg": "**{}** has been muted."
+        "stupid_1": "No puedes silenciarte a ti mismo",
+        "mute_msg": "**{}** ha sido silenciado."
       },
       "unmute": {
-        "stupid_1": "You cannot unmute yourself",
-        "stupid_2": "**{}** isn't muted",
-        "unmute_msg": "**{}** has been unmuted"
+        "stupid_1": "No puedes quitarte el silencio a ti mismo",
+        "stupid_2": "**{}** no está silenciado",
+        "unmute_msg": "**{}** ya no está silenciado"
       }
     },
     "config": {
@@ -1428,7 +1434,8 @@
         "bans": "Prohibiciones",
         "cmd_prefix": "Prefijo",
         "lang": "Idioma",
-        "diff": "Dificultad"
+        "diff": "Dificultad",
+        "prem": "Premium"
       },
       "meth": {
         "oops": "Oops, algo salió mal..."
@@ -1549,7 +1556,7 @@
       "gamble": {
         "stupid_1": "No puedes apostar más esmeraldas de las que tienes.",
         "stupid_2": "Tienes que apostar 10 o más esmeraldas a la vez.",
-        "stupid_3": "No puedes jugar mas de 25000 esmeraldas a la vez.",
+        "stupid_3": "No puedes jugar mas de 50000 esmeraldas a la vez.",
         "too_rich": "Tienes demasiadas esmeraldas Ve a hacer algo con tu vida!",
         "roll": "Tu rollo: `{}` **|** El rollo de bot: `{}`",
         "win": "¡Ganaste! Villager Bot {} {}{}",
@@ -1582,7 +1589,7 @@
           "Encuentras una trampilla oculta y detrás de ella se encuentra {}...",
           "En un rincón polvoriento se ve {}.",
           "Mientras limpias tu habitación encuentras {}, tal vez deberías hacerlo más a menudo...",
-          "Underneath a block of dirt you find {}!",
+          "Encuentras {} debajo de un bloque de tierra!",
           "Buscas en tus bolsillos y encuentras {}, cubierto de un viejo chicle pegajoso...",
           "Tu mascota vomita {}...",
           "¡Desplazándose al final de la lista de canales en Discord se encuentra {}!",
@@ -1605,10 +1612,10 @@
         "found_item_2": "Tu {0} {1} {2} {3}",
         "found_emeralds": "Tu {0} {1}{2}!",
         "actions": [
-          "minado",
-          "encontrado",
-          "tiene",
-          "desenterrado"
+          "minaste",
+          "encontraste",
+          "tienes",
+          "desenterraste"
         ],
         "places": [
           "en un pozo de mina abandonado",
@@ -1704,6 +1711,9 @@
         "cant_use_any": "No puedes usar **{}** ahora.",
         "cant_use_up_to": "No puedes usar más de {0} **{1}** ahora.",
         "done": "El **{}** que has tragado antes ha desaparecido.",
+        "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**.",
+        "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
+        "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
         "present": [
           "Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
           "Arrancaste el papel de envolver tan rápido como pudiste y conseguiste 1x **{}** (Vale {}{})!",
@@ -1838,7 +1848,7 @@
       "econ": {
         "profile": "`{0}profile [optionnel : utilisateur]` *affiche ton profile ou celui de l'utilisateur spécifié*",
         "balance": "`{0}balance [optionnel : utilisateur]` *affiche ton solde ou celui de l'utilisateur spécifié*",
-        "inventory": "`{0}inventory [optionnel : utilisateur]` *affiche ton inventaire ou celui de l'utilisateur spécifié*",
+        "inventory": "`{0}inventory [optionnel: catégorie] [optionnel : utilisateur]` *affiche ton inventaire ou celui de l'utilisateur spécifié; les catégories optionnelles incluent `tools`, `magic`, `fish`, ou `misc`*",
         "deposit": "`{0}deposit <blocs d'émeraudes>` *dépose des émeraudes dans le coffre*",
         "withdraw": "`{0}withdraw <blocs d'émeraudes>` *retire des émeraudes du coffre*",
         "give": "`{0}give <utilisateur> <quantité> <objet>` *donne un objet ou des émeraudes à un utilisateur*",
@@ -1896,6 +1906,7 @@
         "bubblewrap": "`{0}bubblewrap` *envoie du papier-bulle virtuel pour que tu l'éclates*",
         "coinflip": "`{0}coinflip` *tire un pièce à pile ou face et donne le résultat dans le chat*",
         "pat": "`{0}pat <utilisateur>` *tapote brutallement quelqu'un sur la tête*",
+        "slap": "`{0}slap <user>` *gently slap someone*",
         "achievement": "`{0}achievement <texte>` *génère un succès Minecraft à partir du texte donné*",
         "splashtext": "`{0}splashtext <texte>` *génère un splash screen Minecraft à partir du texte donné*"
       },
@@ -2312,7 +2323,8 @@
         "bans": "Bans",
         "cmd_prefix": "Préfixe",
         "lang": "Langue",
-        "diff": "Difficulté"
+        "diff": "Difficulté",
+        "prem": "Premium"
       },
       "meth": {
         "oops": "Oups, quelque chose a mal tourné ..."
@@ -2433,7 +2445,7 @@
       "gamble": {
         "stupid_1": "Tu ne peux pas parier plus d'émeraudes que tu en as.",
         "stupid_2": "Tu dois miser au moins 10 émeraudes à la fois.",
-        "stupid_3": "Tu ne peux pas miser plus que 25000 émeraudes à la fois.",
+        "stupid_3": "Tu ne peux pas miser plus que 50000 émeraudes à la fois.",
         "too_rich": "Tu as trop d'émeraudes, va faire quelque chose d'autre de ta vie !",
         "roll": "Ton lancer : `{}` **|** Lancer du bot : `{}`",
         "win": "Tu as gagné ! Villager Bot {} {}{}",
@@ -2589,6 +2601,9 @@
         "cant_use_any": "Tu ne peux pas utiliser de **{}** pour l'instant.",
         "cant_use_up_to": "Tu ne peux pas utiliser plus de {0} **{1}** pour l'instant.",
         "done": "La **{}** que tu as descendu plus tôt a perdu ses effets.",
+        "need_slimy_balls": "Tu as besoin d'une **Slime Ball** pour chaque **Glass Beaker**.",
+        "slimy_balls_funne": "Tu as transformé {0}x **Slime Ball** + {0}x **Glass Beaker** en {0}x **Beaker Of Slime** !",
+        "beaker_of_slime_undo": "Tu as transformé {0}x **Beaker Of Slime** en {0}x **Slime Ball** !",
         "present": [
           "Tu ouvre ton cadeau et trouve 1x **{}** (Valant {}{})!",
           "Tu déchiquettes le papier cadeau aussi vite que tu le peux et obtiens 1x **{}** (Valant {}{})!",

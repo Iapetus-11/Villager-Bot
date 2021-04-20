@@ -1,4 +1,5 @@
 from discord.ext import commands, tasks
+import traceback
 import discord
 import random
 
@@ -39,9 +40,17 @@ class Loops(commands.Cog):
                 lang = self.bot.get_lang(channel)
 
                 try:
-                    await channel.send(lang.useful.remind.reminder.format(user.mention, reminder["reminder"]))
+                    await channel.fetch_message(reminder["mid"]).reply(
+                        lang.useful.remind.reminder.format(user.mention, reminder["reminder"]), mention_author=True
+                    )
                 except Exception:
-                    pass
+                    try:
+                        await channel.send(lang.useful.remind.reminder.format(user.mention, reminder["reminder"]))
+                    except Exception as e:
+                        traceback_text = "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
+                        await self.bot.send(
+                            self.bot.get_channel(self.d.error_channel_id), f"Reminder error: {user} ```{traceback_text}```"
+                        )
 
     @tasks.loop(seconds=15)
     async def remind_reminders(self):

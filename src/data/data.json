@@ -317,15 +317,15 @@
     ]
   },
   "fishing": {
-    "exponent": 2.5,
+    "exponent": 2.75,
     "fish_ids": [],
     "fish_weights": [],
     "fish": {
       "cod": {
         "name": "Cod",
         "value": [
-          15,
-          30
+          2,
+          15
         ],
         "current": null,
         "rarity": 0
@@ -333,8 +333,8 @@
       "salmon": {
         "name": "Salmon",
         "value": [
-          20,
-          60
+          10,
+          40
         ],
         "current": null,
         "rarity": 0
@@ -342,7 +342,7 @@
       "tropical_fish": {
         "name": "Tropical Fish",
         "value": [
-          40,
+          30,
           120
         ],
         "current": null,
@@ -403,201 +403,274 @@
         420,
         6669,
         false
+      ],
+      [
+        "Heart Of The Sea",
+        420,
+        6669,
+        false
       ]
     ]
   },
   "shop_items": {
-    "stone pickaxe": [
-      "tools",
-      32,
-      "db_item_count < 1",
-      [
+    "stone pickaxe": {
+      "cat": "tools",
+      "buy_price": 32,
+      "db_entry": [
         "Stone Pickaxe",
         8,
         true
-      ]
-    ],
-    "iron pickaxe": [
-      "tools",
-      128,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "iron pickaxe": {
+      "cat": "tools",
+      "buy_price": 128,
+      "db_entry": [
         "Iron Pickaxe",
         32,
         true
-      ]
-    ],
-    "gold pickaxe": [
-      "tools",
-      512,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "gold pickaxe": {
+      "cat": "tools",
+      "buy_price": 512,
+      "db_entry": [
         "Gold Pickaxe",
         128,
         true
-      ]
-    ],
-    "diamond pickaxe": [
-      "tools",
-      2048,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "diamond pickaxe": {
+      "cat": "tools",
+      "buy_price": 2048,
+      "db_entry": [
         "Diamond Pickaxe",
         512,
         true
-      ]
-    ],
-    "netherite pickaxe": [
-      "tools",
-      8192,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "netherite pickaxe": {
+      "cat": "tools",
+      "buy_price": 8192,
+      "db_entry": [
         "Netherite Pickaxe",
         2048,
         true
-      ]
-    ],
-    "stone sword": [
-      "tools",
-      32,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1,
+        "items": {
+          "Netherite Scrap": 4
+        }
+      }
+    },
+    "stone sword": {
+      "cat": "tools",
+      "buy_price": 32,
+      "db_entry": [
         "Stone Sword",
         8,
         true
-      ]
-    ],
-    "iron sword": [
-      "tools",
-      128,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "iron sword": {
+      "cat": "tools",
+      "buy_price": 128,
+      "db_entry": [
         "Iron Sword",
         32,
         true
-      ]
-    ],
-    "gold sword": [
-      "tools",
-      512,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "gold sword": {
+      "cat": "tools",
+      "buy_price": 512,
+      "db_entry": [
         "Gold Sword",
         128,
         true
-      ]
-    ],
-    "diamond sword": [
-      "tools",
-      2048,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "diamond sword": {
+      "cat": "tools",
+      "buy_price": 2048,
+      "db_entry": [
         "Diamond Sword",
         512,
         true
-      ]
-    ],
-    "netherite sword": [
-      "tools",
-      8192,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "netherite sword": {
+      "cat": "tools",
+      "buy_price": 8192,
+      "db_entry": [
         "Netherite Sword",
         2048,
         true
-      ]
-    ],
-    "fishing rod": [
-      "tools",
-      128,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {
+        "count_lt": 1,
+        "items": {
+          "Netherite Scrap": 6
+        }
+      }
+    },
+    "fishing rod": {
+      "cat": "tools",
+      "buy_price": 1024,
+      "db_entry": [
         "Fishing Rod",
-        48,
+        256,
         true
-      ]
-    ],
-    "haste i potion": [
-      "magic",
-      120,
-      "True",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "haste i potion": {
+      "cat": "magic",
+      "buy_price": 120,
+      "db_entry": [
         "Haste I Potion",
         32,
         false
-      ]
-    ],
-    "fortune i book": [
-      "magic",
-      120,
-      "True",
-      [
+      ],
+      "requires": {}
+    },
+    "fortune i book": {
+      "cat": "magic",
+      "buy_price": 120,
+      "db_entry": [
         "Fortune I Book",
         24,
         false
-      ]
-    ],
-    "jar of bees": [
-      "other",
-      8,
-      "True",
-      [
+      ],
+      "requires": {}
+    },
+    "jar of bees": {
+      "cat": "other",
+      "buy_price": 8,
+      "db_entry": [
         "Jar Of Bees",
         2,
         false
-      ]
-    ],
-    "netherite scrap": [
-      "other",
-      32,
-      "True",
-      [
+      ],
+      "requires": {}
+    },
+    "netherite scrap": {
+      "cat": "other",
+      "buy_price": 32,
+      "db_entry": [
         "Netherite Scrap",
         8,
         false
-      ]
-    ],
-    "rich person trophy": [
-      "other",
-      36000,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {}
+    },
+    "rich person trophy": {
+      "cat": "other",
+      "buy_price": 36000,
+      "db_entry": [
         "Rich Person Trophy",
-        10,
+        1024,
         true
-      ]
-    ],
-    "vault potion": [
-      "magic",
-      81,
-      "True",
-      [
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "vault potion": {
+      "cat": "magic",
+      "buy_price": 81,
+      "db_entry": [
         "Vault Potion",
         30,
         false
-      ]
-    ],
-    "sharpness i book": [
-      "magic",
-      120,
-      "True",
-      [
+      ],
+      "requires": {}
+    },
+    "sharpness i book": {
+      "cat": "magic",
+      "buy_price": 120,
+      "db_entry": [
         "Sharpness I Book",
         32,
         false
-      ]
-    ],
-    "slime trophy": [
-      "other",
-      48000,
-      "db_item_count < 1",
-      [
+      ],
+      "requires": {}
+    },
+    "slime trophy": {
+      "cat": "other",
+      "buy_price": 48000,
+      "db_entry": [
         "Slime Trophy",
-        10,
+        2048,
         true
-      ]
-    ]
+      ],
+      "requires": {
+        "count_lt": 1,
+        "items": {
+          "Slime Ball": 24
+        }
+      }
+    },
+    "fishing trophy": {
+      "cat": "other",
+      "buy_price": 48000,
+      "db_entry": [
+        "Fishing Trophy",
+        2048,
+        true
+      ],
+      "requires": {
+        "count_lt": 1,
+        "items": {
+          "Heart Of The Sea": 12
+        }
+      }
+    },
+    "glass beaker": {
+      "cat": "other",
+      "buy_price": 8,
+      "db_entry": [
+        "Glass Beaker",
+        2,
+        false
+      ],
+      "requires": {}
+    }
   },
+  "rpt_ignore": [
+    "Rich Person Trophy",
+    "Bane Of Pillagers Amulet",
+    "Slime Trophy",
+    "Fishing Trophy",
+    "Bug Hunter Badge"
+  ],
   "cats": {
     "tools": [
       "Wood Pickaxe",
@@ -674,6 +747,7 @@
     "heart_spin": "<a:heart_spin:789129483809718282>",
     "enchanted_book": "<a:enchanted_book:824820639965118464>",
     "amogus": "<a:amogus:827212032779747378>",
+    "heart_of_the_sea": "<:heart_of_the_sea:832282916385980427>",
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
@@ -693,6 +767,11 @@
       "gold_fish": "<:gold_fish:824468050744442900>",
       "emerald_fish": "<:emerald_fish:824468050727927838>"
     }
+  },
+  "emoji_items": {
+    "Netherite Scrap": "netherite",
+    "Slime Ball": "slimeball",
+    "Heart Of The Sea": "heart_of_the_sea"
   },
   "build_ideas": {
     "ideas": [

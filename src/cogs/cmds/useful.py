@@ -1,5 +1,5 @@
+from urllib.parse import quote as urlquote
 from discord.ext import commands
-import util.math
 import async_cse
 import discord
 import psutil
@@ -247,6 +247,7 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.ginf.cmd_prefix}: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n"
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
             f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
+            f'{ctx.l.useful.ginf.prem}: `{str(db_guild["premium"]).lower()}`\n'
         )
 
         embed.add_field(name="General", value=general, inline=True)
@@ -275,10 +276,12 @@ class Useful(commands.Cog):
 
     @commands.command(name="math", aliases=["solve", "meth"])
     async def math(self, ctx, *, problem):
-        try:
-            await self.bot.send(ctx, f"```{util.math.parse(problem)}```")
-        except Exception:
-            await self.bot.send(ctx, ctx.l.useful.meth.oops)
+        async with ctx.typing():
+            try:
+                resp = await self.bot.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
+                await self.bot.send(ctx, f"```{float(await resp.text())}```")
+            except Exception:
+                await self.bot.send(ctx, ctx.l.useful.meth.oops)
 
     @commands.command(name="google", aliases=["thegoogle"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -400,8 +403,7 @@ class Useful(commands.Cog):
                 else:
                     break
         except ValueError:
-            await ctx.send(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
-            return
+            pass
 
         if i == 0:
             await ctx.send(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
@@ -411,7 +413,7 @@ class Useful(commands.Cog):
             await ctx.send(ctx.l.useful.remind.time_max)
             return
 
-        await self.db.add_reminder(ctx.author.id, " ".join(args[i:])[:499], ctx.channel.id, at.timestamp())
+        await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, " ".join(args[i:])[:499], at.timestamp())
         await self.bot.send(ctx, ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
 
 

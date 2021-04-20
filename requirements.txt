@@ -1,5 +1,5 @@
+discord.py
 aiohttp
-aiofiles
 aio-mc-rcon
 arrow
 async-cse
@@ -7,8 +7,9 @@ asyncpg
 bs4
 classy-json
 cryptography
-discord.py
 numpy
 opencv-python
 psutil
 statcord.py
+aiofiles
+uvloop

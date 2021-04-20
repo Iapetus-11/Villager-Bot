@@ -49,17 +49,13 @@ class Econ(commands.Cog):
     async def before_pillage_cap_reset(self):
         await self.bot.wait_until_ready()
 
-    def format_required(self, item, amount=1):
-        if item[3][0] == "Netherite Pickaxe":
-            return f" {item[1] * amount}{self.d.emojis.emerald} + {4 * amount}{self.d.emojis.netherite}"
+    def format_required(self, shop_item, amount=1):
+        base = f" {shop_item.buy_price * amount}{self.d.emojis.emerald}"
 
-        if item[3][0] == "Netherite Sword":
-            return f" {item[1] * amount}{self.d.emojis.emerald} + {6 * amount}{self.d.emojis.netherite}"
+        for req_item, req_amount in shop_item.requires.get("items", {}).items():
+            base += f" + {req_amount * amount}{self.d.emojis[self.d.emoji_items[req_item]]}"
 
-        if item[3][0] == "Slime Trophy":
-            return f" {item[1] * amount}{self.d.emojis.emerald} + {24 * amount}{self.d.emojis.slimeball}"
-
-        return f" {item[1] * amount}{self.d.emojis.emerald}"
+        return base
 
     async def math_problem(self, ctx, addition=1):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
@@ -70,7 +66,7 @@ class Econ(commands.Cog):
             prob = f"{x}+{y}"
             prob = (prob, str(x + y))
 
-            await self.bot.send(ctx, ctx.l.econ.math_problem.problem.format(prob[0]))
+            await self.bot.send(ctx, ctx.l.econ.math_problem.problem.format(prob[0]), True)
 
             def author_check(m):
                 return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id
@@ -82,11 +78,11 @@ class Econ(commands.Cog):
                 return False
 
             if m.content != prob[1]:
-                await self.bot.send(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
+                await self.bot.send(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no), True)
                 return False
 
             self.d.miners[ctx.author.id] = 0
-            await self.bot.send(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
+            await self.bot.send(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes), True)
 
         return True
 
@@ -192,6 +188,8 @@ class Econ(commands.Cog):
                 items[i] = {**item, "sell_price": fishies[item["name"]]}
             except KeyError:
                 pass
+
+            await asyncio.sleep(0)
 
         items_sorted = sorted(items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
         items_chunks = [
@@ -327,7 +325,7 @@ class Econ(commands.Cog):
         combined_cats = self.d.cats.tools + self.d.cats.magic + self.d.cats.fish
         items = [e for e in await self.db.fetch_items(user.id) if e["name"] not in combined_cats]
 
-        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc)
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc, (16 if len(items) > 24 else 8))
 
     @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
     async def inventory_fish(self, ctx, user: discord.User = None):
@@ -468,11 +466,11 @@ class Econ(commands.Cog):
         items = []
 
         # filter out items which aren't of the right _type
-        for item in [self.d.shop_items[key] for key in list(self.d.shop_items)]:
-            if item[0] == _type:
+        for item in [self.d.shop_items[key] for key in self.d.shop_items.keys()]:
+            if item.cat == _type:
                 items.append(item)
 
-        items_sorted = sorted(items, key=(lambda item: item[1]))  # sort by buy price
+        items_sorted = sorted(items, key=(lambda item: item.buy_price))  # sort by buy price
         items_chunked = [items_sorted[i : i + 4] for i in range(0, len(items_sorted), 4)]  # split into chunks of 4
 
         page = 0
@@ -486,8 +484,8 @@ class Econ(commands.Cog):
 
             for item in items_chunked[page]:
                 embed.add_field(
-                    name=f"{item[3][0]} ({self.format_required(item)})",
-                    value=f"`{ctx.prefix}buy {item[3][0].lower()}`",
+                    name=f"{item.db_entry[0]} ({self.format_required(item)})",
+                    value=f"`{ctx.prefix}buy {item.db_entry[0].lower()}`",
                     inline=False,
                 )
 
@@ -579,6 +577,8 @@ class Econ(commands.Cog):
 
                 msg = None
 
+            await asyncio.sleep(0)
+
         groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
         page_max = len(groups)
         page = 0
@@ -629,21 +629,20 @@ class Econ(commands.Cog):
 
             await asyncio.sleep(0.2)
 
-    @commands.command(name="buy")
+    @commands.command(name="buy", aliases=["purchase"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def buy(self, ctx, *, amount_item):
         """Allows you to buy items"""
 
         amount_item = amount_item.lower()
-
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if amount_item.startswith("max ") or amount_item.startswith("all "):
             item = amount_item[4:]
 
             try:
-                amount = math.floor(db_user["emeralds"] / self.d.shop_items[item][1])
+                amount = math.floor(db_user["emeralds"] / self.d.shop_items[item].buy_price)
             except KeyError:
                 await self.bot.send(ctx, ctx.l.econ.buy.stupid_2.format(item))
                 return
@@ -670,77 +669,64 @@ class Econ(commands.Cog):
 
         shop_item = self.d.shop_items.get(item)
 
+        # shop item doesn't exist lol
         if shop_item is None:
             await self.bot.send(ctx, ctx.l.econ.buy.stupid_2.format(item))
             return
 
-        db_item = await self.db.fetch_item(ctx.author.id, shop_item[3][0])
-
-        if shop_item[2] == "db_item_count < 1":
-            amount = 1
-
-        if shop_item[1] * amount > db_user["emeralds"]:
-            await self.bot.send(ctx, ctx.l.econ.buy.poor_loser_2.format(amount, shop_item[3][0]))
+        # check if user can actually afford to buy that amount of that item
+        if shop_item.buy_price * amount > db_user["emeralds"]:
+            await self.bot.send(ctx, ctx.l.econ.buy.poor_loser_2.format(amount, shop_item.db_entry[0]))
             return
 
+        db_item = await self.db.fetch_item(ctx.author.id, shop_item.db_entry[0])
+
+        # get count of item in db for that user
         if db_item is not None:
             db_item_count = db_item["amount"]
         else:
             db_item_count = 0
 
-        if eval(shop_item[2]):
-            if shop_item[3][0] in ("Netherite Sword", "Netherite Pickaxe"):
-                db_scrap = await self.db.fetch_item(ctx.author.id, "Netherite Scrap")
+        # if they already have hit the limit on how many they can buy of that item
+        if db_item_count >= shop_item.requires.get("count_lt", db_item_count + 1):
+            await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_1)
+            return
 
-                if "Sword" in shop_item[3][0]:
-                    required = 6
+        # ensure user has required items
+        for req_item, req_amount in shop_item.requires.get("items", {}).items():
+            db_req_item = await self.db.fetch_item(ctx.author.id, req_item)
 
-                if "Pickaxe" in shop_item[3][0]:
-                    required = 4
+            if db_req_item is None or db_req_item["amount"] < req_amount:
+                await self.bot.send(
+                    ctx, ctx.l.econ.buy.need_total_of.format(req_amount, req_item, self.d.emojis[self.d.emoji_items[req_item]])
+                )
+                return
 
-                if db_scrap is not None and db_scrap["amount"] >= required:
-                    await self.db.remove_item(ctx.author.id, "Netherite Scrap", required)
-                else:
-                    await self.bot.send(
-                        ctx, ctx.l.econ.buy.need_total_of.format(required, self.d.emojis.netherite, "Netherite Scrap")
-                    )
-                    return
-            elif shop_item[3][0] == "Slime Trophy":
-                db_slime = await self.db.fetch_item(ctx.author.id, "Slime Ball")
+        await self.db.balance_sub(ctx.author.id, shop_item.buy_price * amount)
 
-                if db_slime is not None and db_slime["amount"] >= 24:
-                    await self.db.remove_item(ctx.author.id, "Slime Ball", 24)
-                else:
-                    await self.bot.send(ctx, ctx.l.econ.buy.need_total_of.format(24, self.d.emojis.slimeball, "Slime Ball"))
-                    return
+        for req_item, req_amount in shop_item.requires.get("items", {}).items():
+            await self.db.remove_item(ctx.author.id, req_item, req_amount * amount)
 
-            await self.db.balance_sub(ctx.author.id, shop_item[1] * amount)
-            await self.db.add_item(ctx.author.id, shop_item[3][0], shop_item[3][1], amount, shop_item[3][2])
+        await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2])
 
-            if shop_item[3][0].endswith("Pickaxe") or shop_item[3][0] == "Bane Of Pillagers Amulet":
-                member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
+        if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
+            member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
-                if member is not None:
-                    await self.bot.update_support_member_role(member)
+            if member is not None:
+                await self.bot.update_support_member_role(member)
 
-            await self.bot.send(
-                ctx,  # pep8 wants to kil me
-                ctx.l.econ.buy.you_done_bought.format(
-                    amount, shop_item[3][0], self.format_required(shop_item, amount), amount + db_item_count
-                ),
-            )
+        if shop_item.db_entry[0] == "Rich Person Trophy":
+            await self.db.rich_trophy_wipe(ctx.author.id)
 
-            if shop_item[3][0] == "Rich Person Trophy":
-                await self.db.rich_trophy_wipe(ctx.author.id)
+        await self.bot.send(
+            ctx,
+            ctx.l.econ.buy.you_done_bought.format(
+                amount, shop_item.db_entry[0], self.format_required(shop_item, amount), amount + db_item_count
+            ),
+        )
 
-        else:
-            if shop_item[2].startswith("db_item_count <"):
-                await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_1)
-            else:
-                await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_2)
-
-    @commands.command(name="sell")
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.command(name="sell", aliases=["emeraldify"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def sell(self, ctx, *, amount_item):
         """Allows you to sell items"""
@@ -897,10 +883,7 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
-        if amount.lower() in (
-            "all",
-            "max",
-        ):
+        if amount.lower() in ("all", "max"):
             amount = db_user["emeralds"]
 
         else:
@@ -918,7 +901,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.gamble.stupid_2)
             return
 
-        if amount > 25000:
+        if amount > 50000:
             await self.bot.send(ctx, ctx.l.econ.gamble.stupid_3)
             return
 
@@ -932,25 +915,17 @@ class Econ(commands.Cog):
         await self.bot.send(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
 
         if u_roll > b_roll:
-            past_transactions = await self.db.fetch_transactions_by_sender(ctx.author.id, 7)
-            multi = None
+            multi = (
+                40
+                + random.randint(5, 30)
+                + (await self.db.fetch_item(ctx.author.id, "Bane Of Pillagers Amulet") is not None) * 20
+            )
+            multi += (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) * 40
+            multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
+            multi /= 100
 
-            for record in past_transactions:
-                if record["item"] == "emerald" and record["amount"] > 2048:
-                    multi = (random.random() / 2) + 0.075
-                    break
-
-            if multi is None:
-                multi = (
-                    40
-                    + random.randint(5, 30)
-                    + (await self.db.fetch_item(ctx.author.id, "Bane Of Pillagers Amulet") is not None) * 20
-                )
-                multi += (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) * 40
-                multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
-                multi /= 100
-
-            won = math.ceil(multi * amount)
+            won = multi * amount
+            won = math.ceil(min(won, math.log(won, 1.001)))
 
             await self.db.balance_add(ctx.author.id, won)
             await self.bot.send(
@@ -992,7 +967,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.beg.negative).format(f"{amount}{self.d.emojis.emerald}"))
 
-    @commands.command(name="mine", aliases=["mein", "eun"])
+    @commands.command(name="mine", aliases=["mein", "eun", "mien"])
     @commands.guild_only()
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
@@ -1019,6 +994,8 @@ class Econ(commands.Cog):
                 found += random.choice(self.d.mining.yields_enchant_items[item]) if found else 0
                 break
 
+            await asyncio.sleep(0)
+
         if not found:
             for item in self.d.mining.findables:  # try to see if user gets an item
                 if random.randint(0, item[2]) == 1:
@@ -1038,6 +1015,8 @@ class Econ(commands.Cog):
                     )
 
                     return
+
+                await asyncio.sleep(0)
 
             await self.bot.send(
                 ctx,
@@ -1093,8 +1072,13 @@ class Econ(commands.Cog):
             await asyncio.sleep(wait)
 
         # fished up item or junk or somethin not fish
-        if random.randint(1, 7) == 1:
-            if random.choice((True, True, True, True, False)):  # junk
+        if random.randint(1, 8) == 1:
+            junk_chance = (True, True, True, True, False)
+
+            if await self.db.fetch_item(ctx.author.id, "Fishing Trophy") is not None:
+                junk_chance = (True, True, True, False, False, False)
+
+            if random.choice(junk_chance):  # junk
                 junk = random.choice(ctx.l.econ.fishing.junk)
                 await self.bot.send(ctx, junk, True, True)
 
@@ -1114,6 +1098,8 @@ class Econ(commands.Cog):
                             True,
                         )
                         return
+
+                    await asyncio.sleep(0)
 
         fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fish_weights)[0]
         fish = self.d.fishing.fish[fish_id]
@@ -1375,7 +1361,10 @@ class Econ(commands.Cog):
                         await self.bot.send(
                             ctx, random.choice(ctx.l.econ.use.present).format(item[0], item[1], self.d.emojis.emerald)
                         )
+
                         return
+
+                    await asyncio.sleep(0)
 
         if thing == "barrel":
             if amount > 1:
@@ -1391,7 +1380,10 @@ class Econ(commands.Cog):
                         await self.bot.send(
                             ctx, random.choice(ctx.l.econ.use.barrel_item).format(item[0], item[1], self.d.emojis.emerald)
                         )
+
                         return
+
+                    await asyncio.sleep(0)
 
             ems = random.randint(2, 4096)
 
@@ -1400,6 +1392,27 @@ class Econ(commands.Cog):
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
             await self.db.balance_add(ctx.author.id, ems)
+            return
+
+        if thing == "glass beaker":
+            slime_balls = await self.db.fetch_item(ctx.author.id, "Slime Ball")
+
+            if slime_balls is None or slime_balls["amount"] < amount:
+                await ctx.send(ctx.l.econ.use.need_slimy_balls)
+                return
+
+            await self.db.remove_item(ctx.author.id, "Slime Ball", amount)
+            await self.db.remove_item(ctx.author.id, "Glass Beaker", amount)
+            await self.db.add_item(ctx.author.id, "Beaker Of Slime", 13, amount, False)
+
+            await self.bot.send(ctx, ctx.l.econ.use.slimy_balls_funne.format(amount))
+            return
+
+        if thing == "beaker of slime":
+            await self.db.remove_item(ctx.author.id, "Beaker Of Slime", amount)
+            await self.db.add_item(ctx.author.id, "Slime Ball", 5, amount, True)
+
+            await self.bot.send(ctx, ctx.l.econ.use.beaker_of_slime_undo.format(amount))
             return
 
         await self.bot.send(ctx, ctx.l.econ.use.stupid_6)
@@ -1594,11 +1607,15 @@ class Econ(commands.Cog):
                     global_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
                     break
 
+                await asyncio.sleep(0)
+
             # attempt to find actual position in local leaderboard
             for entry in cmds_local:
                 if entry[0] == ctx.author.id:
                     local_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
                     break
+
+                await asyncio.sleep(0)
 
             lb_global = self.lb_logic(cmds_global[:10], global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
             lb_local = self.lb_logic(cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
