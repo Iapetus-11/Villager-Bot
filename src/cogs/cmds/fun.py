@@ -314,7 +314,10 @@ class Fun(commands.Cog):
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
         embed = discord.Embed(
-            color=self.d.cc, title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** pats {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[:256]
+            color=self.d.cc,
+            title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** pats {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
+                :256
+            ],
         )
         embed.set_image(url=image_url)
 
@@ -327,7 +330,10 @@ class Fun(commands.Cog):
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
         embed = discord.Embed(
-            color=self.d.cc, title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[:256]
+            color=self.d.cc,
+            title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
+                :256
+            ],
         )
         embed.set_image(url=image_url)
 
