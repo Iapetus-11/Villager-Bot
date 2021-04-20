@@ -1450,6 +1450,7 @@ class Econ(commands.Cog):
     @commands.group(name="leaderboards", aliases=["lb", "lbs", "leaderboard"])
     @commands.guild_only()
     @commands.cooldown(1, 3, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user)
     async def leaderboards(self, ctx):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)
