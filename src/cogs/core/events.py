@@ -56,12 +56,16 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, m):
         replies = False
+        
         try:
             replies = (await self.db.fetch_guild(m.guild.id))["replies"]
         except AttributeError:
             pass
 
-        await asyncio.gather(*handle_message(self, m, replies))
+        try:
+            await asyncio.gather(*handle_message(self, m, replies))
+        except discord.errors.Forbidden:
+            pass
 
     async def debug_error(self, ctx, e, loc=None):
         # self.bot.get_cog("StatCord").error_count += 1
