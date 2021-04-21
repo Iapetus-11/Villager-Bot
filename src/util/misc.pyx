@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup as bs
 import classyjson as cj
+import arrow
 import math
 
 
@@ -77,15 +78,54 @@ cpdef set parse_mclists_page(page: str):
     return servers_nice
 
 # get a lang for a given ctx object
-cpdef get_lang(_bot: object, ctx: object):
+cpdef dict get_lang(_bot: object, ctx: object):
     if getattr(ctx, "guild", None) is None:
         return _bot.langs.en
 
     return _bot.langs[_bot.d.lang_cache.get(ctx.guild.id, "en")]
 
 # get a prefix for a given ctx object
-cpdef get_prefix(_bot: object, ctx: object):
+cpdef str get_prefix(_bot: object, ctx: object):
     if getattr(ctx, "guild", None) is None:
         return _bot.d.default_prefix
 
     return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
+
+cpdef bool check_global(bot: object, ctx: object):
+    ctx.l = bot.get_lang(ctx)
+
+    # if bot is locked down to only accept commands from owner
+    if bot.owner_locked and ctx.author.id != 536986067140608041:
+        ctx.custom_err = "ignore"
+    elif ctx.author.id in bot.d.ban_cache:  # if command author is bot banned
+        ctx.custom_err = "bot_banned"
+    elif not bot.is_ready():  # if bot hasn't completely started up yet
+        ctx.custom_err = "not_ready"
+    elif ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(
+        ctx.guild.id, tuple()
+    ):  # if command is disabled
+        ctx.custom_err = "disabled"
+
+    if hasattr(ctx, "custom_err"):
+        return False
+
+    # update the leaderboard + session command count
+    try:
+        bot.d.cmd_lb[ctx.author.id] += 1
+    except KeyError:
+        bot.d.cmd_lb[ctx.author.id] = 1
+
+    bot.d.cmd_count += 1
+
+    if ctx.command.cog and ctx.command.cog.__cog_name__ == "Econ":  # make sure it's an econ command
+        if bot.d.pause_econ.get(ctx.author.id) is not None:
+            ctx.custom_err = "econ_paused"
+            return False
+
+        if random.randint(1, bot.d.mob_chance) == 1:  # spawn mob
+            if ctx.command._buckets._cooldown is not None and ctx.command._buckets._cooldown.per >= 2:
+                bot.d.spawn_queue[ctx] = arrow.utcnow()
+    elif random.randint(1, bot.d.tip_chance) == 1:
+        bot.loop.create_task(send_tip(ctx))
+
+    return True
