@@ -26,13 +26,15 @@ cdef int xi = data["dims"][0]
 cdef int yi = data["dims"][1]
 
 
-def generate(source_bytes: bytes, max_dim: int, detailed: bool):
-    source = im_from_bytes(source_bytes)
+cpdef object generate(source_bytes: bytes, max_dim: int, detailed: bool):
+    cdef object source = im_from_bytes(source_bytes)
 
-    sw = source.shape[1]
-    sh = source.shape[0]
+    cdef float sw = source.shape[1]
+    cdef float sh = source.shape[0]
 
-    t = 512
+    cdef float t = 512
+
+    cdef float new_w, new_h
 
     # rescale if too big
     if sw > max_dim or sh > max_dim or detailed:
@@ -67,7 +69,9 @@ def generate(source_bytes: bytes, max_dim: int, detailed: bool):
     source = cv2.resize(source, (int(source.shape[1] / xi), int(source.shape[0] / yi)))
     canvas = np.zeros((source.shape[0] * xi, source.shape[1] * yi, 3), np.uint8)
 
-    y = 0
+    cdef int y = 0
+    cdef int x = 0
+    cdef str pal_key
 
     for row in source:
         x = 0
