@@ -4,6 +4,8 @@ import discord
 import asyncio
 import random
 
+from util.messages import handle_message
+
 
 class Events(commands.Cog):
     def __init__(self, bot):
@@ -53,75 +55,13 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, m):
-        if m.author.bot:
-            return
-
-        self.d.msg_count += 1
-
+        replies = False
         try:
-            if m.content.startswith(f"<@!{self.bot.user.id}>"):
-                prefix = self.d.default_prefix
-
-                if m.guild is not None:
-                    prefix = self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)
-
-                lang = self.bot.get_lang(m)
-
-                embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
-
-                embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
-                embed.set_footer(text=lang.misc.petus)
-
-                await m.channel.send(embed=embed)
-                return
-
-            if m.guild is not None:
-                if m.guild.id == self.d.support_server_id:
-                    if m.type in (
-                        discord.MessageType.premium_guild_subscription,
-                        discord.MessageType.premium_guild_tier_1,
-                        discord.MessageType.premium_guild_tier_2,
-                        discord.MessageType.premium_guild_tier_3,
-                    ):
-                        await self.db.add_item(m.author.id, "Barrel", 1024, 1)
-                        await self.bot.send(
-                            m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!"
-                        )
-                        return
-
-                content_lowered = m.content.lower()
-
-                if "@someone" in content_lowered:
-                    someones = [
-                        u
-                        for u in m.guild.members
-                        if (
-                            not u.bot
-                            and u.status == discord.Status.online
-                            and m.author.id != u.id
-                            and u.permissions_in(m.channel).read_messages
-                        )
-                    ]
-
-                    if len(someones) > 0:
-                        invis = ("||||\u200B" * 200)[2:-3]
-                        await m.channel.send(f"@someone {invis} {random.choice(someones).mention} {m.author.mention}")
-                else:
-                    if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)):
-                        if "emerald" in content_lowered:
-                            if (await self.db.fetch_guild(m.guild.id))["replies"]:
-                                await m.channel.send(random.choice(self.d.hmms))
-                        elif "creeper" in content_lowered:
-                            if (await self.db.fetch_guild(m.guild.id))["replies"]:
-                                await m.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
-                        elif "reee" in content_lowered:
-                            if (await self.db.fetch_guild(m.guild.id))["replies"]:
-                                await m.channel.send(random.choice(self.d.emojis.reees))
-                        elif "amogus" in content_lowered:
-                            if (await self.db.fetch_guild(m.guild.id))["replies"]:
-                                await m.channel.send(self.d.emojis.amogus)
-        except discord.errors.Forbidden:
+            replies = (await self.db.fetch_guild(m.guild.id))["replies"]
+        except AttributeError:
             pass
+
+        await asyncio.gather(*handle_message(self, m))
 
     async def debug_error(self, ctx, e, loc=None):
         # self.bot.get_cog("StatCord").error_count += 1
