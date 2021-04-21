@@ -61,7 +61,7 @@ class Events(commands.Cog):
         except AttributeError:
             pass
 
-        await asyncio.gather(*handle_message(self, m))
+        await asyncio.gather(*handle_message(self, m, replies))
 
     async def debug_error(self, ctx, e, loc=None):
         # self.bot.get_cog("StatCord").error_count += 1
