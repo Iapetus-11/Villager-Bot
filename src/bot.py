@@ -19,6 +19,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 os.chdir(os.path.dirname(__file__))
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
+from util.misc import get_lang, get_prefix
 
 # send function/method for easy sending of embed messages with small amounts of text
 async def send(_bot, location, message, respond=False, ping=False):
@@ -37,21 +38,6 @@ async def send(_bot, location, message, respond=False, ping=False):
         return True
     except discord.Forbidden:
         return False
-
-
-# get a lang for a given ctx object
-def get_lang(_bot, ctx):
-    if getattr(ctx, "guild", None) is None:
-        return _bot.langs.en
-
-    return _bot.langs[_bot.d.lang_cache.get(ctx.guild.id, "en")]
-
-
-def get_prefix(_bot, ctx):  # get a prefix for a given ctx
-    if getattr(ctx, "guild", None) is None:
-        return _bot.d.default_prefix
-
-    return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
 
 
 # update the role of a member in the support server
@@ -122,7 +108,7 @@ def main():
     bot.aiohttp = aiohttp.ClientSession(loop=bot.loop)
 
     bot.send = send.__get__(bot)
-    bot.get_lang = get_lang.__get__(bot)
+    bot.get_lang = (lambda ctx: get_lang(bot, ctx))
     bot.update_support_member_role = update_support_member_role.__get__(bot)
     bot.update_fishing_prices = update_fishing_prices.__get__(bot)
     bot.populate_null_data_values = populate_null_data_values.__get__(bot)

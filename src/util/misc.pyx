@@ -75,3 +75,17 @@ cpdef set parse_mclists_page(page: str):
         servers_nice.add((ip, url))
 
     return servers_nice
+
+# get a lang for a given ctx object
+cpdef get_lang(_bot: object, ctx: object):
+    if getattr(ctx, "guild", None) is None:
+        return _bot.langs.en
+
+    return _bot.langs[_bot.d.lang_cache.get(ctx.guild.id, "en")]
+
+# get a prefix for a given ctx object
+cpdef get_prefix(_bot: object, ctx: object):
+    if getattr(ctx, "guild", None) is None:
+        return _bot.d.default_prefix
+
+    return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
