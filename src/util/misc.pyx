@@ -16,13 +16,7 @@ def recursive_update(obj, new):  # hOlY FUCKING SHIT this is so big brained I AM
     return obj
 
 
-# # Slots should be 10 cause 10 hearts / 2 idk bro I just bsed this function lmao
-# def make_stat_bar(value, max, slots, full, empty):  # will fuck up for sure if value is negative
-#     occupado = math.floor((value / max) * slots)
-#     return (full * occupado) + empty * math.floor(slots - occupado)
-
-
-cpdef make_health_bar(health: int, max_health: int, full: str, half: str, empty: str):
+cpdef str make_health_bar(health: int, max_health: int, full: str, half: str, empty: str):
     assert max_health % 2 == 0
 
     return (
@@ -31,3 +25,29 @@ cpdef make_health_bar(health: int, max_health: int, full: str, half: str, empty:
         + (empty * (math.floor(max_health / 2) - math.ceil(health / 2)))
         + f" ({health}/{max_health})"
     )
+
+
+cpdef str cooldown_logic(ctx: object, seconds: float):
+    cdef int hours = int(seconds / 3600)
+    cdef int minutes = int(seconds / 60) % 60
+
+    seconds -= round((hours * 60 * 60) + (minutes * 60), 2)
+
+    cdef str time = ""
+
+    if hours == 1:
+        time += f"{hours} {ctx.l.misc.time.hour}, "
+    elif hours > 0:
+        time += f"{hours} {ctx.l.misc.time.hours}, "
+
+    if minutes == 1:
+        time += f"{minutes} {ctx.l.misc.time.minute}, "
+    elif minutes > 0:
+        time += f"{minutes} {ctx.l.misc.time.minutes}, "
+
+    if seconds == 1:
+        time += f"{round(seconds, 2)} {ctx.l.misc.time.second}"
+    elif seconds > 0:
+        time += f"{round(seconds, 2)} {ctx.l.misc.time.seconds}"
+
+    return time

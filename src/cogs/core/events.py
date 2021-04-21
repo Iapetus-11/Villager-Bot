@@ -5,6 +5,7 @@ import asyncio
 import random
 
 from util.handlers import handle_message, handle_error
+from util.misc import cooldown_logic
 
 
 class Events(commands.Cog):
@@ -104,26 +105,7 @@ class Events(commands.Cog):
                     await ctx.reinvoke()
                     return
 
-                hours = int(seconds / 3600)
-                minutes = int(seconds / 60) % 60
-                seconds -= round((hours * 60 * 60) + (minutes * 60), 2)
-
-                time = ""
-
-                if hours == 1:
-                    time += f"{hours} {ctx.l.misc.time.hour}, "
-                elif hours > 0:
-                    time += f"{hours} {ctx.l.misc.time.hours}, "
-
-                if minutes == 1:
-                    time += f"{minutes} {ctx.l.misc.time.minute}, "
-                elif minutes > 0:
-                    time += f"{minutes} {ctx.l.misc.time.minutes}, "
-
-                if seconds == 1:
-                    time += f"{round(seconds, 2)} {ctx.l.misc.time.second}"
-                elif seconds > 0:
-                    time += f"{round(seconds, 2)} {ctx.l.misc.time.seconds}"
+                time = cooldown_logic(ctx, seconds)
 
                 await self.bot.send(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time))
             else:
