@@ -73,16 +73,16 @@ cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
         return (self.bot.send(ctx, ctx.l.misc.errors.disabled),)
     elif getattr(ctx, "custom_err", None) == "ignore":
         return tuple()
-    else:
-        # errors to ignore
-        for e_type in (commands.CommandNotFound, commands.NotOwner):
-            if isinstance(e, e_type) or isinstance(getattr(e, "original", None), e_type):
-                return tuple()
 
-        return (
-            self.bot.send(ctx, ctx.l.misc.errors.andioop.format(self.d.support)),
-            self.debug_error(ctx, e),
-        )
+    # errors to ignore
+    for e_type in (commands.CommandNotFound, commands.NotOwner):
+        if isinstance(e, e_type) or isinstance(getattr(e, "original", None), e_type):
+            return tuple()
+
+    return (
+        self.bot.send(ctx, ctx.l.misc.errors.andioop.format(self.d.support)),
+        self.debug_error(ctx, e),
+    )
 
 cpdef tuple handle_message(self: object, m: object, replies: bool):
     if m.author.bot:
