@@ -108,7 +108,7 @@ def main():
     bot.aiohttp = aiohttp.ClientSession(loop=bot.loop)
 
     bot.send = send.__get__(bot)
-    bot.get_lang = (lambda ctx: get_lang(bot, ctx))
+    bot.get_lang = lambda ctx: get_lang(bot, ctx)
     bot.update_support_member_role = update_support_member_role.__get__(bot)
     bot.update_fishing_prices = update_fishing_prices.__get__(bot)
     bot.populate_null_data_values = populate_null_data_values.__get__(bot)
