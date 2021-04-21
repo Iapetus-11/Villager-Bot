@@ -97,7 +97,7 @@ async def send_tip(ctx):
     await asyncio.sleep(1)
     await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
 
-cpdef bool check_global(bot: object, ctx: object):
+cpdef bint check_global(bot: object, ctx: object):
     ctx.l = bot.get_lang(ctx)
 
     # if bot is locked down to only accept commands from owner
