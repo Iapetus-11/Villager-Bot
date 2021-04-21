@@ -7,6 +7,7 @@ asyncpg
 bs4
 classy-json
 cryptography
+cython
 numpy
 opencv-python
 psutil
