@@ -1,9 +1,9 @@
 import discord
 import random
 
-cpdef list handle_message(self: object, m: object, replies: bool):
+cpdef tuple handle_message(self: object, m: object, replies: bool):
     if m.author.bot:
-        return []
+        return tuple()
 
     self.d.msg_count += 1
 
@@ -20,7 +20,7 @@ cpdef list handle_message(self: object, m: object, replies: bool):
         embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
         embed.set_footer(text=lang.misc.petus)
 
-        return [m.channel.send(embed=embed)]
+        return (m.channel.send(embed=embed),)
 
     if m.guild is not None:
         if m.guild.id == self.d.support_server_id:
@@ -30,10 +30,10 @@ cpdef list handle_message(self: object, m: object, replies: bool):
                 discord.MessageType.premium_guild_tier_2,
                 discord.MessageType.premium_guild_tier_3,
             ):
-                return [
+                return (
                     self.db.add_item(m.author.id, "Barrel", 1024, 1),
-                    self.bot.send(m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!")
-                ]
+                    self.bot.send(m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!"),
+                )
 
         content_lowered = m.content.lower()
 
@@ -51,16 +51,16 @@ cpdef list handle_message(self: object, m: object, replies: bool):
 
             if len(someones) > 0:
                 invis = ("||||\u200B" * 200)[2:-3]
-                return [m.channel.send(f"@someone {invis} {random.choice(someones).mention} {m.author.mention}")]
+                return (m.channel.send(f"@someone {invis} {random.choice(someones).mention} {m.author.mention}"),)
         else:
             if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)) and replies:
                 if "emerald" in content_lowered:
-                    return [m.channel.send(random.choice(self.d.hmms))]
+                    return (m.channel.send(random.choice(self.d.hmms)),)
                 elif "creeper" in content_lowered:
-                    return [m.channel.send("awww{} man".format(random.randint(1, 5) * "w"))]
+                    return (m.channel.send("awww{} man".format(random.randint(1, 5) * "w")),)
                 elif "reee" in content_lowered:
-                    return [m.channel.send(random.choice(self.d.emojis.reees))]
+                    return (m.channel.send(random.choice(self.d.emojis.reees)),)
                 elif "amogus" in content_lowered:
-                    return [m.channel.send(self.d.emojis.amogus)]
+                    return (m.channel.send(self.d.emojis.amogus),)
 
-        return []
+        return tuple()
