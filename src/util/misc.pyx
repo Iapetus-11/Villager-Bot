@@ -98,8 +98,6 @@ async def send_tip(ctx):
     await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
 
 cpdef bint check_global(bot: object, ctx: object):
-    ctx.l = bot.get_lang(ctx)
-
     # if bot is locked down to only accept commands from owner
     if bot.owner_locked and ctx.author.id != 536986067140608041:
         ctx.custom_err = "ignore"
