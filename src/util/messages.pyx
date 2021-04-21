@@ -62,3 +62,5 @@ cpdef list handle_message(self: object, m: object, replies: bool):
                     return [m.channel.send(random.choice(self.d.emojis.reees))]
                 elif "amogus" in content_lowered:
                     return [m.channel.send(self.d.emojis.amogus)]
+
+        return []
