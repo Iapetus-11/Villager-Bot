@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup as bs
 import classyjson as cj
 import math
 
@@ -51,3 +52,26 @@ cpdef str cooldown_logic(ctx: object, seconds: float):
         time += f"{round(seconds, 2)} {ctx.l.misc.time.seconds}"
 
     return time
+
+cpdef set parse_mclists_page(page: str):
+    cdef set servers_nice = set()
+
+    cdef object soup = bs(page, "html.parser")
+    cdef object elems = soup.find(class_="ui striped table servers serversa")
+
+    if elems is None:
+        return servers_nice
+
+    elems = elems.find_all("tr")
+
+    cdef list split
+    cdef str url, ip
+
+    for elem in elems:
+        split = str(elem).split("\n")
+        url = split[9][9:-2]
+        ip = split[16][46:-2].replace("https://", "").replace("http://", "")
+
+        servers_nice.add((ip, url))
+
+    return servers_nice

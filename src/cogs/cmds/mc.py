@@ -1,7 +1,6 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from cryptography.fernet import Fernet
-from bs4 import BeautifulSoup as bs
 import aiomcrcon as rcon
 import classyjson as cj
 from util import mosaic
@@ -13,6 +12,7 @@ import random
 import base64
 import arrow
 
+from util.misc import parse_mclists_page
 
 class Minecraft(commands.Cog):
     def __init__(self, bot):
@@ -32,38 +32,21 @@ class Minecraft(commands.Cog):
         self.update_server_list.cancel()
         self.clear_rcon_cache.cancel()
 
-    def parse_mclists_page(self, page: str) -> set:
-        servers_nice = set()
-
-        soup = bs(page, "html.parser")
-        elems = soup.find(class_="ui striped table servers serversa")
-
-        if elems is None:
-            return servers_nice
-
-        elems = elems.find_all("tr")
-
-        for elem in elems:
-            split = str(elem).split("\n")
-            url = split[9][9:-2]
-            ip = split[16][46:-2].replace("https://", "").replace("http://", "")
-            servers_nice.add((ip, url))
-
-        return servers_nice
-
     @tasks.loop(hours=2)
     async def update_server_list(self):
         self.bot.logger.info("scraping mc-lists.org...")
 
+        server_pages = await asyncio.gather(*[self.bot.aiohttp.get(f"https://mc-lists.org/pg.{i}") for i in range(1, 26)])
+        server_pages = await asyncio.gather(*[page.text() for page in server_pages])
+
+        server_groups = await asyncio.gather(*[self.bot.loop.run_in_executor(self.bot.tpool, functools.partial(parse_mclists_page, page)) for page in server_pages])
+
         servers = set()
 
-        for i in range(1, 26):
-            page = await (await self.bot.aiohttp.get(f"https://mc-lists.org/pg.{i}")).text()
-            servers.update(
-                await self.bot.loop.run_in_executor(self.bot.tpool, functools.partial(self.parse_mclists_page, page))
-            )
+        for server_group in server_groups:
+            servers.update(server_group)
 
-        self.d.mcserver_list = list(servers) + self.d.additional_mcservers
+        self.d.mcserver_list = list(servers)
 
         self.bot.logger.info("finished scraping mc-lists.org")
 
