@@ -80,7 +80,7 @@ cpdef set parse_mclists_page(page: str):
     return servers_nice
 
 # get a lang for a given ctx object
-cpdef dict get_lang(_bot: object, ctx: object):
+cpdef object get_lang(_bot: object, ctx: object):
     if getattr(ctx, "guild", None) is None:
         return _bot.langs.en
 
