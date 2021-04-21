@@ -6,8 +6,8 @@ import cv2
 import io
 
 
-def im_from_bytes(bytes):
-    return cv2.imdecode(np.frombuffer(bytes, np.uint8), cv2.IMREAD_COLOR)
+cdef object im_from_bytes(b: bytes):
+    return cv2.imdecode(np.frombuffer(b, np.uint8), cv2.IMREAD_COLOR)
 
 
 def draw_image(canvas, img, x, y):
