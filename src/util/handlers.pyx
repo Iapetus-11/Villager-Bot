@@ -3,44 +3,7 @@ import discord
 import random
 
 cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
-    if isinstance(e, commands.CommandOnCooldown):
-        if ctx.command.name == "mine":
-            if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
-                e.retry_after -= 0.5
-
-            if "haste ii potion" in self.d.chuggers.get(ctx.author.id, []):
-                e.retry_after -= 1
-            elif "haste i potion" in self.d.chuggers.get(ctx.author.id, []):
-                e.retry_after -= 0.5
-
-        seconds = round(e.retry_after, 2)
-
-        if seconds <= 0.05:
-            return (ctx.reinvoke(),)
-
-        hours = int(seconds / 3600)
-        minutes = int(seconds / 60) % 60
-        seconds -= round((hours * 60 * 60) + (minutes * 60), 2)
-
-        time = ""
-
-        if hours == 1:
-            time += f"{hours} {ctx.l.misc.time.hour}, "
-        elif hours > 0:
-            time += f"{hours} {ctx.l.misc.time.hours}, "
-
-        if minutes == 1:
-            time += f"{minutes} {ctx.l.misc.time.minute}, "
-        elif minutes > 0:
-            time += f"{minutes} {ctx.l.misc.time.minutes}, "
-
-        if seconds == 1:
-            time += f"{round(seconds, 2)} {ctx.l.misc.time.second}"
-        elif seconds > 0:
-            time += f"{round(seconds, 2)} {ctx.l.misc.time.seconds}"
-
-        return (self.bot.send(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time)),)
-    elif isinstance(e, commands.NoPrivateMessage):
+    if isinstance(e, commands.NoPrivateMessage):
         return (self.bot.send(ctx, ctx.l.misc.errors.private),)
     elif isinstance(e, commands.MissingPermissions):
         return (self.bot.send(ctx, ctx.l.misc.errors.user_perms),)
