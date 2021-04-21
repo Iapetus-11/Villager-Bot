@@ -22,11 +22,12 @@ def recursive_update(obj, new):  # hOlY FUCKING SHIT this is so big brained I AM
 #     return (full * occupado) + empty * math.floor(slots - occupado)
 
 
-def make_health_bar(health, max_health, full, half, empty):
+cpdef make_health_bar(health: int, max_health: int, full: string, half: string, empty: string):
     assert max_health % 2 == 0
+
     return (
-        (full * math.floor(health / 2))
-        + (half * (health % 2))
-        + (empty * (math.floor(max_health / 2) - math.ceil(health / 2)))
+        (full * math.floor(health / 2.0))
+        + (half * (health % 2.0))
+        + (empty * (math.floor(max_health / 2.0) - math.ceil(health / 2.0)))
         + f" ({health}/{max_health})"
     )
