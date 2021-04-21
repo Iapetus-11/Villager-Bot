@@ -14,6 +14,7 @@ import arrow
 
 from util.misc import parse_mclists_page
 
+
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -39,7 +40,12 @@ class Minecraft(commands.Cog):
         server_pages = await asyncio.gather(*[self.bot.aiohttp.get(f"https://mc-lists.org/pg.{i}") for i in range(1, 26)])
         server_pages = await asyncio.gather(*[page.text() for page in server_pages])
 
-        server_groups = await asyncio.gather(*[self.bot.loop.run_in_executor(self.bot.tpool, functools.partial(parse_mclists_page, page)) for page in server_pages])
+        server_groups = await asyncio.gather(
+            *[
+                self.bot.loop.run_in_executor(self.bot.tpool, functools.partial(parse_mclists_page, page))
+                for page in server_pages
+            ]
+        )
 
         servers = set()
 
