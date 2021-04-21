@@ -1,4 +1,4 @@
-import pyximport; pyximport.install()
+import pyximport; pyximport.install(pyimport=True)
 
 import src.bot as bot
 
