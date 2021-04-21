@@ -172,7 +172,7 @@ def main():
         "cogs.cmds.econ",
         "cogs.cmds.config",
         "cogs.other.mobs",
-        # "cogs.other.statcord",
+        "cogs.other.statcord",
         "cogs.other.webhooks",
     ]
 
