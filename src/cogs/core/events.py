@@ -101,7 +101,8 @@ class Events(commands.Cog):
                 seconds = round(e.retry_after, 2)
 
                 if seconds <= 0.05:
-                    return (ctx.reinvoke(),)
+                    await ctx.reinvoke()
+                    return
 
                 hours = int(seconds / 3600)
                 minutes = int(seconds / 60) % 60
