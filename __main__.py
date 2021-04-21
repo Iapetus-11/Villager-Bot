@@ -1,6 +1,6 @@
 import pyximport
 
-pyximport.install(language_level=3)
+pyximport.install(language_level=3, reload_support=True)
 
 import src.bot as bot
 
