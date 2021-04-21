@@ -4,7 +4,7 @@ import discord
 import asyncio
 import random
 
-from util.messages import handle_message
+from util.handlers import handle_message
 
 
 class Events(commands.Cog):
