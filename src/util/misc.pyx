@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup as bs
 import classyjson as cj
+import asyncio
+import random
 import arrow
 import math
 
@@ -90,6 +92,10 @@ cpdef str get_prefix(_bot: object, ctx: object):
         return _bot.d.default_prefix
 
     return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
+
+async def send_tip(ctx):
+    await asyncio.sleep(1)
+    await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
 
 cpdef bool check_global(bot: object, ctx: object):
     ctx.l = bot.get_lang(ctx)
