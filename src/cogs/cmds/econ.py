@@ -7,7 +7,7 @@ import random
 import arrow
 import math
 
-from util.misc import lb_logic
+from util.misc import lb_logic, cmds_lb
 
 
 class Econ(commands.Cog):
@@ -1557,40 +1557,7 @@ class Econ(commands.Cog):
     @leaderboards.command(name="commands", aliases=["cmds"])
     async def leaderboard_commands(self, ctx):
         async with ctx.typing():
-            # entry is Record(uid, amount, position)
-            # get + items from global leaderboard
-            cmds_global = sorted(list(self.d.cmd_lb.items()), key=(lambda e: e[1]), reverse=True)
-
-            # make sorted local list
-            cmds_local = [e for e in cmds_global if e[0] in [m.id for m in ctx.guild.members if not m.bot]]
-
-            # put them in record structure
-            cmds_global = [e + (i + 1,) for i, e in enumerate(cmds_global)]
-            cmds_local = [e + (i + 1,) for i, e in enumerate(cmds_local)]
-
-            # make default user entries
-            u_cmds_amount = self.d.cmd_lb.get(ctx.author.id, 0)
-            global_u_entry = (ctx.author.id, u_cmds_amount, len(cmds_global))
-            local_u_entry = (ctx.author.id, u_cmds_amount, len(cmds_local))
-
-            # attempt to find user's actual position in global leaderboard
-            for entry in cmds_global:
-                if entry[0] == ctx.author.id:
-                    global_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
-                    break
-
-                await asyncio.sleep(0)
-
-            # attempt to find actual position in local leaderboard
-            for entry in cmds_local:
-                if entry[0] == ctx.author.id:
-                    local_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
-                    break
-
-                await asyncio.sleep(0)
-
-            lb_global = lb_logic(cmds_global[:10], global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
-            lb_local = lb_logic(cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
+            lb_global, lb_local = cmds_lb(self, ctx)
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":computer:"))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
