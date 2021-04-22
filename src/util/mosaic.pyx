@@ -22,8 +22,8 @@ cdef dict palette_quad = dict([(tuple(entry[0]), entry[1]) for entry in data["qu
 cdef dict palette_oct = dict([(tuple(entry[0]), entry[1]) for entry in data["oct"]])
 cdef dict palette_map = {k: im_from_bytes(base64.b64decode(v)) for k, v in data["palette"].items()}
 
-cdef int xi = data["dims"][0]
-cdef int yi = data["dims"][1]
+cdef signed int xi = data["dims"][0]
+cdef signed int yi = data["dims"][1]
 
 
 cpdef object generate(source_bytes: bytes, max_dim: int, detailed: bool):
