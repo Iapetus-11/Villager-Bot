@@ -109,4 +109,4 @@ cpdef tuple handle_message(self: object, m: object):
                 elif "amogus" in content_lowered:
                     return (m.channel.send(self.d.emojis.amogus),)
 
-        return tuple()
+    return tuple()
