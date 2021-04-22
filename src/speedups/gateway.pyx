@@ -10,7 +10,7 @@ cdef class GatewayRatelimiter:
     cdef public float window
     cdef public float per
     cdef public object lock
-    cdef public int shard_id
+    cdef public object shard_id
 
     def __init__(self, count: int = 110, per: float = 60.0):
         # The default is 110 to give room for at least 10 heartbeats per minute
@@ -50,7 +50,7 @@ cdef class GatewayRatelimiter:
     async def block(self):
         async with self.lock:
             delta = self.get_delay()
-            
+
             if delta:
                 log.warning('WebSocket in shard ID %s is ratelimited, waiting %.2f seconds', self.shard_id, delta)
                 await asyncio.sleep(delta)
