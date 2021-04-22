@@ -1305,6 +1305,7 @@ class Econ(commands.Cog):
             await asyncio.sleep(60 * 2)
 
             await self.bot.send(ctx.author, ctx.l.econ.use.seaweed_done)
+            return
 
         if thing == "vault potion":
             if amount > 1:
