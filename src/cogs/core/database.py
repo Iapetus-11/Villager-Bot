@@ -154,7 +154,7 @@ class Database(commands.Cog):
         try:
             return self._user_cache[uid]
         except KeyError:
-            self.uncache_user(uid)
+            pass
 
         user = await self.db.fetchrow("SELECT * FROM users WHERE uid = $1", uid)
 
