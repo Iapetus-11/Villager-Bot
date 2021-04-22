@@ -26,6 +26,24 @@ cpdef str convert_emoji_reaction(emoji: object):
     raise InvalidArgument(f'emoji argument must be str, Emoji, or Reaction not {emoji.__class__.__name__}.')
 
 
+cdef class MessageReference:
+    cdef object _state
+    cdef object resolved
+    cdef signed int message_id
+    cdef signed int channel_id
+    cdef signed int guild_id
+    cdef object fail_if_not_exists
+
+    def __init__(self, *, message_id, channel_id, guild_id=None, fail_if_not_exists=True):
+        self._state = None
+        self.resolved = None
+        self.message_id = message_id
+        self.channel_id = channel_id
+        self.guild_id = guild_id
+        self.fail_if_not_exists = fail_if_not_exists
+
+    
+
 cdef class Message(Hashable):
     cdef object _state
     cdef signed int id
