@@ -132,3 +132,36 @@ cpdef bint check_global(bot: object, ctx: object):
         bot.loop.create_task(send_tip(ctx))
 
     return True
+
+cpdef str lb_logic(self: object, lb_list: list, u_entry: tuple, rank_fstr: str):
+    # add user entry to leaderboard if it's not there already
+    if u_entry is not None and u_entry[0] not in [e[0] for e in lb_list]:
+        lb_list.append(u_entry)
+
+    # sort
+    lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
+
+    # shorten list
+    lb_list = lb_list[:9] if (u_entry is not None and u_entry[2] > 9) else lb_list[:10]
+
+    cdef str body = ""
+    cdef object user
+
+    # create base leaderboard
+    for entry in lb_list:
+        user = self.bot.get_user(entry[0])
+
+        if user is None:
+            user = "Unknown User"
+        else:
+            user = discord.utils.escape_markdown(user.display_name)
+
+        body += rank_fstr.format(entry[2], entry[1], user)
+
+    # add user if user is missing from the leaderboard
+    if u_entry is not None and u_entry[2] > 9:
+        body += "\n⋮" + rank_fstr.format(
+            u_entry[2], u_entry[1], discord.utils.escape_markdown(self.bot.get_user(u_entry[0]).display_name)
+        )
+
+    return body + "\uFEFF"
