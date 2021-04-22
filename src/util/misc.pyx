@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs
 import classyjson as cj
 import asyncio
+import discord
 import random
 import arrow
 import math
