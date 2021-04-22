@@ -27,6 +27,7 @@ class Database(commands.Cog):
         self.d.prefix_cache = await self.fetch_all_guild_prefixes()
         self.d.additional_mcservers = await self.fetch_all_mcservers()
         self.d.disabled_cmds = await self.fetch_all_disabled_commands()
+        self.d.replies_cache = await self.fetch_all_do_replies()
 
     def cache_user(self, uid, user):
         self._user_cache[uid] = user
@@ -99,6 +100,9 @@ class Database(commands.Cog):
             disabled_nice[entry["gid"]] = disabled_nice.get(entry["gid"], []) + [entry[1]]
 
         return disabled_nice
+
+    async def fetch_all_do_replies(self):
+        return {g["gid"]: g["replies"] for g in await self.db.fetch("SELECT gid, replies FROM guilds WHERE replies = true")}
 
     async def fetch_guild(self, gid):
         g = await self.db.fetchrow("SELECT * FROM guilds WHERE gid = $1", gid)

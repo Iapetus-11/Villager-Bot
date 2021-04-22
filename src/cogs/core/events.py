@@ -56,15 +56,8 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, m):
-        replies = False
-
         try:
-            replies = (await self.db.fetch_guild(m.guild.id))["replies"]
-        except AttributeError:
-            pass
-
-        try:
-            await asyncio.gather(*handle_message(self, m, replies))
+            await asyncio.gather(*handle_message(self, m))
         except discord.errors.Forbidden:
             pass
 

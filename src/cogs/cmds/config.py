@@ -61,9 +61,17 @@ class Config(commands.Cog):
 
         if replies.lower() in ("yes", "true", "on"):
             await self.db.set_guild_attr(ctx.guild.id, "replies", True)
+            self.d.replies_cache[ctx.guild.id] = True
+
             await self.bot.send(ctx, ctx.l.config.replies.set.format("on"))
         elif replies.lower() in ("no", "false", "off"):
             await self.db.set_guild_attr(ctx.guild.id, "replies", False)
+
+            try:
+                del self.d.replies_cache[ctx.guild.id]
+            except KeyError:
+                pass
+
             await self.bot.send(ctx, ctx.l.config.replies.set.format("off"))
         else:
             await self.bot.send(ctx, ctx.l.config.invalid.format("`on`, `off`"))

@@ -99,7 +99,7 @@ cpdef tuple handle_message(self: object, m: object, replies: bool):
                 invis = ("||||\u200B" * 200)[2:-3]
                 return (m.channel.send(f"@someone {invis} {random.choice(someones).mention} {m.author.mention}"),)
         else:
-            if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)) and replies:
+            if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)) and self.d.replies_cache.get(m.guild.id):
                 if "emerald" in content_lowered:
                     return (m.channel.send(random.choice(self.d.hmms)),)
                 elif "creeper" in content_lowered:
