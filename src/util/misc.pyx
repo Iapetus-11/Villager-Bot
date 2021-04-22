@@ -144,7 +144,7 @@ cdef signed int lb_logic_sort_key(e: object):
     return e[1]
 
 
-cpdef str lb_logic(self: object, lb_list: list, u_entry: tuple, rank_fstr: str):
+cpdef str lb_logic(self: object, lb_list: list, u_entry: object, rank_fstr: str):
     # add user entry to leaderboard if it's not there already
     if u_entry is not None and u_entry[0] not in [e[0] for e in lb_list]:
         lb_list.append(u_entry)
