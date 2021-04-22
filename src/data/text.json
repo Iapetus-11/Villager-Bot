@@ -1017,7 +1017,7 @@
         "bubblewrap": "`{0}bubblewrap` *envía un envoltorio de burbujas virtual para que reviente*",
         "coinflip": "`{0}coinflip` *lanza una moneda y dice el resultado en el chat*",
         "pat": "`{0}pat <usuario>` *dar una palmadita brutal a alguien en la cabeza*",
-        "slap": "`{0}slap <user>` *gently slap someone*",
+        "slap": "`{0}slap <usuario>` *abofetea a alguien suavemente*",
         "achievement": "`{0}achievement <texto>` *genera un logro de Minecraft a partir del texto dado*",
         "splashtext": "`{0}splashtext <texto>` *genera una pantalla de salpicadura Minecraft con el texto dado*"
       },
@@ -1906,7 +1906,7 @@
         "bubblewrap": "`{0}bubblewrap` *envoie du papier-bulle virtuel pour que tu l'éclates*",
         "coinflip": "`{0}coinflip` *tire un pièce à pile ou face et donne le résultat dans le chat*",
         "pat": "`{0}pat <utilisateur>` *tapote brutallement quelqu'un sur la tête*",
-        "slap": "`{0}slap <user>` *gently slap someone*",
+        "slap": "`{0}slap <utilisateur>` *gifle doucement quelqu'un*",
         "achievement": "`{0}achievement <texte>` *génère un succès Minecraft à partir du texte donné*",
         "splashtext": "`{0}splashtext <texte>` *génère un splash screen Minecraft à partir du texte donné*"
       },
