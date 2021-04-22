@@ -56,6 +56,7 @@ cpdef str cooldown_logic(ctx: object, seconds: float):
 
     return time
 
+
 cpdef set parse_mclists_page(page: str):
     cdef set servers_nice = set()
 
@@ -79,12 +80,14 @@ cpdef set parse_mclists_page(page: str):
 
     return servers_nice
 
+
 # get a lang for a given ctx object
 cpdef object get_lang(_bot: object, ctx: object):
     if getattr(ctx, "guild", None) is None:
         return _bot.langs.en
 
     return _bot.langs[_bot.d.lang_cache.get(ctx.guild.id, "en")]
+
 
 # get a prefix for a given ctx object
 cpdef str get_prefix(_bot: object, ctx: object):
@@ -93,9 +96,11 @@ cpdef str get_prefix(_bot: object, ctx: object):
 
     return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
 
+
 async def send_tip(ctx):
     await asyncio.sleep(1)
     await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
+
 
 cpdef bint check_global(bot: object, ctx: object):
     # if bot is locked down to only accept commands from owner
@@ -134,8 +139,10 @@ cpdef bint check_global(bot: object, ctx: object):
 
     return True
 
+
 cdef signed int lb_logic_sort_key(e: object):
     return e[1]
+
 
 cpdef str lb_logic(self: object, lb_list: list, u_entry: tuple, rank_fstr: str):
     # add user entry to leaderboard if it's not there already
@@ -169,3 +176,37 @@ cpdef str lb_logic(self: object, lb_list: list, u_entry: tuple, rank_fstr: str):
         )
 
     return body + "\uFEFF"
+
+
+cpdef tuple cmds_lb(self: object, ctx: object):
+    # get + items from global leaderboard
+    cdef list cmds_global = sorted(list(self.d.cmd_lb.items()), key=lb_logic_sort_key, reverse=True)
+
+    # make sorted local list
+    cdef list cmds_local = [e for e in cmds_global if e[0] in [m.id for m in ctx.guild.members if not m.bot]]
+
+    # put them in record structure
+    cdef list cmds_global = [e + (i + 1,) for i, e in enumerate(cmds_global)]
+    cdef list cmds_local = [e + (i + 1,) for i, e in enumerate(cmds_local)]
+
+    # make default user entries
+    cdef object u_cmds_amount = self.d.cmd_lb.get(ctx.author.id, 0)
+    cdef tuple global_u_entry = (ctx.author.id, u_cmds_amount, len(cmds_global))
+    cdef tuple local_u_entry = (ctx.author.id, u_cmds_amount, len(cmds_local))
+
+    # attempt to find user's actual position in global leaderboard
+    for entry in cmds_global:
+        if entry[0] == ctx.author.id:
+            global_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
+            break
+
+    # attempt to find actual position in local leaderboard
+    for entry in cmds_local:
+        if entry[0] == ctx.author.id:
+            local_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
+            break
+
+    cdef str lb_global = lb_logic(cmds_global[:10], global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
+    cdef str lb_local = lb_logic(cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
+
+    return lb_global, lb_local
