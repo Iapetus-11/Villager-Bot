@@ -7,6 +7,8 @@ import random
 import arrow
 import math
 
+from util.misc import lb_logic
+
 
 class Econ(commands.Cog):
     def __init__(self, bot):
@@ -1474,38 +1476,6 @@ class Econ(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    def lb_logic(self, lb_list: list, u_entry: tuple, rank_fstr: str):
-        # add user entry to leaderboard if it's not there already
-        if u_entry is not None and u_entry[0] not in [e[0] for e in lb_list]:
-            lb_list.append(u_entry)
-
-        # sort
-        lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
-
-        # shorten list
-        lb_list = lb_list[:9] if (u_entry is not None and u_entry[2] > 9) else lb_list[:10]
-
-        body = ""
-
-        # create base leaderboard
-        for entry in lb_list:
-            user = self.bot.get_user(entry[0])
-
-            if user is None:
-                user = "Unknown User"
-            else:
-                user = discord.utils.escape_markdown(user.display_name)
-
-            body += rank_fstr.format(entry[2], entry[1], user)
-
-        # add user if user is missing from the leaderboard
-        if u_entry is not None and u_entry[2] > 9:
-            body += "\n⋮" + rank_fstr.format(
-                u_entry[2], u_entry[1], discord.utils.escape_markdown(self.bot.get_user(u_entry[0]).display_name)
-            )
-
-        return body + "\uFEFF"
-
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
         async with ctx.typing():
@@ -1514,10 +1484,10 @@ class Econ(commands.Cog):
                 "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = self.lb_logic(
+            lb_global = lb_logic(
                 ems_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
             )
-            lb_local = self.lb_logic(ems_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
+            lb_local = lb_logic(ems_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1533,10 +1503,10 @@ class Econ(commands.Cog):
                 "pillages", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = self.lb_logic(
+            lb_global = lb_logic(
                 pillages_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
             )
-            lb_local = self.lb_logic(
+            lb_local = lb_logic(
                 pillages_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
             )
 
@@ -1554,10 +1524,10 @@ class Econ(commands.Cog):
                 "mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = self.lb_logic(
+            lb_global = lb_logic(
                 kills_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
             )
-            lb_local = self.lb_logic(
+            lb_local = lb_logic(
                 kills_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
             )
 
@@ -1575,8 +1545,8 @@ class Econ(commands.Cog):
                 "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = self.lb_logic(bees_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
-            lb_local = self.lb_logic(bees_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
+            lb_global = lb_logic(bees_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
+            lb_local = lb_logic(bees_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1619,8 +1589,8 @@ class Econ(commands.Cog):
 
                 await asyncio.sleep(0)
 
-            lb_global = self.lb_logic(cmds_global[:10], global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
-            lb_local = self.lb_logic(cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
+            lb_global = lb_logic(cmds_global[:10], global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
+            lb_local = lb_logic(cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":computer:"))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1636,10 +1606,10 @@ class Econ(commands.Cog):
                 "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = self.lb_logic(
+            lb_global = lb_logic(
                 votes_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)
             )
-            lb_local = self.lb_logic(votes_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot))
+            lb_local = lb_logic(votes_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(":fire:"))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1655,10 +1625,10 @@ class Econ(commands.Cog):
                 "fish", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = self.lb_logic(
+            lb_global = lb_logic(
                 fish_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)
             )
-            lb_local = self.lb_logic(fish_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod))
+            lb_local = lb_logic(fish_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
