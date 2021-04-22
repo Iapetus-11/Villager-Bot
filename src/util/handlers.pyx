@@ -47,7 +47,7 @@ cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
         self.debug_error(ctx, e),
     )
 
-cpdef tuple handle_message(self: object, m: object, replies: bool):
+cpdef tuple handle_message(self: object, m: object):
     if m.author.bot:
         return tuple()
 
