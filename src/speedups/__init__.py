@@ -4,4 +4,4 @@ import speedups.gateway as gateway
 
 def install():
     discord.gateway.GatewayRatelimiter = gateway.GatewayRatelimiter
-    discord.gateway.DiscordVoiceWebSocket = gateway.DiscordVoiceWebSocket
+    discord.gateway.DiscordWebSocket = gateway.DiscordWebSocket
