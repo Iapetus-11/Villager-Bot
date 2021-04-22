@@ -127,6 +127,7 @@
         "bubblewrap": "`{0}bubblewrap` *sends virtual bubblewrap for you to pop*",
         "coinflip": "`{0}coinflip` *flips a coin and says the result in the chat*",
         "pat": "`{0}pat <user>` *brutally pat someone on the head*",
+        "slap": "`{0}slap <user>` *gently slap someone*",
         "achievement": "`{0}achievement <text>` *generates a Minecraft achievement from the given text*",
         "splashtext": "`{0}splashtext <text>` *generates a Minecraft splash screen with the given text*"
       },
@@ -543,7 +544,8 @@
         "bans": "Bans",
         "cmd_prefix": "Prefix",
         "lang": "Language",
-        "diff": "Difficulty"
+        "diff": "Difficulty",
+        "prem": "Premium"
       },
       "meth": {
         "oops": "Oops, something went wrong..."
@@ -759,7 +761,7 @@
         ],
         "caught": [
           "You reeled in one **{0}** {1}!",
-          "You fished up **{0}** {1}!",
+          "You fished up one **{0}** {1}!",
           "You feel a bite and reel in one **{0}** {1}!",
           "You feel a tug at the end of the line and fish up one **{0}** {1}!"
         ],
