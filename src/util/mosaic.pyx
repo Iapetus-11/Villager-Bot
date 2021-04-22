@@ -6,33 +6,36 @@ import cv2
 import io
 
 
-def im_from_bytes(bytes):
-    return cv2.imdecode(np.frombuffer(bytes, np.uint8), cv2.IMREAD_COLOR)
+cdef object im_from_bytes(b: bytes):
+    return cv2.imdecode(np.frombuffer(b, np.uint8), cv2.IMREAD_COLOR)
 
 
-def draw_image(canvas, img, x, y):
+cdef void draw_image(canvas: np.ndarray, img: np.ndarray, x: int, y: int):
     canvas[y : y + img.shape[0], x : x + img.shape[1]] = img
 
 
 with open("data/block_palette.json", "r") as d:
     data = json.load(d)
 
-palette_bi = dict([(tuple(entry[0]), entry[1]) for entry in data["bi"]])
-palette_quad = dict([(tuple(entry[0]), entry[1]) for entry in data["quad"]])
-palette_oct = dict([(tuple(entry[0]), entry[1]) for entry in data["oct"]])
-palette_map = {k: im_from_bytes(base64.b64decode(v)) for k, v in data["palette"].items()}
+cdef dict palette_bi = dict([(tuple(entry[0]), entry[1]) for entry in data["bi"]])
+cdef dict palette_quad = dict([(tuple(entry[0]), entry[1]) for entry in data["quad"]])
+cdef dict palette_oct = dict([(tuple(entry[0]), entry[1]) for entry in data["oct"]])
+cdef dict palette_map = {k: im_from_bytes(base64.b64decode(v)) for k, v in data["palette"].items()}
 
-xi = data["dims"][0]
-yi = data["dims"][1]
+cdef signed int xi = data["dims"][0]
+cdef signed int yi = data["dims"][1]
 
 
-def generate(source_bytes, max_dim, detailed):
-    source = im_from_bytes(source_bytes)
+cpdef object generate(source_bytes: bytes, max_dim: int, detailed: bool):
+    cdef object source = im_from_bytes(source_bytes)
 
-    sw = source.shape[1]
-    sh = source.shape[0]
+    cdef float sw = source.shape[1]
+    cdef float sh = source.shape[0]
 
-    t = 512
+    cdef float t = 512
+
+    cdef float ratio
+    cdef float new_w, new_h
 
     # rescale if too big
     if sw > max_dim or sh > max_dim or detailed:
@@ -67,7 +70,9 @@ def generate(source_bytes, max_dim, detailed):
     source = cv2.resize(source, (int(source.shape[1] / xi), int(source.shape[0] / yi)))
     canvas = np.zeros((source.shape[0] * xi, source.shape[1] * yi, 3), np.uint8)
 
-    y = 0
+    cdef signed int y = 0
+    cdef signed int x = 0
+    cdef str pal_key
 
     for row in source:
         x = 0

@@ -19,6 +19,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 os.chdir(os.path.dirname(__file__))
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
+from util.misc import get_lang, get_prefix, check_global
 
 # send function/method for easy sending of embed messages with small amounts of text
 async def send(_bot, location, message, respond=False, ping=False):
@@ -37,21 +38,6 @@ async def send(_bot, location, message, respond=False, ping=False):
         return True
     except discord.Forbidden:
         return False
-
-
-# get a lang for a given ctx object
-def get_lang(_bot, ctx):
-    if getattr(ctx, "guild", None) is None:
-        return _bot.langs.en
-
-    return _bot.langs[_bot.d.lang_cache.get(ctx.guild.id, "en")]
-
-
-def get_prefix(_bot, ctx):  # get a prefix for a given ctx
-    if getattr(ctx, "guild", None) is None:
-        return _bot.d.default_prefix
-
-    return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
 
 
 # update the role of a member in the support server
@@ -95,11 +81,6 @@ def populate_null_data_values(_bot):
     ]
 
 
-async def send_tip(ctx):
-    await asyncio.sleep(1)
-    await ctx.send(f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
-
-
 def main():
     # setup uvloop
     uvloop.install()
@@ -122,7 +103,7 @@ def main():
     bot.aiohttp = aiohttp.ClientSession(loop=bot.loop)
 
     bot.send = send.__get__(bot)
-    bot.get_lang = get_lang.__get__(bot)
+    bot.get_lang = lambda ctx: get_lang(bot, ctx)
     bot.update_support_member_role = update_support_member_role.__get__(bot)
     bot.update_fishing_prices = update_fishing_prices.__get__(bot)
     bot.populate_null_data_values = populate_null_data_values.__get__(bot)
@@ -186,7 +167,7 @@ def main():
         "cogs.cmds.econ",
         "cogs.cmds.config",
         "cogs.other.mobs",
-        # "cogs.other.statcord",
+        "cogs.other.statcord",
         "cogs.other.webhooks",
     ]
 
@@ -199,42 +180,7 @@ def main():
     @bot.check  # everythingggg goes through here
     async def global_check(ctx):
         ctx.l = bot.get_lang(ctx)
-
-        # if bot is locked down to only accept commands from owner
-        if bot.owner_locked and ctx.author.id != 536986067140608041:
-            ctx.custom_err = "ignore"
-        elif ctx.author.id in bot.d.ban_cache:  # if command author is bot banned
-            ctx.custom_err = "bot_banned"
-        elif not bot.is_ready():  # if bot hasn't completely started up yet
-            ctx.custom_err = "not_ready"
-        elif ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(
-            ctx.guild.id, tuple()
-        ):  # if command is disabled
-            ctx.custom_err = "disabled"
-
-        if hasattr(ctx, "custom_err"):
-            return False
-
-        # update the leaderboard + session command count
-        try:
-            bot.d.cmd_lb[ctx.author.id] += 1
-        except KeyError:
-            bot.d.cmd_lb[ctx.author.id] = 1
-
-        bot.d.cmd_count += 1
-
-        if ctx.command.cog and ctx.command.cog.__cog_name__ == "Econ":  # make sure it's an econ command
-            if bot.d.pause_econ.get(ctx.author.id) is not None:
-                ctx.custom_err = "econ_paused"
-                return False
-
-            if random.randint(1, bot.d.mob_chance) == 1:  # spawn mob
-                if ctx.command._buckets._cooldown is not None and ctx.command._buckets._cooldown.per >= 2:
-                    bot.d.spawn_queue[ctx] = arrow.utcnow()
-        elif random.randint(1, bot.d.tip_chance) == 1:
-            bot.loop.create_task(send_tip(ctx))
-
-        return True
+        return check_global(bot, ctx)
 
     with ThreadPoolExecutor() as bot.tpool:
         bot.run(keys.discord)  # run the bot, this is a blocking call

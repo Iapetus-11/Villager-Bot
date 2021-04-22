@@ -62,8 +62,8 @@ class Econ(commands.Cog):
         self.d.miners[ctx.author.id] = mine_commands + addition
 
         if mine_commands >= 100:
-            x, y = random.randint(0, 45), random.randint(0, 25)
-            prob = f"{x}+{y}"
+            x, y = random.randint(0, 35), random.randint(0, 25)
+            prob = f"{y*random.choice([chr(u) for u in (65279, 8203, 8204, 8205)])}{x}{x*random.choice([chr(u) for u in (65279, 8203, 8204, 8205)])}+{y}"
             prob = (prob, str(x + y))
 
             await self.bot.send(ctx, ctx.l.econ.math_problem.problem.format(prob[0]), True)
@@ -1051,7 +1051,7 @@ class Econ(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def fish(self, ctx):
-        if not await self.math_problem(ctx, 2):
+        if not await self.math_problem(ctx, 5):
             return
 
         if await self.db.fetch_item(ctx.author.id, "Fishing Rod") is None:
