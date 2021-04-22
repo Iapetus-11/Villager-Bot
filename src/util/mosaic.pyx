@@ -34,6 +34,7 @@ cpdef object generate(source_bytes: bytes, max_dim: int, detailed: bool):
 
     cdef float t = 512
 
+    cdef float ratio
     cdef float new_w, new_h
 
     # rescale if too big
@@ -69,8 +70,8 @@ cpdef object generate(source_bytes: bytes, max_dim: int, detailed: bool):
     source = cv2.resize(source, (int(source.shape[1] / xi), int(source.shape[0] / yi)))
     canvas = np.zeros((source.shape[0] * xi, source.shape[1] * yi, 3), np.uint8)
 
-    cdef int y = 0
-    cdef int x = 0
+    cdef signed int y = 0
+    cdef signed int x = 0
     cdef str pal_key
 
     for row in source:
