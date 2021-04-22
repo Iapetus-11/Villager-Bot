@@ -5,7 +5,7 @@ arrow
 async-cse
 asyncpg
 bs4
-classy-json
+classy-json-cython
 cryptography
 cython
 numpy
