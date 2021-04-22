@@ -186,8 +186,8 @@ cpdef tuple cmds_lb(self: object, ctx: object):
     cdef list cmds_local = [e for e in cmds_global if e[0] in [m.id for m in ctx.guild.members if not m.bot]]
 
     # put them in record structure
-    cdef list cmds_global = [e + (i + 1,) for i, e in enumerate(cmds_global)]
-    cdef list cmds_local = [e + (i + 1,) for i, e in enumerate(cmds_local)]
+    cmds_global = [e + (i + 1,) for i, e in enumerate(cmds_global)]
+    cmds_local = [e + (i + 1,) for i, e in enumerate(cmds_local)]
 
     # make default user entries
     cdef object u_cmds_amount = self.d.cmd_lb.get(ctx.author.id, 0)
@@ -206,7 +206,7 @@ cpdef tuple cmds_lb(self: object, ctx: object):
             local_u_entry = (ctx.author.id, u_cmds_amount, entry[2])
             break
 
-    cdef str lb_global = lb_logic(cmds_global[:10], global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
-    cdef str lb_local = lb_logic(cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
+    cdef str lb_global = lb_logic(self, cmds_global[:10], global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
+    cdef str lb_local = lb_logic(self, cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
 
     return lb_global, lb_local
