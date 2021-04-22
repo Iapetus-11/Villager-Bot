@@ -128,7 +128,7 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="ping", aliases=["pong", "ding", "dong", "shing", "shling", "schlong"])
+    @commands.command(name="ping", aliases=["pong", "ding", "dong", "bing", "bong", "shing", "shling", "schlong"])
     async def ping_pong(self, ctx):
         content = ctx.message.content.lower()
 
@@ -140,6 +140,10 @@ class Useful(commands.Cog):
             pp = "Dong"
         elif "dong" in content:
             pp = "Ding"
+        elif "bing" in content:
+            pp = "Bong"
+        elif "bong" in content:
+            pp = "Bing"
         elif "shing" in content or "shling" in content:
             pp = "Schlong"
         elif "schlong" in content:
