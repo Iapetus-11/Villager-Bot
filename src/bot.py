@@ -1,6 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
 from discord.ext import commands
-import classyjson as cj
 import asyncio
 import aiohttp
 import asyncpg
@@ -9,6 +8,7 @@ import logging
 import random
 import uvloop
 import arrow
+import json
 import sys
 import os
 
@@ -20,6 +20,7 @@ os.chdir(os.path.dirname(__file__))
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.misc import get_lang, get_prefix, check_global
+from util.cj import ClassyDict
 
 # send function/method for easy sending of embed messages with small amounts of text
 async def send(_bot, location, message, respond=False, ping=False):
@@ -90,7 +91,7 @@ def main():
 
     logger.info("loading private keys...")
     with open("data/keys.json", "r") as k:  # load bot keys
-        keys = cj.load(k)
+        keys = ClassyDict(json.load(k))
 
     bot = commands.AutoShardedBot(  # setup bot
         command_prefix=get_prefix,
@@ -113,11 +114,11 @@ def main():
 
     logger.info("loading villager bot text from data/text.json...")
     with open("data/text.json", "r", encoding="utf8") as l:
-        bot.langs = cj.load(l)  # turns it into dot accessible dicts for ez access ~~nice dict bro~~
+        bot.langs = ClassyDict(json.load(l))  # turns it into dot accessible dicts for ez access ~~nice dict bro~~
 
     logger.info("loading villager bot constant data from data/data.json...")
     with open("data/data.json", "r", encoding="utf8") as d:
-        bot.d = cj.load(d)  # cj automatically turns json into sets of nested classes and attributes for easy access
+        bot.d = ClassyDict(json.load(d))  # cj automatically turns json into sets of nested classes and attributes for easy access
 
     bot.d.cc = discord.Color.green()  # embed color
 

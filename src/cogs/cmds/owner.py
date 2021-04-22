@@ -1,15 +1,17 @@
 from util.misc import recursive_update
 from discord.ext import commands
 from typing import Union
-import classyjson as cj
 import functools
 import aiofiles
 import asyncio
 import discord
 import random
 import arrow
+import json
 import ast
 import os
+
+import util.cj as cj
 
 
 class Owner(commands.Cog):
@@ -104,13 +106,13 @@ class Owner(commands.Cog):
     async def update(self, ctx, thing):
         if thing.lower() == "data":
             async with aiofiles.open("data/data.json", "r", encoding="utf8") as d:
-                self.d = recursive_update(self.d, cj.loads(await d.read()))
+                self.d = recursive_update(self.d, cj.classify(json.loads(await d.read())))
 
             # update some thing swhich were just overwritten
             self.bot.populate_null_data_values()
         elif thing.lower() == "text":
             async with aiofiles.open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
-                self.bot.langs.update(cj.loads(await t.read()))
+                self.bot.langs.update(self.d, cj.classify(json.loads(await t.read())))
         elif thing.lower() == "mcservers":
             self.d.additional_mcservers = await self.db.fetch_all_mcservers()
         else:

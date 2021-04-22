@@ -1,11 +1,12 @@
 from discord.ext import commands
 from aiohttp import web
-import classyjson as cj
 import traceback
 import aiohttp
 import asyncio
 import discord
 import arrow
+
+import util.cj as cj
 
 
 class Webhooks(commands.Cog):

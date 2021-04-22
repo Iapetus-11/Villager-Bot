@@ -1,11 +1,12 @@
 from discord.ext import commands, tasks
 from util.misc import make_health_bar
-import classyjson as cj
 import asyncio
 import discord
 import random
 import arrow
 import math
+
+import util.cj as cj
 
 
 class Mobs(commands.Cog):  # fuck I really don't want to work on this

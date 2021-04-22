@@ -1,11 +1,11 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands
-import classyjson as cj
 import discord
 import aiohttp
 import random
 import typing
 
+import util.cj as cj
 
 class Fun(commands.Cog):
     def __init__(self, bot):

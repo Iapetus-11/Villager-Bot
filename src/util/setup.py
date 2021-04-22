@@ -1,8 +1,9 @@
-from classyjson import ClassyDict
 from discord.ext import commands
 import discord
 import logging
 import asyncpg
+
+from util.cj import ClassyDict
 
 
 def villager_bot_intents() -> discord.Intents:

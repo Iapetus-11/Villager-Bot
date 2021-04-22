@@ -2,7 +2,6 @@ from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from cryptography.fernet import Fernet
 import aiomcrcon as rcon
-import classyjson as cj
 from util import mosaic
 import functools
 import aiohttp
@@ -13,6 +12,7 @@ import base64
 import arrow
 
 from util.misc import parse_mclists_page
+import util.cj as cj
 
 
 class Minecraft(commands.Cog):
@@ -286,7 +286,7 @@ class Minecraft(commands.Cog):
 
         for prop in profile["properties"]:
             if prop["name"] == "textures":
-                skin_url = cj.loads(base64.b64decode(prop["value"])).textures.get("SKIN", {}).get("url")
+                skin_url = json.loads(base64.b64decode(prop["value"]))["textures"].get("SKIN", {}).get("url")
                 break
 
         if skin_url is None:
@@ -348,7 +348,7 @@ class Minecraft(commands.Cog):
 
         for prop in profile["properties"]:
             if prop["name"] == "textures":
-                textures = cj.loads(base64.b64decode(prop["value"])).textures
+                textures = json.loads(base64.b64decode(prop["value"]))["textures"]
                 skin_url = textures.get("SKIN", {}).get("url")
                 cape_url = textures.get("CAPE", {}).get("url")
                 break

@@ -1,11 +1,11 @@
 from bs4 import BeautifulSoup as bs
-import classyjson as cj
 import asyncio
 import discord
 import random
 import arrow
 import math
 
+import util.cj as cj
 
 def recursive_update(obj, new):  # hOlY FUCKING SHIT this is so big brained I AM A GOD
     if isinstance(obj, dict) and isinstance(new, dict):
