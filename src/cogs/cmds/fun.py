@@ -7,6 +7,7 @@ import typing
 
 import util.cj as cj
 
+
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

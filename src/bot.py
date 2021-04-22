@@ -118,7 +118,9 @@ def main():
 
     logger.info("loading villager bot constant data from data/data.json...")
     with open("data/data.json", "r", encoding="utf8") as d:
-        bot.d = ClassyDict(json.load(d))  # cj automatically turns json into sets of nested classes and attributes for easy access
+        bot.d = ClassyDict(
+            json.load(d)
+        )  # cj automatically turns json into sets of nested classes and attributes for easy access
 
     bot.d.cc = discord.Color.green()  # embed color
 
