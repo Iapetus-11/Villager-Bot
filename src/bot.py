@@ -18,6 +18,10 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 # ensure the current working directory is correct
 os.chdir(os.path.dirname(__file__))
 
+import speedups
+
+speedups.install()
+
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.misc import get_lang, get_prefix, check_global
 from util.cj import ClassyDict
