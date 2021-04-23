@@ -8,6 +8,8 @@ class ShitCordClient:
         self.aiohttp = bot.aiohttp
         self.statcord_key = statcord_key
 
+        self.d = bot.d
+
         # setup counters
         net_io_counter = psutil.net_io_counters()
         self.prev_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv
