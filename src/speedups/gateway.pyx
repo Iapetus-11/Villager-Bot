@@ -8,14 +8,17 @@ import sys
 import time
 import threading
 import traceback
+import json
 import zlib
 
 import aiohttp
 
-from discord import utils
-from discord.activity import BaseActivity
-from discord.enums import SpeakingState
-from discord.errors import ConnectionClosed, InvalidArgument
+from speedups.activity import BaseActivity
+
+discord_module = sys.modules.get("discord")
+SpeakingState = discord_module.enums.SpeakingState
+ConnectionClosed = discord_module.errors.ConnectionClosed
+InvalidArgument = discord_module.errors.InvalidArgument
 
 log = logging.getLogger(__name__)
 
@@ -26,6 +29,10 @@ __all__ = (
     'DiscordVoiceWebSocket',
     'ReconnectWebSocket',
 )
+
+
+cdef str to_json(obj: object):
+    return json.dumps(obj, separators=(",", ":"), ensure_ascii=True)
 
 
 cdef class ReconnectWebSocket(Exception):
@@ -603,7 +610,7 @@ cdef class _DiscordWebSocket:
 
     cdef object send_as_json(self, data):
         try:
-            return self.send(utils.to_json(data))
+            return self.send(to_json(data))
         except RuntimeError as exc:
             if not self._can_handle_close():
                 raise ConnectionClosed(self.socket, shard_id=self.shard_id) from exc
@@ -611,7 +618,7 @@ cdef class _DiscordWebSocket:
     cdef object send_heartbeat(self, data: dict):
         # This bypasses the rate limit handling code since it has a higher priority
         try:
-            return self.socket.send_str(utils.to_json(data))
+            return self.socket.send_str(to_json(data))
         except RuntimeError as exc:
             if not self._can_handle_close():
                 raise ConnectionClosed(self.socket, shard_id=self.shard_id) from exc
@@ -636,7 +643,7 @@ cdef class _DiscordWebSocket:
             }
         }
 
-        cdef object sent = utils.to_json(payload)
+        cdef object sent = to_json(payload)
         log.debug('Sending "%s" to change status', sent)
         return self.send(sent)
 
@@ -737,7 +744,7 @@ class DiscordVoiceWebSocket:
 
     async def send_as_json(self, data):
         log.debug('Sending voice websocket frame: %s.', data)
-        await self.ws.send_str(utils.to_json(data))
+        await self.ws.send_str(to_json(data))
 
     send_heartbeat = send_as_json
 
