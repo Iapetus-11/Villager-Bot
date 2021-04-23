@@ -19,8 +19,8 @@ __all__ = (
 )
 
 cdef signed long DISCORD_EPOCH = 1420070400000
-cdef object _IS_ASCII = re.compile(r'^[\x00-\x7f]+$')
-cdef str UNICODE_WIDE_CHAR_TYPE = 'WFA'
+cdef object _IS_ASCII = re.compile(r"^[\x00-\x7f]+$")
+cdef str UNICODE_WIDE_CHAR_TYPE = "WFA"
 
 
 cdef object snowflake_time(id: int):
