@@ -77,7 +77,7 @@ class ShitCordClient:
             "memload": mem_load,
             "cpuload": cpu_load,
             "bandwidth": period_net_usage,
-            "custom1": str(self.d.vote_count - self.prev_vote_count),
+            "custom1": str(self.d.votes_topgg - self.prev_vote_count),
             "custom2": str(self.error_count),
         }
 
