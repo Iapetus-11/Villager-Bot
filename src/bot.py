@@ -22,6 +22,7 @@ speedups.install()
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.misc import get_lang, get_prefix, check_global
+from util.statcord import ShitCordClient
 from util.cj import ClassyDict
 
 # send function/method for easy sending of embed messages with small amounts of text
@@ -101,6 +102,8 @@ def main():
         intents=villager_bot_intents(),
         help_command=None,
     )
+
+    bot.statcord = ShitCordClient(bot, keys.statcord)
 
     bot.logger = logger
     bot.aiohttp = aiohttp.ClientSession(loop=bot.loop)
