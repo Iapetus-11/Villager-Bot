@@ -62,7 +62,7 @@ class ShitCordClient:
             "cpuload": cpu_load,
             "bandwidth": period_net_usage,
             "custom1": str(self.d.vote_count - self._prev_vote_count),
-            "custom2": str(self.error_count)
+            "custom2": str(self.error_count),
         }
 
         # reset counters
