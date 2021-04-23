@@ -8,6 +8,11 @@ import discord
 
 from .mixins import Hashable
 
+__all__ = (
+    "convert_emoji_reaction",
+    "MessageReference",
+)
+
 cpdef str convert_emoji_reaction(emoji: object):
     if isinstance(emoji, Reaction):
         emoji = emoji.emoji
