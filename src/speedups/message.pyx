@@ -41,29 +41,3 @@ cdef class MessageReference:
         self.channel_id = channel_id
         self.guild_id = guild_id
         self.fail_if_not_exists = fail_if_not_exists
-
-    
-
-cdef class Message(Hashable):
-    cdef object _state
-    cdef signed int id
-    cdef signed int webhook_id
-    cdef list reactions
-    cdef list attachments
-    cdef list embeds
-    cdef object application
-    cdef object activity
-    cdef object channel
-    cdef object _edited_timestamp
-    cdef object type
-    cdef bint pinned
-    cdef object flags
-    cdef bint mention_everyone
-    cdef bint tts
-    cdef str content
-    cdef str nonce
-    cdef list stickers
-    cdef object reference
-
-    def __init__(self, *, state, channel, data):
-        self._state = state
