@@ -2,8 +2,6 @@ from concurrent.futures import ThreadPoolExecutor
 from discord.ext import commands
 import asyncio
 import aiohttp
-import asyncpg
-import discord
 import logging
 import random
 import uvloop
