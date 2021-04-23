@@ -7,10 +7,15 @@ from discord.errors import InvalidArgument
 
 __all__ = (
     "DISCORD_EPOCH",
+    "_IS_ASCII",
+    "UNICODE_WIDE_CHAR_TYPE",
     "snowflake_time",
     "time_snowflake",
     "_unique",
     "_get_mime_type_for_image",
+    "to_json",
+    "valid_icon_size",
+    "_string_width"
 )
 
 cdef signed long DISCORD_EPOCH = 1420070400000
