@@ -27,6 +27,7 @@ __all__ = (
     'ReconnectWebSocket',
 )
 
+
 cdef class ReconnectWebSocket(Exception):
     """Signals to safely reconnect the websocket."""
 
@@ -39,11 +40,14 @@ cdef class ReconnectWebSocket(Exception):
         self.resume = resume
         self.op = 'RESUME' if resume else 'IDENTIFY'
 
+
 cdef class WebSocketClosure(Exception):
     """An exception to make up for the fact that aiohttp doesn't signal closure."""
     pass
 
+
 cdef object EventListener = namedtuple('EventListener', 'predicate event result future')
+
 
 cdef class GatewayRatelimiter:
     cdef public signed int max
@@ -179,6 +183,7 @@ class KeepAliveHandler(threading.Thread):
         if self.latency > 10:
             log.warning(self.behind_msg, self.shard_id, self.latency)
 
+
 class VoiceKeepAliveHandler(KeepAliveHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -200,11 +205,13 @@ class VoiceKeepAliveHandler(KeepAliveHandler):
         self.latency = ack_time - self._last_send
         self.recent_ack_latencies.append(self.latency)
 
+
 class DiscordClientWebSocketResponse(aiohttp.ClientWebSocketResponse):
     async def close(self, *, code: int = 4000, message: bytes = b'') -> bool:
         return await super().close(code=code, message=message)
 
-class DiscordWebSocket:
+
+class DiscordWebSocket(_DiscordWebSocket):
     """Implements a WebSocket for Discord's gateway v6.
     Attributes
     -----------
@@ -257,31 +264,49 @@ class DiscordWebSocket:
     HEARTBEAT_ACK      = 11
     GUILD_SYNC         = 12
 
+
+cdef class _DiscordWebSocket:
+    cdef object socket
+    cdef object loop
+
+    cdef list _dispatch_listeners
+    cdef object _keep_alive
+    cdef signed int thread_id
+
+    cdef signed int session_id
+    cdef object sequence
+    cdef object _zlib
+    cdef bytearray _buffer
+    cdef signed int _close_code
+    cdef GatewayRatelimiter _rate_limiter
+
     def __init__(self, socket, *, loop):
         self.socket = socket
         self.loop = loop
 
-        # an empty dispatcher to prevent crashes
-        self._dispatch = lambda *args: None
         # generic event listeners
         self._dispatch_listeners = []
         # the keep alive
-        self._keep_alive = None
+        self._keep_alive = 0
         self.thread_id = threading.get_ident()
 
         # ws related stuff
-        self.session_id = None
-        self.sequence = None
+        self.session_id = 0
+        self.sequence = 0
         self._zlib = zlib.decompressobj()
         self._buffer = bytearray()
-        self._close_code = None
+        self._close_code = 0
         self._rate_limiter = GatewayRatelimiter()
+
+    def _dispatch(*args):
+        # an empty dispatcher to prevent crashes
+        return
 
     @property
     def open(self):
         return not self.socket.closed
 
-    def is_ratelimited(self):
+    cdef bint is_ratelimited(self):
         return self._rate_limiter.is_ratelimited()
 
     @classmethod
@@ -455,8 +480,8 @@ class DiscordWebSocket:
                     await self.close()
                     raise ReconnectWebSocket(self.shard_id)
 
-                self.sequence = None
-                self.session_id = None
+                self.sequence = 0
+                self.session_id = 0
                 log.info('Shard ID %s session has been invalidated.', self.shard_id)
                 await self.close(code=1000)
                 raise ReconnectWebSocket(self.shard_id, resume=False)
@@ -520,8 +545,8 @@ class DiscordWebSocket:
         heartbeat = self._keep_alive
         return float('inf') if heartbeat is None else heartbeat.latency
 
-    def _can_handle_close(self):
-        code = self._close_code or self.socket.close_code
+    cdef bint _can_handle_close(self):
+        cdef signed int code = self._close_code or self.socket.close_code
         return code not in (1000, 4004, 4010, 4011, 4012, 4013, 4014)
 
     async def poll_event(self):
@@ -566,31 +591,32 @@ class DiscordWebSocket:
         self._dispatch('socket_raw_send', data)
         await self.socket.send_str(data)
 
-    async def send_as_json(self, data):
+    cdef object send_as_json(self, data):
         try:
-            await self.send(utils.to_json(data))
+            return self.send(utils.to_json(data))
         except RuntimeError as exc:
             if not self._can_handle_close():
                 raise ConnectionClosed(self.socket, shard_id=self.shard_id) from exc
 
-    async def send_heartbeat(self, data):
+    cdef object send_heartbeat(self, data: dict):
         # This bypasses the rate limit handling code since it has a higher priority
         try:
-            await self.socket.send_str(utils.to_json(data))
+            return self.socket.send_str(utils.to_json(data))
         except RuntimeError as exc:
             if not self._can_handle_close():
                 raise ConnectionClosed(self.socket, shard_id=self.shard_id) from exc
 
-    async def change_presence(self, *, activity=None, status=None, afk=False, since=0.0):
+    cdef object change_presence(self, activity: object = None, status: object = None, afk: bool = False, since: float = 0.0):
         if activity is not None:
             if not isinstance(activity, BaseActivity):
                 raise InvalidArgument('activity must derive from BaseActivity.')
+
             activity = activity.to_dict()
 
         if status == 'idle':
             since = int(time.time() * 1000)
 
-        payload = {
+        cdef dict payload = {
             'op': self.PRESENCE,
             'd': {
                 'activities': [activity],
@@ -600,12 +626,12 @@ class DiscordWebSocket:
             }
         }
 
-        sent = utils.to_json(payload)
+        cdef object sent = utils.to_json(payload)
         log.debug('Sending "%s" to change status', sent)
-        await self.send(sent)
+        return self.send(sent)
 
-    async def request_chunks(self, guild_id, query=None, *, limit, user_ids=None, presences=False, nonce=None):
-        payload = {
+    cdef object request_chunks(self, guild_id: int, query: object = None, limit: int = 1, user_ids: list = None, presences: bool = False, nonce: str = None):
+        cdef dict payload = {
             'op': self.REQUEST_MEMBERS,
             'd': {
                 'guild_id': guild_id,
@@ -624,10 +650,10 @@ class DiscordWebSocket:
             payload['d']['query'] = query
 
 
-        await self.send_as_json(payload)
+        return self.send_as_json(payload)
 
-    async def voice_state(self, guild_id, channel_id, self_mute=False, self_deaf=False):
-        payload = {
+    cdef object voice_state(self, guild_id: int, channel_id: int, self_mute: bool = False, self_deaf: bool = False):
+        cdef dict payload = {
             'op': self.VOICE_STATE,
             'd': {
                 'guild_id': guild_id,
@@ -638,15 +664,16 @@ class DiscordWebSocket:
         }
 
         log.debug('Updating our voice state to %s.', payload)
-        await self.send_as_json(payload)
+        return self.send_as_json(payload)
 
-    async def close(self, code=4000):
+    cdef object close(self, code: int = 4000):
         if self._keep_alive:
             self._keep_alive.stop()
             self._keep_alive = None
 
         self._close_code = code
-        await self.socket.close(code=code)
+        return self.socket.close(code=code)
+
 
 class DiscordVoiceWebSocket:
     """Implements the websocket protocol for handling voice connections.

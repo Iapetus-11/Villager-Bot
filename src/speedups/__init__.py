@@ -1,6 +1,6 @@
 import discord
 
-import speedups._gateway as gateway
+import speedups.gateway as gateway
 
 
 def install():
