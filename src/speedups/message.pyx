@@ -1,10 +1,14 @@
 import asyncio
 import datetime
+import sys
 import re
 import io
 
-from discord.errors import InvalidArgument
-import discord
+discord_module = sys.modules.get("discord")
+InvalidArgument = discord_module.errors.InvalidArgument
+Emoji = discord_module.Emoji
+PartialEmoji = discord_module.PartialEmoji
+Reaction = discord_module.Reaction
 
 from .mixins import Hashable
 

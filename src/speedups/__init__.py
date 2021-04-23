@@ -1,12 +1,22 @@
-import speedups.activity as activity
-import speedups.gateway as gateway
-import speedups.mixins as mixins
+import sys
+
+# fully reimplemented
+import speedups.gateway
+import speedups.mixins
+
+# partial implementations
+import speedups.activity
+import speedups.message
 
 
 def install():
     discord_module = sys.modules.get("discord")
 
-    discord_module.gateway = gateway
-    discord_module.mixins = mixins
+    # these two were fully reimplemented so just patch em on ez
+    discord_module.gateway = speedups.gateway
+    discord_module.mixins = speedups.mixins
 
-    discord_module.activity.BaseActivity = activity.BaseActivity
+    for module in (speedups.activity, speedups.message):
+        for thing in module.__all__:
+            if hasattr(discord_module, thing):
+                setattr(discord_module, thing, getattr(module, thing))
