@@ -11,6 +11,5 @@ cython
 numpy
 opencv-python
 psutil
-statcord.py
 aiofiles
 uvloop
