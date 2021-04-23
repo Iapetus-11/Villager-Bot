@@ -6,7 +6,7 @@ class ShitCordClient:
     def __init__(self, bot, statcord_key: str):
         self.bot = bot
         self.aiohttp = bot.aiohttp
-        self.statcord_token = statcord_key
+        self.statcord_key = statcord_key
 
         # setup counters
         net_io_counter = psutil.net_io_counters()
