@@ -105,7 +105,6 @@ def main():
 
     bot.logger = logger
     bot.aiohttp = aiohttp.ClientSession(loop=bot.loop)
-    bot.statcord = ShitCordClient(bot, keys.statcord)
 
     bot.send = send.__get__(bot)
     bot.get_lang = lambda ctx: get_lang(bot, ctx)
@@ -161,6 +160,8 @@ def main():
     bot.d.fun_langs.unenchant = {v: k for k, v in bot.d.fun_langs.enchant.items()}  # reverse dict to create unenchantment lang
 
     bot.owner_locked = False
+
+    bot.statcord = ShitCordClient(bot, keys.statcord)
 
     bot.cog_list = [  # list of cogs which are to be loaded in the bot
         "cogs.core.database",
