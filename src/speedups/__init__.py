@@ -7,6 +7,7 @@ import speedups.mixins
 # partial implementations
 import speedups.activity
 import speedups.message
+import speedups.utils
 
 
 def install():
@@ -16,7 +17,7 @@ def install():
     discord_module.gateway = speedups.gateway
     discord_module.mixins = speedups.mixins
 
-    for module in (speedups.activity, speedups.message):
+    for module in (speedups.activity, speedups.message, speedups.utils):
         for thing in module.__all__:
             if hasattr(discord_module, thing):
                 setattr(discord_module, thing, getattr(module, thing))
