@@ -37,7 +37,7 @@ class ShitCordClient:
         except KeyError:
             self.popular_commands[ctx.command.name] = 1
 
-    async def post_loop():
+    async def post_loop(self):
         while not self.bot.closed:
             await self.bot.wait_until_ready()
 
