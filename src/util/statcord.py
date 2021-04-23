@@ -37,7 +37,7 @@ class ShitCordClient:
             self.popular_commands[ctx.command.name] = 1
 
     async def post_loop(self):
-        while not self.bot.closed:
+        while not self.bot.is_closed():
             await self.bot.wait_until_ready()
 
             try:
