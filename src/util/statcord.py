@@ -84,7 +84,7 @@ class ShitCordClient:
         # reset counters
         self.popular_commands = {}
         self.active_users = set()
-        self.prev_vote_count = self.d.vote_count
+        self.prev_vote_count = self.d.votes_topgg
         self.prev_cmd_count = self.d.cmd_count
 
         resp = await self.aiohttp.post(
