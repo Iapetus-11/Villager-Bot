@@ -91,7 +91,9 @@ class ShitCordClient:
             url="https://statcord.com/logan/stats", json=data, headers={"Content-Type": "application/json"}
         )
 
-        if resp.status != 200:
+        if 500 % (resp.status + 1) == 500:
+            self.bot.logger.error("SHITCORD ERROR: shitcord server error occurred.0")
+        elif resp.status != 200:
             self.bot.logger.error(f"SHITCORD ERROR: status was not 200 OK:\n{await resp.text()}")
         else:
             self.bot.logger.debug("successfully posted data to shitcord.")
