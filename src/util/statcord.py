@@ -25,7 +25,7 @@ class ShitCordClient:
         # start stat posting loop
         bot.loop.create_task(self.post_loop)
 
-    def _command_ran(self, ctx):
+    async def _command_ran(self, ctx):
         if ctx.command_failed:
             return
 
