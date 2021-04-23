@@ -401,8 +401,6 @@ class Econ(commands.Cog):
         c_v_bal = db_user["vault_bal"]
         c_v_max = db_user["vault_max"]
 
-        c_bal = db_user["emeralds"]
-
         if c_v_bal < 1:
             await self.bot.send(ctx, ctx.l.econ.withd.poor_loser)
             return
