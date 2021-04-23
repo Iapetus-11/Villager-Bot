@@ -1,7 +1,7 @@
 import discord
 
-import speedups.gateway as gateway
+import speedups._gateway as gateway
 
 
 def install():
-    discord.gateway.GatewayRatelimiter = gateway.GatewayRatelimiter
+    discord.gateway = gateway
