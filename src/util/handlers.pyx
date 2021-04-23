@@ -29,7 +29,7 @@ cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
     elif getattr(ctx, "custom_err", None) == "not_ready":
         return (self.bot.send(ctx, ctx.l.misc.errors.not_ready),)
     elif getattr(ctx, "custom_err", None) == "bot_banned":
-        return
+        return tuple()
     elif getattr(ctx, "custom_err", None) == "econ_paused":
         return (self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy),)
     elif getattr(ctx, "custom_err", None) == "disabled":
