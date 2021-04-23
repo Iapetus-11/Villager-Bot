@@ -2,7 +2,6 @@ from discord.ext import commands, tasks
 from util.misc import make_health_bar
 import discord
 import asyncio
-import aiohttp
 import random
 import arrow
 import math

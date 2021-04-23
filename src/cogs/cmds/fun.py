@@ -1,7 +1,6 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands
 import discord
-import aiohttp
 import random
 import typing
 

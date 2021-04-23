@@ -4,7 +4,6 @@ from cryptography.fernet import Fernet
 import aiomcrcon as rcon
 from util import mosaic
 import functools
-import aiohttp
 import asyncio
 import discord
 import random
