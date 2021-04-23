@@ -51,10 +51,10 @@ class ShitCordClient:
         self.bot.logger.debug("posting data to shitcord...")
 
         # get process details
+        mem = psutil.virtual_memory()
         p = psutil.Process()
 
         with p.oneshot():
-            mem = p.virtual_memory()
             cpu_load = str(p.cpu_percent())
             net_io_counter = p.net_io_counters()
 
