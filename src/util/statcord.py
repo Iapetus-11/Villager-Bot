@@ -1,5 +1,4 @@
 import asyncio
-import logging
 import psutil
 
 
@@ -8,10 +7,6 @@ class ShitCordClient:
         self.bot = bot
         self.aiohttp = bot.aiohttp
         self.statcord_token = statcord_key
-
-        # setup logging
-        self.logger = logging.getLogger("shitcord")
-        self.logger.setLevel(logging.WARNING)
 
         # setup counters
         net_io_counter = psutil.net_io_counters()
@@ -48,12 +43,12 @@ class ShitCordClient:
             try:
                 await self.post_stats()
             except Exception as e:
-                self.logger.error(f"SHITCORD ERROR: {e}")
+                self.bot.logger.error(f"SHITCORD ERROR: {e}")
 
             await asyncio.sleep(60)
 
     async def post_stats(self):
-        self.logger.debug("posting data to shitcord...")
+        self.bot.logger.debug("posting data to shitcord...")
 
         # get process details
         p = psutil.Process()
@@ -98,6 +93,6 @@ class ShitCordClient:
         )
 
         if resp.status != 200:
-            self.logger.error(f"SHITCORD ERROR: status was not 200 OK:\n{await resp.text()}")
+            self.bot.logger.error(f"SHITCORD ERROR: status was not 200 OK:\n{await resp.text()}")
         else:
-            self.logger.debug("successfully posted data to shitcord.")
+            self.bot.logger.debug("successfully posted data to shitcord.")
