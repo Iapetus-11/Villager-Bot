@@ -1,7 +1,6 @@
 from discord.ext import commands
 from aiohttp import web
 import traceback
-import aiohttp
 import asyncio
 import discord
 import arrow
