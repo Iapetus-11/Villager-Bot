@@ -559,7 +559,7 @@
         "slashrules": "{}rules for the rules!",
         "penalty": "Penalty for breaking these rules may include a reset/wipe, in-game penalty/debuff, or a **permanent ban from the support server and/or using the bot**.",
         "rule_1": "**1.** Don't abuse bugs, report them in the #bug-smasher channel on the [support server]({}) for a reward!",
-        "rule_2": "**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items.",
+        "rule_2": "**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items. (This includes no self-botting.)",
         "rule_3": "**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.",
         "rule_4": "**4.** Don't use the bot to promote any content not sanctioned by the bot owner."
       },
