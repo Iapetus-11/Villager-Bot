@@ -185,7 +185,7 @@ def main():
     bot.populate_null_data_values()
 
     @bot.check  # everythingggg goes through here
-    async def global_check(ctx):
+    def global_check(ctx):
         ctx.l = bot.get_lang(ctx)
         return check_global(bot, ctx)
 
