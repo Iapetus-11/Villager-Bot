@@ -103,10 +103,9 @@ def main():
         help_command=None,
     )
 
-    bot.statcord = ShitCordClient(bot, keys.statcord)
-
     bot.logger = logger
     bot.aiohttp = aiohttp.ClientSession(loop=bot.loop)
+    bot.statcord = ShitCordClient(bot, keys.statcord)
 
     bot.send = send.__get__(bot)
     bot.get_lang = lambda ctx: get_lang(bot, ctx)
