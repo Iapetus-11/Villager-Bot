@@ -1,5 +1,7 @@
+import unicodedata
 import datetime
-import typing
+import json
+import re
 
 from discord.errors import InvalidArgument
 
@@ -12,6 +14,8 @@ __all__ = (
 )
 
 cdef signed long DISCORD_EPOCH = 1420070400000
+cdef object _IS_ASCII = re.compile(r'^[\x00-\x7f]+$')
+cdef str UNICODE_WIDE_CHAR_TYPE = 'WFA'
 
 
 cdef object snowflake_time(id: int):
@@ -39,3 +43,23 @@ cdef str _get_mime_type_for_image(data: bytes):
         return "image/webp"
     else:
         raise InvalidArgument("Unsupported image type given")
+
+
+cdef str to_json(obj: object):
+    return json.dumps(obj, separators=(",", ":"), ensure_ascii=True)
+
+
+cdef bint valid_icon_size(size: int):
+    return not size & (size - 1) and 4096 >= size >= 16
+
+    _IS_ASCII = re.compile(r'^[\x00-\x7f]+$')
+
+
+cdef int _string_width(string: str, _IS_ASCII: object = _IS_ASCII):
+    cdef bint match = _IS_ASCII.match(string)
+
+    if match:
+        return match.endpos
+
+    cdef object func = unicodedata.east_asian_width
+    return sum(2 if func(char_) in UNICODE_WIDE_CHAR_TYPE else 1 for char_ in string)
