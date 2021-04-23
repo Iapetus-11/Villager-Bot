@@ -52,11 +52,8 @@ class ShitCordClient:
 
         # get process details
         mem = psutil.virtual_memory()
-        p = psutil.Process()
-
-        with p.oneshot():
-            cpu_load = str(p.cpu_percent())
-            net_io_counter = p.net_io_counters()
+        net_io_counter = psutil.net_io_counters()
+        cpu_load = str(psutil.cpu_percent())
 
         # get data ready to send + update old data
         mem_used = str(mem.used)
