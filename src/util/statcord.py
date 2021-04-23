@@ -66,7 +66,7 @@ class ShitCordClient:
         self.prev_net_usage = total_net_usage
 
         data = {
-            "id": self.bot.user.id,
+            "id": str(self.bot.user.id),
             "key": self.statcord_key,
             "servers": str(len(self.bot.guilds)),  # server count
             "users": str(len(self.bot.users)),  # user count
