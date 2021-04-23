@@ -18,18 +18,18 @@ __all__ = (
     "_string_width"
 )
 
-cdef signed long DISCORD_EPOCH = 1420070400000
+cdef signed long long DISCORD_EPOCH = 1420070400000
 cdef object _IS_ASCII = re.compile(r"^[\x00-\x7f]+$")
 cdef str UNICODE_WIDE_CHAR_TYPE = "WFA"
 
 
 cdef object snowflake_time(id: int):
-    cdef signed long timestamp = ((id >> 22) + DISCORD_EPOCH) / 1000
+    cdef signed long long timestamp = ((id >> 22) + DISCORD_EPOCH) / 1000
     return datetime.datetime.utcfromtimestamp(timestamp).replace(tzinfo=datetime.timezone.utc)
 
 
 cdef signed long time_snowflake(dt: object, high: bool = False):
-    cdef signed long discord_millis = int(dt.timestamp() * 1000 - DISCORD_EPOCH)
+    cdef signed long long discord_millis = int(dt.timestamp() * 1000 - DISCORD_EPOCH)
     return (discord_millis << 22) + (2 ** 22 - 1 if high else 0)
 
 
