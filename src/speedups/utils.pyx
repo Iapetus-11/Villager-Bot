@@ -52,8 +52,6 @@ cdef str to_json(obj: object):
 cdef bint valid_icon_size(size: int):
     return not size & (size - 1) and 4096 >= size >= 16
 
-    _IS_ASCII = re.compile(r'^[\x00-\x7f]+$')
-
 
 cdef int _string_width(string: str, _IS_ASCII: object = _IS_ASCII):
     cdef bint match = _IS_ASCII.match(string)
