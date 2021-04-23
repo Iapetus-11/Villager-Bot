@@ -1,3 +1,5 @@
+"""Much of the code in this folder is from github.com/Rapptz/discord.py, credit is to the author of discord.py"""
+
 import sys
 
 # fully reimplemented
