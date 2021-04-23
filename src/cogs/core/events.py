@@ -62,7 +62,7 @@ class Events(commands.Cog):
             pass
 
     async def debug_error(self, ctx, e, loc=None):
-        self.bot.get_cog("StatCord").error_count += 1
+        self.bot.statcord.error_count += 1
 
         if loc is None:
             loc = self.bot.get_channel(self.d.error_channel_id)
