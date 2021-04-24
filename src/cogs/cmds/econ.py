@@ -973,10 +973,11 @@ class Econ(commands.Cog):
 
         # ~~what the fuck?~~
         # calculate bonus emeralds from enchantment items
-        for item in self.d.mining.yields_enchant_items.keys():
-            if await self.db.fetch_item(ctx.author.id, item) is not None:
-                found += random.choice(self.d.mining.yields_enchant_items[item]) if found else 0
-                break
+        if found:
+            for item in self.d.mining.yields_enchant_items.keys():
+                if await self.db.fetch_item(ctx.author.id, item) is not None:
+                    found += random.choice(self.d.mining.yields_enchant_items[item])
+                    break
 
             await asyncio.sleep(0)
 
