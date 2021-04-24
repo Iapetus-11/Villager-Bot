@@ -7,6 +7,7 @@ import math
 
 import util.cj as cj
 
+
 def recursive_update(obj, new):  # hOlY FUCKING SHIT this is so big brained I AM A GOD
     if isinstance(obj, dict) and isinstance(new, dict):
         for k, v in new.items():
@@ -211,6 +212,7 @@ cpdef tuple cmds_lb(self: object, ctx: object):
 
     return lb_global, lb_local
 
+
 cpdef str format_required(d: object, shop_item: object, amount: int = 1):
     cdef str base = f" {shop_item.buy_price * amount}{d.emojis.emerald}"
 
@@ -218,3 +220,11 @@ cpdef str format_required(d: object, shop_item: object, amount: int = 1):
         base += f" + {req_amount * amount}{d.emojis[d.emoji_items[req_item]]}"
 
     return base
+
+
+cpdef signed long long calc_total_wealth(db_user: object, u_items: list):
+    return (
+        db_user["emeralds"]
+        + db_user.get("vault_bal", 0) * 9
+        + sum([u_it["sell_price"] * u_it.get("amount", 0) for u_it in u_items if u_it["sell_price"] > 0])
+    )
