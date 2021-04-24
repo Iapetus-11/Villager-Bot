@@ -964,12 +964,7 @@ class Econ(commands.Cog):
         if not await self.math_problem(ctx):
             return
 
-        db_user = await self.db.fetch_user(ctx.author.id)
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
-
-        # only works cause num of pickaxes is 6 and levels of fake finds is 3
-        # please don't bug me about jank code, I know
-        fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe) / 2)]
 
         # calculate if user finds emeralds OR not
         yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
@@ -978,7 +973,7 @@ class Econ(commands.Cog):
 
         # ~~what the fuck?~~
         # calculate bonus emeralds from enchantment items
-        for item in list(self.d.mining.yields_enchant_items):
+        for item in self.d.mining.yields_enchant_items.keys():
             if await self.db.fetch_item(ctx.author.id, item) is not None:
                 found += random.choice(self.d.mining.yields_enchant_items[item]) if found else 0
                 break
@@ -1007,6 +1002,10 @@ class Econ(commands.Cog):
 
                 await asyncio.sleep(0)
 
+            # only works cause num of pickaxes is 6 and levels of fake finds is 3
+            # please don't bug me about jank code, I know
+            fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe) / 2)]
+
             await self.bot.send(
                 ctx,
                 ctx.l.econ.mine.found_item_2.format(
@@ -1032,6 +1031,7 @@ class Econ(commands.Cog):
             )
 
         if random.randint(0, 50) == 1:
+            db_user = await self.db.fetch_user(ctx.author.id)
             if db_user["vault_max"] < 2000:
                 await self.db.update_user(ctx.author.id, "vault_max", db_user["vault_max"] + 1)
 
