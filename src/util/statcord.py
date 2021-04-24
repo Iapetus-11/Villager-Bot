@@ -86,6 +86,7 @@ class ShitCordClient:
         self.active_users = set()
         self.prev_vote_count = self.d.votes_topgg
         self.prev_cmd_count = self.d.cmd_count
+        self.error_count = 0
 
         resp = await self.aiohttp.post(
             url="https://statcord.com/logan/stats", json=data, headers={"Content-Type": "application/json"}
