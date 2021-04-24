@@ -1,12 +1,12 @@
 from discord.ext import commands, tasks
-from util.misc import make_health_bar
+import functools
 import discord
 import asyncio
 import random
 import arrow
 import math
 
-from util.misc import lb_logic, cmds_lb, format_required
+from util.misc import lb_logic, cmds_lb, format_required, make_health_bar
 
 
 class Econ(commands.Cog):
@@ -49,6 +49,11 @@ class Econ(commands.Cog):
     @pillage_cap_reset.before_loop
     async def before_pillage_cap_reset(self):
         await self.bot.wait_until_ready()
+
+    @functools.cache  # calculate chances for a specific pickaxe to find emeralds
+    def calc_yield_chance_list(self, pickaxe: str):
+        yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
+        yield_chance_list = [True] * yield_[0] + [False] * yield_[1]
 
     async def math_problem(self, ctx, addition=1):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
@@ -967,9 +972,7 @@ class Econ(commands.Cog):
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
 
         # calculate if user finds emeralds OR not
-        yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
-        yield_chance_list = [True] * yield_[0] + [False] * yield_[1]
-        found = random.choice(yield_chance_list)
+        found = random.choice(self.calc_yield_chance_list(pickaxe))
 
         # ~~what the fuck?~~
         # calculate bonus emeralds from enchantment items
