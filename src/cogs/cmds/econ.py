@@ -6,7 +6,7 @@ import random
 import arrow
 import math
 
-from util.misc import lb_logic, cmds_lb
+from util.misc import lb_logic, cmds_lb, format_required
 
 
 class Econ(commands.Cog):
@@ -49,14 +49,6 @@ class Econ(commands.Cog):
     @pillage_cap_reset.before_loop
     async def before_pillage_cap_reset(self):
         await self.bot.wait_until_ready()
-
-    def format_required(self, shop_item, amount=1):
-        base = f" {shop_item.buy_price * amount}{self.d.emojis.emerald}"
-
-        for req_item, req_amount in shop_item.requires.get("items", {}).items():
-            base += f" + {req_amount * amount}{self.d.emojis[self.d.emoji_items[req_item]]}"
-
-        return base
 
     async def math_problem(self, ctx, addition=1):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
@@ -483,7 +475,7 @@ class Econ(commands.Cog):
 
             for item in items_chunked[page]:
                 embed.add_field(
-                    name=f"{item.db_entry[0]} ({self.format_required(item)})",
+                    name=f"{item.db_entry[0]} ({format_required(self.d, item)})",
                     value=f"`{ctx.prefix}buy {item.db_entry[0].lower()}`",
                     inline=False,
                 )
@@ -720,7 +712,7 @@ class Econ(commands.Cog):
         await self.bot.send(
             ctx,
             ctx.l.econ.buy.you_done_bought.format(
-                amount, shop_item.db_entry[0], self.format_required(shop_item, amount), amount + db_item_count
+                amount, shop_item.db_entry[0], format_required(self.d, shop_item, amount), amount + db_item_count
             ),
         )
 

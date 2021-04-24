@@ -210,3 +210,11 @@ cpdef tuple cmds_lb(self: object, ctx: object):
     cdef str lb_local = lb_logic(self, cmds_local[:10], local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:"))
 
     return lb_global, lb_local
+
+cpdef str format_required(d: object, shop_item: object, amount: int = 1):
+    cdef str base = f" {shop_item.buy_price * amount}{d.emojis.emerald}"
+
+    for req_item, req_amount in shop_item.requires.get("items", {}).items():
+        base += f" + {req_amount * amount}{d.emojis[d.emoji_items[req_item]]}"
+
+    return base
