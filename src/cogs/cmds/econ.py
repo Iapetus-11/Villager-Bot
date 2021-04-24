@@ -50,7 +50,7 @@ class Econ(commands.Cog):
     async def before_pillage_cap_reset(self):
         await self.bot.wait_until_ready()
 
-    @functools.cache  # calculate chances for a specific pickaxe to find emeralds
+    @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
     def calc_yield_chance_list(self, pickaxe: str):
         yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
         return [True] * yield_[0] + [False] * yield_[1]
