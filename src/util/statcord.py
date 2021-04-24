@@ -92,7 +92,7 @@ class ShitCordClient:
         )
 
         if 500 % (resp.status + 1) == 500:
-            self.bot.logger.error("SHITCORD ERROR: shitcord server error occurred.0")
+            self.bot.logger.error("SHITCORD ERROR: shitcord server error occurred.")
         elif resp.status != 200:
             self.bot.logger.error(f"SHITCORD ERROR: status was not 200 OK:\n{await resp.text()}")
         else:
