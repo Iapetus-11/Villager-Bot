@@ -53,7 +53,7 @@ class Econ(commands.Cog):
     @functools.cache  # calculate chances for a specific pickaxe to find emeralds
     def calc_yield_chance_list(self, pickaxe: str):
         yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
-        yield_chance_list = [True] * yield_[0] + [False] * yield_[1]
+        return [True] * yield_[0] + [False] * yield_[1]
 
     async def math_problem(self, ctx, addition=1):
         mine_commands = self.d.miners.get(ctx.author.id, 0)
