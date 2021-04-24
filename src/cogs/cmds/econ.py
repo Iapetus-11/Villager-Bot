@@ -906,8 +906,8 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.gamble.too_rich)
             return
 
-        u_roll = random.randint(2, 12)
-        b_roll = random.randint(2, 12)
+        u_roll = random.randint(1, 6) + random.randint(1, 6)
+        b_roll = random.randint(1, 6) + random.randint(1, 6)
 
         await self.bot.send(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
 
