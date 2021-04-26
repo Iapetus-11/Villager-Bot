@@ -64,7 +64,7 @@ cdef class GatewayRatelimiter:
     cdef object lock
     cdef object shard_id
 
-    def __init__(self, count: int = 110, per: float = 60.0):
+    def __init__(self, count: int = 110, per: double = 60.0):
         # The default is 110 to give room for at least 10 heartbeats per minute
         self.max = count
         self.remaining = count
@@ -372,8 +372,8 @@ cdef class _DiscordWebSocket:
             A future to wait for.
         """
 
-        future = self.loop.create_future()
-        entry = EventListener(event=event, predicate=predicate, result=result, future=future)
+        cdef object future = self.loop.create_future()
+        cdef object entry = EventListener(event=event, predicate=predicate, result=result, future=future)
         self._dispatch_listeners.append(entry)
         return future
 
