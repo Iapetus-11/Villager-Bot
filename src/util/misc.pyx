@@ -33,9 +33,9 @@ cpdef str make_health_bar(health: int, max_health: int, full: str, half: str, em
     )
 
 
-cpdef str cooldown_logic(ctx: object, seconds: float):
-    cdef int hours = int(seconds / 3600)
-    cdef int minutes = int(seconds / 60) % 60
+cpdef str cooldown_logic(ctx: object, seconds: double):
+    cdef signed int hours = int(seconds / 3600)
+    cdef signed int minutes = int(seconds / 60) % 60
     cdef str time = ""
 
     seconds -= round((hours * 60 * 60) + (minutes * 60), 2)
