@@ -291,7 +291,7 @@ class Database(commands.Cog):
     async def fetch_sword(self, uid):
         items_names = [item["name"] for item in await self.fetch_items(uid)]
 
-        for sword in ("Netherite Sword", "Diamond Sword", "Gold Sword", "Iron Sword", "Stone Sword", "Wood Sword"):
+        for sword in self.d.sword_list_proper:
             if sword in items_names:
                 return sword
 

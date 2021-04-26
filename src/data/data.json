@@ -74,6 +74,14 @@
     "diamond sword",
     "netherite sword"
   ],
+  "sword_list_proper": [
+    "Netherite Sword",
+    "Diamond Sword",
+    "Gold Sword",
+    "Iron Sword",
+    "Stone Sword",
+    "Wood Sword"
+  ],
   "kills": [
     "**{0}** was suicided.",
     "**{0}** died by death.",
