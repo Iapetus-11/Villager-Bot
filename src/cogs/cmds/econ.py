@@ -848,7 +848,9 @@ class Econ(commands.Cog):
                 )
 
                 if (await self.db.fetch_user(user.id))["give_alert"]:
-                    await self.bot.send(user, ctx.l.econ.give.gaveyouems.format(ctx.author.mention, amount, self.d.emojis.emerald))
+                    await self.bot.send(
+                        user, ctx.l.econ.give.gaveyouems.format(ctx.author.mention, amount, self.d.emojis.emerald)
+                    )
             else:
                 db_item = await self.db.fetch_item(ctx.author.id, item)
 
@@ -866,9 +868,13 @@ class Econ(commands.Cog):
 
                 await self.db.remove_item(ctx.author.id, item, amount)
                 await self.db.add_item(user.id, db_item["name"], db_item["sell_price"], amount)
-                self.bot.loop.create_task(self.db.log_transaction(db_item["name"], amount, arrow.utcnow().timestamp(), ctx.author.id, user.id))
+                self.bot.loop.create_task(
+                    self.db.log_transaction(db_item["name"], amount, arrow.utcnow().timestamp(), ctx.author.id, user.id)
+                )
 
-                await self.bot.send(ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item["name"], user.mention))
+                await self.bot.send(
+                    ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item["name"], user.mention)
+                )
 
                 if (await self.db.fetch_user(user.id))["give_alert"]:
                     await self.bot.send(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"]))
