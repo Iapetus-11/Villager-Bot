@@ -42,7 +42,7 @@ cdef class ReconnectWebSocket(Exception):
     cdef bint resume
     cdef str op
 
-    def __init__(self, shard_id, *, resume=True):
+    def __init__(self, shard_id: int, *, resume: bool = True):
         self.shard_id = shard_id
         self.resume = resume
         self.op = 'RESUME' if resume else 'IDENTIFY'
@@ -57,12 +57,12 @@ cdef object EventListener = namedtuple('EventListener', 'predicate event result 
 
 
 cdef class GatewayRatelimiter:
-    cdef public signed int max
-    cdef public signed int remaining
-    cdef public float window
-    cdef public float per
-    cdef public object lock
-    cdef public object shard_id
+    cdef signed int max
+    cdef signed int remaining
+    cdef double window
+    cdef double per
+    cdef object lock
+    cdef object shard_id
 
     def __init__(self, count: int = 110, per: float = 60.0):
         # The default is 110 to give room for at least 10 heartbeats per minute
@@ -74,7 +74,7 @@ cdef class GatewayRatelimiter:
         self.shard_id = None
 
     cpdef bint is_ratelimited(self):
-        cdef float current = time.time()
+        cdef double current = time.time()
 
         if current > self.window + self.per:
             return False
@@ -82,7 +82,7 @@ cdef class GatewayRatelimiter:
         return self.remaining == 0
 
     cpdef float get_delay(self):
-        cdef float current = time.time()
+        cdef double current = time.time()
 
         if current > self.window + self.per:
             self.remaining = self.max

@@ -17,7 +17,7 @@ cdef class BaseActivity:
     .. versionadded:: 1.3
     """
 
-    cdef float _created_at
+    cdef double _created_at
 
     def __init__(self, **kwargs):
         self._created_at = kwargs.pop('created_at', None)
