@@ -76,6 +76,7 @@ cpdef object generate(source_bytes: bytes, max_dim: double, detailed: bint):
     cdef signed int y = 0
     cdef str pal_key
     cdef signed int b, g, r
+    cdef np.ndarray row
 
     for row in source:
         x = 0
