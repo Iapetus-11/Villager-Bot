@@ -20,7 +20,7 @@ cdef class BaseActivity:
     cdef double _created_at
 
     def __init__(self, **kwargs):
-        self._created_at = kwargs.pop('created_at', None)
+        self._created_at = kwargs.pop("created_at", None)
 
     @property
     def created_at(self):
