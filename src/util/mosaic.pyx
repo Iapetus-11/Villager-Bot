@@ -71,9 +71,10 @@ cpdef object generate(source_bytes: bytes, max_dim: double, detailed: bint):
     source = cv2.resize(source, (int(source.shape[1] / xi), int(source.shape[0] / yi)))
     canvas = np.zeros((source.shape[0] * xi, source.shape[1] * yi, 3), np.uint8)
 
-    cdef signed int y = 0
     cdef signed int x = 0
+    cdef signed int y = 0
     cdef str pal_key
+    cdef signed int b, g, r
 
     for row in source:
         x = 0
