@@ -1,6 +1,6 @@
 __all__ = (
-    'EqualityComparable',
-    'Hashable',
+    "EqualityComparable",
+    "Hashable",
 )
 
 cdef class EqualityComparable:
