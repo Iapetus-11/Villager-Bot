@@ -639,7 +639,7 @@
         "stupid_1": "You can't buy less than one of an item.",
         "stupid_2": "`{}` is invalid or isn't in the Villager Shop.",
         "poor_loser_2": "You don't have enough emeralds to buy `{}x` **{}**.",
-        "need_total_of": "You need a total of {} {} ({}) to buy this item.",
+        "need_total_of": "You need a total of {}x {} ({}) to buy this item.",
         "you_done_bought": "You have bought {}x **{}** for {} (You have {} total).",
         "no_to_item_1": "You can't buy any more of this item.",
         "no_to_item_2": "For some reason, you can't buy this item."
@@ -1529,7 +1529,7 @@
         "stupid_1": "No puedes comprar menos de un artículo.",
         "stupid_2": "`{}` es inválido o no está en la Villager Tienda.",
         "poor_loser_2": "No tienes suficientes esmeraldas para comprar `{}x` **{}**.",
-        "need_total_of": "Necesitas un total de {} {} ({}) para comprar este artículo.",
+        "need_total_of": "Necesitas un total de {}x {} ({}) para comprar este artículo.",
         "you_done_bought": "Has comprado {}x **{}** por {} (Tienes {} total)",
         "no_to_item_1": "No puedes comprar más de este artículo.",
         "no_to_item_2": "Por alguna razón, no puedes comprar este artículo."
@@ -2418,7 +2418,7 @@
         "stupid_1": "Tu ne peux pas acheter moins qu'un objet.",
         "stupid_2": "`{}` est invalide ou n'est pas dans le Magasin du Villager.",
         "poor_loser_2": "Tu n'as pas assez d'émeraudes pour acheter `{}x` **{}**.",
-        "need_total_of": "Il te faut un total de {} {} ({}) pour acheter cet objet.",
+        "need_total_of": "Il te faut un total de {}x {} ({}) pour acheter cet objet.",
         "you_done_bought": "Tu as acheté {}x **{}** pour {} (Tu en as un total de {})",
         "no_to_item_1": "Tu ne peux plus acheter cet objet.",
         "no_to_item_2": "Pour une raison quelconque, tu ne peux pas acheter cet objet."
