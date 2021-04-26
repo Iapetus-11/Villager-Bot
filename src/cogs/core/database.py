@@ -69,7 +69,7 @@ class Database(commands.Cog):
         botban_records = await self.db.fetch(
             "SELECT uid FROM users WHERE bot_banned = true"
         )  # returns [Record<uid=>, Record<uid=>,..]
-        return [r[0] for r in botban_records]
+        return set([r[0] for r in botban_records])
 
     async def fetch_all_guild_langs(self):
         lang_records = await self.db.fetch("SELECT gid, lang FROM guilds")
@@ -416,7 +416,7 @@ class Database(commands.Cog):
 
         if botbanned:
             if uid not in self.d.ban_cache:
-                self.d.ban_cache.append(uid)
+                self.d.ban_cache.add(uid)
         else:
             try:
                 self.d.ban_cache.remove(uid)

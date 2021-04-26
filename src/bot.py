@@ -150,7 +150,7 @@ def main():
 
     bot.d.disabled_cmds = {}  # {gid: [disabled cmds]}
 
-    bot.d.ban_cache = []  # [uid, uid,..]
+    bot.d.ban_cache = set()  # {uid, uid,..}
     bot.d.prefix_cache = {}  # {gid: 'prefix'}
     bot.d.lang_cache = {}  # {gid: 'lang'}
 
