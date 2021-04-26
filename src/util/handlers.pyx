@@ -46,6 +46,7 @@ cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
         return tuple()
 
     # errors to ignore
+    cdef BaseException e_type
     for e_type in IGNORED_ERRORS:
         if isinstance(e, e_type) or isinstance(getattr(e, "original", None), e_type):
             return tuple()
