@@ -531,6 +531,7 @@
         "mem": "Memory",
         "cpu": "CPU Usage",
         "threads": "Threads",
+        "tasks": "Tasks",
         "uptime": "Uptime"
       },
       "ginf": {
@@ -1421,6 +1422,7 @@
         "mem": "Memoria",
         "cpu": "Uso De La CPU",
         "threads": "Hilos",
+        "tasks": "Tareas",
         "uptime": "Uptime"
       },
       "ginf": {
@@ -2309,7 +2311,8 @@
         "ping": "Latence/Ping",
         "mem": "Mémoire",
         "cpu": "Utilisation du CPU",
-        "threads": "Threads",
+        "threads": "Les fils",
+        "tasks": "Tâches",
         "uptime": "Durée d'activité"
       },
       "ginf": {
