@@ -7,7 +7,7 @@ import cv2
 import io
 
 
-cdef object im_from_bytes(b: bytes):
+cdef np.ndarray im_from_bytes(b: bytes):
     return cv2.imdecode(np.frombuffer(b, np.uint8), cv2.IMREAD_COLOR)
 
 
