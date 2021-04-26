@@ -2,6 +2,15 @@ from discord.ext import commands
 import discord
 import random
 
+cdef tuple BAD_ARG_ERRORS = (
+    commands.BadArgument,
+    commands.errors.UnexpectedQuoteError,
+    commands.errors.ExpectedClosingQuoteError,
+    commands.errors.BadUnionArgument,
+)
+
+cdef list IGNORED_ERRORS = [commands.CommandNotFound, commands.NotOwner]
+
 cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
     if isinstance(e, commands.NoPrivateMessage):
         return (self.bot.send(ctx, ctx.l.misc.errors.private),)
@@ -16,15 +25,7 @@ cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
         return (self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy),)
     elif isinstance(e, commands.MissingRequiredArgument):
         return (self.bot.send(ctx, ctx.l.misc.errors.missing_arg),)
-    elif isinstance(
-        e,
-        (
-            commands.BadArgument,
-            commands.errors.UnexpectedQuoteError,
-            commands.errors.ExpectedClosingQuoteError,
-            commands.errors.BadUnionArgument,
-        ),
-    ):
+    elif isinstance(e, BAD_ARG_ERRORS):
         return (self.bot.send(ctx, ctx.l.misc.errors.bad_arg),)
     elif getattr(ctx, "custom_err", None) == "not_ready":
         return (self.bot.send(ctx, ctx.l.misc.errors.not_ready),)
@@ -38,7 +39,7 @@ cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
         return tuple()
 
     # errors to ignore
-    for e_type in (commands.CommandNotFound, commands.NotOwner):
+    for e_type in IGNORED_ERRORS:
         if isinstance(e, e_type) or isinstance(getattr(e, "original", None), e_type):
             return tuple()
 
