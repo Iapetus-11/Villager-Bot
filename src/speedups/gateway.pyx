@@ -7,7 +7,7 @@ from speedups.activity import BaseActivity
 
 log = logging.getLogger(__name__)
 
-__all__ = ("DiscordWebSocket",)
+__all__ = ("GatewayRatelimiter",)
 
 
 cdef class GatewayRatelimiter:
