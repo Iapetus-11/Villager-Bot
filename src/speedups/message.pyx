@@ -41,9 +41,9 @@ cdef class MessageReference:
     cdef signed int message_id
     cdef signed int channel_id
     cdef signed int guild_id
-    cdef object fail_if_not_exists
+    cdef bint fail_if_not_exists
 
-    def __init__(self, *, message_id, channel_id, guild_id=None, fail_if_not_exists=True):
+    def __init__(self, *, message_id: int, channel_id: int, guild_id: int = None, fail_if_not_exists: bint = True):
         self._state = None
         self.resolved = None
         self.message_id = message_id
