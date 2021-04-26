@@ -112,7 +112,7 @@ class Owner(commands.Cog):
             self.bot.populate_null_data_values()
         elif thing.lower() == "text":
             async with aiofiles.open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
-                self.bot.langs.update(self.d, cj.classify(json.loads(await t.read())))
+                self.bot.langs.update(cj.classify(json.loads(await t.read())))
         elif thing.lower() == "mcservers":
             self.d.additional_mcservers = await self.db.fetch_all_mcservers()
         else:
