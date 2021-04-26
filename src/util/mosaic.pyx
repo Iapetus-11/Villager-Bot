@@ -1,4 +1,5 @@
 import numpy as np
+cimport numpy as np
 import random
 import base64
 import json
@@ -28,7 +29,7 @@ cdef signed int yi = data["dims"][1]
 
 
 cpdef object generate(source_bytes: bytes, max_dim: double, detailed: bint):
-    cdef object source = im_from_bytes(source_bytes)
+    cdef np.ndarray source = im_from_bytes(source_bytes)
 
     cdef double sw = source.shape[1]
     cdef double sh = source.shape[0]
@@ -69,7 +70,7 @@ cpdef object generate(source_bytes: bytes, max_dim: double, detailed: bint):
         source = cv2.resize(source, (int(new_w), int(new_h)))
 
     source = cv2.resize(source, (int(source.shape[1] / xi), int(source.shape[0] / yi)))
-    canvas = np.zeros((source.shape[0] * xi, source.shape[1] * yi, 3), np.uint8)
+    cdef np.ndarray canvas = np.zeros((source.shape[0] * xi, source.shape[1] * yi, 3), np.uint8)
 
     cdef signed int x = 0
     cdef signed int y = 0
