@@ -52,7 +52,7 @@ class Minecraft(commands.Cog):
         for server_group in server_groups:
             servers.update(server_group)
 
-        self.d.mcserver_list = list(servers)
+        self.d.mcserver_list = list(servers) + self.d.additional_mcservers
 
         self.bot.logger.info("finished scraping mc-lists.org")
 
