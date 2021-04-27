@@ -87,9 +87,9 @@ class Events(commands.Cog):
                     if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
                         e.retry_after -= 0.5
 
-                    if "haste ii potion" in self.d.chuggers.get(ctx.author.id, []):
+                    if "haste ii potion" in self.v.chuggers.get(ctx.author.id, []):
                         e.retry_after -= 1
-                    elif "haste i potion" in self.d.chuggers.get(ctx.author.id, []):
+                    elif "haste i potion" in self.v.chuggers.get(ctx.author.id, []):
                         e.retry_after -= 0.5
 
                 seconds = round(e.retry_after, 2)

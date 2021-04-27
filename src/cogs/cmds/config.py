@@ -31,7 +31,7 @@ class Config(commands.Cog):
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def config_prefix(self, ctx, prefix=None):
         if prefix is None:
-            prev = self.d.prefix_cache.get(ctx.guild.id, self.bot.d.default_prefix)
+            prev = self.v.prefix_cache.get(ctx.guild.id, self.bot.d.default_prefix)
             await self.bot.send(ctx, ctx.l.config.prefix.this_server.format(prev))
             return
 
@@ -45,7 +45,7 @@ class Config(commands.Cog):
                 return
 
         await self.db.set_guild_attr(ctx.guild.id, "prefix", prefix)
-        self.d.prefix_cache[ctx.guild.id] = prefix
+        self.v.prefix_cache[ctx.guild.id] = prefix
         await self.bot.send(ctx, ctx.l.config.prefix.set.format(prefix))
 
     @config.command(name="replies")
@@ -117,7 +117,7 @@ class Config(commands.Cog):
 
         if lang.lower() in lang_codes:
             await self.db.set_guild_attr(ctx.guild.id, "lang", lang.replace("-", "_"))
-            self.d.lang_cache[ctx.guild.id] = lang.replace("-", "_")
+            self.v.lang_cache[ctx.guild.id] = lang.replace("-", "_")
             await self.bot.send(ctx, ctx.l.config.lang.set.format(lang))
         else:
             await self.bot.send(ctx, ctx.l.config.invalid.format("`{}`".format("`, `".join(lang_codes))))
@@ -150,8 +150,8 @@ class Config(commands.Cog):
             await self.bot.send(ctx, ctx.l.config.cmd.not_prem)
             return
 
-        self.d.disabled_cmds[ctx.guild.id] = self.d.disabled_cmds.get(ctx.guild.id, [])  # ensure
-        disabled = self.d.disabled_cmds[ctx.guild.id]
+        self.v.disabled_cmds[ctx.guild.id] = self.v.disabled_cmds.get(ctx.guild.id, [])  # ensure
+        disabled = self.v.disabled_cmds[ctx.guild.id]
 
         if cmd is None:
             if len(disabled) > 0:
@@ -174,11 +174,11 @@ class Config(commands.Cog):
             return
 
         if cmd_true in disabled:
-            self.d.disabled_cmds[ctx.guild.id].pop(self.d.disabled_cmds[ctx.guild.id].index(cmd_true))
+            self.v.disabled_cmds[ctx.guild.id].pop(self.v.disabled_cmds[ctx.guild.id].index(cmd_true))
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, True)
             await self.bot.send(ctx, ctx.l.config.cmd.reenable.format(cmd_true))
         else:
-            self.d.disabled_cmds[ctx.guild.id].append(cmd_true)
+            self.v.disabled_cmds[ctx.guild.id].append(cmd_true)
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, False)
             await self.bot.send(ctx, ctx.l.config.cmd.disable.format(cmd_true))
 

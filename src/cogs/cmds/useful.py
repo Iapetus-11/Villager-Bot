@@ -180,7 +180,7 @@ class Useful(commands.Cog):
     async def stats(self, ctx):
         await ctx.trigger_typing()
 
-        uptime_seconds = (arrow.utcnow() - self.d.start_time).total_seconds()
+        uptime_seconds = (arrow.utcnow() - self.v.start_time).total_seconds()
         uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
 
         proc = psutil.Process()
@@ -250,7 +250,7 @@ class Useful(commands.Cog):
         )
 
         villager = (
-            f"{ctx.l.useful.ginf.cmd_prefix}: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n"
+            f"{ctx.l.useful.ginf.cmd_prefix}: `{self.v.prefix_cache.get(guild.id, self.d.default_prefix)}`\n"
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
             f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
             f'{ctx.l.useful.ginf.prem}: `{str(db_guild["premium"]).lower()}`\n'

@@ -136,32 +136,32 @@ def main():
     bot.k = keys
     bot.k.fernet = bot.k.fernet.encode("utf-8")
 
-    bot.d.start_time = arrow.utcnow()
+    bot.v.start_time = arrow.utcnow()
 
     bot.v.votes_topgg = 0
     bot.v.cmd_count = 0
     bot.v.msg_count = 0
 
-    bot.d.miners = {}  # {user_id: commands}
-    bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)
-    bot.d.pillagers = {}  # {user_id: pillages}
-    bot.d.pillages = {}  # {user_id: times_pillaged}
-    bot.d.chuggers = {}  # {user_id: [potion, potion]}
-    bot.d.cmd_lb = {}  # {user_id: command_count}
+    bot.v.miners = {}  # {user_id: commands}
+    bot.v.honey_buckets = None  # list of cooldowns for honey command (econ cog)
+    bot.v.pillagers = {}  # {user_id: pillages}
+    bot.v.pillages = {}  # {user_id: times_pillaged}
+    bot.v.chuggers = {}  # {user_id: [potion, potion]}
+    bot.v.cmd_lb = {}  # {user_id: command_count}
 
-    bot.d.pause_econ = {}  # {uid: starttime}
-    bot.d.spawn_queue = {}  # {ctx: starttime}
+    bot.v.pause_econ = {}  # {uid: starttime}
+    bot.v.spawn_queue = {}  # {ctx: starttime}
 
-    bot.d.rcon_cache = {}  # {uid: rcon_client}
+    bot.v.rcon_cache = {}  # {uid: rcon_client}
 
-    bot.d.disabled_cmds = {}  # {gid: [disabled cmds]}
+    bot.v.disabled_cmds = {}  # {gid: [disabled cmds]}
 
-    bot.d.ban_cache = set()  # {uid, uid,..}
-    bot.d.prefix_cache = {}  # {gid: 'prefix'}
-    bot.d.lang_cache = {}  # {gid: 'lang'}
+    bot.v.ban_cache = set()  # {uid, uid,..}
+    bot.v.prefix_cache = {}  # {gid: 'prefix'}
+    bot.v.lang_cache = {}  # {gid: 'lang'}
 
-    bot.d.additional_mcservers = []
-    bot.d.mcserver_list = []
+    bot.v.additional_mcservers = []
+    bot.v.mcserver_list = []
 
     bot.owner_locked = False
 

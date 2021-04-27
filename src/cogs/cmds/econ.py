@@ -18,8 +18,8 @@ class Econ(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-        if self.d.honey_buckets is not None:
-            self.honey._buckets = self.d.honey_buckets
+        if self.v.honey_buckets is not None:
+            self.honey._buckets = self.v.honey_buckets
 
         self.pillage_cap_reset.start()
 
@@ -40,7 +40,7 @@ class Econ(commands.Cog):
         self._user_locks = defaultdict(asyncio.Lock)
 
     def cog_unload(self):
-        self.d.honey_buckets = self.honey._buckets
+        self.v.honey_buckets = self.honey._buckets
 
         self.pillage_cap_reset.cancel()
 
@@ -52,8 +52,8 @@ class Econ(commands.Cog):
 
     @tasks.loop(hours=12)
     async def pillage_cap_reset(self):
-        self.d.pillagers = {}
-        self.d.pillages = {}
+        self.v.pillagers = {}
+        self.v.pillages = {}
 
     @pillage_cap_reset.before_loop
     async def before_pillage_cap_reset(self):
@@ -65,8 +65,8 @@ class Econ(commands.Cog):
         return [True] * yield_[0] + [False] * yield_[1]
 
     async def math_problem(self, ctx, addition=1):
-        mine_commands = self.d.miners.get(ctx.author.id, 0)
-        self.d.miners[ctx.author.id] = mine_commands + addition
+        mine_commands = self.v.miners.get(ctx.author.id, 0)
+        self.v.miners[ctx.author.id] = mine_commands + addition
 
         if mine_commands >= 100:
             x, y = random.randint(0, 35), random.randint(0, 25)
@@ -88,7 +88,7 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no), True)
                 return False
 
-            self.d.miners[ctx.author.id] = 0
+            self.v.miners[ctx.author.id] = 0
             await self.bot.send(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes), True)
 
         return True
@@ -133,7 +133,7 @@ class Econ(commands.Cog):
 
         embed.add_field(name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}")
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=ctx.l.econ.pp.cmds_sent, value=self.d.cmd_lb.get(user.id, 0))
+        embed.add_field(name=ctx.l.econ.pp.cmds_sent, value=self.v.cmd_lb.get(user.id, 0))
 
         embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak if vote_streak else 0))
         embed.add_field(name="\uFEFF", value="\uFEFF")
@@ -1069,7 +1069,7 @@ class Econ(commands.Cog):
             if await self.db.fetch_item(ctx.author.id, "Lure I Book") is not None:
                 wait -= 2
 
-            if "seaweed" in self.d.chuggers.get(ctx.author.id, []):
+            if "seaweed" in self.v.chuggers.get(ctx.author.id, []):
                 wait -= 2
 
             await asyncio.sleep(wait)
@@ -1155,11 +1155,11 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
                 return
 
-            pillager_pillages = self.d.pillagers.get(ctx.author.id, 0)
-            self.d.pillagers[ctx.author.id] = pillager_pillages + 1
+            pillager_pillages = self.v.pillagers.get(ctx.author.id, 0)
+            self.v.pillagers[ctx.author.id] = pillager_pillages + 1
 
-            times_pillaged = self.d.pillages.get(victim.id, 0)
-            self.d.pillages[victim.id] = times_pillaged + 1
+            times_pillaged = self.v.pillages.get(victim.id, 0)
+            self.v.pillages[victim.id] = times_pillaged + 1
 
             user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
             user_bees = 0 if user_bees is None else user_bees["amount"]
@@ -1234,7 +1234,7 @@ class Econ(commands.Cog):
             await self.bot.send(ctx, ctx.l.econ.use.stupid_4)
             return
 
-        current_pots = self.d.chuggers.get(ctx.author.id)
+        current_pots = self.v.chuggers.get(ctx.author.id)
 
         if thing in ([] if current_pots is None else current_pots):
             await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
@@ -1257,19 +1257,19 @@ class Econ(commands.Cog):
 
             await self.db.remove_item(ctx.author.id, thing, 1)
 
-            self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])  # ensure user has stuff there
-            self.d.chuggers[ctx.author.id].append("haste i potion")
+            self.v.chuggers[ctx.author.id] = self.v.chuggers.get(ctx.author.id, [])  # ensure user has stuff there
+            self.v.chuggers[ctx.author.id].append("haste i potion")
 
             await self.bot.send(ctx, ctx.l.econ.use.chug.format("Haste I Potion", 6))
 
-            self.d.pause_econ.pop(ctx.author.id, None)
+            self.v.pause_econ.pop(ctx.author.id, None)
 
             await asyncio.sleep(60 * 6)
 
             await self.bot.send(ctx.author, ctx.l.econ.use.done.format("Haste I Potion"))
 
-            self.d.chuggers[ctx.author.id].pop(
-                self.d.chuggers[ctx.author.id].index("haste i potion")
+            self.v.chuggers[ctx.author.id].pop(
+                self.v.chuggers[ctx.author.id].index("haste i potion")
             )  # pop pot from active potion fx
             return
 
@@ -1280,19 +1280,19 @@ class Econ(commands.Cog):
 
             await self.db.remove_item(ctx.author.id, thing, 1)
 
-            self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
-            self.d.chuggers[ctx.author.id].append("haste ii potion")
+            self.v.chuggers[ctx.author.id] = self.v.chuggers.get(ctx.author.id, [])
+            self.v.chuggers[ctx.author.id].append("haste ii potion")
 
             await self.bot.send(ctx, ctx.l.econ.use.chug.format("Haste II Potion", 4.5))
 
-            self.d.pause_econ.pop(ctx.author.id, None)
+            self.v.pause_econ.pop(ctx.author.id, None)
 
             await asyncio.sleep(60 * 4.5)
 
             await self.bot.send(ctx.author, ctx.l.econ.use.done.format("Haste II Potion"))
 
-            self.d.chuggers[ctx.author.id].pop(
-                self.d.chuggers[ctx.author.id].index("haste ii potion")
+            self.v.chuggers[ctx.author.id].pop(
+                self.v.chuggers[ctx.author.id].index("haste ii potion")
             )  # pop pot from active potion fx
             return
 
@@ -1303,8 +1303,8 @@ class Econ(commands.Cog):
 
             await self.db.remove_item(ctx.author.id, thing, 1)
 
-            self.d.chuggers[ctx.author.id] = self.d.chuggers.get(ctx.author.id, [])
-            self.d.chuggers[ctx.author.id].append("seaweed")
+            self.v.chuggers[ctx.author.id] = self.v.chuggers.get(ctx.author.id, [])
+            self.v.chuggers[ctx.author.id].append("seaweed")
 
             await self.bot.send(ctx, ctx.l.econ.use.smoke_seaweed.format(2))
 

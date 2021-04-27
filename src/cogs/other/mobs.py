@@ -27,22 +27,22 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
     @tasks.loop(seconds=1)
     async def clear_pauses(self):
-        for uid in list(self.d.pause_econ):
-            if (arrow.utcnow() - self.d.pause_econ[uid]).seconds > 20:
-                self.d.pause_econ.pop(uid, None)
+        for uid in list(self.v.pause_econ):
+            if (arrow.utcnow() - self.v.pause_econ[uid]).seconds > 20:
+                self.v.pause_econ.pop(uid, None)
 
         await asyncio.sleep(0)
 
     def engage_check(self, m, ctx):
         u = m.author
 
-        if self.d.pause_econ.get(u.id):
+        if self.v.pause_econ.get(u.id):
             return False
 
         if m.content.lower().replace(ctx.prefix, "", 1) not in self.d.mobs_mech.valid_attacks:
             return False
 
-        return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.d.ban_cache
+        return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.v.ban_cache
 
     def attack_check(self, m, e_msg, ctx):
         if (
@@ -121,7 +121,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                 u = engage_msg.author
 
-                if self.d.pause_econ.get(u.id):
+                if self.v.pause_econ.get(u.id):
                     continue
 
                 u_db = await self.db.fetch_user(u.id)
@@ -137,7 +137,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
             slime_trophy = await self.db.fetch_item(u.id, "Slime Trophy")
 
             # used later on to clear pause_econ based on who's been in there for tooo long
-            self.d.pause_econ[u.id] = arrow.utcnow()
+            self.v.pause_econ[u.id] = arrow.utcnow()
 
             u_health = u_db["health"]
             mob_max_health = mob.health
@@ -179,7 +179,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 except asyncio.TimeoutError:  # user didn't respond
                     await msg.edit(suppress=True)
 
-                    self.d.pause_econ.pop(u.id, None)
+                    self.v.pause_econ.pop(u.id, None)
                     await self.db.update_user(u.id, "health", u_health)
 
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.flee_insults))
@@ -190,7 +190,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 if resp.content.lower() in self.d.mobs_mech.valid_flees:
                     await msg.edit(suppress=True)
 
-                    self.d.pause_econ.pop(u.id, None)
+                    self.v.pause_econ.pop(u.id, None)
                     await self.db.update_user(u.id, "health", u_health)
 
                     await self.bot.send(ctx, random.choice(ctx.l.mobs_mech.flee_insults))
@@ -210,7 +210,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 mob.health -= u_dmg
 
                 if mob.health < 1:  # user wins
-                    self.d.pause_econ.pop(u.id, None)
+                    self.v.pause_econ.pop(u.id, None)
                     await self.bot.send(
                         ctx, random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice.lower(), u_sword.lower())
                     )
@@ -230,7 +230,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 if mob_key == "creeper":
                     if iteration > 2:
                         if random.choice((True, False, False)):
-                            self.d.pause_econ.pop(u.id, None)
+                            self.v.pause_econ.pop(u.id, None)
 
                             u_health = 0
 
@@ -242,7 +242,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                 u_health -= m_dmg
 
                 if u_health < 1:  # mob wins
-                    self.d.pause_econ.pop(u.id, None)
+                    self.v.pause_econ.pop(u.id, None)
                     await self.bot.send(ctx, random.choice(mob.finishers))
                     break
                 else:
@@ -353,8 +353,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
     @tasks.loop(seconds=0.05)
     async def spawn_events(self):
-        for ctx in list(self.d.spawn_queue):
-            self.d.spawn_queue.pop(ctx)
+        for ctx in list(self.v.spawn_queue):
+            self.v.spawn_queue.pop(ctx)
             self.bot.loop.create_task(self.spawn_event(ctx))  # ah yes eficeicncy
 
 

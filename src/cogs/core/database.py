@@ -21,11 +21,11 @@ class Database(commands.Cog):
         self.update_user_health.cancel()
 
     async def populate_caches(self):  # initial caches for speeeeeed
-        self.d.ban_cache = await self.fetch_all_botbans()
-        self.d.lang_cache = await self.fetch_all_guild_langs()
-        self.d.prefix_cache = await self.fetch_all_guild_prefixes()
-        self.d.additional_mcservers = await self.fetch_all_mcservers()
-        self.d.disabled_cmds = await self.fetch_all_disabled_commands()
+        self.v.ban_cache = await self.fetch_all_botbans()
+        self.v.lang_cache = await self.fetch_all_guild_langs()
+        self.v.prefix_cache = await self.fetch_all_guild_prefixes()
+        self.v.additional_mcservers = await self.fetch_all_mcservers()
+        self.v.disabled_cmds = await self.fetch_all_disabled_commands()
         self.d.replies_cache = await self.fetch_all_do_replies()
 
     def cache_user(self, uid, user):
@@ -131,12 +131,12 @@ class Database(commands.Cog):
         await self.db.execute("DELETE FROM guilds WHERE gid = $1", gid)
 
         try:
-            del self.d.lang_cache[gid]
+            del self.v.lang_cache[gid]
         except KeyError:
             pass
 
         try:
-            del self.d.prefix_cache[gid]
+            del self.v.prefix_cache[gid]
         except KeyError:
             pass
 
@@ -415,11 +415,11 @@ class Database(commands.Cog):
         await self.fetch_user(uid)
 
         if botbanned:
-            if uid not in self.d.ban_cache:
-                self.d.ban_cache.add(uid)
+            if uid not in self.v.ban_cache:
+                self.v.ban_cache.add(uid)
         else:
             try:
-                self.d.ban_cache.remove(uid)
+                self.v.ban_cache.remove(uid)
             except ValueError:
                 pass
 

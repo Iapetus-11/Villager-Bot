@@ -87,7 +87,7 @@ cpdef object get_lang(_bot: object, ctx: object):
     if getattr(ctx, "guild", None) is None:
         return _bot.langs.en
 
-    return _bot.langs[_bot.d.lang_cache.get(ctx.guild.id, "en")]
+    return _bot.langs[_bot.v.lang_cache.get(ctx.guild.id, "en")]
 
 
 # get a prefix for a given ctx object
@@ -95,7 +95,7 @@ cpdef str get_prefix(_bot: object, ctx: object):
     if getattr(ctx, "guild", None) is None:
         return _bot.d.default_prefix
 
-    return _bot.d.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
+    return _bot.v.prefix_cache.get(ctx.guild.id, _bot.d.default_prefix)
 
 
 async def send_tip(ctx):
@@ -107,11 +107,11 @@ cpdef bint check_global(bot: object, ctx: object):
     # if bot is locked down to only accept commands from owner
     if bot.owner_locked and ctx.author.id != 536986067140608041:
         ctx.custom_err = "ignore"
-    elif ctx.author.id in bot.d.ban_cache:  # if command author is bot banned
+    elif ctx.author.id in bot.v.ban_cache:  # if command author is bot banned
         ctx.custom_err = "bot_banned"
     elif not bot.is_ready():  # if bot hasn't completely started up yet
         ctx.custom_err = "not_ready"
-    elif ctx.guild is not None and ctx.command.name in bot.d.disabled_cmds.get(
+    elif ctx.guild is not None and ctx.command.name in bot.v.disabled_cmds.get(
         ctx.guild.id, tuple()
     ):  # if command is disabled
         ctx.custom_err = "disabled"
@@ -121,20 +121,20 @@ cpdef bint check_global(bot: object, ctx: object):
 
     # update the leaderboard + session command count
     try:
-        bot.d.cmd_lb[ctx.author.id] += 1
+        bot.v.cmd_lb[ctx.author.id] += 1
     except KeyError:
-        bot.d.cmd_lb[ctx.author.id] = 1
+        bot.v.cmd_lb[ctx.author.id] = 1
 
     bot.v.cmd_count += 1
 
     if ctx.command.cog and ctx.command.cog.__cog_name__ == "Econ":  # make sure it's an econ command
-        if bot.d.pause_econ.get(ctx.author.id) is not None:
+        if bot.v.pause_econ.get(ctx.author.id) is not None:
             ctx.custom_err = "econ_paused"
             return False
 
         if random.randint(1, bot.d.mob_chance) == 1:  # spawn mob
             if ctx.command._buckets._cooldown is not None and ctx.command._buckets._cooldown.per >= 2:
-                bot.d.spawn_queue[ctx] = arrow.utcnow()
+                bot.v.spawn_queue[ctx] = arrow.utcnow()
     elif random.randint(1, bot.d.tip_chance) == 1:
         bot.loop.create_task(send_tip(ctx))
 
@@ -181,7 +181,7 @@ cpdef str lb_logic(self: object, lb_list: list, u_entry: object, rank_fstr: str)
 
 cpdef tuple cmds_lb(self: object, ctx: object):
     # get + items from global leaderboard
-    cdef list cmds_global = sorted(list(self.d.cmd_lb.items()), key=lb_logic_sort_key, reverse=True)
+    cdef list cmds_global = sorted(list(self.v.cmd_lb.items()), key=lb_logic_sort_key, reverse=True)
 
     # make sorted local list
     cdef list cmds_local = [e for e in cmds_global if e[0] in [m.id for m in ctx.guild.members if not m.bot]]
@@ -191,7 +191,7 @@ cpdef tuple cmds_lb(self: object, ctx: object):
     cmds_local = [e + (i + 1,) for i, e in enumerate(cmds_local)]
 
     # make default user entries
-    cdef object u_cmds_amount = self.d.cmd_lb.get(ctx.author.id, 0)
+    cdef object u_cmds_amount = self.v.cmd_lb.get(ctx.author.id, 0)
     cdef tuple global_u_entry = (ctx.author.id, u_cmds_amount, len(cmds_global))
     cdef tuple local_u_entry = (ctx.author.id, u_cmds_amount, len(cmds_local))
 
