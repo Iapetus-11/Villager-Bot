@@ -89,7 +89,7 @@ class ShitCordClient:
         self.error_count = 0
 
         resp = await self.aiohttp.post(
-            url="https://statcord.com/logan/stats", json=data, headers={"Content-Type": "application/json"}
+            url="https://api.statcord.com/v3/stats", json=data, headers={"Content-Type": "application/json"}
         )
 
         if 500 % (resp.status + 1) == 500:
