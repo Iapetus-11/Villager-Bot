@@ -79,7 +79,7 @@ def update_fishing_prices(_bot):
 def mutate_botd(_bot):
     d = _bot.d
 
-    bot.d.cc = discord.Color.green()  # embed color
+    d.cc = discord.Color.green()  # embed color
 
     # update fishing data
     _bot.update_fishing_prices()
