@@ -19,6 +19,7 @@ class Owner(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
 
         self.db = bot.get_cog("Database")
 

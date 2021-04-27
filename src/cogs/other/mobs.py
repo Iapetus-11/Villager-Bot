@@ -14,6 +14,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
 
         self.db = bot.get_cog("Database")
         self.events = bot.get_cog("Events")

@@ -12,6 +12,7 @@ class Useful(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
 
         self.google_client = async_cse.Search(bot.k.google)
 

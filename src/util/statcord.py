@@ -9,6 +9,7 @@ class ShitCordClient:
         self.statcord_key = statcord_key
 
         self.d = bot.d
+        self.v = bot.v
 
         # setup counters
         net_io_counter = psutil.net_io_counters()

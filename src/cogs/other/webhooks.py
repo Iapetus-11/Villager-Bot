@@ -13,6 +13,7 @@ class Webhooks(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
         self.k = bot.k
 
         self.db = bot.get_cog("Database")

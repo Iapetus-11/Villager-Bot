@@ -8,6 +8,7 @@ class Database(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
 
         self.db = bot.db  # the asyncpg pool
 
