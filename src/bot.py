@@ -136,6 +136,8 @@ def main():
     bot.k = keys
     bot.k.fernet = bot.k.fernet.encode("utf-8")
 
+    bot.v = ClassyDict()
+
     bot.v.start_time = arrow.utcnow()
 
     bot.v.votes_topgg = 0
