@@ -79,6 +79,8 @@ def update_fishing_prices(_bot):
 def mutate_botd(_bot):
     d = _bot.d
 
+    bot.d.cc = discord.Color.green()  # embed color
+
     # update fishing data
     _bot.update_fishing_prices()
     fishes = d.fishing.fish_ids = list(d.fishing.fish.keys())
@@ -131,19 +133,17 @@ def main():
             json.load(d)
         )  # cj automatically turns json into sets of nested classes and attributes for easy access
 
-    bot.d.cc = discord.Color.green()  # embed color
-
     bot.k = keys
     bot.k.fernet = bot.k.fernet.encode("utf-8")
+
+    bot.d.start_time = arrow.utcnow()
 
     bot.d.votes_topgg = 0
     bot.d.cmd_count = 0
     bot.d.msg_count = 0
-    bot.d.start_time = arrow.utcnow()
 
     bot.d.miners = {}  # {user_id: commands}
     bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)
-    bot.d.mining.pickaxes = list(bot.d.mining.yields_pickaxes)[::-1]  # get list of pickaxe types from best to worst
     bot.d.pillagers = {}  # {user_id: pillages}
     bot.d.pillages = {}  # {user_id: times_pillaged}
     bot.d.chuggers = {}  # {user_id: [potion, potion]}
@@ -162,8 +162,6 @@ def main():
 
     bot.d.additional_mcservers = []
     bot.d.mcserver_list = []
-
-    bot.d.fun_langs.unenchant = {v: k for k, v in bot.d.fun_langs.enchant.items()}  # reverse dict to create unenchantment lang
 
     bot.owner_locked = False
 
