@@ -374,7 +374,7 @@ class Useful(commands.Cog):
         user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
 
         if user_reminder_count > 5:
-            await ctx.send(ctx.l.useful.remind.reminder_max)
+            await self.bot.send(ctx, ctx.l.useful.remind.reminder_max)
             return
 
         args = ctx.message.clean_content[len(f"{ctx.prefix}{ctx.invoked_with} ") :].split()
@@ -413,11 +413,11 @@ class Useful(commands.Cog):
             pass
 
         if i == 0:
-            await ctx.send(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
+            await self.bot.send(ctx, ctx.l.useful.remind.stupid_1.format(ctx.prefix))
             return
 
         if at > arrow.utcnow().shift(weeks=8):
-            await ctx.send(ctx.l.useful.remind.time_max)
+            await self.bot.send(ctx, ctx.l.useful.remind.time_max)
             return
 
         await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, " ".join(args[i:])[:499], at.timestamp())
