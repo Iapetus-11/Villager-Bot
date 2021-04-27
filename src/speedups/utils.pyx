@@ -28,7 +28,7 @@ cdef object snowflake_time(id: int):
     return datetime.datetime.utcfromtimestamp(timestamp).replace(tzinfo=datetime.timezone.utc)
 
 
-cdef signed long time_snowflake(dt: object, high: bool = False):
+cdef signed long long time_snowflake(dt: object, high: bool = False):
     cdef signed long long discord_millis = int(dt.timestamp() * 1000 - DISCORD_EPOCH)
     return (discord_millis << 22) + (2 ** 22 - 1 if high else 0)
 
@@ -58,7 +58,7 @@ cdef bint valid_icon_size(size: int):
     return not size & (size - 1) and 4096 >= size >= 16
 
 
-cdef int _string_width(string: str, _IS_ASCII: object = _IS_ASCII):
+cdef signed int _string_width(string: str, _IS_ASCII: object = _IS_ASCII):
     cdef bint match = _IS_ASCII.match(string)
 
     if match:
