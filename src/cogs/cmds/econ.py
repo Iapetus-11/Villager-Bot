@@ -686,7 +686,8 @@ class Econ(commands.Cog):
             db_item_count = 0
 
         # if they already have hit the limit on how many they can buy of that item
-        if db_item_count >= shop_item.requires.get("count_lt", db_item_count + amount):
+        count_lt = shop_item.requires.get("count_lt")
+        if count_lt is not None and count_lt < db_item_count + amount:
             await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_1)
             return
 
