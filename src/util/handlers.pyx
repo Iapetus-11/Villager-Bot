@@ -18,7 +18,7 @@ cdef set NITRO_BOOST_MSGS = {
     discord.MessageType.premium_guild_tier_3,
 }
 
-cpdef tuple handle_error(self: object, ctx: object, e: object):
+cpdef tuple handle_error(self: object, ctx: object, e: Exception):
     if isinstance(e, commands.NoPrivateMessage):
         return (self.bot.send(ctx, ctx.l.misc.errors.private),)
     elif isinstance(e, commands.MissingPermissions):
@@ -46,7 +46,7 @@ cpdef tuple handle_error(self: object, ctx: object, e: object):
         return tuple()
 
     # errors to ignore
-    cdef object e_type
+    cdef type e_type
     for e_type in IGNORED_ERRORS:
         if isinstance(e, e_type) or isinstance(getattr(e, "original", None), e_type):
             return tuple()
