@@ -13,8 +13,8 @@ class ShitCordClient:
         # setup counters
         net_io_counter = psutil.net_io_counters()
         self.prev_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv
-        self.prev_vote_count = bot.d.votes_topgg
-        self.prev_cmd_count = bot.d.cmd_count
+        self.prev_vote_count = bot.v.votes_topgg
+        self.prev_cmd_count = bot.v.cmd_count
 
         self.popular_commands = {}
         self.active_users = set()
@@ -70,22 +70,22 @@ class ShitCordClient:
             "key": self.statcord_key,
             "servers": str(len(self.bot.guilds)),  # server count
             "users": str(len(self.bot.users)),  # user count
-            "commands": str(self.d.cmd_count - self.prev_cmd_count),  # command count
+            "commands": str(self.v.cmd_count - self.prev_cmd_count),  # command count
             "active": list(self.active_users),
             "popular": [{"name": k, "count": v} for k, v in self.popular_commands.items()],  # active commands
             "memactive": mem_used,
             "memload": mem_load,
             "cpuload": cpu_load,
             "bandwidth": period_net_usage,
-            "custom1": str(self.d.votes_topgg - self.prev_vote_count),
+            "custom1": str(self.v.votes_topgg - self.prev_vote_count),
             "custom2": str(self.error_count),
         }
 
         # reset counters
         self.popular_commands = {}
         self.active_users = set()
-        self.prev_vote_count = self.d.votes_topgg
-        self.prev_cmd_count = self.d.cmd_count
+        self.prev_vote_count = self.v.votes_topgg
+        self.prev_cmd_count = self.v.cmd_count
         self.error_count = 0
 
         resp = await self.aiohttp.post(

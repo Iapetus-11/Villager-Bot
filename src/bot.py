@@ -138,9 +138,9 @@ def main():
 
     bot.d.start_time = arrow.utcnow()
 
-    bot.d.votes_topgg = 0
-    bot.d.cmd_count = 0
-    bot.d.msg_count = 0
+    bot.v.votes_topgg = 0
+    bot.v.cmd_count = 0
+    bot.v.msg_count = 0
 
     bot.d.miners = {}  # {user_id: commands}
     bot.d.honey_buckets = None  # list of cooldowns for honey command (econ cog)

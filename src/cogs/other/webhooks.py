@@ -116,7 +116,7 @@ class Webhooks(commands.Cog):
                 return
 
             self.bot.logger.info(f"\u001b[32;1m{uid} voted on top.gg\u001b[0m")
-            self.d.votes_topgg += 1
+            self.v.votes_topgg += 1
 
             amount = self.d.topgg_reward
 

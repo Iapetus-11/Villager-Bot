@@ -60,7 +60,7 @@ cpdef tuple handle_message(self: object, m: object):
     if m.author.bot:
         return tuple()
 
-    self.d.msg_count += 1
+    self.v.msg_count += 1
 
     if m.content.startswith(f"<@!{self.bot.user.id}>"):
         prefix = self.d.default_prefix

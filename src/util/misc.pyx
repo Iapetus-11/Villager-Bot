@@ -125,7 +125,7 @@ cpdef bint check_global(bot: object, ctx: object):
     except KeyError:
         bot.d.cmd_lb[ctx.author.id] = 1
 
-    bot.d.cmd_count += 1
+    bot.v.cmd_count += 1
 
     if ctx.command.cog and ctx.command.cog.__cog_name__ == "Econ":  # make sure it's an econ command
         if bot.d.pause_econ.get(ctx.author.id) is not None:
