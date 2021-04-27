@@ -76,13 +76,19 @@ def update_fishing_prices(_bot):
         fish.current = random.randint(*fish.value)
 
 
-def populate_null_data_values(_bot):
-    _bot.update_fishing_prices()
+def mutate_botd(_bot):
+    d = _bot.d
 
-    fishes = _bot.d.fishing.fish_ids = list(_bot.d.fishing.fish.keys())
-    _bot.d.fishing.fish_weights = [
-        (len(fishes) - fish_data.rarity) ** _bot.d.fishing.exponent for fish_data in _bot.d.fishing.fish.values()
+    # update fishing data
+    _bot.update_fishing_prices()
+    fishes = d.fishing.fish_ids = list(d.fishing.fish.keys())
+    d.fishing.fish_weights = [
+        (len(fishes) - fish_data.rarity) ** d.fishing.exponent for fish_data in d.fishing.fish.values()
     ]
+
+    d.mining.pickaxes = list(d.mining.yields_pickaxes)[::-1]  # get list of pickaxe types from best to worst
+
+    d.fun_langs.unenchant = {v: k for k, v in d.fun_langs.enchant.items()}  # reverse dict to create unenchantment lang
 
 
 def main():
@@ -110,7 +116,7 @@ def main():
     bot.get_lang = lambda ctx: get_lang(bot, ctx)
     bot.update_support_member_role = update_support_member_role.__get__(bot)
     bot.update_fishing_prices = update_fishing_prices.__get__(bot)
-    bot.populate_null_data_values = populate_null_data_values.__get__(bot)
+    bot.mutate_botd = mutate_botd.__get__(bot)
 
     logger.info("setting up connection to database and db pool...")
     asyncio.get_event_loop().run_until_complete(setup_database(bot, keys))
@@ -182,7 +188,7 @@ def main():
         logger.info(f"loading extension: {cog}")
         bot.load_extension(cog)
 
-    bot.populate_null_data_values()
+    bot.mutate_botd()
 
     @bot.check  # everythingggg goes through here
     def global_check(ctx):
