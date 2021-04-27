@@ -84,9 +84,7 @@ def mutate_botd(_bot):
     # update fishing data
     _bot.update_fishing_prices()
     fishes = d.fishing.fish_ids = list(d.fishing.fish.keys())
-    d.fishing.fish_weights = [
-        (len(fishes) - fish_data.rarity) ** d.fishing.exponent for fish_data in d.fishing.fish.values()
-    ]
+    d.fishing.fish_weights = [(len(fishes) - fish_data.rarity) ** d.fishing.exponent for fish_data in d.fishing.fish.values()]
 
     d.mining.pickaxes = list(d.mining.yields_pickaxes)[::-1]  # get list of pickaxe types from best to worst
 
