@@ -1211,7 +1211,7 @@ class Econ(commands.Cog):
 
                 await self.db.update_lb(ctx.author.id, "pillages", adjusted, "add")
             else:
-                penalty = max(32, db_user["balance"] // 3)
+                penalty = max(32, db_user["emeralds"] // 3)
 
                 await self.db.balance_sub(ctx.author.id, penalty)
                 await self.db.balance_add(victim.id, penalty)
