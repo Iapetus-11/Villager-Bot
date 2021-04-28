@@ -1192,8 +1192,13 @@ class Econ(commands.Cog):
             success = random.choice(chances)
 
             if success:
+                # calculate base stolen value
                 stolen = math.ceil(db_victim["emeralds"] * (random.randint(10, 40) / 100))
-                adjusted = math.ceil(stolen * 0.92)  # villager bot will steal ur stuff
+                # calculate and implement cap based off pillager's balance
+                stolen = min(stolen, math.ceil(db_user["emeralds"]**1.1 + db_user["emeralds"]*5) + random.randint(1, 10))
+
+                # 8% tax to prevent exploitation of pillaging leaderboard
+                adjusted = math.ceil(stolen * 0.92)  # villager bot will steal ur stuff hehe
 
                 await self.db.balance_sub(victim.id, stolen)
                 await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
@@ -1206,7 +1211,7 @@ class Econ(commands.Cog):
 
                 await self.db.update_lb(ctx.author.id, "pillages", adjusted, "add")
             else:
-                penalty = 32
+                penalty = max(32, db_user["balance"] // 3)
 
                 await self.db.balance_sub(ctx.author.id, penalty)
                 await self.db.balance_add(victim.id, penalty)
