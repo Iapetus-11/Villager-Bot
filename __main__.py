@@ -6,4 +6,4 @@ pyximport.install(language_level=3, reload_support=True, setup_args={"include_di
 import src.bot as bot
 
 if __name__ == "__main__":
-    bot.main()
+    bot.run()

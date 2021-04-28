@@ -91,7 +91,7 @@ def mutate_botd(_bot):
     d.fun_langs.unenchant = {v: k for k, v in d.fun_langs.enchant.items()}  # reverse dict to create unenchantment lang
 
 
-def main():
+def run():
     # setup uvloop
     uvloop.install()
 
@@ -196,7 +196,3 @@ def main():
         bot.run(keys.discord)  # run the bot, this is a blocking call
 
     asyncio.run(bot.aiohttp.close())
-
-
-if __name__ == "__main__":
-    main()
