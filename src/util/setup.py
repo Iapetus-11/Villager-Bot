@@ -1,4 +1,5 @@
 from discord.ext import commands
+import aiofiles
 import discord
 import logging
 import asyncpg
@@ -53,6 +54,15 @@ def load_text() -> ClassyDict:
 
     for filename in os.listdir("data/text"):
         with open(f"data/text/{filename}", "r", encoding="utf8") as f:
+            text.update(json.load(f))
+
+    return ClassyDict(text)
+
+async def load_text_async() -> ClassyDict:
+    text = {}
+
+    for filename in os.listdir("data/text"):
+        async with aiofiles.open(f"data/text/{filename}", "r", encoding="utf8") as f:
             text.update(json.load(f))
 
     return ClassyDict(text)
