@@ -97,6 +97,8 @@ class Webhooks(commands.Cog):
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):
+        await self.bot.wait_until_ready()
+
         if data.type != "upvote":
             self.bot.logger.info("\u001b[35m top.gg webhooks test\u001b[0m")
             await self.bot.get_channel(self.d.error_channel_id).send("TOP.GG WEBHOOKS TEST")
