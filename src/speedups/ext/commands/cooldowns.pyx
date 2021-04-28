@@ -3,15 +3,21 @@ import time
 __all__ = ("Cooldown",)
 
 cdef class Cooldown:
-    cdef signed long long rate
-    cdef double per
-    cdef double _window
-    cdef signed long long _tokens
-    cdef double _last
+    cdef public signed long long rate
+    cdef public double per
+    cdef public double _window
+    cdef public signed long long _tokens
+    cdef public double _last
+    cdef public object type
 
-    def __init__(self, signed long long rate, double per):
+    def __init__(self, signed long long rate, double per, object type):
+        if not callable(type):
+            raise TypeError("Cooldown type must be a BucketType or callable")
+
         self.rate = rate
         self.per = per
+        self.type = type
+
         self._window = 0.0
         self._tokens = rate
         self._last = 0.0
@@ -55,7 +61,7 @@ cdef class Cooldown:
         self._last = 0.0
 
     cpdef Cooldown copy(self):
-        return Cooldown(self.rate, self.per)
+        return Cooldown(self.rate, self.per, self.type)
 
     def __repr__(self):
         return f"<Cooldown rate: {self.rate} per: {self.per} window: {self._window} tokens: {self._tokens}>"
