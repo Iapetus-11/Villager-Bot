@@ -1195,7 +1195,7 @@ class Econ(commands.Cog):
                 # calculate base stolen value
                 stolen = math.ceil(db_victim["emeralds"] * (random.randint(10, 40) / 100))
                 # calculate and implement cap based off pillager's balance
-                stolen = min(stolen, math.ceil(db_user["emeralds"]**1.1 + db_user["emeralds"]*5) + random.randint(1, 10))
+                stolen = min(stolen, math.ceil(db_user["emeralds"] ** 1.1 + db_user["emeralds"] * 5) + random.randint(1, 10))
 
                 # 8% tax to prevent exploitation of pillaging leaderboard
                 adjusted = math.ceil(stolen * 0.92)  # villager bot will steal ur stuff hehe
