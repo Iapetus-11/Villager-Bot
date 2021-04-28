@@ -49,6 +49,7 @@ async def setup_database(bot: commands.AutoShardedBot, keys: ClassyDict) -> None
         command_timeout=10,
     )
 
+
 def load_text() -> ClassyDict:
     text = {}
 
@@ -57,6 +58,7 @@ def load_text() -> ClassyDict:
             text.update(json.load(f))
 
     return ClassyDict(text)
+
 
 async def load_text_async() -> ClassyDict:
     text = {}
