@@ -1,5 +1,7 @@
 import time
 
+__all__ = ("Cooldown",)
+
 cdef class Cooldown:
     cdef signed long long rate
     cdef double per

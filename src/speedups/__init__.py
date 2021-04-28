@@ -8,6 +8,8 @@ import speedups.activity
 import speedups.utils
 import speedups.message
 
+import speedups.ext.commands.cooldowns as speedups_cooldowns
+
 
 def install():
     discord_module = sys.modules.get("discord")
@@ -16,3 +18,10 @@ def install():
         for thing in module.__all__:
             if hasattr(discord_module, thing):
                 setattr(discord_module, thing, getattr(module, thing))
+
+    # for module in (speedups_cooldowns,):
+    #     for thing in module.__all__:
+    #         if hasattr(discord_module.ext.commands.cooldowns, thing):
+    #             setattr(discord_module.ext.commands.cooldowns, thing, getattr(module, thing))
+
+    discord_module.ext.commands.cooldowns.Cooldown = speedups_cooldowns.Cooldown
