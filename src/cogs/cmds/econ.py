@@ -1389,7 +1389,7 @@ class Econ(commands.Cog):
 
             for _ in range(20):
                 for item in self.d.mining.findables:
-                    if item[2] > 1000
+                    if item[2] > 1000:
                         if random.randint(0, (item[2] // 1.5) + 5) == 1:
                             await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                             await self.bot.send(
