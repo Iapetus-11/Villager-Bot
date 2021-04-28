@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import logging
 import asyncpg
+import os
 
 from util.cj import ClassyDict
 
@@ -46,3 +47,12 @@ async def setup_database(bot: commands.AutoShardedBot, keys: ClassyDict) -> None
         max_size=20,
         command_timeout=10,
     )
+
+def load_text(self) -> ClassyDict:
+    text = {}
+
+    for filename in os.listdir("data/text"):
+        with open(f"data/text/{filename}") as f:
+            text.update(json.load(f))
+
+    return ClassyDict(text)
