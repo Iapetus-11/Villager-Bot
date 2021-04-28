@@ -3,6 +3,7 @@ import aiofiles
 import discord
 import logging
 import asyncpg
+import json
 import os
 
 from util.cj import ClassyDict
