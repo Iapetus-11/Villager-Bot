@@ -2,7 +2,6 @@ from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from cryptography.fernet import Fernet
 import aiomcrcon as rcon
-from util import mosaic
 import functools
 import asyncio
 import discord
@@ -12,6 +11,7 @@ import arrow
 import json
 
 from util.misc import parse_mclists_page
+from util import mosaic
 import util.cj as cj
 
 
