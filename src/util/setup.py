@@ -48,11 +48,11 @@ async def setup_database(bot: commands.AutoShardedBot, keys: ClassyDict) -> None
         command_timeout=10,
     )
 
-def load_text(self) -> ClassyDict:
+def load_text() -> ClassyDict:
     text = {}
 
     for filename in os.listdir("data/text"):
-        with open(f"data/text/{filename}") as f:
+        with open(f"data/text/{filename}", "r", encoding="utf8") as f:
             text.update(json.load(f))
 
     return ClassyDict(text)
