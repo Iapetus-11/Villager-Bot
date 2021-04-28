@@ -11,6 +11,7 @@ import json
 import ast
 import os
 
+from util.setup import load_text_async
 import util.cj as cj
 
 
@@ -112,8 +113,7 @@ class Owner(commands.Cog):
             # update some thing swhich were just overwritten
             self.bot.mutate_botd()
         elif thing.lower() == "text":
-            async with aiofiles.open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
-                self.bot.langs.update(cj.classify(json.loads(await t.read())))
+            self.bot.langs.update(await load_text_async())
         elif thing.lower() == "mcservers":
             self.v.additional_mcservers = await self.db.fetch_all_mcservers()
         else:
