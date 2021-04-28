@@ -20,7 +20,7 @@ import speedups
 
 speedups.install()
 
-from util.setup import villager_bot_intents, setup_logging, setup_database
+from util.setup import villager_bot_intents, setup_logging, setup_database, load_text
 from util.misc import get_lang, get_prefix, check_global
 from util.statcord import ShitCordClient
 from util.cj import ClassyDict
@@ -122,8 +122,7 @@ def main():
     asyncio.get_event_loop().run_until_complete(setup_database(bot, keys))
 
     logger.info("loading villager bot text from data/text.json...")
-    with open("data/text.json", "r", encoding="utf8") as l:
-        bot.langs = ClassyDict(json.load(l))  # turns it into dot accessible dicts for ez access ~~nice dict bro~~
+    bot.langs = load_text()
 
     logger.info("loading villager bot constant data from data/data.json...")
     with open("data/data.json", "r", encoding="utf8") as d:
