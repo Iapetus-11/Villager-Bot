@@ -121,10 +121,10 @@ def run():
     logger.info("setting up connection to database and db pool...")
     asyncio.get_event_loop().run_until_complete(setup_database(bot, keys))
 
-    logger.info("loading villager bot text from data/text.json...")
+    logger.info("loading villager bot text...")
     bot.langs = load_text()
 
-    logger.info("loading villager bot constant data from data/data.json...")
+    logger.info("loading villager bot constant data...")
     with open("data/data.json", "r", encoding="utf8") as d:
         bot.d = ClassyDict(
             json.load(d)
