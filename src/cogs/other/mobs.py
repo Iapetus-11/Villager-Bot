@@ -241,6 +241,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                     m_dmg = 0
 
                 u_health -= m_dmg
+                u_health = 0 if u_health < 0 else n
 
                 if u_health < 1:  # mob wins
                     self.v.pause_econ.pop(u.id, None)
