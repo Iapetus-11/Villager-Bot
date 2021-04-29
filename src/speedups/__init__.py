@@ -19,7 +19,7 @@ def install():
             if hasattr(discord_module, thing):
                 setattr(discord_module, thing, getattr(module, thing))
 
-    # for module in (speedups_cooldowns,):
-    #     for thing in module.__all__:
-    #         if hasattr(discord_module.ext.commands.cooldowns, thing):
-    #             setattr(discord_module.ext.commands.cooldowns, thing, getattr(module, thing))
+    for module in (speedups_cooldowns,):
+        for thing in module.__all__:
+            if hasattr(discord_module.ext.commands.cooldowns, thing):
+                setattr(discord_module.ext.commands.cooldowns, thing, getattr(module, thing))

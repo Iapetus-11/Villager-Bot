@@ -2,6 +2,8 @@ import time
 
 __all__ = ("Cooldown",)
 
+cdef double NaN = float("nan")
+
 cdef class Cooldown:
     cdef public signed long long rate
     cdef public double per
@@ -22,7 +24,7 @@ cdef class Cooldown:
         self._tokens = rate
         self._last = 0.0
 
-    cpdef signed long long get_tokens(self, double current = 0.0):
+    cpdef signed long long get_tokens(self, double current = NaN):
         if not current:
             current = time.time()
 
@@ -33,7 +35,7 @@ cdef class Cooldown:
 
         return tokens
 
-    cpdef double get_retry_after(self, double current = 0.0):
+    cpdef double get_retry_after(self, double current = NaN):
         current = current or time.time()
         cdef signed long long tokens = self.get_tokens(current)
 
@@ -42,13 +44,16 @@ cdef class Cooldown:
 
         return 0.0
 
-    cpdef double update_rate_limit(self, double current = 0.0):
+    cpdef double update_rate_limit(self, double current = NaN):
         current = current or time.time()
         self._last = current
 
         self._tokens = self.get_tokens(current)
 
         if self._tokens == self.rate:
+            self._window = current
+
+        if self._tokens == 0:
             return self.per - (current - self._window)
 
         self._tokens -= 1
