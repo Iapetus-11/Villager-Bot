@@ -110,7 +110,7 @@ class Owner(commands.Cog):
             async with aiofiles.open("data/data.json", "r", encoding="utf8") as d:
                 self.d = recursive_update(self.d, cj.classify(json.loads(await d.read())))
 
-            # update some thing swhich were just overwritten
+            # update some things which were just overwritten
             self.bot.mutate_botd()
         elif thing.lower() == "text":
             self.bot.langs.update(await load_text_async())
