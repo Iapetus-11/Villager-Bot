@@ -82,7 +82,10 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_error(self, event_method, *args, **kwargs):
-        await self.bot.send(self.bot.get_channel(self.d.error_channel_id), f"Error in {event_method} occurred.\n```py\n{args}```\n```py\n{kwargs}```")
+        await self.bot.send(
+            self.bot.get_channel(self.d.error_channel_id),
+            f"Error in {event_method} occurred.\n```py\n{args}```\n```py\n{kwargs}```",
+        )
         raise
 
     @commands.Cog.listener()
