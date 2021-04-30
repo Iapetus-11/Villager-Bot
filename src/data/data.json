@@ -321,6 +321,18 @@
         4096,
         500000,
         true
+      ],
+      [
+        "Moofy Simp Badge",
+        128,
+        1000,
+        false
+      ],
+      [
+        "Moofy Slave Badge",
+        128,
+        1000,
+        false
       ]
     ]
   },
@@ -416,6 +428,18 @@
         "Heart Of The Sea",
         420,
         6669,
+        false
+      ],
+      [
+        "Moofy Simp Badge",
+        128,
+        1000,
+        false
+      ],
+      [
+        "Moofy Slave Badge",
+        128,
+        1000,
         false
       ]
     ]
@@ -677,7 +701,9 @@
     "Bane Of Pillagers Amulet",
     "Slime Trophy",
     "Fishing Trophy",
-    "Bug Hunter Badge"
+    "Bug Hunter Badge",
+    "Moofy Simp Badge",
+    "Moofy Slave Badge"
   ],
   "cats": {
     "tools": [
