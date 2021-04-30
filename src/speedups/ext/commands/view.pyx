@@ -26,7 +26,7 @@ cdef set _all_quotes = set(_quotes.keys()) | set(_quotes.values())
 
 
 cdef class StringView:
-    cdef signed int index
+    cdef public signed int index
     cdef str buffer
     cdef signed int end
     cdef signed int previous
@@ -51,10 +51,10 @@ cdef class StringView:
     cdef bint _eof(self):
         return self.index >= self.end
 
-    cdef void undo(self):
+    cpdef void undo(self):
         self.index = self.previous
 
-    cdef bint skip_ws(self):
+    cpdef bint skip_ws(self):
         cdef signed int pos = 0
         cdef str current
 
@@ -74,7 +74,7 @@ cdef class StringView:
 
         return self.previous != self.index
 
-    cdef bint skip_string(self, string: str):
+    cpdef bint skip_string(self, string: str):
         cdef signed int strlen = len(string)
 
         if self.buffer[self.index : self.index + strlen] == string:
@@ -85,7 +85,7 @@ cdef class StringView:
 
         return False
 
-    cdef str read_rest(self):
+    cpdef str read_rest(self):
         cdef str result = self.buffer[self.index:]
 
         self.previous = self.index
@@ -114,7 +114,7 @@ cdef class StringView:
 
         return result
 
-    cdef str get_word(self):
+    cpdef str get_word(self):
         cdef signed int pos = 0
         cdef str current
 
@@ -136,7 +136,7 @@ cdef class StringView:
 
         return result
 
-    cdef str get_quoted_word(self):
+    cpdef str get_quoted_word(self):
         cdef str current = self._current()
 
         if current is None:
