@@ -783,6 +783,7 @@
     "enchanted_book": "<a:enchanted_book:824820639965118464>",
     "amogus": "<a:amogus:827212032779747378>",
     "heart_of_the_sea": "<:heart_of_the_sea:832282916385980427>",
+    "autistic_emerald": "<:mooderald:837702695245840465>",
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
@@ -813,7 +814,8 @@
     "Pufferfish": "fish.pufferfish",
     "Rainbow Trout": "fish.rainbow_trout",
     "Gold Fish": "fish.gold_fish",
-    "Emerald Fish": "fish.emerald_fish"
+    "Emerald Fish": "fish.emerald_fish",
+    "Mooderald": "autistic_emerald"
   },
   "build_ideas": {
     "ideas": [
