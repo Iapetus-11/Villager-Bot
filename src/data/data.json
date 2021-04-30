@@ -797,6 +797,7 @@
     "heart_of_the_sea": "<:heart_of_the_sea:832282916385980427>",
     "autistic_emerald": "<:mooderald:837702695245840465>",
     "present": "🎁",
+    "glass_bottle": "<:glass_bottle:837717502141268028>",
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
@@ -838,7 +839,10 @@
     "Sharpness I Book": "enchanted_book",
     "Sharpness II Book": "enchanted_book",
     "Lure I Book": "enchanted_book",
-    "Present": "present"
+    "Present": "present",
+    "Haste I Potion": "glass_bottle",
+    "Haste II Potion": "glass_bottle",
+    "Vault Potion": "glass_bottle"
   },
   "build_ideas": {
     "ideas": [
