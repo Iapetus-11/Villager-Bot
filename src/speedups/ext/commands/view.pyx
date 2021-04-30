@@ -29,7 +29,7 @@ cdef class StringView:
     cdef public signed int index
     cdef str buffer
     cdef signed int end
-    cdef signed int previous
+    cdef public signed int previous
 
     def __init__(self, buffer: str):
         self.index = 0
