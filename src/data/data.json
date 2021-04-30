@@ -806,7 +806,14 @@
   "emoji_items": {
     "Netherite Scrap": "netherite",
     "Slime Ball": "slimeball",
-    "Heart Of The Sea": "heart_of_the_sea"
+    "Heart Of The Sea": "heart_of_the_sea",
+    "Cod": "fish.cod",
+    "Salmon": "fish.salmon",
+    "Tropical Fish": "fish.tropical_fish",
+    "Pufferfish": "fish.pufferfish",
+    "Rainbow Trout": "fish.rainbow_trout",
+    "Gold Fish": "fish.gold_fish",
+    "Emerald Fish": "fish.emerald_fish"
   },
   "build_ideas": {
     "ideas": [
