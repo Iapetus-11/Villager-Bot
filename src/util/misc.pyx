@@ -228,3 +228,14 @@ cpdef signed long long calc_total_wealth(db_user: object, u_items: list):
         + db_user.get("vault_bal", 0) * 9
         + sum([u_it["sell_price"] * u_it.get("amount", 0) for u_it in u_items if u_it["sell_price"] > 0])
     )
+
+cpdef str emojify_item(d: object, item: str):
+    try:
+        emoji_key = d.emoji_items[item]
+
+        if emoij_key.startswith("fish."):
+            return d.emojis.fish[emoji_key[5:]]
+
+        return d.emojis[emoji_key]
+    except KeyError:
+        raise ValueError("No emoji found for specified item.")
