@@ -4,7 +4,7 @@ import asyncio
 import aiohttp
 import discord
 import random
-import uvloop
+# import uvloop
 import arrow
 import json
 import sys
@@ -93,7 +93,7 @@ def mutate_botd(_bot):
 
 def run():
     # setup uvloop
-    uvloop.install()
+    # uvloop.install()
 
     # set up basic logging
     logger = setup_logging()
