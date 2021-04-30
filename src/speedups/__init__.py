@@ -9,17 +9,18 @@ import speedups.utils
 import speedups.message
 
 import speedups.ext.commands.cooldowns as speedups_cooldowns
+import speedups.ext.commands.view as speedups_view
 
+def install_module(new_module, old_module):
+    for thing in new_module.__all__:
+        if hasattr(old_module, thing):
+            setattr(old_module, thing, getattr(new_module, thing))
 
 def install():
     discord_module = sys.modules.get("discord")
 
-    for module in (speedups.mixins, speedups.gateway, speedups.activity, speedups.utils, speedups.message):
-        for thing in module.__all__:
-            if hasattr(discord_module, thing):
-                setattr(discord_module, thing, getattr(module, thing))
+    for new_module in (speedups.mixins, speedups.gateway, speedups.activity, speedups.utils, speedups.message):
+        install_module(new_module, discord_module)
 
-    for module in (speedups_cooldowns,):
-        for thing in module.__all__:
-            if hasattr(discord_module.ext.commands.cooldowns, thing):
-                setattr(discord_module.ext.commands.cooldowns, thing, getattr(module, thing))
+    install_module(speedups_cooldowns, discord_module.ext.commands.cooldowns)
+    install_module(speedups_view, discord_module.ext.commands.view)
