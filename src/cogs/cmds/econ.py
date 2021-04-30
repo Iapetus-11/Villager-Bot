@@ -216,7 +216,9 @@ class Econ(commands.Cog):
                     sell_price_nice = f'({item["sell_price"]}{self.d.emojis.emerald})' if item["sell_price"] != -1 else ""
 
                     try:
-                        body += f'`{item["amount"]}x` {emojify_item(self.d, item["name"])} **{item["name"]}** {sell_price_nice}\n'
+                        body += (
+                            f'`{item["amount"]}x` {emojify_item(self.d, item["name"])} **{item["name"]}** {sell_price_nice}\n'
+                        )
                     except ValueError:
                         body += f'`{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
 
