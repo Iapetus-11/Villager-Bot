@@ -26,6 +26,6 @@ def install():
         install_module(new_module, discord)
 
     install_module(speedups_cooldowns, discord.ext.commands.cooldowns)
-    install_module(speedups_view, discord.ext.commands.view)
-
-    importlib.reload(discord.ext.commands.bot)
+    # install_module(speedups_view, discord.ext.commands.view)
+    #
+    # importlib.reload(discord.ext.commands.bot)
