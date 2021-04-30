@@ -827,7 +827,16 @@
     "Rainbow Trout": "fish.rainbow_trout",
     "Gold Fish": "fish.gold_fish",
     "Emerald Fish": "fish.emerald_fish",
-    "Mooderald": "autistic_emerald"
+    "Mooderald": "autistic_emerald",
+    "Fortune I Book": "enchanted_book",
+    "Fortune II Book": "enchanted_book",
+    "Fortune III Book": "enchanted_book",
+    "Efficiency I Book": "enchanted_book",
+    "Looting I Book": "enchanted_book",
+    "Looting II Book": "enchanted_book",
+    "Sharpness I Book": "enchanted_book",
+    "Sharpness II Book": "enchanted_book",
+    "Lure I Book": "enchanted_book"
   },
   "build_ideas": {
     "ideas": [
