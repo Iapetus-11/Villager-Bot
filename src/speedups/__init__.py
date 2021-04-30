@@ -1,5 +1,6 @@
 """Much of the code in this folder is from github.com/Rapptz/discord.py, credit is to the author of discord.py"""
 
+import importlib
 import sys
 
 import speedups.mixins
@@ -17,10 +18,12 @@ def install_module(new_module, old_module):
             setattr(old_module, thing, getattr(new_module, thing))
 
 def install():
-    discord_module = sys.modules.get("discord")
+    discord = sys.modules.get("discord")
 
     for new_module in (speedups.mixins, speedups.gateway, speedups.activity, speedups.utils, speedups.message):
-        install_module(new_module, discord_module)
+        install_module(new_module, discord)
 
-    install_module(speedups_cooldowns, discord_module.ext.commands.cooldowns)
-    install_module(speedups_view, discord_module.ext.commands.view)
+    install_module(speedups_cooldowns, discord.ext.commands.cooldowns)
+    install_module(speedups_view, discord.ext.commands.view)
+
+    importlib.reload(discord.ext.commands.bot)
