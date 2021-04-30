@@ -12,10 +12,12 @@ import speedups.message
 import speedups.ext.commands.cooldowns as speedups_cooldowns
 import speedups.ext.commands.view as speedups_view
 
+
 def install_module(new_module, old_module):
     for thing in new_module.__all__:
         if hasattr(old_module, thing):
             setattr(old_module, thing, getattr(new_module, thing))
+
 
 def install():
     discord = sys.modules.get("discord")
