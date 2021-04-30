@@ -11,4 +11,3 @@ numpy
 opencv-python
 psutil
 aiofiles
-uvloop

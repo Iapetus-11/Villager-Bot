@@ -19,7 +19,6 @@ numpy = "^1.20.1"
 opencv-python = "^4.5.1"
 psutil = "^5.8.0"
 aiofiles = "^0.6.0"
-uvloop = "^0.15.2"
 Cython = "^0.29.23"
 
 [tool.poetry.dev-dependencies]
