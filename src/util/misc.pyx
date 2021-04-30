@@ -230,10 +230,12 @@ cpdef signed long long calc_total_wealth(db_user: object, u_items: list):
     )
 
 cpdef str emojify_item(d: object, item: str):
+    cdef str emoji_key
+
     try:
         emoji_key = d.emoji_items[item]
 
-        if emoij_key.startswith("fish."):
+        if emoji_key.startswith("fish."):
             return d.emojis.fish[emoji_key[5:]]
 
         return d.emojis[emoji_key]
