@@ -81,6 +81,11 @@ class Events(commands.Cog):
         await self.bot.send(loc, f"```py\n{final[:1023 - 6]}```")
 
     @commands.Cog.listener()
+    async def on_error(self, event_method, *args, **kwargs):
+        await self.bot.send(self.bot.get_channel(self.d.error_channel_id), f"Error in {event_method} occurred.\n```py\n{args}```\n```py\n{kwargs}```")
+        raise
+
+    @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
         try:
             if isinstance(e, commands.CommandOnCooldown):
