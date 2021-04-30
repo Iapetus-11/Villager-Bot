@@ -796,6 +796,7 @@
     "amogus": "<a:amogus:827212032779747378>",
     "heart_of_the_sea": "<:heart_of_the_sea:832282916385980427>",
     "autistic_emerald": "<:mooderald:837702695245840465>",
+    "present": "🎁",
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
@@ -836,7 +837,8 @@
     "Looting II Book": "enchanted_book",
     "Sharpness I Book": "enchanted_book",
     "Sharpness II Book": "enchanted_book",
-    "Lure I Book": "enchanted_book"
+    "Lure I Book": "enchanted_book",
+    "Present": "present"
   },
   "build_ideas": {
     "ideas": [
