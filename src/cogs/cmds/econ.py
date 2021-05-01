@@ -1410,6 +1410,7 @@ class Econ(commands.Cog):
 
             if await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None:
                 ems *= 1.5
+                ems = round(ems)
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
             await self.db.balance_add(ctx.author.id, ems)
