@@ -161,10 +161,7 @@ class Econ(commands.Cog):
             return
 
         db_user = await self.db.fetch_user(user.id)
-
         u_items = await self.db.fetch_items(user.id)
-
-        vault_bal = db_user["vault_bal"]
 
         total_wealth = calc_total_wealth(db_user, u_items)
 
@@ -1410,6 +1407,7 @@ class Econ(commands.Cog):
 
             if await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None:
                 ems *= 1.5
+                ems = round(ems)
 
             await self.bot.send(ctx, random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
             await self.db.balance_add(ctx.author.id, ems)
