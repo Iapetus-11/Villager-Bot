@@ -164,8 +164,6 @@ class Econ(commands.Cog):
 
         u_items = await self.db.fetch_items(user.id)
 
-        vault_bal = db_user["vault_bal"]
-
         total_wealth = calc_total_wealth(db_user, u_items)
 
         embed = discord.Embed(color=self.d.cc)
