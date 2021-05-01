@@ -1,6 +1,6 @@
 """Much of the code in this folder is from github.com/Rapptz/discord.py, credit is to the author of discord.py"""
 
-import importlib
+# import importlib
 import sys
 
 import speedups.mixins
@@ -10,7 +10,7 @@ import speedups.utils
 import speedups.message
 
 import speedups.ext.commands.cooldowns as speedups_cooldowns
-import speedups.ext.commands.view as speedups_view
+# import speedups.ext.commands.view as speedups_view
 
 
 def install_module(new_module, old_module):
