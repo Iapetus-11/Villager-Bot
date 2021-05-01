@@ -161,7 +161,6 @@ class Econ(commands.Cog):
             return
 
         db_user = await self.db.fetch_user(user.id)
-
         u_items = await self.db.fetch_items(user.id)
 
         total_wealth = calc_total_wealth(db_user, u_items)
