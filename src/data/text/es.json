@@ -570,6 +570,22 @@
         "time_max": "No puedes poner un recordatorio para mas de ocho semanas.",
         "remind": "{0} recordatorio {1}.",
         "reminder": "{0}, querías que te recuerde: *{1}*"
+      },
+      "credits": {
+        "credits": "Villager Bot wouldn't be possible without...",
+        "people": {
+          "iapetus11": "The creator, owner, and developer of Villager Bot",
+          "hpancakesk": "Helped come up with the original ideas behind Villager Bot",
+          "moody": "Helped with the ideas behind several items and fishing",
+          "elrynd": "Has helped with bug fixes and code understanding, and translated Villager Bot into French",
+          "cheeze": "Created new features and helps fix bugs",
+          "quack": "Helps fix minor issues with the code and translations",
+          "xe": "Minor bug fixes and feature additions",
+          "zelou": "Helps with the Spanish translation of Villager Bot",
+          "kaosj": "Minor bug fixes and feature additions",
+          "radar": "Minor bug fixes and feature additions"
+        },
+        "others": "And of course, the countless others who have contributed ideas and bug reports to help make Villager Bot better!"
       }
     },
     "econ": {
