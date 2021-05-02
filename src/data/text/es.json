@@ -598,6 +598,7 @@
         "bot_2": "Los bots no tienen derechos y no pueden tener esmeraldas o cosas así.",
         "s_emeralds": "esmeraldas de {}",
         "total_wealth": "Riqueza Neta: {}{}",
+        "autistic_emeralds": "Mooderalds: {}{}",
         "pocket": "Bolsillo",
         "vault": "Bóveda"
       },

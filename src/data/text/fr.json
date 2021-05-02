@@ -598,6 +598,7 @@
         "bot_2": "Les Bots n'ont pas de droits et ne peuvent pas avoir d'émeraudes ou d'équipement.",
         "s_emeralds": "Émeraudes de {}",
         "total_wealth": "Richesse Nette : {}{}",
+        "autistic_emeralds": "Mooderalds: {}{}",
         "pocket": "Poche",
         "vault": "Coffre"
       },
