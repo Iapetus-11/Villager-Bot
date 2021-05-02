@@ -66,6 +66,6 @@ async def load_text_async() -> ClassyDict:
 
     for filename in os.listdir("data/text"):
         async with aiofiles.open(f"data/text/{filename}", "r", encoding="utf8") as f:
-            text.update(json.load(f))
+            text.update(json.loads(await f.read()))
 
     return ClassyDict(text)
