@@ -135,7 +135,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name="Villager Bot wouldn't be possible without...", icon_url=self.d.splash_logo)
 
-        for person, what in ctx.l.misc.credits.people:
+        for person, what in ctx.l.misc.credits.people.items():
             user = self.bot.get_user(self.d.credit_users[person])
 
             embed.add_field(name=f"**{user.display_name}**", value=what)
