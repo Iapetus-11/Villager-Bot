@@ -164,6 +164,7 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.bal.bot_1)
             else:
                 await self.bot.send(ctx, ctx.l.econ.bal.bot_2)
+                
             return
 
         db_user = await self.db.fetch_user(user.id)
