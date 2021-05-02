@@ -107,7 +107,8 @@
         "google": "`{0}google <consulta>` *busca en google para tu consulta*",
         "youtube": "`{0}youtube <consulta>` *busca en youtube para tu consulta*",
         "image": "`{0}image <consulta>` *busca imágenes de google para tu consulta*",
-        "remindme": "`{0}remindme <tiempo> <recordatorio>` *fija un recordatorio en el tiempo especificado*"
+        "remindme": "`{0}remindme <tiempo> <recordatorio>` *fija un recordatorio en el tiempo especificado*",
+        "credits": "`{0}credits` *shows who helped make Villager Bot*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envía una imagen Minecraft maldita al azar*",
