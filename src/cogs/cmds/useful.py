@@ -133,7 +133,7 @@ class Useful(commands.Cog):
     @commands.command(name="credits", aliases=["creators", "developers"])
     async def credits(self, ctx):
         embed = discord.Embed(color=self.d.cc)
-        embed.set_author(author="Villager Bot wouldn't be possible without...", icon_url=self.d.splash_logo)
+        embed.set_author(name="Villager Bot wouldn't be possible without...", icon_url=self.d.splash_logo)
 
         for person, what in ctx.l.misc.credits.people:
             user = self.bot.get_user(self.d.credit_users[person])
