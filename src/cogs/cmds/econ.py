@@ -74,8 +74,13 @@ class Econ(commands.Cog):
             prob = f"{y*random.choice([chr(u) for u in (65279, 8203, 8204, 8205)])}{x}{x*random.choice([chr(u) for u in (65279, 8203, 8204, 8205)])}+{y}"
             prob = (prob, str(x + y))
 
-            m = await ctx.reply(embed=discord.Embed(color=self.d.cc, description=ctx.l.econ.math_problem.problem.format("process.exit(69)")), mention_author=False)
-            asyncio.create_task(await m.edit(embed=discord.Embed(color=self.d.cc, description=ctx.l.econ.math_problem.problem.format(prob[0]))))
+            m = await ctx.reply(
+                embed=discord.Embed(color=self.d.cc, description=ctx.l.econ.math_problem.problem.format("process.exit(69)")),
+                mention_author=False,
+            )
+            asyncio.create_task(
+                await m.edit(embed=discord.Embed(color=self.d.cc, description=ctx.l.econ.math_problem.problem.format(prob[0])))
+            )
 
             def author_check(m):
                 return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id
