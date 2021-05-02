@@ -133,9 +133,9 @@ class Useful(commands.Cog):
     @commands.command(name="credits", aliases=["creators", "developers"])
     async def credits(self, ctx):
         embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name="Villager Bot wouldn't be possible without...", icon_url=self.d.splash_logo)
+        embed.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
 
-        for i, entry in enumerate(ctx.l.misc.credits.people.items()):
+        for i, entry in enumerate(ctx.l.useful.credits.people.items()):
             person, what = entry
             user = self.bot.get_user(self.d.credit_users[person])
 
@@ -144,7 +144,7 @@ class Useful(commands.Cog):
             if i % 2 == 1:
                 embed.add_field(name="\uFEFF", value="\uFEFF")
 
-        embed.add_field(name="\uFEFF", value=ctx.l.misc.credits.others, inline=False)
+        embed.add_field(name="\uFEFF", value=ctx.l.useful.credits.others, inline=False)
 
         await ctx.send(embed=embed)
 
