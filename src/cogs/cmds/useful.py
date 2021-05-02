@@ -140,7 +140,7 @@ class Useful(commands.Cog):
 
             embed.add_field(name=f"**{user.display_name}**", value=what)
 
-        embed.add_field(name="\uFEFF", value=ctx.l.misc.credits.others)
+        embed.add_field(name="\uFEFF", value=ctx.l.misc.credits.others, inline=False)
 
         await ctx.send(embed=embed)
 
