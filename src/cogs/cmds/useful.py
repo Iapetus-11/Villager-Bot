@@ -130,6 +130,20 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name="credits", aliases=["creators", "developers"])
+    async def credits(self, ctx):
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_author(author="Villager Bot wouldn't be possible without...", icon_url=self.d.splash_logo)
+
+        for person, what in ctx.l.misc.credits.people:
+            user = self.bot.get_user(self.d.credit_users[person])
+
+            embed.add_field(name=f"**{user.display_name}**", value=what)
+
+        embed.add_field(name="\uFEFF", value=ctx.l.misc.credits.others)
+
+        await ctx.send(embed=embed)
+
     @commands.command(name="ping", aliases=["pong", "ding", "dong", "bing", "bong", "shing", "shling", "schlong"])
     async def ping_pong(self, ctx):
         content = ctx.message.content.lower()

@@ -14,6 +14,18 @@
   "hooksport": 5000,
   "hookspath": "/votehook",
   "topgg_reward": 32,
+  "credit_users": {
+    "iapetus11": 536986067140608041,
+    "hpancakesk": 447425892361306141,
+    "moody": 617882209956659259,
+    "quack": 626932139166007347,
+    "cheeze": 656373241144934420,
+    "elrynd": 128554674482577408,
+    "xe": 725269430409494588,
+    "zelou": 493907466401087498,
+    "kaosj": 624753330660311070,
+    "radar": 747107518471209024
+  },
   "acceptable_prefix_chars": [
     "a",
     "b",
