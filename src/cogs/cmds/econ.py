@@ -310,6 +310,14 @@ class Econ(commands.Cog):
             except BaseException:
                 raise commands.BadArgument
 
+        if user.bot:
+            if user.id == self.bot.user.id:
+                await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
+            else:
+                await self.bot.send(ctx, ctx.l.econ.inv.bot_2)
+
+            return
+
         items = await self.db.fetch_items(user.id)
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.all, 16)
