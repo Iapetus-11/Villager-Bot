@@ -27,8 +27,8 @@ cdef set _all_quotes = set(_quotes.keys()) | set(_quotes.values())
 
 cdef class StringView:
     cdef public signed int index
-    cdef str buffer
-    cdef signed int end
+    cdef public str buffer
+    cdef public signed int end
     cdef public signed int previous
 
     def __init__(self, buffer: str):
@@ -101,7 +101,7 @@ cdef class StringView:
 
         return result
 
-    cdef str get(self):
+    cpdef str get(self):
         cdef str result
 
         try:
