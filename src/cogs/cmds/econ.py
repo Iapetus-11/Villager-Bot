@@ -183,9 +183,9 @@ class Econ(commands.Cog):
         embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=user.avatar_url_as())
 
         embed.description = (
-            ctx.l.econ.bal.total_wealth.format(total_wealth, self.d.emojis.emerald),
+            ctx.l.econ.bal.total_wealth.format(total_wealth, self.d.emojis.emerald)
             + "\n"
-            + ctx.l.econ.bal.autistic_emeralds.format(mooderalds, self.d.emojis.autistic_emerald),
+            + ctx.l.econ.bal.autistic_emeralds.format(mooderalds, self.d.emojis.autistic_emerald)
         )
 
         embed.add_field(name=ctx.l.econ.bal.pocket, value=f'{db_user["emeralds"]}{self.d.emojis.emerald}')
