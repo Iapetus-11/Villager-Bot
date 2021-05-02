@@ -136,66 +136,65 @@ cdef class StringView:
 
         return result
 
-    cpdef str get_quoted_word(self):
-        cdef str current = self._current()
-
+    def get_quoted_word(self):
+        current = self.current
         if current is None:
             return None
 
-        cdef str close_quote = _quotes.get(current)
-        cdef bint is_quoted = bool(close_quote)
-        cdef list result
-        cdef set _escaped_quotes
-        cdef str next_char
-        cdef bint valid_eof
-
+        close_quote = _quotes.get(current)
+        is_quoted = bool(close_quote)
         if is_quoted:
             result = []
-            _escaped_quotes = set((current, close_quote))
+            _escaped_quotes = (current, close_quote)
         else:
             result = [current]
             _escaped_quotes = _all_quotes
 
-        while not self._eof():
+        while not self.eof:
             current = self.get()
-
             if not current:
                 if is_quoted:
+                    # unexpected EOF
                     raise ExpectedClosingQuoteError(close_quote)
+                return ''.join(result)
 
-                return "".join(result)
-
-            if current == "\\":
+            # currently we accept strings in the format of "hello world"
+            # to embed a quote inside the string you must escape it: "a \"world\""
+            if current == '\\':
                 next_char = self.get()
-
                 if not next_char:
+                    # string ends with \ and no character after it
                     if is_quoted:
+                        # if we're quoted then we're expecting a closing quote
                         raise ExpectedClosingQuoteError(close_quote)
-
-                    return "".join(result)
+                    # if we aren't then we just let it through
+                    return ''.join(result)
 
                 if next_char in _escaped_quotes:
+                    # escaped quote
                     result.append(next_char)
                 else:
+                    # different escape character, ignore it
                     self.undo()
                     result.append(current)
-
                 continue
 
             if not is_quoted and current in _all_quotes:
+                # we aren't quoted
                 raise UnexpectedQuoteError(current)
 
-
+            # closing quote
             if is_quoted and current == close_quote:
                 next_char = self.get()
                 valid_eof = not next_char or next_char.isspace()
-
                 if not valid_eof:
                     raise InvalidEndOfQuotedStringError(next_char)
 
-                return "".join(result)
+                # we're quoted so it's okay
+                return ''.join(result)
 
             if current.isspace() and not is_quoted:
-                return "".join(result)
+                # end of word found
+                return ''.join(result)
 
             result.append(current)
