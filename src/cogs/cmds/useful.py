@@ -135,10 +135,14 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name="Villager Bot wouldn't be possible without...", icon_url=self.d.splash_logo)
 
-        for person, what in ctx.l.misc.credits.people.items():
+        for i, entry in enumerate(ctx.l.misc.credits.people.items()):
+            person, what = entry
             user = self.bot.get_user(self.d.credit_users[person])
 
             embed.add_field(name=f"**{user.display_name}**", value=what)
+
+            if i % 2 == 1:
+                embed.add_field(name="\uFEFF", value="\uFEFF")
 
         embed.add_field(name="\uFEFF", value=ctx.l.misc.credits.others, inline=False)
 
