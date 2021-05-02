@@ -132,7 +132,7 @@ cdef class StringView:
         cdef str result = self.buffer[self.index : self.index + pos]
 
         self.previous = self.index
-        self.index += 1
+        self.index += pos
 
         return result
 
