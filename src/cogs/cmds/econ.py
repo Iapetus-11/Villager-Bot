@@ -164,7 +164,7 @@ class Econ(commands.Cog):
                 await self.bot.send(ctx, ctx.l.econ.bal.bot_1)
             else:
                 await self.bot.send(ctx, ctx.l.econ.bal.bot_2)
-                
+
             return
 
         db_user = await self.db.fetch_user(user.id)
@@ -172,10 +172,20 @@ class Econ(commands.Cog):
 
         total_wealth = calc_total_wealth(db_user, u_items)
 
+        mooderalds = await self.db.fetch_item(user.id, "Mooderald")
+
+        if mooderalds is None:
+            mooderalds = 0
+        else:
+            mooderalds = mooderalds["amount"]
+
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=user.avatar_url_as())
 
-        embed.description = ctx.l.econ.bal.total_wealth.format(total_wealth, self.d.emojis.emerald)
+        embed.description = "\n".join(
+            ctx.l.econ.bal.total_wealth.format(total_wealth, self.d.emojis.emerald),
+            ctx.l.econ.bal.mooderalds.format(mooderalds["amount"], self.d.emojis.autistic_emerald)
+        )
 
         embed.add_field(name=ctx.l.econ.bal.pocket, value=f'{db_user["emeralds"]}{self.d.emojis.emerald}')
         embed.add_field(
