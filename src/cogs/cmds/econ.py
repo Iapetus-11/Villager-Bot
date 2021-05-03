@@ -1032,7 +1032,7 @@ class Econ(commands.Cog):
 
                     await self.bot.send(
                         ctx,
-                        f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
+                        f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF \uFEFF "
                         + ctx.l.econ.mine.found_item_1.format(
                             random.choice(ctx.l.econ.mine.actions),
                             1,
@@ -1056,7 +1056,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(
                 ctx,
-                f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
+                f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF \uFEFF "
                 + ctx.l.econ.mine.found_item_2.format(
                     random.choice(ctx.l.econ.mine.actions),
                     random.randint(1, 6),
@@ -1075,7 +1075,7 @@ class Econ(commands.Cog):
 
             await self.bot.send(
                 ctx,
-                f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
+                f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF \uFEFF "
                 + ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald),
                 True,
             )
