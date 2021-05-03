@@ -1657,8 +1657,12 @@ class Econ(commands.Cog):
                 "Mooderald", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = lb_logic(self, moods_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald))
-            lb_local = lb_logic(self, moods_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald))
+            lb_global = lb_logic(
+                self, moods_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald)
+            )
+            lb_local = lb_logic(
+                self, moods_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald)
+            )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
