@@ -468,7 +468,7 @@ class Econ(commands.Cog):
 
             # row 1
             embed.add_field(
-                name=f"__**{ctx.l.econ.shop.tools.format(self.d.emojis.netherite_pickaxe)}**__",
+                name=f"__**{ctx.l.econ.shop.tools.format(self.d.emojis.netherite_pickaxe_ench)}**__",
                 value=f"`{ctx.prefix}shop tools`",
             )
             embed.add_field(name="\uFEFF", value="\uFEFF")

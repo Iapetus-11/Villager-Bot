@@ -60,7 +60,7 @@ class Useful(commands.Cog):
             embed.add_field(name=(self.d.emojis.anichest + ctx.l.help.n.utility), value=f"`{p}help util`")
 
             embed.add_field(name=(self.d.emojis.rainbow_shep + ctx.l.help.n.fun), value=f"`{p}help fun`")
-            embed.add_field(name=(self.d.emojis.netherite_sword + ctx.l.help.n.admin), value=f"`{p}help admin`")
+            embed.add_field(name=(self.d.emojis.netherite_sword_ench + ctx.l.help.n.admin), value=f"`{p}help admin`")
             embed.add_field(
                 name=(self.d.emojis.heart_spin + ctx.l.help.main.support),
                 value=f"**[{ctx.l.help.main.clickme}]({self.d.support})**",
