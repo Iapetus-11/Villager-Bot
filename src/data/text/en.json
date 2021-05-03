@@ -574,6 +574,7 @@
       },
       "credits": {
         "credits": "Villager Bot wouldn't be possible without...",
+        "foot": "Made by Iapetus11 and others ({0}credits)",
         "people": {
           "iapetus11": "The creator, owner, and developer of Villager Bot",
           "hpancakesk": "Helped come up with the original ideas behind Villager Bot",
