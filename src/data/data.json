@@ -793,6 +793,7 @@
     "gold_pick": "<:gold_pick:838789436199796827>",
     "diamond_pick": "<:diamond_pick:838789270540910602>",
     "netherite_pick": "<:netherite_pick:838788994669740043>",
+    "fishing_rod": "<:fishstick:838794560603029514>",
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
@@ -843,7 +844,8 @@
     "Iron Pickaxe": "iron_pick",
     "Gold Pickaxe": "gold_pick",
     "Diamond Pickaxe": "diamond_pick",
-    "Netherite Pickaxe": "netherite_pick"
+    "Netherite Pickaxe": "netherite_pick",
+    "Fishing Rod": "fishing_rod"
   },
   "build_ideas": {
     "ideas": [
