@@ -27,34 +27,18 @@ from util.statcord import ShitCordClient
 from util.cj import ClassyDict
 
 # send function/method for easy sending of embed messages with small amounts of text
-# async def send(_bot, location, message, respond=False, ping=False):
-#     embed = discord.Embed(color=_bot.d.cc, description=message)
-#
-#     try:
-#         if respond and hasattr(location, "reply"):
-#             try:
-#                 await location.reply(embed=embed, mention_author=ping)
-#                 return True
-#             except discord.errors.HTTPException:
-#                 pass
-#
-#         await location.send(embed=embed)
-#
-#         return True
-#     except discord.Forbidden:
-#         return False
-
-
 async def send(_bot, location, message, respond=False, ping=False):
+    embed = discord.Embed(color=_bot.d.cc, description=message)
+
     try:
         if respond and hasattr(location, "reply"):
             try:
-                await location.reply(message, mention_author=ping)
+                await location.reply(embed=embed, mention_author=ping)
                 return True
             except discord.errors.HTTPException:
                 pass
 
-        await location.send(message)
+        await location.send(embed=embed)
 
         return True
     except discord.Forbidden:
