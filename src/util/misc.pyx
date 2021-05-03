@@ -240,4 +240,4 @@ cpdef str emojify_item(d: object, item: str):
 
         return d.emojis[emoji_key]
     except KeyError:
-        raise ValueError("No emoji found for specified item.")
+        return d.emojis.air

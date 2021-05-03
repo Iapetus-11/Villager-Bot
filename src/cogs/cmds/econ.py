@@ -230,12 +230,9 @@ class Econ(commands.Cog):
                 for item in items_chunks[page]:
                     sell_price_nice = f'({item["sell_price"]}{self.d.emojis.emerald})' if item["sell_price"] != -1 else ""
 
-                    try:
-                        body += (
-                            f'`{item["amount"]}x` {emojify_item(self.d, item["name"])} **{item["name"]}** {sell_price_nice}\n'
-                        )
-                    except ValueError:
-                        body += f'`{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
+                    body += (
+                        f'{emojify_item(self.d, item["name"])} `{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
+                    )
 
                 embed = discord.Embed(color=self.d.cc, description=body)
                 embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat), icon_url=user.avatar_url_as())
