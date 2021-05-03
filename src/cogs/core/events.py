@@ -78,7 +78,7 @@ class Events(commands.Cog):
             "``", "\`\`\`"
         )
 
-        await self.bot.send(loc, f"```py\n{final[:1023 - 6]}```")
+        await loc.send(f"```py\n{final[:1023 - 6]}```")
 
     @commands.Cog.listener()
     async def on_error(self, event_method, *args, **kwargs):
