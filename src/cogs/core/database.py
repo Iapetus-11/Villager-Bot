@@ -64,7 +64,7 @@ class Database(commands.Cog):
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE uid = $1", uid)
 
     async def add_reminder(self, uid: int, cid: int, mid: int, reminder: str, at: int):
-        await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", uid, mid, cid, reminder, at)
+        await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", uid, cid, mid, reminder, at)
 
     async def fetch_all_botbans(self):
         botban_records = await self.db.fetch(
