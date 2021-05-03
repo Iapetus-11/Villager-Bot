@@ -898,13 +898,15 @@
         "cmds": "Comandos Enviados",
         "votes": "Racha De Votos",
         "fish": "Pececitos pescados",
+        "mooderalds": "Mooderalds",
         "lb_ems": "{0}__**Tabla De Líderes De Esmeraldas**__{0}",
         "lb_pil": "{0}__**Tabla De Líderes Robados De Esmeraldas**__{0}",
         "lb_kil": "{0}__**Tabla De Líderes De Monstruos Muertos**__{0}",
         "lb_bee": "{0}__**Tabla De Líderes De Abejas Total**__{0}",
         "lb_cmds": "{0}__**Tabla De Líderes De Comandos Enviados**__{0}",
         "lb_votes": "{0}__**Tabla De Líderes De Racha De Votos**__{0}",
-        "lb_fish": "{0}__**Tabla de posiciones de peces pescados**__{0}"
+        "lb_fish": "{0}__**Tabla de posiciones de peces pescados**__{0}",
+        "lb_moods": "{0}__**Mooderald Leaderboard**__{0}"
       }
     }
   }

@@ -899,13 +899,15 @@
         "cmds": "Commands Sent",
         "votes": "Vote Streak",
         "fish": "Fishies Fished",
+        "mooderalds": "Mooderalds",
         "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
         "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
         "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
         "lb_bee": "{0}__**Total Bees Leaderboard**__{0}",
         "lb_cmds": "{0}__**Commands Sent Leaderboard**__{0}",
         "lb_votes": "{0}__**Vote Streak Leaderboard**__{0}",
-        "lb_fish": "{0}__**Fish Fished Leaderboard**__{0}"
+        "lb_fish": "{0}__**Fish Fished Leaderboard**__{0}",
+        "lb_moods": "{0}__**Mooderald Leaderboard**__{0}"
       }
     }
   }

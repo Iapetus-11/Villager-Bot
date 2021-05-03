@@ -1515,6 +1515,8 @@ class Econ(commands.Cog):
             embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`")
 
             embed.add_field(name=ctx.l.econ.lb.fish, value=f"`{ctx.prefix}leaderboard fish`")
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.mooderalds, value=f"`{ctx.prefix}leaderboard mooderalds`")
 
             await ctx.send(embed=embed)
 
@@ -1642,6 +1644,23 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
+        await ctx.send(embed=embed)
+
+    @leaderboards.command(name="mooderalds", aliases=["autism", "moods", "mooderald"])
+    async def leaderboard_mooderalds(self, ctx):
+        async with ctx.typing():
+            moods_global, global_u_entry = await self.db.fetch_global_lb_item("Mooderald", ctx.author.id)
+            moods_local, local_u_entry = await self.db.fetch_local_lb_item(
+                "Mooderald", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            )
+
+            lb_global = lb_logic(self, moods_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald))
+            lb_local = lb_logic(self, moods_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald))
+
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 

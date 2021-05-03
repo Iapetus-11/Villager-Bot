@@ -899,13 +899,15 @@
         "cmds": "Commandes envoyées",
         "votes": "Série de votes",
         "fish": "Poissons pêchés",
+        "mooderalds": "Mooderalds",
         "lb_ems": "{0}__**Leaderboard d'émeraudes**__{0}",
         "lb_pil": "{0}__**Leaderboard d'émeraudes volés**__{0}",
         "lb_kil": "{0}__**Leaderboard des monstres tués**__{0}",
         "lb_bee": "{0}__**Leaderboard du nombre total d'abeilles**__{0}",
         "lb_cmds": "{0}__**Leaderboard des commandes envoyées**__{0}",
         "lb_votes": "{0}__**Leaderboard des séries de votes**__{0}",
-        "lb_fish": "{0}__**Leaderboard des poissons pêchés**__{0}"
+        "lb_fish": "{0}__**Leaderboard des poissons pêchés**__{0}",
+        "lb_moods": "{0}__**Mooderald Leaderboard**__{0}"
       }
     }
   }
