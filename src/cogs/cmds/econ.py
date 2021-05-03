@@ -1044,8 +1044,6 @@ class Econ(commands.Cog):
                         True,
                     )
 
-                    await ctx.reply(embed=discord.Embed(), mention_author=False)
-
                     return
 
                 await asyncio.sleep(0)
