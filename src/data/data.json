@@ -1,5 +1,5 @@
 {
-  "default_prefix": "!!",
+  "default_prefix": ".",
   "support_server_id": 641117791272960031,
   "error_channel_id": 642446655022432267,
   "vote_channel_id": 725551439165784115,
@@ -787,6 +787,12 @@
     "autistic_emerald": "<:mooderald:837702695245840465>",
     "present": "🎁",
     "glass_bottle": "<:glass_bottle:837717502141268028>",
+    "wood_pick": "<:wood_pick:838789644413173811>",
+    "stone_pick": "<:stone_pick:838788641856684033>",
+    "iron_pick": "<:iron_pick:838789357829750866>",
+    "gold_pick": "<:gold_pick:838789436199796827>",
+    "diamond_pick": "<:diamond_pick:838789270540910602>",
+    "netherite_pick": "<:netherite_pick:838788994669740043>",
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
