@@ -108,7 +108,7 @@
         "youtube": "`{0}youtube <recherche>` *recherche ta requête sur youtube*",
         "image": "`{0}image <recherche>` *recherche ta requête sur google images*",
         "remindme": "`{0}remindme <temps> <rappel>` *te rappelles après un temps spécifié*",
-        "credits": "`{0}credits` *shows who helped make Villager Bot*"
+        "credits": "`{0}credits` *montre qui a aidé à faire le Villager Bot*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envoie une image cursed de Minecraft*",
@@ -573,21 +573,21 @@
         "reminder": "{0}, tu voulais que je te rappelle : *{1}*"
       },
       "credits": {
-        "credits": "Villager Bot wouldn't be possible without...",
-        "foot": "Made by Iapetus11 and others ({0}credits)",
+        "credits": "Villager Bot n'aurait pas été possible sans ...",
+        "foot": "Fait par Iapetus11 et d'autres ({0}credits)",
         "people": {
-          "iapetus11": "The creator, owner, and developer of Villager Bot",
-          "hpancakesk": "Helped come up with the original ideas behind Villager Bot",
-          "moody": "Helped with the ideas behind several items and fishing",
-          "elrynd": "Has helped with bug fixes and code understanding, and translated Villager Bot into French",
-          "cheeze": "Created new features and helps fix bugs",
-          "quack": "Helps fix minor issues with the code and translations",
-          "xe": "Minor bug fixes and feature additions",
-          "zelou": "Helps with the Spanish translation of Villager Bot",
-          "kaosj": "Minor bug fixes and feature additions",
-          "radar": "Minor bug fixes and feature additions"
+          "iapetus11": "Le créateur, propriétaire, et développeur du Villager Bot",
+          "hpancakesk": "A aidé à l'élaboration des idées à l'origine du Villager Bot",
+          "moody": "A aidé pours les idées à l'origine de certains objets et de la pêche",
+          "elrynd": "A aidé à la correction de bugs, à la compréhension du code, et a traduit le Villager Bot en français",
+          "cheeze": "A créé de nouvelles fonctionalités et aide à la correction de bugs",
+          "quack": "Aide à corriger des problèmes mineurs dans le code et les traductions",
+          "xe": "Corrections de bugs mineurs et ajout de fonctionnalités",
+          "zelou": "Aide à la traduction du Villager Bot en espagnol",
+          "kaosj": "Corrections de bugs mineurs et ajout de fonctionnalités",
+          "radar": "Corrections de bugs mineurs et ajout de fonctionnalités"
         },
-        "others": "And of course, the countless others who have contributed ideas and bug reports to help make Villager Bot better!"
+        "others": "Et bien sûr, les innombrables autres personnes qui ont contribués par leurs idées et leurs signalement de bugs à améliorer le Villager Bot !"
       }
     },
     "econ": {
