@@ -107,7 +107,8 @@
         "google": "`{0}google <search>` *searches on google for your query*",
         "youtube": "`{0}youtube <search>` *searches on youtube for your query*",
         "image": "`{0}image <search>` *searches google images for your query*",
-        "remindme": "`{0}remindme <time> <reminder>` *reminds you in a specified time*"
+        "remindme": "`{0}remindme <time> <reminder>` *reminds you in a specified time*",
+        "credits": "`{0}credits` *shows who helped make Villager Bot*"
       },
       "fun": {
         "cursed": "`{0}cursed` *sends a random cursed Minecraft image*",
@@ -127,6 +128,7 @@
         "bubblewrap": "`{0}bubblewrap` *sends virtual bubblewrap for you to pop*",
         "coinflip": "`{0}coinflip` *flips a coin and says the result in the chat*",
         "pat": "`{0}pat <user>` *brutally pat someone on the head*",
+        "slap": "`{0}slap <user>` *gently slap someone*",
         "achievement": "`{0}achievement <text>` *generates a Minecraft achievement from the given text*",
         "splashtext": "`{0}splashtext <text>` *generates a Minecraft splash screen with the given text*"
       },
@@ -530,6 +532,7 @@
         "mem": "Memory",
         "cpu": "CPU Usage",
         "threads": "Threads",
+        "tasks": "Tasks",
         "uptime": "Uptime"
       },
       "ginf": {
@@ -543,7 +546,8 @@
         "bans": "Bans",
         "cmd_prefix": "Prefix",
         "lang": "Language",
-        "diff": "Difficulty"
+        "diff": "Difficulty",
+        "prem": "Premium"
       },
       "meth": {
         "oops": "Oops, something went wrong..."
@@ -557,7 +561,7 @@
         "slashrules": "{}rules for the rules!",
         "penalty": "Penalty for breaking these rules may include a reset/wipe, in-game penalty/debuff, or a **permanent ban from the support server and/or using the bot**.",
         "rule_1": "**1.** Don't abuse bugs, report them in the #bug-smasher channel on the [support server]({}) for a reward!",
-        "rule_2": "**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items.",
+        "rule_2": "**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items. (This includes no self-botting.)",
         "rule_3": "**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.",
         "rule_4": "**4.** Don't use the bot to promote any content not sanctioned by the bot owner."
       },
@@ -567,6 +571,23 @@
         "time_max": "You cannot set a reminder more than eight weeks in advance.",
         "remind": "{0} reminding you {1}.",
         "reminder": "{0}, you wanted me to remind you: *{1}*"
+      },
+      "credits": {
+        "credits": "Villager Bot wouldn't be possible without...",
+        "foot": "Made by Iapetus11 and others ({0}credits)",
+        "people": {
+          "iapetus11": "The creator, owner, and developer of Villager Bot",
+          "hpancakesk": "Helped come up with the original ideas behind Villager Bot",
+          "moody": "Helped with the ideas behind several items and fishing",
+          "elrynd": "Has helped with bug fixes and code understanding, and translated Villager Bot into French",
+          "cheeze": "Created new features and helps fix bugs",
+          "quack": "Helps fix minor issues with the code and translations",
+          "xe": "Minor bug fixes and feature additions",
+          "zelou": "Helps with the Spanish translation of Villager Bot",
+          "kaosj": "Minor bug fixes and feature additions",
+          "radar": "Minor bug fixes and feature additions"
+        },
+        "others": "And of course, the countless others who have contributed ideas and bug reports to help make Villager Bot better!"
       }
     },
     "econ": {
@@ -595,6 +616,7 @@
         "bot_2": "Bots don't have rights and can't have emeralds or stuff.",
         "s_emeralds": "{}'s emeralds",
         "total_wealth": "Net Wealth: {}{}",
+        "autistic_emeralds": "Mooderalds: {}{}",
         "pocket": "Pocket",
         "vault": "Vault"
       },
@@ -637,7 +659,7 @@
         "stupid_1": "You can't buy less than one of an item.",
         "stupid_2": "`{}` is invalid or isn't in the Villager Shop.",
         "poor_loser_2": "You don't have enough emeralds to buy `{}x` **{}**.",
-        "need_total_of": "You need a total of {}{} ({}) to buy this item.",
+        "need_total_of": "You need a total of `{}x` {} ({}) to buy this item.",
         "you_done_bought": "You have bought {}x **{}** for {} (You have {} total).",
         "no_to_item_1": "You can't buy any more of this item.",
         "no_to_item_2": "For some reason, you can't buy this item."
@@ -692,7 +714,7 @@
           "You gave the piglin a great time. The piglin stops and thinks, and then hands you {}.",
           "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot gave you {}.",
           "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot gave you {}.",
-          "Walking towards your begging spot glistening emeralds catch your eye, you find {}.",
+          "Walking towards your begging spot, glistening emeralds catch your eye. You find {}.",
           "You search between the couch cushions and find {}!",
           "You climb Mt. Everest in search of emeralds, you find {}!",
           "You find a hidden trapdoor and behind it lays {}...",
@@ -759,7 +781,7 @@
         ],
         "caught": [
           "You reeled in one **{0}** {1}!",
-          "You fished up **{0}** {1}!",
+          "You fished up one **{0}** {1}!",
           "You feel a bite and reel in one **{0}** {1}!",
           "You feel a tug at the end of the line and fish up one **{0}** {1}!"
         ],
@@ -877,13 +899,15 @@
         "cmds": "Commands Sent",
         "votes": "Vote Streak",
         "fish": "Fishies Fished",
+        "mooderalds": "Mooderalds",
         "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
         "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
         "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
         "lb_bee": "{0}__**Total Bees Leaderboard**__{0}",
         "lb_cmds": "{0}__**Commands Sent Leaderboard**__{0}",
         "lb_votes": "{0}__**Vote Streak Leaderboard**__{0}",
-        "lb_fish": "{0}__**Fish Fished Leaderboard**__{0}"
+        "lb_fish": "{0}__**Fish Fished Leaderboard**__{0}",
+        "lb_moods": "{0}__**Mooderald Leaderboard**__{0}"
       }
     }
   }

@@ -14,6 +14,18 @@
   "hooksport": 5000,
   "hookspath": "/votehook",
   "topgg_reward": 32,
+  "credit_users": {
+    "iapetus11": 536986067140608041,
+    "hpancakesk": 447425892361306141,
+    "moody": 617882209956659259,
+    "elrynd": 128554674482577408,
+    "cheeze": 656373241144934420,
+    "quack": 626932139166007347,
+    "xe": 725269430409494588,
+    "zelou": 493907466401087498,
+    "kaosj": 624753330660311070,
+    "radar": 747107518471209024
+  },
   "acceptable_prefix_chars": [
     "a",
     "b",
@@ -73,6 +85,14 @@
     "gold sword",
     "diamond sword",
     "netherite sword"
+  ],
+  "sword_list_proper": [
+    "Netherite Sword",
+    "Diamond Sword",
+    "Gold Sword",
+    "Iron Sword",
+    "Stone Sword",
+    "Wood Sword"
   ],
   "kills": [
     "**{0}** was suicided.",
@@ -309,10 +329,28 @@
         false
       ],
       [
+        "Mooderald",
+        768,
+        4096,
+        true
+      ],
+      [
         "Bane Of Pillagers Amulet",
         4096,
         500000,
         true
+      ],
+      [
+        "Lightsaber",
+        768,
+        4096,
+        false
+      ],
+      [
+        "Storm Trooper Helmet",
+        128,
+        1000,
+        false
       ]
     ]
   },
@@ -408,6 +446,24 @@
         "Heart Of The Sea",
         420,
         6669,
+        false
+      ],
+      [
+        "Mooderald",
+        768,
+        4096,
+        true
+      ],
+      [
+        "X-Wing Starfighter Model",
+        1024,
+        20000,
+        false
+      ],
+      [
+        "Storm Trooper Helmet",
+        128,
+        1000,
         false
       ]
     ]
@@ -669,7 +725,9 @@
     "Bane Of Pillagers Amulet",
     "Slime Trophy",
     "Fishing Trophy",
-    "Bug Hunter Badge"
+    "Bug Hunter Badge",
+    "Moofy Simp Badge",
+    "Moofy Slave Badge"
   ],
   "cats": {
     "tools": [
@@ -703,11 +761,13 @@
       "Vault Potion",
       "Bane Of Pillagers Amulet",
       "Slime Trophy",
-      "Rich Person Trophy"
+      "Rich Person Trophy",
+      "Fishing Trophy"
     ],
     "material": [
       "Netherite Scrap",
-      "Slime Ball"
+      "Slime Ball",
+      "Heart Of The Sea"
     ],
     "fish": [
       "Cod",
@@ -738,8 +798,8 @@
     "downdoot": "<:downvote:682422396774514689>",
     "slimeball": "<:slimeball:781753960213381150>",
     "totem": "<:totem:824822285625458708>",
-    "netherite_sword": "<a:netherite_sword:783838353220304906>",
-    "netherite_pickaxe": "<a:netherite_pickaxe:824821206385557514>",
+    "netherite_sword_ench": "<a:netherite_sword_ench:783838353220304906>",
+    "netherite_pickaxe_ench": "<a:netherite_pickaxe_ench:824821206385557514>",
     "bounce": "<a:bounce:783838342956580886>",
     "anichest": "<a:anichest:783838343506427904>",
     "rainbow_shep": "<a:rainbow_shep:783838351001387009>",
@@ -748,6 +808,18 @@
     "enchanted_book": "<a:enchanted_book:824820639965118464>",
     "amogus": "<a:amogus:827212032779747378>",
     "heart_of_the_sea": "<:heart_of_the_sea:832282916385980427>",
+    "autistic_emerald": "<:mooderald:837702695245840465>",
+    "present": "🎁",
+    "glass_bottle": "<:glass_bottle:837717502141268028>",
+    "wood_pick": "<:wood_pick:838789644413173811>",
+    "stone_pick": "<:stone_pick:838788641856684033>",
+    "iron_pick": "<:iron_pick:838789357829750866>",
+    "gold_pick": "<:gold_pick:838789436199796827>",
+    "diamond_pick": "<:diamond_pick:838789270540910602>",
+    "netherite_pick": "<:netherite_pick:838788994669740043>",
+    "fishing_rod": "<:fishstick:838794560603029514>",
+    "air": "<:air:828359049602662431>",
+    "jar_of_bees": "<:jar_of_bees:839132481071349840>",
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
@@ -771,7 +843,36 @@
   "emoji_items": {
     "Netherite Scrap": "netherite",
     "Slime Ball": "slimeball",
-    "Heart Of The Sea": "heart_of_the_sea"
+    "Heart Of The Sea": "heart_of_the_sea",
+    "Cod": "fish.cod",
+    "Salmon": "fish.salmon",
+    "Tropical Fish": "fish.tropical_fish",
+    "Pufferfish": "fish.pufferfish",
+    "Rainbow Trout": "fish.rainbow_trout",
+    "Gold Fish": "fish.gold_fish",
+    "Emerald Fish": "fish.emerald_fish",
+    "Mooderald": "autistic_emerald",
+    "Fortune I Book": "enchanted_book",
+    "Fortune II Book": "enchanted_book",
+    "Fortune III Book": "enchanted_book",
+    "Efficiency I Book": "enchanted_book",
+    "Looting I Book": "enchanted_book",
+    "Looting II Book": "enchanted_book",
+    "Sharpness I Book": "enchanted_book",
+    "Sharpness II Book": "enchanted_book",
+    "Lure I Book": "enchanted_book",
+    "Present": "present",
+    "Haste I Potion": "glass_bottle",
+    "Haste II Potion": "glass_bottle",
+    "Vault Potion": "glass_bottle",
+    "Wood Pickaxe": "wood_pick",
+    "Stone Pickaxe": "stone_pick",
+    "Iron Pickaxe": "iron_pick",
+    "Gold Pickaxe": "gold_pick",
+    "Diamond Pickaxe": "diamond_pick",
+    "Netherite Pickaxe": "netherite_pick",
+    "Fishing Rod": "fishing_rod",
+    "Jar Of Bees": "jar_of_bees"
   },
   "build_ideas": {
     "ideas": [
