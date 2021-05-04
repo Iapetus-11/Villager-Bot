@@ -445,7 +445,13 @@
       [
         "Mooderald",
         768,
-        9999,
+        4096,
+        true
+      ],
+      [
+        "X-Wing Starfighter Model",
+        1024,
+        20000,
         true
       ]
     ]
