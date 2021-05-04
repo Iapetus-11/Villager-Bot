@@ -344,7 +344,13 @@
         "Lightsaber",
         768,
         4096,
-        true
+        false
+      ],
+      [
+        "Storm Trooper Helmet",
+        128,
+        1000,
+        false
       ]
     ]
   },
@@ -452,7 +458,7 @@
         "X-Wing Starfighter Model",
         1024,
         20000,
-        true
+        false
       ]
     ]
   },
