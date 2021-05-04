@@ -459,6 +459,12 @@
         1024,
         20000,
         false
+      ],
+      [
+        "Storm Trooper Helmet",
+        128,
+        1000,
+        false
       ]
     ]
   },
