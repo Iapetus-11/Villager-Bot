@@ -846,7 +846,8 @@
     "Gold Pickaxe": "gold_pick",
     "Diamond Pickaxe": "diamond_pick",
     "Netherite Pickaxe": "netherite_pick",
-    "Fishing Rod": "fishing_rod"
+    "Fishing Rod": "fishing_rod",
+    "Jar Of Bees": "bee"
   },
   "build_ideas": {
     "ideas": [
