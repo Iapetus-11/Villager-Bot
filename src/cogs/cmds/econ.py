@@ -597,13 +597,12 @@ class Econ(commands.Cog):
             if i % 2 == 0:
                 fields.append({"name": "\uFEFF", "value": "\uFEFF"})
 
-                msg = None
-
             await asyncio.sleep(0)
 
         groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
         page_max = len(groups)
         page = 0
+        msg = None
 
         while True:
             embed = embed_template.copy()
