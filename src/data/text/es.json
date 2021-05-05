@@ -584,6 +584,7 @@
           "quack": "Ayudó a arreglar pequeños errores con el código y traducciones",
           "xe": "Arreglos menores de bugs y adición de funciones",
           "zelou": "Ayuda con la traducción al Español de Villager Bot",
+          "joaooh": "Created and maintains the Portuguese translation of Villager Bot",
           "kaosj": "Arreglos menores de bugs y adición de funciones",
           "radar": "Arreglos menores de bugs y adición de funciones"
         },
@@ -639,7 +640,7 @@
         "stupid_2": "No tienes suficiente espacio para eso.",
         "stupid_3": "No tienes suficiente espacio para eso.",
         "deposited": "Depositaste {}{} ({}{}) en tu bóveda."
-      }, 
+      },
       "withd": {
         "poor_loser": "No tienes suficientes bloques de esmeralda para retirar.",
         "stupid_1": "No puedes retirar menos de un bloque de esmeralda.",
