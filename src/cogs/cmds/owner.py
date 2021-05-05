@@ -1,15 +1,18 @@
 from util.misc import recursive_update
 from discord.ext import commands
 from typing import Union
-import classyjson as cj
 import functools
 import aiofiles
 import asyncio
 import discord
 import random
 import arrow
+import json
 import ast
 import os
+
+from util.setup import load_text_async
+import util.cj as cj
 
 
 class Owner(commands.Cog):
@@ -17,6 +20,7 @@ class Owner(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
 
         self.db = bot.get_cog("Database")
 
@@ -52,36 +56,38 @@ class Owner(commands.Cog):
     @commands.command(name="eval")
     @commands.is_owner()
     async def eval_stuff(self, ctx, *, code):
+        if code.startswith("```"):
+            code = code.lstrip(" `py\n ").rstrip(" `\n ")
+
+        code_nice = "async def eval_code():\n" + "\n".join(f"    {i}" for i in code.splitlines())
+        code_parsed = ast.parse(code_nice)
+        code_final = code_parsed.body[0].body
+
+        def insert_returns():
+            if isinstance(code_final[-1], ast.Expr):
+                code_final[-1] = ast.Return(code_final[-1].value)
+                ast.fix_missing_locations(code_final[-1])
+
+            if isinstance(code_final[-1], ast.If):
+                insert_returns(code_final[-1].body)
+                insert_returns(code_final[-1].orelse)
+
+            if isinstance(code_final[-1], ast.With):
+                insert_returns(code_final[-1].body)
+
+        insert_returns()
+
+        env = {**locals(), **globals()}
+
         try:
-            code_nice = "async def eval_code():\n" + "\n".join(f"    {i}" for i in code.strip(" `py\n ").splitlines())
-            code_parsed = ast.parse(code_nice)
-            code_final = code_parsed.body[0].body
-
-            def insert_returns():
-                if isinstance(code_final[-1], ast.Expr):
-                    code_final[-1] = ast.Return(code_final[-1].value)
-                    ast.fix_missing_locations(code_final[-1])
-
-                if isinstance(code_final[-1], ast.If):
-                    insert_returns(code_final[-1].body)
-                    insert_returns(code_final[-1].orelse)
-
-                if isinstance(code_final[-1], ast.With):
-                    insert_returns(code_final[-1].body)
-
-            insert_returns()
-
-            env = {**locals(), **globals()}
-
             exec(compile(code_parsed, filename="<ast>", mode="exec"), env)
             result = await eval("eval_code()", env)
-
-            await ctx.send(f"```py\n{result}```")
-
         except discord.errors.Forbidden:
             await ctx.send("Missing permissions (FORBIDDEN)")
         except Exception as e:
             await self.bot.get_cog("Events").debug_error(ctx, e, ctx)
+        else:
+            await ctx.send(f"```py\n{result}```")
 
     @commands.command(name="gitpull")
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
@@ -102,15 +108,14 @@ class Owner(commands.Cog):
     async def update(self, ctx, thing):
         if thing.lower() == "data":
             async with aiofiles.open("data/data.json", "r", encoding="utf8") as d:
-                self.d = recursive_update(self.d, cj.loads(await d.read()))
+                self.d = recursive_update(self.d, cj.classify(json.loads(await d.read())))
 
-            # update some thing swhich were just overwritten
-            self.bot.populate_null_data_values()
+            # update some things which were just overwritten
+            self.bot.mutate_botd()
         elif thing.lower() == "text":
-            async with aiofiles.open("data/text.json", "r", encoding="utf8") as t:  # recursive shit not needed here
-                self.bot.langs.update(cj.loads(await t.read()))
+            self.bot.langs.update(await load_text_async())
         elif thing.lower() == "mcservers":
-            self.d.additional_mcservers = await self.db.fetch_all_mcservers()
+            self.v.additional_mcservers = await self.db.fetch_all_mcservers()
         else:
             await self.bot.send(ctx, 'Invalid, options are "data", "text", or "mcservers"')
             return

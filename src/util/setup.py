@@ -1,8 +1,12 @@
-from classyjson import ClassyDict
 from discord.ext import commands
+import aiofiles
 import discord
 import logging
 import asyncpg
+import json
+import os
+
+from util.cj import ClassyDict
 
 
 def villager_bot_intents() -> discord.Intents:
@@ -45,3 +49,23 @@ async def setup_database(bot: commands.AutoShardedBot, keys: ClassyDict) -> None
         max_size=20,
         command_timeout=10,
     )
+
+
+def load_text() -> ClassyDict:
+    text = {}
+
+    for filename in os.listdir("data/text"):
+        with open(f"data/text/{filename}", "r", encoding="utf8") as f:
+            text.update(json.load(f))
+
+    return ClassyDict(text)
+
+
+async def load_text_async() -> ClassyDict:
+    text = {}
+
+    for filename in os.listdir("data/text"):
+        async with aiofiles.open(f"data/text/{filename}", "r", encoding="utf8") as f:
+            text.update(json.loads(await f.read()))
+
+    return ClassyDict(text)

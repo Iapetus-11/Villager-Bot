@@ -1,10 +1,10 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands
-import classyjson as cj
 import discord
-import aiohttp
 import random
 import typing
+
+import util.cj as cj
 
 
 class Fun(commands.Cog):
@@ -24,10 +24,12 @@ class Fun(commands.Cog):
             except Exception:
                 pass
 
+        msg = discord.utils.escape_markdown(msg)
+
         if len(msg) > 2000 - 6:
             return
         else:
-            return discord.utils.escape_markdown(msg)
+            return msg
 
     async def nice(self, ctx):
         cmd_len = len(f"{ctx.prefix}{ctx.invoked_with} ")
@@ -308,16 +310,33 @@ class Fun(commands.Cog):
         await self.bot.send(ctx, random.choice(("heads", "tails")))
 
     @commands.command(name="pat")
-    async def pat(self, ctx, *, thing: typing.Union[discord.User, str]):
-        if isinstance(thing, discord.User) or isinstance(thing, discord.user.ClientUser):
-            thing = thing.display_name
-        else:
-            thing = ctx.message.clean_content[len(ctx.prefix) + 4 :]
-
+    @commands.guild_only()
+    async def pat(self, ctx, users: commands.Greedy[discord.Member] = [], *, text: str = ""):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=pat")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
-        embed = discord.Embed(color=self.d.cc, title=f"{ctx.author.display_name} pats {thing[:200]}")
+        embed = discord.Embed(
+            color=self.d.cc,
+            title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** pats {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
+                :256
+            ],
+        )
+        embed.set_image(url=image_url)
+
+        await ctx.send(embed=embed)
+
+    @commands.command(name="slap")
+    @commands.guild_only()
+    async def slap(self, ctx, users: commands.Greedy[discord.Member] = [], *, text: str = ""):
+        resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=slap")
+        image_url = "https://rra.ram.moe" + (await resp.json())["path"]
+
+        embed = discord.Embed(
+            color=self.d.cc,
+            title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
+                :256
+            ],
+        )
         embed.set_image(url=image_url)
 
         await ctx.send(embed=embed)

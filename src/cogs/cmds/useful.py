@@ -1,6 +1,7 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands
 import async_cse
+import asyncio
 import discord
 import psutil
 import arrow
@@ -11,6 +12,7 @@ class Useful(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
 
         self.google_client = async_cse.Search(bot.k.google)
 
@@ -58,13 +60,15 @@ class Useful(commands.Cog):
             embed.add_field(name=(self.d.emojis.anichest + ctx.l.help.n.utility), value=f"`{p}help util`")
 
             embed.add_field(name=(self.d.emojis.rainbow_shep + ctx.l.help.n.fun), value=f"`{p}help fun`")
-            embed.add_field(name=(self.d.emojis.netherite_sword + ctx.l.help.n.admin), value=f"`{p}help admin`")
+            embed.add_field(name=(self.d.emojis.netherite_sword_ench + ctx.l.help.n.admin), value=f"`{p}help admin`")
             embed.add_field(
                 name=(self.d.emojis.heart_spin + ctx.l.help.main.support),
                 value=f"**[{ctx.l.help.main.clickme}]({self.d.support})**",
             )
 
-            embed.set_footer(text=ctx.l.misc.petus + "  |  " + ctx.l.useful.rules.slashrules.format(ctx.prefix))
+            embed.set_footer(
+                text=ctx.l.useful.credits.foot.format(ctx.prefix) + "  |  " + ctx.l.useful.rules.slashrules.format(ctx.prefix)
+            )
 
             await ctx.send(embed=embed)
 
@@ -128,7 +132,102 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="ping", aliases=["pong", "ding", "dong", "shing", "shling", "schlong"])
+    @commands.command(name="credits", aliases=["creators", "developers"])
+    async def credits(self, ctx):
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
+
+        for i, entry in enumerate(ctx.l.useful.credits.people.items()):
+            person, what = entry
+            user = self.bot.get_user(self.d.credit_users[person])
+
+            embed.add_field(name=f"**{user.display_name}**", value=what)
+
+            if i % 2 == 1:
+                embed.add_field(name="\uFEFF", value="\uFEFF")
+
+        embed.add_field(name="\uFEFF", value=ctx.l.useful.credits.others, inline=False)
+
+        await ctx.send(embed=embed)
+
+    @commands.command(name="credits")
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def credits(self, ctx):
+        embed_template = discord.Embed(color=self.d.cc)
+        embed_template.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
+
+        fields = []
+
+        for i, entry in enumerate(ctx.l.useful.credits.people.items()):
+            person, what = entry
+            user = self.bot.get_user(self.d.credit_users[person])
+
+            fields.append({"name": f"**{user.display_name}**", "value": what})
+
+            if i % 2 == 1:
+                fields.append({"value": "\uFEFF", "name": "\uFEFF"})
+
+        groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
+        page_max = len(groups)
+        page = 0
+        msg = None
+
+        while True:
+            embed = embed_template.copy()
+
+            for field in groups[page]:
+                embed.add_field(**field)
+
+            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max}")
+
+            if page == page_max - 1:
+                embed.add_field(name="\uFEFF", value=ctx.l.useful.credits.others, inline=False)
+
+            if msg is None:
+                msg = await ctx.send(embed=embed)
+            elif not msg.embeds[0] == embed:
+                await msg.edit(embed=embed)
+
+            if page_max <= 1:
+                return
+
+            await asyncio.sleep(0.25)
+            await msg.add_reaction("⬅️")
+            await asyncio.sleep(0.25)
+            await msg.add_reaction("➡️")
+
+            try:
+
+                def author_check(react, r_user):
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+
+                # wait for reaction from message author (1 min)
+                for react, r_user in await asyncio.as_completed(
+                    [
+                        self.bot.wait_for("reaction_add", check=author_check, timeout=30),
+                        self.bot.wait_for("reaction_remove", check=author_check, timeout=30),
+                    ]
+                ):
+                    break
+            except asyncio.TimeoutError:
+                return
+
+            await react.remove(ctx.author)
+
+            if react.emoji == "⬅️":
+                page -= 1
+            elif react.emoji == "➡️":
+                page += 1
+
+            if page > page_max - 1:
+                page = page_max - 1
+
+            if page < 0:
+                page = 0
+
+            await asyncio.sleep(0.2)
+
+    @commands.command(name="ping", aliases=["pong", "ding", "dong", "bing", "bong", "shing", "shling", "schlong"])
     async def ping_pong(self, ctx):
         content = ctx.message.content.lower()
 
@@ -140,13 +239,17 @@ class Useful(commands.Cog):
             pp = "Dong"
         elif "dong" in content:
             pp = "Ding"
+        elif "bing" in content:
+            pp = "Bong"
+        elif "bong" in content:
+            pp = "Bing"
         elif "shing" in content or "shling" in content:
             pp = "Schlong"
         elif "schlong" in content:
             await self.bot.send(ctx, f"{self.d.emojis.aniheart} Magnum Dong! \uFEFF `69.00 ms`")
             return
 
-        await self.bot.send(ctx, f"{self.d.emojis.aniheart} {pp} \uFEFF `{round(self.bot.latency*1000, 2)} ms`")
+        await self.bot.send(ctx, f"{self.d.emojis.aniheart} {pp}! \uFEFF `{round(self.bot.latency*1000, 2)} ms`")
 
     @commands.command(name="vote", aliases=["votelink", "votelinks"])
     async def votelinks(self, ctx):
@@ -175,7 +278,7 @@ class Useful(commands.Cog):
     async def stats(self, ctx):
         await ctx.trigger_typing()
 
-        uptime_seconds = (arrow.utcnow() - self.d.start_time).total_seconds()
+        uptime_seconds = (arrow.utcnow() - self.v.start_time).total_seconds()
         uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
 
         proc = psutil.Process()
@@ -193,17 +296,18 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n"
             f"{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n"
             f"{ctx.l.useful.stats.users}: `{len(self.bot.users)}`\n"
-            f"{ctx.l.useful.stats.msgs}: `{self.d.msg_count}`\n"
-            f"{ctx.l.useful.stats.cmds}: `{self.d.cmd_count}` `({round((self.d.cmd_count / (self.d.msg_count + .000001)) * 100, 2)}%)`\n"
-            f"{ctx.l.useful.stats.cmds_sec}: `{round(self.d.cmd_count / uptime_seconds, 2)}`\n"
-            f"{ctx.l.useful.stats.votes}: `{self.d.votes_topgg}`\n"
-            f"{ctx.l.useful.stats.topgg}: `{round((self.d.votes_topgg / uptime_seconds) * 3600, 2)}`\n"
+            f"{ctx.l.useful.stats.msgs}: `{self.v.msg_count}`\n"
+            f"{ctx.l.useful.stats.cmds}: `{self.v.cmd_count}` `({round((self.v.cmd_count / (self.v.msg_count + .000001)) * 100, 2)}%)`\n"
+            f"{ctx.l.useful.stats.cmds_sec}: `{round(self.v.cmd_count / uptime_seconds, 2)}`\n"
+            f"{ctx.l.useful.stats.votes}: `{self.v.votes_topgg}`\n"
+            f"{ctx.l.useful.stats.topgg}: `{round((self.v.votes_topgg / uptime_seconds) * 3600, 2)}`\n"
         )
 
         col_2 = (
             f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000, 2)} MB`\n"
             f"{ctx.l.useful.stats.cpu}: `{round(proc.cpu_percent() / psutil.cpu_count(), 2)}%`\n"
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
+            f"{ctx.l.useful.stats.tasks}: `{len(asyncio.all_tasks())}`\n"
             f"{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n"
             f"{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n"
             f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
@@ -244,9 +348,10 @@ class Useful(commands.Cog):
         )
 
         villager = (
-            f"{ctx.l.useful.ginf.cmd_prefix}: `{self.d.prefix_cache.get(guild.id, self.d.default_prefix)}`\n"
+            f"{ctx.l.useful.ginf.cmd_prefix}: `{self.v.prefix_cache.get(guild.id, self.d.default_prefix)}`\n"
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
             f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
+            f'{ctx.l.useful.ginf.prem}: `{str(db_guild["premium"]).lower()}`\n'
         )
 
         embed.add_field(name="General", value=general, inline=True)
@@ -366,7 +471,7 @@ class Useful(commands.Cog):
         user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
 
         if user_reminder_count > 5:
-            await ctx.send(ctx.l.useful.remind.reminder_max)
+            await self.bot.send(ctx, ctx.l.useful.remind.reminder_max)
             return
 
         args = ctx.message.clean_content[len(f"{ctx.prefix}{ctx.invoked_with} ") :].split()
@@ -405,11 +510,11 @@ class Useful(commands.Cog):
             pass
 
         if i == 0:
-            await ctx.send(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
+            await self.bot.send(ctx, ctx.l.useful.remind.stupid_1.format(ctx.prefix))
             return
 
         if at > arrow.utcnow().shift(weeks=8):
-            await ctx.send(ctx.l.useful.remind.time_max)
+            await self.bot.send(ctx, ctx.l.useful.remind.time_max)
             return
 
         await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, " ".join(args[i:])[:499], at.timestamp())

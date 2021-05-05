@@ -5,11 +5,9 @@ arrow
 async-cse
 asyncpg
 bs4
-classy-json
 cryptography
+cython
 numpy
 opencv-python
 psutil
-statcord.py
 aiofiles
-uvloop

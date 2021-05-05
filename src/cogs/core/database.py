@@ -1,5 +1,5 @@
 from discord.ext import commands, tasks
-import discord
+import asyncio
 import arrow
 
 
@@ -8,6 +8,7 @@ class Database(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
 
         self.db = bot.db  # the asyncpg pool
 
@@ -21,11 +22,12 @@ class Database(commands.Cog):
         self.update_user_health.cancel()
 
     async def populate_caches(self):  # initial caches for speeeeeed
-        self.d.ban_cache = await self.fetch_all_botbans()
-        self.d.lang_cache = await self.fetch_all_guild_langs()
-        self.d.prefix_cache = await self.fetch_all_guild_prefixes()
-        self.d.additional_mcservers = await self.fetch_all_mcservers()
-        self.d.disabled_cmds = await self.fetch_all_disabled_commands()
+        self.v.ban_cache = await self.fetch_all_botbans()
+        self.v.lang_cache = await self.fetch_all_guild_langs()
+        self.v.prefix_cache = await self.fetch_all_guild_prefixes()
+        self.v.additional_mcservers = await self.fetch_all_mcservers()
+        self.v.disabled_cmds = await self.fetch_all_disabled_commands()
+        self.d.replies_cache = await self.fetch_all_do_replies()
 
     def cache_user(self, uid, user):
         self._user_cache[uid] = user
@@ -53,6 +55,7 @@ class Database(commands.Cog):
 
         for uid in uids:
             self.uncache_user(uid)
+            await asyncio.sleep(0)
 
     async def fetch_current_reminders(self) -> list:
         return await self.db.fetch("DELETE FROM reminders WHERE at <= $1 RETURNING *", arrow.utcnow().timestamp())
@@ -61,13 +64,13 @@ class Database(commands.Cog):
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE uid = $1", uid)
 
     async def add_reminder(self, uid: int, cid: int, mid: int, reminder: str, at: int):
-        await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", uid, mid, cid, reminder, at)
+        await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", uid, cid, mid, reminder, at)
 
     async def fetch_all_botbans(self):
         botban_records = await self.db.fetch(
             "SELECT uid FROM users WHERE bot_banned = true"
         )  # returns [Record<uid=>, Record<uid=>,..]
-        return [r[0] for r in botban_records]
+        return set([r[0] for r in botban_records])
 
     async def fetch_all_guild_langs(self):
         lang_records = await self.db.fetch("SELECT gid, lang FROM guilds")
@@ -98,18 +101,22 @@ class Database(commands.Cog):
 
         return disabled_nice
 
+    async def fetch_all_do_replies(self):
+        return {g["gid"]: g["replies"] for g in await self.db.fetch("SELECT gid, replies FROM guilds WHERE replies = true")}
+
     async def fetch_guild(self, gid):
         g = await self.db.fetchrow("SELECT * FROM guilds WHERE gid = $1", gid)
 
         if g is None:
             await self.db.execute(
-                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7)",
+                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
                 gid,
                 self.d.default_prefix,
                 True,
                 "easy",
                 "en",
                 None,
+                False,
                 False,
             )
 
@@ -125,12 +132,12 @@ class Database(commands.Cog):
         await self.db.execute("DELETE FROM guilds WHERE gid = $1", gid)
 
         try:
-            del self.d.lang_cache[gid]
+            del self.v.lang_cache[gid]
         except KeyError:
             pass
 
         try:
-            del self.d.prefix_cache[gid]
+            del self.v.prefix_cache[gid]
         except KeyError:
             pass
 
@@ -147,7 +154,7 @@ class Database(commands.Cog):
         try:
             return self._user_cache[uid]
         except KeyError:
-            self.uncache_user(uid)
+            pass
 
         user = await self.db.fetchrow("SELECT * FROM users WHERE uid = $1", uid)
 
@@ -221,6 +228,8 @@ class Database(commands.Cog):
             for item_record in self._items_cache[uid]:
                 if name.lower() == item_record["name"].lower():
                     return item_record
+
+                await asyncio.sleep(0)
         except KeyError:
             pass
 
@@ -275,15 +284,19 @@ class Database(commands.Cog):
             if pickaxe in items_names:
                 return pickaxe
 
+            await asyncio.sleep(0)
+
         await self.add_item(uid, "Wood Pickaxe", 0, 1, True)
         return "Wood Pickaxe"
 
     async def fetch_sword(self, uid):
         items_names = [item["name"] for item in await self.fetch_items(uid)]
 
-        for sword in ("Netherite Sword", "Diamond Sword", "Gold Sword", "Iron Sword", "Stone Sword", "Wood Sword"):
+        for sword in self.d.sword_list_proper:
             if sword in items_names:
                 return sword
+
+            await asyncio.sleep(0)
 
         await self.add_item(uid, "Wood Sword", 0, 1, True)
         return "Wood Sword"
@@ -403,11 +416,11 @@ class Database(commands.Cog):
         await self.fetch_user(uid)
 
         if botbanned:
-            if uid not in self.d.ban_cache:
-                self.d.ban_cache.append(uid)
+            if uid not in self.v.ban_cache:
+                self.v.ban_cache.add(uid)
         else:
             try:
-                self.d.ban_cache.remove(uid)
+                self.v.ban_cache.remove(uid)
             except ValueError:
                 pass
 
