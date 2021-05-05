@@ -1044,7 +1044,7 @@ class Econ(commands.Cog):
 
             # only works cause num of pickaxes is 6 and levels of fake finds is 3
             # please don't bug me about jank code, I know
-            fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe) / 2)]
+            fake_finds = min(self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe) / 2)],3)
 
             await self.bot.send(
                 ctx,
