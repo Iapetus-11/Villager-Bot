@@ -132,24 +132,6 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="credits", aliases=["creators", "developers"])
-    async def credits(self, ctx):
-        embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
-
-        for i, entry in enumerate(ctx.l.useful.credits.people.items()):
-            person, what = entry
-            user = self.bot.get_user(self.d.credit_users[person])
-
-            embed.add_field(name=f"**{user.display_name}**", value=what)
-
-            if i % 2 == 1:
-                embed.add_field(name="\uFEFF", value="\uFEFF")
-
-        embed.add_field(name="\uFEFF", value=ctx.l.useful.credits.others, inline=False)
-
-        await ctx.send(embed=embed)
-
     @commands.command(name="credits")
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def credits(self, ctx):
@@ -167,7 +149,7 @@ class Useful(commands.Cog):
             if i % 2 == 1:
                 fields.append({"value": "\uFEFF", "name": "\uFEFF"})
 
-        groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
+        groups = [fields[i : i + 9] for i in range(0, len(fields), 9)]
         page_max = len(groups)
         page = 0
         msg = None
@@ -202,13 +184,7 @@ class Useful(commands.Cog):
                     return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
                 # wait for reaction from message author (1 min)
-                for react, r_user in await asyncio.as_completed(
-                    [
-                        self.bot.wait_for("reaction_add", check=author_check, timeout=30),
-                        self.bot.wait_for("reaction_remove", check=author_check, timeout=30),
-                    ]
-                ):
-                    break
+                react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=30)
             except asyncio.TimeoutError:
                 return
 
