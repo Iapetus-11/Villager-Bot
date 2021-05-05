@@ -1,5 +1,5 @@
 {
-  "default_prefix": "!!",
+  "default_prefix": ".",
   "support_server_id": 641117791272960031,
   "error_channel_id": 642446655022432267,
   "vote_channel_id": 725551439165784115,
@@ -352,6 +352,30 @@
         128,
         1000,
         false
+      ],
+      [
+        "Macarenas",
+        128,
+        1000,
+        false
+      ],
+      [
+        "Chicken Tacos",
+        128,
+        1000,
+        false
+      ],
+      [
+        "Guacamole Sombrero",
+        768,
+        4096,
+        false
+      ],
+      [
+        "Salsa Bowl",
+        128,
+        1000,
+        false
       ]
     ]
   },
@@ -463,6 +487,12 @@
       ],
       [
         "Storm Trooper Helmet",
+        128,
+        1000,
+        false
+      ],
+      [
+        "Macarenas",
         128,
         1000,
         false
