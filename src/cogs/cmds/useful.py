@@ -204,8 +204,8 @@ class Useful(commands.Cog):
                 # wait for reaction from message author (1 min)
                 for fut in asyncio.as_completed(
                     [
-                        self.bot.wait_for("reaction_add", check=author_check, timeout=30),
-                        self.bot.wait_for("reaction_remove", check=author_check, timeout=30),
+                        asyncio.ensure_future(self.bot.wait_for("reaction_add", check=author_check, timeout=30)),
+                        asyncio.ensure_future(self.bot.wait_for("reaction_remove", check=author_check, timeout=30)),
                     ]
                 ):
                     react, r_user = fut.result()
