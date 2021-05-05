@@ -1372,19 +1372,19 @@ class Econ(commands.Cog):
         if thing == "honey jar":
             db_user = await self.db.fetch_user(ctx.author.id)
 
+            max_amount = 20 - db_user["health"]
+            if max_amount < 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_any.format("Honey Jars"))
+                return
+
             if db_user["health"] + amount > 20:
-                max_amount = 20 - db_user["health"]
+                amount = max_amount
 
-                if max_amount < 1:
-                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_any.format("Honey Jars"))
-                else:
-                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_up_to.format(max_amount, "Honey Jar"))
-            else:
-                await self.db.update_user(ctx.author.id, "health", db_user["health"] + amount)
-                await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
+            await self.db.update_user(ctx.author.id, "health", db_user["health"] + amount)
+            await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
 
-                new_health = amount + db_user["health"]
-                await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
+            new_health = amount + db_user["health"]
+            await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
 
             return
 
