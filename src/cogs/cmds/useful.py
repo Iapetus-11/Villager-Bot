@@ -202,14 +202,7 @@ class Useful(commands.Cog):
                     return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
 
                 # wait for reaction from message author (1 min)
-                for fut in asyncio.as_completed(
-                    [
-                        asyncio.ensure_future(self.bot.wait_for("reaction_add", check=author_check, timeout=30)),
-                        asyncio.ensure_future(self.bot.wait_for("reaction_remove", check=author_check, timeout=30)),
-                    ]
-                ):
-                    react, r_user = fut.result()
-                    break
+                react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=30)
             except asyncio.TimeoutError:
                 return
 
