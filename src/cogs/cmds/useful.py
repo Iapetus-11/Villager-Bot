@@ -149,7 +149,7 @@ class Useful(commands.Cog):
             if i % 2 == 1:
                 fields.append({"value": "\uFEFF", "name": "\uFEFF"})
 
-        groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
+        groups = [fields[i : i + 9] for i in range(0, len(fields), 9)]
         page_max = len(groups)
         page = 0
         msg = None
