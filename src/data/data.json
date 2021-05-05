@@ -86,8 +86,10 @@
     "gold sword",
     "diamond sword",
     "netherite sword"
+    "mooderald sword"
   ],
   "sword_list_proper": [
+    "Mooderald Sword"
     "Netherite Sword",
     "Diamond Sword",
     "Gold Sword",
@@ -563,6 +565,21 @@
         }
       }
     },
+    "mooderald pickaxe": {
+      "cat": "tools",
+      "buy_price": 8192,
+      "db_entry": [
+        "Mooderald Pickaxe",
+        4096,
+        true
+      ],
+      "requires": {
+        "count_lt": 1,
+        "items": {
+          "Mooderald": 4
+        }
+      }
+    },
     "stone sword": {
       "cat": "tools",
       "buy_price": 32,
@@ -623,6 +640,21 @@
         "count_lt": 1,
         "items": {
           "Netherite Scrap": 6
+        }
+      }
+    },
+    "mooderald sword": {
+      "cat": "tools",
+      "buy_price": 8192,
+      "db_entry": [
+        "Mooderald Sword",
+        4096,
+        true
+      ],
+      "requires": {
+        "count_lt": 1,
+        "items": {
+          "Mooderald": 6
         }
       }
     },
