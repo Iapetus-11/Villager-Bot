@@ -56,7 +56,9 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
     async def calc_sword_damage(self, uid, sword, diff_multi):
         sword = sword.lower()
-
+        
+        if sword == "mooderald sword":
+            dmg = random.randint(7,11)
         if sword == "netherite sword":
             dmg = random.randint(7, 10)
         elif sword == "diamond sword":
@@ -307,6 +309,8 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                     ems_won = int((ems_won if ems_won > 0 else 1) * diff_multi)
 
+                    if await self.db.fetch_item(u.id, "Mooderald Sword") is not None:
+                        ems_won = int(ems_won * 1.1)
                     if await self.db.fetch_item(u.id, "Looting II Book") is not None:
                         ems_won = int(ems_won * 1.75)
                     elif await self.db.fetch_item(u.id, "Looting I Book") is not None:
