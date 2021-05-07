@@ -352,30 +352,6 @@
         128,
         1000,
         false
-      ],
-      [
-        "Maracas",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Chicken Tacos",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Guacamole Sombrero",
-        768,
-        4096,
-        false
-      ],
-      [
-        "Salsa Bowl",
-        128,
-        1000,
-        false
       ]
     ]
   },
@@ -487,12 +463,6 @@
       ],
       [
         "Storm Trooper Helmet",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Maracas",
         128,
         1000,
         false
