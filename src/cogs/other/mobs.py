@@ -59,7 +59,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
         
         if sword == "mooderald sword":
             dmg = random.randint(7,11)
-        if sword == "netherite sword":
+        elif sword == "netherite sword":
             dmg = random.randint(7, 10)
         elif sword == "diamond sword":
             dmg = random.randint(6, 7)
