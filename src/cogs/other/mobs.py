@@ -311,6 +311,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
 
                     if await self.db.fetch_item(u.id, "Mooderald Sword") is not None:
                         ems_won = int(ems_won * 1.1)
+                        
                     if await self.db.fetch_item(u.id, "Looting II Book") is not None:
                         ems_won = int(ems_won * 1.75)
                     elif await self.db.fetch_item(u.id, "Looting I Book") is not None:
