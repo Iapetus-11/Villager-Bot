@@ -2,17 +2,17 @@ from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from cryptography.fernet import Fernet
 import aiomcrcon as rcon
-import classyjson as cj
-from util import mosaic
 import functools
-import aiohttp
 import asyncio
 import discord
 import random
 import base64
 import arrow
+import json
 
 from util.misc import parse_mclists_page
+from util import mosaic
+import util.cj as cj
 
 
 class Minecraft(commands.Cog):
@@ -20,11 +20,12 @@ class Minecraft(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
         self.k = bot.k
 
         self.db = bot.get_cog("Database")
 
-        self.d.mcserver_list = []
+        self.v.mcserver_list = []
 
         self.update_server_list.start()
         self.clear_rcon_cache.start()
@@ -52,7 +53,7 @@ class Minecraft(commands.Cog):
         for server_group in server_groups:
             servers.update(server_group)
 
-        self.d.mcserver_list = list(servers)
+        self.v.mcserver_list = list(servers) + self.v.additional_mcservers
 
         self.bot.logger.info("finished scraping mc-lists.org")
 
@@ -62,14 +63,14 @@ class Minecraft(commands.Cog):
 
     @tasks.loop(seconds=15)
     async def clear_rcon_cache(self):
-        for key, con in self.d.rcon_cache.copy().items():
+        for key, con in self.v.rcon_cache.copy().items():
             if arrow.utcnow().shift(minutes=-1) > con[1]:
                 try:
                     await con[0].close()
                 except Exception:
                     pass
 
-                self.d.rcon_cache.pop(key, None)
+                self.v.rcon_cache.pop(key, None)
 
     @commands.command(name="mcimage", aliases=["mcpixelart", "mcart", "mcimg"])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -189,7 +190,7 @@ class Minecraft(commands.Cog):
     async def random_mc_server(self, ctx):
         """Checks the status of a random Minecraft server"""
 
-        s = random.choice(self.d.mcserver_list)
+        s = random.choice(self.v.mcserver_list)
         combined = s[0]
 
         async with ctx.typing():
@@ -199,7 +200,7 @@ class Minecraft(commands.Cog):
                 jj = await res.json()
 
         if not jj["success"] or not jj["online"]:
-            self.d.mcserver_list.remove(s)
+            self.v.mcserver_list.remove(s)
             await self.random_mc_server(ctx)
             return
 
@@ -286,7 +287,7 @@ class Minecraft(commands.Cog):
 
         for prop in profile["properties"]:
             if prop["name"] == "textures":
-                skin_url = cj.loads(base64.b64decode(prop["value"])).textures.get("SKIN", {}).get("url")
+                skin_url = json.loads(base64.b64decode(prop["value"]))["textures"].get("SKIN", {}).get("url")
                 break
 
         if skin_url is None:
@@ -348,7 +349,7 @@ class Minecraft(commands.Cog):
 
         for prop in profile["properties"]:
             if prop["name"] == "textures":
-                textures = cj.loads(base64.b64decode(prop["value"])).textures
+                textures = json.loads(base64.b64decode(prop["value"]))["textures"]
                 skin_url = textures.get("SKIN", {}).get("url")
                 cape_url = textures.get("CAPE", {}).get("url")
                 break
@@ -521,14 +522,14 @@ class Minecraft(commands.Cog):
         await ctx.trigger_typing()
 
         try:
-            rcon_con = self.d.rcon_cache.get((ctx.author.id, db_guild["mcserver"]))
+            rcon_con = self.v.rcon_cache.get((ctx.author.id, db_guild["mcserver"]))
 
             if rcon_con is None:
                 rcon_con = rcon.Client(db_guild["mcserver"].split(":")[0], rcon_port, password)
-                self.d.rcon_cache[(ctx.author.id, db_guild["mcserver"])] = (rcon_con, arrow.utcnow())
+                self.v.rcon_cache[(ctx.author.id, db_guild["mcserver"])] = (rcon_con, arrow.utcnow())
             else:
                 rcon_con = rcon_con[0]
-                self.d.rcon_cache[(ctx.author.id, db_guild["mcserver"])] = (rcon_con, arrow.utcnow())
+                self.v.rcon_cache[(ctx.author.id, db_guild["mcserver"])] = (rcon_con, arrow.utcnow())
 
             await rcon_con.connect(timeout=2.5)
         except Exception as e:
@@ -539,7 +540,7 @@ class Minecraft(commands.Cog):
 
             await self.db.delete_user_rcon(ctx.author.id, db_guild["mcserver"])
             await rcon_con.close()
-            self.d.rcon_cache.pop((ctx.author.id, db_guild["mcserver"]), None)
+            self.v.rcon_cache.pop((ctx.author.id, db_guild["mcserver"]), None)
 
             return
 
@@ -552,7 +553,7 @@ class Minecraft(commands.Cog):
         except Exception:
             await self.bot.send(ctx, ctx.l.minecraft.rcon.err_cmd)
             await rcon_con.close()
-            self.d.rcon_cache.pop((ctx.author.id, db_guild["mcserver"]), None)
+            self.v.rcon_cache.pop((ctx.author.id, db_guild["mcserver"]), None)
 
             return
 

@@ -1,10 +1,10 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands
-import classyjson as cj
 import discord
-import aiohttp
 import random
 import typing
+
+import util.cj as cj
 
 
 class Fun(commands.Cog):
@@ -24,10 +24,12 @@ class Fun(commands.Cog):
             except Exception:
                 pass
 
+        msg = discord.utils.escape_markdown(msg)
+
         if len(msg) > 2000 - 6:
             return
         else:
-            return discord.utils.escape_markdown(msg)
+            return msg
 
     async def nice(self, ctx):
         cmd_len = len(f"{ctx.prefix}{ctx.invoked_with} ")

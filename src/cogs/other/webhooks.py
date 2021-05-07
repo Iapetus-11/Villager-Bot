@@ -1,11 +1,11 @@
 from discord.ext import commands
 from aiohttp import web
-import classyjson as cj
 import traceback
-import aiohttp
 import asyncio
 import discord
 import arrow
+
+import util.cj as cj
 
 
 class Webhooks(commands.Cog):
@@ -13,6 +13,7 @@ class Webhooks(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
         self.k = bot.k
 
         self.db = bot.get_cog("Database")
@@ -96,6 +97,8 @@ class Webhooks(commands.Cog):
 
     @commands.Cog.listener()
     async def on_topgg_event(self, data):
+        await self.bot.wait_until_ready()
+
         if data.type != "upvote":
             self.bot.logger.info("\u001b[35m top.gg webhooks test\u001b[0m")
             await self.bot.get_channel(self.d.error_channel_id).send("TOP.GG WEBHOOKS TEST")
@@ -116,7 +119,7 @@ class Webhooks(commands.Cog):
                 return
 
             self.bot.logger.info(f"\u001b[32;1m{uid} voted on top.gg\u001b[0m")
-            self.d.votes_topgg += 1
+            self.v.votes_topgg += 1
 
             amount = self.d.topgg_reward
 

@@ -2,7 +2,23 @@ from discord.ext import commands
 import discord
 import random
 
-cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
+cdef tuple BAD_ARG_ERRORS = (
+    commands.BadArgument,
+    commands.errors.UnexpectedQuoteError,
+    commands.errors.ExpectedClosingQuoteError,
+    commands.errors.BadUnionArgument,
+)
+
+cdef list IGNORED_ERRORS = [commands.CommandNotFound, commands.NotOwner]
+
+cdef set NITRO_BOOST_MSGS = {
+    discord.MessageType.premium_guild_subscription,
+    discord.MessageType.premium_guild_tier_1,
+    discord.MessageType.premium_guild_tier_2,
+    discord.MessageType.premium_guild_tier_3,
+}
+
+cpdef tuple handle_error(self: object, ctx: object, e: Exception):
     if isinstance(e, commands.NoPrivateMessage):
         return (self.bot.send(ctx, ctx.l.misc.errors.private),)
     elif isinstance(e, commands.MissingPermissions):
@@ -16,20 +32,12 @@ cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
         return (self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy),)
     elif isinstance(e, commands.MissingRequiredArgument):
         return (self.bot.send(ctx, ctx.l.misc.errors.missing_arg),)
-    elif isinstance(
-        e,
-        (
-            commands.BadArgument,
-            commands.errors.UnexpectedQuoteError,
-            commands.errors.ExpectedClosingQuoteError,
-            commands.errors.BadUnionArgument,
-        ),
-    ):
+    elif isinstance(e, BAD_ARG_ERRORS):
         return (self.bot.send(ctx, ctx.l.misc.errors.bad_arg),)
     elif getattr(ctx, "custom_err", None) == "not_ready":
         return (self.bot.send(ctx, ctx.l.misc.errors.not_ready),)
     elif getattr(ctx, "custom_err", None) == "bot_banned":
-        pass
+        return tuple()
     elif getattr(ctx, "custom_err", None) == "econ_paused":
         return (self.bot.send(ctx, ctx.l.misc.errors.nrn_buddy),)
     elif getattr(ctx, "custom_err", None) == "disabled":
@@ -38,7 +46,8 @@ cpdef tuple handle_error(self: object, ctx: object, e: BaseException):
         return tuple()
 
     # errors to ignore
-    for e_type in (commands.CommandNotFound, commands.NotOwner):
+    cdef type e_type
+    for e_type in IGNORED_ERRORS:
         if isinstance(e, e_type) or isinstance(getattr(e, "original", None), e_type):
             return tuple()
 
@@ -51,13 +60,13 @@ cpdef tuple handle_message(self: object, m: object):
     if m.author.bot:
         return tuple()
 
-    self.d.msg_count += 1
+    self.v.msg_count += 1
 
     if m.content.startswith(f"<@!{self.bot.user.id}>"):
         prefix = self.d.default_prefix
 
         if m.guild is not None:
-            prefix = self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)
+            prefix = self.v.prefix_cache.get(m.guild.id, self.d.default_prefix)
 
         lang = self.bot.get_lang(m)
 
@@ -70,12 +79,7 @@ cpdef tuple handle_message(self: object, m: object):
 
     if m.guild is not None:
         if m.guild.id == self.d.support_server_id:
-            if m.type in (
-                discord.MessageType.premium_guild_subscription,
-                discord.MessageType.premium_guild_tier_1,
-                discord.MessageType.premium_guild_tier_2,
-                discord.MessageType.premium_guild_tier_3,
-            ):
+            if m.type in NITRO_BOOST_MSGS:
                 return (
                     self.db.add_item(m.author.id, "Barrel", 1024, 1),
                     self.bot.send(m.author, f"Thanks for boosting the support server! You've received 1x **Barrel**!"),
@@ -99,7 +103,7 @@ cpdef tuple handle_message(self: object, m: object):
                 invis = ("||||\u200B" * 200)[2:-3]
                 return (m.channel.send(f"@someone {invis} {random.choice(someones).mention} {m.author.mention}"),)
         else:
-            if not m.content.startswith(self.d.prefix_cache.get(m.guild.id, self.d.default_prefix)) and self.d.replies_cache.get(m.guild.id):
+            if not m.content.startswith(self.v.prefix_cache.get(m.guild.id, self.d.default_prefix)) and self.d.replies_cache.get(m.guild.id):
                 if "emerald" in content_lowered:
                     return (m.channel.send(random.choice(self.d.hmms)),)
                 elif "creeper" in content_lowered:

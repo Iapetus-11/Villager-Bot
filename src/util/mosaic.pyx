@@ -1,4 +1,5 @@
 import numpy as np
+cimport numpy as np
 import random
 import base64
 import json
@@ -6,13 +7,14 @@ import cv2
 import io
 
 
-cdef object im_from_bytes(b: bytes):
+cdef np.ndarray im_from_bytes(b: bytes):
     return cv2.imdecode(np.frombuffer(b, np.uint8), cv2.IMREAD_COLOR)
 
 
 cdef void draw_image(canvas: np.ndarray, img: np.ndarray, x: int, y: int):
     canvas[y : y + img.shape[0], x : x + img.shape[1]] = img
 
+cdef dict data
 
 with open("data/block_palette.json", "r") as d:
     data = json.load(d)
@@ -26,16 +28,16 @@ cdef signed int xi = data["dims"][0]
 cdef signed int yi = data["dims"][1]
 
 
-cpdef object generate(source_bytes: bytes, max_dim: int, detailed: bool):
-    cdef object source = im_from_bytes(source_bytes)
+cpdef object generate(source_bytes: bytes, max_dim: double, detailed: bint):
+    cdef np.ndarray source = im_from_bytes(source_bytes)
 
-    cdef float sw = source.shape[1]
-    cdef float sh = source.shape[0]
+    cdef double sw = source.shape[1]
+    cdef double sh = source.shape[0]
 
-    cdef float t = 512
+    cdef double t = 512
 
-    cdef float ratio
-    cdef float new_w, new_h
+    cdef double ratio
+    cdef double new_w, new_h
 
     # rescale if too big
     if sw > max_dim or sh > max_dim or detailed:
@@ -68,10 +70,12 @@ cpdef object generate(source_bytes: bytes, max_dim: int, detailed: bool):
         source = cv2.resize(source, (int(new_w), int(new_h)))
 
     source = cv2.resize(source, (int(source.shape[1] / xi), int(source.shape[0] / yi)))
-    canvas = np.zeros((source.shape[0] * xi, source.shape[1] * yi, 3), np.uint8)
+    cdef np.ndarray canvas = np.zeros((source.shape[0] * xi, source.shape[1] * yi, 3), np.uint8)
 
-    cdef signed int y = 0
     cdef signed int x = 0
+    cdef signed int y = 0
+    cdef np.ndarray row
+    cdef signed int b, g, r
     cdef str pal_key
 
     for row in source:

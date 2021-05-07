@@ -13,6 +13,7 @@ class Events(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.v = bot.v
 
         self.db = bot.get_cog("Database")
 
@@ -62,7 +63,7 @@ class Events(commands.Cog):
             pass
 
     async def debug_error(self, ctx, e, loc=None):
-        self.bot.get_cog("StatCord").error_count += 1
+        self.bot.statcord.error_count += 1
 
         if loc is None:
             loc = self.bot.get_channel(self.d.error_channel_id)
@@ -77,7 +78,15 @@ class Events(commands.Cog):
             "``", "\`\`\`"
         )
 
-        await self.bot.send(loc, f"```py\n{final[:1023 - 6]}```")
+        await loc.send(f"```py\n{final[:1023 - 6]}```")
+
+    @commands.Cog.listener()
+    async def on_error(self, event_method, *args, **kwargs):
+        await self.bot.send(
+            self.bot.get_channel(self.d.error_channel_id),
+            f"Error in {event_method} occurred.\n```py\n{args}```\n```py\n{kwargs}```",
+        )
+        raise
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e):
@@ -87,9 +96,9 @@ class Events(commands.Cog):
                     if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
                         e.retry_after -= 0.5
 
-                    if "haste ii potion" in self.d.chuggers.get(ctx.author.id, []):
+                    if "haste ii potion" in self.v.chuggers.get(ctx.author.id, []):
                         e.retry_after -= 1
-                    elif "haste i potion" in self.d.chuggers.get(ctx.author.id, []):
+                    elif "haste i potion" in self.v.chuggers.get(ctx.author.id, []):
                         e.retry_after -= 0.5
 
                 seconds = round(e.retry_after, 2)

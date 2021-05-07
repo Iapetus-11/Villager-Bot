@@ -88,7 +88,7 @@ class Mod(commands.Cog):
         try:
             await ctx.guild.ban(user, reason=f"{ctx.author} | {reason}", delete_message_days=0)
             await ctx.message.add_reaction(self.d.emojis.yes)
-        except Exception:
+        except discord.errors.Forbidden:
             await self.bot.send(ctx, ctx.l.mod.ban.stupid_3)
 
     @commands.command(name="pardon", aliases=["unban"])
