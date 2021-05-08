@@ -977,8 +977,10 @@ class Econ(commands.Cog):
         if random.choice([True, True, True, True, True, False]) or db_user["emeralds"] < 2:
             if random.randint(1, 420) == 420:
                 await self.db.add_item(ctx.author.id, "Mooderald", 768, random.randint(1, 3))
-                await self.bot.send(ctx, random.choice(ctx.l.econ.beg.mooderald).format(f"{amount}{self.d.emojis.autistic_emerald}"))
-                
+                await self.bot.send(
+                    ctx, random.choice(ctx.l.econ.beg.mooderald).format(f"{amount}{self.d.emojis.autistic_emerald}")
+                )
+
             else:
                 amount = 9 + math.ceil(math.log(db_user["emeralds"] + 1, 1.5)) + random.randint(1, 5)
                 amount = random.randint(1, 4) if amount < 1 else amount
