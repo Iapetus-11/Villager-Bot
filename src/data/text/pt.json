@@ -737,6 +737,11 @@
           "Enquanto procurava por mais esmeraldas, você perdeu as suas, perdendo {}.",
           "Um ilusionista aparece, te falando sobre como duplicar esmeraldas com esse truque simples. Você entrega {} e ele desaparece em uma nuvem de fumaça.",
           "Enquanto mendigava em uma vila, você foi pego em uma invasão, um devastador lhe dá uma cabeçada que o fez atravessar o mapa. Você deixa {} cairem no meio do voo."
+        ],
+        "mooderald": [
+          "You were blessed by Moofy, and magically received {}.",
+          "You prayed for Mooderalds, and found {} in your left pocket.",
+          "You found {} inside your bag with a note."
         ]
       },
       "mine": {
