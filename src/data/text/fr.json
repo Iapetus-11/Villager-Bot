@@ -739,9 +739,9 @@
           "Alors que tu mendiait dans un village tu es pris dans un raid, un ravageur te donne un coup de tête te propulsant à travers la carte. Tu fais tomber {} en cours de vol."
         ],
         "mooderald": [
-          "You were blessed by Moofy, and magically received {}.",
-          "You prayed for Mooderalds, and found {} in your left pocket.",
-          "You found {} inside your bag with a note."
+          "Tu as été bénis par Moofy, et par magie tu reçois {}.",
+          "Tu as prié pour obtenir des Mooderalds, puis tu as trouvé {} dans ta poche gauche.",
+          "Tu as trouvé {} dans ton sac avec une note."
         ]
       },
       "mine": {
