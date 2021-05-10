@@ -736,6 +736,11 @@
           "Mientras buscabas más esmeraldas, perdiste las tuyas, perdiendo {}.",
           "Aparece un ilusionista, divagando sobre la duplicación de esmeraldas con este truco que una vez fue simple. Le das {} y desaparece en una bocanada de humo.",
           "Mientras mendigabas en un pueblo te quedaste atrapado en una redada, un desbocado te golpea en la cabeza a través del mapa. Te dejas caer {} a mitad del vuelo."
+        ],
+        "mooderald": [
+          "You were blessed by Moofy, and magically received {}.",
+          "You prayed for Mooderalds, and found {} in your left pocket.",
+          "You found {} inside your bag with a note."
         ]
       },
       "mine": {
