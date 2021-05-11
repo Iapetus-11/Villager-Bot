@@ -737,6 +737,11 @@
           "En recherchant plus d'émeraudes, tu as égaré les tiens, perdant {}.",
           "Un illusioniste apparaît, déblatérant des choses à propos de dédoubler les émeraudes avec cette astuce facile. Tu lui donnes {} et il disparaît dans un nuage de fumée.",
           "Alors que tu mendiait dans un village tu es pris dans un raid, un ravageur te donne un coup de tête te propulsant à travers la carte. Tu fais tomber {} en cours de vol."
+        ],
+        "mooderald": [
+          "Tu as été bénis par Moofy, et par magie tu reçois {}.",
+          "Tu as prié pour obtenir des Mooderalds, puis tu as trouvé {} dans ta poche gauche.",
+          "Tu as trouvé {} dans ton sac avec une note."
         ]
       },
       "mine": {

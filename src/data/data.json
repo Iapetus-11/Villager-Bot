@@ -340,42 +340,6 @@
         4096,
         500000,
         true
-      ],
-      [
-        "Lightsaber",
-        768,
-        4096,
-        false
-      ],
-      [
-        "Storm Trooper Helmet",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Maracas",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Chicken Tacos",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Guacamole Sombrero",
-        768,
-        4096,
-        false
-      ],
-      [
-        "Salsa Bowl",
-        128,
-        1000,
-        false
       ]
     ]
   },
@@ -478,24 +442,6 @@
         768,
         4096,
         true
-      ],
-      [
-        "X-Wing Starfighter Model",
-        1024,
-        20000,
-        false
-      ],
-      [
-        "Storm Trooper Helmet",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Maracas",
-        128,
-        1000,
-        false
       ]
     ]
   },
