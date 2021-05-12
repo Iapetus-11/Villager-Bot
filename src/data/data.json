@@ -340,6 +340,24 @@
         4096,
         500000,
         true
+      ],
+      [
+        "Wumpus Statue",
+        128,
+        999,
+        false
+      ],
+      [
+        "Blurple Paint Bucket",
+        512,
+        4096,
+        false
+      ],
+      [
+        "Discord 6th Birthday Cake",
+        768,
+        9999,
+        false
       ]
     ]
   },
@@ -442,6 +460,18 @@
         768,
         4096,
         true
+      ],
+      [
+        "Discord 6th Birthday Cake",
+        768,
+        9999,
+        false
+      ],
+      [
+        "Blurple Paint Bucket",
+        768,
+        4096,
+        false
       ]
     ]
   },
