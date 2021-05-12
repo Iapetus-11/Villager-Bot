@@ -340,6 +340,24 @@
         4096,
         500000,
         true
+      ], #Happy bday Discord
+      [
+        "Wumpus Statue",
+        128,
+        999,
+        true
+      ],
+      [
+        "Blurple Paint Bucket",
+        512,
+        4096,
+        true
+      ],
+      [
+        "Discord 6th Birthday Cake",
+        768,
+        9999,
+        true
       ]
     ]
   },
@@ -439,6 +457,18 @@
       ],
       [
         "Mooderald",
+        768,
+        4096,
+        true
+      ],
+      [
+        "Discord 6th Birthday Cake",
+        768,
+        4096,
+        true
+      ],
+      [
+        "Blurple Paint Bucket",
         768,
         4096,
         true
