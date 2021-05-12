@@ -797,6 +797,7 @@
     "fishing_rod": "<:fishstick:838794560603029514>",
     "air": "<:air:828359049602662431>",
     "jar_of_bees": "<:jar_of_bees:839132481071349840>",
+    "honey_jar": "<:honey_jar:839136850823348245>"
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
@@ -849,7 +850,8 @@
     "Diamond Pickaxe": "diamond_pick",
     "Netherite Pickaxe": "netherite_pick",
     "Fishing Rod": "fishing_rod",
-    "Jar Of Bees": "jar_of_bees"
+    "Jar Of Bees": "jar_of_bees",
+    "Honey Jar": "honey_jar"
   },
   "build_ideas": {
     "ideas": [
