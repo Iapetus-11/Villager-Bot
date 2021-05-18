@@ -2,10 +2,10 @@ CREATE TABLE IF NOT EXISTS guilds (
   guild_id        BIGINT PRIMARY KEY, -- the discord guild id / snowflake
   prefix          VARCHAR(15) NOT NULL DEFAULT '!!', -- the prefix of the guild
   difficulty      SMALLINT NOT NULL DEFAULT 1, -- the difficulty the server is on 0=peaceful, 1=normal, 2=hard
-  lang            VARCHAR(6) NOT NULL DEFAULT 'en', -- the language
-  mc_server       VARCHAR(100),
-  premium         BOOLEAN NOT NULL DEFAULT false,
-  roles_persist   BOOLEAN NOT NULL DEFAULT false
+  lang            VARCHAR(6) NOT NULL DEFAULT 'en', -- the language the bot will speak in
+  mc_server       VARCHAR(100), -- the minecraft server of the guild
+  premium         BOOLEAN NOT NULL DEFAULT false, -- whether the server is premium or not
+  roles_persist   BOOLEAN NOT NULL DEFAULT false -- whether roles should persist or not
 );
 
 CREATE TABLE IF NOT EXISTS warnings (
@@ -17,14 +17,14 @@ CREATE TABLE IF NOT EXISTS warnings (
 
 CREATE TABLE IF NOT EXISTS users (
   user_id         BIGINT PRIMARY KEY,  -- the discord user id / snowflake
-  emeralds        BIGINT NOT NULL DEFAULT 0,
-  vault_balance   INT NOT NULL DEFAULT 0,
-  vault_max       INT NOT NULL DEFAULT 1,
-  health          SMALLINT NOT NULL DEFAULT 20,
-  banned          BOOLEAN NOT NULL DEFAULT false,
-  vote_streak     INT NOT NULL DEFAULT 0,
-  last_vote       TIMESTAMPTZ,
-  give_alert      BOOLEAN NOT NULL DEFAULT true
+  emeralds        BIGINT NOT NULL DEFAULT 0, -- the amount of emeralds the user has
+  vault_balance   INT NOT NULL DEFAULT 0, -- the amount of emerald blocks in their vault
+  vault_max       INT NOT NULL DEFAULT 1, -- the maximum amount of emerald blocks in their vault
+  health          SMALLINT NOT NULL DEFAULT 20, -- the amount of health the user currently has
+  banned          BOOLEAN NOT NULL DEFAULT false, -- whether the user has been bot-banned or not
+  vote_streak     INT NOT NULL DEFAULT 0, -- the current vote streak of the user
+  last_vote       TIMESTAMPTZ, -- the time at which the last user voted
+  give_alert      BOOLEAN NOT NULL DEFAULT true -- whether users should be alerted if someone gives them items or emeralds or not
 );
 
 CREATE TABLE IF NOT EXISTS items (
