@@ -1,10 +1,13 @@
 from classyjson import ClassyDict
 from discord.ext import commands
 import aiofiles
+import asyncpg
 import logging
 import discord
+import json
+import os
 
-def vb_intents() -> discord.Intents:
+def villager_bot_intents() -> discord.Intents:
     return discord.Intents(
         guilds=True,
         members=True,
