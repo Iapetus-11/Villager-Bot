@@ -8,14 +8,14 @@ from util.ipc import Client
 
 
 def run_shard(shard_count: int, shard_id: int, secrets: ClassyDict, data: ClassyDict, text: ClassyDict) -> None:
+    asyncio.set_event_loop(asyncio.new_event_loop())
     shard = VillagerBotShard(shard_count, shard_id, secrets, data, text)
 
-    loop = asyncio.get_event_loop()
 
     try:
-        loop.run_until_complete(shard.run())
-    except KeyboardInterrupt:
-        loop.run_until_complete(shard.stop())
+        asyncio.run(shard.start())
+    finally:
+        asyncio.run(shard.stop())
 
 
 class VillagerBotShard:
@@ -32,10 +32,10 @@ class VillagerBotShard:
         self.db = setup_database(secrets)
 
         self.bot = commands.Bot(
+            command_prefix=self.get_prefix,
+            intents=villager_bot_intents(),
             shard_count=shard_count,
             shard_id=shard_id,
-            prefix=self.get_prefix,
-            intents=villager_bot_intents(),
         )
 
         self.ipc = Client(
@@ -53,3 +53,7 @@ class VillagerBotShard:
         await self.ipc.close()  # close connection to manager
         await self.db.close()  # close connections in db pool
         await self.bot.close()  # close connection to discord gateway
+        await self.aiohttp.close()  # close aiohttp ClientSession
+
+    async def get_prefix(self):
+        return self.d.default_prefix

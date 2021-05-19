@@ -37,7 +37,7 @@ def setup_database(secrets: ClassyDict) -> None:
         host=secrets.database.host,  # where db is hosted
         database=secrets.database.name,  # name of database
         user=secrets.database.user,  # database username
-        password=secrets.database.passw,  # password which goes with user
+        password=secrets.database.auth,  # password which goes with user
         max_size=10,
         command_timeout=10,
     )
