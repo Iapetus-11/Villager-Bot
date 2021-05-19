@@ -12,8 +12,8 @@ class Connection:
     The Connection class used for IPC, communicates via the 69 protocol, as described below.
 
     Basically this protocol revolves around sending json data. A packet consists of the length
-    of the upcoming data to read as a big endian int32 (i) as well as the data itself, dumped to a string
-    and then encoded into UTF8.
+    of the upcoming data to read as a big endian int32 (i) as well as the data itself, dumped to
+    a string and then encoded into UTF8.
 
     Example:
     >>> data = "123 abcd test"
