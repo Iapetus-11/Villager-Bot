@@ -32,8 +32,8 @@ def setup_logging(shard_id: int) -> logging.Logger:
     return logging.getLogger("main")
 
 
-def setup_database(secrets: ClassyDict) -> None:
-    return asyncpg.create_pool(
+async def setup_database(secrets: ClassyDict):
+    return await asyncpg.create_pool(
         host=secrets.database.host,  # where db is hosted
         database=secrets.database.name,  # name of database
         user=secrets.database.user,  # database username

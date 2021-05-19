@@ -12,11 +12,11 @@ def run_shard(shard_count: int, shard_id: int) -> None:
     asyncio.set_event_loop(asyncio.new_event_loop())
 
     shard = VillagerBotShard(shard_count, shard_id)
-    shard.run(secrets.discord_token)
+    shard.run()
 
 
 class VillagerBotShard(commands.Bot):
-    def __init__(self, shard_count: int, shard_id: int, *, secrets: ClassyDict, data: ClassyDict, text: ClassyDict) -> None:
+    def __init__(self, shard_count: int, shard_id: int) -> None:
         super().__init__(
             command_prefix="!!",
             intents=villager_bot_intents(),
@@ -28,14 +28,29 @@ class VillagerBotShard(commands.Bot):
         self.d = load_data()
         self.l = load_text()
 
-        self.ipc = Client()
-
         self.cog_list = [
             "cogs.core.events",
         ]
 
+        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.k.manager.auth)
+        self.db = None
+        self.aiohttp = aiohttp.ClientSession()
+
+    async def start(self, *args, **kwargs):
+        await self.ipc.connect(self.shard_id)
+        self.db = await setup_database(self.k)
+
         for cog in self.cog_list:
             self.load_extension(cog)
 
-    def run(self):
-        super().run(self.k.discord_token)
+        await super().start(*args, **kwargs)
+
+    async def close(self, *args, **kwargs):
+        await self.ipc.close()
+        await self.db.close()
+        await self.aiohttp.close()
+
+        await super().close(*args, **kwargs)
+
+    def run(self, *args, **kwargs):
+        super().run(self.k.discord_token, *args, **kwargs)

@@ -33,7 +33,10 @@ def main(ppool):
 
         await asyncio.gather(*shards)
 
-    asyncio.run(_main())
+    try:
+        asyncio.run(_main())
+    except KeyboardInterrupt:
+        pass
 
 
 if __name__ == "__main__":
