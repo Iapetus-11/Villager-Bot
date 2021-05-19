@@ -32,6 +32,7 @@ def setup_logging(shard_ids: list) -> logging.Logger:
     logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
     return logging.getLogger("main")
 
+
 def setup_karen_logging():
     logger = logging.getLogger("KAREN")
     logger.setLevel(logging.INFO)
