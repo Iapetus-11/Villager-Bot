@@ -6,6 +6,7 @@ import orjson
 
 LENGTH_LENGTH = struct.calcsize(">i")
 
+
 class Stream(asyncio.StreamWriter):
     def __init__(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
         super().__init__(writer._transport, writer._protocol, writer._reader, writer._loop)
@@ -52,7 +53,7 @@ class Connection:
         await self.stream.wait_closed()
 
     async def read_packet(self) -> ClassyDict:
-        length = await self.stream.read(LENGTH_LENGTH) # read the length of the upcoming packet
+        length = await self.stream.read(LENGTH_LENGTH)  # read the length of the upcoming packet
         data = await self.stream.read(length)  # read the rest of the packet
 
         return ClassyDict(orjson.loads(data))
