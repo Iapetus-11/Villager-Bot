@@ -42,7 +42,7 @@ class Stream:
         self.writer = writer
 
     async def read_packet(self) -> ClassyDict:
-        length = await self.reader.read(LENGTH_LENGTH)  # read the length of the upcoming packet
+        length, = struct.unpack(">i", await self.reader.read(LENGTH_LENGTH))  # read the length of the upcoming packet
         data = await self.reader.read(length)  # read the rest of the packet
 
         return ClassyDict(orjson.loads(data))

@@ -1,4 +1,4 @@
-from concurrent.futures import ThreadPoolExecutor, wait
+from concurrent.futures import ProcessPoolExecutor
 from classyjson import ClassyDict
 import aiofiles
 import asyncio
@@ -31,5 +31,5 @@ async def main(ppool):
 
 
 if __name__ == "__main__":
-    with ThreadPoolExecutor() as ppool:
+    with ProcessPoolExecutor() as ppool:
         asyncio.run(main(ppool))

@@ -44,7 +44,7 @@ class VillagerBotShard:
             secrets.manager.auth,  # auth which is passed with every packet
         )
 
-    async def run(self):
+    async def start(self):
         await self.ipc.connect(self.shard_id)  # connect to manager server
         await self.db  # connect to database
         await self.bot.start()  # run bot
