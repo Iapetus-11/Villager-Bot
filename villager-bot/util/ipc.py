@@ -86,6 +86,9 @@ class Server:
 
         self.server = None
         self.serve_task = None
+
+        self.connections = []
+
         self.closing = False
 
     async def start(self) -> None:
@@ -105,6 +108,7 @@ class Server:
 
     async def handle_connection(self, reader: StreamReader, writer: StreamWriter) -> None:
         stream = Stream(reader, writer)
+        self.connections.append(stream)
 
         while not self.closing:
             packet = await stream.read_packet()
@@ -112,6 +116,10 @@ class Server:
             # check auth, if invalid notify client and ignore subsequent requests
             if packet.pop("auth", None) != self.auth:
                 await stream.send_packet({"info": "invalid authorization"})
+                return
+
+            if packet.type == "disconnect":
+                self.connections.remove(stream)
                 return
 
             await self.handle_packet(stream, packet)
