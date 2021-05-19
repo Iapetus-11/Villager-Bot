@@ -9,8 +9,8 @@ import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))  # ensure villager bot modules are accessible
 os.chdir(os.path.dirname(__file__))  # ensure the current working directory is correct
 
+from util.setup import load_text, load_secrets, load_data, setup_karen_logging
 from util.ipc import Server, Stream
-from util.setup import load_text, load_secrets, load_data
 from bot import run_shard
 
 
@@ -19,12 +19,19 @@ class Karen:
         self.k = load_secrets()
         self.d = load_data()
 
+        self.logger = setup_karen_logging()
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
 
         self.shard_ids = tuple(range(self.d.shard_count))
 
-    async def handle_packet(self, *args):
-        print(args)
+        self.ready_shards = set()
+
+    async def handle_packet(self, stream: Stream, packet: ClassyDict):
+        if packet.type == "ready-event":
+            self.ready_shards.add(packet.shard_id)
+
+            if len(self.ready_shards) == len(self.shard_ids):
+                self.logger.info("\u001b[36;1mALL SHARDS READY\u001b[0m")
 
     async def start(self, pp):
         await self.server.start()

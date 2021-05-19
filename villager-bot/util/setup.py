@@ -32,6 +32,17 @@ def setup_logging(shard_ids: list) -> logging.Logger:
     logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
     return logging.getLogger("main")
 
+def setup_karen_logging():
+    logger = logging.getLogger("KAREN")
+    logger.setLevel(logging.INFO)
+
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter("[Karen] %(levelname)s: %(message)s"))
+    handler.setLevel(logging.INFO)
+    logger.addHandler(handler)
+
+    return logger
+
 
 async def setup_database(secrets: ClassyDict):
     return await asyncpg.create_pool(

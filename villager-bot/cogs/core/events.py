@@ -8,7 +8,8 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_shard_ready(self, shard_id: int):
-        self.bot.logger.info(f"[Shard {shard_id}] \u001b[36;1mCONNECTED\u001b[0m")
+        await self.bot.ipc.write_packet({"type": "ready-event", "shard_id": shard_id})
+        self.bot.logger.info(f"[Shard {shard_id}] \u001b[36;1mREADY\u001b[0m")
 
 
 def setup(bot):
