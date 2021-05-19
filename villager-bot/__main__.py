@@ -2,6 +2,7 @@ from concurrent.futures import ProcessPoolExecutor
 from classyjson import ClassyDict
 import aiofiles
 import asyncio
+import logging
 import sys
 import os
 
@@ -14,31 +15,31 @@ from bot import run_shard
 
 
 async def handle_packet(shard_id: int, stream: Stream, packet: ClassyDict) -> None:
-    print(f"MANAGER: packet from {shard_id}:", packet)
+    print(f"KAREN: packet from {shard_id}:", packet)
 
 
-def main(ppool):
+def main():
     secrets, data = load_secrets(), load_data()
 
     manager_server = Server(secrets.manager.host, secrets.manager.port, secrets.manager.auth, handle_packet)
 
-    async def _main():
+    async def _main(pp):
         await manager_server.start()
 
         shards = []
         loop = asyncio.get_event_loop()
 
         for shard_id in range(data.shard_count):
-            shards.append(loop.run_in_executor(ppool, run_shard, data.shard_count, shard_id))
+            shards.append(loop.run_in_executor(pp, run_shard, data.shard_count, shard_id))
 
         await asyncio.gather(*shards)
 
-    try:
-        asyncio.run(_main())
-    except KeyboardInterrupt:
-        pass
+    with ProcessPoolExecutor(data.shard_count) as pp:
+        asyncio.run(_main(pp))
 
 
 if __name__ == "__main__":
-    with ProcessPoolExecutor() as ppool:
-        main(ppool)
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass

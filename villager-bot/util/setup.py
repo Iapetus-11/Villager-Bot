@@ -38,7 +38,8 @@ async def setup_database(secrets: ClassyDict):
         database=secrets.database.name,  # name of database
         user=secrets.database.user,  # database username
         password=secrets.database.auth,  # password which goes with user
-        max_size=10,
+        max_size=3,
+        min_size=3,
         command_timeout=10,
     )
 
