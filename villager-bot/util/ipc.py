@@ -22,14 +22,6 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # authorization code. Authorization should be automatically validated by the Server class, and
 # automatically added by the Client class.
 #
-# Packet Types:
-# - identify - always sent first, by the client to the server, contains the shard id of sed client
-# - disconnect - sent by the client when they disconnect
-# - exec-code - exec/eval the code given in the "code" field
-# - exec-response - the response of executing the code from exec-code
-# - fetch - fetches data, more info later
-# - store - stores data, more info later
-#
 # Examples:
 # {"type": "identify", "shard_id": 123} # client -> server
 # {"type": "exec-code", "code": "print('hello')", "auth": "password123"} # client -> server
