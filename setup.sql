@@ -37,7 +37,33 @@ CREATE TABLE IF NOT EXISTS items (
 
 CREATE TABLE IF NOT EXISTS leaderboards (
   user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
-  pillaged_emeralds  BIGINT NOT NULL DEFAULT 0,
-  mobs_killed        BIGINT NOT NULL DEFAULT 0,
-  fish_fished        BIGINT NOT NULL DEFAULT 0
+  pillaged_emeralds  BIGINT NOT NULL DEFAULT 0, -- emeralds pillaged from other users
+  mobs_killed        BIGINT NOT NULL DEFAULT 0, -- number of mobs killed
+  fish_fished        BIGINT NOT NULL DEFAULT 0  -- fishies fished
+);
+
+CREATE TABLE IF NOT EXISTS reminders (
+  user_id            BIGINT NOT NULL, -- the discord user id / snowflake
+  channel_id         BIGINT NOT NULL, -- the channel id where the reminder command was summoned
+  message_id         BIGINT NOT NULL, -- the message where the reminder command was summoned
+  reminder           TEXT NOT NULL, -- the actual text for the reminder
+  at                 BIGINT NOT NULL -- the time at which the user should be reminded
+);
+
+CREATE TABLE IF NOT EXISTS disabled_commands (
+  guild_id           BIGINT NOT NULL,  -- the guild id where the command is disabled
+  command            VARCHAR(20) NOT NULL -- the real name of the command that's disabled
+);
+
+CREATE TABLE IF NOT EXISTS user_rcon (
+  user_id            BIGINT NOT NULL, -- the discord user id / snowflake
+  mc_server          VARCHAR(50) NOT NULL, -- the minecraft server address, including the port
+  rcon_port          INT NOT NULL, -- the port the RCON server is hosted on
+  password           VARCHAR(300) NOT NULL -- the encrypted password to login to the RCON server
+);
+
+CREATE TABLE IF NOT EXISTS user_roles (
+  user_id            BIGINT NOT NULL, -- the discord user id / snowflake
+  guild_id           BIGINT NOT NULL, -- the guild id for the user's roles
+  roles              BIGINT[] NOT NULL DEFAULT ARRAY[]::BIGINT[] -- the user's roles at the time they left
 );
