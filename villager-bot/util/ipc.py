@@ -37,7 +37,7 @@ class Connection:
         await self.writer.wait_closed()
 
     async def read_packet(self) -> ClassyDict:
-        length = await self.reader.read(LENGTH_LENGTH) # read the length of the upcoming packet
+        length = await self.reader.read(LENGTH_LENGTH)  # read the length of the upcoming packet
         data = await self.reader.read(length)  # read the rest of the packet
 
         return ClassyDict(orjson.loads(data))
