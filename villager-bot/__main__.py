@@ -14,32 +14,36 @@ from util.setup import load_text, load_secrets, load_data
 from bot import run_shard
 
 
-async def handle_packet(shard_id: int, stream: Stream, packet: ClassyDict) -> None:
-    print(f"KAREN: packet from {shard_id}:", packet)
+class Karen:
+    def __init__(self):
+        self.k = load_secrets()
+        self.d = load_data()
 
+        self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
 
-def main():
-    secrets, data = load_secrets(), load_data()
+    async def handle_packet(self, *args):
+        print(args)
 
-    manager_server = Server(secrets.manager.host, secrets.manager.port, secrets.manager.auth, handle_packet)
-
-    async def _main(pp):
-        await manager_server.start()
+    async def start(self, pp):
+        await self.server.start()
 
         shards = []
         loop = asyncio.get_event_loop()
 
-        for shard_id in range(data.shard_count):
-            shards.append(loop.run_in_executor(pp, run_shard, data.shard_count, shard_id))
+        for shard_id in range(self.d.shard_count):
+            shards.append(loop.run_in_executor(pp, run_shard, self.d.shard_count, shard_id))
 
         await asyncio.gather(*shards)
 
-    with ProcessPoolExecutor(data.shard_count) as pp:
-        asyncio.run(_main(pp))
+    def run(self):
+        with ProcessPoolExecutor(self.d.shard_count) as pp:
+            asyncio.run(self.start(pp))
 
 
 if __name__ == "__main__":
+    karen = Karen()
+
     try:
-        main()
+        karen.run()
     except KeyboardInterrupt:
         pass
