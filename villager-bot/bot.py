@@ -1,6 +1,6 @@
+from classyjson import ClassyDict
 from discord.ext import commands
 import aiohttp
-import asyncio
 import sys
 import os
 

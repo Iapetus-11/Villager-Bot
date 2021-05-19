@@ -1,4 +1,4 @@
-from asyncio imoprt StreamReader, StreamWriter
+from asyncio import StreamReader, StreamWriter
 from typing import Union, Callable
 from classyjson import ClassyDict
 import asyncio
