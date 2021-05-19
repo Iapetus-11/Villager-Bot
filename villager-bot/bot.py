@@ -4,13 +4,13 @@ import aiohttp
 import asyncio
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
+from util.setup import load_text, load_secrets, load_data
 from util.ipc import Client
 
 
-def run_shard(shard_count: int, shard_id: int, secrets: ClassyDict, data: ClassyDict, text: ClassyDict) -> None:
-    asyncio.set_event_loop(asyncio.new_event_loop())
+def run_shard(shard_count: int, shard_id: int) -> None:
+    secrets, data, text = load_secrets(), load_data(), load_text()
     shard = VillagerBotShard(shard_count, shard_id, secrets, data, text)
-
 
     try:
         asyncio.run(shard.start())
@@ -27,9 +27,9 @@ class VillagerBotShard:
         self.d = data
         self.l = text
 
-        self.aiohttp = aiohttp.ClientSession()
         self.logger = setup_logging(shard_id)
-        self.db = setup_database(secrets)
+        self.aiohttp = None
+        self.db = None
 
         self.bot = commands.Bot(
             command_prefix=self.get_prefix,
@@ -45,15 +45,19 @@ class VillagerBotShard:
         )
 
     async def start(self):
+        self.aiohttp = aiohttp.ClientSession()
+        self.db = await setup_database(self.k)
+
         await self.ipc.connect(self.shard_id)  # connect to manager server
         await self.db  # connect to database
-        await self.bot.start()  # run bot
+
+        await self.bot.start(self.k.discord_token)  # run bot
 
     async def stop(self):
-        await self.ipc.close()  # close connection to manager
-        await self.db.close()  # close connections in db pool
         await self.bot.close()  # close connection to discord gateway
         await self.aiohttp.close()  # close aiohttp ClientSession
+        await self.db.close()  # close connections in db pool
+        await self.ipc.close()  # close connection to manager
 
     async def get_prefix(self):
         return self.d.default_prefix

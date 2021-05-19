@@ -17,19 +17,25 @@ async def handle_packet(shard_id: int, stream: Stream, packet: ClassyDict) -> No
     print(f"MANAGER: packet from {shard_id}:", packet)
 
 
-async def main(ppool):
-    shard_args = await asyncio.gather(load_secrets(), load_data(), load_text())
-    secrets, data, text = shard_args
+def main(ppool):
+    secrets, data = load_secrets(), load_data()
 
     ipc_server = Server(secrets.manager.host, secrets.manager.port, secrets.manager.auth, handle_packet)
-    await ipc_server.start()
 
-    loop = asyncio.get_event_loop()
-    coros = [loop.run_in_executor(ppool, run_shard, data.shard_count, shard_id, *shard_args) for shard_id in range(data.shard_count)]
+    async def _main():
+        await ipc_server.start()
 
-    await asyncio.gather(*coros)
+        shards = []
+        loop = asyncio.get_event_loop()
+
+        for shard_id in range(data.shard_count):
+            shards.append(loop.run_in_executor(ppool, run_shard, data.shard_count, shard_id))
+
+        await asyncio.gather(*shards)
+
+    asyncio.run(_main())
 
 
 if __name__ == "__main__":
     with ProcessPoolExecutor() as ppool:
-        asyncio.run(main(ppool))
+        main(ppool)
