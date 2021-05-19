@@ -7,9 +7,8 @@ class Events(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_ready(self):
-        startup_time = round(time.time() - self.bot.start_time, 2)
-        self.bot.logger.info(f"\u001b[36;1mCONNECTED\u001b[0m ({startup_time} seconds)")
+    async def on_shard_ready(self, shard_id: int):
+        self.bot.logger.info(f"[Shard {shard_id}] \u001b[36;1mCONNECTED\u001b[0m")
 
 
 def setup(bot):

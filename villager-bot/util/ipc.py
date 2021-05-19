@@ -68,9 +68,9 @@ class Client:
 
         self.stream = None
 
-    async def connect(self, shard_id: int) -> None:
+    async def connect(self, shard_ids: tuple) -> None:
         self.stream = Stream(*await asyncio.open_connection(self.host, self.port))
-        await self.write_packet({"type": "identify", "shard_id": shard_id})
+        await self.write_packet({"type": "identify", "shard_ids": shard_ids})
 
     async def close(self) -> None:
         await self.write_packet({"type": "disconnect"})
@@ -97,8 +97,6 @@ class Server:
         self.serve_task = None
         self.closing = False
 
-        self.clients = {}  # shard_id: Stream
-
     async def start(self) -> None:
         self.server = await asyncio.start_server(self.handle_connection, self.host, self.port)
         self.serve_task = asyncio.create_task(self.server.serve_forever())
@@ -116,7 +114,6 @@ class Server:
 
     async def handle_connection(self, reader: StreamReader, writer: StreamWriter) -> None:
         stream = Stream(reader, writer)
-        shard_id = None
 
         while not self.closing:
             packet = await stream.read_packet()
@@ -126,12 +123,4 @@ class Server:
                 await stream.send_packet({"info": "invalid authorization"})
                 return
 
-            if packet.type == "identify":
-                shard_id = packet.shard_id
-                self.clients[shard_id] = stream
-
-            if packet.type == "disconnect":
-                self.clients.pop(shard_id, None)
-                return
-
-            await self.handle_packet(shard_id, stream, packet)
+            await self.handle_packet(stream, packet)

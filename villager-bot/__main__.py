@@ -21,19 +21,21 @@ class Karen:
 
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
 
+        self.shard_ids = tuple(range(self.d.shard_count))
+
     async def handle_packet(self, *args):
         print(args)
 
     async def start(self, pp):
         await self.server.start()
 
-        shards = []
+        shard_groups = []
         loop = asyncio.get_event_loop()
 
-        for shard_id in range(self.d.shard_count):
-            shards.append(loop.run_in_executor(pp, run_shard, self.d.shard_count, shard_id))
+        for shard_id_group in [self.shard_ids[i : i + 4] for i in range(0, len(self.shard_ids), 4)]:
+            shard_groups.append(loop.run_in_executor(pp, run_shard, self.d.shard_count, shard_id_group))
 
-        await asyncio.gather(*shards)
+        await asyncio.gather(*shard_groups)
 
     def run(self):
         with ProcessPoolExecutor(self.d.shard_count) as pp:
