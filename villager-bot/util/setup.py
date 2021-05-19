@@ -31,12 +31,12 @@ def setup_logging() -> logging.Logger:
     return logging.getLogger("main")
 
 
-def setup_database(bot: commands.Bot, keys: ClassyDict) -> None:
+def setup_database(secrets: ClassyDict) -> None:
     return asyncpg.create_pool(
-        host=keys.database.host,  # where db is hosted
-        database=keys.database.name,  # name of database
-        user=keys.database.user,  # database username
-        password=keys.database.passw,  # password which goes with user
-        max_size=20,
+        host=secrets.database.host,  # where db is hosted
+        database=secrets.database.name,  # name of database
+        user=secrets.database.user,  # database username
+        password=secrets.database.passw,  # password which goes with user
+        max_size=10,
         command_timeout=10,
     )
