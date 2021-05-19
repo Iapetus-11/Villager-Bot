@@ -6,6 +6,7 @@ import asyncio
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.ipc import Client
 
+
 def run_shard(shard_count: int, shard_id: int, secrets: ClassyDict, data: ClassyDict, text: ClassyDict) -> None:
     shard = VillagerBotShard(shard_count, shard_id, secrets, data, text)
 
@@ -38,9 +39,9 @@ class VillagerBotShard:
         )
 
         self.ipc = Client(
-            secrets.manager.host, # ip manager is hosted on
-            secrets.manager.port, # port manager is hosted on
-            secrets.manager.auth, # auth which is passed with every packet
+            secrets.manager.host,  # ip manager is hosted on
+            secrets.manager.port,  # port manager is hosted on
+            secrets.manager.auth,  # auth which is passed with every packet
         )
 
     async def run(self):

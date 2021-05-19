@@ -35,6 +35,7 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # {"type": "exec-code", "code": "print('hello')", "auth": "password123"} # client -> server
 # {"type": "exec-response", "response": "None"} # server -> client
 
+
 class Stream:
     def __init__(self, reader: StreamReader, writer: StreamWriter):
         self.reader = reader
@@ -53,7 +54,7 @@ class Stream:
         self.writer.write(packet)
         await self.writer.drain()
 
-    async def close(self) ->  None:
+    async def close(self) -> None:
         self.writer.close()
         await self.writer.wait_closed()
 
