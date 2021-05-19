@@ -29,10 +29,10 @@ class Connection:
         self.reader = None
         self.writer = None
 
-    async def connect(self):
+    async def connect(self) -> None:
         self.reader, self.writer = await asyncio.open_connection(self.host, self.port)
 
-    async def close(self):
+    async def close(self) -> None:
         self.writer.close()
         await self.writer.wait_closed()
 
@@ -42,7 +42,7 @@ class Connection:
 
         return ClassyDict(orjson.loads(data))
 
-    async def send_packet(self, data: Union[dict, ClassyDict]):
+    async def send_packet(self, data: Union[dict, ClassyDict]) -> None:
         data = orjson.dumps(data)  # orjson dumps to bytes
         packet = struct.pack(">i", len(data)) + data
 
