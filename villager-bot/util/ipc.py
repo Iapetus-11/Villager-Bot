@@ -94,6 +94,7 @@ class Server:
 
         self.server = None
         self.serve_task = None
+        self.closing = False
 
         self.clients = {}  # shard_id: Stream
 
@@ -103,8 +104,10 @@ class Server:
 
     async def serve(self) -> None:
         await self.serve_task
+        self.closing = True
 
     async def close(self) -> None:
+        self.closing = True
         self.serve_task.cancel()
 
         self.server.close()
@@ -114,7 +117,7 @@ class Server:
         stream = Stream(reader, writer)
         shard_id = None
 
-        while True:
+        while not self.closing:
             packet = await stream.read_packet()
 
             # check auth, if invalid notify client and ignore subsequent requests
