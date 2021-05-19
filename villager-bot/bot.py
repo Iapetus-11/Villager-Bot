@@ -12,8 +12,8 @@ from util.ipc import Client
 def run_shard(shard_count: int, shard_ids: list) -> None:
     asyncio.set_event_loop(asyncio.new_event_loop())
 
-    shard = VillagerBotShardGroup(shard_count, shard_ids)
-    shard.run()
+    shard_group = VillagerBotShardGroup(shard_count, shard_ids)
+    shard_group.run()
 
 
 class VillagerBotShardGroup(commands.AutoShardedBot):
