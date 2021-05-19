@@ -27,8 +27,7 @@ class MechaKaren:
             if len(self.ready_shards) == len(self.shard_ids):
                 self.logger.info("\u001b[36;1mALL SHARDS READY\u001b[0m")
         elif packet.type == "broadcast":
-            for stream in self.server.connections:
-                await stream.send_packet(packet.packet)
+            await asyncio.gather(*[stream.send_packet(packet.packet) for stream in self.server.connections])
 
     async def start(self, pp):
         await self.server.start()
