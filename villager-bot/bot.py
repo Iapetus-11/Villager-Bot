@@ -21,7 +21,7 @@ class VillagerBotShard:
         self.l = text
 
         self.aiohttp = aiohttp.ClientSession()
-        self.logger = setup_logging()
+        self.logger = setup_logging(shard_id)
         self.db = setup_database(secrets)
 
         self.bot = commands.Bot(
@@ -31,8 +31,12 @@ class VillagerBotShard:
             intents=villager_bot_intents(),
         )
 
-        self.ipc = Client(secrets.manager.host, secrets.manager.port, secrets.manager.auth)
+        self.ipc = Client(
+            secrets.manager.host, # ip manager is hosted on
+            secrets.manager.port, # port manager is hosted on
+            secrets.manager.auth, # auth which is passed with every packet
+        )
 
     async def setup(self):
-        await self.ipc.connect(self.shard_id)
-        await self.db
+        await self.ipc.connect(self.shard_id)  # connect to manager server
+        await self.db  # connect to database
