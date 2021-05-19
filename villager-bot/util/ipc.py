@@ -62,7 +62,6 @@ class Client:
 
     async def connect(self, shard_ids: tuple) -> None:
         self.stream = Stream(*await asyncio.open_connection(self.host, self.port))
-        await self.write_packet({"type": "identify", "shard_ids": shard_ids})
 
     async def close(self) -> None:
         await self.write_packet({"type": "disconnect"})
