@@ -1,8 +1,11 @@
 from classyjson import ClassyDict
 from discord.ext import commands
+import aiofiles
 import asyncpg
 import logging
 import discord
+import orjson
+import os
 
 
 def villager_bot_intents() -> discord.Intents:
@@ -38,3 +41,20 @@ def setup_database(secrets: ClassyDict) -> None:
         max_size=10,
         command_timeout=10,
     )
+
+async def load_text() -> ClassyDict:
+    text = {}
+
+    for filename in os.listdir("data/text"):
+        async with aiofiles.open(f"data/text/{filename}", "r", encoding="utf8") as f:
+            text.update(orjson.loads(await f.read()))
+
+    return ClassyDict(text)
+
+async def load_secrets() -> ClassyDict:
+    async with aiofiles.open("../secrets.json", "r", encoding="utf8") as f:
+        return ClassyDict(orjson.loads(await f.read()))
+
+async def load_data() -> ClassyDict:
+    async with aiofiles.open("data/data.json", "r", encoding="utf8") as f:
+        return ClassyDict(orjson.loads(await f.read()))
