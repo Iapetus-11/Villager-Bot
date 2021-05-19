@@ -15,16 +15,19 @@ CREATE TABLE IF NOT EXISTS warnings (
   reason             VARCHAR(250) -- the reason for the warning (optional)
 );
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS users ( -- used for economy stuff
   user_id            BIGINT PRIMARY KEY,  -- the discord user id / snowflake
   emeralds           BIGINT NOT NULL DEFAULT 0, -- the amount of emeralds the user has
   vault_balance      INT NOT NULL DEFAULT 0, -- the amount of emerald blocks in their vault
   vault_max          INT NOT NULL DEFAULT 1, -- the maximum amount of emerald blocks in their vault
   health             SMALLINT NOT NULL DEFAULT 20, -- the amount of health the user currently has
-  banned             BOOLEAN NOT NULL DEFAULT false, -- whether the user has been bot-banned or not
   vote_streak        INT NOT NULL DEFAULT 0, -- the current vote streak of the user
   last_vote          TIMESTAMPTZ, -- the time at which the last user voted
   give_alert         BOOLEAN NOT NULL DEFAULT true -- whether users should be alerted if someone gives them items or emeralds or not
+);
+
+CREATE TABLE IF NOT EXISTS user_bans ( -- if a user exists here, they're bot-banned
+  user_id           BIGINT PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS items (
