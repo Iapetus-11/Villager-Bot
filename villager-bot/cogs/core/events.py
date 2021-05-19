@@ -1,4 +1,5 @@
 from discord.ext import commands
+import time
 
 class Events(commands.Cog):
     def __init__(self, bot):
@@ -6,7 +7,8 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(self.bot.shard_id)
+        startup_time = round(time.time() - self.bot.start_time, 2)
+        self.bot.logger.info(f"\u001b[36;1mCONNECTED\u001b[0m ({startup_time} seconds)")
 
 def setup(bot):
     bot.add_cog(Events(bot))

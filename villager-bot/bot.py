@@ -2,6 +2,7 @@ from classyjson import ClassyDict
 from discord.ext import commands
 import aiohttp
 import asyncio
+import time
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.setup import load_text, load_secrets, load_data
@@ -24,6 +25,8 @@ class VillagerBotShard(commands.Bot):
             shard_id=shard_id,
         )
 
+        self.start_time = time.time()
+
         self.k = load_secrets()
         self.d = load_data()
         self.l = load_text()
@@ -32,9 +35,10 @@ class VillagerBotShard(commands.Bot):
             "cogs.core.events",
         ]
 
+        self.logger = setup_logging(self.shard_id)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.k.manager.auth)
-        self.db = None
         self.aiohttp = aiohttp.ClientSession()
+        self.db = None
 
     async def start(self, *args, **kwargs):
         await self.ipc.connect(self.shard_id)
