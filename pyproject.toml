@@ -12,6 +12,7 @@ classy-json = "^3.2.1"
 pydantic = "^1.8.2"
 asyncpg = "^0.23.0"
 aiofiles = "^0.7.0"
+aiohttp = "^3.7.4"
 
 [tool.poetry.dev-dependencies]
 black = "^21.5b1"
