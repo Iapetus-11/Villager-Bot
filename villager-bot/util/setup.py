@@ -42,6 +42,7 @@ def setup_database(secrets: ClassyDict) -> None:
         command_timeout=10,
     )
 
+
 def load_text() -> ClassyDict:
     text = {}
 
@@ -51,9 +52,11 @@ def load_text() -> ClassyDict:
 
     return ClassyDict(text)
 
+
 def load_secrets() -> ClassyDict:
     with open("../secrets.json", "r", encoding="utf8") as f:
         return ClassyDict(orjson.loads(f.read()))
+
 
 def load_data() -> ClassyDict:
     with open("data/data.json", "r", encoding="utf8") as f:
