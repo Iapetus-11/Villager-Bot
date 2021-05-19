@@ -18,7 +18,6 @@ class MechaKaren:
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
 
         self.shard_ids = tuple(range(self.d.shard_count))
-
         self.ready_shards = set()
 
     async def handle_packet(self, stream: Stream, packet: ClassyDict):
@@ -27,6 +26,8 @@ class MechaKaren:
 
             if len(self.ready_shards) == len(self.shard_ids):
                 self.logger.info("\u001b[36;1mALL SHARDS READY\u001b[0m")
+        elif packet.type == "broadcast":
+            raise NotImplementedError
 
     async def start(self, pp):
         await self.server.start()
