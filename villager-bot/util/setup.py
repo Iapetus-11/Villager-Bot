@@ -26,9 +26,9 @@ def villager_bot_intents() -> discord.Intents:
 
 
 def setup_logging(shard_id: int) -> logging.Logger:
-    logging.basicConfig(level=logging.INFO, format=f"%(levelname)s:%(name)s [{str(shard_id).rjust(2, '0')}]: %(message)s")
-    # logging.getLogger("asyncio").setLevel(logging.WARNING)  # hide annoying asyncio info
-    # logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
+    logging.basicConfig(level=logging.INFO, format=f"[{str(shard_id).rjust(2, '0')}] %(levelname)s:%(name)s: %(message)s")
+    logging.getLogger("asyncio").setLevel(logging.WARNING)  # hide annoying asyncio info
+    logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
     return logging.getLogger("main")
 
 

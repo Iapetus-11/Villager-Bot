@@ -9,55 +9,33 @@ from util.ipc import Client
 
 
 def run_shard(shard_count: int, shard_id: int) -> None:
-    secrets, data, text = load_secrets(), load_data(), load_text()
-    shard = VillagerBotShard(shard_count, shard_id, secrets, data, text)
+    asyncio.set_event_loop(asyncio.new_event_loop())
 
-    try:
-        asyncio.run(shard.start())
-    finally:
-        asyncio.run(shard.stop())
+    shard = VillagerBotShard(shard_count, shard_id)
+    shard.run(secrets.discord_token)
 
 
-class VillagerBotShard:
-    def __init__(self, shard_count: int, shard_id: int, secrets: ClassyDict, data: ClassyDict, text: ClassyDict) -> None:
-        self.shard_count = shard_count
-        self.shard_id = shard_id
-
-        self.k = secrets
-        self.d = data
-        self.l = text
-
-        self.logger = setup_logging(shard_id)
-        self.aiohttp = None
-        self.db = None
-
-        self.bot = commands.Bot(
-            command_prefix=self.get_prefix,
+class VillagerBotShard(commands.Bot):
+    def __init__(self, shard_count: int, shard_id: int, *, secrets: ClassyDict, data: ClassyDict, text: ClassyDict) -> None:
+        super().__init__(
+            command_prefix="!!",
             intents=villager_bot_intents(),
             shard_count=shard_count,
             shard_id=shard_id,
         )
 
-        self.ipc = Client(
-            secrets.manager.host,  # ip manager is hosted on
-            secrets.manager.port,  # port manager is hosted on
-            secrets.manager.auth,  # auth which is passed with every packet
-        )
+        self.k = load_secrets()
+        self.d = load_data()
+        self.l = load_text()
 
-    async def start(self):
-        self.aiohttp = aiohttp.ClientSession()
-        self.db = await setup_database(self.k)
+        self.ipc = Client()
 
-        await self.ipc.connect(self.shard_id)  # connect to manager server
-        await self.db  # connect to database
+        self.cog_list = [
+            "cogs.core.events",
+        ]
 
-        await self.bot.start(self.k.discord_token)  # run bot
+        for cog in self.cog_list:
+            self.load_extension(cog)
 
-    async def stop(self):
-        await self.bot.close()  # close connection to discord gateway
-        await self.aiohttp.close()  # close aiohttp ClientSession
-        await self.db.close()  # close connections in db pool
-        await self.ipc.close()  # close connection to manager
-
-    async def get_prefix(self):
-        return self.d.default_prefix
+    def run(self):
+        super().run(self.k.discord_token)
