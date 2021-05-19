@@ -133,4 +133,4 @@ class Server:
                 self.clients.pop(shard_id, None)
                 return
 
-            await self.handle_packet(shard_id, stream)
+            await self.handle_packet(shard_id, stream, packet)
