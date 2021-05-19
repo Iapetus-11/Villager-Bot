@@ -27,7 +27,8 @@ class MechaKaren:
             if len(self.ready_shards) == len(self.shard_ids):
                 self.logger.info("\u001b[36;1mALL SHARDS READY\u001b[0m")
         elif packet.type == "broadcast":
-            raise NotImplementedError
+            for stream in self.server.connections:
+                await stream.send_packet(packet.packet)
 
     async def start(self, pp):
         await self.server.start()
