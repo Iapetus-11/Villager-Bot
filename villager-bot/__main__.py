@@ -20,10 +20,10 @@ async def handle_packet(shard_id: int, stream: Stream, packet: ClassyDict) -> No
 def main(ppool):
     secrets, data = load_secrets(), load_data()
 
-    ipc_server = Server(secrets.manager.host, secrets.manager.port, secrets.manager.auth, handle_packet)
+    manager_server = Server(secrets.manager.host, secrets.manager.port, secrets.manager.auth, handle_packet)
 
     async def _main():
-        await ipc_server.start()
+        await manager_server.start()
 
         shards = []
         loop = asyncio.get_event_loop()
