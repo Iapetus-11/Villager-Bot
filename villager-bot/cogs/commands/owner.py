@@ -22,7 +22,7 @@ class Owner(commands.Cog):
         if stuff.startswith("```"):
             stuff = stuff.lstrip(" `py\n ").rstrip(" `\n ")
 
-        result = await execute_code(stuff, self.bot.eval_env)
+        result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
         await ctx.send(f"```{result}```")
 
     @commands.command(name="evalglobal", aliases=["evalall", "evalg"])
