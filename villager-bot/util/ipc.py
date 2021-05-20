@@ -89,23 +89,26 @@ class Client:
             else:
                 self.unexpected_packets.append(packet)
 
-    async def send(self, data: Union[dict, ClassyDict]) -> None:
-        data["auth"] = self.auth
+    async def send(self, packet: Union[dict, ClassyDict]) -> None:
+        packet["auth"] = self.auth
 
-        await self.stream.write_packet(data)
+        await self.stream.write_packet(packet)
 
-    async def request(self, data: Union[dict, ClassyDict]) -> ClassyDict:
-        data["id"] = packet_id = self.current_id
+    async def request(self, packet: Union[dict, ClassyDict]) -> ClassyDict:
+        packet["id"] = packet_id = self.current_id
         self.current_id += 1
 
         # create entry before sending packet
         event = asyncio.Event()
         self.expected_packets[packet_id] = [event, None]
 
-        await self.send(data)  # send packet off to karen
+        await self.send(packet)  # send packet off to karen
 
         await event.wait()  # wait for response event
         return self.expected_packets[packet_id][1]  # return received packet
+
+    async def broadcast(self, packet: Union[dict, ClassyDict]) -> ClassyDict:
+        return await self.request({"type": "broadcast-request", "packet": packet})
 
 
 class Server:

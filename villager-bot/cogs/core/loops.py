@@ -22,7 +22,9 @@ class Loops(commands.Cog):
                 result = str(e)
                 success = False
 
-            await self.ipc.send({"type": "eval-response", "id": packet.id, "result": result, "success": success})
+            print(self.bot.shard_ids)
+
+            await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
 
     @tasks.loop(seconds=0.5)
     async def handle_unexpected_packets(self):

@@ -13,7 +13,7 @@ class Owner(commands.Cog):
     @commands.command(name="reload")
     @commands.is_owner()
     async def reload_cog(self, ctx, cog: str):
-        await self.ipc.request({"type": "broadcast-eval", "code": f"bot.reload_extension('cogs.{cog}')"})
+        await self.ipc.broadcast({"type": "eval", "code": f"bot.reload_extension('cogs.{cog}')"})
         self.bot.reload_extension(f"cogs.{cog}")
         await ctx.message.add_reaction(self.d.emojis.yes)
 
