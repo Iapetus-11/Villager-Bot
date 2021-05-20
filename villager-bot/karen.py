@@ -64,12 +64,12 @@ class MechaKaren:
             await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
         elif (
             packet.type == "broadcast-request"
-        ):  # broadcasts the packet to every connection except the broadcaster, and waits for responses
-            broadcast_id = self.current_id
+        ):  # broadcasts the packet to every connection including the broadcaster, and waits for responses
+            broadcast_id = f"b{self.current_id}"
             self.current_id += 1
 
             broadcast_packet = {**packet.packet, "id": broadcast_id}
-            broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections if s != stream]
+            broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections]
             broadcast = self.broadcasts[broadcast_id] = {
                 "ready": asyncio.Event(),
                 "responses": [],

@@ -96,7 +96,7 @@ class Client:
         await self.stream.write_packet(packet)
 
     async def request(self, packet: Union[dict, ClassyDict]) -> ClassyDict:
-        packet["id"] = packet_id = self.current_id
+        packet["id"] = packet_id = f"c{self.current_id}"
         self.current_id += 1
 
         # create entry before sending packet
