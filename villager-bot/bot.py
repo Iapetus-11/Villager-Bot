@@ -34,9 +34,22 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.cog_list = ["cogs.core.events", "cogs.core.loops", "cogs.commands.owner"]
 
         self.logger = setup_logging(self.shard_ids)
-        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.k.manager.auth)
+        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_broadcast)
         self.aiohttp = aiohttp.ClientSession()
         self.db = None
+
+    @property
+    def eval_env(self):
+        return {
+            **globals(),
+            "bot": self,
+            "self": self,
+            "k": self.k,
+            "d": self.d,
+            "l": self.l,
+            "aiohttp": self.aiohttp,
+            "db": self.db,
+        }
 
     async def start(self, *args, **kwargs):
         await self.ipc.connect(self.shard_ids)
@@ -56,3 +69,14 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
 
     def run(self, *args, **kwargs):
         super().run(self.k.discord_token, *args, **kwargs)
+
+    async def handle_broadcast(self, packet: ClassyDict) -> None:
+        if packet.type == "eval":
+            try:
+                result = eval(packet.code, self.eval_env)
+                success = True
+            except Exception as e:
+                result = str(e)
+                success = False
+
+            await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})

@@ -56,16 +56,17 @@ class Stream:
 
 
 class Client:
-    def __init__(self, host: str, port: int, auth: str) -> None:
+    def __init__(self, host: str, port: int, auth: str, handle_broadcast: Callable) -> None:
         self.host = host
         self.port = port
 
         self.auth = auth
 
+        self.handle_broadcast = handle_broadcast
+
         self.stream = None
 
         self.expected_packets = {}  # packet_id: [asyncio.Event, Union[Packet, None]]
-        self.unexpected_packets = []  # [Packet, Packet,..]
         self.current_id = 0
         self.read_task = None
 
@@ -87,7 +88,7 @@ class Client:
                 self.expected_packets[packet.id][1] = packet
                 self.expected_packets[packet.id][0].set()
             else:
-                self.unexpected_packets.append(packet)
+                asyncio.create_task(self.handle_broadcast(packet))
 
     async def send(self, packet: Union[dict, ClassyDict]) -> None:
         packet["auth"] = self.auth
