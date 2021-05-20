@@ -1,5 +1,6 @@
 {
   "default_prefix": "!!",
+  "shard_count": 6,
   "support_server_id": 641117791272960031,
   "error_channel_id": 642446655022432267,
   "vote_channel_id": 725551439165784115,

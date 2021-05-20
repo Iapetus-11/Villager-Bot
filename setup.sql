@@ -1,95 +1,72 @@
--- stores guild configuration
 CREATE TABLE IF NOT EXISTS guilds (
-  gid            BIGINT PRIMARY KEY NOT NULL, -- guild id
-  prefix         VARCHAR(15) NOT NULL, -- prefix in that server
-  replies        BOOLEAN NOT NULL, -- whether or not the should reply to "emeralds" and "villager bot"
-  difficulty     VARCHAR(15) NOT NULL, -- difficulty for mob spawns and other things
-  lang           VARCHAR(10) NOT NULL, -- language used leave null for en-us
-  mcserver       VARCHAR(50), -- default mcserver for the /mcstatus command
-  premium        BOOLEAN,
-  roles_persist  BOOLEAN
+  guild_id           BIGINT PRIMARY KEY, -- the discord guild id / snowflake
+  prefix             VARCHAR(15) NOT NULL DEFAULT '!!', -- the prefix of the guild
+  difficulty         SMALLINT NOT NULL DEFAULT 1, -- the difficulty the server is on 0=peaceful, 1=normal, 2=hard
+  lang               VARCHAR(6) NOT NULL DEFAULT 'en', -- the language the bot will speak in
+  mc_server          VARCHAR(100), -- the minecraft server of the guild
+  premium            BOOLEAN NOT NULL DEFAULT false, -- whether the server is premium or not
+  roles_persist      BOOLEAN NOT NULL DEFAULT false -- whether roles should persist or not
 );
 
--- a user's economy data
-CREATE TABLE IF NOT EXISTS users (
-  uid           BIGINT PRIMARY KEY NOT NULL, -- user id
-  emeralds      BIGINT NOT NULL, -- amount of emeralds user has outside of the vault
-  vault_bal     INT NOT NULL, -- amount of emerald BLOCKS which are currently in the vault
-  vault_max     INT NOT NULL, -- maximum amount of emerald BLOCKS which can be stored in the vault
-  health        INT NOT NULL, -- user health, out of 20
-  bot_banned    BOOLEAN NOT NULL, -- is banned from using the bot
-  vote_streak   INT NOT NULL,
-  streak_time   BIGINT,
-  give_alert    BOOLEAN NOT NULL -- whether to tell user if someone gave em stuff or not
-);
-
--- tracks user's items
-CREATE TABLE IF NOT EXISTS items (
-  uid          BIGINT NOT NULL, -- owner of the item
-  name         VARCHAR(250) NOT NULL, -- name of the item
-  sell_price   BIGINT, -- sell price for ONE of that item
-  amount       BIGINT NOT NULL,  -- amount of the item
-  sticky       BOOLEAN NOT NULL -- if true, item can't be traded
-);
-
--- tracks economy transactions between users
-CREATE TABLE IF NOT EXISTS give_logs (
-  item       VARCHAR(250) NOT NULL,
-  amount     BIGINT NOT NULL,
-  ts         BIGINT NOT NULL,
-  giver_uid  BIGINT NOT NULL,
-  recvr_uid  BIGINT NOT NULL
-);
-
--- used for leaderboards as part of the economy suite
-CREATE TABLE IF NOT EXISTS leaderboards ( -- there are more leaderboards than this, not all of them are stored here
-  uid          BIGINT PRIMARY KEY NOT NULL,
-  pillages     BIGINT NOT NULL, -- number of pillaged emeralds
-  mobs_killed  BIGINT NOT NULL,
-  fish         BIGINT NOT NULL -- number of fish fished up
-);
-
--- used for warning system as part of moderation suite
 CREATE TABLE IF NOT EXISTS warnings (
-  uid    BIGINT NOT NULL, -- receiver of the warning
-  gid    BIGINT NOT NULL, -- guild in which the warning was done
-  mod_id BIGINT NOT NULL, -- moderator who did the warning
-  reason VARCHAR(250) -- reason for the warning, null for no reason
+  user_id            BIGINT PRIMARY KEY,  -- the discord user id / snowflake
+  guild_id           BIGINT NOT NULL, -- the guild where the user was warned
+  mod_id             BIGINT NOT NULL, -- the mod / admin who issued the warning
+  reason             VARCHAR(250) -- the reason for the warning (optional)
 );
 
--- used in !!randommc command
-CREATE TABLE IF NOT EXISTS mcservers (
-  owner_id BIGINT NOT NULL, -- discord owner id of the server
-  host     VARCHAR(100), -- hostname/ip/address of server
-  link     VARCHAR(250) -- learn more link
+CREATE TABLE IF NOT EXISTS users ( -- used for economy stuff
+  user_id            BIGINT PRIMARY KEY,  -- the discord user id / snowflake
+  emeralds           BIGINT NOT NULL DEFAULT 0, -- the amount of emeralds the user has
+  vault_balance      INT NOT NULL DEFAULT 0, -- the amount of emerald blocks in their vault
+  vault_max          INT NOT NULL DEFAULT 1, -- the maximum amount of emerald blocks in their vault
+  health             SMALLINT NOT NULL DEFAULT 20, -- the amount of health the user currently has
+  vote_streak        INT NOT NULL DEFAULT 0, -- the current vote streak of the user
+  last_vote          TIMESTAMPTZ, -- the time at which the last user voted
+  give_alert         BOOLEAN NOT NULL DEFAULT true -- whether users should be alerted if someone gives them items or emeralds or not
 );
 
--- used to store disabled commands for premium servers
-CREATE TABLE IF NOT EXISTS disabled (
-  gid BIGINT NOT NULL,
-  cmd VARCHAR(20) NOT NULL
+CREATE TABLE IF NOT EXISTS user_bans ( -- if a user exists here, they're bot-banned
+  user_id           BIGINT PRIMARY KEY
 );
 
--- used to store connection credentials + info for rcon command
-CREATE TABLE IF NOT EXISTS user_rcon (
-  uid       BIGINT NOT NULL,
-  mcserver  VARCHAR(50),
-  rcon_port INT,
-  password  VARCHAR(300)
+CREATE TABLE IF NOT EXISTS items (
+  user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
+  name               VARCHAR(50) NOT NULL, -- the name of the item
+  sell_price         INT, -- the price it sells back to the bot for
+  amount             BIGINT NOT NULL, -- the amount of the item the user has
+  sticky             BOOLEAN NOT NULL -- whether the item can be traded / given or not
 );
 
--- used for reminders command
+CREATE TABLE IF NOT EXISTS leaderboards (
+  user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
+  pillaged_emeralds  BIGINT NOT NULL DEFAULT 0, -- emeralds pillaged from other users
+  mobs_killed        BIGINT NOT NULL DEFAULT 0, -- number of mobs killed
+  fish_fished        BIGINT NOT NULL DEFAULT 0  -- fishies fished
+);
+
 CREATE TABLE IF NOT EXISTS reminders (
-  uid BIGINT NOT NULL,
-  cid BIGINT NOT NULL,
-  mid BIGINT NOT NULL,
-  reminder VARCHAR(500),
-  at BIGINT NOT NULL
+  user_id            BIGINT NOT NULL, -- the discord user id / snowflake
+  channel_id         BIGINT NOT NULL, -- the channel id where the reminder command was summoned
+  message_id         BIGINT NOT NULL, -- the message where the reminder command was summoned
+  reminder           TEXT NOT NULL, -- the actual text for the reminder
+  at                 BIGINT NOT NULL -- the time at which the user should be reminded
 );
 
--- used to store roles of users in guilds with role persistence on
+CREATE TABLE IF NOT EXISTS disabled_commands (
+  guild_id           BIGINT NOT NULL,  -- the guild id where the command is disabled
+  command            VARCHAR(20) NOT NULL -- the real name of the command that's disabled
+);
+
+CREATE TABLE IF NOT EXISTS user_rcon (
+  user_id            BIGINT NOT NULL, -- the discord user id / snowflake
+  mc_server          VARCHAR(50) NOT NULL, -- the minecraft server address, including the port
+  rcon_port          INT NOT NULL, -- the port the RCON server is hosted on
+  password           VARCHAR(300) NOT NULL -- the encrypted password to login to the RCON server
+);
+
 CREATE TABLE IF NOT EXISTS user_roles (
-  uid BIGINT NOT NULL,
-  gid BIGINT NOT NULL,
-  roles BIGINT[] NOT NULL DEFAULT ARRAY[]::BIGINT[]
+  user_id            BIGINT NOT NULL, -- the discord user id / snowflake
+  guild_id           BIGINT NOT NULL, -- the guild id for the user's roles
+  roles              BIGINT[] NOT NULL DEFAULT ARRAY[]::BIGINT[] -- the user's roles at the time they left
 );

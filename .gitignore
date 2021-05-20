@@ -1,4 +1,5 @@
-src/data/keys.json
-cogs/core/hentai.py
+secrets.json
+
+villager-bot/cogs/core/hentai.py
 
 __pycache__/
