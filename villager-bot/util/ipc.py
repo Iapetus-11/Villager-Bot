@@ -28,6 +28,10 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # {"type": "exec-response", "response": "None"} # server -> client
 
 
+def default_serialize(obj):
+    return str(obj)
+
+
 class Stream:
     def __init__(self, reader: StreamReader, writer: StreamWriter):
         self.reader = reader
@@ -40,7 +44,7 @@ class Stream:
         return ClassyDict(orjson.loads(data))
 
     async def write_packet(self, data: Union[dict, ClassyDict]) -> None:
-        data = orjson.dumps(data)  # orjson dumps to bytes
+        data = orjson.dumps(data, default=default_serialize)  # orjson dumps to bytes
         packet = struct.pack(">i", len(data)) + data
 
         self.writer.write(packet)
@@ -60,43 +64,50 @@ class Client:
 
         self.stream = None
 
-        self.received = []
-        self.cur_id = 0
+        self.packets = {}  # packet_id: [asyncio.Event, Union[Packet, None]]
+        self.current_id = 0
+        self.read_task = None
 
     async def connect(self, shard_ids: tuple) -> None:
         self.stream = Stream(*await asyncio.open_connection(self.host, self.port))
+        self.read_task = asyncio.create_task(self.read_packets())
 
     async def close(self) -> None:
-        await self.write_packet({"type": "disconnect"})
+        self.read_task.cancel()
+
+        await self.send({"type": "disconnect"})
         await self.stream.close()
 
-    async def read_packet(self) -> ClassyDict:
-        try:
-            return self.received.pop()
-        except IndexError:
-            return await self.stream.read_packet()
+    async def read_packets(self):
+        while True:
+            packet = await self.stream.read_packet()
 
-    async def write_packet(self, data: Union[dict, ClassyDict]) -> int:
+            if packet.id in self.packets:
+                self.packets[packet.id][1] = packet
+                self.packets[packet.id][0].set()
+            else:
+                event = asyncio.Event()
+                event.set()  # set event because packet already received
+
+                self.packets[packet.id] = [event, packet]
+
+    async def send(self, data: Union[dict, ClassyDict]) -> None:
         data["auth"] = self.auth
-        id = data["id"] = self.cur_id
-        self.cur_id += 1
 
         await self.stream.write_packet(data)
 
-        return id
+    async def request(self, data: Union[dict, ClassyDict]) -> ClassyDict:
+        data["id"] = packet_id = self.current_id
+        self.current_id += 1
 
-    async def request_packet(self, data: Union[dict, ClassyDict]):
-        id = await self.write_packet(data)
+        # create entry before sending packet
+        event = asyncio.Event()
+        self.packets[packet_id] = [event, None]
 
-        while True:
-            packet = await self.read_packet()
+        await self.send(data)  # send packet off to karen
 
-            if packet.get("id") == id:
-                return packet
-
-            self.received.append(packet)
-
-            await asyncio.sleep(0.1)  # sleep to avoid infinite blocking loop
+        await event.wait()  # wait for response event
+        return self.packets[packet_id][1]  # return received packet
 
 
 class Server:
@@ -139,11 +150,11 @@ class Server:
 
             # check auth, if invalid notify client and ignore subsequent requests
             if packet.pop("auth", None) != self.auth:
-                await stream.send_packet({"info": "invalid authorization"})
+                await stream.write_packet({"info": "invalid authorization"})
                 return
 
             if packet.type == "disconnect":
                 self.connections.remove(stream)
                 return
 
-            await self.handle_packet(stream, packet)
+            asyncio.create_task(self.handle_packet(stream, packet))

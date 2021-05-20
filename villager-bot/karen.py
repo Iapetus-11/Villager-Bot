@@ -50,16 +50,16 @@ class MechaKaren:
         elif packet.type == "shard-disconnect":
             self.online_shards.discard(packet.shard_id)
         elif packet.type == "broadcast":
-            await asyncio.gather(*[stream.send_packet(packet.packet) for stream in self.server.connections])
+            await asyncio.gather(*[stream.write_packet(packet.packet) for stream in self.server.connections])
         elif packet.type == "eval":
             try:
-                result = eval(packet.code)
+                result = eval(packet.code, self.eval_env)
                 success = True
             except Exception as e:
-                result = e
+                result = str(e)
                 success = False
 
-            await stream.send_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
+            await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
 
     async def start(self, pp):
         await self.server.start()
