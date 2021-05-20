@@ -33,7 +33,7 @@ class Owner(commands.Cog):
 
         res = await self.ipc.broadcast({"type": "exec", "code": stuff})
 
-        await ctx.send("\uFEFF".join([f"```py\n{r['result']}```" for r in res["responses"]]))
+        await ctx.send("".join([f"```py\n{r['result']}```" for r in res["responses"]]))
 
 
 def setup(bot):
