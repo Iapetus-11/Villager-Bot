@@ -16,12 +16,12 @@ class MechaKaren:
             self.start_time = arrow.utcnow()
 
             self.miners = {}  # {user_id: command_count}
-            self.active_fx = {} # {user_id: [effect, potion, effect,..]}
+            self.active_fx = {}  # {user_id: [effect, potion, effect,..]}
 
-            self.econ_frozen_users = {} # {user_id: time.time()}
+            self.econ_frozen_users = {}  # {user_id: time.time()}
             self.mob_spawn_queue = set()  # Set[ctx, ctx,..]
 
-            self.mc_rcon_cache = {} # {user_id: rcon client}
+            self.mc_rcon_cache = {}  # {user_id: rcon client}
 
             self.disabled_commands = {}  # {guild_id: Set[disabled commands]}
             self.ban_cache = set()  # Set[user_id, user_id,..]
