@@ -63,7 +63,6 @@ class MechaKaren:
 
             await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
         elif packet.type == "broadcast-eval":
-            print("broadcast-eval karen-side")
             broadcast_id = self.current_id
             self.current_id += 1
 
@@ -72,13 +71,9 @@ class MechaKaren:
             broadcast = self.broadcasts[broadcast_id] = {"ready": asyncio.Event(), "responses": [], "expects": len(broadcast_coros)}
 
             await asyncio.gather(*broadcast_coros)
-            print("broadcast-evals sent (karen-side)")
             await broadcast["ready"].wait()
-            print("ready, writing broadcast-eval-response")
             await stream.write_packet({"type": "broadcast-eval-response", "id": packet.id, "responses": broadcast["responses"]})
         elif packet.type == "eval-response":
-            print("eval-response karen-side")
-
             broadcast = self.broadcasts[packet.id]
             broadcast["responses"].append(packet)
 

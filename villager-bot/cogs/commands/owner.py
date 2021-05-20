@@ -6,15 +6,16 @@ from util.code import execute_code
 class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
         self.ipc = bot.ipc
+        self.d = bot.d
 
     @commands.command(name="reload")
     @commands.is_owner()
     async def reload_cog(self, ctx, cog: str):
-        print("e")
         await self.ipc.request({"type": "broadcast-eval", "code": f"bot.reload_extension('cogs.{cog}')"})
-        print("hmm")
         self.bot.reload_extension(f"cogs.{cog}")
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name="eval")
     @commands.is_owner()
