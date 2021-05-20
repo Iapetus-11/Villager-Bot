@@ -582,8 +582,9 @@
           "elrynd": "Ayudó a arreglar bugs y la programación del código, y tradujo Villager Bot al Francés",
           "cheeze": "Creó nuevas funciones y ayudó a arreglar bugs",
           "quack": "Ayudó a arreglar pequeños errores con el código y traducciones",
-          "xe": "Arreglos menores de bugs y adición de funciones",
           "zelou": "Ayuda con la traducción al Español de Villager Bot",
+          "joaooh": "Creación y mantenimiento de la traducción al Portugués de Villager Bot",
+          "xe": "Arreglos menores de bugs y adición de funciones",
           "kaosj": "Arreglos menores de bugs y adición de funciones",
           "radar": "Arreglos menores de bugs y adición de funciones"
         },
@@ -639,7 +640,7 @@
         "stupid_2": "No tienes suficiente espacio para eso.",
         "stupid_3": "No tienes suficiente espacio para eso.",
         "deposited": "Depositaste {}{} ({}{}) en tu bóveda."
-      }, 
+      },
       "withd": {
         "poor_loser": "No tienes suficientes bloques de esmeralda para retirar.",
         "stupid_1": "No puedes retirar menos de un bloque de esmeralda.",
@@ -735,6 +736,11 @@
           "Mientras buscabas más esmeraldas, perdiste las tuyas, perdiendo {}.",
           "Aparece un ilusionista, divagando sobre la duplicación de esmeraldas con este truco que una vez fue simple. Le das {} y desaparece en una bocanada de humo.",
           "Mientras mendigabas en un pueblo te quedaste atrapado en una redada, un desbocado te golpea en la cabeza a través del mapa. Te dejas caer {} a mitad del vuelo."
+        ],
+        "mooderald": [
+          "You were blessed by Moofy, and magically received {}.",
+          "You prayed for Mooderalds, and found {} in your left pocket.",
+          "You found {} inside your bag with a note."
         ]
       },
       "mine": {

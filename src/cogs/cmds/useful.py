@@ -132,23 +132,76 @@ class Useful(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="credits", aliases=["creators", "developers"])
+    @commands.command(name="credits")
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def credits(self, ctx):
-        embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
+        embed_template = discord.Embed(color=self.d.cc)
+        embed_template.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
+
+        fields = []
 
         for i, entry in enumerate(ctx.l.useful.credits.people.items()):
             person, what = entry
             user = self.bot.get_user(self.d.credit_users[person])
 
-            embed.add_field(name=f"**{user.display_name}**", value=what)
+            fields.append({"name": f"**{user.display_name}**", "value": what})
 
             if i % 2 == 1:
-                embed.add_field(name="\uFEFF", value="\uFEFF")
+                fields.append({"value": "\uFEFF", "name": "\uFEFF"})
 
-        embed.add_field(name="\uFEFF", value=ctx.l.useful.credits.others, inline=False)
+        groups = [fields[i : i + 9] for i in range(0, len(fields), 9)]
+        page_max = len(groups)
+        page = 0
+        msg = None
 
-        await ctx.send(embed=embed)
+        while True:
+            embed = embed_template.copy()
+
+            for field in groups[page]:
+                embed.add_field(**field)
+
+            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max}")
+
+            if page == page_max - 1:
+                embed.add_field(name="\uFEFF", value=ctx.l.useful.credits.others, inline=False)
+
+            if msg is None:
+                msg = await ctx.send(embed=embed)
+            elif not msg.embeds[0] == embed:
+                await msg.edit(embed=embed)
+
+            if page_max <= 1:
+                return
+
+            await asyncio.sleep(0.25)
+            await msg.add_reaction("⬅️")
+            await asyncio.sleep(0.25)
+            await msg.add_reaction("➡️")
+
+            try:
+
+                def author_check(react, r_user):
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+
+                # wait for reaction from message author (1 min)
+                react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=30)
+            except asyncio.TimeoutError:
+                return
+
+            await react.remove(ctx.author)
+
+            if react.emoji == "⬅️":
+                page -= 1
+            elif react.emoji == "➡️":
+                page += 1
+
+            if page > page_max - 1:
+                page = page_max - 1
+
+            if page < 0:
+                page = 0
+
+            await asyncio.sleep(0.2)
 
     @commands.command(name="ping", aliases=["pong", "ding", "dong", "bing", "bong", "shing", "shling", "schlong"])
     async def ping_pong(self, ctx):

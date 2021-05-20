@@ -582,8 +582,9 @@
           "elrynd": "Has helped with bug fixes and code understanding, and translated Villager Bot into French",
           "cheeze": "Created new features and helps fix bugs",
           "quack": "Helps fix minor issues with the code and translations",
-          "xe": "Minor bug fixes and feature additions",
           "zelou": "Helps with the Spanish translation of Villager Bot",
+          "joaooh": "Created and maintains the Portuguese translation of Villager Bot",
+          "xe": "Minor bug fixes and feature additions",
           "kaosj": "Minor bug fixes and feature additions",
           "radar": "Minor bug fixes and feature additions"
         },
@@ -736,6 +737,11 @@
           "While looking for more emeralds, you misplaced yours, losing {}.",
           "An illusioner appears, rambling about doubling emeralds with this once simple trick. You hand him {} and he disappears in a puff of smoke.",
           "While begging in a village you got caught up in a raid, a ravager headbutts you across the map. You drop {} mid-flight."
+        ],
+        "mooderald": [
+          "You were blessed by Moofy, and magically received {}.",
+          "You prayed for Mooderalds, and found {} in your left pocket.",
+          "You found {} inside your bag with a note."
         ]
       },
       "mine": {

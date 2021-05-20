@@ -23,6 +23,7 @@
     "quack": 626932139166007347,
     "xe": 725269430409494588,
     "zelou": 493907466401087498,
+    "joaooh": 357656894699208706,
     "kaosj": 624753330660311070,
     "radar": 747107518471209024
   },
@@ -439,7 +440,7 @@
       [
         "Mooderald",
         768,
-        9999,
+        4096,
         true
       ]
     ]
@@ -849,7 +850,8 @@
     "Diamond Pickaxe": "diamond_pick",
     "Netherite Pickaxe": "netherite_pick",
     "Fishing Rod": "fishing_rod",
-    "Jar Of Bees": "jar_of_bees"
+    "Jar Of Bees": "jar_of_bees",
+    "Honey Jar": "honey_jar"
   },
   "build_ideas": {
     "ideas": [

@@ -597,13 +597,12 @@ class Econ(commands.Cog):
             if i % 2 == 0:
                 fields.append({"name": "\uFEFF", "value": "\uFEFF"})
 
-                msg = None
-
             await asyncio.sleep(0)
 
         groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
         page_max = len(groups)
         page = 0
+        msg = None
 
         while True:
             embed = embed_template.copy()
@@ -976,12 +975,20 @@ class Econ(commands.Cog):
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if random.choice([True, True, True, True, True, False]) or db_user["emeralds"] < 2:
-            amount = 9 + math.ceil(math.log(db_user["emeralds"] + 1, 1.5)) + random.randint(1, 5)
-            amount = random.randint(1, 4) if amount < 1 else amount
+            if random.randint(1, 420) == 420:
+                mooderalds = random.randint(1, 3)
+                await self.db.add_item(ctx.author.id, "Mooderald", 768, mooderalds)
+                await self.bot.send(
+                    ctx, random.choice(ctx.l.econ.beg.mooderald).format(f"{mooderalds}{self.d.emojis.autistic_emerald}")
+                )
 
-            await self.db.balance_add(ctx.author.id, amount)
+            else:
+                amount = 9 + math.ceil(math.log(db_user["emeralds"] + 1, 1.5)) + random.randint(1, 5)
+                amount = random.randint(1, 4) if amount < 1 else amount
 
-            await self.bot.send(ctx, random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}"))
+                await self.db.balance_add(ctx.author.id, amount)
+
+                await self.bot.send(ctx, random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}"))
         else:
             amount = 9 + math.ceil(math.log(db_user["emeralds"] + 1, 1.3)) + random.randint(1, 5)  # ah yes, meth
 
@@ -1372,19 +1379,19 @@ class Econ(commands.Cog):
         if thing == "honey jar":
             db_user = await self.db.fetch_user(ctx.author.id)
 
+            max_amount = 20 - db_user["health"]
+            if max_amount < 1:
+                await self.bot.send(ctx, ctx.l.econ.use.cant_use_any.format("Honey Jars"))
+                return
+
             if db_user["health"] + amount > 20:
-                max_amount = 20 - db_user["health"]
+                amount = max_amount
 
-                if max_amount < 1:
-                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_any.format("Honey Jars"))
-                else:
-                    await self.bot.send(ctx, ctx.l.econ.use.cant_use_up_to.format(max_amount, "Honey Jar"))
-            else:
-                await self.db.update_user(ctx.author.id, "health", db_user["health"] + amount)
-                await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
+            await self.db.update_user(ctx.author.id, "health", db_user["health"] + amount)
+            await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
 
-                new_health = amount + db_user["health"]
-                await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
+            new_health = amount + db_user["health"]
+            await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
 
             return
 
