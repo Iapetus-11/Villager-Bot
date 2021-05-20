@@ -19,7 +19,7 @@ def run_shard(shard_count: int, shard_ids: list) -> None:
 class VillagerBotShardGroup(commands.AutoShardedBot):
     def __init__(self, shard_count: int, shard_ids: list) -> None:
         super().__init__(
-            command_prefix="!!",
+            command_prefix=".",
             intents=villager_bot_intents(),
             shard_count=shard_count,
             shard_ids=shard_ids,
@@ -33,6 +33,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
 
         self.cog_list = [
             "cogs.core.events",
+            "cogs.commands.owner"
         ]
 
         self.logger = setup_logging(self.shard_ids)
