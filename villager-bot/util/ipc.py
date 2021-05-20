@@ -157,4 +157,4 @@ class Server:
                 self.connections.remove(stream)
                 return
 
-            await self.handle_packet(stream, packet)
+            asyncio.create_task(self.handle_packet(stream, packet))
