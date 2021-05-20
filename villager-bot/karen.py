@@ -76,7 +76,9 @@ class MechaKaren:
 
             await asyncio.gather(*broadcast_coros)
             await broadcast["ready"].wait()
-            await stream.write_packet({"type": "broadcast-eval-response", "id": packet.id, "responses": broadcast["responses"]})
+            await stream.write_packet(
+                {"type": "broadcast-eval-response", "id": packet.id, "responses": broadcast["responses"]}
+            )
         elif packet.type == "eval-response":  # actually the result of a broadcast-eval -> eval -> eval-response
             broadcast = self.broadcasts[packet.id]
             broadcast["responses"].append(packet)
