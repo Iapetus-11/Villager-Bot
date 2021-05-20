@@ -9,6 +9,7 @@ from util.setup import load_secrets, load_data, setup_karen_logging
 from util.ipc import Server, Stream
 from bot import run_shard
 
+
 class MechaKaren:
     class Share:
         def __init__(self):
