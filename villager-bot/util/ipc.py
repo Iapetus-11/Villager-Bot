@@ -87,14 +87,17 @@ class Client:
 
                 self.packets[packet.id] = [event, packet]
 
-    async def write_packet(self, data: Union[dict, ClassyDict]) -> int:
+    async def write_packet(self, data: Union[dict, ClassyDict], *, expects: bool = False) -> int:
         data["auth"] = self.auth
-        id = data["id"] = self.current_id
-        self.current_id += 1
+
+        if expects:
+            id = data["id"] = self.current_id
+            self.current_id += 1
 
         await self.stream.write_packet(data)
 
-        return id
+        if expects:
+            return id
 
     async def read_packet(self, packet_id: int) -> ClassyDict:
         try:
