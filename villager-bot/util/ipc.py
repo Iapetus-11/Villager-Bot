@@ -96,7 +96,7 @@ class Client:
 
             self.received.append(packet)
 
-            await asyncio.sleep(.1)  # sleep to avoid infinite blocking loop
+            await asyncio.sleep(0.1)  # sleep to avoid infinite blocking loop
 
 
 class Server:
