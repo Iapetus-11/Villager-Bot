@@ -91,7 +91,7 @@ class Client:
         while True:
             packet = await self.read_packet()
 
-            if packet.get("expects_id") == expects_id:
+            if packet.get("id") == id:
                 return packet
 
             self.received.append(packet)
