@@ -18,14 +18,16 @@ class MechaKaren:
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
 
         self.shard_ids = tuple(range(self.d.shard_count))
-        self.ready_shards = set()
+        self.online_shards = set()
 
     async def handle_packet(self, stream: Stream, packet: ClassyDict):
-        if packet.type == "ready-event":
-            self.ready_shards.add(packet.shard_id)
+        if packet.type == "shard-ready":
+            self.online_shards.add(packet.shard_id)
 
-            if len(self.ready_shards) == len(self.shard_ids):
+            if len(self.online_shards) == len(self.shard_ids):
                 self.logger.info("\u001b[36;1mALL SHARDS READY\u001b[0m")
+        elif packet.type == "shard-disconnect":
+            self.online_shards.discard(packet.shard_id)
         elif packet.type == "broadcast":
             await asyncio.gather(*[stream.send_packet(packet.packet) for stream in self.server.connections])
 
