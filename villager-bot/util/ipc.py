@@ -91,28 +91,23 @@ class Client:
 
                 self.packets[packet.id] = [event, packet]
 
-    async def write_packet(self, data: Union[dict, ClassyDict], *, expects: bool = False) -> int:
+    async def write_packet(self, data: Union[dict, ClassyDict]) -> None:
         data["auth"] = self.auth
-
-        if expects:
-            id = data["id"] = self.current_id
-            self.current_id += 1
 
         await self.stream.write_packet(data)
 
-        if expects:
-            return id
+    async def request(self, data: Union[dict, ClassyDict]) -> ClassyDict:
+        data["id"] = packet_id = self.current_id
+        self.current_id += 1
 
-    async def read_packet(self, packet_id: int) -> ClassyDict:
-        try:
-            return self.packets.pop(packet_id)[1]
-        except KeyError:
-            event = asyncio.Event()
-            self.packets[packet_id] = [event, None]
+        # create entry before sending packet
+        event = asyncio.Event()
+        self.packets[packet_id] = [event, None]
 
-            await event.wait()
+        await self.write_packet(data)  # send packet off to karen
 
-            return await self.read_packet(packet_id)
+        await event.wait()  # wait for response event
+        return self.packets[packet_id][1]  # return received packet
 
 
 class Server:
