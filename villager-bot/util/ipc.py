@@ -47,6 +47,9 @@ class Stream:
         data = orjson.dumps(data, default=default_serialize)  # orjson dumps to bytes
         packet = struct.pack(">i", len(data)) + data
 
+        if len(packet) > 65535:
+            raise ValueError("Packet is too big to send...")
+
         self.writer.write(packet)
         await self.writer.drain()
 
