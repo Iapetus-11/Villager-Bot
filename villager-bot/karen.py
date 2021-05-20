@@ -62,7 +62,7 @@ class MechaKaren:
                 success = False
 
             await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
-        elif packet.type == "broadcast-eval":
+        elif packet.type == "broadcast-eval":  # broadcasts the eval packet to every connection except the broadcaster
             broadcast_id = self.current_id
             self.current_id += 1
 
@@ -73,7 +73,7 @@ class MechaKaren:
             await asyncio.gather(*broadcast_coros)
             await broadcast["ready"].wait()
             await stream.write_packet({"type": "broadcast-eval-response", "id": packet.id, "responses": broadcast["responses"]})
-        elif packet.type == "eval-response":
+        elif packet.type == "eval-response":  # actually the result of a broadcast-eval -> eval -> eval-response
             broadcast = self.broadcasts[packet.id]
             broadcast["responses"].append(packet)
 
