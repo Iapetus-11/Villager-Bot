@@ -3,6 +3,7 @@ from classyjson import ClassyDict
 import aiofiles
 import asyncio
 import logging
+import arrow
 
 from util.setup import load_secrets, load_data, setup_karen_logging
 from util.ipc import Server, Stream
@@ -10,15 +11,35 @@ from bot import run_shard
 
 
 class MechaKaren:
+    class Share:
+        def __init__(self):
+            self.start_time = arrow.utcnow()
+
+            self.miners = {}  # {user_id: command_count}
+            self.active_fx = {} # {user_id: [effect, potion, effect,..]}
+
+            self.econ_frozen_users = {} # {user_id: time.time()}
+            self.mob_spawn_queue = set()  # Set[ctx, ctx,..]
+
+            self.mc_rcon_cache = {} # {user_id: rcon client}
+
+            self.disabled_commands = {}  # {guild_id: Set[disabled commands]}
+            self.ban_cache = set()  # Set[user_id, user_id,..]
+            self.prefix_cache = {}  # {guild_id: custom_prefix}
+            self.lang_cache = {}  # {guild_id: custom_lang}
+
     def __init__(self):
         self.k = load_secrets()
         self.d = load_data()
+        self.v = Share()
 
         self.logger = setup_karen_logging()
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
 
         self.shard_ids = tuple(range(self.d.shard_count))
         self.online_shards = set()
+
+        self.eval_env = {"karen": self, "v": self.v}
 
     async def handle_packet(self, stream: Stream, packet: ClassyDict):
         if packet.type == "shard-ready":
@@ -30,6 +51,8 @@ class MechaKaren:
             self.online_shards.discard(packet.shard_id)
         elif packet.type == "broadcast":
             await asyncio.gather(*[stream.send_packet(packet.packet) for stream in self.server.connections])
+        elif packet.type == "eval":
+            await
 
     async def start(self, pp):
         await self.server.start()
