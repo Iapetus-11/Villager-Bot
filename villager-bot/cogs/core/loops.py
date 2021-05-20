@@ -13,10 +13,13 @@ class Loops(commands.Cog):
     def cog_unload(self):
         self.handle_unexpected_packets.stop()
 
+    def eval_env(self):
+        return {**globals(), **locals(), "bot": self.bot}
+
     async def handle_packet(self, packet: ClassyDict) -> None:
         if packet.type == "eval":
             try:
-                result = eval(packet.code, self.eval_env)
+                result = eval(packet.code, self.eval_env())
                 success = True
             except Exception as e:
                 result = str(e)
