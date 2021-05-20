@@ -42,6 +42,9 @@ class MechaKaren:
 
         self.eval_env = {"karen": self, "v": self.v}
 
+        self.broadcasts = {}  # broadcast_id: {ready: asyncio.Event, responses: [response, response,..]}
+        self.current_id = 0
+
     async def handle_packet(self, stream: Stream, packet: ClassyDict):
         if packet.type == "shard-ready":
             self.online_shards.add(packet.shard_id)
@@ -60,9 +63,27 @@ class MechaKaren:
 
             await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
         elif packet.type == "broadcast-eval":
-            broadcast_packet = {"type": "eval", "code": packet.code, "id": packet.id}
-            asyncio.gather(*[s.write_packet(broadcast_packet) for s in self.server.connections if s != stream])
-        elif packet.type == "broadcast-eval-response":
+            print("broadcast-eval karen-side")
+            broadcast_id = self.current_id
+            self.current_id += 1
+
+            broadcast_packet = {"type": "eval", "code": packet.code, "id": broadcast_id}
+            broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections if s != stream]
+            broadcast = self.broadcasts[broadcast_id] = {"ready": asyncio.Event(), "responses": [], "expects": len(broadcast_coros)}
+
+            await asyncio.gather(*broadcast_coros)
+            print("broadcast-evals sent (karen-side)")
+            await broadcast["ready"].wait()
+            print("ready, writing broadcast-eval-response")
+            await stream.write_packet({"type": "broadcast-eval-response", "id": packet.id, "responses": broadcast["responses"]})
+        elif packet.type == "eval-response":
+            print("eval-response karen-side")
+
+            broadcast = self.broadcasts[packet.id]
+            broadcast["responses"].append(packet)
+
+            if len(broadcast["responses"]) == broadcast["expects"]:
+                broadcast["ready"].set()
 
     async def start(self, pp):
         await self.server.start()

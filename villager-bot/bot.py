@@ -33,6 +33,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
 
         self.cog_list = [
             "cogs.core.events",
+            "cogs.core.loops",
             "cogs.commands.owner"
         ]
 
