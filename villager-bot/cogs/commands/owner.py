@@ -14,7 +14,6 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def reload_cog(self, ctx, cog: str):
         await self.ipc.broadcast({"type": "eval", "code": f"bot.reload_extension('cogs.{cog}')"})
-        self.bot.reload_extension(f"cogs.{cog}")
         await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name="evallocal", aliases=["evall"])
@@ -23,8 +22,20 @@ class Owner(commands.Cog):
         if stuff.startswith("```"):
             stuff = stuff.lstrip(" `py\n ").rstrip(" `\n ")
 
-        result = await execute_code(stuff, {**globals(), **locals()})
+        result = await execute_code(stuff, self.bot.eval_env)
         await ctx.send(f"```{result}```")
+
+    @commands.command(name="evalglobal", aliases=["evalall", "evalg"])
+    @commands.is_owner()
+    async def eval_stuff_global(self, ctx, *, stuff: str):
+        if stuff.startswith("```"):
+            stuff = stuff.lstrip(" `py\n ").rstrip(" `\n ")
+
+        res = await self.ipc.broadcast({"type": "exec", "code": stuff})
+
+        print(res)
+
+        await ctx.send("\uFEFF".join([f"```py\n{r['result']}```" for r in res["responses"]]))
 
 
 def setup(bot):
