@@ -31,6 +31,7 @@ LENGTH_LENGTH = struct.calcsize(">i")
 def default_serialize(obj):
     return str(obj)
 
+
 class Stream:
     def __init__(self, reader: StreamReader, writer: StreamWriter):
         self.reader = reader
