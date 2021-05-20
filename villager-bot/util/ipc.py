@@ -60,43 +60,52 @@ class Client:
 
         self.stream = None
 
-        self.received = []
-        self.cur_id = 0
+        self.packets = {}  # packet_id: [asyncio.Event, Union[Packet, None]]
+        self.current_id = 0
+        self.read_task = None
 
     async def connect(self, shard_ids: tuple) -> None:
         self.stream = Stream(*await asyncio.open_connection(self.host, self.port))
+        self.read_task = asyncio.create_task(self.read_packets())
 
     async def close(self) -> None:
+        self.read_task.cancel()
+
         await self.write_packet({"type": "disconnect"})
         await self.stream.close()
 
-    async def read_packet(self) -> ClassyDict:
-        try:
-            return self.received.pop()
-        except IndexError:
-            return await self.stream.read_packet()
+    async def read_packets(self):
+        while True:
+            packet = await self.stream.read_packet()
+
+            if packet.id in self.packets:
+                self.packets[packet.id][1] = packet
+                self.packets[packet.id][0].set()
+            else:
+                event = asyncio.Event()
+                event.set()  # set event because packet already received
+
+                self.packets[packet.id] = [event, packet]
 
     async def write_packet(self, data: Union[dict, ClassyDict]) -> int:
         data["auth"] = self.auth
-        id = data["id"] = self.cur_id
-        self.cur_id += 1
+        id = data["id"] = self.current_id
+        self.current_id += 1
 
         await self.stream.write_packet(data)
 
         return id
 
-    async def request_packet(self, data: Union[dict, ClassyDict]):
-        id = await self.write_packet(data)
+    async def read_packet(self, packet_id: int) -> ClassyDict:
+        try:
+            return self.packets.pop(packet_id)[1]
+        except KeyError:
+            event = asyncio.Event()
+            self.packets[packet_id] = [event, None]
 
-        while True:
-            packet = await self.read_packet()
+            await event.wait()
 
-            if packet.get("id") == id:
-                return packet
-
-            self.received.append(packet)
-
-            await asyncio.sleep(0.1)  # sleep to avoid infinite blocking loop
+            return await self.read_packet(packet_id)
 
 
 class Server:
