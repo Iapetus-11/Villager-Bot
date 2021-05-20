@@ -31,7 +31,7 @@ class MechaKaren:
     def __init__(self):
         self.k = load_secrets()
         self.d = load_data()
-        self.v = Share()
+        self.v = self.Share()
 
         self.logger = setup_karen_logging()
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
