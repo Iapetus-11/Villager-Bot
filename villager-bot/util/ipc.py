@@ -60,6 +60,9 @@ class Client:
 
         self.stream = None
 
+        self.received = []
+        self.cur_id = 0
+
     async def connect(self, shard_ids: tuple) -> None:
         self.stream = Stream(*await asyncio.open_connection(self.host, self.port))
 
@@ -68,11 +71,32 @@ class Client:
         await self.stream.close()
 
     async def read_packet(self) -> ClassyDict:
-        return await self.stream.read_packet()
+        try:
+            return self.received.pop()
+        except IndexError:
+            return await self.stream.read_packet()
 
-    async def write_packet(self, data: Union[dict, ClassyDict]) -> None:
+    async def write_packet(self, data: Union[dict, ClassyDict]) -> int:
         data["auth"] = self.auth
+        id = data["id"] = self.cur_id
+        self.cur_id += 1
+
         await self.stream.write_packet(data)
+
+        return id
+
+    async def request_packet(self, data: Union[dict, ClassyDict]):
+        id = await self.write_packet(data)
+
+        while True:
+            packet = await self.read_packet()
+
+            if packet.get("expects_id") == expects_id:
+                return packet
+
+            self.received.append(packet)
+
+            await asyncio.sleep(.1)  # sleep to avoid infinite blocking loop
 
 
 class Server:

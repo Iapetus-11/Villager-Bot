@@ -52,7 +52,14 @@ class MechaKaren:
         elif packet.type == "broadcast":
             await asyncio.gather(*[stream.send_packet(packet.packet) for stream in self.server.connections])
         elif packet.type == "eval":
-            await
+            try:
+                result = eval(packet.code)
+                success = True
+            except Exception as e:
+                result = e
+                success = False
+
+            await stream.send_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
 
     async def start(self, pp):
         await self.server.start()
