@@ -1,5 +1,7 @@
 from discord.ext import commands
 
+from util.code import execute_code
+
 
 class Owner(commands.Cog):
     def __init__(self, bot):
