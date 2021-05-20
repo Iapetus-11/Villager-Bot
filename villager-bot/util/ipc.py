@@ -151,7 +151,7 @@ class Server:
 
             # check auth, if invalid notify client and ignore subsequent requests
             if packet.pop("auth", None) != self.auth:
-                await stream.send_packet({"info": "invalid authorization"})
+                await stream.write_packet({"info": "invalid authorization"})
                 return
 
             if packet.type == "disconnect":
