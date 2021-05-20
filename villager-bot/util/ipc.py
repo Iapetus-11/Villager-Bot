@@ -64,7 +64,8 @@ class Client:
 
         self.stream = None
 
-        self.packets = {}  # packet_id: [asyncio.Event, Union[Packet, None]]
+        self.expected_packets = {}  # packet_id: [asyncio.Event, Union[Packet, None]]
+        self.unexpected_packets = []  # [Packet, Packet,..]
         self.current_id = 0
         self.read_task = None
 
@@ -82,14 +83,11 @@ class Client:
         while True:
             packet = await self.stream.read_packet()
 
-            if packet.id in self.packets:
-                self.packets[packet.id][1] = packet
-                self.packets[packet.id][0].set()
+            if packet.id in self.expected_packets:
+                self.expected_packets[packet.id][1] = packet
+                self.expected_packets[packet.id][0].set()
             else:
-                event = asyncio.Event()
-                event.set()  # set event because packet already received
-
-                self.packets[packet.id] = [event, packet]
+                self.unexpected_packets.append(packet)
 
     async def send(self, data: Union[dict, ClassyDict]) -> None:
         data["auth"] = self.auth
@@ -102,12 +100,12 @@ class Client:
 
         # create entry before sending packet
         event = asyncio.Event()
-        self.packets[packet_id] = [event, None]
+        self.expected_packets[packet_id] = [event, None]
 
         await self.send(data)  # send packet off to karen
 
         await event.wait()  # wait for response event
-        return self.packets[packet_id][1]  # return received packet
+        return self.expected_packets[packet_id][1]  # return received packet
 
 
 class Server:
