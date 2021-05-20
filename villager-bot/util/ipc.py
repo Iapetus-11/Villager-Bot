@@ -75,7 +75,7 @@ class Client:
     async def close(self) -> None:
         self.read_task.cancel()
 
-        await self.write_packet({"type": "disconnect"})
+        await self.send({"type": "disconnect"})
         await self.stream.close()
 
     async def read_packets(self):
@@ -91,7 +91,7 @@ class Client:
 
                 self.packets[packet.id] = [event, packet]
 
-    async def write_packet(self, data: Union[dict, ClassyDict]) -> None:
+    async def send(self, data: Union[dict, ClassyDict]) -> None:
         data["auth"] = self.auth
 
         await self.stream.write_packet(data)
@@ -104,7 +104,7 @@ class Client:
         event = asyncio.Event()
         self.packets[packet_id] = [event, None]
 
-        await self.write_packet(data)  # send packet off to karen
+        await self.send(data)  # send packet off to karen
 
         await event.wait()  # wait for response event
         return self.packets[packet_id][1]  # return received packet
