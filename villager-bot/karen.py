@@ -7,6 +7,7 @@ import arrow
 
 from util.setup import load_secrets, load_data, setup_karen_logging
 from util.ipc import Server, Stream
+from util.code import execute_code
 from bot import run_shard
 
 
@@ -60,6 +61,15 @@ class MechaKaren:
                 success = False
 
             await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
+        elif packet.type == "exec":
+            try:
+                result = await execute_code(packet.code, self.eval_env)
+                success = True
+            except Exception as e:
+                result = str(e)
+                success = False
+
+            await stream.write_packet({"type": "exec-response", "id": packet.id, "result": result, "success": success})
 
     async def start(self, pp):
         await self.server.start()
