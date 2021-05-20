@@ -10,8 +10,8 @@ class Owner(commands.Cog):
     @commands.command(name="reload")
     @commands.is_owner()
     async def reload_cog(self, ctx, cog: str):
-        self.bot.reload_extension("cogs." + cog)
-        await ctx.send("success!")
+        await self.bot.ipc.send({"type": "broadcast-eval", "code": f"bot.reload_extension('cogs.{cog}')"})
+        self.bot.reload_extension(f"cogs.{cog}")
 
     @commands.command(name="eval")
     @commands.is_owner()
