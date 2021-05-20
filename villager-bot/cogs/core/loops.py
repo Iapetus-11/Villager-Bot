@@ -2,6 +2,7 @@ from discord.ext import commands, tasks
 from classyjson import ClassyDict
 import asyncio
 
+
 class Loops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -23,7 +24,7 @@ class Loops(commands.Cog):
 
             await self.ipc.send({"type": "eval-response", "id": packet.id, "result": result, "success": success})
 
-    @tasks.loop(seconds=.5)
+    @tasks.loop(seconds=0.5)
     async def handle_unexpected_packets(self):
         unexpected_packets = self.ipc.unexpected_packets.copy()
         self.ipc.unexpected_packets.clear()

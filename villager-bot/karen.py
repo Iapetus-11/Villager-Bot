@@ -68,7 +68,11 @@ class MechaKaren:
 
             broadcast_packet = {"type": "eval", "code": packet.code, "id": broadcast_id}
             broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections if s != stream]
-            broadcast = self.broadcasts[broadcast_id] = {"ready": asyncio.Event(), "responses": [], "expects": len(broadcast_coros)}
+            broadcast = self.broadcasts[broadcast_id] = {
+                "ready": asyncio.Event(),
+                "responses": [],
+                "expects": len(broadcast_coros),
+            }
 
             await asyncio.gather(*broadcast_coros)
             await broadcast["ready"].wait()
