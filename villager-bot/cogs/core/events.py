@@ -11,7 +11,7 @@ class Events(commands.Cog):
         await self.bot.ipc.write_packet({"type": "shard-ready", "shard_id": shard_id})
         self.bot.logger.info(f"Shard {shard_id} \u001b[36;1mREADY\u001b[0m")
 
-        packet_id = await self.bot.ipc.write_packet({"type": "eval", "code": "v.start_time"})
+        packet_id = await self.bot.ipc.write_packet({"type": "eval", "code": "v.start_time"}, expects=True)
         packet = await self.bot.ipc.read_packet(packet_id)
         print(f"shard {shard_id} received {packet}")
 
