@@ -17,9 +17,9 @@ class Owner(commands.Cog):
         self.bot.reload_extension(f"cogs.{cog}")
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name="eval")
+    @commands.command(name="evallocal", aliases=["evall"])
     @commands.is_owner()
-    async def eval_stuff(self, ctx, *, stuff: str):
+    async def eval_stuff_local(self, ctx, *, stuff: str):
         if stuff.startswith("```"):
             stuff = stuff.lstrip(" `py\n ").rstrip(" `\n ")
 
