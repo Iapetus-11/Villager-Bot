@@ -13,7 +13,7 @@ class Events(commands.Cog):
 
         packet_id = await self.bot.ipc.write_packet({"type": "eval", "code": "v.start_time"}, expects=True)
         packet = await self.bot.ipc.read_packet(packet_id)
-        print(f"shard {shard_id} received {packet}")
+        self.bot.logger.debug(f"Shard {shard_id} received response {packet}")
 
     @commands.Cog.listener()
     async def on_shard_disconnect(self, shard_id: int):
