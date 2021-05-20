@@ -6,6 +6,7 @@ import time
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.setup import load_text, load_secrets, load_data
+from util.code import execute_code
 from util.ipc import Client
 
 
@@ -74,6 +75,15 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         if packet.type == "eval":
             try:
                 result = eval(packet.code, self.eval_env)
+                success = True
+            except Exception as e:
+                result = str(e)
+                success = False
+
+            await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
+        elif packet.type == "exec":
+            try:
+                result = await execute_code(packet.code, self.eval_env)
                 success = True
             except Exception as e:
                 result = str(e)
