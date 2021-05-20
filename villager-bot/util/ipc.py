@@ -28,6 +28,9 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # {"type": "exec-response", "response": "None"} # server -> client
 
 
+def default_serialize(obj):
+    return str(obj)
+
 class Stream:
     def __init__(self, reader: StreamReader, writer: StreamWriter):
         self.reader = reader
@@ -40,7 +43,7 @@ class Stream:
         return ClassyDict(orjson.loads(data))
 
     async def write_packet(self, data: Union[dict, ClassyDict]) -> None:
-        data = orjson.dumps(data)  # orjson dumps to bytes
+        data = orjson.dumps(data, default=default_serialize)  # orjson dumps to bytes
         packet = struct.pack(">i", len(data)) + data
 
         self.writer.write(packet)
