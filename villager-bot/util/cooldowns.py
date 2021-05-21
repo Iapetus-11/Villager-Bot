@@ -1,6 +1,7 @@
 from collections import defauldict
 import asyncio
 
+
 class CooldownManager:
     def __init__(self, karen):
         self.karen = karen
@@ -17,7 +18,7 @@ class CooldownManager:
         started = self.cooldowns[command].get(user_id)
         remaining = time.time() - (started + self.rates[command])
 
-        if remaining < .01:
+        if remaining < 0.01:
             self.clear_cooldown(command, user_id)
             return 0
 
