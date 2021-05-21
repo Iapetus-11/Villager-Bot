@@ -7,6 +7,7 @@ import arrow
 
 from util.setup import load_secrets, load_data, setup_karen_logging
 from util.ipc import Server, Stream
+from util.code import execute_code
 from bot import run_shard
 
 
@@ -41,6 +42,9 @@ class MechaKaren:
 
         self.eval_env = {"karen": self, "v": self.v}
 
+        self.broadcasts = {}  # broadcast_id: {ready: asyncio.Event, responses: [response, response,..]}
+        self.current_id = 0
+
     async def handle_packet(self, stream: Stream, packet: ClassyDict):
         if packet.type == "shard-ready":
             self.online_shards.add(packet.shard_id)
@@ -49,8 +53,6 @@ class MechaKaren:
                 self.logger.info(f"\u001b[36;1mALL SHARDS\u001b[0m [0-{len(self.online_shards)}] \u001b[36;1mREADY\u001b[0m")
         elif packet.type == "shard-disconnect":
             self.online_shards.discard(packet.shard_id)
-        elif packet.type == "broadcast":
-            await asyncio.gather(*[stream.write_packet(packet.packet) for stream in self.server.connections])
         elif packet.type == "eval":
             try:
                 result = eval(packet.code, self.eval_env)
@@ -60,6 +62,29 @@ class MechaKaren:
                 success = False
 
             await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
+        elif (
+            packet.type == "broadcast-request"
+        ):  # broadcasts the packet to every connection including the broadcaster, and waits for responses
+            broadcast_id = f"b{self.current_id}"
+            self.current_id += 1
+
+            broadcast_packet = {**packet.packet, "id": broadcast_id}
+            broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections]
+            broadcast = self.broadcasts[broadcast_id] = {
+                "ready": asyncio.Event(),
+                "responses": [],
+                "expects": len(broadcast_coros),
+            }
+
+            await asyncio.gather(*broadcast_coros)
+            await broadcast["ready"].wait()
+            await stream.write_packet({"type": "broadcast-response", "id": packet.id, "responses": broadcast["responses"]})
+        elif packet.type == "broadcast-response":
+            broadcast = self.broadcasts[packet.id]
+            broadcast["responses"].append(packet)
+
+            if len(broadcast["responses"]) == broadcast["expects"]:
+                broadcast["ready"].set()
 
     async def start(self, pp):
         await self.server.start()

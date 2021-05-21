@@ -1,3 +1,6 @@
+import ast
+
+
 async def execute_code(code: str, env: dict) -> object:
     code_parsed = ast.parse("async def _eval_code():\n" + "\n".join(f"    {i}" for i in code.splitlines()))
     code_final = code_parsed.body[0].body

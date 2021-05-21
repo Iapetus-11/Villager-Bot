@@ -29,7 +29,7 @@ LENGTH_LENGTH = struct.calcsize(">i")
 
 
 def default_serialize(obj):
-    return str(obj)
+    return repr(obj)
 
 
 class Stream:
@@ -47,6 +47,9 @@ class Stream:
         data = orjson.dumps(data, default=default_serialize)  # orjson dumps to bytes
         packet = struct.pack(">i", len(data)) + data
 
+        if len(packet) > 65535:
+            raise ValueError("Packet is too big to send...")
+
         self.writer.write(packet)
         await self.writer.drain()
 
@@ -56,15 +59,17 @@ class Stream:
 
 
 class Client:
-    def __init__(self, host: str, port: int, auth: str) -> None:
+    def __init__(self, host: str, port: int, auth: str, handle_broadcast: Callable) -> None:
         self.host = host
         self.port = port
 
         self.auth = auth
 
+        self.handle_broadcast = handle_broadcast
+
         self.stream = None
 
-        self.packets = {}  # packet_id: [asyncio.Event, Union[Packet, None]]
+        self.expected_packets = {}  # packet_id: [asyncio.Event, Union[Packet, None]]
         self.current_id = 0
         self.read_task = None
 
@@ -82,32 +87,32 @@ class Client:
         while True:
             packet = await self.stream.read_packet()
 
-            if packet.id in self.packets:
-                self.packets[packet.id][1] = packet
-                self.packets[packet.id][0].set()
+            if packet.id in self.expected_packets:
+                self.expected_packets[packet.id][1] = packet
+                self.expected_packets[packet.id][0].set()
             else:
-                event = asyncio.Event()
-                event.set()  # set event because packet already received
+                asyncio.create_task(self.handle_broadcast(packet))
 
-                self.packets[packet.id] = [event, packet]
+    async def send(self, packet: Union[dict, ClassyDict]) -> None:
+        packet["auth"] = self.auth
 
-    async def send(self, data: Union[dict, ClassyDict]) -> None:
-        data["auth"] = self.auth
+        await self.stream.write_packet(packet)
 
-        await self.stream.write_packet(data)
-
-    async def request(self, data: Union[dict, ClassyDict]) -> ClassyDict:
-        data["id"] = packet_id = self.current_id
+    async def request(self, packet: Union[dict, ClassyDict]) -> ClassyDict:
+        packet["id"] = packet_id = f"c{self.current_id}"
         self.current_id += 1
 
         # create entry before sending packet
         event = asyncio.Event()
-        self.packets[packet_id] = [event, None]
+        self.expected_packets[packet_id] = [event, None]
 
-        await self.send(data)  # send packet off to karen
+        await self.send(packet)  # send packet off to karen
 
         await event.wait()  # wait for response event
-        return self.packets[packet_id][1]  # return received packet
+        return self.expected_packets[packet_id][1]  # return received packet
+
+    async def broadcast(self, packet: Union[dict, ClassyDict]) -> ClassyDict:
+        return await self.request({"type": "broadcast-request", "packet": packet})
 
 
 class Server:

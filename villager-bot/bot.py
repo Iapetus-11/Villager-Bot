@@ -6,6 +6,7 @@ import time
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.setup import load_text, load_secrets, load_data
+from util.code import execute_code
 from util.ipc import Client
 
 
@@ -19,7 +20,7 @@ def run_shard(shard_count: int, shard_ids: list) -> None:
 class VillagerBotShardGroup(commands.AutoShardedBot):
     def __init__(self, shard_count: int, shard_ids: list) -> None:
         super().__init__(
-            command_prefix="!!",
+            command_prefix=".",
             intents=villager_bot_intents(),
             shard_count=shard_count,
             shard_ids=shard_ids,
@@ -31,14 +32,25 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.d = load_data()
         self.l = load_text()
 
-        self.cog_list = [
-            "cogs.core.events",
-        ]
+        self.cog_list = ["cogs.core.events", "cogs.core.loops", "cogs.commands.owner"]
 
         self.logger = setup_logging(self.shard_ids)
-        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.k.manager.auth)
+        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_broadcast)
         self.aiohttp = aiohttp.ClientSession()
         self.db = None
+
+    @property
+    def eval_env(self):
+        return {
+            **globals(),
+            "bot": self,
+            "self": self,
+            "k": self.k,
+            "d": self.d,
+            "l": self.l,
+            "aiohttp": self.aiohttp,
+            "db": self.db,
+        }
 
     async def start(self, *args, **kwargs):
         await self.ipc.connect(self.shard_ids)
@@ -58,3 +70,23 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
 
     def run(self, *args, **kwargs):
         super().run(self.k.discord_token, *args, **kwargs)
+
+    async def handle_broadcast(self, packet: ClassyDict) -> None:
+        if packet.type == "eval":
+            try:
+                result = eval(packet.code, self.eval_env)
+                success = True
+            except Exception as e:
+                result = str(e)
+                success = False
+
+            await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
+        elif packet.type == "exec":
+            try:
+                result = await execute_code(packet.code, self.eval_env)
+                success = True
+            except Exception as e:
+                result = str(e)
+                success = False
+
+            await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
