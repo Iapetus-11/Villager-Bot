@@ -14,6 +14,9 @@ class CooldownManager:
     def add_cooldown(self, command: str, user_id: int) -> None:
         self.cooldowns[command][user_id] = time.time()
 
+    def clear_cooldown(self, command: str, user_id: int) -> None:
+        self.cooldowns[command].pop(user_id, None)
+
     def get_remaining(self, command: str, user_id: int) -> float:  # returns remaning cooldown or 0
         started = self.cooldowns[command].get(user_id)
         remaining = time.time() - (started + self.rates[command])
@@ -23,9 +26,6 @@ class CooldownManager:
             return 0
 
         return remaining
-
-    def clear_cooldown(self, command: str, user_id: int) -> None:
-        self.cooldowns[command].pop(user_id, None)
 
     async def _clear_dead(self):
         try:
