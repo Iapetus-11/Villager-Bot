@@ -35,6 +35,12 @@ class Owner(commands.Cog):
 
         await ctx.send("".join([f"```py\n{r['result']}```" for r in res["responses"]]))
 
+    @commands.command(name="test")
+    @commands.is_owner()
+    @commands.cooldown(1, 20, commands.BucketType.user)
+    async def test_cooldowns(self, ctx):
+        await ctx.send("test")
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))

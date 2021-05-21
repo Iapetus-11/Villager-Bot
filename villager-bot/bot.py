@@ -9,8 +9,11 @@ from util.setup import load_text, load_secrets, load_data
 from util.code import execute_code
 from util.ipc import Client
 
+# jank
+from util import cooldowns
 
-def run_shard(shard_count: int, shard_ids: list) -> None:
+
+def run_shard_group(shard_count: int, shard_ids: list) -> None:
     asyncio.set_event_loop(asyncio.new_event_loop())
 
     shard_group = VillagerBotShardGroup(shard_count, shard_ids)
@@ -32,7 +35,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.d = load_data()
         self.l = load_text()
 
-        self.cog_list = ["cogs.core.events", "cogs.core.loops", "cogs.commands.owner"]
+        self.cog_list = ["cogs.core.events", "cogs.core.loops", "cogs.core.share", "cogs.commands.owner"]
 
         self.logger = setup_logging(self.shard_ids)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_broadcast)
