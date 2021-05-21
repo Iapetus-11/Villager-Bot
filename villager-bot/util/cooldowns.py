@@ -1,61 +1,42 @@
-from discord.ext import commands
-from discord.ext.commands import BucketType
+from collections import defauldict
 import asyncio
-import time
 
-def create_cdmapping_class(ipc):
-    class CooldownMapping:
-        def __init__(self, original):
-            self._cache = {}
-            self._cooldown = original
+class CooldownManager:
+    def __init__(self, karen):
+        self.karen = karen
 
-        def copy(self):
-            ret = CooldownMapping(self._cooldown)
-            ret._cache = self._cache.copy()
-            return ret
+        self.rates = {}  # {command_name: seconds_per_command}
+        self.cooldowns = defaultdict(dict)  # {command_name: {user_id: time.time()}}
 
-        @property
-        def valid(self):
-            return self._cooldown is not None
+        self._clear_task = asyncio.create_task(self._clear_dead())
 
-        @classmethod
-        def from_cooldown(cls, rate, per, type):
-            return cls(Cooldown(rate, per, type))
+    def add_cooldown(self, command: str, user_id: int) -> None:
+        self.cooldowns[command][user_id] = time.time()
 
-        def _bucket_key(self, msg):
-            return self._cooldown.type(msg)
+    def get_remaining(self, command: str, user_id: int) -> float:  # returns remaning cooldown or 0
+        started = self.cooldowns[command].get(user_id)
+        remaining = time.time() - (started + self.rates[command])
 
-        def _verify_cache_integrity(self, current=None):
-            # we want to delete all cache objects that haven't been used
-            # in a cooldown window. e.g. if we have a  command that has a
-            # cooldown of 60s and it has not been used in 60s then that key should be deleted
-            current = current or time.time()
-            dead_keys = [k for k, v in self._cache.items() if current > v._last + v.per]
-            for k in dead_keys:
-                del self._cache[k]
+        if remaining < .01:
+            self.clear_cooldown(command, user_id)
+            return 0
 
-        def get_bucket(self, message, current=None):
-            if self._cooldown.type is BucketType.default:
-                return self._cooldown
+        return remaining
 
-            self._verify_cache_integrity(current)
-            key = self._bucket_key(message)
-            if key not in self._cache:
-                bucket = self._cooldown.copy()
-                self._cache[key] = bucket
-            else:
-                bucket = self._cache[key]
+    def clear_cooldown(self, command: str, user_id: int) -> None:
+        self.cooldowns[command].pop(user_id, None)
 
-            if bucket.get_retry_after() > 2:
-                asyncio.create_task(ipc.broadcast({"type": "update-cooldown", "key": }))
+    async def _clear_dead(self):
+        try:
+            while True:
+                for command, users in self.cooldowns.items():
+                    for user_id, started in users.items():
+                        if time.time() - (started + self.rates[command]) <= 0:
+                            del self.cooldowns[command][user_id]
 
-            return bucket
+                await asyncio.sleep(20)
+        except asyncio.CancelledError:
+            return
 
-        def update_rate_limit(self, message, current=None):
-            bucket = self.get_bucket(message, current)
-            return bucket.update_rate_limit(current)
-
-
-
-    commands.CooldownMapping = CooldownMapping
-    commands.core.CooldownMapping = CooldownMapping
+    def shutdown(self):
+        self._clear_task.cancel()
