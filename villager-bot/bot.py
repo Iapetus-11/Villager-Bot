@@ -9,6 +9,9 @@ from util.setup import load_text, load_secrets, load_data
 from util.code import execute_code
 from util.ipc import Client
 
+# jank
+from util import cooldowns
+
 
 def run_shard_group(shard_count: int, shard_ids: list) -> None:
     asyncio.set_event_loop(asyncio.new_event_loop())
