@@ -32,7 +32,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.d = load_data()
         self.l = load_text()
 
-        self.cog_list = ["cogs.core.events", "cogs.core.loops", "cogs.commands.owner"]
+        self.cog_list = ["cogs.core.events", "cogs.core.loops", "cogs.core.share", "cogs.commands.owner"]
 
         self.logger = setup_logging(self.shard_ids)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_broadcast)
