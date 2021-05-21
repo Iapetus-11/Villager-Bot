@@ -36,6 +36,7 @@ class MechaKaren:
 
         self.logger = setup_karen_logging()
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
+        self.cooldown_manager = CooldownManager(self)
 
         self.shard_ids = tuple(range(self.d.shard_count))
         self.online_shards = set()

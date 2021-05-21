@@ -3,10 +3,8 @@ import asyncio
 
 
 class CooldownManager:
-    def __init__(self, karen):
-        self.karen = karen
-
-        self.rates = {}  # {command_name: seconds_per_command}
+    def __init__(self, rates: dict):
+        self.rates = rates  # {command_name: seconds_per_command}
         self.cooldowns = defaultdict(dict)  # {command_name: {user_id: time.time()}}
 
         self._clear_task = asyncio.create_task(self._clear_dead())

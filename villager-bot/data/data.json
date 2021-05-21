@@ -72,6 +72,9 @@
     "?",
     "~"
   ],
+  "cooldown_rates": {
+    "test": 10
+  },
   "role_mappings": {
     "Stone Pickaxe": 697457637763186809,
     "Iron Pickaxe": 697457970661031957,
