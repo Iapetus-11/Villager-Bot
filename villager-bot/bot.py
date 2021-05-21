@@ -10,7 +10,7 @@ from util.code import execute_code
 from util.ipc import Client
 
 
-def run_shard(shard_count: int, shard_ids: list) -> None:
+def run_shard_group(shard_count: int, shard_ids: list) -> None:
     asyncio.set_event_loop(asyncio.new_event_loop())
 
     shard_group = VillagerBotShardGroup(shard_count, shard_ids)

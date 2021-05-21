@@ -8,7 +8,7 @@ import arrow
 from util.setup import load_secrets, load_data, setup_karen_logging
 from util.ipc import Server, Stream
 from util.code import execute_code
-from bot import run_shard
+from bot import run_shard_group
 
 
 class MechaKaren:
@@ -93,7 +93,7 @@ class MechaKaren:
         loop = asyncio.get_event_loop()
 
         for shard_id_group in [self.shard_ids[i : i + 4] for i in range(0, len(self.shard_ids), 4)]:
-            shard_groups.append(loop.run_in_executor(pp, run_shard, self.d.shard_count, shard_id_group))
+            shard_groups.append(loop.run_in_executor(pp, run_shard_group, self.d.shard_count, shard_id_group))
 
         await asyncio.gather(*shard_groups)
 
