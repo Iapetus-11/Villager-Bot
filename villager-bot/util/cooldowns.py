@@ -2,6 +2,11 @@ from collections import defauldict
 import asyncio
 
 
+class CommandOnCooldown2(Exception):
+    def __init__(self, remaining: float) -> None:
+        self.remaining = remaining
+
+
 class CooldownManager:
     def __init__(self, rates: dict):
         self.rates = rates  # {command_name: seconds_per_command}
