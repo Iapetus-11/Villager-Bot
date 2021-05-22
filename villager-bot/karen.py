@@ -36,7 +36,7 @@ class MechaKaren:
 
         self.logger = setup_karen_logging()
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
-        self.cooldown_manager = CooldownManager(self)
+        self.cooldowns = CooldownManager(self.d.cooldown_rates)
 
         self.shard_ids = tuple(range(self.d.shard_count))
         self.online_shards = set()
@@ -86,6 +86,9 @@ class MechaKaren:
 
             if len(broadcast["responses"]) == broadcast["expects"]:
                 broadcast["ready"].set()
+        elif packet.type == "cooldown":
+            cooldown_info = self.cooldowns.check(packet.command, packet.user_id)
+            await stream.write_packet({"type": "cooldown-info", "id": packet.id, **cooldown_info})
 
     async def start(self, pp):
         await self.server.start()
