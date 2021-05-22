@@ -42,6 +42,8 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.aiohttp = aiohttp.ClientSession()
         self.db = None
 
+        self.add_check(self.check_global)
+
     @property
     def eval_env(self):
         return {
