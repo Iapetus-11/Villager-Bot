@@ -16,7 +16,7 @@ class CooldownManager:
         self.cooldowns[command].pop(user_id, None)
 
     def get_remaining(self, command: str, user_id: int) -> float:  # returns remaning cooldown or 0
-        started = self.cooldowns[command].get(user_id)
+        started = self.cooldowns[command].get(user_id) or time.time()
         remaining = time.time() - (started + self.rates[command])
 
         if remaining < 0.01:
@@ -24,6 +24,16 @@ class CooldownManager:
             return 0
 
         return remaining
+
+    def check(self, command: str, user_id: int) -> dict:  # checks if command is runnable, if so add cooldown
+        remaining = self.get_remaining(command, user_id)
+
+        if remaining:
+            return {"can_run": False, "remaining": remaining}
+
+        self.add_cooldown(command, user_id)
+
+        return {"can_run": True}
 
     async def _clear_dead(self):
         try:
