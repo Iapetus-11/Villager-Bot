@@ -93,3 +93,13 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
                 success = False
 
             await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
+
+    async def check_global(self, ctx):
+        command = ctx.command.name
+
+        # handle cooldowns that need to be synced between shard groups
+        if command in self.d.cooldown_rates:
+            cooldown_info = await self.ipc.request({"type": "cooldown", "command": command, "user_id": ctx.author.id})
+
+            if not cooldown_info.can_run:
+                raise CommandOnCooldown2(cooldown_info.remaining)
