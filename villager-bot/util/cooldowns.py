@@ -1,4 +1,4 @@
-from collections import defauldict
+from collections import defaultdict
 import asyncio
 
 
