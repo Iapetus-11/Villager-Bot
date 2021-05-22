@@ -26,6 +26,19 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # {"type": "identify", "shard_id": 123} # client -> server
 # {"type": "exec-code", "code": "print('hello')", "auth": "password123"} # client -> server
 # {"type": "exec-response", "response": "None"} # server -> client
+#
+# Packet Documentation:
+# Serverbound:
+# - shard-ready {"type": "shard-ready", "shard_id": shard_id} notifies karen of a shard becoming ready
+# - shard-disconnect {"type": "shard-disconnect", "shard_id": shard_id} notifies karen of shard disconnect
+# - eval {"type": "eval", "code": code} eval()s code on karen
+# - broadcast-request {"type": "broadcast-request", "packet": encapsulated_packet} broadcasts a packet to all clients, including the sender
+# - broadcast-response {"type": "broadcast-response", **} sent in response to any "unexpected" packet from karen (so the contents of broadcast packets)
+# - cooldown {"type": "cooldown", "command": command_name, "user_id", user.id} requests and updates cooldown info from karen
+# Clientbound:
+# - eval-response {"type": "eval-response", "result": object, "success": boolean} the result of an eval packet from a client
+# - broadcast-response {"type": "broadcast-response", "responses": [*]} the result of a client's broadcast-request
+# - cooldown-info {"type": "cooldown-info", "can_run": boolean, Optional["remaining": cooldown_seconds_remaining]} the result of a client's cooldown packet
 
 
 def default_serialize(obj):
