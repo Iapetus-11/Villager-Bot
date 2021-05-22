@@ -44,8 +44,8 @@ class CooldownManager:
     async def _clear_dead(self):
         try:
             while True:
-                for command, users in self.cooldowns.items():
-                    for user_id, started in users.items():
+                for command, users in list(self.cooldowns.items()):
+                    for user_id, started in list(users.items()):
                         if time.time() - (started + self.rates[command]) <= 0:
                             del self.cooldowns[command][user_id]
 
