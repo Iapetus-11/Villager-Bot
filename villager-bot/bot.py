@@ -6,11 +6,9 @@ import time
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.setup import load_text, load_secrets, load_data
+from util.cooldowns import CommandOnCooldown2
 from util.code import execute_code
 from util.ipc import Client
-
-# jank
-from util import cooldowns
 
 
 def run_shard_group(shard_count: int, shard_ids: list) -> None:
