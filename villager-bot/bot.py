@@ -101,5 +101,9 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         if command in self.d.cooldown_rates:
             cooldown_info = await self.ipc.request({"type": "cooldown", "command": command, "user_id": ctx.author.id})
 
+            print(cooldown_info)
+
             if not cooldown_info.can_run:
                 raise CommandOnCooldown2(cooldown_info.remaining)
+
+        return True
