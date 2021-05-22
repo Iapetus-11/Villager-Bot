@@ -12,7 +12,7 @@ class CooldownManager:
         self.rates = cooldown_rates  # {command_name: seconds_per_command}
         self.cooldowns = defaultdict(dict)  # {command_name: {user_id: time.time()}}
 
-        self._clear_task = asyncio.create_task(self._clear_dead())
+        self._clear_task = None
 
     def add_cooldown(self, command: str, user_id: int) -> None:
         self.cooldowns[command][user_id] = time.time()
@@ -52,5 +52,8 @@ class CooldownManager:
         except asyncio.CancelledError:
             return
 
-    def shutdown(self):
+    def start(self):
+        self._clear_task = asyncio.create_task(self._clear_dead())
+
+    def stop(self):
         self._clear_task.cancel()
