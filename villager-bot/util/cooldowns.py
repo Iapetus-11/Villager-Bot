@@ -8,8 +8,8 @@ class CommandOnCooldown2(Exception):
 
 
 class CooldownManager:
-    def __init__(self, rates: dict):
-        self.rates = rates  # {command_name: seconds_per_command}
+    def __init__(self, cooldown_rates: dict):
+        self.rates = cooldown_rates  # {command_name: seconds_per_command}
         self.cooldowns = defaultdict(dict)  # {command_name: {user_id: time.time()}}
 
         self._clear_task = asyncio.create_task(self._clear_dead())
