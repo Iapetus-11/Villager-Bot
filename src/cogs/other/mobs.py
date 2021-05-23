@@ -326,7 +326,7 @@ class Mobs(commands.Cog):  # fuck I really don't want to work on this
                         balls_won *= 1.5
                     elif await self.db.fetch_item(u.id, "Looting I Book") is not None:
                         balls_won *= 1.25
-                        
+
                     balls_won = round(balls_won)
 
                     await self.db.add_item(u.id, "Slime Ball", 5, balls_won, True)
