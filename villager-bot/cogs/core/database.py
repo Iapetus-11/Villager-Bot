@@ -69,7 +69,10 @@ class Database(commands.Cog):
         return disabled_nice
 
     async def fetch_all_do_replies(self):
-        return {g["guild_id"]: g["replies"] for g in await self.db.fetch("SELECT guild_id, replies FROM guilds WHERE replies = true")}
+        return {
+            g["guild_id"]: g["replies"]
+            for g in await self.db.fetch("SELECT guild_id, replies FROM guilds WHERE replies = true")
+        }
 
     async def fetch_guild(self, guild_id):
         g = await self.db.fetchrow("SELECT * FROM guilds WHERE guild_id = $1", guild_id)
@@ -166,7 +169,9 @@ class Database(commands.Cog):
 
     async def set_vault(self, user_id, vault_bal, vault_max):
         await self.fetch_user(user_id)
-        await self.db.execute("UPDATE users SET vault_bal = $1, vault_max = $2 WHERE user_id = $3", vault_bal, vault_max, user_id)
+        await self.db.execute(
+            "UPDATE users SET vault_bal = $1, vault_max = $2 WHERE user_id = $3", vault_bal, vault_max, user_id
+        )
 
     async def fetch_items(self, user_id):
         await self.fetch_user(user_id)
@@ -183,7 +188,10 @@ class Database(commands.Cog):
             await self.db.execute("INSERT INTO items VALUES ($1, $2, $3, $4, $5)", user_id, name, sell_price, amount, sticky)
         else:
             await self.db.execute(
-                "UPDATE items SET amount = $1 WHERE user_id = $2 AND LOWER(name) = LOWER($3)", amount + prev["amount"], user_id, name
+                "UPDATE items SET amount = $1 WHERE user_id = $2 AND LOWER(name) = LOWER($3)",
+                amount + prev["amount"],
+                user_id,
+                name,
             )
 
     async def remove_item(self, user_id, name, amount):
@@ -193,14 +201,19 @@ class Database(commands.Cog):
             await self.db.execute("DELETE FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name)
         else:
             await self.db.execute(
-                "UPDATE items SET amount = $1 WHERE user_id = $2 AND LOWER(name) = LOWER($3)", prev["amount"] - amount, user_id, name
+                "UPDATE items SET amount = $1 WHERE user_id = $2 AND LOWER(name) = LOWER($3)",
+                prev["amount"] - amount,
+                user_id,
+                name,
             )
 
     async def log_transaction(self, item, amount, timestamp, giver, receiver):
         await self.db.execute("INSERT INTO give_logs VALUES ($1, $2, $3, $4, $5)", item, amount, timestamp, giver, receiver)
 
     async def fetch_transactions_by_sender(self, user_id, limit):
-        return await self.db.fetch("SELECT * FROM give_logs WHERE giver_user_id = $1 ORDER BY ts DESC LIMIT $2", user_id, limit)
+        return await self.db.fetch(
+            "SELECT * FROM give_logs WHERE giver_user_id = $1 ORDER BY ts DESC LIMIT $2", user_id, limit
+        )
 
     async def fetch_transactions_page(self, user_id, limit: int = 10, *, page: int = 0) -> list:
         return await self.db.fetch(
@@ -211,7 +224,10 @@ class Database(commands.Cog):
         )
 
     async def fetch_transactions_page_count(self, user_id, limit: int = 10) -> int:
-        return await self.db.fetchval("SELECT COUNT(*) FROM give_logs WHERE giver_user_id = $1 OR recvr_user_id = $1", user_id) // limit
+        return (
+            await self.db.fetchval("SELECT COUNT(*) FROM give_logs WHERE giver_user_id = $1 OR recvr_user_id = $1", user_id)
+            // limit
+        )
 
     async def fetch_pickaxe(self, user_id):
         items_names = [item["name"] for item in await self.fetch_items(user_id)]
