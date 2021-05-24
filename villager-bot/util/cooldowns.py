@@ -22,8 +22,8 @@ class CooldownManager:
         self.cooldowns[command].pop(user_id, None)
 
     def get_remaining(self, command: str, user_id: int) -> float:  # returns remaning cooldown or 0
-        started = self.cooldowns[command].get(user_id) or time.time()
-        remaining = (started + self.rates[command]) - time.time()
+        started = self.cooldowns[command].get(user_id, 0)
+        remaining = self.rates[command] - (time.time() - started)
 
         if remaining < 0.01:
             self.clear_cooldown(command, user_id)
