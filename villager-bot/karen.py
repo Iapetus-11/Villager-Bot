@@ -97,13 +97,14 @@ class MechaKaren:
 
         shard_groups = []
         loop = asyncio.get_event_loop()
+        g = self.d.shard_group_size
 
-        for shard_id_group in [self.shard_ids[i : i + 4] for i in range(0, len(self.shard_ids), 4)]:
+        for shard_id_group in [self.shard_ids[i : i + g] for i in range(0, len(self.shard_ids), g)]:
             shard_groups.append(loop.run_in_executor(pp, run_shard_group, self.d.shard_count, shard_id_group))
 
         await asyncio.gather(*shard_groups)
         self.cooldowns.stop()
 
     def run(self):
-        with ProcessPoolExecutor(self.d.shard_count) as pp:
+        with ProcessPoolExecutor(self.d.shard_count // self.d.shard_group_size + 1) as pp:
             asyncio.run(self.start(pp))
