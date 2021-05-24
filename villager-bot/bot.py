@@ -36,7 +36,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.cog_list = ["cogs.core.events", "cogs.core.loops", "cogs.core.share", "cogs.commands.owner"]
 
         self.logger = setup_logging(self.shard_ids)
-        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_broadcast)
+        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.handle_broadcast)
         self.aiohttp = aiohttp.ClientSession()
         self.db = None
 
@@ -56,7 +56,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         }
 
     async def start(self, *args, **kwargs):
-        await self.ipc.connect(self.shard_ids)
+        await self.ipc.connect(self.k.manager.auth, self.shard_ids)
         self.db = await setup_database(self.k)
 
         for cog in self.cog_list:

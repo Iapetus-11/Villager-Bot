@@ -72,11 +72,9 @@ class Stream:
 
 
 class Client:
-    def __init__(self, host: str, port: int, auth: str, handle_broadcast: Callable) -> None:
+    def __init__(self, host: str, port: int, handle_broadcast: Callable) -> None:
         self.host = host
         self.port = port
-
-        self.auth = auth
 
         self.handle_broadcast = handle_broadcast
 
@@ -86,9 +84,17 @@ class Client:
         self.current_id = 0
         self.read_task = None
 
-    async def connect(self, shard_ids: tuple) -> None:
+    async def connect(self, auth: str, shard_ids: tuple) -> None:
         self.stream = Stream(*await asyncio.open_connection(self.host, self.port))
         self.read_task = asyncio.create_task(self.read_packets())
+
+        res = await self.request({"type": "auth", "auth": auth})
+
+        if not res.success:
+            self.read_task.cancel()
+            await self.stream.close()
+
+            raise Exception("Invalid authorization")
 
     async def close(self) -> None:
         self.read_task.cancel()
@@ -107,8 +113,6 @@ class Client:
                 asyncio.create_task(self.handle_broadcast(packet))
 
     async def send(self, packet: Union[dict, ClassyDict]) -> None:
-        packet["auth"] = self.auth
-
         await self.stream.write_packet(packet)
 
     async def request(self, packet: Union[dict, ClassyDict]) -> ClassyDict:
@@ -162,14 +166,22 @@ class Server:
     async def handle_connection(self, reader: StreamReader, writer: StreamWriter) -> None:
         stream = Stream(reader, writer)
         self.connections.append(stream)
+        authed = False
 
         while not self.closing:
             packet = await stream.read_packet()
 
-            # check auth, if invalid notify client and ignore subsequent requests
-            if packet.pop("auth", None) != self.auth:
-                await stream.write_packet({"info": "invalid authorization"})
-                return
+            if not authed:
+                auth = packet.get("auth", None)
+
+                if auth == self.auth:
+                    authed = True
+                    await stream.write_packet({"type": "auth-response", "success": True, "id": packet.id})
+                else:
+                    await stream.write_packet({"type": "auth-response", "success": False, "id": packet.id})
+                    return
+
+                continue
 
             if packet.type == "disconnect":
                 self.connections.remove(stream)
