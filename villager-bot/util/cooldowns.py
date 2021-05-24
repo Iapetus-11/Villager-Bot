@@ -46,7 +46,7 @@ class CooldownManager:
             while True:
                 for command, users in list(self.cooldowns.items()):
                     for user_id, started in list(users.items()):
-                        if time.time() - (started + self.rates[command]) <= 0:
+                        if self.rates[command] - (time.time() - self.cooldowns[command].get(user_id, 0)) <= 0:
                             del self.cooldowns[command][user_id]
 
                 await asyncio.sleep(20)
