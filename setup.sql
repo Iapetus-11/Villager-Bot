@@ -38,6 +38,15 @@ CREATE TABLE IF NOT EXISTS items (
   sticky             BOOLEAN NOT NULL -- whether the item can be traded / given or not
 );
 
+CREATE TABLE IF NOT EXISTS give_logs (
+  item               VARCHAR(250) NOT NULL, -- item traded / given, "emerald" for emeralds
+  amount             BIGINT NOT NULL, -- the amount of the item
+  at                 BIGINT NOT NULL, -- the time at which the transaction was made
+  sender             BIGINT NOT NULL, -- who gave the items in the first place
+  receiver           BIGINT NOT NULL -- who received the items
+);
+
+
 CREATE TABLE IF NOT EXISTS leaderboards (
   user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
   pillaged_emeralds  BIGINT NOT NULL DEFAULT 0, -- emeralds pillaged from other users
