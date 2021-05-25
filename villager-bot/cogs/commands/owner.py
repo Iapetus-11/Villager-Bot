@@ -1,4 +1,7 @@
 from discord.ext import commands
+import functools
+import aiofiles
+import os
 
 from util.code import execute_code
 
@@ -16,7 +19,7 @@ class Owner(commands.Cog):
         await self.ipc.broadcast({"type": "eval", "code": f"bot.reload_extension('cogs.{cog}')"})
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name="evallocal", aliases=["evall"])
+    @commands.command(name="evallocal", aliases=["eval"])
     @commands.is_owner()
     async def eval_stuff_local(self, ctx, *, stuff: str):
         if stuff.startswith("```"):
@@ -35,10 +38,18 @@ class Owner(commands.Cog):
 
         await ctx.send("".join([f"```py\n{r['result']}```" for r in res["responses"]]))
 
-    @commands.command(name="test")
+    @commands.command(name="gitpull")
+    @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
     @commands.is_owner()
-    async def test_cooldowns(self, ctx):
-        await ctx.send("test")
+    async def gitpull(self, ctx):
+        async with ctx.typing():
+            system_call = functools.partial(os.system, "git pull > git_pull_log 2>&1")
+            await self.bot.loop.run_in_executor(self.bot.tp, system_call)
+
+            async with aiofiles.open("git_pull_log", "r") as f:
+                await self.bot.send(ctx, f"```diff\n{await f.read()}\n```")
+
+        os.remove("git_pull_log")
 
 
 def setup(bot):
