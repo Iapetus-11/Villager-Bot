@@ -8,7 +8,7 @@ from util.cooldowns import CommandOnKarenCooldown
 from util.code import format_exception
 
 
-IGNORED_ERRORS = {commands.CommandNotFound, commands.NotOwner}
+IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 BAD_ARG_ERRORS = (
     commands.BadArgument,
     commands.errors.UnexpectedQuoteError,
@@ -113,7 +113,7 @@ class Events(commands.Cog):
                 await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
             elif failure_reason == "disabled":
                 await self.bot.reply_embed(ctx, ctx.l.misc.errors.disabled)
-        elif e in IGNORED_ERRORS or getattr(e, "original", None) in IGNORED_ERRORS:
+        elif isinstance(e, IGNORED_ERRORS) or isinstance(getattr(e, "original", None), IGNORED_ERRORS):
             return
         else:  # no error was caught so log error in error channel
             debug_info = (
