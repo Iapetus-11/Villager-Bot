@@ -18,10 +18,11 @@ BAD_ARG_ERRORS = (
 class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.ipc = bot.ipc
 
     @commands.Cog.listener()
     async def on_shard_ready(self, shard_id: int):
-        await self.bot.ipc.send({"type": "shard-ready", "shard_id": shard_id})
+        await self.ipc.send({"type": "shard-ready", "shard_id": shard_id})
         self.bot.logger.info(f"Shard {shard_id} \u001b[36;1mREADY\u001b[0m")
 
         # packet = await self.bot.ipc.request({"type": "eval", "code": "v.start_time"})
@@ -45,7 +46,7 @@ class Events(commands.Cog):
 
         if seconds <= 0.05:
             if karen_cooldown:
-                raise NotImplementedError
+                await self.ipc.send({"type": "cooldown-add", "command": ctx.command.name, "user_id": ctx.author.id})
 
             await ctx.reinvoke()
             return
