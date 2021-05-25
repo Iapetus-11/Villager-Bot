@@ -33,7 +33,7 @@ class Database(commands.Cog):
 
     async def add_reminder(self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime) -> None:
         await self.db.execute(
-            "INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", user_id, channel_id, message_id, reminder, at
+            "INSERT INTO reminders (user_id, channel_id, message_id, reminder, at) VALUES ($1, $2, $3, $4, $5)", user_id, channel_id, message_id, reminder, at
         )
 
     async def fetch_all_botbans(self) -> Set[int]:
@@ -171,7 +171,7 @@ class Database(commands.Cog):
         prev = await self.fetch_item(user_id, name)
 
         if prev is None:
-            await self.db.execute("INSERT INTO items VALUES ($1, $2, $3, $4, $5)", user_id, name, sell_price, amount, sticky)
+            await self.db.execute("INSERT INTO items (user_id, name, sell_price, amount, sticky) VALUES ($1, $2, $3, $4, $5)", user_id, name, sell_price, amount, sticky)
         else:
             await self.db.execute(
                 "UPDATE items SET amount = $1 WHERE user_id = $2 AND LOWER(name) = LOWER($3)",
@@ -193,8 +193,8 @@ class Database(commands.Cog):
                 name,
             )
 
-    async def log_transaction(self, item: str, amount: int, timestamp: datetime, giver: int, receiver: int) -> None:
-        await self.db.execute("INSERT INTO give_logs VALUES ($1, $2, $3, $4, $5)", item, amount, timestamp, giver, receiver)
+    async def log_transaction(self, item: str, amount: int, at: datetime, giver: int, receiver: int) -> None:
+        await self.db.execute("INSERT INTO give_logs (item, amount, at, sender, receiver) VALUES ($1, $2, $3, $4, $5)", item, amount, at, giver, receiver)
 
     async def fetch_transactions_by_sender(self, user_id: int, limit: int) -> List[asyncpg.Record]:
         return await self.db.fetch("SELECT * FROM give_logs WHERE sender = $1 ORDER BY at DESC LIMIT $2", user_id, limit)
@@ -251,7 +251,7 @@ class Database(commands.Cog):
         lbs = await self.db.fetchrow("SELECT * FROM leaderboards WHERE user_id = $1", user_id)
 
         if lbs is None:
-            await self.db.execute("INSERT INTO leaderboards VALUES ($1, $2, $3, $4)", user_id, 0, 0, 0)
+            await self.db.execute("INSERT INTO leaderboards (user_id) VALUES ($1)", user_id)
 
     async def update_lb(self, user_id: int, lb: str, value: int, mode: str = "add") -> None:
         await self.fetch_user_lb(user_id)
@@ -360,7 +360,7 @@ class Database(commands.Cog):
         await self.db.execute("UPDATE users SET bot_banned = $1 WHERE user_id = $2", botbanned, user_id)
 
     async def add_warn(self, user_id: int, guild_id: int, mod_id: int, reason: str) -> None:
-        await self.db.execute("INSERT INTO warnings VALUES ($1, $2, $3, $4)", user_id, guild_id, mod_id, reason)
+        await self.db.execute("INSERT INTO warnings (user_id, guild_id, mod_id, reason) VALUES ($1, $2, $3, $4)", user_id, guild_id, mod_id, reason)
 
     async def fetch_warns(self, user_id: int, guild_id: int) -> List[asyncpg.Record]:
         return await self.db.fetch("SELECT * FROM warnings WHERE user_id = $1 AND guild_id = $2", user_id, guild_id)
@@ -372,7 +372,7 @@ class Database(commands.Cog):
         return await self.db.fetchrow("SELECT * FROM user_rcon WHERE user_id = $1 AND mc_server = $2", user_id, mc_server)
 
     async def add_user_rcon(self, user_id: int, mc_server: str, rcon_port: int, password: str) -> None:
-        await self.db.execute("INSERT INTO user_rcon VALUES ($1, $2, $3, $4)", user_id, mc_server, rcon_port, password)
+        await self.db.execute("INSERT INTO user_rcon (user_id, mc_server, rcon_port, password) VALUES ($1, $2, $3, $4)", user_id, mc_server, rcon_port, password)
 
     async def delete_user_rcon(self, user_id: int, mc_server: str) -> None:
         await self.db.execute("DELETE FROM user_rcon WHERE user_id = $1 AND mc_server = $2", user_id, mc_server)
