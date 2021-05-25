@@ -65,9 +65,8 @@ class MechaKaren:
                 success = False
 
             await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
-        elif (
-            packet.type == "broadcast-request"
-        ):  # broadcasts the packet to every connection including the broadcaster, and waits for responses
+        elif (packet.type == "broadcast-request"):
+            # broadcasts the packet to every connection including the broadcaster, and waits for responses
             broadcast_id = f"b{self.current_id}"
             self.current_id += 1
 
