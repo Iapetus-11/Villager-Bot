@@ -21,7 +21,7 @@ def run_shard_group(shard_count: int, shard_ids: list) -> None:
 class VillagerBotShardGroup(commands.AutoShardedBot):
     def __init__(self, shard_count: int, shard_ids: list) -> None:
         super().__init__(
-            command_prefix=".",
+            command_prefix=self.get_prefix,
             intents=villager_bot_intents(),
             shard_count=shard_count,
             shard_ids=shard_ids,
@@ -41,9 +41,9 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.db = None
 
         self.ban_cache = set()
-        self.lang_cache = {}
+        self.language_cache = {}
         self.prefix_cache = {}
-        self.disabled_cmds = {}
+        self.disabled_commands = {}
         self.replies_cache = set()
 
         self.add_check(self.check_global)
@@ -100,14 +100,46 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
 
             await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
 
+    def get_prefix(self, ctx: commands.Context) -> str:
+        if ctx.guild
+            return self.prefix_cache.get(ctx.guild.id, self.d.default_prefix)
+
+        return self.d.default_prefix
+
+    def get_language(self, ctx: commands.Context) -> ClassyDict:
+        if ctx.guild:
+            return self.l[self.language_cache.get(ctx.guild.id, "en")]
+
+        return self.l["en"]
+
     async def check_global(self, ctx):
+        ctx.l = self.get_language(ctx)
         command = ctx.command.name
 
-        # handle cooldowns that need to be synced between shard groups
+        if ctx.author.id in self.ban_cache:
+            ctx.failure_reason = "bot_banned"
+            return False
+
+        if not self.is_ready():
+            ctx.failure_reason = "not_ready"
+            return False
+
+        if ctx.guild is not None and command in self.disabled_commands.get(ctx.guild.id, ()):
+            ctx.failure_reason = "disabled"
+            return False
+
+        if command in self.d.sus_commands:
+            # implement mob spawning here in the future
+            pass
+
+        # handle cooldowns that need to be synced between shard groups / processes
         if command in self.d.cooldown_rates:
             cooldown_info = await self.ipc.request({"type": "cooldown", "command": command, "user_id": ctx.author.id})
 
             if not cooldown_info.can_run:
-                raise CommandOnCooldown2(cooldown_info.remaining)
+                ctx.custom_error = CommandOnCooldown2(cooldown_info.remaining)
+                return False
+
+
 
         return True

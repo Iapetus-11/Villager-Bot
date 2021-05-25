@@ -19,9 +19,9 @@ class Database(commands.Cog):
         self.bot.ban_cache = await self.fetch_all_botbans()
 
         # per-guild caches, should only load settings for guilds the process can actually see
-        self.bot.lang_cache = await self.fetch_all_guild_langs()
+        self.bot.language_cache = await self.fetch_all_guild_langs()
         self.bot.prefix_cache = await self.fetch_all_guild_prefixes()
-        self.bot.disabled_cmds = await self.fetch_all_disabled_commands()
+        self.bot.disabled_commands = await self.fetch_all_disabled_commands()
         self.bot.replies_cache = await self.fetch_all_do_replies()
 
     async def fetch_current_reminders(self) -> list:
