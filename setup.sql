@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS guilds (
   guild_id           BIGINT PRIMARY KEY, -- the discord guild id / snowflake
   prefix             VARCHAR(15) NOT NULL DEFAULT '!!', -- the prefix of the guild
   difficulty         SMALLINT NOT NULL DEFAULT 1, -- the difficulty the server is on 0=peaceful, 1=normal, 2=hard
-  lang               VARCHAR(6) NOT NULL DEFAULT 'en', -- the language the bot will speak in
+  language           VARCHAR(6) NOT NULL DEFAULT 'en', -- the language the bot will speak in
   mc_server          VARCHAR(100), -- the minecraft server of the guild
   premium            BOOLEAN NOT NULL DEFAULT false, -- whether the server is premium or not
   roles_persist      BOOLEAN NOT NULL DEFAULT false -- whether roles should persist or not
