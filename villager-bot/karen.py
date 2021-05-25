@@ -90,6 +90,8 @@ class MechaKaren:
         elif packet.type == "cooldown":
             cooldown_info = self.cooldowns.check(packet.command, packet.user_id)
             await stream.write_packet({"type": "cooldown-info", "id": packet.id, **cooldown_info})
+        elif packet.type == "cooldown-reset":
+            self.cooldowns.clear_cooldown(packet.command, packet.user_id)
 
     async def start(self, pp):
         await self.server.start()
