@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor
 from classyjson import ClassyDict
 from discord.ext import commands
 import aiohttp
@@ -36,9 +37,10 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.cog_list = ["cogs.core.events", "cogs.core.loops", "cogs.core.share", "cogs.commands.owner"]
 
         self.logger = setup_logging(self.shard_ids)
-        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.handle_broadcast)
+        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.handle_broadcast)  # ipc client
         self.aiohttp = aiohttp.ClientSession()
-        self.db = None
+        self.db = None # asyncpg database connection pool
+        self.tp = None # ThreadPoolExecutor instance
 
         self.ban_cache = set()
         self.language_cache = {}
@@ -78,7 +80,8 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         await super().close(*args, **kwargs)
 
     def run(self, *args, **kwargs):
-        super().run(self.k.discord_token, *args, **kwargs)
+        with ThreadPoolExecutor() as self.tp:
+            super().run(self.k.discord_token, *args, **kwargs)
 
     async def handle_broadcast(self, packet: ClassyDict) -> None:
         if packet.type == "eval":
