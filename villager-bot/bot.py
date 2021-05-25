@@ -103,7 +103,9 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
 
             await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
 
-    def get_prefix(self, ctx: commands.Context) -> str:
+    async def get_prefix(self, ctx: commands.Context) -> str:
+        # for some reason discord.py wants this function to be async *sigh*
+
         if ctx.guild:
             return self.prefix_cache.get(ctx.guild.id, self.d.default_prefix)
 
