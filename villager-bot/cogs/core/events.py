@@ -52,9 +52,7 @@ class Events(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.user_perms)
         elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms)
-        elif getattr(e, "original", None) is not None and isinstance(
-            e.original, discord.errors.Forbidden
-        ):
+        elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms)
         elif isinstance(e, commands.MaxConcurrencyReached):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
@@ -62,9 +60,7 @@ class Events(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.missing_arg)
         elif isinstance(e, BAD_ARG_ERRORS):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.bad_arg)
-        elif (
-            hasattr(ctx, "failure_reason") and ctx.failure_reason
-        ):  # handle global check failures
+        elif hasattr(ctx, "failure_reason") and ctx.failure_reason:  # handle global check failures
             failure_reason = ctx.failure_reason
 
             if failure_reason == "bot_banned" or failure_reason == "ignore":
