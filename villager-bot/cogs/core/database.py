@@ -11,11 +11,9 @@ class Database(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.v = bot.v
-
         self.db = bot.db  # the asyncpg pool
 
-        bot.loop.create_task(self.populate_caches())
+        asyncio.create_task(self.populate_caches())
 
     async def populate_caches(self):  # initial caches for speeeeeed
         # caches which need to be maintained cross-process *regardless*
