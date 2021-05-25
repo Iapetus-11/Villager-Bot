@@ -68,7 +68,7 @@ class Database(commands.Cog):
         replies_records = await self.db.fetch("SELECT guild_id FROM guilds WHERE replies = true")
         return {r[0] for r in replies_records}
 
-    async def fetch_guild(self, guild_id) -> asyncpg.Record:
+    async def fetch_guild(self, guild_id: int) -> asyncpg.Record:
         g = await self.db.fetchrow("SELECT * FROM guilds WHERE guild_id = $1", guild_id)
 
         if g is None:
@@ -88,33 +88,33 @@ class Database(commands.Cog):
 
         return g
 
-    async def set_guild_attr(self, guild_id, attr, value):
+    async def set_guild_attr(self, guild_id: int, attr: str, value: object) -> None:
         await self.fetch_guild(guild_id)  # ensure it exists in db
         await self.db.execute(f"UPDATE guilds SET {attr} = $1 WHERE guild_id = $2", value, guild_id)
 
-    async def drop_guild(self, guild_id):
+    async def drop_guild(self, guild_id: int) -> None:
         await self.db.execute("DELETE FROM guilds WHERE guild_id = $1", guild_id)
 
         try:
-            del self.v.lang_cache[guild_id]
+            del self.bot.lang_cache[guild_id]
         except KeyError:
             pass
 
         try:
-            del self.v.prefix_cache[guild_id]
+            del self.bot.prefix_cache[guild_id]
         except KeyError:
             pass
 
-    async def fetch_guild_premium(self, guild_id):
+    async def fetch_guild_premium(self, guild_id: int) -> bool:
         return bool(await self.db.fetchval("SELECT premium FROM guilds WHERE guild_id = $1", guild_id))
 
-    async def set_cmd_usable(self, guild_id, cmd, usable):
+    async def set_cmd_usable(self, guild_id: int, cmd: str, usable: bool) -> None:
         if usable:
             await self.db.execute("DELETE FROM disabled WHERE guild_id = $1 AND cmd = $2", guild_id, cmd)
         else:
             await self.db.execute("INSERT INTO disabled VALUES ($1, $2)", guild_id, cmd)
 
-    async def fetch_user(self, user_id):
+    async def fetch_user(self, user_id: int) -> asyncpg.Record:
         user = await self.db.fetchrow("SELECT * FROM users WHERE user_id = $1", user_id)
 
         if user is None:
@@ -129,24 +129,24 @@ class Database(commands.Cog):
 
         return user
 
-    async def update_user(self, user_id, key, value):
+    async def update_user(self, user_id: int, key: str, value: object) -> None:
         await self.fetch_user(user_id)
         await self.db.execute(f"UPDATE users SET {key} = $1 WHERE user_id = $2", value, user_id)
 
-    async def fetch_balance(self, user_id):  # fetches the amount of emeralds a user has
+    async def fetch_balance(self, user_id: int) -> int:  # fetches the amount of emeralds a user has
         # we can do this because self.fetch_user ensures user is not None
         return (await self.fetch_user(user_id))["emeralds"]
 
-    async def set_balance(self, user_id, emeralds):
+    async def set_balance(self, user_id: int, emeralds: int) -> None:
         await self.fetch_user(user_id)
         await self.db.execute("UPDATE users SET emeralds = $1 WHERE user_id = $2", emeralds, user_id)
 
-    async def balance_add(self, user_id, amount):
+    async def balance_add(self, user_id: int, amount: int) -> int:
         new_bal = await self.fetch_balance(user_id) + amount
         await self.set_balance(user_id, new_bal)
         return new_bal
 
-    async def balance_sub(self, user_id, amount):
+    async def balance_sub(self, user_id: int, amount: int) -> int:
         bal = await self.fetch_balance(user_id)
         new = bal - amount
 
@@ -157,7 +157,7 @@ class Database(commands.Cog):
         await self.set_balance(user_id, new)
         return amount
 
-    async def fetch_vault(self, user_id):  # fetches a user's vault in the form (vault_amount, vault_max)
+    async def fetch_vault(self, user_id: int) -> dict:  # fetches a user's vault in the form (vault_amount, vault_max)
         user = await self.fetch_user(user_id)
         return {"vault_bal": user["vault_bal"], 0: user["vault_bal"], "vault_max": user["vault_max"], 1: user["vault_max"]}
 
@@ -167,15 +167,15 @@ class Database(commands.Cog):
             "UPDATE users SET vault_balance = $1, vault_max = $2 WHERE user_id = $3", vault_balance, vault_max, user_id
         )
 
-    async def fetch_items(self, user_id: int):
+    async def fetch_items(self, user_id: int) -> List[asyncpg.Record]:
         await self.fetch_user(user_id)
         return await self.db.fetch("SELECT * FROM items WHERE user_id = $1", user_id)
 
-    async def fetch_item(self, user_id, name):
+    async def fetch_item(self, user_id: int, name: str) -> asyncpg.Record:
         await self.fetch_user(user_id)
         return await self.db.fetchrow("SELECT * FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name)
 
-    async def add_item(self, user_id, name, sell_price, amount, sticky=False):
+    async def add_item(self, user_id: int, name: str, sell_price: int, amount: int, sticky: bool = False) -> None:
         prev = await self.fetch_item(user_id, name)
 
         if prev is None:
@@ -188,7 +188,7 @@ class Database(commands.Cog):
                 name,
             )
 
-    async def remove_item(self, user_id, name, amount):
+    async def remove_item(self, user_id: int, name: str, amount: int) -> None:
         prev = await self.fetch_item(user_id, name)
 
         if prev["amount"] - amount < 1:
@@ -201,30 +201,30 @@ class Database(commands.Cog):
                 name,
             )
 
-    async def log_transaction(self, item, amount, timestamp, giver, receiver):
+    async def log_transaction(self, item: str, amount: int, timestamp: datetime, giver: int, receiver: int) -> None:
         await self.db.execute("INSERT INTO give_logs VALUES ($1, $2, $3, $4, $5)", item, amount, timestamp, giver, receiver)
 
-    async def fetch_transactions_by_sender(self, user_id, limit):
+    async def fetch_transactions_by_sender(self, user_id: int, limit: int) -> List[asyncpg.Record]:
         return await self.db.fetch(
-            "SELECT * FROM give_logs WHERE giver_user_id = $1 ORDER BY ts DESC LIMIT $2", user_id, limit
+            "SELECT * FROM give_logs WHERE sender = $1 ORDER BY at DESC LIMIT $2", user_id, limit
         )
 
-    async def fetch_transactions_page(self, user_id, limit: int = 10, *, page: int = 0) -> list:
+    async def fetch_transactions_page(self, user_id: int, limit: int = 10, *, page: int = 0) -> List[asyncpg.Record]:
         return await self.db.fetch(
-            "SELECT * FROM give_logs WHERE giver_user_id = $1 OR recvr_user_id = $1 ORDER BY ts DESC LIMIT $2 OFFSET $3",
+            "SELECT * FROM give_logs WHERE sender = $1 OR receiver = $1 ORDER BY at DESC LIMIT $2 OFFSET $3",
             user_id,
             limit,
             page * limit,
         )
 
-    async def fetch_transactions_page_count(self, user_id, limit: int = 10) -> int:
+    async def fetch_transactions_page_count(self, user_id: int, limit: int = 10) -> int:
         return (
             await self.db.fetchval("SELECT COUNT(*) FROM give_logs WHERE giver_user_id = $1 OR recvr_user_id = $1", user_id)
             // limit
         )
 
-    async def fetch_pickaxe(self, user_id):
-        items_names = [item["name"] for item in await self.fetch_items(user_id)]
+    async def fetch_pickaxe(self, user_id: int) -> str:
+        items_names = {item["name"] for item in await self.fetch_items(user_id)}
 
         for pickaxe in self.d.mining.pickaxes:
             if pickaxe in items_names:
@@ -235,8 +235,8 @@ class Database(commands.Cog):
         await self.add_item(user_id, "Wood Pickaxe", 0, 1, True)
         return "Wood Pickaxe"
 
-    async def fetch_sword(self, user_id):
-        items_names = [item["name"] for item in await self.fetch_items(user_id)]
+    async def fetch_sword(self, user_id: int) -> str:
+        items_names = {item["name"] for item in await self.fetch_items(user_id)}
 
         for sword in self.d.sword_list_proper:
             if sword in items_names:
@@ -247,7 +247,7 @@ class Database(commands.Cog):
         await self.add_item(user_id, "Wood Sword", 0, 1, True)
         return "Wood Sword"
 
-    async def rich_trophy_wipe(self, user_id):
+    async def rich_trophy_wipe(self, user_id: int) -> None:
         await self.set_balance(user_id, 0)
         await self.set_vault(user_id, 0, 1)
 
@@ -257,13 +257,13 @@ class Database(commands.Cog):
             self.d.rpt_ignore,
         )
 
-    async def fetch_user_lb(self, user_id):
+    async def fetch_user_lb(self, user_id: int) -> None:  # idk why this exists
         lbs = await self.db.fetchrow("SELECT * FROM leaderboards WHERE user_id = $1", user_id)
 
         if lbs is None:
             await self.db.execute("INSERT INTO leaderboards VALUES ($1, $2, $3, $4)", user_id, 0, 0, 0)
 
-    async def update_lb(self, user_id, lb, value, mode="add"):
+    async def update_lb(self, user_id: int, lb: str, value: int, mode: str = "add") -> None:
         await self.fetch_user_lb(user_id)
 
         if mode == "add":
@@ -355,39 +355,39 @@ class Database(commands.Cog):
             ),
         )
 
-    async def set_botbanned(self, user_id, botbanned):
+    async def set_botbanned(self, user_id: int, botbanned: bool) -> None:
         await self.fetch_user(user_id)
 
         if botbanned:
-            if user_id not in self.v.ban_cache:
-                self.v.ban_cache.add(user_id)
+            if user_id not in self.bot.ban_cache:
+                self.bot.ban_cache.add(user_id)
         else:
             try:
-                self.v.ban_cache.remove(user_id)
+                self.bot.ban_cache.remove(user_id)
             except ValueError:
                 pass
 
         await self.db.execute("UPDATE users SET bot_banned = $1 WHERE user_id = $2", botbanned, user_id)
 
-    async def add_warn(self, user_id, guild_id, mod_id, reason):
+    async def add_warn(self, user_id: int, guild_id: int, mod_id: int, reason: str) -> None:
         await self.db.execute("INSERT INTO warnings VALUES ($1, $2, $3, $4)", user_id, guild_id, mod_id, reason)
 
-    async def fetch_warns(self, user_id, guild_id):
+    async def fetch_warns(self, user_id: int, guild_id: int) -> List[asyncpg.Record]:
         return await self.db.fetch("SELECT * FROM warnings WHERE user_id = $1 AND guild_id = $2", user_id, guild_id)
 
-    async def clear_warns(self, user_id, guild_id):
+    async def clear_warns(self, user_id: int, guild_id: int) -> None:
         await self.db.execute("DELETE FROM warnings WHERE user_id = $1 AND guild_id = $2", user_id, guild_id)
 
-    async def fetch_user_rcon(self, user_id, mcserver):
-        return await self.db.fetchrow("SELECT * FROM user_rcon WHERE user_id = $1 AND mcserver = $2", user_id, mcserver)
+    async def fetch_user_rcon(self, user_id: int, mc_server: str) -> asyncpg.Record:
+        return await self.db.fetchrow("SELECT * FROM user_rcon WHERE user_id = $1 AND mc_server = $2", user_id, mc_server)
 
-    async def add_user_rcon(self, user_id, mcserver, rcon_port, password):
-        await self.db.execute("INSERT INTO user_rcon VALUES ($1, $2, $3, $4)", user_id, mcserver, rcon_port, password)
+    async def add_user_rcon(self, user_id: int, mc_server: str, rcon_port: int, password: str) -> None:
+        await self.db.execute("INSERT INTO user_rcon VALUES ($1, $2, $3, $4)", user_id, mc_server, rcon_port, password)
 
-    async def delete_user_rcon(self, user_id, mcserver):
-        await self.db.execute("DELETE FROM user_rcon WHERE user_id = $1 AND mcserver = $2", user_id, mcserver)
+    async def delete_user_rcon(self, user_id: int, mc_server: str) -> None:
+        await self.db.execute("DELETE FROM user_rcon WHERE user_id = $1 AND mc_server = $2", user_id, mc_server)
 
-    async def mass_delete_user_rcon(self, user_id):
+    async def mass_delete_user_rcon(self, user_id: int) -> List[asyncpg.Record]:
         return await self.db.fetch("DELETE FROM user_rcon WHERE user_id = $1 RETURNING *", user_id)
 
 
