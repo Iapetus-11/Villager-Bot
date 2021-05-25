@@ -36,9 +36,6 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e: Exception):
-        if e in IGNORED_ERRORS:
-            return
-
         if hasattr(ctx, "custom_error"):
             e = ctx.custom_error
 
@@ -72,6 +69,8 @@ class Events(commands.Cog):
                 await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
             elif failure_reason == "disabled":
                 await self.bot.reply_embed(ctx, ctx.l.misc.errors.disabled)
+        elif e in IGNORED_ERRORS or getattr(e, "original", None) in IGNORED_ERRORS:
+            return
         else:  # no error was caught so log error in error channel
             debug_info = (
                 f"`{ctx.author}` `{ctx.author.id}` (lang={ctx.l.lang}): ```\n{ctx.message.content[:100]}```"
