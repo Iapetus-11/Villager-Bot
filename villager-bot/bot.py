@@ -42,11 +42,17 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.db = None  # asyncpg database connection pool
         self.tp = None  # ThreadPoolExecutor instance
 
+        # caches
         self.ban_cache = set()
         self.language_cache = {}
         self.prefix_cache = {}
         self.disabled_commands = {}
         self.replies_cache = set()
+
+        # counters and other things
+        self.command_count = 0
+        self.message_count = 0
+        self.error_count = 0
 
         self.add_check(self.check_global)
 
@@ -150,5 +156,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             if not cooldown_info.can_run:
                 ctx.custom_error = CommandOnKarenCooldown(cooldown_info.remaining)
                 return False
+
+        self.command_count += 1
 
         return True

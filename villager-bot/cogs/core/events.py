@@ -80,6 +80,8 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e: Exception):
+        self.bot.error_count += 1
+
         if hasattr(ctx, "custom_error"):
             e = ctx.custom_error
 
@@ -130,6 +132,8 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_error(self, event, *args, **kwargs):
+        self.bot.error_count += 1
+
         exception = sys.exc_info()[1]
         traceback = format_exception(exception)
 
