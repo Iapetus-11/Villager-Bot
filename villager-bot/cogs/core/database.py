@@ -205,9 +205,7 @@ class Database(commands.Cog):
         await self.db.execute("INSERT INTO give_logs VALUES ($1, $2, $3, $4, $5)", item, amount, timestamp, giver, receiver)
 
     async def fetch_transactions_by_sender(self, user_id: int, limit: int) -> List[asyncpg.Record]:
-        return await self.db.fetch(
-            "SELECT * FROM give_logs WHERE sender = $1 ORDER BY at DESC LIMIT $2", user_id, limit
-        )
+        return await self.db.fetch("SELECT * FROM give_logs WHERE sender = $1 ORDER BY at DESC LIMIT $2", user_id, limit)
 
     async def fetch_transactions_page(self, user_id: int, limit: int = 10, *, page: int = 0) -> List[asyncpg.Record]:
         return await self.db.fetch(
