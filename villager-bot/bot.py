@@ -101,7 +101,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
 
     def get_prefix(self, ctx: commands.Context) -> str:
-        if ctx.guild
+        if ctx.guild:
             return self.prefix_cache.get(ctx.guild.id, self.d.default_prefix)
 
         return self.d.default_prefix
