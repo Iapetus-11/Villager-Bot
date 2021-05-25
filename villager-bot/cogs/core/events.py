@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 import time
 
 from util.cooldowns import CommandOnCooldown2
