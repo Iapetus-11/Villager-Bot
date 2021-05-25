@@ -34,7 +34,9 @@ class Database(commands.Cog):
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE user_id = $1", user_id)
 
     async def add_reminder(self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime) -> None:
-        await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", user_id, channel_id, message_id, reminder, at)
+        await self.db.execute(
+            "INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", user_id, channel_id, message_id, reminder, at
+        )
 
     async def fetch_all_botbans(self) -> Set[int]:
         botban_records = await self.db.fetch("SELECT user_id FROM users WHERE bot_banned = true")
