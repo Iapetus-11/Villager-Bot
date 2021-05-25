@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import time
+import sys
 
 from util.cooldowns import CommandOnKarenCooldown
 from util.code import format_exception
@@ -18,6 +19,8 @@ BAD_ARG_ERRORS = (
 class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+        self.logger = bot.logger
         self.ipc = bot.ipc
 
     @commands.Cog.listener()
@@ -118,6 +121,16 @@ class Events(commands.Cog):
             )
 
             await self.bot.get_channel(self.d.error_channel_id).send(debug_info)
+
+    @commands.Cog.listener()
+    async def on_error(self, event, *args, **kwargs):
+        exception = sys.exc_info()[1]
+        traceback = format_exception(exception)
+
+        event_call_repr = f"{event}({', '.join(args + [f"{k}={repr(v)}" for k, v in kwargs.items()])})"
+        self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
+
+        await self.bot.get_channel(self.d.error_channel_id).send(f"```py\n{event_call_repr[:100]}`````py\n{traceback[:1881]}```")
 
 
 def setup(bot):
