@@ -71,14 +71,8 @@ class Database(commands.Cog):
 
         if g is None:
             await self.db.execute(
-                "INSERT INTO guilds (guild_id, prefix, difficulty, language, mc_server, premium, roles_persist) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-                guild_id,
-                self.d.default_prefix,
-                "easy",
-                "en",
-                None,
-                False,
-                False,
+                "INSERT INTO guilds (guild_id) VALUES ($1)",
+                guild_id
             )
 
             return await self.fetch_guild(guild_id)
@@ -116,16 +110,8 @@ class Database(commands.Cog):
 
         if user is None:
             await self.db.execute(
-                "INSERT INTO users (user_id, bot_banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote, give_alert) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-                user_id,
-                0,
-                0,
-                1,
-                20,
-                False,
-                0,
-                0,
-                False,
+                "INSERT INTO users (user_id) VALUES ($1)",
+                user_id
             )
 
             await self.add_item(user_id, "Wood Pickaxe", 0, 1, True)
