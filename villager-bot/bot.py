@@ -117,6 +117,12 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
 
         return self.l["en"]
 
+    async def send_embed(self, ctx, message: str) -> None:
+        raise NotImplementedError
+
+    async def reply_embed(self, ctx, message: str) -> None:
+        raise NotImplementedError
+
     async def check_global(self, ctx):
         ctx.l = self.get_language(ctx)
         command = ctx.command.name
@@ -142,6 +148,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             cooldown_info = await self.ipc.request({"type": "cooldown", "command": command, "user_id": ctx.author.id})
 
             if not cooldown_info.can_run:
-                raise CommandOnCooldown2(cooldown_info.remaining)
+                ctx.custom_error = CommandOnCooldown2(cooldown_info.remaining)
+                return False
 
         return True
