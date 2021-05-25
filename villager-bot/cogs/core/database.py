@@ -71,10 +71,9 @@ class Database(commands.Cog):
 
         if g is None:
             await self.db.execute(
-                "INSERT INTO guilds VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+                "INSERT INTO guilds (guild_id, prefix, difficulty, language, mc_server, premium, roles_persist) VALUES ($1, $2, $3, $4, $5, $6, $7)",
                 guild_id,
                 self.d.default_prefix,
-                True,
                 "easy",
                 "en",
                 None,
@@ -106,18 +105,18 @@ class Database(commands.Cog):
     async def fetch_guild_premium(self, guild_id: int) -> bool:
         return bool(await self.db.fetchval("SELECT premium FROM guilds WHERE guild_id = $1", guild_id))
 
-    async def set_cmd_usable(self, guild_id: int, cmd: str, usable: bool) -> None:
+    async def set_cmd_usable(self, guild_id: int, command: str, usable: bool) -> None:
         if usable:
-            await self.db.execute("DELETE FROM disabled WHERE guild_id = $1 AND cmd = $2", guild_id, cmd)
+            await self.db.execute("DELETE FROM disabled_commands WHERE guild_id = $1 AND command = $2", guild_id, command)
         else:
-            await self.db.execute("INSERT INTO disabled VALUES ($1, $2)", guild_id, cmd)
+            await self.db.execute("INSERT INTO disabled_commands (guild_id, command) VALUES ($1, $2)", guild_id, command)
 
     async def fetch_user(self, user_id: int) -> asyncpg.Record:
         user = await self.db.fetchrow("SELECT * FROM users WHERE user_id = $1", user_id)
 
         if user is None:
             await self.db.execute(
-                "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", user_id, 0, 0, 1, 20, False, 0, 0, False
+                "INSERT INTO users (user_id, bot_banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote, give_alert) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", user_id, 0, 0, 1, 20, False, 0, 0, False
             )
 
             await self.add_item(user_id, "Wood Pickaxe", 0, 1, True)
