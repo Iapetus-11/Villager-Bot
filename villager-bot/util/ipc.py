@@ -36,6 +36,8 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # - broadcast-request {"type": "broadcast-request", "packet": encapsulated_packet} broadcasts a packet to all clients, including the sender
 # - broadcast-response {"type": "broadcast-response", **} sent in response to any "unexpected" packet from karen (so the contents of broadcast packets)
 # - cooldown {"type": "cooldown", "command": command_name, "user_id", user.id} requests and updates cooldown info from karen
+# - cooldown-add {"type": "cooldown-add", "command": command_name, "user_id": user.id} tells the cooldown manager the command has been ran
+# - cooldown-reset {"type": "cooldown-reset", "command": command_name, "user_id": user.id} resets the cooldown for a specific command and user
 # Clientbound:
 # - auth-response {"type": "auth-response", "success": boolean} the result of an auth packet from a client
 # - eval-response {"type": "eval-response", "result": object, "success": boolean} the result of an eval packet from a client
