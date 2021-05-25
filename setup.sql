@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS items (
 CREATE TABLE IF NOT EXISTS give_logs (
   item               VARCHAR(250) NOT NULL, -- item traded / given, "emerald" for emeralds
   amount             BIGINT NOT NULL, -- the amount of the item
-  at                 BIGINT NOT NULL, -- the time at which the transaction was made
+  at                 TIMESTAMPTZ, -- the time at which the transaction was made
   sender             BIGINT NOT NULL, -- who gave the items in the first place
   receiver           BIGINT NOT NULL -- who received the items
 );
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS reminders (
   channel_id         BIGINT NOT NULL, -- the channel id where the reminder command was summoned
   message_id         BIGINT NOT NULL, -- the message where the reminder command was summoned
   reminder           TEXT NOT NULL, -- the actual text for the reminder
-  at                 BIGINT NOT NULL -- the time at which the user should be reminded
+  at                 TIMESTAMPTZ -- the time at which the user should be reminded
 );
 
 CREATE TABLE IF NOT EXISTS disabled_commands (

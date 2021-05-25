@@ -1,5 +1,8 @@
 from discord.ext import commands, tasks
+from datetime import datetime
+from typing import List, Set
 import asyncio
+import asyncpg
 import arrow
 
 
@@ -24,30 +27,30 @@ class Database(commands.Cog):
         self.bot.disabled_commands = await self.fetch_all_disabled_commands()
         self.bot.replies_cache = await self.fetch_all_do_replies()
 
-    async def fetch_current_reminders(self) -> list:
+    async def fetch_current_reminders(self) -> List[asyncpg.Record]:
         return await self.db.fetch("DELETE FROM reminders WHERE at <= $1 RETURNING *", arrow.utcnow().timestamp())
 
     async def fetch_user_reminder_count(self, user_id: int) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE user_id = $1", user_id)
 
-    async def add_reminder(self, user_id: int, cid: int, mid: int, reminder: str, at: int):
-        await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", user_id, cid, mid, reminder, at)
+    async def add_reminder(self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime) -> None:
+        await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", user_id, channel_id, message_id, reminder, at)
 
-    async def fetch_all_botbans(self):
+    async def fetch_all_botbans(self) -> Set[int]:
         botban_records = await self.db.fetch("SELECT user_id FROM users WHERE bot_banned = true")
         return {r[0] for r in botban_records}
 
-    async def fetch_all_guild_langs(self):
+    async def fetch_all_guild_langs(self) -> dict:
         lang_records = await self.db.fetch(
-            "SELECT guild_id, lang FROM guilds WHERE language <> '' AND language != $1 AND language != $2", "en", "en_us"
+            "SELECT guild_id, lang FROM guilds WHERE (NOT language <> '') AND language != $1 AND language != $2", "en", "en_us"
         )
         return {r[0]: r[1] for r in lang_records}
 
-    async def fetch_all_guild_prefixes(self):
+    async def fetch_all_guild_prefixes(self) -> dict:
         prefix_records = await self.db.fetch("SELECT guild_id, prefix FROM guilds WHERE prefix != $1", self.d.default_prefix)
         return {r[0]: r[1] for r in prefix_records}
 
-    async def fetch_all_disabled_commands(self):
+    async def fetch_all_disabled_commands(self) -> dict:
         disabled_records = await self.db.fetch("SELECT * FROM disabled_commands")
         disabled = {}
 
@@ -59,11 +62,11 @@ class Database(commands.Cog):
 
         return disabled
 
-    async def fetch_all_do_replies(self):
+    async def fetch_all_do_replies(self) -> set:
         replies_records = await self.db.fetch("SELECT guild_id FROM guilds WHERE replies = true")
         return {r[0] for r in replies_records}
 
-    async def fetch_guild(self, guild_id):
+    async def fetch_guild(self, guild_id) -> asyncpg.Record:
         g = await self.db.fetchrow("SELECT * FROM guilds WHERE guild_id = $1", guild_id)
 
         if g is None:
@@ -156,13 +159,13 @@ class Database(commands.Cog):
         user = await self.fetch_user(user_id)
         return {"vault_bal": user["vault_bal"], 0: user["vault_bal"], "vault_max": user["vault_max"], 1: user["vault_max"]}
 
-    async def set_vault(self, user_id, vault_bal, vault_max):
+    async def set_vault(self, user_id: int, vault_balance: int, vault_max: int) -> None:
         await self.fetch_user(user_id)
         await self.db.execute(
-            "UPDATE users SET vault_bal = $1, vault_max = $2 WHERE user_id = $3", vault_bal, vault_max, user_id
+            "UPDATE users SET vault_balance = $1, vault_max = $2 WHERE user_id = $3", vault_balance, vault_max, user_id
         )
 
-    async def fetch_items(self, user_id):
+    async def fetch_items(self, user_id: int):
         await self.fetch_user(user_id)
         return await self.db.fetch("SELECT * FROM items WHERE user_id = $1", user_id)
 
