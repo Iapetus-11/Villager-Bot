@@ -40,6 +40,12 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.aiohttp = aiohttp.ClientSession()
         self.db = None
 
+        self.ban_cache = set()
+        self.lang_cache = {}
+        self.prefix_cache = {}
+        self.disabled_cmds = {}
+        self.replies_cache = set()
+
         self.add_check(self.check_global)
 
     @property

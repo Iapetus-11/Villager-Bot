@@ -16,13 +16,13 @@ class Database(commands.Cog):
 
     async def populate_caches(self):  # initial caches for speeeeeed
         # caches which need to be maintained cross-process *regardless*
-        self.v.ban_cache = await self.fetch_all_botbans()
+        self.bot.ban_cache = await self.fetch_all_botbans()
 
         # per-guild caches, should only load settings for guilds the process can actually see
-        self.v.lang_cache = await self.fetch_all_guild_langs()
-        self.v.prefix_cache = await self.fetch_all_guild_prefixes()
-        self.v.disabled_cmds = await self.fetch_all_disabled_commands()
-        self.d.replies_cache = await self.fetch_all_do_replies()
+        self.bot.lang_cache = await self.fetch_all_guild_langs()
+        self.bot.prefix_cache = await self.fetch_all_guild_prefixes()
+        self.bot.disabled_cmds = await self.fetch_all_disabled_commands()
+        self.bot.replies_cache = await self.fetch_all_do_replies()
 
     async def fetch_current_reminders(self) -> list:
         return await self.db.fetch("DELETE FROM reminders WHERE at <= $1 RETURNING *", arrow.utcnow().timestamp())
@@ -34,45 +34,32 @@ class Database(commands.Cog):
         await self.db.execute("INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)", user_id, cid, mid, reminder, at)
 
     async def fetch_all_botbans(self):
-        botban_records = await self.db.fetch(
-            "SELECT user_id FROM users WHERE bot_banned = true"
-        )  # returns [Record<user_id=>, Record<user_id=>,..]
-        return set([r[0] for r in botban_records])
+        botban_records = await self.db.fetch("SELECT user_id FROM users WHERE bot_banned = true")
+        return {r[0] for r in botban_records}
 
     async def fetch_all_guild_langs(self):
-        lang_records = await self.db.fetch("SELECT guild_id, lang FROM guilds")
-
-        return dict(
-            (r[0], r[1]) for r in lang_records if (r[1] != "en" and r[1] is not None and r[1] != "en_us")
-        )  # needs to be a dict
+        lang_records = await self.db.fetch("SELECT guild_id, lang FROM guilds WHERE language <> '' AND language != $1 AND language != $2", "en", "en_us")
+        return {r[0]: r[1] for r in lang_records}
 
     async def fetch_all_guild_prefixes(self):
-        prefix_records = await self.db.fetch("SELECT guild_id, prefix FROM guilds")
-
-        return dict(
-            (r[0], r[1]) for r in prefix_records if (r[1] != self.d.default_prefix and r[1] is not None)
-        )  # needs to be a dict
-
-    async def fetch_all_mcservers(self):
-        servers = await self.db.fetch("SELECT host, link FROM mcservers")
-
-        return [(s["host"], s["link"]) for s in servers]
+        prefix_records = await self.db.fetch("SELECT guild_id, prefix FROM guilds WHERE prefix != $1", self.d.default_prefix)
+        return {r[0]: r[1] for r in prefix_records}
 
     async def fetch_all_disabled_commands(self):
-        disabled = await self.db.fetch("SELECT * FROM disabled")
+        disabled_records = await self.db.fetch("SELECT * FROM disabled_commands")
+        disabled = {}
 
-        disabled_nice = {}
+        for guild_id, command in disabled_records:
+            try:
+                disabled[guild_id].add(command)
+            except KeyError:
+                disabled[guild_id] = {command}
 
-        for entry in disabled:
-            disabled_nice[entry["guild_id"]] = disabled_nice.get(entry["guild_id"], []) + [entry[1]]
-
-        return disabled_nice
+        return disabled
 
     async def fetch_all_do_replies(self):
-        return {
-            g["guild_id"]: g["replies"]
-            for g in await self.db.fetch("SELECT guild_id, replies FROM guilds WHERE replies = true")
-        }
+        replies_records = await self.db.fetch("SELECT guild_id FROM guilds WHERE replies = true")
+        return {r[0] for r in replies_records}
 
     async def fetch_guild(self, guild_id):
         g = await self.db.fetchrow("SELECT * FROM guilds WHERE guild_id = $1", guild_id)
