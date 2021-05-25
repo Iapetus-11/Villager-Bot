@@ -28,7 +28,7 @@ class Database(commands.Cog):
         self.bot.replies_cache = await self.fetch_all_do_replies()
 
     async def fetch_current_reminders(self) -> List[asyncpg.Record]:
-        return await self.db.fetch("DELETE FROM reminders WHERE at <= $1 RETURNING *", arrow.utcnow().timestamp())
+        return await self.db.fetch("DELETE FROM reminders WHERE at <= $1 RETURNING *", datetime.utcnow())
 
     async def fetch_user_reminder_count(self, user_id: int) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE user_id = $1", user_id)
