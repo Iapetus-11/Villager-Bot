@@ -140,6 +140,4 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
                 ctx.custom_error = CommandOnCooldown2(cooldown_info.remaining)
                 return False
 
-
-
         return True
