@@ -116,7 +116,16 @@ class Database(commands.Cog):
 
         if user is None:
             await self.db.execute(
-                "INSERT INTO users (user_id, bot_banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote, give_alert) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", user_id, 0, 0, 1, 20, False, 0, 0, False
+                "INSERT INTO users (user_id, bot_banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote, give_alert) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+                user_id,
+                0,
+                0,
+                1,
+                20,
+                False,
+                0,
+                0,
+                False,
             )
 
             await self.add_item(user_id, "Wood Pickaxe", 0, 1, True)
