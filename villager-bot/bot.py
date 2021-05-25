@@ -7,7 +7,7 @@ import time
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.setup import load_text, load_secrets, load_data
-from util.cooldowns import CommandOnCooldown2
+from util.cooldowns import CommandOnKarenCooldown
 from util.code import execute_code
 from util.ipc import Client
 
@@ -148,7 +148,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             cooldown_info = await self.ipc.request({"type": "cooldown", "command": command, "user_id": ctx.author.id})
 
             if not cooldown_info.can_run:
-                ctx.custom_error = CommandOnCooldown2(cooldown_info.remaining)
+                ctx.custom_error = CommandOnKarenCooldown(cooldown_info.remaining)
                 return False
 
         return True

@@ -3,7 +3,7 @@ import asyncio
 import time
 
 
-class CommandOnCooldown2(Exception):
+class CommandOnKarenCooldown(Exception):
     def __init__(self, remaining: float) -> None:
         self.remaining = remaining
 
