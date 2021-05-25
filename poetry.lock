@@ -124,7 +124,7 @@ python-versions = ">=3.7.3,<4.0.0"
 
 [[package]]
 name = "click"
-version = "8.0.0"
+version = "8.0.1"
 description = "Composable command line interface toolkit"
 category = "dev"
 optional = false
@@ -132,6 +132,7 @@ python-versions = ">=3.6"
 
 [package.dependencies]
 colorama = {version = "*", markers = "platform_system == \"Windows\""}
+importlib-metadata = {version = "*", markers = "python_version < \"3.8\""}
 
 [[package]]
 name = "colorama"
@@ -436,8 +437,8 @@ classy-json = [
     {file = "classy_json-3.2.1-py3-none-any.whl", hash = "sha256:5e292d65609bb4231694cb37e0c50fc54750e4e4f5f2d391275911f96706a870"},
 ]
 click = [
-    {file = "click-8.0.0-py3-none-any.whl", hash = "sha256:e90e62ced43dc8105fb9a26d62f0d9340b5c8db053a814e25d95c19873ae87db"},
-    {file = "click-8.0.0.tar.gz", hash = "sha256:7d8c289ee437bcb0316820ccee14aefcb056e58d31830ecab8e47eda6540e136"},
+    {file = "click-8.0.1-py3-none-any.whl", hash = "sha256:fba402a4a47334742d782209a7c79bc448911afe1149d07bdabdf480b3e2f4b6"},
+    {file = "click-8.0.1.tar.gz", hash = "sha256:8c04c11192119b1ef78ea049e0a6f0463e4c48ef00a30160c704337586f3ad7a"},
 ]
 colorama = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
