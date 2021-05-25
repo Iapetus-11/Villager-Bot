@@ -6,6 +6,7 @@ from util.cooldowns import CommandOnCooldown2
 from util.code import format_exception
 
 
+IGNORED_ERRORS = {commands.CommandNotFound, commands.NotOwner}
 BAD_ARG_ERRORS = (
     commands.BadArgument,
     commands.errors.UnexpectedQuoteError,
@@ -35,6 +36,9 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e: Exception):
+        if e in IGNORED_ERRORS:
+            return
+
         if hasattr(ctx, "custom_error"):
             e = ctx.custom_error
 
