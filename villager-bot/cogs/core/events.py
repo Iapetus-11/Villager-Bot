@@ -116,6 +116,11 @@ class Events(commands.Cog):
         elif isinstance(e, IGNORED_ERRORS) or isinstance(getattr(e, "original", None), IGNORED_ERRORS):
             return
         else:  # no error was caught so log error in error channel
+            try:
+                await self.bot.reply_embed(ctx, ctx.l.misc.errors.andioop.format(self.d.support))
+            except Exception:
+                pass
+
             debug_info = (
                 f"`{ctx.author}` `{ctx.author.id}` (lang={ctx.l.lang}): ```\n{ctx.message.content[:100]}```"
                 "```py\n{format_exception(e)}"[: 2000 - 3] + "```"
