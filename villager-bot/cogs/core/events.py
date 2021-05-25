@@ -68,8 +68,14 @@ class Events(commands.Cog):
             elif failure_reason == "disabled":
                 await self.bot.reply_embed(ctx, ctx.l.misc.errors.disabled)
         else:  # no error was caught so log error in error channel
-            debug_info = f"`{ctx.author}` `{ctx.author.id}` (lang={ctx.l.lang}): ```\n{ctx.message.content[:100]}``````py\n{format_exception(e)}"[:2000-3] + "```"
+            debug_info = (
+                f"`{ctx.author}` `{ctx.author.id}` (lang={ctx.l.lang}): ```\n{ctx.message.content[:100]}``````py\n{format_exception(e)}"[
+                    : 2000 - 3
+                ]
+                + "```"
+            )
             await self.bot.get_channel(self.d.error_channel_id).send(debug_info)
+
 
 def setup(bot):
     bot.add_cog(Events(bot))
