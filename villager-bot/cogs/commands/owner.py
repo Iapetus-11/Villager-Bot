@@ -51,6 +51,11 @@ class Owner(commands.Cog):
 
         os.remove("git_pull_log")
 
+    @commands.command(name="test")
+    @commands.is_owner()
+    async def test(self, ctx):
+        await ctx.send("test")
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))

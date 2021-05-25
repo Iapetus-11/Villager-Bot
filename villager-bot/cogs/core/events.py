@@ -18,6 +18,14 @@ class Events(commands.Cog):
     async def on_shard_disconnect(self, shard_id: int):
         await self.bot.ipc.send({"type": "shard-disconnect", "shard_id": shard_id})
 
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, e):
+        if hasattr(ctx, "custom_error"):
+            pass
+
+        if isinstance(e, commands.CommandOnCooldown):
+            pass
+
 
 def setup(bot):
     bot.add_cog(Events(bot))
