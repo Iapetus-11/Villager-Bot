@@ -4,8 +4,9 @@ CREATE TABLE IF NOT EXISTS guilds (
   difficulty         SMALLINT NOT NULL DEFAULT 1, -- the difficulty the server is on 0=peaceful, 1=normal, 2=hard
   language           VARCHAR(6) NOT NULL DEFAULT 'en', -- the language the bot will speak in
   mc_server          VARCHAR(100), -- the minecraft server of the guild
-  premium            BOOLEAN NOT NULL DEFAULT false, -- whether the server is premium or not
-  roles_persist      BOOLEAN NOT NULL DEFAULT false -- whether roles should persist or not
+  do_replies         BOOLEAN NOT NULL DEFAULT true, -- whether to do funny replies to certain messages
+  roles_persist      BOOLEAN NOT NULL DEFAULT false, -- whether roles should persist or not (requires premium)
+  premium            BOOLEAN NOT NULL DEFAULT false -- whether the server is premium or not
 );
 
 CREATE TABLE IF NOT EXISTS warnings (
