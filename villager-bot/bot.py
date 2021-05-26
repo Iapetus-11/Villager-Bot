@@ -34,7 +34,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.d = load_data()
         self.l = load_text()
 
-        self.cog_list = ["cogs.core.database", "cogs.core.events", "cogs.core.loops", "cogs.core.share", "cogs.commands.owner"]
+        self.cog_list = ["cogs.core.database", "cogs.core.events", "cogs.core.loops", "cogs.commands.owner"]
 
         self.logger = setup_logging(self.shard_ids)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.handle_broadcast)  # ipc client
@@ -53,6 +53,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.command_count = 0
         self.message_count = 0
         self.error_count = 0
+        self.spawn_queue = set()  # {ctx, ctx,..}
 
         self.add_check(self.check_global)
 
@@ -129,7 +130,13 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
     async def reply_embed(self, ctx, message: str) -> None:
         raise NotImplementedError
 
+    async def send_tip(self, ctx) -> None:
+        await asyncio.sleep(random.randint(100, 200) / 100)
+        await self.send_embed(ctx, f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
+
     async def check_global(self, ctx):
+        self.command_count += 1
+
         ctx.l = self.get_language(ctx)
         command = ctx.command.name
 
@@ -145,11 +152,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             ctx.failure_reason = "disabled"
             return False
 
-        if command in self.d.sus_commands:
-            # implement mob spawning here in the future
-            pass
-
-        # handle cooldowns that need to be synced between shard groups / processes
+        # handle cooldowns that need to be synced between shard groups / processes (aka karen cooldowns)
         if command in self.d.cooldown_rates:
             cooldown_info = await self.ipc.request({"type": "cooldown", "command": command, "user_id": ctx.author.id})
 
@@ -157,6 +160,19 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
                 ctx.custom_error = CommandOnKarenCooldown(cooldown_info.remaining)
                 return False
 
-        self.command_count += 1
+        # handle paused econ users
+        if ctx.command.cog_name == "Econ":
+            # check if user has paused econ
+            res = await self.ipc.eval(f"econ_paused_users.get({ctx.author.id})")
+
+            if res.result is not None:
+                ctx.failure_reason = "econ_paused"
+                return False
+
+            if random.randint(0, self.d.mob_chance) == 0:  # spawn mob?
+                if self.d.cooldown_rates.get(command, 0) >= 2:
+                    self.spawn_queue.add(ctx)
+            elif random.randint(0, self.d.tip_chance) == 0: # send tip?
+                asyncio.create_task(self.send_tip(ctx))
 
         return True
