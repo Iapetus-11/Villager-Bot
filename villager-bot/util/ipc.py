@@ -135,6 +135,12 @@ class Client:
     async def broadcast(self, packet: Union[dict, ClassyDict]) -> ClassyDict:
         return await self.request({"type": "broadcast-request", "packet": packet})
 
+    async def eval(self, code: str) -> ClassyDict:
+        return await self.request({"type": "eval", "code": code})
+
+    async def exec(self, code: str) -> ClassyDict:
+        return await self.request({"type": "exec", "code": code})
+
 
 class Server:
     def __init__(self, host: str, port: int, auth: str, handle_packet: Callable) -> None:
