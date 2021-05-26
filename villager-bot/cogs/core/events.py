@@ -55,9 +55,6 @@ class Events(commands.Cog):
         await self.ipc.send({"type": "shard-ready", "shard_id": shard_id})
         self.bot.logger.info(f"Shard {shard_id} \u001b[36;1mREADY\u001b[0m")
 
-        # packet = await self.bot.ipc.request({"type": "eval", "code": "v.start_time"})
-        # self.bot.logger.info(f"Shard {shard_id} received response {packet}")
-
     @commands.Cog.listener()
     async def on_shard_disconnect(self, shard_id: int):
         await self.bot.ipc.send({"type": "shard-disconnect", "shard_id": shard_id})
