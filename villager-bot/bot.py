@@ -172,7 +172,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             if random.randint(0, self.d.mob_chance) == 0:  # spawn mob?
                 if self.d.cooldown_rates.get(command, 0) >= 2:
                     self.spawn_queue.add(ctx)
-            elif random.randint(0, self.d.tip_chance) == 0: # send tip?
+            elif random.randint(0, self.d.tip_chance) == 0:  # send tip?
                 asyncio.create_task(self.send_tip(ctx))
 
         return True
