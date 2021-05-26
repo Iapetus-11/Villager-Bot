@@ -47,7 +47,7 @@ class Database(commands.Cog):
 
     async def fetch_all_guild_langs(self) -> dict:
         lang_records = await self.db.fetch(
-            "SELECT guild_id, lang FROM guilds WHERE (NOT language <> '') AND language != $1 AND language != $2", "en", "en_us"
+            "SELECT guild_id, language FROM guilds WHERE (NOT language <> '') AND language != $1 AND language != $2", "en", "en_us"
         )
         return {r[0]: r[1] for r in lang_records}
 
