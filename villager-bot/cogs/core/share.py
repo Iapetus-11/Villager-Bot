@@ -10,7 +10,7 @@ class Share(commands.Cog):
         return await self.ipc.request({"type": "eval", "code": key})
 
     async def __setitem__(self, key: str, value: object) -> None:
-        await self.ipc.request({"type": "exec", "code": key})
+        await self.ipc.request({"type": "exec", "code": f"{key} = {value}"})
 
 
 def setup(bot):
