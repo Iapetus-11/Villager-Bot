@@ -43,7 +43,6 @@ CREATE TABLE IF NOT EXISTS give_logs (
   receiver           BIGINT NOT NULL -- who received the items
 );
 
-
 CREATE TABLE IF NOT EXISTS leaderboards (
   user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
   pillaged_emeralds  BIGINT NOT NULL DEFAULT 0, -- emeralds pillaged from other users
