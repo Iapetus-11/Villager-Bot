@@ -94,13 +94,13 @@ class Events(commands.Cog):
                 prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
 
                 if not message.content.startswith(prefix):
-                    if "emerald" in content_lowered:
+                    if "emerald" in content_lower:
                         await message.channel.send(random.choice(self.d.hmms))
-                    elif "creeper" in content_lowered:
+                    elif "creeper" in content_lower:
                         await message.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
-                    elif "reee" in content_lowered:
+                    elif "reee" in content_lower:
                         await message.channel.send(random.choice(self.d.emojis.reees))
-                    elif "amogus" in content_lowered:
+                    elif "amogus" in content_lower:
                         await message.channel.send(self.d.emojis.amogus)
 
 
