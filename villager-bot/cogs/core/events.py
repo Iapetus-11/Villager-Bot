@@ -9,12 +9,22 @@ from util.code import format_exception
 
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
+
+NITRO_BOOST_MESSAGES = {
+    discord.MessageType.premium_guild_subscription,
+    discord.MessageType.premium_guild_tier_1,
+    discord.MessageType.premium_guild_tier_2,
+    discord.MessageType.premium_guild_tier_3,
+}
+
 BAD_ARG_ERRORS = (
     commands.BadArgument,
     commands.errors.UnexpectedQuoteError,
     commands.errors.ExpectedClosingQuoteError,
     commands.errors.BadUnionArgument,
 )
+
+INVISIBLITY_CLOAK = ("||||\u200B" * 200)[2:-3]
 
 
 class Events(commands.Cog):
@@ -35,6 +45,64 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_shard_disconnect(self, shard_id: int):
         await self.bot.ipc.send({"type": "shard-disconnect", "shard_id": shard_id})
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        self.bot.message_count += 1
+
+        if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
+            if message.guild is None:
+                prefix = self.d.default_prefix
+            else:
+                prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
+
+            lang = self.bot.get_language(message)
+
+            embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
+            embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
+            embed.set_footer(text=lang.misc.petus)
+
+            await message.channel.send(embed=embed)
+            return
+
+        if message.guild is not None:
+            if message.guild.id == self.d.support_server_id:
+                if message.type in NITRO_BOOST_MESSAGES:
+                    await self.db.add_item(message.author.id, "Barrel", 1024, 1)
+                    await self.bot.send(message.author, "Thanks for boosting the support server! You've received 1x **Barrel**!")
+                    return
+
+            content_lower = message.content.lower()
+
+            if "@someone" in content_lower:
+                someones = [
+                    u
+                    for u in message.guild.members
+                    if (
+                        not u.bot
+                        and u.status == discord.Status.online
+                        and message.author.id != u.id
+                        and u.permissions_in(message.channel).read_messages
+                    )
+                ]
+
+                if len(someones) > 0:
+                    await message.channel.send(f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}")
+                    return
+
+            if message.guild.id in self.bot.replies_cache:
+                prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
+
+                if not message.content.startswith(prefix):
+                    if "emerald" in content_lowered:
+                        await message.channel.send(random.choice(self.d.hmms))
+                    elif "creeper" in content_lowered:
+                        await message.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
+                    elif "reee" in content_lowered:
+                        await message.channel.send(random.choice(self.d.emojis.reees))
+                    elif "amogus" in content_lowered:
+                        await message.channel.send(self.d.emojis.amogus)
+
 
     async def handle_cooldown(self, ctx, remaining: float, karen_cooldown: bool) -> None:
         if ctx.command.name == "mine":
