@@ -38,7 +38,7 @@ class MechaKaren:
         self.shard_ids = tuple(range(self.d.shard_count))
         self.online_shards = set()
 
-        self.eval_env = {"karen": self, "v": self.v}
+        self.eval_env = {"karen": self, **self.v.__dict__}
 
         self.broadcasts = {}  # broadcast_id: {ready: asyncio.Event, responses: [response, response,..]}
         self.current_id = 0
