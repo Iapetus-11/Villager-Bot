@@ -251,7 +251,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="owo", aliases=["owofy"])
     async def owofy_text(self, ctx, *, text):
-        """Make any string more cringe"""
+        """Make any text more cringe"""
 
         text = text.lower().replace("l", "w").replace("r", "w")
 
