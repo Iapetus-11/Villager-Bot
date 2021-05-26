@@ -76,13 +76,6 @@
   "cooldown_rates": {
     "test": 10
   },
-  "sus_commands": [
-    "mine",
-    "honey",
-    "fish",
-    "give",
-    "use"
-  ],
   "role_mappings": {
     "Stone Pickaxe": 697457637763186809,
     "Iron Pickaxe": 697457970661031957,
