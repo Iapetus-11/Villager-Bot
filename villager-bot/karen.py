@@ -26,11 +26,6 @@ class MechaKaren:
 
             self.mc_rcon_cache = {}  # {user_id: rcon client}
 
-            self.disabled_commands = {}  # {guild_id: Set[disabled commands]}
-            self.ban_cache = set()  # Set[user_id, user_id,..]
-            self.prefix_cache = {}  # {guild_id: custom_prefix}
-            self.lang_cache = {}  # {guild_id: custom_lang}
-
     def __init__(self):
         self.k = load_secrets()
         self.d = load_data()
