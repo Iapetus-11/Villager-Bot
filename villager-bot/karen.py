@@ -22,7 +22,6 @@ class MechaKaren:
             self.active_fx = {}  # {user_id: [effect, potion, effect,..]}
 
             self.econ_paused_users = {}  # {user_id: time.time()}
-            self.mob_spawn_queue = set()  # Set[ctx, ctx,..]
 
             self.mc_rcon_cache = {}  # {user_id: rcon client}
 
