@@ -33,6 +33,22 @@ class Events(commands.Cog):
 
         self.logger = bot.logger
         self.ipc = bot.ipc
+        self.d = bot.d
+
+        bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
+
+    async def on_error(self, event, *args, **kwargs):
+        self.bot.error_count += 1
+
+        exception = sys.exc_info()[1]
+        traceback = format_exception(exception)
+
+        event_call_repr = f"{event}({', '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
+        self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
+
+        await self.bot.get_channel(self.d.error_channel_id).send(
+            f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```"
+        )
 
     @commands.Cog.listener()
     async def on_shard_ready(self, shard_id: int):
@@ -49,6 +65,9 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         self.bot.message_count += 1
+
+        if message.content == "raise":
+            raise Exception("hehe")
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:
@@ -196,24 +215,10 @@ class Events(commands.Cog):
 
             debug_info = (
                 f"`{ctx.author}` `{ctx.author.id}` (lang={ctx.l.lang}): ```\n{ctx.message.content[:100]}```"
-                "```py\n{format_exception(e)}"[: 2000 - 3] + "```"
+                f"```py\n{format_exception(e)}"[: 2000 - 3] + "```"
             )
 
             await self.bot.get_channel(self.d.error_channel_id).send(debug_info)
-
-    @commands.Cog.listener()
-    async def on_error(self, event, *args, **kwargs):
-        self.bot.error_count += 1
-
-        exception = sys.exc_info()[1]
-        traceback = format_exception(exception)
-
-        event_call_repr = f"{event}({', '.join(args + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
-        self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
-
-        await self.bot.get_channel(self.d.error_channel_id).send(
-            f"```py\n{event_call_repr[:100]}`````py\n{traceback[:1881]}```"
-        )
 
 
 def setup(bot):
