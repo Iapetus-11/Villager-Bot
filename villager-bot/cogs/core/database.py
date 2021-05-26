@@ -68,7 +68,7 @@ class Database(commands.Cog):
         return disabled
 
     async def fetch_all_do_replies(self) -> set:
-        replies_records = await self.db.fetch("SELECT guild_id FROM guilds WHERE replies = true")
+        replies_records = await self.db.fetch("SELECT guild_id FROM guilds WHERE do_replies = true")
         return {r[0] for r in replies_records}
 
     async def fetch_guild(self, guild_id: int) -> asyncpg.Record:
