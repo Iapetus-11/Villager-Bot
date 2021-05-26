@@ -37,13 +37,13 @@ class Events(commands.Cog):
 
         bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
 
-    async def on_error(self, event, *args, **kwargs):
+    async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
         self.bot.error_count += 1
 
         exception = sys.exc_info()[1]
         traceback = format_exception(exception)
 
-        event_call_repr = f"{event}({', '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
+        event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
         self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
 
         await self.bot.get_channel(self.d.error_channel_id).send(
@@ -65,9 +65,6 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         self.bot.message_count += 1
-
-        if message.content == "raise":
-            raise Exception("hehe")
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:
