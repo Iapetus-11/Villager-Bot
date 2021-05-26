@@ -69,7 +69,9 @@ class Events(commands.Cog):
             if message.guild.id == self.d.support_server_id:
                 if message.type in NITRO_BOOST_MESSAGES:
                     await self.db.add_item(message.author.id, "Barrel", 1024, 1)
-                    await self.bot.send(message.author, "Thanks for boosting the support server! You've received 1x **Barrel**!")
+                    await self.bot.send(
+                        message.author, "Thanks for boosting the support server! You've received 1x **Barrel**!"
+                    )
                     return
 
             content_lower = message.content.lower()
@@ -87,7 +89,9 @@ class Events(commands.Cog):
                 ]
 
                 if len(someones) > 0:
-                    await message.channel.send(f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}")
+                    await message.channel.send(
+                        f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}"
+                    )
                     return
 
             if message.guild.id in self.bot.replies_cache:
@@ -102,7 +106,6 @@ class Events(commands.Cog):
                         await message.channel.send(random.choice(self.d.emojis.reees))
                     elif "amogus" in content_lowered:
                         await message.channel.send(self.d.emojis.amogus)
-
 
     async def handle_cooldown(self, ctx, remaining: float, karen_cooldown: bool) -> None:
         if ctx.command.name == "mine":
