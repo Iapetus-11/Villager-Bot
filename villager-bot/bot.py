@@ -3,6 +3,7 @@ from classyjson import ClassyDict
 from discord.ext import commands
 import aiohttp
 import asyncio
+import random
 import time
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
