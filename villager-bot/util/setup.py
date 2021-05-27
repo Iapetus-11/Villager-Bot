@@ -81,7 +81,7 @@ def load_data() -> ClassyDict:
 
 
 def update_fishing_prices(d: ClassyDict):
-      for fish in d.fishing.fish.values():
+    for fish in d.fishing.fish.values():
         fish.current = random.randint(*fish.value)
 
 
@@ -96,6 +96,6 @@ def mod_data(d: ClassyDict) -> None:
 
     # get list of pickaxe types from best to worst
     d.mining.pickaxes = list(d.mining.yields_pickaxes)[::-1]
-    
+
     # reverse dict to create unenchantment lang
     d.fun_langs.unenchant = {v: k for k, v in d.fun_langs.enchant.items()}
