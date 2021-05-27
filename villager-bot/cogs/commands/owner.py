@@ -29,7 +29,7 @@ class Owner(commands.Cog):
             result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
             await ctx.send(f"```{result}```")
         except Exception as e:
-            await ctx.send(f"```{format_exception(e)}```")
+            await ctx.send(f"```py\n{format_exception(e)[:2000-9]}```")
 
     @commands.command(name="evalglobal", aliases=["evalall", "evalg"])
     @commands.is_owner()
