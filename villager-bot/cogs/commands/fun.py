@@ -50,7 +50,7 @@ class Fun(commands.Cog):
             while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
                 resp = await self.bot.aiohttp.get(
                     "https://api.iapetus11.me/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes",
-                    headers={"Authorization": self.k.vb_api},
+                    headers={"Authorization": self.k.villager_api},
                 )
 
                 meme = cj.classify(await resp.json())
@@ -79,7 +79,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while (not do_nsfw and jj["nsfw"]) or jj.get("image") is None:
                 resp = await self.bot.aiohttp.get(
-                    "https://api.iapetus11.me/reddit/gimme/4chan+greentext", headers={"Authorization": self.k.vb_api}
+                    "https://api.iapetus11.me/reddit/gimme/4chan+greentext", headers={"Authorization": self.k.villager_api}
                 )
 
                 jj = await resp.json()
@@ -104,7 +104,7 @@ class Fun(commands.Cog):
             while comic["spoiler"] or (not do_nsfw and comic["nsfw"]) or comic.get("image") is None:
                 resp = await self.bot.aiohttp.get(
                     "https://api.iapetus11.me/reddit/gimme/comics",
-                    headers={"Authorization": self.k.vb_api},
+                    headers={"Authorization": self.k.villager_api},
                 )
 
                 comic = cj.classify(await resp.json())
@@ -129,7 +129,7 @@ class Fun(commands.Cog):
                 while meme["spoiler"] or meme["nsfw"] or meme.get("image") is None:
                     resp = await self.bot.aiohttp.get(
                         "https://api.iapetus11.me/reddit/gimme/CursedMinecraft",
-                        headers={"Authorization": self.k.vb_api},
+                        headers={"Authorization": self.k.villager_api},
                     )
 
                     meme = cj.classify(await resp.json())
