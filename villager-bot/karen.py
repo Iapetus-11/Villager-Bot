@@ -6,9 +6,9 @@ import logging
 import arrow
 
 from util.setup import load_secrets, load_data, setup_karen_logging
+from util.code import execute_code, format_exception
 from util.cooldowns import CooldownManager
 from util.ipc import Server, Stream
-from util.code import execute_code
 
 from bot import run_shard_group
 
@@ -55,7 +55,7 @@ class MechaKaren:
                 result = eval(packet.code, self.eval_env)
                 success = True
             except Exception as e:
-                result = repr(e)
+                result = format_exception(e)
                 success = False
 
             await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
@@ -64,7 +64,7 @@ class MechaKaren:
                 result = await execute_code(packet.code, self.eval_env)
                 success = True
             except Exception as e:
-                result = repr(e)
+                result = format_exception(e)
                 success = False
 
             await stream.write_packet({"type": "exec-response", "id": packet.id, "result": result, "success": success})
