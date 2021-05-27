@@ -1,5 +1,6 @@
 {
   "default_prefix": ".",
+  "embed_color": "green",
   "shard_count": 6,
   "shard_group_size": 4,
   "support_server_id": 641117791272960031,

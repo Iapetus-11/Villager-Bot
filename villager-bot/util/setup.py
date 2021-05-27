@@ -4,6 +4,7 @@ import aiofiles
 import asyncpg
 import logging
 import discord
+import random
 import orjson
 import os
 
@@ -74,4 +75,28 @@ def load_secrets() -> ClassyDict:
 
 def load_data() -> ClassyDict:
     with open("data/data.json", "r", encoding="utf8") as f:
-        return ClassyDict(orjson.loads(f.read()))
+        data = ClassyDict(orjson.loads(f.read()))
+
+    mod_data(data)
+    return data
+
+
+def update_fishing_prices(d: ClassyDict):
+      for fish in d.fishing.fish.values():
+        fish.current = random.randint(*fish.value)
+
+
+def mod_data(d: ClassyDict) -> None:
+    # make discord.py color class from value in data.json
+    d.cc = getattr(discord.Color, d.embed_color)()
+
+    # update fishing data, generate fishing weights
+    update_fishing_prices(d)
+    fishes = d.fishing.fish_ids = list(d.fishing.fish.keys())
+    d.fishing.fish_weights = [(len(fishes) - fish_data.rarity) ** d.fishing.exponent for fish_data in d.fishing.fish.values()]
+
+    # get list of pickaxe types from best to worst
+    d.mining.pickaxes = list(d.mining.yields_pickaxes)[::-1]
+    
+    # reverse dict to create unenchantment lang
+    d.fun_langs.unenchant = {v: k for k, v in d.fun_langs.enchant.items()}
