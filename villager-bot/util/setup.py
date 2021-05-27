@@ -1,6 +1,5 @@
 from classyjson import ClassyDict
 from discord.ext import commands
-import aiofiles
 import asyncpg
 import logging
 import discord
