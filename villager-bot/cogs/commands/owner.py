@@ -3,7 +3,7 @@ import functools
 import aiofiles
 import os
 
-from util.code import execute_code
+from util.code import execute_code, format_exception
 
 
 class Owner(commands.Cog):
@@ -25,8 +25,11 @@ class Owner(commands.Cog):
         if stuff.startswith("```"):
             stuff = stuff.lstrip(" `py\n ").rstrip(" `\n ")
 
-        result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
-        await ctx.send(f"```{result}```")
+        try:
+            result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
+            await ctx.send(f"```{result}```")
+        except Exception as e:
+            await ctx.send(f"```{format_exception(e)}```")
 
     @commands.command(name="evalglobal", aliases=["evalall", "evalg"])
     @commands.is_owner()
