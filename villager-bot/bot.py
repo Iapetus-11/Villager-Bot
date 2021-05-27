@@ -131,11 +131,14 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
 
         return self.l["en"]
 
-    async def send_embed(self, ctx, message: str) -> None:
-        raise NotImplementedError
+    async def send_embed(self, location, message: str) -> None:
+        await location.send(embed=discord.Embed(color=self.d.cc, description=message))
 
-    async def reply_embed(self, ctx, message: str) -> None:
-        raise NotImplementedError
+    async def reply_embed(self, location, message: str, ping: bool = False) -> None:
+        if hasattr(location, "reply"):
+            await location.reply(embed=discord.Embed(color=self.d.cc, description=message), mention_author=ping)
+        else:
+            await self.send_embed(location, message)
 
     async def send_tip(self, ctx) -> None:
         await asyncio.sleep(random.randint(100, 200) / 100)
