@@ -201,13 +201,13 @@ class Mod(commands.Cog):
 
     @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu"])
     @commands.guild_only()
-    @commands.has_permissions(kick_members=True)
-    async def mute(self, ctx, user: discord.Member):
-        if ctx.author.id == user.id:
+    @commands.has_permissions(manage_messages=True)
+    async def mute(self, ctx, victim: discord.Member):
+        if ctx.author == victim:
             await self.bot.send(ctx, ctx.l.mod.mute.stupid_1)
             return
 
-        if not await self.perm_check(ctx.author, user):
+        if not self.permission_check(ctx, victim):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
@@ -226,18 +226,18 @@ class Mod(commands.Cog):
                 if mute not in channel.overwrites:
                     await channel.set_permissions(mute, send_messages=False, add_reactions=False)
 
-        await user.add_roles(mute)
-        await self.bot.send(ctx, ctx.l.mod.mute.mute_msg.format(user))
+        await victim.add_roles(mute)
+        await self.bot.send(ctx, ctx.l.mod.mute.mute_msg.format(victim))
 
     @commands.command(name="unmute", aliases=["unshut", "shutnt"])
     @commands.guild_only()
-    @commands.has_permissions(kick_members=True)
+    @commands.has_permissions(manage_messages=True)
     async def unmute(self, ctx, user: discord.Member):
-        if ctx.author.id == user.id:
+        if ctx.author == user:
             await self.bot.send(ctx, ctx.l.mod.unmute.stupid_1)
             return
 
-        if not await self.perm_check(ctx.author, user):
+        if not self.permission_check(ctx, user):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
