@@ -19,7 +19,7 @@ class Owner(commands.Cog):
         await self.ipc.broadcast({"type": "eval", "code": f"bot.reload_extension('cogs.{cog}')"})
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name="evallocal", aliases=["eval"])
+    @commands.command(name="evallocal", aliases=["eval", "evall"])
     @commands.is_owner()
     async def eval_stuff_local(self, ctx, *, stuff: str):
         if stuff.startswith("```"):
