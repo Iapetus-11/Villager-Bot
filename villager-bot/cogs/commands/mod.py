@@ -65,7 +65,7 @@ class Mod(commands.Cog):
 
             if victim is None:
                 victim = self.bot.get_user(victim)
-                
+
                 if victim is None:
                     try:
                         victim = await self.bot.fetch_user(victim)
@@ -75,7 +75,7 @@ class Mod(commands.Cog):
         if ctx.author == victim:
             await self.bot.reply_embed(ctx, ctx.l.mod.ban.stupid_1)
             return
-        
+
         if isinstance(victim, discord.Member):
             if not self.permission_check(ctx, victim):
                 await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
