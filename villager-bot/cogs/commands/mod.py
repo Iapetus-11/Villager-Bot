@@ -39,48 +39,55 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
-    async def kick_user(self, ctx, user: discord.Member, *, reason="No reason provided."):
+    async def kick_user(self, ctx, victim: discord.Member, *, reason="No reason provided."):
         """Kicks the given user from the current Discord server"""
 
-        if ctx.author.id == user.id:
+        if ctx.author == victim:
             await self.bot.send(ctx, ctx.l.mod.kick.stupid_1)
             return
 
-        if not await self.perm_check(ctx.author, user):
+        if not self.permission_check(ctx, victim):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
-        await ctx.guild.kick(user, reason=f"{ctx.author} | {reason}")
+        await ctx.guild.kick(victim, reason=f"{ctx.author} | {reason}")
         await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name="ban", aliases=["megayeet"])
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def ban_user(self, ctx, user: Union[discord.Member, int], *, reason="No reason provided."):
+    async def ban_user(self, ctx, victim: Union[discord.Member, int], *, reason="No reason provided."):
         """Bans the given user from the current Discord server"""
 
-        if type(user) == int:
-            try:
-                user = await self.bot.fetch_user(user)
-            except discord.HTTPException:
-                raise commands.BadArgument
+        if isinstance(victim, int):
+            victim = ctx.guild.get_member(victim)
 
-        if ctx.author.id == user.id:
+            if victim is None:
+                victim = self.bot.get_user(victim)
+                
+                if victim is None:
+                    try:
+                        victim = await self.bot.fetch_user(victim)
+                    except discord.HTTPException:
+                        raise commands.BadArgument
+
+        if ctx.author == victim:
             await self.bot.send(ctx, ctx.l.mod.ban.stupid_1)
             return
-
-        if not await self.perm_check(ctx.author, user):
-            await self.bot.send(ctx, ctx.l.mod.no_perms)
-            return
+        
+        if isinstance(victim, discord.Member):
+            if not self.permission_check(ctx, victim):
+                await self.bot.send(ctx, ctx.l.mod.no_perms)
+                return
 
         for entry in await ctx.guild.bans():
-            if entry[1].id == user.id:
-                await self.bot.send(ctx, ctx.l.mod.ban.stupid_2.format(user))
+            if entry[1] == victim:
+                await self.bot.send(ctx, ctx.l.mod.ban.stupid_2.format(victim))
                 return
 
         try:
-            await ctx.guild.ban(user, reason=f"{ctx.author} | {reason}", delete_message_days=0)
+            await ctx.guild.ban(victim, reason=f"{ctx.author} | {reason}", delete_message_days=0)
             await ctx.message.add_reaction(self.d.emojis.yes)
         except discord.errors.Forbidden:
             await self.bot.send(ctx, ctx.l.mod.ban.stupid_3)
