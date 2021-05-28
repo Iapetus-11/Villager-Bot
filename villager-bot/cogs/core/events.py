@@ -46,7 +46,8 @@ class Events(commands.Cog):
         event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
         self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
 
-        await self.bot.get_channel(self.d.error_channel_id).send(
+        error_channel = await self.bot.fetch_error_channel()
+        await error_channel.send(
             f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```"
         )
 
@@ -212,7 +213,8 @@ class Events(commands.Cog):
                 f"```py\n{format_exception(e)}"[: 2000 - 3] + "```"
             )
 
-            await self.bot.get_channel(self.d.error_channel_id).send(debug_info)
+            error_channel = await self.bot.fetch_error_channel()
+            await error_channel.send(debug_info)
 
 
 def setup(bot):
