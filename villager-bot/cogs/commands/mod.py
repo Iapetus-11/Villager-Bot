@@ -12,30 +12,24 @@ class Mod(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-    async def perm_check(self, author, victim):
-        if isinstance(author, discord.Member) and author.id == author.guild.owner.id:
-            return True
-        guild_roles = author.guild.roles
+    def permission_check(self, ctx, victim) -> bool:
+        author = ctx.author
+
         return (
-            guild_roles.index(author.top_role) > guild_roles.index(victim.top_role) and not victim.id == author.guild.owner.id
+            author == ctx.guild.owner
+            or author.guild_permissions > victim.guild_permissions
+            or (author.guild_permissions == victim.guild_permissions and author.top_role > victim.top_role)
         )
 
     @commands.command(name="purge", aliases=["p"])
     @commands.guild_only()
     @commands.bot_has_permissions(manage_messages=True)
     @commands.has_permissions(manage_messages=True)
-    async def purge(self, ctx, to_purge: Union[discord.Member, int], amount=20):
+    async def purge(self, ctx, amount: int):
         """Purges the given amount of messages from the current channel"""
 
         try:
-            if isinstance(to_purge, discord.Member):
-
-                def check(m):
-                    return m.author.id == to_purge.id
-
-                await ctx.channel.purge(check=check, limit=amount + 1)
-            else:
-                await ctx.channel.purge(limit=to_purge + 1)
+            await ctx.channel.purge(limit=amount + 1)
         except asyncio.queues.QueueEmpty:
             await self.bot.send(ctx, ctx.l.mod.purge.oop)
         except discord.errors.NotFound:
