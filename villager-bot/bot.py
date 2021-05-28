@@ -41,8 +41,9 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             "cogs.core.events",
             "cogs.core.loops",
             "cogs.commands.owner",
+            "cogs.commands.useful",
             "cogs.commands.mod",
-            "cogs.commands.fun",
+            "cogs.commands.fun"
         ]
 
         self.logger = setup_logging(self.shard_ids)
