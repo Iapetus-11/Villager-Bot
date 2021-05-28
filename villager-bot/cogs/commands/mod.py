@@ -96,43 +96,43 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def pardon_user(self, ctx, victim: Union[discord.User, int], *, reason="No reason provided."):
+    async def pardon_user(self, ctx, user: Union[discord.User, int], *, reason="No reason provided."):
         """Unbans / pardons the given user from the current Discord server"""
 
-        if isinstance(victim, int):
-            victim = self.bot.get_user(victim)
+        if isinstance(user, int):
+            user = self.bot.get_user(user)
 
-            if victim is None:
+            if user is None:
                 try:
-                    victim = await self.bot.fetch_user(victim)
+                    user = await self.bot.fetch_user(user)
                 except discord.HTTPException:
                     raise commands.BadArgument
 
-        if ctx.author == victim:
+        if ctx.author == user:
             await self.bot.send(ctx, ctx.l.mod.unban.stupid_1)
             return
 
         for entry in await ctx.guild.bans():
-            if entry[1] == victim:
-                await ctx.guild.unban(victim, reason=f"{ctx.author} | {reason}")
+            if entry[1] == user:
+                await ctx.guild.unban(user, reason=f"{ctx.author} | {reason}")
                 await ctx.message.add_reaction(self.d.emojis.yes)
                 return
 
-        await self.bot.send(ctx, ctx.l.mod.unban.stupid_2.format(victim))
+        await self.bot.send(ctx, ctx.l.mod.unban.stupid_2.format(user))
 
     @commands.command(name="warn")
     @commands.guild_only()
-    @commands.has_permissions(kick_members=True)
-    async def warn(self, ctx, user: discord.Member, *, reason=None):
-        if ctx.author.id == user.id:
+    @commands.has_permissions(manage_messages=True)
+    async def warn(self, ctx, victim: discord.Member, *, reason=None):
+        if ctx.author == victim:
             await self.bot.send(ctx, ctx.l.mod.warn.stupid_1)
             return
 
-        if not await self.perm_check(ctx.author, user):
+        if not await self.perm_check(ctx, victim):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
-        warns = await self.db.fetch_warns(user.id, ctx.guild.id)
+        warns = await self.db.fetch_warns(victim.id, ctx.guild.id)
 
         if len(warns) >= 20:
             await self.bot.send(ctx, ctx.l.mod.warn.thats_too_much_man)
@@ -142,12 +142,12 @@ class Mod(commands.Cog):
             if len(reason) > 245:
                 reason = f"{reason[:245]}..."
 
-        await self.db.add_warn(user.id, ctx.guild.id, ctx.author.id, reason)
+        await self.db.add_warn(victim.id, ctx.guild.id, ctx.author.id, reason)
 
         await self.bot.send(
             ctx,
             ctx.l.mod.warn.confirm.format(
-                self.d.emojis.yes, user.mention, len(warns) + 1, discord.utils.escape_markdown(str(reason))
+                self.d.emojis.yes, victim.mention, len(warns) + 1, discord.utils.escape_markdown(str(reason))
             ),
         )
 
@@ -157,8 +157,8 @@ class Mod(commands.Cog):
         if user is None:
             user = ctx.author
 
-        if ctx.author.id != user.id:
-            if not await self.perm_check(ctx.author, user):
+        if ctx.author != user:
+            if not self.permission_check(ctx, user):
                 await self.bot.send(ctx, ctx.l.mod.no_perms)
                 return
 
@@ -188,11 +188,11 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
     async def clear_warnings(self, ctx, user: discord.Member):
-        if ctx.author.id == user.id and ctx.guild.owner.id != ctx.author.id:
+        if ctx.author == user and ctx.guild.owner != ctx.author:
             await self.bot.send(ctx, ctx.l.mod.warn.stupid_2)
             return
 
-        if not await self.perm_check(ctx.author, user):
+        if not self.permission_check(ctx, user):
             await self.bot.send(ctx, ctx.l.mod.no_perms)
             return
 
