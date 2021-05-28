@@ -128,7 +128,7 @@ class Mod(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.mod.warn.stupid_1)
             return
 
-        if not await self.perm_check(ctx, victim):
+        if not self.permission_check(ctx, victim):
             await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
             return
 
