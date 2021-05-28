@@ -56,7 +56,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_shard_disconnect(self, shard_id: int):
-        await self.bot.ipc.send({"type": "shard-disconnect", "shard_id": shard_id})
+        await self.ipc.send({"type": "shard-disconnect", "shard_id": shard_id})
 
     @commands.Cog.listener()
     async def on_message(self, message):
