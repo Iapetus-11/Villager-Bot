@@ -261,7 +261,10 @@ class Useful(commands.Cog):
         with proc.oneshot():
             mem_usage = proc.memory_full_info().uss
             threads = proc.num_threads()
-            proc.cpu_percent(interval=0.1)
+
+            proc.cpu_percent()
+            await asyncio.sleep(.25)
+            proc.cpu_percent()
 
         embed = discord.Embed(color=self.d.cc)
 
