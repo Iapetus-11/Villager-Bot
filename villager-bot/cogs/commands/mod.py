@@ -182,7 +182,7 @@ class Mod(commands.Cog):
                     inline=False,
                 )
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="delwarns", aliases=["clearwarns", "remwarns", "removewarns", "delwarnings"])
     @commands.guild_only()
