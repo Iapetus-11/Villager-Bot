@@ -14,7 +14,7 @@ class Useful(commands.Cog):
         self.d = bot.d
         self.v = bot.v
 
-        self.google_client = async_cse.Search(bot.k.google)
+        self.google = async_cse.Search(bot.k.google)
 
         self.db = bot.get_cog("Database")
 
@@ -32,7 +32,7 @@ class Useful(commands.Cog):
                     help_text = all_help.get(str(cmd_true))
 
                     if help_text is None:
-                        await self.bot.send(ctx, ctx.l.help.main.nodoc)
+                        await self.bot.reply_embed(ctx, ctx.l.help.main.nodoc)
                         return
 
                     embed = discord.Embed(color=self.d.cc)
@@ -222,10 +222,10 @@ class Useful(commands.Cog):
         elif "shing" in content or "shling" in content:
             pp = "Schlong"
         elif "schlong" in content:
-            await self.bot.send(ctx, f"{self.d.emojis.aniheart} Magnum Dong! \uFEFF `69.00 ms`")
+            await self.bot.reply_embed(ctx, f"{self.d.emojis.aniheart} Magnum Dong! \uFEFF `69.00 ms`")
             return
 
-        await self.bot.send(ctx, f"{self.d.emojis.aniheart} {pp}! \uFEFF `{round(self.bot.latency*1000, 2)} ms`")
+        await self.bot.reply_embed(ctx, f"{self.d.emojis.aniheart} {pp}! \uFEFF `{round(self.bot.latency*1000, 2)} ms`")
 
     @commands.command(name="vote", aliases=["votelink", "votelinks"])
     async def votelinks(self, ctx):
@@ -362,9 +362,9 @@ class Useful(commands.Cog):
         async with ctx.typing():
             try:
                 resp = await self.bot.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
-                await self.bot.send(ctx, f"```{float(await resp.text())}```")
+                await self.bot.reply_embed(ctx, f"```{float(await resp.text())}```")
             except Exception:
-                await self.bot.send(ctx, ctx.l.useful.meth.oops)
+                await self.bot.reply_embed(ctx, ctx.l.useful.meth.oops)
 
     @commands.command(name="google", aliases=["thegoogle"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -375,16 +375,16 @@ class Useful(commands.Cog):
 
         try:
             async with ctx.typing():
-                res = await self.google_client.search(query, safesearch=safesearch)
+                res = await self.google.search(query, safesearch=safesearch)
         except async_cse.search.NoResults:
-            await self.bot.send(ctx, ctx.l.useful.search.nope)
+            await self.bot.reply_embed(ctx, ctx.l.useful.search.nope)
             return
         except async_cse.search.APIError:
-            await self.bot.send(ctx, ctx.l.useful.search.error)
+            await self.bot.reply_embed(ctx, ctx.l.useful.search.error)
             return
 
         if len(res) == 0:
-            await self.bot.send(ctx, ctx.l.useful.search.nope)
+            await self.bot.reply_embed(ctx, ctx.l.useful.search.nope)
             return
 
         res = res[0]
@@ -401,18 +401,18 @@ class Useful(commands.Cog):
 
         try:
             async with ctx.typing():
-                res = await self.google_client.search(query, safesearch=safesearch)
+                res = await self.google.search(query, safesearch=safesearch)
         except async_cse.search.NoResults:
-            await self.bot.send(ctx, ctx.l.useful.search.nope)
+            await self.bot.reply_embed(ctx, ctx.l.useful.search.nope)
             return
         except async_cse.search.APIError:
-            await self.bot.send(ctx, ctx.l.useful.search.error)
+            await self.bot.reply_embed(ctx, ctx.l.useful.search.error)
             return
 
         res = tuple(filter((lambda r: "youtube.com/watch" in r.url), res))
 
         if len(res) == 0:
-            await self.bot.send(ctx, ctx.l.useful.search.nope)
+            await self.bot.reply_embed(ctx, ctx.l.useful.search.nope)
             return
 
         res = res[0]
@@ -428,16 +428,16 @@ class Useful(commands.Cog):
 
         try:
             async with ctx.typing():
-                res = await self.google_client.search(query, safesearch=safesearch, image_search=True)
+                res = await self.google.search(query, safesearch=safesearch, image_search=True)
         except async_cse.search.NoResults:
-            await self.bot.send(ctx, ctx.l.useful.search.nope)
+            await self.bot.reply_embed(ctx, ctx.l.useful.search.nope)
             return
         except async_cse.search.APIError:
-            await self.bot.send(ctx, ctx.l.useful.search.error)
+            await self.bot.reply_embed(ctx, ctx.l.useful.search.error)
             return
 
         if len(res) == 0:
-            await self.bot.send(ctx, ctx.l.useful.search.nope)
+            await self.bot.reply_embed(ctx, ctx.l.useful.search.nope)
             return
 
         res = res[0]
@@ -450,7 +450,7 @@ class Useful(commands.Cog):
         user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
 
         if user_reminder_count > 5:
-            await self.bot.send(ctx, ctx.l.useful.remind.reminder_max)
+            await self.bot.reply_embed(ctx, ctx.l.useful.remind.reminder_max)
             return
 
         args = ctx.message.clean_content[len(f"{ctx.prefix}{ctx.invoked_with} ") :].split()
@@ -489,15 +489,15 @@ class Useful(commands.Cog):
             pass
 
         if i == 0:
-            await self.bot.send(ctx, ctx.l.useful.remind.stupid_1.format(ctx.prefix))
+            await self.bot.reply_embed(ctx, ctx.l.useful.remind.stupid_1.format(ctx.prefix))
             return
 
         if at > arrow.utcnow().shift(weeks=8):
-            await self.bot.send(ctx, ctx.l.useful.remind.time_max)
+            await self.bot.reply_embed(ctx, ctx.l.useful.remind.time_max)
             return
 
         await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, " ".join(args[i:])[:499], at.timestamp())
-        await self.bot.send(ctx, ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
+        await self.bot.reply_embed(ctx, ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
 
 
 def setup(bot):
