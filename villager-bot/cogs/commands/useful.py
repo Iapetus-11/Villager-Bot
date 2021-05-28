@@ -263,7 +263,7 @@ class Useful(commands.Cog):
             threads = proc.num_threads()
 
             proc.cpu_percent()
-            await asyncio.sleep(.25)
+            await asyncio.sleep(0.25)
             proc.cpu_percent()
 
         embed = discord.Embed(color=self.d.cc)
@@ -497,7 +497,9 @@ class Useful(commands.Cog):
             return
 
         await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, " ".join(args[i:])[:499], at.timestamp())
-        await self.bot.reply_embed(ctx, ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
+        await self.bot.reply_embed(
+            ctx, ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang))
+        )
 
 
 def setup(bot):
