@@ -47,9 +47,7 @@ class Events(commands.Cog):
         self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
 
         error_channel = await self.bot.fetch_error_channel()
-        await error_channel.send(
-            f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```"
-        )
+        await error_channel.send(f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```")
 
     @commands.Cog.listener()
     async def on_shard_ready(self, shard_id: int):
