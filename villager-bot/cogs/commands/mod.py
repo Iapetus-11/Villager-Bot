@@ -31,9 +31,9 @@ class Mod(commands.Cog):
         try:
             await ctx.channel.purge(limit=amount + 1)
         except asyncio.queues.QueueEmpty:
-            await self.bot.send(ctx, ctx.l.mod.purge.oop)
+            await self.bot.reply_embed(ctx, ctx.l.mod.purge.oop)
         except discord.errors.NotFound:
-            await self.bot.send(ctx, ctx.l.mod.purge.oop)
+            await self.bot.reply_embed(ctx, ctx.l.mod.purge.oop)
 
     @commands.command(name="kick", aliases=["yeet"])
     @commands.guild_only()
@@ -43,11 +43,11 @@ class Mod(commands.Cog):
         """Kicks the given user from the current Discord server"""
 
         if ctx.author == victim:
-            await self.bot.send(ctx, ctx.l.mod.kick.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.mod.kick.stupid_1)
             return
 
         if not self.permission_check(ctx, victim):
-            await self.bot.send(ctx, ctx.l.mod.no_perms)
+            await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
             return
 
         await ctx.guild.kick(victim, reason=f"{ctx.author} | {reason}")
@@ -73,24 +73,24 @@ class Mod(commands.Cog):
                         raise commands.BadArgument
 
         if ctx.author == victim:
-            await self.bot.send(ctx, ctx.l.mod.ban.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.mod.ban.stupid_1)
             return
         
         if isinstance(victim, discord.Member):
             if not self.permission_check(ctx, victim):
-                await self.bot.send(ctx, ctx.l.mod.no_perms)
+                await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
                 return
 
         for entry in await ctx.guild.bans():
             if entry[1] == victim:
-                await self.bot.send(ctx, ctx.l.mod.ban.stupid_2.format(victim))
+                await self.bot.reply_embed(ctx, ctx.l.mod.ban.stupid_2.format(victim))
                 return
 
         try:
             await ctx.guild.ban(victim, reason=f"{ctx.author} | {reason}", delete_message_days=0)
             await ctx.message.add_reaction(self.d.emojis.yes)
         except discord.errors.Forbidden:
-            await self.bot.send(ctx, ctx.l.mod.ban.stupid_3)
+            await self.bot.reply_embed(ctx, ctx.l.mod.ban.stupid_3)
 
     @commands.command(name="pardon", aliases=["unban"])
     @commands.guild_only()
@@ -109,7 +109,7 @@ class Mod(commands.Cog):
                     raise commands.BadArgument
 
         if ctx.author == user:
-            await self.bot.send(ctx, ctx.l.mod.unban.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.mod.unban.stupid_1)
             return
 
         for entry in await ctx.guild.bans():
@@ -118,24 +118,24 @@ class Mod(commands.Cog):
                 await ctx.message.add_reaction(self.d.emojis.yes)
                 return
 
-        await self.bot.send(ctx, ctx.l.mod.unban.stupid_2.format(user))
+        await self.bot.reply_embed(ctx, ctx.l.mod.unban.stupid_2.format(user))
 
     @commands.command(name="warn")
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     async def warn(self, ctx, victim: discord.Member, *, reason=None):
         if ctx.author == victim:
-            await self.bot.send(ctx, ctx.l.mod.warn.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.mod.warn.stupid_1)
             return
 
         if not await self.perm_check(ctx, victim):
-            await self.bot.send(ctx, ctx.l.mod.no_perms)
+            await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
             return
 
         warns = await self.db.fetch_warns(victim.id, ctx.guild.id)
 
         if len(warns) >= 20:
-            await self.bot.send(ctx, ctx.l.mod.warn.thats_too_much_man)
+            await self.bot.reply_embed(ctx, ctx.l.mod.warn.thats_too_much_man)
             return
 
         if reason is not None:
@@ -144,7 +144,7 @@ class Mod(commands.Cog):
 
         await self.db.add_warn(victim.id, ctx.guild.id, ctx.author.id, reason)
 
-        await self.bot.send(
+        await self.bot.reply_embed(
             ctx,
             ctx.l.mod.warn.confirm.format(
                 self.d.emojis.yes, victim.mention, len(warns) + 1, discord.utils.escape_markdown(str(reason))
@@ -159,7 +159,7 @@ class Mod(commands.Cog):
 
         if ctx.author != user:
             if not self.permission_check(ctx, user):
-                await self.bot.send(ctx, ctx.l.mod.no_perms)
+                await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
                 return
 
         warns = await self.db.fetch_warns(user.id, ctx.guild.id)
@@ -189,11 +189,11 @@ class Mod(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def clear_warnings(self, ctx, user: discord.Member):
         if ctx.author == user and ctx.guild.owner != ctx.author:
-            await self.bot.send(ctx, ctx.l.mod.warn.stupid_2)
+            await self.bot.reply_embed(ctx, ctx.l.mod.warn.stupid_2)
             return
 
         if not self.permission_check(ctx, user):
-            await self.bot.send(ctx, ctx.l.mod.no_perms)
+            await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
             return
 
         await self.db.clear_warns(user.id, ctx.guild.id)
@@ -204,11 +204,11 @@ class Mod(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     async def mute(self, ctx, victim: discord.Member):
         if ctx.author == victim:
-            await self.bot.send(ctx, ctx.l.mod.mute.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.mod.mute.stupid_1)
             return
 
         if not self.permission_check(ctx, victim):
-            await self.bot.send(ctx, ctx.l.mod.no_perms)
+            await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
             return
 
         if discord.utils.get(ctx.guild.roles, name="Muted") is None:  # check if role exists
@@ -227,27 +227,27 @@ class Mod(commands.Cog):
                     await channel.set_permissions(mute, send_messages=False, add_reactions=False)
 
         await victim.add_roles(mute)
-        await self.bot.send(ctx, ctx.l.mod.mute.mute_msg.format(victim))
+        await self.bot.reply_embed(ctx, ctx.l.mod.mute.mute_msg.format(victim))
 
     @commands.command(name="unmute", aliases=["unshut", "shutnt"])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     async def unmute(self, ctx, user: discord.Member):
         if ctx.author == user:
-            await self.bot.send(ctx, ctx.l.mod.unmute.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.mod.unmute.stupid_1)
             return
 
         if not self.permission_check(ctx, user):
-            await self.bot.send(ctx, ctx.l.mod.no_perms)
+            await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
             return
 
         mute = discord.utils.get(user.roles, name="Muted")
 
         if mute:
             await user.remove_roles(mute)
-            await self.bot.send(ctx, ctx.l.mod.unmute.unmute_msg.format(user))
+            await self.bot.reply_embed(ctx, ctx.l.mod.unmute.unmute_msg.format(user))
         else:
-            await self.bot.send(ctx, ctx.l.mod.unmute.stupid_2.format(user))
+            await self.bot.reply_embed(ctx, ctx.l.mod.unmute.stupid_2.format(user))
 
 
 def setup(bot):
