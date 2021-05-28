@@ -96,26 +96,29 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def pardon_user(self, ctx, user: Union[discord.User, int], *, reason="No reason provided."):
+    async def pardon_user(self, ctx, victim: Union[discord.User, int], *, reason="No reason provided."):
         """Unbans / pardons the given user from the current Discord server"""
 
-        if type(user) == int:
-            try:
-                user = await self.bot.fetch_user(user)
-            except discord.HTTPException:
-                raise commands.BadArgument
+        if isinstance(victim, int):
+            victim = self.bot.get_user(victim)
 
-        if ctx.author.id == user.id:
+            if victim is None:
+                try:
+                    victim = await self.bot.fetch_user(victim)
+                except discord.HTTPException:
+                    raise commands.BadArgument
+
+        if ctx.author == victim:
             await self.bot.send(ctx, ctx.l.mod.unban.stupid_1)
             return
 
         for entry in await ctx.guild.bans():
-            if entry[1].id == user.id:
-                await ctx.guild.unban(user, reason=f"{ctx.author} | {reason}")
+            if entry[1] == victim:
+                await ctx.guild.unban(victim, reason=f"{ctx.author} | {reason}")
                 await ctx.message.add_reaction(self.d.emojis.yes)
                 return
 
-        await self.bot.send(ctx, ctx.l.mod.unban.stupid_2.format(user))
+        await self.bot.send(ctx, ctx.l.mod.unban.stupid_2.format(victim))
 
     @commands.command(name="warn")
     @commands.guild_only()
