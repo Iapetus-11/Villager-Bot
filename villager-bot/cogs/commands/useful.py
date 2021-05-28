@@ -45,7 +45,7 @@ class Useful(commands.Cog):
                     if len(cmd_true.aliases) > 0:
                         embed.description += "\n\n" + ctx.l.help.main.aliases.format("`, `".join(cmd_true.aliases))
 
-                    await ctx.send(embed=embed)
+                    await ctx.reply(embed=embed, mention_author=False)
 
                     return
 
@@ -70,7 +70,7 @@ class Useful(commands.Cog):
                 text=ctx.l.useful.credits.foot.format(ctx.prefix) + "  |  " + ctx.l.useful.rules.slashrules.format(ctx.prefix)
             )
 
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed, mention_author=False)
 
     @help.command(name="economy", aliases=["econ"])
     async def help_economy(self, ctx):
@@ -82,7 +82,7 @@ class Useful(commands.Cog):
         commands_formatted = "`, `".join(list(ctx.l.help.econ))
         embed.description = f"`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}"
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @help.command(name="minecraft", aliases=["mc"])
     async def help_minecraft(self, ctx):
@@ -94,7 +94,7 @@ class Useful(commands.Cog):
         commands_formatted = "`, `".join(list(ctx.l.help.mc))
         embed.description = f"`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}"
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @help.command(name="utility", aliases=["util", "useful"])
     async def help_utility(self, ctx):
@@ -106,7 +106,7 @@ class Useful(commands.Cog):
         commands_formatted = "`, `".join(list(ctx.l.help.util))
         embed.description = f"`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}"
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @help.command(name="fun")
     async def help_fun(self, ctx):
@@ -118,7 +118,7 @@ class Useful(commands.Cog):
         commands_formatted = "`, `".join(list(ctx.l.help.fun))
         embed.description = f"`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}"
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
     async def help_administrative(self, ctx):
@@ -130,7 +130,7 @@ class Useful(commands.Cog):
         commands_formatted = "`, `".join(list(ctx.l.help.mod))
         embed.description = f"`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}"
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="credits")
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -166,7 +166,7 @@ class Useful(commands.Cog):
                 embed.add_field(name="\uFEFF", value=ctx.l.useful.credits.others, inline=False)
 
             if msg is None:
-                msg = await ctx.send(embed=embed)
+                msg = await ctx.reply(embed=embed, mention_author=False)
             elif not msg.embeds[0] == embed:
                 await msg.edit(embed=embed)
 
@@ -234,7 +234,7 @@ class Useful(commands.Cog):
 
         embed.description = f'**[{ctx.l.useful.vote.click_1}]({self.d.topgg + "/vote"})**'
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="links", aliases=["invite", "support", "usefullinks", "website", "source"])
     async def useful_links(self, ctx):
@@ -248,7 +248,7 @@ class Useful(commands.Cog):
             f"\n[{ctx.l.useful.links.source}]({self.d.github})**"
         )
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="stats", aliases=["bs"])
     async def stats(self, ctx):
@@ -297,7 +297,7 @@ class Useful(commands.Cog):
         embed.add_field(name="\uFEFF", value=col_1 + "\uFEFF")
         embed.add_field(name="\uFEFF", value=col_2 + "\uFEFF")
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="serverinfo", aliases=["server", "guild"])
     @commands.guild_only()
@@ -338,7 +338,7 @@ class Useful(commands.Cog):
 
         embed.set_thumbnail(url=guild.icon_url)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="rules", aliases=["botrules"])
     async def rules(self, ctx):
@@ -355,7 +355,7 @@ class Useful(commands.Cog):
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name="\uFEFF", value=ctx.l.useful.rules.rule_4)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="math", aliases=["solve", "meth"])
     async def math(self, ctx, *, problem):
@@ -390,7 +390,7 @@ class Useful(commands.Cog):
         res = res[0]
 
         embed = discord.Embed(color=self.d.cc, title=res.title, description=res.description, url=res.url)
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="youtube", aliases=["ytsearch", "yt"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -417,7 +417,7 @@ class Useful(commands.Cog):
 
         res = res[0]
 
-        await ctx.send(res.url)
+        await ctx.reply(res.url, mention_author=False)
 
     @commands.command(name="image", aliases=["imagesearch", "img"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -442,7 +442,7 @@ class Useful(commands.Cog):
 
         res = res[0]
 
-        await ctx.send(res.image_url)
+        await ctx.reply(res.image_url, mention_author=False)
 
     @commands.command(name="remindme", aliases=["remind"])
     @commands.cooldown(1, 2, commands.BucketType.user)
