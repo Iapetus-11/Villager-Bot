@@ -5,6 +5,8 @@ import discord
 import random
 import typing
 
+from util.misc import strip_command
+
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
 
 
@@ -30,10 +32,6 @@ class Fun(commands.Cog):
             raise ValueError("message is too big")
 
         return msg
-
-    def strip_command(self, ctx):
-        cmd_len = len(f"{ctx.prefix}{ctx.invoked_with} ")
-        return ctx.message.clean_content[cmd_len:]
 
     @commands.command(name="meme", aliases=["meemee", "meem", "maymay", "mehmeh"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -158,14 +156,14 @@ class Fun(commands.Cog):
         except Exception:
             pass
 
-        await ctx.send(self.strip_command(ctx))
+        await ctx.send(strip_command(ctx))
 
     @commands.command(name="villagerspeak")
     async def villager_speak(self, ctx, *, msg):
         """Turns the given text into Minecraft villager sounds as text"""
 
         try:
-            translated = self.lang_convert(self.strip_command(ctx), self.d.fun_langs.villager)
+            translated = self.lang_convert(strip_command(ctx), self.d.fun_langs.villager)
             await ctx.send(translated)
         except ValueError:
             await self.bot.send_embed(ctx, ctx.l.fun.too_long)
@@ -175,7 +173,7 @@ class Fun(commands.Cog):
         """Turns regular text into the Minecraft enchantment table language"""
 
         try:
-            translated = self.lang_convert((self.strip_command(ctx)).lower(), self.d.fun_langs.enchant)
+            translated = self.lang_convert((strip_command(ctx)).lower(), self.d.fun_langs.enchant)
             await ctx.send(translated)
         except ValueError:
             await self.bot.send_embed(ctx, ctx.l.fun.too_long)
@@ -185,7 +183,7 @@ class Fun(commands.Cog):
         """Turns the Minecraft enchantment table language back into regular text"""
 
         try:
-            translated = self.lang_convert(self.strip_command(ctx), self.d.fun_langs.unenchant)
+            translated = self.lang_convert(strip_command(ctx), self.d.fun_langs.unenchant)
             await ctx.send(translated)
         except ValueError:
             await self.bot.send_embed(ctx, ctx.l.fun.too_long)
@@ -195,7 +193,7 @@ class Fun(commands.Cog):
         """Turns regular text into vaporwave text"""
 
         try:
-            translated = self.lang_convert(self.strip_command(ctx), self.d.fun_langs.vaporwave)
+            translated = self.lang_convert(strip_command(ctx), self.d.fun_langs.vaporwave)
             await ctx.send(translated)
         except ValueError:
             await self.bot.send_embed(ctx, ctx.l.fun.too_long)
@@ -204,7 +202,7 @@ class Fun(commands.Cog):
     async def sarcastic_text(self, ctx, *, msg):
         """Turns regular text into "sarcastic" text from spongebob"""
 
-        msg = self.strip_command(ctx)
+        msg = strip_command(ctx)
 
         caps = True
         sarcastic = ""
@@ -224,7 +222,7 @@ class Fun(commands.Cog):
     async def clap_cheeks(self, ctx, *, text):
         """Puts the :clap: emoji between words"""
 
-        clapped = ":clap: " + " :clap: ".join((self.strip_command(ctx)).split(" ")) + " :clap:"
+        clapped = ":clap: " + " :clap: ".join((strip_command(ctx)).split(" ")) + " :clap:"
 
         if len(clapped) > 2000:
             await self.bot.send_embed(ctx, ctx.l.fun.too_long)
@@ -238,7 +236,7 @@ class Fun(commands.Cog):
 
         text = ""
 
-        for letter in (self.strip_command(ctx)).lower():
+        for letter in (strip_command(ctx)).lower():
             if letter in ALPHABET_LOWER:
                 text += f":regional_indicator_{letter}: "
             else:
