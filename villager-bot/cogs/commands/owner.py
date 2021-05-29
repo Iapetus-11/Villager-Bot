@@ -27,7 +27,7 @@ class Owner(commands.Cog):
 
         try:
             result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
-            await ctx.reply(f"```{result}```")
+            await ctx.reply(f"```{result.replace('```', '｀｀｀')}```")
         except Exception as e:
             await ctx.reply(f"```py\n{format_exception(e)[:2000-9]}```")
 
@@ -39,7 +39,7 @@ class Owner(commands.Cog):
 
         res = await self.ipc.broadcast({"type": "exec", "code": stuff})
 
-        await ctx.reply("".join([f"```py\n{r['result']}```" for r in res["responses"]])[:2000])
+        await ctx.reply("".join([f"```py\n{r['result'].replace('```', '｀｀｀')}```" for r in res["responses"]])[:2000])
 
     @commands.command(name="gitpull")
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
