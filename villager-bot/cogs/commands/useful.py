@@ -14,7 +14,7 @@ class Useful(commands.Cog):
         self.d = bot.d
         self.v = bot.v
 
-        self.google = async_cse.Search(bot.k.google)
+        self.google = async_cse.Search(bot.k.google_search)
 
         self.db = bot.get_cog("Database")
 
