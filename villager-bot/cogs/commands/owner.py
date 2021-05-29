@@ -50,7 +50,7 @@ class Owner(commands.Cog):
             await self.bot.loop.run_in_executor(self.bot.tp, system_call)
 
             async with aiofiles.open("git_pull_log", "r") as f:
-                await ctx.reply(f"```diff\n{(await f.read())[2000-11]}```")
+                await ctx.reply(f"```diff\n{(await f.read())[:2000-11]}```")
 
         os.remove("git_pull_log")
 
