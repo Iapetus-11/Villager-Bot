@@ -27,9 +27,9 @@ class Owner(commands.Cog):
 
         try:
             result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
-            await ctx.send(f"```{result}```")
+            await ctx.reply(f"```{result}```")
         except Exception as e:
-            await ctx.send(f"```py\n{format_exception(e)[:2000-9]}```")
+            await ctx.reply(f"```py\n{format_exception(e)[:2000-9]}```")
 
     @commands.command(name="evalglobal", aliases=["evalall", "evalg"])
     @commands.is_owner()
@@ -39,7 +39,7 @@ class Owner(commands.Cog):
 
         res = await self.ipc.broadcast({"type": "exec", "code": stuff})
 
-        await ctx.send("".join([f"```py\n{r['result']}```" for r in res["responses"]])[:2000])
+        await ctx.reply("".join([f"```py\n{r['result']}```" for r in res["responses"]])[:2000])
 
     @commands.command(name="gitpull")
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
@@ -50,14 +50,14 @@ class Owner(commands.Cog):
             await self.bot.loop.run_in_executor(self.bot.tp, system_call)
 
             async with aiofiles.open("git_pull_log", "r") as f:
-                await ctx.send(f"```diff\n{await f.read()}\n```")
+                await ctx.reply(f"```diff\n{(await f.read())[2000-11]}```")
 
         os.remove("git_pull_log")
 
     @commands.command(name="test")
     @commands.is_owner()
     async def test(self, ctx):
-        await ctx.send("test")
+        await ctx.reply("test")
 
 
 def setup(bot):
