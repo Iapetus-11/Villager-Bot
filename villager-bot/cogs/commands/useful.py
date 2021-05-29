@@ -263,7 +263,7 @@ class Useful(commands.Cog):
 
             proc.cpu_percent()
             await asyncio.sleep(0.25)
-            proc.cpu_percent()
+            cpu_percent = proc.cpu_percent()
 
         embed = discord.Embed(color=self.d.cc)
 
@@ -283,7 +283,7 @@ class Useful(commands.Cog):
 
         col_2 = (
             f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000, 2)} MB`\n"
-            f"{ctx.l.useful.stats.cpu}: `{round(proc.cpu_percent() / psutil.cpu_count(), 2)}%`\n"
+            f"{ctx.l.useful.stats.cpu}: `{round(cpu_percent / psutil.cpu_count(), 2)}%`\n"
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
             f"{ctx.l.useful.stats.tasks}: `{len(asyncio.all_tasks())}`\n"
             f"{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n"
