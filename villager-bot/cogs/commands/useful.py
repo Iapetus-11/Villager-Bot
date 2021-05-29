@@ -12,7 +12,6 @@ class Useful(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.v = bot.v
 
         self.google = async_cse.Search(bot.k.google_search)
 
@@ -254,7 +253,7 @@ class Useful(commands.Cog):
     async def stats(self, ctx):
         await ctx.trigger_typing()
 
-        uptime_seconds = (arrow.utcnow() - self.v.start_time).total_seconds()
+        uptime_seconds = (arrow.utcnow() - self.bot.start_time).total_seconds()
         uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
 
         proc = psutil.Process()
