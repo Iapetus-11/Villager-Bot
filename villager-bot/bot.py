@@ -19,8 +19,6 @@ def run_shard_group(shard_count: int, shard_ids: list) -> None:
 
     shard_group = VillagerBotShardGroup(shard_count, shard_ids)
 
-    print("pp")
-
     try:
         shard_group.run()
     except KeyboardInterrupt:
