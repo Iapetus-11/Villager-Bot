@@ -18,7 +18,15 @@ def run_shard_group(shard_count: int, shard_ids: list) -> None:
     asyncio.set_event_loop(asyncio.new_event_loop())
 
     shard_group = VillagerBotShardGroup(shard_count, shard_ids)
-    shard_group.run()
+
+    print("pp")
+
+    try:
+        shard_group.run()
+    except KeyboardInterrupt:
+        pass
+    except Exception as e:
+        shard_group.logger.error(e)
 
 
 class VillagerBotShardGroup(commands.AutoShardedBot):
