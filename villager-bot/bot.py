@@ -34,7 +34,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             intents=villager_bot_intents(),
             shard_count=shard_count,
             shard_ids=shard_ids,
-            help_command=None
+            help_command=None,
         )
 
         self.start_time = time.time()
