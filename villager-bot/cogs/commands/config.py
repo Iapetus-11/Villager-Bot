@@ -61,14 +61,14 @@ class Config(commands.Cog):
 
         if replies.lower() in ("yes", "true", "on"):
             await self.db.set_guild_attr(ctx.guild.id, "do_replies", True)
-            self.d.replies_cache[ctx.guild.id] = True
+            self.d.replies_cache.add(ctx.guild.id)
 
             await self.bot.reply_embed(ctx, ctx.l.config.replies.set.format("on"))
         elif replies.lower() in ("no", "false", "off"):
             await self.db.set_guild_attr(ctx.guild.id, "do_replies", False)
 
             try:
-                del self.d.replies_cache[ctx.guild.id]
+                del self.d.replies_cache.remove(ctx.guild.id)
             except KeyError:
                 pass
 
