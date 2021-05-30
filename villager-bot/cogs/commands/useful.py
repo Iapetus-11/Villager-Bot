@@ -274,11 +274,11 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n"
             f"{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n"
             f"{ctx.l.useful.stats.users}: `{len(self.bot.users)}`\n"
-            f"{ctx.l.useful.stats.msgs}: `{self.v.msg_count}`\n"
-            f"{ctx.l.useful.stats.cmds}: `{self.v.cmd_count}` `({round((self.v.cmd_count / (self.v.msg_count + .000001)) * 100, 2)}%)`\n"
-            f"{ctx.l.useful.stats.cmds_sec}: `{round(self.v.cmd_count / uptime_seconds, 2)}`\n"
-            f"{ctx.l.useful.stats.votes}: `{self.v.votes_topgg}`\n"
-            f"{ctx.l.useful.stats.topgg}: `{round((self.v.votes_topgg / uptime_seconds) * 3600, 2)}`\n"
+            f"{ctx.l.useful.stats.msgs}: `{self.bot.message_count}`\n"
+            f"{ctx.l.useful.stats.cmds}: `{self.bot.command_count}` `({round((self.bot.command_count / (self.bot.message_count + .000001)) * 100, 2)}%)`\n"
+            f"{ctx.l.useful.stats.cmds_sec}: `{round(self.bot.command_count / uptime_seconds, 2)}`\n"
+            f"{ctx.l.useful.stats.votes}: `{self.bot.session_votes}`\n"
+            f"{ctx.l.useful.stats.topgg}: `{round((self.bot.session_votes / uptime_seconds) * 3600, 2)}`\n"
         )
 
         col_2 = (
