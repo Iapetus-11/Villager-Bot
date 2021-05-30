@@ -68,7 +68,7 @@ class Config(commands.Cog):
             await self.db.set_guild_attr(ctx.guild.id, "do_replies", False)
 
             try:
-                del self.d.replies_cache.remove(ctx.guild.id)
+                self.d.replies_cache.remove(ctx.guild.id)
             except KeyError:
                 pass
 
