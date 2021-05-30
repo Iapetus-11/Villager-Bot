@@ -133,14 +133,14 @@ class Config(commands.Cog):
     async def config_default_mcserver(self, ctx, mcserver=None):
         if mcserver is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await self.bot.reply_embed(ctx, ctx.l.config.mcs.this_server.format(guild["mcserver"]))
+            await self.bot.reply_embed(ctx, ctx.l.config.mcs.this_server.format(guild["mc_server"]))
             return
 
         if len(mcserver) > 30:
             await self.bot.reply_embed(ctx, ctx.l.config.mcs.error_1.format(30))
             return
 
-        await self.db.set_guild_attr(ctx.guild.id, "mcserver", mcserver)
+        await self.db.set_guild_attr(ctx.guild.id, "mc_server", mcserver)
         await self.bot.reply_embed(ctx, ctx.l.config.mcs.set.format(mcserver))
 
     @config.command(name="toggleenabled", aliases=["togglecmd"])
