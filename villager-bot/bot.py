@@ -75,6 +75,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.command_count = 0
         self.message_count = 0
         self.error_count = 0
+        self.session_votes = 0
         self.spawn_queue = set()  # {ctx, ctx,..}
 
         self.add_check(self.check_global)
