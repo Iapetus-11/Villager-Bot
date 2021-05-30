@@ -55,7 +55,9 @@ class Config(commands.Cog):
     async def config_replies(self, ctx, replies=None):
         if replies is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            state = ctx.l.config.replies.enabled * guild["do_replies"] + ctx.l.config.replies.disabled * (not guild["do_replies"])
+            state = ctx.l.config.replies.enabled * guild["do_replies"] + ctx.l.config.replies.disabled * (
+                not guild["do_replies"]
+            )
             await self.bot.reply_embed(ctx, ctx.l.config.replies.this_server.format(state))
             return
 
@@ -109,7 +111,9 @@ class Config(commands.Cog):
             guild = await self.db.fetch_guild(ctx.guild.id)
             await self.bot.reply_embed(
                 ctx,
-                ctx.l.config.lang.this_server.format(guild["language"].replace("_", "-"), "`{}`".format("`, `".join(lang_codes))),
+                ctx.l.config.lang.this_server.format(
+                    guild["language"].replace("_", "-"), "`{}`".format("`, `".join(lang_codes))
+                ),
             )
             return
 
