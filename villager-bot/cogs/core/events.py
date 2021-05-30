@@ -84,7 +84,7 @@ class Events(commands.Cog):
             if message.guild.id == self.d.support_server_id:
                 if message.type in NITRO_BOOST_MESSAGES:
                     await self.db.add_item(message.author.id, "Barrel", 1024, 1)
-                    await self.bot.send(
+                    await self.bot.send_embed(
                         message.author, "Thanks for boosting the support server! You've received 1x **Barrel**!"
                     )
                     return
@@ -162,7 +162,7 @@ class Events(commands.Cog):
         elif seconds > 0:
             time += f"{round(seconds, 2)} {ctx.l.misc.time.seconds}"
 
-        await self.bot.send(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time))
+        await self.bot.reply_embed(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time))
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e: Exception):
