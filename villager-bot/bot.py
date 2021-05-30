@@ -5,7 +5,7 @@ import aiohttp
 import asyncio
 import discord
 import random
-import time
+import arrow
 
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.setup import load_text, load_secrets, load_data
@@ -37,7 +37,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             help_command=None,
         )
 
-        self.start_time = time.time()
+        self.start_time = arrow.utcnow()
 
         self.k = load_secrets()
         self.d = load_data()
