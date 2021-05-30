@@ -106,7 +106,7 @@ class Events(commands.Cog):
                     )
                     return
 
-            if message.guild.id in self.bot.replies_cache:
+            if message.guild.id not in self.bot.replies_cache:
                 prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
 
                 if not message.content.startswith(prefix):
