@@ -62,6 +62,9 @@ class Events(commands.Cog):
     async def on_message(self, message):
         self.bot.message_count += 1
 
+        if message.author.bot:
+            return
+
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:
                 prefix = self.d.default_prefix
