@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS users ( -- used for economy stuff
 );
 
 CREATE TABLE IF NOT EXISTS items (
-  user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
+  user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
   name               VARCHAR(50) NOT NULL, -- the name of the item
   sell_price         INT, -- the price it sells back to the bot for
   amount             BIGINT NOT NULL, -- the amount of the item the user has
