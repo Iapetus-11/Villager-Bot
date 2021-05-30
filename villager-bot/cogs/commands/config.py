@@ -121,7 +121,7 @@ class Config(commands.Cog):
 
         if lang.lower() in lang_codes:
             await self.db.set_guild_attr(ctx.guild.id, "language", lang.replace("-", "_"))
-            self.bot.lang_cache[ctx.guild.id] = lang.replace("-", "_")
+            self.bot.language_cache[ctx.guild.id] = lang.replace("-", "_")
             await self.bot.reply_embed(ctx, ctx.l.config.lang.set.format(lang))
         else:
             await self.bot.reply_embed(ctx, ctx.l.config.invalid.format("`{}`".format("`, `".join(lang_codes))))
