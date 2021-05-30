@@ -45,7 +45,7 @@ class Config(commands.Cog):
                 return
 
         await self.db.set_guild_attr(ctx.guild.id, "prefix", prefix)
-        self.v.prefix_cache[ctx.guild.id] = prefix
+        self.bot.prefix_cache[ctx.guild.id] = prefix
         await self.bot.reply_embed(ctx, ctx.l.config.prefix.set.format(prefix))
 
     @config.command(name="replies")
@@ -55,17 +55,17 @@ class Config(commands.Cog):
     async def config_replies(self, ctx, replies=None):
         if replies is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            state = ctx.l.config.replies.enabled * guild["replies"] + ctx.l.config.replies.disabled * (not guild["replies"])
+            state = ctx.l.config.replies.enabled * guild["do_replies"] + ctx.l.config.replies.disabled * (not guild["do_replies"])
             await self.bot.reply_embed(ctx, ctx.l.config.replies.this_server.format(state))
             return
 
         if replies.lower() in ("yes", "true", "on"):
-            await self.db.set_guild_attr(ctx.guild.id, "replies", True)
+            await self.db.set_guild_attr(ctx.guild.id, "do_replies", True)
             self.d.replies_cache[ctx.guild.id] = True
 
             await self.bot.reply_embed(ctx, ctx.l.config.replies.set.format("on"))
         elif replies.lower() in ("no", "false", "off"):
-            await self.db.set_guild_attr(ctx.guild.id, "replies", False)
+            await self.db.set_guild_attr(ctx.guild.id, "do_replies", False)
 
             try:
                 del self.d.replies_cache[ctx.guild.id]
@@ -103,21 +103,21 @@ class Config(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def config_language(self, ctx, lang=None):
-        lang_codes = [l.replace("_", "-") for l in list(self.bot.langs)]
+        lang_codes = [l.replace("_", "-") for l in list(self.bot.l)]
 
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
             await self.bot.reply_embed(
                 ctx,
-                ctx.l.config.lang.this_server.format(guild["lang"].replace("_", "-"), "`{}`".format("`, `".join(lang_codes))),
+                ctx.l.config.lang.this_server.format(guild["language"].replace("_", "-"), "`{}`".format("`, `".join(lang_codes))),
             )
             return
 
         lang = lang.lower()
 
         if lang.lower() in lang_codes:
-            await self.db.set_guild_attr(ctx.guild.id, "lang", lang.replace("-", "_"))
-            self.v.lang_cache[ctx.guild.id] = lang.replace("-", "_")
+            await self.db.set_guild_attr(ctx.guild.id, "language", lang.replace("-", "_"))
+            self.bot.lang_cache[ctx.guild.id] = lang.replace("-", "_")
             await self.bot.reply_embed(ctx, ctx.l.config.lang.set.format(lang))
         else:
             await self.bot.reply_embed(ctx, ctx.l.config.invalid.format("`{}`".format("`, `".join(lang_codes))))
@@ -150,8 +150,8 @@ class Config(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.not_prem)
             return
 
-        self.v.disabled_cmds[ctx.guild.id] = self.v.disabled_cmds.get(ctx.guild.id, [])  # ensure
-        disabled = self.v.disabled_cmds[ctx.guild.id]
+        self.bot.disabled_commands[ctx.guild.id] = self.bot.disabled_commands.get(ctx.guild.id, [])  # ensure
+        disabled = self.bot.disabled_commands[ctx.guild.id]
 
         if cmd is None:
             if len(disabled) > 0:
@@ -163,7 +163,7 @@ class Config(commands.Cog):
 
         cmd_true = self.bot.get_command(cmd.lower())
 
-        if cmd_true.cog is None or cmd_true.cog.__cog_name__ in ("Owner", "Config") or str(cmd_true) in ("help",):
+        if cmd_true.cog is None or cmd_true.cog_name in ("Owner", "Config") or str(cmd_true) in ("help",):
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.cant)
             return
 
@@ -174,11 +174,11 @@ class Config(commands.Cog):
             return
 
         if cmd_true in disabled:
-            self.v.disabled_cmds[ctx.guild.id].pop(self.v.disabled_cmds[ctx.guild.id].index(cmd_true))
+            self.bot.disabled_commands[ctx.guild.id].pop(self.bot.disabled_commands[ctx.guild.id].index(cmd_true))
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, True)
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.reenable.format(cmd_true))
         else:
-            self.v.disabled_cmds[ctx.guild.id].append(cmd_true)
+            self.bot.disabled_commands[ctx.guild.id].append(cmd_true)
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, False)
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.disable.format(cmd_true))
 
