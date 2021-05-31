@@ -62,11 +62,12 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.tp = None  # ThreadPoolExecutor instance
 
         # caches
-        self.ban_cache = set()
-        self.language_cache = {}
-        self.prefix_cache = {}
-        self.disabled_commands = {}
-        self.replies_cache = set()
+        self.ban_cache = set() # {user_id, user_id,..}
+        self.language_cache = {}  # {guild_id: "lang"}
+        self.prefix_cache = {}  # {guild_id: "prefix"}
+        self.disabled_commands = {}  # {guild_id: {command, command,..}}
+        self.replies_cache = set()  # {guild_id, guild_id,..}
+        self.rcon_cache = {}  # {(user_id, mc_server): rcon_client}
 
         # support server channels
         self.error_channel = None
