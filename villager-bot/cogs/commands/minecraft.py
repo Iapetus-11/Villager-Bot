@@ -1,7 +1,7 @@
-from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 from cryptography.fernet import Fernet
 import aiomcrcon as rcon
+import classyjson as cj
 import functools
 import asyncio
 import discord
@@ -10,9 +10,8 @@ import base64
 import arrow
 import json
 
-from util.misc import parse_mclists_page
+from util.misc import dm_check
 from util import mosaic
-import util.cj as cj
 
 
 class Minecraft(commands.Cog):
@@ -26,51 +25,6 @@ class Minecraft(commands.Cog):
         self.db = bot.get_cog("Database")
 
         self.v.mcserver_list = []
-
-        self.update_server_list.start()
-        self.clear_rcon_cache.start()
-
-    def cog_unload(self):
-        self.update_server_list.cancel()
-        self.clear_rcon_cache.cancel()
-
-    @tasks.loop(hours=2)
-    async def update_server_list(self):
-        self.bot.logger.info("scraping mc-lists.org...")
-
-        server_pages = await asyncio.gather(*[self.bot.aiohttp.get(f"https://mc-lists.org/pg.{i}") for i in range(1, 26)])
-        server_pages = await asyncio.gather(*[page.text() for page in server_pages])
-
-        server_groups = await asyncio.gather(
-            *[
-                self.bot.loop.run_in_executor(self.bot.tpool, functools.partial(parse_mclists_page, page))
-                for page in server_pages
-            ]
-        )
-
-        servers = set()
-
-        for server_group in server_groups:
-            servers.update(server_group)
-
-        self.v.mcserver_list = list(servers) + self.v.additional_mcservers
-
-        self.bot.logger.info("finished scraping mc-lists.org")
-
-    @update_server_list.before_loop
-    async def before_update_server_list(self):
-        await self.bot.wait_until_ready()
-
-    @tasks.loop(seconds=15)
-    async def clear_rcon_cache(self):
-        for key, con in self.v.rcon_cache.copy().items():
-            if arrow.utcnow().shift(minutes=-1) > con[1]:
-                try:
-                    await con[0].close()
-                except Exception:
-                    pass
-
-                self.v.rcon_cache.pop(key, None)
 
     @commands.command(name="mcimage", aliases=["mcpixelart", "mcart", "mcimg"])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -122,8 +76,10 @@ class Minecraft(commands.Cog):
                 return
         else:
             port_str = ""
+            
             if port is not None and port != 0:
                 port_str = f":{port}"
+
             combined = f"{host}{port_str}"
 
         async with ctx.typing():
@@ -464,7 +420,6 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.guild_only()
     async def rcon_command(self, ctx, *, cmd):
-        dm_check = lambda m: ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
         if db_guild["mcserver"] is None:
