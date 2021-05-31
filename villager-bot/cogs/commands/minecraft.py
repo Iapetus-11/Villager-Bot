@@ -1,5 +1,6 @@
-from discord.ext import commands, tasks
+from urllib.parse import quote as urlquote
 from cryptography.fernet import Fernet
+from discord.ext import commands
 import aiomcrcon as rcon
 import classyjson as cj
 import functools
@@ -76,7 +77,7 @@ class Minecraft(commands.Cog):
                 return
         else:
             port_str = ""
-            
+
             if port is not None and port != 0:
                 port_str = f":{port}"
 
