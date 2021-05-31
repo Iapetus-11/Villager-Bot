@@ -52,7 +52,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             "cogs.commands.mod",
             "cogs.commands.fun",
             "cogs.commands.config",
-            "cogs.commands.minecraft"
+            "cogs.commands.minecraft",
         ]
 
         self.logger = setup_logging(self.shard_ids)
@@ -62,7 +62,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.tp = None  # ThreadPoolExecutor instance
 
         # caches
-        self.ban_cache = set() # {user_id, user_id,..}
+        self.ban_cache = set()  # {user_id, user_id,..}
         self.language_cache = {}  # {guild_id: "lang"}
         self.prefix_cache = {}  # {guild_id: "prefix"}
         self.disabled_commands = {}  # {guild_id: {command, command,..}}
