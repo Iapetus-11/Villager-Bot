@@ -79,6 +79,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.error_count = 0
         self.session_votes = 0
         self.spawn_queue = set()  # {ctx, ctx,..}
+        self.minecraft_servers = set()  # used for storing servers from minecraft.global {("server:port", server_id)}
 
         self.add_check(self.check_global)
 
