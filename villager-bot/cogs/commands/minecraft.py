@@ -11,8 +11,12 @@ import base64
 import arrow
 import json
 
-from util.blockifier import Blockifier
 from util.misc import dm_check
+
+try:
+    from util.blockifier import Blockifier
+except ImportError:
+    Blockifier = None
 
 
 class Minecraft(commands.Cog):
@@ -24,11 +28,18 @@ class Minecraft(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-        self.blockifier = Blockifier("data/block_palette.json")
+        if Blockifier:
+            self.blockifier = Blockifier("data/block_palette.json")
+        else:
+            self.blockifier = None
 
     @commands.command(name="mcimage", aliases=["mcpixelart", "mcart", "mcimg"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def mcpixelart(self, ctx):
+        if not self.blockifier:
+            await ctx.send("This command is disabled because Cython isn't enabled.")
+            return
+
         files = ctx.message.attachments
 
         if len(files) < 1:
