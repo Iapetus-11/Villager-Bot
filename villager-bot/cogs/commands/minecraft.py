@@ -162,12 +162,12 @@ class Minecraft(commands.Cog):
         if player_list is None:
             player_list = ()
 
-        players_online = jj["players_online"]  # int
+        players_online = jj["players_online"]
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address))
 
         if server[1] is not None:
-            embed.description = ctx.l.minecraft.mcping.learn_more.format(server[1])
+            embed.description = ctx.l.minecraft.mcping.learn_more.format(f"https://minecraft.global/server/{server[1]}")
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj["latency"])
         ver = jj["version"].get("brand", "Unknown")
