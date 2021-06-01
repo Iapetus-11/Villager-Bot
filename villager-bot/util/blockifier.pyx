@@ -19,8 +19,8 @@ cdef class Blockifier:
     cdef signed int xi
     cdef signed int yi
 
-    def __init__(self):
-        with open("data/block_palette.json", "r") as d:
+    def __init__(self, palette: str):
+        with open(palette, "r") as d:
             data = json.load(d)
 
         self.palette_bi = {entry[0]: entry[1] for entry in data["bi"]}
