@@ -12,9 +12,10 @@ class Loops(commands.Cog):
     async def update_minecraft_servers(self):
         """fetches the coolest mc servers from minecraft.global, and stores them for usage in !!randommc"""
 
+        # .75 * 10 = 7.5 seconds + processing time this will be about as slow as scraping mclists *cry*
         for i in range(
             0, 240, 24
-        ):  # .75 * 10 = 7.5 seconds + processing time this will be about as slow as scraping mclists *cry*
+        ):
             res = await self.aiohttp.get(f"https://api.minecraft.global/search?amount=24&online=True&offset={i}")
             data = await res.json()
 
