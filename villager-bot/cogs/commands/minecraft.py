@@ -11,8 +11,8 @@ import base64
 import arrow
 import json
 
+from util.blockifier import Blockifier
 from util.misc import dm_check
-from util import mosaic
 
 
 class Minecraft(commands.Cog):
@@ -24,6 +24,8 @@ class Minecraft(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
+        self.blockifier = Blockifier("data/block_palette.json")
+
     @commands.command(name="mcimage", aliases=["mcpixelart", "mcart", "mcimg"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def mcpixelart(self, ctx):
@@ -33,14 +35,14 @@ class Minecraft(commands.Cog):
             await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_1)
             return
         else:
-            img = files[0]
+            image = files[0]
 
-        if img.filename.lower()[-4:] not in (".jpg", ".png") and not img.filename.lower()[-5:] in (".jpeg"):
+        if image.filename.lower()[-4:] not in (".jpg", ".png") and not image.filename.lower()[-5:] in (".jpeg"):
             await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_2)
             return
 
         try:
-            img.height
+            image.height
         except Exception:
             await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_3)
             return
@@ -53,11 +55,10 @@ class Minecraft(commands.Cog):
                 break
 
         async with ctx.typing():
-            mosaic_gen_partial = functools.partial(mosaic.generate, await img.read(use_cached=True), 1600, detailed)
+            partial_call = functools.partial(self.blockifier.generate, await image.read(use_cached=True), 1600, detailed)
+            image_data = await self.bot.loop.run_in_executor(self.bot.tp, partial_call)
 
-            img_data = await self.bot.loop.run_in_executor(self.bot.tpool, mosaic_gen_partial)
-
-            await ctx.send(file=discord.File(img_data, filename=img.filename))
+            await ctx.send(file=discord.File(image_data, filename=image.filename))
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
