@@ -29,7 +29,7 @@ class Loops(commands.Cog):
 
             self.bot.minecraft_servers.update(servers)
 
-            await asyncio.sleep(.75)  # required to not hit the api ratelimits
+            await asyncio.sleep(.75)  # required to not hit the api ratelimits (yes it's .25 extra just to be nice to API)
 
 
 
