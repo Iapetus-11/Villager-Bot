@@ -20,12 +20,9 @@ class Minecraft(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.v = bot.v
         self.k = bot.k
 
         self.db = bot.get_cog("Database")
-
-        self.v.mcserver_list = []
 
     @commands.command(name="mcimage", aliases=["mcpixelart", "mcart", "mcimg"])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -147,30 +144,30 @@ class Minecraft(commands.Cog):
     async def random_mc_server(self, ctx):
         """Checks the status of a random Minecraft server"""
 
-        s = random.choice(self.v.mcserver_list)
-        combined = s[0]
+        server = random.choice(self.bot.minecraft_servers)
+        address = server[0]
 
         async with ctx.typing():
             async with self.bot.aiohttp.get(
-                f"https://api.iapetus11.me/mc/status/{combined}", headers={"Authorization": self.k.vb_api}
+                f"https://api.iapetus11.me/mc/status/{address}", headers={"Authorization": self.k.villager_api}
             ) as res:  # fetch status from api
                 jj = await res.json()
 
         if not jj["success"] or not jj["online"]:
-            self.v.mcserver_list.remove(s)
+            self.bot.minecraft_servers.remove(server)
             await self.random_mc_server(ctx)
             return
 
-        player_list = jj.get("players_names", [])
+        player_list = jj.get("players_names", ())
         if player_list is None:
-            player_list = []
+            player_list = ()
 
-        players_online = jj["players_online"]  # int@
+        players_online = jj["players_online"]  # int
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, combined))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address))
 
-        if s[1] is not None:
-            embed.description = ctx.l.minecraft.mcping.learn_more.format(s[1])
+        if server[1] is not None:
+            embed.description = ctx.l.minecraft.mcping.learn_more.format(server[1])
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj["latency"])
         ver = jj["version"].get("brand", "Unknown")
@@ -201,10 +198,10 @@ class Minecraft(commands.Cog):
                 inline=False,
             )
 
-        embed.set_image(url=f"https://api.iapetus11.me/mc/statuscard/{combined}?v={random.random()*100000}")
+        embed.set_image(url=f"https://api.iapetus11.me/mc/statuscard/{server}?v={random.random()*100000}")
 
         if jj["favicon"] is not None:
-            embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/favicon/{combined}")
+            embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/favicon/{server}")
 
         await ctx.send(embed=embed)
 
