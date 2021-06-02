@@ -18,6 +18,8 @@ async-cse = "^0.3.0"
 aio-mc-rcon = "^3.0.2"
 cryptography = "^3.4.7"
 Cython = "^0.29.23"
+numpy = "^1.20.3"
+opencv-python = "^4.5.2"
 
 [tool.poetry.dev-dependencies]
 black = "^21.5b1"
