@@ -166,7 +166,7 @@ class Minecraft(commands.Cog):
         server = cj.ClassyDict((await res.json())["payload"])
 
         if server.port:
-            address = server.host + ":" + server.port
+            address = server.host + ":" + str(server.port)
         else:
             address = server.host
 
