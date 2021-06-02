@@ -161,8 +161,14 @@ class Minecraft(commands.Cog):
     async def random_mc_server(self, ctx):
         """Checks the status of a random Minecraft server"""
 
-        server = random.choice(self.bot.minecraft_servers)
-        address, server_id = server
+        server_id = random.choice(self.bot.minecraft_server_ids)
+        res = await self.aiohttp.get(f"https://api.minecraft.global/server/{server_id}")
+        server = cj.ClassyDict((await res.json())["payload"])
+
+        if server.port:
+            address = server.host + ":" + server.port
+        else:
+            address = server.host
 
         async with ctx.typing():
             async with self.aiohttp.get(
@@ -171,7 +177,7 @@ class Minecraft(commands.Cog):
                 jj = await res.json()
 
         if not jj["success"] or not jj["online"]:
-            self.bot.minecraft_servers.remove(server)
+            self.bot.minecraft_server_ids.remove(server_id)
             await self.random_mc_server(ctx)
             return
 

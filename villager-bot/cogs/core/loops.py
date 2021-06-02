@@ -29,29 +29,12 @@ class Loops(commands.Cog):
 
                 self.bot.rcon_cache.pop(key, None)
 
-    @tasks.loop(hours=1)
+    @tasks.loop(minutes=30)
     async def update_minecraft_servers(self):
-        """fetches the coolest mc servers from minecraft.global, and stores them for usage in !!randommc"""
+        """fetches all server ids from minecraft.global, and stores them for usage in !!randommc"""
 
-        servers = set()
-
-        # .75 * 10 = 7.5 seconds + processing time this will be about as slow as scraping mclists *cry*
-        for i in range(0, 240, 24):
-            res = await self.aiohttp.get(f"https://api.minecraft.global/search?amount=24&online=True&offset={i}")
-            data = await res.json()
-
-            for e in data["payload"]["entries"]:
-                if e.get("advertisement_id") is None:  # exclude advertisements
-                    if e["port"]:  # get and format address
-                        address = f"{e['host']}:{e['port']}"
-                    else:
-                        address = e["host"]
-
-                    servers.add((address, e["server_id"]))
-
-            self.bot.minecraft_servers = list(servers)
-
-            await asyncio.sleep(0.75)  # required to not hit the api ratelimits (yes it's .25 extra just to be nice to API)
+        res = await self.aiohttp.get("https://api.minecraft.global/servers")
+        self.bot.minecraft_server_ids = (await res.json())["payload"]
 
 
 def setup(bot):
