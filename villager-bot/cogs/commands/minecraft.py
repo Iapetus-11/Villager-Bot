@@ -14,9 +14,10 @@ import json
 from util.misc import dm_check
 
 try:
-    from util.blockifier import Blockifier
-except ImportError:
-    Blockifier = None
+    from util import blockifier
+except ImportError as e:
+    print(e)
+    blockifier = None
 
 
 class Minecraft(commands.Cog):
@@ -28,8 +29,8 @@ class Minecraft(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-        if Blockifier:
-            self.blockifier = Blockifier("data/block_palette.json")
+        if blockifier:
+            self.blockifier = blockifier.Blockifier("data/block_palette.json")
         else:
             self.blockifier = None
 
