@@ -37,7 +37,6 @@ class Minecraft(commands.Cog):
             self.blockifier = blockifier.Blockifier("data/block_palette.json")
         else:
             self.blockifier = None
-            
 
     @commands.command(name="mcimage", aliases=["mcpixelart", "mcart", "mcimg"])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -486,9 +485,7 @@ class Minecraft(commands.Cog):
             password = auth_msg.content
         else:
             rcon_port = db_user_rcon["rcon_port"]
-            password = (
-                self.fernet.decrypt(db_user_rcon["password"].encode("utf-8")).decode("utf-8")
-            )  # decrypt to plaintext
+            password = self.fernet.decrypt(db_user_rcon["password"].encode("utf-8")).decode("utf-8")  # decrypt to plaintext
 
         await ctx.trigger_typing()
 
