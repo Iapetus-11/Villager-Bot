@@ -48,19 +48,19 @@ class Minecraft(commands.Cog):
         files = ctx.message.attachments
 
         if len(files) < 1:
-            await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
             return
         else:
             image = files[0]
 
         if image.filename.lower()[-4:] not in (".jpg", ".png") and not image.filename.lower()[-5:] in (".jpeg"):
-            await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_2)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
             return
 
         try:
             image.height
         except Exception:
-            await self.bot.send(ctx, ctx.l.minecraft.mcimage.stupid_3)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_3)
             return
 
         detailed = False
@@ -74,7 +74,7 @@ class Minecraft(commands.Cog):
             partial_call = functools.partial(self.blockifier.generate, await image.read(use_cached=True), 1600, detailed)
             image_data = await self.bot.loop.run_in_executor(self.bot.tp, partial_call)
 
-            await ctx.send(file=discord.File(image_data, filename=image.filename))
+            await ctx.reply(file=discord.File(image_data, filename=image.filename), mention_author=False)
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
@@ -87,7 +87,7 @@ class Minecraft(commands.Cog):
 
             combined = (await self.db.fetch_guild(ctx.guild.id))["mc_server"]
             if combined is None:
-                await self.bot.send(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
                 return
         else:
             port_str = ""
@@ -107,7 +107,7 @@ class Minecraft(commands.Cog):
             embed = discord.Embed(
                 color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined)
             )
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed, mention_author=False)
             return
 
         player_list = jj.get("players_names", [])
@@ -154,7 +154,7 @@ class Minecraft(commands.Cog):
         if jj["favicon"] is not None:
             embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/favicon/{combined}")
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="randommc", aliases=["randommcserver", "randomserver"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -225,7 +225,7 @@ class Minecraft(commands.Cog):
         if jj["favicon"] is not None:
             embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/favicon/{address}")
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="stealskin", aliases=["getskin", "skin", "mcskin"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
@@ -235,10 +235,10 @@ class Minecraft(commands.Cog):
                 res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
-                await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
                 return
             elif res.status != 200:
-                await self.bot.send(ctx, ctx.l.minecraft.stealskin.error)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.stealskin.error)
                 return
 
             jj = await res.json()
@@ -248,14 +248,14 @@ class Minecraft(commands.Cog):
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:
-            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
             return
 
         async with ctx.typing():
             res = await self.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
 
         if res.status != 200:
-            await self.bot.send(ctx, ctx.l.minecraft.stealskin.error)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.stealskin.error)
             return
 
         profile = await res.json()
@@ -267,7 +267,7 @@ class Minecraft(commands.Cog):
                 break
 
         if skin_url is None:
-            await self.bot.send(ctx, ctx.l.minecraft.stealskin.no_skin)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.stealskin.no_skin)
             return
 
         embed = discord.Embed(
@@ -277,7 +277,7 @@ class Minecraft(commands.Cog):
         embed.set_thumbnail(url=skin_url)
         embed.set_image(url=f"https://visage.surgeplay.com/full/{uuid}.png")
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="mcprofile", aliases=["minecraftprofile", "nametouuid", "uuidtoname", "mcp"])
     @commands.cooldown(1, 4, commands.BucketType.user)
@@ -287,10 +287,10 @@ class Minecraft(commands.Cog):
                 res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
-                await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
                 return
             elif res.status != 200:
-                await self.bot.send(ctx, ctx.l.minecraft.profile.error)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.profile.error)
                 return
 
             jj = await res.json()
@@ -300,7 +300,7 @@ class Minecraft(commands.Cog):
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:
-            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
             return
 
         async with ctx.typing():
@@ -311,10 +311,10 @@ class Minecraft(commands.Cog):
 
         for res in resps:
             if res.status == 204:
-                await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
                 return
             elif res.status != 200:
-                await self.bot.send(ctx, ctx.l.minecraft.profile.error)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.profile.error)
                 return
 
         names = cj.classify(await resps[0].json())
@@ -362,7 +362,7 @@ class Minecraft(commands.Cog):
         )
         embed.add_field(name=(":label: " + ctx.l.minecraft.profile.hist), value=name_hist, inline=False)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="nametoxuid", aliases=["grabxuid", "benametoxuid", "bename"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -373,12 +373,12 @@ class Minecraft(commands.Cog):
             res = await self.aiohttp.get(f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi})
 
         if res.status != 200:
-            await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
             return
 
         xuid = f'{"0"*8}-{"0000-"*3}{hex(int(await res.text())).strip("0x")}'
 
-        await self.bot.send(ctx, f'**{username}**: `{xuid}` / `{xuid[20:].replace("-", "").upper()}`')
+        await self.bot.reply_embed(ctx, f'**{username}**: `{xuid}` / `{xuid[20:].replace("-", "").upper()}`')
 
     @commands.command(name="mccolors", aliases=["minecraftcolors", "chatcolors", "colorcodes"])
     async def color_codes(self, ctx):
@@ -424,7 +424,7 @@ class Minecraft(commands.Cog):
             f"<:reset:697541699697639446> {cs.reset} `§r`\n",
         )
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="buildidea", aliases=["idea"])
     async def build_idea(self, ctx):
@@ -433,7 +433,7 @@ class Minecraft(commands.Cog):
         prefix = random.choice(self.d.build_ideas["prefixes"])
         idea = random.choice(self.d.build_ideas["ideas"])
 
-        await self.bot.send(ctx, f"{prefix} {idea}!")
+        await self.bot.reply_embed(ctx, f"{prefix} {idea}!")
 
     @commands.command(name="rcon", aliases=["mccmd"])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
@@ -443,23 +443,23 @@ class Minecraft(commands.Cog):
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
         if db_guild["mc_server"] is None:
-            await self.bot.send(ctx, ctx.l.minecraft.rcon.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.stupid_1)
             return
 
         db_user_rcon = await self.db.fetch_user_rcon(ctx.author.id, db_guild["mc_server"])
 
         if db_user_rcon is None:
             try:
-                await self.bot.send(ctx.author, ctx.l.minecraft.rcon.port)
+                await self.bot.reply_embed(ctx.author, ctx.l.minecraft.rcon.port)
             except Exception:
-                await self.bot.send(ctx, ctx.l.minecraft.rcon.dm_error)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.dm_error)
                 return
 
             try:
                 port_msg = await self.bot.wait_for("message", check=dm_check, timeout=60)
             except asyncio.TimeoutError:
                 try:
-                    await self.bot.send(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
+                    await self.bot.reply_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
                 except Exception:
                     pass
                 return
@@ -473,16 +473,16 @@ class Minecraft(commands.Cog):
                 rcon_port = 25575
 
             try:
-                await self.bot.send(ctx.author, ctx.l.minecraft.rcon.passw)
+                await self.bot.reply_embed(ctx.author, ctx.l.minecraft.rcon.passw)
             except Exception:
-                await self.bot.send(ctx, ctx.l.minecraft.rcon.dm_error)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.dm_error)
                 return
 
             try:
                 auth_msg = await self.bot.wait_for("message", check=dm_check, timeout=60)
             except asyncio.TimeoutError:
                 try:
-                    await self.bot.send(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
+                    await self.bot.reply_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
                 except Exception:
                     pass
                 return
@@ -507,9 +507,9 @@ class Minecraft(commands.Cog):
             await rcon_con.connect(timeout=2.5)
         except Exception as e:
             if isinstance(e, rcon.IncorrectPasswordError):
-                await self.bot.send(ctx, ctx.l.minecraft.rcon.stupid_2)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.stupid_2)
             else:
-                await self.bot.send(ctx, ctx.l.minecraft.rcon.err_con)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.err_con)
 
             await self.db.delete_user_rcon(ctx.author.id, db_guild["mc_server"])
             await rcon_con.close()
@@ -524,7 +524,7 @@ class Minecraft(commands.Cog):
         try:
             resp = await rcon_con.send_cmd(cmd[:1445])
         except Exception:
-            await self.bot.send(ctx, ctx.l.minecraft.rcon.err_cmd)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.err_cmd)
             await rcon_con.close()
             self.v.rcon_cache.pop((ctx.author.id, db_guild["mc_server"]), None)
 
@@ -535,7 +535,7 @@ class Minecraft(commands.Cog):
             if resp[0][i] != "§" and (i == 0 or resp[0][i - 1] != "§"):
                 resp_text += resp[0][i]
 
-        await ctx.send("```\uFEFF{}```".format(resp_text.replace("\\n", "\n")[: 2000 - 7]))
+        await ctx.reply("```\uFEFF{}```".format(resp_text.replace("\\n", "\n")[: 2000 - 7]), mention_author=False)
 
 
 def setup(bot):
