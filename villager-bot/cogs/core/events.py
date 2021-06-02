@@ -119,7 +119,7 @@ class Events(commands.Cog):
                         await message.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
                     elif "reee" in content_lower:
                         await message.channel.send(random.choice(self.d.emojis.reees))
-                    elif "amogus" in content_lower:
+                    elif "amogus" in content_lower or content_lower == "sus":
                         await message.channel.send(self.d.emojis.amogus)
 
     async def handle_cooldown(self, ctx, remaining: float, karen_cooldown: bool) -> None:
