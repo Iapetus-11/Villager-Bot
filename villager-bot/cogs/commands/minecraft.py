@@ -189,8 +189,7 @@ class Minecraft(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address))
 
-        if server[1] is not None:
-            embed.description = ctx.l.minecraft.mcping.learn_more.format(f"https://minecraft.global/server/{server_id}")
+        embed.description = ctx.l.minecraft.mcping.learn_more.format(f"https://minecraft.global/server/{server_id}")
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj["latency"])
         ver = jj["version"].get("brand", "Unknown")
