@@ -1,5 +1,7 @@
 secrets.json
 
 villager-bot/cogs/core/hentai.py
+villager-bot/*.pyd
+villager-bot/*.so
 
 __pycache__/
