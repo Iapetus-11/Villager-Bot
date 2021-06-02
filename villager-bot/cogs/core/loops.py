@@ -9,6 +9,13 @@ class Loops(commands.Cog):
         self.bot = bot
         self.aiohttp = bot.aiohttp
 
+        self.clear_rcon_cache.start()
+        self.update_minecraft_servers.start()
+
+    def cog_unload(self):
+        self.clear_rcon_cache.cancel()
+        self.update_minecraft_servers.cancel()
+
     @tasks.loop(seconds=30)
     async def clear_rcon_cache(self):
         """clear old connections from the rcon cache"""
