@@ -19,7 +19,7 @@ from util.ipc import Client
 def run_shard_group(shard_count: int, shard_ids: list) -> None:
     # add cython support, with numpy header files
     pyximport.install(language_level=3, reload_support=True, setup_args={"include_dirs": numpy.get_include()})
-    
+
     asyncio.set_event_loop(asyncio.new_event_loop())
 
     shard_group = VillagerBotShardGroup(shard_count, shard_ids)
