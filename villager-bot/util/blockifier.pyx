@@ -23,9 +23,9 @@ cdef class Blockifier:
         with open(palette, "r") as d:
             data = json.load(d)
 
-        self.palette_bi = {entry[0]: entry[1] for entry in data["bi"]}
-        self.palette_quad = {entry[0]: entry[1] for entry in data["quad"]}
-        self.palette_oct = {entry[0]: entry[1] for entry in data["oct"]}
+        self.palette_bi = {tuple(entry[0]): entry[1] for entry in data["bi"]}
+        self.palette_quad = {tuple(entry[0]): entry[1] for entry in data["quad"]}
+        self.palette_oct = {tuple(entry[0]): entry[1] for entry in data["oct"]}
         self.palette_map = {k: self.im_from_bytes(base64.b64decode(v)) for k, v in data["palette"].items()}
 
         self.xi = data["dims"][0]
