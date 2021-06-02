@@ -99,7 +99,7 @@ class Minecraft(commands.Cog):
 
         async with ctx.typing():
             async with self.aiohttp.get(
-                f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}", headers={"Authorization": self.k.vb_api}
+                f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}", headers={"Authorization": self.k.villager_api}
             ) as res:  # fetch status from api
                 jj = await res.json()
 
@@ -162,7 +162,7 @@ class Minecraft(commands.Cog):
         """Checks the status of a random Minecraft server"""
 
         server = random.choice(self.bot.minecraft_servers)
-        address = server[0]
+        address, server_id = server
 
         async with ctx.typing():
             async with self.aiohttp.get(
@@ -184,7 +184,7 @@ class Minecraft(commands.Cog):
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address))
 
         if server[1] is not None:
-            embed.description = ctx.l.minecraft.mcping.learn_more.format(f"https://minecraft.global/server/{server[1]}")
+            embed.description = ctx.l.minecraft.mcping.learn_more.format(f"https://minecraft.global/server/{server_id}")
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj["latency"])
         ver = jj["version"].get("brand", "Unknown")
@@ -215,10 +215,10 @@ class Minecraft(commands.Cog):
                 inline=False,
             )
 
-        embed.set_image(url=f"https://api.iapetus11.me/mc/statuscard/{server}?v={random.random()*100000}")
+        embed.set_image(url=f"https://api.iapetus11.me/mc/statuscard/{address}?v={random.random()*100000}")
 
         if jj["favicon"] is not None:
-            embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/favicon/{server}")
+            embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/favicon/{address}")
 
         await ctx.send(embed=embed)
 
