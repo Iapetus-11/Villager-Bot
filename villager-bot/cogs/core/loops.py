@@ -1,12 +1,26 @@
 from discord.ext import commands, tasks
 from classyjson import ClassyDict
 import asyncio
+import arrow
 
 
 class Loops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.aiohttp = bot.aiohttp
+
+    @tasks.loop(seconds=30)
+    async def clear_rcon_cache(self):
+        """clear old connections from the rcon cache"""
+
+        for key, connection in self.bot.rcon_cache.copy().items():
+            if arrow.utcnow().shift(minutes=-1) > connection[1]:
+                try:
+                    await connection[0].close()
+                except Exception:
+                    pass
+
+                self.bot.rcon_cache.pop(key, None)
 
     @tasks.loop(hours=1)
     async def update_minecraft_servers(self):
