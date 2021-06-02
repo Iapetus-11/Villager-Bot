@@ -27,7 +27,7 @@ class Owner(commands.Cog):
 
         try:
             result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
-            await ctx.reply(f"```{result.replace('```', '｀｀｀')}```")
+            await ctx.reply(f"```{repr(result).replace('```', '｀｀｀')}```")
         except Exception as e:
             await ctx.reply(f"```py\n{format_exception(e)[:2000-9]}```")
 
