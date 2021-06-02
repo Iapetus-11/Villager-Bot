@@ -99,7 +99,8 @@ class Minecraft(commands.Cog):
 
         async with ctx.typing():
             async with self.aiohttp.get(
-                f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}", headers={"Authorization": self.k.villager_api}
+                f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}",
+                headers={"Authorization": self.k.villager_api},
             ) as res:  # fetch status from api
                 jj = await res.json()
 
