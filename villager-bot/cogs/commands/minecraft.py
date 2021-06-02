@@ -29,6 +29,8 @@ class Minecraft(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
+        self.aiohttp = bot.aiohttp
+
         self.fernet = Fernet(self.k.fernet)
 
         if blockifier:
@@ -97,7 +99,7 @@ class Minecraft(commands.Cog):
             combined = f"{host}{port_str}"
 
         async with ctx.typing():
-            async with self.bot.aiohttp.get(
+            async with self.aiohttp.get(
                 f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}", headers={"Authorization": self.k.vb_api}
             ) as res:  # fetch status from api
                 jj = await res.json()
@@ -164,7 +166,7 @@ class Minecraft(commands.Cog):
         address = server[0]
 
         async with ctx.typing():
-            async with self.bot.aiohttp.get(
+            async with self.aiohttp.get(
                 f"https://api.iapetus11.me/mc/status/{address}", headers={"Authorization": self.k.villager_api}
             ) as res:  # fetch status from api
                 jj = await res.json()
@@ -226,7 +228,7 @@ class Minecraft(commands.Cog):
     async def steal_skin(self, ctx, player):
         if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
             async with ctx.typing():
-                res = await self.bot.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
+                res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
                 await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
@@ -246,7 +248,7 @@ class Minecraft(commands.Cog):
             return
 
         async with ctx.typing():
-            res = await self.bot.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
+            res = await self.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
 
         if res.status != 200:
             await self.bot.send(ctx, ctx.l.minecraft.stealskin.error)
@@ -278,7 +280,7 @@ class Minecraft(commands.Cog):
     async def minecraft_profile(self, ctx, player):
         if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
             async with ctx.typing():
-                res = await self.bot.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
+                res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
                 await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
@@ -299,8 +301,8 @@ class Minecraft(commands.Cog):
 
         async with ctx.typing():
             resps = await asyncio.gather(
-                self.bot.aiohttp.get(f"https://api.mojang.com/user/profiles/{uuid}/names"),
-                self.bot.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"),
+                self.aiohttp.get(f"https://api.mojang.com/user/profiles/{uuid}/names"),
+                self.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"),
             )
 
         for res in resps:
@@ -364,7 +366,7 @@ class Minecraft(commands.Cog):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
         async with ctx.typing():
-            res = await self.bot.aiohttp.get(f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi})
+            res = await self.aiohttp.get(f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi})
 
         if res.status != 200:
             await self.bot.send(ctx, ctx.l.minecraft.invalid_player)
