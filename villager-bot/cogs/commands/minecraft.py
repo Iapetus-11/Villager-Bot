@@ -450,16 +450,16 @@ class Minecraft(commands.Cog):
 
         if db_user_rcon is None:
             try:
-                await self.bot.reply_embed(ctx.author, ctx.l.minecraft.rcon.port)
+                await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.port)
             except Exception:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.dm_error)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.dm_error, True)
                 return
 
             try:
                 port_msg = await self.bot.wait_for("message", check=dm_check, timeout=60)
             except asyncio.TimeoutError:
                 try:
-                    await self.bot.reply_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
+                    await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
                 except Exception:
                     pass
                 return
@@ -473,16 +473,16 @@ class Minecraft(commands.Cog):
                 rcon_port = 25575
 
             try:
-                await self.bot.reply_embed(ctx.author, ctx.l.minecraft.rcon.passw)
+                await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.passw)
             except Exception:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.dm_error)
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.dm_error, True)
                 return
 
             try:
                 auth_msg = await self.bot.wait_for("message", check=dm_check, timeout=60)
             except asyncio.TimeoutError:
                 try:
-                    await self.bot.reply_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
+                    await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
                 except Exception:
                     pass
                 return
