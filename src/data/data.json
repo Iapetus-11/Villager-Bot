@@ -340,6 +340,18 @@
         4096,
         500000,
         true
+      ],
+      [
+        "Pride Flag",
+        64,
+        1000,
+        false
+      ],
+      [
+        "A Literal Rainbow",
+        2048,
+        99999,
+        false
       ]
     ]
   },
