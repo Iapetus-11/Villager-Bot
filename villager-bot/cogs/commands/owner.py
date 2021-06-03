@@ -16,6 +16,7 @@ class Owner(commands.Cog):
 
         self.ipc = bot.ipc
         self.d = bot.d
+        self.db = bot.db
 
     @commands.command(name="reload")
     @commands.is_owner()
