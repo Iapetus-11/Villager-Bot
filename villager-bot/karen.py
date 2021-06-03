@@ -39,7 +39,8 @@ class MechaKaren:
 
         self.eval_env = {"karen": self, **self.v.__dict__}
 
-        self.broadcasts = {}  # broadcast_id: {ready: asyncio.Event, responses: [response, response,..]}
+        self.broadcasts = {}  # {broadcast_id: {ready: asyncio.Event, responses: [response, response,..]}}
+        self.dm_messages = {}  # {user_id: {event: asyncio.Event, content: "contents of message"}}
         self.current_id = 0
 
     async def handle_packet(self, stream: Stream, packet: ClassyDict):
@@ -97,6 +98,14 @@ class MechaKaren:
             self.cooldowns.add_cooldown(packet.command, packet.user_id)
         elif packet.type == "cooldown-reset":
             self.cooldowns.clear_cooldown(packet.command, packet.user_id)
+        elif packet.type == "dm-message-request":
+            entry = self.dm_messages[packet.user] = {"event": asyncio.Event(), "content": None}
+            await entry["event"].wait()
+            await stream.write_packet({"type": "dm-message", "id": packet.id, "content": entry["content"]})
+        elif packet.type == "dm-message":
+            entry = self.dm_messages[packet.user]
+            entry["content"] = packet.content
+            entry["event"].set()
 
     async def start(self, pp):
         await self.server.start()

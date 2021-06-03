@@ -65,6 +65,9 @@ class Events(commands.Cog):
         if message.author.bot:
             return
 
+        if isinstance(message.channel, discord.DMChannel):
+            await self.ipc.send({"type": "dm-message", "user": message.author.id, "content": message.content})
+
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:
                 prefix = self.d.default_prefix
