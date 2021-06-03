@@ -116,7 +116,9 @@ class MechaKaren:
             entry["event"].set()
         elif packet.type == "mine-command":  # actually used for fishing too
             self.v.mine_commands[packet.user] += packet.addition
-            await stream.write_packet({"type": "mine-command-response", "id": packet.id, "current": self.v.mine_commands[packet.user]})
+            await stream.write_packet(
+                {"type": "mine-command-response", "id": packet.id, "current": self.v.mine_commands[packet.user]}
+            )
 
     async def start(self, pp):
         await self.server.start()
