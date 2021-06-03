@@ -1,6 +1,4 @@
 from discord.ext import commands, tasks
-from classyjson import ClassyDict
-import asyncio
 import arrow
 
 

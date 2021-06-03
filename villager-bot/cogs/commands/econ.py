@@ -1,5 +1,5 @@
-from discord.ext import commands, tasks
 from collections import defaultdict
+from discord.ext import commands
 import functools
 import discord
 import asyncio

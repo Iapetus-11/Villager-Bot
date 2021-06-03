@@ -1,9 +1,8 @@
-from discord.ext import commands, tasks
+from discord.ext import commands
 from datetime import datetime
 from typing import List, Set
 import asyncio
 import asyncpg
-import arrow
 
 
 class Database(commands.Cog):

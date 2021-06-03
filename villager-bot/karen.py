@@ -1,9 +1,7 @@
 from concurrent.futures import ProcessPoolExecutor
 from collections import defaultdict
 from classyjson import ClassyDict
-import aiofiles
 import asyncio
-import logging
 import arrow
 
 from util.setup import load_secrets, load_data, setup_karen_logging
