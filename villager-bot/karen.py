@@ -101,6 +101,9 @@ class MechaKaren:
         elif packet.type == "dm-message-request":
             entry = self.dm_messages[packet.user] = {"event": asyncio.Event(), "content": None}
             await entry["event"].wait()
+
+            self.dm_messages.pop(packet.user, None)
+
             await stream.write_packet({"type": "dm-message", "id": packet.id, "content": entry["content"]})
         elif packet.type == "dm-message":
             entry = self.dm_messages[packet.user]
