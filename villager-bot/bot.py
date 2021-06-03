@@ -19,7 +19,8 @@ from util.ipc import Client
 def run_shard_group(shard_count: int, shard_ids: list) -> None:
     # add cython support, with numpy header files
     pyximport.install(language_level=3, reload_support=True, setup_args={"include_dirs": numpy.get_include()})
-
+    
+    # for some reason, asyncio tries to use the event loop from the main process
     asyncio.set_event_loop(asyncio.new_event_loop())
 
     shard_group = VillagerBotShardGroup(shard_count, shard_ids)
@@ -90,7 +91,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.add_check(self.check_global)
 
     @property
-    def eval_env(self):
+    def eval_env(self):  # used in the eval and exec packets and the eval commands
         return {
             **globals(),
             "bot": self,
@@ -175,7 +176,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         await asyncio.sleep(random.randint(100, 200) / 100)
         await self.send_embed(ctx, f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
 
-    async def check_global(self, ctx):
+    async def check_global(self, ctx):  # the global command check
         self.command_count += 1
 
         ctx.l = self.get_language(ctx)
