@@ -93,19 +93,36 @@ class Owner(commands.Cog):
 
     @commands.command(name="givehistory", aliases=["transactions"])
     @commands.is_owner()
-    async def transaction_history(self, ctx, user: discord.User):
-        page_max = await self.db.fetch_transactions_page_count(user.id)
+    async def transaction_history(self, ctx, user: Union[discord.User, int]):
+        if isinstance(user, discord.User):
+            uid = user.id
+            username = str(user)
+        else:
+            uid = user
+            user = None
+
+            try:
+                user = await self.bot.fetch_user(uid)
+                username = str(user)
+            except Exception:
+                username = "Unknown User"
+
+        page_max = await self.db.fetch_transactions_page_count(uid)
         page = 0
 
         msg = None
         first_time = True
 
         while True:
-            entries = await self.db.fetch_transactions_page(user.id, page=page)
+            entries = await self.db.fetch_transactions_page(uid, page=page)
 
             if len(entries) == 0:
                 embed = discord.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
-                embed.set_author(name=f"Transaction history for {user}", icon_url=user.avatar_url_as())
+
+                if user is not None:
+                    embed.set_author(name=f"Transaction history for {username}", icon_url=user.avatar_url_as())
+                else:
+                    embed.set_author(name=f"Transaction history for {username}")
             else:
                 body = ""  # text for that page
 
