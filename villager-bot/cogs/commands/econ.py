@@ -16,6 +16,7 @@ class Econ(commands.Cog):
 
         self.d = bot.d
         self.db = bot.get_cog("Database")
+        self.ipc = bot.ipc
 
         # This links the max concurrency of the with, dep, sell, give, etc.. cmds
         for command in (
@@ -130,7 +131,7 @@ class Econ(commands.Cog):
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name=ctx.l.econ.pp.sword, value=(await self.db.fetch_sword(user.id)))
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="balance", aliases=["bal", "vault", "pocket"])
     async def balance(self, ctx, *, user: discord.User = None):
@@ -173,7 +174,7 @@ class Econ(commands.Cog):
             name=ctx.l.econ.bal.vault, value=f'{db_user["vault_bal"]}{self.d.emojis.emerald_block}/{db_user["vault_max"]}'
         )
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     async def inventory_logic(self, ctx, user, items: list, cat: str, items_per_page: int = 8):
         fishies = {fish.name: fish.current for fish in self.d.fishing.fish.values()}
@@ -217,7 +218,7 @@ class Econ(commands.Cog):
                 embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max+1}")
 
             if msg is None:
-                msg = await ctx.send(embed=embed)
+                msg = await ctx.reply(embed=embed, mention_author=False)
             else:
                 await msg.edit(embed=embed)
 
@@ -462,7 +463,7 @@ class Econ(commands.Cog):
 
             embed.set_footer(text=ctx.l.econ.shop.embed_footer.format(ctx.prefix))
 
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed, mention_author=False)
 
     async def shop_logic(self, ctx, _type, header):
         items = []
@@ -494,7 +495,7 @@ class Econ(commands.Cog):
             embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max}")
 
             if msg is None:
-                msg = await ctx.send(embed=embed)
+                msg = await ctx.reply(embed=embed, mention_author=False)
             else:
                 if not msg.embeds[0] == embed:
                     await msg.edit(embed=embed)
@@ -593,7 +594,7 @@ class Econ(commands.Cog):
             embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max}")
 
             if msg is None:
-                msg = await ctx.send(embed=embed)
+                msg = await ctx.reply(embed=embed, mention_author=False)
             elif not msg.embeds[0] == embed:
                 await msg.edit(embed=embed)
 
@@ -1424,7 +1425,7 @@ class Econ(commands.Cog):
             slime_balls = await self.db.fetch_item(ctx.author.id, "Slime Ball")
 
             if slime_balls is None or slime_balls["amount"] < amount:
-                await ctx.send(ctx.l.econ.use.need_slimy_balls)
+                await ctx.reply_embed(ctx.l.econ.use.need_slimy_balls)
                 return
 
             await self.db.remove_item(ctx.author.id, "Slime Ball", amount)
@@ -1498,7 +1499,7 @@ class Econ(commands.Cog):
             embed.add_field(name=ctx.l.econ.lb.mooderalds, value=f"`{ctx.prefix}leaderboard mooderalds`")
             # embed.add_field(name="\uFEFF", value="\uFEFF")
 
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
@@ -1517,7 +1518,7 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="pillages", aliases=["pil", "stolen"])
     async def leaderboard_pillages(self, ctx):
@@ -1538,7 +1539,7 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="mobkills", aliases=["kil", "kills", "kill", "bonk"])
     async def leaderboard_mobkills(self, ctx):
@@ -1559,7 +1560,7 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
     async def leaderboard_bees(self, ctx):
@@ -1576,7 +1577,7 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     # @leaderboards.command(name="commands", aliases=["cmds"])
     # async def leaderboard_commands(self, ctx):
@@ -1587,7 +1588,7 @@ class Econ(commands.Cog):
     #     embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
     #     embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
-    #     await ctx.send(embed=embed)
+    #     await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx):
@@ -1606,7 +1607,7 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
     async def leaderboard_fish(self, ctx):
@@ -1627,7 +1628,7 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="mooderalds", aliases=["autism", "moods", "mooderald"])
     async def leaderboard_mooderalds(self, ctx):
@@ -1648,7 +1649,7 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, mention_author=False)
 
 
 def setup(bot):
