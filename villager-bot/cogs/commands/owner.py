@@ -2,7 +2,9 @@ from discord.ext import commands
 from typing import Union
 import functools
 import aiofiles
+import asyncio
 import discord
+import arrow
 import os
 
 from util.code import execute_code, format_exception
@@ -88,6 +90,72 @@ class Owner(commands.Cog):
         else:
             await self.bot.reply_embed(ctx, guilds)
 
+    @commands.command(name="givehistory", aliases=["transactions"])
+    @commands.is_owner()
+    async def transaction_history(self, ctx, user: discord.User):
+        page_max = await self.db.fetch_transactions_page_count(user.id)
+        page = 0
+
+        msg = None
+        first_time = True
+
+        while True:
+            entries = await self.db.fetch_transactions_page(user.id, page=page)
+
+            if len(entries) == 0:
+                body = ctx.l.econ.inv.empty
+            else:
+                body = ""  # text for that page
+
+                for entry in entries:
+                    giver = self.bot.get_user(entry["giver_uid"])
+                    receiver = self.bot.get_user(entry["recvr_uid"])
+                    item = entry["item"]
+
+                    if item == "emerald":
+                        item = self.d.emojis.emerald
+
+                    body += f"__[{giver}]({entry['giver_uid']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['recvr_uid']})__ *{arrow.get(entry['ts']).humanize()}*\n"
+
+                embed = discord.Embed(color=self.d.cc, description=body)
+                embed.set_author(name=f"Transaction history for {user}", icon_url=user.avatar_url_as())
+                embed.set_footer(text=f"Page {page+1}/{page_max+1}")
+
+            if msg is None:
+                msg = await ctx.send(embed=embed)
+            else:
+                await msg.edit(embed=embed)
+
+            if page_max > 0:
+                if first_time:
+                    await msg.add_reaction("⬅️")
+                    await asyncio.sleep(0.1)
+                    await msg.add_reaction("➡️")
+                    await asyncio.sleep(0.1)
+
+                try:
+
+                    def author_check(react, r_user):
+                        return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+
+                    react, r_user = await self.bot.wait_for(
+                        "reaction_add", check=author_check, timeout=(3 * 60)
+                    )  # wait for reaction from message author
+                except asyncio.TimeoutError:
+                    return
+
+                await react.remove(ctx.author)
+
+                if react.emoji == "⬅️":
+                    page -= 1 if page - 1 >= 0 else 0
+                if react.emoji == "➡️":
+                    page += 1 if page + 1 <= page_max else 0
+
+                await asyncio.sleep(0.1)
+            else:
+                break
+
+            first_time = False
 
 def setup(bot):
     bot.add_cog(Owner(bot))
