@@ -19,9 +19,6 @@ class Econ(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-        if self.v.honey_buckets is not None:
-            self.honey._buckets = self.v.honey_buckets
-
         self.pillage_cap_reset.start()
 
         # This links the max concurrency of the with, dep, sell, give, etc.. cmds
@@ -40,25 +37,11 @@ class Econ(commands.Cog):
 
         self._user_locks = defaultdict(asyncio.Lock)
 
-    def cog_unload(self):
-        self.v.honey_buckets = self.honey._buckets
-
-        self.pillage_cap_reset.cancel()
-
     async def lock_author(self, ctx):
         await self._user_locks[ctx.author.id].acquire()
 
     async def unlock_author(self, ctx):
         self._user_locks[ctx.author.id].release()
-
-    @tasks.loop(hours=12)
-    async def pillage_cap_reset(self):
-        self.v.pillagers = {}
-        self.v.pillages = {}
-
-    @pillage_cap_reset.before_loop
-    async def before_pillage_cap_reset(self):
-        await self.bot.wait_until_ready()
 
     @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
     def calc_yield_chance_list(self, pickaxe: str):
