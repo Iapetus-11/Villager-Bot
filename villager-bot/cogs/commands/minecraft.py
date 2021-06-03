@@ -459,7 +459,7 @@ class Minecraft(commands.Cog):
                 if 0 in self.bot.shard_ids:
                     port_msg = await self.bot.wait_for("message", check=dm_check(ctx), timeout=60)
                 else:
-                    port_msg = await self.ipc.request({"type": "dm-message-request", "user": ctx.author.id})
+                    port_msg = await asyncio.wait_for(self.ipc.request({"type": "dm-message-request", "user": ctx.author.id}), 60)
             except asyncio.TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
@@ -482,7 +482,10 @@ class Minecraft(commands.Cog):
                 return
 
             try:
-                auth_msg = await self.bot.wait_for("message", check=dm_check, timeout=60)
+                if 0 in self.bot.shard_ids:
+                    auth_msg = await self.bot.wait_for("message", check=dm_check(ctx), timeout=60)
+                else:
+                    auth_msg = await asyncio.wait_for(self.ipc.request({"type": "dm-message-request", "user": ctx.author.id}), 60)
             except asyncio.TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
