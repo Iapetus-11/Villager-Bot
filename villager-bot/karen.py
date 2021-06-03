@@ -106,7 +106,11 @@ class MechaKaren:
 
             await stream.write_packet({"type": "dm-message", "id": packet.id, "content": entry["content"]})
         elif packet.type == "dm-message":
-            entry = self.dm_messages[packet.user]
+            entry = self.dm_messages.get(packet.user)
+
+            if entry is None:
+                return
+
             entry["content"] = packet.content
             entry["event"].set()
 
