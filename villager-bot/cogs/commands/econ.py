@@ -1258,9 +1258,9 @@ class Econ(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_4)
             return
 
-        current_pots = self.v.chuggers.get(ctx.author.id)
+        current_pots = await self.ipc.eval(f"active_effects[{ctx.author.id}]")
 
-        if thing in ([] if current_pots is None else current_pots):
+        if thing in current_pots:
             await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
             return
 
@@ -1280,21 +1280,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-
-            self.v.chuggers[ctx.author.id] = self.v.chuggers.get(ctx.author.id, [])  # ensure user has stuff there
-            self.v.chuggers[ctx.author.id].append("haste i potion")
-
+            await self.ipc.eval(f"active_effects[{ctx.author.id}].add('haste i potion')")
             await self.bot.reply_embed(ctx, ctx.l.econ.use.chug.format("Haste I Potion", 6))
-
-            self.v.pause_econ.pop(ctx.author.id, None)
 
             await asyncio.sleep(60 * 6)
 
-            await self.bot.reply_embed(ctx.author, ctx.l.econ.use.done.format("Haste I Potion"))
-
-            self.v.chuggers[ctx.author.id].pop(
-                self.v.chuggers[ctx.author.id].index("haste i potion")
-            )  # pop pot from active potion fx
+            await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Haste I Potion"))
+            await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('haste i potion')")
             return
 
         if thing == "haste ii potion":
@@ -1303,21 +1295,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-
-            self.v.chuggers[ctx.author.id] = self.v.chuggers.get(ctx.author.id, [])
-            self.v.chuggers[ctx.author.id].append("haste ii potion")
-
+            await self.ipc.eval(f"active_effects[{ctx.author.id}].add('haste ii potion')")
             await self.bot.reply_embed(ctx, ctx.l.econ.use.chug.format("Haste II Potion", 4.5))
-
-            self.v.pause_econ.pop(ctx.author.id, None)
 
             await asyncio.sleep(60 * 4.5)
 
-            await self.bot.reply_embed(ctx.author, ctx.l.econ.use.done.format("Haste II Potion"))
-
-            self.v.chuggers[ctx.author.id].pop(
-                self.v.chuggers[ctx.author.id].index("haste ii potion")
-            )  # pop pot from active potion fx
+            await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Haste II Potion"))
+            await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('haste ii potion')")
             return
 
         if thing == "seaweed":
@@ -1326,15 +1310,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-
-            self.v.chuggers[ctx.author.id] = self.v.chuggers.get(ctx.author.id, [])
-            self.v.chuggers[ctx.author.id].append("seaweed")
-
+            await self.ipc.eval(f"active_effects[{ctx.author.id}].add('seaweed')")
             await self.bot.reply_embed(ctx, ctx.l.econ.use.smoke_seaweed.format(2))
 
             await asyncio.sleep(60 * 2)
 
-            await self.bot.reply_embed(ctx.author, ctx.l.econ.use.seaweed_done)
+            await self.bot.send_embed(ctx.author, ctx.l.econ.use.seaweed_done)
+            await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('seaweed')")
             return
 
         if thing == "vault potion":

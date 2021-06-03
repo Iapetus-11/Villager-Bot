@@ -20,7 +20,7 @@ class MechaKaren:
             self.start_time = arrow.utcnow()
 
             self.mine_commands = defaultdict(int)  # {user_id: command_count}, also used for fishing btw
-            self.active_effects = {}  # {user_id: [effect, potion, effect,..]}
+            self.active_effects = defaultdict(set)  # {user_id: [effect, potion, effect,..]}
 
             self.econ_paused_users = {}  # {user_id: time.time()}
 
