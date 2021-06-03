@@ -1,6 +1,8 @@
 from discord.ext import commands
+from typing import Union
 import functools
 import aiofiles
+import discord
 import os
 
 from util.code import execute_code, format_exception
@@ -59,6 +61,32 @@ class Owner(commands.Cog):
                 await ctx.reply(f"```diff\n{(await f.read())[:2000-11]}```")
 
         os.remove("git_pull_log")
+
+    @commands.command(name="lookup")
+    @commands.is_owner()
+    async def lookup(self, ctx, user: Union[discord.User, int]):
+        if isinstance(user, discord.User):
+            uid = user.id
+        else:
+            uid = user
+
+        format_str = '"{guild} **|** `{guild.id}`\n"'  # vsc can't handle nested formatting cause stupid
+        code = f"""
+        guilds = ""
+        for guild in bot.guilds:
+            if guild.get_member({uid}) is not None:
+                guilds += f{format_str}
+        return guilds
+        """
+
+        res = await self.ipc.broadcast({"type": "exec", "code": code})
+
+        guilds = "\n".join([r.result for r in res.responses])
+
+        if guilds == "":
+            await self.bot.send(ctx, "No results...")
+        else:
+            await self.bot.send(ctx, guilds)
 
 
 def setup(bot):
