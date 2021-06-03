@@ -68,15 +68,15 @@ class Econ(commands.Cog):
             try:
                 m = await self.bot.wait_for("message", check=author_check, timeout=10)
             except asyncio.TimeoutError:
-                await self.bot.send(ctx, ctx.l.econ.math_problem.timeout)
+                await self.bot.reply_embed(ctx, ctx.l.econ.math_problem.timeout)
                 return False
 
             if m.content != prob[1]:
-                await self.bot.send(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no), True)
+                await self.bot.reply_embed(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
                 return False
 
-            self.v.miners[ctx.author.id] = 0
-            await self.bot.send(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes), True)
+            await self.ipc.exec(f"mine_commands[{ctx.author.id}] = 0")
+            await self.bot.reply_embed(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
 
         return True
 
@@ -92,9 +92,9 @@ class Econ(commands.Cog):
 
         if user.bot:
             if user.id == self.bot.user.id:
-                await self.bot.send(ctx, ctx.l.econ.pp.bot_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.pp.bot_1)
             else:
-                await self.bot.send(ctx, ctx.l.econ.pp.bot_2)
+                await self.bot.reply_embed(ctx, ctx.l.econ.pp.bot_2)
             return
 
         db_user = await self.db.fetch_user(user.id)
@@ -141,9 +141,9 @@ class Econ(commands.Cog):
 
         if user.bot:
             if user.id == self.bot.user.id:
-                await self.bot.send(ctx, ctx.l.econ.bal.bot_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.bal.bot_1)
             else:
-                await self.bot.send(ctx, ctx.l.econ.bal.bot_2)
+                await self.bot.reply_embed(ctx, ctx.l.econ.bal.bot_2)
 
             return
 
@@ -261,9 +261,9 @@ class Econ(commands.Cog):
 
         if user.bot:
             if user.id == self.bot.user.id:
-                await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.inv.bot_1)
             else:
-                await self.bot.send(ctx, ctx.l.econ.inv.bot_2)
+                await self.bot.reply_embed(ctx, ctx.l.econ.inv.bot_2)
 
             return False, user
 
@@ -287,9 +287,9 @@ class Econ(commands.Cog):
 
         if user.bot:
             if user.id == self.bot.user.id:
-                await self.bot.send(ctx, ctx.l.econ.inv.bot_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.inv.bot_1)
             else:
-                await self.bot.send(ctx, ctx.l.econ.inv.bot_2)
+                await self.bot.reply_embed(ctx, ctx.l.econ.inv.bot_2)
 
             return
 
@@ -355,7 +355,7 @@ class Econ(commands.Cog):
         c_bal = db_user["emeralds"]
 
         if c_bal < 9:
-            await self.bot.send(ctx, ctx.l.econ.dep.poor_loser)
+            await self.bot.reply_embed(ctx, ctx.l.econ.dep.poor_loser)
             return
 
         if emerald_blocks.lower() in ("all", "max"):
@@ -367,23 +367,23 @@ class Econ(commands.Cog):
             try:
                 amount = int(emerald_blocks)
             except ValueError:
-                await self.bot.send(ctx, ctx.l.econ.use_a_number_stupid)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use_a_number_stupid)
                 return
 
         if amount * 9 > c_bal:
-            await self.bot.send(ctx, ctx.l.econ.dep.stupid_3)
+            await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_3)
             return
 
         if amount < 1:
             if emerald_blocks.lower() in ("all", "max"):
-                await self.bot.send(ctx, ctx.l.econ.dep.stupid_2)
+                await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_2)
             else:
-                await self.bot.send(ctx, ctx.l.econ.dep.stupid_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_1)
 
             return
 
         if amount > c_v_max - c_v_bal:
-            await self.bot.send(ctx, ctx.l.econ.dep.stupid_2)
+            await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_2)
             return
 
         await self.db.balance_sub(ctx.author.id, amount * 9)
@@ -405,7 +405,7 @@ class Econ(commands.Cog):
         c_v_max = db_user["vault_max"]
 
         if c_v_bal < 1:
-            await self.bot.send(ctx, ctx.l.econ.withd.poor_loser)
+            await self.bot.reply_embed(ctx, ctx.l.econ.withd.poor_loser)
             return
 
         if emerald_blocks.lower() in ("all", "max"):
@@ -414,15 +414,15 @@ class Econ(commands.Cog):
             try:
                 amount = int(emerald_blocks)
             except ValueError:
-                await self.bot.send(ctx, ctx.l.econ.use_a_number_stupid)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use_a_number_stupid)
                 return
 
         if amount < 1:
-            await self.bot.send(ctx, ctx.l.econ.withd.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.econ.withd.stupid_1)
             return
 
         if amount > c_v_bal:
-            await self.bot.send(ctx, ctx.l.econ.withd.stupid_2)
+            await self.bot.reply_embed(ctx, ctx.l.econ.withd.stupid_2)
             return
 
         await self.db.balance_add(ctx.author.id, amount * 9)
@@ -645,11 +645,11 @@ class Econ(commands.Cog):
             try:
                 amount = math.floor(db_user["emeralds"] / self.d.shop_items[item].buy_price)
             except KeyError:
-                await self.bot.send(ctx, ctx.l.econ.buy.stupid_2.format(item))
+                await self.bot.reply_embed(ctx, ctx.l.econ.buy.stupid_2.format(item))
                 return
 
             if amount < 1:
-                await self.bot.send(ctx, ctx.l.econ.buy.poor_loser_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.buy.poor_loser_1)
                 return
         else:
             split = amount_item.split(" ")
@@ -665,19 +665,19 @@ class Econ(commands.Cog):
                 item = " ".join(split)
 
         if amount < 1:
-            await self.bot.send(ctx, ctx.l.econ.buy.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.econ.buy.stupid_1)
             return
 
         shop_item = self.d.shop_items.get(item)
 
         # shop item doesn't exist lol
         if shop_item is None:
-            await self.bot.send(ctx, ctx.l.econ.buy.stupid_2.format(item))
+            await self.bot.reply_embed(ctx, ctx.l.econ.buy.stupid_2.format(item))
             return
 
         # check if user can actually afford to buy that amount of that item
         if shop_item.buy_price * amount > db_user["emeralds"]:
-            await self.bot.send(ctx, ctx.l.econ.buy.poor_loser_2.format(amount, shop_item.db_entry[0]))
+            await self.bot.reply_embed(ctx, ctx.l.econ.buy.poor_loser_2.format(amount, shop_item.db_entry[0]))
             return
 
         db_item = await self.db.fetch_item(ctx.author.id, shop_item.db_entry[0])
@@ -691,7 +691,7 @@ class Econ(commands.Cog):
         # if they already have hit the limit on how many they can buy of that item
         count_lt = shop_item.requires.get("count_lt")
         if count_lt is not None and count_lt < db_item_count + amount:
-            await self.bot.send(ctx, ctx.l.econ.buy.no_to_item_1)
+            await self.bot.reply_embed(ctx, ctx.l.econ.buy.no_to_item_1)
             return
 
         # ensure user has required items
@@ -740,7 +740,7 @@ class Econ(commands.Cog):
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
             if db_item is None:
-                await self.bot.send(ctx, ctx.l.econ.sell.invalid_item)
+                await self.bot.reply_embed(ctx, ctx.l.econ.sell.invalid_item)
                 return
 
             amount = db_item["amount"]
@@ -760,15 +760,15 @@ class Econ(commands.Cog):
             db_item = await self.db.fetch_item(ctx.author.id, item)
 
         if db_item is None:
-            await self.bot.send(ctx, ctx.l.econ.sell.invalid_item)
+            await self.bot.reply_embed(ctx, ctx.l.econ.sell.invalid_item)
             return
 
         if amount > db_item["amount"]:
-            await self.bot.send(ctx, ctx.l.econ.sell.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.econ.sell.stupid_1)
             return
 
         if amount < 1:
-            await self.bot.send(ctx, ctx.l.econ.sell.stupid_2)
+            await self.bot.reply_embed(ctx, ctx.l.econ.sell.stupid_2)
             return
 
         for fish_id, fish in self.d.fishing.fish.items():
@@ -802,13 +802,13 @@ class Econ(commands.Cog):
 
         if user.bot:
             if user.id == self.bot.user.id:
-                await self.bot.send(ctx, ctx.l.econ.give.bot_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.give.bot_1)
             else:
-                await self.bot.send(ctx, ctx.l.econ.give.bot_2)
+                await self.bot.reply_embed(ctx, ctx.l.econ.give.bot_2)
             return
 
         if ctx.author.id == user.id:
-            await self.bot.send(ctx, ctx.l.econ.give.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_1)
             return
 
         async with self._user_locks[user.id]:
@@ -830,18 +830,18 @@ class Econ(commands.Cog):
                 item = " ".join(split)
 
             if amount < 1:
-                await self.bot.send(ctx, ctx.l.econ.give.stupid_2)
+                await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_2)
                 return
 
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if "pickaxe" in item.lower() or "sword" in item.lower():
-                await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
+                await self.bot.reply_embed(ctx, ctx.l.econ.give.and_i_oop)
                 return
 
             if item in ("emerald", "emeralds", ":emerald:"):
                 if amount > db_user["emeralds"]:
-                    await self.bot.send(ctx, ctx.l.econ.give.stupid_3)
+                    await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_3)
                     return
 
                 await self.db.balance_sub(ctx.author.id, amount)
@@ -860,15 +860,15 @@ class Econ(commands.Cog):
                 db_item = await self.db.fetch_item(ctx.author.id, item)
 
                 if db_item is None or amount > db_item["amount"]:
-                    await self.bot.send(ctx, ctx.l.econ.give.stupid_4)
+                    await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_4)
                     return
 
                 if db_item["sticky"]:
-                    await self.bot.send(ctx, ctx.l.econ.give.and_i_oop)
+                    await self.bot.reply_embed(ctx, ctx.l.econ.give.and_i_oop)
                     return
 
                 if amount < 1:
-                    await self.bot.send(ctx, ctx.l.econ.give.stupid_2)
+                    await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_2)
                     return
 
                 await self.db.remove_item(ctx.author.id, item, amount)
@@ -899,29 +899,29 @@ class Econ(commands.Cog):
             try:
                 amount = int(amount)
             except ValueError:
-                await self.bot.send(ctx, ctx.l.econ.use_a_number_stupid)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use_a_number_stupid)
                 return
 
         if amount > db_user["emeralds"]:
-            await self.bot.send(ctx, ctx.l.econ.gamble.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.econ.gamble.stupid_1)
             return
 
         if amount < 10:
-            await self.bot.send(ctx, ctx.l.econ.gamble.stupid_2)
+            await self.bot.reply_embed(ctx, ctx.l.econ.gamble.stupid_2)
             return
 
         if amount > 50000:
-            await self.bot.send(ctx, ctx.l.econ.gamble.stupid_3)
+            await self.bot.reply_embed(ctx, ctx.l.econ.gamble.stupid_3)
             return
 
         if db_user["emeralds"] >= 200000:
-            await self.bot.send(ctx, ctx.l.econ.gamble.too_rich)
+            await self.bot.reply_embed(ctx, ctx.l.econ.gamble.too_rich)
             return
 
         u_roll = random.randint(1, 6) + random.randint(1, 6)
         b_roll = random.randint(1, 6) + random.randint(1, 6)
 
-        await self.bot.send(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
+        await self.bot.reply_embed(ctx, ctx.l.econ.gamble.roll.format(u_roll, b_roll))
 
         if u_roll > b_roll:
             multi = (
@@ -942,9 +942,9 @@ class Econ(commands.Cog):
             )
         elif u_roll < b_roll:
             await self.db.balance_sub(ctx.author.id, amount)
-            await self.bot.send(ctx, ctx.l.econ.gamble.lose.format(amount, self.d.emojis.emerald))
+            await self.bot.reply_embed(ctx, ctx.l.econ.gamble.lose.format(amount, self.d.emojis.emerald))
         else:
-            await self.bot.send(ctx, ctx.l.econ.gamble.tie)
+            await self.bot.reply_embed(ctx, ctx.l.econ.gamble.tie)
 
     @commands.command(name="search", aliases=["beg"])
     @commands.cooldown(1, 30 * 60, commands.BucketType.user)
@@ -968,7 +968,7 @@ class Econ(commands.Cog):
 
                 await self.db.balance_add(ctx.author.id, amount)
 
-                await self.bot.send(ctx, random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}"))
+                await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}"))
         else:
             amount = 9 + math.ceil(math.log(db_user["emeralds"] + 1, 1.3)) + random.randint(1, 5)  # ah yes, meth
 
@@ -982,7 +982,7 @@ class Econ(commands.Cog):
 
             await self.db.balance_sub(ctx.author.id, amount)
 
-            await self.bot.send(ctx, random.choice(ctx.l.econ.beg.negative).format(f"{amount}{self.d.emojis.emerald}"))
+            await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.beg.negative).format(f"{amount}{self.d.emojis.emerald}"))
 
     @commands.command(name="mine", aliases=["mein", "eun", "mien"])
     @commands.guild_only()
@@ -1012,7 +1012,7 @@ class Econ(commands.Cog):
                 if random.randint(0, item[2]) == 1:
                     await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
 
-                    await self.bot.send(
+                    await self.bot.reply_embed(
                         ctx,
                         f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
                         + ctx.l.econ.mine.found_item_1.format(
@@ -1023,7 +1023,6 @@ class Econ(commands.Cog):
                             self.d.emojis.emerald,
                             random.choice(ctx.l.econ.mine.places),
                         ),
-                        True,
                     )
 
                     return
@@ -1034,7 +1033,7 @@ class Econ(commands.Cog):
             # please don't bug me about jank code, I know
             fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe) / 2)]
 
-            await self.bot.send(
+            await self.bot.reply_embed(
                 ctx,
                 f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
                 + ctx.l.econ.mine.found_item_2.format(
@@ -1043,21 +1042,19 @@ class Econ(commands.Cog):
                     random.choice(ctx.l.econ.mine.useless),
                     random.choice(fake_finds),
                 ),
-                True,
             )
         else:
             found = int(found)
 
             if await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None:
-                found *= 2  # sekret
+                found *= 2
 
             await self.db.balance_add(ctx.author.id, found)
 
-            await self.bot.send(
+            await self.bot.reply_embed(
                 ctx,
                 f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
                 + ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald),
-                True,
             )
 
         if random.randint(0, 50) == 1:
@@ -1074,10 +1071,10 @@ class Econ(commands.Cog):
             return
 
         if await self.db.fetch_item(ctx.author.id, "Fishing Rod") is None:
-            await self.bot.send(ctx, ctx.l.econ.fishing.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.econ.fishing.stupid_1)
             return
 
-        await self.bot.send(ctx, random.choice(ctx.l.econ.fishing.cast))
+        await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.fishing.cast))
 
         async with ctx.typing():
             wait = random.randint(8, 20)
@@ -1099,7 +1096,7 @@ class Econ(commands.Cog):
 
             if random.choice(junk_chance):  # junk
                 junk = random.choice(ctx.l.econ.fishing.junk)
-                await self.bot.send(ctx, junk, True, True)
+                await self.bot.reply_embed(ctx, junk, True)
 
                 if "meme" in junk:
                     await self.bot.get_cog("Fun").meme(ctx)
@@ -1110,10 +1107,9 @@ class Econ(commands.Cog):
                 for item in self.d.fishing.findables:
                     if random.randint(0, (item[2] // 2) + 2) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
-                        await self.bot.send(
+                        await self.bot.reply_embed(
                             ctx,
                             random.choice(ctx.l.econ.fishing.item).format(item[0], item[1], self.d.emojis.emerald),
-                            True,
                             True,
                         )
                         return
@@ -1124,8 +1120,8 @@ class Econ(commands.Cog):
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish.name, -1, 1)
-        await self.bot.send(
-            ctx, random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True, True
+        await self.bot.reply_embed(
+            ctx, random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True
         )
 
         await self.db.update_lb(ctx.author.id, "fish", 1, "add")
@@ -1145,30 +1141,30 @@ class Econ(commands.Cog):
     async def pillage(self, ctx, victim: discord.Member):
         if victim.bot:
             if victim.id == self.bot.user.id:
-                await self.bot.send(ctx, ctx.l.econ.pillage.bot_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.pillage.bot_1)
             else:
-                await self.bot.send(ctx, ctx.l.econ.pillage.bot_2)
+                await self.bot.reply_embed(ctx, ctx.l.econ.pillage.bot_2)
             return
 
         if ctx.author.id == victim.id:
-            await self.bot.send(ctx, ctx.l.econ.pillage.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.econ.pillage.stupid_1)
             return
 
         if ctx.guild.get_member(victim.id) is None:
-            await self.bot.send(ctx, ctx.l.econ.pillage.stupid_2)
+            await self.bot.reply_embed(ctx, ctx.l.econ.pillage.stupid_2)
             return
 
         async with self._user_locks[victim.id]:
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user["emeralds"] < 64:
-                await self.bot.send(ctx, ctx.l.econ.pillage.stupid_3.format(self.d.emojis.emerald))
+                await self.bot.reply_embed(ctx, ctx.l.econ.pillage.stupid_3.format(self.d.emojis.emerald))
                 return
 
             db_victim = await self.db.fetch_user(victim.id)
 
             if db_victim["emeralds"] < 64:
-                await self.bot.send(ctx, ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
+                await self.bot.reply_embed(ctx, ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
                 return
 
             pillager_pillages = self.v.pillagers.get(ctx.author.id, 0)
@@ -1217,7 +1213,7 @@ class Econ(commands.Cog):
                 await self.db.balance_sub(victim.id, stolen)
                 await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
 
-                await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
+                await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
                 await self.bot.send(
                     victim,
                     random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald),
@@ -1230,7 +1226,7 @@ class Econ(commands.Cog):
                 await self.db.balance_sub(ctx.author.id, penalty)
                 await self.db.balance_add(victim.id, penalty)
 
-                await self.bot.send(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
+                await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
                 await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
@@ -1248,32 +1244,32 @@ class Econ(commands.Cog):
             amount = 1
 
         if amount < 1:
-            await self.bot.send(ctx, ctx.l.econ.use.stupid_3)
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_3)
             return
 
         if amount > 100:
-            await self.bot.send(ctx, ctx.l.econ.use.stupid_4)
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_4)
             return
 
         current_pots = self.v.chuggers.get(ctx.author.id)
 
         if thing in ([] if current_pots is None else current_pots):
-            await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
             return
 
         db_item = await self.db.fetch_item(ctx.author.id, thing)
 
         if db_item is None:
-            await self.bot.send(ctx, ctx.l.econ.use.stupid_2)
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_2)
             return
 
         if db_item["amount"] < amount:
-            await self.bot.send(ctx, ctx.l.econ.use.stupid_5)
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_5)
             return
 
         if thing == "haste i potion":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
@@ -1281,13 +1277,13 @@ class Econ(commands.Cog):
             self.v.chuggers[ctx.author.id] = self.v.chuggers.get(ctx.author.id, [])  # ensure user has stuff there
             self.v.chuggers[ctx.author.id].append("haste i potion")
 
-            await self.bot.send(ctx, ctx.l.econ.use.chug.format("Haste I Potion", 6))
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.chug.format("Haste I Potion", 6))
 
             self.v.pause_econ.pop(ctx.author.id, None)
 
             await asyncio.sleep(60 * 6)
 
-            await self.bot.send(ctx.author, ctx.l.econ.use.done.format("Haste I Potion"))
+            await self.bot.reply_embed(ctx.author, ctx.l.econ.use.done.format("Haste I Potion"))
 
             self.v.chuggers[ctx.author.id].pop(
                 self.v.chuggers[ctx.author.id].index("haste i potion")
@@ -1296,7 +1292,7 @@ class Econ(commands.Cog):
 
         if thing == "haste ii potion":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
@@ -1304,13 +1300,13 @@ class Econ(commands.Cog):
             self.v.chuggers[ctx.author.id] = self.v.chuggers.get(ctx.author.id, [])
             self.v.chuggers[ctx.author.id].append("haste ii potion")
 
-            await self.bot.send(ctx, ctx.l.econ.use.chug.format("Haste II Potion", 4.5))
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.chug.format("Haste II Potion", 4.5))
 
             self.v.pause_econ.pop(ctx.author.id, None)
 
             await asyncio.sleep(60 * 4.5)
 
-            await self.bot.send(ctx.author, ctx.l.econ.use.done.format("Haste II Potion"))
+            await self.bot.reply_embed(ctx.author, ctx.l.econ.use.done.format("Haste II Potion"))
 
             self.v.chuggers[ctx.author.id].pop(
                 self.v.chuggers[ctx.author.id].index("haste ii potion")
@@ -1319,7 +1315,7 @@ class Econ(commands.Cog):
 
         if thing == "seaweed":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
@@ -1327,22 +1323,22 @@ class Econ(commands.Cog):
             self.v.chuggers[ctx.author.id] = self.v.chuggers.get(ctx.author.id, [])
             self.v.chuggers[ctx.author.id].append("seaweed")
 
-            await self.bot.send(ctx, ctx.l.econ.use.smoke_seaweed.format(2))
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.smoke_seaweed.format(2))
 
             await asyncio.sleep(60 * 2)
 
-            await self.bot.send(ctx.author, ctx.l.econ.use.seaweed_done)
+            await self.bot.reply_embed(ctx.author, ctx.l.econ.use.seaweed_done)
             return
 
         if thing == "vault potion":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user["vault_max"] > 1999:
-                await self.bot.send(ctx, ctx.l.econ.use.vault_max)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use.vault_max)
                 return
 
             add = random.randint(9, 15)
@@ -1353,7 +1349,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Vault Potion", 1)
             await self.db.set_vault(ctx.author.id, db_user["vault_bal"], db_user["vault_max"] + add)
 
-            await self.bot.send(ctx, ctx.l.econ.use.vault_pot.format(add))
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.vault_pot.format(add))
             return
 
         if thing == "honey jar":
@@ -1361,7 +1357,7 @@ class Econ(commands.Cog):
 
             max_amount = 20 - db_user["health"]
             if max_amount < 1:
-                await self.bot.send(ctx, ctx.l.econ.use.cant_use_any.format("Honey Jars"))
+                await self.bot.reply_embed(ctx, ctx.l.econ.use.cant_use_any.format("Honey Jars"))
                 return
 
             if db_user["health"] + amount > 20:
@@ -1371,13 +1367,13 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
 
             new_health = amount + db_user["health"]
-            await self.bot.send(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
 
             return
 
         if thing == "present":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, "Present", 1)
@@ -1396,7 +1392,7 @@ class Econ(commands.Cog):
 
         if thing == "barrel":
             if amount > 1:
-                await self.bot.send(ctx, ctx.l.econ.use.stupid_1)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
@@ -1420,7 +1416,7 @@ class Econ(commands.Cog):
                 ems *= 1.5
                 ems = round(ems)
 
-            await self.bot.send(ctx, random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
+            await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
             await self.db.balance_add(ctx.author.id, ems)
             return
 
@@ -1435,17 +1431,17 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Glass Beaker", amount)
             await self.db.add_item(ctx.author.id, "Beaker Of Slime", 13, amount, False)
 
-            await self.bot.send(ctx, ctx.l.econ.use.slimy_balls_funne.format(amount))
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.slimy_balls_funne.format(amount))
             return
 
         if thing == "beaker of slime":
             await self.db.remove_item(ctx.author.id, "Beaker Of Slime", amount)
             await self.db.add_item(ctx.author.id, "Slime Ball", 5, amount, True)
 
-            await self.bot.send(ctx, ctx.l.econ.use.beaker_of_slime_undo.format(amount))
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.beaker_of_slime_undo.format(amount))
             return
 
-        await self.bot.send(ctx, ctx.l.econ.use.stupid_6)
+        await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_6)
 
     @commands.command(name="honey", aliases=["harvesthoney", "horny"])  # ~~a strange urge occurs in me~~
     @commands.cooldown(1, 24 * 60 * 60, commands.BucketType.user)
@@ -1461,21 +1457,21 @@ class Econ(commands.Cog):
             bees = 1024
 
         if bees < 100:
-            await self.bot.send(ctx, random.choice(ctx.l.econ.honey.stupid_1))
+            await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.honey.stupid_1))
             ctx.command.reset_cooldown(ctx)
             return
 
         jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
         await self.db.add_item(ctx.author.id, "Honey Jar", 1, jars)
 
-        await self.bot.send(ctx, random.choice(ctx.l.econ.honey.honey).format(jars))  # uwu so sticky oWo
+        await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.honey.honey).format(jars))  # uwu so sticky oWo
 
         if random.choice([False] * 3 + [True]):
             bees_lost = random.randint(math.ceil(bees / 75), math.ceil(bees / 50))
 
             await self.db.remove_item(ctx.author.id, "Jar Of Bees", bees_lost)
 
-            await self.bot.send(ctx, random.choice(ctx.l.econ.honey.ded).format(bees_lost))
+            await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.honey.ded).format(bees_lost))
 
     @commands.group(name="leaderboards", aliases=["lb", "lbs", "leaderboard"])
     @commands.guild_only()
