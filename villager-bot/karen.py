@@ -1,4 +1,5 @@
 from concurrent.futures import ProcessPoolExecutor
+from collections import defaultdict
 from classyjson import ClassyDict
 import aiofiles
 import asyncio
@@ -18,7 +19,7 @@ class MechaKaren:
         def __init__(self):
             self.start_time = arrow.utcnow()
 
-            self.miners = {}  # {user_id: command_count}
+            self.mine_commands = defaultdict(int)  # {user_id: command_count}, also used for fishing btw
             self.active_fx = {}  # {user_id: [effect, potion, effect,..]}
 
             self.econ_paused_users = {}  # {user_id: time.time()}
@@ -113,6 +114,9 @@ class MechaKaren:
 
             entry["content"] = packet.content
             entry["event"].set()
+        elif packet.type == "mine-command":  # actually used for fishing too
+            self.v.mine_commands[packet.user] += packet.addition
+            await stream.write_packet({"type": "mine-command-response", "id": packet.id, "current": self.v.mine_commands[packet.user]})
 
     async def start(self, pp):
         await self.server.start()

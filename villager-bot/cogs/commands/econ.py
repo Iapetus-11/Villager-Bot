@@ -15,11 +15,7 @@ class Econ(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.v = bot.v
-
         self.db = bot.get_cog("Database")
-
-        self.pillage_cap_reset.start()
 
         # This links the max concurrency of the with, dep, sell, give, etc.. cmds
         for command in (
@@ -49,11 +45,12 @@ class Econ(commands.Cog):
         return [True] * yield_[0] + [False] * yield_[1]
 
     async def math_problem(self, ctx, addition=1):
-        mine_commands = self.v.miners.get(ctx.author.id, 0)
-        self.v.miners[ctx.author.id] = mine_commands + addition
+        # simultaneously updates the value in Karen and retrivies teh current value
+        res = await self.ipc.request({"type": "mine-command", "user": ctx.author.id, "addition": addition})
+        mine_commands = res.current
 
         if mine_commands >= 100:
-            x, y = random.randint(0, 35), random.randint(0, 25)
+            x, y = random.randint(0, 15), random.randint(0, 10)
             prob = f"{y*random.choice([chr(u) for u in (65279, 8203, 8204, 8205)])}{x}{x*random.choice([chr(u) for u in (65279, 8203, 8204, 8205)])}+{y}"
             prob = (prob, str(x + y))
 
