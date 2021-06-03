@@ -16,7 +16,13 @@ class Owner(commands.Cog):
     @commands.command(name="reload")
     @commands.is_owner()
     async def reload_cog(self, ctx, cog: str):
-        await self.ipc.broadcast({"type": "eval", "code": f"bot.reload_extension('cogs.{cog}')"})
+        res = await self.ipc.broadcast({"type": "eval", "code": f"bot.reload_extension('cogs.{cog}')"})
+
+        for response in res.responses:
+            if not response.success:
+                await ctx.send(f"Error while reloading `cogs.{cog}`: ```py\n{response.result}```")
+                return
+
         await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name="evallocal", aliases=["eval", "evall"])
