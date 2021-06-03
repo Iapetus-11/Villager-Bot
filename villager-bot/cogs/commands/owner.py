@@ -122,7 +122,7 @@ class Owner(commands.Cog):
                 embed.set_footer(text=f"Page {page+1}/{page_max+1}")
 
             if msg is None:
-                msg = await ctx.send(embed=embed)
+                msg = await ctx.reply(embed=embed, mention_author=False)
             else:
                 await msg.edit(embed=embed)
 
