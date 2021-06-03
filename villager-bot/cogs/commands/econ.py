@@ -968,7 +968,9 @@ class Econ(commands.Cog):
 
                 await self.db.balance_add(ctx.author.id, amount)
 
-                await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}"))
+                await self.bot.reply_embed(
+                    ctx, random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}")
+                )
         else:
             amount = 9 + math.ceil(math.log(db_user["emeralds"] + 1, 1.3)) + random.randint(1, 5)  # ah yes, meth
 
@@ -1213,7 +1215,9 @@ class Econ(commands.Cog):
                 await self.db.balance_sub(victim.id, stolen)
                 await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
 
-                await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
+                await self.bot.reply_embed(
+                    ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald)
+                )
                 await self.bot.send(
                     victim,
                     random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald),
@@ -1226,7 +1230,9 @@ class Econ(commands.Cog):
                 await self.db.balance_sub(ctx.author.id, penalty)
                 await self.db.balance_add(victim.id, penalty)
 
-                await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
+                await self.bot.reply_embed(
+                    ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald)
+                )
                 await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
