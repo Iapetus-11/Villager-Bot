@@ -157,5 +157,6 @@ class Owner(commands.Cog):
 
             first_time = False
 
+
 def setup(bot):
     bot.add_cog(Owner(bot))
