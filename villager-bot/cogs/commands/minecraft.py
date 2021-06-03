@@ -28,9 +28,8 @@ class Minecraft(commands.Cog):
         self.k = bot.k
 
         self.db = bot.get_cog("Database")
-
+        self.ipc = bot.ipc
         self.aiohttp = bot.aiohttp
-
         self.fernet = Fernet(self.k.fernet)
 
         if blockifier:
