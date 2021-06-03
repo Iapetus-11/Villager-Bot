@@ -92,6 +92,7 @@ def emojify_item(d, item: str):
     except KeyError:
         return d.emojis.air
 
+
 def format_required(d: object, shop_item: object, amount: int = 1):
     base = f" {shop_item.buy_price * amount}{d.emojis.emerald}"
 
