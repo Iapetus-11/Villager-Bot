@@ -129,7 +129,7 @@ class Events(commands.Cog):
         if ctx.command.name == "mine":
             if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
                 remaining -= 0.5
-            
+
             active_effects = await self.ipc.eval(f"active_effects.get({ctx.author.id})")
 
             if active_effects:
