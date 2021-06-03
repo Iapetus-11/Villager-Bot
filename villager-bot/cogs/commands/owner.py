@@ -91,6 +91,17 @@ class Owner(commands.Cog):
         else:
             await self.bot.reply_embed(ctx, guilds)
 
+    @commands.command(name="setbal")
+    @commands.is_owner()
+    async def set_user_bal(self, ctx, user: Union[discord.User, int], balance: int):
+        if isinstance(user, discord.User):
+            uid = user.id
+        else:
+            uid = user
+
+        await self.db.update_user(uid, "emeralds", balance)
+        await ctx.message.add_reaction(self.d.emojis.yes)
+
     @commands.command(name="givehistory", aliases=["transactions"])
     @commands.is_owner()
     async def transaction_history(self, ctx, user: Union[discord.User, int]):
