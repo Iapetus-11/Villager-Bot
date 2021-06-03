@@ -7,7 +7,7 @@ import random
 import arrow
 import math
 
-from util.misc import lb_logic, cmds_lb, format_required, make_health_bar, calc_total_wealth, emojify_item
+from util.misc import lb_logic, format_required, make_health_bar, calc_total_wealth, emojify_item
 
 
 class Econ(commands.Cog):
@@ -1498,13 +1498,12 @@ class Econ(commands.Cog):
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(name=ctx.l.econ.lb.bees, value=f"`{ctx.prefix}leaderboard bees`")
 
-            embed.add_field(name=ctx.l.econ.lb.cmds, value=f"`{ctx.prefix}leaderboard commands`")
-            embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`")
-
-            embed.add_field(name=ctx.l.econ.lb.fish, value=f"`{ctx.prefix}leaderboard fish`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.fish, value=f"`{ctx.prefix}leaderboard fish`")
+
             embed.add_field(name=ctx.l.econ.lb.mooderalds, value=f"`{ctx.prefix}leaderboard mooderalds`")
+            # embed.add_field(name="\uFEFF", value="\uFEFF")
 
             await ctx.send(embed=embed)
 
@@ -1586,16 +1585,16 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @leaderboards.command(name="commands", aliases=["cmds"])
-    async def leaderboard_commands(self, ctx):
-        async with ctx.typing():
-            lb_global, lb_local = cmds_lb(self, ctx)
+    # @leaderboards.command(name="commands", aliases=["cmds"])
+    # async def leaderboard_commands(self, ctx):
+    #     async with ctx.typing():
+    #         lb_global, lb_local = cmds_lb(self, ctx)
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":computer:"))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+    #     embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":computer:"))
+    #     embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+    #     embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
-        await ctx.send(embed=embed)
+    #     await ctx.send(embed=embed)
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx):
