@@ -129,11 +129,14 @@ class Events(commands.Cog):
         if ctx.command.name == "mine":
             if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
                 remaining -= 0.5
+            
+            active_effects = await self.ipc.eval(f"active_effects.get({ctx.author.id})")
 
-            if "haste ii potion" in self.v.chuggers.get(ctx.author.id, []):
-                remaining -= 1
-            elif "haste i potion" in self.v.chuggers.get(ctx.author.id, []):
-                remaining -= 0.5
+            if active_effects:
+                if "haste ii potion" in active_effects:
+                    remaining -= 1
+                elif "haste i potion" in active_effects:
+                    remaining -= 0.5
 
         seconds = round(remaining, 2)
 
