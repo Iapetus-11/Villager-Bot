@@ -84,9 +84,9 @@ class Owner(commands.Cog):
         guilds = "\n".join([r.result for r in res.responses])
 
         if guilds == "":
-            await self.bot.send(ctx, "No results...")
+            await self.bot.reply_embed(ctx, "No results...")
         else:
-            await self.bot.send(ctx, guilds)
+            await self.bot.reply_embed(ctx, guilds)
 
 
 def setup(bot):
