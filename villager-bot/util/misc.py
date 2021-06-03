@@ -2,6 +2,7 @@ import classyjson as cj
 import discord
 import math
 
+
 def strip_command(ctx):  # returns message.clean_content excluding the command used
     length = len(ctx.prefix) + len(ctx.invoked_with) + 1
     return ctx.message.clean_content[length:]
@@ -12,6 +13,7 @@ def dm_check(ctx):
         return ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id
 
     return _dm_check
+
 
 def recursive_update(obj, new):
     if isinstance(obj, dict) and isinstance(new, dict):
@@ -26,6 +28,7 @@ def recursive_update(obj, new):
 
     return obj
 
+
 def make_health_bar(health: int, max_health: int, full: str, half: str, empty: str):
     assert max_health % 2 == 0
 
@@ -35,6 +38,7 @@ def make_health_bar(health: int, max_health: int, full: str, half: str, empty: s
         + (empty * (max_health // 2 - math.ceil(health / 2)))
         + f" ({health}/{max_health})"
     )
+
 
 def lb_logic(self: object, lb_list: list, u_entry: object, rank_fstr: str):
     # add user entry to leaderboard if it's not there already
@@ -68,12 +72,14 @@ def lb_logic(self: object, lb_list: list, u_entry: object, rank_fstr: str):
 
     return body + "\uFEFF"
 
+
 def calc_total_wealth(db_user, u_items):
     return (
         db_user["emeralds"]
         + db_user.get("vault_bal", 0) * 9
         + sum([u_it["sell_price"] * u_it.get("amount", 0) for u_it in u_items if u_it["sell_price"] > 0])
     )
+
 
 def emojify_item(d, item: str):
     try:
