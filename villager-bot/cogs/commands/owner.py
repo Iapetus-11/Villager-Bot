@@ -110,14 +110,14 @@ class Owner(commands.Cog):
                 body = ""  # text for that page
 
                 for entry in entries:
-                    giver = self.bot.get_user(entry["giver_uid"])
-                    receiver = self.bot.get_user(entry["recvr_uid"])
+                    giver = self.bot.get_user(entry["sender"])
+                    receiver = self.bot.get_user(entry["receiver"])
                     item = entry["item"]
 
                     if item == "emerald":
                         item = self.d.emojis.emerald
 
-                    body += f"__[{giver}]({entry['giver_uid']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['recvr_uid']})__ *{arrow.get(entry['ts']).humanize()}*\n"
+                    body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['ts']).humanize()}*\n"
 
                 embed = discord.Embed(color=self.d.cc, description=body)
                 embed.set_author(name=f"Transaction history for {user}", icon_url=user.avatar_url_as())
