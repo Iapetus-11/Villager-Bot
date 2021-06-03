@@ -45,7 +45,7 @@ class Owner(commands.Cog):
 
         res = await self.ipc.broadcast({"type": "exec", "code": stuff})
 
-        await ctx.reply("".join([f"```py\n{r['result'].replace('```', '｀｀｀')}```" for r in res["responses"]])[:2000])
+        await ctx.reply("".join([f"```py\n{repr(r['result']).replace('```', '｀｀｀')}```" for r in res["responses"]])[:2000])
 
     @commands.command(name="gitpull")
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
