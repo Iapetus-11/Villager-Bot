@@ -104,7 +104,8 @@ class Owner(commands.Cog):
             entries = await self.db.fetch_transactions_page(user.id, page=page)
 
             if len(entries) == 0:
-                body = ctx.l.econ.inv.empty
+                embed = discord.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
+                embed.set_author(name=f"Transaction history for {user}", icon_url=user.avatar_url_as())
             else:
                 body = ""  # text for that page
 
