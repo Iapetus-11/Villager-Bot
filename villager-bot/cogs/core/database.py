@@ -223,10 +223,7 @@ class Database(commands.Cog):
         )
 
     async def fetch_transactions_page_count(self, user_id: int, limit: int = 10) -> int:
-        return (
-            await self.db.fetchval("SELECT COUNT(*) FROM give_logs WHERE sender = $1 OR receiver = $1", user_id)
-            // limit
-        )
+        return await self.db.fetchval("SELECT COUNT(*) FROM give_logs WHERE sender = $1 OR receiver = $1", user_id) // limit
 
     async def fetch_pickaxe(self, user_id: int) -> str:
         items_names = {item["name"] for item in await self.fetch_items(user_id)}
