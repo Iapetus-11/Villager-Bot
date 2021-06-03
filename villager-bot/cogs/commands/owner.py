@@ -81,7 +81,7 @@ class Owner(commands.Cog):
 
         res = await self.ipc.broadcast({"type": "exec", "code": code})
 
-        guilds = "\n".join([r.result for r in res.responses])
+        guilds = "".join([r.result for r in res.responses])
 
         if guilds == "":
             await self.bot.reply_embed(ctx, "No results...")
