@@ -70,7 +70,7 @@ class Owner(commands.Cog):
         else:
             uid = user
 
-        format_str = '"{guild} **|** `{guild.id}`\n"'  # vsc can't handle nested formatting cause stupid
+        format_str = '"{guild} **|** `{guild.id}`\\n"'  # vsc can't handle nested formatting cause stupid
         code = f"""
         guilds = ""
         for guild in bot.guilds:
