@@ -106,6 +106,8 @@ class Econ(commands.Cog):
             db_user["health"], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
         )
 
+        mooderalds = (await self.db.fetch_item(user.id, "Mooderald"))["amount"]
+
         vote_streak = db_user["vote_streak"]
         voted = arrow.utcnow().shift(hours=-12) < arrow.get(0 if db_user["streak_time"] is None else db_user["streak_time"])
 
@@ -121,7 +123,7 @@ class Econ(commands.Cog):
 
         embed.add_field(name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}")
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=ctx.l.econ.pp.cmds_sent, value=self.v.cmd_lb.get(user.id, 0))
+        embed.add_field(name=ctx.l.econ.pp.mooderalds, value=f"{mooderalds}{self.d.emojis.autistic_emerald}")
 
         embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak if vote_streak else 0))
         embed.add_field(name="\uFEFF", value="\uFEFF")
