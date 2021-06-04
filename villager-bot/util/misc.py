@@ -33,9 +33,9 @@ def make_health_bar(health: int, max_health: int, full: str, half: str, empty: s
     assert max_health % 2 == 0
 
     return (
-        (full * health // 2)
+        (full * (health // 2))
         + (half * (health % 2))
-        + (empty * (max_health // 2 - math.ceil(health / 2)))
+        + (empty * ((max_health // 2) - math.ceil(health / 2)))
         + f" ({health}/{max_health})"
     )
 
