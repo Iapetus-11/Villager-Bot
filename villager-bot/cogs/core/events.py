@@ -33,6 +33,7 @@ class Events(commands.Cog):
         self.logger = bot.logger
         self.ipc = bot.ipc
         self.d = bot.d
+        self.db = bot.get_cog("Database")
 
         bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
 
