@@ -112,14 +112,14 @@ class Econ(commands.Cog):
             mooderalds = 0
 
         vote_streak = db_user["vote_streak"]
-        voted = arrow.utcnow().shift(hours=-12) < arrow.get(0 if db_user["streak_time"] is None else db_user["streak_time"])
+        voted = arrow.utcnow().shift(hours=-12) < arrow.get(0 if db_user["last_vote"] is None else db_user["last_vote"])
 
         if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(
-            0 if db_user["streak_time"] is None else db_user["streak_time"]
+            0 if db_user["last_vote"] is None else db_user["last_vote"]
         ):
             vote_streak = 0
             await self.db.update_user(user.id, "vote_streak", 0)
-            await self.db.update_user(user.id, "streak_time", None)
+            await self.db.update_user(user.id, "last_vote", None)
 
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
