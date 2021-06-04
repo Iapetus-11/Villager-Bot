@@ -173,7 +173,7 @@ class Econ(commands.Cog):
 
         embed.add_field(name=ctx.l.econ.bal.pocket, value=f'{db_user["emeralds"]}{self.d.emojis.emerald}')
         embed.add_field(
-            name=ctx.l.econ.bal.vault, value=f'{db_user["vault_bal"]}{self.d.emojis.emerald_block}/{db_user["vault_max"]}'
+            name=ctx.l.econ.bal.vault, value=f'{db_user["vault_balance"]}{self.d.emojis.emerald_block}/{db_user["vault_max"]}'
         )
 
         await ctx.reply(embed=embed, mention_author=False)
@@ -353,7 +353,7 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
-        c_v_bal = db_user["vault_bal"]
+        c_v_bal = db_user["vault_balance"]
         c_v_max = db_user["vault_max"]
         c_bal = db_user["emeralds"]
 
@@ -404,7 +404,7 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
-        c_v_bal = db_user["vault_bal"]
+        c_v_bal = db_user["vault_balance"]
         c_v_max = db_user["vault_max"]
 
         if c_v_bal < 1:
@@ -1338,7 +1338,7 @@ class Econ(commands.Cog):
                 add = 2000 - db_user["vault_max"]
 
             await self.db.remove_item(ctx.author.id, "Vault Potion", 1)
-            await self.db.set_vault(ctx.author.id, db_user["vault_bal"], db_user["vault_max"] + add)
+            await self.db.set_vault(ctx.author.id, db_user["vault_balance"], db_user["vault_max"] + add)
 
             await self.bot.reply_embed(ctx, ctx.l.econ.use.vault_pot.format(add))
             return
