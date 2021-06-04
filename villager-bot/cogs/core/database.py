@@ -120,7 +120,7 @@ class Database(commands.Cog):
             return await self.fetch_user(user_id)
 
         return user
-    
+
     async def update_user(self, user_id: int, **kwargs) -> None:
         await self.fetch_user(user_id)
 
