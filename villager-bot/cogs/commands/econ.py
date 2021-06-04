@@ -106,7 +106,10 @@ class Econ(commands.Cog):
             db_user["health"], 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
         )
 
-        mooderalds = (await self.db.fetch_item(user.id, "Mooderald"))["amount"]
+        try:
+            mooderalds = (await self.db.fetch_item(user.id, "Mooderald"))["amount"]
+        except TypeError:
+            mooderalds = 0
 
         vote_streak = db_user["vote_streak"]
         voted = arrow.utcnow().shift(hours=-12) < arrow.get(0 if db_user["streak_time"] is None else db_user["streak_time"])
