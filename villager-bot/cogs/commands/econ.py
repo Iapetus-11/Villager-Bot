@@ -114,9 +114,7 @@ class Econ(commands.Cog):
         vote_streak = db_user["vote_streak"]
         voted = arrow.utcnow().shift(hours=-12) < arrow.get(0 if db_user["last_vote"] is None else db_user["last_vote"])
 
-        if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(
-            0 if db_user["last_vote"] is None else db_user["last_vote"]
-        ):
+        if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(0 if db_user["last_vote"] is None else db_user["last_vote"]):
             vote_streak = 0
             await self.db.update_user(user.id, "vote_streak", 0)
             await self.db.update_user(user.id, "last_vote", None)
