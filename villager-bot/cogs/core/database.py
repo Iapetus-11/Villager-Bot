@@ -120,10 +120,21 @@ class Database(commands.Cog):
             return await self.fetch_user(user_id)
 
         return user
-
-    async def update_user(self, user_id: int, key: str, value: object) -> None:
+    
+    async def update_user(self, user_id: int, **kwargs) -> None:
         await self.fetch_user(user_id)
-        await self.db.execute(f"UPDATE users SET {key} = $1 WHERE user_id = $2", value, user_id)
+
+        values = []
+        sql = []
+
+        for i, e in enumerate(kwargs.items()):
+            k, v = e
+
+            values.append(v)
+            sql.append(f"{k} = ${i+1}")
+
+        # this sql query crafting is safe because the user's input is still sanitized by asyncpg
+        await self.db.execute(f"UPDATE users SET {','.join(sql)} WHERE user_id = ${i+1}", *values, user_id)
 
     async def fetch_balance(self, user_id: int) -> int:  # fetches the amount of emeralds a user has
         # we can do this because self.fetch_user ensures user is not None
