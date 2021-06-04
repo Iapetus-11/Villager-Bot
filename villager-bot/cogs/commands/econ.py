@@ -116,8 +116,7 @@ class Econ(commands.Cog):
 
         if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(0 if db_user["last_vote"] is None else db_user["last_vote"]):
             vote_streak = 0
-            await self.db.update_user(user.id, "vote_streak", 0)
-            await self.db.update_user(user.id, "last_vote", None)
+            await self.db.update_user(user.id, vote_streak=0, last_vote=None)
 
         embed = discord.Embed(color=self.d.cc, description=health_bar)
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
@@ -1066,7 +1065,7 @@ class Econ(commands.Cog):
         if random.randint(0, 50) == 1:
             db_user = await self.db.fetch_user(ctx.author.id)
             if db_user["vault_max"] < 2000:
-                await self.db.update_user(ctx.author.id, "vault_max", db_user["vault_max"] + 1)
+                await self.db.update_user(ctx.author.id, vault_max=(db_user["vault_max"] + 1))
 
     @commands.command(name="fish", aliases=["phish", "feesh"])
     @commands.guild_only()
@@ -1136,7 +1135,7 @@ class Econ(commands.Cog):
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user["vault_max"] < 2000:
-                await self.db.update_user(ctx.author.id, "vault_max", db_user["vault_max"] + 1)
+                await self.db.update_user(ctx.author.id, vault_max=(db_user["vault_max"] + 1))
 
     @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.before_invoke(lock_author)
@@ -1355,7 +1354,7 @@ class Econ(commands.Cog):
             if db_user["health"] + amount > 20:
                 amount = max_amount
 
-            await self.db.update_user(ctx.author.id, "health", db_user["health"] + amount)
+            await self.db.update_user(ctx.author.id, health=(db_user["health"] + amount))
             await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
 
             new_health = amount + db_user["health"]

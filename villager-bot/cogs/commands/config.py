@@ -201,10 +201,10 @@ class Config(commands.Cog):
             return
 
         if alert.lower() in ("yes", "true", "on"):
-            await self.db.update_user(ctx.author.id, "give_alert", True)
+            await self.db.update_user(ctx.author.id, give_alert=True)
             await self.bot.reply_embed(ctx, ctx.l.config.gift.set.format("on"))
         elif alert.lower() in ("no", "false", "off"):
-            await self.db.update_user(ctx.author.id, "give_alert", False)
+            await self.db.update_user(ctx.author.id, give_alert=False)
             await self.bot.reply_embed(ctx, ctx.l.config.gift.set.format("off"))
         else:
             await self.bot.reply_embed(ctx, ctx.l.config.invalid.format("`on`, `off`"))
