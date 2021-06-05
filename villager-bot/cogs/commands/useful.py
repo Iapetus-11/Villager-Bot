@@ -143,6 +143,9 @@ class Useful(commands.Cog):
             person, what = entry
             user = self.bot.get_user(self.d.credit_users[person])
 
+            if user is None:
+                user = await self.bot.fetch_user(self.d.credit_users[person])
+
             fields.append({"name": f"**{user.display_name}**", "value": what})
 
             if i % 2 == 1:
