@@ -495,7 +495,7 @@ class Useful(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.useful.remind.time_max)
             return
 
-        await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, " ".join(args[i:])[:499], at.timestamp())
+        await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, " ".join(args[i:])[:499], at.datetime)
         await self.bot.reply_embed(
             ctx, ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang))
         )
