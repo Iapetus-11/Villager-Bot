@@ -215,7 +215,12 @@ class Events(commands.Cog):
             except Exception:
                 pass
 
-            debug_info = f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}```"[:200] + "```" + f"```py\n{format_exception(e)}"[:2000-206] + "```"
+            debug_info = (
+                f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}```"[:200]
+                + "```"
+                + f"```py\n{format_exception(e)}"[: 2000 - 206]
+                + "```"
+            )
 
             error_channel = await self.bot.fetch_error_channel()
             await error_channel.send(debug_info)

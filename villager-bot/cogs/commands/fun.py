@@ -55,10 +55,7 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
 
-        embed.set_footer(
-            text=f"{meme.upvotes}  |  u/{meme.author}",
-            icon_url=self.d.upvote_emoji_image
-        )
+        embed.set_footer(text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image)
         embed.set_image(url=meme.image)
 
         await ctx.send(embed=embed)
@@ -109,10 +106,7 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=comic.title[:256], url=comic.permalink)
 
-        embed.set_footer(
-            text=f"{comic.upvotes}  |  u/{comic.author}",
-            icon_url=self.d.upvote_emoji_image
-        )
+        embed.set_footer(text=f"{comic.upvotes}  |  u/{comic.author}", icon_url=self.d.upvote_emoji_image)
         embed.set_image(url=comic.image)
 
         await ctx.send(embed=embed)
@@ -134,10 +128,7 @@ class Fun(commands.Cog):
 
             embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
 
-            embed.set_footer(
-                text=f"{meme.upvotes}  |  u/{meme.author}",
-                icon_url=self.d.upvote_emoji_image
-            )
+            embed.set_footer(text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image)
             embed.set_image(url=meme.image)
 
             await ctx.send(embed=embed)
