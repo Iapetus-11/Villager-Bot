@@ -326,7 +326,7 @@ class Useful(commands.Cog):
         )
 
         villager = (
-            f"{ctx.l.useful.ginf.cmd_prefix}: `{self.v.prefix_cache.get(guild.id, self.d.default_prefix)}`\n"
+            f"{ctx.l.useful.ginf.cmd_prefix}: `{await self.bot.get_prefix(ctx)}`\n"
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
             f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
             f'{ctx.l.useful.ginf.prem}: `{str(db_guild["premium"]).lower()}`\n'
