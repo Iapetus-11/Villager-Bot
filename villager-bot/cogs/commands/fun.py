@@ -57,7 +57,7 @@ class Fun(commands.Cog):
 
         embed.set_footer(
             text=f"{meme.upvotes}  |  u/{meme.author}",
-            icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(":")[-1].replace(">", ""))).url,
+            icon_url=self.d.upvote_emoji_image
         )
         embed.set_image(url=meme.image)
 
@@ -111,7 +111,7 @@ class Fun(commands.Cog):
 
         embed.set_footer(
             text=f"{comic.upvotes}  |  u/{comic.author}",
-            icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(":")[-1].replace(">", ""))).url,
+            icon_url=self.d.upvote_emoji_image
         )
         embed.set_image(url=comic.image)
 
@@ -136,7 +136,7 @@ class Fun(commands.Cog):
 
             embed.set_footer(
                 text=f"{meme.upvotes}  |  u/{meme.author}",
-                icon_url=self.bot.get_emoji(int(self.d.emojis.updoot.split(":")[-1].replace(">", ""))).url,
+                icon_url=self.d.upvote_emoji_image
             )
             embed.set_image(url=meme.image)
 
