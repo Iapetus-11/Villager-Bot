@@ -216,7 +216,7 @@ class Events(commands.Cog):
                 pass
 
             debug_info = (
-                f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}```"[:200]
+                f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}"[:200]
                 + "```"
                 + f"```py\n{format_exception(e)}"[: 2000 - 206]
                 + "```"
