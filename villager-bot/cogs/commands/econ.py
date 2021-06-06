@@ -1513,7 +1513,7 @@ class Econ(commands.Cog):
     @leaderboards.command(name="pillages", aliases=["pil", "stolen"])
     async def leaderboard_pillages(self, ctx):
         async with ctx.typing():
-            pillages_global, global_u_entry = await self.db.fetch_global_lb("pillages", ctx.author.id)
+            pillages_global, global_u_entry = await self.db.fetch_global_lb("pillaged_emeralds", ctx.author.id)
             pillages_local, local_u_entry = await self.db.fetch_local_lb(
                 "pillages", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
@@ -1602,7 +1602,7 @@ class Econ(commands.Cog):
     @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
     async def leaderboard_fish(self, ctx):
         async with ctx.typing():
-            fish_global, global_u_entry = await self.db.fetch_global_lb("fish", ctx.author.id)
+            fish_global, global_u_entry = await self.db.fetch_global_lb("fish_fished", ctx.author.id)
             fish_local, local_u_entry = await self.db.fetch_local_lb(
                 "fish", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
