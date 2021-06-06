@@ -60,6 +60,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             "cogs.commands.minecraft",
             "cogs.commands.mod",
             "cogs.commands.fun",
+            "cogs.commands.sex",
         ]
 
         self.logger = setup_logging(self.shard_ids)
