@@ -99,14 +99,14 @@ class MechaKaren:
         elif packet.type == "cooldown-reset":
             self.cooldowns.clear_cooldown(packet.command, packet.user_id)
         elif packet.type == "dm-message-request":
-            entry = self.dm_messages[packet.user] = {"event": asyncio.Event(), "content": None}
+            entry = self.dm_messages[packet.user_id] = {"event": asyncio.Event(), "content": None}
             await entry["event"].wait()
 
-            self.dm_messages.pop(packet.user, None)
+            self.dm_messages.pop(packet.user_id, None)
 
             await stream.write_packet({"type": "dm-message", "id": packet.id, "content": entry["content"]})
         elif packet.type == "dm-message":
-            entry = self.dm_messages.get(packet.user)
+            entry = self.dm_messages.get(packet.user_id)
 
             if entry is None:
                 return
@@ -114,9 +114,9 @@ class MechaKaren:
             entry["content"] = packet.content
             entry["event"].set()
         elif packet.type == "mine-command":  # actually used for fishing too
-            self.v.mine_commands[packet.user] += packet.addition
+            self.v.mine_commands[packet.user_id] += packet.addition
             await stream.write_packet(
-                {"type": "mine-command-response", "id": packet.id, "current": self.v.mine_commands[packet.user]}
+                {"type": "mine-command-response", "id": packet.id, "current": self.v.mine_commands[packet.user_id]}
             )
         # elif packet.type == "concurrency-test":
         #     self.concurrency.check(packet.command, packet.user_id)

@@ -47,7 +47,7 @@ class Econ(commands.Cog):
 
     async def math_problem(self, ctx, addition=1):
         # simultaneously updates the value in Karen and retrivies teh current value
-        res = await self.ipc.request({"type": "mine-command", "user": ctx.author.id, "addition": addition})
+        res = await self.ipc.request({"type": "mine-command", "user_id": ctx.author.id, "addition": addition})
         mine_commands = res.current
 
         if mine_commands >= 100:
