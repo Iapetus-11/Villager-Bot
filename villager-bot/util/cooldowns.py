@@ -8,6 +8,28 @@ class CommandOnKarenCooldown(Exception):
         self.remaining = remaining
 
 
+class MaxConcurrencyManager:
+    def __init__(self):
+        self.limits = {}
+
+    def acquire(self, command: str, user_id: int) -> None:
+        self.limits[command, user_id] = 1
+
+    def release(self, command: str, user_id: int) -> None:
+        try:
+            del self.limits[command, user_id]
+        except KeyError:
+            pass
+
+    def check(self, command: str, user_id: int) -> None:
+        if self.limits.get((command, user_id)):
+            return False
+
+        self.acquire(command, user_id)
+
+        return True
+
+
 class CooldownManager:
     def __init__(self, cooldown_rates: dict):
         self.rates = cooldown_rates  # {command_name: seconds_per_command}
