@@ -346,7 +346,7 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.fish)
 
     @commands.command(name="deposit", aliases=["dep"])
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def vault_deposit(self, ctx, emerald_blocks: str):
         """Deposits the given amount of emerald blocks into the vault"""
@@ -634,7 +634,7 @@ class Econ(commands.Cog):
             await asyncio.sleep(0.2)
 
     @commands.command(name="buy", aliases=["purchase"])
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    # @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def buy(self, ctx, *, amount_item):
         """Allows you to buy items"""
@@ -731,7 +731,7 @@ class Econ(commands.Cog):
         )
 
     @commands.command(name="sell", aliases=["emeraldify"])
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def sell(self, ctx, *, amount_item):
         """Allows you to sell items"""
@@ -798,7 +798,7 @@ class Econ(commands.Cog):
     @commands.before_invoke(lock_author)
     @commands.after_invoke(unlock_author)
     @commands.guild_only()
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    # @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def give(self, ctx, user: discord.Member, *, amount_item):
         """Give an item or emeralds to another person"""
@@ -888,7 +888,7 @@ class Econ(commands.Cog):
                     await self.bot.send(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"]))
 
     @commands.command(name="gamble", aliases=["bet", "stonk", "stonks"])
-    @commands.cooldown(1, 30, commands.BucketType.user)
+    # @commands.cooldown(1, 30, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def gamble(self, ctx, amount):
         """Gamble for emeralds with Villager Bot"""
@@ -950,7 +950,7 @@ class Econ(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.econ.gamble.tie)
 
     @commands.command(name="search", aliases=["beg"])
-    @commands.cooldown(1, 30 * 60, commands.BucketType.user)
+    # @commands.cooldown(1, 30 * 60, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def search(self, ctx):
         """Beg for emeralds"""
@@ -1069,7 +1069,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="fish", aliases=["phish", "feesh"])
     @commands.guild_only()
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def fish(self, ctx):
         if not await self.math_problem(ctx, 5):
@@ -1141,7 +1141,7 @@ class Econ(commands.Cog):
     @commands.before_invoke(lock_author)
     @commands.after_invoke(unlock_author)
     @commands.guild_only()
-    @commands.cooldown(1, 300, commands.BucketType.user)
+    # @commands.cooldown(1, 300, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def pillage(self, ctx, victim: discord.Member):
         if victim.bot:
@@ -1239,7 +1239,7 @@ class Econ(commands.Cog):
                 await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    # @commands.cooldown(1, 2, commands.BucketType.user)
     async def use_item(self, ctx, *, thing):
         """Allows you to use potions and some other items"""
 
@@ -1435,7 +1435,7 @@ class Econ(commands.Cog):
         await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_6)
 
     @commands.command(name="honey", aliases=["harvesthoney", "horny"])  # ~~a strange urge occurs in me~~
-    @commands.cooldown(1, 24 * 60 * 60, commands.BucketType.user)
+    # @commands.cooldown(1, 24 * 60 * 60, commands.BucketType.user)
     async def honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
 

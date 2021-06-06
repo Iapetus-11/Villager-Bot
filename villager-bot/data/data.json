@@ -76,7 +76,18 @@
     "~"
   ],
   "cooldown_rates": {
-    "test": 10
+    "fish": 8,
+    "pillage": 300,
+    "use": 2,
+    "honey": 86400,
+    "deposit": 2,
+    "withdraw": 2,
+    "buy": 5,
+    "sell": 2,
+    "give": 10,
+    "gamble": 30,
+    "search": 1800,
+    "mine": 2
   },
   "role_mappings": {
     "Stone Pickaxe": 697457637763186809,
