@@ -392,7 +392,7 @@ class Econ(commands.Cog):
         await self.db.balance_sub(ctx.author.id, amount * 9)
         await self.db.set_vault(ctx.author.id, c_v_bal + amount, c_v_max)
 
-        await self.bot.send(
+        await self.bot.reply_embed(
             ctx, ctx.l.econ.dep.deposited.format(amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald)
         )
 
@@ -431,7 +431,7 @@ class Econ(commands.Cog):
         await self.db.balance_add(ctx.author.id, amount * 9)
         await self.db.set_vault(ctx.author.id, c_v_bal - amount, c_v_max)
 
-        await self.bot.send(
+        await self.bot.reply_embed(
             ctx, ctx.l.econ.withd.withdrew.format(amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald)
         )
 
@@ -702,7 +702,7 @@ class Econ(commands.Cog):
             db_req_item = await self.db.fetch_item(ctx.author.id, req_item)
 
             if db_req_item is None or db_req_item["amount"] < req_amount:
-                await self.bot.send(
+                await self.bot.reply_embed(
                     ctx, ctx.l.econ.buy.need_total_of.format(req_amount, req_item, self.d.emojis[self.d.emoji_items[req_item]])
                 )
                 return
@@ -723,7 +723,7 @@ class Econ(commands.Cog):
         if shop_item.db_entry[0] == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
 
-        await self.bot.send(
+        await self.bot.reply_embed(
             ctx,
             ctx.l.econ.buy.you_done_bought.format(
                 amount, shop_item.db_entry[0], format_required(self.d, shop_item, amount), amount + db_item_count
@@ -787,7 +787,7 @@ class Econ(commands.Cog):
             if member is not None:
                 await self.bot.update_support_member_role(member)
 
-        await self.bot.send(
+        await self.bot.reply_embed(
             ctx,
             ctx.l.econ.sell.you_done_sold.format(
                 amount, db_item["name"], amount * db_item["sell_price"], self.d.emojis.emerald
@@ -851,12 +851,12 @@ class Econ(commands.Cog):
                 await self.db.balance_add(user.id, amount)
                 await self.db.log_transaction("emerald", amount, arrow.utcnow().datetime, ctx.author.id, user.id)
 
-                await self.bot.send(
+                await self.bot.reply_embed(
                     ctx, ctx.l.econ.give.gaveems.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention)
                 )
 
                 if (await self.db.fetch_user(user.id))["give_alert"]:
-                    await self.bot.send(
+                    await self.bot.send_embed(
                         user, ctx.l.econ.give.gaveyouems.format(ctx.author.mention, amount, self.d.emojis.emerald)
                     )
             else:
@@ -880,12 +880,12 @@ class Econ(commands.Cog):
                     self.db.log_transaction(db_item["name"], amount, arrow.utcnow().datetime, ctx.author.id, user.id)
                 )
 
-                await self.bot.send(
+                await self.bot.reply_embed(
                     ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item["name"], user.mention)
                 )
 
                 if (await self.db.fetch_user(user.id))["give_alert"]:
-                    await self.bot.send(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"]))
+                    await self.bot.send_embed(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"]))
 
     @commands.command(name="gamble", aliases=["bet", "stonk", "stonks"])
     # @commands.cooldown(1, 30, commands.BucketType.user)
@@ -940,7 +940,7 @@ class Econ(commands.Cog):
             won = math.ceil(min(won, math.log(won, 1.001)))
 
             await self.db.balance_add(ctx.author.id, won)
-            await self.bot.send(
+            await self.bot.reply_embed(
                 ctx, ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), won, self.d.emojis.emerald)
             )
         elif u_roll < b_roll:
@@ -961,7 +961,7 @@ class Econ(commands.Cog):
             if random.randint(1, 420) == 420:
                 mooderalds = random.randint(1, 3)
                 await self.db.add_item(ctx.author.id, "Mooderald", 768, mooderalds)
-                await self.bot.send(
+                await self.bot.reply_embed(
                     ctx, random.choice(ctx.l.econ.beg.mooderald).format(f"{mooderalds}{self.d.emojis.autistic_emerald}")
                 )
 
@@ -1221,7 +1221,7 @@ class Econ(commands.Cog):
                 await self.bot.reply_embed(
                     ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald)
                 )
-                await self.bot.send(
+                await self.bot.send_embed(
                     victim,
                     random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald),
                 )
@@ -1236,7 +1236,7 @@ class Econ(commands.Cog):
                 await self.bot.reply_embed(
                     ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald)
                 )
-                await self.bot.send(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
+                await self.bot.send_embed(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
     # @commands.cooldown(1, 2, commands.BucketType.user)
@@ -1373,7 +1373,7 @@ class Econ(commands.Cog):
                 for item in self.d.mining.findables:
                     if random.randint(0, (item[2] // 2) + 2) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
-                        await self.bot.send(
+                        await self.bot.reply_embed(
                             ctx, random.choice(ctx.l.econ.use.present).format(item[0], item[1], self.d.emojis.emerald)
                         )
 
@@ -1393,7 +1393,7 @@ class Econ(commands.Cog):
                     if item[2] > 1000:
                         if random.randint(0, (item[2] // 1.5) + 5) == 1:
                             await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
-                            await self.bot.send(
+                            await self.bot.reply_embed(
                                 ctx, random.choice(ctx.l.econ.use.barrel_item).format(item[0], item[1], self.d.emojis.emerald)
                             )
 
