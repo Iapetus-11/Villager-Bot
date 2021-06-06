@@ -5,8 +5,8 @@ import asyncio
 import arrow
 
 from util.setup import load_secrets, load_data, setup_karen_logging
+from util.cooldowns import CooldownManager, MaxConcurrencyManager
 from util.code import execute_code, format_exception
-from util.cooldowns import CooldownManager
 from util.ipc import Server, Stream
 
 from bot import run_shard_group
@@ -32,6 +32,7 @@ class MechaKaren:
         self.logger = setup_karen_logging()
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
         self.cooldowns = CooldownManager(self.d.cooldown_rates)
+        self.concurrency = MaxConcurrencyManager()
 
         self.shard_ids = tuple(range(self.d.shard_count))
         self.online_shards = set()
@@ -117,6 +118,8 @@ class MechaKaren:
             await stream.write_packet(
                 {"type": "mine-command-response", "id": packet.id, "current": self.v.mine_commands[packet.user]}
             )
+        # elif packet.type == "concurrency-test":
+        #     self.concurrency.check(packet.command, packet.user_id)
 
     async def start(self, pp):
         await self.server.start()
