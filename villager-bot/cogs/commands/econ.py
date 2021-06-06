@@ -1515,7 +1515,7 @@ class Econ(commands.Cog):
         async with ctx.typing():
             pillages_global, global_u_entry = await self.db.fetch_global_lb("pillaged_emeralds", ctx.author.id)
             pillages_local, local_u_entry = await self.db.fetch_local_lb(
-                "pillages", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "pillaged_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
             lb_global = lb_logic(
@@ -1604,7 +1604,7 @@ class Econ(commands.Cog):
         async with ctx.typing():
             fish_global, global_u_entry = await self.db.fetch_global_lb("fish_fished", ctx.author.id)
             fish_local, local_u_entry = await self.db.fetch_local_lb(
-                "fish", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "fish_fished", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
             lb_global = lb_logic(
