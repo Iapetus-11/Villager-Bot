@@ -1,31 +1,31 @@
 {
-  "pt": {
+  "en": {
     "lang": "pt",
     "name": "Português",
     "misc": {
       "petus": "Feito por Iapetus11",
       "pingpong": "O prefixo para este servidor é `{0}` e o comando de ajuda é `{0}help`\nSe precisar de mais ajuda, pode se juntar ao **[Servidor de Suporte]({1})**.",
       "cooldown_msgs": [
-        "Seus pais não lhe disseram que [paciência é uma virtude](http://www.patience-is-a-virtue.org/)? Acalme-se e espere outros **{}**.",
-        "Ei, você precisa esperar outros **{}** antes de fazer isso de novo.",
-        "Hrmmm, parece que você precisa esperar outros **{}** antes de fazer isso de novo.",
-        "Você não sabe que [paciência é uma virtude](http://www.patience-is-a-virtue.org/)! Espere outros **{}**.",
-        "Acalme-se e espere por outros **{}**."
+        "Seus pais não lhe disseram que [paciência é uma virtude](http://www.patience-is-a-virtue.org/)? Acalme-se e espere por mais **{}**.",
+        "Ei, você precisa esperar mais **{}** antes de fazer isso de novo.",
+        "Hrmmm, parece que você precisa esperar mais **{}** antes de fazer isso de novo.",
+        "Você não sabe que [paciência é uma virtude](http://www.patience-is-a-virtue.org/)?! Aguarde mais **{}**.",
+        "Acalme-se e espere por mais **{}**."
       ],
       "errors": {
         "andioop": "Oops! Algo deu muito errado... Por favor, faça uma captura de tela e relate no **[Servidor de Suporte]({})**, obrigado!",
         "private": "Este comando não pode ser usado em canais de bate-papo privados.",
         "user_perms": "Boa tentativa, espertinho, mas você não tem permissão para fazer isso!",
         "bot_perms": "Você não me deu as permissões adequadas para fazer isso, bobinho.",
-        "concurrency": "Calma! Você está usando este comando muitoooo rápido!",
+        "concurrency": "Calma! Você está usando este comando muuuito rápido!",
         "missing_arg": "Parece que você está se esquecendo de colocar algo!",
         "bad_arg": "Parece que você não digitou algo corretamente, tente digitar certo da primeira vez, dum dum.",
-        "not_ready": "Calma! O Villager Bot ainda está inicializando!!",
+        "not_ready": "Calma! O Villager Bot ainda está sendo inicializado!!",
         "nrn_buddy": "Espere, você não pode usar esse comando agora!",
         "disabled": "Este comando está desabilitado neste servidor e não pode ser usado!"
       },
       "tips": [
-        "Tem uma sugestão? Encontrou um bug? Precisa de ajuda? Quer trocar? Junte-se ao Servidor de Suporte! https://discord.gg/39DwwUV",
+        "Tem uma sugestão? Encontrou um bug? Precisa de ajuda? Quer fazer trocas? Junte-se ao Servidor de Suporte! https://discord.gg/39DwwUV",
         "Precisa de esmeraldas? Vote em nós no top.gg! https://top.gg/bot/639498607632056321",
         "Precisa de esmeraldas? Confira o canal #paid-stuff no Servidor de Suporte! https://discord.gg/39DwwUV",
         "Ficou quebrado por causa daqueles saqueadores? Vote em nós para obter esmeraldas! https://top.gg/bot/639498607632056321",
@@ -56,15 +56,15 @@
         "utility": "Utilitário",
         "fun": "Diversão",
         "admin": "Administração",
-        "cmd": "Uso de Comandos"
+        "cmd": "Uso dos Comandos"
       },
       "main": {
         "desc": "Precisa de mais ajuda? Confira o **[Servidor de Suporte]({})**!\nGostando do bot? Vote em nós no **[top.gg]({})** e ganhe esmeraldas!",
         "support": "Suporte",
         "clickme": "Clique Aqui",
-        "howto": "Use `{0}help <command>` para ver como se usa esse comando!!",
+        "howto": "Use `{0}help <comando>` para ver como se usa esse comando!",
         "nodoc": "Não existe documentação para esse comando.",
-        "aliases": "Apelidos: `{}`"
+        "aliases": "Variantes: `{}`"
       },
       "econ": {
         "profile": "`{0}profile [opcional: usuário]` *mostra o seu perfil ou do usuário especificado*",
@@ -73,7 +73,7 @@
         "deposit": "`{0}deposit <blocos de esmeralda>` *deposita esmeraldas no cofre*",
         "withdraw": "`{0}withdraw <blocos de esmeralda>` *retira esmeraldas do cofre*",
         "give": "`{0}give <usuário> <quantidade> <item>` *dá a outro usuário um item ou esmeraldas*",
-        "mine": "`{0}mine` *minar esmeraldas*",
+        "mine": "`{0}mine` *minerar esmeraldas*",
         "fish": "`{0}fish` *pesca peixes e itens*",
         "search": "`{0}search` *procura por esmeraldas*",
         "honey": "`{0}honey` *colhe mel das abelhas que você possui*",
@@ -91,10 +91,10 @@
         "randommc": "`{0}randommc` *mostra um servidor de Minecraft aleatório se você quiser um novo lugar para explorar*",
         "mcimage": "`{0}mcimage` *transforma qualquer imagem que você enviar em blocos / pixel art do Minecraft*",
         "stealskin": "`{0}stealskin <nome de usuário>` *busca a skin de um jogador de Minecraft Java Edition*",
-        "buildidea": "`{0}buildidea` *envia uma ideia de construção aleatória para se você estiver entediado e precisar de inspiração*",
+        "buildidea": "`{0}buildidea` *envia uma ideia de construção aleatória no caso de você estiver entediado e precisar de inspiração*",
         "mccolors": "`{0}mccolors` *mostra as cores do Minecraft e como usá-las no chat do jogo*",
         "mcprofile": "`{0}mcprofile <nome de usuário>` *mostra informações sobre um jogador de Minecraft Java Edition*",
-        "nametoxuid": "`{0}nametoxuid <nome de usuário>` *transforma uma gamertag de MC Bedrock Edition em um xuid*"
+        "nametoxuid": "`{0}nametoxuid <nome de usuário>` *transforma uma gamertag do MC Bedrock Edition em um xuid*"
       },
       "util": {
         "help": "`{0}help` *ver informações úteis sobre o Villager Bot*",
@@ -500,8 +500,8 @@
       },
       "rcon": {
         "none": "Você não tinha nenhuma senha salva.",
-        "one": "O total de 1 senha foi excluída.",
-        "multi": "O total {} senhas foram excluídas."
+        "one": "Um total de 1 senha foi excluída.",
+        "multi": "Um total de {} senhas foram excluídas."
       }
     },
     "useful": {
@@ -530,7 +530,7 @@
         "shards": "Contagem de Fragmentos",
         "ping": "Latência/Ping",
         "mem": "Memória",
-        "cpu": "Utilização do CPU",
+        "cpu": "Utilização da CPU",
         "threads": "Núcleos",
         "tasks": "Tarefas",
         "uptime": "Tempo de Atividade"
@@ -558,7 +558,7 @@
       },
       "rules": {
         "rules": "Regras do Villager Bot",
-        "slashrules": "{}regras para as regras!",
+        "slashrules": "{}regras para ver as regras!",
         "penalty": "A penalidade por quebrar essas regras pode incluir um reinício/exclusão, penalidade/debuff no jogo ou um **banimento permanente do bot e do servidor de suporte**.",
         "rule_1": "**1.** Não abuse dos bugs, denuncie-os no canal #bug-smasher no [servidor de suporte]({}) para uma recompensa!",
         "rule_2": "**2.** Não trapaceie de forma alguma, nem use contas alternativas ou outros usuários para armazenar suas esmeraldas ou itens. (Isso inclui self-botting.)",
@@ -588,7 +588,7 @@
           "kaosj": "Pequenas correções de bugs e acréscimos de recursos",
           "radar": "Pequenas correções de bugs e acréscimos de recursos"
         },
-        "others": "E, claro, os incontáveis outros que contribuíram com ideias e relatórios de erros para ajudar a tornar o Villager Bot melhor!"
+        "others": "E, claro, os incontáveis outros que contribuíram com ideias e relatórios de erros para ajudar a tornar o Villager Bot ainda melhor!"
       }
     },
     "econ": {
@@ -694,10 +694,10 @@
         "lose": "Você perdeu {}{} pro Villager Bot...",
         "tie": "Empate! Talvez o Villager Bot roube suas esmeraldas de qualquer jeito...",
         "actions": [
-          "desembolse",
-          "te da",
-          "entrega",
-          "te passa"
+          "desembolsou",
+          "te deu",
+          "entregou",
+          "te passou"
         ]
       },
       "beg": {
@@ -720,7 +720,7 @@
           "Você escala o Monte Everest em busca de esmeraldas e encontra {}!",
           "Você encontra um alçapão escondido e atrás dele tem {}...",
           "Em um canto empoeirado você avista {}.",
-          "Ao limpar seu quarto, você encontra {}, talvez deva fazer isso com mais frequência...",
+          "Ao limpar seu quarto você encontra {}, talvez deva fazer isso com mais frequência...",
           "Debaixo de um bloco de sujeira você encontra {}!",
           "Você procura em seus bolsos e encontra {}, coberto de chiclete velho e pegajoso...",
           "Seu animal de estimação vomitou {}...",
@@ -739,9 +739,9 @@
           "Enquanto mendigava em uma vila, você foi pego em uma invasão, um devastador lhe dá uma cabeçada que o fez atravessar o mapa. Você deixa {} cairem no meio do voo."
         ],
         "mooderald": [
-          "You were blessed by Moofy, and magically received {}.",
-          "You prayed for Mooderalds, and found {} in your left pocket.",
-          "You found {} inside your bag with a note."
+          "Você foi abençoado por Moofy e magicamente recebeu {}.",
+          "Você orou por Mooderalds e encontrou {} em seu bolso esquerdo.",
+          "Você encontrou {} dentro de sua bolsa com uma nota."
         ]
       },
       "mine": {
@@ -749,8 +749,8 @@
         "found_item_2": "Você {0} {1} {2} {3}.",
         "found_emeralds": "Você {0} {1}{2}!",
         "actions": [
-          "minerado",
-          "encontrado",
+          "minerou",
+          "encontrou",
           "obteve",
           "desenterrou"
         ],
@@ -765,7 +765,7 @@
         "useless": [
           "inútil",
           "estúpido",
-          "idiota",
+          "tonto",
           "sem valor"
         ]
       },
