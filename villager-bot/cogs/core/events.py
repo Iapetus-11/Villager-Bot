@@ -3,7 +3,7 @@ import discord
 import random
 import sys
 
-from util.cooldowns import CommandOnKarenCooldown
+from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.code import format_exception
 
 
@@ -189,7 +189,7 @@ class Events(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms)
         elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms)
-        elif isinstance(e, commands.MaxConcurrencyReached):
+        elif isinstance(e, commands.MaxConcurrencyReached) or isinstance(e, MaxKarenConcurrencyReached):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
         elif isinstance(e, commands.MissingRequiredArgument):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.missing_arg)
