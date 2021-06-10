@@ -9,10 +9,10 @@ import random
 import arrow
 import numpy
 
+from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.setup import load_text, load_secrets, load_data
 from util.code import execute_code, format_exception
-from util.cooldowns import CommandOnKarenCooldown
 from util.ipc import Client
 
 
@@ -88,7 +88,8 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.spawn_queue = set()  # {ctx, ctx,..}
         self.minecraft_server_ids = []  # used for storing servers from minecraft.global [server_id, server_id,..]
 
-        self.add_check(self.check_global)
+        self.add_check(self.check_global)  # register global check
+        self.after_invoke(self.after_command_invoked)  # register self.after_command_invoked as a after_invoked event
 
     @property
     def eval_env(self):  # used in the eval and exec packets and the eval commands
@@ -176,7 +177,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         await asyncio.sleep(random.randint(100, 200) / 100)
         await self.send_embed(ctx, f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
 
-    async def check_global(self, ctx):  # the global command check
+    async def check_global(self, ctx) -> bool:  # the global command check
         self.command_count += 1
 
         ctx.l = self.get_language(ctx)
@@ -202,6 +203,13 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
                 ctx.custom_error = CommandOnKarenCooldown(cooldown_info.remaining)
                 return False
 
+        if command in self.d.concurrency_limited:
+            res = await self.ipc.request({"type": "concurrency-test", "command": command, "user_id": ctx.author.id})
+
+            if not res.can_run:
+                ctx.custom_error = MaxKarenConcurrencyReached()
+                return False
+
         # handle paused econ users
         if ctx.command.cog_name == "Econ":
             # check if user has paused econ
@@ -218,3 +226,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
                 asyncio.create_task(self.send_tip(ctx))
 
         return True
+
+    async def after_command_invoked(self, ctx):
+        if ctx.command in self.d.concurrency_limited:
+            await self.ipc.send({"type": "concurrency-release", "command": ctx.command.name, "user_id": ctx.author.id})
