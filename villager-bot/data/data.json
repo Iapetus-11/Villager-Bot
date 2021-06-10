@@ -89,6 +89,25 @@
     "search": 1800,
     "mine": 2
   },
+  "concurrency_limited": [
+    "profile",
+    "balance",
+    "inventory",
+    "deposit",
+    "withdraw",
+    "shop",
+    "fishmarket",
+    "buy",
+    "sell",
+    "give",
+    "gamble",
+    "search",
+    "mine",
+    "fish",
+    "pillage",
+    "honey",
+    "leaderboards"
+  ],
   "role_mappings": {
     "Stone Pickaxe": 697457637763186809,
     "Iron Pickaxe": 697457970661031957,
