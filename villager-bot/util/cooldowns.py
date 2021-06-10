@@ -8,6 +8,10 @@ class CommandOnKarenCooldown(Exception):
         self.remaining = remaining
 
 
+class MaxKarenConcurrencyReached(Exception):
+    pass
+
+
 class MaxConcurrencyManager:
     def __init__(self):
         self.limits = {}
