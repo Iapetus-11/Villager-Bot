@@ -14,19 +14,16 @@ class MaxKarenConcurrencyReached(Exception):
 
 class MaxConcurrencyManager:
     def __init__(self):
-        self.limits = {}
+        self.limits = set()
 
     def acquire(self, command: str, user_id: int) -> None:
-        self.limits[command, user_id] = 1
+        self.limits.add((command, user_id))
 
     def release(self, command: str, user_id: int) -> None:
-        try:
-            del self.limits[command, user_id]
-        except KeyError:
-            pass
+        self.limits.remove((command, user_id))
 
     def check(self, command: str, user_id: int) -> None:
-        if self.limits.get((command, user_id)):
+        if (command, user_id) in self.limits:
             return False
 
         self.acquire(command, user_id)

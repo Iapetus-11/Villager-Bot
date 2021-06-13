@@ -228,5 +228,5 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         return True
 
     async def after_command_invoked(self, ctx):
-        if ctx.command in self.d.concurrency_limited:
+        if ctx.command.name in self.d.concurrency_limited:
             await self.ipc.send({"type": "concurrency-release", "command": ctx.command.name, "user_id": ctx.author.id})
