@@ -20,7 +20,10 @@ class MaxConcurrencyManager:
         self.limits.add((command, user_id))
 
     def release(self, command: str, user_id: int) -> None:
-        self.limits.remove((command, user_id))
+        try:
+            self.limits.remove((command, user_id))
+        except KeyError:
+            pass
 
     def check(self, command: str, user_id: int) -> None:
         if (command, user_id) in self.limits:
