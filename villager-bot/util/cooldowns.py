@@ -25,7 +25,7 @@ class MaxConcurrencyManager:
         except KeyError:
             pass
 
-    def check(self, command: str, user_id: int) -> None:
+    def check(self, command: str, user_id: int) -> bool:
         if (command, user_id) in self.limits:
             return False
 
