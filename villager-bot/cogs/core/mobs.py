@@ -7,7 +7,7 @@ class MobSpawner:
 
         self.d = bot.d
         self.db = bot.get_cog("Database")
-    
+
     def engage_check(self, m, ctx):
         if self.v.pause_econ.get(m.author.id):
             return False
@@ -23,7 +23,7 @@ class MobSpawner:
                 return False
 
         return commands.check(predicate)
-    
+
 
 def setup(bot):
     bot.add_cog(MobSpawner(bot))
