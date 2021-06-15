@@ -11,12 +11,13 @@ import base64
 import arrow
 import json
 
+from util.code import format_exception
 from util.misc import dm_check
 
 try:
     from util import blockifier
 except ImportError as e:
-    print(e)
+    print(format_exception(e))
     blockifier = None
 
 
