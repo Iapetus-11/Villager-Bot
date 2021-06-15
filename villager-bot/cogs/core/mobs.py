@@ -7,20 +7,16 @@ class MobSpawner:
 
         self.d = bot.d
         self.db = bot.get_cog("Database")
-    
-    def engage_check(self, m, ctx):
-        if self.v.pause_econ.get(m.author.id):
-            return False
-
-        if m.content.lower().replace(ctx.prefix, "", 1) not in self.d.mobs_mech.valid_attacks:
-            return False
-
-        return m.channel.id == ctx.channel.id and not u.bot and u.id not in self.v.ban_cache
 
     def engage_check(self, ctx):
         async def predicate(m):
             if (await self.ipc.eval(f"econ_paused_users.get({ctx.author.id})")).result is not None:
                 return False
+
+            if m.content.lower().lstrip(ctx.prefix) not in self.d.mobs_mech.valid_attacks:
+                return False
+
+            return m.channel.id == ctx.channel.id and not ctx.author.bot and ctx.author.id not in self.bot.ban_cache
 
         return commands.check(predicate)
     
