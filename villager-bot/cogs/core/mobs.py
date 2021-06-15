@@ -22,7 +22,10 @@ class MobSpawner:
 
     def attack_check(self, ctx, engage_msg):
         def predicate(m):
-            if m.content.lower().lstrip(ctx.prefix) not in self.d.mobs_mech.valid_attacks and m.content.lower().lstrip(ctx.prefix) not in self.d.mobs_mech.valid_flees:
+            if (
+                m.content.lower().lstrip(ctx.prefix) not in self.d.mobs_mech.valid_attacks
+                and m.content.lower().lstrip(ctx.prefix) not in self.d.mobs_mech.valid_flees
+            ):
                 return False
 
             return m.channel == engage_msg.channel and m.author == engage_msg.author
