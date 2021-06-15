@@ -19,7 +19,7 @@ class MobSpawner:
             return m.channel.id == ctx.channel.id and not ctx.author.bot and ctx.author.id not in self.bot.ban_cache
 
         return commands.check(predicate)
-    
+
 
 def setup(bot):
     bot.add_cog(MobSpawner(bot))
