@@ -86,7 +86,7 @@ class MobSpawner:
             return
 
         difficulty_multi = 1.5 if difficulty == "hard" else 1
-        
+
         # type of mob to be spawned
         mob_key = random.choice(tuple(self.d.mobs_mech.mobs))
         mob = cj.classify({**self.d.mobs_mech.mobs[mob_key].copy(), **ctx.l.mobs_mech.mobs[mob_key]})
@@ -111,7 +111,7 @@ class MobSpawner:
             except asyncio.TimeoutError:
                 await engage_msg.edit(suppress=True)
                 return
-            
+
             user = initial_attack_msg.author
             db_user = await self.db.fetch_user(user.id)
             user_health = db_user["health"]
@@ -121,7 +121,7 @@ class MobSpawner:
                 continue
 
             break
-        
+
         # fetch user's sword, slime trophy, and suppress the engage message
         sword, slime_trophy, _ = await asyncio.gather(
             self.db.fetch_sword(user.id),
@@ -144,7 +144,7 @@ class MobSpawner:
             )
 
             # add mob health bar to embed
-            embed.add_field( 
+            embed.add_field(
                 name=f"**{mob.nice}**",
                 value=make_health_bar(
                     mob.health,
