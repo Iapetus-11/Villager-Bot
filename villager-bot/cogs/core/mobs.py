@@ -4,6 +4,7 @@ import itertools
 import asyncio
 import discord
 import random
+import time
 import math
 
 from util.misc import make_health_bar
@@ -122,14 +123,20 @@ class MobSpawner:
 
             break
 
+        await self.ipc.exec(f"econ_paused_users[{ctx.author.id}] = {time.time()}")
+
+        async def free(new_user_health: int) -> None:
+            await self.db.update_user(user.id, health=new_user_health)
+            await self.ipc.eval(f"econ_paused_users.pop({ctx.author.id}, None)")  # unpause user
+
         # fetch user's sword, slime trophy, and suppress the engage message
-        sword, slime_trophy, _ = await asyncio.gather(
+        user_sword, slime_trophy, _ = await asyncio.gather(
             self.db.fetch_sword(user.id),
             self.db.fetch_item(user.id),
             engage_msg.edit(suppress=True),
         )
 
-        for iteration in itertools.count():
+        for iteration in itertools.count(start=1):
             # create embed with mob image
             embed = discord.Embed(color=self.d.cc, title=ctx.l.mobs_mech.attack_or_flee)
             embed.set_image(url=mob.image)
@@ -155,6 +162,83 @@ class MobSpawner:
                 ),
                 inline=False,
             )
+
+            fight_msg = await ctx.send(embed=embed)
+
+            try:
+                user_action_msg = await self.bot.wait_for("message", check=self.attack_check(ctx, engage_msg))
+                user_action = user_action_msg.content.lower()
+            except asyncio.TimeoutError:
+                timed_out = True
+            else:
+                timed_out = False
+
+            # check if user is a fucking baby
+            if timed_out or user_action in self.d.mobs_mech.valid_flees:
+                await fight_msg.edit(suppress=True)
+                await free(user_health)
+                await self.bot.send_embed(ctx, random.choice(ctx.l.mons_mech.flee_insults))
+
+                return
+
+            user_dmg = await self.calculate_sword_damage(user.id, user_sword, difficulty_multi)
+
+            # bebe slime is godlike
+            if mob_key == "baby_slime":
+                if iteration < 3 and slime_trophy is None:
+                    user_dmg = 0
+                elif slime_trophy is not None and random.choice((True, False, False)):
+                    user_dmg = 0
+                elif iteration >= 3 and random.choice((True, False)):
+                    user_dmg = 0
+
+            mob.health -= user_dmg
+
+            if mob.health < 1:  # user wins
+                await fight_msg.edit(suppress=True)
+                await free(user_health)
+                await self.bot.send_embed(
+                    ctx, random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice.lower(), user_sword.lower())
+                )
+
+                break
+            else:
+                if mob_key == "baby_slime" and user_dmg == 0:  # say user missed the slime
+                    await self.bot.send_embed(ctx, random.choice(mob.misses).format(user_sword.lower()))
+                else:  # send regular attack message
+                    await self.bot.send_embed(ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice.lower(), user_sword.lower()))
+            
+            async with ctx.typing():
+                await asyncio.sleep(.75 + random.random() * 2)
+
+            mob_dmg = random.randint(2, 6)
+            
+            if mob_key == "creeper": # add creeper mechanics
+                if iteration > 2:
+                    if random.choice((True, True, False)):  # creeper yeets your bloodied corpse across the map
+                        user_health = 0
+
+                        await fight_msg.edit(suppress=True)
+                        await free(user_health)
+                        await self.bot.send_embed(ctx, random.choice(mob.finishers))
+
+                        break
+
+                mob_dmg = 0
+
+            user_health -= mob_dmg
+            user_health = max(user_health, 0)
+            
+            if user_health < 1:  # you == noob
+                await free(user_health)
+                await self.bot.send_embed(ctx, random.choice(mob.finishers))
+            else:
+                await self.bot.send_embed(ctx, random.choice(mob.attacks))
+
+            async with ctx.typing():
+                await asyncio.sleep(.75 + random.random() * 2)
+
+            await fight_msg.edit(suppress=True)
 
 
 def setup(bot):
