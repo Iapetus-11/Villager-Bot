@@ -206,14 +206,16 @@ class MobSpawner:
                 if mob_key == "baby_slime" and user_dmg == 0:  # say user missed the slime
                     await self.bot.send_embed(ctx, random.choice(mob.misses).format(user_sword.lower()))
                 else:  # send regular attack message
-                    await self.bot.send_embed(ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice.lower(), user_sword.lower()))
-            
+                    await self.bot.send_embed(
+                        ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice.lower(), user_sword.lower())
+                    )
+
             async with ctx.typing():
-                await asyncio.sleep(.75 + random.random() * 2)
+                await asyncio.sleep(0.75 + random.random() * 2)
 
             mob_dmg = random.randint(2, 6)
-            
-            if mob_key == "creeper": # add creeper mechanics
+
+            if mob_key == "creeper":  # add creeper mechanics
                 if iteration > 2:
                     if random.choice((True, True, False)):  # creeper yeets your bloodied corpse across the map
                         user_health = 0
@@ -228,7 +230,7 @@ class MobSpawner:
 
             user_health -= mob_dmg
             user_health = max(user_health, 0)
-            
+
             if user_health < 1:  # you == noob
                 await free(user_health)
                 await self.bot.send_embed(ctx, random.choice(mob.finishers))
@@ -236,7 +238,7 @@ class MobSpawner:
                 await self.bot.send_embed(ctx, random.choice(mob.attacks))
 
             async with ctx.typing():
-                await asyncio.sleep(.75 + random.random() * 2)
+                await asyncio.sleep(0.75 + random.random() * 2)
 
             await fight_msg.edit(suppress=True)
 
