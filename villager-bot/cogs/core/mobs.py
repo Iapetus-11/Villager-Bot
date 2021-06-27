@@ -77,6 +77,12 @@ class MobSpawner:
         return math.ceil(damage)
 
     async def spawn_event(self, ctx):
+        try:
+            await self._spawn_event(ctx)
+        except Exception as e:
+            self.bot.get_cog("Events").on_error("mob_spawn", ctx)
+
+    async def _spawn_event(self, ctx):
         if ctx.guild is None:  # ignore dms
             return
 
