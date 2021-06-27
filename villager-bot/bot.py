@@ -1,4 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
+from statcord import StatcordClusterClient
 from classyjson import ClassyDict
 from discord.ext import commands
 import pyximport
@@ -65,6 +66,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.logger = setup_logging(self.shard_ids)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.handle_broadcast)  # ipc client
         self.aiohttp = aiohttp.ClientSession()
+        self.statcord = StatcordClusterClient(self, self.k.statcord, ".".join([str(shard_id) for shard_id in shard_ids]))
         self.db = None  # asyncpg database connection pool
         self.tp = None  # ThreadPoolExecutor instance
 
