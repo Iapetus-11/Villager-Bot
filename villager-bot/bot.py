@@ -66,7 +66,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.logger = setup_logging(self.shard_ids)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.handle_broadcast)  # ipc client
         self.aiohttp = aiohttp.ClientSession()
-        self.statcord = StatcordClusterClient(self, self.k.statcord, ".".join(map(str, shard_ids)))
+        self.statcord = None  # StatcordClusterClient instance
         self.db = None  # asyncpg database connection pool
         self.tp = None  # ThreadPoolExecutor instance
 
@@ -109,6 +109,8 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
     async def start(self, *args, **kwargs):
         await self.ipc.connect(self.k.manager.auth, self.shard_ids)
         self.db = await setup_database(self.k)
+
+        self.statcord = StatcordClusterClient(self, self.k.statcord, ".".join(map(str, self.shard_ids)))
 
         for cog in self.cog_list:
             self.load_extension(cog)
