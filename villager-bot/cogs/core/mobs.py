@@ -241,6 +241,109 @@ class MobSpawner:
                 await asyncio.sleep(0.75 + random.random() * 2)
 
             await fight_msg.edit(suppress=True)
+        
+        # outside of the for loop
+
+        embed = discord.Embed(color=self.d.cc)
+        embed.set_image(url=mob.image)
+
+        embed.add_field(  # user health bar
+            name=f"**{user.display_name}**",
+            value=make_health_bar(
+                max(user_health, 0),
+                20,
+                self.d.emojis.heart_full,
+                self.d.emojis.heart_half,
+                self.d.emojis.heart_empty,
+            ),
+            inline=False,
+        )
+
+        embed.add_field(  # mob health bar
+            name=f"**{mob.nice}**",
+            value=make_health_bar(
+                max(mob.health, 0),
+                mob_max_health,
+                self.d.emojis.heart_full,
+                self.d.emojis.heart_half,
+                self.d.emojis.heart_empty,
+            ),
+            inline=False,
+        )
+
+        await ctx.send(embed=embed)
+
+        db_user = await self.db.fetch_user(user.id)
+        user_bal = db_user["emeralds"]
+
+
+        if user_health > 0:  # user win
+            if mob_key != "baby_slime" or random.randint(0, 25) != 1:
+                if difficulty == "easy":  # copied this ~~meth~~ math from the old code idek what it does lmao
+                    ems_won = (
+                        int(user_bal * (1 / random.choice((3, 3.25, 3.5, 3.75, 4))))
+                        if user_bal < 256
+                        else int(512 * (1 / random.choice((3, 3.25, 3.5, 3.75, 4))))
+                    )
+                else:  # difficulty hard
+                    ems_won = (
+                        int(user_bal * (1 / random.choice((1.75, 2, 2.25, 2.5))))
+                        if user_bal < 256
+                        else int(512 * (1 / random.choice((1.75, 2, 2.25, 2.5))))
+                    )
+
+                ems_won = int((ems_won if ems_won > 0 else 1) * difficulty_multi)
+
+                if await self.db.fetch_item(user.id, "Looting II Book") is not None:
+                    ems_won = int(ems_won * 1.75)
+                elif await self.db.fetch_item(user.id, "Looting I Book") is not None:
+                    ems_won = int(ems_won * 1.25)
+
+                await self.db.balance_add(user.id, ems_won)
+                await self.db.update_lb(user.id, "mobs_killed", 1, "add")
+
+                await self.bot.send_embed(ctx, random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
+            else:
+                if difficulty == "easy":
+                    balls_won = random.randint(1, 10)
+                else:
+                    balls_won = random.randint(1, 20)
+
+                if await self.db.fetch_item(user.id, "Looting II Book") is not None:
+                    balls_won *= 1.5
+                elif await self.db.fetch_item(user.id, "Looting I Book") is not None:
+                    balls_won *= 1.25
+
+                balls_won = round(balls_won)
+
+                await self.db.add_item(user.id, "Slime Ball", 5, balls_won, True)
+
+                await self.bot.send_embed(ctx, random.choice(ctx.l.mobs_mech.found).format(balls_won, self.d.emojis.slimeball))
+        else:  # mob win
+            if difficulty == "easy":  # haha code copying go brrrrrrrrr
+                ems_lost = (
+                    int(user_bal * (1 / (random.choice([3.05, 3.3, 3.55, 3.8]) + 0.3)))
+                    if user_bal > 20
+                    else random.randint(2, 4)
+                )
+            else:  # difficulty hard
+                ems_lost = (
+                    int(user_bal * (1 / (random.choice([1.45, 1.55, 1.65, 1.75]) + 0.3)))
+                    if user_bal > 20
+                    else random.randint(5, 9)
+                )
+
+            ems_lost = await self.db.balance_sub(user.id, ems_lost)
+
+            if mob_key == "creeper":
+                await self.bot.send_embed(
+                    ctx, random.choice(ctx.l.mobs_mech.lost.creeper).format(ems_lost, self.d.emojis.emerald)
+                )
+            else:
+                await self.bot.send_embed(
+                    ctx,
+                    random.choice(ctx.l.mobs_mech.lost.normal).format(mob.nice.lower(), ems_lost, self.d.emojis.emerald),
+                )
 
 
 def setup(bot):
