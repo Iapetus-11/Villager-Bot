@@ -241,7 +241,7 @@ class MobSpawner:
                 await asyncio.sleep(0.75 + random.random() * 2)
 
             await fight_msg.edit(suppress=True)
-        
+
         # outside of the for loop
 
         embed = discord.Embed(color=self.d.cc)
@@ -275,7 +275,6 @@ class MobSpawner:
 
         db_user = await self.db.fetch_user(user.id)
         user_bal = db_user["emeralds"]
-
 
         if user_health > 0:  # user win
             if mob_key != "baby_slime" or random.randint(0, 25) != 1:
