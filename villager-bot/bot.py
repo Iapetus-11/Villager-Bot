@@ -119,6 +119,8 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         await self.ipc.close()
         await self.db.close()
         await self.aiohttp.close()
+        
+        self.statcord.close()
 
         await super().close(*args, **kwargs)
 
