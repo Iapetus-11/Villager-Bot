@@ -229,7 +229,7 @@ class Mod(commands.Cog):
         await victim.add_roles(mute)
         await self.bot.reply_embed(ctx, ctx.l.mod.mute.mute_msg.format(victim))
 
-    @commands.command(name="unmute", aliases=["unshut", "shutnt"])
+    @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu"])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     async def unmute(self, ctx, user: discord.Member):
