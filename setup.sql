@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS badges (
   beekeeper          SMALLINT NOT NULL DEFAULT 0, -- given for collecting bees, levels I-III
   pillager           SMALLINT NOT NULL DEFAULT 0, -- given for pillaging other users, levels I-III
   murderer           SMALLINT NOT NULL DEFAULT 0, -- given for killing mobs, levels I-III
-  enthusiast         SMALLINT NOT NULL DEFAULT 0, -- given for sending many commands, levels I-III
+  enthusiast         SMALLINT NOT NULL DEFAULT 0 -- given for sending many commands, levels I-III
 );
 
 CREATE TABLE IF NOT EXISTS give_logs (
