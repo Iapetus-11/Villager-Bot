@@ -17,6 +17,8 @@ class Fun(commands.Cog):
         self.d = bot.d
         self.k = bot.k
 
+        self.aiohttp = bot.aiohttp
+
     def lang_convert(self, msg, lang):
         keys = list(lang)
 
@@ -39,6 +41,7 @@ class Fun(commands.Cog):
         """Sends a meme from reddit"""
 
         do_nsfw = False
+
         if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
 
@@ -46,9 +49,9 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
-                resp = await self.bot.aiohttp.get(
-                    "https://api.iapetus11.me/reddit/gimme/meme+memes+me_irl+dankmemes+wholesomememes+prequelmemes",
-                    headers={"Authorization": self.k.villager_api},
+                resp = await self.aiohttp.get(
+                    "https://api.iapetus11.me/reddit/meme",
+                    headers={"Authorization": self.k.villager_api}
                 )
 
                 meme = cj.classify(await resp.json())
@@ -66,6 +69,7 @@ class Fun(commands.Cog):
         """Sends a greentext from r/greentext"""
 
         do_nsfw = False
+
         if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
 
@@ -73,8 +77,8 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             while (not do_nsfw and jj["nsfw"]) or jj.get("image") is None:
-                resp = await self.bot.aiohttp.get(
-                    "https://api.iapetus11.me/reddit/gimme/4chan+greentext", headers={"Authorization": self.k.villager_api}
+                resp = await self.aiohttp.get(
+                    "https://api.iapetus11.me/reddit/greentext", headers={"Authorization": self.k.villager_api}
                 )
 
                 jj = await resp.json()
@@ -97,9 +101,9 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             while comic["spoiler"] or (not do_nsfw and comic["nsfw"]) or comic.get("image") is None:
-                resp = await self.bot.aiohttp.get(
-                    "https://api.iapetus11.me/reddit/gimme/comics",
-                    headers={"Authorization": self.k.villager_api},
+                resp = await self.aiohttp.get(
+                    "https://api.iapetus11.me/reddit/comic",
+                    headers={"Authorization": self.k.villager_api}
                 )
 
                 comic = cj.classify(await resp.json())
@@ -120,8 +124,8 @@ class Fun(commands.Cog):
             async with ctx.typing():
                 while meme["spoiler"] or meme["nsfw"] or meme.get("image") is None:
                     resp = await self.bot.aiohttp.get(
-                        "https://api.iapetus11.me/reddit/gimme/CursedMinecraft",
-                        headers={"Authorization": self.k.villager_api},
+                        "https://api.iapetus11.me/reddit/cursedminecraft",
+                        headers={"Authorization": self.k.villager_api}
                     )
 
                     meme = cj.classify(await resp.json())
