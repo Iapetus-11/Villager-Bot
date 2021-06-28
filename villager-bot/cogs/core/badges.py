@@ -79,6 +79,34 @@ class Badges(commands.Cog):
         elif collector_level < 1 and user_items_len >= 16:
             await self.update_user_badges(user_id, collector=1)
 
+    async def update_badge_beekeeper(self, user_id: int, bees: int = None) -> None:
+        # levels are:
+        # I -> 100 bees
+        # II -> 1000 bees
+        # III -> 100000 bees
+
+        badges = await self.fetch_user_badges(user_id)
+
+        beekeeper_level = badges["beekeeper"]
+
+        if beekeeper_level == 3:
+            return
+
+        if bees is None:
+            bees = await self.db.fetch_item(user_id, "Jar Of Bees")
+
+            if bees is None:
+                bees = 0
+            else:
+                bees = bees["amount"]
+
+        if beekeeper_level < 3 and bees >= 100_000:
+            await self.update_user_badges(user_id, beekeeper=3)
+        elif beekeeper_level < 2 and bees >= 1000:
+            await self.update_user_badges(user_id, beekeeper=2)
+        elif beekeeper_level < 1 and bees >= 100:
+            await self.update_user_badges(user_id, beekeeper=1)
+
 
 def setup(bot):
     bot.add_cog(Badges(bot))
