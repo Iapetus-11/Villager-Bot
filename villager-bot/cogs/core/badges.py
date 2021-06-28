@@ -46,7 +46,7 @@ class Badges(commands.Cog):
         if total_wealth > 100_000:
             await self.update_user_badges(user_id, uncle_scrooge=True)
 
-    async def update_badge_collector(self, user_id, user_items: List[asyncpg.Record] = None) -> None:
+    async def update_badge_collector(self, user_id: int, user_items: List[asyncpg.Record] = None) -> None:
         # Levels are:
         # I -> 16 unique items
         # II -> 32  ||
