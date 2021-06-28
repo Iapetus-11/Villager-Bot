@@ -33,7 +33,9 @@ CREATE TABLE IF NOT EXISTS items (
   name               VARCHAR(50) NOT NULL, -- the name of the item
   sell_price         INT, -- the price it sells back to the bot for
   amount             BIGINT NOT NULL, -- the amount of the item the user has
-  sticky             BOOLEAN NOT NULL -- whether the item can be traded / given or not
+  sticky             BOOLEAN NOT NULL, -- whether the item can be traded / given or not
+  sellable           BOOLEAN NOT NULL -- whether the item can be sold to the bot
+);
 );
 
 CREATE TABLE IF NOT EXISTS give_logs (
