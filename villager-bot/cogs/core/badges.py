@@ -24,7 +24,9 @@ class Badges(commands.Cog):
 
         await self.db.update_user_badges(user_id, **kwargs)
 
-    async def update_uncle_scrooge(self, user_id: int, db_user: asyncpg.Record, user_items: List[asyncpg.Record] = None) -> None:
+    async def update_uncle_scrooge(
+        self, user_id: int, db_user: asyncpg.Record, user_items: List[asyncpg.Record] = None
+    ) -> None:
         badges = self.badges.get(user_id)
 
         if badges is None:
