@@ -36,6 +36,19 @@ CREATE TABLE IF NOT EXISTS items (
   sticky             BOOLEAN NOT NULL, -- whether the item can be traded / given or not
   sellable           BOOLEAN NOT NULL -- whether the item can be sold to the bot
 );
+
+CREATE TABLE IF NOT EXISTS badges (
+  user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE,
+  code_helper        BOOLEAN NOT NULL DEFAULT false,
+  translator         BOOLEAN NOT NULL DEFAULT false,
+  villager_og        BOOLEAN NOT NULL DEFAULT false, -- before the reset
+  supporter          BOOLEAN NOT NULL DEFAULT false, -- donated money or bought something from the #paid-stuff channel
+  uncle_scrooge      BOOLEAN NOT NULL DEFAULT false, -- given for obtaining more than 100k emeralds
+  collector          SMALLINT NOT NULL DEFAULT 0, -- given for collecting items, levels I-V
+  beekeeper          SMALLINT NOT NULL DEFAULT 0, -- given for collecting bees, levels I-III
+  pillager           SMALLINT NOT NULL DEFAULT 0, -- given for pillaging other users, levels I-III
+  murderer           SMALLINT NOT NULL DEFAULT 0, -- given for killing mobs, levels I-III
+  enthusiast         SMALLINT NOT NULL DEFAULT 0, -- given for sending many commands, levels I-III
 );
 
 CREATE TABLE IF NOT EXISTS give_logs (
