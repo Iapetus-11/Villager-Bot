@@ -1317,7 +1317,7 @@ class Econ(commands.Cog):
             await self.ipc.eval(f"active_effects[{ctx.author.id}].add('seaweed')")
             await self.bot.reply_embed(ctx, ctx.l.econ.use.smoke_seaweed.format(2))
 
-            await asyncio.sleep(60 * 2)
+            await asyncio.sleep(60 * 30)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.seaweed_done)
             await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('seaweed')")
