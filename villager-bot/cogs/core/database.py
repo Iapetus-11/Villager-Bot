@@ -126,7 +126,7 @@ class Database(commands.Cog):
         return user
 
     async def update_user(self, user_id: int, **kwargs) -> None:
-        await self.fetch_user(user_id)
+        db_user = await self.fetch_user(user_id)  # ensures user exists + we use db_user for updating badges
 
         values = []
         sql = []
@@ -140,13 +140,19 @@ class Database(commands.Cog):
         # this sql query crafting is safe because the user's input is still sanitized by asyncpg
         await self.db.execute(f"UPDATE users SET {','.join(sql)} WHERE user_id = ${i+2}", *values, user_id)
 
+        # update badges
+        await self.badges.update_badge_uncle_scrooge(user_id, db_user)
+
     async def fetch_balance(self, user_id: int) -> int:  # fetches the amount of emeralds a user has
         # we can do this because self.fetch_user ensures user is not None
         return (await self.fetch_user(user_id))["emeralds"]
 
     async def set_balance(self, user_id: int, emeralds: int) -> None:
-        await self.fetch_user(user_id)
+        db_user = await self.fetch_user(user_id)  # ensures user exists + we use db_user for updating badges
         await self.db.execute("UPDATE users SET emeralds = $1 WHERE user_id = $2", emeralds, user_id)
+
+        # update badges
+        await self.badges.update_badge_uncle_scrooge(user_id, db_user)
 
     async def balance_add(self, user_id: int, amount: int) -> int:
         new_bal = await self.fetch_balance(user_id) + amount
@@ -169,10 +175,13 @@ class Database(commands.Cog):
         return {"vault_bal": user["vault_bal"], 0: user["vault_bal"], "vault_max": user["vault_max"], 1: user["vault_max"]}
 
     async def set_vault(self, user_id: int, vault_balance: int, vault_max: int) -> None:
-        await self.fetch_user(user_id)
+        db_user = await self.fetch_user(user_id)  # ensures user exists + we use db_user for updating badges
         await self.db.execute(
             "UPDATE users SET vault_balance = $1, vault_max = $2 WHERE user_id = $3", vault_balance, vault_max, user_id
         )
+
+        # update badges
+        await self.badges.update_badge_uncle_scrooge(user_id, db_user)
 
     async def fetch_items(self, user_id: int) -> List[asyncpg.Record]:
         await self.fetch_user(user_id)
@@ -205,6 +214,9 @@ class Database(commands.Cog):
                 name,
             )
 
+        # update badges
+        await self.badges.update_badge_uncle_scrooge(user_id)
+
     async def remove_item(self, user_id: int, name: str, amount: int) -> None:
         prev = await self.fetch_item(user_id, name)
 
@@ -217,6 +229,9 @@ class Database(commands.Cog):
                 user_id,
                 name,
             )
+
+        # update badges
+        await self.badges.update_badge_uncle_scrooge(user_id)
 
     async def log_transaction(self, item: str, amount: int, at: datetime, giver: int, receiver: int) -> None:
         await self.db.execute(
