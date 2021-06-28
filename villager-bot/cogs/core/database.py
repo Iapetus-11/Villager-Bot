@@ -13,6 +13,10 @@ class Database(commands.Cog):
         self.db = bot.db  # the asyncpg pool
 
         asyncio.create_task(self.populate_caches())
+    
+    @property
+    def badges(self):
+        return self.bot.get_cog("Badges")
 
     async def populate_caches(self):  # initial caches for speeeeeed
         # caches which need to be maintained cross-process *regardless*
