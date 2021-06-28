@@ -1,4 +1,5 @@
 from discord.ext import commands
+from typing import List
 import asyncpg
 
 from util.misc import calc_total_wealth
@@ -23,7 +24,7 @@ class Badges(commands.Cog):
 
         await self.db.update_user_badges(user_id, **kwargs)
 
-    async def update_uncle_scrooge(self, user_id: int, db_user: asyncpg.Record) -> None:
+    async def update_uncle_scrooge(self, user_id: int, db_user: asyncpg.Record, user_items: List[asyncpg.Record] = None) -> None:
         badges = self.badges.get(user_id)
 
         if badges is None:
@@ -32,7 +33,12 @@ class Badges(commands.Cog):
         if badges["uncle_scrooge"]:
             return
 
-        user_items = await self.db.fetch_items(user_id)
+        if user_items is None:
+            user_items = await self.db.fetch_items(user_id)
+
+        if db_user is None:
+            db_user = await self.db.fetch_user(user_id)
+
         total_wealth = calc_total_wealth(db_user, user_items)
 
         if total_wealth > 100_000:
