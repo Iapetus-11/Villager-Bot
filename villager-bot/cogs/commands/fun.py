@@ -50,8 +50,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
                 resp = await self.aiohttp.get(
-                    "https://api.iapetus11.me/reddit/meme",
-                    headers={"Authorization": self.k.villager_api}
+                    "https://api.iapetus11.me/reddit/meme", headers={"Authorization": self.k.villager_api}
                 )
 
                 meme = cj.classify(await resp.json())
@@ -102,8 +101,7 @@ class Fun(commands.Cog):
         async with ctx.typing():
             while comic["spoiler"] or (not do_nsfw and comic["nsfw"]) or comic.get("image") is None:
                 resp = await self.aiohttp.get(
-                    "https://api.iapetus11.me/reddit/comic",
-                    headers={"Authorization": self.k.villager_api}
+                    "https://api.iapetus11.me/reddit/comic", headers={"Authorization": self.k.villager_api}
                 )
 
                 comic = cj.classify(await resp.json())
@@ -124,8 +122,7 @@ class Fun(commands.Cog):
             async with ctx.typing():
                 while meme["spoiler"] or meme["nsfw"] or meme.get("image") is None:
                     resp = await self.bot.aiohttp.get(
-                        "https://api.iapetus11.me/reddit/cursedminecraft",
-                        headers={"Authorization": self.k.villager_api}
+                        "https://api.iapetus11.me/reddit/cursedminecraft", headers={"Authorization": self.k.villager_api}
                     )
 
                     meme = cj.classify(await resp.json())
