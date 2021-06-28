@@ -143,7 +143,7 @@ class Fun(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command(name="say")
-    async def say_text(self, ctx, *, _text):
+    async def say_text(self, ctx, *, text):
         """Sends whatever is put into the command"""
 
         try:
