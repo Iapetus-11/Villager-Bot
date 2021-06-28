@@ -13,11 +13,16 @@ class Badges(commands.Cog):
 
         self.badges = {}  # {user_id: {badge: value}}
 
-    async def update_user_badges(self, user_id, **kwargs):
+    async def fetch_user_badges(self, user_id) -> dict:
         badges = self.badges.get(user_id)
 
         if badges is None:
             self.badges[user_id] = badges = await self.db.fetch_user_badges(user_id)
+
+        return badges
+
+    async def update_user_badges(self, user_id, **kwargs):
+        badges = await self.fetch_user_badges(user_id)
 
         for badge, value in kwargs.items():
             badges[badge] = value
@@ -27,10 +32,7 @@ class Badges(commands.Cog):
     async def update_badge_uncle_scrooge(
         self, user_id: int, db_user: asyncpg.Record, user_items: List[asyncpg.Record] = None
     ) -> None:
-        badges = self.badges.get(user_id)
-
-        if badges is None:
-            self.badges[user_id] = badges = dict(await self.db.fetch_user_badges(user_id))
+        badges = await self.fetch_user_badges(user_id)
 
         if badges["uncle_scrooge"]:
             return
@@ -54,10 +56,7 @@ class Badges(commands.Cog):
         # IV -> 128 ||
         # V -> 256  ||
 
-        badges = self.badges.get(user_id)
-
-        if badges is None:
-            self.badges[user_id] = badges = dict(await self.db.fetch_user_badges(user_id))
+        badges = await self.fetch_user_badges(user_id)
 
         collector_level = badges["collector"]
 
