@@ -54,6 +54,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             "cogs.core.database",
             "cogs.core.events",
             "cogs.core.loops",
+            "cogs.core.badges",
             "cogs.commands.owner",
             "cogs.commands.useful",
             "cogs.commands.config",
