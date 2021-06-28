@@ -417,6 +417,30 @@ class Database(commands.Cog):
     async def mass_delete_user_rcon(self, user_id: int) -> List[asyncpg.Record]:
         return await self.db.fetch("DELETE FROM user_rcon WHERE user_id = $1 RETURNING *", user_id)
 
+    async def fetch_user_badges(self, user_id: int) -> asyncpg.Record:
+        user_badges = await self.db.fetchrow("SELECT * FROM badges WHERE user_id = $1", user_id)
+
+        if user_badges is None:
+            await self.db.execute("INSERT INTO user_badges (user_id) VALUES ($1)", user_id)
+            return await self.fetch_user_badges(user_id)
+
+        return user_badges
+
+    async def update_user_badges(self, user_id: int, **kwargs) -> None:
+        await self.fetch_user_badges(user_id)
+
+        values = []
+        sql = []
+
+        for i, e in enumerate(kwargs.items()):
+            k, v = e
+
+            values.append(v)
+            sql.append(f"{k} = ${i+1}")
+
+        # this sql query crafting is safe because the user's input is still sanitized by asyncpg
+        await self.db.execute(f"UPDATE badges SET {','.join(sql)} WHERE user_id = ${i+2}", *values, user_id)
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
