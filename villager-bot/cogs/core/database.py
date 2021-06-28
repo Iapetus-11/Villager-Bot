@@ -13,7 +13,7 @@ class Database(commands.Cog):
         self.db = bot.db  # the asyncpg pool
 
         asyncio.create_task(self.populate_caches())
-    
+
     @property
     def badges(self):
         return self.bot.get_cog("Badges")
