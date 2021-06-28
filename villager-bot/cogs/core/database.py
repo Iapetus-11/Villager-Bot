@@ -178,7 +178,9 @@ class Database(commands.Cog):
         await self.fetch_user(user_id)
         return await self.db.fetchrow("SELECT * FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name)
 
-    async def add_item(self, user_id: int, name: str, sell_price: int, amount: int, sticky: bool = False, sellable: bool = False) -> None:
+    async def add_item(
+        self, user_id: int, name: str, sell_price: int, amount: int, sticky: bool = False, sellable: bool = False
+    ) -> None:
         prev = await self.fetch_item(user_id, name)
 
         if prev is None:
@@ -189,7 +191,7 @@ class Database(commands.Cog):
                 sell_price,
                 amount,
                 sticky,
-                sellable
+                sellable,
             )
         else:
             await self.db.execute(
