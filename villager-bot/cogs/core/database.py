@@ -302,10 +302,15 @@ class Database(commands.Cog):
             await self.db.execute("INSERT INTO leaderboards (user_id) VALUES ($1)", user_id)
 
     async def update_lb(self, user_id: int, lb: str, value: int, mode: str = "add") -> None:
-        await self.fetch_user_lb(user_id)
+        user_lb = await self.fetch_user_lb(user_id)
 
         if mode == "add":
-            await self.db.execute(f"UPDATE leaderboards SET {lb} = {lb} + $1 WHERE user_id = $2", value, user_id)
+            await self.db.execute(f"UPDATE leaderboards SET {lb} = {lb} + $1 WHERE user_id = $2 RETURNING {lb}", value, user_id)
+
+            if lb == "pillaged_emeralds":
+                await self.badges.update_badge_pillager(user_id, user_lb[lb] + value)
+            elif lb == "mobs_killed":
+                await self.badges.update_badge_murderer(user_id, user_lb[lb] + value)
         elif mode == "sub":
             await self.db.execute(f"UPDATE leaderboards SET {lb} = {lb} - $1 WHERE user_id = $2", value, user_id)
         elif mode == "set":
