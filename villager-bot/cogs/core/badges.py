@@ -107,6 +107,28 @@ class Badges(commands.Cog):
         elif beekeeper_level < 1 and bees >= 100:
             await self.update_user_badges(user_id, beekeeper=1)
 
+    async def update_badge_pillager(self, user_id: int, pillaged_emeralds: int) -> None:
+        # levels are:
+        # I -> 100 emeralds stolen
+        # II -> 1000 emeralds stolen
+        # III -> 100000 emeralds stolen
+
+        badges = await self.fetch_user_badges(user_id)
+
+        pillager_level = badges["pillager"]
+
+        if pillager_level == 3:
+            return
+
+        if pillager_level < 3 and pillaged_emeralds >= 100_000:
+            await self.update_user_badges(user_id, pillager=3)
+        elif pillager_level < 2 and pillaged_emeralds >= 1000:
+            await self.update_user_badges(user_id, pillager=2)
+        elif pillager_level < 1 and pillaged_emeralds >= 100:
+            await self.update_user_badges(user_id, pillager=1)
+
+
+
 
 def setup(bot):
     bot.add_cog(Badges(bot))
