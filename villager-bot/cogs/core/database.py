@@ -216,6 +216,7 @@ class Database(commands.Cog):
 
         # update badges
         await self.badges.update_badge_uncle_scrooge(user_id)
+        await self.badges.update_badge_collector(user_id)
 
         if name == "Jar Of Bees":
             await self.badges.update_badge_beekeeper(user_id)
