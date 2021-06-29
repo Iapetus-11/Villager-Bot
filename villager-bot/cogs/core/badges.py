@@ -145,17 +145,23 @@ class Badges(commands.Cog):
 
     async def update_badge_fisherman(self, user_id: int, fishies_fished: int) -> None:
         # levels are:
-        # I -> 100 fishies fished
-        # II -> 1000 fishies fished
-        # III -> 20000 fishies fished
+        # I -> 100 fishies fished (cod)
+        # II -> 1000 fishies fished (tropical)
+        # III -> 10000 fishies fished (rainbow trout)
+        # IV -> 20000 fishies fished (gold)
+        # V -> 50000 fishies fished (emerald)
 
         badges = await self.fetch_user_badges(user_id)
         fisherman_level = badges["fisherman"]
 
-        if fisherman_level == 3:
+        if fisherman_level == 5:
             return
 
-        if fisherman_level < 3 and fishies_fished >= 20_000:
+        if fisherman_level < 5 and fishies_fished >= 50_000:
+            await self.update_user_badges(user_id, fisherman=5)
+        elif fisherman_level < 4 and fishies_fished >= 20_000:
+            await self.update_user_badges(user_id, fisherman=4)
+        elif fisherman_level < 3 and fishies_fished >= 10_000:
             await self.update_user_badges(user_id, fisherman=3)
         elif fisherman_level < 2 and fishies_fished >= 1000:
             await self.update_user_badges(user_id, fisherman=2)

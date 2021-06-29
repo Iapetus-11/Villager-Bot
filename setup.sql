@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS badges (
   pillager           SMALLINT NOT NULL DEFAULT 0, -- given for pillaging other users, levels I-III
   murderer           SMALLINT NOT NULL DEFAULT 0, -- given for killing mobs, levels I-III
   enthusiast         SMALLINT NOT NULL DEFAULT 0, -- given for sending many commands, levels I-III
-  fisherman          SMALLINT NOT NULL DEFAULT 0 -- given for fishing up fishies, levels I-III
+  fisherman          SMALLINT NOT NULL DEFAULT 0 -- given for fishing up fishies, levels I-V
 );
 
 CREATE TABLE IF NOT EXISTS give_logs (
