@@ -162,8 +162,6 @@ class Badges(commands.Cog):
         elif fisherman_level < 1 and fishies_fished >= 100:
             await self.update_user_badges(user_id, fisherman=1)
 
-        
-
 
 def setup(bot):
     bot.add_cog(Badges(bot))
