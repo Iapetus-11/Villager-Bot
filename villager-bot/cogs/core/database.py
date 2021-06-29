@@ -320,6 +320,13 @@ class Database(commands.Cog):
         elif mode == "set":
             await self.db.execute(f"UPDATE leaderboards SET {lb} = $1 WHERE user_id = $2", value, user_id)
 
+            if lb == "pillaged_emeralds":
+                await self.badges.update_badge_pillager(user_id, value)
+            elif lb == "mobs_killed":
+                await self.badges.update_badge_murderer(user_id, value)
+            elif lb == "fish_fished":
+                await self.badges.update_badge_fisherman(user_id, value)
+
     async def fetch_global_lb(self, lb: str, user_id: int) -> tuple:
         return (
             await self.db.fetch(f"SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards"),
