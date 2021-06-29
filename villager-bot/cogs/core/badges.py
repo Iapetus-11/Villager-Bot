@@ -148,7 +148,5 @@ class Badges(commands.Cog):
             await self.update_user_badges(user_id, murders=1)
 
 
-
-
 def setup(bot):
     bot.add_cog(Badges(bot))
