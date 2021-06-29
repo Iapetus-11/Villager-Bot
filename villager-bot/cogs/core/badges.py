@@ -135,7 +135,7 @@ class Badges(commands.Cog):
 
         badges = await self.fetch_user_badges(user_id)
 
-        murderer_level = badges["pillager"]
+        murderer_level = badges["murders"]
 
         if murderer_level == 3:
             return
