@@ -669,6 +669,7 @@
         "invalid_item": "Esse item é inválido ou você não o tem.",
         "stupid_1": "Você não pode vender mais do que tem desse item.",
         "stupid_2": "Você não pode vender menos de um item.",
+        "stupid_3": "You can't sell this item.",
         "you_done_sold": "Você vendeu {}x **{}** por um total de {}{}"
       },
       "give": {
