@@ -305,7 +305,9 @@ class Database(commands.Cog):
         user_lb = await self.fetch_user_lb(user_id)
 
         if mode == "add":
-            await self.db.execute(f"UPDATE leaderboards SET {lb} = {lb} + $1 WHERE user_id = $2 RETURNING {lb}", value, user_id)
+            await self.db.execute(
+                f"UPDATE leaderboards SET {lb} = {lb} + $1 WHERE user_id = $2 RETURNING {lb}", value, user_id
+            )
 
             if lb == "pillaged_emeralds":
                 await self.badges.update_badge_pillager(user_id, user_lb[lb] + value)
