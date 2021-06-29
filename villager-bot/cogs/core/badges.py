@@ -57,7 +57,6 @@ class Badges(commands.Cog):
         # V -> 256  ||
 
         badges = await self.fetch_user_badges(user_id)
-
         collector_level = badges["collector"]
 
         if collector_level == 5:
@@ -86,7 +85,6 @@ class Badges(commands.Cog):
         # III -> 100000 bees
 
         badges = await self.fetch_user_badges(user_id)
-
         beekeeper_level = badges["beekeeper"]
 
         if beekeeper_level == 3:
@@ -114,7 +112,6 @@ class Badges(commands.Cog):
         # III -> 100000 emeralds stolen
 
         badges = await self.fetch_user_badges(user_id)
-
         pillager_level = badges["pillager"]
 
         if pillager_level == 3:
@@ -134,7 +131,6 @@ class Badges(commands.Cog):
         # III -> 100000 mobs cruelly genocided
 
         badges = await self.fetch_user_badges(user_id)
-
         murderer_level = badges["murders"]
 
         if murderer_level == 3:
@@ -146,6 +142,27 @@ class Badges(commands.Cog):
             await self.update_user_badges(user_id, murders=2)
         elif murderer_level < 1 and murders >= 100:
             await self.update_user_badges(user_id, murders=1)
+
+    async def update_badge_fisherman(self, user_id: int, fishies_fished: int) -> None:
+        # levels are:
+        # I -> 100 fishies fished
+        # II -> 1000 fishies fished
+        # III -> 100000 fishies fished
+
+        badges = await self.fetch_user_badges(user_id)
+        fisherman_level = badges["fisherman"]
+
+        if fisherman_level == 3:
+            return
+
+        if fisherman_level < 3 and fishies_fished >= 100_000:
+            await self.update_user_badges(user_id, fisherman=3)
+        elif fisherman_level < 2 and fishies_fished >= 1000:
+            await self.update_user_badges(user_id, fisherman=2)
+        elif fisherman_level < 1 and fishies_fished >= 100:
+            await self.update_user_badges(user_id, fisherman=1)
+
+        
 
 
 def setup(bot):
