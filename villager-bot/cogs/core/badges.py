@@ -128,7 +128,7 @@ class Badges(commands.Cog):
         # levels are:
         # I -> 100 mobs cruelly genocided
         # II -> 1000 mobs cruelly genocided
-        # III -> 100000 mobs cruelly genocided
+        # III -> 10000 mobs cruelly genocided
 
         badges = await self.fetch_user_badges(user_id)
         murderer_level = badges["murders"]
@@ -136,7 +136,7 @@ class Badges(commands.Cog):
         if murderer_level == 3:
             return
 
-        if murderer_level < 3 and murders >= 100_000:
+        if murderer_level < 3 and murders >= 10_000:
             await self.update_user_badges(user_id, murders=3)
         elif murderer_level < 2 and murders >= 1000:
             await self.update_user_badges(user_id, murders=2)
