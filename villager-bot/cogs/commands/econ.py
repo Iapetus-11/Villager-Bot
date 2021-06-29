@@ -766,6 +766,10 @@ class Econ(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.econ.sell.invalid_item)
             return
 
+        if not db_item["sellable"]:
+            await self.bot.reply_embed(ctx, ctx.l.econ.sell.stupid_3)
+            return
+
         if amount > db_item["amount"]:
             await self.bot.reply_embed(ctx, ctx.l.econ.sell.stupid_1)
             return
