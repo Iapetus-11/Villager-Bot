@@ -457,7 +457,7 @@ class Database(commands.Cog):
         return await self.db.fetch("DELETE FROM user_rcon WHERE user_id = $1 RETURNING *", user_id)
 
     async def fetch_user_badges(self, user_id: int) -> asyncpg.Record:
-        user_badges = await self.db.fetchrow("SELECT (code_helper, translator, villager_og, supporter, uncle_scrooge, collector, beekeeper, pillager, murderer, enthusiast, fisherman) FROM badges WHERE user_id = $1", user_id)
+        user_badges = await self.db.fetchrow("SELECT code_helper, translator, villager_og, supporter, uncle_scrooge, collector, beekeeper, pillager, murderer, enthusiast, fisherman FROM badges WHERE user_id = $1", user_id)
 
         if user_badges is None:
             await self.db.execute("INSERT INTO badges (user_id) VALUES ($1)", user_id)
