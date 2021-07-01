@@ -15,8 +15,10 @@ class Econ(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.db = bot.get_cog("Database")
         self.ipc = bot.ipc
+
+        self.db = bot.get_cog("Database")
+        self.badges = bot.get_cog("Badges")
 
         # This links the max concurrency of the with, dep, sell, give, etc.. cmds
         for command in (
@@ -118,7 +120,7 @@ class Econ(commands.Cog):
             vote_streak = 0
             await self.db.update_user(user.id, vote_streak=0, last_vote=None)
 
-        embed = discord.Embed(color=self.d.cc, description=health_bar)
+        embed = discord.Embed(color=self.d.cc, description=f"{health_bar}\n{self.badges.format_badges(await self.badges.fetch_user_badges(user.id))}")
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
 
         embed.add_field(name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}")
