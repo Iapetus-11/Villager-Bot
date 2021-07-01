@@ -113,7 +113,7 @@ def emojify_badges(badge_emojis: dict, user_badges: asyncpg.Record) -> str:
         emoji_entry = badge_emojis[badge]
 
         if isinstance(emoji_entry, list):
-            final.append(emoji_entry[value-1])
+            final.append(emoji_entry[value - 1])
         else:
             final.append(emoji_entry)
 
