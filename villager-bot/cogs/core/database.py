@@ -460,7 +460,7 @@ class Database(commands.Cog):
         user_badges = await self.db.fetchrow("SELECT * FROM badges WHERE user_id = $1", user_id)
 
         if user_badges is None:
-            await self.db.execute("INSERT INTO user_badges (user_id) VALUES ($1)", user_id)
+            await self.db.execute("INSERT INTO badges (user_id) VALUES ($1)", user_id)
             return await self.fetch_user_badges(user_id)
 
         return user_badges
