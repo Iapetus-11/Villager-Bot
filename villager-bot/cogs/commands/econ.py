@@ -122,10 +122,7 @@ class Econ(commands.Cog):
 
         user_badges_str = self.badges.emojify_badges(await self.badges.fetch_user_badges(user.id))
 
-        embed = discord.Embed(
-            color=self.d.cc,
-            description=f"{health_bar}"
-        )
+        embed = discord.Embed(color=self.d.cc, description=f"{health_bar}")
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
 
         embed.add_field(name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}")
@@ -139,7 +136,7 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.pp.pick, value=(await self.db.fetch_pickaxe(user.id)))
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name=ctx.l.econ.pp.sword, value=(await self.db.fetch_sword(user.id)))
-        
+
         if user_badges_str:
             embed.add_field(name="Badges", value=user_badges_str)
 
