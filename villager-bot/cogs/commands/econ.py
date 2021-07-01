@@ -122,7 +122,7 @@ class Econ(commands.Cog):
 
         embed = discord.Embed(
             color=self.d.cc,
-            description=f"{health_bar}\n{self.badges.format_badges(await self.badges.fetch_user_badges(user.id))}",
+            description=f"{health_bar}\n{self.badges.emojify_badges(await self.badges.fetch_user_badges(user.id))}",
         )
         embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
 
