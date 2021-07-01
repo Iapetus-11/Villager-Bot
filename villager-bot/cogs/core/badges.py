@@ -10,6 +10,7 @@ class Badges(commands.Cog):
         self.bot = bot
 
         self.db = bot.get_cog("Database")
+        self.d = bot.d
 
         self.badges = {}  # {user_id: {badge: value}}
 
@@ -28,6 +29,22 @@ class Badges(commands.Cog):
             badges[badge] = value
 
         await self.db.update_user_badges(user_id, **kwargs)
+
+    def emojify_badges(self, user_badges: dict) -> str:
+        emojis = []
+
+        for badge, value in dict(user_badges).items():
+            if not value:
+                continue
+
+            emoji_entry = self.d.emojis.badges[badge]
+
+            if isinstance(emoji_entry, list):
+                emojis.append(emoji_entry[value - 1])
+            else:
+                emojis.append(emoji_entry)
+
+        return " ".join(emojis)
 
     async def update_badge_uncle_scrooge(
         self, user_id: int, db_user: asyncpg.Record, user_items: List[asyncpg.Record] = None

@@ -101,20 +101,3 @@ def format_required(d: object, shop_item: object, amount: int = 1):
         base += f" + {req_amount * amount}{d.emojis[d.emoji_items[req_item]]}"
 
     return base
-
-
-def emojify_badges(badge_emojis: dict, user_badges: asyncpg.Record) -> str:
-    final = []
-
-    for badge, value in dict(user_badges).items():
-        if not value:
-            continue
-
-        emoji_entry = badge_emojis[badge]
-
-        if isinstance(emoji_entry, list):
-            final.append(emoji_entry[value - 1])
-        else:
-            final.append(emoji_entry)
-
-    return "".join(final)
