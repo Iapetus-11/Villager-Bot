@@ -879,22 +879,22 @@
       "emerald_fish": "<:emerald_fish:824468050727927838>"
     },
     "badges": {
-        "code_helper": "<:code_helper:859490051938582598>",
-        "translator": "<:translator:859492625132027934>",
-        "villager_og": null,
-        "supporter": null,
-        "uncle_scrooge": "<:uncle_scrooge:859485472823574558>",
-        "collector": null,
-        "beekeeper": null,
-        "pillager": null,
-        "murderer": null,
-        "enthusiast": null,
-        "fisherman": [
-          "<:fisherman_1:859546034207850516>",
-          "<:fisherman_2:859546034568429568>",
-          "<:fisherman_3:859546034564497428>",
-          "<:fisherman_4:859546034673025053>"
-        ]
+      "code_helper": "<:code_helper:859490051938582598>",
+      "translator": "<:translator:859492625132027934>",
+      "villager_og": null,
+      "supporter": null,
+      "uncle_scrooge": "<:uncle_scrooge:859485472823574558>",
+      "collector": null,
+      "beekeeper": null,
+      "pillager": null,
+      "murderer": null,
+      "enthusiast": null,
+      "fisherman": [
+        "<:fisherman_1:859546034207850516>",
+        "<:fisherman_2:859546034568429568>",
+        "<:fisherman_3:859546034564497428>",
+        "<:fisherman_4:859546034673025053>"
+      ]
     }
   },
   "emoji_items": {
