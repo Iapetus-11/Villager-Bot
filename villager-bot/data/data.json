@@ -14,8 +14,8 @@
   "statcord": "https://beta.statcord.com/bot/639498607632056321",
   "mob_chance": 40,
   "tip_chance": 150,
-  "hooksport": 5000,
-  "hookspath": "/votehook",
+  "topgg_webhook_port": 5000,
+  "topgg_webhook_path": "/votehook",
   "topgg_reward": 32,
   "credit_users": {
     "iapetus11": 536986067140608041,
