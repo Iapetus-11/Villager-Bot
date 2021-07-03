@@ -15,6 +15,7 @@ class Webhooks(commands.Cog):
         self.k = bot.k
 
         self.db = bot.get_cog("Database")
+        self.ipc = bot.ipc
 
         self.server_runner = None
         self.webhook_server = None
@@ -36,10 +37,12 @@ class Webhooks(commands.Cog):
 
         while True:
             try:
+                res = await self.ipc.broadcast({"type": "eval", "code": "len(bot.guilds)"})
+
                 await self.bot.aiohttp.post(
                     f"https://top.gg/api/bots/{self.bot.user.id}/stats",
                     headers={"Authorization": self.k.topgg_api},
-                    json={"server_count": str(len(self.bot.guilds))},
+                    json={"server_count": str(sum([res["responses"]]))},
                 )
             except Exception as e:
                 self.bot.logger.error(e)
