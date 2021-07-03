@@ -167,7 +167,7 @@ class Minecraft(commands.Cog):
 
         if not data["success"]:
             await asyncio.sleep(1)
-            
+
             res = await self.aiohttp.get(f"https://api.minecraft.global/server/random")
             data = await res.json()
 
