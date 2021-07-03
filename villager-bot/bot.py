@@ -94,7 +94,6 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
         self.error_count = 0
         self.session_votes = 0
         self.spawn_queue = set()  # {ctx, ctx,..}
-        self.minecraft_server_ids = []  # used for storing servers from minecraft.global [server_id, server_id,..]
 
         self.add_check(self.check_global)  # register global check
         self.after_invoke(self.after_command_invoked)  # register self.after_command_invoked as a after_invoked event
