@@ -46,8 +46,8 @@ class Events(commands.Cog):
         event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
         self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
 
-        error_channel = await self.bot.fetch_error_channel()
-        await error_channel.send(f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```")
+        await self.bot.wait_until_ready()
+        await self.bot.error_channel.send(f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```")
 
     @commands.Cog.listener()
     async def on_shard_ready(self, shard_id: int):
@@ -57,6 +57,11 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_shard_disconnect(self, shard_id: int):
         await self.ipc.send({"type": "shard-disconnect", "shard_id": shard_id})
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
+        self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -210,6 +215,8 @@ class Events(commands.Cog):
         elif isinstance(e, IGNORED_ERRORS) or isinstance(getattr(e, "original", None), IGNORED_ERRORS):
             return
         else:  # no error was caught so log error in error channel
+            await self.bot.wait_until_ready()
+
             try:
                 await self.bot.reply_embed(ctx, ctx.l.misc.errors.andioop.format(self.d.support))
             except Exception:
@@ -222,8 +229,7 @@ class Events(commands.Cog):
                 + "```"
             )
 
-            error_channel = await self.bot.fetch_error_channel()
-            await error_channel.send(debug_info)
+            await self.bot.error_channel.send(debug_info)
 
 
 def setup(bot):

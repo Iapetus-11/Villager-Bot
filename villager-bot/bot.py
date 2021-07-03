@@ -85,6 +85,7 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
 
         # support server channels
         self.error_channel = None
+        self.vote_channel = None
         # self.dm_log_channel = None
 
         # counters and other things
@@ -168,12 +169,6 @@ class VillagerBotShardGroup(commands.AutoShardedBot):
             return self.l[self.language_cache.get(ctx.guild.id, "en")]
 
         return self.l["en"]
-
-    async def fetch_error_channel(self):  # needed to log errors from multiple shard groups
-        if self.error_channel is None:
-            self.error_channel = await self.fetch_channel(self.d.error_channel_id)
-
-        return self.error_channel
 
     async def send_embed(self, location, message: str) -> None:
         await location.send(embed=discord.Embed(color=self.d.cc, description=message))
