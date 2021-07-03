@@ -17,24 +17,24 @@ from util.code import execute_code, format_exception
 from util.ipc import Client
 
 
-def run_shard_group(shard_count: int, shard_ids: list) -> None:
+def run_cluster(shard_count: int, shard_ids: list) -> None:
     # add cython support, with numpy header files
     pyximport.install(language_level=3, reload_support=True, setup_args={"include_dirs": numpy.get_include()})
 
     # for some reason, asyncio tries to use the event loop from the main process
     asyncio.set_event_loop(asyncio.new_event_loop())
 
-    shard_group = VillagerBotShardGroup(shard_count, shard_ids)
+    cluster = VillagerBotCluster(shard_count, shard_ids)
 
     try:
-        shard_group.run()
+        cluster.run()
     except KeyboardInterrupt:
         pass
     except Exception as e:
-        shard_group.logger.error(format_exception(e))
+        cluster.logger.error(format_exception(e))
 
 
-class VillagerBotShardGroup(commands.AutoShardedBot):
+class VillagerBotCluster(commands.AutoShardedBot):
     def __init__(self, shard_count: int, shard_ids: list) -> None:
         super().__init__(
             command_prefix=self.get_prefix,

@@ -9,7 +9,7 @@ from util.cooldowns import CooldownManager, MaxConcurrencyManager
 from util.code import execute_code, format_exception
 from util.ipc import Server, Stream
 
-from bot import run_shard_group
+from bot import run_cluster
 
 
 class MechaKaren:
@@ -133,7 +133,7 @@ class MechaKaren:
         g = self.d.shard_group_size
 
         for shard_id_group in [self.shard_ids[i : i + g] for i in range(0, len(self.shard_ids), g)]:
-            shard_groups.append(loop.run_in_executor(pp, run_shard_group, self.d.shard_count, shard_id_group))
+            shard_groups.append(loop.run_in_executor(pp, run_cluster, self.d.shard_count, shard_id_group))
 
         await asyncio.gather(*shard_groups)
         self.cooldowns.stop()
