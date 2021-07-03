@@ -163,6 +163,14 @@ class Minecraft(commands.Cog):
         """Checks the status of a random Minecraft server"""
 
         res = await self.aiohttp.get(f"https://api.minecraft.global/server/random")
+        data = await res.json()
+
+        if not data["success"]:
+            await asyncio.sleep(1)
+            
+            res = await self.aiohttp.get(f"https://api.minecraft.global/server/random")
+            data = await res.json()
+
         server = cj.ClassyDict((await res.json())["payload"])
         server_id = server.server_id
 
