@@ -66,7 +66,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
 
         # check if this is the first cluster loaded
         if 0 in shard_ids:
-            self.cog_list.append("cogs.core.webhooks")
+            self.cog_list.append("cogs.core.topgg")
 
         self.logger = setup_logging(self.shard_ids)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.handle_broadcast)  # ipc client
