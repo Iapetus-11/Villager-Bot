@@ -2,3 +2,5 @@ src/data/keys.json
 cogs/core/hentai.py
 
 __pycache__/
+
+secrets.json
