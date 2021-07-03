@@ -162,9 +162,9 @@ class Minecraft(commands.Cog):
     async def random_mc_server(self, ctx):
         """Checks the status of a random Minecraft server"""
 
-        server_id = random.choice(self.bot.minecraft_server_ids)
-        res = await self.aiohttp.get(f"https://api.minecraft.global/server/{server_id}")
+        res = await self.aiohttp.get(f"https://api.minecraft.global/server/random")
         server = cj.ClassyDict((await res.json())["payload"])
+        server_id = server.server_id
 
         if server.port:
             address = server.host + ":" + str(server.port)
