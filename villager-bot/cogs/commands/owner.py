@@ -30,6 +30,25 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
+    @commands.command(name="reloaddata", aliases=["update", "updatedata"])
+    @commands.is_owner()
+    async def update_data(self, ctx):
+        """Reloads data from data.json and text from the translation files"""
+
+        code = """
+        from util.setup import load_text, load_data
+
+        bot.l = load_text()
+        bot.d = load_data()
+        """
+
+        res = await self.ipc.broadcast({"type": "exec", "code": code})
+
+        if res.success:
+            await ctx.message.add_reaction(self.d.emojis.yes)
+        else:
+            await self.bot.reply_embed(ctx, f"Updating data failed: ```py\n{res.result}\n```")
+
     @commands.command(name="evallocal", aliases=["eval", "evall"])
     @commands.is_owner()
     async def eval_stuff_local(self, ctx, *, stuff: str):
