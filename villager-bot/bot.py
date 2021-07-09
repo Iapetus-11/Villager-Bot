@@ -141,7 +141,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
                 result = eval(packet.code, self.eval_env)
                 success = True
             except Exception as e:
-                result = str(e)
+                result = format_exception(e)
                 success = False
 
             await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
@@ -150,7 +150,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
                 result = await execute_code(packet.code, self.eval_env)
                 success = True
             except Exception as e:
-                result = str(e)
+                result = format_exception(e)
                 success = False
 
             await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
