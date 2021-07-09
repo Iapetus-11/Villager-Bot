@@ -43,11 +43,15 @@ class Owner(commands.Cog):
         """
 
         res = await self.ipc.broadcast({"type": "exec", "code": code})
+        failed = False
 
-        if res.success:
+        for data in res.responses:
+            if not data.success:
+                failed = True
+                await self.bot.reply_embed(ctx, f"Updating data failed: ```py\n{data.result}\n```")
+
+        if not failed:
             await ctx.message.add_reaction(self.d.emojis.yes)
-        else:
-            await self.bot.reply_embed(ctx, f"Updating data failed: ```py\n{res.result}\n```")
 
     @commands.command(name="evallocal", aliases=["eval", "evall"])
     @commands.is_owner()
@@ -69,7 +73,7 @@ class Owner(commands.Cog):
 
         res = await self.ipc.broadcast({"type": "exec", "code": stuff})
 
-        await ctx.reply("".join([f"```py\n{repr(r['result']).replace('```', '｀｀｀')}```" for r in res["responses"]])[:2000])
+        await ctx.reply("".join([f"```py\n{repr(r['result']).replace('```', '｀｀｀')}```" for r in res.responses])[:2000])
 
     @commands.command(name="gitpull")
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
