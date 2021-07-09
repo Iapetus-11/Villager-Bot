@@ -340,30 +340,6 @@
         4096,
         500000,
         true
-      ],
-      [
-        "Sparkler",
-        32,
-        200,
-        false
-      ],
-      [
-        "Firecracker",
-        64,
-        500,
-        false
-      ],
-      [
-        "Fireworks Bundle",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Komodo 30000 SuperNova Aerial Firework",
-        768,
-        9999,
-        false
       ]
     ]
   },
