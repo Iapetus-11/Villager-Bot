@@ -882,7 +882,13 @@
       "villager_og": "<:villager_bot_og:859986642248794123>",
       "supporter": "<:supporter:863112713399042068>",
       "uncle_scrooge": "<:uncle_scrooge:859485472823574558>",
-      "collector": null,
+      "collector": [
+        "<:collector_1:863117267012157480>",
+        "<:collector_2:863117267611942952>",
+        "<:collector_3:863117267113738240>",
+        "<:collector_4:863117267133530122>",
+        "<:collector_5:863117267101548544>"
+      ],
       "beekeeper": null,
       "pillager": null,
       "murderer": null,
