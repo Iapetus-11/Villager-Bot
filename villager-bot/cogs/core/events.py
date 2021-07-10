@@ -129,6 +129,8 @@ class Events(commands.Cog):
                         await message.channel.send(random.choice(self.d.emojis.reees))
                     elif "amogus" in content_lower or content_lower == "sus":
                         await message.channel.send(self.d.emojis.amogus)
+                    elif content_lower == "good bot":
+                        await message.reply(random.choice(self.d.owos), mention_author=False)
 
     async def handle_cooldown(self, ctx, remaining: float, karen_cooldown: bool) -> None:
         if ctx.command.name == "mine":
