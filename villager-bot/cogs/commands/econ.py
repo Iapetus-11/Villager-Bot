@@ -132,7 +132,10 @@ class Econ(commands.Cog):
 
         embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak if vote_streak else 0))
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=ctx.l.econ.pp.can_vote, value=(ctx.l.econ.pp.nope if voted else f"[{ctx.l.econ.pp.yep}]({self.d.topgg + '/vote'})"))
+        embed.add_field(
+            name=ctx.l.econ.pp.can_vote,
+            value=(ctx.l.econ.pp.nope if voted else f"[{ctx.l.econ.pp.yep}]({self.d.topgg + '/vote'})"),
+        )
 
         embed.add_field(name=ctx.l.econ.pp.pick, value=(await self.db.fetch_pickaxe(user.id)))
         embed.add_field(name="\uFEFF", value="\uFEFF")
