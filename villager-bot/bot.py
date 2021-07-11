@@ -37,6 +37,7 @@ def run_cluster(shard_count: int, shard_ids: list, max_db_pool_size: int) -> Non
 class VillagerBotCluster(commands.AutoShardedBot):
     def __init__(self, shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
         super().__init__(
+            status=discord.Status.invisible,
             command_prefix=self.get_prefix,
             intents=villager_bot_intents(),
             shard_count=shard_count,
