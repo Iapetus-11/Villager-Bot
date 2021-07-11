@@ -19,7 +19,7 @@ class Loops(commands.Cog):
     @tasks.loop(minutes=45)
     async def change_status(self):
         await self.bot.wait_until_ready()
-        await self.bot.change_presence(activity=discord.Game(name=random.choice(self.d.playing_list)))
+        await self.bot.change_presence(status=discord.Status.online, activity=discord.Game(name=random.choice(self.d.playing_list)))
 
     @tasks.loop(seconds=30)
     async def clear_rcon_cache(self):
