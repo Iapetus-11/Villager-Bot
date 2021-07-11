@@ -22,7 +22,7 @@ if pyximport:
     from util import blockifier
 
     # yeah and this is part of the above stupidity
-    time.sleep(.1)
+    time.sleep(0.1)
 
 from karen import MechaKaren
 
