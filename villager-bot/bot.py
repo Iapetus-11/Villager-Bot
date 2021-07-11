@@ -19,7 +19,7 @@ from util.ipc import Client
 
 def run_cluster(shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
     # add cython support, with numpy header files
-    pyximport.install(language_level=3, reload_support=True, setup_args={"include_dirs": numpy.get_include()})
+    pyximport.install(language_level=3, setup_args={"include_dirs": numpy.get_include()})
 
     # for some reason, asyncio tries to use the event loop from the main process
     asyncio.set_event_loop(asyncio.new_event_loop())
