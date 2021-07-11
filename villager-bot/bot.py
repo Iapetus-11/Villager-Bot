@@ -10,21 +10,21 @@ import random
 import arrow
 import numpy
 
+from util.setup import villager_bot_intents, setup_logging, setup_database_pool
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
-from util.setup import villager_bot_intents, setup_logging, setup_database
 from util.setup import load_text, load_secrets, load_data
 from util.code import execute_code, format_exception
 from util.ipc import Client
 
 
-def run_cluster(shard_count: int, shard_ids: list) -> None:
+def run_cluster(shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
     # add cython support, with numpy header files
     pyximport.install(language_level=3, reload_support=True, setup_args={"include_dirs": numpy.get_include()})
 
     # for some reason, asyncio tries to use the event loop from the main process
     asyncio.set_event_loop(asyncio.new_event_loop())
 
-    cluster = VillagerBotCluster(shard_count, shard_ids)
+    cluster = VillagerBotCluster(shard_count, shard_ids, max_db_pool_size)
 
     try:
         cluster.run()
@@ -35,7 +35,7 @@ def run_cluster(shard_count: int, shard_ids: list) -> None:
 
 
 class VillagerBotCluster(commands.AutoShardedBot):
-    def __init__(self, shard_count: int, shard_ids: list) -> None:
+    def __init__(self, shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
         super().__init__(
             command_prefix=self.get_prefix,
             intents=villager_bot_intents(),
@@ -43,6 +43,8 @@ class VillagerBotCluster(commands.AutoShardedBot):
             shard_ids=shard_ids,
             help_command=None,
         )
+
+        self.max_db_pool_size = max_db_pool_size
 
         self.start_time = arrow.utcnow()
 
@@ -113,7 +115,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
 
     async def start(self, *args, **kwargs):
         await self.ipc.connect(self.k.manager.auth, self.shard_ids)
-        self.db = await setup_database(self.k)
+        self.db = await setup_database_pool(self.k, self.max_db_pool_size)
 
         self.statcord = StatcordClusterClient(self, self.k.statcord, ".".join(map(str, self.shard_ids)))
 

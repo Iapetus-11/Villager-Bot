@@ -44,14 +44,13 @@ def setup_karen_logging():
     return logger
 
 
-async def setup_database(secrets: ClassyDict):
+async def setup_database_pool(secrets: ClassyDict, max_size: int):
     return await asyncpg.create_pool(
         host=secrets.database.host,  # where db is hosted
         database=secrets.database.name,  # name of database
         user=secrets.database.user,  # database username
         password=secrets.database.auth,  # password which goes with user
-        max_size=12,
-        min_size=6,
+        max_size=max_size,
         command_timeout=10,
     )
 
