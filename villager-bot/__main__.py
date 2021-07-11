@@ -1,4 +1,5 @@
 import numpy
+import time
 import sys
 import os
 
@@ -19,6 +20,9 @@ if pyximport:
     # if not all pyx files are imported here, each forked process / shard group will try to compile
     # them and fail because they are all trying at the same time to access and write the same files
     from util import blockifier
+
+    # yeah and this is part of the above stupidity
+    time.sleep(.1)
 
 from karen import MechaKaren
 
