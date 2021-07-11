@@ -44,7 +44,7 @@ class Webhooks(commands.Cog):
                 await self.bot.aiohttp.post(
                     f"https://top.gg/api/bots/{self.bot.user.id}/stats",
                     headers={"Authorization": self.k.topgg_api},
-                    json={"server_count": str(sum(res["responses"]))},
+                    json={"server_count": str(sum([r.result for r in res.responses]))},
                 )
             except Exception as e:
                 self.bot.logger.error(format_exception(e))
