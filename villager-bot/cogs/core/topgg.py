@@ -6,6 +6,8 @@ import asyncio
 import discord
 import arrow
 
+from util.code import format_excepetion
+
 
 class Webhooks(commands.Cog):
     def __init__(self, bot):
@@ -45,7 +47,7 @@ class Webhooks(commands.Cog):
                     json={"server_count": str(sum([res["responses"]]))},
                 )
             except Exception as e:
-                self.bot.logger.error(e)
+                self.bot.logger.error(format_exception(e))
 
             await asyncio.sleep(3600)
 
