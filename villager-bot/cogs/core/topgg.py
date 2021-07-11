@@ -6,7 +6,7 @@ import asyncio
 import discord
 import arrow
 
-from util.code import format_excepetion
+from util.code import format_exception
 
 
 class Webhooks(commands.Cog):
