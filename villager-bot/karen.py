@@ -135,7 +135,7 @@ class MechaKaren:
         # calculate max connections to the db server per process allowed
         # postgresql is usually configured to allow 100 max, so we use
         # 80 to leave room for other programs using the db server
-        db_pool_size_per = 80 // (self.d.shard_count // g)
+        db_pool_size_per = 80 // (self.d.shard_count // g + 1)
 
         for shard_id_group in [self.shard_ids[i : i + g] for i in range(0, len(self.shard_ids), g)]:
             shard_groups.append(loop.run_in_executor(pp, run_cluster, self.d.shard_count, shard_id_group, db_pool_size_per))
