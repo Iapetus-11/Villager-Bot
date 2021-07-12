@@ -163,7 +163,7 @@ class Fun(commands.Cog):
         nice = strip_command(ctx)
 
         if nice.lower() in INSULTS:
-            await ctx.reply(self.d.emojis.uno_reverse)
+            await ctx.reply("Yes.")
 
         try:
             await ctx.message.delete()
