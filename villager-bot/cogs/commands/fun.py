@@ -156,6 +156,7 @@ class Fun(commands.Cog):
 
         if nice.lower() in INSULTS:
             await ctx.reply("Yes.")
+            return
 
         try:
             await ctx.message.delete()
