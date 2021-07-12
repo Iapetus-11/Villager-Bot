@@ -11,10 +11,12 @@ class Loops(commands.Cog):
 
         self.clear_rcon_cache.start()
         self.update_minecraft_servers.start()
+        self.change_status.start()
 
     def cog_unload(self):
         self.clear_rcon_cache.cancel()
         self.update_minecraft_servers.cancel()
+        self.change_status.cancel()
 
     @tasks.loop(minutes=45)
     async def change_status(self):
