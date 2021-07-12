@@ -7,7 +7,9 @@ import arrow
 class Loops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        
         self.aiohttp = bot.aiohttp
+        self.d = bot.d
 
         self.clear_rcon_cache.start()
         self.update_minecraft_servers.start()
