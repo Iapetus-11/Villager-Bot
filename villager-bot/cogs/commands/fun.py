@@ -8,15 +8,7 @@ import typing
 from util.misc import strip_command
 
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
-INSULTS = {
-    "i am stupid",
-    "i am dumb",
-    "i am very stupid",
-    "i am very dumb",
-    "i stupid",
-    "i'm stupid",
-    "i'm dumb"
-}
+INSULTS = {"i am stupid", "i am dumb", "i am very stupid", "i am very dumb", "i stupid", "i'm stupid", "i'm dumb"}
 
 
 class Fun(commands.Cog):
