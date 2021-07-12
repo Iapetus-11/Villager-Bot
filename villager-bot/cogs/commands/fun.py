@@ -8,6 +8,15 @@ import typing
 from util.misc import strip_command
 
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
+INSULTS = {
+    "i am stupid",
+    "i am dumb",
+    "i am very stupid",
+    "i am very dumb",
+    "i stupid",
+    "i'm stupid",
+    "i'm dumb"
+}
 
 
 class Fun(commands.Cog):
@@ -151,12 +160,17 @@ class Fun(commands.Cog):
     async def say_text(self, ctx, *, text):
         """Sends whatever is put into the command"""
 
+        nice = strip_command(ctx)
+
+        if nice.lower() in INSULTS:
+            await ctx.reply(self.d.emojis.uno_reverse)
+
         try:
             await ctx.message.delete()
         except Exception:
             pass
 
-        await ctx.send(strip_command(ctx))
+        await ctx.send(nice)
 
     @commands.command(name="villagerspeak")
     async def villager_speak(self, ctx, *, msg):
