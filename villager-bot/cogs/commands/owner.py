@@ -1,6 +1,5 @@
 from discord.ext import commands
 from typing import Union
-import functools
 import aiofiles
 import asyncio
 import discord
@@ -80,8 +79,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def gitpull(self, ctx):
         async with ctx.typing():
-            system_call = functools.partial(os.system, "git pull > git_pull_log 2>&1")
-            await self.bot.loop.run_in_executor(self.bot.tp, system_call)
+            await self.bot.loop.run_in_executor(self.bot.tp, os.system, "git pull > git_pull_log 2>&1")
 
             async with aiofiles.open("git_pull_log", "r") as f:
                 await ctx.reply(f"```diff\n{(await f.read())[:2000-11]}```")
