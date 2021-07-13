@@ -532,7 +532,7 @@ class Minecraft(commands.Cog):
 
             await self.db.delete_user_rcon(ctx.author.id, db_guild["mc_server"])
             await rcon_con.close()
-            self.v.rcon_cache.pop((ctx.author.id, db_guild["mc_server"]), None)
+            self.bot.rcon_cache.pop((ctx.author.id, db_guild["mc_server"]), None)
 
             return
 
@@ -545,7 +545,7 @@ class Minecraft(commands.Cog):
         except Exception:
             await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.err_cmd)
             await rcon_con.close()
-            self.v.rcon_cache.pop((ctx.author.id, db_guild["mc_server"]), None)
+            self.bot.rcon_cache.pop((ctx.author.id, db_guild["mc_server"]), None)
 
             return
 
