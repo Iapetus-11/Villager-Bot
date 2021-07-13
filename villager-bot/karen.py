@@ -22,8 +22,6 @@ class MechaKaren:
 
             self.econ_paused_users = {}  # {user_id: time.time()}
 
-            self.mc_rcon_cache = {}  # {user_id: rcon client}
-
     def __init__(self):
         self.k = load_secrets()
         self.d = load_data()
