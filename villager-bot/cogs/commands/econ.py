@@ -1101,10 +1101,15 @@ class Econ(commands.Cog):
         async with ctx.typing():
             wait = random.randint(8, 20)
 
-            if await self.db.fetch_item(ctx.author.id, "Lure I Book") is not None:
+            lure_i_book, active_effects = await asyncio.gather(
+                self.db.fetch_item(ctx.author.id, "Lure I Book"),
+                self.ipc.eval(f"active_effects[{ctx.author.id}]"),
+            )
+
+            if lure_i_book is not None:
                 wait -= 2
 
-            if "seaweed" in self.v.chuggers.get(ctx.author.id, []):
+            if "seaweed" in active_effects:
                 wait -= 2
 
             await asyncio.sleep(wait)
