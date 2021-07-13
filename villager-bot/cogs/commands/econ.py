@@ -48,7 +48,7 @@ class Econ(commands.Cog):
         return [True] * yield_[0] + [False] * yield_[1]
 
     async def math_problem(self, ctx, addition=1):
-        # simultaneously updates the value in Karen and retrivies teh current value
+        # simultaneously updates the value in Karen and retrivies the current value
         res = await self.ipc.request({"type": "mine-command", "user_id": ctx.author.id, "addition": addition})
         mine_commands = res.current
 
