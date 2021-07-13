@@ -1194,11 +1194,10 @@ class Econ(commands.Cog):
                 await self.bot.reply_embed(ctx, ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
                 return
 
-            pillager_pillages = self.v.pillagers.get(ctx.author.id, 0)
-            self.v.pillagers[ctx.author.id] = pillager_pillages + 1
-
-            times_pillaged = self.v.pillages.get(victim.id, 0)
-            self.v.pillages[victim.id] = times_pillaged + 1
+            pillager_pillages, victim_pillages = await asyncio.gather(
+                self.ipc.exec(f"pillages[{ctx.author.id}] += 1; return pillages[{ctx.author.id}] - 1"),
+                self.ipc.eval(f"return pillages[{victim.id}] - 1"),
+            )
 
             user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
             user_bees = 0 if user_bees is None else user_bees["amount"]
@@ -1207,7 +1206,7 @@ class Econ(commands.Cog):
             victim_bees = 0 if victim_bees is None else victim_bees["amount"]
 
             # lmao
-            if pillager_pillages > 7 or times_pillaged > 4:
+            if pillager_pillages > 7 and pillager_pillages > victim_pillages:
                 chances = [False] * 50 + [True]
             elif await self.db.fetch_item(victim.id, "Bane Of Pillagers Amulet"):
                 chances = [False] * 5 + [True]
