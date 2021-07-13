@@ -198,7 +198,7 @@ class Minecraft(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address))
 
-        embed.description = ctx.l.minecraft.mcping.learn_more.format(f"https://minecraft.global/server/{server_id}")
+        embed.description = ctx.l.minecraft.mcping.learn_more.format(f"https://minecraft.global/server/{server_id}?utm_source=villager+bot&utm_medium=discord&utm_id=1")
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj["latency"])
         ver = jj["version"].get("brand", "Unknown")
