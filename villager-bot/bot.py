@@ -89,7 +89,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         # support server channels
         self.error_channel = None
         self.vote_channel = None
-        # self.dm_log_channel = None
+        self.dm_log_channel = None
 
         # counters and other things
         self.command_count = 0

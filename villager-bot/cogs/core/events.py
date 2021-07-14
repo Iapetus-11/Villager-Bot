@@ -1,4 +1,5 @@
 from discord.ext import commands
+import asyncio
 import discord
 import random
 import sys
@@ -62,6 +63,7 @@ class Events(commands.Cog):
     async def on_ready(self):
         self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
         self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
+        self.bot.dm_log_channel = await self.bot.fetch_channel(self.dm_log_channel_id)
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -88,49 +90,52 @@ class Events(commands.Cog):
             await message.channel.send(embed=embed)
             return
 
-        if message.guild is not None:
-            if message.guild.id == self.d.support_server_id:
-                if message.type in NITRO_BOOST_MESSAGES:
-                    await self.db.add_item(message.author.id, "Barrel", 1024, 1)
-                    await self.bot.send_embed(
-                        message.author, "Thanks for boosting the support server! You've received 1x **Barrel**!"
-                    )
-                    return
+        if message.guild is None:
+            await self.bot.dm_log_channel.send(message.content, files=await asyncio.gather(*[attachment.to_file() for attachment in attachments]))
+            return
 
-            content_lower = message.content.lower()
+        if message.guild.id == self.d.support_server_id:
+            if message.type in NITRO_BOOST_MESSAGES:
+                await self.db.add_item(message.author.id, "Barrel", 1024, 1)
+                await self.bot.send_embed(
+                    message.author, "Thanks for boosting the support server! You've received 1x **Barrel**!"
+                )
+                return
 
-            if "@someone" in content_lower:
-                someones = [
-                    u
-                    for u in message.guild.members
-                    if (
-                        not u.bot
-                        and u.status == discord.Status.online
-                        and message.author.id != u.id
-                        and u.permissions_in(message.channel).read_messages
-                    )
-                ]
+        content_lower = message.content.lower()
 
-                if len(someones) > 0:
-                    await message.channel.send(
-                        f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}"
-                    )
-                    return
+        if "@someone" in content_lower:
+            someones = [
+                u
+                for u in message.guild.members
+                if (
+                    not u.bot
+                    and u.status == discord.Status.online
+                    and message.author.id != u.id
+                    and u.permissions_in(message.channel).read_messages
+                )
+            ]
 
-            if message.guild.id in self.bot.replies_cache:
-                prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
+            if len(someones) > 0:
+                await message.channel.send(
+                    f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}"
+                )
+                return
 
-                if not message.content.startswith(prefix):
-                    if "emerald" in content_lower:
-                        await message.channel.send(random.choice(self.d.hmms))
-                    elif "creeper" in content_lower:
-                        await message.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
-                    elif "reee" in content_lower:
-                        await message.channel.send(random.choice(self.d.emojis.reees))
-                    elif "amogus" in content_lower or content_lower == "sus":
-                        await message.channel.send(self.d.emojis.amogus)
-                    elif content_lower == "good bot":
-                        await message.reply(random.choice(self.d.owos), mention_author=False)
+        if message.guild.id in self.bot.replies_cache:
+            prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
+
+            if not message.content.startswith(prefix):
+                if "emerald" in content_lower:
+                    await message.channel.send(random.choice(self.d.hmms))
+                elif "creeper" in content_lower:
+                    await message.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
+                elif "reee" in content_lower:
+                    await message.channel.send(random.choice(self.d.emojis.reees))
+                elif "amogus" in content_lower or content_lower == "sus":
+                    await message.channel.send(self.d.emojis.amogus)
+                elif content_lower == "good bot":
+                    await message.reply(random.choice(self.d.owos), mention_author=False)
 
     async def handle_cooldown(self, ctx, remaining: float, karen_cooldown: bool) -> None:
         if ctx.command.name == "mine":

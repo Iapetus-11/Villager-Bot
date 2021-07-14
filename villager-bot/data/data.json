@@ -6,6 +6,7 @@
   "support_server_id": 641117791272960031,
   "error_channel_id": 642446655022432267,
   "vote_channel_id": 725551439165784115,
+  "dm_log_channel_id": 864686526381424661,
   "splash_logo": "http://iapetus11.me/static/images/villager-splash.png",
   "support": "https://discord.gg/39DwwUV",
   "invite": "https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=1074130126&scope=bot%20applications.commands",
