@@ -339,7 +339,7 @@ class Minecraft(commands.Cog):
                 textures = json.loads(base64.b64decode(prop["value"]))["textures"]
                 skin_url = textures.get("SKIN", {}).get("url")
                 cape_url = textures.get("CAPE", {}).get("url")
-                
+
                 break
 
         name_hist = "\uFEFF"
@@ -362,8 +362,8 @@ class Minecraft(commands.Cog):
 
         if cape_url is not None:
             embed.description += f" | **[{ctx.l.minecraft.profile.cape}]({cape_url})**"
-        # else:
-        #     embed.description += f" | {ctx.l.minecraft.profile.nocape}"
+        else:
+            embed.description += f" | {ctx.l.minecraft.profile.nocape}"
 
         embed.set_thumbnail(url=f"https://visage.surgeplay.com/head/{uuid}.png")
 
