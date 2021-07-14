@@ -348,7 +348,8 @@
           "value": "A lista de jogadores não está disponível para este servidor."
         },
         "and_other_players": ", e {} outros...",
-        "learn_more": "Você pode aprender mais sobre este servidor [aqui]({})."
+        "learn_more": "Você pode aprender mais sobre este servidor [aqui]({}).",
+        "powered_by": "Movido a minecraft.global"
       },
       "stealskin": {
         "error": "Oops, algo deu errado ao buscar a skin desse jogador.",

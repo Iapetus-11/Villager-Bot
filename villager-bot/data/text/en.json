@@ -348,7 +348,8 @@
           "value": "Player list is not available for this server."
         },
         "and_other_players": ", and {} others...",
-        "learn_more": "You can learn more about this server [here]({})."
+        "learn_more": "You can learn more about this server [here]({}).",
+        "powered_by": "Powered by minecraft.global"
       },
       "stealskin": {
         "error": "Oops, something went wrong while fetching that player's skin.",
