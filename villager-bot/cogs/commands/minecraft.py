@@ -339,6 +339,7 @@ class Minecraft(commands.Cog):
                 textures = json.loads(base64.b64decode(prop["value"]))["textures"]
                 skin_url = textures.get("SKIN", {}).get("url")
                 cape_url = textures.get("CAPE", {}).get("url")
+                
                 break
 
         name_hist = "\uFEFF"
