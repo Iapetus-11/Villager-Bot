@@ -63,7 +63,7 @@ class Events(commands.Cog):
     async def on_ready(self):
         self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
         self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
-        self.bot.dm_log_channel = await self.bot.fetch_channel(self.dm_log_channel_id)
+        self.bot.dm_log_channel = await self.bot.fetch_channel(self.d.dm_log_channel_id)
 
     @commands.Cog.listener()
     async def on_message(self, message):
