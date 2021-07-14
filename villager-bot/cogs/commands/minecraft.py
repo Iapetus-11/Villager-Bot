@@ -202,6 +202,8 @@ class Minecraft(commands.Cog):
             f"https://minecraft.global/server/{server_id}?utm_source=villager+bot&utm_medium=discord&utm_id=1"
         )
 
+        embed.set_footer(text=ctx.l.mcping.powered_by, icon_url="https://minecraft.global/images/logo.svg")
+
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj["latency"])
         ver = jj["version"].get("brand", "Unknown")
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=("Unknown" if ver is None else ver))
