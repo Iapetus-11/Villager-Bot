@@ -91,7 +91,7 @@ class Events(commands.Cog):
             return
 
         if message.guild is None:
-            await self.bot.dm_log_channel.send(message.content, files=await asyncio.gather(*[attachment.to_file() for attachment in attachments]))
+            await self.bot.dm_log_channel.send(f"{message.author} (`{message.author.id}`): {message.content}", files=await asyncio.gather(*[attachment.to_file() for attachment in message.attachments]))
             return
 
         if message.guild.id == self.d.support_server_id:
