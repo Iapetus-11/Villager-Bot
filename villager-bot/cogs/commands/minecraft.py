@@ -365,7 +365,7 @@ class Minecraft(commands.Cog):
         else:
             embed.description += f" | {ctx.l.minecraft.profile.nocape}"
 
-        embed.set_thumbnail(url=f"https://visage.surgeplay.com/head/{uuid}.png")
+        embed.set_thumbnail(url=f"https://crafatar.com/avatars/{uuid}.png")
 
         embed.add_field(
             name=":link: UUID",
