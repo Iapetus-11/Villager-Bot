@@ -118,8 +118,8 @@ class Database(commands.Cog):
         if user is None:
             await self.db.execute("INSERT INTO users (user_id) VALUES ($1)", user_id)
 
-            await self.add_item(user_id, "Wood Pickaxe", 0, 1, True)
-            await self.add_item(user_id, "Wood Sword", 0, 1, True)
+            await self.add_item(user_id, "Wood Pickaxe", 0, 1, True, False)
+            await self.add_item(user_id, "Wood Sword", 0, 1, True, False)
 
             return await self.fetch_user(user_id)
 
@@ -268,9 +268,6 @@ class Database(commands.Cog):
             if pickaxe in items_names:
                 return pickaxe
 
-            await asyncio.sleep(0)
-
-        await self.add_item(user_id, "Wood Pickaxe", 0, 1, True)
         return "Wood Pickaxe"
 
     async def fetch_sword(self, user_id: int) -> str:
@@ -280,9 +277,6 @@ class Database(commands.Cog):
             if sword in items_names:
                 return sword
 
-            await asyncio.sleep(0)
-
-        await self.add_item(user_id, "Wood Sword", 0, 1, True)
         return "Wood Sword"
 
     async def rich_trophy_wipe(self, user_id: int) -> None:
