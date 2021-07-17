@@ -889,9 +889,7 @@ class Econ(commands.Cog):
             )
 
             if (await self.db.fetch_user(user.id))["give_alert"]:
-                await self.bot.send_embed(
-                    user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"])
-                )
+                await self.bot.send_embed(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"]))
 
     @commands.command(name="gamble", aliases=["bet", "stonk", "stonks"])
     # @commands.cooldown(1, 30, commands.BucketType.user)
