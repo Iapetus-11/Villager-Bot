@@ -73,7 +73,8 @@ class Events(commands.Cog):
             return
 
         if isinstance(message.channel, discord.DMChannel):
-            await self.ipc.send({"type": "dm-message", "user_id": message.author.id, "content": message.content})
+            if message.channel.recipient.id not in self.d.dm_log_ignore:
+                await self.ipc.send({"type": "dm-message", "user_id": message.author.id, "content": message.content})
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:
