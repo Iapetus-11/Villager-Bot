@@ -11,7 +11,7 @@ def strip_command(ctx):  # returns message.clean_content excluding the command u
 
 def dm_check(ctx):
     def _dm_check(m):
-        return ctx.author.id == m.author.id and ctx.author.dm_channel.id == m.channel.id
+        return ctx.author == m.author and ctx.author.dm_channel == m.channel
 
     return _dm_check
 

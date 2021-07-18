@@ -187,7 +187,7 @@ class Owner(commands.Cog):
                 try:
 
                     def author_check(react, r_user):
-                        return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+                        return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
 
                     react, r_user = await self.bot.wait_for(
                         "reaction_add", check=author_check, timeout=(3 * 60)

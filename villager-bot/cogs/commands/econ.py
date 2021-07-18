@@ -58,7 +58,7 @@ class Econ(commands.Cog):
             )
 
             def author_check(m):
-                return m.channel.id == ctx.channel.id and m.author.id == ctx.author.id
+                return m.channel == ctx.channel and m.author == ctx.author
 
             try:
                 m = await self.bot.wait_for("message", check=author_check, timeout=10)
@@ -237,7 +237,7 @@ class Econ(commands.Cog):
                 try:
 
                     def author_check(react, r_user):
-                        return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+                        return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
 
                     react, r_user = await self.bot.wait_for(
                         "reaction_add", check=author_check, timeout=(2 * 60)
@@ -516,7 +516,7 @@ class Econ(commands.Cog):
             try:
 
                 def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
 
                 # wait for reaction from message author (1 min)
                 react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=60)
@@ -614,7 +614,7 @@ class Econ(commands.Cog):
             try:
 
                 def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg.id == react.message.id
+                    return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
 
                 # wait for reaction from message author (1 min)
                 react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=60)
