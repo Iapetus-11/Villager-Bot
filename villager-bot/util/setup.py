@@ -97,3 +97,7 @@ def mod_data(d: ClassyDict) -> None:
 
     # reverse dict to create unenchantment lang
     d.fun_langs.unenchant = {v: k for k, v in d.fun_langs.enchant.items()}
+
+    # make some lists sets for speed
+    d.mobs_mech.valid_attacks = set(d.mobs_mech.valid_attacks)
+    d.mobs_mech.valid_flees = set(d.mobs_mech.valid_flees)
