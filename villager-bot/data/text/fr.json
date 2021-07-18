@@ -388,7 +388,7 @@
         "formatting": "Formatage"
       },
       "rcon": {
-        "stupid_1": "Tu dois d'abord définir un serveur Minecraft pour ce serveur via la commande `/config mcserver`.",
+        "stupid_1": "Tu dois d'abord définir un serveur Minecraft pour ce serveur via la commande `{}config mcserver`.",
         "dm_error": "Je dois être capable de t'envoyer des messages privés pour compléter le process.",
         "msg_timeout": "J'ai cessé d'attendre une réponse, lance la commande à nouveau pour continuer.",
         "port": "Saisis le port de la console à distance (rcon.port dans le server.properties)",

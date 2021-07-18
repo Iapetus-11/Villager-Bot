@@ -457,7 +457,7 @@ class Minecraft(commands.Cog):
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
         if db_guild["mc_server"] is None:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.stupid_1)
+            await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.stupid_1.format(ctx.prefix))
             return
 
         db_user_rcon = await self.db.fetch_user_rcon(ctx.author.id, db_guild["mc_server"])

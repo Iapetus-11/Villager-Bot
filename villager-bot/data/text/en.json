@@ -388,7 +388,7 @@
         "formatting": "Formatting"
       },
       "rcon": {
-        "stupid_1": "You have to set a Minecraft server for this server via the `/config mcserver` command first.",
+        "stupid_1": "You have to set a Minecraft server for this server via the `{}config mcserver` command first.",
         "dm_error": "I need to be able to DM you to complete the process.",
         "msg_timeout": "I've stopped waiting for a response, run the command again to continue.",
         "port": "Type in the remote console port (rcon.port in the server.properties).",
