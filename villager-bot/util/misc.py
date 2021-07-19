@@ -1,5 +1,4 @@
 import classyjson as cj
-import asyncpg
 import discord
 import math
 
@@ -129,5 +128,5 @@ async def update_support_member_role(bot, member):
     if roles != member.roles:
         try:
             await member.edit(roles=roles)
-        except Exception:
+        except (discord.Forbidden, discord.HTTPException):
             pass

@@ -50,8 +50,8 @@ class Minecraft(commands.Cog):
         if len(files) < 1:
             await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
             return
-        else:
-            image = files[0]
+            
+        image = files[0]
 
         if image.filename.lower()[-4:] not in (".jpg", ".png") and not image.filename.lower()[-5:] in (".jpeg"):
             await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
@@ -302,7 +302,8 @@ class Minecraft(commands.Cog):
             if res.status == 204:
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
                 return
-            elif res.status != 200:
+            
+            if res.status != 200:
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.profile.error)
                 return
 
@@ -326,7 +327,8 @@ class Minecraft(commands.Cog):
             if res.status == 204:
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
                 return
-            elif res.status != 200:
+
+            if res.status != 200:
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.profile.error)
                 return
 
@@ -479,8 +481,9 @@ class Minecraft(commands.Cog):
             except asyncio.TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
-                except Exception:
+                except (discord.Forbidden, discord.HTTPException):
                     pass
+
                 return
 
             try:
@@ -488,7 +491,7 @@ class Minecraft(commands.Cog):
 
                 if 0 > rcon_port > 65535:
                     rcon_port = 25575
-            except Exception:
+            except (ValueError, TypeError):
                 rcon_port = 25575
 
             try:
