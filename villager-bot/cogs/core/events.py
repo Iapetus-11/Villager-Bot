@@ -74,24 +74,7 @@ class Events(commands.Cog):
         if before.guild.id == self.d.support_server_id:
             if before.roles != after.roles:
                 role_names = {r.name for r in after.roles}
-                badges = {}
-
-                if "Code Helper" in role_names:
-                    badges["code_helper"] = True
-                else:
-                    badges["code_helper"] = False
-
-                if "Design Helper" in role_names:
-                    badges["design_helper"] = True
-                else:
-                    badges["design_helper"] = False
-
-                if "Bug Smasher" in role_names:
-                    badges["bug_smasher"] = True
-                else:
-                    badges["bug_smasher"] = False
-
-                await self.badges.update_user_badges(after.id, **badges)
+                await self.badges.update_user_badges(after.id, code_helper=("Code Helper" in role_names), design_helper=("Design Helper" in role_names), bug_smasher=("Bug Smasher" in role_names))
 
     @commands.Cog.listener()
     async def on_message(self, message):
