@@ -193,6 +193,10 @@ class Owner(commands.Cog):
                         "reaction_add", check=author_check, timeout=(3 * 60)
                     )  # wait for reaction from message author
                 except asyncio.TimeoutError:
+                    await asyncio.gather(
+                        msg.remove_reaction("⬅️", ctx.me),
+                        msg.remove_reaction("➡️", ctx.me)
+                    )
                     return
 
                 await react.remove(ctx.author)

@@ -188,6 +188,10 @@ class Useful(commands.Cog):
                 # wait for reaction from message author (1 min)
                 react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=30)
             except asyncio.TimeoutError:
+                await asyncio.gather(
+                    msg.remove_reaction("⬅️", ctx.me),
+                    msg.remove_reaction("➡️", ctx.me)
+                )
                 return
 
             await react.remove(ctx.author)
