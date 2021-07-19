@@ -38,6 +38,10 @@ class Events(commands.Cog):
 
         bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
 
+    @property
+    def badges(self):
+        return self.bot.get_cog("Badges")
+
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
         self.bot.error_count += 1
 
@@ -64,6 +68,30 @@ class Events(commands.Cog):
         self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
         self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
         self.bot.dm_log_channel = await self.bot.fetch_channel(self.d.dm_log_channel_id)
+
+    @commands.Cog.listener()
+    async def on_member_update(self, before, after):
+        if before.guild.id == self.d.support_server_id:
+            if before.roles != after.roles:
+                role_names = {r.name for r in after.roles}
+                badges = {}
+                
+                if "Code Helper" in role_names:
+                    badges["code_helper"] = True
+                else:
+                    badges["code_helper"] = False
+
+                if "Design Helper" in role_names:
+                    badges["design_helper"] = True
+                else:
+                    badges["design_helper"] = False
+
+                if "Bug Smasher" in role_names:
+                    badges["bug_smasher"] = True
+                else:
+                    badges["bug_smasher"] = False
+
+                await self.badges.update_user_badges(after.id, **badges)
 
     @commands.Cog.listener()
     async def on_message(self, message):
