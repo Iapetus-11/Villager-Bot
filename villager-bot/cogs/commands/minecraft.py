@@ -50,7 +50,7 @@ class Minecraft(commands.Cog):
         if len(files) < 1:
             await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
             return
-            
+
         image = files[0]
 
         if image.filename.lower()[-4:] not in (".jpg", ".png") and not image.filename.lower()[-5:] in (".jpeg"):
@@ -302,7 +302,7 @@ class Minecraft(commands.Cog):
             if res.status == 204:
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
                 return
-            
+
             if res.status != 200:
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.profile.error)
                 return
