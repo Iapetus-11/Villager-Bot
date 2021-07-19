@@ -510,8 +510,9 @@ class Minecraft(commands.Cog):
             except asyncio.TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
-                except Exception:
+                except (discord.Forbidden, discord.HTTPException):
                     pass
+                
                 return
 
             password = auth_msg.content
