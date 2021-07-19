@@ -79,6 +79,7 @@ class Events(commands.Cog):
                     code_helper=("Code Helper" in role_names),
                     design_helper=("Design Helper" in role_names),
                     bug_smasher=("Bug Smasher" in role_names),
+                    translator=("Translator" in role_names),
                 )
 
     @commands.Cog.listener()
