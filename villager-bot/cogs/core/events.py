@@ -75,7 +75,7 @@ class Events(commands.Cog):
             if before.roles != after.roles:
                 role_names = {r.name for r in after.roles}
                 badges = {}
-                
+
                 if "Code Helper" in role_names:
                     badges["code_helper"] = True
                 else:
