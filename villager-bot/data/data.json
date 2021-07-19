@@ -15,6 +15,7 @@
   "statcord": "https://beta.statcord.com/bot/639498607632056321",
   "mob_chance": 40,
   "tip_chance": 150,
+  "topgg_webhook_host": "0.0.0.0",
   "topgg_webhook_port": 5000,
   "topgg_webhook_path": "/votehook",
   "topgg_reward": 32,
