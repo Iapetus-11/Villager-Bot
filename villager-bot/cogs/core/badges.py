@@ -18,7 +18,7 @@ class Badges(commands.Cog):
         badges = self.badges.get(user_id)
 
         if badges is None:
-            self.badges[user_id] = badges = await self.db.fetch_user_badges(user_id)
+            self.badges[user_id] = badges = dict(await self.db.fetch_user_badges(user_id))
 
         return badges
 
