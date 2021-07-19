@@ -235,6 +235,8 @@ class VillagerBotCluster(commands.AutoShardedBot):
             elif random.randint(0, self.d.tip_chance) == 0:  # send tip?
                 asyncio.create_task(self.send_tip(ctx))
 
+        asyncio.create_task(self.ipc.eval(f"commands[{ctx.author.id}] += 1"))
+
         return True
 
     async def after_command_invoked(self, ctx):
