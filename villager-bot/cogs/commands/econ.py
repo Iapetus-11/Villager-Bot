@@ -7,7 +7,7 @@ import random
 import arrow
 import math
 
-from util.misc import lb_logic, format_required, make_health_bar, calc_total_wealth, emojify_item
+from util.misc import lb_logic, format_required, make_health_bar, calc_total_wealth, emojify_item, update_support_member_role
 
 
 class Econ(commands.Cog):
@@ -721,7 +721,7 @@ class Econ(commands.Cog):
             member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
             if member is not None:
-                await self.bot.update_support_member_role(member)
+                await update_support_member_role(self.bot, member)
 
         if shop_item.db_entry[0] == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
@@ -792,7 +792,7 @@ class Econ(commands.Cog):
             member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
 
             if member is not None:
-                await self.bot.update_support_member_role(member)
+                await update_support_member_role(self.bot, member)
 
         await self.bot.reply_embed(
             ctx,
