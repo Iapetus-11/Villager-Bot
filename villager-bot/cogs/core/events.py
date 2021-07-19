@@ -205,7 +205,7 @@ class Events(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms)
         elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms)
-        elif isinstance(e, commands.MaxConcurrencyReached) or isinstance(e, MaxKarenConcurrencyReached):
+        elif isinstance(e, (commands.MaxConcurrencyReached, MaxKarenConcurrencyReached)):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
         elif isinstance(e, commands.MissingRequiredArgument):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.missing_arg)
