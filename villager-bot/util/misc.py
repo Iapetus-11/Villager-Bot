@@ -101,3 +101,33 @@ def format_required(d: object, shop_item: object, amount: int = 1):
         base += f" + {req_amount * amount}{d.emojis[d.emoji_items[req_item]]}"
 
     return base
+
+
+async def update_support_member_role(bot, member):
+    db = bot.get_cog("Database")
+
+    support_guild = bot.get_guild(bot.d.support_server_id)
+
+    if support_guild is None:
+        support_guild = await bot.fetch_guild(bot.d.support_server_id)
+
+    role_map_values = list(bot.d.role_mappings.values())
+
+    roles = []
+
+    for role in member.roles:
+        if role.id not in role_map_values and role.id != bot.d.support_server_id:
+            roles.append(role)
+
+    pickaxe_role = bot.d.role_mappings.get(await db.fetch_pickaxe(member.id))
+    if pickaxe_role is not None:
+        roles.append(support_guild.get_role(pickaxe_role))
+
+    if await db.fetch_item(member.id, "Bane Of Pillagers Amulet") is not None:
+        roles.append(support_guild.get_role(bot.d.role_mappings.get("BOP")))
+
+    if roles != member.roles:
+        try:
+            await member.edit(roles=roles)
+        except Exception:
+            pass
