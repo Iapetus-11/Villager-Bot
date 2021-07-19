@@ -894,9 +894,21 @@
         "<:collector_4:863117267133530122>",
         "<:collector_5:863117267101548544>"
       ],
-      "beekeeper": null,
-      "pillager": null,
-      "murderer": null,
+      "beekeeper": [
+        "<:beekeeper_1:866474186637836318>",
+        "<:beekeeper_2:866474202306445343>",
+        "<:beekeeper_3:866474210117681162>"
+      ],
+      "pillager": [
+        "<:pillager_1:866479984364879892>",
+        "<:pillager_2:866479947778621440>",
+        "<:pillager_3:866479947349753877>"
+      ],
+      "murderer": [
+        "<:murderer_1:866474385383489617>",
+        "<:murderer_2:866474402337914890>",
+        "<:murderer_3:866474413821001729>"
+      ],
       "enthusiast": null,
       "fisherman": [
         "<:fisherman_1:863111587438395453>",
