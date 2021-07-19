@@ -41,6 +41,8 @@ CREATE TABLE IF NOT EXISTS badges (
   user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE,
   code_helper        BOOLEAN NOT NULL DEFAULT false,
   translator         BOOLEAN NOT NULL DEFAULT false,
+  design_helper      BOOLEAN NOT NULL DEFAULT false,
+  bug_smasher        BOOLEAN NOT NULL DEFAULT false,
   villager_og        BOOLEAN NOT NULL DEFAULT false, -- before the reset
   supporter          BOOLEAN NOT NULL DEFAULT false, -- donated money or bought something from the #paid-stuff channel
   uncle_scrooge      BOOLEAN NOT NULL DEFAULT false, -- given for obtaining more than 100k emeralds
