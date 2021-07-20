@@ -36,6 +36,8 @@ class Events(commands.Cog):
         self.d = bot.d
         self.db = bot.get_cog("Database")
 
+        self.after_ready = asyncio.Event()
+
         bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
 
     @property
@@ -51,7 +53,7 @@ class Events(commands.Cog):
         event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
         self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
 
-        await self.bot.wait_until_ready()
+        await self.after_ready.wait()
         await self.bot.error_channel.send(f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```")
 
     @commands.Cog.listener()
@@ -68,6 +70,8 @@ class Events(commands.Cog):
         self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
         self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
         self.bot.dm_log_channel = await self.bot.fetch_channel(self.d.dm_log_channel_id)
+
+        self.after_ready.set()
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
@@ -90,8 +94,7 @@ class Events(commands.Cog):
             return
 
         if isinstance(message.channel, discord.DMChannel):
-            if message.channel.recipient.id not in self.d.dm_log_ignore:
-                await self.ipc.send({"type": "dm-message", "user_id": message.author.id, "content": message.content})
+            await self.ipc.send({"type": "dm-message", "user_id": message.author.id, "content": message.content})
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:
@@ -109,11 +112,15 @@ class Events(commands.Cog):
             return
 
         if message.guild is None:
-            await self.bot.dm_log_channel.send(
-                f"{message.author} (`{message.author.id}`): {message.content}",
-                files=await asyncio.gather(*[attachment.to_file() for attachment in message.attachments]),
-            )
-            return
+            if message.channel.recipient.id not in self.d.dm_log_ignore:
+                await self.after_ready.wait()
+
+                await self.bot.dm_log_channel.send(
+                    f"{message.author} (`{message.author.id}`): {message.content}",
+                    files=await asyncio.gather(*[attachment.to_file() for attachment in message.attachments]),
+                )
+
+                return
 
         if message.guild.id == self.d.support_server_id:
             if message.type in NITRO_BOOST_MESSAGES:
@@ -256,7 +263,8 @@ class Events(commands.Cog):
                 + f"```py\n{format_exception(e)}"[: 2000 - 206]
                 + "```"
             )
-
+            
+            await self.after_ready.wait()
             await self.bot.error_channel.send(debug_info)
 
 
