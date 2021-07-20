@@ -589,6 +589,9 @@
           "radar": "Minor bug fixes and feature additions"
         },
         "others": "And of course, the countless others who have contributed ideas and bug reports to help make Villager Bot better!"
+      },
+      "snipe": {
+        "nothing": "There's nothing to snipe."
       }
     },
     "econ": {
