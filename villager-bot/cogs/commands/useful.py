@@ -26,7 +26,8 @@ class Useful(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        self.snipes[message.channel.id] = message, time.time()
+        if not message.author.bot and message.content:
+            self.snipes[message.channel.id] = message, time.time()
 
     @tasks.loop(seconds=30)
     async def clear_snipes(self):
