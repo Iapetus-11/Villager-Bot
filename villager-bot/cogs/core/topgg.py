@@ -132,7 +132,7 @@ class Webhooks(commands.Cog):
 
             amount *= min(vote_streak, 5)
 
-            await self.db.update_user(user_id, last_vote=arrow.utcnow().timestamp(), vote_streak=vote_streak)
+            await self.db.update_user(user_id, last_vote=arrow.utcnow().datetime, vote_streak=vote_streak)
 
         await self.reward(user_id, amount, vote_streak)
 
