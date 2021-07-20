@@ -104,10 +104,10 @@ class Webhooks(commands.Cog):
             await self.bot.error_channel.send("TOP.GG WEBHOOKS TEST")
             return
 
-        uid = int(data.user)
+        user_id = int(data.user)
 
         async with self.lock:
-            db_user = await self.db.fetch_user(uid)
+            db_user = await self.db.fetch_user(user_id)
 
             streak_time = db_user["streak_time"] or 0
             vote_streak = db_user["vote_streak"] or 0
@@ -115,7 +115,7 @@ class Webhooks(commands.Cog):
             if arrow.get(streak_time) > arrow.utcnow().shift(hours=-12):
                 return
 
-            self.bot.logger.info(f"\u001b[32;1m{uid} voted on top.gg\u001b[0m")
+            self.bot.logger.info(f"\u001b[32;1m{user_id} voted on top.gg\u001b[0m")
             self.bot.session_votes += 1
 
             amount = self.d.topgg_reward
@@ -123,7 +123,7 @@ class Webhooks(commands.Cog):
             if data.isWeekend:
                 amount *= 2
 
-            amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(uid))
+            amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(user_id))
 
             vote_streak += 1
 
@@ -132,9 +132,9 @@ class Webhooks(commands.Cog):
 
             amount *= min(vote_streak, 5)
 
-            await self.db.update_user(uid, streak_time=arrow.utcnow().timestamp(), vote_streak=vote_streak)
+            await self.db.update_user(user_id, streak_time=arrow.utcnow().timestamp(), vote_streak=vote_streak)
 
-        await self.reward(uid, amount, vote_streak)
+        await self.reward(user_id, amount, vote_streak)
 
 
 def setup(bot):
