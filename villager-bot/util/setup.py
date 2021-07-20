@@ -1,9 +1,8 @@
-from classyjson import ClassyDict
+import classyjson as cj
 import asyncpg
 import logging
 import discord
 import random
-import orjson
 import os
 
 
@@ -44,7 +43,7 @@ def setup_karen_logging():
     return logger
 
 
-async def setup_database_pool(secrets: ClassyDict, max_size: int):
+async def setup_database_pool(secrets: cj.ClassyDict, max_size: int):
     return await asyncpg.create_pool(
         host=secrets.database.host,  # where db is hosted
         database=secrets.database.name,  # name of database
@@ -55,35 +54,35 @@ async def setup_database_pool(secrets: ClassyDict, max_size: int):
     )
 
 
-def load_text() -> ClassyDict:
+def load_text() -> cj.ClassyDict:
     text = {}
 
     for filename in os.listdir("data/text"):
         with open(f"data/text/{filename}", "r", encoding="utf8") as f:
-            text.update(orjson.loads(f.read()))
+            text.update(cj.loads(f.read()))
 
-    return ClassyDict(text)
+    return cj.ClassyDict(text)
 
 
-def load_secrets() -> ClassyDict:
+def load_secrets() -> cj.ClassyDict:
     with open("../secrets.json", "r", encoding="utf8") as f:
-        return ClassyDict(orjson.loads(f.read()))
+        return cj.loads(f.read())
 
 
-def load_data() -> ClassyDict:
+def load_data() -> cj.ClassyDict:
     with open("data/data.json", "r", encoding="utf8") as f:
-        data = ClassyDict(orjson.loads(f.read()))
+        data = cj.loads(f.read())
 
     mod_data(data)
     return data
 
 
-def update_fishing_prices(d: ClassyDict):
+def update_fishing_prices(d: cj.ClassyDict):
     for fish in d.fishing.fish.values():
         fish.current = random.randint(*fish.value)
 
 
-def mod_data(d: ClassyDict) -> None:
+def mod_data(d: cj.ClassyDict) -> None:
     # make discord.py color class from value in data.json
     d.cc = getattr(discord.Color, d.embed_color)()
 
