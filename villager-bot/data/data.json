@@ -527,15 +527,21 @@
         true
       ],
       [
-        "Pride Flag",
-        64,
+        "Moon Dust",
+        32,
+        200,
+        false
+      ],
+      [
+        "Moon Rock",
+        128,
         1000,
         false
       ],
       [
-        "A Literal Rainbow",
-        2048,
-        99999,
+        "Alien Mask",
+        128,
+        1000,
         false
       ]
     ]
