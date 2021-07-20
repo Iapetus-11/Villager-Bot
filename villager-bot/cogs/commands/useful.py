@@ -526,7 +526,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="snipe")
     async def snipe_message(self, ctx):
-        snipe = self.snipes.pop(ctx.channel.id, None)
+        snipe, _ = self.snipes.pop(ctx.channel.id, None)
 
         if snipe is None:
             await self.bot.reply_embed(ctx.l.useful.snipe.nothing)
