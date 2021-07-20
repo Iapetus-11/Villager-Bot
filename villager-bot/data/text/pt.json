@@ -109,7 +109,7 @@
         "image": "`{0}image <pesquisa>` *pesquisa sua consulta no google imagens*",
         "remindme": "`{0}remindme <tempo> <lembrete>` *te lembra algo no horário especificado*",
         "credits": "`{0}credits` *mostra quem ajudou a fazer o Villager Bot*",
-        "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*"
+        "snipe": "`{0} snipe` *mostra a última mensagem excluída no canal atual*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envia uma imagem aleatória maldita do Minecraft*",
