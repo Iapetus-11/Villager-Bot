@@ -1,10 +1,11 @@
 from urllib.parse import quote as urlquote
-from discord.ext import commands
+from discord.ext import commands, tasks
 import async_cse
 import asyncio
 import discord
 import psutil
 import arrow
+import time
 
 
 class Useful(commands.Cog):
@@ -16,6 +17,25 @@ class Useful(commands.Cog):
         self.google = async_cse.Search(bot.k.google_search)
 
         self.db = bot.get_cog("Database")
+        
+        self.snipes = {}
+        self.clear_snipes.start()
+
+    def cog_unload(self):
+        self.clear_snipes.cancel()
+
+    @commands.Cog.listener()
+    async def on_message_delete(self, message):
+        self.snipes[message.channel.id] = message, time.time()
+
+    @tasks.loop(seconds=30)
+    async def clear_snipes(self):
+        for k, v in list(self.snipes.items()):
+            if time.time() - v[1] > 60:
+                try:
+                    del self.snipes[k]
+                except KeyError:
+                    pass
 
     @commands.group(name="help")
     async def help(self, ctx):
@@ -503,6 +523,18 @@ class Useful(commands.Cog):
         await self.bot.reply_embed(
             ctx, ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang))
         )
+
+    @commands.command(name="snipe")
+    async def snipe_message(self, ctx):
+        snipe = self.snipes.pop(ctx.channel.id, None)
+
+        if snipe is None:
+            await self.bot.reply_embed("There's nothing to snipe.")
+        else:
+            embed = discord.Embed(color=self.d.cc, description=snipe.content)
+            embed.set_author(name=str(snipe.author), icon_url=snipe.author.avatar_url)
+            embed.timestamp = snipe.created_at
+            await ctx.send(embed=embed)
 
 
 def setup(bot):
