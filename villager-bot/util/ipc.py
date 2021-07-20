@@ -44,10 +44,6 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # - cooldown-info {"type": "cooldown-info", "can_run": boolean, Optional["remaining": cooldown_seconds_remaining]} the result of a client's cooldown packet
 
 
-def default_serialize(obj):
-    return repr(obj)
-
-
 class Stream:
     def __init__(self, reader: StreamReader, writer: StreamWriter):
         self.reader = reader
@@ -60,7 +56,7 @@ class Stream:
         return cj.ClassyDict(cj.loads(data))
 
     async def write_packet(self, data: Union[dict, cj.ClassyDict]) -> None:
-        data = cj.dumps(data, default=default_serialize)  # cj dumps to bytes
+        data = cj.dumps(data).encode()  # cj dumps to bytes
         packet = struct.pack(">i", len(data)) + data
 
         if len(packet) > 65535:
