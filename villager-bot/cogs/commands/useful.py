@@ -338,10 +338,9 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=guild.icon_url)
 
-        embed.description = f"{ctx.l.useful.ginf.age}: `{time}`"
+        embed.description = f"{ctx.l.useful.ginf.owner}: {guild.owner.mention}\n{ctx.l.useful.ginf.age}: `{time}`"
 
         general = (
-            f"{ctx.l.useful.ginf.owner}: {guild.owner.mention}\n"
             f"{ctx.l.useful.ginf.members}: `{guild.member_count}`\n"
             f"{ctx.l.useful.ginf.channels}: `{len(guild.channels)}`\n "
             f"{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n"
