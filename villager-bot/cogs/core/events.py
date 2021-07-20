@@ -263,7 +263,7 @@ class Events(commands.Cog):
                 + f"```py\n{format_exception(e)}"[: 2000 - 206]
                 + "```"
             )
-            
+
             await self.after_ready.wait()
             await self.bot.error_channel.send(debug_info)
 
