@@ -1,9 +1,8 @@
 from asyncio import StreamReader, StreamWriter
 from typing import Union, Callable
-from classyjson import ClassyDict
+import classyjson as cj
 import asyncio
 import struct
-import orjson
 
 LENGTH_LENGTH = struct.calcsize(">i")
 
@@ -54,14 +53,14 @@ class Stream:
         self.reader = reader
         self.writer = writer
 
-    async def read_packet(self) -> ClassyDict:
+    async def read_packet(self) -> cj.ClassyDict:
         (length,) = struct.unpack(">i", await self.reader.read(LENGTH_LENGTH))  # read the length of the upcoming packet
         data = await self.reader.read(length)  # read the rest of the packet
 
-        return ClassyDict(orjson.loads(data))
+        return cj.ClassyDict(cj.loads(data))
 
-    async def write_packet(self, data: Union[dict, ClassyDict]) -> None:
-        data = orjson.dumps(data, default=default_serialize)  # orjson dumps to bytes
+    async def write_packet(self, data: Union[dict, cj.ClassyDict]) -> None:
+        data = cj.dumps(data, default=default_serialize)  # cj dumps to bytes
         packet = struct.pack(">i", len(data)) + data
 
         if len(packet) > 65535:
@@ -116,10 +115,10 @@ class Client:
             else:
                 asyncio.create_task(self.handle_broadcast(packet))
 
-    async def send(self, packet: Union[dict, ClassyDict]) -> None:
+    async def send(self, packet: Union[dict, cj.ClassyDict]) -> None:
         await self.stream.write_packet(packet)
 
-    async def request(self, packet: Union[dict, ClassyDict]) -> ClassyDict:
+    async def request(self, packet: Union[dict, cj.ClassyDict]) -> cj.ClassyDict:
         packet["id"] = packet_id = f"c{self.current_id}"
         self.current_id += 1
 
@@ -132,13 +131,13 @@ class Client:
         await event.wait()  # wait for response event
         return self.expected_packets[packet_id][1]  # return received packet
 
-    async def broadcast(self, packet: Union[dict, ClassyDict]) -> ClassyDict:
+    async def broadcast(self, packet: Union[dict, cj.ClassyDict]) -> cj.ClassyDict:
         return await self.request({"type": "broadcast-request", "packet": packet})
 
-    async def eval(self, code: str) -> ClassyDict:
+    async def eval(self, code: str) -> cj.ClassyDict:
         return await self.request({"type": "eval", "code": code})
 
-    async def exec(self, code: str) -> ClassyDict:
+    async def exec(self, code: str) -> cj.ClassyDict:
         return await self.request({"type": "exec", "code": code})
 
 
