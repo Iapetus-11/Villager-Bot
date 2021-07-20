@@ -77,7 +77,10 @@ class Events(commands.Cog):
     async def on_member_update(self, before, after):
         if before.guild.id == self.d.support_server_id:
             if before.roles != after.roles:
+                await self.db.fetch_user(after.id)  # ensure user is in db
+
                 role_names = {r.name for r in after.roles}
+
                 await self.badges.update_user_badges(
                     after.id,
                     code_helper=("Code Helper" in role_names),
