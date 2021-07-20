@@ -108,7 +108,8 @@
         "youtube": "`{0}youtube <recherche>` *recherche ta requête sur youtube*",
         "image": "`{0}image <recherche>` *recherche ta requête sur google images*",
         "remindme": "`{0}remindme <temps> <rappel>` *te rappelles après un temps spécifié*",
-        "credits": "`{0}credits` *montre qui a aidé à faire le Villager Bot*"
+        "credits": "`{0}credits` *montre qui a aidé à faire le Villager Bot*",
+        "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envoie une image cursed de Minecraft*",
