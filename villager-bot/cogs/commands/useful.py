@@ -335,6 +335,11 @@ class Useful(commands.Cog):
         time = arrow.get(discord.utils.snowflake_time(guild.id))
         time = time.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
 
+        try:
+            bans = len(await guild.bans())
+        except Exception:
+            bans = "unknown"
+
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=guild.icon_url)
 
