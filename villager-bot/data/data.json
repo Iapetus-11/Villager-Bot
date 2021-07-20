@@ -383,15 +383,45 @@
         true
       ],
       [
-        "Pride Flag",
-        64,
+        "Moon Dust",
+        32,
+        200,
+        false
+      ],
+      [
+        "Moon Rock",
+        128,
         1000,
         false
       ],
       [
-        "A Literal Rainbow",
-        2048,
-        99999,
+        "Alien Mask",
+        128,
+        1000,
+        false
+      ],
+      [
+        "Space Suit",
+        768,
+        4096,
+        false
+      ],
+      [
+        "Laser Assault Rifle",
+        768,
+        4096,
+        false
+      ],
+      [
+        "BFG 3000",
+        768,
+        4096,
+        false
+      ],
+      [
+        "Pet Alien",
+        1536,
+        8192,
         false
       ]
     ]
