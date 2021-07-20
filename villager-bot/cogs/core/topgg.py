@@ -109,10 +109,10 @@ class Webhooks(commands.Cog):
         async with self.lock:
             db_user = await self.db.fetch_user(user_id)
 
-            streak_time = db_user["streak_time"] or 0
+            last_vote = db_user["last_vote"] or 0
             vote_streak = db_user["vote_streak"] or 0
 
-            if arrow.get(streak_time) > arrow.utcnow().shift(hours=-12):
+            if arrow.get(last_vote) > arrow.utcnow().shift(hours=-12):
                 return
 
             self.bot.logger.info(f"\u001b[32;1m{user_id} voted on top.gg\u001b[0m")
@@ -127,12 +127,12 @@ class Webhooks(commands.Cog):
 
             vote_streak += 1
 
-            if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(streak_time):  # vote expired
+            if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(last_vote):  # vote expired
                 vote_streak = 1
 
             amount *= min(vote_streak, 5)
 
-            await self.db.update_user(user_id, streak_time=arrow.utcnow().timestamp(), vote_streak=vote_streak)
+            await self.db.update_user(user_id, last_vote=arrow.utcnow().timestamp(), vote_streak=vote_streak)
 
         await self.reward(user_id, amount, vote_streak)
 
