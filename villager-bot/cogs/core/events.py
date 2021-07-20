@@ -121,8 +121,7 @@ class Events(commands.Cog):
                 )
 
                 return
-
-        if message.guild.id == self.d.support_server_id:
+        elif message.guild.id == self.d.support_server_id:
             if message.type in NITRO_BOOST_MESSAGES:
                 await self.db.add_item(message.author.id, "Barrel", 1024, 1)
                 await self.bot.send_embed(
