@@ -536,7 +536,7 @@ class Useful(commands.Cog):
             embed = discord.Embed(color=self.d.cc, description=snipe.content)
             embed.set_author(name=str(snipe.author), icon_url=snipe.author.avatar_url)
             embed.timestamp = snipe.created_at
-            
+
             await ctx.send(embed=embed)
 
 
