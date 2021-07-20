@@ -526,14 +526,17 @@ class Useful(commands.Cog):
 
     @commands.command(name="snipe")
     async def snipe_message(self, ctx):
-        snipe, _ = self.snipes.pop(ctx.channel.id, None)
+        snipe = self.snipes.pop(ctx.channel.id, None)
 
         if snipe is None:
             await self.bot.reply_embed(ctx.l.useful.snipe.nothing)
         else:
+            snipe, _ = snipe
+
             embed = discord.Embed(color=self.d.cc, description=snipe.content)
             embed.set_author(name=str(snipe.author), icon_url=snipe.author.avatar_url)
             embed.timestamp = snipe.created_at
+            
             await ctx.send(embed=embed)
 
 
