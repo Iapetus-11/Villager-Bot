@@ -109,7 +109,7 @@
         "image": "`{0}image <consulta>` *busca en imágenes de google tu consulta*",
         "remindme": "`{0}remindme <tiempo> <recordatorio>` *fija un recordatorio en el tiempo especificado*",
         "credits": "`{0}credits` *Muestra quienes ayudaron a hacer Villager Bot*",
-        "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*"
+        "snipe": "`{0}snipe` *mostra a última mensagem excluída no canal atual*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envía una imagen Minecraft maldita al azar*",
@@ -592,7 +592,7 @@
         "others": "Y por supuesto, los incontables usuarios que han contribuido ideas y reportado bugs para ayudar a mejorar a Villager Bot!"
       },
       "snipe": {
-        "nothing": "There's nothing to snipe."
+        "nothing": "No hay nada que ver"
       }
     },
     "econ": {
