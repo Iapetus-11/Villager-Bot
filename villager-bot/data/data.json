@@ -1,5 +1,5 @@
 {
-  "default_prefix": ".",
+  "default_prefix": "!!",
   "embed_color": "green",
   "shard_count": 6,
   "cluster_size": 4,
