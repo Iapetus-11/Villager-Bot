@@ -104,11 +104,11 @@ class Minecraft(commands.Cog):
             ) as res:  # fetch status from api
                 jj = await res.json()
 
-        if not jj["success"] or not jj["online"]:
-            embed = discord.Embed(
+        if not (jj["success"] and jj["online"]):
+            await ctx.reply(embed=discord.Embed(
                 color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined)
-            )
-            await ctx.reply(embed=embed, mention_author=False)
+            ), mention_author=False)
+
             return
 
         player_list = jj.get("players_names", [])
