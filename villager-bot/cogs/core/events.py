@@ -67,7 +67,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.bot.support_server = await self.bot.fetch_guild(self.d.support_guild_id)
+        self.bot.support_server = await self.bot.fetch_guild(self.d.support_server_id)
 
         self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
         self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
