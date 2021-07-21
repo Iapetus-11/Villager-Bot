@@ -153,7 +153,7 @@ class Minecraft(commands.Cog):
                 inline=False,
             )
 
-        embed.set_image(url=f"https://api.iapetus11.me/mc/statuscard/{combined}?v={random.random()*100000}")
+        embed.set_image(url=f"https://api.iapetus11.me/mc/servercard/{combined}?v={random.random()*100000}")
 
         if jj["favicon"] is not None:
             embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/favicon/{combined}")
@@ -235,7 +235,7 @@ class Minecraft(commands.Cog):
                 inline=False,
             )
 
-        embed.set_image(url=f"https://api.iapetus11.me/mc/statuscard/{address}?v={random.random()*100000}")
+        embed.set_image(url=f"https://api.iapetus11.me/mc/servercard/{address}?v={random.random()*100000}")
 
         if jj["favicon"] is not None:
             embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/favicon/{address}")
