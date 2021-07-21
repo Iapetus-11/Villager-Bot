@@ -172,6 +172,7 @@ class MechaKaren:
         await asyncio.gather(*shard_groups)
         self.cooldowns.stop()
         self.commands_task.cancel()
+        await self.db.close()
 
     def run(self):
         with ProcessPoolExecutor(self.d.shard_count // self.d.cluster_size + 1) as pp:
