@@ -149,7 +149,7 @@ class MechaKaren:
                         self.commands.clear()
 
                     await self.db.executemany(
-                        'INSERT INTO users (user_id) VALUES ($1) ON CONFLICT ("user_id") DO NOTHING',
+                        'INSERT INTO users (user_id) VALUES ($1) ON CONFLICT ("user_id") DO NOTHING', user_ids
                     )  # ensure users are in the database first
                     await self.db.executemany(
                         'INSERT INTO leaderboards (user_id, commands) VALUES ($1, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2 WHERE leaderboards.user_id = $1',
