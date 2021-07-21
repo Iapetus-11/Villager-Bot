@@ -2,6 +2,7 @@ from concurrent.futures import ProcessPoolExecutor
 from collections import defaultdict
 from classyjson import ClassyDict
 import asyncio
+import asyncpg
 import arrow
 
 from util.setup import load_secrets, load_data, setup_karen_logging
@@ -33,6 +34,7 @@ class MechaKaren:
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
         self.cooldowns = CooldownManager(self.d.cooldown_rates)
         self.concurrency = MaxConcurrencyManager()
+        self.db = None
 
         self.shard_ids = tuple(range(self.d.shard_count))
         self.online_shards = set()
@@ -42,6 +44,10 @@ class MechaKaren:
         self.broadcasts = {}  # {broadcast_id: {ready: asyncio.Event, responses: [response, response,..]}}
         self.dm_messages = {}  # {user_id: {event: asyncio.Event, content: "contents of message"}}
         self.current_id = 0
+
+        self.commands = defaultdict(int)
+        self.commands_lock = asyncio.Lock()
+        self.commands_task = None
 
     async def handle_packet(self, stream: Stream, packet: ClassyDict):
         if packet.type == "shard-ready":
@@ -125,10 +131,31 @@ class MechaKaren:
             self.concurrency.acquire(packet.command, packet.user_id)
         elif packet.type == "concurrency-release":
             self.concurrency.release(packet.command, packet.user_id)
+        elif packet.type == "command-ran":
+            async with self.commands_lock:
+                self.commands[packet.user_id] += 1
+
+    async def commands_dump_loop(self):
+        while True:
+            await asyncio.sleep(60)
+            
+            async with self.commands_lock:
+                commands_dump = list(self.comands.items())
+                self.commands.clear()
+
+            await self.db.executemany("UPDATE leaderboards SET commands = commands + $2 WHERE user_id = $1", commands_dump)
 
     async def start(self, pp):
+        self.db = await asyncpg.connect(
+            host=self.k.database.host,  # where db is hosted
+            database=self.k.database.name,  # name of database
+            user=self.k.database.user,  # database username
+            password=self.k.database.auth,  # password which goes with user
+        )
+
         await self.server.start()
         self.cooldowns.start()
+        self.commands_task = asyncio.create_task(self.commands_dump_loop())
 
         shard_groups = []
         loop = asyncio.get_event_loop()
@@ -144,6 +171,7 @@ class MechaKaren:
 
         await asyncio.gather(*shard_groups)
         self.cooldowns.stop()
+        self.commands_task.cancel()
 
     def run(self):
         with ProcessPoolExecutor(self.d.shard_count // self.d.cluster_size + 1) as pp:
