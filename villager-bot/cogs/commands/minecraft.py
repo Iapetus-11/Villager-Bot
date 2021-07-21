@@ -116,7 +116,9 @@ class Minecraft(commands.Cog):
 
         player_list = jj.get("players", [])
         if player_list is None:
-            player_list = []
+            player_list = ()
+        else:
+            player_list = [p["name"] for p in player_list]
 
         players_online = jj["players_online"]
 
@@ -195,6 +197,8 @@ class Minecraft(commands.Cog):
         player_list = jj.get("players", ())
         if player_list is None:
             player_list = ()
+        else:
+            player_list = [p["name"] for p in player_list]
 
         players_online = jj["players_online"]
 
