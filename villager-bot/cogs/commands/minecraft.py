@@ -192,7 +192,7 @@ class Minecraft(commands.Cog):
             await self.random_mc_server(ctx)
             return
 
-        player_list = jj.get("players_names", ())
+        player_list = jj.get("players", ())
         if player_list is None:
             player_list = ()
 
