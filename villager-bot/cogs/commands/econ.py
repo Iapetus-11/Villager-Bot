@@ -1237,7 +1237,7 @@ class Econ(commands.Cog):
                 random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald),
             )
 
-            await self.db.update_lb(ctx.author.id, "pillages", adjusted, "add")
+            await self.db.update_lb(ctx.author.id, "pillaged_emeralds", adjusted, "add")
         else:
             penalty = max(32, db_user["emeralds"] // 3)
 
