@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS guilds (
 );
 
 CREATE TABLE IF NOT EXISTS warnings (
-  user_id            BIGINT PRIMARY KEY,  -- the discord user id / snowflake
+  user_id            BIGINT NOT NULL,  -- the discord user id / snowflake
   guild_id           BIGINT NOT NULL, -- the guild where the user was warned
   mod_id             BIGINT NOT NULL, -- the mod / admin who issued the warning
   reason             VARCHAR(250) -- the reason for the warning (optional)
