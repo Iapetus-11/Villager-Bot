@@ -39,6 +39,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         super().__init__(
             # status=discord.Status.invisible,
             command_prefix=self.get_prefix,
+            case_insensitive=True,
             intents=villager_bot_intents(),
             shard_count=shard_count,
             shard_ids=shard_ids,
