@@ -1487,18 +1487,19 @@ class Econ(commands.Cog):
 
             embed.add_field(name=ctx.l.econ.lb.emeralds, value=f"`{ctx.prefix}leaderboard emeralds`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=ctx.l.econ.lb.stolen, value=f"`{ctx.prefix}leaderboard stolen`")
+            embed.add_field(name=ctx.l.econ.lb.mooderalds, value=f"`{ctx.prefix}leaderboard mooderalds`")
 
             embed.add_field(name=ctx.l.econ.lb.kills, value=f"`{ctx.prefix}leaderboard mobkills`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=ctx.l.econ.lb.bees, value=f"`{ctx.prefix}leaderboard bees`")
+            embed.add_field(name=ctx.l.econ.lb.stolen, value=f"`{ctx.prefix}leaderboard stolen`")
 
-            embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`")
+            embed.add_field(name=ctx.l.econ.lb.bees, value=f"`{ctx.prefix}leaderboard bees`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(name=ctx.l.econ.lb.fish, value=f"`{ctx.prefix}leaderboard fish`")
 
-            embed.add_field(name=ctx.l.econ.lb.mooderalds, value=f"`{ctx.prefix}leaderboard mooderalds`")
-            # embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`")
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.cmds, value=f"`{ctx.prefix}leaderboard commands`")
 
             await ctx.reply(embed=embed, mention_author=False)
 
@@ -1580,16 +1581,26 @@ class Econ(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    # @leaderboards.command(name="commands", aliases=["cmds"])
-    # async def leaderboard_commands(self, ctx):
-    #     async with ctx.typing():
-    #         lb_global, lb_local = cmds_lb(self, ctx)
+    @leaderboards.command(name="commands", aliases=["!!", "cmds"])
+    async def leaderboard_mobkills(self, ctx):
+        async with ctx.typing():
+            cmds_global, global_u_entry = await self.db.fetch_global_lb("commands", ctx.author.id)
+            cmds_local, local_u_entry = await self.db.fetch_local_lb(
+                "commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            )
 
-    #     embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":computer:"))
-    #     embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-    #     embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+            lb_global = lb_logic(
+                self, cmds_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:")
+            )
+            lb_local = lb_logic(
+                self, cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", ":keyboard:")
+            )
 
-    #     await ctx.reply(embed=embed, mention_author=False)
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(":keyboard:"))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
+        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx):
