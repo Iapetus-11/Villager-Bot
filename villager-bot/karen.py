@@ -138,7 +138,7 @@ class MechaKaren:
     async def commands_dump_loop(self):
         while True:
             await asyncio.sleep(60)
-            
+
             async with self.commands_lock:
                 commands_dump = list(self.comands.items())
                 self.commands.clear()
