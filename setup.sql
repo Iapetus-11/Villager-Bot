@@ -66,7 +66,8 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
   user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
   pillaged_emeralds  BIGINT NOT NULL DEFAULT 0, -- emeralds pillaged from other users
   mobs_killed        BIGINT NOT NULL DEFAULT 0, -- number of mobs killed
-  fish_fished        BIGINT NOT NULL DEFAULT 0  -- fishies fished
+  fish_fished        BIGINT NOT NULL DEFAULT 0, -- fishies fished
+  commands           BIGINT NOT NULL DEFAULT 0 -- not super accurate as commands are cached for speed
 );
 
 CREATE TABLE IF NOT EXISTS reminders (
