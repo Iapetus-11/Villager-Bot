@@ -229,7 +229,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
 
             if res.result is not None:
                 ctx.failure_reason = "econ_paused"
-                print(f"{ctx.author} econ paused failure")
                 return False
 
             if random.randint(0, self.d.mob_chance) == 0:  # spawn mob?
