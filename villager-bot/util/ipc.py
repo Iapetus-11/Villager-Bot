@@ -1,9 +1,9 @@
 from asyncio import StreamReader, StreamWriter
 from typing import Union, Callable
 import classyjson as cj
+import marshall
 import asyncio
 import struct
-import dill
 
 LENGTH_LENGTH = struct.calcsize(">i")
 
@@ -54,10 +54,10 @@ class Stream:
         (length,) = struct.unpack(">i", await self.reader.read(LENGTH_LENGTH))  # read the length of the upcoming packet
         data = await self.reader.read(length)  # read the rest of the packet
 
-        return cj.ClassyDict(dill.loads(data))
+        return cj.ClassyDict(marshall.loads(data))
 
     async def write_packet(self, data: Union[dict, cj.ClassyDict]) -> None:
-        data = dill.dumps(data)
+        data = marshall.dumps(data)
         packet = struct.pack(">i", len(data)) + data
 
         if len(packet) > 65535:
