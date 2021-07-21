@@ -145,10 +145,12 @@ class MechaKaren:
                     async with self.commands_lock:
                         commands_dump = list(self.commands.items())
                         user_ids = [(user_id,) for user_id in list(self.commands.keys())]
-                        
+
                         self.commands.clear()
 
-                    await self.db.executemany('INSERT INTO users (user_id) VALUES ($1) ON CONFLICT ("user_id") DO NOTHING', )  # ensure users are in the database first
+                    await self.db.executemany(
+                        'INSERT INTO users (user_id) VALUES ($1) ON CONFLICT ("user_id") DO NOTHING',
+                    )  # ensure users are in the database first
                     await self.db.executemany(
                         'INSERT INTO leaderboards (user_id, commands) VALUES ($1, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2 WHERE leaderboards.user_id = $1',
                         commands_dump,
