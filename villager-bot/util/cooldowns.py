@@ -29,8 +29,6 @@ class MaxConcurrencyManager:
         if (command, user_id) in self.limits:
             return False
 
-        self.acquire(command, user_id)
-
         return True
 
 

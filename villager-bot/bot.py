@@ -100,6 +100,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.spawn_queue = set()  # {ctx, ctx,..}
 
         self.add_check(self.check_global)  # register global check
+        self.before_invoke(self.before_command_invoked)  # register self.before_command_invoked as a before_invoked event
         self.after_invoke(self.after_command_invoked)  # register self.after_command_invoked as a after_invoked event
 
     @property
@@ -215,11 +216,10 @@ class VillagerBotCluster(commands.AutoShardedBot):
                 return False
 
         if command in self.d.concurrency_limited:
-            res = await self.ipc.request({"type": "concurrency-test", "command": command, "user_id": ctx.author.id})
+            res = await self.ipc.request({"type": "concurrency-check", "command": command, "user_id": ctx.author.id})
 
             if not res.can_run:
                 ctx.custom_error = MaxKarenConcurrencyReached()
-                print(f"{ctx.author} max concurrency error")
                 return False
 
         # handle paused econ users
@@ -241,6 +241,10 @@ class VillagerBotCluster(commands.AutoShardedBot):
         asyncio.create_task(self.ipc.eval(f"commands[{ctx.author.id}] += 1"))
 
         return True
+
+    async def before_command_invoked(self, ctx):
+        if ctx.command.name in self.d.concurrency_limited:
+            await self.ipc.send({"type": "concurrency-acquire", "command": ctx.command.name, "user_id": ctx.author.id})
 
     async def after_command_invoked(self, ctx):
         if ctx.command.name in self.d.concurrency_limited:

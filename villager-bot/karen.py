@@ -118,9 +118,11 @@ class MechaKaren:
             await stream.write_packet(
                 {"type": "mine-command-response", "id": packet.id, "current": self.v.mine_commands[packet.user_id]}
             )
-        elif packet.type == "concurrency-test":
+        elif packet.type == "concurrency-check":
             can_run = self.concurrency.check(packet.command, packet.user_id)
-            await stream.write_packet({"type": "concurrency-test-response", "id": packet.id, "can_run": can_run})
+            await stream.write_packet({"type": "concurrency-check-response", "id": packet.id, "can_run": can_run})
+        elif packet.type == "concurrency-acquire":
+            self.concurrency.acquire(packet.command, packet.user_id)
         elif packet.type == "concurrency-release":
             self.concurrency.release(packet.command, packet.user_id)
 
