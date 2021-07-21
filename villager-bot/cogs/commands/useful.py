@@ -326,6 +326,8 @@ class Useful(commands.Cog):
     @commands.command(name="serverinfo", aliases=["server", "guild"])
     @commands.guild_only()
     async def server_info(self, ctx, gid: int = None):
+        await ctx.trigger_typing()
+
         if gid is None:
             guild = ctx.guild
         else:
