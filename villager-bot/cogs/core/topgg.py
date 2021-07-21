@@ -74,6 +74,13 @@ class Webhooks(commands.Cog):
 
     async def reward(self, user_id, amount, streak=None):
         user = self.bot.get_user(user_id)
+
+        if user is None:
+            try:
+                user = await self.bot.fetch_user(user_id)
+            except Exception:
+                user = None
+
         user_str = "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
 
         await self.events.after_ready.wait()
