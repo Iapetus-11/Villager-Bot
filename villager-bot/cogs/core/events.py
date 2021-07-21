@@ -116,15 +116,16 @@ class Events(commands.Cog):
 
         if message.guild is None:
             if message.channel.recipient.id not in self.d.dm_log_ignore:
-                await self.after_ready.wait()
+                if not message.content.startswith(self.d.default_prefix):
+                    await self.after_ready.wait()
+                    await self.bot.dm_log_channel.send(
+                        f"{message.author} (`{message.author.id}`): {message.content}"[:2000],
+                        files=await asyncio.gather(*[attachment.to_file() for attachment in message.attachments]),
+                    )
 
-                await self.bot.dm_log_channel.send(
-                    f"{message.author} (`{message.author.id}`): {message.content}",
-                    files=await asyncio.gather(*[attachment.to_file() for attachment in message.attachments]),
-                )
-
-                return
-        elif message.guild.id == self.d.support_server_id:
+            return
+        
+        if message.guild.id == self.d.support_server_id:
             if message.type in NITRO_BOOST_MESSAGES:
                 await self.db.add_item(message.author.id, "Barrel", 1024, 1)
                 await self.bot.send_embed(
