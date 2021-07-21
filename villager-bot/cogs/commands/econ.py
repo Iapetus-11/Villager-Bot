@@ -1141,7 +1141,7 @@ class Econ(commands.Cog):
             ctx, random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True
         )
 
-        await self.db.update_lb(ctx.author.id, "fish", 1, "add")
+        await self.db.update_lb(ctx.author.id, "fish_fished", 1, "add")
 
         if random.randint(0, 50) == 1:
             db_user = await self.db.fetch_user(ctx.author.id)
