@@ -43,6 +43,7 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # - broadcast-response {"type": "broadcast-response", "responses": [*]} the result of a client's broadcast-request
 # - cooldown-info {"type": "cooldown-info", "can_run": boolean, Optional["remaining": cooldown_seconds_remaining]} the result of a client's cooldown packet
 
+
 class CustomJSONEncoder(cj.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, set):  # add support for sets
@@ -54,7 +55,7 @@ class CustomJSONEncoder(cj.JSONEncoder):
 def special_obj_hook(dct):
     if "_set_object" in dct:
         return set(dct["_set_object"])
-    
+
     return dct
 
 
