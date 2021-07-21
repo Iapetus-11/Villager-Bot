@@ -176,7 +176,7 @@ class Events(commands.Cog):
             if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
                 remaining -= 0.5
 
-            active_effects = await self.ipc.eval(f"active_effects.get({ctx.author.id})")
+            active_effects = (await self.ipc.eval(f"active_effects.get({ctx.author.id})")).result
 
             if active_effects:
                 if "haste ii potion" in active_effects:

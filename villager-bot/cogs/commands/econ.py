@@ -1099,7 +1099,7 @@ class Econ(commands.Cog):
             if lure_i_book is not None:
                 wait -= 2
 
-            if "seaweed" in active_effects:
+            if "seaweed" in active_effects.result:
                 wait -= 2
 
             await asyncio.sleep(wait)
@@ -1141,7 +1141,7 @@ class Econ(commands.Cog):
             ctx, random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True
         )
 
-        await self.db.update_lb(ctx.author.id, "fish", 1, "add")
+        await self.db.update_lb(ctx.author.id, "fish_fished", 1, "add")
 
         if random.randint(0, 50) == 1:
             db_user = await self.db.fetch_user(ctx.author.id)
@@ -1185,6 +1185,9 @@ class Econ(commands.Cog):
             self.ipc.exec(f"pillages[{ctx.author.id}] += 1; return pillages[{ctx.author.id}] - 1"),
             self.ipc.eval(f"return pillages[{victim.id}] - 1"),
         )
+
+        pillager_pillages = pillager_pillages.result
+        victim_pillages = victim_pillages.result
 
         user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
         user_bees = 0 if user_bees is None else user_bees["amount"]
@@ -1268,7 +1271,7 @@ class Econ(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_4)
             return
 
-        current_pots = await self.ipc.eval(f"active_effects[{ctx.author.id}]")
+        current_pots = (await self.ipc.eval(f"active_effects[{ctx.author.id}]")).result
 
         if thing in current_pots:
             await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
