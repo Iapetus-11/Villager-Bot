@@ -186,7 +186,6 @@ class Minecraft(commands.Cog):
                 jj = await res.json()
 
         if not jj["success"] or not jj["online"]:
-            self.bot.minecraft_server_ids.remove(server_id)
             await self.random_mc_server(ctx)
             return
 

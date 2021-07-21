@@ -12,12 +12,10 @@ class Loops(commands.Cog):
         self.d = bot.d
 
         self.clear_rcon_cache.start()
-        self.update_minecraft_servers.start()
         self.change_status.start()
 
     def cog_unload(self):
         self.clear_rcon_cache.cancel()
-        self.update_minecraft_servers.cancel()
         self.change_status.cancel()
 
     @tasks.loop(minutes=45)
@@ -39,13 +37,6 @@ class Loops(commands.Cog):
                     pass
 
                 self.bot.rcon_cache.pop(key, None)
-
-    @tasks.loop(minutes=30)
-    async def update_minecraft_servers(self):
-        """fetches all server ids from minecraft.global, and stores them for usage in !!randommc"""
-
-        res = await self.aiohttp.get("https://api.minecraft.global/servers")
-        self.bot.minecraft_server_ids = (await res.json())["payload"]
 
 
 def setup(bot):
