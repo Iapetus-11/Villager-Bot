@@ -2,7 +2,6 @@ from asyncio import StreamReader, StreamWriter
 from typing import Union, Callable
 import classyjson as cj
 import asyncio
-import marshal
 import struct
 
 LENGTH_LENGTH = struct.calcsize(">i")
@@ -44,6 +43,20 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # - broadcast-response {"type": "broadcast-response", "responses": [*]} the result of a client's broadcast-request
 # - cooldown-info {"type": "cooldown-info", "can_run": boolean, Optional["remaining": cooldown_seconds_remaining]} the result of a client's cooldown packet
 
+class CustomJSONEncoder(cj.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, set):  # add support for sets
+            return dict(_set_object=list(obj))
+        else:
+            return cj.JSONEncoder.default(self, obj)
+
+
+def special_obj_hook(dct):
+    if "_set_object" in dct:
+        return set(dct["_set_object"])
+    
+    return dct
+
 
 class Stream:
     def __init__(self, reader: StreamReader, writer: StreamWriter):
@@ -54,10 +67,10 @@ class Stream:
         (length,) = struct.unpack(">i", await self.reader.read(LENGTH_LENGTH))  # read the length of the upcoming packet
         data = await self.reader.read(length)  # read the rest of the packet
 
-        return cj.ClassyDict(marshal.loads(data))
+        return cj.loads(data, object_hook=special_obj_hook)
 
     async def write_packet(self, data: Union[dict, cj.ClassyDict]) -> None:
-        data = marshal.dumps(data)
+        data = cj.dumps(data, cls=CustomJSONEncoder).encode()
         packet = struct.pack(">i", len(data)) + data
 
         if len(packet) > 65535:
