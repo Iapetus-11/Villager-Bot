@@ -721,7 +721,7 @@ class Econ(commands.Cog):
         await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2])
 
         if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
-            member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
+            member = self.bot.support_server.get_member(ctx.author.id)
 
             if member is not None:
                 await update_support_member_role(self.bot, member)
@@ -792,7 +792,7 @@ class Econ(commands.Cog):
         await self.db.remove_item(ctx.author.id, db_item["name"], amount)
 
         if db_item["name"].endswith("Pickaxe") or db_item["name"] == "Bane Of Pillagers Amulet":
-            member = self.bot.get_guild(self.d.support_server_id).get_member(ctx.author.id)
+            member = self.bot.support_server.get_member(ctx.author.id)
 
             if member is not None:
                 await update_support_member_role(self.bot, member)
