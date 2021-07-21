@@ -457,7 +457,7 @@ class Database(commands.Cog):
 
     async def fetch_user_badges(self, user_id: int) -> asyncpg.Record:
         user_badges = await self.db.fetchrow(
-            "SELECT code_helper, translator, villager_og, supporter, uncle_scrooge, collector, beekeeper, pillager, murderer, enthusiast, fisherman FROM badges WHERE user_id = $1",
+            "SELECT code_helper, translator, design_helper, bug_smasher, villager_og, supporter, uncle_scrooge, collector, beekeeper, pillager, murderer, enthusiast, fisherman FROM badges WHERE user_id = $1",
             user_id,
         )
 
