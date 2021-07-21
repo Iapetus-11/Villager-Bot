@@ -12,15 +12,17 @@ class Badges(commands.Cog):
         self.db = bot.get_cog("Database")
         self.d = bot.d
 
-        self.badges = {}  # {user_id: {badge: value}}
+        # self.badges = {}  # {user_id: {badge: value}}
 
     async def fetch_user_badges(self, user_id) -> dict:
-        badges = self.badges.get(user_id)
+        # badges = self.badges.get(user_id)
 
-        if badges is None:
-            self.badges[user_id] = badges = dict(await self.db.fetch_user_badges(user_id))
+        # if badges is None:
+        #     self.badges[user_id] = badges = dict(await self.db.fetch_user_badges(user_id))
 
-        return badges
+        # return badges
+
+        return dict(await self.db.fetch_user_badges(user_id))
 
     async def update_user_badges(self, user_id, **kwargs):
         badges = await self.fetch_user_badges(user_id)
