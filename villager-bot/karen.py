@@ -48,7 +48,7 @@ class MechaKaren:
             self.online_shards.add(packet.shard_id)
 
             if len(self.online_shards) == len(self.shard_ids):
-                self.logger.info(f"\u001b[36;1mALL SHARDS\u001b[0m [0-{len(self.online_shards)}] \u001b[36;1mREADY\u001b[0m")
+                self.logger.info(f"\u001b[36;1mALL SHARDS\u001b[0m [0-{len(self.online_shards)-1}] \u001b[36;1mREADY\u001b[0m")
         elif packet.type == "shard-disconnect":
             self.online_shards.discard(packet.shard_id)
         elif packet.type == "eval":
