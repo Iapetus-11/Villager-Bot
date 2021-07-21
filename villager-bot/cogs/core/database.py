@@ -303,12 +303,17 @@ class Database(commands.Cog):
                 f"UPDATE leaderboards SET {lb} = {lb} + $1 WHERE user_id = $2 RETURNING {lb}", value, user_id
             )
 
+            if user_lb is None:
+                user_lb_value = 0
+            else:
+                user_lb_value = user_lb[lb]
+
             if lb == "pillaged_emeralds":
-                await self.badges.update_badge_pillager(user_id, user_lb[lb] + value)
+                await self.badges.update_badge_pillager(user_id, user_lb_value + value)
             elif lb == "mobs_killed":
-                await self.badges.update_badge_murderer(user_id, user_lb[lb] + value)
+                await self.badges.update_badge_murderer(user_id, user_lb_value + value)
             elif lb == "fish_fished":
-                await self.badges.update_badge_fisherman(user_id, user_lb[lb] + value)
+                await self.badges.update_badge_fisherman(user_id, user_lb_value + value)
         elif mode == "sub":
             await self.db.execute(f"UPDATE leaderboards SET {lb} = {lb} - $1 WHERE user_id = $2", value, user_id)
         elif mode == "set":
