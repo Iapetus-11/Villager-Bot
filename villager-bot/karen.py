@@ -138,11 +138,12 @@ class MechaKaren:
         while True:
             await asyncio.sleep(60)
 
-            async with self.commands_lock:
-                commands_dump = list(self.comands.items())
-                self.commands.clear()
+            if self.commands:
+                self.logger.info("Dumping commands cache to database...")
 
-            print(commands_dump)
+                async with self.commands_lock:
+                    commands_dump = list(self.commands.items())
+                    self.commands.clear()
 
             await self.db.executemany("UPDATE leaderboards SET commands = commands + $2 WHERE user_id = $1", commands_dump)
 
