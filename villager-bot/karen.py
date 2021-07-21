@@ -143,6 +143,8 @@ class MechaKaren:
                 commands_dump = list(self.comands.items())
                 self.commands.clear()
 
+            print(commands_dump)
+
             await self.db.executemany("UPDATE leaderboards SET commands = commands + $2 WHERE user_id = $1", commands_dump)
 
     async def start(self, pp):
