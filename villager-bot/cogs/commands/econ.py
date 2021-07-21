@@ -1186,6 +1186,9 @@ class Econ(commands.Cog):
             self.ipc.eval(f"return pillages[{victim.id}] - 1"),
         )
 
+        pillager_pillages = pillager_pillages.result
+        victim_pillages = victim_pillages.result
+
         user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
         user_bees = 0 if user_bees is None else user_bees["amount"]
 
