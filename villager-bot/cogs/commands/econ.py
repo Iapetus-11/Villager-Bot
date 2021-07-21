@@ -1096,10 +1096,10 @@ class Econ(commands.Cog):
                 self.ipc.eval(f"active_effects[{ctx.author.id}]"),
             )
 
-            if lure_i_book is not None:
+            if lure_i_book.result is not None:
                 wait -= 2
 
-            if "seaweed" in active_effects:
+            if "seaweed" in active_effects.result:
                 wait -= 2
 
             await asyncio.sleep(wait)
@@ -1271,7 +1271,7 @@ class Econ(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_4)
             return
 
-        current_pots = await self.ipc.eval(f"active_effects[{ctx.author.id}]")
+        current_pots = (await self.ipc.eval(f"active_effects[{ctx.author.id}]")).result
 
         if thing in current_pots:
             await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
