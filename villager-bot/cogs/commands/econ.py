@@ -1096,7 +1096,7 @@ class Econ(commands.Cog):
                 self.ipc.eval(f"active_effects[{ctx.author.id}]"),
             )
 
-            if lure_i_book.result is not None:
+            if lure_i_book is not None:
                 wait -= 2
 
             if "seaweed" in active_effects.result:
