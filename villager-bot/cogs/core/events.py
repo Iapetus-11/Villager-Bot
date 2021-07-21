@@ -133,7 +133,7 @@ class Events(commands.Cog):
                 await self.bot.send_embed(
                     message.author, "Thanks for boosting the support server! You've received 1x **Barrel**!"
                 )
-                
+
                 return
 
         content_lower = message.content.lower()
