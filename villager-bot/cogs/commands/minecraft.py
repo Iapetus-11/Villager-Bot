@@ -107,9 +107,12 @@ class Minecraft(commands.Cog):
         print(jj)
 
         if not (jj["success"] and jj["online"]):
-            await ctx.reply(embed=discord.Embed(
-                color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined)
-            ), mention_author=False)
+            await ctx.reply(
+                embed=discord.Embed(
+                    color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined)
+                ),
+                mention_author=False,
+            )
 
             return
 
