@@ -147,7 +147,7 @@ class MechaKaren:
                         self.commands.clear()
 
                     await self.db.executemany(
-                        "INSERT INTO leaderboards (user_id, commands) VALUES ($1, $2) ON CONFLICT DO UPDATE leaderboards SET commands = commands + $2 WHERE user_id = $1",
+                        'INSERT INTO leaderboards (user_id, commands) VALUES ($1, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2 WHERE leaderboards.user_id = $1',
                         commands_dump,
                     )
         except Exception as e:
