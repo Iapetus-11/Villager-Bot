@@ -104,6 +104,8 @@ class Minecraft(commands.Cog):
             ) as res:  # fetch status from api
                 jj = await res.json()
 
+        print(jj)
+
         if not (jj["success"] and jj["online"]):
             await ctx.reply(embed=discord.Embed(
                 color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined)
