@@ -140,8 +140,6 @@ class MechaKaren:
                 await asyncio.sleep(60)
 
                 if self.commands:
-                    self.logger.info("Dumping commands cache to database...")
-
                     async with self.commands_lock:
                         commands_dump = list(self.commands.items())
                         user_ids = [(user_id,) for user_id in list(self.commands.keys())]
