@@ -135,20 +135,23 @@ class MechaKaren:
                 self.commands[packet.user_id] += 1
 
     async def commands_dump_loop(self):
-        while True:
-            await asyncio.sleep(60)
+        try:
+            while True:
+                await asyncio.sleep(60)
 
-            if self.commands:
-                self.logger.info("Dumping commands cache to database...")
+                if self.commands:
+                    self.logger.info("Dumping commands cache to database...")
 
-                async with self.commands_lock:
-                    commands_dump = list(self.commands.items())
-                    self.commands.clear()
+                    async with self.commands_lock:
+                        commands_dump = list(self.commands.items())
+                        self.commands.clear()
 
-                await self.db.executemany(
-                    "INSERT INTO leaderboards (user_id, commands) VALUES ($1, $2) ON CONFLICT DO UPDATE leaderboards SET commands = commands + $2 WHERE user_id = $1",
-                    commands_dump,
-                )
+                    await self.db.executemany(
+                        "INSERT INTO leaderboards (user_id, commands) VALUES ($1, $2) ON CONFLICT DO UPDATE leaderboards SET commands = commands + $2 WHERE user_id = $1",
+                        commands_dump,
+                    )
+        except Exception as e:
+            self.logger.error(format_exception(e))
 
     async def start(self, pp):
         self.db = await asyncpg.connect(
