@@ -284,6 +284,8 @@ class Useful(commands.Cog):
         get_stats_code = """
         import asyncio, psutil
 
+        print(f"hi from {bot.shard_ids}")
+
         proc = psutil.Process()
         with proc.oneshot():
             mem_usage = proc.memory_full_info().uss
