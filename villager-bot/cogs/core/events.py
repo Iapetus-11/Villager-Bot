@@ -78,11 +78,13 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
         await asyncio.sleep(1)
-
+    
         channel = None
 
         for c in guild.text_channels:
-            if "general" in c.name:
+            c_name = c.name.lower()
+            
+            if "general" in c_name or "chat" in c_name:
                 channel = c
                 break
 
