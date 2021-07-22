@@ -76,6 +76,34 @@ class Events(commands.Cog):
         self.after_ready.set()
 
     @commands.Cog.listener()
+    async def on_guild_join(self, guild):
+        await asyncio.sleep(1)
+
+        channel = None
+
+        for c in guild.text_channels:
+            if "general" in c.name:
+                channel = c
+                break
+
+        if channel is None:
+            for c in guild.text_channels:
+                if c.permissions_for(guild.me).send_messages:
+                    channel = c
+                    break
+
+        embed = discord.Embed(
+            color=self.d.cc,
+            description=f"Hey y'all! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
+            f"If you need any more help, check out the **[Support Server]({self.d.support})**!",
+        )
+
+        embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
+        embed.set_footer(text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits)")
+
+        await channel.send(embed=embed)
+
+    @commands.Cog.listener()
     async def on_member_update(self, before, after):
         if before.guild.id == self.d.support_server_id:
             if before.roles != after.roles:
@@ -100,6 +128,23 @@ class Events(commands.Cog):
 
         if isinstance(message.channel, discord.DMChannel):
             await self.ipc.send({"type": "dm-message", "user_id": message.author.id, "content": message.content})
+            
+            try:
+                prior_messages = len(await message.channel.history(limit=1, before=message.id).flatten())
+
+                if prior_messages:
+                    embed = discord.Embed(
+                        color=self.d.cc,
+                        description=f"Hey {message.author.mention}! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
+                        f"If you need any more help, check out the **[Support Server]({self.d.support})**!",
+                    )
+
+                    embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
+                    embed.set_footer(text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits)")
+
+                    await message.channel.send(embed=embed)
+            except (discord.errors.Forbidden, discord.errors.HTTPException):
+                pass
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:
