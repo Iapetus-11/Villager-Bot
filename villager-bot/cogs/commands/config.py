@@ -178,11 +178,11 @@ class Config(commands.Cog):
             return
 
         if cmd_true in disabled:
-            self.bot.disabled_commands[ctx.guild.id].pop(self.bot.disabled_commands[ctx.guild.id].index(cmd_true))
+            self.bot.disabled_commands[ctx.guild.id].remove(self.bot.disabled_commands[ctx.guild.id].index(cmd_true))
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, True)
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.reenable.format(cmd_true))
         else:
-            self.bot.disabled_commands[ctx.guild.id].append(cmd_true)
+            self.bot.disabled_commands[ctx.guild.id].add(cmd_true)
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, False)
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.disable.format(cmd_true))
 
