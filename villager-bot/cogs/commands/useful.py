@@ -281,6 +281,9 @@ class Useful(commands.Cog):
         uptime_seconds = (arrow.utcnow() - self.bot.start_time).total_seconds()
         uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
 
+        get_stats_code = """
+        import asyncio, psutil
+
         proc = psutil.Process()
         with proc.oneshot():
             mem_usage = proc.memory_full_info().uss
@@ -289,6 +292,19 @@ class Useful(commands.Cog):
             proc.cpu_percent()
             await asyncio.sleep(0.25)
             cpu_percent = proc.cpu_percent()
+
+        return mem_usage, threads, cpu_percent, len(asyncio.all_tasks())
+        """
+
+        res = await self.ipc.broadcast({"type": "exec", "code": get_stats_code})
+
+        counters = [0, 0, 0, 0]
+
+        for r in res.responses:
+            for i, r in enumerate(r.result):
+                counters[i] += r
+                
+        mem_usage, threads, cpu_percent, asyncio_tasks = counters
 
         embed = discord.Embed(color=self.d.cc)
 
@@ -310,9 +326,9 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000, 2)} MB`\n"
             f"{ctx.l.useful.stats.cpu}: `{round(cpu_percent / psutil.cpu_count(), 2)}%`\n"
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
-            f"{ctx.l.useful.stats.tasks}: `{len(asyncio.all_tasks())}`\n"
+            f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"
             f"{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n"
-            f"{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n"
+            f"{ctx.l.useful.stats.shards}: `{self.d.shard_count}`\n"
             f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
         )
 
