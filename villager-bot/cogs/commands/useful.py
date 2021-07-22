@@ -284,29 +284,38 @@ class Useful(commands.Cog):
         get_stats_code = """
         import asyncio, psutil
 
-        print(f"hi from {bot.shard_ids}")
-
         proc = psutil.Process()
         with proc.oneshot():
             mem_usage = proc.memory_full_info().uss
             threads = proc.num_threads()
 
             proc.cpu_percent()
-            await asyncio.sleep(0.25)
+            await asyncio.sleep(1)
             cpu_percent = proc.cpu_percent()
 
-        return mem_usage, threads, cpu_percent, len(asyncio.all_tasks())
+        return (
+            mem_usage,
+            threads,
+            cpu_percent,
+            len(asyncio.all_tasks()),
+            len(bot.guilds),
+            len(bot.users),
+            bot.message_count,
+            bot.command_count,
+            bot.latency,
+            len(bot.private_channels),
+        )
         """
 
         res = await self.ipc.broadcast({"type": "exec", "code": get_stats_code})
 
-        counters = [0, 0, 0, 0]
+        counters = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
         for r in res.responses:
             for i, r in enumerate(r.result):
                 counters[i] += r
 
-        mem_usage, threads, cpu_percent, asyncio_tasks = counters
+        mem_usage, threads, cpu_percent, asyncio_tasks, guild_count, user_count, message_count, command_count, latency_all, dm_count = counters
 
         embed = discord.Embed(color=self.d.cc)
 
@@ -314,12 +323,12 @@ class Useful(commands.Cog):
         embed.set_footer(text=ctx.l.misc.petus)
 
         col_1 = (
-            f"{ctx.l.useful.stats.servers}: `{len(self.bot.guilds)}`\n"
-            f"{ctx.l.useful.stats.dms}: `{len(self.bot.private_channels)}/128`\n"
-            f"{ctx.l.useful.stats.users}: `{len(self.bot.users)}`\n"
-            f"{ctx.l.useful.stats.msgs}: `{self.bot.message_count}`\n"
-            f"{ctx.l.useful.stats.cmds}: `{self.bot.command_count}` `({round((self.bot.command_count / (self.bot.message_count + .000001)) * 100, 2)}%)`\n"
-            f"{ctx.l.useful.stats.cmds_sec}: `{round(self.bot.command_count / uptime_seconds, 2)}`\n"
+            f"{ctx.l.useful.stats.servers}: `{guild_count}`\n"
+            f"{ctx.l.useful.stats.dms}: `{dm_count}/128`\n"
+            f"{ctx.l.useful.stats.users}: `{user_count}`\n"
+            f"{ctx.l.useful.stats.msgs}: `{message_count}`\n"
+            f"{ctx.l.useful.stats.cmds}: `{command_count}` `({round((command_count / (message_count + .000001)) * 100, 2)}%)`\n"
+            f"{ctx.l.useful.stats.cmds_sec}: `{round(command_count / uptime_seconds, 2)}`\n"
             f"{ctx.l.useful.stats.votes}: `{self.bot.session_votes}`\n"
             f"{ctx.l.useful.stats.topgg}: `{round((self.bot.session_votes / uptime_seconds) * 3600, 2)}`\n"
         )
@@ -329,7 +338,7 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.stats.cpu}: `{round(cpu_percent / psutil.cpu_count(), 2)}%`\n"
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
             f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"
-            f"{ctx.l.useful.stats.ping}: `{round(self.bot.latency * 1000, 2)} ms`\n"
+            f"{ctx.l.useful.stats.ping}: `{round((latency_all/len(res.responses)) * 1000, 2)} ms`\n"
             f"{ctx.l.useful.stats.shards}: `{self.d.shard_count}`\n"
             f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
         )
