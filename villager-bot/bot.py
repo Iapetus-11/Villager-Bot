@@ -179,14 +179,14 @@ class VillagerBotCluster(commands.AutoShardedBot):
     async def send_embed(self, location, message: str, *, ignore_exceptions: bool = False) -> None:
         try:
             await location.send(embed=discord.Embed(color=self.d.cc, description=message))
-        except Exception as e:
+        except (discord.errors.Forbidden, discord.errors.HTTPException):
             if not ignore_exceptions:
                 raise
 
     async def reply_embed(self, location, message: str, ping: bool = False, *, ignore_exceptions: bool = False) -> None:
         try:
             await location.reply(embed=discord.Embed(color=self.d.cc, description=message), mention_author=ping)
-        except Exception as e:
+        except (discord.errors.Forbidden, discord.errors.HTTPException):
             if not ignore_exceptions:
                 raise
 
