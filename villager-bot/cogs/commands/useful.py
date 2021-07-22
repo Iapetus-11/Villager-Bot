@@ -316,7 +316,19 @@ class Useful(commands.Cog):
             for i, r in enumerate(r.result):
                 counters[i] += r
 
-        mem_usage, threads, cpu_percent, asyncio_tasks, guild_count, user_count, message_count, command_count, latency_all, dm_count, session_votes = counters
+        (
+            mem_usage,
+            threads,
+            cpu_percent,
+            asyncio_tasks,
+            guild_count,
+            user_count,
+            message_count,
+            command_count,
+            latency_all,
+            dm_count,
+            session_votes,
+        ) = counters
 
         embed = discord.Embed(color=self.d.cc)
 
