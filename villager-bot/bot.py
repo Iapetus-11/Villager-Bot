@@ -177,18 +177,11 @@ class VillagerBotCluster(commands.AutoShardedBot):
         return self.l["en"]
 
     async def send_embed(self, location, message: str) -> None:
-        try:
-            await location.send(embed=discord.Embed(color=self.d.cc, description=message))
-            return True
-        except (discord.errors.Forbidden, discord.errors.HTTPException):
-            return False
+        await location.send(embed=discord.Embed(color=self.d.cc, description=message))
 
     async def reply_embed(self, location, message: str, ping: bool = False) -> None:
-        try:
-            await location.reply(embed=discord.Embed(color=self.d.cc, description=message), mention_author=ping)
-            return True
-        except (discord.errors.Forbidden, discord.errors.HTTPException):
-            return False
+        await location.reply(embed=discord.Embed(color=self.d.cc, description=message), mention_author=ping)
+
 
     async def send_tip(self, ctx) -> None:
         await asyncio.sleep(random.randint(100, 200) / 100)
