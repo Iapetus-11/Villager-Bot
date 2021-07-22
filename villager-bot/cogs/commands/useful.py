@@ -292,7 +292,6 @@ class Useful(commands.Cog):
         return (
             mem_usage,
             threads,
-            psutil.getloadavg()[0],
             len(asyncio.all_tasks()),
             len(bot.guilds),
             len(bot.users),
@@ -306,7 +305,7 @@ class Useful(commands.Cog):
 
         res = await self.ipc.broadcast({"type": "exec", "code": get_stats_code})
 
-        counters = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        counters = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
         for r in res.responses:
             for i, r in enumerate(r.result):
@@ -315,7 +314,6 @@ class Useful(commands.Cog):
         (
             mem_usage,
             threads,
-            cpu_usage,
             asyncio_tasks,
             guild_count,
             user_count,
@@ -344,7 +342,7 @@ class Useful(commands.Cog):
 
         col_2 = (
             f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000, 2)} MB`\n"
-            f"{ctx.l.useful.stats.cpu}: `{round(cpu_usage / psutil.cpu_count() * 100, 2)}%`\n"
+            f"{ctx.l.useful.stats.cpu}: `{round(psutil.getloadavg()[0] / psutil.cpu_count() * 100, 2)}%`\n"
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
             f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"
             f"{ctx.l.useful.stats.ping}: `{round((latency_all/len(res.responses)) * 1000, 2)} ms`\n"
