@@ -113,7 +113,11 @@ class Events(commands.Cog):
             embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
             embed.set_footer(text=lang.misc.petus)
 
-            await message.channel.send(embed=embed)
+            try:
+                await message.channel.send(embed=embed)
+            except (discord.errors.Forbidden, discord.errors.HTTPException):
+                pass
+            
             return
 
         if message.guild is None:
@@ -151,25 +155,32 @@ class Events(commands.Cog):
             ]
 
             if len(someones) > 0:
-                await message.channel.send(
-                    f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}"
-                )
+                try:
+                    await message.channel.send(
+                        f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}"
+                    )
+                except (discord.errors.Forbidden, discord.errors.HTTPException):
+                    pass
+
                 return
 
         if message.guild.id in self.bot.replies_cache:
             prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
 
             if not message.content.startswith(prefix):
-                if "emerald" in content_lower:
-                    await message.channel.send(random.choice(self.d.hmms))
-                elif "creeper" in content_lower:
-                    await message.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
-                elif "reee" in content_lower:
-                    await message.channel.send(random.choice(self.d.emojis.reees))
-                elif "amogus" in content_lower or content_lower == "sus":
-                    await message.channel.send(self.d.emojis.amogus)
-                elif content_lower == "good bot":
-                    await message.reply(random.choice(self.d.owos), mention_author=False)
+                try:
+                    if "emerald" in content_lower:
+                        await message.channel.send(random.choice(self.d.hmms))
+                    elif "creeper" in content_lower:
+                        await message.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
+                    elif "reee" in content_lower:
+                        await message.channel.send(random.choice(self.d.emojis.reees))
+                    elif "amogus" in content_lower or content_lower == "sus":
+                        await message.channel.send(self.d.emojis.amogus)
+                    elif content_lower == "good bot":
+                        await message.reply(random.choice(self.d.owos), mention_author=False)
+                except (discord.errors.Forbidden, discord.errors.HTTPException):
+                    pass
 
     async def handle_cooldown(self, ctx, remaining: float, karen_cooldown: bool) -> None:
         if ctx.command.name == "mine":
