@@ -144,6 +144,9 @@ class TTLPreventDuplicate:
     def put(self, obj):
         self.store[obj] = time.time()
 
+    def check(self, obj):
+        return obj in self.store
+
     async def run(self):
         try:
             while True:
