@@ -190,7 +190,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
         except (discord.errors.Forbidden, discord.errors.HTTPException):
             return False
 
-
     async def send_tip(self, ctx) -> None:
         await asyncio.sleep(random.randint(100, 200) / 100)
         await self.send_embed(ctx, f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
