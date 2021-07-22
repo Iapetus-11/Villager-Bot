@@ -14,6 +14,7 @@ from util.setup import villager_bot_intents, setup_logging, setup_database_pool
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.setup import load_text, load_secrets, load_data
 from util.code import execute_code, format_exception
+from util.misc import TTLPreventDuplicate
 from util.ipc import Client
 
 
@@ -78,6 +79,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.statcord = None  # StatcordClusterClient instance
         self.db = None  # asyncpg database connection pool
         self.tp = None  # ThreadPoolExecutor instance
+        self.prevent_spawn_duplicates = TTLPreventDuplicate(25, 10)
 
         # caches
         self.ban_cache = set()  # {user_id, user_id,..}
@@ -97,7 +99,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.message_count = 0
         self.error_count = 0
         self.session_votes = 0
-        self.spawn_queue = set()  # {ctx, ctx,..}
 
         self.add_check(self.check_global)  # register global check
         self.before_invoke(self.before_command_invoked)  # register self.before_command_invoked as a before_invoked event
@@ -119,6 +120,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
     async def start(self, *args, **kwargs):
         await self.ipc.connect(self.k.manager.auth, self.shard_ids)
         self.db = await setup_database_pool(self.k, self.max_db_pool_size)
+        asyncio.create_task(self.prevent_spawn_duplicates.run())
 
         self.statcord = StatcordClusterClient(self, self.k.statcord, ".".join(map(str, self.shard_ids)))
 
@@ -231,7 +233,9 @@ class VillagerBotCluster(commands.AutoShardedBot):
 
             if random.randint(0, self.d.mob_chance) == 0:  # spawn mob?
                 if self.d.cooldown_rates.get(command, 0) >= 2:
-                    self.spawn_queue.add(ctx)
+                    if self.prevent_spawn_duplicates.check(ctx.channel.id):
+                        self.prevent_spawn_duplicates.put(ctx.channel.id)
+                        asyncio.create_task(self.bot.get_cog("Mobs").spawn_event(ctx))
             elif random.randint(0, self.d.tip_chance) == 0:  # send tip?
                 asyncio.create_task(self.send_tip(ctx))
 
