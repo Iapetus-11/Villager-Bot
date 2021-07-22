@@ -83,7 +83,7 @@ class Events(commands.Cog):
 
         for c in guild.text_channels:
             c_name = c.name.lower()
-            
+
             if "general" in c_name or "chat" in c_name:
                 channel = c
                 break
@@ -102,7 +102,7 @@ class Events(commands.Cog):
 
         embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
         embed.set_footer(
-            text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits) | Check the {self.d.default_prefix}rules"
+            text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits)  |  Check the {self.d.default_prefix}rules"
         )
 
         await channel.send(embed=embed)
@@ -145,7 +145,7 @@ class Events(commands.Cog):
 
                     embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
                     embed.set_footer(
-                        text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits) | Check the {self.d.default_prefix}rules"
+                        text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits)  |  Check the {self.d.default_prefix}rules"
                     )
 
                     await message.channel.send(embed=embed)
