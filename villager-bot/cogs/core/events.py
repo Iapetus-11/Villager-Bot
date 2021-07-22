@@ -136,7 +136,7 @@ class Events(commands.Cog):
             try:
                 prior_messages = len(await message.channel.history(limit=1, before=message).flatten())
 
-                if prior_messages:
+                if prior_messages < 1:
                     embed = discord.Embed(
                         color=self.d.cc,
                         description=f"Hey {message.author.mention}! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
