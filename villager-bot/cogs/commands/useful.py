@@ -310,7 +310,7 @@ class Useful(commands.Cog):
 
         res = await self.ipc.broadcast({"type": "exec", "code": get_stats_code})
 
-        counters = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        counters = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
         for r in res.responses:
             for i, r in enumerate(r.result):
