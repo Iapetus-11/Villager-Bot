@@ -134,7 +134,7 @@ class Events(commands.Cog):
             await self.ipc.send({"type": "dm-message", "user_id": message.author.id, "content": message.content})
 
             try:
-                prior_messages = len(await message.channel.history(limit=1, before=message.id).flatten())
+                prior_messages = len(await message.channel.history(limit=1, before=message).flatten())
 
                 if prior_messages:
                     embed = discord.Embed(
