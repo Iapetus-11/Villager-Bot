@@ -225,7 +225,7 @@ class Events(commands.Cog):
         elif seconds > 0:
             time += f"{round(seconds, 2)} {ctx.l.misc.time.seconds}"
 
-        await self.bot.reply_embed(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time))
+        await self.bot.reply_embed(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time), ignore_exceptions=True)
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e: Exception):
@@ -235,9 +235,9 @@ class Events(commands.Cog):
             e = ctx.custom_error
 
         if isinstance(e, commands.CommandOnCooldown):
-            await self.handle_cooldown(ctx, e.retry_after, False, ignore_exceptions=True)
+            await self.handle_cooldown(ctx, e.retry_after, False)
         elif isinstance(e, CommandOnKarenCooldown):
-            await self.handle_cooldown(ctx, e.remaining, True, ignore_exceptions=True)
+            await self.handle_cooldown(ctx, e.remaining, True)
         elif isinstance(e, commands.NoPrivateMessage):
             await self.bot.reply_embed(ctx, ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
