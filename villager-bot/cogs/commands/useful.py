@@ -290,6 +290,7 @@ class Useful(commands.Cog):
             threads = proc.num_threads()
 
             proc.cpu_percent()
+            proc.cpu_percent()
             await asyncio.sleep(1)
             cpu_percent = proc.cpu_percent()
 
