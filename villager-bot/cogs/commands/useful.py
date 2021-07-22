@@ -289,15 +289,10 @@ class Useful(commands.Cog):
             mem_usage = proc.memory_full_info().uss
             threads = proc.num_threads()
 
-            proc.cpu_percent()
-            proc.cpu_percent()
-            await asyncio.sleep(1)
-            cpu_percent = proc.cpu_percent()
-
         return (
             mem_usage,
             threads,
-            cpu_percent,
+            psutil.getloadavg()[0],
             len(asyncio.all_tasks()),
             len(bot.guilds),
             len(bot.users),
@@ -320,7 +315,7 @@ class Useful(commands.Cog):
         (
             mem_usage,
             threads,
-            cpu_percent,
+            cpu_usage,
             asyncio_tasks,
             guild_count,
             user_count,
@@ -349,7 +344,7 @@ class Useful(commands.Cog):
 
         col_2 = (
             f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000, 2)} MB`\n"
-            f"{ctx.l.useful.stats.cpu}: `{round(cpu_percent / psutil.cpu_count(), 2)}%`\n"
+            f"{ctx.l.useful.stats.cpu}: `{round(cpu_usage / psutil.cpu_count() * 100, 2)}%`\n"
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
             f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"
             f"{ctx.l.useful.stats.ping}: `{round((latency_all/len(res.responses)) * 1000, 2)} ms`\n"
