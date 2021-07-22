@@ -26,6 +26,9 @@ BAD_ARG_ERRORS = (
 
 INVISIBLITY_CLOAK = ("||||\u200B" * 200)[2:-3]
 
+global after_ready_set
+after_ready_set = False
+
 
 class Events(commands.Cog):
     def __init__(self, bot):
@@ -37,6 +40,9 @@ class Events(commands.Cog):
         self.db = bot.get_cog("Database")
 
         self.after_ready = asyncio.Event()
+
+        if after_ready_set:
+            self.after_ready.set()
 
         bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
 
@@ -74,6 +80,8 @@ class Events(commands.Cog):
         self.bot.dm_log_channel = await self.bot.fetch_channel(self.d.dm_log_channel_id)
 
         self.after_ready.set()
+        global after_ready_set
+        after_ready_set = True
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
