@@ -101,7 +101,9 @@ class Events(commands.Cog):
         )
 
         embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
-        embed.set_footer(text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits) | Check the {self.d.default_prefix}rules")
+        embed.set_footer(
+            text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits) | Check the {self.d.default_prefix}rules"
+        )
 
         await channel.send(embed=embed)
 
@@ -142,7 +144,9 @@ class Events(commands.Cog):
                     )
 
                     embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
-                    embed.set_footer(text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits) | Check the {self.d.default_prefix}rules")
+                    embed.set_footer(
+                        text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits) | Check the {self.d.default_prefix}rules"
+                    )
 
                     await message.channel.send(embed=embed)
             except (discord.errors.Forbidden, discord.errors.HTTPException):
