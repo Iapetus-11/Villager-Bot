@@ -13,10 +13,10 @@ class Useful(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.db = bot.get_cog("Database")
+        self.ipc = bot.ipc
 
         self.google = async_cse.Search(bot.k.google_search)
-
-        self.db = bot.get_cog("Database")
 
         self.snipes = {}
         self.clear_snipes.start()
