@@ -104,7 +104,7 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 
 [[package]]
 name = "betterstatcord.py"
-version = "3.1.0"
+version = "3.2.0"
 description = "A better Statcord API library for Python + Discord.py"
 category = "main"
 optional = false
@@ -432,7 +432,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7.3"
-content-hash = "c11b6524d1c46c9ac0531b890dc3166a7dee89bb6594ae3a994a35d0055bc8a9"
+content-hash = "5acef50a6cbf91c00b64bd02da522d16f51642fc380cc768ed3830b2429d8150"
 
 [metadata.files]
 aio-mc-rcon = [
@@ -519,8 +519,8 @@ attrs = [
     {file = "attrs-21.2.0.tar.gz", hash = "sha256:ef6aaac3ca6cd92904cdd0d83f629a15f18053ec84e6432106f7a4d04ae4f5fb"},
 ]
 "betterstatcord.py" = [
-    {file = "BetterStatcord.py-3.1.0-py3-none-any.whl", hash = "sha256:747c931245399eb3d44cf24fdc275e0f82308eff8a7681a0a3827798c14ae1bb"},
-    {file = "BetterStatcord.py-3.1.0.tar.gz", hash = "sha256:03fd8dd62463adeafac5b938575136d4518a2b30b9663666c7a096195dead73e"},
+    {file = "BetterStatcord.py-3.2.0-py3-none-any.whl", hash = "sha256:b24ca9da82b08a53511bc8e1c145d4af865e815243101e59888096d9e5dc9d17"},
+    {file = "BetterStatcord.py-3.2.0.tar.gz", hash = "sha256:73c22e7abb6701f30baeca70283faf24774bd522fdce0291d1ca39c5663e7788"},
 ]
 black = [
     {file = "black-21.6b0-py3-none-any.whl", hash = "sha256:dfb8c5a069012b2ab1e972e7b908f5fb42b6bbabcba0a788b86dc05067c7d9c7"},

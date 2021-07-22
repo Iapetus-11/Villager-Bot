@@ -19,7 +19,7 @@ cryptography = "^3.4.7"
 Cython = "^0.29.23"
 numpy = "^1.20.3"
 opencv-python = "^4.5.2"
-"betterstatcord.py" = "^3.1.0"
+"betterstatcord.py" = "^3.2.0"
 
 [tool.poetry.dev-dependencies]
 black = "^21.5b1"
