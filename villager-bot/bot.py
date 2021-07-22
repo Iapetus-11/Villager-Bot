@@ -182,7 +182,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
     async def reply_embed(self, location, message: str, ping: bool = False) -> None:
         await location.reply(embed=discord.Embed(color=self.d.cc, description=message), mention_author=ping)
 
-
     async def send_tip(self, ctx) -> None:
         await asyncio.sleep(random.randint(100, 200) / 100)
         await self.send_embed(ctx, f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
