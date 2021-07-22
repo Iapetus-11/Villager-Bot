@@ -76,7 +76,7 @@ def lb_logic(self: object, lb_list: list, u_entry: object, rank_fstr: str):
 def calc_total_wealth(db_user, u_items):
     return (
         db_user["emeralds"]
-        + db_user.get("vault_bal", 0) * 9
+        + db_user["vault_balance"] * 9
         + sum([u_it["sell_price"] * u_it.get("amount", 0) for u_it in u_items if u_it["sell_price"] > 0])
     )
 
