@@ -28,6 +28,9 @@ class Mod(commands.Cog):
     async def purge(self, ctx, amount: int):
         """Purges the given amount of messages from the current channel"""
 
+        if amount < 1:
+            return
+
         try:
             await ctx.channel.purge(limit=amount + 1)
         except asyncio.queues.QueueEmpty:
