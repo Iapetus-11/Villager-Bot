@@ -303,7 +303,7 @@ class Useful(commands.Cog):
         for r in res.responses:
             for i, r in enumerate(r.result):
                 counters[i] += r
-                
+
         mem_usage, threads, cpu_percent, asyncio_tasks = counters
 
         embed = discord.Embed(color=self.d.cc)
