@@ -1,5 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from statcord import StatcordClusterClient
+from collections import defaultdict
 from classyjson import ClassyDict
 from discord.ext import commands
 import pyximport
@@ -85,7 +86,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.ban_cache = set()  # {user_id, user_id,..}
         self.language_cache = {}  # {guild_id: "lang"}
         self.prefix_cache = {}  # {guild_id: "prefix"}
-        self.disabled_commands = {}  # {guild_id: {command, command,..}}
+        self.disabled_commands = defaultdict(set)  # {guild_id: {command, command,..}}
         self.replies_cache = set()  # {guild_id, guild_id,..}
         self.rcon_cache = {}  # {(user_id, mc_server): rcon_client}
 

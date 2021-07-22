@@ -155,7 +155,6 @@ class Config(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.not_prem)
             return
 
-        self.bot.disabled_commands[ctx.guild.id] = self.bot.disabled_commands.get(ctx.guild.id, set())  # ensure
         disabled = self.bot.disabled_commands[ctx.guild.id]
 
         if cmd is None:
