@@ -304,6 +304,7 @@ class Useful(commands.Cog):
             bot.command_count,
             bot.latency,
             len(bot.private_channels),
+            bot.session_votes
         )
         """
 
@@ -315,7 +316,7 @@ class Useful(commands.Cog):
             for i, r in enumerate(r.result):
                 counters[i] += r
 
-        mem_usage, threads, cpu_percent, asyncio_tasks, guild_count, user_count, message_count, command_count, latency_all, dm_count = counters
+        mem_usage, threads, cpu_percent, asyncio_tasks, guild_count, user_count, message_count, command_count, latency_all, dm_count, session_votes = counters
 
         embed = discord.Embed(color=self.d.cc)
 
@@ -329,8 +330,8 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.stats.msgs}: `{message_count}`\n"
             f"{ctx.l.useful.stats.cmds}: `{command_count}` `({round((command_count / (message_count + .000001)) * 100, 2)}%)`\n"
             f"{ctx.l.useful.stats.cmds_sec}: `{round(command_count / uptime_seconds, 2)}`\n"
-            f"{ctx.l.useful.stats.votes}: `{self.bot.session_votes}`\n"
-            f"{ctx.l.useful.stats.topgg}: `{round((self.bot.session_votes / uptime_seconds) * 3600, 2)}`\n"
+            f"{ctx.l.useful.stats.votes}: `{session_votes}`\n"
+            f"{ctx.l.useful.stats.topgg}: `{round((session_votes / uptime_seconds) * 3600, 2)}`\n"
         )
 
         col_2 = (
