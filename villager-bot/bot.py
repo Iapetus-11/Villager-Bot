@@ -121,7 +121,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.db = await setup_database_pool(self.k, self.max_db_pool_size)
 
         self.statcord = StatcordClusterClient(
-            self, self.k.statcord, ".".join(map(str, self.shard_ids)), resource_stats=(0 in self.shard_ids)
+            self, self.k.statcord, ".".join(map(str, self.shard_ids))
         )
 
         for cog in self.cog_list:
