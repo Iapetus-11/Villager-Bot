@@ -1,6 +1,8 @@
 import classyjson as cj
+import asyncio
 import discord
 import math
+import time
 
 
 def strip_command(ctx):  # returns message.clean_content excluding the command used
@@ -129,4 +131,26 @@ async def update_support_member_role(bot, member):
         try:
             await member.edit(roles=roles)
         except (discord.Forbidden, discord.HTTPException):
+            pass
+
+
+class TTLPreventDuplicate:
+    def __init__(self, expire_after: float, max_size: int):
+        self.expire_after = expire_after
+        self.max_size = max_size
+
+        self.store = {}
+
+    def put(self, obj):
+        self.store[obj] = time.time()
+
+    async def run(self):
+        try:
+            while True:
+                for k, v in list(self.store.items()):
+                    if (time.time() - v) > self.expire_after:
+                        del self.store[k]
+
+                await asyncio.sleep(1)
+        except asyncio.CancelledError:
             pass
