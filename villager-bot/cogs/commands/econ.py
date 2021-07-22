@@ -67,11 +67,11 @@ class Econ(commands.Cog):
                 return False
 
             if m.content != prob[1]:
-                await self.bot.reply_embed(ctx, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
+                await self.bot.reply_embed(m, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
                 return False
 
             await self.ipc.exec(f"mine_commands[{ctx.author.id}] = 0")
-            await self.bot.reply_embed(ctx, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
+            await self.bot.reply_embed(m, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
 
         return True
 
