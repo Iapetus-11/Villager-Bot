@@ -117,7 +117,7 @@ class Events(commands.Cog):
                 await message.channel.send(embed=embed)
             except (discord.errors.Forbidden, discord.errors.HTTPException):
                 pass
-            
+
             return
 
         if message.guild is None:
@@ -235,23 +235,23 @@ class Events(commands.Cog):
             e = ctx.custom_error
 
         if isinstance(e, commands.CommandOnCooldown):
-            await self.handle_cooldown(ctx, e.retry_after, False)
+            await self.handle_cooldown(ctx, e.retry_after, False, ignore_exceptions=True)
         elif isinstance(e, CommandOnKarenCooldown):
-            await self.handle_cooldown(ctx, e.remaining, True)
+            await self.handle_cooldown(ctx, e.remaining, True, ignore_exceptions=True)
         elif isinstance(e, commands.NoPrivateMessage):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.private)
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.user_perms)
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.user_perms, ignore_exceptions=True)
         elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms)
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms)
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif isinstance(e, (commands.MaxConcurrencyReached, MaxKarenConcurrencyReached)):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
         elif isinstance(e, commands.MissingRequiredArgument):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.missing_arg)
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.missing_arg, ignore_exceptions=True)
         elif isinstance(e, BAD_ARG_ERRORS):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.bad_arg)
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.bad_arg, ignore_exceptions=True)
         elif hasattr(ctx, "failure_reason") and ctx.failure_reason:  # handle global check failures
             failure_reason = ctx.failure_reason
 
@@ -259,20 +259,16 @@ class Events(commands.Cog):
                 return
             elif failure_reason == "not_ready":
                 await self.bot.wait_until_ready()
-                await self.bot.reply_embed(ctx, ctx.l.misc.errors.not_ready)
+                await self.bot.reply_embed(ctx, ctx.l.misc.errors.not_ready, ignore_exceptions=True)
             elif failure_reason == "econ_paused":
-                await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
+                await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
             elif failure_reason == "disabled":
-                await self.bot.reply_embed(ctx, ctx.l.misc.errors.disabled)
+                await self.bot.reply_embed(ctx, ctx.l.misc.errors.disabled, ignore_exceptions=True)
         elif isinstance(e, IGNORED_ERRORS) or isinstance(getattr(e, "original", None), IGNORED_ERRORS):
             return
         else:  # no error was caught so log error in error channel
             await self.bot.wait_until_ready()
-
-            try:
-                await self.bot.reply_embed(ctx, ctx.l.misc.errors.andioop.format(self.d.support))
-            except Exception:
-                pass
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.andioop.format(self.d.support), ignore_exceptions=True)
 
             debug_info = (
                 f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}"[:200]
