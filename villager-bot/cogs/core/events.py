@@ -78,7 +78,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
         await asyncio.sleep(1)
-    
+
         channel = None
 
         for c in guild.text_channels:
