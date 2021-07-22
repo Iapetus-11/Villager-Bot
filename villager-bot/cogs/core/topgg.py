@@ -90,11 +90,17 @@ class Webhooks(commands.Cog):
             try:
                 if streak is None:
                     await self.db.balance_add(user_id, amount)
-                    await self.bot.send_embed(user, f"Thanks for voting! You've received **{amount}**{self.d.emojis.emerald}!", ignore_exceptions=True)
+                    await self.bot.send_embed(
+                        user,
+                        f"Thanks for voting! You've received **{amount}**{self.d.emojis.emerald}!",
+                        ignore_exceptions=True,
+                    )
                 elif streak % 16 == 0:
                     barrels = int(streak // 32 + 1)
                     await self.db.add_item(user.id, "Barrel", 1024, barrels)
-                    await self.bot.send_embed(user, f"Thanks for voting! You've received {barrels}x **Barrel**!", ignore_exceptions=True)
+                    await self.bot.send_embed(
+                        user, f"Thanks for voting! You've received {barrels}x **Barrel**!", ignore_exceptions=True
+                    )
                 else:
                     await self.db.balance_add(user_id, amount)
                     await self.bot.send_embed(
