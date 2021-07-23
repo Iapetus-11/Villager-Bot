@@ -61,6 +61,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
             "cogs.core.events",
             "cogs.core.loops",
             "cogs.core.badges",
+            "cogs.core.mobs",
             "cogs.commands.owner",
             "cogs.commands.useful",
             "cogs.commands.config",
@@ -241,7 +242,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
                 if self.d.cooldown_rates.get(command, 0) >= 2:
                     if not self.prevent_spawn_duplicates.check(ctx.channel.id):
                         self.prevent_spawn_duplicates.put(ctx.channel.id)
-                        asyncio.create_task(self.get_cog("Mobs").spawn_event(ctx))
+                        asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
             elif random.randint(0, self.d.tip_chance) == 0:  # send tip?
                 asyncio.create_task(self.send_tip(ctx))
 
