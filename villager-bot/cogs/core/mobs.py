@@ -133,7 +133,6 @@ class MobSpawner(commands.Cog):
                 continue
 
             break
-    
 
         # fetch user's sword, slime trophy, and suppress the engage message
         user_sword, slime_trophy, _ = await asyncio.gather(
@@ -143,7 +142,7 @@ class MobSpawner(commands.Cog):
         )
 
         await self.ipc.exec(f"econ_paused_users[{ctx.author.id}] = {time.time()}")
-            
+
         try:
             for iteration in itertools.count(start=1):
                 # create embed with mob image
@@ -322,7 +321,9 @@ class MobSpawner(commands.Cog):
 
                     await self.db.add_item(user.id, "Slime Ball", 5, balls_won, True)
 
-                    await self.bot.send_embed(ctx, random.choice(ctx.l.mobs_mech.found).format(balls_won, self.d.emojis.slimeball))
+                    await self.bot.send_embed(
+                        ctx, random.choice(ctx.l.mobs_mech.found).format(balls_won, self.d.emojis.slimeball)
+                    )
             else:  # mob win
                 if difficulty == "easy":  # haha code copying go brrrrrrrrr
                     ems_lost = (
