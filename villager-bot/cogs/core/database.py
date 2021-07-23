@@ -296,24 +296,20 @@ class Database(commands.Cog):
             await self.db.execute("INSERT INTO leaderboards (user_id) VALUES ($1)", user_id)
 
     async def update_lb(self, user_id: int, lb: str, value: int, mode: str = "add") -> None:
-        user_lb = await self.fetch_user_lb(user_id)  # ensure lb entry exists + we need this for later
+        await self.fetch_user_lb(user_id)  # ensure lb entry exists
 
         if mode == "add":
-            await self.db.execute(
+            user_lb_value = await self.db.fetchval(
                 f"UPDATE leaderboards SET {lb} = {lb} + $1 WHERE user_id = $2 RETURNING {lb}", value, user_id
             )
 
-            if user_lb is None:
-                user_lb_value = 0
-            else:
-                user_lb_value = user_lb[lb]
-
             if lb == "pillaged_emeralds":
-                await self.badges.update_badge_pillager(user_id, user_lb_value + value)
+                await self.badges.update_badge_pillager(user_id, user_lb_value)
             elif lb == "mobs_killed":
-                await self.badges.update_badge_murderer(user_id, user_lb_value + value)
+                await self.badges.update_badge_murderer(user_id, user_lb_value)
             elif lb == "fish_fished":
-                await self.badges.update_badge_fisherman(user_id, user_lb_value + value)
+                print("fishy_fished", user_lb_value)
+                await self.badges.update_badge_fisherman(user_id, user_lb_value )
         elif mode == "sub":
             await self.db.execute(f"UPDATE leaderboards SET {lb} = {lb} - $1 WHERE user_id = $2", value, user_id)
         elif mode == "set":
