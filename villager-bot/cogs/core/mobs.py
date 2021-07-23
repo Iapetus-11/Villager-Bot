@@ -16,6 +16,7 @@ class MobSpawner(commands.Cog):
 
         self.d = bot.d
         self.db = bot.get_cog("Database")
+        self.ipc = bot.ipc
 
     def engage_check(self, ctx):
         async def predicate(m):
