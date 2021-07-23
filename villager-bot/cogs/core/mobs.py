@@ -20,7 +20,6 @@ class MobSpawner(commands.Cog):
 
     def engage_check(self, ctx):
         async def predicate(m):
-            print("inside engage check predicate:", ctx)
             if m.channel != ctx.channel:
                 return False
 

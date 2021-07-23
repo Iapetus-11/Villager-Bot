@@ -308,7 +308,6 @@ class Database(commands.Cog):
             elif lb == "mobs_killed":
                 await self.badges.update_badge_murderer(user_id, user_lb_value)
             elif lb == "fish_fished":
-                print("fishy_fished", user_lb_value)
                 await self.badges.update_badge_fisherman(user_id, user_lb_value )
         elif mode == "sub":
             await self.db.execute(f"UPDATE leaderboards SET {lb} = {lb} - $1 WHERE user_id = $2", value, user_id)
