@@ -1582,7 +1582,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="commands", aliases=["!!", "cmds"])
-    async def leaderboard_mobkills(self, ctx):
+    async def leaderboard_commands(self, ctx):
         async with ctx.typing():
             cmds_global, global_u_entry = await self.db.fetch_global_lb("commands", ctx.author.id)
             cmds_local, local_u_entry = await self.db.fetch_local_lb(
