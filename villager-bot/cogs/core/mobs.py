@@ -143,7 +143,7 @@ class MobSpawner(commands.Cog):
         # fetch user's sword, slime trophy, and suppress the engage message
         user_sword, slime_trophy, _ = await asyncio.gather(
             self.db.fetch_sword(user.id),
-            self.db.fetch_item(user.id),
+            self.db.fetch_item(user.id, "Slime Trophy"),
             engage_msg.edit(suppress=True),
         )
 
