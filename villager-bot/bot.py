@@ -200,7 +200,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.command_count += 1
 
         ctx.l = self.get_language(ctx)
-        command = ctx.command.name
+        command = str(ctx.command)
 
         if ctx.author.id in self.ban_cache:
             ctx.failure_reason = "bot_banned"
@@ -251,9 +251,9 @@ class VillagerBotCluster(commands.AutoShardedBot):
         return True
 
     async def before_command_invoked(self, ctx):
-        if ctx.command.name in self.d.concurrency_limited:
-            await self.ipc.send({"type": "concurrency-acquire", "command": ctx.command.name, "user_id": ctx.author.id})
+        if str(ctx.command) in self.d.concurrency_limited:
+            await self.ipc.send({"type": "concurrency-acquire", "command": str(ctx.command), "user_id": ctx.author.id})
 
     async def after_command_invoked(self, ctx):
-        if ctx.command.name in self.d.concurrency_limited:
-            await self.ipc.send({"type": "concurrency-release", "command": ctx.command.name, "user_id": ctx.author.id})
+        if str(ctx.command) in self.d.concurrency_limited:
+            await self.ipc.send({"type": "concurrency-release", "command": str(ctx.command), "user_id": ctx.author.id})
