@@ -37,7 +37,7 @@ class MobSpawner(commands.Cog):
 
             return True
 
-        return commands.check(predicate)
+        return predicate
 
     def attack_check(self, ctx, engage_msg):
         def predicate(m):
@@ -52,7 +52,7 @@ class MobSpawner(commands.Cog):
 
             return True
 
-        return commands.check(predicate)
+        return predicate
 
     async def calculate_sword_damage(self, user_id: int, sword: str, multi: float) -> int:
         if sword == "Netherite Sword":
