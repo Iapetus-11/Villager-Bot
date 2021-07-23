@@ -81,6 +81,8 @@ class MobSpawner(commands.Cog):
         return math.ceil(damage)
 
     async def spawn_event(self, ctx):
+        return
+
         try:
             await self._spawn_event(ctx)
         except Exception as e:
