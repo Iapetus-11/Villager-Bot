@@ -5,6 +5,7 @@ import random
 import sys
 
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
+from util.misc import update_support_member_role
 from util.code import format_exception
 
 
@@ -114,6 +115,11 @@ class Events(commands.Cog):
         )
 
         await channel.send(embed=embed)
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        if member.guild.id == self.d.support_server_id:
+            await update_support_member_role(self.bot, member)
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
