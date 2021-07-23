@@ -112,11 +112,11 @@ async def update_support_member_role(bot, member):
     if support_guild is None:
         support_guild = await bot.fetch_guild(bot.d.support_server_id)
 
-    role_map_values = list(bot.d.role_mappings.values())
+    role_map_values = set(bot.d.role_mappings.values())
 
     roles = []
 
-    for role in member.roles:
+    for role in member.roles:  # add non rank roles to roles list
         if role.id not in role_map_values and role.id != bot.d.support_server_id:
             roles.append(role)
 
@@ -130,7 +130,7 @@ async def update_support_member_role(bot, member):
     if roles != member.roles:
         try:
             await member.edit(roles=roles)
-        except (discord.Forbidden, discord.HTTPException):
+        except (discord.errors.Forbidden, discord.errors.HTTPException):
             pass
 
 
