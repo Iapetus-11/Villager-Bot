@@ -10,7 +10,7 @@ import math
 from util.misc import make_health_bar
 
 
-class MobSpawner:
+class MobSpawner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
