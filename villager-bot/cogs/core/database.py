@@ -268,6 +268,8 @@ class Database(commands.Cog):
             if pickaxe in items_names:
                 return pickaxe
 
+        await self.add_item(user_id, "Wood Pickaxe", 0, 1, True, False)
+
         return "Wood Pickaxe"
 
     async def fetch_sword(self, user_id: int) -> str:
@@ -276,6 +278,8 @@ class Database(commands.Cog):
         for sword in self.d.sword_list_proper:
             if sword in items_names:
                 return sword
+
+        await self.add_item(user_id, "Wood Sword", 0, 1, True, False)
 
         return "Wood Sword"
 
