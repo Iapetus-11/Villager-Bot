@@ -18,7 +18,7 @@ class Mod(commands.Cog):
         if author == ctx.guild.owner:
             return True
 
-        return author.guild_permissions == victim.guild_permissions and author.top_role > victim.top_role
+        return author.top_role > victim.top_role
 
     @commands.command(name="purge", aliases=["p"])
     @commands.guild_only()
