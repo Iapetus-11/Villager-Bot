@@ -12,14 +12,13 @@ class Mod(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-    def permission_check(self, ctx, victim) -> bool:
+    def permission_check(self, ctx: discord.Context, victim: discord.Member) -> bool:
         author = ctx.author
 
-        return (
-            author == ctx.guild.owner
-            or author.guild_permissions > victim.guild_permissions
-            or (author.guild_permissions == victim.guild_permissions and author.top_role > victim.top_role)
-        )
+        if author == ctx.guild.owner:
+            return True
+
+        return author.guild_permissions == victim.guild_permissions and author.top_role > victim.top_role
 
     @commands.command(name="purge", aliases=["p"])
     @commands.guild_only()
