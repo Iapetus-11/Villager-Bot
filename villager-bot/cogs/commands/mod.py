@@ -60,7 +60,7 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def ban_user(self, ctx, victim: Union[discord.Member, int], *, reason="No reason provided."):
+    async def ban_user(self, ctx, victim: Union[discord.Member, discord.User, int], *, reason="No reason provided."):
         """Bans the given user from the current Discord server"""
 
         if isinstance(victim, int):
