@@ -12,7 +12,7 @@ class Mod(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-    def permission_check(self, ctx: discord.Context, victim: discord.Member) -> bool:
+    def permission_check(self, ctx: commands.Context, victim: discord.Member) -> bool:
         author = ctx.author
 
         if author == ctx.guild.owner:
