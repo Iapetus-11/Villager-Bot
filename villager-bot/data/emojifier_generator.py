@@ -62,7 +62,7 @@ class Palette:
         avgs[2] /= p_count
         avgs[3] /= p_count
 
-        avgs.reverse()  # turn into rgb
+        avgs.reverse()  # turn into rgba
 
         return (
             [[int(avg / 128) for avg in avgs], image_file],
@@ -70,7 +70,7 @@ class Palette:
             [[int(avg / 32) for avg in avgs], image_file],
             {
                 image_file: base64.b64encode(
-                    cv2.imencode(".png", cv2.resize(img, (16, 16)), cv2.IMWRITE_PAM_FORMAT_RGB_ALPHA)[1]
+                    cv2.imencode(".png", cv2.resize(img, (16, 16)))[1]
                 ).decode("utf-8")
             },
         )
