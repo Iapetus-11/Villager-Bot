@@ -243,7 +243,7 @@ class Econ(commands.Cog):
                         "reaction_add", check=author_check, timeout=(2 * 60)
                     )  # wait for reaction from message author
                 except asyncio.TimeoutError:
-                    await asyncio.gather(msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me))
+                    await asyncio.wait((msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me)))
                     return
 
                 await react.remove(ctx.author)
@@ -522,7 +522,7 @@ class Econ(commands.Cog):
                 # wait for reaction from message author (1 min)
                 react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=60)
             except asyncio.TimeoutError:
-                await asyncio.gather(msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me))
+                await asyncio.wait((msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me)))
                 return
 
             await react.remove(ctx.author)
@@ -621,7 +621,7 @@ class Econ(commands.Cog):
                 # wait for reaction from message author (1 min)
                 react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=60)
             except asyncio.TimeoutError:
-                await asyncio.gather(msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me))
+                await asyncio.wait((msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me)))
                 return
 
             await react.remove(ctx.author)

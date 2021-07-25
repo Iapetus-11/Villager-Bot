@@ -87,7 +87,7 @@ class MechaKaren:
                 "expects": len(broadcast_coros),
             }
 
-            await asyncio.gather(*broadcast_coros)
+            await asyncio.wait(broadcast_coros)
             await broadcast["ready"].wait()
             await stream.write_packet({"type": "broadcast-response", "id": packet.id, "responses": broadcast["responses"]})
         elif packet.type == "broadcast-response":
@@ -180,7 +180,7 @@ class MechaKaren:
         for shard_id_group in [self.shard_ids[i : i + g] for i in range(0, len(self.shard_ids), g)]:
             shard_groups.append(loop.run_in_executor(pp, run_cluster, self.d.shard_count, shard_id_group, db_pool_size_per))
 
-        await asyncio.gather(*shard_groups)
+        await asyncio.wait(shard_groups)
         self.cooldowns.stop()
         self.commands_task.cancel()
         await self.db.close()
