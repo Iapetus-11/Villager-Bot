@@ -287,7 +287,9 @@ class Fun(commands.Cog):
                     break
 
             async with ctx.typing():
-                image_data = await self.bot.loop.run_in_executor(self.bot.tp, self.tiler.generate, await image.read(use_cached=True), 1600, detailed)
+                image_data = await self.bot.loop.run_in_executor(
+                    self.bot.tp, self.tiler.generate, await image.read(use_cached=True), 1600, detailed
+                )
 
             await ctx.reply(file=discord.File(image_data, filename=image.filename), mention_author=False)
         else:
