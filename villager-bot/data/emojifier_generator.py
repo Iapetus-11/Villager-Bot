@@ -43,10 +43,10 @@ class Palette:
         if self.verbose:
             print(f"Processing: {image_file}")
 
-        img = cv2.cvtColor(cv2.imread(self.source_dir + image_file, cv2.IMREAD_UNCHANGED), cv2.COLOR_RGB2RGBA)
+        img = cv2.cvtColor(cv2.imread(self.source_dir + image_file, cv2.IMREAD_UNCHANGED), cv2.COLOR_BGR2RGBA)
 
         p_count = 0
-        avgs = [0, 0, 0, 0]  # abgr
+        avgs = [0, 0, 0, 0]  # rgba
 
         for row in img:
             for pixel in row:
@@ -61,8 +61,6 @@ class Palette:
         avgs[1] /= p_count
         avgs[2] /= p_count
         avgs[3] /= p_count
-
-        avgs.reverse()  # turn into rgba
 
         return (
             [[int(avg / 128) for avg in avgs], image_file],
