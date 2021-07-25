@@ -384,7 +384,7 @@ class Useful(commands.Cog):
 
         bans = self.ban_count_cache.get(ctx.guild.id)
 
-        await ctx.send(bans)
+        await ctx.send(bans or "empty")
 
         if bans is None:
             try:
