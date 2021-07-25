@@ -400,14 +400,17 @@ class Useful(commands.Cog):
             except Exception:
                 bans = "unknown"
 
-        async def update_ban_count_cache():
-            self.ban_count_cache[ctx.guild.id] = BanCacheEntry(len(await guild.bans()))
+        async def update_ban_count_cache(bans_: int = None):
+            if bans_ is None:
+                bans_ = len(await guild.bans())
+
+            self.ban_count_cache[ctx.guild.id] = BanCacheEntry(bans_)
 
         if timed_out:
             asyncio.create_task(update_ban_count_cache())
         elif isinstance(bans, int):
             if bans > 100:
-                asyncio.create_task(update_ban_count_cache())
+                asyncio.create_task(update_ban_count_cache(bans))
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=guild.icon_url)
