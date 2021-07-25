@@ -385,6 +385,8 @@ class Useful(commands.Cog):
         ban_cache_entry = self.ban_count_cache.get(ctx.guild.id)
         timed_out = False
 
+        await ctx.send(repr(ban_cache_entry))
+
         if ban_cache_entry is not None:
             if time.time() - ban_cache_entry.time > 60 * 60 * 60:
                 ban_cache_entry = None
