@@ -401,7 +401,7 @@ class Useful(commands.Cog):
                 bans = "unknown"
 
         async def update_ban_count_cache():
-            self.ban_count_cache[ctx.guild.id] = len(await guild.bans())
+            self.ban_count_cache[ctx.guild.id] = BanCacheEntry(len(await guild.bans()))
 
         if timed_out:
             asyncio.create_task(update_ban_count_cache())
