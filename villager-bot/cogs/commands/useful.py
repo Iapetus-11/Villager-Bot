@@ -402,9 +402,10 @@ class Useful(commands.Cog):
                 bans = "unknown"
 
             if timed_out:
+
                 async def update_ban_count_cache():
                     self.ban_count_cache[ctx.guild.id] = len(await guild.bans())
-                
+
                 asyncio.create_task(update_ban_count_cache())
 
         embed = discord.Embed(color=self.d.cc)
