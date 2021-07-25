@@ -379,7 +379,8 @@ class Useful(commands.Cog):
 
         db_guild = await self.db.fetch_guild(guild.id)
 
-        display_age = arrow.get(discord.utils.snowflake_time(guild.id)).format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
+        age = arrow.get(discord.utils.snowflake_time(guild.id))
+        display_age = age.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + age.humanize(locale=ctx.l.lang)
 
         ban_cache_entry = self.ban_count_cache.get(ctx.guild.id)
         timed_out = False
