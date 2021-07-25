@@ -81,11 +81,11 @@ class Palette:
         if img is None:
             return False
 
-        if len(img[0][0]) > 3:
-            for row in img:
-                for pixel in row:
-                    if pixel[3] < 220:
-                        return False
+        # if len(img[0][0]) > 3:
+        #     for row in img:
+        #         for pixel in row:
+        #             if pixel[3] < 220:
+        #                 return False
 
         if img.shape[1] != self.dest_dims[1] or img.shape[0] != self.dest_dims[0]:
             # img = cv2.resize(img, self.dest_dims)
