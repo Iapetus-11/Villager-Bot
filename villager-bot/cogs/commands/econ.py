@@ -1511,10 +1511,12 @@ class Econ(commands.Cog):
                 "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = lb_logic(
-                self, ems_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(
+                    self.bot, ems_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+                ),
+                lb_logic(self.bot, ems_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
             )
-            lb_local = lb_logic(self, ems_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1530,12 +1532,12 @@ class Econ(commands.Cog):
                 "pillaged_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = lb_logic(
-                self, pillages_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
-            )
-            lb_local = lb_logic(
-                self, pillages_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
-            )
+            lb_global, lb_local = await asyncio.gather(lb_logic(
+                self.bot, pillages_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            ),
+            lb_logic(
+                self.bot, pillages_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
+            ))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1551,11 +1553,13 @@ class Econ(commands.Cog):
                 "mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = lb_logic(
-                self, kills_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
-            )
-            lb_local = lb_logic(
-                self, kills_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(
+                    self.bot, kills_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
+                ),
+                lb_logic(
+                    self.bot, kills_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
+                ),
             )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
@@ -1571,9 +1575,11 @@ class Econ(commands.Cog):
             bees_local, local_u_entry = await self.db.fetch_local_lb_item(
                 "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
-
-            lb_global = lb_logic(self, bees_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
-            lb_local = lb_logic(self, bees_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
+            
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(self.bot, bees_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee)),
+                lb_logic(self.bot, bees_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee))
+            )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1589,8 +1595,10 @@ class Econ(commands.Cog):
                 "commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = lb_logic(self, cmds_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", " :keyboard:"))
-            lb_local = lb_logic(self, cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", " :keyboard:"))
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(self.bot, cmds_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", " :keyboard:")),
+                lb_logic(self.bot, cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", " :keyboard:")),
+            )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1606,10 +1614,12 @@ class Econ(commands.Cog):
                 "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = lb_logic(
-                self, votes_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(
+                    self.bot, votes_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)
+                ),
+                lb_logic(self.bot, votes_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)),
             )
-            lb_local = lb_logic(self, votes_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot))
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(" :fire: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
@@ -1625,11 +1635,13 @@ class Econ(commands.Cog):
                 "fish_fished", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = lb_logic(
-                self, fish_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)
-            )
-            lb_local = lb_logic(
-                self, fish_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(
+                    self.bot, fish_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)
+                ),
+                lb_logic(
+                    self.bot, fish_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)
+                )
             )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout))
@@ -1646,11 +1658,13 @@ class Econ(commands.Cog):
                 "Mooderald", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global = lb_logic(
-                self, moods_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald)
-            )
-            lb_local = lb_logic(
-                self, moods_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald)
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(
+                    self.bot, moods_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald)
+                ),
+                lb_logic(
+                    self.bot, moods_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald)
+                )
             )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald))
