@@ -19,7 +19,7 @@ class MobSpawner(commands.Cog):
         self.ipc = bot.ipc
 
     def engage_check(self, ctx):
-        async def predicate(m):
+        def _engage_check(m):
             if m.channel != ctx.channel:
                 return False
 
@@ -32,27 +32,18 @@ class MobSpawner(commands.Cog):
             if ctx.author.id in self.bot.ban_cache:
                 return False
 
-            if (await self.ipc.eval(f"econ_paused_users.get({ctx.author.id})")).result is not None:
-                return False
-
             return True
 
-        return predicate
+        return _engage_check
 
     def attack_check(self, ctx, engage_msg):
-        def predicate(m):
+        def _attack_check(m):
             if not (m.channel == engage_msg.channel and m.author == engage_msg.author):
                 return False
 
-            if (
-                m.content.lower().lstrip(ctx.prefix) not in self.d.mobs_mech.valid_attacks
-                and m.content.lower().lstrip(ctx.prefix) not in self.d.mobs_mech.valid_flees
-            ):
-                return False
+            return m.content.lower().lstrip(ctx.prefix.lower()) in self.d.mobs_mech.valid_attacks or m.content.lower().lstrip(ctx.prefix.lower()) in self.d.mobs_mech.valid_flees
 
-            return True
-
-        return predicate
+        return _attack_check
 
     async def calculate_sword_damage(self, user_id: int, sword: str, multi: float) -> int:
         if sword == "Netherite Sword":
@@ -81,8 +72,6 @@ class MobSpawner(commands.Cog):
         return math.ceil(damage)
 
     async def spawn_event(self, ctx):
-        return
-
         try:
             await self._spawn_event(ctx)
         except Exception as e:
@@ -125,6 +114,9 @@ class MobSpawner(commands.Cog):
                 await engage_msg.edit(suppress=True)
                 return
 
+            if (await self.ipc.eval(f"econ_paused_users.get({ctx.author.id})")).result is not None:
+                continue
+
             user = initial_attack_msg.author
             db_user = await self.db.fetch_user(user.id)
             user_health = db_user["health"]
@@ -146,6 +138,7 @@ class MobSpawner(commands.Cog):
 
         try:
             for iteration in itertools.count(start=1):
+
                 # create embed with mob image
                 embed = discord.Embed(color=self.d.cc, title=ctx.l.mobs_mech.attack_or_flee)
                 embed.set_image(url=mob.image)
@@ -175,7 +168,7 @@ class MobSpawner(commands.Cog):
                 fight_msg = await ctx.send(embed=embed)
 
                 try:
-                    user_action_msg = await self.bot.wait_for("message", check=self.attack_check(ctx, engage_msg))
+                    user_action_msg = await self.bot.wait_for("message", check=self.attack_check(ctx, initial_attack_msg), timeout=30)
                     user_action = user_action_msg.content.lower()
                 except asyncio.TimeoutError:
                     timed_out = True
@@ -185,7 +178,7 @@ class MobSpawner(commands.Cog):
                 # check if user is a fucking baby
                 if timed_out or user_action in self.d.mobs_mech.valid_flees:
                     await fight_msg.edit(suppress=True)
-                    await self.bot.send_embed(ctx, random.choice(ctx.l.mons_mech.flee_insults))
+                    await self.bot.send_embed(ctx, random.choice(ctx.l.mobs_mech.flee_insults))
 
                     return
 
@@ -239,6 +232,7 @@ class MobSpawner(commands.Cog):
 
                 if user_health < 1:  # you == noob
                     await self.bot.send_embed(ctx, random.choice(mob.finishers))
+                    break
                 else:
                     await self.bot.send_embed(ctx, random.choice(mob.attacks))
 
@@ -248,7 +242,6 @@ class MobSpawner(commands.Cog):
                 await fight_msg.edit(suppress=True)
 
             # outside of the for loop
-
             embed = discord.Embed(color=self.d.cc)
             embed.set_image(url=mob.image)
 
