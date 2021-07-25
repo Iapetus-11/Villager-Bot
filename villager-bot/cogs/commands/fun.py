@@ -28,7 +28,7 @@ class Fun(commands.Cog):
         self.aiohttp = bot.aiohttp
 
         if tiler:
-            self.tiler = tiler.Tiler("data/block_palette.json")
+            self.tiler = tiler.Tiler("data/emoji_palette.json")
         else:
             self.tiler = None
 
