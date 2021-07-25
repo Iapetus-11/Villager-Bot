@@ -396,9 +396,9 @@ class Useful(commands.Cog):
                 asyncio.create_task(update_ban_cache())
             except Exception:
                 bans = "unknown"
-
-            if bans > 500:
-                self.ban_count_cache[ctx.guild.id] = BanCacheEntry(bans)
+            else:
+                if bans > 500:
+                    self.ban_count_cache[ctx.guild.id] = BanCacheEntry(bans)
         else:
             if (time.time() - bans.time) > 60 * 60:  # 1 hr
                 self.ban_count_cache.pop(ctx.guild.id, None)
