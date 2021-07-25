@@ -373,7 +373,7 @@ class Useful(commands.Cog):
         time = time.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
 
         try:
-            bans = len(await asyncio.wait_for(guild.bans(), 1))
+            bans = len(await asyncio.wait_for(guild.bans(), 2))
         except Exception:
             bans = "unknown"
 
@@ -387,7 +387,7 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.ginf.channels}: `{len(guild.channels)}`\n "
             f"{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n"
             f"{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n"
-            f"{ctx.l.useful.ginf.bans}: `{len(await guild.bans())}`\n"
+            f"{ctx.l.useful.ginf.bans}: `{len(bans)}`\n"
         )
 
         villager = (
