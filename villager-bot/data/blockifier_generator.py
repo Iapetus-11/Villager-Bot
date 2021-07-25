@@ -24,7 +24,7 @@ IGNORE = [
     "_open",
     "observer",
     "candle",
-    "target"
+    "target",
 ]
 
 
