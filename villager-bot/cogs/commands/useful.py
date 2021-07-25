@@ -383,6 +383,7 @@ class Useful(commands.Cog):
         time = time.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
 
         ban_cache_entry = self.ban_count_cache.get(ctx.guild.id)
+        timed_out = False
 
         if ban_cache_entry is not None:
             if time.time() - ban_cache_entry.time > 60 * 60 * 60:
@@ -391,8 +392,6 @@ class Useful(commands.Cog):
                 bans = ban_cache_entry.ban_count
 
         if ban_cache_entry is None:
-            timed_out = False
-
             try:
                 bans = len(await asyncio.wait_for(guild.bans(), 1))
             except asyncio.TimeoutError:  # so many bans, eeee
@@ -401,10 +400,13 @@ class Useful(commands.Cog):
             except Exception:
                 bans = "unknown"
 
-            if timed_out:
-                async def update_ban_count_cache():
-                    self.ban_count_cache[ctx.guild.id] = len(await guild.bans())
-                
+        async def update_ban_count_cache():
+            self.ban_count_cache[ctx.guild.id] = len(await guild.bans())
+
+        if timed_out:
+            asyncio.create_task(update_ban_count_cache())
+        elif isinstance(bans, int):
+            if bans > 100:
                 asyncio.create_task(update_ban_count_cache())
 
         embed = discord.Embed(color=self.d.cc)
