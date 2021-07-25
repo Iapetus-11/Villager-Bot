@@ -32,7 +32,7 @@ cdef class TilerRGBA:
         self.yi = data["dims"][1]
 
     cdef np.ndarray[NPUINT8_t, ndim=3] im_from_bytes(self, b: bytes):
-        return cv2.cvtColor(cv2.imdecode(np.frombuffer(b, np.uint8), cv2.IMREAD_COLOR), cv2.COLOR_RGB2RGBA)
+        return cv2.cvtColor(cv2.imdecode(np.frombuffer(b, np.uint8), cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGBA)
 
     cdef void draw_image(self, np.ndarray[NPUINT8_t, ndim=3] canvas, np.ndarray[NPUINT8_t, ndim=3] img, signed int x, signed int y):
         canvas[y : y + img.shape[0], x : x + img.shape[1]] = img
@@ -84,20 +84,20 @@ cdef class TilerRGBA:
         cdef signed int x = 0
         cdef signed int y = 0
         cdef np.ndarray row
-        cdef signed int b, g, r
+        cdef signed int r, g, b, a
         cdef str pal_key
 
         for row in source:
             x = 0
 
-            for a, b, g, r in row:
-                pal_key = self.palette_oct.get((r // 32, g // 32, b // 32))
+            for r, g, b, a in row:
+                pal_key = self.palette_oct.get((r // 32, g // 32, b // 32, a // 32))
 
                 if pal_key is None:
-                    pal_key = self.palette_quad.get((r // 64, g // 64, b // 64))
+                    pal_key = self.palette_quad.get((r // 64, g // 64, b // 64, a // 64))
 
                     if pal_key is None:
-                        pal_key = self.palette_bi.get((r // 128, g // 128, b // 128))
+                        pal_key = self.palette_bi.get((r // 128, g // 128, b // 128, a // 128))
 
                         if pal_key is None:
                             pal_key = self.palette_oct[random.choice(tuple(self.palette_oct.keys()))]
