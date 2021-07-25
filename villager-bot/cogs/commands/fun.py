@@ -5,7 +5,14 @@ import discord
 import random
 import typing
 
+from util.code import format_exception
 from util.misc import strip_command
+
+try:
+    from util import tiler
+except ImportError as e:
+    print(format_exception(e))
+    tiler = None
 
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
 INSULTS = {"i am stupid", "i am dumb", "i am very stupid", "i am very dumb", "i stupid", "i'm stupid", "i'm dumb"}
@@ -19,6 +26,11 @@ class Fun(commands.Cog):
         self.k = bot.k
 
         self.aiohttp = bot.aiohttp
+
+        if tiler:
+            self.tiler = tiler.Tiler("data/block_palette.json")
+        else:
+            self.tiler = None
 
     def lang_convert(self, msg, lang):
         keys = list(lang)
@@ -238,21 +250,48 @@ class Fun(commands.Cog):
         await ctx.send(clapped)
 
     @commands.command(name="emojify")
-    async def emojifi_text(self, ctx, *, _text):
-        """Turns text into emojis"""
+    async def emojify(self, ctx, *, _text=None):
+        """Turns text or images into emojis"""
 
-        text = ""
+        text = (strip_command(ctx)).lower()
 
-        for letter in (strip_command(ctx)).lower():
-            if letter in ALPHABET_LOWER:
-                text += f":regional_indicator_{letter}: "
+        if text:
+            for letter in text:
+                if letter in ALPHABET_LOWER:
+                    text += f":regional_indicator_{letter}: "
+                else:
+                    text += self.d.emojified.get(letter, letter) + " "
+
+            if len(text) > 2000:
+                await self.bot.send_embed(ctx, ctx.l.fun.too_long)
             else:
-                text += self.d.emojified.get(letter, letter) + " "
+                await ctx.send(text)
+        elif len(ctx.message.attachments) > 0:
+            image = ctx.message.attachments[0]
 
-        if len(text) > 2000:
-            await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+            if image.filename.lower()[-4:] not in (".jpg", ".png") and not image.filename.lower()[-5:] in (".jpeg"):
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
+                return
+
+            try:
+                image.height
+            except Exception:
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_3)
+                return
+
+            detailed = False
+
+            for detailed_keyword in ("large", "high", "big", "quality", "detailed"):
+                if detailed_keyword in ctx.message.content:
+                    detailed = True
+                    break
+
+            async with ctx.typing():
+                image_data = await self.bot.loop.run_in_executor(self.bot.tp, self.tiler.generate, await image.read(use_cached=True), 1600, detailed)
+
+            await ctx.reply(file=discord.File(image_data, filename=image.filename), mention_author=False)
         else:
-            await ctx.send(text)
+            await self.bot.reply_embed(ctx, "You must add text or an image to be emojified.")
 
     @commands.command(name="owo", aliases=["owofy"])
     async def owofy_text(self, ctx, *, text):
