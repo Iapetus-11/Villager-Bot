@@ -44,7 +44,7 @@ def make_health_bar(health: int, max_health: int, full: str, half: str, empty: s
     )
 
 
-def lb_logic(self: object, lb_list: list, u_entry: object, rank_fstr: str):
+async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
     # add user entry to leaderboard if it's not there already
     if u_entry is not None and u_entry[0] not in [e[0] for e in lb_list]:
         lb_list.append(u_entry)
@@ -59,7 +59,13 @@ def lb_logic(self: object, lb_list: list, u_entry: object, rank_fstr: str):
 
     # create base leaderboard
     for entry in lb_list:
-        user = self.bot.get_user(entry[0])
+        user = bot.get_user(entry[0])
+
+        if user is None:
+            res = await bot.ipc.eval(f"bot.get_user({entry[0]}).name")
+
+            if res.success:
+                user = res.result
 
         if user is None:
             user = "Unknown User"
@@ -71,7 +77,7 @@ def lb_logic(self: object, lb_list: list, u_entry: object, rank_fstr: str):
     # add user if user is missing from the leaderboard
     if u_entry is not None and u_entry[2] > 9:
         body += "\n⋮" + rank_fstr.format(
-            u_entry[2], u_entry[1], discord.utils.escape_markdown(self.bot.get_user(u_entry[0]).display_name)
+            u_entry[2], u_entry[1], discord.utils.escape_markdown(bot.get_user(u_entry[0]).name)
         )
 
     return body + "\uFEFF"
