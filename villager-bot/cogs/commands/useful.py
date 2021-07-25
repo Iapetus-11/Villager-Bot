@@ -383,7 +383,7 @@ class Useful(commands.Cog):
         time = time.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
 
         bans = self.ban_count_cache.get(ctx.guild.id)
-        
+
         if bans is None:
             try:
                 bans = len(await asyncio.wait_for(guild.bans(), 1))
