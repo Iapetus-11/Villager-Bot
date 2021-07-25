@@ -19,10 +19,6 @@ IGNORE = [
     "_lit",
     "_data",
     "_save",
-    "_0",
-    "_1",
-    "_2",
-    "_3",
     "_inactive",
     "command",
     "structure",
@@ -36,6 +32,9 @@ IGNORE = [
     "conduit",
     "brewing",
     "root",
+    "dropper",
+    "dispense",
+    "observer"
 ]
 
 class Palette:
