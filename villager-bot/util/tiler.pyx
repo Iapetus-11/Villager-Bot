@@ -10,7 +10,7 @@ cimport numpy as np
 ctypedef np.uint8_t NPUINT8_t
 
 
-cdef class Blockifier:
+cdef class Tiler:
     cdef dict palette_bi
     cdef dict palette_quad
     cdef dict palette_oct

@@ -15,10 +15,10 @@ from util.code import format_exception
 from util.misc import dm_check
 
 try:
-    from util import blockifier
+    from util import tiler
 except ImportError as e:
     print(format_exception(e))
-    blockifier = None
+    tiler = None
 
 
 class Minecraft(commands.Cog):
@@ -33,15 +33,15 @@ class Minecraft(commands.Cog):
         self.aiohttp = bot.aiohttp
         self.fernet = Fernet(self.k.fernet)
 
-        if blockifier:
-            self.blockifier = blockifier.Blockifier("data/block_palette.json")
+        if tiler:
+            self.tiler = tiler.Tiler("data/block_palette.json")
         else:
-            self.blockifier = None
+            self.tiler = None
 
     @commands.command(name="mcimage", aliases=["mcpixelart", "mcart", "mcimg"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def mcpixelart(self, ctx):
-        if not self.blockifier:
+        if not self.tiler:
             await ctx.send("This command is disabled because Cython isn't enabled.")
             return
 
@@ -71,7 +71,7 @@ class Minecraft(commands.Cog):
                 break
 
         async with ctx.typing():
-            partial_call = functools.partial(self.blockifier.generate, await image.read(use_cached=True), 1600, detailed)
+            partial_call = functools.partial(self.tiler.generate, await image.read(use_cached=True), 1600, detailed)
             image_data = await self.bot.loop.run_in_executor(self.bot.tp, partial_call)
 
             await ctx.reply(file=discord.File(image_data, filename=image.filename), mention_author=False)
