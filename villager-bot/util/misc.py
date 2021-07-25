@@ -59,7 +59,7 @@ async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
 
     # create base leaderboard
     for entry in lb_list:
-        user = bot.get_user(entry[0])
+        user = getattr(bot.get_user(entry[0]), "name", None)
 
         if user is None:
             res = await bot.ipc.broadcast({"type": "eval", "code": f"bot.get_user({entry[0]}).name"})
@@ -72,7 +72,7 @@ async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
         if user is None:
             user = "Unknown User"
         else:
-            user = discord.utils.escape_markdown(user.display_name)
+            user = discord.utils.escape_markdown(user)
 
         body += rank_fstr.format(entry[2], entry[1], user)
 
