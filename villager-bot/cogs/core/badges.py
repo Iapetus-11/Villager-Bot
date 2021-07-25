@@ -150,7 +150,7 @@ class Badges(commands.Cog):
         # III -> 10000 mobs cruelly genocided
 
         badges = await self.fetch_user_badges(user_id)
-        murderer_level = badges["murders"]
+        murderer_level = badges["murderer"]
 
         if murderer_level == 3:
             return
