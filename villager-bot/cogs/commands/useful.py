@@ -379,13 +379,10 @@ class Useful(commands.Cog):
 
         db_guild = await self.db.fetch_guild(guild.id)
 
-        time = arrow.get(discord.utils.snowflake_time(guild.id))
-        time = time.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
+        display_age = arrow.get(discord.utils.snowflake_time(guild.id)).format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
 
         ban_cache_entry = self.ban_count_cache.get(ctx.guild.id)
         timed_out = False
-
-        await ctx.send(repr(ban_cache_entry))
 
         if ban_cache_entry is not None:
             if time.time() - ban_cache_entry.time > 60 * 60 * 60:
@@ -414,7 +411,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=guild.icon_url)
 
-        embed.description = f"{ctx.l.useful.ginf.owner}: {guild.owner.mention}\n{ctx.l.useful.ginf.age}: `{time}`"
+        embed.description = f"{ctx.l.useful.ginf.owner}: {guild.owner.mention}\n{ctx.l.useful.ginf.age}: `{display_age}`"
 
         general = (
             f"{ctx.l.useful.ginf.members}: `{guild.member_count}`\n"
