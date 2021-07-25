@@ -3,7 +3,6 @@ from cryptography.fernet import Fernet
 from discord.ext import commands
 import aiomcrcon as rcon
 import classyjson as cj
-import functools
 import asyncio
 import discord
 import random
@@ -71,8 +70,7 @@ class Minecraft(commands.Cog):
                 break
 
         async with ctx.typing():
-            partial_call = functools.partial(self.tiler.generate, await image.read(use_cached=True), 1600, detailed)
-            image_data = await self.bot.loop.run_in_executor(self.bot.tp, partial_call)
+            image_data = await self.bot.loop.run_in_executor(self.bot.tp, self.tiler.generate, await image.read(use_cached=True), 1600, detailed)
 
             await ctx.reply(file=discord.File(image_data, filename=image.filename), mention_author=False)
 
