@@ -384,6 +384,8 @@ class Useful(commands.Cog):
 
         bans = self.ban_count_cache.get(ctx.guild.id)
 
+        await ctx.send(bans)
+
         if bans is None:
             try:
                 bans = len(await asyncio.wait_for(guild.bans(), 1))
