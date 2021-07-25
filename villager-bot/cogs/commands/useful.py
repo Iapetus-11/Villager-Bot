@@ -382,31 +382,30 @@ class Useful(commands.Cog):
         time = arrow.get(discord.utils.snowflake_time(guild.id))
         time = time.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
 
-        bans = self.ban_count_cache.get(ctx.guild.id)
+        ban_cache_entry = self.ban_count_cache.get(ctx.guild.id)
 
-        await ctx.send(bans or "empty")
+        if ban_cache_entry is not None:
+            if time.time() - ban_cache_entry.time > 60 * 60 * 60:
+                ban_cache_entry = None
+            else:
+                bans = ban_cache_entry.ban_count
 
-        if bans is None:
+        if ban_cache_entry is None:
+            timed_out = False
+
             try:
                 bans = len(await asyncio.wait_for(guild.bans(), 1))
             except asyncio.TimeoutError:  # so many bans, eeee
                 bans = "unknown"
-
-                async def update_ban_cache():
-                    self.ban_count_cache[ctx.guild.id] = BanCacheEntry(len(await guild.bans()))
-
-                asyncio.create_task(update_ban_cache())
+                timed_out = True
             except Exception:
                 bans = "unknown"
-            else:
-                if bans > 100:
-                    self.ban_count_cache[ctx.guild.id] = BanCacheEntry(bans)
-        else:
-            await ctx.send(bans or "empty")
-            if (time.time() - bans.time) > 60 * 60:  # 1 hr
-                self.ban_count_cache.pop(ctx.guild.id, None)
 
-            bans = bans.ban_count
+            if timed_out:
+                async def update_ban_count_cache():
+                    self.ban_count_cache[ctx.guild.id] = len(await guild.bans())
+                
+                asyncio.create_task(update_ban_count_cache())
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=guild.icon_url)
