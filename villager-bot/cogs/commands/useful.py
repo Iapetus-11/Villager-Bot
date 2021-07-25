@@ -373,7 +373,7 @@ class Useful(commands.Cog):
         time = time.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
 
         try:
-            bans = len(await guild.bans())
+            bans = len(await asyncio.wait_for(guild.bans(), 1))
         except Exception:
             bans = "unknown"
 
