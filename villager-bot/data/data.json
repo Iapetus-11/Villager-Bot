@@ -96,7 +96,6 @@
   "concurrency_limited": [
     "profile",
     "balance",
-    "inventory",
     "deposit",
     "withdraw",
     "shop",

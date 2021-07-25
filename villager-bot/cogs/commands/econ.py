@@ -240,7 +240,7 @@ class Econ(commands.Cog):
                         return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
 
                     react, r_user = await self.bot.wait_for(
-                        "reaction_add", check=author_check, timeout=(2 * 60)
+                        "reaction_add", check=author_check, timeout=(60)
                     )  # wait for reaction from message author
                 except asyncio.TimeoutError:
                     await asyncio.wait((msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me)))
@@ -277,6 +277,7 @@ class Econ(commands.Cog):
         return True, user
 
     @commands.group(name="inventory", aliases=["inv", "items"])
+    @commands.max_concurrency(2, per=commands.BucketType.user, wait=False)
     @commands.cooldown(2, 2, commands.BucketType.user)
     async def inventory(self, ctx):
         if ctx.invoked_subcommand is not None:
