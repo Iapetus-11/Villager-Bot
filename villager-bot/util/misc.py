@@ -63,7 +63,7 @@ async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
 
         if user is None:
             res = await bot.ipc.broadcast({"type": "eval", "code": f"bot.get_user({entry[0]}).name"})
-            
+
             for r in res.responses:
                 if r.success:
                     user = r.result
@@ -78,9 +78,7 @@ async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
 
     # add user if user is missing from the leaderboard
     if u_entry is not None and u_entry[2] > 9:
-        body += "\n⋮" + rank_fstr.format(
-            u_entry[2], u_entry[1], discord.utils.escape_markdown(bot.get_user(u_entry[0]).name)
-        )
+        body += "\n⋮" + rank_fstr.format(u_entry[2], u_entry[1], discord.utils.escape_markdown(bot.get_user(u_entry[0]).name))
 
     return body + "\uFEFF"
 
