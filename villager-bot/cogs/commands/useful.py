@@ -387,7 +387,7 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.ginf.channels}: `{len(guild.channels)}`\n "
             f"{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n"
             f"{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n"
-            f"{ctx.l.useful.ginf.bans}: `{len(bans)}`\n"
+            f"{ctx.l.useful.ginf.bans}: `{bans}`\n"
         )
 
         villager = (
