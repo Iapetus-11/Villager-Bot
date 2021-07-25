@@ -397,7 +397,7 @@ class Useful(commands.Cog):
             except Exception:
                 bans = "unknown"
             else:
-                if bans > 500:
+                if bans > 100:
                     self.ban_count_cache[ctx.guild.id] = BanCacheEntry(bans)
         else:
             if (time.time() - bans.time) > 60 * 60:  # 1 hr
