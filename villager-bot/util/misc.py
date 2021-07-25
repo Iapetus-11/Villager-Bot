@@ -62,10 +62,12 @@ async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
         user = bot.get_user(entry[0])
 
         if user is None:
-            res = await bot.ipc.eval(f"bot.get_user({entry[0]}).name")
-
-            if res.success:
-                user = res.result
+            res = await bot.ipc.broadcast({"type": "eval", "code": f"bot.get_user({entry[0]}).name"})
+            
+            for r in res.responses:
+                if r.success:
+                    user = r.result
+                    break
 
         if user is None:
             user = "Unknown User"
