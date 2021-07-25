@@ -41,7 +41,10 @@ class MobSpawner(commands.Cog):
             if not (m.channel == engage_msg.channel and m.author == engage_msg.author):
                 return False
 
-            return m.content.lower().lstrip(ctx.prefix.lower()) in self.d.mobs_mech.valid_attacks or m.content.lower().lstrip(ctx.prefix.lower()) in self.d.mobs_mech.valid_flees
+            return (
+                m.content.lower().lstrip(ctx.prefix.lower()) in self.d.mobs_mech.valid_attacks
+                or m.content.lower().lstrip(ctx.prefix.lower()) in self.d.mobs_mech.valid_flees
+            )
 
         return _attack_check
 
@@ -168,7 +171,9 @@ class MobSpawner(commands.Cog):
                 fight_msg = await ctx.send(embed=embed)
 
                 try:
-                    user_action_msg = await self.bot.wait_for("message", check=self.attack_check(ctx, initial_attack_msg), timeout=30)
+                    user_action_msg = await self.bot.wait_for(
+                        "message", check=self.attack_check(ctx, initial_attack_msg), timeout=30
+                    )
                     user_action = user_action_msg.content.lower()
                 except asyncio.TimeoutError:
                     timed_out = True
