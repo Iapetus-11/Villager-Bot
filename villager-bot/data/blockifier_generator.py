@@ -22,19 +22,10 @@ IGNORE = [
     "_inactive",
     "command",
     "structure",
-    "lectern_top",
-    "jigsaw_top",
-    "candle",
     "_open",
-    "campfire",
-    "glass",
-    "bell",
-    "conduit",
-    "brewing",
-    "root",
-    "dropper",
-    "dispense",
-    "observer"
+    "observer",
+    "candle",
+    "target"
 ]
 
 class Palette:
@@ -91,8 +82,14 @@ class Palette:
 
         img = cv2.imread(self.source_dir+image_file, cv2.IMREAD_UNCHANGED)
 
-        if img is None or len(img[0][0]) != 3:
-            return
+        if img is None:
+            return False
+
+        if len(img[0][0]) > 3:
+            for row in img:
+                for pixel in row:
+                    if pixel[3] < 220:
+                        return False
 
         if img.shape[1] != self.dest_dims[1] or img.shape[0] != self.dest_dims[0]:
             # img = cv2.resize(img, self.dest_dims)
