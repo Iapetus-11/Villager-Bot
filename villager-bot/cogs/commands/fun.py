@@ -9,7 +9,7 @@ from util.code import format_exception
 from util.misc import strip_command
 
 try:
-    from util import tiler
+    from util import tiler_rgba
 except ImportError as e:
     print(format_exception(e))
     tiler = None
@@ -27,8 +27,8 @@ class Fun(commands.Cog):
 
         self.aiohttp = bot.aiohttp
 
-        if tiler:
-            self.tiler = tiler.Tiler("data/emoji_palette.json")
+        if tiler_rgba:
+            self.tiler = tiler_rgba.TilerRGBA("data/emoji_palette.json")
         else:
             self.tiler = None
 
