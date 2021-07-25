@@ -11,8 +11,7 @@ IGNORE = [
     "_left",
     "_inner",
     "_on",
-    "_off"
-    "_front",
+    "_off" "_front",
     "_back",
     "_stage",
     "_middle",
@@ -28,19 +27,21 @@ IGNORE = [
     "target"
 ]
 
+
 class Palette:
-    def __init__(self, *, resolution: int = 16, source_dir: str = '.', verbose: bool = False):
-        self.source_dir = source_dir + ('' if source_dir.endswith('/') or source_dir.endswith('\\') else '\\')
+    def __init__(self, *, resolution: int = 16, source_dir: str = ".", verbose: bool = False):
+        self.source_dir = source_dir + ("" if source_dir.endswith("/") or source_dir.endswith("\\") else "\\")
         self.dest_dims = (resolution, resolution)
         self.data = None
         self.verbose = verbose
 
     def generate(self):
-        if self.verbose: print('Processing images...')
+        if self.verbose:
+            print("Processing images...")
 
         image_files = []
 
-        for f in [*filter((lambda file: (file.endswith('.png') or file.endswith('.jpg'))), next(os.walk(self.source_dir))[2])]:
+        for f in [*filter((lambda file: (file.endswith(".png") or file.endswith(".jpg"))), next(os.walk(self.source_dir))[2])]:
             c = False
 
             for i in IGNORE:
@@ -51,7 +52,6 @@ class Palette:
 
             if not c:
                 image_files.append(f)
-
 
         with Pool(8) as pool:
             raw_p = [*filter((lambda e: bool(e)), pool.map(self.pal_from_image, image_files))]
@@ -67,20 +67,16 @@ class Palette:
             map_oct.append(res[2])
             palette.update(res[3])
 
-        self.data = {
-            'dims': self.dest_dims,
-            'bi': map_bi,
-            'quad': map_quad,
-            'oct': map_oct,
-            'palette': palette
-        }
+        self.data = {"dims": self.dest_dims, "bi": map_bi, "quad": map_quad, "oct": map_oct, "palette": palette}
 
-        if self.verbose: print(f'Done! ({len(self.data["palette"])})')
+        if self.verbose:
+            print(f'Done! ({len(self.data["palette"])})')
 
     def pal_from_image(self, image_file):
-        if self.verbose: print(f'Processing: {image_file}')
+        if self.verbose:
+            print(f"Processing: {image_file}")
 
-        img = cv2.imread(self.source_dir+image_file, cv2.IMREAD_UNCHANGED)
+        img = cv2.imread(self.source_dir + image_file, cv2.IMREAD_UNCHANGED)
 
         if img is None:
             return False
@@ -115,18 +111,19 @@ class Palette:
 
         avgs.reverse()  # turn into rgb
 
-        b = base64.b64encode(cv2.imencode('.png', img)[1]).decode('utf-8')
+        b = base64.b64encode(cv2.imencode(".png", img)[1]).decode("utf-8")
 
         return (
-            [[int(avg/128) for avg in avgs], image_file],
-            [[int(avg/64) for avg in avgs], image_file],
-            [[int(avg/32) for avg in avgs], image_file],
-            {image_file: b}
+            [[int(avg / 128) for avg in avgs], image_file],
+            [[int(avg / 64) for avg in avgs], image_file],
+            [[int(avg / 32) for avg in avgs], image_file],
+            {image_file: b},
         )
+
 
 if __name__ == "__main__":
     p = Palette(verbose=True)
     p.generate()
-    
+
     with open("0UT.json", "w+") as f:
         json.dump(p.data, f)
