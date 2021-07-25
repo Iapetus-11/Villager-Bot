@@ -398,7 +398,7 @@ class Useful(commands.Cog):
                 bans = "unknown"
 
             if bans > 500:
-                self.ban_count_cache[ctx.guild.id] = BanCacheEntry(len(await guild.bans()))
+                self.ban_count_cache[ctx.guild.id] = BanCacheEntry(bans)
         else:
             if (time.time() - bans.time) > 60 * 60:  # 1 hr
                 self.ban_count_cache.pop(ctx.guild.id, None)
