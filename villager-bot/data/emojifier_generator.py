@@ -66,7 +66,11 @@ class Palette:
             [[int(avg / 128) for avg in avgs], image_file],
             [[int(avg / 64) for avg in avgs], image_file],
             [[int(avg / 32) for avg in avgs], image_file],
-            {image_file: base64.b64encode(cv2.imencode(".png", cv2.resize(img, (16, 16)), cv2.IMWRITE_PAM_FORMAT_RGB_ALPHA)[1]).decode("utf-8")},
+            {
+                image_file: base64.b64encode(
+                    cv2.imencode(".png", cv2.resize(img, (16, 16)), cv2.IMWRITE_PAM_FORMAT_RGB_ALPHA)[1]
+                ).decode("utf-8")
+            },
         )
 
 
