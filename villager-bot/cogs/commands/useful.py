@@ -8,6 +8,14 @@ import arrow
 import time
 
 
+class BanCacheEntry:
+    __slots__ = ("ban_count", "time")
+
+    def __init__(self, ban_count: int):
+        self.ban_count = ban_count
+        self.time = time.time()
+
+
 class Useful(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -17,6 +25,8 @@ class Useful(commands.Cog):
         self.ipc = bot.ipc
 
         self.google = async_cse.Search(bot.k.google_search)
+
+        self.ban_count_cache = {}
 
         self.snipes = {}
         self.clear_snipes.start()
@@ -372,10 +382,25 @@ class Useful(commands.Cog):
         time = arrow.get(discord.utils.snowflake_time(guild.id))
         time = time.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
 
-        try:
-            bans = len(await asyncio.wait_for(guild.bans(), 2))
-        except Exception:
-            bans = "unknown"
+        bans = self.ban_count_cache.get(ctx.guild.id)
+        
+        if bans is None:
+            try:
+                bans = len(await asyncio.wait_for(guild.bans(), 1))
+            except asyncio.TimeoutError:  # so many bans, eeee
+                bans = "unknown"
+
+                async def update_ban_cache():
+                    self.ban_count_cache[ctx.guild.id] = BanCacheEntry(len(await guild.bans()))
+
+                asyncio.create_task(update_ban_cache())
+            except Exception:
+                bans = "unknown"
+        else:
+            if (time.time() - bans.time) > 60 * 60:  # 1 hr
+                self.ban_count_cache.pop(ctx.guild.id, None)
+
+            bans = bans.ban_count
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=guild.icon_url)
