@@ -255,18 +255,7 @@ class Fun(commands.Cog):
 
         text = (strip_command(ctx)).lower()
 
-        if text:
-            for letter in text:
-                if letter in ALPHABET_LOWER:
-                    text += f":regional_indicator_{letter}: "
-                else:
-                    text += self.d.emojified.get(letter, letter) + " "
-
-            if len(text) > 2000:
-                await self.bot.send_embed(ctx, ctx.l.fun.too_long)
-            else:
-                await ctx.send(text)
-        elif len(ctx.message.attachments) > 0:
+        if len(ctx.message.attachments) > 0:
             image = ctx.message.attachments[0]
 
             if image.filename.lower()[-4:] not in (".jpg", ".png") and not image.filename.lower()[-5:] in (".jpeg"):
@@ -292,6 +281,17 @@ class Fun(commands.Cog):
                 )
 
             await ctx.reply(file=discord.File(image_data, filename=image.filename), mention_author=False)
+        elif text:
+            for letter in text:
+                if letter in ALPHABET_LOWER:
+                    text += f":regional_indicator_{letter}: "
+                else:
+                    text += self.d.emojified.get(letter, letter) + " "
+
+            if len(text) > 2000:
+                await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+            else:
+                await ctx.send(text)
         else:
             await self.bot.reply_embed(ctx, "You must add text or an image to be emojified.")
 
