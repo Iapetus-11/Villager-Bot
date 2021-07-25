@@ -16,7 +16,9 @@ class Palette:
         if self.verbose:
             print("Processing images...")
 
-        image_files = [*filter((lambda file: (file.endswith(".png") or file.endswith(".jpg"))), next(os.walk(self.source_dir))[2])]
+        image_files = [
+            *filter((lambda file: (file.endswith(".png") or file.endswith(".jpg"))), next(os.walk(self.source_dir))[2])
+        ]
 
         with Pool(8) as pool:
             raw_p = [*filter((lambda e: bool(e)), pool.map(self.pal_from_image, image_files))]
