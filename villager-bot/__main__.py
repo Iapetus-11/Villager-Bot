@@ -22,10 +22,13 @@ if pyximport:
 
 from karen import MechaKaren
 
-if __name__ == "__main__":
+def main():
     karen = MechaKaren()
 
     try:
         karen.run()
     except KeyboardInterrupt:
         pass
+
+if __name__ == "__main__":
+    main()
