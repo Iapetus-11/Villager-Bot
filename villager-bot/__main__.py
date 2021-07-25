@@ -22,6 +22,7 @@ if pyximport:
 
 from karen import MechaKaren
 
+
 def main():
     karen = MechaKaren()
 
@@ -29,6 +30,7 @@ def main():
         karen.run()
     except KeyboardInterrupt:
         pass
+
 
 if __name__ == "__main__":
     main()
