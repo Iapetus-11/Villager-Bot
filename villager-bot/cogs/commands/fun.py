@@ -409,7 +409,10 @@ class Fun(commands.Cog):
         choices = question.a.copy()
         random.shuffle(choices)
 
-        embed = discord.Embed(color=self.d.cc, title=f"{self.d.emojis.bounce}  Minecraft Trivia **[{ctx.l.fun.trivia.difficulty[question.difficulty]}]** :question:")
+        embed = discord.Embed(
+            color=self.d.cc,
+            title=f"{self.d.emojis.bounce}  Minecraft Trivia **[{ctx.l.fun.trivia.difficulty[question.difficulty]}]** :question:",
+        )
         embed.description = f"*{question.q}*"
         embed.set_footer(text="\uFEFF\nYou have 15 seconds to answer this question!")
 
@@ -420,17 +423,26 @@ class Fun(commands.Cog):
                 embed.add_field(name="\uFEFF", value="\uFEFF")
 
         msg = await ctx.send(embed=embed)
-        
+
         for i in range(len(choices)):
-            await msg.add_reaction(self.d.emojis.numbers[i+1])
-        
+            await msg.add_reaction(self.d.emojis.numbers[i + 1])
+
         def reaction_check(react, r_user):
-            return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message and react.emoji in self.d.emojis.numbers[1:len(choices)+1]
+            return (
+                r_user == ctx.author
+                and ctx.channel == react.message.channel
+                and msg == react.message
+                and react.emoji in self.d.emojis.numbers[1 : len(choices) + 1]
+            )
 
         try:
             react, r_user = await self.bot.wait_for("reaction_add", check=reaction_check, timeout=15)
         except asyncio.TimeoutError:
-            embed = discord.Embed(color=self.d.cc, title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:", description="**Sucks to suck...** You ran out of time!")
+            embed = discord.Embed(
+                color=self.d.cc,
+                title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:",
+                description="**Sucks to suck...** You ran out of time!",
+            )
             await msg.edit(embed=embed)
             return
         finally:
@@ -439,14 +451,21 @@ class Fun(commands.Cog):
             except Exception:
                 pass
 
-        if choices[self.d.emojis.numbers.index(react.emoji)-1] == correct_choice:
-            embed = discord.Embed(color=self.d.cc, title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:", description="Nice job, that was **correct**!\nYou've been awarded 15:emerald:!")
+        if choices[self.d.emojis.numbers.index(react.emoji) - 1] == correct_choice:
+            embed = discord.Embed(
+                color=self.d.cc,
+                title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:",
+                description="Nice job, that was **correct**!\nYou've been awarded 15:emerald:!",
+            )
             await msg.edit(embed=embed)
         else:
-            embed = discord.Embed(color=self.d.cc, title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:", description="That was **incorrect**...  :pensive:")
+            embed = discord.Embed(
+                color=self.d.cc,
+                title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:",
+                description="That was **incorrect**...  :pensive:",
+            )
             await msg.edit(embed=embed)
 
-        
 
 def setup(bot):
     bot.add_cog(Fun(bot))
