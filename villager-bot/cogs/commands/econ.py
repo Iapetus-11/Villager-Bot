@@ -1010,6 +1010,9 @@ class Econ(commands.Cog):
         # calculate if user finds emeralds OR not
         found = random.choice(self.calc_yield_chance_list(pickaxe))
 
+        # see if user has chugged a luck potion
+        lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]"))
+
         # ~~what the fuck?~~
         # calculate bonus emeralds from enchantment items
         if found:
@@ -1018,11 +1021,9 @@ class Econ(commands.Cog):
                     found += random.choice(self.d.mining.yields_enchant_items[item])
                     break
 
-            await asyncio.sleep(0)
-
         if not found:
             for item in self.d.mining.findables:  # try to see if user gets an item
-                if random.randint(0, item[2]) == 1:
+                if random.randint(0, item[2]) == 1 or (lucky and random.randint(0, item[2]) in (1, 2, 3)):
                     await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
 
                     await self.bot.reply_embed(
@@ -1039,8 +1040,6 @@ class Econ(commands.Cog):
                     )
 
                     return
-
-                await asyncio.sleep(0)
 
             # only works cause num of pickaxes is 6 and levels of fake finds is 3
             # please don't bug me about jank code, I know
@@ -1070,7 +1069,7 @@ class Econ(commands.Cog):
                 + ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald),
             )
 
-        if random.randint(0, 50) == 1:
+        if random.randint(0, 50) == 1 or (lucky and random.randint(1, 25) == 1):
             db_user = await self.db.fetch_user(ctx.author.id)
             if db_user["vault_max"] < 2000:
                 await self.db.update_user(ctx.author.id, vault_max=(db_user["vault_max"] + 1))
@@ -1104,13 +1103,18 @@ class Econ(commands.Cog):
                 wait -= 2
 
             await asyncio.sleep(wait)
+        
+        # see if user has chugged a luck potion
+        lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]"))
 
         # fished up item or junk or somethin not fish
-        if random.randint(1, 8) == 1:
-            junk_chance = (True, True, True, True, False)
-
+        if random.randint(1, 8) == 1 or (lucky and random.randint(1, 5) == 1):
             if await self.db.fetch_item(ctx.author.id, "Fishing Trophy") is not None:
-                junk_chance = (True, True, True, False, False, False)
+                junk_chance = (True, True, False, False, False)
+            elif lucky:
+                junk_chance = (True, True, True, False, False)
+            else:
+                junk_chance = (True, True, True, True, False)
 
             if random.choice(junk_chance):  # junk
                 junk = random.choice(ctx.l.econ.fishing.junk)
@@ -1132,8 +1136,6 @@ class Econ(commands.Cog):
                         )
                         return
 
-                    await asyncio.sleep(0)
-
         fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fish_weights)[0]
         fish = self.d.fishing.fish[fish_id]
 
@@ -1144,7 +1146,7 @@ class Econ(commands.Cog):
 
         await self.db.update_lb(ctx.author.id, "fish_fished", 1, "add")
 
-        if random.randint(0, 50) == 1:
+        if random.randint(0, 50) == 1 or (lucky and random.randint(1, 25) == 1):
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user["vault_max"] < 2000:
@@ -1318,6 +1320,21 @@ class Econ(commands.Cog):
             await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('haste ii potion')")
             return
 
+        if thing == "luck potion":
+            if amount > 1:
+                await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
+                return
+
+            await self.db.remove_item(ctx.author.id, thing, 1)
+            await self.ipc.eval(f"active_effects[{ctx.author.id}].add('luck potion')")
+            await self.bot.reply_embed(ctx, ctx.l.econ.use.chug.format("Luck Potion", 4.5))
+
+            await asyncio.sleep(60 * 4.5)
+
+            await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Luck Potion"))
+            await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('luck potion')")
+            return
+
         if thing == "seaweed":
             if amount > 1:
                 await self.bot.reply_embed(ctx, ctx.l.econ.use.stupid_1)
@@ -1469,7 +1486,10 @@ class Econ(commands.Cog):
 
         await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.honey.honey).format(jars))  # uwu so sticky oWo
 
-        if random.choice([False] * 3 + [True]):
+        # see if user has chugged a luck potion
+        lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]"))
+
+        if not lucky and random.choice([False] * 3 + [True]):
             bees_lost = random.randint(math.ceil(bees / 75), math.ceil(bees / 50))
 
             await self.db.remove_item(ctx.author.id, "Jar Of Bees", bees_lost)

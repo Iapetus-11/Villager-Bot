@@ -364,6 +364,12 @@
         false
       ],
       [
+        "Luck Potion",
+        128,
+        1000,
+        false
+      ],
+      [
         "Barrel",
         1024,
         99999,
