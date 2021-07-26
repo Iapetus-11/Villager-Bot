@@ -27,6 +27,7 @@ class Fun(commands.Cog):
         self.k = bot.k
 
         self.aiohttp = bot.aiohttp
+        self.db = bot.get_cog("Database")
 
         if tiler_rgba:
             self.tiler = tiler_rgba.TilerRGBA("data/emoji_palette.json")
