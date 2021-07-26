@@ -411,7 +411,7 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=f"{self.d.emojis.bounce}  Minecraft Trivia **[{ctx.l.fun.trivia.difficulty[question.difficulty]}]** :question:")
         embed.description = f"*{question.q}*"
-        embed.set_footer(text="You have 15 seconds to answer this question!")
+        embed.set_footer(text="\uFEFF\nYou have 15 seconds to answer this question!")
 
         for i, c in enumerate(choices):
             embed.add_field(name="\uFEFF", value=f"**{i+1}.** {c}")
