@@ -414,11 +414,12 @@ class Fun(commands.Cog):
             color=self.d.cc,
             title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
         )
-        embed.description = f"*{question.q}*"
+        embed.description = "*{}*".format('\n'.join(map(" ".join, [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)])))
         embed.set_footer(text="\uFEFF\n" + ctx.l.fun.trivia.time_to_answer)
 
         for i, c in enumerate(choices):
-            embed.add_field(name="\uFEFF", value=f"**{i+1}.** {c}")
+            c_column = '\n'.join(map(" ".join, [c.split()[i : i + 5] for i in range(0, len(c.split()), 5)]))
+            embed.add_field(name="\uFEFF", value=f"**{i+1}.** {c_column}")
 
             if i % 2 == 0:
                 embed.add_field(name="\uFEFF", value="\uFEFF")
@@ -458,7 +459,7 @@ class Fun(commands.Cog):
         )
 
         if choices[self.d.emojis.numbers.index(react.emoji) - 1] == correct_choice:
-            emeralds_won = int((random.random() + 0.75) * (question.d + 1) * 15)
+            emeralds_won = int((random.random() + 0.75) * (question.d + .25) * 15)
             await self.db.balance_add(ctx.author.id, emeralds_won)
             embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
         else:
