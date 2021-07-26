@@ -411,10 +411,10 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(
             color=self.d.cc,
-            title=f"{self.d.emojis.bounce}  Minecraft Trivia **[{ctx.l.fun.trivia.difficulty[question.difficulty]}]** :question:",
+            title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
         )
         embed.description = f"*{question.q}*"
-        embed.set_footer(text="\uFEFF\nYou have 15 seconds to answer this question!")
+        embed.set_footer(text="\uFEFF\n" + ctx.l.trivia.time_to_answer)
 
         for i, c in enumerate(choices):
             embed.add_field(name="\uFEFF", value=f"**{i+1}.** {c}")
@@ -440,8 +440,8 @@ class Fun(commands.Cog):
         except asyncio.TimeoutError:
             embed = discord.Embed(
                 color=self.d.cc,
-                title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:",
-                description="**Sucks to suck...** You ran out of time!",
+                title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
+                description=ctx.l.fun.trivia.timeout,
             )
             await msg.edit(embed=embed)
             return
@@ -451,20 +451,19 @@ class Fun(commands.Cog):
             except Exception:
                 pass
 
+        embed = discord.Embed(
+            color=self.d.cc,
+            title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
+        )
+
         if choices[self.d.emojis.numbers.index(react.emoji) - 1] == correct_choice:
-            embed = discord.Embed(
-                color=self.d.cc,
-                title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:",
-                description="Nice job, that was **correct**!\nYou've been awarded 15:emerald:!",
-            )
-            await msg.edit(embed=embed)
+            emeralds_won = int((random.random() + .75) * (question.d + 1) * 15)
+            await self.db.balance_add(ctx.author.id, emeralds_won)
+            embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
         else:
-            embed = discord.Embed(
-                color=self.d.cc,
-                title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:",
-                description="That was **incorrect**...  :pensive:",
-            )
-            await msg.edit(embed=embed)
+            embed.description = random.choice(ctx.l.fun.trivia.incorrect)
+        
+        await msg.edit(embed=embed)
 
 
 def setup(bot):
