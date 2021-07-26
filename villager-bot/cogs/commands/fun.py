@@ -514,8 +514,8 @@ class Fun(commands.Cog):
             title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
         )
 
-        if (correct_choice == "true" and react.emoji == self.d.emojis.yes) or (
-            correct_choice == "false" and react.emoji == self.d.emojis.no
+        if (correct_choice == "true" and str(react.emoji) == self.d.emojis.yes) or (
+            correct_choice == "false" and str(react.emoji) == self.d.emojis.no
         ):
             emeralds_won = int((random.random() + 0.75) * (question.d + 0.25) * 15)
             await self.db.balance_add(ctx.author.id, emeralds_won)
