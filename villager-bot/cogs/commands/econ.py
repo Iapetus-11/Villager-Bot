@@ -1011,7 +1011,7 @@ class Econ(commands.Cog):
         found = random.choice(self.calc_yield_chance_list(pickaxe))
 
         # see if user has chugged a luck potion
-        lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]"))
+        lucky = await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]")
 
         # ~~what the fuck?~~
         # calculate bonus emeralds from enchantment items
@@ -1103,9 +1103,9 @@ class Econ(commands.Cog):
                 wait -= 2
 
             await asyncio.sleep(wait)
-        
+
         # see if user has chugged a luck potion
-        lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]"))
+        lucky = await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]")
 
         # fished up item or junk or somethin not fish
         if random.randint(1, 8) == 1 or (lucky and random.randint(1, 5) == 1):
@@ -1487,7 +1487,7 @@ class Econ(commands.Cog):
         await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.honey.honey).format(jars))  # uwu so sticky oWo
 
         # see if user has chugged a luck potion
-        lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]"))
+        lucky = await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]")
 
         if not lucky and random.choice([False] * 3 + [True]):
             bees_lost = random.randint(math.ceil(bees / 75), math.ceil(bees / 50))
