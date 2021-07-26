@@ -401,6 +401,9 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    def calculate_trivia_reward(self, question_difficulty: int) -> int:
+        return int((random.random() + 0.25) * (question_difficulty+ 0.25) * 7)
+
     async def trivia_multiple_choice(self, ctx, question):
         correct_choice = question.a[0]
 
@@ -459,7 +462,7 @@ class Fun(commands.Cog):
         )
 
         if choices[self.d.emojis.numbers.index(react.emoji) - 1] == correct_choice:
-            emeralds_won = int((random.random() + 0.75) * (question.d + 0.25) * 15)
+            emeralds_won = self.calculate_trivia_reward(question.d)
             await self.db.balance_add(ctx.author.id, emeralds_won)
             embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
         else:
@@ -517,7 +520,7 @@ class Fun(commands.Cog):
         if (correct_choice == "true" and str(react.emoji) == self.d.emojis.yes) or (
             correct_choice == "false" and str(react.emoji) == self.d.emojis.no
         ):
-            emeralds_won = int((random.random() + 0.75) * (question.d + 0.25) * 15)
+            emeralds_won = self.calculate_trivia_reward(question.d)
             await self.db.balance_add(ctx.author.id, emeralds_won)
             embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
         else:
