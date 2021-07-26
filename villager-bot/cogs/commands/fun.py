@@ -411,7 +411,7 @@ class Fun(commands.Cog):
             color=self.d.cc,
             title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
         )
-        
+
         embed.description = "*{}*".format(
             "\n".join(map(" ".join, [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)]))
         )
@@ -474,7 +474,7 @@ class Fun(commands.Cog):
             color=self.d.cc,
             title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
         )
-        
+
         embed.description = "*{}*".format(
             "\n".join(map(" ".join, [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)]))
         )
@@ -514,7 +514,9 @@ class Fun(commands.Cog):
             title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
         )
 
-        if (correct_choice == "true" and react.emoji == self.d.emojis.yes) or (correct_choice == "false" and react.emoji == self.d.emojis.no):
+        if (correct_choice == "true" and react.emoji == self.d.emojis.yes) or (
+            correct_choice == "false" and react.emoji == self.d.emojis.no
+        ):
             emeralds_won = int((random.random() + 0.75) * (question.d + 0.25) * 15)
             await self.db.balance_add(ctx.author.id, emeralds_won)
             embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
@@ -527,7 +529,7 @@ class Fun(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.channel)
     async def minecraft_trivia(self, ctx):
         question = random.choice(ctx.l.fun.trivia.questions)
-        
+
         if "true" in question.a:
             await self.trivia_true_or_false(ctx, question)
         else:
