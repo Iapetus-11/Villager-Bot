@@ -151,6 +151,237 @@
       "bubblewrap": {
         "invalid_size_1": "That is not a valid size. Example of a valid size: `10x10`",
         "invalid_size_2": "The size must be between 1 and 12"
+      },
+      "trivia": {
+        "difficulty": [
+          "easy",
+          "medium",
+          "hard"
+        ],
+        "questions": [
+          {
+            "difficulty": 2,
+            "q": "How much health does the Ender Dragon have?",
+            "a": [
+              "200 hp",
+              "500 hp",
+              "50 hp",
+              "100 hp"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "How many slices does a Minecraft cake have?",
+            "a": [
+              "7 slices",
+              "8 slices",
+              "6 slices",
+              "10 slices"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "How much hunger does a potato restore?",
+            "a": [
+              "1 hunger",
+              "2 hunger",
+              "0 hunger",
+              "3 hunger"
+            ]
+          },
+          {
+            "difficulty": 2,
+            "q": "How much hunger saturation does a potato restore?",
+            "a": [
+              "0.6 saturation",
+              "1 saturation",
+              "0.1 saturation",
+              "1.7 saturation"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "What food restores the most hunger in Minecraft?",
+            "a": [
+              "steak",
+              "bread",
+              "mushroom stew",
+              "golden carrot"
+            ]
+          },
+          {
+            "difficulty": 2,
+            "q": "How much XP does a villager need to get from Novice to Master rank?",
+            "a": [
+              "250 XP",
+              "150 XP",
+              "100 XP",
+              "70 XP"
+            ]
+          },
+          {
+            "difficulty": 2,
+            "q": "What's the rarest biome in Minecraft?",
+            "a": [
+              "Modified Jungle Edge",
+              "Snowy Taiga Mountains",
+              "Bamboo Jungle Hill",
+              "Mushroom Field Shore"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "What year was Minecraft fully released?",
+            "a": [
+              "2011",
+              "2007",
+              "2010",
+              "2014"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "What mob are creepers scared of?",
+            "a": [
+              "ocelots",
+              "zombies",
+              "the player",
+              "other creepers"
+            ]
+          },
+          {
+            "difficulty": 2,
+            "q": "In what snapshot were elytra added to the game?",
+            "a": [
+              "15w41a",
+              "16w31a",
+              "16w42a",
+              "17w22a"
+            ]
+          },
+          {
+            "difficulty": 0,
+            "q": "What does the skeleton use to attack?",
+            "a": [
+              "bow",
+              "egg",
+              "sword",
+              "nothing"
+            ]
+          },
+          {
+            "difficulty": 0,
+            "q": "What does the wither skeleton use to attack?",
+            "a": [
+              "sword",
+              "bow",
+              "wither skull",
+              "their hands"
+            ]
+          },
+          {
+            "difficulty": 2,
+            "q": "How far away is the world border from 0 0?",
+            "a": [
+              "30000000 blocks in each direction",
+              "1000000 blocks in each direction",
+              "300000000 blocks in each direction",
+              "There is no border, Minecraft is infinite"
+            ]
+          },
+          {
+            "difficulty": 2,
+            "q": "In which trade slot does the shepherd villager sell beds?",
+            "a": [
+              "6th",
+              "2nd",
+              "4rd",
+              "8th"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "What tool is sold by both the toolsmith and weaponsmith villagers?",
+            "a": [
+              "axe",
+              "shovel",
+              "sword",
+              "pickaxe"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "Which item can you use to make a night vision potion?",
+            "a": [
+              "golden carrot",
+              "golden apple",
+              "rotten flesh",
+              "beetroot"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "How long does one Minecraft in-game day last?",
+            "a": [
+              "20 minutes",
+              "10 minutes",
+              "30 minutes",
+              "1 hour"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "Who originally created Minecraft?",
+            "a": [
+              "Markus Perrson",
+              "Matthew Marcusson",
+              "Donald Donnelly",
+              "Magnus Carlson"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "true or false: A shovel can be used to extinguish a campfire",
+            "a": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "Which mob can fly through bedrock?",
+            "a": [
+              "vex",
+              "bee",
+              "wither skeleton",
+              "bat"
+            ]
+          },
+          {
+            "difficulty": 2,
+            "q": "true or false: An iron hoe has more durability than a golden hoe",
+            "a": [
+             "true",
+             "false" 
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "true or false: Minecraft zombies can break down doors",
+            "a": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "difficulty": 1,
+            "q": "true or false: Minecraft skeletons can break down doors",
+            "a": [
+              "false",
+              "true"
+            ]
+          }
+        ]
       }
     },
     "mobs_mech": {
