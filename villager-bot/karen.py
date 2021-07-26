@@ -48,6 +48,8 @@ class MechaKaren:
         self.commands_lock = asyncio.Lock()
         self.commands_task = None
 
+        self.heal_users_task = None
+
     async def handle_packet(self, stream: Stream, packet: ClassyDict):
         if packet.type == "shard-ready":
             self.online_shards.add(packet.shard_id)
@@ -156,17 +158,28 @@ class MechaKaren:
         except Exception as e:
             self.logger.error(format_exception(e))
 
+    async def heal_users_loop(self):
+        try:
+            while True:
+                await asyncio.sleep(32)
+                await self.db.execute("UPDATE users SET health = health + 1 WHERE health < 20")
+        except Exception as e:
+            self.logger.error(format_exception(e))
+
     async def start(self, pp):
-        self.db = await asyncpg.connect(
+        self.db = await asyncpg.create_pool(
             host=self.k.database.host,  # where db is hosted
             database=self.k.database.name,  # name of database
             user=self.k.database.user,  # database username
             password=self.k.database.auth,  # password which goes with user
+            max_size=2,
+            min_size=1,
         )
 
         await self.server.start()
         self.cooldowns.start()
         self.commands_task = asyncio.create_task(self.commands_dump_loop())
+        self.heal_users_task = asyncio.create_task(self.heal_users_loop())
 
         shard_groups = []
         loop = asyncio.get_event_loop()
@@ -174,8 +187,8 @@ class MechaKaren:
 
         # calculate max connections to the db server per process allowed
         # postgresql is usually configured to allow 100 max, so we use
-        # 80 to leave room for other programs using the db server
-        db_pool_size_per = 80 // (self.d.shard_count // g + 1)
+        # 75 to leave room for other programs using the db server
+        db_pool_size_per = 75 // (self.d.shard_count // g + 1)
 
         for shard_id_group in [self.shard_ids[i : i + g] for i in range(0, len(self.shard_ids), g)]:
             shard_groups.append(loop.run_in_executor(pp, run_cluster, self.d.shard_count, shard_id_group, db_pool_size_per))
@@ -183,6 +196,7 @@ class MechaKaren:
         await asyncio.wait(shard_groups)
         self.cooldowns.stop()
         self.commands_task.cancel()
+        self.heal_users_task.cancel()
         await self.db.close()
 
     def run(self):
