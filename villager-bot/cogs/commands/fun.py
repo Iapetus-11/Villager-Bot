@@ -1,6 +1,7 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands
 import classyjson as cj
+import asyncio
 import discord
 import random
 import typing
@@ -399,6 +400,53 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name="trivia", aliases=["mctrivia"])
+    @commands.max_concurrency(1, per=commands.BucketType.channel)
+    async def minecraft_trivia(self, ctx):
+        question = random.choice(ctx.l.fun.trivia.questions)
+        correct_choice = question.a[0]
+
+        choices = question.a.copy()
+        random.shuffle(choices)
+
+        embed = discord.Embed(color=self.d.cc, title=f"{self.d.emojis.bounce}  Minecraft Trivia **[{ctx.l.fun.trivia.difficulty[question.difficulty]}]** :question:")
+        embed.description = f"*{question.q}*"
+        embed.set_footer(text="You have 15 seconds to answer this question!")
+
+        for i, c in enumerate(choices):
+            embed.add_field(name="\uFEFF", value=f"**{i+1}.** {c}")
+
+            if i % 2 == 0:
+                embed.add_field(name="\uFEFF", value="\uFEFF")
+
+        msg = await ctx.send(embed=embed)
+        
+        for i in range(len(choices)):
+            await msg.add_reaction(self.d.emojis.numbers[i+1])
+        
+        def reaction_check(react, r_user):
+            return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message and react.emoji in self.d.emojis.numbers[1:len(choices)+1]
+
+        try:
+            react, r_user = await self.bot.wait_for("reaction_add", check=reaction_check, timeout=15)
+        except asyncio.TimeoutError:
+            embed = discord.Embed(color=self.d.cc, title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:", description="**Sucks to suck...** You ran out of time!")
+            await msg.edit(embed=embed)
+            return
+        finally:
+            try:
+                await msg.clear_reactions()
+            except Exception:
+                pass
+
+        if choices[self.d.emojis.numbers.index(react.emoji)-1] == correct_choice:
+            embed = discord.Embed(color=self.d.cc, title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:", description="Nice job, that was **correct**!\nYou've been awarded 15:emerald:!")
+            await msg.edit(embed=embed)
+        else:
+            embed = discord.Embed(color=self.d.cc, title=f"{self.d.emojis.bounce}  Minecraft Trivia :question:", description="That was **incorrect**...  :pensive:")
+            await msg.edit(embed=embed)
+
+        
 
 def setup(bot):
     bot.add_cog(Fun(bot))
