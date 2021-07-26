@@ -334,6 +334,8 @@ class Useful(commands.Cog):
             session_votes,
         ) = counters
 
+        total_mem = psutil.virtual_memory().total
+
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
@@ -351,7 +353,7 @@ class Useful(commands.Cog):
         )
 
         col_2 = (
-            f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000, 2)} MB`\n"
+            f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000000, 2)} GB` `({round(mem_usage / total_mem * 100, 2)}%)`\n"
             f"{ctx.l.useful.stats.cpu}: `{round(psutil.getloadavg()[0] / psutil.cpu_count() * 100, 2)}%`\n"
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
             f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"

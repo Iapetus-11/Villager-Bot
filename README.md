@@ -1,5 +1,5 @@
 # **Villager Bot**
-[![CodeFactor](https://www.codefactor.io/repository/github/iapetus-11/villager-bot/badge/master)](https://www.codefactor.io/repository/github/iapetus-11/villager-bot/overview/master)
+[![CodeFactor](https://www.codefactor.io/repository/github/iapetus-11/villager-bot/badge)](https://www.codefactor.io/repository/github/iapetus-11/villager-bot)
 [![Views](https://api.ghprofile.me/view?username=villager-dev.villager-bot&color=0FAE6E&label=views&style=flat)](https://github.com/Iapetus-11/Villager-Bot)
 [![Bot Status](https://top.gg/api/widget/status/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
 [![Server Count](https://top.gg/api/widget/servers/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
