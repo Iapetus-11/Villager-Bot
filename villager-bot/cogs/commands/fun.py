@@ -427,7 +427,7 @@ class Fun(commands.Cog):
             if i % 2 == 0:
                 embed.add_field(name="\uFEFF", value="\uFEFF")
 
-        msg = await ctx.send(embed=embed)
+        msg = await ctx.reply(embed=embed, mention_author=False)
 
         for i in range(len(choices)):
             await msg.add_reaction(self.d.emojis.numbers[i + 1])
@@ -483,7 +483,7 @@ class Fun(commands.Cog):
         )
         embed.set_footer(text="\uFEFF\n" + ctx.l.fun.trivia.time_to_answer)
 
-        msg = await ctx.send(embed=embed)
+        msg = await ctx.reply(embed=embed, mention_author=False)
 
         await msg.add_reaction(self.d.emojis.yes)
         await msg.add_reaction(self.d.emojis.no)
@@ -529,7 +529,7 @@ class Fun(commands.Cog):
         await msg.edit(embed=embed)
 
     @commands.command(name="trivia", aliases=["mctrivia"])
-    @commands.max_concurrency(1, per=commands.BucketType.channel)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def minecraft_trivia(self, ctx):
         question = random.choice(ctx.l.fun.trivia.questions)
 
