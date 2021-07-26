@@ -414,7 +414,7 @@ class Fun(commands.Cog):
             title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
         )
         embed.description = f"*{question.q}*"
-        embed.set_footer(text="\uFEFF\n" + ctx.l.trivia.time_to_answer)
+        embed.set_footer(text="\uFEFF\n" + ctx.l.fun.trivia.time_to_answer)
 
         for i, c in enumerate(choices):
             embed.add_field(name="\uFEFF", value=f"**{i+1}.** {c}")
