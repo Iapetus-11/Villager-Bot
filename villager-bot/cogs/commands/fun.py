@@ -402,7 +402,7 @@ class Fun(commands.Cog):
         await ctx.send(embed=embed)
 
     def calculate_trivia_reward(self, question_difficulty: int) -> int:
-        return int((random.random() + 0.25) * (question_difficulty+ 0.25) * 7)
+        return int((random.random() + 0.25) * (question_difficulty + 0.25) * 7)
 
     async def trivia_multiple_choice(self, ctx, question):
         correct_choice = question.a[0]
