@@ -401,10 +401,7 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="trivia", aliases=["mctrivia"])
-    @commands.max_concurrency(1, per=commands.BucketType.channel)
-    async def minecraft_trivia(self, ctx):
-        question = random.choice(ctx.l.fun.trivia.questions)
+    async def trivia_multiple_choice(self, ctx, question):
         correct_choice = question.a[0]
 
         choices = question.a.copy()
@@ -414,6 +411,7 @@ class Fun(commands.Cog):
             color=self.d.cc,
             title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
         )
+        
         embed.description = "*{}*".format(
             "\n".join(map(" ".join, [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)]))
         )
@@ -468,6 +466,72 @@ class Fun(commands.Cog):
             embed.description = random.choice(ctx.l.fun.trivia.incorrect)
 
         await msg.edit(embed=embed)
+
+    async def trivia_true_or_false(self, ctx, question):
+        correct_choice = question.a[0]
+
+        embed = discord.Embed(
+            color=self.d.cc,
+            title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
+        )
+        
+        embed.description = "*{}*".format(
+            "\n".join(map(" ".join, [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)]))
+        )
+        embed.set_footer(text="\uFEFF\n" + ctx.l.fun.trivia.time_to_answer)
+
+        msg = await ctx.send(embed=embed)
+
+        await msg.add_reaction(self.d.emojis.yes)
+        await msg.add_reaction(self.d.emojis.no)
+
+        def reaction_check(react, r_user):
+            return (
+                r_user == ctx.author
+                and ctx.channel == react.message.channel
+                and msg == react.message
+                and str(react.emoji) in [self.d.emojis.yes, self.d.emojis.no]
+            )
+
+        try:
+            react, r_user = await self.bot.wait_for("reaction_add", check=reaction_check, timeout=15)
+        except asyncio.TimeoutError:
+            embed = discord.Embed(
+                color=self.d.cc,
+                title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
+                description=ctx.l.fun.trivia.timeout,
+            )
+            await msg.edit(embed=embed)
+            return
+        finally:
+            try:
+                await msg.clear_reactions()
+            except Exception:
+                pass
+
+        embed = discord.Embed(
+            color=self.d.cc,
+            title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
+        )
+
+        if (correct_choice == "true" and react.emoji == self.d.emojis.yes) or (correct_choice == "false" and react.emoji == self.d.emojis.no):
+            emeralds_won = int((random.random() + 0.75) * (question.d + 0.25) * 15)
+            await self.db.balance_add(ctx.author.id, emeralds_won)
+            embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
+        else:
+            embed.description = random.choice(ctx.l.fun.trivia.incorrect)
+
+        await msg.edit(embed=embed)
+
+    @commands.command(name="trivia", aliases=["mctrivia"])
+    @commands.max_concurrency(1, per=commands.BucketType.channel)
+    async def minecraft_trivia(self, ctx):
+        question = random.choice(ctx.l.fun.trivia.questions)
+        
+        if "true" in question.a:
+            await self.trivia_true_or_false(ctx, question)
+        else:
+            await self.trivia_multiple_choice(ctx, question)
 
 
 def setup(bot):
