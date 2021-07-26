@@ -457,12 +457,12 @@ class Fun(commands.Cog):
         )
 
         if choices[self.d.emojis.numbers.index(react.emoji) - 1] == correct_choice:
-            emeralds_won = int((random.random() + .75) * (question.d + 1) * 15)
+            emeralds_won = int((random.random() + 0.75) * (question.d + 1) * 15)
             await self.db.balance_add(ctx.author.id, emeralds_won)
             embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
         else:
             embed.description = random.choice(ctx.l.fun.trivia.incorrect)
-        
+
         await msg.edit(embed=embed)
 
 
