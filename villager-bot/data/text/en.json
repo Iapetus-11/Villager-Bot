@@ -447,6 +447,36 @@
               "redstone",
               "glowstone"
             ]
+          },
+          {
+            "d": 1,
+            "q": "What year did development on Minecraft begin?",
+            "a": [
+              "2009",
+              "2010",
+              "2011",
+              "2008"
+            ]
+          },
+          {
+            "d": 1,
+            "q": "In what programming language is the PC version of Minecraft written in?",
+            "a": [
+              "Java",
+              "Python",
+              "C++",
+              "BASIC"
+            ]
+          },
+          {
+            "d": 2,
+            "q": "How many minutes does it take for a baby villager to grow up?",
+            "a": [
+              "20 minutes",
+              "10 minutes",
+              "40 minutes",
+              "15 minutes"
+            ]
           }
         ]
       }
