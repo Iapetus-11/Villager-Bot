@@ -420,7 +420,7 @@ class Fun(commands.Cog):
         embed.set_footer(text="\uFEFF\n" + ctx.l.fun.trivia.time_to_answer)
 
         for i, c in enumerate(choices):
-            c_column = '\n'.join(map(" ".join, [c.split()[i : i + 3] for i in range(0, len(c.split()), 3)]))
+            c_column = "\n".join(map(" ".join, [c.split()[i : i + 3] for i in range(0, len(c.split()), 3)]))
             embed.add_field(name="\uFEFF", value=f"**{i+1}.** {c_column}")
 
             if i % 2 == 0:
