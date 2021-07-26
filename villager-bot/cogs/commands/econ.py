@@ -737,7 +737,7 @@ class Econ(commands.Cog):
             ),
         )
 
-    @commands.command(name="sell", aliases=["emeraldify"])
+    @commands.command(name="sell", aliases=["emeraldify", "s"])
     # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def sell(self, ctx, *, amount_item):
@@ -997,7 +997,7 @@ class Econ(commands.Cog):
 
             await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.beg.negative).format(f"{amount}{self.d.emojis.emerald}"))
 
-    @commands.command(name="mine", aliases=["mein", "eun", "mien"])
+    @commands.command(name="mine", aliases=["mein", "eun", "mien", "m"])
     @commands.guild_only()
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
@@ -1074,7 +1074,7 @@ class Econ(commands.Cog):
             if db_user["vault_max"] < 2000:
                 await self.db.update_user(ctx.author.id, vault_max=(db_user["vault_max"] + 1))
 
-    @commands.command(name="fish", aliases=["phish", "feesh"])
+    @commands.command(name="fish", aliases=["phish", "feesh", "f"])
     @commands.guild_only()
     # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
