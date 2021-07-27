@@ -531,6 +531,7 @@ class Fun(commands.Cog):
     @commands.command(name="trivia", aliases=["mctrivia"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def minecraft_trivia(self, ctx):
+        return
         question = random.choice(ctx.l.fun.trivia.questions)
 
         if question.tf:
