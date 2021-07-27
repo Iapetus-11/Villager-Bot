@@ -477,6 +477,16 @@
               "40 minutes",
               "15 minutes"
             ]
+          },
+          {
+            "d": 2,
+            "q": "How many different colors of dye are there?",
+            "a": [
+              "16 colors",
+              "14 colors",
+              "18 colors",
+              "20 colors"
+            ]
           }
         ]
       }
