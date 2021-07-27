@@ -682,6 +682,26 @@
               "2 HP",
               "4 HP"
             ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "All Minecraft cows are...",
+            "a": [
+              "female",
+              "male"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "What is the maximum number of melon slices a melon can drop?",
+            "a": [
+              "9 slices",
+              "8 slices",
+              "7 slices",
+              "6 slices"
+            ]
           }
         ]
       }
