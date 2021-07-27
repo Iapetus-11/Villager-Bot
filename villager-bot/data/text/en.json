@@ -379,7 +379,7 @@
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: A shovel can be used to extinguish a campfire",
+            "q": "**true** or **false**: a shovel can be used to extinguish a campfire",
             "a": [
               "true",
               "false"
@@ -399,7 +399,7 @@
           {
             "d": 2,
             "tf": true,
-            "q": "**true** or **false**: An iron hoe has more durability than a golden hoe",
+            "q": "**true** or **false**: an iron hoe has more durability than a golden hoe",
             "a": [
               "true",
               "false"
@@ -602,7 +602,7 @@
           {
             "d": 0,
             "tf": false,
-            "q": "**true** or **false**: Piglins only attack when you hit them",
+            "q": "**true** or **false**: piglins only attack when you hit them",
             "a": [
               "false",
               "true"
@@ -633,7 +633,7 @@
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: The dragon can only lay multiple eggs",
+            "q": "**true** or **false**: the Ender Dragon can only lay multiple eggs",
             "a": [
               "false",
               "true"
@@ -712,6 +712,79 @@
               "4 wool",
               "2 wool",
               "1 wool"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "What item do slimes drop in Minecraft?",
+            "a": [
+              "slime balls",
+              "slime jars",
+              "kinetic sand",
+              "magma cream"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "What is the name of the mob that drops magma cream?",
+            "a": [
+              "magma cube",
+              "lava slime",
+              "molten cube",
+              "molten slime"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "What is the name of the mob that drops gunpowder?",
+            "a": [
+              "creeper",
+              "zombie",
+              "wither",
+              "magma cube"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: in Minecraft, fish can drop bones",
+            "a": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What is the rarest type of axolotl?",
+            "a": [
+              "blue",
+              "red",
+              "tropical",
+              "pink"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": true,
+            "q": "**true** or **false**: in Minecraft, axolotls can only spawn in absolute darkness",
+            "a": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Which of the following is actually a type of axolotl in Minecraft?",
+            "a": [
+              "leucistic",
+              "muddy",
+              "white",
+              "purpur"
             ]
           }
         ]
