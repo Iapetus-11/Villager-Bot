@@ -313,7 +313,34 @@ class Useful(commands.Cog):
         )
         """
 
-        res = await self.ipc.broadcast({"type": "exec", "code": get_stats_code})
+        get_karen_stats_code = """
+        import asyncio, psutil
+
+        proc = psutil.Process()
+        with proc.oneshot():
+            mem_usage = proc.memory_full_info().uss
+            threads = proc.num_threads()
+
+        return (
+            mem_usage,
+            threads,
+            len(asyncio.all_tasks()),
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        )
+        """
+
+        res, karen_res = await asyncio.gather(
+            self.ipc.broadcast({"type": "exec", "code": get_stats_code}),
+            self.ipc.exec(get_karen_stats_code)
+        )
+
+        res.responses.append(karen_res)
 
         counters = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
