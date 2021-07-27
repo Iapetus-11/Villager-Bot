@@ -64,6 +64,8 @@ class Stream:
         self.reader = reader
         self.writer = writer
 
+        self.drain_lock = asyncio.Lock()
+
     async def read_packet(self) -> cj.ClassyDict:
         (length,) = struct.unpack(">i", await self.reader.read(LENGTH_LENGTH))  # read the length of the upcoming packet
         data = await self.reader.read(length)  # read the rest of the packet
@@ -78,7 +80,8 @@ class Stream:
             raise ValueError("Packet is too big to send...")
 
         self.writer.write(packet)
-        await self.writer.drain()
+        async with self.drain_lock:
+            await self.writer.drain()
 
     async def close(self) -> None:
         self.writer.close()
