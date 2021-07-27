@@ -487,6 +487,16 @@
               "18 colors",
               "20 colors"
             ]
+          },
+          {
+            "d": 1,
+            "q": "What enchantment has the same max level as Sharpness?",
+            "a": [
+              "smite",
+              "unbreaking",
+              "feather falling",
+              "blast protection"
+            ]
           }
         ]
       }
