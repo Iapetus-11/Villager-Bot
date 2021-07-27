@@ -152,7 +152,7 @@
         "invalid_size_1": "Esse não é um tamanho válido. Exemplo de tamanho válido: `10x10`",
         "invalid_size_2": "O tamanho deve ser entre 1 e 12"
       },
-      "gayrate": "{0} {1} is 100% gay {0}"
+      "gayrate": "{0} {1} é 100% gay {0}"
     },
     "mobs_mech": {
       "no_health": "Você não tem saúde suficiente para lutar contra essa monstro.",
