@@ -457,7 +457,7 @@
           "`{0}config difficulty <pacífico/fácil/difícil>` - Muda a dificuldade do jogo.\n\n",
           "`{0}config lang <idioma>` - Muda o idioma do Villager Bot.\n\n",
           "`{0}config mcserver <mcserver>` - Altera o servidor que recebe o ping se você não especificar um servidor em `/mcping`.\n\n",
-          "`{0}config togglecmd <cmd>` - Altere se o comando especificado pode ser usado ou não.\n\n"
+          "`{0}config togglecmd <cmd>` - Altere se o comando especificado pode ser usado ou não. Deve ter um servidor Premium.\n\n"
         ],
         "user_conf": "Configuração por Usuário",
         "user_content": [

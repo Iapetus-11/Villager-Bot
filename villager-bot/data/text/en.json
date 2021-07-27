@@ -805,7 +805,7 @@
           "`{0}config difficulty <peaceful/easy/hard>` - Changes the difficulty of the game.\n\n",
           "`{0}config lang <language>` - Changes the language of Villager Bot.\n\n",
           "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`.\n\n",
-          "`{0}config togglecmd <cmd>` - Change whether the specified command can be used or not.\n\n"
+          "`{0}config togglecmd <cmd>` - Change whether the specified command can be used or not. Must have Premium server.\n\n"
         ],
         "user_conf": "Per User Configuration",
         "user_content": [
