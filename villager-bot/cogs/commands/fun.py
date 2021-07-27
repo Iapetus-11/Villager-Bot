@@ -539,8 +539,10 @@ class Fun(commands.Cog):
             await self.trivia_multiple_choice(ctx, question)
 
     @commands.command(name="gayrate", aliases=["gaypercent"])
-    async def gay_rate(self, ctx, *, thing: typing.Union[discord.Member, str]):
-        if isinstance(thing, discord.Member):
+    async def gay_rate(self, ctx, *, thing: typing.Union[discord.Member, str] = None):
+        if thing is None:
+            thing = ctx.author.mention
+        elif isinstance(thing, discord.Member):
             thing = thing.mention
 
         await self.bot.reply_embed(ctx, ctx.l.fun.gayrate.format(":rainbow_flag:", thing))
