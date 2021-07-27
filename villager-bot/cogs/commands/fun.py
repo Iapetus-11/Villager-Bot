@@ -401,6 +401,9 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    def calculate_trivia_reward(self, question_difficulty: int) -> int:
+        return int((random.random() + 0.25) * (question_difficulty + 0.25) * 9) + 1
+
     async def trivia_multiple_choice(self, ctx, question):
         correct_choice = question.a[0]
 
@@ -424,7 +427,7 @@ class Fun(commands.Cog):
             if i % 2 == 0:
                 embed.add_field(name="\uFEFF", value="\uFEFF")
 
-        msg = await ctx.send(embed=embed)
+        msg = await ctx.reply(embed=embed, mention_author=False)
 
         for i in range(len(choices)):
             await msg.add_reaction(self.d.emojis.numbers[i + 1])
@@ -459,7 +462,7 @@ class Fun(commands.Cog):
         )
 
         if choices[self.d.emojis.numbers.index(react.emoji) - 1] == correct_choice:
-            emeralds_won = int((random.random() + 0.75) * (question.d + 0.25) * 15)
+            emeralds_won = self.calculate_trivia_reward(question.d)
             await self.db.balance_add(ctx.author.id, emeralds_won)
             embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
         else:
@@ -480,7 +483,7 @@ class Fun(commands.Cog):
         )
         embed.set_footer(text="\uFEFF\n" + ctx.l.fun.trivia.time_to_answer)
 
-        msg = await ctx.send(embed=embed)
+        msg = await ctx.reply(embed=embed, mention_author=False)
 
         await msg.add_reaction(self.d.emojis.yes)
         await msg.add_reaction(self.d.emojis.no)
@@ -517,7 +520,7 @@ class Fun(commands.Cog):
         if (correct_choice == "true" and str(react.emoji) == self.d.emojis.yes) or (
             correct_choice == "false" and str(react.emoji) == self.d.emojis.no
         ):
-            emeralds_won = int((random.random() + 0.75) * (question.d + 0.25) * 15)
+            emeralds_won = self.calculate_trivia_reward(question.d)
             await self.db.balance_add(ctx.author.id, emeralds_won)
             embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
         else:
@@ -526,7 +529,7 @@ class Fun(commands.Cog):
         await msg.edit(embed=embed)
 
     @commands.command(name="trivia", aliases=["mctrivia"])
-    @commands.max_concurrency(1, per=commands.BucketType.channel)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def minecraft_trivia(self, ctx):
         question = random.choice(ctx.l.fun.trivia.questions)
 
@@ -534,6 +537,15 @@ class Fun(commands.Cog):
             await self.trivia_true_or_false(ctx, question)
         else:
             await self.trivia_multiple_choice(ctx, question)
+
+    @commands.command(name="gayrate", aliases=["gaypercent"])
+    async def gay_rate(self, ctx, *, thing: typing.Union[discord.Member, str] = None):
+        if thing is None:
+            thing = ctx.author.mention
+        elif isinstance(thing, discord.Member):
+            thing = thing.mention
+
+        await self.bot.reply_embed(ctx, ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", thing))
 
 
 def setup(bot):

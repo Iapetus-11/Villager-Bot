@@ -152,6 +152,7 @@
         "invalid_size_1": "That is not a valid size. Example of a valid size: `10x10`",
         "invalid_size_2": "The size must be between 1 and 12"
       },
+      "gayrate": "{0} {1} is 100% gay {0}",
       "trivia": {
         "title": "{}  Minecraft Trivia **[{}]** {}",
         "title_basic": "{}  Minecraft Trivia {}",
@@ -358,7 +359,7 @@
           },
           {
             "d": 1,
-            "q": "true or false: A shovel can be used to extinguish a campfire",
+            "q": "**true** or **false**: A shovel can be used to extinguish a campfire",
             "a": [
               "true",
               "false"
@@ -376,7 +377,7 @@
           },
           {
             "d": 2,
-            "q": "true or false: An iron hoe has more durability than a golden hoe",
+            "q": "**true** or **false**: An iron hoe has more durability than a golden hoe",
             "a": [
              "true",
              "false" 
@@ -384,7 +385,7 @@
           },
           {
             "d": 1,
-            "q": "true or false: Minecraft zombies can break down doors",
+            "q": "**true** or **false**: Minecraft zombies can break down doors",
             "a": [
               "true",
               "false"
@@ -392,10 +393,110 @@
           },
           {
             "d": 1,
-            "q": "true or false: Minecraft skeletons can break down doors",
+            "q": "**true** or **false**: Minecraft skeletons can break down doors",
             "a": [
               "false",
               "true"
+            ]
+          },
+          {
+            "d": 2,
+            "q": "What was the first enemy introduced into Minecraft?",
+            "a": [
+              "zombie",
+              "creeper",
+              "skeleton",
+              "spider"
+            ]
+          },
+          {
+            "d": 2,
+            "q": "Which hostile mob was added in the Pretty Scary Update?",
+            "a": [
+              "witch",
+              "creeper",
+              "enderman",
+              "wither"
+            ]
+          },
+          {
+            "d": 2,
+            "q": "Which enemy was introduced in Minecraft 1.8?",
+            "a": [
+              "silverfish",
+              "wither",
+              "spider",
+              "zombie pigman"
+            ]
+          },
+          {
+            "d": 2,
+            "q": "In which snapshot was the Zombie Pigman renamed to the Zombified Piglin?",
+            "a": [
+              "20w09a",
+              "13w49a",
+              "18w43a",
+              "12w37a"
+            ]
+          },
+          {
+            "d": 1,
+            "q": "What's the ingredient used to make lingering potions?",
+            "a": [
+              "dragon's breath",
+              "gunpowder",
+              "redstone",
+              "glowstone"
+            ]
+          },
+          {
+            "d": 1,
+            "q": "What year did development on Minecraft begin?",
+            "a": [
+              "2009",
+              "2010",
+              "2011",
+              "2008"
+            ]
+          },
+          {
+            "d": 1,
+            "q": "In what programming language is the PC version of Minecraft written in?",
+            "a": [
+              "Java",
+              "Python",
+              "C++",
+              "BASIC"
+            ]
+          },
+          {
+            "d": 2,
+            "q": "How many minutes does it take for a baby villager to grow up?",
+            "a": [
+              "20 minutes",
+              "10 minutes",
+              "40 minutes",
+              "15 minutes"
+            ]
+          },
+          {
+            "d": 2,
+            "q": "How many different colors of dye are there?",
+            "a": [
+              "16 colors",
+              "14 colors",
+              "18 colors",
+              "20 colors"
+            ]
+          },
+          {
+            "d": 1,
+            "q": "What enchantment has the same max level as Sharpness?",
+            "a": [
+              "smite",
+              "unbreaking",
+              "feather falling",
+              "blast protection"
             ]
           }
         ]
