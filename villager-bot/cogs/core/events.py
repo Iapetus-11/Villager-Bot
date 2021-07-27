@@ -187,12 +187,11 @@ class Events(commands.Cog):
 
         if message.guild is None:
             if message.channel.recipient.id not in self.d.dm_log_ignore:
-                if not message.content.startswith(self.d.default_prefix):
-                    await self.after_ready.wait()
-                    await self.bot.dm_log_channel.send(
-                        f"{message.author} (`{message.author.id}`): {message.content}"[:2000],
-                        files=await asyncio.gather(*[attachment.to_file() for attachment in message.attachments]),
-                    )
+                await self.after_ready.wait()
+                await self.bot.dm_log_channel.send(
+                    f"{message.author} (`{message.author.id}`): {message.content}".replace("@everyone", "@\uFEFFeveryone")[:2000],
+                    files=await asyncio.gather(*[attachment.to_file() for attachment in message.attachments]),
+                )
 
             return
 
