@@ -547,7 +547,6 @@ class Fun(commands.Cog):
 
         await self.bot.reply_embed(ctx, ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", thing))
 
-        
 
 def setup(bot):
     bot.add_cog(Fun(bot))
