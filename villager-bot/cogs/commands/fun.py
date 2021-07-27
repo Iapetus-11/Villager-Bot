@@ -543,7 +543,7 @@ class Fun(commands.Cog):
         if isinstance(thing, discord.Member):
             thing = thing.mention
 
-        await self.bot.reply_embed(ctx.l.fun.gayrate.format(":rainbow_flag:", thing))
+        await self.bot.reply_embed(ctx, ctx.l.fun.gayrate.format(":rainbow_flag:", thing))
 
         
 
