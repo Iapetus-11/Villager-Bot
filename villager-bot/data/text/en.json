@@ -702,6 +702,17 @@
               "7 slices",
               "6 slices"
             ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "How much wool do you need to make a bed in Minecraft?",
+            "a": [
+              "3 wool",
+              "4 wool",
+              "2 wool",
+              "1 wool"
+            ]
           }
         ]
       }
