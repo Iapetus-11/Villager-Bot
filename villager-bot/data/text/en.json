@@ -152,6 +152,7 @@
         "invalid_size_1": "That is not a valid size. Example of a valid size: `10x10`",
         "invalid_size_2": "The size must be between 1 and 12"
       },
+      "gayrate": "{0} {1} is 100% gay {0}",
       "trivia": {
         "title": "{}  Minecraft Trivia **[{}]** {}",
         "title_basic": "{}  Minecraft Trivia {}",
