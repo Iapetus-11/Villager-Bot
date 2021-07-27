@@ -619,6 +619,37 @@
               "Johnny",
               "Toast"
             ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "What was the creeper supposed to be originally?",
+            "a": [
+              "pig",
+              "zombie",
+              "spider",
+              "chicken"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: The dragon can only lay multiple eggs",
+            "a": [
+              "false",
+              "true"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Which update was also known as \"The Pretty Scary Update\"?",
+            "a": [
+              "1.4.2",
+              "1.3",
+              "1.12",
+              "1.7"
+            ]
           }
         ]
       }
