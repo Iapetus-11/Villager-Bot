@@ -68,7 +68,7 @@ class Useful(commands.Cog):
                     embed = discord.Embed(color=self.d.cc)
 
                     embed.set_author(name=ctx.l.help.n.cmd, icon_url=self.d.splash_logo)
-                    embed.set_footer(text=ctx.l.misc.petus)
+                    embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
                     embed.description = help_text.format(ctx.prefix)
 
@@ -107,7 +107,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.economy}]", icon_url=self.d.splash_logo)
-        embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         commands_formatted = "`, `".join(list(ctx.l.help.econ))
         embed.description = f"`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}"
@@ -119,7 +119,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]", icon_url=self.d.splash_logo)
-        embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         commands_formatted = "`, `".join(list(ctx.l.help.mc))
         embed.description = f"`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}"
@@ -131,7 +131,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.utility}]", icon_url=self.d.splash_logo)
-        embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         commands_formatted = "`, `".join(list(ctx.l.help.util))
         embed.description = f"`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}"
@@ -143,7 +143,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.fun}]", icon_url=self.d.splash_logo)
-        embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         commands_formatted = "`, `".join(list(ctx.l.help.fun))
         embed.description = f"`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}"
@@ -155,7 +155,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.admin}]", icon_url=self.d.splash_logo)
-        embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         commands_formatted = "`, `".join(list(ctx.l.help.mod))
         embed.description = f"`{commands_formatted}`\n\n{ctx.l.help.main.howto.format(ctx.prefix)}"
@@ -339,7 +339,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
-        embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         col_1 = (
             f"{ctx.l.useful.stats.servers}: `{guild_count}`\n"
@@ -446,7 +446,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=ctx.l.useful.rules.penalty)
 
         embed.set_author(name=ctx.l.useful.rules.rules, icon_url=self.d.splash_logo)
-        embed.set_footer(text=ctx.l.misc.petus)
+        embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         embed.add_field(name="\uFEFF", value=ctx.l.useful.rules.rule_1.format(self.d.support))
         embed.add_field(name="\uFEFF", value="\uFEFF")
