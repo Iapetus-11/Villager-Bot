@@ -533,6 +533,92 @@
               "feather falling",
               "blast protection"
             ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What's the Ender Dragon's name?",
+            "a": [
+              "Jean",
+              "Carson",
+              "Bertha",
+              "Steve"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Why did polar bears get added to Minecraft?",
+            "a": [
+              "Jeb's wife liked polar bears so he added it",
+              "the community chose it on Minecon live",
+              "Notch added it as a secret friday update",
+              "the community voted for it on Twitter"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "What language do Enderman speak?",
+            "a": [
+              "inverted English",
+              "just gibberish",
+              "swedish",
+              "inverted german"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "What's the most common flower in the swamp biome?",
+            "a": [
+              "blue orchid",
+              "dandelion",
+              "wither rose",
+              "sunflower"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Why was the black and white cat added to the game?",
+            "a": [
+              "Jeb's cat died and it looked that way",
+              "Notch liked the way it looked",
+              "they googled random cat images and found that one",
+              "it was a random design"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "How is the \"How did we get here?\" achievement obtained?",
+            "a": [
+              "having all effects applied at once",
+              "having all potion effects applied at once",
+              "by going to an end city",
+              "by finding the farlands"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "**true** or **false**: Piglins only attack when you hit them",
+            "a": [
+              "false",
+              "true"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Giving a sheep what nametag will make them become rainbow?",
+            "a": [
+              "jeb_",
+              "Dinnerbone",
+              "Johnny",
+              "Toast"
+            ]
           }
         ]
       }
