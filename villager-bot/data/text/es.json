@@ -131,7 +131,9 @@
         "pat": "`{0}pat <usuario>` *da una palmadita brutal a alguien en la cabeza*",
         "slap": "`{0}slap <usuario>` *abofetea a alguien suavemente*",
         "achievement": "`{0}achievement <texto>` *genera un logro de Minecraft a partir del texto dado*",
-        "splashtext": "`{0}splashtext <texto>` *genera una pantalla de inicio de Minecraft con el texto dado*"
+        "splashtext": "`{0}splashtext <texto>` *genera una pantalla de inicio de Minecraft con el texto dado*",
+        "trivia": "`{0}trivia` *envía preguntas tipo trivia, ¡puedes responderlas para conseguir esmeraldas!*",
+        "gayrate": "`{0}gayrate <usuario>` *te dice que tan gay eres*"
       },
       "mod": {
         "warn": "`{0}warn <usuario> <razón>` *advierte a un usuario por una razón específica*",
