@@ -176,7 +176,7 @@ class Events(commands.Cog):
 
             embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
             embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
-            embed.set_footer(text=lang.misc.petus)
+            embed.set_footer(text=lang.useful.credits.foot.format(prefix))
 
             try:
                 await message.channel.send(embed=embed)
