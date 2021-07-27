@@ -786,6 +786,17 @@
               "white",
               "purpur"
             ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "How do you breed axolotls in Minecraft?",
+            "a": [
+              "bucket of tropical fish",
+              "bucket of water",
+              "only salmon",
+              "any type of fish"
+            ]
           }
         ]
       }
