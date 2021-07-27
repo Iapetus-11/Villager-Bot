@@ -336,8 +336,7 @@ class Useful(commands.Cog):
         """
 
         res, karen_res = await asyncio.gather(
-            self.ipc.broadcast({"type": "exec", "code": get_stats_code}),
-            self.ipc.exec(get_karen_stats_code)
+            self.ipc.broadcast({"type": "exec", "code": get_stats_code}), self.ipc.exec(get_karen_stats_code)
         )
 
         res.responses.append(karen_res)
