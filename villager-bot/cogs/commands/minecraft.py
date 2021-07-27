@@ -126,7 +126,7 @@ class Minecraft(commands.Cog):
             color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined)
         )
 
-        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj["latency"])
+        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=f'{jj["latency"]}ms')
         ver = jj["version"].get("brand", "Unknown")
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=("Unknown" if ver is None else ver))
 
@@ -210,7 +210,7 @@ class Minecraft(commands.Cog):
 
         embed.set_footer(text=ctx.l.minecraft.mcping.powered_by, icon_url="https://i.ibb.co/SdZHQ4b/full-1.png")
 
-        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=jj["latency"])
+        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=f'{jj["latency"]}ms')
         ver = jj["version"].get("brand", "Unknown")
         embed.add_field(name=ctx.l.minecraft.mcping.version, value=("Unknown" if ver is None else ver))
 
