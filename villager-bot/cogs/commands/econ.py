@@ -1186,7 +1186,7 @@ class Econ(commands.Cog):
 
         pillager_pillages, victim_pillages = await asyncio.gather(
             self.ipc.exec(f"pillages[{ctx.author.id}] += 1; return pillages[{ctx.author.id}] - 1"),
-            self.ipc.eval(f"return pillages[{victim.id}] - 1"),
+            self.ipc.eval(f"pillages[{victim.id}] - 1"),
         )
 
         if pillager_pillages.success == False:
