@@ -1189,6 +1189,12 @@ class Econ(commands.Cog):
             self.ipc.eval(f"return pillages[{victim.id}] - 1"),
         )
 
+        if pillager_pillages.success == False:
+            raise Exception(pillager_pillages.result)
+
+        if victim_pillages.success == False:
+            raise Exception(victim_pillages.result)
+
         pillager_pillages = pillager_pillages.result
         victim_pillages = victim_pillages.result
 
