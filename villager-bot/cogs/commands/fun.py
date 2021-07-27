@@ -533,7 +533,7 @@ class Fun(commands.Cog):
     async def minecraft_trivia(self, ctx):
         question = random.choice(ctx.l.fun.trivia.questions)
 
-        if "true" in question.a:
+        if question.tf:
             await self.trivia_true_or_false(ctx, question)
         else:
             await self.trivia_multiple_choice(ctx, question)
