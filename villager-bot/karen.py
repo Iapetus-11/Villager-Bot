@@ -33,25 +33,30 @@ class MechaKaren:
         self.db = None
         self.cooldowns = CooldownManager(self.d.cooldown_rates)
         self.concurrency = MaxConcurrencyManager()
-        self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, {
-            "missing-packet": self.handle_missing_packet,
-            "shard-ready": self.handle_shard_ready_packet,
-            "shard-disconnect": self.handle_shard_disconnect_packet,
-            "eval": self.handle_eval_packet,
-            "exec": self.handle_exec_packet,
-            "broadcast-request": self.handle_broadcast_request_packet,
-            "broadcast-response": self.handle_broadcast_response_packet,
-            "cooldown": self.handle_cooldown_packet,
-            "cooldown-add": self.handle_cooldown_add_packet,
-            "cooldown-reset": self.handle_cooldown_reset_packet,
-            "dm-message-request": self.handle_dm_message_request_packet,
-            "dm-message": self.handle_dm_message_packet,
-            "mine-command": self.handle_mine_command_packet,
-            "concurrency-check": self.handle_concurrency_check_packet,
-            "concurrency-acquire": self.handle_concurrency_acquire_packet,
-            "concurrency-release": self.handle_concurrency_release_packet,
-            "command-ran": self.handle_command_ran_packet,
-        })
+        self.server = Server(
+            self.k.manager.host,
+            self.k.manager.port,
+            self.k.manager.auth,
+            {
+                "missing-packet": self.handle_missing_packet,
+                "shard-ready": self.handle_shard_ready_packet,
+                "shard-disconnect": self.handle_shard_disconnect_packet,
+                "eval": self.handle_eval_packet,
+                "exec": self.handle_exec_packet,
+                "broadcast-request": self.handle_broadcast_request_packet,
+                "broadcast-response": self.handle_broadcast_response_packet,
+                "cooldown": self.handle_cooldown_packet,
+                "cooldown-add": self.handle_cooldown_add_packet,
+                "cooldown-reset": self.handle_cooldown_reset_packet,
+                "dm-message-request": self.handle_dm_message_request_packet,
+                "dm-message": self.handle_dm_message_packet,
+                "mine-command": self.handle_mine_command_packet,
+                "concurrency-check": self.handle_concurrency_check_packet,
+                "concurrency-acquire": self.handle_concurrency_acquire_packet,
+                "concurrency-release": self.handle_concurrency_release_packet,
+                "command-ran": self.handle_command_ran_packet,
+            },
+        )
 
         self.shard_ids = tuple(range(self.d.shard_count))
         self.online_shards = set()
@@ -87,7 +92,7 @@ class MechaKaren:
         except Exception as e:
             result = format_exception(e)
             success = False
-            
+
             self.logger.error(result)
 
         await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
@@ -99,14 +104,14 @@ class MechaKaren:
         except Exception as e:
             result = format_exception(e)
             success = False
-            
+
             self.logger.error(result)
 
         await stream.write_packet({"type": "exec-response", "id": packet.id, "result": result, "success": success})
-    
+
     async def handle_broadcast_request_packet(self, stream: Stream, packet: ClassyDict):
         """broadcasts the packet to every connection including the broadcaster, and waits for responses"""
-        
+
         broadcast_id = f"b{self.current_id}"
         self.current_id += 1
 
@@ -163,7 +168,13 @@ class MechaKaren:
         )
 
     async def handle_concurrency_check_packet(self, stream: Stream, packet: ClassyDict):
-        await stream.write_packet({"type": "concurrency-check-response", "id": packet.id, "can_run": self.concurrency.check(packet.command, packet.user_id)})
+        await stream.write_packet(
+            {
+                "type": "concurrency-check-response",
+                "id": packet.id,
+                "can_run": self.concurrency.check(packet.command, packet.user_id),
+            }
+        )
 
     async def handle_concurrency_acquire_packet(self, stream: Stream, packet: ClassyDict):
         self.concurrency.acquire(packet.command, packet.user_id)
