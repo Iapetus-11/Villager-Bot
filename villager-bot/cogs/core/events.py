@@ -189,7 +189,9 @@ class Events(commands.Cog):
             if message.channel.recipient.id not in self.d.dm_log_ignore:
                 await self.after_ready.wait()
                 await self.bot.dm_log_channel.send(
-                    f"{message.author} (`{message.author.id}`): {message.content}".replace("@everyone", "@\uFEFFeveryone")[:2000],
+                    f"{message.author} (`{message.author.id}`): {message.content}".replace("@everyone", "@\uFEFFeveryone")[
+                        :2000
+                    ],
                     files=await asyncio.gather(*[attachment.to_file() for attachment in message.attachments]),
                 )
 
