@@ -3,7 +3,6 @@
     "lang": "fr",
     "name": "Français",
     "misc": {
-      "petus": "Fait par Iapetus11",
       "pingpong": "Le préfixe pour ce serveur est `{0}` et la commande d'aide est `{0}help`\nSi tu as besoin de plus d'aide, tu peux rejoindre le **[Serveur de support]({1})**.",
       "cooldown_msgs": [
         "Tes parents ne t'ont jamais appris que [la patience est une vertu](http://www.patience-is-a-virtue.org/) ? Calme toi et attends encore **{}**.",
