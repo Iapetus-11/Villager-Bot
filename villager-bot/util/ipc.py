@@ -153,13 +153,13 @@ class Client:
 
 
 class Server:
-    def __init__(self, host: str, port: int, auth: str, handle_packet: Callable) -> None:
+    def __init__(self, host: str, port: int, auth: str, packet_handlers: dict) -> None:
         self.host = host
         self.port = port
 
         self.auth = auth
 
-        self.handle_packet = handle_packet
+        self.packet_handlers = packet_handlers
 
         self.server = None
         self.serve_task = None
@@ -207,4 +207,4 @@ class Server:
                 self.connections.remove(stream)
                 return
 
-            asyncio.create_task(self.handle_packet(stream, packet))
+            asyncio.create_task(self.packet_handlers.get(packet.type, self.packet_handlers["missing-packet"])(stream, packet))

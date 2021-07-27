@@ -30,10 +30,28 @@ class MechaKaren:
         self.v = self.Share()
 
         self.logger = setup_karen_logging()
-        self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.handle_packet)
+        self.db = None
         self.cooldowns = CooldownManager(self.d.cooldown_rates)
         self.concurrency = MaxConcurrencyManager()
-        self.db = None
+        self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, {
+            "missing-packet": self.handle_missing_packet,
+            "shard-ready": self.handle_shard_ready_packet,
+            "shard-disconnect": self.handle_shard_disconnect_packet,
+            "eval": self.handle_eval_packet,
+            "exec": self.handle_exec_packet,
+            "broadcast-request": self.handle_broadcast_request_packet,
+            "broadcast-response": self.handle_broadcast_response_packet,
+            "cooldown": self.handle_cooldown_packet,
+            "cooldown-add": self.handle_cooldown_add_packet,
+            "cooldown-reset": self.handle_cooldown_reset_packet,
+            "dm-message-request": self.handle_dm_message_request_packet,
+            "dm-message": self.handle_dm_message_packet,
+            "mine-command": self.handle_mine_command_packet,
+            "concurrency-check": self.handle_concurrency_check_packet,
+            "concurrency-acquire": self.handle_concurrency_acquire_packet,
+            "concurrency-release": self.handle_concurrency_release_packet,
+            "command-ran": self.handle_command_ran_packet,
+        })
 
         self.shard_ids = tuple(range(self.d.shard_count))
         self.online_shards = set()
@@ -50,91 +68,112 @@ class MechaKaren:
 
         self.heal_users_task = None
 
-    async def handle_packet(self, stream: Stream, packet: ClassyDict):
-        if packet.type == "shard-ready":
-            self.online_shards.add(packet.shard_id)
+    async def handle_missing_packet(self, stream: Stream, packet: ClassyDict):
+        self.logger.error(f"Missing packet handler for packet type {packet.type}")
 
-            if len(self.online_shards) == len(self.shard_ids):
-                self.logger.info(f"\u001b[36;1mALL SHARDS\u001b[0m [0-{len(self.online_shards)-1}] \u001b[36;1mREADY\u001b[0m")
-        elif packet.type == "shard-disconnect":
-            self.online_shards.discard(packet.shard_id)
-        elif packet.type == "eval":
-            try:
-                result = eval(packet.code, self.eval_env)
-                success = True
-            except Exception as e:
-                result = format_exception(e)
-                success = False
+    async def handle_shard_ready_packet(self, stream: Stream, packet: ClassyDict):
+        self.online_shards.add(packet.shard_id)
 
-            await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
-        elif packet.type == "exec":
-            try:
-                result = await execute_code(packet.code, self.eval_env)
-                success = True
-            except Exception as e:
-                result = format_exception(e)
-                success = False
+        if len(self.online_shards) == len(self.shard_ids):
+            self.logger.info(f"\u001b[36;1mALL SHARDS\u001b[0m [0-{len(self.online_shards)-1}] \u001b[36;1mREADY\u001b[0m")
 
-            await stream.write_packet({"type": "exec-response", "id": packet.id, "result": result, "success": success})
-        elif packet.type == "broadcast-request":
-            # broadcasts the packet to every connection including the broadcaster, and waits for responses
-            broadcast_id = f"b{self.current_id}"
-            self.current_id += 1
+    async def handle_shard_disconnect_packet(self, stream: Stream, packet: ClassyDict):
+        self.online_shards.discard(packet.shard_id)
 
-            broadcast_packet = {**packet.packet, "id": broadcast_id}
-            broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections]
-            broadcast = self.broadcasts[broadcast_id] = {
-                "ready": asyncio.Event(),
-                "responses": [],
-                "expects": len(broadcast_coros),
-            }
+    async def handle_eval_packet(self, stream: Stream, packet: ClassyDict):
+        try:
+            result = eval(packet.code, self.eval_env)
+            success = True
+        except Exception as e:
+            result = format_exception(e)
+            success = False
+            
+            self.logger.error(result)
 
-            await asyncio.wait(broadcast_coros)
-            await broadcast["ready"].wait()
-            await stream.write_packet({"type": "broadcast-response", "id": packet.id, "responses": broadcast["responses"]})
-        elif packet.type == "broadcast-response":
-            broadcast = self.broadcasts[packet.id]
-            broadcast["responses"].append(packet)
+        await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
 
-            if len(broadcast["responses"]) == broadcast["expects"]:
-                broadcast["ready"].set()
-        elif packet.type == "cooldown":
-            cooldown_info = self.cooldowns.check(packet.command, packet.user_id)
-            await stream.write_packet({"type": "cooldown-info", "id": packet.id, **cooldown_info})
-        elif packet.type == "cooldown-add":
-            self.cooldowns.add_cooldown(packet.command, packet.user_id)
-        elif packet.type == "cooldown-reset":
-            self.cooldowns.clear_cooldown(packet.command, packet.user_id)
-        elif packet.type == "dm-message-request":
-            entry = self.dm_messages[packet.user_id] = {"event": asyncio.Event(), "content": None}
-            await entry["event"].wait()
+    async def handle_exec_packet(self, stream: Stream, packet: ClassyDict):
+        try:
+            result = await execute_code(packet.code, self.eval_env)
+            success = True
+        except Exception as e:
+            result = format_exception(e)
+            success = False
+            
+            self.logger.error(result)
 
-            self.dm_messages.pop(packet.user_id, None)
+        await stream.write_packet({"type": "exec-response", "id": packet.id, "result": result, "success": success})
+    
+    async def handle_broadcast_request_packet(self, stream: Stream, packet: ClassyDict):
+        """broadcasts the packet to every connection including the broadcaster, and waits for responses"""
+        
+        broadcast_id = f"b{self.current_id}"
+        self.current_id += 1
 
-            await stream.write_packet({"type": "dm-message", "id": packet.id, "content": entry["content"]})
-        elif packet.type == "dm-message":
-            entry = self.dm_messages.get(packet.user_id)
+        broadcast_packet = {**packet.packet, "id": broadcast_id}
+        broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections]
+        broadcast = self.broadcasts[broadcast_id] = {
+            "ready": asyncio.Event(),
+            "responses": [],
+            "expects": len(broadcast_coros),
+        }
 
-            if entry is None:
-                return
+        await asyncio.wait(broadcast_coros)
+        await broadcast["ready"].wait()
+        await stream.write_packet({"type": "broadcast-response", "id": packet.id, "responses": broadcast["responses"]})
 
-            entry["content"] = packet.content
-            entry["event"].set()
-        elif packet.type == "mine-command":  # actually used for fishing too
-            self.v.mine_commands[packet.user_id] += packet.addition
-            await stream.write_packet(
-                {"type": "mine-command-response", "id": packet.id, "current": self.v.mine_commands[packet.user_id]}
-            )
-        elif packet.type == "concurrency-check":
-            can_run = self.concurrency.check(packet.command, packet.user_id)
-            await stream.write_packet({"type": "concurrency-check-response", "id": packet.id, "can_run": can_run})
-        elif packet.type == "concurrency-acquire":
-            self.concurrency.acquire(packet.command, packet.user_id)
-        elif packet.type == "concurrency-release":
-            self.concurrency.release(packet.command, packet.user_id)
-        elif packet.type == "command-ran":
-            async with self.commands_lock:
-                self.commands[packet.user_id] += 1
+    async def handle_broadcast_response_packet(self, stream: Stream, packet: ClassyDict):
+        broadcast = self.broadcasts[packet.id]
+        broadcast["responses"].append(packet)
+
+        if len(broadcast["responses"]) == broadcast["expects"]:
+            broadcast["ready"].set()
+
+    async def handle_cooldown_packet(self, stream: Stream, packet: ClassyDict):
+        cooldown_info = self.cooldowns.check(packet.command, packet.user_id)
+        await stream.write_packet({"type": "cooldown-info", "id": packet.id, **cooldown_info})
+
+    async def handle_cooldown_add_packet(self, stream: Stream, packet: ClassyDict):
+        self.cooldowns.add_cooldown(packet.command, packet.user_id)
+
+    async def handle_cooldown_reset_packet(self, stream: Stream, packet: ClassyDict):
+        self.cooldowns.clear_cooldown(packet.command, packet.user_id)
+
+    async def handle_dm_message_request_packet(self, stream: Stream, packet: ClassyDict):
+        entry = self.dm_messages[packet.user_id] = {"event": asyncio.Event(), "content": None}
+        await entry["event"].wait()
+
+        self.dm_messages.pop(packet.user_id, None)
+
+        await stream.write_packet({"type": "dm-message", "id": packet.id, "content": entry["content"]})
+
+    async def handle_dm_message_packet(self, stream: Stream, packet: ClassyDict):
+        entry = self.dm_messages.get(packet.user_id)
+
+        if entry is None:
+            return
+
+        entry["content"] = packet.content
+        entry["event"].set()
+
+    async def handle_mine_command_packet(self, stream: Stream, packet: ClassyDict):  # used for fishing too
+        self.v.mine_commands[packet.user_id] += packet.addition
+        await stream.write_packet(
+            {"type": "mine-command-response", "id": packet.id, "current": self.v.mine_commands[packet.user_id]}
+        )
+
+    async def handle_concurrency_check_packet(self, stream: Stream, packet: ClassyDict):
+        await stream.write_packet({"type": "concurrency-check-response", "id": packet.id, "can_run": self.concurrency.check(packet.command, packet.user_id)})
+
+    async def handle_concurrency_acquire_packet(self, stream: Stream, packet: ClassyDict):
+        self.concurrency.acquire(packet.command, packet.user_id)
+
+    async def handle_concurrency_release_packet(self, stream: Stream, packet: ClassyDict):
+        self.concurrency.release(packet.command, packet.user_id)
+
+    async def handle_command_ran_packet(self, stream: Stream, packet: ClassyDict):
+        async with self.commands_lock:
+            self.commands[packet.user_id] += 1
 
     async def commands_dump_loop(self):
         try:
