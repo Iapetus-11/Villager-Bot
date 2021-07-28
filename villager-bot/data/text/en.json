@@ -841,6 +841,88 @@
               "seeds",
               "wheat"
             ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: you can milk mushroom stew from mooshrooms",
+            "a": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": true,
+            "q": "**true** or **false**: you can milk mushroom stew from cows with a bowl",
+            "a": [
+              "false",
+              "true"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: the Minecraft bedrock edition is coded in the Java programming language",
+            "a": [
+              "false",
+              "true"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What programming language is Minecraft Bedrock Edition coded in?",
+            "a": [
+              "c++",
+              "c",
+              "c#",
+              "java"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What's the world format for Minecraft Bedrock Edition called?",
+            "a": [
+              "LevelDB",
+              "SQL",
+              "Anvil",
+              "MCA"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What's the world format for Minecraft Java Edition called?",
+            "a": [
+              "Anvil",
+              "SQL",
+              "LevelDB",
+              "MCA"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "How big in blocks is a cubic chunk in Minecraft?",
+            "a": [
+              "16x16x16",
+              "32x32x32",
+              "64x64x64",
+              "128x128x128"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "How big in chunks is a region in Minecraft?",
+            "a": [
+              "32x32",
+              "64x64",
+              "16x16",
+              "96x96"
+            ]
           }
         ]
       }
