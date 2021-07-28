@@ -1120,6 +1120,28 @@
               "jeb",
               "c418"
             ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Which Minecraft block existed before Minecraft?",
+            "a": [
+              "cobblestone",
+              "dirt",
+              "stone",
+              "wood"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What game was Notch working on before Minecraft?",
+            "a": [
+              "RubyDung",
+              "Infiniminer",
+              "Tetris 2.0",
+              "Roblox"
+            ]
           }
         ]
       }
