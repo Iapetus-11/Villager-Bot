@@ -797,6 +797,50 @@
               "only salmon",
               "any type of fish"
             ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "How do you breed cows in Minecraft?",
+            "a": [
+              "wheat",
+              "carrots",
+              "seeds",
+              "milk bucket"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "How do you breed sheep in Minecraft?",
+            "a": [
+              "wheat",
+              "carrots",
+              "seeds",
+              "mushroom soup"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "How do you breed chickens in Minecraft?",
+            "a": [
+              "seeds",
+              "carrots",
+              "wheat",
+              "milk bucket"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "How do you breed pigs in Minecraft?",
+            "a": [
+              "potatoes",
+              "carrots",
+              "seeds",
+              "wheat"
+            ]
           }
         ]
       }
