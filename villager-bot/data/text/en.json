@@ -923,6 +923,203 @@
               "16x16",
               "96x96"
             ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: the text in the enchantment table is just gibberish",
+            "a": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "What can you wear to stop enderman from attacking you if you look at their eyes?",
+            "a": [
+              "pumpkin",
+              "potato",
+              "melon",
+              "wither skull"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "How is a charged creeper created?",
+            "a": [
+              "It's struck by lightning",
+              "It's crafted with a nether star",
+              "It gets hit by a flying wither skull",
+              "It's spawned in with the debug stick"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What animal was recorded to make the sound effects for the ghast?",
+            "a": [
+              "a sleeping cat",
+              "a barking dog",
+              "a parrot",
+              "a growling dog"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What's the maximum power level for redstone dust?",
+            "a": [
+              "15",
+              "16",
+              "12",
+              "8"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What calms bees down in Minecraft?",
+            "a": [
+              "campfire smoke",
+              "honey bottles",
+              "water",
+              "slime balls"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: Minecraft bees can swim underwater",
+            "a": [
+              "false",
+              "true"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What debuff do elder guardians inflict in Minecraft?",
+            "a": [
+              "mining fatigue",
+              "slowness",
+              "instant damage",
+              "poison"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "How do you turn a villager into a witch?",
+            "a": [
+              "strike the villager with lightning",
+              "dip the villager in lava",
+              "have a zombie bite the villager",
+              "burn the villager"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: iron golems can drop poppies when they die",
+            "a": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "How many hearts does the iron golem have?",
+            "a": [
+              "50 hearts",
+              "100 hearts",
+              "25 hearts",
+              "200 hearts"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: you can heal iron golems with iron ingots",
+            "a": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What's the rarest type of village to spawn?",
+            "a": [
+              "snowy",
+              "desert",
+              "jungle",
+              "beach"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: you can silk touch mob spawners",
+            "a": [
+              "false",
+              "true"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": true,
+            "q": "**true** or **false**: the diamond arrow is in Minecraft",
+            "a": [
+              "false",
+              "true"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What version of Minecraft added the end?",
+            "a": [
+              "1.0.0",
+              "1.2.0",
+              "1.12.0",
+              "1.9.0"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What game inspired the creation of Minecraft?",
+            "a": [
+              "infiniminer",
+              "tetris",
+              "roblox",
+              "fortnite"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Who wrote the original music for Minecraft?",
+            "a": [
+              "c418",
+              "notch",
+              "jeb",
+              "lena raine"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Who wrote the music for the 1.16 nether update?",
+            "a": [
+              "lena raine",
+              "notch",
+              "jeb",
+              "c418"
+            ]
           }
         ]
       }
