@@ -1142,6 +1142,90 @@
               "Tetris 2.0",
               "Roblox"
             ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "What's the best y level to mine at for diamonds?",
+            "a": [
+              "y=12",
+              "y=16",
+              "y=3",
+              "y=20"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What's the rarest ore in Minecraft?",
+            "a": [
+              "emerald ore",
+              "ancient debris",
+              "diamond ore",
+              "coal ore"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Which biome is emerald ore found in?",
+            "a": [
+              "mountains biome",
+              "jungle biome",
+              "desert biome",
+              "badlands biome"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Which biome is gold ore found most in?",
+            "a": [
+              "badlands biome",
+              "jungle biome",
+              "desert biome",
+              "beach biome"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Where do normal skeletons spawn in the Nether?",
+            "a": [
+              "soul sand valley biome",
+              "nether wastes biome",
+              "basalt delta biome",
+              "warped forest biome"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: you can trade with hoglins",
+            "a": [
+              "false",
+              "true"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**true** or **false**: you can trade with piglins",
+            "a": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "How do you avoid piglins attacking you?",
+            "a": [
+              "by wearing golden armor",
+              "by killing them",
+              "by wearing soul strider boots",
+              "by wearing warding III armor"
+            ]
           }
         ]
       }
