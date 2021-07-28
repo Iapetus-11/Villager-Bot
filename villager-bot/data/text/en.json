@@ -1226,6 +1226,17 @@
               "by wearing soul strider boots",
               "by wearing warding III armor"
             ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "What item do you breed hoglins with?",
+            "a": [
+              "crimson fungi",
+              "warped fungi",
+              "nether wart",
+              "porkchops"
+            ]
           }
         ]
       }
