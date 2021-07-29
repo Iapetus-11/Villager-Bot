@@ -17,7 +17,6 @@ class Webhooks(commands.Cog):
         self.k = bot.k
 
         self.db = bot.get_cog("Database")
-        self.events = bot.get_cog("Events")
         self.ipc = bot.ipc
 
         self.server_runner = None
@@ -83,7 +82,7 @@ class Webhooks(commands.Cog):
 
         user_str = "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
 
-        await self.events.after_ready.wait()
+        await self.bot.after_ready_ready.wait()
         await self.bot.vote_channel.send(f":tada::tada: **{user_str}** has voted! :tada::tada:")
 
         if user is not None:
