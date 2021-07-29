@@ -153,7 +153,1094 @@
         "invalid_size_1": "Ese no es un tamaño válido. Ejemplo de un tamaño válido: `10x10`",
         "invalid_size_2": "El tamaño debe estar entre 1 y 12"
       },
-      "gayrate": "{0} {1} es un 100% gay {0}"
+      "gayrate": "{0} {1} es un 100% gay {0}",
+      "trivia": {
+        "title": "{}  Minecraft Trivia **[{}]** {}",
+        "title_basic": "{}  Minecraft Trivia {}",
+        "time_to_answer": "¡Tienes 15 segundos para responder esta pregunta!",
+        "timeout": "**Mala suerte...** ¡Te quedaste sin tiempo!",
+        "correct": [
+          "¡Buen trabajo, la respuesta es **correcta**!\nHas sido recompensado con {}{}",
+          "¡Buen trabajo, respuesta **correcta**!\nHas conseguido {}{}",
+          "¡Gran trabajo, la respuesta es **correcta**!\nRecibiste {}{}",
+          "¡Genial, has **acertado**!\nConseguiste {}{}",
+          "¡Bien, has **acertado**!\nHas sido recompensado con {}{}"
+        ],
+        "incorrect": [
+          "Respuesta **incorrecta**... :pensive:",
+          "Puede que seas **estúpido** :pensive:",
+          "No hay esperanza para tí... :pensive:",
+          "Sí doctor, básicamente no tiene cerebro..."
+        ],
+        "difficulty": [
+          "fácil",
+          "media",
+          "difícil"
+        ],
+        "questions": [
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuánta vida tiene el Dragón de Ender?",
+            "a": [
+              "200 hp",
+              "500 hp",
+              "50 hp",
+              "100 hp"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuántos trozos tiene una tarta en Minecraft?",
+            "a": [
+              "7 trozos",
+              "8 trozos",
+              "6 trozos",
+              "10 trozos"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuánta hambre regenera una patata?",
+            "a": [
+              "1 de hambre",
+              "2 de hambre",
+              "0",
+              "3 de hambre"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuánta saturación te da una patata?",
+            "a": [
+              "0.6 de saturación",
+              "1 de saturación",
+              "0.1 de saturación",
+              "1.7 de saturación"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuál es la comida que regenera más hambre en Minecraft?",
+            "a": [
+              "filete cocinado",
+              "pan",
+              "estofado de champiñones",
+              "zanahoria dorada"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuánto XP necesita un aldeano para pasar del rango de Novicio al de Maestro?",
+            "a": [
+              "250 XP",
+              "150 XP",
+              "100 XP",
+              "70 XP"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuál es el bioma más raro de Minecraft?",
+            "a": [
+              "Borde de jungla modificado",
+              "Montañas de taiga nevada",
+              "Jungla de bambú",
+              "Isla de setas"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿En qué año fue Minecraft totalmente lanzado?",
+            "a": [
+              "2011",
+              "2007",
+              "2010",
+              "2014"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuál es el mob que asusta a los Creepers?",
+            "a": [
+              "ocelotes",
+              "zombis",
+              "el jugador",
+              "otros creepers"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿En qué snapshot se añadieron los élitros?",
+            "a": [
+              "15w41a",
+              "16w31a",
+              "16w42a",
+              "17w22a"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "¿Qué usa el esqueleto para atacar?",
+            "a": [
+              "arco",
+              "huevo",
+              "espada",
+              "nada"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "¿Qué usa el esqueleto de Wither para atacar?",
+            "a": [
+              "espada",
+              "arco",
+              "calavera de wither",
+              "sus manos"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cómo de lejos está el borde del mundo desde la coordenada 0 0?",
+            "a": [
+              "30000000 bloques en cada dirección",
+              "1000000 bloques en cada dirección",
+              "300000000 bloques en cada dirección",
+              "No hay borde, Minecraft es infinito"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿En qué fase de intercambio del aldeano pastor se venden camas?",
+            "a": [
+              "6ª",
+              "2ª",
+              "4ª",
+              "8ª"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuál es la herrameinta que venden en común el herrero de armas y el de herramientas?",
+            "a": [
+              "hacha",
+              "pala",
+              "espada",
+              "pico"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Qué item puedes usar para hacer una poción de visión nocturna?",
+            "a": [
+              "zanahoria dorada",
+              "manzana dorada",
+              "carne podrida",
+              "remolacha"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuánto tiempo dura un día de Minecraft en la vida real?",
+            "a": [
+              "20 minutos",
+              "10 minutos",
+              "30 minutos",
+              "1 hora"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Quién creó Minecraft?",
+            "a": [
+              "Markus Perrson",
+              "Matthew Marcusson",
+              "Donald Donnelly",
+              "Magnus Carlson"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: Una pala puede ser usada para apagar fuego.",
+            "a": [
+              "verdadero",
+              "falso"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Qué mob puede volar a través de la bedrock?",
+            "a": [
+              "vex",
+              "abeja",
+              "esqueleto de wither",
+              "murciélago"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": true,
+            "q": "**verdadero** o **falso**: Una azada de hierro dura más que una de oro.",
+            "a": [
+              "verdadero",
+              "falso"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: Los zombis de Minecraft pueden romper puertas.",
+            "a": [
+              "verdadero",
+              "falso"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** or **falso**: Los esqueletos de Minecraft pueden romper puertas.",
+            "a": [
+              "falso",
+              "verdadero"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuál fue el primer monstruo que se añadió a Minecraft?",
+            "a": [
+              "zombi",
+              "creeper",
+              "esqueleto",
+              "araña"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Qué mob hostil se añadió en la actualización Pretty Scary?",
+            "a": [
+              "bruja",
+              "creeper",
+              "enderman",
+              "vex"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Qué enemigo fue añadido en Minecraft 1.8?",
+            "a": [
+              "pez plateado",
+              "wither",
+              "araña",
+              "piglin zombi"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿En qué snapshot cambiaron el nombre de Zombie Pigman a Zombified Piglin?",
+            "a": [
+              "20w09a",
+              "13w49a",
+              "18w43a",
+              "12w37a"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuál es el ingrediente para hacer pociones persistentes?",
+            "a": [
+              "aliento de dragón",
+              "pólvora",
+              "redstone",
+              "polvo de piedra brillante"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿En qué año se empezó a desarrollar Minecraft?",
+            "a": [
+              "2009",
+              "2010",
+              "2011",
+              "2008"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿En qué lenguaje de programación está escrito Minecraft para PC?",
+            "a": [
+              "Java",
+              "Python",
+              "C++",
+              "BASIC"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuánto tardan los bebés aldeano en crecer?",
+            "a": [
+              "20 minutos",
+              "10 minutos",
+              "40 minutos",
+              "15 minutos"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuántos colores de tinte hay en Minecraft?",
+            "a": [
+              "16 colores",
+              "14 colores",
+              "18 colores",
+              "20 colores"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Qué encantamiento tiene el mismo máximo nivel que afilado?",
+            "a": [
+              "aporrear",
+              "irrompible",
+              "caída de pluma",
+              "protección contra proyectiles"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuál es el nombre del Dragón de Ender?",
+            "a": [
+              "Jean",
+              "Carson",
+              "Bertha",
+              "Steve"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Por qué fueron los osos polares añadidos en Minecraft?",
+            "a": [
+              "a la esposa de Jeb le gustaban los osos polares así que los añadió",
+              "la comunidad lo escogió en el directo de la Minecon",
+              "Notch los añadió como una actualización secreta un viernes",
+              "la comunidad votó por él en Twitter"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Qué idioma hablan los Enderman?",
+            "a": [
+              "inglés invertido",
+              "una algarabía",
+              "sueco",
+              "alemán invertido"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuál es la flor más común del bioma del pantano?",
+            "a": [
+              "orquídea azul",
+              "diente de león",
+              "rosa de wither",
+              "girasol"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Por qué se añadió el gato negro y blanco en Minecraft??",
+            "a": [
+              "el gato de Jeb murió y era así",
+              "a Notch le gustó como se veía",
+              "buscaron en Google imágenes de gatos y les gustara ese",
+              "fue un diseño aleatorio"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cómo se puede obtener el logro \"¿Cómo llegamos hasta aquí?\"?",
+            "a": [
+              "aplicando todos los efectos al mismo tiempo",
+              "aplicando todos los efectos de las pociones al mismo tiempo",
+              "yendo a la ciudad del End",
+              "by finding the farlands"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "**verdadero** o **falso**: los piglins sólo atacan cuando les pegas",
+            "a": [
+              "falso",
+              "verdadero"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Qué nombre le tienes que ponerle a una etiqueta para que una oveja sea multicolor?",
+            "a": [
+              "jeb_",
+              "Dinnerbone",
+              "Johnny",
+              "Toast"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Qué se suponía que tenía que ser el Creeper",
+            "a": [
+              "un cerdo",
+              "un zombi",
+              "una araña",
+              "una gallina"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: el Dragón de Ender puede poner más de un huevo",
+            "a": [
+              "falso",
+              "verdadero"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Qué actualización es también conocida como \"The Pretty Scary Update\"?",
+            "a": [
+              "1.4.2",
+              "1.3",
+              "1.12",
+              "1.7"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Qué nombre le debes poner a una etiqueta para que un mob esté del revés?",
+            "a": [
+              "Dinnerbone",
+              "jeb_",
+              "Johnny",
+              "Toast"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Qué tres items se necesitan para hacer un conducto activo?",
+            "a": [
+              "corazón del mar, concha de Nautilus, cualquier tipo de prismarina",
+              "corazón del mar, faro, cualquier tipo de prismarina",
+              "corazón del mar, concha de nautilus, cristal",
+              "diamantes, concha de bautilus, cristal"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuál es el aumento base para el daño cuerpo a cuerpo cuando se aplica el efecto de fuerza?",
+            "a": [
+              "3 HP",
+              "1½ HP",
+              "2 HP",
+              "4 HP"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Todas las vacas de Minecraft son...",
+            "a": [
+              "hembras",
+              "machos"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuál es el máximo número de trozos que una sandía puede soltar?",
+            "a": [
+              "9 trozos",
+              "8 trozos",
+              "7 trozos",
+              "6 trozos"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "¿Cuánta lana necesitas para hacer una cama en Minecraft?",
+            "a": [
+              "3 bloques de lana",
+              "4 bloques de lana",
+              "2 bloques de lana",
+              "1 bloques de lana"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "¿Qué item sueltan los limos en Minecraft?",
+            "a": [
+              "bolas de limo",
+              "frascos de limo",
+              "arena cinética",
+              "crema de magma"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuál es el nombre del mob que suelta crema de magma?",
+            "a": [
+              "cubo de magma",
+              "limo de lava",
+              "cubo fundido",
+              "limo fundido"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "¿Cuál es el nombre del mob que suelta pólvora?",
+            "a": [
+              "creeper",
+              "zombi",
+              "wither",
+              "cubo de magma"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: en Minecraft, los peces pueden soltar huesos",
+            "a": [
+              "verdadero",
+              "falso"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuál es el tipo de ajolote más raro?",
+            "a": [
+              "azul",
+              "rojo",
+              "tropical",
+              "rosa"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": true,
+            "q": "**verdadero** o **falso**: en Minecraft, los ajolotes sólo aparecen en la oscuridad absoluta",
+            "a": [
+              "verdadero",
+              "falso"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuál de las siguientes palabras es un tipo de ajolote?",
+            "a": [
+              "leucístico",
+              "fangoso",
+              "blanco",
+              "purpur"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Con qué alimentas a los ajolotes en Minecraft?",
+            "a": [
+              "cubo de peces tropicales",
+              "cubo de agua",
+              "salmón",
+              "cualquier tipo de peces"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "¿Con qué alimentas a las vacas en Minecraft?",
+            "a": [
+              "trigo",
+              "zanahorias",
+              "semillas",
+              "leche"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "¿Con qué alimentas a las ovejas en Minecraft?",
+            "a": [
+              "trigo",
+              "zanahorias",
+              "semillas",
+              "estofado de champiñones"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Con qué alimentas a las gallinas en Minecraft?",
+            "a": [
+              "semillas",
+              "zanahorias",
+              "trigo",
+              "leche"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "¿Con qué alimentas a los cerdos en Minecraft?",
+            "a": [
+              "patatas",
+              "zanahorias",
+              "semillas",
+              "trigo"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: puedes ordeñar una champiñaca y conseguir estofado de champiñones",
+            "a": [
+              "verdadero",
+              "falso"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": true,
+            "q": "**verdadero** o **falso**: puedes ordeñar una vaca y conseguir estofado de champiñones",
+            "a": [
+              "falso",
+              "verdadero"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: la edición bedrock de Minecraft está programada en el lenguaje de programación Java",
+            "a": [
+              "falso",
+              "verdadero"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿En qué lenguaje de programación está programada la edición Bedrock de Minecraft?",
+            "a": [
+              "c++",
+              "c",
+              "c#",
+              "java"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cómo se llama al formato de mundo en Minecraft Bedrock?",
+            "a": [
+              "LevelDB",
+              "SQL",
+              "Anvil",
+              "MCA"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cómo se llama al formato de mundo en Minecraft Java?",
+            "a": [
+              "Anvil",
+              "SQL",
+              "LevelDB",
+              "MCA"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cómo de grande es una porción de terreno cúbica en bloques?",
+            "a": [
+              "16x16x16",
+              "32x32x32",
+              "64x64x64",
+              "128x128x128"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cómo de grande es una región de Minecraft en porciones de terreno?",
+            "a": [
+              "32x32",
+              "64x64",
+              "16x16",
+              "96x96"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: el texto de la mesa de encantamientos es simplemente una algarabía",
+            "a": [
+              "verdadero",
+              "falso"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Qué te puedes poner para que un Enderman no te ataque al mirarle a los ojos?",
+            "a": [
+              "una calabaza",
+              "una patata",
+              "una sandía",
+              "una calavera de wither"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cómo se crea un Creeper electrificado?",
+            "a": [
+              "siendo golpeado por un rayo",
+              "con una estrella del inframundo",
+              "siendo golpeado por una cabeza de creeper voladora",
+              "se generan así"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿A qué animal grabaron para hacer los efectos de sonido del ghast?",
+            "a": [
+              "un gato durmiendo",
+              "un perro ladrando",
+              "un loro",
+              "un perro gruñendo"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuál es el nivel de poder máximo del polvo de Redstone?",
+            "a": [
+              "15",
+              "16",
+              "12",
+              "8"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Qué calma a las abejas en Minecraft?",
+            "a": [
+              "el humo de una fogata",
+              "botellas de miel",
+              "agua",
+              "bolas de limo"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: las abejas de Minecraft pueden bucear",
+            "a": [
+              "falso",
+              "verdadero"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuál es el efecto negativo que ejercen los guardianes ancianos",
+            "a": [
+              "fatiga de extracción",
+              "lentitud",
+              "daño instantáneo",
+              "veneno"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cómo consigues que un aldeano se convierta en una bruja?",
+            "a": [
+              "golpeando al aldeano con un rayo",
+              "hundiendo al aldeano en lava",
+              "haciendo que un zombi muerda al aldeano",
+              "quemando al aldeano"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: los golems de hierro pueden soltar amapolas al morir",
+            "a": [
+              "verdadero",
+              "falso"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuántos corazones tiene el gólem de hierro?",
+            "a": [
+              "50 corazones",
+              "100 corazones",
+              "25 corazones",
+              "200 corazones"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: puedes curar a los golems con lingotes de hierro",
+            "a": [
+              "verdadero",
+              "falso"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuál es la villa más rara de generar?",
+            "a": [
+              "la nevada",
+              "la del desierto",
+              "la de la jungla",
+              "la de la playa"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: puedes conseguir el generador de monstruos con el encantamiento Toque Sedoso",
+            "a": [
+              "falso",
+              "verdadero"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": true,
+            "q": "**verdadero** o **falso**: en Minecraft hay una flecha de diamante",
+            "a": [
+              "falso",
+              "verdadero"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿En qué versión de Minecraft se añadió el End??",
+            "a": [
+              "1.0.0",
+              "1.2.0",
+              "1.12.0",
+              "1.9.0"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Qué juego inspiró la creación de Minecraft?",
+            "a": [
+              "infiniminer",
+              "tetris",
+              "roblox",
+              "fortnite"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Quién compuso la música original de Minecraft?",
+            "a": [
+              "c418",
+              "notch",
+              "jeb",
+              "lena raine"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Quién compuso la música para la actualización 1.16 del inframundo?",
+            "a": [
+              "lena raine",
+              "notch",
+              "jeb",
+              "c418"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Qué bloque existió antes que Minecraft?",
+            "a": [
+              "adoquín",
+              "tierra",
+              "piedra",
+              "madera"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿En qué juego estaba trabajando Notch antes que en Minecraft?",
+            "a": [
+              "RubyDung",
+              "Infiniminer",
+              "Tetris 2.0",
+              "Roblox"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cuál es la mejor coordenada y para encontrar diamante??",
+            "a": [
+              "y=12",
+              "y=16",
+              "y=3",
+              "y=20"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Cuál es el mineral más raro de Minecraft?",
+            "a": [
+              "mineral de esmeralda",
+              "restos ancestrales",
+              "mineral de diamante",
+              "mineral de carbón"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿En qué bioma se encuentran las esmeraldas?",
+            "a": [
+              "las montañas",
+              "la jungla",
+              "el desierto",
+              "la meseta"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿En qúe bioma se encuentra más oro?",
+            "a": [
+              "la meseta",
+              "la jungla",
+              "el desierto",
+              "la playa"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Dónde se generan los esqueletos normales en el inframundo?",
+            "a": [
+              "valle de arena de almas",
+              "ruinas del nether",
+              "deltas de basalto",
+              "bosque deformado"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: puedes hacer intercambios con hoglings",
+            "a": [
+              "falso",
+              "verdadero"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**verdadero** o **falso**: puedes hacer intercambios con los piglins brutos",
+            "a": [
+              "verdadero",
+              "falso"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "¿Cómo puedes evitar que te ataquen los piglins brutos?",
+            "a": [
+              "llevando una armadura de oro",
+              "matándolos",
+              "llevando botas encantadas con velocidad de almas",
+              "llevando una armadura con un nivel III de encantamiento"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "¿Con qué alimentas a los hoglins?",
+            "a": [
+              "hongos carmesíes",
+              "hongos deformados",
+              "verruga del nether",
+              "chuleta de cerdo"
+            ]
+          }
+        ]
+      }
+      
     },
     "mobs_mech": {
       "no_health": "No tienes suficiente salud para luchar contra este monstruo.",
