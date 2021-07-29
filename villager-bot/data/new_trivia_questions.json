@@ -149,7 +149,7 @@
     ]
   },
   {
-    "d": 2,
+    "d": 1,
     "tf": false,
     "q": "Between what two y levels can slimes spawn in swamp biomes?",
     "a": [
@@ -191,7 +191,7 @@
     ]
   },
   {
-    "d": 1,
+    "d": 2,
     "tf": true,
     "q": "**true** or **false**: shulkers can duplicate themselves if they get hit with a shulker projectile",
     "a": [
