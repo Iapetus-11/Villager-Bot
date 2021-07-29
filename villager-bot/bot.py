@@ -100,6 +100,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.message_count = 0
         self.error_count = 0
         self.session_votes = 0
+        self.after_ready_ready = asyncio.Event()
 
         self.add_check(self.check_global)  # register global check
         self.before_invoke(self.before_command_invoked)  # register self.before_command_invoked as a before_invoked event

@@ -27,9 +27,6 @@ BAD_ARG_ERRORS = (
 
 INVISIBLITY_CLOAK = ("||||\u200B" * 200)[2:-3]
 
-global after_ready_set
-after_ready_set = False
-
 
 class Events(commands.Cog):
     def __init__(self, bot):
@@ -39,11 +36,6 @@ class Events(commands.Cog):
         self.ipc = bot.ipc
         self.d = bot.d
         self.db = bot.get_cog("Database")
-
-        self.after_ready = asyncio.Event()
-
-        if after_ready_set:
-            self.after_ready.set()
 
         bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
 
@@ -60,7 +52,7 @@ class Events(commands.Cog):
         event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
         self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
 
-        await self.after_ready.wait()
+        await self.bot.after_ready_ready.wait()
         await self.bot.error_channel.send(f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```")
 
     @commands.Cog.listener()
@@ -79,9 +71,7 @@ class Events(commands.Cog):
         self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
         self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
 
-        self.after_ready.set()
-        global after_ready_set
-        after_ready_set = True
+        self.bot.after_ready_ready.set()
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
@@ -333,7 +323,7 @@ class Events(commands.Cog):
                 + "```"
             )
 
-            await self.after_ready.wait()
+            await self.bot.after_ready_ready.wait()
             await self.bot.error_channel.send(debug_info)
 
 
