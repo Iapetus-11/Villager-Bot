@@ -78,7 +78,6 @@ class Events(commands.Cog):
 
         self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
         self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
-        self.bot.dm_log_channel = await self.bot.fetch_channel(self.d.dm_log_channel_id)
 
         self.after_ready.set()
         global after_ready_set
@@ -186,15 +185,6 @@ class Events(commands.Cog):
             return
 
         if message.guild is None:
-            if message.channel.recipient.id not in self.d.dm_log_ignore:
-                await self.after_ready.wait()
-                await self.bot.dm_log_channel.send(
-                    f"{message.author} (`{message.author.id}`): {message.content}".replace("@everyone", "@\uFEFFeveryone")[
-                        :2000
-                    ],
-                    files=await asyncio.gather(*[attachment.to_file() for attachment in message.attachments]),
-                )
-
             return
 
         if message.guild.id == self.d.support_server_id:

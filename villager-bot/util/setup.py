@@ -100,4 +100,3 @@ def mod_data(d: cj.ClassyDict) -> None:
     # make some lists sets for speed
     d.mobs_mech.valid_attacks = set(d.mobs_mech.valid_attacks)
     d.mobs_mech.valid_flees = set(d.mobs_mech.valid_flees)
-    d.dm_log_ignore = set(d.dm_log_ignore)
