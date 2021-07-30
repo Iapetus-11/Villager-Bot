@@ -722,6 +722,7 @@ class Econ(commands.Cog):
         await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2])
 
         if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
+            print("what the fuck")
             code = f"""
             print("le code is running")
             support_guild = bot.get_guild(self.d.support_server_id)
@@ -803,6 +804,7 @@ class Econ(commands.Cog):
         await self.db.remove_item(ctx.author.id, db_item["name"], amount)
 
         if db_item["name"].endswith("Pickaxe") or db_item["name"] == "Bane Of Pillagers Amulet":
+            print("what the fuck")
             code = f"""
             print("le code is running")
             support_guild = bot.get_guild(self.d.support_server_id)
