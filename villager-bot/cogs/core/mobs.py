@@ -117,7 +117,7 @@ class MobSpawner(commands.Cog):
                 await engage_msg.edit(suppress=True)
                 return
 
-            if (await self.ipc.eval(f"econ_paused_users.get({ctx.author.id})")).result is not None:
+            if (await self.ipc.eval(f"econ_paused_users.get({user.id})")).result is not None:
                 continue
 
             user = initial_attack_msg.author
@@ -137,7 +137,7 @@ class MobSpawner(commands.Cog):
             engage_msg.edit(suppress=True),
         )
 
-        await self.ipc.exec(f"econ_paused_users[{ctx.author.id}] = {time.time()}")
+        await self.ipc.exec(f"econ_paused_users[{user.id}] = {time.time()}")
 
         try:
             for iteration in itertools.count(start=1):
@@ -350,7 +350,7 @@ class MobSpawner(commands.Cog):
                     )
         finally:
             await self.db.update_user(user.id, health=user_health)
-            await self.ipc.eval(f"econ_paused_users.pop({ctx.author.id}, None)")  # unpause user
+            await self.ipc.eval(f"econ_paused_users.pop({user.id}, None)")  # unpause user
 
 
 def setup(bot):
