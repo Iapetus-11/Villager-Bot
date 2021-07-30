@@ -58,7 +58,7 @@ class MechaKaren:
             },
         )
 
-        self.shard_ids = tuple(range(self.d.shard_count))
+        self.shard_ids = tuple(range(self.k.shard_count))
         self.online_shards = set()
 
         self.eval_env = {"karen": self, **self.v.__dict__}
@@ -233,15 +233,15 @@ class MechaKaren:
 
         shard_groups = []
         loop = asyncio.get_event_loop()
-        g = self.d.cluster_size
+        g = self.k.cluster_size
 
         # calculate max connections to the db server per process allowed
         # postgresql is usually configured to allow 100 max, so we use
         # 75 to leave room for other programs using the db server
-        db_pool_size_per = 75 // (self.d.shard_count // g + 1)
+        db_pool_size_per = 75 // (self.k.shard_count // g + 1)
 
         for shard_id_group in [self.shard_ids[i : i + g] for i in range(0, len(self.shard_ids), g)]:
-            shard_groups.append(loop.run_in_executor(pp, run_cluster, self.d.shard_count, shard_id_group, db_pool_size_per))
+            shard_groups.append(loop.run_in_executor(pp, run_cluster, self.k.shard_count, shard_id_group, db_pool_size_per))
 
         await asyncio.wait(shard_groups)
         self.cooldowns.stop()
@@ -250,5 +250,5 @@ class MechaKaren:
         await self.db.close()
 
     def run(self):
-        with ProcessPoolExecutor(self.d.shard_count // self.d.cluster_size + 1) as pp:
+        with ProcessPoolExecutor(self.k.shard_count // self.k.cluster_size + 1) as pp:
             asyncio.run(self.start(pp))

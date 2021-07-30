@@ -384,7 +384,7 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
             f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"
             f"{ctx.l.useful.stats.ping}: `{round((latency_all/len(res.responses)) * 1000, 2)} ms`\n"
-            f"{ctx.l.useful.stats.shards}: `{self.d.shard_count}`\n"
+            f"{ctx.l.useful.stats.shards}: `{self.bot.k.shard_count}`\n"
             f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
         )
 
