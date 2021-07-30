@@ -116,11 +116,12 @@ class MobSpawner(commands.Cog):
             except asyncio.TimeoutError:
                 await engage_msg.edit(suppress=True)
                 return
+                
+            user = initial_attack_msg.author
 
             if (await self.ipc.eval(f"econ_paused_users.get({user.id})")).result is not None:
                 continue
 
-            user = initial_attack_msg.author
             db_user = await self.db.fetch_user(user.id)
             user_health = db_user["health"]
 
