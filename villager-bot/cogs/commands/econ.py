@@ -722,12 +722,19 @@ class Econ(commands.Cog):
         await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2])
 
         if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
-            member = self.bot.support_server.get_member(ctx.author.id)
+            code = f"""
+            support_guild = bot.get_guild(self.d.support_server_id)
 
-            if member is not None:
-                await update_support_member_role(self.bot, member)
+            if support_guild is not None:
+                member = support_guild.get_member({ctx.author.id})
 
-        if shop_item.db_entry[0] == "Rich Person Trophy":
+                if member is not None:
+                    from util.misc import update_support_member_role
+                    await update_support_member_role(bot, member)
+            """
+
+            await self.ipc.broadcast({"type": "exec", "code": code})
+        elif shop_item.db_entry[0] == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
 
         await self.bot.reply_embed(
@@ -793,10 +800,18 @@ class Econ(commands.Cog):
         await self.db.remove_item(ctx.author.id, db_item["name"], amount)
 
         if db_item["name"].endswith("Pickaxe") or db_item["name"] == "Bane Of Pillagers Amulet":
-            member = self.bot.support_server.get_member(ctx.author.id)
+            code = f"""
+            support_guild = bot.get_guild(self.d.support_server_id)
 
-            if member is not None:
-                await update_support_member_role(self.bot, member)
+            if support_guild is not None:
+                member = support_guild.get_member({ctx.author.id})
+
+                if member is not None:
+                    from util.misc import update_support_member_role
+                    await update_support_member_role(bot, member)
+            """
+
+            await self.ipc.broadcast({"type": "exec", "code": code})
 
         await self.bot.reply_embed(
             ctx,
