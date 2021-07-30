@@ -23,3 +23,11 @@ If a bug or unintended behavior is discovered, please report it by creating an i
 
 ### Development
 If you'd like to contribute code to Villager Bot, then please fork the repository and make any necessary changes there. Then, [make a pull request](https://github.com/Iapetus-11/Villager-Bot/pulls) and it will be reviewed. Please read the [contribution guidelines](https://github.com/Iapetus-11/Villager-Bot/blob/master/CONTRIBUTING.md) before making changes.
+
+### Setting up Villager Bot
+1. `git clone` Villager Bot, and `cd` into the `Villager-Bot` directory.
+2. create a PostgreSQL database, and use the execute the contents of `setup.sql` to create the necessary tables.
+3. make a new file called `secrets.json` and fill in the fields based off the `secrets.example.json` file.
+4. edit the cluster and shard counts in `villager-bot/data/data.json` to be 1 and 1.
+5. use [poetry](https://python-poetry.org) to install the required dependencies with `poetry install`.
+6. run the bot with either `villager-bot.bat` or `villager-bot.sh`.
