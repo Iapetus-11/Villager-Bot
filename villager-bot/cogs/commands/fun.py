@@ -51,7 +51,7 @@ class Fun(commands.Cog):
         return msg
 
     @commands.command(name="meme", aliases=["meemee", "meem", "maymay", "mehmeh"])
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def meme(self, ctx):
         """Sends a meme from reddit"""
 
@@ -80,7 +80,7 @@ class Fun(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="4chan", aliases=["greentext"])
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def greentext(self, ctx):
         """Sends a greentext from r/greentext"""
 
@@ -107,7 +107,7 @@ class Fun(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="comic")
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def comic(self, ctx):
         """Sends a comic from r/comics"""
 
@@ -135,7 +135,7 @@ class Fun(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="cursed", aliases=["cursedmc"])
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def cursed_mc(self, ctx):
         if random.choice((True, False)):
             meme = {"nsfw": True, "spoiler": True}
