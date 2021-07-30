@@ -737,7 +737,7 @@ class Econ(commands.Cog):
                     await update_support_member_role(bot, member)
             """
 
-            await self.ipc.broadcast({"type": "exec", "code": code})
+            print(await self.ipc.broadcast({"type": "exec", "code": code}))
         elif shop_item.db_entry[0] == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
 
@@ -819,7 +819,7 @@ class Econ(commands.Cog):
                     await update_support_member_role(bot, member)
             """
 
-            await self.ipc.broadcast({"type": "exec", "code": code})
+            print(await self.ipc.broadcast({"type": "exec", "code": code}))
 
         await self.bot.reply_embed(
             ctx,
