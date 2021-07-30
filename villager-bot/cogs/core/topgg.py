@@ -1,7 +1,6 @@
 from discord.ext import commands
 from aiohttp import web
 import classyjson as cj
-import traceback
 import asyncio
 import discord
 import arrow
@@ -107,7 +106,7 @@ class Webhooks(commands.Cog):
                         f"Thanks for voting! You've received **{amount}**{self.d.emojis.emerald}! (Vote streak is now {streak})",
                         ignore_exceptions=True,
                     )
-            except Exception as e:
+            except Exception:
                 await self.bot.get_cog("Events").on_error("reward", user_id, amount, streak)
 
     @commands.Cog.listener()

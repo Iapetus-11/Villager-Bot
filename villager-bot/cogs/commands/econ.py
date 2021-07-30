@@ -1,4 +1,3 @@
-from collections import defaultdict
 from discord.ext import commands
 import functools
 import discord
@@ -7,7 +6,7 @@ import random
 import arrow
 import math
 
-from util.misc import lb_logic, format_required, make_health_bar, calc_total_wealth, emojify_item, update_support_member_role
+from util.misc import lb_logic, format_required, make_health_bar, calc_total_wealth, emojify_item
 
 
 class Econ(commands.Cog):
@@ -722,22 +721,18 @@ class Econ(commands.Cog):
         await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2])
 
         if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
-            print("what the fuck")
             code = f"""
-            print("le code is running")
             support_guild = bot.get_guild(self.d.support_server_id)
 
             if support_guild is not None:
-                print("support server is not none!")
                 member = support_guild.get_member({ctx.author.id})
 
                 if member is not None:
-                    print("member is not none!")
                     from util.misc import update_support_member_role
                     await update_support_member_role(bot, member)
             """
 
-            print(await self.ipc.broadcast({"type": "exec", "code": code}))
+            await self.ipc.broadcast({"type": "exec", "code": code})
         elif shop_item.db_entry[0] == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
 
@@ -804,22 +799,18 @@ class Econ(commands.Cog):
         await self.db.remove_item(ctx.author.id, db_item["name"], amount)
 
         if db_item["name"].endswith("Pickaxe") or db_item["name"] == "Bane Of Pillagers Amulet":
-            print("what the fuck")
             code = f"""
-            print("le code is running")
             support_guild = bot.get_guild(self.d.support_server_id)
 
             if support_guild is not None:
-                print("support server is not none!")
                 member = support_guild.get_member({ctx.author.id})
 
                 if member is not None:
-                    print("member is not none!")
                     from util.misc import update_support_member_role
                     await update_support_member_role(bot, member)
             """
 
-            print(await self.ipc.broadcast({"type": "exec", "code": code}))
+            await self.ipc.broadcast({"type": "exec", "code": code})
 
         await self.bot.reply_embed(
             ctx,
@@ -1211,12 +1202,6 @@ class Econ(commands.Cog):
             self.ipc.exec(f"pillages[{ctx.author.id}] += 1; return pillages[{ctx.author.id}] - 1"),
             self.ipc.eval(f"pillages[{victim.id}] - 1"),
         )
-
-        if pillager_pillages.success == False:
-            raise Exception(pillager_pillages.result)
-
-        if victim_pillages.success == False:
-            raise Exception(victim_pillages.result)
 
         pillager_pillages = pillager_pillages.result
         victim_pillages = victim_pillages.result
