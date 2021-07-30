@@ -723,12 +723,15 @@ class Econ(commands.Cog):
 
         if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
             code = f"""
+            print("le code is running")
             support_guild = bot.get_guild(self.d.support_server_id)
 
             if support_guild is not None:
+                print("support server is not none!")
                 member = support_guild.get_member({ctx.author.id})
 
                 if member is not None:
+                    print("member is not none!")
                     from util.misc import update_support_member_role
                     await update_support_member_role(bot, member)
             """
@@ -801,12 +804,15 @@ class Econ(commands.Cog):
 
         if db_item["name"].endswith("Pickaxe") or db_item["name"] == "Bane Of Pillagers Amulet":
             code = f"""
+            print("le code is running")
             support_guild = bot.get_guild(self.d.support_server_id)
 
             if support_guild is not None:
+                print("support server is not none!")
                 member = support_guild.get_member({ctx.author.id})
 
                 if member is not None:
+                    print("member is not none!")
                     from util.misc import update_support_member_role
                     await update_support_member_role(bot, member)
             """
