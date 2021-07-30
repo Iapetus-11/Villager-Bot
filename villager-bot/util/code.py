@@ -22,8 +22,8 @@ async def execute_code(code: str, env: dict) -> object:
         except IndexError:
             pass
 
-    func_content = '\n'.join(f'    {line}' for line in code.strip('\n').splitlines())
-    code = f'async def _execute_code():\n{func_content}'
+    func_content = "\n".join(f"    {line}" for line in code.strip("\n").splitlines())
+    code = f"async def _execute_code():\n{func_content}"
 
     parsed = ast.parse(code)
     insert_returns(parsed.body[0].body)
