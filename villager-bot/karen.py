@@ -8,7 +8,7 @@ import arrow
 from util.setup import load_secrets, load_data, setup_karen_logging
 from util.cooldowns import CooldownManager, MaxConcurrencyManager
 from util.code import execute_code, format_exception
-from util.ipc import Server, Stream
+from util.ipc import Server, Stream, PacketType
 
 from bot import run_cluster
 
@@ -39,23 +39,23 @@ class MechaKaren:
             self.k.manager.port,
             self.k.manager.auth,
             {
-                "missing-packet": self.handle_missing_packet,
-                "shard-ready": self.handle_shard_ready_packet,
-                "shard-disconnect": self.handle_shard_disconnect_packet,
-                "eval": self.handle_eval_packet,
-                "exec": self.handle_exec_packet,
-                "broadcast-request": self.handle_broadcast_request_packet,
-                "broadcast-response": self.handle_broadcast_response_packet,
-                "cooldown": self.handle_cooldown_packet,
-                "cooldown-add": self.handle_cooldown_add_packet,
-                "cooldown-reset": self.handle_cooldown_reset_packet,
-                "dm-message-request": self.handle_dm_message_request_packet,
-                "dm-message": self.handle_dm_message_packet,
-                "mine-command": self.handle_mine_command_packet,
-                "concurrency-check": self.handle_concurrency_check_packet,
-                "concurrency-acquire": self.handle_concurrency_acquire_packet,
-                "concurrency-release": self.handle_concurrency_release_packet,
-                "command-ran": self.handle_command_ran_packet,
+                PacketType.MISSING_PACKET: self.handle_missing_packet,
+                PacketType.SHARD_READY: self.handle_shard_ready_packet,
+                PacketType.SHARD_DISCONNECT: self.handle_shard_disconnect_packet,
+                PacketType.EVAL: self.handle_eval_packet,
+                PacketType.EXEC: self.handle_exec_packet,
+                PacketType.BROADCAST_REQUEST: self.handle_broadcast_request_packet,
+                PacketType.BROADCAST_RESPONSE: self.handle_broadcast_response_packet,
+                PacketType.COOLDOWN: self.handle_cooldown_packet,
+                PacketType.COOLDOWN_ADD: self.handle_cooldown_add_packet,
+                PacketType.COOLDOWN_RESET: self.handle_cooldown_reset_packet,
+                PacketType.DM_MESSAGE: self.handle_dm_message_packet,
+                PacketType.DM_MESSAGE_REQUEST: self.handle_dm_message_request_packet,
+                PacketType.MINE_COMMAND: self.handle_mine_command_packet,
+                PacketType.CONCURRENCY_CHECK: self.handle_concurrency_check_packet,
+                PacketType.CONCURRENCY_ACQUIRE: self.handle_concurrency_acquire_packet,
+                PacketType.CONCURRENCY_RELEASE: self.handle_concurrency_release_packet,
+                PacketType.COMMAND_RAN: self.handle_command_ran_packet,
             },
         )
 
@@ -96,7 +96,7 @@ class MechaKaren:
 
             self.logger.error(result)
 
-        await stream.write_packet({"type": "eval-response", "id": packet.id, "result": result, "success": success})
+        await stream.write_packet({"type": PacketType.RESPONSE, "id": packet.id, "result": result, "success": success})
 
     async def handle_exec_packet(self, stream: Stream, packet: ClassyDict):
         try:
@@ -108,7 +108,7 @@ class MechaKaren:
 
             self.logger.error(result)
 
-        await stream.write_packet({"type": "exec-response", "id": packet.id, "result": result, "success": success})
+        await stream.write_packet({"type": PacketType.RESPONSE, "id": packet.id, "result": result, "success": success})
 
     async def handle_broadcast_request_packet(self, stream: Stream, packet: ClassyDict):
         """broadcasts the packet to every connection including the broadcaster, and waits for responses"""
@@ -126,7 +126,7 @@ class MechaKaren:
 
         await asyncio.wait(broadcast_coros)
         await broadcast["ready"].wait()
-        await stream.write_packet({"type": "broadcast-response", "id": packet.id, "responses": broadcast["responses"]})
+        await stream.write_packet({"type": PacketType.RESPONSE, "id": packet.id, "responses": broadcast["responses"]})
 
     async def handle_broadcast_response_packet(self, stream: Stream, packet: ClassyDict):
         broadcast = self.broadcasts[packet.id]
@@ -137,7 +137,7 @@ class MechaKaren:
 
     async def handle_cooldown_packet(self, stream: Stream, packet: ClassyDict):
         cooldown_info = self.cooldowns.check(packet.command, packet.user_id)
-        await stream.write_packet({"type": "cooldown-info", "id": packet.id, **cooldown_info})
+        await stream.write_packet({"type": PacketType.RESPONSE, "id": packet.id, **cooldown_info})
 
     async def handle_cooldown_add_packet(self, stream: Stream, packet: ClassyDict):
         self.cooldowns.add_cooldown(packet.command, packet.user_id)
@@ -151,7 +151,7 @@ class MechaKaren:
 
         self.dm_messages.pop(packet.user_id, None)
 
-        await stream.write_packet({"type": "dm-message", "id": packet.id, "content": entry["content"]})
+        await stream.write_packet({"type": PacketType.RESPONSE, "id": packet.id, "content": entry["content"]})
 
     async def handle_dm_message_packet(self, stream: Stream, packet: ClassyDict):
         entry = self.dm_messages.get(packet.user_id)
@@ -165,13 +165,13 @@ class MechaKaren:
     async def handle_mine_command_packet(self, stream: Stream, packet: ClassyDict):  # used for fishing too
         self.v.mine_commands[packet.user_id] += packet.addition
         await stream.write_packet(
-            {"type": "mine-command-response", "id": packet.id, "current": self.v.mine_commands[packet.user_id]}
+            {"type": PacketType.RESPONSE, "id": packet.id, "current": self.v.mine_commands[packet.user_id]}
         )
 
     async def handle_concurrency_check_packet(self, stream: Stream, packet: ClassyDict):
         await stream.write_packet(
             {
-                "type": "concurrency-check-response",
+                "type": PacketType.RESPONSE,
                 "id": packet.id,
                 "can_run": self.concurrency.check(packet.command, packet.user_id),
             }

@@ -7,6 +7,7 @@ import arrow
 import math
 
 from util.misc import lb_logic, format_required, make_health_bar, calc_total_wealth, emojify_item
+from util.ipc import PacketType
 
 
 class Econ(commands.Cog):
@@ -40,7 +41,7 @@ class Econ(commands.Cog):
 
     async def math_problem(self, ctx, addition=1):
         # simultaneously updates the value in Karen and retrivies the current value
-        res = await self.ipc.request({"type": "mine-command", "user_id": ctx.author.id, "addition": addition})
+        res = await self.ipc.request({"type": PacketType.MINE_COMMAND, "user_id": ctx.author.id, "addition": addition})
         mine_commands = res.current
 
         if mine_commands >= 100:
@@ -732,7 +733,7 @@ class Econ(commands.Cog):
                     await update_support_member_role(bot, member)
             """
 
-            await self.ipc.broadcast({"type": "exec", "code": code})
+            await self.ipc.broadcast({"type": PacketType.EXEC, "code": code})
         elif shop_item.db_entry[0] == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
 
@@ -810,7 +811,7 @@ class Econ(commands.Cog):
                     await update_support_member_role(bot, member)
             """
 
-            await self.ipc.broadcast({"type": "exec", "code": code})
+            await self.ipc.broadcast({"type": PacketType.EXEC, "code": code})
 
         await self.bot.reply_embed(
             ctx,

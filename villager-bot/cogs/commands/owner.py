@@ -7,6 +7,7 @@ import arrow
 import os
 
 from util.code import execute_code, format_exception
+from util.ipc import PacketType
 
 
 class Owner(commands.Cog):
@@ -20,7 +21,7 @@ class Owner(commands.Cog):
     @commands.command(name="reload")
     @commands.is_owner()
     async def reload_cog(self, ctx, cog: str):
-        res = await self.ipc.broadcast({"type": "eval", "code": f"bot.reload_extension('cogs.{cog}')"})
+        res = await self.ipc.broadcast({"type": PacketType.EVAL, "code": f"bot.reload_extension('cogs.{cog}')"})
 
         for response in res.responses:
             if not response.success:
@@ -41,7 +42,7 @@ class Owner(commands.Cog):
         bot.d = load_data()
         """
 
-        res = await self.ipc.broadcast({"type": "exec", "code": code})
+        res = await self.ipc.broadcast({"type": PacketType.EXEC, "code": code})
         failed = False
 
         for data in res.responses:
@@ -70,7 +71,7 @@ class Owner(commands.Cog):
         if stuff.startswith("```"):
             stuff = stuff.lstrip(" `py\n ").rstrip(" `\n ")
 
-        res = await self.ipc.broadcast({"type": "exec", "code": stuff})
+        res = await self.ipc.broadcast({"type": PacketType.EXEC, "code": stuff})
 
         await ctx.reply("".join([f"```py\n{str(r.result).replace('```', '｀｀｀')}```" for r in res.responses])[:2000])
 
@@ -103,7 +104,7 @@ class Owner(commands.Cog):
         return guilds
         """
 
-        res = await self.ipc.broadcast({"type": "exec", "code": code})
+        res = await self.ipc.broadcast({"type": PacketType.EXEC, "code": code})
 
         guilds = "".join([r.result for r in res.responses])
 

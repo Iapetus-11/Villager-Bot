@@ -6,6 +6,7 @@ import discord
 import arrow
 
 from util.code import format_exception
+from util.ipc import PacketType
 
 
 class Webhooks(commands.Cog):
@@ -38,7 +39,7 @@ class Webhooks(commands.Cog):
 
         while True:
             try:
-                res = await self.ipc.broadcast({"type": "eval", "code": "len(bot.guilds)"})
+                res = await self.ipc.broadcast({"type": PacketType.EVAL, "code": "len(bot.guilds)"})
 
                 await self.bot.aiohttp.post(
                     f"https://top.gg/api/bots/{self.bot.user.id}/stats",

@@ -5,6 +5,7 @@ import math
 import time
 
 from util.code import format_exception
+from util.ipc import PacketType
 
 
 def strip_command(ctx):  # returns message.clean_content excluding the command used
@@ -62,7 +63,7 @@ async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
         user = getattr(bot.get_user(entry[0]), "name", None)
 
         if user is None:
-            res = await bot.ipc.broadcast({"type": "eval", "code": f"bot.get_user({entry[0]}).name"})
+            res = await bot.ipc.broadcast({"type": PacketType.EVAL, "code": f"bot.get_user({entry[0]}).name"})
 
             for r in res.responses:
                 if r.success:

@@ -11,6 +11,7 @@ import arrow
 import json
 
 from util.code import format_exception
+from util.ipc import PacketType
 from util.misc import dm_check
 
 try:
@@ -482,7 +483,7 @@ class Minecraft(commands.Cog):
                     port_msg = await self.bot.wait_for("message", check=dm_check(ctx), timeout=60)
                 else:
                     port_msg = await asyncio.wait_for(
-                        self.ipc.request({"type": "dm-message-request", "user_id": ctx.author.id}), 60
+                        self.ipc.request({"type": PacketType.DM_MESSAGE_REQUEST, "user_id": ctx.author.id}), 60
                     )
             except asyncio.TimeoutError:
                 try:
@@ -511,7 +512,7 @@ class Minecraft(commands.Cog):
                     auth_msg = await self.bot.wait_for("message", check=dm_check(ctx), timeout=60)
                 else:
                     auth_msg = await asyncio.wait_for(
-                        self.ipc.request({"type": "dm-message-request", "user_id": ctx.author.id}), 60
+                        self.ipc.request({"type": PacketType.DM_MESSAGE_REQUEST, "user_id": ctx.author.id}), 60
                     )
             except asyncio.TimeoutError:
                 try:

@@ -16,7 +16,7 @@ from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.setup import load_text, load_secrets, load_data
 from util.code import execute_code, format_exception
 from util.misc import TTLPreventDuplicate
-from util.ipc import Client
+from util.ipc import Client, PacketType
 
 
 def run_cluster(shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
@@ -153,7 +153,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
                 result = format_exception(e)
                 success = False
 
-            await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
+            await self.ipc.send({"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "result": result, "success": success})
         elif packet.type == "exec":
             try:
                 result = await execute_code(packet.code, self.eval_env)
@@ -162,7 +162,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
                 result = format_exception(e)
                 success = False
 
-            await self.ipc.send({"type": "broadcast-response", "id": packet.id, "result": result, "success": success})
+            await self.ipc.send({"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "result": result, "success": success})
 
     async def get_prefix(self, ctx: commands.Context) -> str:
         # for some reason discord.py wants this function to be async *sigh*
@@ -216,14 +216,14 @@ class VillagerBotCluster(commands.AutoShardedBot):
 
         # handle cooldowns that need to be synced between shard groups / processes (aka karen cooldowns)
         if command in self.d.cooldown_rates:
-            cooldown_info = await self.ipc.request({"type": "cooldown", "command": command, "user_id": ctx.author.id})
+            cooldown_info = await self.ipc.request({"type": PacketType.COOLDOWN, "command": command, "user_id": ctx.author.id})
 
             if not cooldown_info.can_run:
                 ctx.custom_error = CommandOnKarenCooldown(cooldown_info.remaining)
                 return False
 
         if command in self.d.concurrency_limited:
-            res = await self.ipc.request({"type": "concurrency-check", "command": command, "user_id": ctx.author.id})
+            res = await self.ipc.request({"type": PacketType.CONCURRENCY_CHECK, "command": command, "user_id": ctx.author.id})
 
             if not res.can_run:
                 ctx.custom_error = MaxKarenConcurrencyReached()
@@ -246,14 +246,14 @@ class VillagerBotCluster(commands.AutoShardedBot):
             elif random.randint(0, self.d.tip_chance) == 0:  # send tip?
                 asyncio.create_task(self.send_tip(ctx))
 
-        asyncio.create_task(self.ipc.send({"type": "command-ran", "user_id": ctx.author.id}))
+        asyncio.create_task(self.ipc.send({"type": PacketType.COMMAND_RAN, "user_id": ctx.author.id}))
 
         return True
 
     async def before_command_invoked(self, ctx):
         if str(ctx.command) in self.d.concurrency_limited:
-            await self.ipc.send({"type": "concurrency-acquire", "command": str(ctx.command), "user_id": ctx.author.id})
+            await self.ipc.send({"type": PacketType.CONCURRENCY_ACQUIRE, "command": str(ctx.command), "user_id": ctx.author.id})
 
     async def after_command_invoked(self, ctx):
         if str(ctx.command) in self.d.concurrency_limited:
-            await self.ipc.send({"type": "concurrency-release", "command": str(ctx.command), "user_id": ctx.author.id})
+            await self.ipc.send({"type": PacketType.CONCURRENCY_RELEASE, "command": str(ctx.command), "user_id": ctx.author.id})

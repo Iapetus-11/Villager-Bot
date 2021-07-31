@@ -32,7 +32,7 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # - auth {"type": "auth", "auth": "password"} authenticates the connection with karen
 # - shard-ready {"type": "shard-ready", "shard_id": shard_id} notifies karen of a shard becoming ready
 # - shard-disconnect {"type": "shard-disconnect", "shard_id": shard_id} notifies karen of shard disconnect
-# - eval {"type": "eval", "code": code} eval()s code on karen
+# - eval {"type": PacketType.EVAL, "code": code} eval()s code on karen
 # - broadcast-request {"type": "broadcast-request", "packet": encapsulated_packet} broadcasts a packet to all clients, including the sender
 # - broadcast-response {"type": "broadcast-response", **} sent in response to any "unexpected" packet from karen (so the contents of broadcast packets)
 # - cooldown {"type": "cooldown", "command": command_name, "user_id", user.id} requests and updates cooldown info from karen
@@ -58,6 +58,29 @@ def special_obj_hook(dct):
         return set(dct["_set_object"])
 
     return dct
+
+class PacketType(IntEnum):
+    AUTH = auto()
+    AUTH_RESPONSE = auto()
+    DISCONNECT = auto()
+    RESPONSE = auto()
+    MISSING_PACKET = auto()
+    SHARD_READY = auto()
+    SHARD_DISCONNECT = auto()
+    EVAL = auto()
+    EXEC = auto()
+    BROADCAST_REQUEST = auto()
+    BROADCAST_RESPONSE = auto()
+    COOLDOWN = auto()
+    COOLDOWN_ADD = auto()
+    COOLDOWN_RESET = auto()
+    DM_MESSAGE = auto()
+    DM_MESSAGE_REQUEST = auto()
+    MINE_COMMAND = auto()
+    CONCURRENCY_CHECK = auto()
+    CONCURRENCY_ACQUIRE = auto()
+    CONCURRENCY_RELEASE = auto()
+    COMMAND_RAN = auto()
 
 
 class Stream:
@@ -106,7 +129,7 @@ class Client:
         self.stream = Stream(*await asyncio.open_connection(self.host, self.port))
         self.read_task = asyncio.create_task(self.read_packets())
 
-        res = await self.request({"type": "auth", "auth": auth})
+        res = await self.request({"type": PacketType.AUTH, "auth": auth})
 
         if not res.success:
             self.read_task.cancel()
@@ -117,7 +140,7 @@ class Client:
     async def close(self) -> None:
         self.read_task.cancel()
 
-        await self.send({"type": "disconnect"})
+        await self.send({"type": PacketType.DISCONNECT})
         await self.stream.close()
 
     async def read_packets(self):
@@ -147,13 +170,13 @@ class Client:
         return self.expected_packets[packet_id][1]  # return received packet
 
     async def broadcast(self, packet: Union[dict, cj.ClassyDict]) -> cj.ClassyDict:
-        return await self.request({"type": "broadcast-request", "packet": packet})
+        return await self.request({"type": PacketType.BROADCAST_REQUEST, "packet": packet})
 
     async def eval(self, code: str) -> cj.ClassyDict:
-        return await self.request({"type": "eval", "code": code})
+        return await self.request({"type": PacketType.EVAL, "code": code})
 
     async def exec(self, code: str) -> cj.ClassyDict:
-        return await self.request({"type": "exec", "code": code})
+        return await self.request({"type": PacketType.EXEC, "code": code})
 
 
 class Server:
@@ -200,37 +223,18 @@ class Server:
 
                 if auth == self.auth:
                     authed = True
-                    await stream.write_packet({"type": "auth-response", "success": True, "id": packet.id})
+                    await stream.write_packet({"type": PacketType.AUTH_RESPONSE, "success": True, "id": packet.id})
                 else:
-                    await stream.write_packet({"type": "auth-response", "success": False, "id": packet.id})
+                    await stream.write_packet({"type": PacketType.AUTH_RESPONSE, "success": False, "id": packet.id})
                     return
 
                 continue
 
-            if packet.type == "disconnect":
+            if packet.type == PacketType.DISCONNECT:
                 self.connections.remove(stream)
                 return
 
-            asyncio.create_task(self.packet_handlers.get(packet.type, self.packet_handlers["missing-packet"])(stream, packet))
+            asyncio.create_task(self.packet_handlers.get(packet.type, self.packet_handlers[PacketType.MISSING_PACKET])(stream, packet))
 
 
-class PacketType(IntEnum):
-    DISCONNECT = auto()
-    RESPONSE = auto()
-    MISSING_PACKET = auto()
-    SHARD_READY = auto()
-    SHARD_DISCONNECT = auto()
-    EVAL = auto()
-    EXEC = auto()
-    BROADCAST_REQUEST = auto()
-    BROADCAST_RESPONSE = auto()
-    COOLDOWN = auto()
-    COOLDOWN_ADD = auto()
-    COOLDOWN_RESET = auto()
-    DM_MESSAGE = auto()
-    DM_MESSAGE_REQUEST = auto()
-    MINE_COMMAND = auto()
-    CONCURRENCY_CHECK = auto()
-    CONCURRENCY_ACQUIRE = auto()
-    CONCURRENCY_RELEASE = auto()
-    COMMAND_RAN = auto()
+

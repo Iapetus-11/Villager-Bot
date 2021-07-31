@@ -7,6 +7,7 @@ import sys
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.misc import update_support_member_role
 from util.code import format_exception
+from util.ipc import PacketType
 
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
@@ -57,12 +58,12 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_shard_ready(self, shard_id: int):
-        await self.ipc.send({"type": "shard-ready", "shard_id": shard_id})
+        await self.ipc.send({"type": PacketType.SHARD_READY, "shard_id": shard_id})
         self.bot.logger.info(f"Shard {shard_id} \u001b[36;1mREADY\u001b[0m")
 
     @commands.Cog.listener()
     async def on_shard_disconnect(self, shard_id: int):
-        await self.ipc.send({"type": "shard-disconnect", "shard_id": shard_id})
+        await self.ipc.send({"type": PacketType.SHARD_DISCONNECT, "shard_id": shard_id})
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -134,7 +135,7 @@ class Events(commands.Cog):
             return
 
         if isinstance(message.channel, discord.DMChannel):
-            await self.ipc.send({"type": "dm-message", "user_id": message.author.id, "content": message.content})
+            await self.ipc.send({"type": PacketType.DM_MESSAGE, "user_id": message.author.id, "content": message.content})
 
             try:
                 prior_messages = len(await message.channel.history(limit=1, before=message).flatten())
@@ -245,7 +246,7 @@ class Events(commands.Cog):
 
         if seconds <= 0.05:
             if karen_cooldown:
-                await self.ipc.send({"type": "cooldown-add", "command": ctx.command.name, "user_id": ctx.author.id})
+                await self.ipc.send({"type": PacketType.COOLDOWN_ADD, "command": ctx.command.name, "user_id": ctx.author.id})
 
             await ctx.reinvoke()
             return

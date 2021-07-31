@@ -7,6 +7,8 @@ import psutil
 import arrow
 import time
 
+from util.ipc import PacketType
+
 
 class BanCacheEntry:
     __slots__ = ("ban_count", "time")
@@ -336,7 +338,7 @@ class Useful(commands.Cog):
         """
 
         res, karen_res = await asyncio.gather(
-            self.ipc.broadcast({"type": "exec", "code": get_stats_code}), self.ipc.exec(get_karen_stats_code)
+            self.ipc.broadcast({"type": PacketType.EXEC, "code": get_stats_code}), self.ipc.exec(get_karen_stats_code)
         )
 
         res.responses.append(karen_res)
