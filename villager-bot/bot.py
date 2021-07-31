@@ -252,8 +252,12 @@ class VillagerBotCluster(commands.AutoShardedBot):
 
     async def before_command_invoked(self, ctx):
         if str(ctx.command) in self.d.concurrency_limited:
-            await self.ipc.send({"type": PacketType.CONCURRENCY_ACQUIRE, "command": str(ctx.command), "user_id": ctx.author.id})
+            await self.ipc.send(
+                {"type": PacketType.CONCURRENCY_ACQUIRE, "command": str(ctx.command), "user_id": ctx.author.id}
+            )
 
     async def after_command_invoked(self, ctx):
         if str(ctx.command) in self.d.concurrency_limited:
-            await self.ipc.send({"type": PacketType.CONCURRENCY_RELEASE, "command": str(ctx.command), "user_id": ctx.author.id})
+            await self.ipc.send(
+                {"type": PacketType.CONCURRENCY_RELEASE, "command": str(ctx.command), "user_id": ctx.author.id}
+            )
