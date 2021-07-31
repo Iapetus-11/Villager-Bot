@@ -1,5 +1,6 @@
 from asyncio import StreamReader, StreamWriter
 from typing import Union, Callable
+from enum import Enum, auto
 import classyjson as cj
 import asyncio
 import struct
@@ -211,3 +212,23 @@ class Server:
                 return
 
             asyncio.create_task(self.packet_handlers.get(packet.type, self.packet_handlers["missing-packet"])(stream, packet))
+
+
+class PacketType(Enum):
+    MISSING_PACKET = auto()
+    SHARD_READY = auto()
+    SHARD_DISCONNECT = auto()
+    EVAL = auto()
+    EXEC = auto()
+    BROADCAST_REQUEST = auto()
+    BROADCAST_RESPONSE = auto()
+    COOLDOWN = auto()
+    COOLDOWN_ADD = auto()
+    COOLDOWN_RESET = auto()
+    DM_MESSAGE = auto()
+    DM_MESSAGE_REQUEST = auto()
+    MINE_COMMAND = auto()
+    CONCURRENCY_CHECK = auto()
+    CONCURRENCY_ACQUIRE = auto()
+    CONCURRENCY_RELEASE = auto()
+    COMMAND_RAN = auto()
