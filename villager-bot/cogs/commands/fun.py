@@ -469,7 +469,7 @@ class Fun(commands.Cog):
                 correct = random.choice(ctx.l.fun.trivia.correct)
             else:
                 correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
-                
+
             embed.description = random.choice(correct).format(emeralds_won, self.d.emojis.emerald)
         else:
             embed.description = random.choice(ctx.l.fun.trivia.incorrect)
@@ -532,7 +532,7 @@ class Fun(commands.Cog):
                 correct = random.choice(ctx.l.fun.trivia.correct)
             else:
                 correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
-                
+
             embed.description = random.choice(correct).format(emeralds_won, self.d.emojis.emerald)
         else:
             embed.description = random.choice(ctx.l.fun.trivia.incorrect)
