@@ -59,6 +59,7 @@ def special_obj_hook(dct):
 
     return dct
 
+
 class PacketType(IntEnum):
     AUTH = auto()
     AUTH_RESPONSE = auto()
@@ -234,7 +235,6 @@ class Server:
                 self.connections.remove(stream)
                 return
 
-            asyncio.create_task(self.packet_handlers.get(packet.type, self.packet_handlers[PacketType.MISSING_PACKET])(stream, packet))
-
-
-
+            asyncio.create_task(
+                self.packet_handlers.get(packet.type, self.packet_handlers[PacketType.MISSING_PACKET])(stream, packet)
+            )
