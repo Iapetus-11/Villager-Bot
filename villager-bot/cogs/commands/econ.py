@@ -1459,7 +1459,7 @@ class Econ(commands.Cog):
             slime_balls = await self.db.fetch_item(ctx.author.id, "Slime Ball")
 
             if slime_balls is None or slime_balls["amount"] < amount:
-                await ctx.reply_embed(ctx.l.econ.use.need_slimy_balls)
+                await self.bot.reply_embed(ctx, ctx.l.econ.use.need_slimy_balls)
                 return
 
             await self.db.remove_item(ctx.author.id, "Slime Ball", amount)
