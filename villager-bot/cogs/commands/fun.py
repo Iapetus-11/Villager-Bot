@@ -28,6 +28,7 @@ class Fun(commands.Cog):
 
         self.aiohttp = bot.aiohttp
         self.db = bot.get_cog("Database")
+        self.ipc = bot.ipc
 
         if tiler_rgba:
             self.tiler = tiler_rgba.TilerRGBA("data/emoji_palette.json")
@@ -404,7 +405,7 @@ class Fun(commands.Cog):
     def calculate_trivia_reward(self, question_difficulty: int) -> int:
         return int((random.random() + 0.25) * (question_difficulty + 0.25) * 9) + 1
 
-    async def trivia_multiple_choice(self, ctx, question):
+    async def trivia_multiple_choice(self, ctx, question, do_reward):
         correct_choice = question.a[0]
 
         choices = question.a.copy()
@@ -462,15 +463,20 @@ class Fun(commands.Cog):
         )
 
         if choices[self.d.emojis.numbers.index(react.emoji) - 1] == correct_choice:
-            emeralds_won = self.calculate_trivia_reward(question.d)
-            await self.db.balance_add(ctx.author.id, emeralds_won)
-            embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
+            if do_reward:
+                emeralds_won = self.calculate_trivia_reward(question.d)
+                await self.db.balance_add(ctx.author.id, emeralds_won)
+                correct = random.choice(ctx.l.fun.trivia.correct)
+            else:
+                correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
+                
+            embed.description = random.choice(correct).format(emeralds_won, self.d.emojis.emerald)
         else:
             embed.description = random.choice(ctx.l.fun.trivia.incorrect)
 
         await msg.edit(embed=embed)
 
-    async def trivia_true_or_false(self, ctx, question):
+    async def trivia_true_or_false(self, ctx, question, do_reward):
         correct_choice = question.a[0]
 
         embed = discord.Embed(
@@ -520,9 +526,14 @@ class Fun(commands.Cog):
         if (correct_choice == "true" and str(react.emoji) == self.d.emojis.yes) or (
             correct_choice == "false" and str(react.emoji) == self.d.emojis.no
         ):
-            emeralds_won = self.calculate_trivia_reward(question.d)
-            await self.db.balance_add(ctx.author.id, emeralds_won)
-            embed.description = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
+            if do_reward:
+                emeralds_won = self.calculate_trivia_reward(question.d)
+                await self.db.balance_add(ctx.author.id, emeralds_won)
+                correct = random.choice(ctx.l.fun.trivia.correct)
+            else:
+                correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
+                
+            embed.description = random.choice(correct).format(emeralds_won, self.d.emojis.emerald)
         else:
             embed.description = random.choice(ctx.l.fun.trivia.incorrect)
 
@@ -531,13 +542,13 @@ class Fun(commands.Cog):
     @commands.command(name="trivia", aliases=["mctrivia"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def minecraft_trivia(self, ctx):
-        return
+        do_reward = await self.ipc.exec(f"trivia_commands[{ctx.author.id}] += 1; trivia_commands[{ctx.author.id}] < 3")
         question = random.choice(ctx.l.fun.trivia.questions)
 
         if question.tf:
-            await self.trivia_true_or_false(ctx, question)
+            await self.trivia_true_or_false(ctx, question, do_reward)
         else:
-            await self.trivia_multiple_choice(ctx, question)
+            await self.trivia_multiple_choice(ctx, question, do_reward)
 
     @commands.command(name="gayrate", aliases=["gaypercent"])
     async def gay_rate(self, ctx, *, thing: typing.Union[discord.Member, str] = None):

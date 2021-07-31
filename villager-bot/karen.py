@@ -19,10 +19,12 @@ class MechaKaren:
             self.start_time = arrow.utcnow()
 
             self.mine_commands = defaultdict(int)  # {user_id: command_count}, also used for fishing btw
+            self.trivia_commands = defaultdict(int)  # {user_id: trivia_command_count}
             self.active_effects = defaultdict(set)  # {user_id: [effect, potion, effect,..]}
             self.pillages = defaultdict(int)  # {user_id: num_successful_pillages}
 
             self.econ_paused_users = {}  # {user_id: time.time()}
+
 
     def __init__(self):
         self.k = load_secrets()
@@ -213,6 +215,14 @@ class MechaKaren:
             while True:
                 await asyncio.sleep(32)
                 await self.db.execute("UPDATE users SET health = health + 1 WHERE health < 20")
+        except Exception as e:
+            self.logger.error(format_exception(e))
+
+    async def clear_trivia_commands_loop(self):
+        try:
+            while True:
+                await asyncio.sleep(10 * 60)
+                self.v.trivia_commands.clear()
         except Exception as e:
             self.logger.error(format_exception(e))
 

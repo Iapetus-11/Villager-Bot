@@ -85,7 +85,8 @@
     "give": 10,
     "gamble": 30,
     "search": 1800,
-    "mine": 2
+    "mine": 2,
+    "trivia": 5
   },
   "concurrency_limited": [
     "profile",
@@ -103,7 +104,8 @@
     "fish",
     "pillage",
     "honey",
-    "leaderboards"
+    "leaderboards",
+    "trivia"
   ],
   "role_mappings": {
     "Stone Pickaxe": 697457637763186809,
