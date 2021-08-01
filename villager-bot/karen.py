@@ -96,7 +96,7 @@ class MechaKaren:
 
             self.logger.error(result)
 
-        await stream.write_packet({"type": PacketType.RESPONSE, "id": packet.id, "result": result, "success": success})
+        await stream.write_packet({"type": PacketType.EVAL_RESPONSE, "id": packet.id, "result": result, "success": success})
 
     async def handle_exec_packet(self, stream: Stream, packet: ClassyDict):
         try:
@@ -108,7 +108,7 @@ class MechaKaren:
 
             self.logger.error(result)
 
-        await stream.write_packet({"type": PacketType.RESPONSE, "id": packet.id, "result": result, "success": success})
+        await stream.write_packet({"type": PacketType.EXEC_RESPONSE, "id": packet.id, "result": result, "success": success})
 
     async def handle_broadcast_request_packet(self, stream: Stream, packet: ClassyDict):
         """broadcasts the packet to every connection including the broadcaster, and waits for responses"""
@@ -126,7 +126,7 @@ class MechaKaren:
 
         await asyncio.wait(broadcast_coros)
         await broadcast["ready"].wait()
-        await stream.write_packet({"type": PacketType.RESPONSE, "id": packet.id, "responses": broadcast["responses"]})
+        await stream.write_packet({"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "responses": broadcast["responses"]})
 
     async def handle_broadcast_response_packet(self, stream: Stream, packet: ClassyDict):
         broadcast = self.broadcasts[packet.id]
@@ -137,7 +137,7 @@ class MechaKaren:
 
     async def handle_cooldown_packet(self, stream: Stream, packet: ClassyDict):
         cooldown_info = self.cooldowns.check(packet.command, packet.user_id)
-        await stream.write_packet({"type": PacketType.RESPONSE, "id": packet.id, **cooldown_info})
+        await stream.write_packet({"type": PacketType.COOLDOWN_RESPONSE, "id": packet.id, **cooldown_info})
 
     async def handle_cooldown_add_packet(self, stream: Stream, packet: ClassyDict):
         self.cooldowns.add_cooldown(packet.command, packet.user_id)
@@ -151,7 +151,7 @@ class MechaKaren:
 
         self.dm_messages.pop(packet.user_id, None)
 
-        await stream.write_packet({"type": PacketType.RESPONSE, "id": packet.id, "content": entry["content"]})
+        await stream.write_packet({"type": PacketType.DM_MESSAGE, "id": packet.id, "content": entry["content"]})
 
     async def handle_dm_message_packet(self, stream: Stream, packet: ClassyDict):
         entry = self.dm_messages.get(packet.user_id)
@@ -165,13 +165,13 @@ class MechaKaren:
     async def handle_mine_command_packet(self, stream: Stream, packet: ClassyDict):  # used for fishing too
         self.v.mine_commands[packet.user_id] += packet.addition
         await stream.write_packet(
-            {"type": PacketType.RESPONSE, "id": packet.id, "current": self.v.mine_commands[packet.user_id]}
+            {"type": PacketType.MINE_COMMAND_RESPONSE, "id": packet.id, "current": self.v.mine_commands[packet.user_id]}
         )
 
     async def handle_concurrency_check_packet(self, stream: Stream, packet: ClassyDict):
         await stream.write_packet(
             {
-                "type": PacketType.RESPONSE,
+                "type": PacketType.CONCURRENCY_CHECK_RESPONSE,
                 "id": packet.id,
                 "can_run": self.concurrency.check(packet.command, packet.user_id),
             }
