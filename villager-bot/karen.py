@@ -7,8 +7,8 @@ import arrow
 
 from util.setup import load_secrets, load_data, setup_karen_logging
 from util.cooldowns import CooldownManager, MaxConcurrencyManager
+from util.ipc import Server, JsonPacketStream, PacketType
 from util.code import execute_code, format_exception
-from util.ipc import Server, Stream, PacketType
 
 from bot import run_cluster
 
@@ -74,19 +74,19 @@ class MechaKaren:
 
         self.heal_users_task = None
 
-    async def handle_missing_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_missing_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         self.logger.error(f"Missing packet handler for packet type {packet.type}")
 
-    async def handle_shard_ready_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_shard_ready_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         self.online_shards.add(packet.shard_id)
 
         if len(self.online_shards) == len(self.shard_ids):
             self.logger.info(f"\u001b[36;1mALL SHARDS\u001b[0m [0-{len(self.online_shards)-1}] \u001b[36;1mREADY\u001b[0m")
 
-    async def handle_shard_disconnect_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_shard_disconnect_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         self.online_shards.discard(packet.shard_id)
 
-    async def handle_eval_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_eval_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         try:
             result = eval(packet.code, self.eval_env)
             success = True
@@ -98,7 +98,7 @@ class MechaKaren:
 
         await stream.write_packet({"type": PacketType.EVAL_RESPONSE, "id": packet.id, "result": result, "success": success})
 
-    async def handle_exec_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_exec_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         try:
             result = await execute_code(packet.code, self.eval_env)
             success = True
@@ -110,7 +110,7 @@ class MechaKaren:
 
         await stream.write_packet({"type": PacketType.EXEC_RESPONSE, "id": packet.id, "result": result, "success": success})
 
-    async def handle_broadcast_request_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_broadcast_request_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         """broadcasts the packet to every connection including the broadcaster, and waits for responses"""
 
         broadcast_id = f"b{self.current_id}"
@@ -130,24 +130,24 @@ class MechaKaren:
             {"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "responses": broadcast["responses"]}
         )
 
-    async def handle_broadcast_response_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_broadcast_response_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         broadcast = self.broadcasts[packet.id]
         broadcast["responses"].append(packet)
 
         if len(broadcast["responses"]) == broadcast["expects"]:
             broadcast["ready"].set()
 
-    async def handle_cooldown_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_cooldown_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         cooldown_info = self.cooldowns.check(packet.command, packet.user_id)
         await stream.write_packet({"type": PacketType.COOLDOWN_RESPONSE, "id": packet.id, **cooldown_info})
 
-    async def handle_cooldown_add_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_cooldown_add_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         self.cooldowns.add_cooldown(packet.command, packet.user_id)
 
-    async def handle_cooldown_reset_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_cooldown_reset_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         self.cooldowns.clear_cooldown(packet.command, packet.user_id)
 
-    async def handle_dm_message_request_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_dm_message_request_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         entry = self.dm_messages[packet.user_id] = {"event": asyncio.Event(), "content": None}
         await entry["event"].wait()
 
@@ -155,7 +155,7 @@ class MechaKaren:
 
         await stream.write_packet({"type": PacketType.DM_MESSAGE, "id": packet.id, "content": entry["content"]})
 
-    async def handle_dm_message_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_dm_message_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         entry = self.dm_messages.get(packet.user_id)
 
         if entry is None:
@@ -164,13 +164,13 @@ class MechaKaren:
         entry["content"] = packet.content
         entry["event"].set()
 
-    async def handle_mine_command_packet(self, stream: Stream, packet: ClassyDict):  # used for fishing too
+    async def handle_mine_command_packet(self, stream: JsonPacketStream, packet: ClassyDict):  # used for fishing too
         self.v.mine_commands[packet.user_id] += packet.addition
         await stream.write_packet(
             {"type": PacketType.MINE_COMMAND_RESPONSE, "id": packet.id, "current": self.v.mine_commands[packet.user_id]}
         )
 
-    async def handle_concurrency_check_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_concurrency_check_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         await stream.write_packet(
             {
                 "type": PacketType.CONCURRENCY_CHECK_RESPONSE,
@@ -179,13 +179,13 @@ class MechaKaren:
             }
         )
 
-    async def handle_concurrency_acquire_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_concurrency_acquire_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         self.concurrency.acquire(packet.command, packet.user_id)
 
-    async def handle_concurrency_release_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_concurrency_release_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         self.concurrency.release(packet.command, packet.user_id)
 
-    async def handle_command_ran_packet(self, stream: Stream, packet: ClassyDict):
+    async def handle_command_ran_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         async with self.commands_lock:
             self.commands[packet.user_id] += 1
 
