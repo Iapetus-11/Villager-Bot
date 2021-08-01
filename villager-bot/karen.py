@@ -126,7 +126,9 @@ class MechaKaren:
 
         await asyncio.wait(broadcast_coros)
         await broadcast["ready"].wait()
-        await stream.write_packet({"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "responses": broadcast["responses"]})
+        await stream.write_packet(
+            {"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "responses": broadcast["responses"]}
+        )
 
     async def handle_broadcast_response_packet(self, stream: Stream, packet: ClassyDict):
         broadcast = self.broadcasts[packet.id]
