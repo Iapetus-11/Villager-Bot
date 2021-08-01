@@ -145,7 +145,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
             super().run(self.k.discord_token, *args, **kwargs)
 
     async def handle_broadcast(self, packet: ClassyDict) -> None:
-        if packet.type == "eval":
+        if packet.type == PacketType.EVAL:
             try:
                 result = eval(packet.code, self.eval_env)
                 success = True
@@ -154,7 +154,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
                 success = False
 
             await self.ipc.send({"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "result": result, "success": success})
-        elif packet.type == "exec":
+        elif packet.type == PacketType.EXEC:
             try:
                 result = await execute_code(packet.code, self.eval_env)
                 success = True
