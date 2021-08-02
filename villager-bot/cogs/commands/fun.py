@@ -466,11 +466,11 @@ class Fun(commands.Cog):
             if do_reward:
                 emeralds_won = self.calculate_trivia_reward(question.d)
                 await self.db.balance_add(ctx.author.id, emeralds_won)
-                correct = random.choice(ctx.l.fun.trivia.correct)
+                correct = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
             else:
                 correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
 
-            embed.description = correct.format(emeralds_won, self.d.emojis.emerald)
+            embed.description = correct
         else:
             embed.description = random.choice(ctx.l.fun.trivia.incorrect)
 
@@ -529,11 +529,11 @@ class Fun(commands.Cog):
             if do_reward:
                 emeralds_won = self.calculate_trivia_reward(question.d)
                 await self.db.balance_add(ctx.author.id, emeralds_won)
-                correct = random.choice(ctx.l.fun.trivia.correct)
+                correct = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
             else:
                 correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
 
-            embed.description = correct.format(emeralds_won, self.d.emojis.emerald)
+            embed.description = correct
         else:
             embed.description = random.choice(ctx.l.fun.trivia.incorrect)
 
