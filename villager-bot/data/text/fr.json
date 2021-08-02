@@ -153,7 +153,1093 @@
         "invalid_size_1": "Ce n'est pas une taille valide. Exemple de taille valide : `10x10`",
         "invalid_size_2": "La taille doit être comprise entre 1 et 12"
       },
-      "gayrate": "{0} {1} is 100% gay {0}"
+      "gayrate": "{0} {1} is 100% gay {0}",
+      "trivia": {
+        "title": "{}  Minecraft Trivia **[{}]** {}",
+        "title_basic": "{}  Minecraft Trivia {}",
+        "time_to_answer": "Vous avez 15 secondes pour répondre à cette question!",
+        "timeout": "**Ça craint d’être aussi nul...** Tu as manqué de temps!",
+        "correct": [
+          "Beau travail, c'est **correct**!\nTu as été récompensé de {}{}!",
+          "Beau travail, c'est **correct**!\nTu as gagné {}{}!",
+          "Beau travail, c'est **correct**!\nTu as reçu {}{}!",
+          "Bien vu, c'est **correct**!\nTu as gagné {}{}!",
+          "Bien vu, c'est **correct**!\nTu as été récompensé de {}{}!"
+        ],
+        "incorrect": [
+          "Réponse **incorrecte**...  :pensif:",
+          "Tu es peut-être **stupide**... :pensif:",
+          "Il n'y a aucun espoir pour toi... :pensif:",
+          "Oui docteur, il n'a littéralement pas de cerveau..."
+        ],
+        "difficulty": [
+          "simple",
+          "moyen",
+          "difficile"
+        ],
+        "questions": [
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Combien de vie a l’Enderdragon ?",
+            "a": [
+              "200 pv",
+              "500 pv",
+              "50 pv",
+              "100 pv"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Combien de tranches a un gâteaux ?",
+            "a": [
+              "7 tranches",
+              "8 tranches",
+              "6 tranches",
+              "10 tranches"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Combien de points de nourriture restaure une patate ?",
+            "a": [
+              "1 point",
+              "2 points",
+              "0 point",
+              "3 points"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Combien de points de saturation restaure une patate ?",
+            "a": [
+              "0.6 points",
+              "1 point",
+              "0.1 point",
+              "1.7 points"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quel est l’aliment qui restaure le plus de points de nourriture dans Minecraft ?",
+            "a": [
+              "Un steak",
+              "Du pain",
+              "Une soupe de champignons",
+              "Une carotte dorée"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Combien d’XP a besoin un villageois pour passer de novice à maître ?",
+            "a": [
+              "250 XP",
+              "150 XP",
+              "100 XP",
+              "70 XP"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel est le biome le plus rare dans Minecraft ?",
+            "a": [
+              "Orée de la jungle modifié",
+              "Montagnes de taïga enneigées",
+              "Colline de jungle de bambous",
+              "Rive de champs de champignons"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "En quelle année Minecraft a-t-il été entièrement publié ?",
+            "a": [
+              "2011",
+              "2007",
+              "2010",
+              "2014"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "De quel mob les creepers ont-ils peur ?",
+            "a": [
+              "Les ocelots",
+              "Les zombies",
+              "Des joueurs",
+              "Des autres creepers"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Dans quelle snapshot les élytres ont-ils étés ajoutés ?",
+            "a": [
+              "15w41a",
+              "16w31a",
+              "16w42a",
+              "17w22a"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Qu’utilise un squelette pour attaquer ?",
+            "a": [
+              "Un arc",
+              "un œuf",
+              "Une épée",
+              "Rien"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Qu’utilise un wither squelette pour attaquer ?",
+            "a": [
+              "Une épée",
+              "Un arc",
+              "Des têtes de wither",
+              "Leurs mains"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "À quelle distance se trouve la frontière du monde à partir de 0 0 ?",
+            "a": [
+              "30000000 blocs dans chaque direction",
+              "1000000 blocs dans chaque direction",
+              "300000000 blocs chaque direction",
+              "Il n’y a pas de frontière, Minecraft est infini"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Dans quel emplacement d'échange le villageois berger vend-il les lits ?",
+            "a": [
+              "6ème",
+              "2ème",
+              "4ème",
+              "8ème"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quel outil est vendu à la fois par les villageois forgerons d'outils et forgerons d'armes ?",
+            "a": [
+              "La hache",
+              "La pelle",
+              "L'épée",
+              "La pioche"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quel objet peux-tu utiliser pour créer des potions de vision nocturne ?",
+            "a": [
+              "Une carotte dorée",
+              "Une pomme dorée",
+              "De la chair putréfiée",
+              "Des betteraves"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Combien de temps dure une journée en jeu sur Minecraft ?",
+            "a": [
+              "20 minutes",
+              "10 minutes",
+              "30 minutes",
+              "1 heure"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Qui a créé Minecraft à l’origine ?",
+            "a": [
+              "Markus Perrson",
+              "Matthew Marcusson",
+              "Donald Donnelly",
+              "Magnus Carlson"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux**: Une pelle peut être utilisée pour éteindre un feu de camp",
+            "a": [
+              "Vrai",
+              "Faux"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quel mob peut voler à travers la bedrock ?",
+            "a": [
+              "Les vex",
+              "Les abeilles",
+              "Les wither squelettes",
+              "Les chauves-souris"
+            ]
+          },
+          {
+            "d": 2,
+            "tf":true,
+            "q": "**Vrai** ou **faux**: Une houe en fer a plus de durabilité qu’une houe en or",
+            "a": [
+              "Vrai",
+              "Faux"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux**: Les zombies dans Minecraft peuvent casser les portes",
+            "a": [
+              "Vrai",
+              "Faux"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux**: Les squelettes dans Minecraft peuvent casser les portes",
+            "a": [
+              "Faux",
+              "Vrai"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel a été le premier ennemi introduit dans Minecraft ?",
+            "a": [
+              "Les zombies",
+              "Les creepers",
+              "Les squelettes",
+              "Les araignées"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel mob hostile a été ajoutée dans la mise à jour Pretty Scary ?",
+            "a": [
+              "Les sorcières",
+              "Les creepers",
+              "Les endermans",
+              "Les vex"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel ennemi a été introduit dans Minecraft 1.8 ?",
+            "a": [
+              "Les silverfishs",
+              "Les withers",
+              "les araignées",
+              "Les piglins zombifiés"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Dans quel snapshot le cochon-zombie a-t-il été renommé en piglin zombifié ?",
+            "a": [
+              "20w09a",
+              "13w49a",
+              "18w43a",
+              "12w37a"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quel est l'ingrédient utilisé pour faire des potions persistantes ?",
+            "a": [
+              "Le souffle de dragon",
+              "La poudre à canon",
+              "La redstone",
+              "La glowstone"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "En quelle année le développement de Minecraft a-t-il débuté ?",
+            "a": [
+              "2009",
+              "2010",
+              "2011",
+              "2008"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Dans quel langage de programmation la version PC de Minecraft est-elle écrite ?",
+            "a": [
+              "Java",
+              "Python",
+              "C++",
+              "BASIC"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Combien de minutes met un bébé villageois pour devenir grand ?",
+            "a": [
+              "20 minutes",
+              "10 minutes",
+              "40 minutes",
+              "15 minutes"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Combien y a-t-il de couleurs de teinture différentes ?",
+            "a": [
+              "16 couleurs",
+              "14 couleurs",
+              "18 couleurs",
+              "20 couleurs"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quel enchentement a le même niveaux max que Tranchant",
+            "a": [
+              "Châtiment",
+              "Solidité",
+              "Chute amortie",
+              "Protection contre les explosions"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel est le nom de l’ender dragon ?",
+            "a": [
+              "Jean",
+              "Carson",
+              "Bertha",
+              "Steve"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Pourquoi les ours polaires ont-ils été introduits dans Minecraft ?",
+            "a": [
+              "La femme de Jeb aimait les ours polaires donc il les a ajoutés",
+              "La communauté l’a choisi pendant le Minecon Live",
+              "Notch l’a ajouté comme une mise à jour secrète du vendredi",
+              "La communauté l’a voté sur twiter"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quelle langue parlent les endermans ?",
+            "a": [
+              "L’anglais inversé",
+              "Juste du charabia",
+              "Le Suédois",
+              "L’allemand inversé"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quelle est la fleur la plus commune dans le biome marais ?",
+            "a": [
+              "L’orchidée bleue",
+              "Le pissenlit",
+              "La rose du wither",
+              "Le tournesol"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Pourquoi les chats noir et blanc ont été ajoutés au jeu ?",
+            "a": [
+              "Le chat de Jeb est mort et il ressemblait à ça",
+              "Notch aimait son apparence",
+              "Ils ont cherché sur google une image aléatoire de chat et sont tombés sur celle-ci",
+              "C’était un design aléatoire"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Comment le succès \"Comment en est-on arrivé là ?\" est-il obtenu ?",
+            "a": [
+              "En ayant tous les effets aplicables sur soi à la fois",
+              "En ayant tous les effets des potions sur soi à la fois",
+              "En allant dans une cité de l’end",
+              "En trouvant les terres lointaines"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "**Vrai** ou **faux**: Les piglins ne vous attaquent que si vous les tapez",
+            "a": [
+              "Faux",
+              "Vrai"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quel nom faut-il donner à un mouton pour le faire devenir multicolore ?",
+            "a": [
+              "jeb_",
+              "Dinnerbone",
+              "Johnny",
+              "Toast"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Que devaient être les creepers à la base ?",
+            "a": [
+              "Des cochons",
+              "Des zombies",
+              "Des araignées",
+              "Des poulets"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : L’Ender Dragon ne peut que pondre plusieurs oeufs",
+            "a": [
+              "Faux",
+              "Vrai"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quelle mise à jour était également connue sous le nom de \"La Pretty Scary Update\" ?",
+            "a": [
+              "1.4.2",
+              "1.3",
+              "1.12",
+              "1.7"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quel nom donner à un mob le fait se retouner à l’envers ?",
+            "a": [
+              "Dinnerbone",
+              "jeb_",
+              "Johnny",
+              "Toast"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quels sont les trois objets requis pour construire un conduit actif ?",
+            "a": [
+              "Un coeur de la mer, des coquilles de nautile et n’importe quel type de bloc de prismarine",
+              "Un coeur de la mer, une balise et des coquilles de nautile",
+              "Un coeur de la mer, des coquilles de nautile et du verre",
+              "Des diamants, des coquilles de nautile et du verre"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quelle est l'augmentation de base des dégâts de mélée lorsque l'effet force est appliqué ?",
+            "a": [
+              "3 HP",
+              "1½ HP",
+              "2 HP",
+              "4 HP"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Toutes les vaches de Minecraft sont ...",
+            "a": [
+              "Des femelles",
+              "Des mâles"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quel est le nombre maximum de tranches de pastèque qu'une pastèque peut donner ?",
+            "a": [
+              "9 tranches",
+              "8 tranches",
+              "7 tranches",
+              "6 tranches"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Combien de laine as-tu besoin pour faire un lit dans Minecraft ?",
+            "a": [
+              "3 laines",
+              "4 laines",
+              "2 laines",
+              "1 laine"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Quels objets donnent les Slimes dans Minecraft ?",
+            "a": [
+              "Des boules de Slime",
+              "Des fioles de Slime",
+              "Du sable kinétique",
+              "De la crème de magma"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quel est le nom du mob qui donne des crèmes de magma ?",
+            "a": [
+              "Cube de magma",
+              "Slime de lave",
+              "Cube en fusion",
+              "Slime en fusion"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Quel est le nom du mob qui donne de la Poudre à canon ?",
+            "a": [
+              "Creeper",
+              "Zombie",
+              "wither",
+              "Cube de magma"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : dans Minecraft, les poissons peuvent donner des os",
+            "a": [
+              "Vrai",
+              "Faux"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel est le type le plus rare d'axolotl ?",
+            "a": [
+              "Bleu",
+              "Rouge",
+              "Tropical",
+              "Rose"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : dans Minecraft, les axolotls ne peuvent apparître que dans l'obscurité absolue",
+            "a": [
+              "Vrai",
+              "Faux"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Dans ce qui suit, lequel est réellement un type d'axolotl dans Minecraft ?",
+            "a": [
+              "Leucistique",
+              "Boueux",
+              "Blanc",
+              "Purpur"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Avec quoi fais-tu se reproduire des axolotls dans Minecraft ?",
+            "a": [
+              "Un seau de poisson tropical",
+              "Un seau d'eau",
+              "Seulement du saumon",
+              "N'importe quel type de poisson"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Avec quoi fais-tu se reproduire des vaches dans Minecraft ?",
+            "a": [
+              "Du blé",
+              "Des carottes",
+              "Des graines",
+              "Un seau de lait"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Avec quoi fais-tu se reproduire des moutons dans Minecraft ?",
+            "a": [
+              "Du blé",
+              "Des carottes",
+              "Des graines",
+              "De la soupe de champignon"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Avec quoi fais-tu se reproduire des poulets dans Minecraft ?",
+            "a": [
+              "Des graines",
+              "Des carottes",
+              "Du blé",
+              "Un seau de lait"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Avec quoi fais-tu se reproduire des cochons dans Minecraft ?",
+            "a": [
+              "Des patates",
+              "Des carottes",
+              "Des graines",
+              "Du blé"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : tu peux traire une soupe de champignons sur les Champimeuh",
+            "a": [
+              "Vrai",
+              "Faux"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : tu peux traire une soupe de champignons sur les vaches avec un bol",
+            "a": [
+              "Faux",
+              "Vrai"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : la version Bedrock de Minecraft est codé dans le langage de programmation Java",
+            "a": [
+              "Faux",
+              "Vrai"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Dans quel langage de programmation est codé la version Bedrock de Minecraft ?",
+            "a": [
+              "c++",
+              "c",
+              "c#",
+              "java"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Comment est nommé le format du monde dans la version Bedrock de Minecraft ?",
+            "a": [
+              "LevelDB",
+              "SQL",
+              "Anvil",
+              "MCA"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Comment est nommé le format du monde dans la version Java de Minecraft ?",
+            "a": [
+              "Anvil",
+              "SQL",
+              "LevelDB",
+              "MCA"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "En terme de blocs, quelle taille fait un tronçon cubique dans Minecraft ?",
+            "a": [
+              "16x16x16",
+              "32x32x32",
+              "64x64x64",
+              "128x128x128"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "En terme de tronçons, quelle taille fait une région dans Minecraft ?",
+            "a": [
+              "32x32",
+              "64x64",
+              "16x16",
+              "96x96"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : le texte dans la table d'enchantement est juste du charabia",
+            "a": [
+              "Vrai",
+              "Faux"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Que peux tu porter pour que les endermans arrêtent de t'attaquer lorsuqe tu les regarde dans les yeux ?",
+            "a": [
+              "Une citrouille",
+              "Une patate",
+              "Une pastèque",
+              "Un crâne de wither"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Comment sont créés les creepers chargés ?",
+            "a": [
+              "Il est frappé par la foudre",
+              "Il est fabriqué avec une étoile du Nether",
+              "Il est frappé par un crâne de wither volant",
+              "Il est généré à l'aide du baton de débogage"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel animal a été enregistré afin de faire les effets sonores des ghasts ?",
+            "a": [
+              "Un chat endormi",
+              "Un chien qui aboit",
+              "Un perroquet",
+              "Un chien qui grogne"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel est le niveau maximum de puissance pour de la poudre de redstone ?",
+            "a": [
+              "15",
+              "16",
+              "12",
+              "8"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Que peut calmer les abeilles dans Minecraft ?",
+            "a": [
+              "La fumée de feu de camp",
+              "Des fioles de miel",
+              "L'eau",
+              "Des boules de Slime"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : les abeilles de Minecraft peuvent nager sous l'eau",
+            "a": [
+              "Faux",
+              "Vrai"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel effet négatif les grands gardiens infligent-ils dans Minecraft ?",
+            "a": [
+              "Fatigue",
+              "Lenteur",
+              "Dégâts instantanés",
+              "Poison"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Comment transformer un villageois en sorcière ?",
+            "a": [
+              "Frapper le villageois avec la foudre",
+              "Tremper le villageois dans la lave",
+              "Faire mordre le villageois par un zombie",
+              "Brûler le villageois"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : les golems de fer peuvent donner des coquelicots lorsqu'ils meurent",
+            "a": [
+              "Vrai",
+              "Faux"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Combien de cœurs possède un golem de fer ?",
+            "a": [
+              "50 cœurs",
+              "100 cœurs",
+              "25 cœurs",
+              "200 cœurs"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : tu peux soigner un golem de fer  avec des lingots de fer",
+            "a": [
+              "Vrai",
+              "Faux"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel est le type de village le plus rare à apparaître ?",
+            "a": [
+              "Neigeux",
+              "Désert",
+              "Jungle",
+              "Plage"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : tu peux utiliser Toucher de soie pour récupérer des générateurs de monstre",
+            "a": [
+              "Faux",
+              "Vrai"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : il y a des flêches en diamant dans Minecraft",
+            "a": [
+              "Faux",
+              "Vrai"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel version de Minecraft a ajouté l'End ?",
+            "a": [
+              "1.0.0",
+              "1.2.0",
+              "1.12.0",
+              "1.9.0"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel jeu a inspiré la création de Minecraft ?",
+            "a": [
+              "Infiniminer",
+              "Tetris",
+              "Roblox",
+              "Fortnite"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Qui a composé la musique originale de Minecraft ?",
+            "a": [
+              "c418",
+              "notch",
+              "jeb",
+              "lena raine"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Qui a composé la musique pour la mise à jour du Nether 1.16 ?",
+            "a": [
+              "lena raine",
+              "notch",
+              "jeb",
+              "c418"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel bloc de Minecraft existait avant Minecraft ?",
+            "a": [
+              "Pierres",
+              "Terre",
+              "Roche",
+              "Bois"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Sur quel jeu travaillait Notch avant Minecraft ?",
+            "a": [
+              "RubyDung",
+              "Infiniminer",
+              "Tetris 2.0",
+              "Roblox"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Quelle est la meilleure hauteur y pour miner des diamants ?",
+            "a": [
+              "y=12",
+              "y=16",
+              "y=3",
+              "y=20"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quel est le minerai le plus rare dans Minecraft ?",
+            "a": [
+              "Minerai d'émeraude",
+              "Débris antiques",
+              "Minerai de diamant",
+              "Minerai de charbon"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Dans quel biome trouve-t-on les minerais d'émeraude ?",
+            "a": [
+              "Biome montagne",
+              "Biome jungle",
+              "Biome désert",
+              "Biome badlands"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Dans quel biome trouve-t-on le plus de minerais d'or ?",
+            "a": [
+              "Biome badlands",
+              "Biome jungle",
+              "Biome désert",
+              "Biome plage"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Où les squelettes normaux aparaissent-ils dans le Nether ?",
+            "a": [
+              "Biome vallée des âmes",
+              "Biome terres désolées du Nether",
+              "Biome deltas de basalt",
+              "Biome forêt biscornue"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : tu peux marchander avec les hoglins",
+            "a": [
+              "Faux",
+              "Vrai"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Vrai** ou **faux** : tu peux marchander avec les piglins",
+            "a": [
+              "Vrai",
+              "Faux"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Comment éviter que les piglins ne t'attaquent ?",
+            "a": [
+              "En portant une armure en or",
+              "En les tuants",
+              "En portant des bottes avec agilité des âmes",
+              "En portant une armure avec protection III"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Avec quoi fais-tu se reproduire des hoglins dans Minecraft ?",
+            "a": [
+              "Des champignons carmins",
+              "Des champignons biscornus",
+              "Des verrues du Nether",
+              "Des côtelette de porc"
+            ]
+          }
+        ]
+      }
     },
     "mobs_mech": {
       "no_health": "Tu n'as pas assez de vie pour combattre ce monstre.",
