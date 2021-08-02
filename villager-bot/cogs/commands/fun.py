@@ -543,10 +543,11 @@ class Fun(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def minecraft_trivia(self, ctx):
         do_reward = (
-            await self.ipc.eval(f"""
+            await self.ipc.eval(
+                f"""
             trivia_commands[{ctx.author.id}] += 1
             return trivia_commands[{ctx.author.id}] < 3"""
-        )
+            )
         ).result
         question = random.choice(ctx.l.fun.trivia.questions)
 
