@@ -255,11 +255,13 @@ class MechaKaren:
         try:
             while True:
                 await asyncio.sleep(5)
-                
+
                 reminders = await self.db.fetch("DELETE FROM reminders WHERE at <= NOW() RETURNING *")
 
                 for reminder in reminders:
-                    code = remind_code.format(reminder["channel_id"], reminder["user_id"], reminder["message_id"], repr(reminder["reminder"]))
+                    code = remind_code.format(
+                        reminder["channel_id"], reminder["user_id"], reminder["message_id"], repr(reminder["reminder"])
+                    )
 
                     broadcast_id = f"b{self.current_id}"
                     self.current_id += 1

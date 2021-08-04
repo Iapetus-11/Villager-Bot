@@ -152,7 +152,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
             except Exception as e:
                 result = format_exception(e)
                 success = False
-                
+
                 self.logger.error(result)
 
             await self.ipc.send({"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "result": result, "success": success})
@@ -163,7 +163,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
             except Exception as e:
                 result = format_exception(e)
                 success = False
-                
+
                 self.logger.error(result)
 
             await self.ipc.send({"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "result": result, "success": success})
