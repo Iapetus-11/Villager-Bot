@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
 CREATE TABLE IF NOT EXISTS pets (
   user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE,
   pet_type           VARCHAR(32) NOT NULL,
+  variant            SMALLINT,
   pet_name           VARCHAR(32),
   health             SMALLINT NOT NULL, -- 1 point = .5 hearts
   max_health         SMALLINT NOT NULL, -- max hp
