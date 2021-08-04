@@ -107,11 +107,17 @@ class Econ(commands.Cog):
             mooderalds = 0
 
         vote_streak = db_user["vote_streak"]
-        voted = arrow.utcnow().shift(hours=-12) < arrow.get(0 if db_user["last_vote"] is None else db_user["last_vote"])
+        last_voted_at = arrow.get(0 if db_user["last_vote"] is None else db_user["last_vote"])
+        voted = arrow.utcnow().shift(hours=-12) < last_voted_at
 
         if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(0 if db_user["last_vote"] is None else db_user["last_vote"]):
             vote_streak = 0
             await self.db.update_user(user.id, vote_streak=0, last_vote=None)
+
+        if voted:
+            can_vote_value = arrow.humanize(last_voted_at)
+        else:
+            can_vote_value = f"[{ctx.l.econ.pp.yep}]({self.d.topgg + '/vote'})"
 
         user_badges_str = self.badges.emojify_badges(await self.badges.fetch_user_badges(user.id))
 
@@ -126,7 +132,7 @@ class Econ(commands.Cog):
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(
             name=ctx.l.econ.pp.can_vote,
-            value=(ctx.l.econ.pp.nope if voted else f"[{ctx.l.econ.pp.yep}]({self.d.topgg + '/vote'})"),
+            value=can_vote_value,
         )
 
         embed.add_field(name=ctx.l.econ.pp.pick, value=(await self.db.fetch_pickaxe(user.id)))
