@@ -253,50 +253,21 @@ class Fun(commands.Cog):
         await ctx.send(clapped)
 
     @commands.command(name="emojify")
-    async def emojify(self, ctx, *, _text=None):
+    async def emojify(self, ctx, *, _text):
         """Turns text or images into emojis"""
 
         text = (strip_command(ctx)).lower()
 
-        if len(ctx.message.attachments) > 0:
-            image = ctx.message.attachments[0]
-
-            if image.filename.lower()[-4:] not in (".jpg", ".png") and not image.filename.lower()[-5:] in (".jpeg"):
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
-                return
-
-            try:
-                image.height
-            except Exception:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_3)
-                return
-
-            detailed = False
-
-            for detailed_keyword in ("large", "high", "big", "quality", "detailed"):
-                if detailed_keyword in ctx.message.content:
-                    detailed = True
-                    break
-
-            async with ctx.typing():
-                image_data = await self.bot.loop.run_in_executor(
-                    self.bot.tp, self.tiler.generate, await image.read(use_cached=True), 1600, detailed
-                )
-
-            await ctx.reply(file=discord.File(image_data, filename=image.filename), mention_author=False)
-        elif text:
-            for letter in text:
-                if letter in ALPHABET_LOWER:
-                    text += f":regional_indicator_{letter}: "
-                else:
-                    text += self.d.emojified.get(letter, letter) + " "
-
-            if len(text) > 2000:
-                await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+        for letter in text:
+            if letter in ALPHABET_LOWER:
+                text += f":regional_indicator_{letter}: "
             else:
-                await ctx.send(text)
+                text += self.d.emojified.get(letter, letter) + " "
+
+        if len(text) > 2000:
+            await self.bot.send_embed(ctx, ctx.l.fun.too_long)
         else:
-            await self.bot.reply_embed(ctx, "You must add text or an image to be emojified.")
+            await ctx.send(text)
 
     @commands.command(name="owo", aliases=["owofy"])
     async def owofy_text(self, ctx, *, text):
