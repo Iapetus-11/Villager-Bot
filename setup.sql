@@ -55,6 +55,16 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
   commands           BIGINT NOT NULL DEFAULT 0 -- not super accurate as commands are cached for speed
 );
 
+CREATE TABLE IF NOT EXISTS pets (
+  user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE,
+  pet_type           VARCHAR(32) NOT NULL,
+  pet_name           VARCHAR(32),
+  health             SMALLINT NOT NULL, -- 1 point = .5 hearts
+  max_health         SMALLINT NOT NULL, -- max hp
+  hunger             SMALLINT NOT NULL DEFAULT 20, -- 20 hunger points
+  born_at            TIMESTAMPTZ NOT NULL DEFAULT NOW()::TIMESTAMPTZ
+);
+
 CREATE TABLE IF NOT EXISTS give_logs (
   item               VARCHAR(250) NOT NULL, -- item traded / given, "emerald" for emeralds
   amount             BIGINT NOT NULL, -- the amount of the item
