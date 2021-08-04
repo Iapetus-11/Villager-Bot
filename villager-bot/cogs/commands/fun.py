@@ -9,12 +9,6 @@ import typing
 from util.code import format_exception
 from util.misc import strip_command
 
-try:
-    from util import tiler_rgba
-except ImportError as e:
-    print(format_exception(e))
-    tiler = None
-
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
 INSULTS = {"i am stupid", "i am dumb", "i am very stupid", "i am very dumb", "i stupid", "i'm stupid", "i'm dumb"}
 
@@ -29,11 +23,6 @@ class Fun(commands.Cog):
         self.aiohttp = bot.aiohttp
         self.db = bot.get_cog("Database")
         self.ipc = bot.ipc
-
-        if tiler_rgba:
-            self.tiler = tiler_rgba.TilerRGBA("data/emoji_palette.json")
-        else:
-            self.tiler = None
 
     def lang_convert(self, msg, lang):
         keys = list(lang)
