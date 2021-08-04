@@ -1,6 +1,7 @@
 from concurrent.futures import ProcessPoolExecutor
 from collections import defaultdict
 from classyjson import ClassyDict
+from datetime import datetime
 import asyncio
 import asyncpg
 import arrow
@@ -70,9 +71,11 @@ class MechaKaren:
 
         self.commands = defaultdict(int)
         self.commands_lock = asyncio.Lock()
-        self.commands_task = None
 
+        self.commands_task = None
         self.heal_users_task = None
+        self.clear_trivia_commands_task = None
+        self.reminders_task = None
 
     async def handle_missing_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         self.logger.error(f"Missing packet handler for packet type {packet.type}")
@@ -227,20 +230,70 @@ class MechaKaren:
         except Exception as e:
             self.logger.error(format_exception(e))
 
+    async def remind_reminders_loop(self):
+        remind_code = """
+        channel = bot.get_channel({0})  # channel id
+
+        if channel is not None:
+            user = bot.get_user({1})  # user id
+
+            if user is not None:
+                lang = bot.get_language(channel)
+
+                try:
+                    message = await channel.fetch_message({2})  # message id
+                    await message.reply(
+                        lang.useful.remind.reminder.format(user.mention, {3}), mention_author=True
+                    )
+                except Exception:
+                    try:
+                        await channel.send(lang.useful.remind.reminder.format(user.mention, {3}))
+                    except Exception as e:
+                        bot.logger.error(format_exception(e))
+        """
+
+        try:
+            while True:
+                await asyncio.sleep(5)
+                
+                reminders = await self.db.fetch("DELETE FROM reminders WHERE at <= NOW() RETURNING *")
+
+                for reminder in reminders:
+                    code = remind_code.format(reminder["channel_id"], reminder["user_id"], reminder["message_id"], repr(reminder["reminder"]))
+
+                    broadcast_id = f"b{self.current_id}"
+                    self.current_id += 1
+
+                    broadcast_packet = {"type": PacketType.EXEC, "code": code, "id": broadcast_id}
+                    broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections]
+                    broadcast = self.broadcasts[broadcast_id] = {
+                        "ready": asyncio.Event(),
+                        "responses": [],
+                        "expects": len(broadcast_coros),
+                    }
+
+                    await asyncio.wait(broadcast_coros)
+                    await broadcast["ready"].wait()
+        except Exception as e:
+            self.logger.error(format_exception(e))
+
     async def start(self, pp):
         self.db = await asyncpg.create_pool(
             host=self.k.database.host,  # where db is hosted
             database=self.k.database.name,  # name of database
             user=self.k.database.user,  # database username
             password=self.k.database.auth,  # password which goes with user
-            max_size=2,
+            max_size=3,
             min_size=1,
         )
 
         await self.server.start()
         self.cooldowns.start()
+
         self.commands_task = asyncio.create_task(self.commands_dump_loop())
         self.heal_users_task = asyncio.create_task(self.heal_users_loop())
+        self.clear_trivia_commands_task = asyncio.create_task(self.clear_trivia_commands_loop())
+        self.reminders_task = asyncio.create_task(self.remind_reminders_loop())
 
         shard_groups = []
         loop = asyncio.get_event_loop()
@@ -256,8 +309,12 @@ class MechaKaren:
 
         await asyncio.wait(shard_groups)
         self.cooldowns.stop()
+
         self.commands_task.cancel()
         self.heal_users_task.cancel()
+        self.clear_trivia_commands_task.cancel()
+        self.reminders_task.cancel()
+
         await self.db.close()
 
     def run(self):
