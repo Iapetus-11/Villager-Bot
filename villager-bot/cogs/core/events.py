@@ -104,7 +104,10 @@ class Events(commands.Cog):
             text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits)  |  Check the {self.d.default_prefix}rules"
         )
 
-        await channel.send(embed=embed)
+        try:
+            await channel.send(embed=embed)
+        except discord.errors.Forbidden:
+            pass
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
