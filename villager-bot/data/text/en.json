@@ -1701,8 +1701,7 @@
         "sword": "Sword",
         "streak": "Vote Streak",
         "can_vote": "Can Vote?",
-        "yep": "Yep!",
-        "nope": "Nope..."
+        "yep": "Yep!"
       },
       "bal": {
         "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
