@@ -276,7 +276,7 @@ class Econ(commands.Cog):
 
         return True, user
 
-    @commands.group(name="inventory", aliases=["inv", "items"])
+    @commands.group(name="inventory", aliases=["inv", "items"], case_insensitive=True)
     @commands.max_concurrency(2, per=commands.BucketType.user, wait=False)
     @commands.cooldown(2, 2, commands.BucketType.user)
     async def inventory(self, ctx):
@@ -440,7 +440,7 @@ class Econ(commands.Cog):
             ctx, ctx.l.econ.withd.withdrew.format(amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald)
         )
 
-    @commands.group(name="shop")
+    @commands.group(name="shop", case_insensitive=True)
     @commands.cooldown(2, 10, commands.BucketType.user)
     async def shop(self, ctx):
         """Shows the available options in the Villager Shop"""
@@ -1511,7 +1511,7 @@ class Econ(commands.Cog):
 
             await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.honey.ded).format(bees_lost))
 
-    @commands.group(name="leaderboards", aliases=["lb", "lbs", "leaderboard"])
+    @commands.group(name="leaderboards", aliases=["lb", "lbs", "leaderboard"], case_insensitive=True)
     @commands.guild_only()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
