@@ -90,8 +90,8 @@ CREATE TABLE IF NOT EXISTS user_rcon (
   password           VARCHAR(300) NOT NULL -- the encrypted password to login to the RCON server
 );
 
-CREATE TABLE IF NOT EXISTS user_roles (
-  user_id            BIGINT NOT NULL, -- the discord user id / snowflake
-  guild_id           BIGINT NOT NULL, -- the guild id for the user's roles
-  roles              BIGINT[] NOT NULL DEFAULT ARRAY[]::BIGINT[] -- the user's roles at the time they left
-);
+-- CREATE TABLE IF NOT EXISTS user_roles (
+--   user_id            BIGINT NOT NULL, -- the discord user id / snowflake
+--   guild_id           BIGINT NOT NULL, -- the guild id for the user's roles
+--   roles              BIGINT[] NOT NULL DEFAULT ARRAY[]::BIGINT[] -- the user's roles at the time they left
+-- );
