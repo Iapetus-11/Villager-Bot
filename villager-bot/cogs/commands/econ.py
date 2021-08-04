@@ -115,7 +115,7 @@ class Econ(commands.Cog):
             await self.db.update_user(user.id, vote_streak=0, last_vote=None)
 
         if voted:
-            can_vote_value = arrow.humanize(last_voted_at)
+            can_vote_value = last_voted_at.humanize()
         else:
             can_vote_value = f"[{ctx.l.econ.pp.yep}]({self.d.topgg + '/vote'})"
 
