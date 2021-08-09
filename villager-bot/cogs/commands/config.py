@@ -10,7 +10,7 @@ class Config(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-    @commands.group(name="config", aliases=["settings", "conf", "gamerule"])
+    @commands.group(name="config", aliases=["settings", "conf", "gamerule"], case_insensitive=True)
     async def config(self, ctx):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)

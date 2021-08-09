@@ -88,7 +88,7 @@ class PacketType(IntEnum):
     COMMAND_RAN = auto()
 
 
-class Stream:
+class JsonPacketStream:
     def __init__(self, reader: StreamReader, writer: StreamWriter):
         self.reader = reader
         self.writer = writer
@@ -131,7 +131,7 @@ class Client:
         self.read_task = None
 
     async def connect(self, auth: str, shard_ids: tuple) -> None:
-        self.stream = Stream(*await asyncio.open_connection(self.host, self.port))
+        self.stream = JsonPacketStream(*await asyncio.open_connection(self.host, self.port))
         self.read_task = asyncio.create_task(self.read_packets())
 
         res = await self.request({"type": PacketType.AUTH, "auth": auth})
@@ -216,7 +216,7 @@ class Server:
         await self.server.wait_closed()
 
     async def handle_connection(self, reader: StreamReader, writer: StreamWriter) -> None:
-        stream = Stream(reader, writer)
+        stream = JsonPacketStream(reader, writer)
         self.connections.append(stream)
         authed = False
 

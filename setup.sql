@@ -9,13 +9,6 @@ CREATE TABLE IF NOT EXISTS guilds (
   premium            BOOLEAN NOT NULL DEFAULT false -- whether the server is premium or not
 );
 
-CREATE TABLE IF NOT EXISTS warnings (
-  user_id            BIGINT NOT NULL,  -- the discord user id / snowflake
-  guild_id           BIGINT NOT NULL, -- the guild where the user was warned
-  mod_id             BIGINT NOT NULL, -- the mod / admin who issued the warning
-  reason             VARCHAR(250) -- the reason for the warning (optional)
-);
-
 CREATE TABLE IF NOT EXISTS users ( -- used for economy stuff
   user_id            BIGINT PRIMARY KEY,  -- the discord user id / snowflake
   bot_banned         BOOLEAN NOT NULL DEFAULT false, -- whether the user is botbanned or not
@@ -54,14 +47,6 @@ CREATE TABLE IF NOT EXISTS badges (
   fisherman          SMALLINT NOT NULL DEFAULT 0 -- given for fishing up fishies, levels I-IV
 );
 
-CREATE TABLE IF NOT EXISTS give_logs (
-  item               VARCHAR(250) NOT NULL, -- item traded / given, "emerald" for emeralds
-  amount             BIGINT NOT NULL, -- the amount of the item
-  at                 TIMESTAMPTZ, -- the time at which the transaction was made
-  sender             BIGINT NOT NULL, -- who gave the items in the first place
-  receiver           BIGINT NOT NULL -- who received the items
-);
-
 CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't stored elsewhere
   user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
   pillaged_emeralds  BIGINT NOT NULL DEFAULT 0, -- emeralds pillaged from other users
@@ -70,12 +55,38 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
   commands           BIGINT NOT NULL DEFAULT 0 -- not super accurate as commands are cached for speed
 );
 
+CREATE TABLE IF NOT EXISTS pets (
+  user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE,
+  pet_type           VARCHAR(32) NOT NULL,
+  variant            SMALLINT,
+  pet_name           VARCHAR(32),
+  health             SMALLINT NOT NULL, -- 1 point = .5 hearts
+  max_health         SMALLINT NOT NULL, -- max hp
+  hunger             SMALLINT NOT NULL DEFAULT 20, -- 20 hunger points
+  born_at            TIMESTAMPTZ NOT NULL DEFAULT NOW()::TIMESTAMPTZ
+);
+
+CREATE TABLE IF NOT EXISTS give_logs (
+  item               VARCHAR(250) NOT NULL, -- item traded / given, "emerald" for emeralds
+  amount             BIGINT NOT NULL, -- the amount of the item
+  at                 TIMESTAMPTZ, -- the time at which the transaction was made
+  sender             BIGINT NOT NULL, -- who gave the items in the first place
+  receiver           BIGINT NOT NULL -- who received the items
+);
+
 CREATE TABLE IF NOT EXISTS reminders (
   user_id            BIGINT NOT NULL, -- the discord user id / snowflake
   channel_id         BIGINT NOT NULL, -- the channel id where the reminder command was summoned
   message_id         BIGINT NOT NULL, -- the message where the reminder command was summoned
   reminder           TEXT NOT NULL, -- the actual text for the reminder
   at                 TIMESTAMPTZ -- the time at which the user should be reminded
+);
+
+CREATE TABLE IF NOT EXISTS warnings (
+  user_id            BIGINT NOT NULL,  -- the discord user id / snowflake
+  guild_id           BIGINT NOT NULL, -- the guild where the user was warned
+  mod_id             BIGINT NOT NULL, -- the mod / admin who issued the warning
+  reason             VARCHAR(250) -- the reason for the warning (optional)
 );
 
 CREATE TABLE IF NOT EXISTS disabled_commands (
@@ -90,8 +101,8 @@ CREATE TABLE IF NOT EXISTS user_rcon (
   password           VARCHAR(300) NOT NULL -- the encrypted password to login to the RCON server
 );
 
-CREATE TABLE IF NOT EXISTS user_roles (
-  user_id            BIGINT NOT NULL, -- the discord user id / snowflake
-  guild_id           BIGINT NOT NULL, -- the guild id for the user's roles
-  roles              BIGINT[] NOT NULL DEFAULT ARRAY[]::BIGINT[] -- the user's roles at the time they left
-);
+-- CREATE TABLE IF NOT EXISTS user_roles (
+--   user_id            BIGINT NOT NULL, -- the discord user id / snowflake
+--   guild_id           BIGINT NOT NULL, -- the guild id for the user's roles
+--   roles              BIGINT[] NOT NULL DEFAULT ARRAY[]::BIGINT[] -- the user's roles at the time they left
+-- );

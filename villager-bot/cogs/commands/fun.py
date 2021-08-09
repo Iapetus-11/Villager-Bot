@@ -9,12 +9,6 @@ import typing
 from util.code import format_exception
 from util.misc import strip_command
 
-try:
-    from util import tiler_rgba
-except ImportError as e:
-    print(format_exception(e))
-    tiler = None
-
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
 INSULTS = {"i am stupid", "i am dumb", "i am very stupid", "i am very dumb", "i stupid", "i'm stupid", "i'm dumb"}
 
@@ -29,11 +23,6 @@ class Fun(commands.Cog):
         self.aiohttp = bot.aiohttp
         self.db = bot.get_cog("Database")
         self.ipc = bot.ipc
-
-        if tiler_rgba:
-            self.tiler = tiler_rgba.TilerRGBA("data/emoji_palette.json")
-        else:
-            self.tiler = None
 
     def lang_convert(self, msg, lang):
         keys = list(lang)
@@ -253,50 +242,21 @@ class Fun(commands.Cog):
         await ctx.send(clapped)
 
     @commands.command(name="emojify")
-    async def emojify(self, ctx, *, _text=None):
+    async def emojify(self, ctx, *, _text):
         """Turns text or images into emojis"""
 
         text = (strip_command(ctx)).lower()
 
-        if len(ctx.message.attachments) > 0:
-            image = ctx.message.attachments[0]
-
-            if image.filename.lower()[-4:] not in (".jpg", ".png") and not image.filename.lower()[-5:] in (".jpeg"):
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
-                return
-
-            try:
-                image.height
-            except Exception:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_3)
-                return
-
-            detailed = False
-
-            for detailed_keyword in ("large", "high", "big", "quality", "detailed"):
-                if detailed_keyword in ctx.message.content:
-                    detailed = True
-                    break
-
-            async with ctx.typing():
-                image_data = await self.bot.loop.run_in_executor(
-                    self.bot.tp, self.tiler.generate, await image.read(use_cached=True), 1600, detailed
-                )
-
-            await ctx.reply(file=discord.File(image_data, filename=image.filename), mention_author=False)
-        elif text:
-            for letter in text:
-                if letter in ALPHABET_LOWER:
-                    text += f":regional_indicator_{letter}: "
-                else:
-                    text += self.d.emojified.get(letter, letter) + " "
-
-            if len(text) > 2000:
-                await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+        for letter in text:
+            if letter in ALPHABET_LOWER:
+                text += f":regional_indicator_{letter}: "
             else:
-                await ctx.send(text)
+                text += self.d.emojified.get(letter, letter) + " "
+
+        if len(text) > 2000:
+            await self.bot.send_embed(ctx, ctx.l.fun.too_long)
         else:
-            await self.bot.reply_embed(ctx, "You must add text or an image to be emojified.")
+            await ctx.send(text)
 
     @commands.command(name="owo", aliases=["owofy"])
     async def owofy_text(self, ctx, *, text):
@@ -466,11 +426,11 @@ class Fun(commands.Cog):
             if do_reward:
                 emeralds_won = self.calculate_trivia_reward(question.d)
                 await self.db.balance_add(ctx.author.id, emeralds_won)
-                correct = random.choice(ctx.l.fun.trivia.correct)
+                correct = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
             else:
                 correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
 
-            embed.description = random.choice(correct).format(emeralds_won, self.d.emojis.emerald)
+            embed.description = correct
         else:
             embed.description = random.choice(ctx.l.fun.trivia.incorrect)
 
@@ -529,11 +489,11 @@ class Fun(commands.Cog):
             if do_reward:
                 emeralds_won = self.calculate_trivia_reward(question.d)
                 await self.db.balance_add(ctx.author.id, emeralds_won)
-                correct = random.choice(ctx.l.fun.trivia.correct)
+                correct = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
             else:
                 correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
 
-            embed.description = random.choice(correct).format(emeralds_won, self.d.emojis.emerald)
+            embed.description = correct
         else:
             embed.description = random.choice(ctx.l.fun.trivia.incorrect)
 
@@ -542,7 +502,9 @@ class Fun(commands.Cog):
     @commands.command(name="trivia", aliases=["mctrivia"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def minecraft_trivia(self, ctx):
-        do_reward = await self.ipc.exec(f"trivia_commands[{ctx.author.id}] += 1; trivia_commands[{ctx.author.id}] < 3")
+        do_reward = (
+            await self.ipc.exec(f"trivia_commands[{ctx.author.id}] += 1\nreturn trivia_commands[{ctx.author.id}] < 5")
+        ).result
         question = random.choice(ctx.l.fun.trivia.questions)
 
         if question.tf:

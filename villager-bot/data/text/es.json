@@ -1702,8 +1702,7 @@
         "sword": "Espada",
         "streak": "Racha de votos",
         "can_vote": "¿Puedes Votar?",
-        "yep": "¡Sí!",
-        "nope": "No..."
+        "yep": "¡Sí!"
       },
       "bal": {
         "bot_1": "El Villager Bot tiene demasiadas esmeraldas para mostrarlas.",
