@@ -93,6 +93,9 @@ class Events(commands.Cog):
                     channel = c
                     break
 
+        if channel is None:
+            return
+
         embed = discord.Embed(
             color=self.d.cc,
             description=f"Hey y'all! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
