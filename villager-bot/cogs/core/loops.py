@@ -3,6 +3,8 @@ import discord
 import random
 import arrow
 
+from util.setup import update_fishing_prices
+
 
 class Loops(commands.Cog):
     def __init__(self, bot):
@@ -13,10 +15,12 @@ class Loops(commands.Cog):
 
         self.clear_rcon_cache.start()
         self.change_status.start()
+        self.update_fishing_prices.start()
 
     def cog_unload(self):
         self.clear_rcon_cache.cancel()
         self.change_status.cancel()
+        self.update_fishing_prices.cancel()
 
     @tasks.loop(minutes=45)
     async def change_status(self):
@@ -37,6 +41,10 @@ class Loops(commands.Cog):
                     pass
 
                 self.bot.rcon_cache.pop(key, None)
+
+    @tasks.loop(hours=24)
+    async def update_fishing_prices(self):
+        update_fishing_prices(self.d)
 
 
 def setup(bot):
