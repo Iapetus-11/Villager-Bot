@@ -192,7 +192,9 @@ class VillagerBotCluster(commands.AutoShardedBot):
     async def reply_embed(self, location, message: str, ping: bool = False, *, ignore_exceptions: bool = False) -> None:
         try:
             await location.reply(embed=discord.Embed(color=self.d.cc, description=message), mention_author=ping)
-        except (discord.errors.Forbidden, discord.errors.HTTPException):
+        except discord.errors.HTTPException:
+            await self.send_embed(location, message, ignore_exceptions=ignore_exceptions)
+        except discord.errors.Forbidden:
             if not ignore_exceptions:
                 raise
 
