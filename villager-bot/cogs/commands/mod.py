@@ -79,7 +79,7 @@ class Mod(commands.Cog):
             if not self.permission_check(ctx, victim):
                 await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
                 return
-        
+
         try:
             await ctx.guild.fetch_ban(victim)
         except discord.NotFound:
@@ -119,7 +119,7 @@ class Mod(commands.Cog):
         except discord.NotFound:
             await self.bot.reply_embed(ctx, ctx.l.mod.unban.stupid_2.format(user))
             return
-            
+
         await ctx.guild.unban(user, reason=f"{ctx.author} | {reason}")
         await ctx.message.add_reaction(self.d.emojis.yes)
 
