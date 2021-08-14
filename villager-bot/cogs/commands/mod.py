@@ -79,11 +79,14 @@ class Mod(commands.Cog):
             if not self.permission_check(ctx, victim):
                 await self.bot.reply_embed(ctx, ctx.l.mod.no_perms)
                 return
-
-        for entry in await ctx.guild.bans():
-            if entry[1] == victim:
-                await self.bot.reply_embed(ctx, ctx.l.mod.ban.stupid_2.format(victim))
-                return
+        
+        try:
+            await ctx.guild.fetch_ban(victim)
+        except discord.NotFound:
+            pass
+        else:
+            await self.bot.reply_embed(ctx, ctx.l.mod.ban.stupid_2.format(victim))
+            return
 
         try:
             await ctx.guild.ban(victim, reason=f"{ctx.author} | {reason}", delete_message_days=0)
@@ -111,13 +114,14 @@ class Mod(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.mod.unban.stupid_1)
             return
 
-        for entry in await ctx.guild.bans():
-            if entry[1] == user:
-                await ctx.guild.unban(user, reason=f"{ctx.author} | {reason}")
-                await ctx.message.add_reaction(self.d.emojis.yes)
-                return
-
-        await self.bot.reply_embed(ctx, ctx.l.mod.unban.stupid_2.format(user))
+        try:
+            await ctx.guild.fetch_ban(user)
+        except discord.NotFound:
+            await self.bot.reply_embed(ctx, ctx.l.mod.unban.stupid_2.format(user))
+            return
+            
+        await ctx.guild.unban(user, reason=f"{ctx.author} | {reason}")
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name="warn")
     @commands.guild_only()
