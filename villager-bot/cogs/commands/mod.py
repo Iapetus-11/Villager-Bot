@@ -59,20 +59,17 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def ban_user(self, ctx, victim: Union[discord.Member, discord.User, int], *, reason="No reason provided."):
+    async def ban_user(self, ctx, victim: Union[discord.Member, int], *, reason="No reason provided."):
         """Bans the given user from the current Discord server"""
 
         if isinstance(victim, int):
-            victim = ctx.guild.get_member(victim)
-
-            if victim is None:
+            if self.bot.get_user(victim) is None:
+                try:
+                    victim = await self.bot.fetch_user(victim)
+                except discord.HTTPException:
+                    raise commands.BadArgument
+            else:
                 victim = self.bot.get_user(victim)
-
-                if victim is None:
-                    try:
-                        victim = await self.bot.fetch_user(victim)
-                    except discord.HTTPException:
-                        raise commands.BadArgument
 
         if ctx.author == victim:
             await self.bot.reply_embed(ctx, ctx.l.mod.ban.stupid_1)
@@ -102,13 +99,13 @@ class Mod(commands.Cog):
         """Unbans / pardons the given user from the current Discord server"""
 
         if isinstance(user, int):
-            user = self.bot.get_user(user)
-
-            if user is None:
+            if self.bot.get_user(user) is None:
                 try:
                     user = await self.bot.fetch_user(user)
                 except discord.HTTPException:
                     raise commands.BadArgument
+            else:
+                user = self.bot.get_user(user)
 
         if ctx.author == user:
             await self.bot.reply_embed(ctx, ctx.l.mod.unban.stupid_1)
