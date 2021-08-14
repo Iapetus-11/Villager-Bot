@@ -1031,7 +1031,7 @@ class Econ(commands.Cog):
         # see if user has chugged a luck potion
         lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]")).result
 
-        item_chance_debuff = 2 # the higher the value, the lesser the chance, 1 is normal rarity.
+        item_chance_debuff = 2  # the higher the value, the lesser the chance, 1 is normal rarity.
 
         for item in self.d.mining.findables:  # try to see if user gets an item
             # int() isn't rly necessary but might prevent bugs from tweaking later
