@@ -1028,11 +1028,34 @@ class Econ(commands.Cog):
 
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
 
-        # calculate if user finds emeralds OR not
-        found = random.choice(self.calc_yield_chance_list(pickaxe))
-
         # see if user has chugged a luck potion
         lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]")).result
+
+        item_chance_debuff = 2  # the higher the value, the lesser the chance, 1 is normal rarity.
+
+        for item in self.d.mining.findables:  # try to see if user gets an item
+            # int() isn't rly necessary but might prevent bugs from tweaking later
+            rarity = int(item_chance_debuff * item[2])
+            if random.randint(0, rarity) == 1 or (lucky and random.randint(0, rarity) in (1, 2, 3)):
+                await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+
+                await self.bot.reply_embed(
+                    ctx,
+                    f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
+                    + ctx.l.econ.mine.found_item_1.format(
+                        random.choice(ctx.l.econ.mine.actions),
+                        1,
+                        item[0],
+                        item[1],  # shhhhh ignore the pep8 violations and move on
+                        self.d.emojis.emerald,
+                        random.choice(ctx.l.econ.mine.places),
+                    ),
+                )
+
+                return
+
+        # calculate if user finds emeralds OR not
+        found = random.choice(self.calc_yield_chance_list(pickaxe))
 
         # ~~what the fuck?~~
         # calculate bonus emeralds from enchantment items
@@ -1041,27 +1064,19 @@ class Econ(commands.Cog):
                 if await self.db.fetch_item(ctx.author.id, item) is not None:
                     found += random.choice(self.d.mining.yields_enchant_items[item])
                     break
+            found = int(found)
 
-        if not found:
-            for item in self.d.mining.findables:  # try to see if user gets an item
-                if random.randint(0, item[2]) == 1 or (lucky and random.randint(0, item[2]) in (1, 2, 3)):
-                    await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+            if await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None:
+                found *= 2
 
-                    await self.bot.reply_embed(
-                        ctx,
-                        f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
-                        + ctx.l.econ.mine.found_item_1.format(
-                            random.choice(ctx.l.econ.mine.actions),
-                            1,
-                            item[0],
-                            item[1],  # shhhhh ignore the pep8 violations and move on
-                            self.d.emojis.emerald,
-                            random.choice(ctx.l.econ.mine.places),
-                        ),
-                    )
+            await self.db.balance_add(ctx.author.id, found)
 
-                    return
-
+            await self.bot.reply_embed(
+                ctx,
+                f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
+                + ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald),
+            )
+        else:
             # only works cause num of pickaxes is 6 and levels of fake finds is 3
             # please don't bug me about jank code, I know
             fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe) / 2)]
@@ -1075,19 +1090,6 @@ class Econ(commands.Cog):
                     random.choice(ctx.l.econ.mine.useless),
                     random.choice(fake_finds),
                 ),
-            )
-        else:
-            found = int(found)
-
-            if await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None:
-                found *= 2
-
-            await self.db.balance_add(ctx.author.id, found)
-
-            await self.bot.reply_embed(
-                ctx,
-                f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
-                + ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald),
             )
 
         if random.randint(0, 50) == 1 or (lucky and random.randint(1, 25) == 1):
