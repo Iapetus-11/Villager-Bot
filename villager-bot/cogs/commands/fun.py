@@ -245,9 +245,10 @@ class Fun(commands.Cog):
     async def emojify(self, ctx, *, _text):
         """Turns text or images into emojis"""
 
-        text = (strip_command(ctx)).lower()
+        stripped = (strip_command(ctx)).lower()
+        text = ""
 
-        for letter in text:
+        for letter in stripped:
             if letter in ALPHABET_LOWER:
                 text += f":regional_indicator_{letter}: "
             else:
