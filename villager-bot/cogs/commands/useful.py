@@ -443,27 +443,28 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=guild.icon_url)
 
-        embed.description = f"{ctx.l.useful.ginf.owner}: {guild.owner.mention}\n{ctx.l.useful.ginf.age}: `{display_age}`"
+        embed.description = f"{ctx.l.useful.ginf.age}: `{display_age}`\n{ctx.l.useful.ginf.owner}: {guild.owner.mention}"
 
         general = (
-            f"{ctx.l.useful.ginf.members}: `{guild.member_count}`\n"
-            f"{ctx.l.useful.ginf.channels}: `{len(guild.channels)}`\n "
+            f"{ctx.l.useful.ginf.members}: `{len([m for m in guild.members if not m.bot])}`\n"
+            f"{ctx.l.useful.ginf.channels}: `{len(guild.text_channels) + len(guild.voice_channels)}`\n "
             f"{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n"
             f"{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n"
             f"{ctx.l.useful.ginf.bans}: `{bans}`\n"
         )
 
         villager = (
-            f"{ctx.l.useful.ginf.cmd_prefix}: `{await self.bot.get_prefix(ctx)}`\n"
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
             f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
             f'{ctx.l.useful.ginf.prem}: `{str(db_guild["premium"]).lower()}`\n'
+            f"{ctx.l.useful.ginf.cmd_prefix}: `{await self.bot.get_prefix(ctx)}`\n"
         )
 
-        embed.add_field(name="General", value=general, inline=True)
-        embed.add_field(name="Villager Bot", value=villager, inline=True)
+        embed.add_field(name="General :gear:", value=general, inline=True)
+        embed.add_field(name="Villager Bot " + self.d.emojis.emerald, value=villager, inline=True)
 
         embed.set_thumbnail(url=guild.icon_url)
+        embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         await ctx.reply(embed=embed, mention_author=False)
 
