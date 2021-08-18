@@ -63,10 +63,13 @@ async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
         user = getattr(bot.get_user(entry[0]), "name", None)
 
         if user is None:
-            res = await bot.ipc.broadcast({"type": PacketType.EVAL, "code": f"bot.get_user({entry[0]}).name"})
+            res = await bot.ipc.broadcast({"type": PacketType.EVAL, "code": f"getattr(bot.get_user({entry[0]}), 'name', None)"})
 
             for r in res.responses:
-                if r.success:
+                if not r.success:
+                    raise ValueError(r.result)
+
+                if r.result:
                     user = r.result
                     break
 
