@@ -1630,6 +1630,7 @@
         "age": "Created At",
         "owner": "Owner",
         "members": "Members",
+        "bots": "Bots",
         "channels": "Channels",
         "roles": "Roles",
         "emojis": "Emojis",

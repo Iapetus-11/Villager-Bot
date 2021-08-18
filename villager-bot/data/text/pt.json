@@ -1630,6 +1630,7 @@
         "age": "Criado Em",
         "owner": "Dono",
         "members": "Membros",
+        "bots": "Bots",
         "channels": "Canais",
         "roles": "Cargos",
         "emojis": "Emojis",

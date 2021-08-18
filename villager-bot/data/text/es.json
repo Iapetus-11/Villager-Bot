@@ -1631,6 +1631,7 @@
         "age": "Creado En",
         "owner": "Propietario",
         "members": "Miembros",
+        "bots": "Bots",
         "channels": "Canales",
         "roles": "Roles",
         "emojis": "Emojis",
