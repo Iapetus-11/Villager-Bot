@@ -399,13 +399,11 @@ class Useful(commands.Cog):
 
     @commands.command(name="serverinfo", aliases=["server", "guild"])
     @commands.guild_only()
-    async def server_info(self, ctx, gid: int = None):
+    async def server_info(self, ctx, *, guild: discord.Guild = None):
         await ctx.trigger_typing()
 
-        if gid is None:
+        if guild is None:
             guild = ctx.guild
-        else:
-            guild = self.bot.get_guild(gid)
 
         db_guild = await self.db.fetch_guild(guild.id)
 
