@@ -66,6 +66,11 @@ CREATE TABLE IF NOT EXISTS pets (
   born_at            TIMESTAMPTZ NOT NULL DEFAULT NOW()::TIMESTAMPTZ
 );
 
+CREATE TABLE IF NOT EXISTS muted_users (
+  user_id            BIGINT NOT NULL,
+  guild_id           BIGINT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS give_logs (
   item               VARCHAR(250) NOT NULL, -- item traded / given, "emerald" for emeralds
   amount             BIGINT NOT NULL, -- the amount of the item
