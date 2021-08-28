@@ -15,7 +15,7 @@ class Mod(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
         muted = await self.db.fetch_user_muted(member.id, member.guild.id)
-        
+
         if muted:
             try:
                 # fetch role
