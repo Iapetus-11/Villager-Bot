@@ -12,6 +12,19 @@ class Mod(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
+    @commands.Cog.listener()
+    async def on_member_join(self, member: discord.Member):
+        if await self.db.fetch_user_muted(member.id, member.guild.id):
+            try:
+                # fetch role
+                mute = discord.utils.get(member.guild.roles, name="Muted")
+                if mute is None:
+                    mute = discord.utils.get(await member.guild.fetch_roles(), name="Muted")
+
+                await member.add_roles(mute)
+            except (discord.errors.Forbidden, discord.errors.HTTPException):
+                pass
+
     def permission_check(self, ctx: commands.Context, victim: discord.Member) -> bool:
         author = ctx.author
 
@@ -230,6 +243,7 @@ class Mod(commands.Cog):
                     await channel.set_permissions(mute, send_messages=False, add_reactions=False)
 
         await victim.add_roles(mute)
+        await self.db.mute_user(victim.id, ctx.guild.id)
         await self.bot.reply_embed(ctx, ctx.l.mod.mute.mute_msg.format(victim))
 
     @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu"])
@@ -248,6 +262,7 @@ class Mod(commands.Cog):
 
         if mute:
             await user.remove_roles(mute)
+            await self.db.unmute_user(user.id, ctx.guild.id)
             await self.bot.reply_embed(ctx, ctx.l.mod.unmute.unmute_msg.format(user))
         else:
             await self.bot.reply_embed(ctx, ctx.l.mod.unmute.stupid_2.format(user))
