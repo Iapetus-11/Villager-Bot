@@ -14,7 +14,10 @@ class Mod(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
-        if await self.db.fetch_user_muted(member.id, member.guild.id):
+        print("Does this actually trigger?")
+        muted = await self.db.fetch_user_muted(member.id, member.guild.id)
+        print("Muted:", muted)
+        if muted:
             try:
                 # fetch role
                 mute = discord.utils.get(member.guild.roles, name="Muted")
