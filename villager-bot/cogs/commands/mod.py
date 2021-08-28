@@ -14,12 +14,8 @@ class Mod(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
-        if member.id != 763169296288579604:
-            return
-
-        print("\n\nDoes this actually trigger?")
         muted = await self.db.fetch_user_muted(member.id, member.guild.id)
-        print("Muted:", muted)
+        
         if muted:
             try:
                 # fetch role
@@ -27,12 +23,9 @@ class Mod(commands.Cog):
                 if mute is None:
                     mute = discord.utils.get(await member.guild.fetch_roles(), name="Muted")
 
-                print(mute)
-
-                await member.add_roles(mute, atomic=True)
-                print("done")
+                await member.add_roles(mute)
             except (discord.errors.Forbidden, discord.errors.HTTPException) as e:
-                print("Mute persistence error:", e)
+                pass
 
     def permission_check(self, ctx: commands.Context, victim: discord.Member) -> bool:
         author = ctx.author
