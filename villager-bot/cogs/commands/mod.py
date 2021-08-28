@@ -27,6 +27,8 @@ class Mod(commands.Cog):
                 if mute is None:
                     mute = discord.utils.get(await member.guild.fetch_roles(), name="Muted")
 
+                print(mute)
+
                 await member.add_roles(mute)
                 print("done")
             except (discord.errors.Forbidden, discord.errors.HTTPException) as e:
