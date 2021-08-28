@@ -17,7 +17,7 @@ class Mod(commands.Cog):
         if member.id != 763169296288579604:
             return
 
-        print("Does this actually trigger?")
+        print("\n\nDoes this actually trigger?")
         muted = await self.db.fetch_user_muted(member.id, member.guild.id)
         print("Muted:", muted)
         if muted:
@@ -28,6 +28,7 @@ class Mod(commands.Cog):
                     mute = discord.utils.get(await member.guild.fetch_roles(), name="Muted")
 
                 await member.add_roles(mute)
+                print("done")
             except (discord.errors.Forbidden, discord.errors.HTTPException) as e:
                 print("Mute persistence error:", e)
 
