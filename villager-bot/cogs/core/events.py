@@ -114,6 +114,17 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        if await self.db.fetch_user_muted(member.id, member.guild.id):
+            try:
+                # fetch role
+                mute = discord.utils.get(member.guild.roles, name="Muted")
+                if mute is None:
+                    mute = discord.utils.get(await member.guild.fetch_roles(), name="Muted")
+
+                await member.add_roles(mute)
+            except (discord.errors.Forbidden, discord.errors.HTTPException) as e:
+                pass
+
         if member.guild.id == self.d.support_server_id:
             await update_support_member_role(self.bot, member)
 

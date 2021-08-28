@@ -12,21 +12,6 @@ class Mod(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-    @commands.Cog.listener()
-    async def on_member_join(self, member: discord.Member):
-        muted = await self.db.fetch_user_muted(member.id, member.guild.id)
-        
-        if muted:
-            try:
-                # fetch role
-                mute = discord.utils.get(member.guild.roles, name="Muted")
-                if mute is None:
-                    mute = discord.utils.get(await member.guild.fetch_roles(), name="Muted")
-
-                await member.add_roles(mute)
-            except (discord.errors.Forbidden, discord.errors.HTTPException) as e:
-                pass
-
     def permission_check(self, ctx: commands.Context, victim: discord.Member) -> bool:
         author = ctx.author
 
