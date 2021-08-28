@@ -29,7 +29,7 @@ class Mod(commands.Cog):
 
                 print(mute)
 
-                await member.add_roles(mute)
+                await member.add_roles(mute, atomic=True)
                 print("done")
             except (discord.errors.Forbidden, discord.errors.HTTPException) as e:
                 print("Mute persistence error:", e)
