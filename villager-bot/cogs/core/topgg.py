@@ -68,7 +68,7 @@ class Webhooks(commands.Cog):
         self.server_runner = web.AppRunner(app)
         await self.server_runner.setup()
 
-        self.webhook_server = web.TCPSite(self.server_runner, self.k.topgg_webhook.host, self.d.topgg_webhook.port)
+        self.webhook_server = web.TCPSite(self.server_runner, self.k.topgg_webhook.host, self.k.topgg_webhook.port)
         await self.webhook_server.start()
 
     async def reward(self, user_id, amount, streak=None):
