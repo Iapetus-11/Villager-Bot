@@ -181,7 +181,7 @@ class Events(commands.Cog):
                 if message.guild.id in self.bot.tox_filter_cache:
                     req = await self.aiohttp.get(
                         self.k.toxic_flask.url.format(urlquote(message.content)),
-                        headers={"Authorization": self.k.toxi_flask.auth},
+                        headers={"Authorization": self.k.toxic_flask.auth},
                     )
                     tox = cj.ClassyDict(await req.json())
 
