@@ -177,7 +177,7 @@ class Events(commands.Cog):
             except (discord.errors.Forbidden, discord.errors.HTTPException):
                 pass
         else:
-            if message.guild.me.permission_in(message.channel).manage_messages:
+            if message.guild.me.permissions_in(message.channel).manage_messages:
                 if message.guild.id in self.bot.tox_filter_cache:
                     req = await self.aiohttp.get(
                         self.k.toxic_flask.url.format(urlquote(message.content)),
