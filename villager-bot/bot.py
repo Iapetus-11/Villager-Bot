@@ -90,7 +90,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.disabled_commands = defaultdict(set)  # {guild_id: {command, command,..}}
         self.replies_cache = set()  # {guild_id, guild_id,..}
         self.rcon_cache = {}  # {(user_id, mc_server): rcon_client}
-        self.tox_filter_cache = set()  # {guild_id, guild_id, guild_id,..}
 
         # support server channels
         self.error_channel = None
