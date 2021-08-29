@@ -180,12 +180,12 @@ class Events(commands.Cog):
             if len(message.content) > 2 and message.guild.me.permissions_in(message.channel).manage_messages:
                 if message.guild.id in self.bot.tox_filter_cache:
                     req = await self.aiohttp.get(
-                        self.k.toxic_flask.url.format(urlquote(message.content)),
+                        self.k.toxic_flask.url.format(urlquote(message.content).replace(":", "").replace("/", "")),
                         headers={"Authorization": self.k.toxic_flask.auth},
                     )
                     tox = cj.ClassyDict(await req.json())
 
-                    if tox.identity_hate > 0.3 or tox.insult > 0.6 or tox.severe_toxic > 0.2 or tox.threat > 0.5:
+                    if tox.identity_hate > 0.3 or tox.insult > 0.6 or tox.severe_toxic > 0.2 or tox.threat > 0.5 or tox.obscene > .7:
                         try:
                             await message.delete()
                         except (discord.errors.Forbidden, discord.errors.HTTPException):
