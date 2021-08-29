@@ -192,6 +192,19 @@ class Config(commands.Cog):
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, False)
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.disable.format(cmd_true))
 
+    # @config.command(name="filtertoxicity", aliases=["filtertoxic", "toxicityfilter"])
+    # @commands.guild_only()
+    # @commands.has_permissions(administrator=True)
+    # @commands.cooldown(1, 2, commands.BucketType.user)
+    # async def config_filter_toxicity(self, ctx, filter_toxicity=None):
+    #     guild = await self.db.fetch_guild(ctx.guild.id)
+
+    #     if not guild["premium"]:
+    #         await self.bot.reply_embed(ctx, ctx.l.config.cmd.not_prem)
+    #         return
+        
+
+
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def config_gift_alert(self, ctx, alert=None):
