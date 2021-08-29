@@ -1,4 +1,3 @@
-from urllib.parse import quote as urlquote
 from discord.ext import commands
 import classyjson as cj
 import asyncio
@@ -40,7 +39,6 @@ class Events(commands.Cog):
         self.d = bot.d
         self.k = bot.k
         self.db = bot.get_cog("Database")
-        self.aiohttp = bot.aiohttp
 
         bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
 
@@ -49,27 +47,16 @@ class Events(commands.Cog):
         return self.bot.get_cog("Badges")
 
     async def filter_toxicity(self, message) -> bool:
+        return
+
         if len(message.content) > 2 and message.guild.me.permissions_in(message.channel).manage_messages:
             if message.guild.id in self.bot.tox_filter_cache:
-                req = await self.aiohttp.get(
-                    self.k.toxic_flask.url.format(urlquote(message.content).replace(":", "").replace("/", "")),
-                    headers={"Authorization": self.k.toxic_flask.auth},
-                )
-                tox = cj.ClassyDict(await req.json())
+                try:
+                    await message.delete()
+                except (discord.errors.Forbidden, discord.errors.HTTPException):
+                    pass
 
-                if (
-                    tox.identity_hate > 0.3
-                    or tox.insult > 0.6
-                    or tox.severe_toxic > 0.2
-                    or tox.threat > 0.5
-                    or tox.obscene > 0.7
-                ):
-                    try:
-                        await message.delete()
-                    except (discord.errors.Forbidden, discord.errors.HTTPException):
-                        pass
-
-                    return True
+                return True
 
         return False
 
@@ -176,7 +163,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         if after.guild:
-            await self.filter_toxicity(after)
+            await self.filter_keywords(after)
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -207,8 +194,7 @@ class Events(commands.Cog):
             except (discord.errors.Forbidden, discord.errors.HTTPException):
                 pass
         else:
-            do_return = await self.filter_toxicity(message)
-            if do_return:
+            if await self.filter_keywords(message):
                 return
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
