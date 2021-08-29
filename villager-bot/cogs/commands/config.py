@@ -150,7 +150,7 @@ class Config(commands.Cog):
         await self.db.set_guild_attr(ctx.guild.id, "mc_server", mcserver)
         await self.bot.reply_embed(ctx, ctx.l.config.mcs.set.format(mcserver))
 
-    @config.command(name="toggleenabled", aliases=["togglecmd"])
+    @config.command(name="togglecommand", aliases=["togglecmd", "toggleenabled"])
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
