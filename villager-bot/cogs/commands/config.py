@@ -19,9 +19,15 @@ class Config(commands.Cog):
             embed.set_author(name=ctx.l.config.main.title, icon_url=self.d.splash_logo)
 
             embed.add_field(
-                name=ctx.l.config.main.guild_conf, value="".join(ctx.l.config.main.guild_content).format(ctx.prefix), inline=False
+                name=ctx.l.config.main.guild_conf,
+                value="".join(ctx.l.config.main.guild_content).format(ctx.prefix),
+                inline=False,
             )
-            embed.add_field(name=ctx.l.config.main.user_conf, value="".join(ctx.l.config.main.user_content).format(ctx.prefix), inline=False)
+            embed.add_field(
+                name=ctx.l.config.main.user_conf,
+                value="".join(ctx.l.config.main.user_content).format(ctx.prefix),
+                inline=False,
+            )
 
             await ctx.reply(embed=embed, mention_author=False)
 
