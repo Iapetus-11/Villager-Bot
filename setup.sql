@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS guilds (
   language           VARCHAR(6) NOT NULL DEFAULT 'en', -- the language the bot will speak in
   mc_server          VARCHAR(100), -- the minecraft server of the guild
   do_replies         BOOLEAN NOT NULL DEFAULT true, -- whether to do funny replies to certain messages
-  premium            BOOLEAN NOT NULL DEFAULT false -- whether the server is premium or not
+  premium            BOOLEAN NOT NULL DEFAULT false, -- whether the server is premium or not
+  filter_toxic_msgs  BOOLEAN NOT NULL DEFAULT false -- requires premium
 );
 
 CREATE TABLE IF NOT EXISTS users ( -- used for economy stuff

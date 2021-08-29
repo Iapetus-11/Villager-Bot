@@ -1,4 +1,6 @@
+from urllib.parse import quote as urlquote
 from discord.ext import commands
+import classyjson as cj
 import asyncio
 import discord
 import random
@@ -36,7 +38,9 @@ class Events(commands.Cog):
         self.logger = bot.logger
         self.ipc = bot.ipc
         self.d = bot.d
+        self.k = bot.k
         self.db = bot.get_cog("Database")
+        self.aiohttp = bot.aiohttp
 
         bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
 
@@ -172,6 +176,19 @@ class Events(commands.Cog):
                     await message.channel.send(embed=embed)
             except (discord.errors.Forbidden, discord.errors.HTTPException):
                 pass
+        else:
+            if message.guild.me.permission_in(message.channel).manage_messages:
+                if message.guild.id in self.bot.tox_filter_cache:
+                    req = await self.aiohttp.get(self.k.toxic_flask.url.format(urlquote(message.content)), headers={"Authorization": self.k.toxi_flask.auth})
+                    tox = cj.ClassyDict(await req.json())
+
+                    if tox.identity_hate > .3 or tox.insult > .6 or tox.severe_toxic > .2 or tox.threat > .5:
+                        try:
+                            await message.delete()
+                        except (discord.errors.Forbidden, discord.errors.HTTPException):
+                            pass
+
+                        return
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:
