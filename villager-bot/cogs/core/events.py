@@ -179,10 +179,13 @@ class Events(commands.Cog):
         else:
             if message.guild.me.permission_in(message.channel).manage_messages:
                 if message.guild.id in self.bot.tox_filter_cache:
-                    req = await self.aiohttp.get(self.k.toxic_flask.url.format(urlquote(message.content)), headers={"Authorization": self.k.toxi_flask.auth})
+                    req = await self.aiohttp.get(
+                        self.k.toxic_flask.url.format(urlquote(message.content)),
+                        headers={"Authorization": self.k.toxi_flask.auth},
+                    )
                     tox = cj.ClassyDict(await req.json())
 
-                    if tox.identity_hate > .3 or tox.insult > .6 or tox.severe_toxic > .2 or tox.threat > .5:
+                    if tox.identity_hate > 0.3 or tox.insult > 0.6 or tox.severe_toxic > 0.2 or tox.threat > 0.5:
                         try:
                             await message.delete()
                         except (discord.errors.Forbidden, discord.errors.HTTPException):
