@@ -202,8 +202,6 @@ class Config(commands.Cog):
     #     if not guild["premium"]:
     #         await self.bot.reply_embed(ctx, ctx.l.config.cmd.not_prem)
     #         return
-        
-
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)

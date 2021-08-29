@@ -57,14 +57,20 @@ class Events(commands.Cog):
                 )
                 tox = cj.ClassyDict(await req.json())
 
-                if tox.identity_hate > 0.3 or tox.insult > 0.6 or tox.severe_toxic > 0.2 or tox.threat > 0.5 or tox.obscene > .7:
+                if (
+                    tox.identity_hate > 0.3
+                    or tox.insult > 0.6
+                    or tox.severe_toxic > 0.2
+                    or tox.threat > 0.5
+                    or tox.obscene > 0.7
+                ):
                     try:
                         await message.delete()
                     except (discord.errors.Forbidden, discord.errors.HTTPException):
                         pass
 
                     return True
-        
+
         return False
 
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
