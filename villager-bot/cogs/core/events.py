@@ -48,6 +48,25 @@ class Events(commands.Cog):
     def badges(self):
         return self.bot.get_cog("Badges")
 
+    async def filter_toxicity(self, message) -> bool:
+        if len(message.content) > 2 and message.guild.me.permissions_in(message.channel).manage_messages:
+            if message.guild.id in self.bot.tox_filter_cache:
+                req = await self.aiohttp.get(
+                    self.k.toxic_flask.url.format(urlquote(message.content).replace(":", "").replace("/", "")),
+                    headers={"Authorization": self.k.toxic_flask.auth},
+                )
+                tox = cj.ClassyDict(await req.json())
+
+                if tox.identity_hate > 0.3 or tox.insult > 0.6 or tox.severe_toxic > 0.2 or tox.threat > 0.5 or tox.obscene > .7:
+                    try:
+                        await message.delete()
+                    except (discord.errors.Forbidden, discord.errors.HTTPException):
+                        pass
+
+                    return True
+        
+        return False
+
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
         self.bot.error_count += 1
 
@@ -149,6 +168,11 @@ class Events(commands.Cog):
                 )
 
     @commands.Cog.listener()
+    async def on_message_edit(self, before, after):
+        if after.guild:
+            await self.filter_toxicity(after)
+
+    @commands.Cog.listener()
     async def on_message(self, message):
         self.bot.message_count += 1
 
@@ -177,21 +201,9 @@ class Events(commands.Cog):
             except (discord.errors.Forbidden, discord.errors.HTTPException):
                 pass
         else:
-            if len(message.content) > 2 and message.guild.me.permissions_in(message.channel).manage_messages:
-                if message.guild.id in self.bot.tox_filter_cache:
-                    req = await self.aiohttp.get(
-                        self.k.toxic_flask.url.format(urlquote(message.content).replace(":", "").replace("/", "")),
-                        headers={"Authorization": self.k.toxic_flask.auth},
-                    )
-                    tox = cj.ClassyDict(await req.json())
-
-                    if tox.identity_hate > 0.3 or tox.insult > 0.6 or tox.severe_toxic > 0.2 or tox.threat > 0.5 or tox.obscene > .7:
-                        try:
-                            await message.delete()
-                        except (discord.errors.Forbidden, discord.errors.HTTPException):
-                            pass
-
-                        return
+            do_return = await self.filter_toxicity(message)
+            if do_return:
+                return
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:
