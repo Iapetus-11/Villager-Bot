@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS guilds (
   filter_toxic_msgs  BOOLEAN NOT NULL DEFAULT false -- requires premium
 );
 
-CREATE TABLE IF NOT EXISTS users ( -- used for economy stuff
+CREATE TABLE IF NOT EXISTS users ( -- used for economy data
   user_id            BIGINT PRIMARY KEY,  -- the discord user id / snowflake
   bot_banned         BOOLEAN NOT NULL DEFAULT false, -- whether the user is botbanned or not
   emeralds           BIGINT NOT NULL DEFAULT 0, -- the amount of emeralds the user has
