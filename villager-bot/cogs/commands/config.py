@@ -19,9 +19,15 @@ class Config(commands.Cog):
             embed.set_author(name=ctx.l.config.main.title, icon_url=self.d.splash_logo)
 
             embed.add_field(
-                name=ctx.l.config.main.guild_conf, value="".join(ctx.l.config.main.guild_content).format(ctx.prefix)
+                name=ctx.l.config.main.guild_conf,
+                value="".join(ctx.l.config.main.guild_content).format(ctx.prefix),
+                inline=False,
             )
-            embed.add_field(name=ctx.l.config.main.user_conf, value="".join(ctx.l.config.main.user_content).format(ctx.prefix))
+            embed.add_field(
+                name=ctx.l.config.main.user_conf,
+                value="".join(ctx.l.config.main.user_content).format(ctx.prefix),
+                inline=False,
+            )
 
             await ctx.reply(embed=embed, mention_author=False)
 
@@ -144,7 +150,7 @@ class Config(commands.Cog):
         await self.db.set_guild_attr(ctx.guild.id, "mc_server", mcserver)
         await self.bot.reply_embed(ctx, ctx.l.config.mcs.set.format(mcserver))
 
-    @config.command(name="toggleenabled", aliases=["togglecmd"])
+    @config.command(name="togglecommand", aliases=["togglecmd", "toggleenabled"])
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -185,6 +191,17 @@ class Config(commands.Cog):
             self.bot.disabled_commands[ctx.guild.id].add(cmd_true)
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, False)
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.disable.format(cmd_true))
+
+    # @config.command(name="filtertoxicity", aliases=["filtertoxic", "toxicityfilter"])
+    # @commands.guild_only()
+    # @commands.has_permissions(administrator=True)
+    # @commands.cooldown(1, 2, commands.BucketType.user)
+    # async def config_filter_toxicity(self, ctx, filter_toxicity=None):
+    #     guild = await self.db.fetch_guild(ctx.guild.id)
+
+    #     if not guild["premium"]:
+    #         await self.bot.reply_embed(ctx, ctx.l.config.cmd.not_prem)
+    #         return
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)

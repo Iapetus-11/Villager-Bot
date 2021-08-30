@@ -5,11 +5,10 @@ CREATE TABLE IF NOT EXISTS guilds (
   language           VARCHAR(6) NOT NULL DEFAULT 'en', -- the language the bot will speak in
   mc_server          VARCHAR(100), -- the minecraft server of the guild
   do_replies         BOOLEAN NOT NULL DEFAULT true, -- whether to do funny replies to certain messages
-  roles_persist      BOOLEAN NOT NULL DEFAULT false, -- whether roles should persist or not (requires premium)
   premium            BOOLEAN NOT NULL DEFAULT false -- whether the server is premium or not
 );
 
-CREATE TABLE IF NOT EXISTS users ( -- used for economy stuff
+CREATE TABLE IF NOT EXISTS users ( -- used for economy data
   user_id            BIGINT PRIMARY KEY,  -- the discord user id / snowflake
   bot_banned         BOOLEAN NOT NULL DEFAULT false, -- whether the user is botbanned or not
   emeralds           BIGINT NOT NULL DEFAULT 0, -- the amount of emeralds the user has

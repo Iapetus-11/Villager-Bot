@@ -1,4 +1,5 @@
 from discord.ext import commands
+import classyjson as cj
 import asyncio
 import discord
 import random
@@ -36,6 +37,7 @@ class Events(commands.Cog):
         self.logger = bot.logger
         self.ipc = bot.ipc
         self.d = bot.d
+        self.k = bot.k
         self.db = bot.get_cog("Database")
 
         bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
@@ -43,6 +45,20 @@ class Events(commands.Cog):
     @property
     def badges(self):
         return self.bot.get_cog("Badges")
+
+    async def filter_toxicity(self, message) -> bool:
+        return
+
+        if len(message.content) > 2 and message.guild.me.permissions_in(message.channel).manage_messages:
+            if message.guild.id in self.bot.tox_filter_cache:
+                try:
+                    await message.delete()
+                except (discord.errors.Forbidden, discord.errors.HTTPException):
+                    pass
+
+                return True
+
+        return False
 
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
         self.bot.error_count += 1
@@ -145,6 +161,11 @@ class Events(commands.Cog):
                 )
 
     @commands.Cog.listener()
+    async def on_message_edit(self, before, after):
+        if after.guild:
+            await self.filter_keywords(after)
+
+    @commands.Cog.listener()
     async def on_message(self, message):
         self.bot.message_count += 1
 
@@ -172,6 +193,9 @@ class Events(commands.Cog):
                     await message.channel.send(embed=embed)
             except (discord.errors.Forbidden, discord.errors.HTTPException):
                 pass
+        else:
+            if await self.filter_keywords(message):
+                return
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:

@@ -54,7 +54,7 @@ class Webhooks(commands.Cog):
     async def webhooks_setup(self):  # holy fucking shit that's hot
         async def handler(req):
             try:
-                if req.headers.get("Authorization") == self.k.topgg_webhook:
+                if req.headers.get("Authorization") == self.k.topgg_webhook.auth:
                     self.bot.dispatch("topgg_event", cj.classify(await req.json()))
                 else:
                     return web.Response(status=401)
@@ -63,12 +63,12 @@ class Webhooks(commands.Cog):
 
         app = web.Application()
 
-        app.router.add_post(self.d.topgg_webhook_path, handler)
+        app.router.add_post(self.k.topgg_webhook.path, handler)
 
         self.server_runner = web.AppRunner(app)
         await self.server_runner.setup()
 
-        self.webhook_server = web.TCPSite(self.server_runner, self.d.topgg_webhook_host, self.d.topgg_webhook_port)
+        self.webhook_server = web.TCPSite(self.server_runner, self.k.topgg_webhook.host, self.k.topgg_webhook.port)
         await self.webhook_server.start()
 
     async def reward(self, user_id, amount, streak=None):
