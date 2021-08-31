@@ -1,3 +1,4 @@
+from collections import defaultdict
 from discord.ext import commands
 from datetime import datetime
 from typing import List, Set
@@ -27,6 +28,7 @@ class Database(commands.Cog):
         self.bot.language_cache = await self.fetch_all_guild_langs()
         self.bot.prefix_cache = await self.fetch_all_guild_prefixes()
         self.bot.replies_cache = await self.fetch_all_do_replies()
+        self.bot.filter_words_cache = await self.fetch_all_filtered_words()
 
     async def fetch_user_reminder_count(self, user_id: int) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE user_id = $1", user_id)
@@ -72,6 +74,15 @@ class Database(commands.Cog):
     async def fetch_all_do_replies(self) -> set:
         replies_records = await self.db.fetch("SELECT guild_id FROM guilds WHERE do_replies = true")
         return {r[0] for r in replies_records}
+
+    async def fetch_all_filtered_words(self) -> dict:
+        records = await self.db.fetch("SELECT * FROM filtered_words")
+        filtered_words = defaultdict(list)
+
+        for r in records:
+            filtered_words[r["guild_id"]] = r["word"]
+
+        return filtered_words
 
     async def fetch_guild(self, guild_id: int) -> asyncpg.Record:
         g = await self.db.fetchrow("SELECT * FROM guilds WHERE guild_id = $1", guild_id)
