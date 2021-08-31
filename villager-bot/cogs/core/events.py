@@ -52,6 +52,14 @@ class Events(commands.Cog):
         if len(message.content) <= 2:
             return False
 
+        filtered_words = self.bot.filter_words_cache.get(message.guild.id)
+
+        if filtered_words:
+            for word in filtered_words:
+                if word in message.content:
+                    await message.delete()
+                    return True
+
         return False
 
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
