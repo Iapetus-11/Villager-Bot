@@ -46,17 +46,11 @@ class Events(commands.Cog):
     def badges(self):
         return self.bot.get_cog("Badges")
 
-    async def filter_toxicity(self, message) -> bool:
-        return
+    async def filter_keywords(self, message) -> bool:
+        """Returns True if there was a found keyword."""
 
-        if len(message.content) > 2 and message.guild.me.permissions_in(message.channel).manage_messages:
-            if message.guild.id in self.bot.tox_filter_cache:
-                try:
-                    await message.delete()
-                except (discord.errors.Forbidden, discord.errors.HTTPException):
-                    pass
-
-                return True
+        if len(message.content) <= 2:
+            return False
 
         return False
 
