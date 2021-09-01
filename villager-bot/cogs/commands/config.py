@@ -207,7 +207,6 @@ class Config(commands.Cog):
 
         if command is None:
             words_nice = "`" + "`, `".join(words) + "`"
-            
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)
