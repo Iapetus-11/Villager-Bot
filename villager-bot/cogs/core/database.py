@@ -501,6 +501,15 @@ class Database(commands.Cog):
     async def unmute_user(self, user_id: int, guild_id: int) -> None:
         await self.db.execute("DELETE FROM muted_users WHERE user_id = $1 AND guild_id = $2", user_id, guild_id)
 
+    async def add_filtered_word(self, guild_id: int, word: str) -> None:
+        await self.db.execute("INSERT INTO filtered_words (guild_id, word) VALUES ($1, $2)", guild_id, word)
+
+    async def remove_filtered_word(self, guild_id: int, word: str) -> None:
+        await self.db.execute("DELETE FROM filtered_words WHERE guild_id = $1 AND LOWER(word) = LOWER($2)", guild_id, word)
+
+    async def fetch_filtered_words(self, guild_id: int) -> List[str]:
+        return [r["word"] for r in await self.db.fetch("SELECT word FROM filtered_words WHERE guild_id = $1", guild_id)]
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
