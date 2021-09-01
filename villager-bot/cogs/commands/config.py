@@ -207,7 +207,10 @@ class Config(commands.Cog):
 
         if not (operation and word):
             words_nice = "`" + "`, `".join(words) + "`"
-            await self.bot.reply_embed(ctx, f"Currently blacklisted words: {words_nice}.\nYou can add more blacklisted words with `{ctx.prefix}config filterwords add <word>`.\nYou can remove blacklisted words with `{ctx.prefix}config filterwords remove <word>`.")
+            await self.bot.reply_embed(
+                ctx,
+                f"Currently blacklisted words: {words_nice}.\nYou can add more blacklisted words with `{ctx.prefix}config filterwords add <word>`.\nYou can remove blacklisted words with `{ctx.prefix}config filterwords remove <word>`.",
+            )
             return
 
         if operation == "add":
