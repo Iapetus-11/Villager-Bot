@@ -192,11 +192,11 @@ class Config(commands.Cog):
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, False)
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.disable.format(cmd_true))
 
-    @config.command(name="filterwords", aliases=["wordfilter"])
+    @config.command(name="filterwords", aliases=["wordfilter", "wordblacklist"])
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_filtered_words(self, ctx, command=None):
+    async def config_filtered_words(self, ctx, operation: str = None, word: str = None):
         guild = await self.db.fetch_guild(ctx.guild.id)
 
         if not guild["premium"]:
@@ -205,8 +205,16 @@ class Config(commands.Cog):
 
         words = await self.db.fetch_filtered_words(ctx.guild.id)
 
-        if command is None:
+        if not (operation and word):
             words_nice = "`" + "`, `".join(words) + "`"
+            await self.bot.reply_embed(
+                ctx,
+                f"Currently blacklisted words: {words_nice}.\nYou can add more blacklisted words with `{ctx.prefix}config filterwords add <word>`.\nYou can remove blacklisted words with `{ctx.prefix}config filterwords remove <word>`.",
+            )
+            return
+
+        if operation == "add":
+            pass
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)
