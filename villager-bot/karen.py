@@ -237,26 +237,28 @@ class MechaKaren:
             self.logger.error(format_exception(e))
 
     async def heal_users_loop(self):
-        try:
-            while True:
-                await asyncio.sleep(32)
+        while True:
+            await asyncio.sleep(32)
+
+            try:
                 await self.db.execute("UPDATE users SET health = health + 1 WHERE health < 20")
-        except Exception as e:
-            self.logger.error(format_exception(e))
+            except Exception as e:
+                self.logger.error(format_exception(e))
 
     async def clear_trivia_commands_loop(self):
-        try:
-            while True:
-                await asyncio.sleep(10 * 60)
+        while True:
+            await asyncio.sleep(10 * 60)
+
+            try:
                 self.v.trivia_commands.clear()
-        except Exception as e:
-            self.logger.error(format_exception(e))
+            except Exception as e:
+                self.logger.error(format_exception(e))
 
     async def remind_reminders_loop(self):
-        try:
-            while True:
-                await asyncio.sleep(5)
+        while True:
+            await asyncio.sleep(5)
 
+            try:
                 reminders = await self.db.fetch("DELETE FROM reminders WHERE at <= NOW() RETURNING *")
 
                 for reminder in reminders:
@@ -277,8 +279,8 @@ class MechaKaren:
 
                     await asyncio.wait(broadcast_coros)
                     await broadcast["ready"].wait()
-        except Exception as e:
-            self.logger.error(format_exception(e))
+            except Exception as e:
+                self.logger.error(format_exception(e))
 
     async def start(self, pp):
         self.db = await asyncpg.create_pool(
