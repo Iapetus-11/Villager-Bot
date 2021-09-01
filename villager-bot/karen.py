@@ -14,6 +14,28 @@ from util.code import execute_code, format_exception
 from bot import run_cluster
 
 
+REMINDERS_BROADCAST_CODE = """
+        channel = bot.get_channel({0})  # channel id
+
+        if channel is not None:
+            user = bot.get_user({1})  # user id
+
+            if user is not None:
+                lang = bot.get_language(channel)
+
+                try:
+                    message = await channel.fetch_message({2})  # message id
+                    await message.reply(
+                        lang.useful.remind.reminder.format(user.mention, {3}), mention_author=True
+                    )
+                except Exception:
+                    try:
+                        await channel.send(lang.useful.remind.reminder.format(user.mention, {3}))
+                    except Exception as e:
+                        bot.logger.error(format_exception(e))
+        """
+
+
 class MechaKaren:
     class Share:
         def __init__(self):
@@ -231,27 +253,6 @@ class MechaKaren:
             self.logger.error(format_exception(e))
 
     async def remind_reminders_loop(self):
-        remind_code = """
-        channel = bot.get_channel({0})  # channel id
-
-        if channel is not None:
-            user = bot.get_user({1})  # user id
-
-            if user is not None:
-                lang = bot.get_language(channel)
-
-                try:
-                    message = await channel.fetch_message({2})  # message id
-                    await message.reply(
-                        lang.useful.remind.reminder.format(user.mention, {3}), mention_author=True
-                    )
-                except Exception:
-                    try:
-                        await channel.send(lang.useful.remind.reminder.format(user.mention, {3}))
-                    except Exception as e:
-                        bot.logger.error(format_exception(e))
-        """
-
         try:
             while True:
                 await asyncio.sleep(5)
@@ -259,7 +260,7 @@ class MechaKaren:
                 reminders = await self.db.fetch("DELETE FROM reminders WHERE at <= NOW() RETURNING *")
 
                 for reminder in reminders:
-                    code = remind_code.format(
+                    code = REMINDERS_BROADCAST_CODE.format(
                         reminder["channel_id"], reminder["user_id"], reminder["message_id"], repr(reminder["reminder"])
                     )
 
