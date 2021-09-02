@@ -213,8 +213,23 @@ class Config(commands.Cog):
             )
             return
 
+        word = word.lower()
+
         if operation == "add":
-            pass
+            await self.db.add_filtered_word(ctx.guild.id, word)
+            self.bot.filter_words_cache[ctx.guild.id].append(word)
+            await self.bot.reply_embed(ctx, f"Added `{word}` as a blacklisted word.")
+        elif operation == "remove" or operation == "delete":
+            try:
+                self.bot.filter_words_cache[ctx.guild.id].remove(word)
+            except IndexError:
+                pass
+            else:
+                await self.db.remove_filtered_word(ctx.guild.id, word)
+
+            await self.bot.reply_embed(ctx, f"Removed `{word}` from the blacklisted words.")
+        else:
+            await self.bot.reply_embed(ctx, f"You specified an invalid operation. You can add more blacklisted words with `{ctx.prefix}config filterwords add <word>`. You can remove blacklisted words with `{ctx.prefix}config filterwords remove <word>`.")
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)
