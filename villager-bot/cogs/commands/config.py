@@ -237,11 +237,11 @@ class Config(commands.Cog):
         else:
             await self.bot.reply_embed(
                 ctx,
-                " ".join(
+                " ".join([
                     ctx.l.config.wbl.invalid,
                     ctx.l.config.wbl.add.format(ctx.prefix),
                     ctx.l.config.wbl.remove.format(ctx.prefix),
-                ),
+                ]),
             )
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
