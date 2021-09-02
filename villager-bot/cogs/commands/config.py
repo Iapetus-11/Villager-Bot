@@ -229,7 +229,10 @@ class Config(commands.Cog):
 
             await self.bot.reply_embed(ctx, f"Removed `{word}` from the blacklisted words.")
         else:
-            await self.bot.reply_embed(ctx, f"You specified an invalid operation. You can add more blacklisted words with `{ctx.prefix}config filterwords add <word>`. You can remove blacklisted words with `{ctx.prefix}config filterwords remove <word>`.")
+            await self.bot.reply_embed(
+                ctx,
+                f"You specified an invalid operation. You can add more blacklisted words with `{ctx.prefix}config filterwords add <word>`. You can remove blacklisted words with `{ctx.prefix}config filterwords remove <word>`.",
+            )
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)
