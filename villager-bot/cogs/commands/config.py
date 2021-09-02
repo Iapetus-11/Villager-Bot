@@ -209,7 +209,13 @@ class Config(commands.Cog):
             words_nice = "`" + "`, `".join(words) + "`"
             await self.bot.reply_embed(
                 ctx,
-                "\n".join([ctx.l.config.wbl.current.format(words_nice), ctx.l.config.wbl.add.format(ctx.prefix), ctx.l.config.wbl.remove.format(ctx.prefix)])
+                "\n".join(
+                    [
+                        ctx.l.config.wbl.current.format(words_nice),
+                        ctx.l.config.wbl.add.format(ctx.prefix),
+                        ctx.l.config.wbl.remove.format(ctx.prefix),
+                    ]
+                ),
             )
             return
 
@@ -231,7 +237,11 @@ class Config(commands.Cog):
         else:
             await self.bot.reply_embed(
                 ctx,
-                " ".join(ctx.l.config.wbl.invalid, ctx.l.config.wbl.add.format(ctx.prefix), ctx.l.config.wbl.remove.format(ctx.prefix)),
+                " ".join(
+                    ctx.l.config.wbl.invalid,
+                    ctx.l.config.wbl.add.format(ctx.prefix),
+                    ctx.l.config.wbl.remove.format(ctx.prefix),
+                ),
             )
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
