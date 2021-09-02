@@ -1592,6 +1592,14 @@
         "none": "Tu n'as pas de mot de passe enregistré",
         "one": "1 mot de passe supprimé",
         "multi": "{} mots de passe supprimés"
+      },
+      "wbl": {
+        "current": "Currently blacklisted words: {}.",
+        "add": "You can add more blacklisted words with `{}config filterwords add <word>`.",
+        "remove": "You can remove blacklisted words with `{}config filterwords remove <word>`.",
+        "added": "Added `{}` as a blacklisted word.",
+        "removed": "Removed `{}` from the blacklisted words.",
+        "invalid": "You specified an invalid operation."
       }
     },
     "useful": {

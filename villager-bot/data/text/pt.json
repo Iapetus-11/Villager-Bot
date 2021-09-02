@@ -1592,6 +1592,14 @@
         "none": "Você não tinha nenhuma senha salva.",
         "one": "Um total de 1 senha foi excluída.",
         "multi": "Um total de {} senhas foram excluídas."
+      },
+      "wbl": {
+        "current": "Currently blacklisted words: {}.",
+        "add": "You can add more blacklisted words with `{}config filterwords add <word>`.",
+        "remove": "You can remove blacklisted words with `{}config filterwords remove <word>`.",
+        "added": "Added `{}` as a blacklisted word.",
+        "removed": "Removed `{}` from the blacklisted words.",
+        "invalid": "You specified an invalid operation."
       }
     },
     "useful": {

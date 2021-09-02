@@ -1593,6 +1593,14 @@
         "none": "No tenías ninguna contraseña guardada",
         "one": "Has eliminado 1 contraseña",
         "multi": "Has eliminado {} contraseñas"
+      },
+      "wbl": {
+        "current": "Currently blacklisted words: {}.",
+        "add": "You can add more blacklisted words with `{}config filterwords add <word>`.",
+        "remove": "You can remove blacklisted words with `{}config filterwords remove <word>`.",
+        "added": "Added `{}` as a blacklisted word.",
+        "removed": "Removed `{}` from the blacklisted words.",
+        "invalid": "You specified an invalid operation."
       }
     },
     "useful": {

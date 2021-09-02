@@ -1592,6 +1592,14 @@
         "none": "You didn't have any saved passwords.",
         "one": "Unsaved/deleted 1 password.",
         "multi": "Unsaved/deleted {} passwords."
+      },
+      "wbl": {
+        "current": "Currently blacklisted words: {}.",
+        "add": "You can add more blacklisted words with `{}config filterwords add <word>`.",
+        "remove": "You can remove blacklisted words with `{}config filterwords remove <word>`.",
+        "added": "Added `{}` as a blacklisted word.",
+        "removed": "Removed `{}` from the blacklisted words.",
+        "invalid": "You specified an invalid operation."
       }
     },
     "useful": {
