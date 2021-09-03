@@ -55,7 +55,7 @@ class Minecraft(commands.Cog):
         if files:
             media = files[0]
             file_name = media.filename.lower()
-            
+
             try:
                 media.height
             except Exception:
@@ -104,9 +104,7 @@ class Minecraft(commands.Cog):
             converter = self.tiler.convert_image
 
         async with ctx.typing():
-            converted = await self.bot.loop.run_in_executor(
-                self.bot.tp, converter, media_bytes, max_dim, detailed
-            )
+            converted = await self.bot.loop.run_in_executor(self.bot.tp, converter, media_bytes, max_dim, detailed)
 
             await ctx.reply(file=discord.File(converted, filename=file_name), mention_author=False)
 
