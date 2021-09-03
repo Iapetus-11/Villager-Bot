@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS user_rcon (
 CREATE TABLE IF NOT EXISTS filtered_words (
   guild_id           BIGINT NOT NULL,
   word               VARCHAR
-)
+);
 
 -- CREATE TABLE IF NOT EXISTS user_roles (
 --   user_id            BIGINT NOT NULL, -- the discord user id / snowflake
