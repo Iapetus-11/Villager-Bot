@@ -1595,12 +1595,12 @@
         "multi": "Has eliminado {} contraseñas"
       },
       "wbl": {
-        "current": "Currently blacklisted words: {}.",
-        "add": "You can add more blacklisted words with `{}config filterwords add <word>`.",
-        "remove": "You can remove blacklisted words with `{}config filterwords remove <word>`.",
-        "added": "Added `{}` as a blacklisted word.",
-        "removed": "Removed `{}` from the blacklisted words.",
-        "invalid": "You specified an invalid operation."
+        "current": "Palabras en la lista negra: {}.",
+        "add": "Puedes añadir más palabras a la lista negra con`{}config filterwords add <word>`.",
+        "remove": "Puedes quitar palabras de la lista negra con `{}config filterwords remove <word>`.",
+        "added": " `{}` ha sido añadida a la lista negra.",
+        "removed": "`{}` ha sido eliminada de la lista negra.",
+        "invalid": "No has especificado una operación válida."
       }
     },
     "useful": {
