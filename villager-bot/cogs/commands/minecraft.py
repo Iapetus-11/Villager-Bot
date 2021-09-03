@@ -38,9 +38,9 @@ class Minecraft(commands.Cog):
         else:
             self.tiler = None
 
-    @commands.command(name="mcimage", aliases=["mcpixelart", "mcart", "mcimg"])
+    @commands.command(name="blockify", aliases=["mcpixelart", "mcart", "mcimage", "mcvideo"])
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def mcpixelart(self, ctx):
+    async def blockify_media(self, ctx):
         if not self.tiler:
             await ctx.send("This command is disabled because Cython isn't enabled.")
             return
@@ -51,14 +51,15 @@ class Minecraft(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
             return
 
-        image = files[0]
+        media = files[0]
+        file_name = media.filename.lower()
 
-        if image.filename.lower()[-4:] not in (".jpg", ".png") and not image.filename.lower()[-5:] in (".jpeg"):
+        if not (file_name[-4:] in (".jpg", ".png", ".gif") or file_name[-5:] != ".jpeg"):
             await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
             return
 
         try:
-            image.height
+            media.height
         except Exception:
             await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_3)
             return
@@ -71,11 +72,16 @@ class Minecraft(commands.Cog):
                 break
 
         async with ctx.typing():
-            image_data = await self.bot.loop.run_in_executor(
-                self.bot.tp, self.tiler.convert_image, await image.read(use_cached=True), 1600, detailed
+            if file_name.endswith(".gif"):
+                converter = self.tiler.convert_video
+            else:
+                converter = self.tiler.convert_image
+
+            converted = await self.bot.loop.run_in_executor(
+                self.bot.tp, converter, await media.read(use_cached=True), 1600, detailed
             )
 
-            await ctx.reply(file=discord.File(image_data, filename=image.filename), mention_author=False)
+            await ctx.reply(file=discord.File(converted, filename=media.filename), mention_author=False)
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
