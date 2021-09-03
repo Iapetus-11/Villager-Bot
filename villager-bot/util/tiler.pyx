@@ -121,13 +121,19 @@ cdef class Tiler:
 
     cpdef object convert_video(self, bytes source_bytes, double max_dim, bint detailed):
         cdef str video_fp = f"{time.time()}.{random.randint(0, 1000000)}.temp"
+        cdef object video_capture
 
-        with open(video_fp, "w+") as video_file:
-            video_file.write(source_bytes)
-            del source_bytes
+        try:
+            with open(video_fp, "wb+") as video_file:
+                video_file.write(source_bytes)
+                del source_bytes
 
-        cdef object video_capture = cv2.VideoCapture(video_fp)
-        del source_bytes  # saves memory
+            video_capture = cv2.VideoCapture(video_fp)
+        finally:
+            try:
+                os.remove(video_fp)
+            except FileNotFoundError:
+                pass
 
         cdef np.ndarray[NPUINT8_t, ndim=4] out_frames = np.zeros((video_capture.get(cv2.CAP_PROP_FRAME_COUNT), video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT) * self.xi, video_capture.get(cv2.CAP_PROP_FRAME_WIDTH) * self.yi, 4), np.uint8)
 
