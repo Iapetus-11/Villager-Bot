@@ -74,7 +74,7 @@ class Minecraft(commands.Cog):
         is_gif = file_name.endswith(".gif")
 
         if is_gif:
-            max_dim = 800
+            max_dim = 400
             converter = self.tiler.convert_video
         else:
             max_dim = 1600
