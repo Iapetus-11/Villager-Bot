@@ -2,6 +2,7 @@ import numpy as np
 import imageio
 import random
 import base64
+import time
 import json
 import cv2
 import os
@@ -122,8 +123,8 @@ cdef class Tiler:
         cdef str video_fp = f"{time.time()}.{random.randint(0, 1000000)}.temp"
 
         with open(video_fp, "w+") as video_file:
-            video_file.write(bytes)
-            del bytes
+            video_file.write(source_bytes)
+            del source_bytes
 
         cdef object video_capture = cv2.VideoCapture(video_fp)
         del source_bytes  # saves memory
