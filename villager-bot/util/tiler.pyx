@@ -121,7 +121,12 @@ cdef class Tiler:
 
     cpdef object convert_video(self, bytes source_bytes, double max_dim, bint detailed):
         cdef str video_fp = f"{time.time()}.{random.randint(0, 1000000)}.temp"
+
         cdef object video_capture
+        cdef list out_frames = []
+        cdef bint success
+        cdef np.ndarray[NPUINT8_t, ndim=3] frame
+        cdef int frame_counter = 0
 
         try:
             with open(video_fp, "wb+") as video_file:
@@ -129,28 +134,28 @@ cdef class Tiler:
                 del source_bytes
 
             video_capture = cv2.VideoCapture(video_fp)
+
+            while True:
+                success, frame = video_capture.read()
+
+                if not success:
+                    break
+
+                frame = cv2.cvtColor(self.prep_image(frame, max_dim, detailed), cv2.COLOR_BGR2RGB)
+                out_frames.append(self._convert_image(frame))
+                frame_counter += 1
         finally:
+            try:
+                video_capture.release()
+            except Exception:
+                pass
+
             try:
                 os.remove(video_fp)
             except FileNotFoundError:
                 pass
-
-        cdef np.ndarray[NPUINT8_t, ndim=4] out_frames = np.zeros((video_capture.get(cv2.CAP_PROP_FRAME_COUNT), video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT) * self.xi, video_capture.get(cv2.CAP_PROP_FRAME_WIDTH) * self.yi, 4), np.uint8)
-
-        cdef bint success
-        cdef np.ndarray[NPUINT8_t, ndim=3] frame
-        cdef int frame_counter = 0
-
-        while True:
-            success, frame = video_capture.read()
-
-            if not success:
-                break
-
-            frame = self.prep_image(frame, max_dim, detailed)
-            self.draw_image(out_frames[frame_counter], self._convert_image(frame), 0, 0)
-            frame_counter += 1
         
         cdef object out_bytes_io = io.BytesIO()
         imageio.mimwrite(out_bytes_io, out_frames, format="gif")
+        out_bytes_io.seek(0)
         return out_bytes_io
