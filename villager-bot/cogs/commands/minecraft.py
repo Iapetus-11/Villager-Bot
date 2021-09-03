@@ -71,14 +71,19 @@ class Minecraft(commands.Cog):
                 detailed = True
                 break
 
-        async with ctx.typing():
-            if file_name.endswith(".gif"):
-                converter = self.tiler.convert_video
-            else:
-                converter = self.tiler.convert_image
+        is_gif = file_name.endswith(".gif")
 
+        
+        if is_gif:
+            max_dim = 800
+            converter = self.tiler.convert_video
+        else:
+            max_dim = 1600
+            converter = self.tiler.convert_image
+
+        async with ctx.typing():
             converted = await self.bot.loop.run_in_executor(
-                self.bot.tp, converter, await media.read(use_cached=True), 1600, detailed
+                self.bot.tp, converter, await media.read(use_cached=True), max_dim, detailed
             )
 
             await ctx.reply(file=discord.File(converted, filename=media.filename), mention_author=False)
