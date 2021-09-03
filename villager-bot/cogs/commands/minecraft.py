@@ -72,7 +72,7 @@ class Minecraft(commands.Cog):
 
         async with ctx.typing():
             image_data = await self.bot.loop.run_in_executor(
-                self.bot.tp, self.tiler.generate, await image.read(use_cached=True), 1600, detailed
+                self.bot.tp, self.tiler.convert_image, await image.read(use_cached=True), 1600, detailed
             )
 
             await ctx.reply(file=discord.File(image_data, filename=image.filename), mention_author=False)
