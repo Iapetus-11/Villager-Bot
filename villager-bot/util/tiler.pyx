@@ -118,7 +118,7 @@ cdef class Tiler:
         return io.BytesIO(cv2.imencode(".png", self._convert_image(source))[1])
 
     cpdef object convert_video(self, bytes source_bytes, double max_dim, bint detailed):
-        cdef object video_capture = cv2.VideoCapture(source_bytes)
+        cdef object video_capture = cv2.VideoCapture(io.BytesIO(source_bytes))
         del source_bytes  # saves memory
 
         cdef np.ndarray[NPUINT8_t, ndim=4] out_frames = np.zeros((video_capture.get(cv2.CAP_PROP_FRAME_COUNT), video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT) * self.xi, video_capture.get(cv2.CAP_PROP_FRAME_WIDTH) * self.yi, 4), np.uint8)
