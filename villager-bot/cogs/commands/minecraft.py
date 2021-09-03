@@ -3,6 +3,7 @@ from cryptography.fernet import Fernet
 from discord.ext import commands
 import aiomcrcon as rcon
 import classyjson as cj
+import aiohttp
 import asyncio
 import discord
 import random
@@ -40,28 +41,50 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="blockify", aliases=["mcpixelart", "mcart", "mcimage", "mcvideo"])
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def blockify_media(self, ctx):
+    async def blockify_media(self, ctx, media_link: str = None):
         if not self.tiler:
             await ctx.send("This command is disabled because Cython isn't enabled.")
             return
 
         files = ctx.message.attachments
 
-        if len(files) < 1:
+        if len(files) < 1 and not media_link:
             await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
             return
 
-        media = files[0]
-        file_name = media.filename.lower()
+        if files:
+            media = files[0]
+            file_name = media.filename.lower()
+            
+            try:
+                media.height
+            except Exception:
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_3)
+                return
+
+            media_bytes = await media.read(use_cached=True)
+        else:
+            link_split_dot = media_link.split(".")
+            link_split_slash = media_link.split("/")
+
+            if not (link_split_dot and link_split_slash):
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
+                return
+
+            file_name = link_split_slash[-1]
+
+            if not (file_name[-4:] in (".jpg", ".png", ".gif") or file_name[-5:] != ".jpeg"):
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
+                return
+
+            try:
+                media_bytes = await (await self.aiohttp.get(media_link)).read()
+            except aiohttp.client_exceptions.InvalidURL:
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
+                return
 
         if not (file_name[-4:] in (".jpg", ".png", ".gif") or file_name[-5:] != ".jpeg"):
             await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
-            return
-
-        try:
-            media.height
-        except Exception:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_3)
             return
 
         detailed = False
@@ -82,10 +105,10 @@ class Minecraft(commands.Cog):
 
         async with ctx.typing():
             converted = await self.bot.loop.run_in_executor(
-                self.bot.tp, converter, await media.read(use_cached=True), max_dim, detailed
+                self.bot.tp, converter, media_bytes, max_dim, detailed
             )
 
-            await ctx.reply(file=discord.File(converted, filename=media.filename), mention_author=False)
+            await ctx.reply(file=discord.File(converted, filename=file_name), mention_author=False)
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
