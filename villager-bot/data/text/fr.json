@@ -1592,6 +1592,14 @@
         "none": "Tu n'as pas de mot de passe enregistré",
         "one": "1 mot de passe supprimé",
         "multi": "{} mots de passe supprimés"
+      },
+      "wbl": {
+        "current": "Mots actuellement interdits : {}.",
+        "add": "Tu peux ajouter plus de mots interdits avec la commande `{}config filterwords add <mot>`.",
+        "remove": "Tu peux retirer des mots interdits avec la commande `{}config filterwords remove <mot>`.",
+        "added": "Ajout de `{}` à la liste des mots interdits.",
+        "removed": "Retrait de `{}` de la liste des mots interdits.",
+        "invalid": "Tu as demandé une opération invalide."
       }
     },
     "useful": {

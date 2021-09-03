@@ -209,7 +209,13 @@ class Config(commands.Cog):
             words_nice = "`" + "`, `".join(words) + "`"
             await self.bot.reply_embed(
                 ctx,
-                f"Currently blacklisted words: {words_nice}.\nYou can add more blacklisted words with `{ctx.prefix}config filterwords add <word>`.\nYou can remove blacklisted words with `{ctx.prefix}config filterwords remove <word>`.",
+                "\n".join(
+                    [
+                        ctx.l.config.wbl.current.format(words_nice),
+                        ctx.l.config.wbl.add.format(ctx.prefix),
+                        ctx.l.config.wbl.remove.format(ctx.prefix),
+                    ]
+                ),
             )
             return
 
@@ -218,7 +224,7 @@ class Config(commands.Cog):
         if operation == "add":
             await self.db.add_filtered_word(ctx.guild.id, word)
             self.bot.filter_words_cache[ctx.guild.id].append(word)
-            await self.bot.reply_embed(ctx, f"Added `{word}` as a blacklisted word.")
+            await self.bot.reply_embed(ctx, ctx.l.config.wbl.added.format(word))
         elif operation == "remove" or operation == "delete":
             try:
                 self.bot.filter_words_cache[ctx.guild.id].remove(word)
@@ -227,11 +233,17 @@ class Config(commands.Cog):
             else:
                 await self.db.remove_filtered_word(ctx.guild.id, word)
 
-            await self.bot.reply_embed(ctx, f"Removed `{word}` from the blacklisted words.")
+            await self.bot.reply_embed(ctx, ctx.l.config.wbl.removed.format(word))
         else:
             await self.bot.reply_embed(
                 ctx,
-                f"You specified an invalid operation. You can add more blacklisted words with `{ctx.prefix}config filterwords add <word>`. You can remove blacklisted words with `{ctx.prefix}config filterwords remove <word>`.",
+                " ".join(
+                    [
+                        ctx.l.config.wbl.invalid,
+                        ctx.l.config.wbl.add.format(ctx.prefix),
+                        ctx.l.config.wbl.remove.format(ctx.prefix),
+                    ]
+                ),
             )
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
