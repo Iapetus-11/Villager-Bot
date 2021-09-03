@@ -4,6 +4,7 @@ import random
 import base64
 import json
 import cv2
+import os
 import io
 
 cimport numpy as np
@@ -118,7 +119,13 @@ cdef class Tiler:
         return io.BytesIO(cv2.imencode(".png", self._convert_image(source))[1])
 
     cpdef object convert_video(self, bytes source_bytes, double max_dim, bint detailed):
-        cdef object video_capture = cv2.VideoCapture(io.BytesIO(source_bytes))
+        cdef str video_fp = f"{time.time()}.{random.randint(0, 1000000)}.temp"
+
+        with open(video_fp, "w+") as video_file:
+            video_file.write(bytes)
+            del bytes
+
+        cdef object video_capture = cv2.VideoCapture(video_fp)
         del source_bytes  # saves memory
 
         cdef np.ndarray[NPUINT8_t, ndim=4] out_frames = np.zeros((video_capture.get(cv2.CAP_PROP_FRAME_COUNT), video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT) * self.xi, video_capture.get(cv2.CAP_PROP_FRAME_WIDTH) * self.yi, 4), np.uint8)
