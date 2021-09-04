@@ -22,6 +22,11 @@ except ImportError as e:
     tiler = None
 
 
+MAX_DL_SIZE_BYTES = (24 * 1000000)//4
+TILER_MAX_DIM = 1600
+TILER_MAX_DIM_GIF = 800
+
+
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -54,6 +59,11 @@ class Minecraft(commands.Cog):
 
         if files:
             media = files[0]
+
+            if media.size > MAX_DL_SIZE_BYTES:
+                await self.bot.reply_embed(ctx, "That file is too big to convert.")
+                return
+
             file_name = media.filename.lower()
 
             try:
@@ -83,6 +93,10 @@ class Minecraft(commands.Cog):
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
                 return
 
+            if len(media_bytes) > MAX_DL_SIZE_BYTES:
+                await self.bot.reply_embed(ctx, "That file is too big to convert.")
+                return
+
         if not (file_name[-4:] in (".jpg", ".png", ".gif") or file_name[-5:] == ".jpeg"):
             await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
             return
@@ -97,10 +111,10 @@ class Minecraft(commands.Cog):
         is_gif = file_name.endswith(".gif")
 
         if is_gif:
-            max_dim = 800
+            max_dim = TILER_MAX_DIM_GIF
             converter = self.tiler.convert_video
         else:
-            max_dim = 1600
+            max_dim = TILER_MAX_DIM
             converter = self.tiler.convert_image
 
         async with ctx.typing():
