@@ -59,6 +59,11 @@ class Minecraft(commands.Cog):
         if files:
             media = files[0]
             file_name = media.filename.lower()
+            is_gif = file_name.endswith(".gif")
+
+            if is_gif and ctx.author.id not in self.bot.owner_ids:
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
+                return
 
             try:
                 media.height
@@ -79,6 +84,12 @@ class Minecraft(commands.Cog):
                 return
 
             file_name = link_split_slash[-1]
+            
+            is_gif = file_name.endswith(".gif")
+
+            if is_gif and ctx.author.id not in self.bot.owner_ids:
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
+                return
 
             if not (file_name[-4:] in (".jpg", ".png", ".gif") or file_name[-5:] == ".jpeg"):
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
@@ -100,8 +111,6 @@ class Minecraft(commands.Cog):
             if detailed_keyword in ctx.message.content:
                 detailed = True
                 break
-
-        is_gif = file_name.endswith(".gif")
 
         if is_gif:
             max_dim = TILER_MAX_DIM_GIF
