@@ -160,9 +160,10 @@ cdef class Tiler:
         imageio.mimwrite(out_bytes_io, out_frames, format="gif", fps=fps)
         out_bytes_io.seek(0)
         
-        with open("heh.gif", "wb+") as f:
-            f.write(out_bytes_io.read())
+        # used for debugging purposes
+        # with open("heh.gif", "wb+") as f:
+        #     f.write(out_bytes_io.read())
         
-        out_bytes_io.seek(0)
+        # out_bytes_io.seek(0)
 
         return out_bytes_io
