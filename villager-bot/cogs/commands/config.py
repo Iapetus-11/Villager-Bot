@@ -210,7 +210,7 @@ class Config(commands.Cog):
                 words_nice = ctx.l.config.wbl.current.format("`" + "`, `".join(words) + "`")
             else:
                 words_nice = ctx.l.config.wbl.current_none
-                
+
             await self.bot.reply_embed(
                 ctx,
                 "\n".join(
