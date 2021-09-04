@@ -82,6 +82,9 @@ class Palette:
 
         img = cv2.imread(self.source_dir + image_file, cv2.IMREAD_UNCHANGED)
 
+        if "copper" in image_file.lower():
+            print(img.shape)
+
         if img is None:
             return False
 
