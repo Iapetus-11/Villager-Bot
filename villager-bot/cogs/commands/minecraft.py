@@ -11,9 +11,9 @@ import base64
 import arrow
 import json
 
+from util.misc import dm_check, fix_giphy_url
 from util.code import format_exception
 from util.ipc import PacketType
-from util.misc import dm_check
 
 try:
     from util import tiler
@@ -68,6 +68,9 @@ class Minecraft(commands.Cog):
 
             media_bytes = await media.read(use_cached=True)
         else:
+            if "https://giphy.com/" in media_link:
+                media_link = fix_giphy_url(media_link)
+
             link_split_dot = media_link.split(".")
             link_split_slash = media_link.split("/")
 
