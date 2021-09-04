@@ -99,7 +99,7 @@ class Palette:
             return False
 
         p_count = 0
-        avgs = [0]*img.shape[2]
+        avgs = [0] * img.shape[2]
 
         for row in img:
             for pixel in row:
