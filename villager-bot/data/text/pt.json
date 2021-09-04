@@ -88,7 +88,7 @@
         "mcstatus": "`{0}mcstatus [opcional: servidor]` *verifica o status de qualquer tipo de servidor de Minecraft*",
         "rcon": "`{0}rcon <comando>` *executa comandos em um servidor de Minecraft a partir do Discord*",
         "randommc": "`{0}randommc` *mostra um servidor de Minecraft aleatório se você quiser um novo lugar para explorar*",
-        "mcimage": "`{0}mcimage` *transforma qualquer imagem que você enviar em blocos / pixel art do Minecraft*",
+        "blockify": "`{0}blockify` *transforma qualquer imagem que você enviar em blocos / pixel art do Minecraft*",
         "stealskin": "`{0}stealskin <nome de usuário>` *busca a skin de um jogador de Minecraft Java Edition*",
         "buildidea": "`{0}buildidea` *envia uma ideia de construção aleatória no caso de você estiver entediado e precisar de inspiração*",
         "mccolors": "`{0}mccolors` *mostra as cores do Minecraft e como usá-las no chat do jogo*",
