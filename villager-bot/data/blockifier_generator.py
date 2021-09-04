@@ -99,24 +99,25 @@ class Palette:
             return False
 
         p_count = 0
-        avgs = [0, 0, 0]  # bgr
+        avgs = [0]*img.shape[2]
 
         for row in img:
             for pixel in row:
                 if len(pixel) > 3 and pixel[3] < 255:
                     return
 
-                avgs[0] += pixel[0]
-                avgs[1] += pixel[1]
-                avgs[2] += pixel[2]
+                for i in range(img.shape[2]):
+                    avgs[i] += pixel[i]
 
                 p_count += 1
 
-        avgs[0] /= p_count
-        avgs[1] /= p_count
-        avgs[2] /= p_count
+        for i in range(img.shape[2]):
+            avgs[i] /= p_count
 
-        avgs.reverse()  # turn into rgb
+        if len(avgs) == 4:
+            avgs = avgs[1:][::-1]
+        else:
+            avgs = avgs[::-1]
 
         b = base64.b64encode(cv2.imencode(".png", img)[1]).decode("utf-8")
 
