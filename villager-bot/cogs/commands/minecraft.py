@@ -84,7 +84,7 @@ class Minecraft(commands.Cog):
                 return
 
             file_name = link_split_slash[-1]
-            
+
             is_gif = file_name.endswith(".gif")
 
             if is_gif and ctx.author.id not in self.bot.owner_ids:
