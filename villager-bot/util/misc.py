@@ -1,3 +1,4 @@
+from urllib.parse import urlparse
 import classyjson as cj
 import asyncio
 import discord
@@ -174,3 +175,9 @@ class TTLPreventDuplicate:
                 await asyncio.sleep(1)
         except asyncio.CancelledError:
             pass
+
+
+def fix_giphy_url(url: str) -> str:
+    p = urlparse(url, allow_fragments=True)
+    p.netloc = "i.giphy.com"
+    return p.geturl()
