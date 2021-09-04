@@ -102,9 +102,6 @@ class Palette:
 
         for row in img:
             for pixel in row:
-                if len(pixel) > 3 and pixel[3] < 255:
-                    return
-
                 for i in range(img.shape[2]):
                     avgs[i] += pixel[i]
 
@@ -114,6 +111,8 @@ class Palette:
             avgs[i] /= p_count
 
         avgs.reverse()
+
+        print(len(avgs))
 
         b = base64.b64encode(cv2.imencode(".png", img)[1]).decode("utf-8")
 
