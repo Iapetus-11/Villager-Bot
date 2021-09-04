@@ -192,7 +192,7 @@ class Config(commands.Cog):
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, False)
             await self.bot.reply_embed(ctx, ctx.l.config.cmd.disable.format(cmd_true))
 
-    @config.command(name="filterwords", aliases=["wordfilter", "wordblacklist"])
+    @config.command(name="filterwords", aliases=["wordfilter", "wordblacklist", "wbl"])
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -206,12 +206,16 @@ class Config(commands.Cog):
         words = await self.db.fetch_filtered_words(ctx.guild.id)
 
         if not (operation and word):
-            words_nice = "`" + "`, `".join(words) + "`"
+            if words:
+                words_nice = ctx.l.config.wbl.current.format("`" + "`, `".join(words) + "`")
+            else:
+                words_nice = ctx.l.config.wbl.current_none
+                
             await self.bot.reply_embed(
                 ctx,
                 "\n".join(
                     [
-                        ctx.l.config.wbl.current.format(words_nice),
+                        words_nice,
                         ctx.l.config.wbl.add.format(ctx.prefix),
                         ctx.l.config.wbl.remove.format(ctx.prefix),
                     ]

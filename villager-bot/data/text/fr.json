@@ -1542,7 +1542,8 @@
           "`{0}config difficulty <peaceful/easy/hard>` - Change la difficulté du jeu\n\n",
           "`{0}config lang <langue>` - Change la langue du Villager Bot\n\n",
           "`{0}config mcserver <mcserver>` - Change le serveur à ping si tu ne spécifies pas de serveur en utilisant `/mcping`\n\n",
-          "`{0}config togglecmd <cmd>` - Change si la commande spécifiée peut être utilisée ou non. Réservé aux serveurs Premium.\n\n"
+          "`{0}config togglecmd <cmd>` - Change si la commande spécifiée peut être utilisée ou non. Réservé aux serveurs Premium.\n\n",
+          "`{0}config filterwords <add/remove> <word>` - Add or remove blacklisted words that the bot will filter.\n\n"
         ],
         "user_conf": "Configuration par utilisateur",
         "user_content": [
@@ -1595,6 +1596,7 @@
       },
       "wbl": {
         "current": "Mots actuellement interdits : {}.",
+        "current_none": "There are no currently blacklisted words.",
         "add": "Tu peux ajouter plus de mots interdits avec la commande `{}config filterwords add <mot>`.",
         "remove": "Tu peux retirer des mots interdits avec la commande `{}config filterwords remove <mot>`.",
         "added": "Ajout de `{}` à la liste des mots interdits.",
