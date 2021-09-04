@@ -127,7 +127,7 @@ cdef class Tiler:
         cdef bint success
         cdef np.ndarray[NPUINT8_t, ndim=3] frame
         cdef int frame_counter = 0
-        cdef int fps = int(video_capture.get(cv2.CAP_PROP_FPS) or 15)
+        cdef int fps
 
         try:
             with open(video_fp, "wb+") as video_file:
@@ -135,6 +135,7 @@ cdef class Tiler:
                 del source_bytes
 
             video_capture = cv2.VideoCapture(video_fp)
+            fps = video_capture.get(cv2.CAP_PROP_FPS) or 15
 
             while True:
                 success, frame = video_capture.read()
