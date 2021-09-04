@@ -113,7 +113,7 @@ class Palette:
         avgs[1] /= p_count
         avgs[2] /= p_count
 
-        avgs.reverse()  # turn into rgb
+        # avgs.reverse()  # turn into rgb
 
         b = base64.b64encode(cv2.imencode(".png", img)[1]).decode("utf-8")
 
