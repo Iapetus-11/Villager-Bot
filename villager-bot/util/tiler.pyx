@@ -158,4 +158,10 @@ cdef class Tiler:
         cdef object out_bytes_io = io.BytesIO()
         imageio.mimwrite(out_bytes_io, out_frames, format="gif")
         out_bytes_io.seek(0)
+        
+        with open("heh.gif", "wb+") as f:
+            f.write(out_bytes_io.read())
+        
+        out_bytes_io.seek(0)
+
         return out_bytes_io
