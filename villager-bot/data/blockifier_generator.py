@@ -80,7 +80,7 @@ class Palette:
         if self.verbose:
             print(f"Processing: {image_file}")
 
-        img = cv2.imread(self.source_dir + image_file, cv2.IMREAD_COLOR)
+        img = cv2.imread(self.source_dir + image_file, cv2.IMREAD_UNCHANGED)
 
         if img is None:
             return False
