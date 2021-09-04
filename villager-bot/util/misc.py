@@ -178,5 +178,4 @@ class TTLPreventDuplicate:
 
 
 def fix_giphy_url(url: str) -> str:
-    p = urlparse(url, allow_fragments=True)
-    return p.geturl().replace("giphy.com", "i.giphy.com")
+    return f"https://i.giphy.com/media/{url.split('-')[-1]}/giphy.gif"
