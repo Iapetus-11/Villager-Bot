@@ -91,7 +91,7 @@ class Palette:
                     if pixel[3] < 255:
                         return False
 
-            img = cv2.imread(self.source_dir + image_file, cv2.IMREAD_COLOR)
+            img = cv2.cvtColor(cv2.imread(self.source_dir + image_file, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
 
         if img.shape[1] != self.dest_dims[1] or img.shape[0] != self.dest_dims[0]:
             # img = cv2.resize(img, self.dest_dims)
