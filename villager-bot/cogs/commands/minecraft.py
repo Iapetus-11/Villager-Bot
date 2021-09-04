@@ -22,7 +22,6 @@ except ImportError as e:
     tiler = None
 
 
-MAX_DL_SIZE_BYTES = (24 * 1000000) // 4
 TILER_MAX_DIM = 1600
 TILER_MAX_DIM_GIF = 800
 
@@ -59,11 +58,6 @@ class Minecraft(commands.Cog):
 
         if files:
             media = files[0]
-
-            if media.size > MAX_DL_SIZE_BYTES:
-                await self.bot.reply_embed(ctx, "That file is too big to convert.")
-                return
-
             file_name = media.filename.lower()
 
             try:
@@ -91,10 +85,6 @@ class Minecraft(commands.Cog):
                 media_bytes = await (await self.aiohttp.get(media_link)).read()
             except aiohttp.client_exceptions.InvalidURL:
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
-                return
-
-            if len(media_bytes) > MAX_DL_SIZE_BYTES:
-                await self.bot.reply_embed(ctx, "That file is too big to convert.")
                 return
 
         if not (file_name[-4:] in (".jpg", ".png", ".gif") or file_name[-5:] == ".jpeg"):
