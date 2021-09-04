@@ -28,7 +28,7 @@ IGNORE = [
     "repeater",
     "comparator",
     "dropper",
-    "end_portal_frame"
+    "end_portal_frame",
 ]
 
 
