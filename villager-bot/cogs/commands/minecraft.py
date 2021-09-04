@@ -22,7 +22,7 @@ except ImportError as e:
     tiler = None
 
 
-MAX_DL_SIZE_BYTES = (24 * 1000000)//4
+MAX_DL_SIZE_BYTES = (24 * 1000000) // 4
 TILER_MAX_DIM = 1600
 TILER_MAX_DIM_GIF = 800
 
