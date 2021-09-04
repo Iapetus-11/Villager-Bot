@@ -25,6 +25,10 @@ IGNORE = [
     "observer",
     "candle",
     "target",
+    "repeater",
+    "comparator",
+    "dropper",
+    "end_portal_frame"
 ]
 
 
