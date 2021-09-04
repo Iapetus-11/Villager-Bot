@@ -129,5 +129,5 @@ if __name__ == "__main__":
     p = Palette(verbose=True)
     p.generate()
 
-    with open("0UT.json", "w+") as f:
+    with open("0_out.json", "w+") as f:
         json.dump(p.data, f)
