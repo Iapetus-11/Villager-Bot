@@ -112,8 +112,6 @@ class Palette:
 
         avgs.reverse()
 
-        print(len(avgs))
-
         b = base64.b64encode(cv2.imencode(".png", img)[1]).decode("utf-8")
 
         return (
