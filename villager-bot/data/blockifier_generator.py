@@ -115,7 +115,7 @@ class Palette:
             avgs[i] /= p_count
 
         if len(avgs) == 4:
-            avgs = avgs[:-1][::-1]
+            avgs = avgs[:-1]
         else:
             avgs = avgs[::-1]
 
