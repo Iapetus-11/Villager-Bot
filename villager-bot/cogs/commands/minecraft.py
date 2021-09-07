@@ -22,6 +22,7 @@ except ImportError as e:
     tiler = None
 
 
+VALID_TILER_FILE_TYPES = {"jpg", "png", "jpeg", "gif", "mp4"}
 TILER_MAX_DIM = 1600
 TILER_MAX_DIM_GIF = 800
 
@@ -59,10 +60,10 @@ class Minecraft(commands.Cog):
         if files:
             media = files[0]
             file_name = media.filename.lower()
-            is_gif = file_name.endswith(".gif")
+            is_video = file_name.endswith(".gif") or file_name.endswith(".mp4")
 
-            if is_gif and ctx.author.id not in self.bot.owner_ids:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
+            if is_video and ctx.author.id not in self.bot.owner_ids:
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
                 return
 
             try:
@@ -85,13 +86,13 @@ class Minecraft(commands.Cog):
 
             file_name = link_split_slash[-1]
 
-            is_gif = file_name.endswith(".gif")
+            is_video = file_name.endswith(".gif") or file_name.endswith(".mp4")
 
-            if is_gif and ctx.author.id not in self.bot.owner_ids:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
+            if is_video and ctx.author.id not in self.bot.owner_ids:
+                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
                 return
 
-            if not (file_name[-4:] in (".jpg", ".png", ".gif") or file_name[-5:] == ".jpeg"):
+            if not file_name.split(".")[-1] in VALID_TILER_FILE_TYPES:
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
                 return
 
@@ -101,7 +102,7 @@ class Minecraft(commands.Cog):
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
                 return
 
-        if not (file_name[-4:] in (".jpg", ".png", ".gif") or file_name[-5:] == ".jpeg"):
+        if not file_name.split(".")[-1] in VALID_TILER_FILE_TYPES:
             await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
             return
 
@@ -112,7 +113,7 @@ class Minecraft(commands.Cog):
                 detailed = True
                 break
 
-        if is_gif:
+        if is_video:
             max_dim = TILER_MAX_DIM_GIF
             converter = self.tiler.convert_video
         else:
