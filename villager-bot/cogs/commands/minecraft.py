@@ -123,6 +123,9 @@ class Minecraft(commands.Cog):
         async with ctx.typing():
             converted = await self.bot.loop.run_in_executor(self.bot.tp, converter, media_bytes, max_dim, detailed)
 
+            if is_video:
+                file_name += ".gif"
+
             await ctx.reply(file=discord.File(converted, filename=file_name), mention_author=False)
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
