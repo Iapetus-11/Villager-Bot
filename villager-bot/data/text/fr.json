@@ -167,9 +167,9 @@
           "Bien vu, c'est **correct**!\nTu as été récompensé de {}{}!"
         ],
         "incorrect": [
-          "Réponse **incorrecte**...  :pensif:",
-          "Tu es peut-être **stupide**... :pensif:",
-          "Il n'y a aucun espoir pour toi... :pensif:",
+          "Réponse **incorrecte**...  :pensive:",
+          "Tu es peut-être **stupide**... :pensive:",
+          "Il n'y a aucun espoir pour toi... :pensive:",
           "Oui docteur, il n'a littéralement pas de cerveau..."
         ],
         "difficulty": [
