@@ -1693,6 +1693,11 @@
       },
       "snipe": {
         "nothing": "No hay nada que ver"
+      },
+      "vredditdl": {
+        "invalid_url": "Invalid post url supplied.",
+        "no_media": "That post doesn't have a video to download.",
+        "here_ya_go": "Here you go!"
       }
     },
     "econ": {

@@ -649,19 +649,19 @@ class Useful(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def reddit_media_download(self, ctx, post_url: str):
         if not post_url.startswith("https://www.reddit.com/r/"):
-            await self.bot.reply_embed(ctx, "Invalid post url supplied.")
+            await self.bot.reply_embed(ctx, ctx.l.useful.vredditdl.invalid_url)
             return
 
         async with ctx.typing():
             try:
                 d = await (await self.aiohttp.get(post_url.rstrip(".json") + ".json")).json()
-                await ctx.send("Here you go! " + d[0]["data"]["children"][0]["data"]["media"]["reddit_video"]["fallback_url"].split("?")[0])
+                await ctx.send(ctx.l.useful.vredditdl.here_ya_go + " " + d[0]["data"]["children"][0]["data"]["media"]["reddit_video"]["fallback_url"].split("?")[0])
             except aiohttp.client_exceptions.InvalidURL:
-                await self.bot.reply_embed(ctx, "Invalid post url supplied.")
+                await self.bot.reply_embed(ctx, ctx.l.useful.vredditdl.invalid_url)
                 return
             except (IndexError, KeyError) as e:
                 print(e)
-                await self.bot.reply_embed(ctx, "That post doesn't have a video to download.")
+                await self.bot.reply_embed(ctx, ctx.l.useful.vredditdl.no_media)
 
 
 def setup(bot):
