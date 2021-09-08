@@ -1696,9 +1696,9 @@
         "nothing": "No hay nada que ver"
       },
       "vredditdl": {
-        "invalid_url": "Invalid post url supplied.",
-        "no_media": "That post doesn't have a video to download.",
-        "here_ya_go": "Here you go!"
+        "invalid_url": "La url de la publicación enviada es invalida",
+        "no_media": "Esa publicación no tiene un video para descargar.",
+        "here_ya_go": "Aquí tienes!"
       }
     },
     "econ": {
