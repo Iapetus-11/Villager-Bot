@@ -1694,9 +1694,9 @@
         "nothing": "Não há nada para atirar."
       },
       "vredditdl": {
-        "invalid_url": "Invalid post url supplied.",
-        "no_media": "That post doesn't have a video to download.",
-        "here_ya_go": "Here you go!"
+        "invalid_url": "Postagem inválida do URL fornecido.",
+        "no_media": "Essa postagem não tem um vídeo para baixar.",
+        "here_ya_go": "Aqui está!"
       }
     },
     "econ": {
