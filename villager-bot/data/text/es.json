@@ -109,7 +109,7 @@
         "remindme": "`{0}remindme <tiempo> <recordatorio>` *fija un recordatorio en el tiempo especificado*",
         "credits": "`{0}credits` *Muestra quienes ayudaron a hacer Villager Bot*",
         "snipe": "`{0}snipe` *mostra a última mensagem excluída no canal atual*",
-        "downloadredditvideo": "`{0}downloadredditvideo <reddit post url>` *downloads a video from Reddit*"
+        "downloadredditvideo": "`{0}downloadredditvideo <reddit post url>` *descarga un video de Reddit*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envía una imagen Minecraft maldita al azar*",
