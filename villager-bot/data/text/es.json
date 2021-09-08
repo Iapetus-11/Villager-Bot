@@ -109,7 +109,7 @@
         "remindme": "`{0}remindme <tiempo> <recordatorio>` *fija un recordatorio en el tiempo especificado*",
         "credits": "`{0}credits` *Muestra quienes ayudaron a hacer Villager Bot*",
         "snipe": "`{0}snipe` *mostra a última mensagem excluída no canal atual*",
-        "downloadredditvideo": "`{0}downloadredditvideo <reddit post url>` *descarga un video de Reddit*"
+        "downloadredditvideo": "{0}downloadredditvideo <reddit post url> *descarga un vídeo de Reddit*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envía una imagen Minecraft maldita al azar*",
@@ -1696,9 +1696,9 @@
         "nothing": "No hay nada que ver"
       },
       "vredditdl": {
-        "invalid_url": "La url de la publicación enviada es invalida",
-        "no_media": "Esa publicación no tiene un video para descargar.",
-        "here_ya_go": "Aquí tienes!"
+        "invalid_url": "La url de la publicación enviada es inválida",
+        "no_media": "Esa publicación no tiene un vídeo para descargar.",
+        "here_ya_go": "¡Aquí tienes!"
       }
     },
     "econ": {
