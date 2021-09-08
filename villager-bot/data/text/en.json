@@ -108,7 +108,8 @@
         "image": "`{0}image <search>` *searches google images for your query*",
         "remindme": "`{0}remindme <time> <reminder>` *reminds you in a specified time*",
         "credits": "`{0}credits` *shows who helped make Villager Bot*",
-        "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*"
+        "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*",
+        "downloadredditvideo": "`{0}downloadredditvideo <reddit post url>` *downloads a video from Reddit*"
       },
       "fun": {
         "cursed": "`{0}cursed` *sends a random cursed Minecraft image*",
