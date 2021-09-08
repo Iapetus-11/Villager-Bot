@@ -1,6 +1,7 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 import async_cse
+import aiohttp
 import asyncio
 import discord
 import psutil
@@ -25,8 +26,8 @@ class Useful(commands.Cog):
         self.d = bot.d
         self.db = bot.get_cog("Database")
         self.ipc = bot.ipc
-
         self.google = async_cse.Search(bot.k.google_search)
+        self.aiohttp = bot.aiohttp
 
         self.ban_count_cache = {}
 
@@ -489,7 +490,7 @@ class Useful(commands.Cog):
     async def math(self, ctx, *, problem):
         async with ctx.typing():
             try:
-                resp = await self.bot.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
+                resp = await self.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
                 await self.bot.reply_embed(ctx, f"```{float(await resp.text())}```")
             except Exception:
                 await self.bot.reply_embed(ctx, ctx.l.useful.meth.oops)
@@ -643,6 +644,23 @@ class Useful(commands.Cog):
             embed.timestamp = snipe.created_at
 
             await ctx.send(embed=embed)
+
+    @commands.command(name="downloadredditvideo", aliases=["dlreddit", "redditdl", "vredditdl", "dlredditvideo"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def reddit_media_download(self, ctx, post_url: str):
+        if not post_url.startswith("https://www.reddit.com/r/"):
+            await self.bot.reply_embed(ctx, "Invalid post url supplied.")
+            return
+
+        async with ctx.typing():
+            try:
+                d = await (await self.aiohttp.get(post_url.rstrip(".json") + ".json")).json()
+                await ctx.send(d[0]["data"]["secure_media"]["reddit_video"]["fallback_url"])
+            except aiohttp.client_exceptions.InvalidURL:
+                await self.bot.reply_embed(ctx, "Invalid post url supplied.")
+                return
+            except (IndexError, KeyError):
+                await self.bot.reply_embed(ctx, "That post doesn't have a video to download.")
 
 
 def setup(bot):
