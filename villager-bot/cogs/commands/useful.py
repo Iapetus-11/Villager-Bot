@@ -655,7 +655,11 @@ class Useful(commands.Cog):
         async with ctx.typing():
             try:
                 d = await (await self.aiohttp.get(post_url.rstrip(".json") + ".json")).json()
-                await ctx.send(ctx.l.useful.vredditdl.here_ya_go + " " + d[0]["data"]["children"][0]["data"]["media"]["reddit_video"]["fallback_url"].split("?")[0])
+                await ctx.send(
+                    ctx.l.useful.vredditdl.here_ya_go
+                    + " "
+                    + d[0]["data"]["children"][0]["data"]["media"]["reddit_video"]["fallback_url"].split("?")[0]
+                )
             except aiohttp.client_exceptions.InvalidURL:
                 await self.bot.reply_embed(ctx, ctx.l.useful.vredditdl.invalid_url)
                 return
