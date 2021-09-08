@@ -74,7 +74,7 @@ class Minecraft(commands.Cog):
 
             media_bytes = await media.read(use_cached=True)
         else:
-            if "https://giphy.com/" in media_link:
+            if media_link.startswith("https://giphy.com/"):
                 media_link = fix_giphy_url(media_link)
 
             link_split_dot = media_link.split(".")
