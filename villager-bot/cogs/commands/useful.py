@@ -655,11 +655,12 @@ class Useful(commands.Cog):
         async with ctx.typing():
             try:
                 d = await (await self.aiohttp.get(post_url.rstrip(".json") + ".json")).json()
-                await ctx.send(d[0]["data"]["secure_media"]["reddit_video"]["fallback_url"])
+                await ctx.send(d[0]["data"]["children"][0]["data"]["media"]["reddit_video"]["fallback_url"].split("?")[0])
             except aiohttp.client_exceptions.InvalidURL:
                 await self.bot.reply_embed(ctx, "Invalid post url supplied.")
                 return
-            except (IndexError, KeyError):
+            except (IndexError, KeyError) as e:
+                print(e)
                 await self.bot.reply_embed(ctx, "That post doesn't have a video to download.")
 
 
