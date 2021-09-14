@@ -463,7 +463,7 @@ class Useful(commands.Cog):
 
         embed.add_field(name="General :gear:", value=general, inline=True)
         embed.add_field(name="Villager Bot " + self.d.emojis.emerald, value=villager, inline=True)
-        embed.add_field(name="Roles", value=" ".join([r.mention for r in guild.roles if r.id != guild.id][::-1]))
+        # embed.add_field(name="Roles", value=" ".join([r.mention for r in guild.roles if r.id != guild.id][::-1]))
 
         embed.set_thumbnail(url=guild.icon_url)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
