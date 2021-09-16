@@ -172,7 +172,7 @@ class Client:
         await self.send(packet)  # send packet off to karen
 
         await event.wait()  # wait for response event
-        return self.expected_packets[packet_id][1]  # return received packet
+        return self.expected_packets.pop(packet_id)[1]  # return received packet
 
     async def broadcast(self, packet: Union[dict, cj.ClassyDict]) -> cj.ClassyDict:
         return await self.request({"type": PacketType.BROADCAST_REQUEST, "packet": packet})
