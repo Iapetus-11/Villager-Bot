@@ -66,7 +66,7 @@ class Events(commands.Cog):
         self.bot.error_count += 1
 
         exception = sys.exc_info()[1]
-        traceback = format_exception(exception)
+        traceback = format_exception(exception).replace("```", "｀｀｀")
 
         event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
         self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
@@ -363,7 +363,7 @@ class Events(commands.Cog):
             debug_info = (
                 f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}"[:200]
                 + "```"
-                + f"```py\n{format_exception(e)}"[: 2000 - 206]
+                + f"```py\n{format_exception(e).replace('```', '｀｀｀')}"[: 2000 - 206]
                 + "```"
             )
 
