@@ -231,6 +231,7 @@ class Server:
                     await stream.write_packet({"type": PacketType.AUTH_RESPONSE, "success": True, "id": packet.id})
                 else:
                     await stream.write_packet({"type": PacketType.AUTH_RESPONSE, "success": False, "id": packet.id})
+                    self.connections.remove(stream)
                     return
 
                 continue
