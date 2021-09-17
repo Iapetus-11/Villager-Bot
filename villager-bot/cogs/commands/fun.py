@@ -209,7 +209,7 @@ class Fun(commands.Cog):
         except ValueError:
             await self.bot.send_embed(ctx, ctx.l.fun.too_long)
 
-    @commands.command(name="sarcastic")
+    @commands.command(name="sarcastic", aliases=["spongebob"])
     async def sarcastic_text(self, ctx, *, msg):
         """Turns regular text into "sarcastic" text from spongebob"""
 
