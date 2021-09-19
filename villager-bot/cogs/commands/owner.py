@@ -124,6 +124,19 @@ class Owner(commands.Cog):
         await self.db.update_user(uid, emeralds=balance)
         await ctx.message.add_reaction(self.d.emojis.yes)
 
+    @commands.command(name="botban")
+    @commands.is_owner()
+    async def bot_ban(self, ctx, user: Union[discord.User, int]):
+        if isinstance(user, discord.User):
+            uid = user.id
+        else:
+            uid = user
+
+        await self.db.update_user(uid, bot_banned=True)
+        await self.ipc.eval(f"self.ban_cache.add({uid})")
+
+        await ctx.message.add_reaction(self.d.emojis.yes)
+
     @commands.command(name="givehistory", aliases=["transactions"])
     @commands.is_owner()
     async def transaction_history(self, ctx, user: Union[discord.User, int]):
@@ -209,7 +222,7 @@ class Owner(commands.Cog):
                 break
 
             first_time = False
-
+    
 
 def setup(bot):
     bot.add_cog(Owner(bot))
