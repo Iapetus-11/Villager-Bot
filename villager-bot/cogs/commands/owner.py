@@ -137,6 +137,19 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
+    @commands.command(name="unbotban")
+    @commands.is_owner()
+    async def unban_user_from_bot(self, ctx, user: Union[discord.User, int]):
+        if isinstance(user, discord.User):
+            uid = user.id
+        else:
+            uid = user
+
+        await self.db.update_user(uid, bot_banned=False)
+        await self.ipc.eval(f"self.ban_cache.remove({uid})")
+
+        await ctx.message.add_reaction(self.d.emojis.yes)
+
     @commands.command(name="givehistory", aliases=["transactions"])
     @commands.is_owner()
     async def transaction_history(self, ctx, user: Union[discord.User, int]):
