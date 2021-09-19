@@ -126,7 +126,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="botban")
     @commands.is_owner()
-    async def bot_ban(self, ctx, user: Union[discord.User, int]):
+    async def ban_user_from_bot(self, ctx, user: Union[discord.User, int]):
         if isinstance(user, discord.User):
             uid = user.id
         else:
