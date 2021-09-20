@@ -10,7 +10,7 @@
 * Ability to ping / check the status of any Minecraft server
 * Expansive economy system (based upon emeralds obviously!)
 * Multi-language support! (English, Español, Français, Português)
-* Expansive customization options
+* Tons of customization and configuration options
 * Made by Iapetus11, so it must be good right?!
 
 ## Support / Contact Information
