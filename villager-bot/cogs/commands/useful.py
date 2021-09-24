@@ -10,6 +10,50 @@ import time
 
 from util.ipc import PacketType
 
+GET_CLUSTER_STATS_CODE = """
+import asyncio, psutil
+
+proc = psutil.Process()
+with proc.oneshot():
+    mem_usage = proc.memory_full_info().uss
+    threads = proc.num_threads()
+
+return (
+    mem_usage,
+    threads,
+    len(asyncio.all_tasks()),
+    len(bot.guilds),
+    len(bot.users),
+    bot.message_count,
+    bot.command_count,
+    bot.latency,
+    len(bot.private_channels),
+    bot.session_votes
+)
+"""
+
+GET_KAREN_STATS_CODE = """
+import asyncio, psutil
+
+proc = psutil.Process()
+with proc.oneshot():
+    mem_usage = proc.memory_full_info().uss
+    threads = proc.num_threads()
+
+return (
+    mem_usage,
+    threads,
+    len(asyncio.all_tasks()),
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+)
+"""
+
 
 class BanCacheEntry:
     __slots__ = ("ban_count", "time")
@@ -294,52 +338,8 @@ class Useful(commands.Cog):
         uptime_seconds = (arrow.utcnow() - self.bot.start_time).total_seconds()
         uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
 
-        get_stats_code = """
-        import asyncio, psutil
-
-        proc = psutil.Process()
-        with proc.oneshot():
-            mem_usage = proc.memory_full_info().uss
-            threads = proc.num_threads()
-
-        return (
-            mem_usage,
-            threads,
-            len(asyncio.all_tasks()),
-            len(bot.guilds),
-            len(bot.users),
-            bot.message_count,
-            bot.command_count,
-            bot.latency,
-            len(bot.private_channels),
-            bot.session_votes
-        )
-        """
-
-        get_karen_stats_code = """
-        import asyncio, psutil
-
-        proc = psutil.Process()
-        with proc.oneshot():
-            mem_usage = proc.memory_full_info().uss
-            threads = proc.num_threads()
-
-        return (
-            mem_usage,
-            threads,
-            len(asyncio.all_tasks()),
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-        )
-        """
-
         res, karen_res = await asyncio.gather(
-            self.ipc.broadcast({"type": PacketType.EXEC, "code": get_stats_code}), self.ipc.exec(get_karen_stats_code)
+            self.ipc.broadcast({"type": PacketType.EXEC, "code": GET_CLUSTER_STATS_CODE}), self.ipc.exec(GET_KAREN_STATS_CODE)
         )
 
         res.responses.append(karen_res)
