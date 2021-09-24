@@ -344,7 +344,7 @@ class Useful(commands.Cog):
 
         res.responses.append(karen_res)
 
-        counters = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        counters = [0] * 10
 
         for r in res.responses:
             for i, r in enumerate(r.result):
