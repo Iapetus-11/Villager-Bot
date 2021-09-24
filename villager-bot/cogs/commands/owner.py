@@ -193,7 +193,7 @@ class Owner(commands.Cog):
                     if item == "emerald":
                         item = self.d.emojis.emerald
 
-                    body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['ts']).humanize()}*\n"
+                    body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
 
                 embed = discord.Embed(color=self.d.cc, description=body)
                 embed.set_author(name=f"Transaction history for {user}", icon_url=user.avatar_url_as())
