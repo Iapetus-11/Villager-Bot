@@ -33,7 +33,7 @@ REMINDERS_BROADCAST_CODE = """
                         await channel.send(lang.useful.remind.reminder.format(user.mention, {3}))
                     except Exception as e:
                         bot.logger.error(format_exception(e))
-        """
+"""
 
 
 class MechaKaren:
