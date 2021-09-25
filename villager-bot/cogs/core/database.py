@@ -80,7 +80,7 @@ class Database(commands.Cog):
         filtered_words = defaultdict(list)
 
         for r in records:
-            filtered_words[r["guild_id"]] = r["word"]
+            filtered_words[r["guild_id"]].append(r["word"])
 
         return filtered_words
 
