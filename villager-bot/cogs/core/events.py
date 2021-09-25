@@ -57,7 +57,6 @@ class Events(commands.Cog):
         if filtered_words:
             for word in filtered_words:
                 if word in message.content:
-                    print("deleta")
                     await message.delete()
                     return True
 
