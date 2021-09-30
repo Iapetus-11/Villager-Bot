@@ -373,54 +373,6 @@
         768,
         4096,
         true
-      ],
-      [
-        "Bane Of Pillagers Amulet",
-        4096,
-        500000,
-        true
-      ],
-      [
-        "Toilet Paper Roll (Emerald Patterned)",
-        1000,
-        99999,
-        false
-      ],
-      [
-        "Rona Vaccine",
-        1024,
-        2000,
-        false
-      ],
-      [
-        "Pillager-Proof Hazmat Suit",
-        420,
-        10000,
-        false
-      ],
-      [
-        "Tub Of Hand Sanitizer",
-        128,
-        2000,
-        false
-      ],
-      [
-        "Mask",
-        50,
-        2000,
-        false
-      ],
-      [
-        "Tiny Hand Sanitizer Bottle",
-        50,
-        2000,
-        false
-      ],
-      [
-        "Chocolate Chip Cookie",
-        128,
-        4000,
-        false
       ]
     ]
   },
@@ -523,6 +475,30 @@
         768,
         4096,
         true
+      ],
+      [
+        "Nasty Sock",
+        32,
+        400,
+        false
+      ],
+      [
+        "Cigarette Butt",
+        32,
+        400,
+        false
+      ],
+      [
+        "Empty Soda Can",
+        32,
+        400,
+        false
+      ],
+      [
+        "Ripped Plastic Bag",
+        32,
+        400,
+        false
       ]
     ]
   },
