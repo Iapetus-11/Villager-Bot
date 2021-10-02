@@ -539,7 +539,7 @@
             "tf": false,
             "q": "What's the Ender Dragon's name?",
             "a": [
-              "Jean",
+              "Jean?",
               "Carson",
               "Bertha",
               "Steve"
@@ -581,7 +581,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "Why was the black and white cat added to the game?",
+            "q": "Why was the tuxedo cat added to the game?",
             "a": [
               "Jeb's cat died and it looked that way",
               "Notch liked the way it looked",
@@ -634,7 +634,7 @@
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: the Ender Dragon can only lay multiple eggs",
+            "q": "**true** or **false**: the Ender Dragon can lay multiple eggs",
             "a": [
               "false",
               "true"
@@ -751,7 +751,7 @@
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: in Minecraft, fish can drop bones",
+            "q": "**true** or **false**: in Minecraft, fish can drop bones in Bedrock Edition",
             "a": [
               "true",
               "false"
@@ -830,17 +830,6 @@
               "carrots",
               "wheat",
               "milk bucket"
-            ]
-          },
-          {
-            "d": 0,
-            "tf": false,
-            "q": "How do you breed pigs in Minecraft?",
-            "a": [
-              "potatoes",
-              "carrots",
-              "seeds",
-              "wheat"
             ]
           },
           {
@@ -939,7 +928,7 @@
             "tf": false,
             "q": "What can you wear to stop enderman from attacking you if you look at their eyes?",
             "a": [
-              "pumpkin",
+              "carved pumpkin",
               "potato",
               "melon",
               "wither skull"
