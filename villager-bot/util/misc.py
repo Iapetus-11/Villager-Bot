@@ -208,5 +208,3 @@ class SuppressCtxManager:
             await self._manager.__aexit__(*args, **kwargs)
         except Exception as e:
             pass
-
-    
