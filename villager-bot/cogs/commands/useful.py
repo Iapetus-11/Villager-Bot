@@ -334,7 +334,10 @@ class Useful(commands.Cog):
 
     @commands.command(name="stats", aliases=["bs"])
     async def stats(self, ctx):
-        await ctx.trigger_typing()
+        try:
+            await ctx.trigger_typing()
+        except Exception:
+            pass
 
         uptime_seconds = (arrow.utcnow() - self.bot.start_time).total_seconds()
         uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
@@ -402,7 +405,10 @@ class Useful(commands.Cog):
     @commands.command(name="serverinfo", aliases=["server", "guild", "guildinfo"])
     @commands.guild_only()
     async def server_info(self, ctx, *, guild: discord.Guild = None):
-        await ctx.trigger_typing()
+        try:
+            await ctx.trigger_typing()
+        except Exception:
+            pass
 
         if guild is None:
             guild = ctx.guild
