@@ -6,7 +6,7 @@ import random
 import arrow
 import math
 
-from util.misc import lb_logic, format_required, make_health_bar, calc_total_wealth, emojify_item
+from util.misc import lb_logic, format_required, make_health_bar, calc_total_wealth, emojify_item, SuppressCtxManager
 from util.ipc import PacketType
 
 
@@ -1111,7 +1111,7 @@ class Econ(commands.Cog):
 
         await self.bot.reply_embed(ctx, random.choice(ctx.l.econ.fishing.cast))
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             wait = random.randint(8, 20)
 
             lure_i_book, active_effects = await asyncio.gather(
@@ -1549,7 +1549,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx):
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             ems_global, global_u_entry = await self.db.fetch_global_lb_user("emeralds", ctx.author.id)
             ems_local, local_u_entry = await self.db.fetch_local_lb_user(
                 "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1568,7 +1568,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="pillages", aliases=["pil", "stolen"])
     async def leaderboard_pillages(self, ctx):
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             pillages_global, global_u_entry = await self.db.fetch_global_lb("pillaged_emeralds", ctx.author.id)
             pillages_local, local_u_entry = await self.db.fetch_local_lb(
                 "pillaged_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1591,7 +1591,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="mobkills", aliases=["kil", "kills", "kill", "bonk"])
     async def leaderboard_mobkills(self, ctx):
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             kills_global, global_u_entry = await self.db.fetch_global_lb("mobs_killed", ctx.author.id)
             kills_local, local_u_entry = await self.db.fetch_local_lb(
                 "mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1612,7 +1612,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
     async def leaderboard_bees(self, ctx):
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             bees_global, global_u_entry = await self.db.fetch_global_lb_item("Jar Of Bees", ctx.author.id)
             bees_local, local_u_entry = await self.db.fetch_local_lb_item(
                 "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1631,7 +1631,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="commands", aliases=["!!", "cmds"])
     async def leaderboard_commands(self, ctx):
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             cmds_global, global_u_entry = await self.db.fetch_global_lb("commands", ctx.author.id)
             cmds_local, local_u_entry = await self.db.fetch_local_lb(
                 "commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1650,7 +1650,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx):
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             votes_global, global_u_entry = await self.db.fetch_global_lb_user("vote_streak", ctx.author.id)
             votes_local, local_u_entry = await self.db.fetch_local_lb_user(
                 "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1669,7 +1669,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
     async def leaderboard_fish(self, ctx):
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             fish_global, global_u_entry = await self.db.fetch_global_lb("fish_fished", ctx.author.id)
             fish_local, local_u_entry = await self.db.fetch_local_lb(
                 "fish_fished", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
@@ -1690,7 +1690,7 @@ class Econ(commands.Cog):
 
     @leaderboards.command(name="mooderalds", aliases=["autism", "moods", "mooderald"])
     async def leaderboard_mooderalds(self, ctx):
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             moods_global, global_u_entry = await self.db.fetch_global_lb_item("Mooderald", ctx.author.id)
             moods_local, local_u_entry = await self.db.fetch_local_lb_item(
                 "Mooderald", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]

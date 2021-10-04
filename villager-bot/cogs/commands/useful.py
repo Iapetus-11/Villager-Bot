@@ -8,6 +8,7 @@ import psutil
 import arrow
 import time
 
+from util.misc import SuppressCtxManager
 from util.ipc import PacketType
 
 GET_CLUSTER_STATS_CODE = """
@@ -489,7 +490,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="math", aliases=["solve", "meth"])
     async def math(self, ctx, *, problem):
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             try:
                 resp = await self.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
                 await self.bot.reply_embed(ctx, f"```{float(await resp.text())}```")
@@ -504,7 +505,7 @@ class Useful(commands.Cog):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
-            async with ctx.typing():
+            async with SuppressCtxManager(ctx.typing()):
                 res = await self.google.search(query, safesearch=safesearch)
         except async_cse.search.NoResults:
             await self.bot.reply_embed(ctx, ctx.l.useful.search.nope)
@@ -530,7 +531,7 @@ class Useful(commands.Cog):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
-            async with ctx.typing():
+            async with SuppressCtxManager(ctx.typing()):
                 res = await self.google.search(query, safesearch=safesearch)
         except async_cse.search.NoResults:
             await self.bot.reply_embed(ctx, ctx.l.useful.search.nope)
@@ -557,7 +558,7 @@ class Useful(commands.Cog):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
-            async with ctx.typing():
+            async with SuppressCtxManager(ctx.typing()):
                 res = await self.google.search(query, safesearch=safesearch, image_search=True)
         except async_cse.search.NoResults:
             await self.bot.reply_embed(ctx, ctx.l.useful.search.nope)
@@ -653,7 +654,7 @@ class Useful(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.useful.vredditdl.invalid_url)
             return
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             try:
                 d = await (await self.aiohttp.get(post_url.rstrip(".json") + ".json")).json()
                 await ctx.send(

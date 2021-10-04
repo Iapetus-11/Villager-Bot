@@ -11,7 +11,7 @@ import base64
 import arrow
 import json
 
-from util.misc import dm_check, fix_giphy_url
+from util.misc import dm_check, fix_giphy_url, SuppressCtxManager
 from util.code import format_exception
 from util.ipc import PacketType
 
@@ -120,7 +120,7 @@ class Minecraft(commands.Cog):
             max_dim = TILER_MAX_DIM
             converter = self.tiler.convert_image
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             converted = await self.bot.loop.run_in_executor(self.bot.tp, converter, media_bytes, max_dim, detailed)
 
             if is_video:
@@ -149,7 +149,7 @@ class Minecraft(commands.Cog):
 
             combined = f"{host}{port_str}"
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             async with self.aiohttp.get(
                 f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}",
                 headers={"Authorization": self.k.villager_api},
@@ -236,7 +236,7 @@ class Minecraft(commands.Cog):
         else:
             address = server.host
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             async with self.aiohttp.get(
                 f"https://api.iapetus11.me/mc/status/{address}", headers={"Authorization": self.k.villager_api}
             ) as res:  # fetch status from api
@@ -302,7 +302,7 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def steal_skin(self, ctx, player):
         if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
-            async with ctx.typing():
+            async with SuppressCtxManager(ctx.typing()):
                 res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
@@ -322,7 +322,7 @@ class Minecraft(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
             return
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             res = await self.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
 
         if res.status != 200:
@@ -354,7 +354,7 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 4, commands.BucketType.user)
     async def minecraft_profile(self, ctx, player):
         if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
-            async with ctx.typing():
+            async with SuppressCtxManager(ctx.typing()):
                 res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
@@ -375,7 +375,7 @@ class Minecraft(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
             return
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             resps = await asyncio.gather(
                 self.aiohttp.get(f"https://api.mojang.com/user/profiles/{uuid}/names"),
                 self.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"),
@@ -443,7 +443,7 @@ class Minecraft(commands.Cog):
     async def name_to_xuid(self, ctx, *, username):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             res = await self.aiohttp.get(f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi})
 
         if res.status != 200:

@@ -6,8 +6,7 @@ import discord
 import random
 import typing
 
-from util.code import format_exception
-from util.misc import strip_command
+from util.misc import strip_command, SuppressCtxManager
 
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
 INSULTS = {"i am stupid", "i am dumb", "i am very stupid", "i am very dumb", "i stupid", "i'm stupid", "i'm dumb"}
@@ -52,7 +51,7 @@ class Fun(commands.Cog):
 
         meme = {"nsfw": True, "spoiler": True}
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
                 resp = await self.aiohttp.get(
                     "https://api.iapetus11.me/reddit/meme",
@@ -81,7 +80,7 @@ class Fun(commands.Cog):
 
         jj = {"nsfw": True}
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             while (not do_nsfw and jj["nsfw"]) or jj.get("image") is None:
                 resp = await self.aiohttp.get(
                     "https://api.iapetus11.me/reddit/greentext",
@@ -107,7 +106,7 @@ class Fun(commands.Cog):
 
         comic = {"nsfw": True, "spoiler": True}
 
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             while comic["spoiler"] or (not do_nsfw and comic["nsfw"]) or comic.get("image") is None:
                 resp = await self.aiohttp.get(
                     "https://api.iapetus11.me/reddit/comic",
@@ -130,7 +129,7 @@ class Fun(commands.Cog):
         if random.choice((True, False)):
             meme = {"nsfw": True, "spoiler": True}
 
-            async with ctx.typing():
+            async with SuppressCtxManager(ctx.typing()):
                 while meme["spoiler"] or meme["nsfw"] or meme.get("image") is None:
                     resp = await self.bot.aiohttp.get(
                         "https://api.iapetus11.me/reddit/cursedminecraft",

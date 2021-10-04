@@ -7,6 +7,7 @@ import arrow
 import os
 
 from util.code import execute_code, format_exception
+from util.misc import SuppressCtxManager
 from util.ipc import PacketType
 
 
@@ -79,7 +80,7 @@ class Owner(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
     @commands.is_owner()
     async def gitpull(self, ctx):
-        async with ctx.typing():
+        async with SuppressCtxManager(ctx.typing()):
             await self.bot.loop.run_in_executor(self.bot.tp, os.system, "git pull > git_pull_log 2>&1")
 
             async with aiofiles.open("git_pull_log", "r") as f:

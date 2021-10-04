@@ -7,7 +7,7 @@ import random
 import time
 import math
 
-from util.misc import make_health_bar
+from util.misc import make_health_bar, SuppressCtxManager
 
 
 class MobSpawner(commands.Cog):
@@ -216,7 +216,7 @@ class MobSpawner(commands.Cog):
                             ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice.lower(), user_sword.lower())
                         )
 
-                async with ctx.typing():
+                async with SuppressCtxManager(ctx.typing()):
                     await asyncio.sleep(0.75 + random.random() * 2)
 
                 mob_dmg = random.randint(2, 6)
@@ -242,7 +242,7 @@ class MobSpawner(commands.Cog):
                 else:
                     await self.bot.send_embed(ctx, random.choice(mob.attacks))
 
-                async with ctx.typing():
+                async with SuppressCtxManager(ctx.typing()):
                     await asyncio.sleep(0.75 + random.random() * 2)
 
                 await fight_msg.edit(suppress=True)
