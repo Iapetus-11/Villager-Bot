@@ -179,3 +179,34 @@ class TTLPreventDuplicate:
 
 def fix_giphy_url(url: str) -> str:
     return f"https://i.giphy.com/media/{url.split('-')[-1]}/giphy.gif"
+
+
+class SuppressCtxManager:
+    def __init__(self, manager):
+        self._manager = manager
+
+    def __enter__(self):
+        try:
+            self._manager.__enter__()
+        except Exception:
+            pass
+
+    def __exit__(self, *args, **kwargs):
+        try:
+            self._manager.__exit__(*args, **kwargs)
+        except Exception:
+            pass
+
+    async def __aenter__(self):
+        try:
+            await self._manager.__aenter__()
+        except Exception:
+            pass
+
+    async def __aexit__(self, *args, **kwargs):
+        try:
+            await self._manager.__aexit__(*args, **kwargs)
+        except Exception as e:
+            pass
+
+    
