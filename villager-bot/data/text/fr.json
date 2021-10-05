@@ -138,7 +138,7 @@
       "mod": {
         "warn": "`{0}warn <utilisateur> <raison>` *avertit un utilisateur pour la raison spécifiée*",
         "warns": "`{0}warns <utilisateur>` *montre les avertissements d'un utilisateur, laisse vide pour voir les tiens*",
-        "purge": "`{0}purge [optionnel : utilisateur] <quantité>` *purge les messages du canal actuel*",
+        "purge": "`{0}purge <quantité>` *purge les messages du canal actuel*",
         "delwarns": "`{0}delwarns <utilisateur>` *efface les avertissements qu'un utilisateur a sur ce serveur*",
         "kick": "`{0}kick <utilisateur>` *kick l'utilisateur du serveur Discord actuel*",
         "ban": "`{0}ban <utilisateur>` *bannit l'utilisateur du serveur Discord actuel*",
