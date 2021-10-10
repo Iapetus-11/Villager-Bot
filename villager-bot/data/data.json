@@ -421,6 +421,12 @@
         768,
         9999,
         false
+      ],
+      [
+        "Empty Candy Wrapper",
+        0,
+        100,
+        false
       ]
     ]
   },
@@ -523,6 +529,24 @@
         768,
         4096,
         true
+      ],
+      [
+        "Trom-bone",
+        768,
+        9999,
+        false
+      ],
+      [
+        "Skeleton Skull",
+        512,
+        4000,
+        false
+      ],
+      [
+        "Empty Candy Wrapper",
+        0,
+        100,
+        false
       ]
     ]
   },
