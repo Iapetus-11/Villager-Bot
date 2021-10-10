@@ -373,6 +373,12 @@
         768,
         4096,
         true
+      ],
+      [
+        "Bane Of Pillagers Amulet",
+        4096,
+        500000,
+        true
       ]
     ]
   },
@@ -475,30 +481,6 @@
         768,
         4096,
         true
-      ],
-      [
-        "Nasty Sock",
-        32,
-        400,
-        false
-      ],
-      [
-        "Cigarette Butt",
-        32,
-        400,
-        false
-      ],
-      [
-        "Empty Soda Can",
-        32,
-        400,
-        false
-      ],
-      [
-        "Ripped Plastic Bag",
-        32,
-        400,
-        false
       ]
     ]
   },
