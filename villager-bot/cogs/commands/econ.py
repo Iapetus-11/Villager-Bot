@@ -989,7 +989,7 @@ class Econ(commands.Cog):
         if random.choice([True, True, True, True, True, False]) or db_user["emeralds"] < 2:
             if random.randint(1, 420) == 420:
                 mooderalds = random.randint(1, 3)
-                await self.db.add_item(ctx.author.id, "Mooderald", 768, mooderalds)
+                await self.db.add_item(ctx.author.id, "Mooderald", 768, mooderalds, True)
                 await self.bot.reply_embed(
                     ctx, random.choice(ctx.l.econ.beg.mooderald).format(f"{mooderalds}{self.d.emojis.autistic_emerald}")
                 )
