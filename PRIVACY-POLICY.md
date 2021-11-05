@@ -1,5 +1,5 @@
 # Villager Bot Data Privacy Policy
-*By using Villager Bot, you constent to the collection of the following data*
+*By using Villager Bot, you consent to the collection of the following data*
 ## What data do we collect?
 - user and guild snowflakes/ids
 - text inputted into commands, for example the warn reason for `!!warn @user <reason>`
