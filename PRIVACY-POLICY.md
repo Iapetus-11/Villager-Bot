@@ -7,7 +7,7 @@
 ## How do we use your data?
 - Your data is stored in Discord text channels or in a secure database.
 - Message content is sometimes logged for the purposes of debugging when an error in the bot occurs as a direct result of the message.
-- Any other data stored is purely integral to the function of Villager Bot.
+- Any other data stored is not from Discord and is purely integral to the function of Villager Bot.
 ## Who has access?
 - Only the owner of Villager Bot, Iapetus-11, has access to the data.
 ## Can I delete my data?
