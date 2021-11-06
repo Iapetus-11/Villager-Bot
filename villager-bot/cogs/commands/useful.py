@@ -318,7 +318,7 @@ class Useful(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    @commands.command(name="links", aliases=["invite", "support", "usefullinks", "website", "source"])
+    @commands.command(name="links", aliases=["invite", "support", "usefullinks", "website", "source", "privacypolicy"])
     async def useful_links(self, ctx):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name="Useful Links", icon_url=self.d.splash_logo)
@@ -327,7 +327,8 @@ class Useful(commands.Cog):
             f"**[{ctx.l.useful.links.support}]({self.d.support})\n"
             f"\n[{ctx.l.useful.links.invite}]({self.d.invite})\n"
             f"\n[{ctx.l.useful.links.topgg}]({self.d.topgg})\n"
-            f"\n[{ctx.l.useful.links.source}]({self.d.github})**"
+            f"\n[{ctx.l.useful.links.source}]({self.d.github})\n"
+            f"\n[{ctx.l.useful.links.privacy}]({self.d.privacy_policy})**"
         )
 
         await ctx.reply(embed=embed, mention_author=False)

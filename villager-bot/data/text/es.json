@@ -1616,7 +1616,8 @@
         "invite": "Invitación del Bot",
         "topgg": "Top.gg Página",
         "website": "Página Web",
-        "source": "El Código Fuente"
+        "source": "El Código Fuente",
+        "privacy": "Política de privacidad"
       },
       "stats": {
         "stats": "Villager Bot Estadísticas",
