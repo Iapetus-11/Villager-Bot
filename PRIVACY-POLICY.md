@@ -1,9 +1,9 @@
 # Villager Bot Data Privacy Policy
 *By using Villager Bot, you consent to the collection of the following data*
-## What data do we collect?
+## What data do we collect or log?
 - user and guild snowflakes/ids
-- text inputted into commands, for example the warn reason for `!!warn @user <reason>`
-- message content
+- Sometimes text inputted into commands, for example the warn reason for `!!warn @user <reason>`
+- message content (rarely, see reason below)
 ## How do we use your data?
 - Your data is stored in Discord text channels or in a secure database.
 - Message content is sometimes logged for the purposes of debugging when an error in the bot occurs as a direct result of the message.
