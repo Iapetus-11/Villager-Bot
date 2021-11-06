@@ -17,6 +17,9 @@
 * [Discord Support Server](https://discord.gg/39DwwUV)
 * Discord Username: `Iapetus11#6821`
 
+## Privacy Policy
+- [Click Here](https://github.com/Iapetus-11/Villager-Bot/blob/main/PRIVACY-POLICY.md)
+
 ## Contributing
 ### Issues / Bugs
 If a bug or unintended behavior is discovered, please report it by creating an issue [here](https://github.com/Iapetus-11/Villager-Bot/issues) or by reporting it in the **#bug-smasher** channel on the [support server](https://discord.gg/39DwwUV).
