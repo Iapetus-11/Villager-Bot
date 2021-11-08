@@ -380,54 +380,6 @@
         4096,
         500000,
         true
-      ],
-      [
-        "Skeleton Skull",
-        512,
-        4000,
-        false
-      ],
-      [
-        "Jack O Lantern",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Spider Web",
-        64,
-        500,
-        false
-      ],
-      [
-        "Candy Corn",
-        64,
-        500,
-        false
-      ],
-      [
-        "KitKat",
-        64,
-        500,
-        false
-      ],
-      [
-        "Crunch Bar",
-        64,
-        500,
-        false
-      ],
-      [
-        "Trom-bone",
-        768,
-        9999,
-        false
-      ],
-      [
-        "Empty Candy Wrapper",
-        0,
-        100,
-        false
       ]
     ]
   },
@@ -530,24 +482,6 @@
         768,
         4096,
         true
-      ],
-      [
-        "Trom-bone",
-        768,
-        9999,
-        false
-      ],
-      [
-        "Skeleton Skull",
-        512,
-        4000,
-        false
-      ],
-      [
-        "Empty Candy Wrapper",
-        0,
-        100,
-        false
       ]
     ]
   },
