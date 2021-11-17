@@ -1694,11 +1694,6 @@
       },
       "snipe": {
         "nothing": "Não há nada para atirar."
-      },
-      "vredditdl": {
-        "invalid_url": "Postagem inválida do URL fornecido.",
-        "no_media": "Essa postagem não tem um vídeo para baixar.",
-        "here_ya_go": "Aqui está!"
       }
     },
     "econ": {

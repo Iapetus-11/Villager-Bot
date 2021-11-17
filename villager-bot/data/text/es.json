@@ -1695,11 +1695,6 @@
       },
       "snipe": {
         "nothing": "No hay nada que ver"
-      },
-      "vredditdl": {
-        "invalid_url": "La url de la publicación enviada es inválida",
-        "no_media": "Esa publicación no tiene un vídeo para descargar.",
-        "here_ya_go": "¡Aquí tienes!"
       }
     },
     "econ": {

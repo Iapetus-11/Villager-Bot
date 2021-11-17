@@ -1694,11 +1694,6 @@
       },
       "snipe": {
         "nothing": "There's nothing to snipe."
-      },
-      "vredditdl": {
-        "invalid_url": "lien fournit invalide. ",
-        "no_media": "Ce message ne contient pas de vidéo à télécharger. ",
-        "here_ya_go": "Le voici!"
       }
     },
     "econ": {
