@@ -1,3 +1,5 @@
+from collections import defaultdict
+from typing import List
 import classyjson as cj
 import asyncio
 import discord
@@ -207,3 +209,15 @@ class SuppressCtxManager:
             await self._manager.__aexit__(*args, **kwargs)
         except Exception:
             pass
+
+
+class MultiLock:
+    def __init__(self):
+        self._locks = defaultdict(asyncio.Lock)
+
+    async def acquire(self, ids: list) -> None:
+        await asyncio.wait([self._locks[i].acquire() for i in ids])
+
+    def release(self, ids: list) -> None:
+        for i in ids:
+            self._locks[i].release()
