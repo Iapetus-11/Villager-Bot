@@ -1,4 +1,3 @@
-from urllib.parse import urlparse
 import classyjson as cj
 import asyncio
 import discord
@@ -206,5 +205,5 @@ class SuppressCtxManager:
     async def __aexit__(self, *args, **kwargs):
         try:
             await self._manager.__aexit__(*args, **kwargs)
-        except Exception as e:
+        except Exception:
             pass

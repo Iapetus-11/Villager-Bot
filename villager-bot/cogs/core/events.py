@@ -1,5 +1,4 @@
 from discord.ext import commands
-import classyjson as cj
 import asyncio
 import discord
 import random
@@ -141,7 +140,7 @@ class Events(commands.Cog):
                     mute = discord.utils.get(await member.guild.fetch_roles(), name="Muted")
 
                 await member.add_roles(mute)
-            except (discord.errors.Forbidden, discord.errors.HTTPException) as e:
+            except (discord.errors.Forbidden, discord.errors.HTTPException):
                 pass
 
         if member.guild.id == self.d.support_server_id:

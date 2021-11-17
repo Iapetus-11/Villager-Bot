@@ -308,7 +308,8 @@ class Minecraft(commands.Cog):
             if res.status == 204:
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
                 return
-            elif res.status != 200:
+
+            if res.status != 200:
                 await self.bot.reply_embed(ctx, ctx.l.minecraft.stealskin.error)
                 return
 

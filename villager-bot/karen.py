@@ -1,7 +1,6 @@
 from concurrent.futures import ProcessPoolExecutor
 from collections import defaultdict
 from classyjson import ClassyDict
-from datetime import datetime
 import asyncio
 import asyncpg
 import arrow
