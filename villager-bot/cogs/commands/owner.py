@@ -151,7 +151,7 @@ class Owner(commands.Cog):
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name="givehistory", aliases=["transactions"])
+    @commands.command(name="givehistory", aliases=["transactions", "givelogs", "tradelogs"])
     @commands.is_owner()
     async def transaction_history(self, ctx, user: Union[discord.User, int]):
         if isinstance(user, discord.User):
