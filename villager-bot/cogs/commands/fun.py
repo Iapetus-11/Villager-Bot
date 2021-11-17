@@ -500,6 +500,7 @@ class Fun(commands.Cog):
         await msg.edit(embed=embed)
 
     @commands.command(name="trivia", aliases=["mctrivia"])
+    @commands.guild_only()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def minecraft_trivia(self, ctx):
         do_reward = (
