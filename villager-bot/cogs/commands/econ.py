@@ -1201,7 +1201,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     # @commands.cooldown(1, 300, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def pillage(self, ctx, victim: discord.Member):
+    async def pillage(self, ctx, *, victim: discord.Member):
         if victim.bot:
             if victim.id == self.bot.user.id:
                 await self.bot.reply_embed(ctx, ctx.l.econ.pillage.bot_1)
