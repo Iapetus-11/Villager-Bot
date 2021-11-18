@@ -364,54 +364,58 @@ class Econ(commands.Cog):
 
         res = await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id]})
 
-        if res.locked:
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
-            return
-
-        db_user = await self.db.fetch_user(ctx.author.id)
-
-        c_v_bal = db_user["vault_balance"]
-        c_v_max = db_user["vault_max"]
-        c_bal = db_user["emeralds"]
-
-        if c_bal < 9:
-            await self.bot.reply_embed(ctx, ctx.l.econ.dep.poor_loser)
-            return
-
-        if emerald_blocks.lower() in ("all", "max"):
-            amount = c_v_max - c_v_bal
-
-            if amount * 9 > c_bal:
-                amount = math.floor(c_bal / 9)
-        else:
-            try:
-                amount = int(emerald_blocks)
-            except ValueError:
-                await self.bot.reply_embed(ctx, ctx.l.econ.use_a_number_stupid)
+        try:
+            if res.locked:
+                await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
                 return
 
-        if amount * 9 > c_bal:
-            await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_3)
-            return
+            db_user = await self.db.fetch_user(ctx.author.id)
 
-        if amount < 1:
+            c_v_bal = db_user["vault_balance"]
+            c_v_max = db_user["vault_max"]
+            c_bal = db_user["emeralds"]
+
+            if c_bal < 9:
+                await self.bot.reply_embed(ctx, ctx.l.econ.dep.poor_loser)
+                return
+
             if emerald_blocks.lower() in ("all", "max"):
-                await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_2)
+                amount = c_v_max - c_v_bal
+
+                if amount * 9 > c_bal:
+                    amount = math.floor(c_bal / 9)
             else:
-                await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_1)
+                try:
+                    amount = int(emerald_blocks)
+                except ValueError:
+                    await self.bot.reply_embed(ctx, ctx.l.econ.use_a_number_stupid)
+                    return
 
-            return
+            if amount * 9 > c_bal:
+                await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_3)
+                return
 
-        if amount > c_v_max - c_v_bal:
-            await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_2)
-            return
+            if amount < 1:
+                if emerald_blocks.lower() in ("all", "max"):
+                    await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_2)
+                else:
+                    await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_1)
 
-        await self.db.balance_sub(ctx.author.id, amount * 9)
-        await self.db.set_vault(ctx.author.id, c_v_bal + amount, c_v_max)
+                return
 
-        await self.bot.reply_embed(
-            ctx, ctx.l.econ.dep.deposited.format(amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald)
-        )
+            if amount > c_v_max - c_v_bal:
+                await self.bot.reply_embed(ctx, ctx.l.econ.dep.stupid_2)
+                return
+
+            await self.db.balance_sub(ctx.author.id, amount * 9)
+            await self.db.set_vault(ctx.author.id, c_v_bal + amount, c_v_max)
+
+            await self.bot.reply_embed(
+                ctx, ctx.l.econ.dep.deposited.format(amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald)
+            )
+        finally:
+            if not res.locked:
+                await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id]})
 
     @commands.command(name="withdraw", aliases=["with"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -873,60 +877,64 @@ class Econ(commands.Cog):
 
         res = await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id, user.id]})
 
-        if res.locked:
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
-            return
-
-        db_user = await self.db.fetch_user(ctx.author.id)
-
-        if "pickaxe" in item.lower() or "sword" in item.lower():
-            await self.bot.reply_embed(ctx, ctx.l.econ.give.and_i_oop)
-            return
-
-        if item in ("emerald", "emeralds", ":emerald:"):
-            if amount > db_user["emeralds"]:
-                await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_3)
+        try:
+            if res.locked:
+                await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
                 return
 
-            await self.db.balance_sub(ctx.author.id, amount)
-            await self.db.balance_add(user.id, amount)
-            await self.db.log_transaction("emerald", amount, arrow.utcnow().datetime, ctx.author.id, user.id)
+            db_user = await self.db.fetch_user(ctx.author.id)
 
-            await self.bot.reply_embed(
-                ctx, ctx.l.econ.give.gaveems.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention)
-            )
-
-            if (await self.db.fetch_user(user.id))["give_alert"]:
-                await self.bot.send_embed(
-                    user, ctx.l.econ.give.gaveyouems.format(ctx.author.mention, amount, self.d.emojis.emerald)
-                )
-        else:
-            db_item = await self.db.fetch_item(ctx.author.id, item)
-
-            if db_item is None or amount > db_item["amount"]:
-                await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_4)
-                return
-
-            if db_item["sticky"]:
+            if "pickaxe" in item.lower() or "sword" in item.lower():
                 await self.bot.reply_embed(ctx, ctx.l.econ.give.and_i_oop)
                 return
 
-            if amount < 1:
-                await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_2)
-                return
+            if item in ("emerald", "emeralds", ":emerald:"):
+                if amount > db_user["emeralds"]:
+                    await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_3)
+                    return
 
-            await self.db.remove_item(ctx.author.id, item, amount)
-            await self.db.add_item(user.id, db_item["name"], db_item["sell_price"], amount)
-            self.bot.loop.create_task(
-                self.db.log_transaction(db_item["name"], amount, arrow.utcnow().datetime, ctx.author.id, user.id)
-            )
+                await self.db.balance_sub(ctx.author.id, amount)
+                await self.db.balance_add(user.id, amount)
+                await self.db.log_transaction("emerald", amount, arrow.utcnow().datetime, ctx.author.id, user.id)
 
-            await self.bot.reply_embed(
-                ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item["name"], user.mention)
-            )
+                await self.bot.reply_embed(
+                    ctx, ctx.l.econ.give.gaveems.format(ctx.author.mention, amount, self.d.emojis.emerald, user.mention)
+                )
 
-            if (await self.db.fetch_user(user.id))["give_alert"]:
-                await self.bot.send_embed(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"]))
+                if (await self.db.fetch_user(user.id))["give_alert"]:
+                    await self.bot.send_embed(
+                        user, ctx.l.econ.give.gaveyouems.format(ctx.author.mention, amount, self.d.emojis.emerald)
+                    )
+            else:
+                db_item = await self.db.fetch_item(ctx.author.id, item)
+
+                if db_item is None or amount > db_item["amount"]:
+                    await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_4)
+                    return
+
+                if db_item["sticky"]:
+                    await self.bot.reply_embed(ctx, ctx.l.econ.give.and_i_oop)
+                    return
+
+                if amount < 1:
+                    await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_2)
+                    return
+
+                await self.db.remove_item(ctx.author.id, item, amount)
+                await self.db.add_item(user.id, db_item["name"], db_item["sell_price"], amount)
+                self.bot.loop.create_task(
+                    self.db.log_transaction(db_item["name"], amount, arrow.utcnow().datetime, ctx.author.id, user.id)
+                )
+
+                await self.bot.reply_embed(
+                    ctx, ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item["name"], user.mention)
+                )
+
+                if (await self.db.fetch_user(user.id))["give_alert"]:
+                    await self.bot.send_embed(user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"]))
+        finally:
+            if not res.locked:
+                await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id, user.id]})
 
     @commands.command(name="gamble", aliases=["bet", "stonk", "stonks"])
     # @commands.cooldown(1, 30, commands.BucketType.user)
@@ -1222,11 +1230,11 @@ class Econ(commands.Cog):
 
         res = await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id, victim.id]})
 
-        if res.locked:
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
-            return
-
         try:
+            if res.locked:
+                await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
+                return
+
             pillager_pillages, victim_pillages = await asyncio.gather(
                 self.ipc.exec(f"pillages[{ctx.author.id}] += 1; return pillages[{ctx.author.id}] - 1"),
                 self.ipc.eval(f"pillages[{victim.id}] - 1"),
@@ -1295,7 +1303,8 @@ class Econ(commands.Cog):
                 )
                 await self.bot.send_embed(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
         finally:
-            await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id, victim.id]})
+            if not res.locked:
+                await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id]})
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
     # @commands.cooldown(1, 2, commands.BucketType.user)
