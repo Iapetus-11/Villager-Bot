@@ -362,6 +362,15 @@ class Econ(commands.Cog):
     async def vault_deposit(self, ctx, emerald_blocks: str):
         """Deposits the given amount of emerald blocks into the vault"""
 
+        res = await self.ipc.request({
+            "type": PacketType.ACQUIRE_PILLAGE_LOCK,
+            "user_ids": [ctx.author.id]
+        })
+
+        if res.locked:
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
+            return
+
         db_user = await self.db.fetch_user(ctx.author.id)
 
         c_v_bal = db_user["vault_balance"]
@@ -865,6 +874,15 @@ class Econ(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.econ.give.stupid_2)
             return
 
+        res = await self.ipc.request({
+            "type": PacketType.ACQUIRE_PILLAGE_LOCK,
+            "user_ids": [ctx.author.id, user.id]
+        })
+
+        if res.locked:
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
+            return
+
         db_user = await self.db.fetch_user(ctx.author.id)
 
         if "pickaxe" in item.lower() or "sword" in item.lower():
@@ -1185,6 +1203,7 @@ class Econ(commands.Cog):
                 await self.bot.reply_embed(ctx, ctx.l.econ.pillage.bot_1)
             else:
                 await self.bot.reply_embed(ctx, ctx.l.econ.pillage.bot_2)
+                
             return
 
         if ctx.author.id == victim.id:
@@ -1207,73 +1226,89 @@ class Econ(commands.Cog):
             await self.bot.reply_embed(ctx, ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
-        pillager_pillages, victim_pillages = await asyncio.gather(
-            self.ipc.exec(f"pillages[{ctx.author.id}] += 1; return pillages[{ctx.author.id}] - 1"),
-            self.ipc.eval(f"pillages[{victim.id}] - 1"),
-        )
+        res = await self.ipc.request({
+            "type": PacketType.ACQUIRE_PILLAGE_LOCK,
+            "user_ids": [ctx.author.id, victim.id]
+        })
 
-        pillager_pillages = pillager_pillages.result
-        victim_pillages = victim_pillages.result
+        if res.locked:
+            await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
+            return
 
-        user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
-        user_bees = 0 if user_bees is None else user_bees["amount"]
-
-        victim_bees = await self.db.fetch_item(victim.id, "Jar Of Bees")
-        victim_bees = 0 if victim_bees is None else victim_bees["amount"]
-
-        # lmao
-        if pillager_pillages > 7 and pillager_pillages > victim_pillages:
-            chances = [False] * 50 + [True]
-        elif await self.db.fetch_item(victim.id, "Bane Of Pillagers Amulet"):
-            chances = [False] * 5 + [True]
-        elif user_bees > victim_bees:
-            chances = [False] * 3 + [True] * 5
-        elif user_bees < victim_bees:
-            chances = [False] * 5 + [True] * 3
-        else:
-            chances = [True, False]
-
-        pillager_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(ctx.author.id)).lower())
-        victim_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(victim.id)).lower())
-
-        if pillager_sword_lvl > victim_sword_lvl:
-            chances.append(True)
-        elif pillager_sword_lvl < victim_sword_lvl:
-            chances.append(False)
-
-        success = random.choice(chances)
-
-        if success:
-            # calculate base stolen value
-            stolen = math.ceil(db_victim["emeralds"] * (random.randint(10, 40) / 100))
-            # calculate and implement cap based off pillager's balance
-            stolen = min(stolen, math.ceil(db_user["emeralds"] ** 1.1 + db_user["emeralds"] * 5) + random.randint(1, 10))
-
-            # 8% tax to prevent exploitation of pillaging leaderboard
-            adjusted = math.ceil(stolen * 0.92)  # villager bot will steal ur stuff hehe
-
-            await self.db.balance_sub(victim.id, stolen)
-            await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
-
-            await self.bot.reply_embed(
-                ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald)
-            )
-            await self.bot.send_embed(
-                victim,
-                random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald),
+        try:
+            pillager_pillages, victim_pillages = await asyncio.gather(
+                self.ipc.exec(f"pillages[{ctx.author.id}] += 1; return pillages[{ctx.author.id}] - 1"),
+                self.ipc.eval(f"pillages[{victim.id}] - 1"),
             )
 
-            await self.db.update_lb(ctx.author.id, "pillaged_emeralds", adjusted, "add")
-        else:
-            penalty = max(32, db_user["emeralds"] // 3)
+            pillager_pillages = pillager_pillages.result
+            victim_pillages = victim_pillages.result
 
-            await self.db.balance_sub(ctx.author.id, penalty)
-            await self.db.balance_add(victim.id, penalty)
+            user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
+            user_bees = 0 if user_bees is None else user_bees["amount"]
 
-            await self.bot.reply_embed(
-                ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald)
-            )
-            await self.bot.send_embed(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
+            victim_bees = await self.db.fetch_item(victim.id, "Jar Of Bees")
+            victim_bees = 0 if victim_bees is None else victim_bees["amount"]
+
+            # lmao
+            if pillager_pillages > 7 and pillager_pillages > victim_pillages:
+                chances = [False] * 50 + [True]
+            elif await self.db.fetch_item(victim.id, "Bane Of Pillagers Amulet"):
+                chances = [False] * 5 + [True]
+            elif user_bees > victim_bees:
+                chances = [False] * 3 + [True] * 5
+            elif user_bees < victim_bees:
+                chances = [False] * 5 + [True] * 3
+            else:
+                chances = [True, False]
+
+            pillager_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(ctx.author.id)).lower())
+            victim_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(victim.id)).lower())
+
+            if pillager_sword_lvl > victim_sword_lvl:
+                chances.append(True)
+            elif pillager_sword_lvl < victim_sword_lvl:
+                chances.append(False)
+
+            success = random.choice(chances)
+
+            if success:
+                # calculate base stolen value
+                stolen = math.ceil(db_victim["emeralds"] * (random.randint(10, 40) / 100))
+                # calculate and implement cap based off pillager's balance
+                stolen = min(stolen, math.ceil(db_user["emeralds"] ** 1.1 + db_user["emeralds"] * 5) + random.randint(1, 10))
+
+                # 8% tax to prevent exploitation of pillaging leaderboard
+                adjusted = math.ceil(stolen * 0.92)  # villager bot will steal ur stuff hehe
+
+                await self.db.balance_sub(victim.id, stolen)
+                await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
+
+                await self.bot.reply_embed(
+                    ctx, random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald)
+                )
+                await self.bot.send_embed(
+                    victim,
+                    random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald),
+                )
+
+                await self.db.update_lb(ctx.author.id, "pillaged_emeralds", adjusted, "add")
+            else:
+                penalty = max(32, db_user["emeralds"] // 3)
+
+                await self.db.balance_sub(ctx.author.id, penalty)
+                await self.db.balance_add(victim.id, penalty)
+
+                await self.bot.reply_embed(
+                    ctx, random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald)
+                )
+                await self.bot.send_embed(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
+        finally:
+            await self.ipc.send({
+                "type": PacketType.RELEASE_PILLAGE_LOCK,
+                "user_ids": [ctx.author.id, victim.id]
+            })
+
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
     # @commands.cooldown(1, 2, commands.BucketType.user)

@@ -221,3 +221,6 @@ class MultiLock:
     def release(self, ids: list) -> None:
         for i in ids:
             self._locks[i].release()
+
+    def locked(self, ids: list) -> bool:
+        return any([self._locks[i].locked() for i in ids])

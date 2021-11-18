@@ -9,6 +9,7 @@ from util.setup import load_secrets, load_data, setup_karen_logging
 from util.cooldowns import CooldownManager, MaxConcurrencyManager
 from util.ipc import Server, JsonPacketStream, PacketType
 from util.code import execute_code, format_exception
+from util.misc import MultiLock
 
 from bot import run_cluster
 
@@ -56,6 +57,7 @@ class MechaKaren:
         self.db = None
         self.cooldowns = CooldownManager(self.d.cooldown_rates)
         self.concurrency = MaxConcurrencyManager()
+        self.pillage_lock = MultiLock()
         self.server = Server(
             self.k.manager.host,
             self.k.manager.port,
@@ -78,6 +80,8 @@ class MechaKaren:
                 PacketType.CONCURRENCY_ACQUIRE: self.handle_concurrency_acquire_packet,
                 PacketType.CONCURRENCY_RELEASE: self.handle_concurrency_release_packet,
                 PacketType.COMMAND_RAN: self.handle_command_ran_packet,
+                PacketType.ACQUIRE_PILLAGE_LOCK: self.handle_acquire_pillage_lock_packet,
+                PacketType.RELEASE_PILLAGE_LOCK: self.handle_release_pillage_lock_packet,
             },
         )
 
@@ -212,6 +216,25 @@ class MechaKaren:
     async def handle_command_ran_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         async with self.commands_lock:
             self.commands[packet.user_id] += 1
+
+    async def handle_acquire_pillage_lock_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+        locked = False
+
+        if self.pillage_lock.locked(packet.user_ids):
+            locked = True
+        else:
+            await self.pillage_lock.acquire(packet.user_ids)
+
+        await stream.write_packet(
+            {
+                "type": PacketType.ACQUIRE_PILLAGE_LOCK_RESPONSE,
+                "id": packet.id,
+                "locked": locked,
+            }
+        )
+    
+    async def handle_release_pillage_lock_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+        self.pillage_lock.release(packet.user_ids)
 
     async def commands_dump_loop(self):
         try:

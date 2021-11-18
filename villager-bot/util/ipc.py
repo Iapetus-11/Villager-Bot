@@ -86,6 +86,9 @@ class PacketType(IntEnum):
     CONCURRENCY_ACQUIRE = auto()
     CONCURRENCY_RELEASE = auto()
     COMMAND_RAN = auto()
+    ACQUIRE_PILLAGE_LOCK = auto()
+    ACQUIRE_PILLAGE_LOCK_RESPONSE = auto()
+    RELEASE_PILLAGE_LOCK = auto()
 
 
 class JsonPacketStream:
