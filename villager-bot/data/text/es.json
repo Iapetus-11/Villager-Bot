@@ -539,9 +539,9 @@
             "tf": false,
             "q": "¿Cuál es el nombre del Dragón de Ender?",
             "a": [
-              "Jean",
+              "Jean?",
               "Carson",
-              "Bertha",
+              "Bertha!",
               "Steve"
             ]
           },
@@ -805,7 +805,7 @@
             "q": "¿Con qué alimentas a las vacas en Minecraft?",
             "a": [
               "trigo",
-              "zanahorias",
+              "manzanas",
               "semillas",
               "leche"
             ]

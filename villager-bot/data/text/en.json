@@ -539,9 +539,9 @@
             "tf": false,
             "q": "What's the Ender Dragon's name?",
             "a": [
-              "Jean",
+              "Jean?",
               "Carson",
-              "Bertha",
+              "Bertha!",
               "Steve"
             ]
           },
@@ -838,7 +838,7 @@
             "q": "How do you breed pigs in Minecraft?",
             "a": [
               "potatoes",
-              "carrots",
+              "apple",
               "seeds",
               "wheat"
             ]

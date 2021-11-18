@@ -539,9 +539,9 @@
             "tf": false,
             "q": "Quel est le nom de l’ender dragon ?",
             "a": [
-              "Jean",
+              "Jean?",
               "Carson",
-              "Bertha",
+              "Bertha!",
               "Steve"
             ]
           },
@@ -838,7 +838,7 @@
             "q": "Avec quoi fais-tu se reproduire des cochons dans Minecraft ?",
             "a": [
               "Des patates",
-              "Des carottes",
+              "Des pomme",
               "Des graines",
               "Du blé"
             ]

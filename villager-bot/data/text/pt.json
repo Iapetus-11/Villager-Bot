@@ -539,9 +539,9 @@
             "tf": false,
             "q": "Qual é o nome do Dragão Ender?",
             "a": [
-              "Jean",
+              "Jean?",
               "Carson",
-              "Bertha",
+              "Bertha!",
               "Steve"
             ]
           },
@@ -838,7 +838,7 @@
             "q": "Como você reproduz porcos no Minecraft?",
             "a": [
               "batatas",
-              "cenouras",
+              "maçã",
               "sementes",
               "trigo"
             ]
