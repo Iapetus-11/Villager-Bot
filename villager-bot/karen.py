@@ -232,7 +232,7 @@ class MechaKaren:
                 "locked": locked,
             }
         )
-    
+
     async def handle_release_pillage_lock_packet(self, stream: JsonPacketStream, packet: ClassyDict):
         self.pillage_lock.release(packet.user_ids)
 
