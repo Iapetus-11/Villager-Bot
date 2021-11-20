@@ -17,9 +17,9 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # >>> struct.pack(">i", len(data_encoded)) + data_encoded
 # b'\x00\x00\x00\r123 abcd test'
 #
-# The JSON payload is expected to have a "type" field, which helps the receiver to know what to
-# do with the packet. The first packet from the client must be an authorization packet
-# containing the pre-shared secret.
+# The JSON payload is expected to have a "type" field as well as an "id", which helps
+# the receiver to know what to do with the packet. The first packet from the client
+# must be an authorization packet containing the pre-shared secret.
 
 
 class PacketType(IntEnum):
@@ -52,6 +52,8 @@ class PacketType(IntEnum):
     ACQUIRE_PILLAGE_LOCK_RESPONSE = auto()
     RELEASE_PILLAGE_LOCK = auto()
     REMINDER = auto()
+    FETCH_STATS = auto()
+    STATS_RESPONSE = auto()
 
 
 T_PACKET_HANDLER_CALLABLE = Callable[[cj.ClassyDict], Awaitable[Optional[dict]]]

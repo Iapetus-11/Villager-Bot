@@ -10,50 +10,6 @@ import time
 from util.misc import SuppressCtxManager
 from util.ipc import PacketType
 
-GET_CLUSTER_STATS_CODE = """
-import asyncio, psutil
-
-proc = psutil.Process()
-with proc.oneshot():
-    mem_usage = proc.memory_full_info().uss
-    threads = proc.num_threads()
-
-return (
-    mem_usage,
-    threads,
-    len(asyncio.all_tasks()),
-    len(bot.guilds),
-    len(bot.users),
-    bot.message_count,
-    bot.command_count,
-    bot.latency,
-    len(bot.private_channels),
-    bot.session_votes
-)
-"""
-
-GET_KAREN_STATS_CODE = """
-import asyncio, psutil
-
-proc = psutil.Process()
-with proc.oneshot():
-    mem_usage = proc.memory_full_info().uss
-    threads = proc.num_threads()
-
-return (
-    mem_usage,
-    threads,
-    len(asyncio.all_tasks()),
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-)
-"""
-
 
 class BanCacheEntry:
     __slots__ = ("ban_count", "time")
@@ -343,7 +299,7 @@ class Useful(commands.Cog):
         uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
 
         res, karen_res = await asyncio.gather(
-            self.ipc.broadcast({"type": PacketType.EXEC, "code": GET_CLUSTER_STATS_CODE}), self.ipc.exec(GET_KAREN_STATS_CODE)
+            self.ipc.broadcast({"type": PacketType.FETCH_STATS}), self.ipc.request({"type": PacketType.FETCH_STATS})
         )
 
         res.responses.append(karen_res)

@@ -3,6 +3,7 @@ from collections import defaultdict
 from classyjson import ClassyDict
 import asyncio
 import asyncpg
+import psutil
 import arrow
 
 from util.ipc import Server, PacketType, PacketHandlerRegistry, handle_packet
@@ -198,6 +199,15 @@ class MechaKaren(PacketHandlerRegistry):
     @handle_packet(PacketType.RELEASE_PILLAGE_LOCK)
     async def handle_release_pillage_lock_packet(self, packet: ClassyDict):
         self.pillage_lock.release(packet.user_ids)
+
+    @handle_packet(PacketType.FETCH_STATS)
+    async def handle_fetch_stats(self, packet: ClassyDict):
+        proc = psutil.Process()
+        with proc.oneshot():
+            mem_usage = proc.memory_full_info().uss
+            threads = proc.num_threads()
+
+        return {"type": PacketType.STATS_RESPONSE, "stats": [mem_usage, threads, len(asyncio.all_tasks())] + [0] * 7}
 
     async def commands_dump_loop(self):
         try:
