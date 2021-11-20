@@ -268,7 +268,7 @@ class Client:
         if isinstance(data, dict):
             if packet.get("id") is not None:
                 data["id"] = packet.id
-            
+
             data["type"] = PacketType.BROADCAST_RESPONSE
 
             await self.send(data)
