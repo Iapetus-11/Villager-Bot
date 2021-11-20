@@ -18,9 +18,9 @@ if pyximport:
     # import and compile villager bot cython modules here **first**
     # if not all pyx files are imported here, each forked process / shard group will try to compile
     # them and fail because they are all trying at the same time to access and write the same files
-    from util import tiler
+    from util import tiler  # noqa: F401
 
-from karen import MechaKaren
+from karen import MechaKaren  # noqa: E402
 
 
 def main():
