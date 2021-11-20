@@ -58,7 +58,13 @@ class MechaKaren(PacketHandlerRegistry):
 
     @handle_packet(PacketType.MISSING_PACKET)
     async def handle_missing_packet(self, packet: ClassyDict):
-        self.logger.error(f"Missing packet handler for packet type {packet.type}")
+        try:
+            packet_type = PacketType(packet.get("type"))
+        except ValueError:
+            packet_type = packet.get("type")
+
+
+        self.logger.error(f"Missing packet handler for packet type {packet_type}")
 
     @handle_packet(PacketType.SHARD_READY)
     async def handle_shard_ready_packet(self, packet: ClassyDict):

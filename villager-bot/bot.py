@@ -247,6 +247,15 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 {"type": PacketType.CONCURRENCY_RELEASE, "command": str(ctx.command), "user_id": ctx.author.id}
             )
 
+    @handle_packet(PacketType.MISSING_PACKET)
+    async def handle_missing_packet(self, packet: ClassyDict):
+        try:
+            packet_type = PacketType(packet.get("type"))
+        except ValueError:
+            packet_type = packet.get("type")
+
+        self.logger.error(f"Missing packet handler for packet type {packet_type}")
+
     @handle_packet(PacketType.EVAL)
     async def handle_eval_packet(self, packet: ClassyDict):
         try:
