@@ -4,7 +4,7 @@ import time
 
 
 class CommandOnKarenCooldown(Exception):
-    def __init__(self, remaining: float) -> None:
+    def __init__(self, remaining: float):
         self.remaining = remaining
 
 

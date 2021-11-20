@@ -5,38 +5,16 @@ import asyncio
 import asyncpg
 import arrow
 
+from util.ipc import Server, JsonPacketStream, PacketType, PacketHandlerRegistry, handle_packet
 from util.setup import load_secrets, load_data, setup_karen_logging
 from util.cooldowns import CooldownManager, MaxConcurrencyManager
-from util.ipc import Server, JsonPacketStream, PacketType
 from util.code import execute_code, format_exception
 from util.misc import MultiLock
 
 from bot import run_cluster
 
 
-REMINDERS_BROADCAST_CODE = """
-        channel = bot.get_channel({0})  # channel id
-
-        if channel is not None:
-            user = bot.get_user({1})  # user id
-
-            if user is not None:
-                lang = bot.get_language(channel)
-
-                try:
-                    message = await channel.fetch_message({2})  # message id
-                    await message.reply(
-                        lang.useful.remind.reminder.format(user.mention, {3}), mention_author=True
-                    )
-                except Exception:
-                    try:
-                        await channel.send(lang.useful.remind.reminder.format(user.mention, {3}))
-                    except Exception as e:
-                        bot.logger.error(format_exception(e))
-"""
-
-
-class MechaKaren:
+class MechaKaren(PacketHandlerRegistry):
     class Share:
         def __init__(self):
             self.start_time = arrow.utcnow()
@@ -58,32 +36,7 @@ class MechaKaren:
         self.cooldowns = CooldownManager(self.d.cooldown_rates)
         self.concurrency = MaxConcurrencyManager()
         self.pillage_lock = MultiLock()
-        self.server = Server(
-            self.k.manager.host,
-            self.k.manager.port,
-            self.k.manager.auth,
-            {
-                PacketType.MISSING_PACKET: self.handle_missing_packet,
-                PacketType.SHARD_READY: self.handle_shard_ready_packet,
-                PacketType.SHARD_DISCONNECT: self.handle_shard_disconnect_packet,
-                PacketType.EVAL: self.handle_eval_packet,
-                PacketType.EXEC: self.handle_exec_packet,
-                PacketType.BROADCAST_REQUEST: self.handle_broadcast_request_packet,
-                PacketType.BROADCAST_RESPONSE: self.handle_broadcast_response_packet,
-                PacketType.COOLDOWN: self.handle_cooldown_packet,
-                PacketType.COOLDOWN_ADD: self.handle_cooldown_add_packet,
-                PacketType.COOLDOWN_RESET: self.handle_cooldown_reset_packet,
-                PacketType.DM_MESSAGE: self.handle_dm_message_packet,
-                PacketType.DM_MESSAGE_REQUEST: self.handle_dm_message_request_packet,
-                PacketType.MINE_COMMAND: self.handle_mine_command_packet,
-                PacketType.CONCURRENCY_CHECK: self.handle_concurrency_check_packet,
-                PacketType.CONCURRENCY_ACQUIRE: self.handle_concurrency_acquire_packet,
-                PacketType.CONCURRENCY_RELEASE: self.handle_concurrency_release_packet,
-                PacketType.COMMAND_RAN: self.handle_command_ran_packet,
-                PacketType.ACQUIRE_PILLAGE_LOCK: self.handle_acquire_pillage_lock_packet,
-                PacketType.RELEASE_PILLAGE_LOCK: self.handle_release_pillage_lock_packet,
-            },
-        )
+        self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.get_packet_handlers())
 
         self.shard_ids = tuple(range(self.k.shard_count))
         self.online_shards = set()
@@ -102,19 +55,23 @@ class MechaKaren:
         self.clear_trivia_commands_task = None
         self.reminders_task = None
 
-    async def handle_missing_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.MISSING_PACKET)
+    async def handle_missing_packet(self, packet: ClassyDict):
         self.logger.error(f"Missing packet handler for packet type {packet.type}")
 
-    async def handle_shard_ready_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.SHARD_READY)
+    async def handle_shard_ready_packet(self, packet: ClassyDict):
         self.online_shards.add(packet.shard_id)
 
         if len(self.online_shards) == len(self.shard_ids):
             self.logger.info(f"\u001b[36;1mALL SHARDS\u001b[0m [0-{len(self.online_shards)-1}] \u001b[36;1mREADY\u001b[0m")
 
-    async def handle_shard_disconnect_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.SHARD_DISCONNECT)
+    async def handle_shard_disconnect_packet(self, packet: ClassyDict):
         self.online_shards.discard(packet.shard_id)
 
-    async def handle_eval_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.EVAL)
+    async def handle_eval_packet(self, packet: ClassyDict):
         try:
             result = eval(packet.code, self.eval_env)
             success = True
@@ -124,9 +81,10 @@ class MechaKaren:
 
             self.logger.error(result)
 
-        await stream.write_packet({"type": PacketType.EVAL_RESPONSE, "id": packet.id, "result": result, "success": success})
+        return {"type": PacketType.EVAL_RESPONSE, "result": result, "success": success}
 
-    async def handle_exec_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.EXEC)
+    async def handle_exec_packet(self, packet: ClassyDict):
         try:
             result = await execute_code(packet.code, self.eval_env)
             success = True
@@ -136,9 +94,10 @@ class MechaKaren:
 
             self.logger.error(result)
 
-        await stream.write_packet({"type": PacketType.EXEC_RESPONSE, "id": packet.id, "result": result, "success": success})
+        return {"type": PacketType.EXEC_RESPONSE, "result": result, "success": success}
 
-    async def handle_broadcast_request_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.BROADCAST_REQUEST)
+    async def handle_broadcast_request_packet(self, packet: ClassyDict):
         """broadcasts the packet to every connection including the broadcaster, and waits for responses"""
 
         broadcast_id = f"b{self.current_id}"
@@ -154,36 +113,41 @@ class MechaKaren:
 
         await asyncio.wait(broadcast_coros)
         await broadcast["ready"].wait()
-        await stream.write_packet(
-            {"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "responses": broadcast["responses"]}
-        )
 
-    async def handle_broadcast_response_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+        return {"type": PacketType.BROADCAST_RESPONSE, "responses": broadcast["responses"]}
+
+    @handle_packet(PacketType.BROADCAST_RESPONSE)
+    async def handle_broadcast_response_packet(self, packet: ClassyDict):
         broadcast = self.broadcasts[packet.id]
         broadcast["responses"].append(packet)
 
         if len(broadcast["responses"]) == broadcast["expects"]:
             broadcast["ready"].set()
 
-    async def handle_cooldown_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.COOLDOWN)
+    async def handle_cooldown_packet(self, packet: ClassyDict):
         cooldown_info = self.cooldowns.check(packet.command, packet.user_id)
-        await stream.write_packet({"type": PacketType.COOLDOWN_RESPONSE, "id": packet.id, **cooldown_info})
+        return {"type": PacketType.COOLDOWN_RESPONSE, **cooldown_info}
 
-    async def handle_cooldown_add_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.COOLDOWN_ADD)
+    async def handle_cooldown_add_packet(self, packet: ClassyDict):
         self.cooldowns.add_cooldown(packet.command, packet.user_id)
 
-    async def handle_cooldown_reset_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.COOLDOWN_RESET)
+    async def handle_cooldown_reset_packet(self, packet: ClassyDict):
         self.cooldowns.clear_cooldown(packet.command, packet.user_id)
 
-    async def handle_dm_message_request_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.DM_MESSAGE_REQUEST)
+    async def handle_dm_message_request_packet(self, packet: ClassyDict):
         entry = self.dm_messages[packet.user_id] = {"event": asyncio.Event(), "content": None}
         await entry["event"].wait()
 
         self.dm_messages.pop(packet.user_id, None)
 
-        await stream.write_packet({"type": PacketType.DM_MESSAGE, "id": packet.id, "content": entry["content"]})
+        return {"type": PacketType.DM_MESSAGE, "content": entry["content"]}
 
-    async def handle_dm_message_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.DM_MESSAGE)
+    async def handle_dm_message_packet(self, packet: ClassyDict):
         entry = self.dm_messages.get(packet.user_id)
 
         if entry is None:
@@ -192,32 +156,33 @@ class MechaKaren:
         entry["content"] = packet.content
         entry["event"].set()
 
-    async def handle_mine_command_packet(self, stream: JsonPacketStream, packet: ClassyDict):  # used for fishing too
+    @handle_packet(PacketType.MINE_COMMAND)
+    async def handle_mine_command_packet(self, packet: ClassyDict):  # used for fishing too
         self.v.mine_commands[packet.user_id] += packet.addition
-        await stream.write_packet(
-            {"type": PacketType.MINE_COMMAND_RESPONSE, "id": packet.id, "current": self.v.mine_commands[packet.user_id]}
-        )
+        return {"type": PacketType.MINE_COMMAND_RESPONSE, "current": self.v.mine_commands[packet.user_id]}
 
-    async def handle_concurrency_check_packet(self, stream: JsonPacketStream, packet: ClassyDict):
-        await stream.write_packet(
-            {
-                "type": PacketType.CONCURRENCY_CHECK_RESPONSE,
-                "id": packet.id,
-                "can_run": self.concurrency.check(packet.command, packet.user_id),
-            }
-        )
+    @handle_packet(PacketType.CONCURRENCY_CHECK)
+    async def handle_concurrency_check_packet(self, packet: ClassyDict):
+        return {
+            "type": PacketType.CONCURRENCY_CHECK_RESPONSE,
+            "can_run": self.concurrency.check(packet.command, packet.user_id),
+        }
 
-    async def handle_concurrency_acquire_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.CONCURRENCY_ACQUIRE)
+    async def handle_concurrency_acquire_packet(self, packet: ClassyDict):
         self.concurrency.acquire(packet.command, packet.user_id)
 
-    async def handle_concurrency_release_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.CONCURRENCY_RELEASE)
+    async def handle_concurrency_release_packet(self, packet: ClassyDict):
         self.concurrency.release(packet.command, packet.user_id)
 
-    async def handle_command_ran_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.COMMAND_RAN)
+    async def handle_command_ran_packet(self, packet: ClassyDict):
         async with self.commands_lock:
             self.commands[packet.user_id] += 1
 
-    async def handle_acquire_pillage_lock_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.ACQUIRE_PILLAGE_LOCK)
+    async def handle_acquire_pillage_lock_packet(self, packet: ClassyDict):
         locked = False
 
         if self.pillage_lock.locked(packet.user_ids):
@@ -225,15 +190,13 @@ class MechaKaren:
         else:
             await self.pillage_lock.acquire(packet.user_ids)
 
-        await stream.write_packet(
-            {
-                "type": PacketType.ACQUIRE_PILLAGE_LOCK_RESPONSE,
-                "id": packet.id,
-                "locked": locked,
-            }
-        )
+        return {
+            "type": PacketType.ACQUIRE_PILLAGE_LOCK_RESPONSE,
+            "locked": locked,
+        }
 
-    async def handle_release_pillage_lock_packet(self, stream: JsonPacketStream, packet: ClassyDict):
+    @handle_packet(PacketType.RELEASE_PILLAGE_LOCK)
+    async def handle_release_pillage_lock_packet(self, packet: ClassyDict):
         self.pillage_lock.release(packet.user_ids)
 
     async def commands_dump_loop(self):
@@ -281,17 +244,15 @@ class MechaKaren:
             await asyncio.sleep(5)
 
             try:
-                reminders = await self.db.fetch("DELETE FROM reminders WHERE at <= NOW() RETURNING *")
+                reminders = await self.db.fetch(
+                    "DELETE FROM reminders WHERE at <= NOW() RETURNING channel_id, user_id, message_id, reminder"
+                )
 
                 for reminder in reminders:
-                    code = REMINDERS_BROADCAST_CODE.format(
-                        reminder["channel_id"], reminder["user_id"], reminder["message_id"], repr(reminder["reminder"])
-                    )
-
                     broadcast_id = f"b{self.current_id}"
                     self.current_id += 1
 
-                    broadcast_packet = {"type": PacketType.EXEC, "code": code, "id": broadcast_id}
+                    broadcast_packet = {"type": PacketType.REMINDER, "id": broadcast_id, **reminder}
                     broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections]
                     broadcast = self.broadcasts[broadcast_id] = {
                         "ready": asyncio.Event(),

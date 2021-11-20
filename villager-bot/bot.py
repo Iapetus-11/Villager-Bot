@@ -13,10 +13,10 @@ import numpy
 
 from util.setup import villager_bot_intents, setup_logging, setup_database_pool
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
+from util.ipc import Client, PacketType, PacketHandlerRegistry, handle_packet
 from util.setup import load_text, load_secrets, load_data
 from util.code import execute_code, format_exception
 from util.misc import TTLPreventDuplicate
-from util.ipc import Client, PacketType
 
 
 def run_cluster(shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
@@ -36,9 +36,10 @@ def run_cluster(shard_count: int, shard_ids: list, max_db_pool_size: int) -> Non
         cluster.logger.error(format_exception(e))
 
 
-class VillagerBotCluster(commands.AutoShardedBot):
-    def __init__(self, shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
-        super().__init__(
+class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
+    def __init__(self, shard_count: int, shard_ids: list, max_db_pool_size: int):
+        commands.AutoShardedBot.__init__(
+            self,
             # status=discord.Status.invisible,
             command_prefix=self.get_prefix,
             case_insensitive=True,
@@ -76,7 +77,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
             self.cog_list.append("cogs.core.topgg")
 
         self.logger = setup_logging(self.shard_ids)
-        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.handle_broadcast)  # ipc client
+        self.ipc = Client(self.k.manager.host, self.k.manager.port, self.get_packet_handlers())  # ipc client
         self.aiohttp = aiohttp.ClientSession()
         self.statcord = None  # StatcordClusterClient instance
         self.db = None  # asyncpg database connection pool
@@ -121,7 +122,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         }
 
     async def start(self, *args, **kwargs):
-        await self.ipc.connect(self.k.manager.auth, self.shard_ids)
+        await self.ipc.connect(self.k.manager.auth)
         self.db = await setup_database_pool(self.k, self.max_db_pool_size)
         asyncio.create_task(self.prevent_spawn_duplicates.run())
 
@@ -144,30 +145,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
     def run(self, *args, **kwargs):
         with ThreadPoolExecutor() as self.tp:
             super().run(self.k.discord_token, *args, **kwargs)
-
-    async def handle_broadcast(self, packet: ClassyDict) -> None:
-        if packet.type == PacketType.EVAL:
-            try:
-                result = eval(packet.code, self.eval_env)
-                success = True
-            except Exception as e:
-                result = format_exception(e)
-                success = False
-
-                self.logger.error(result)
-
-            await self.ipc.send({"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "result": result, "success": success})
-        elif packet.type == PacketType.EXEC:
-            try:
-                result = await execute_code(packet.code, self.eval_env)
-                success = True
-            except Exception as e:
-                result = format_exception(e)
-                success = False
-
-                self.logger.error(result)
-
-            await self.ipc.send({"type": PacketType.BROADCAST_RESPONSE, "id": packet.id, "result": result, "success": success})
 
     async def get_prefix(self, ctx: commands.Context) -> str:
         # for some reason discord.py wants this function to be async *sigh*
@@ -268,3 +245,48 @@ class VillagerBotCluster(commands.AutoShardedBot):
             await self.ipc.send(
                 {"type": PacketType.CONCURRENCY_RELEASE, "command": str(ctx.command), "user_id": ctx.author.id}
             )
+
+    @handle_packet(PacketType.EVAL)
+    async def handle_eval_packet(self, packet: ClassyDict):
+        try:
+            result = eval(packet.code, self.eval_env)
+            success = True
+        except Exception as e:
+            result = format_exception(e)
+            success = False
+
+            self.logger.error(result)
+
+        return {"type": PacketType.BROADCAST_RESPONSE, "result": result, "success": success}
+
+    @handle_packet(PacketType.EXEC)
+    async def handle_exec_packet(self, packet: ClassyDict):
+        try:
+            result = await execute_code(packet.code, self.eval_env)
+            success = True
+        except Exception as e:
+            result = format_exception(e)
+            success = False
+
+            self.logger.error(result)
+
+        return {"type": PacketType.BROADCAST_RESPONSE, "result": result, "success": success}
+
+    @handle_packet(PacketType.REMINDER)
+    async def handle_reminder_packet(self, packet: ClassyDict):
+        channel = self.get_channel(packet.channel_id)
+
+        if channel is not None:
+            user = self.get_user(packet.user_id)
+
+            if user is not None:
+                lang = self.get_language(channel)
+
+                try:
+                    message = await channel.fetch_message(packet.message_id)
+                    await message.reply(lang.useful.remind.reminder.format(user.mention, packet.reminder), mention_author=True)
+                except Exception:
+                    try:
+                        await channel.send(lang.useful.remind.reminder.format(user.mention, packet.reminder))
+                    except Exception as e:
+                        self.logger.error(format_exception(e))

@@ -1,5 +1,5 @@
+from typing import Awaitable, Dict, Optional, Union, Callable
 from asyncio import StreamReader, StreamWriter
-from typing import Union, Callable
 from enum import IntEnum, auto
 import classyjson as cj
 import asyncio
@@ -17,47 +17,9 @@ LENGTH_LENGTH = struct.calcsize(">i")
 # >>> struct.pack(">i", len(data_encoded)) + data_encoded
 # b'\x00\x00\x00\r123 abcd test'
 #
-# The JSON payload is expected to have a "type" field, which helps the server know what to do with
-# the packet. In addition, packets sent by the Client include an "auth" field, which contains the
-# authorization code. Authorization should be automatically validated by the Server class, and
-# automatically added by the Client class.
-#
-# Examples:
-# {"type": "identify", "shard_id": 123} # client -> server
-# {"type": "exec-code", "code": "print('hello')", "auth": "password123"} # client -> server
-# {"type": "exec-response", "response": "None"} # server -> client
-#
-# Packet Documentation:
-# Serverbound:
-# - auth {"type": "auth", "auth": "password"} authenticates the connection with karen
-# - shard-ready {"type": "shard-ready", "shard_id": shard_id} notifies karen of a shard becoming ready
-# - shard-disconnect {"type": "shard-disconnect", "shard_id": shard_id} notifies karen of shard disconnect
-# - eval {"type": PacketType.EVAL, "code": code} eval()s code on karen
-# - broadcast-request {"type": "broadcast-request", "packet": encapsulated_packet} broadcasts a packet to all clients, including the sender
-# - broadcast-response {"type": "broadcast-response", **} sent in response to any "unexpected" packet from karen (so the contents of broadcast packets)
-# - cooldown {"type": "cooldown", "command": command_name, "user_id", user.id} requests and updates cooldown info from karen
-# - cooldown-add {"type": "cooldown-add", "command": command_name, "user_id": user.id} tells the cooldown manager the command has been ran
-# - cooldown-reset {"type": "cooldown-reset", "command": command_name, "user_id": user.id} resets the cooldown for a specific command and user
-# Clientbound:
-# - auth-response {"type": "auth-response", "success": boolean} the result of an auth packet from a client
-# - eval-response {"type": "eval-response", "result": object, "success": boolean} the result of an eval packet from a client
-# - broadcast-response {"type": "broadcast-response", "responses": [*]} the result of a client's broadcast-request
-# - cooldown-info {"type": "cooldown-info", "can_run": boolean, Optional["remaining": cooldown_seconds_remaining]} the result of a client's cooldown packet
-
-
-class CustomJSONEncoder(cj.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, set):  # add support for sets
-            return dict(_set_object=list(obj))
-        else:
-            return cj.JSONEncoder.default(self, obj)
-
-
-def special_obj_hook(dct):
-    if "_set_object" in dct:
-        return set(dct["_set_object"])
-
-    return dct
+# The JSON payload is expected to have a "type" field, which helps the receiver to know what to
+# do with the packet. The first packet from the client must be an authorization packet
+# containing the pre-shared secret.
 
 
 class PacketType(IntEnum):
@@ -89,6 +51,26 @@ class PacketType(IntEnum):
     ACQUIRE_PILLAGE_LOCK = auto()
     ACQUIRE_PILLAGE_LOCK_RESPONSE = auto()
     RELEASE_PILLAGE_LOCK = auto()
+    REMINDER = auto()
+
+
+T_PACKET_HANDLER_CALLABLE = Callable[[cj.ClassyDict], Awaitable[Optional[dict]]]
+T_HANDLER_CALLABLE_REGISTRY = Dict[PacketType, T_PACKET_HANDLER_CALLABLE]
+
+
+class CustomJSONEncoder(cj.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, set):  # add support for sets
+            return dict(_set_object=list(obj))
+        else:
+            return cj.JSONEncoder.default(self, obj)
+
+
+def special_obj_hook(dct):
+    if "_set_object" in dct:
+        return set(dct["_set_object"])
+
+    return dct
 
 
 class JsonPacketStream:
@@ -100,7 +82,11 @@ class JsonPacketStream:
 
     async def read_packet(self) -> cj.ClassyDict:
         (length,) = struct.unpack(">i", await self.reader.read(LENGTH_LENGTH))  # read the length of the upcoming packet
-        data = await self.reader.read(length)  # read the rest of the packet
+
+        data = bytearray(await self.reader.read(length))
+
+        while len(data) < length:
+            data += await self.reader.read(length - len(data))
 
         return cj.loads(data, object_hook=special_obj_hook)
 
@@ -108,8 +94,8 @@ class JsonPacketStream:
         data = cj.dumps(data, cls=CustomJSONEncoder).encode()
         packet = struct.pack(">i", len(data)) + data
 
-        if len(packet) > 65535:
-            raise ValueError("Packet is too big to send...")
+        for i in range(0, len(packet), 65535):
+            self.writer.write(packet[i - 65535 : i])
 
         self.writer.write(packet)
         async with self.drain_lock:
@@ -120,62 +106,145 @@ class JsonPacketStream:
         await self.writer.wait_closed()
 
 
+class PacketHandler:
+    __slots__ = ("packet_type", "function")
+
+    def __init__(self, packet_type: PacketType, function: T_PACKET_HANDLER_CALLABLE):
+        self.packet_type = packet_type
+        self.function = function
+
+    def __call__(self, *args, **kwargs):
+        return self.function(*args, **kwargs)
+
+
+def handle_packet(packet_type: PacketType) -> Callable[[T_PACKET_HANDLER_CALLABLE], PacketHandler]:
+    """Decorator for creating a PacketHandler object in a class"""
+
+    def _handle(function: T_PACKET_HANDLER_CALLABLE) -> PacketHandler:
+        return PacketHandler(packet_type, function)
+
+    return _handle
+
+
+class PacketHandlerRegistryMeta(type):
+    __packet_handlers__: T_HANDLER_CALLABLE_REGISTRY
+
+    def __new__(cls, name, bases, dct) -> "PacketHandlerRegistryMeta":
+        new = super().__new__(cls, name, bases, dct)
+
+        new.__packet_handlers__ = {}
+
+        # traverse the method tree to find PacketHandlers to register
+        for base in reversed(new.__mro__):
+            for obj in base.__dict__.values():
+                if isinstance(obj, PacketHandler):
+                    packet_type = obj.packet_type
+                    function = obj.function
+
+                    if packet_type in new.__packet_handlers__:
+                        raise ValueError(
+                            f"Can't register {function.__module__}.{function.__qualname__} as a handler for packet type {packet_type} because there already is one."
+                        )
+
+                    new.__packet_handlers__[packet_type] = function
+
+        return new
+
+
+class PacketHandlerRegistry(metaclass=PacketHandlerRegistryMeta):
+    __packet_handlers__: T_HANDLER_CALLABLE_REGISTRY
+
+    def __new__(cls, *args, **kwargs) -> "PacketHandlerRegistry":
+        self = super().__new__(cls)
+
+        # bind handlers to their class instance manually
+        for packet_type, handler in list(cls.__packet_handlers__.items()):
+            self.__packet_handlers__[packet_type] = handler.__get__(self)
+
+        return self
+
+    def get_packet_handlers(self) -> T_HANDLER_CALLABLE_REGISTRY:
+        return self.__packet_handlers__
+
+
+class PacketPlaceholder:
+    __slots__ = ("packet", "_event")
+
+    def __init__(self):
+        self.packet: cj.ClassyDict = None
+        self._event = asyncio.Event()
+
+    def set(self, packet: cj.ClassyDict) -> None:
+        self.packet = packet
+        self._event.set()
+
+    async def wait(self) -> cj.ClassyDict:
+        await self._event.wait()
+        return self.packet
+
+    def __repr__(self) -> str:
+        return f"PacketPlaceholder(packet={self.packet!r})"
+
+    __str__ = __repr__
+
+
 class Client:
-    def __init__(self, host: str, port: int, handle_broadcast: Callable) -> None:
+    def __init__(self, host: str, port: int, packet_handlers: Dict[PacketType, PacketHandler]):
         self.host = host
         self.port = port
 
-        self.handle_broadcast = handle_broadcast
+        self.packet_handlers = packet_handlers
 
-        self.stream = None
+        self._stream = None
 
-        self.expected_packets = {}  # packet_id: [asyncio.Event, Union[Packet, None]]
-        self.current_id = 0
-        self.read_task = None
+        self._expected_packets: Dict[str, PacketPlaceholder] = {}
+        self._current_id = 0
+        self._read_task = None
 
-    async def connect(self, auth: str, shard_ids: tuple) -> None:
-        self.stream = JsonPacketStream(*await asyncio.open_connection(self.host, self.port))
-        self.read_task = asyncio.create_task(self.read_packets())
+    async def connect(self, auth: str) -> None:
+        self._stream = JsonPacketStream(*await asyncio.open_connection(self.host, self.port))
+        self._read_task = asyncio.create_task(self._read_packets())
 
         res = await self.request({"type": PacketType.AUTH, "auth": auth})
 
         if not res.success:
-            self.read_task.cancel()
-            await self.stream.close()
+            self._read_task.cancel()
+            await self._stream.close()
 
-            raise Exception("Invalid authorization")
+            raise ValueError("Invalid authorization")
 
     async def close(self) -> None:
-        self.read_task.cancel()
+        self._read_task.cancel()
 
         await self.send({"type": PacketType.DISCONNECT})
-        await self.stream.close()
+        await self._stream.close()
 
-    async def read_packets(self):
+    async def _read_packets(self):
         while True:
-            packet = await self.stream.read_packet()
+            packet = await self._stream.read_packet()
 
-            if packet.id in self.expected_packets:
-                self.expected_packets[packet.id][1] = packet
-                self.expected_packets[packet.id][0].set()
+            if packet.id in self._expected_packets:
+                self._expected_packets[packet.id].set(packet)
             else:
-                asyncio.create_task(self.handle_broadcast(packet))
+                asyncio.create_task(self._call_handler(packet))
 
     async def send(self, packet: Union[dict, cj.ClassyDict]) -> None:
-        await self.stream.write_packet(packet)
+        await self._stream.write_packet(packet)
 
     async def request(self, packet: Union[dict, cj.ClassyDict]) -> cj.ClassyDict:
-        packet["id"] = packet_id = f"c{self.current_id}"
-        self.current_id += 1
+        packet["id"] = packet_id = f"c{self._current_id}"
+        self._current_id += 1
 
         # create entry before sending packet
-        event = asyncio.Event()
-        self.expected_packets[packet_id] = [event, None]
+        placeholder = self._expected_packets[packet_id] = PacketPlaceholder()
 
         await self.send(packet)  # send packet off to karen
 
-        await event.wait()  # wait for response event
-        return self.expected_packets.pop(packet_id)[1]  # return received packet
+        res = await placeholder.wait()
+
+        del self._expected_packets[packet_id]
+
+        return res
 
     async def broadcast(self, packet: Union[dict, cj.ClassyDict]) -> cj.ClassyDict:
         return await self.request({"type": PacketType.BROADCAST_REQUEST, "packet": packet})
@@ -186,9 +255,27 @@ class Client:
     async def exec(self, code: str) -> cj.ClassyDict:
         return await self.request({"type": PacketType.EXEC, "code": code})
 
+    async def _call_handler(self, packet: cj.ClassyDict):
+        handler = self.packet_handlers.get(packet.type)
+
+        if handler is None:
+            handler = self.packet_handlers[PacketType.MISSING_PACKET]
+
+        data = await handler(packet)
+
+        if isinstance(data, dict):
+            if packet.get("id") is not None:
+                data["id"] = packet.id
+
+            await self.send(data)
+        elif data is not None:
+            raise ValueError(
+                f"Invalid return from handler {handler.function.__module__}.{handler.function.__qualname__}: {data!r}"
+            )
+
 
 class Server:
-    def __init__(self, host: str, port: int, auth: str, packet_handlers: dict) -> None:
+    def __init__(self, host: str, port: int, auth: str, packet_handlers: Dict[PacketType, PacketHandler]):
         self.host = host
         self.port = port
 
@@ -218,6 +305,24 @@ class Server:
         self.server.close()
         await self.server.wait_closed()
 
+    async def call_handler(self, stream: JsonPacketStream, packet: cj.ClassyDict) -> None:
+        handler = self.packet_handlers.get(packet.type)
+
+        if handler is None:
+            handler = self.packet_handlers[PacketType.MISSING_PACKET]
+
+        data = await handler(packet)
+
+        if isinstance(data, dict):
+            if packet.get("id") is not None:
+                data["id"] = packet.id
+
+            await stream.write_packet(data)
+        elif data is not None:
+            raise ValueError(
+                f"Invalid return from handler {handler.function.__module__}.{handler.function.__qualname__}: {data!r}"
+            )
+
     async def handle_connection(self, reader: StreamReader, writer: StreamWriter) -> None:
         stream = JsonPacketStream(reader, writer)
         self.connections.append(stream)
@@ -243,6 +348,4 @@ class Server:
                 self.connections.remove(stream)
                 return
 
-            asyncio.create_task(
-                self.packet_handlers.get(packet.type, self.packet_handlers[PacketType.MISSING_PACKET])(stream, packet)
-            )
+            asyncio.create_task(self.call_handler(stream, packet))
