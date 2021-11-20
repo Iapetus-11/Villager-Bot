@@ -206,7 +206,7 @@ class MechaKaren(PacketHandlerRegistry):
         self.pillage_lock.release(packet.user_ids)
 
     @handle_packet(PacketType.FETCH_STATS)
-    async def handle_fetch_stats(self, packet: ClassyDict):
+    async def handle_fetch_stats_packet(self, packet: ClassyDict):
         proc = psutil.Process()
         with proc.oneshot():
             mem_usage = proc.memory_full_info().uss
