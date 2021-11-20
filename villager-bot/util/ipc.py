@@ -269,6 +269,8 @@ class Client:
             if packet.get("id") is not None:
                 data["id"] = packet.id
 
+            packet["type"] = PacketType.BROADCAST_RESPONSE
+
             await self.send(data)
         elif data is not None:
             raise ValueError(
