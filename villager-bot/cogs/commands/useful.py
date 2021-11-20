@@ -303,13 +303,7 @@ class Useful(commands.Cog):
         )
 
         res.responses.append(karen_res)
-
-        counters = [0] * 10
-
-        for r in res.responses:
-            for i, r in enumerate(r.result):
-                counters[i] += r
-
+        
         (
             mem_usage,
             threads,
@@ -321,7 +315,7 @@ class Useful(commands.Cog):
             latency_all,
             dm_count,
             session_votes,
-        ) = counters
+        ) = map(sum, zip(*res.responses))
 
         total_mem = psutil.virtual_memory().total
 
