@@ -1,5 +1,4 @@
 from collections import defaultdict
-from typing import List
 import classyjson as cj
 import asyncio
 import discord

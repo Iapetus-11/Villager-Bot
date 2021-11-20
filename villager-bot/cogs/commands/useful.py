@@ -1,7 +1,6 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands, tasks
 import async_cse
-import aiohttp
 import asyncio
 import discord
 import psutil

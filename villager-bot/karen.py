@@ -5,7 +5,7 @@ import asyncio
 import asyncpg
 import arrow
 
-from util.ipc import Server, JsonPacketStream, PacketType, PacketHandlerRegistry, handle_packet
+from util.ipc import Server, PacketType, PacketHandlerRegistry, handle_packet
 from util.setup import load_secrets, load_data, setup_karen_logging
 from util.cooldowns import CooldownManager, MaxConcurrencyManager
 from util.code import execute_code, format_exception
