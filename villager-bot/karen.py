@@ -63,7 +63,6 @@ class MechaKaren(PacketHandlerRegistry):
         except ValueError:
             packet_type = packet.get("type")
 
-
         self.logger.error(f"Missing packet handler for packet type {packet_type}")
 
     @handle_packet(PacketType.SHARD_READY)
