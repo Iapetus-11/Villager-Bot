@@ -299,15 +299,18 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             mem_usage = proc.memory_full_info().uss
             threads = proc.num_threads()
 
-        return {"type": PacketType.STATS_RESPONSE, "stats": [
-            mem_usage,
-            threads,
-            len(asyncio.all_tasks()),
-            len(self.guilds),
-            len(self.users),
-            self.message_count,
-            self.command_count,
-            self.latency,
-            len(self.private_channels),
-            self.session_votes
-        ]}
+        return {
+            "type": PacketType.STATS_RESPONSE,
+            "stats": [
+                mem_usage,
+                threads,
+                len(asyncio.all_tasks()),
+                len(self.guilds),
+                len(self.users),
+                self.message_count,
+                self.command_count,
+                self.latency,
+                len(self.private_channels),
+                self.session_votes,
+            ],
+        }
