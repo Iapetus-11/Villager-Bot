@@ -267,7 +267,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
             self.logger.error(result)
 
-        return {"type": PacketType.BROADCAST_RESPONSE, "result": result, "success": success}
+        return {"result": result, "success": success}
 
     @handle_packet(PacketType.EXEC)
     async def handle_exec_packet(self, packet: ClassyDict):
@@ -280,7 +280,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
             self.logger.error(result)
 
-        return {"type": PacketType.BROADCAST_RESPONSE, "result": result, "success": success}
+        return {"result": result, "success": success}
 
     @handle_packet(PacketType.REMINDER)
     async def handle_reminder_packet(self, packet: ClassyDict):
@@ -309,7 +309,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             threads = proc.num_threads()
 
         return {
-            "type": PacketType.STATS_RESPONSE,
             "stats": [
                 mem_usage,
                 threads,
