@@ -303,7 +303,7 @@ class Useful(commands.Cog):
         )
 
         res.responses.append(karen_res)
-        
+
         (
             mem_usage,
             threads,
