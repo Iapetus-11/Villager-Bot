@@ -315,7 +315,7 @@ class Useful(commands.Cog):
             latency_all,
             dm_count,
             session_votes,
-        ) = map(sum, zip(*res.responses))
+        ) = map(sum, zip(*[r.stats for r in res.responses]))
 
         total_mem = psutil.virtual_memory().total
 
