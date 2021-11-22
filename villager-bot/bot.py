@@ -15,9 +15,9 @@ import numpy
 from util.setup import villager_bot_intents, setup_logging, setup_database_pool
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ipc import Client, PacketType, PacketHandlerRegistry, handle_packet
+from util.misc import TTLPreventDuplicate, update_support_member_role
 from util.setup import load_text, load_secrets, load_data
 from util.code import execute_code, format_exception
-from util.misc import TTLPreventDuplicate
 
 
 def run_cluster(shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
@@ -322,3 +322,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 self.session_votes,
             ],
         }
+
+    @handle_packet(PacketType.UPDATE_SUPPORT_SERVER_ROLES)
+    async def handle_update_support_server_roles_packet(self, packet: ClassyDict):
+        support_guild = self.get_guild(self.d.support_server_id)
+
+        if support_guild is not None:
+            member = support_guild.get_member(packet.user)
+
+            if member is not None:
+                await update_support_member_role(self, member)

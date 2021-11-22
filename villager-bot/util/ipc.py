@@ -57,6 +57,7 @@ class PacketType(IntEnum):
     FETCH_STATS = auto()
     STATS_RESPONSE = auto()
     TRIVIA = auto()
+    UPDATE_SUPPORT_SERVER_ROLES = auto()
 
 
 T_PACKET_HANDLER_CALLABLE = Callable[[cj.ClassyDict], Awaitable[Optional[dict]]]
