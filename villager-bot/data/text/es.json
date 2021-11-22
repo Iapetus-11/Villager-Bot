@@ -1521,7 +1521,7 @@
         "thats_too_much_man": "El usuario ya tiene demasiadas advertencias.",
         "no_reason": "No se ha especificado ninguna razón",
         "by": "Advertencia de",
-        "confirm": "{} Advertido. ({} advertencias ahora) por la razón: *{}*"
+        "confirm": "{} {} ha sido advertido ({} advertencia(s) ahora) razón: *{}*"
       },
       "mute": {
         "stupid_1": "No puedes silenciarte a ti mismo",
