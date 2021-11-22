@@ -1237,7 +1237,7 @@ class Econ(commands.Cog):
                 await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
                 return
 
-            p_res = await self.ipc.request({"type": PacketType.PILLAGE, "pillager": ctx.author.id, "victim": victim.id})            
+            p_res = await self.ipc.request({"type": PacketType.PILLAGE, "pillager": ctx.author.id, "victim": victim.id})
             pillager_pillages = p_res["pillager"]
             victim_pillages = p_res["victim"]
 
