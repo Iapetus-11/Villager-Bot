@@ -7,6 +7,7 @@ import random
 import typing
 
 from util.misc import strip_command, SuppressCtxManager
+from util.ipc import PacketType
 
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
 INSULTS = {"i am stupid", "i am dumb", "i am very stupid", "i am very dumb", "i stupid", "i'm stupid", "i'm dumb"}
@@ -503,9 +504,7 @@ class Fun(commands.Cog):
     @commands.guild_only()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def minecraft_trivia(self, ctx):
-        do_reward = (
-            await self.ipc.exec(f"trivia_commands[{ctx.author.id}] += 1\nreturn trivia_commands[{ctx.author.id}] < 5")
-        ).result
+        do_reward = (await self.ipc.request({"type": PacketType.TRIVIA, "author": ctx.author.id})).do_reward
         question = random.choice(ctx.l.fun.trivia.questions)
 
         if question.tf:

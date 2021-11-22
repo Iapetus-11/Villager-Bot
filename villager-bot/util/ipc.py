@@ -43,6 +43,7 @@ class PacketType(IntEnum):
     DM_MESSAGE_REQUEST = auto()
     MINE_COMMAND = auto()
     MINE_COMMAND_RESPONSE = auto()
+    MINE_COMMANDS_RESET = auto()
     CONCURRENCY_CHECK = auto()
     CONCURRENCY_CHECK_RESPONSE = auto()
     CONCURRENCY_ACQUIRE = auto()
@@ -51,9 +52,11 @@ class PacketType(IntEnum):
     ACQUIRE_PILLAGE_LOCK = auto()
     ACQUIRE_PILLAGE_LOCK_RESPONSE = auto()
     RELEASE_PILLAGE_LOCK = auto()
+    PILLAGE = auto()
     REMINDER = auto()
     FETCH_STATS = auto()
     STATS_RESPONSE = auto()
+    TRIVIA = auto()
 
 
 T_PACKET_HANDLER_CALLABLE = Callable[[cj.ClassyDict], Awaitable[Optional[dict]]]

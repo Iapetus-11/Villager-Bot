@@ -70,7 +70,7 @@ class Econ(commands.Cog):
                 await self.bot.reply_embed(m, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
                 return False
 
-            await self.ipc.exec(f"mine_commands[{ctx.author.id}] = 0")
+            await self.ipc.send({"type": PacketType.MINE_COMMANDS_RESET, "user": ctx.author.id})
             await self.bot.reply_embed(m, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
 
         return True
@@ -1237,13 +1237,9 @@ class Econ(commands.Cog):
                 await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy)
                 return
 
-            pillager_pillages, victim_pillages = await asyncio.gather(
-                self.ipc.exec(f"pillages[{ctx.author.id}] += 1; return pillages[{ctx.author.id}] - 1"),
-                self.ipc.eval(f"pillages[{victim.id}] - 1"),
-            )
-
-            pillager_pillages = pillager_pillages.result
-            victim_pillages = victim_pillages.result
+            p_res = await self.ipc.request({"type": PacketType.PILLAGE, "pillager": ctx.author.id, "victim": victim.id})            
+            pillager_pillages = p_res["pillager"]
+            victim_pillages = p_res["victim"]
 
             user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
             user_bees = 0 if user_bees is None else user_bees["amount"]

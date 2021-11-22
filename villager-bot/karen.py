@@ -167,6 +167,10 @@ class MechaKaren(PacketHandlerRegistry):
         self.v.mine_commands[packet.user_id] += packet.addition
         return {"type": PacketType.MINE_COMMAND_RESPONSE, "current": self.v.mine_commands[packet.user_id]}
 
+    @handle_packet(PacketType.MINE_COMMANDS_RESET)
+    async def handle_mine_commands_reset_packet(self, packet: ClassyDict):
+        self.v.mine_commands[packet.user] = 0
+
     @handle_packet(PacketType.CONCURRENCY_CHECK)
     async def handle_concurrency_check_packet(self, packet: ClassyDict):
         return {
@@ -205,6 +209,11 @@ class MechaKaren(PacketHandlerRegistry):
     async def handle_release_pillage_lock_packet(self, packet: ClassyDict):
         self.pillage_lock.release(packet.user_ids)
 
+    @handle_packet(PacketType.PILLAGE)
+    async def handle_pillage_packet(self, packet: ClassyDict):
+        self.v.pillages[packet.author] += 1
+        return {"pillager": self.v.pillages[packet.pillager] - 1, "victim": self.v.pillages[packet.victim] - 1}
+
     @handle_packet(PacketType.FETCH_STATS)
     async def handle_fetch_stats_packet(self, packet: ClassyDict):
         proc = psutil.Process()
@@ -213,6 +222,11 @@ class MechaKaren(PacketHandlerRegistry):
             threads = proc.num_threads()
 
         return {"type": PacketType.STATS_RESPONSE, "stats": [mem_usage, threads, len(asyncio.all_tasks())] + [0] * 7}
+
+    @handle_packet(PacketType.TRIVIA)
+    async def handle_trivia_packet(self, packet: ClassyDict):
+        self.v.trivia_commands[packet.author] += 1
+        return {"do_reward": self.v.trivia_commands[packet.author] < 5}
 
     async def commands_dump_loop(self):
         try:
