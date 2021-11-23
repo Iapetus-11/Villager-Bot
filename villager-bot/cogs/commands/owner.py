@@ -57,8 +57,10 @@ class Owner(commands.Cog):
     @commands.command(name="evallocal", aliases=["eval", "evall"])
     @commands.is_owner()
     async def eval_stuff_local(self, ctx, *, stuff: str):
-        if stuff.startswith("```"):
-            stuff = stuff.lstrip(" `py\n ").rstrip(" `\n ")
+        stuff = stuff.strip(" `\n")
+
+        if stuff.startswith("py"):
+            stuff = stuff[2:]
 
         try:
             result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
@@ -69,8 +71,10 @@ class Owner(commands.Cog):
     @commands.command(name="evalglobal", aliases=["evalall", "evalg"])
     @commands.is_owner()
     async def eval_stuff_global(self, ctx, *, stuff: str):
-        if stuff.startswith("```"):
-            stuff = stuff.lstrip(" `py\n ").rstrip(" `\n ")
+        stuff = stuff.strip(" `\n")
+
+        if stuff.startswith("py"):
+            stuff = stuff[2:]
 
         res = await self.ipc.broadcast({"type": PacketType.EXEC, "code": stuff})
 
