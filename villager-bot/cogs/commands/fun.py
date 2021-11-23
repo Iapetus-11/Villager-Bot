@@ -1,5 +1,6 @@
 from urllib.parse import quote as urlquote
 from discord.ext import commands
+from contextlib import suppress
 import classyjson as cj
 import asyncio
 import discord
@@ -30,10 +31,8 @@ class Fun(commands.Cog):
         for key in keys:
             msg = msg.replace(key, lang.get(key))
 
-            try:
+            with suppress(Exception):
                 msg = msg.replace(key.upper(), lang.get(key).upper())
-            except Exception:
-                pass
 
         if len(msg) > 2000 - 6:
             raise ValueError("message is too big")
@@ -162,10 +161,8 @@ class Fun(commands.Cog):
             await ctx.reply("Yes.")
             return
 
-        try:
+        with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
             await ctx.message.delete()
-        except Exception:
-            pass
 
         await ctx.send(nice)
 
@@ -413,10 +410,8 @@ class Fun(commands.Cog):
             await msg.edit(embed=embed)
             return
         finally:
-            try:
+            with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
                 await msg.clear_reactions()
-            except Exception:
-                pass
 
         embed = discord.Embed(
             color=self.d.cc,
@@ -474,10 +469,8 @@ class Fun(commands.Cog):
             await msg.edit(embed=embed)
             return
         finally:
-            try:
+            with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
                 await msg.clear_reactions()
-            except Exception:
-                pass
 
         embed = discord.Embed(
             color=self.d.cc,

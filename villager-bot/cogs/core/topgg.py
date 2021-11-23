@@ -1,4 +1,5 @@
 from discord.ext import commands
+from contextlib import suppress
 from aiohttp import web
 import classyjson as cj
 import asyncio
@@ -75,10 +76,8 @@ class Webhooks(commands.Cog):
         user = self.bot.get_user(user_id)
 
         if user is None:
-            try:
+            with suppress(discord.HTTPException):
                 user = await self.bot.fetch_user(user_id)
-            except Exception:
-                user = None
 
         user_str = "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
 

@@ -1,4 +1,5 @@
 from discord.ext import commands, tasks
+from contextlib import suppress
 import discord
 import random
 import arrow
@@ -35,10 +36,8 @@ class Loops(commands.Cog):
 
         for key, connection in self.bot.rcon_cache.copy().items():
             if arrow.utcnow().shift(minutes=-1) > connection[1]:
-                try:
+                with suppress(Exception):
                     await connection[0].close()
-                except Exception:
-                    pass
 
                 self.bot.rcon_cache.pop(key, None)
 

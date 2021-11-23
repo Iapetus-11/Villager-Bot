@@ -1,4 +1,5 @@
 from collections import defaultdict
+from contextlib import suppress
 import classyjson as cj
 import asyncio
 import discord
@@ -186,28 +187,20 @@ class SuppressCtxManager:
         self._manager = manager
 
     def __enter__(self):
-        try:
+        with suppress(Exception):
             self._manager.__enter__()
-        except Exception:
-            pass
 
     def __exit__(self, *args, **kwargs):
-        try:
+        with suppress(Exception):
             self._manager.__exit__(*args, **kwargs)
-        except Exception:
-            pass
 
     async def __aenter__(self):
-        try:
+        with suppress(Exception):
             await self._manager.__aenter__()
-        except Exception:
-            pass
 
     async def __aexit__(self, *args, **kwargs):
-        try:
+        with suppress(Exception):
             await self._manager.__aexit__(*args, **kwargs)
-        except Exception:
-            pass
 
 
 class MultiLock:
