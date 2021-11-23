@@ -313,6 +313,11 @@ class Events(commands.Cog):
         if hasattr(ctx, "custom_error"):
             e = ctx.custom_error
 
+        if not isinstance(e, MaxKarenConcurrencyReached):
+            await self.ipc.send(
+                {"type": PacketType.CONCURRENCY_RELEASE, "command": str(ctx.command), "user_id": ctx.author.id}
+            )
+
         if isinstance(e, commands.CommandOnCooldown):
             await self.handle_cooldown(ctx, e.retry_after, False)
         elif isinstance(e, CommandOnKarenCooldown):
