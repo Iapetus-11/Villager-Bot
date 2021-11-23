@@ -49,7 +49,7 @@ class Owner(commands.Cog):
         for data in res.responses:
             if not data.success:
                 failed = True
-                await self.bot.reply_embed(ctx, f"Updating data failed: ```py\n{data.result}\n```")
+                await ctx.reply_embed(f"Updating data failed: ```py\n{data.result}\n```")
 
         if not failed:
             await ctx.message.add_reaction(self.d.emojis.yes)
@@ -110,9 +110,9 @@ class Owner(commands.Cog):
         guilds = "".join([r.result for r in res.responses])
 
         if guilds == "":
-            await self.bot.reply_embed(ctx, "No results...")
+            await ctx.reply_embed("No results...")
         else:
-            await self.bot.reply_embed(ctx, guilds)
+            await ctx.reply_embed(guilds)
 
     @commands.command(name="setbal")
     @commands.is_owner()

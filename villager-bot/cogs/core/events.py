@@ -315,7 +315,7 @@ class Events(commands.Cog):
         elif seconds > 0:
             time += f"{round(seconds, 2)} {ctx.l.misc.time.seconds}"
 
-        await self.bot.reply_embed(ctx, random.choice(ctx.l.misc.cooldown_msgs).format(time), ignore_exceptions=True)
+        await ctx.reply_embed(random.choice(ctx.l.misc.cooldown_msgs).format(time), ignore_exceptions=True)
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, e: Exception):
@@ -329,19 +329,19 @@ class Events(commands.Cog):
         elif isinstance(e, CommandOnKarenCooldown):
             await self.handle_cooldown(ctx, e.remaining, True)
         elif isinstance(e, commands.NoPrivateMessage):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.private, ignore_exceptions=True)
+            await ctx.reply_embed(ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.user_perms, ignore_exceptions=True)
+            await ctx.reply_embed(ctx.l.misc.errors.user_perms, ignore_exceptions=True)
         elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
+            await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
+            await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif isinstance(e, (commands.MaxConcurrencyReached, MaxKarenConcurrencyReached)):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
+            await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
         elif isinstance(e, commands.MissingRequiredArgument):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.missing_arg, ignore_exceptions=True)
+            await ctx.reply_embed(ctx.l.misc.errors.missing_arg, ignore_exceptions=True)
         elif isinstance(e, BAD_ARG_ERRORS):
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.bad_arg, ignore_exceptions=True)
+            await ctx.reply_embed(ctx.l.misc.errors.bad_arg, ignore_exceptions=True)
         elif hasattr(ctx, "failure_reason") and ctx.failure_reason:  # handle global check failures
             failure_reason = ctx.failure_reason
 
@@ -349,16 +349,16 @@ class Events(commands.Cog):
                 return
             elif failure_reason == "not_ready":
                 await self.bot.wait_until_ready()
-                await self.bot.reply_embed(ctx, ctx.l.misc.errors.not_ready, ignore_exceptions=True)
+                await ctx.reply_embed(ctx.l.misc.errors.not_ready, ignore_exceptions=True)
             elif failure_reason == "econ_paused":
-                await self.bot.reply_embed(ctx, ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
+                await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
             elif failure_reason == "disabled":
-                await self.bot.reply_embed(ctx, ctx.l.misc.errors.disabled, ignore_exceptions=True)
+                await ctx.reply_embed(ctx.l.misc.errors.disabled, ignore_exceptions=True)
         elif isinstance(e, IGNORED_ERRORS) or isinstance(getattr(e, "original", None), IGNORED_ERRORS):
             return
         else:  # no error was caught so log error in error channel
             await self.bot.wait_until_ready()
-            await self.bot.reply_embed(ctx, ctx.l.misc.errors.andioop.format(self.d.support), ignore_exceptions=True)
+            await ctx.reply_embed(ctx.l.misc.errors.andioop.format(self.d.support), ignore_exceptions=True)
 
             debug_info = (
                 f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}"[:200]

@@ -126,7 +126,7 @@ class MobSpawner(commands.Cog):
             user_health = db_user["health"]
 
             if user_health < 1:
-                await self.bot.send_embed(ctx, ctx.l.mobs_mech.no_health)
+                await ctx.send_embed(ctx.l.mobs_mech.no_health)
                 continue
 
             break
@@ -184,7 +184,7 @@ class MobSpawner(commands.Cog):
                 # check if user is a fucking baby
                 if timed_out or user_action in self.d.mobs_mech.valid_flees:
                     await fight_msg.edit(suppress=True)
-                    await self.bot.send_embed(ctx, random.choice(ctx.l.mobs_mech.flee_insults))
+                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.flee_insults))
 
                     return
 
@@ -203,18 +203,14 @@ class MobSpawner(commands.Cog):
 
                 if mob.health < 1:  # user wins
                     await fight_msg.edit(suppress=True)
-                    await self.bot.send_embed(
-                        ctx, random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice.lower(), user_sword.lower())
-                    )
+                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice.lower(), user_sword.lower()))
 
                     break
                 else:
                     if mob_key == "baby_slime" and user_dmg == 0:  # say user missed the slime
-                        await self.bot.send_embed(ctx, random.choice(mob.misses).format(user_sword.lower()))
+                        await ctx.send_embed(random.choice(mob.misses).format(user_sword.lower()))
                     else:  # send regular attack message
-                        await self.bot.send_embed(
-                            ctx, random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice.lower(), user_sword.lower())
-                        )
+                        await ctx.send_embed(random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice.lower(), user_sword.lower()))
 
                 async with SuppressCtxManager(ctx.typing()):
                     await asyncio.sleep(0.75 + random.random() * 2)
@@ -227,7 +223,7 @@ class MobSpawner(commands.Cog):
                             user_health = 0
 
                             await fight_msg.edit(suppress=True)
-                            await self.bot.send_embed(ctx, random.choice(mob.finishers))
+                            await ctx.send_embed(random.choice(mob.finishers))
 
                             break
 
@@ -237,10 +233,10 @@ class MobSpawner(commands.Cog):
                 user_health = max(user_health, 0)
 
                 if user_health < 1:  # you == noob
-                    await self.bot.send_embed(ctx, random.choice(mob.finishers))
+                    await ctx.send_embed(random.choice(mob.finishers))
                     break
                 else:
-                    await self.bot.send_embed(ctx, random.choice(mob.attacks))
+                    await ctx.send_embed(random.choice(mob.attacks))
 
                 async with SuppressCtxManager(ctx.typing()):
                     await asyncio.sleep(0.75 + random.random() * 2)
@@ -305,7 +301,7 @@ class MobSpawner(commands.Cog):
                     await self.db.balance_add(user.id, ems_won)
                     await self.db.update_lb(user.id, "mobs_killed", 1, "add")
 
-                    await self.bot.send_embed(ctx, random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
+                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
                 else:
                     if difficulty == "easy":
                         balls_won = random.randint(1, 10)
@@ -321,9 +317,7 @@ class MobSpawner(commands.Cog):
 
                     await self.db.add_item(user.id, "Slime Ball", 5, balls_won, True)
 
-                    await self.bot.send_embed(
-                        ctx, random.choice(ctx.l.mobs_mech.found).format(balls_won, self.d.emojis.slimeball)
-                    )
+                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(balls_won, self.d.emojis.slimeball))
             else:  # mob win
                 if difficulty == "easy":  # haha code copying go brrrrrrrrr
                     ems_lost = (
@@ -341,14 +335,9 @@ class MobSpawner(commands.Cog):
                 ems_lost = await self.db.balance_sub(user.id, ems_lost)
 
                 if mob_key == "creeper":
-                    await self.bot.send_embed(
-                        ctx, random.choice(ctx.l.mobs_mech.lost.creeper).format(ems_lost, self.d.emojis.emerald)
-                    )
+                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.lost.creeper).format(ems_lost, self.d.emojis.emerald))
                 else:
-                    await self.bot.send_embed(
-                        ctx,
-                        random.choice(ctx.l.mobs_mech.lost.normal).format(mob.nice.lower(), ems_lost, self.d.emojis.emerald),
-                    )
+                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.lost.normal).format(mob.nice.lower(), ems_lost, self.d.emojis.emerald))
         finally:
             await self.db.update_user(user.id, health=user_health)
             await self.ipc.eval(f"econ_paused_users.pop({user.id}, None)")  # unpause user

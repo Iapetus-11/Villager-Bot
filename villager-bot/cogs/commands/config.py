@@ -38,21 +38,21 @@ class Config(commands.Cog):
     async def config_prefix(self, ctx, prefix=None):
         if prefix is None:
             prev = await self.bot.get_prefix(ctx)
-            await self.bot.reply_embed(ctx, ctx.l.config.prefix.this_server.format(prev))
+            await ctx.reply_embed(ctx.l.config.prefix.this_server.format(prev))
             return
 
         if len(prefix) > 15:
-            await self.bot.reply_embed(ctx, ctx.l.config.prefix.error_1.format(15))
+            await ctx.reply_embed(ctx.l.config.prefix.error_1.format(15))
             return
 
         for char in prefix:
             if char not in self.d.acceptable_prefix_chars:
-                await self.bot.reply_embed(ctx, ctx.l.config.prefix.error_2.format(char))
+                await ctx.reply_embed(ctx.l.config.prefix.error_2.format(char))
                 return
 
         await self.db.set_guild_attr(ctx.guild.id, "prefix", prefix)
         self.bot.prefix_cache[ctx.guild.id] = prefix
-        await self.bot.reply_embed(ctx, ctx.l.config.prefix.set.format(prefix))
+        await ctx.reply_embed(ctx.l.config.prefix.set.format(prefix))
 
     @config.command(name="replies")
     @commands.guild_only()
@@ -64,14 +64,14 @@ class Config(commands.Cog):
             state = ctx.l.config.replies.enabled * guild["do_replies"] + ctx.l.config.replies.disabled * (
                 not guild["do_replies"]
             )
-            await self.bot.reply_embed(ctx, ctx.l.config.replies.this_server.format(state))
+            await ctx.reply_embed(ctx.l.config.replies.this_server.format(state))
             return
 
         if replies.lower() in ("yes", "true", "on"):
             await self.db.set_guild_attr(ctx.guild.id, "do_replies", True)
             self.bot.replies_cache.add(ctx.guild.id)
 
-            await self.bot.reply_embed(ctx, ctx.l.config.replies.set.format("on"))
+            await ctx.reply_embed(ctx.l.config.replies.set.format("on"))
         elif replies.lower() in ("no", "false", "off"):
             await self.db.set_guild_attr(ctx.guild.id, "do_replies", False)
 
@@ -80,9 +80,9 @@ class Config(commands.Cog):
             except KeyError:
                 pass
 
-            await self.bot.reply_embed(ctx, ctx.l.config.replies.set.format("off"))
+            await ctx.reply_embed(ctx.l.config.replies.set.format("off"))
         else:
-            await self.bot.reply_embed(ctx, ctx.l.config.invalid.format("`on`, `off`"))
+            await ctx.reply_embed(ctx.l.config.invalid.format("`on`, `off`"))
 
     @config.command(name="difficulty", aliases=["diff"])
     @commands.guild_only()
@@ -91,20 +91,20 @@ class Config(commands.Cog):
     async def config_difficulty(self, ctx, diff=None):
         if diff is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await self.bot.reply_embed(ctx, ctx.l.config.diff.this_server.format(guild["difficulty"]))
+            await ctx.reply_embed(ctx.l.config.diff.this_server.format(guild["difficulty"]))
             return
 
         if diff.lower() == "peaceful":
             await self.db.set_guild_attr(ctx.guild.id, "difficulty", "peaceful")
-            await self.bot.reply_embed(ctx, ctx.l.config.diff.set.format("peaceful"))
+            await ctx.reply_embed(ctx.l.config.diff.set.format("peaceful"))
         elif diff.lower() == "easy":
             await self.db.set_guild_attr(ctx.guild.id, "difficulty", "easy")
-            await self.bot.reply_embed(ctx, ctx.l.config.diff.set.format("easy"))
+            await ctx.reply_embed(ctx.l.config.diff.set.format("easy"))
         elif diff.lower() == "hard":
             await self.db.set_guild_attr(ctx.guild.id, "difficulty", "hard")
-            await self.bot.reply_embed(ctx, ctx.l.config.diff.set.format("hard"))
+            await ctx.reply_embed(ctx.l.config.diff.set.format("hard"))
         else:
-            await self.bot.reply_embed(ctx, ctx.l.config.invalid.format("`peaceful`, `easy`, `hard`"))
+            await ctx.reply_embed(ctx.l.config.invalid.format("`peaceful`, `easy`, `hard`"))
 
     @config.command(name="language", aliases=["lang"])
     @commands.guild_only()
@@ -115,8 +115,7 @@ class Config(commands.Cog):
 
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await self.bot.reply_embed(
-                ctx,
+            await ctx.reply_embed(
                 ctx.l.config.lang.this_server.format(
                     guild["language"].replace("_", "-"), "`{}`".format("`, `".join(lang_codes))
                 ),
@@ -129,9 +128,9 @@ class Config(commands.Cog):
             await self.db.set_guild_attr(ctx.guild.id, "language", lang.replace("-", "_"))
             self.bot.language_cache[ctx.guild.id] = lang.replace("-", "_")
             ctx.l = self.bot.get_language(ctx)
-            await self.bot.reply_embed(ctx, ctx.l.config.lang.set.format(lang))
+            await ctx.reply_embed(ctx.l.config.lang.set.format(lang))
         else:
-            await self.bot.reply_embed(ctx, ctx.l.config.invalid.format("`{}`".format("`, `".join(lang_codes))))
+            await ctx.reply_embed(ctx.l.config.invalid.format("`{}`".format("`, `".join(lang_codes))))
 
     @config.command(name="defaultserver", aliases=["defaultmcserver", "mcserver"])
     @commands.guild_only()
@@ -140,15 +139,15 @@ class Config(commands.Cog):
     async def config_default_mcserver(self, ctx, mcserver=None):
         if mcserver is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await self.bot.reply_embed(ctx, ctx.l.config.mcs.this_server.format(guild["mc_server"]))
+            await ctx.reply_embed(ctx.l.config.mcs.this_server.format(guild["mc_server"]))
             return
 
         if len(mcserver) > 30:
-            await self.bot.reply_embed(ctx, ctx.l.config.mcs.error_1.format(30))
+            await ctx.reply_embed(ctx.l.config.mcs.error_1.format(30))
             return
 
         await self.db.set_guild_attr(ctx.guild.id, "mc_server", mcserver)
-        await self.bot.reply_embed(ctx, ctx.l.config.mcs.set.format(mcserver))
+        await ctx.reply_embed(ctx.l.config.mcs.set.format(mcserver))
 
     @config.command(name="togglecommand", aliases=["togglecmd", "toggleenabled"])
     @commands.guild_only()
@@ -158,39 +157,39 @@ class Config(commands.Cog):
         guild = await self.db.fetch_guild(ctx.guild.id)
 
         if not guild["premium"]:
-            await self.bot.reply_embed(ctx, ctx.l.config.cmd.not_prem)
+            await ctx.reply_embed(ctx.l.config.cmd.not_prem)
             return
 
         disabled = self.bot.disabled_commands[ctx.guild.id]
 
         if cmd is None:
             if len(disabled) > 0:
-                await self.bot.reply_embed(ctx, ctx.l.config.cmd.list_cmds.format("`, `".join(disabled)))
+                await ctx.reply_embed(ctx.l.config.cmd.list_cmds.format("`, `".join(disabled)))
             else:
-                await self.bot.reply_embed(ctx, ctx.l.config.cmd.nope)
+                await ctx.reply_embed(ctx.l.config.cmd.nope)
 
             return
 
         cmd_true = self.bot.get_command(cmd.lower())
 
         if cmd_true.cog is None or cmd_true.cog_name in ("Owner", "Config") or str(cmd_true) in ("help",):
-            await self.bot.reply_embed(ctx, ctx.l.config.cmd.cant)
+            await ctx.reply_embed(ctx.l.config.cmd.cant)
             return
 
         cmd_true = str(cmd_true)
 
         if cmd_true is None:
-            await self.bot.reply_embed(ctx, ctx.l.config.cmd.not_found)
+            await ctx.reply_embed(ctx.l.config.cmd.not_found)
             return
 
         if cmd_true in disabled:
             self.bot.disabled_commands[ctx.guild.id].remove(cmd_true)
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, True)
-            await self.bot.reply_embed(ctx, ctx.l.config.cmd.reenable.format(cmd_true))
+            await ctx.reply_embed(ctx.l.config.cmd.reenable.format(cmd_true))
         else:
             self.bot.disabled_commands[ctx.guild.id].add(cmd_true)
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, False)
-            await self.bot.reply_embed(ctx, ctx.l.config.cmd.disable.format(cmd_true))
+            await ctx.reply_embed(ctx.l.config.cmd.disable.format(cmd_true))
 
     @config.command(name="filterwords", aliases=["wordfilter", "wordblacklist", "wbl"])
     @commands.guild_only()
@@ -200,7 +199,7 @@ class Config(commands.Cog):
         guild = await self.db.fetch_guild(ctx.guild.id)
 
         if not guild["premium"]:
-            await self.bot.reply_embed(ctx, ctx.l.config.cmd.not_prem)
+            await ctx.reply_embed(ctx.l.config.cmd.not_prem)
             return
 
         words = await self.db.fetch_filtered_words(ctx.guild.id)
@@ -211,8 +210,7 @@ class Config(commands.Cog):
             else:
                 words_nice = ctx.l.config.wbl.current_none
 
-            await self.bot.reply_embed(
-                ctx,
+            await ctx.reply_embed(
                 "\n".join(
                     [
                         words_nice,
@@ -228,7 +226,7 @@ class Config(commands.Cog):
         if operation == "add":
             await self.db.add_filtered_word(ctx.guild.id, word)
             self.bot.filter_words_cache[ctx.guild.id].append(word)
-            await self.bot.reply_embed(ctx, ctx.l.config.wbl.added.format(word))
+            await ctx.reply_embed(ctx.l.config.wbl.added.format(word))
         elif operation == "remove" or operation == "delete":
             try:
                 self.bot.filter_words_cache[ctx.guild.id].remove(word)
@@ -237,10 +235,9 @@ class Config(commands.Cog):
             else:
                 await self.db.remove_filtered_word(ctx.guild.id, word)
 
-            await self.bot.reply_embed(ctx, ctx.l.config.wbl.removed.format(word))
+            await ctx.reply_embed(ctx.l.config.wbl.removed.format(word))
         else:
-            await self.bot.reply_embed(
-                ctx,
+            await ctx.reply_embed(
                 " ".join(
                     [
                         ctx.l.config.wbl.invalid,
@@ -255,8 +252,7 @@ class Config(commands.Cog):
     async def config_gift_alert(self, ctx, alert=None):
         if alert is None:
             db_user = await self.db.fetch_user(ctx.author.id)
-            await self.bot.reply_embed(
-                ctx,
+            await ctx.reply_embed(
                 ctx.l.config.gift.this_user.format(
                     db_user["give_alert"] * "enabled" + "disabled" * (not db_user["give_alert"])
                 ),
@@ -265,12 +261,12 @@ class Config(commands.Cog):
 
         if alert.lower() in ("yes", "true", "on"):
             await self.db.update_user(ctx.author.id, give_alert=True)
-            await self.bot.reply_embed(ctx, ctx.l.config.gift.set.format("on"))
+            await ctx.reply_embed(ctx.l.config.gift.set.format("on"))
         elif alert.lower() in ("no", "false", "off"):
             await self.db.update_user(ctx.author.id, give_alert=False)
-            await self.bot.reply_embed(ctx, ctx.l.config.gift.set.format("off"))
+            await ctx.reply_embed(ctx.l.config.gift.set.format("off"))
         else:
-            await self.bot.reply_embed(ctx, ctx.l.config.invalid.format("`on`, `off`"))
+            await ctx.reply_embed(ctx.l.config.invalid.format("`on`, `off`"))
 
     @config.command(name="clearrconpasswords", aliases=["clearpasswords", "deletepasswords", "delrconpasswords"])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -278,11 +274,11 @@ class Config(commands.Cog):
         deleted = len(await self.db.mass_delete_user_rcon(ctx.author.id))
 
         if deleted < 1:
-            await self.bot.reply_embed(ctx, ctx.l.config.rcon.none)
+            await ctx.reply_embed(ctx.l.config.rcon.none)
         elif deleted == 1:
-            await self.bot.reply_embed(ctx, ctx.l.config.rcon.one)
+            await ctx.reply_embed(ctx.l.config.rcon.one)
         else:
-            await self.bot.reply_embed(ctx, ctx.l.config.rcon.multi.format(deleted))
+            await ctx.reply_embed(ctx.l.config.rcon.multi.format(deleted))
 
 
 def setup(bot):

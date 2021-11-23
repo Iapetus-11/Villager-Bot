@@ -54,7 +54,7 @@ class Minecraft(commands.Cog):
         files = ctx.message.attachments
 
         if len(files) < 1 and not media_link:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
+            await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_1)
             return
 
         if files:
@@ -63,13 +63,13 @@ class Minecraft(commands.Cog):
             is_video = file_name.endswith(".gif") or file_name.endswith(".mp4")
 
             if is_video and ctx.author.id not in self.bot.owner_ids:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
+                await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_2)
                 return
 
             try:
                 media.height
             except Exception:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_3)
+                await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_3)
                 return
 
             media_bytes = await media.read(use_cached=True)
@@ -81,7 +81,7 @@ class Minecraft(commands.Cog):
             link_split_slash = media_link.split("/")
 
             if not (link_split_dot and link_split_slash):
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
+                await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_1)
                 return
 
             file_name = link_split_slash[-1]
@@ -89,21 +89,21 @@ class Minecraft(commands.Cog):
             is_video = file_name.endswith(".gif") or file_name.endswith(".mp4")
 
             if is_video and ctx.author.id not in self.bot.owner_ids:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
+                await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_2)
                 return
 
             if not file_name.split(".")[-1] in VALID_TILER_FILE_TYPES:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
+                await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_2)
                 return
 
             try:
                 media_bytes = await (await self.aiohttp.get(media_link)).read()
             except aiohttp.client_exceptions.InvalidURL:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_1)
+                await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_1)
                 return
 
         if not file_name.split(".")[-1] in VALID_TILER_FILE_TYPES:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.mcimage.stupid_2)
+            await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_2)
             return
 
         detailed = False
@@ -139,7 +139,7 @@ class Minecraft(commands.Cog):
 
             combined = (await self.db.fetch_guild(ctx.guild.id))["mc_server"]
             if combined is None:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
+                await ctx.reply_embed(ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
                 return
         else:
             port_str = ""
@@ -306,11 +306,11 @@ class Minecraft(commands.Cog):
                 res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
+                await ctx.reply_embed(ctx.l.minecraft.invalid_player)
                 return
 
             if res.status != 200:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.stealskin.error)
+                await ctx.reply_embed(ctx.l.minecraft.stealskin.error)
                 return
 
             jj = await res.json()
@@ -320,14 +320,14 @@ class Minecraft(commands.Cog):
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
+            await ctx.reply_embed(ctx.l.minecraft.invalid_player)
             return
 
         async with SuppressCtxManager(ctx.typing()):
             res = await self.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
 
         if res.status != 200:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.stealskin.error)
+            await ctx.reply_embed(ctx.l.minecraft.stealskin.error)
             return
 
         profile = await res.json()
@@ -339,7 +339,7 @@ class Minecraft(commands.Cog):
                 break
 
         if skin_url is None:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.stealskin.no_skin)
+            await ctx.reply_embed(ctx.l.minecraft.stealskin.no_skin)
             return
 
         embed = discord.Embed(
@@ -359,11 +359,11 @@ class Minecraft(commands.Cog):
                 res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
 
             if res.status == 204:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
+                await ctx.reply_embed(ctx.l.minecraft.invalid_player)
                 return
 
             if res.status != 200:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.profile.error)
+                await ctx.reply_embed(ctx.l.minecraft.profile.error)
                 return
 
             jj = await res.json()
@@ -373,7 +373,7 @@ class Minecraft(commands.Cog):
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
+            await ctx.reply_embed(ctx.l.minecraft.invalid_player)
             return
 
         async with SuppressCtxManager(ctx.typing()):
@@ -384,11 +384,11 @@ class Minecraft(commands.Cog):
 
         for res in resps:
             if res.status == 204:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
+                await ctx.reply_embed(ctx.l.minecraft.invalid_player)
                 return
 
             if res.status != 200:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.profile.error)
+                await ctx.reply_embed(ctx.l.minecraft.profile.error)
                 return
 
         names = cj.classify(await resps[0].json())
@@ -448,12 +448,12 @@ class Minecraft(commands.Cog):
             res = await self.aiohttp.get(f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi})
 
         if res.status != 200:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.invalid_player)
+            await ctx.reply_embed(ctx.l.minecraft.invalid_player)
             return
 
         xuid = f'{"0"*8}-{"0000-"*3}{hex(int(await res.text())).strip("0x")}'
 
-        await self.bot.reply_embed(ctx, f'**{username}**: `{xuid}` / `{xuid[20:].replace("-", "").upper()}`')
+        await ctx.reply_embed(f'**{username}**: `{xuid}` / `{xuid[20:].replace("-", "").upper()}`')
 
     @commands.command(name="mccolors", aliases=["minecraftcolors", "chatcolors", "colorcodes"])
     async def color_codes(self, ctx):
@@ -508,7 +508,7 @@ class Minecraft(commands.Cog):
         prefix = random.choice(self.d.build_ideas["prefixes"])
         idea = random.choice(self.d.build_ideas["ideas"])
 
-        await self.bot.reply_embed(ctx, f"{prefix} {idea}!")
+        await ctx.reply_embed(f"{prefix} {idea}!")
 
     @commands.command(name="rcon", aliases=["mccmd"])
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
@@ -518,7 +518,7 @@ class Minecraft(commands.Cog):
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
         if db_guild["mc_server"] is None:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.stupid_1.format(ctx.prefix))
+            await ctx.reply_embed(ctx.l.minecraft.rcon.stupid_1.format(ctx.prefix))
             return
 
         db_user_rcon = await self.db.fetch_user_rcon(ctx.author.id, db_guild["mc_server"])
@@ -527,7 +527,7 @@ class Minecraft(commands.Cog):
             try:
                 await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.port)
             except Exception:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.dm_error, True)
+                await ctx.reply_embed(ctx.l.minecraft.rcon.dm_error, True)
                 return
 
             try:
@@ -556,7 +556,7 @@ class Minecraft(commands.Cog):
             try:
                 await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.passw)
             except Exception:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.dm_error, True)
+                await ctx.reply_embed(ctx.l.minecraft.rcon.dm_error, True)
                 return
 
             try:
@@ -597,9 +597,9 @@ class Minecraft(commands.Cog):
             await rcon_con.connect(timeout=2.5)
         except Exception as e:
             if isinstance(e, rcon.IncorrectPasswordError):
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.stupid_2)
+                await ctx.reply_embed(ctx.l.minecraft.rcon.stupid_2)
             else:
-                await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.err_con + f"\n{format_exception(e)}")
+                await ctx.reply_embed(ctx.l.minecraft.rcon.err_con + f"\n{format_exception(e)}")
 
             await self.db.delete_user_rcon(ctx.author.id, db_guild["mc_server"])
             await rcon_con.close()
@@ -614,7 +614,7 @@ class Minecraft(commands.Cog):
         try:
             resp = await rcon_con.send_cmd(cmd[:1445])
         except Exception:
-            await self.bot.reply_embed(ctx, ctx.l.minecraft.rcon.err_cmd)
+            await ctx.reply_embed(ctx.l.minecraft.rcon.err_cmd)
             await rcon_con.close()
             self.bot.rcon_cache.pop((ctx.author.id, db_guild["mc_server"]), None)
 

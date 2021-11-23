@@ -177,7 +177,7 @@ class Fun(commands.Cog):
             translated = self.lang_convert(strip_command(ctx), self.d.fun_langs.villager)
             await ctx.send(translated)
         except ValueError:
-            await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+            await ctx.send_embed(ctx.l.fun.too_long)
 
     @commands.command(name="enchant")
     async def enchant_lang(self, ctx, *, msg):
@@ -187,7 +187,7 @@ class Fun(commands.Cog):
             translated = self.lang_convert((strip_command(ctx)).lower(), self.d.fun_langs.enchant)
             await ctx.send(translated)
         except ValueError:
-            await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+            await ctx.send_embed(ctx.l.fun.too_long)
 
     @commands.command(name="unenchant")
     async def unenchant_lang(self, ctx, *, msg):
@@ -197,7 +197,7 @@ class Fun(commands.Cog):
             translated = self.lang_convert(strip_command(ctx), self.d.fun_langs.unenchant)
             await ctx.send(translated)
         except ValueError:
-            await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+            await ctx.send_embed(ctx.l.fun.too_long)
 
     @commands.command(name="vaporwave")
     async def vaporwave_text(self, ctx, *, msg):
@@ -207,7 +207,7 @@ class Fun(commands.Cog):
             translated = self.lang_convert(strip_command(ctx), self.d.fun_langs.vaporwave)
             await ctx.send(translated)
         except ValueError:
-            await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+            await ctx.send_embed(ctx.l.fun.too_long)
 
     @commands.command(name="sarcastic", aliases=["spongebob"])
     async def sarcastic_text(self, ctx, *, msg):
@@ -236,7 +236,7 @@ class Fun(commands.Cog):
         clapped = ":clap: " + " :clap: ".join((strip_command(ctx)).split(" ")) + " :clap:"
 
         if len(clapped) > 2000:
-            await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+            await ctx.send_embed(ctx.l.fun.too_long)
             return
 
         await ctx.send(clapped)
@@ -255,7 +255,7 @@ class Fun(commands.Cog):
                 text += self.d.emojified.get(letter, letter) + " "
 
         if len(text) > 2000:
-            await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+            await ctx.send_embed(ctx.l.fun.too_long)
         else:
             await ctx.send(text)
 
@@ -266,7 +266,7 @@ class Fun(commands.Cog):
         text = text.lower().replace("l", "w").replace("r", "w")
 
         if len(text) > 1950:
-            await self.bot.send_embed(ctx, ctx.l.fun.too_long)
+            await ctx.send_embed(ctx.l.fun.too_long)
         else:
             await ctx.send(f"{text} {random.choice(self.d.owos)}")
 
@@ -280,34 +280,34 @@ class Fun(commands.Cog):
             size = size.split("x")
 
             if len(size) != 2:
-                await self.bot.send_embed(ctx, ctx.l.fun.bubblewrap.invalid_size_1)
+                await ctx.send_embed(ctx.l.fun.bubblewrap.invalid_size_1)
                 return
 
             try:
                 size[0] = int(size[0])
                 size[1] = int(size[1])
             except ValueError:
-                await self.bot.send_embed(ctx, ctx.l.fun.bubblewrap.invalid_size_1)
+                await ctx.send_embed(ctx.l.fun.bubblewrap.invalid_size_1)
                 return
 
             for val in size:
                 if val < 1 or val > 12:
-                    await self.bot.send_embed(ctx, ctx.l.fun.bubblewrap.invalid_size_2)
+                    await ctx.send_embed(ctx.l.fun.bubblewrap.invalid_size_2)
                     return
 
         bubble = "||**pop**||"
-        await self.bot.send_embed(ctx, f"{bubble*size[0]}\n" * size[1])
+        await ctx.send_embed(f"{bubble*size[0]}\n" * size[1])
 
     @commands.command(name="kill", aliases=["die", "kil", "dorito"])
     async def kill_thing(self, ctx, *, thing: typing.Union[discord.Member, str]):
         if isinstance(thing, discord.Member):
             thing = thing.mention
 
-        await self.bot.send_embed(ctx, random.choice(self.d.kills).format(thing[:500], ctx.author.mention))
+        await ctx.send_embed(random.choice(self.d.kills).format(thing[:500], ctx.author.mention))
 
     @commands.command(name="coinflip", aliases=["flipcoin", "cf"])
     async def coin_flip(self, ctx):
-        await self.bot.send_embed(ctx, random.choice(("heads", "tails")))
+        await ctx.send_embed(random.choice(("heads", "tails")))
 
     @commands.command(name="pat")
     @commands.guild_only()
@@ -519,7 +519,7 @@ class Fun(commands.Cog):
         elif isinstance(thing, discord.Member):
             thing = thing.mention
 
-        await self.bot.reply_embed(ctx, ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", thing))
+        await ctx.reply_embed(ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", thing))
 
 
 def setup(bot):
