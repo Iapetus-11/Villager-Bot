@@ -1,6 +1,7 @@
 from urllib.parse import quote as urlquote
 from cryptography.fernet import Fernet
 from discord.ext import commands
+from contextlib import suppress
 import aiomcrcon as rcon
 import classyjson as cj
 import aiohttp
@@ -579,10 +580,8 @@ class Minecraft(commands.Cog):
             rcon_port = db_user_rcon["rcon_port"]
             password = self.fernet.decrypt(db_user_rcon["password"].encode("utf-8")).decode("utf-8")  # decrypt to plaintext
 
-        try:
+        with suppress(Exception):
             await ctx.trigger_typing()
-        except Exception:
-            pass
 
         try:
             rcon_con = self.bot.rcon_cache.get((ctx.author.id, db_guild["mc_server"]))
