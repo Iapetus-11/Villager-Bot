@@ -902,9 +902,7 @@ class Econ(commands.Cog):
                     self.db.log_transaction(db_item["name"], amount, arrow.utcnow().datetime, ctx.author.id, user.id)
                 )
 
-                await ctx.reply_embed(
-                    ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item["name"], user.mention)
-                )
+                await ctx.reply_embed(ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item["name"], user.mention))
 
                 if (await self.db.fetch_user(user.id))["give_alert"]:
                     await self.bot.send_embed(
@@ -998,9 +996,7 @@ class Econ(commands.Cog):
 
                 await self.db.balance_add(ctx.author.id, amount)
 
-                await ctx.reply_embed(
-                    random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}")
-                )
+                await ctx.reply_embed(random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}"))
         else:
             amount = 9 + math.ceil(math.log(db_user["emeralds"] + 1, 1.3)) + random.randint(1, 5)  # ah yes, meth
 
@@ -1157,9 +1153,7 @@ class Econ(commands.Cog):
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish.name, -1, 1)
-        await ctx.reply_embed(
-            random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True
-        )
+        await ctx.reply_embed(random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True)
 
         await self.db.update_lb(ctx.author.id, "fish_fished", 1, "add")
 
@@ -1253,9 +1247,7 @@ class Econ(commands.Cog):
                 await self.db.balance_sub(victim.id, stolen)
                 await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
 
-                await ctx.reply_embed(
-                    random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald)
-                )
+                await ctx.reply_embed(random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
                 await self.bot.send_embed(
                     victim,
                     random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald),
@@ -1268,9 +1260,7 @@ class Econ(commands.Cog):
                 await self.db.balance_sub(ctx.author.id, penalty)
                 await self.db.balance_add(victim.id, penalty)
 
-                await ctx.reply_embed(
-                    random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald)
-                )
+                await ctx.reply_embed(random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
                 await self.bot.send_embed(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
         finally:
             if not res.locked:

@@ -590,9 +590,7 @@ class Useful(commands.Cog):
             return
 
         await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, " ".join(args[i:])[:499], at.datetime)
-        await ctx.reply_embed(
-            ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang))
-        )
+        await ctx.reply_embed(ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
 
     @commands.command(name="snipe")
     async def snipe_message(self, ctx):

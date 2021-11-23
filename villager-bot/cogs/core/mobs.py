@@ -203,14 +203,18 @@ class MobSpawner(commands.Cog):
 
                 if mob.health < 1:  # user wins
                     await fight_msg.edit(suppress=True)
-                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice.lower(), user_sword.lower()))
+                    await ctx.send_embed(
+                        random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice.lower(), user_sword.lower())
+                    )
 
                     break
                 else:
                     if mob_key == "baby_slime" and user_dmg == 0:  # say user missed the slime
                         await ctx.send_embed(random.choice(mob.misses).format(user_sword.lower()))
                     else:  # send regular attack message
-                        await ctx.send_embed(random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice.lower(), user_sword.lower()))
+                        await ctx.send_embed(
+                            random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice.lower(), user_sword.lower())
+                        )
 
                 async with SuppressCtxManager(ctx.typing()):
                     await asyncio.sleep(0.75 + random.random() * 2)
@@ -337,7 +341,9 @@ class MobSpawner(commands.Cog):
                 if mob_key == "creeper":
                     await ctx.send_embed(random.choice(ctx.l.mobs_mech.lost.creeper).format(ems_lost, self.d.emojis.emerald))
                 else:
-                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.lost.normal).format(mob.nice.lower(), ems_lost, self.d.emojis.emerald))
+                    await ctx.send_embed(
+                        random.choice(ctx.l.mobs_mech.lost.normal).format(mob.nice.lower(), ems_lost, self.d.emojis.emerald)
+                    )
         finally:
             await self.db.update_user(user.id, health=user_health)
             await self.ipc.eval(f"econ_paused_users.pop({user.id}, None)")  # unpause user
