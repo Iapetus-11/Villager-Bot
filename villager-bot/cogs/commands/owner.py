@@ -134,7 +134,7 @@ class Owner(commands.Cog):
             uid = user
 
         await self.db.update_user(uid, bot_banned=True)
-        await self.ipc.eval(f"self.ban_cache.add({uid})")
+        await self.ipc.broadcast({"type": PacketType.EVAL, "code": f"self.ban_cache.add({uid})"})
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
@@ -147,7 +147,7 @@ class Owner(commands.Cog):
             uid = user
 
         await self.db.update_user(uid, bot_banned=False)
-        await self.ipc.eval(f"self.ban_cache.remove({uid})")
+        await self.ipc.broadcast({"type": PacketType.EVAL, "code": f"self.ban_cache.remove({uid})"})
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
