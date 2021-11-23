@@ -18,6 +18,7 @@ from util.ipc import Client, PacketType, PacketHandlerRegistry, handle_packet
 from util.misc import TTLPreventDuplicate, update_support_member_role
 from util.setup import load_text, load_secrets, load_data
 from util.code import execute_code, format_exception
+from util.ctx import BetterContext
 
 
 def run_cluster(shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
@@ -121,6 +122,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             "aiohttp": self.aiohttp,
             "db": self.db,
         }
+
+    async def get_context(self, *args, **kwargs) -> BetterContext:
+        return await super().get_context(*args, **kwargs, cls=BetterContext)
 
     async def start(self, *args, **kwargs):
         await self.ipc.connect(self.k.manager.auth)
