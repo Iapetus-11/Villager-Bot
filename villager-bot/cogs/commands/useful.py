@@ -529,7 +529,13 @@ class Useful(commands.Cog):
 
         res = res[0]
 
-        await ctx.reply(res.image_url, mention_author=False)
+        try:
+            await ctx.reply(res.image_url, mention_author=False)
+        except discord.HTTPException as e:
+            if e.code == 50035:
+                await ctx.send(res.image_url)
+            else:
+                raise
 
     @commands.command(name="remindme", aliases=["remind"])
     @commands.cooldown(1, 2, commands.BucketType.user)
