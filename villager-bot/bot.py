@@ -171,8 +171,11 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def reply_embed(self, location, message: str, ping: bool = False, *, ignore_exceptions: bool = False) -> None:
         try:
             await location.reply(embed=discord.Embed(color=self.d.cc, description=message), mention_author=ping)
-        except discord.errors.HTTPException:
-            await self.send_embed(location, message, ignore_exceptions=ignore_exceptions)
+        except discord.errors.HTTPException as e:
+            if e.code == 50035:  # invalid form body, happens sometimes when the message to reply to can't be found?
+                await self.send_embed(location, message, ignore_exceptions=ignore_exceptions)
+            elif not ignore_exceptions:
+                raise
         except discord.errors.Forbidden:
             if not ignore_exceptions:
                 raise
