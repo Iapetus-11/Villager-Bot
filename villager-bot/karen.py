@@ -211,7 +211,7 @@ class MechaKaren(PacketHandlerRegistry):
 
     @handle_packet(PacketType.PILLAGE)
     async def handle_pillage_packet(self, packet: ClassyDict):
-        self.v.pillages[packet.author] += 1
+        self.v.pillages[packet.pillager] += 1
         return {"pillager": self.v.pillages[packet.pillager] - 1, "victim": self.v.pillages[packet.victim] - 1}
 
     @handle_packet(PacketType.FETCH_STATS)
