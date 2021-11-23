@@ -5,7 +5,7 @@
 [![Server Count](https://top.gg/api/widget/servers/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
 [![Support Server](https://img.shields.io/discord/641117791272960031?color=0FAE6E&label=discord%20server)](https://discord.gg/39DwwUV)
 
-## Cool/Notable Features
+## Cool / Notable Features
 * Ability to generate Minecraft pixel art from images sent in the chat
 * Ability to ping / check the status of any Minecraft server
 * Expansive economy system (based upon emeralds obviously!)
