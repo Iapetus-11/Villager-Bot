@@ -5,3 +5,5 @@ villager-bot/*.pyd
 villager-bot/*.so
 
 __pycache__/
+
+.venv/
