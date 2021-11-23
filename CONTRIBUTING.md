@@ -6,6 +6,6 @@ If a bug or unintended behavior is discovered, please report it by creating an i
 ## Contributing Code
 * Use f-strings instead of .format() or concatenation
 * The title/name of a pull request should be reflective of the content of the PR itself
-* Remember to update the translation/language files if neccessary
+* Remember to update the translation/language files if necessary
 
 Again, thanks for helping!
