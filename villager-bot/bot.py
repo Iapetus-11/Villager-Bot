@@ -123,9 +123,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             "db": self.db,
         }
 
-    async def get_context(self, *args, **kwargs) -> BetterContext:
-        return await super().get_context(*args, **kwargs, cls=BetterContext)
-
     async def start(self, *args, **kwargs):
         await self.ipc.connect(self.k.manager.auth)
         self.db = await setup_database_pool(self.k, self.max_db_pool_size)
@@ -165,6 +162,14 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         return self.l["en"]
 
+    async def get_context(self, *args, **kwargs) -> BetterContext:
+        ctx = await super().get_context(*args, **kwargs, cls=BetterContext)
+
+        ctx.embed_color = self.d.cc
+        ctx.l = self.get_language(ctx)
+
+        return ctx
+
     async def send_embed(self, location, message: str, *, ignore_exceptions: bool = False) -> None:
         try:
             await location.send(embed=discord.Embed(color=self.d.cc, description=message))
@@ -191,7 +196,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def check_global(self, ctx) -> bool:  # the global command check
         self.command_count += 1
 
-        ctx.l = self.get_language(ctx)
         command = str(ctx.command)
 
         if ctx.author.id in self.ban_cache:

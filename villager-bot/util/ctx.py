@@ -6,6 +6,7 @@ class BetterContext(Context):
     def __init__(self, *args, embed_color: discord.Color = None, **kwargs):
         super().__init__(*args, **kwargs)
         self.embed_color = embed_color  # used in send_embed(...) and reply_embed(...)
+        self.l = None  # the translation of the bot text for the current context
 
     async def send_embed(self, message: str, *, ignore_exceptions: bool = False) -> None:
         try:
