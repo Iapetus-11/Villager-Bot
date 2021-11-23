@@ -1,4 +1,5 @@
 from discord.ext import commands
+from contextlib import suppress
 import asyncio
 import discord
 import random
@@ -125,23 +126,19 @@ class Events(commands.Cog):
             text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits)  |  Check the {self.d.default_prefix}rules"
         )
 
-        try:
+        with suppress(discord.errors.Forbidden):
             await channel.send(embed=embed)
-        except discord.errors.Forbidden:
-            pass
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
         if await self.db.fetch_user_muted(member.id, member.guild.id):
-            try:
+            with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
                 # fetch role
                 mute = discord.utils.get(member.guild.roles, name="Muted")
                 if mute is None:
                     mute = discord.utils.get(await member.guild.fetch_roles(), name="Muted")
 
                 await member.add_roles(mute)
-            except (discord.errors.Forbidden, discord.errors.HTTPException):
-                pass
 
         if member.guild.id == self.d.support_server_id:
             await update_support_member_role(self.bot, member)
@@ -177,7 +174,7 @@ class Events(commands.Cog):
         if isinstance(message.channel, discord.DMChannel):
             await self.ipc.send({"type": PacketType.DM_MESSAGE, "user_id": message.author.id, "content": message.content})
 
-            try:
+            with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
                 prior_messages = len(await message.channel.history(limit=1, before=message).flatten())
 
                 if prior_messages < 1:
@@ -193,8 +190,6 @@ class Events(commands.Cog):
                     )
 
                     await message.channel.send(embed=embed)
-            except (discord.errors.Forbidden, discord.errors.HTTPException):
-                pass
         else:
             if await self.filter_keywords(message):
                 return
@@ -211,10 +206,8 @@ class Events(commands.Cog):
             embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
             embed.set_footer(text=lang.useful.credits.foot.format(prefix))
 
-            try:
+            with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
                 await message.channel.send(embed=embed)
-            except (discord.errors.Forbidden, discord.errors.HTTPException):
-                pass
 
             return
 
@@ -245,12 +238,10 @@ class Events(commands.Cog):
             ]
 
             if len(someones) > 0:
-                try:
+                with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
                     await message.channel.send(
                         f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}"
                     )
-                except (discord.errors.Forbidden, discord.errors.HTTPException):
-                    pass
 
                 return
 
@@ -258,7 +249,7 @@ class Events(commands.Cog):
             prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
 
             if not message.content.startswith(prefix):
-                try:
+                with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
                     if "emerald" in content_lower:
                         await message.channel.send(random.choice(self.d.hmms))
                     elif "creeper" in content_lower:
@@ -269,8 +260,6 @@ class Events(commands.Cog):
                         await message.channel.send(self.d.emojis.amogus)
                     elif content_lower == "good bot":
                         await message.reply(random.choice(self.d.owos), mention_author=False)
-                except (discord.errors.Forbidden, discord.errors.HTTPException):
-                    pass
 
     async def handle_cooldown(self, ctx, remaining: float, karen_cooldown: bool) -> None:
         if ctx.command.name == "mine":

@@ -1,5 +1,6 @@
 from collections import defaultdict
 from discord.ext import commands
+from contextlib import suppress
 from datetime import datetime
 from typing import List, Set
 import asyncio
@@ -101,15 +102,11 @@ class Database(commands.Cog):
     async def drop_guild(self, guild_id: int) -> None:
         await self.db.execute("DELETE FROM guilds WHERE guild_id = $1", guild_id)
 
-        try:
+        with suppress(KeyError):
             del self.bot.lang_cache[guild_id]
-        except KeyError:
-            pass
 
-        try:
+        with suppress(KeyError):
             del self.bot.prefix_cache[guild_id]
-        except KeyError:
-            pass
 
     async def fetch_guild_premium(self, guild_id: int) -> bool:
         return bool(await self.db.fetchval("SELECT premium FROM guilds WHERE guild_id = $1", guild_id))
@@ -422,10 +419,8 @@ class Database(commands.Cog):
             if user_id not in self.bot.ban_cache:
                 self.bot.ban_cache.add(user_id)
         else:
-            try:
+            with suppress(ValueError):
                 self.bot.ban_cache.remove(user_id)
-            except ValueError:
-                pass
 
         await self.db.execute("UPDATE users SET bot_banned = $1 WHERE user_id = $2", botbanned, user_id)
 
