@@ -1,9 +1,12 @@
+from contextlib import redirect_stdout, redirect_stderr
 from discord.ext import commands
 from typing import Union
 import aiofiles
 import asyncio
 import discord
 import arrow
+import sys
+import io
 import os
 
 from util.code import execute_code, format_exception
@@ -62,10 +65,19 @@ class Owner(commands.Cog):
         if stuff.startswith("py"):
             stuff = stuff[2:]
 
+
         try:
-            result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
-            await ctx.reply(f"```{str(result).replace('```', '｀｀｀')}```")
+            out = io.StringIO()
+
+            with redirect_stdout(out), redirect_stderr(out):
+                result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
+
+            sys.stdout.write(out.getvalue())
+
+            result_str = f"{out.getvalue()}{result}".replace('```', '｀｀｀')
+            await ctx.reply(f"```\n{result_str}```")
         except Exception as e:
+            print("Exception:", e)
             await ctx.reply(f"```py\n{format_exception(e)[:2000-9].replace('```', '｀｀｀')}```")
 
     @commands.command(name="evalglobal", aliases=["evalall", "evalg"])
