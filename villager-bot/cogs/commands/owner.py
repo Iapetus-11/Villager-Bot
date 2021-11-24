@@ -65,7 +65,6 @@ class Owner(commands.Cog):
         if stuff.startswith("py"):
             stuff = stuff[2:]
 
-
         try:
             out = io.StringIO()
 
@@ -74,7 +73,7 @@ class Owner(commands.Cog):
 
             sys.stdout.write(out.getvalue())
 
-            result_str = f"{out.getvalue()}{result}".replace('```', '｀｀｀')
+            result_str = f"{out.getvalue()}{result}".replace("```", "｀｀｀")
             await ctx.reply(f"```\n{result_str}```")
         except Exception as e:
             print("Exception:", e)
