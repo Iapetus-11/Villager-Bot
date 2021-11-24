@@ -193,7 +193,8 @@ class MechaKaren(PacketHandlerRegistry):
 
     @handle_packet(PacketType.ACQUIRE_PILLAGE_LOCK)
     async def handle_acquire_pillage_lock_packet(self, packet: ClassyDict):
-        await self.pillage_lock.acquire(packet.user_ids)
+        # await self.pillage_lock.acquire(packet.user_ids)
+        pass
 
     @handle_packet(PacketType.RELEASE_PILLAGE_LOCK)
     async def handle_release_pillage_lock_packet(self, packet: ClassyDict):
