@@ -23,7 +23,7 @@ class Owner(commands.Cog):
         self.db = bot.get_cog("Database")
 
     @commands.before_invoke
-    async def cog_before_invoke(self, ctx):
+    async def before_cmd_invoke(self, ctx):
         print(f"{ctx.author}: {ctx.message.content}")
 
     @commands.command(name="reload")
