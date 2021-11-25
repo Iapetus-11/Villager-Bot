@@ -22,7 +22,7 @@ class Owner(commands.Cog):
         self.d = bot.d
         self.db = bot.get_cog("Database")
 
-    @commands.before_invoke()
+    @commands.before_invoke
     async def cog_before_invoke(self, ctx):
         print(f"{ctx.author}: {ctx.message.content}")
 
