@@ -362,7 +362,7 @@ class Econ(commands.Cog):
     async def vault_deposit(self, ctx, emerald_blocks: str):
         """Deposits the given amount of emerald blocks into the vault"""
 
-        await self.ipc.send({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id]})
+        await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id]})
 
         try:
             db_user = await self.db.fetch_user(ctx.author.id)
@@ -1186,7 +1186,7 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
-        await self.ipc.send({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id, victim.id]})
+        await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id, victim.id]})
 
         try:
             p_res = await self.ipc.request({"type": PacketType.PILLAGE, "pillager": ctx.author.id, "victim": victim.id})
