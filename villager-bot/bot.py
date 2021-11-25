@@ -295,6 +295,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     @handle_packet(PacketType.REMINDER)
     async def handle_reminder_packet(self, packet: ClassyDict):
+        success = False
         channel = self.get_channel(packet.channel_id)
 
         if channel is not None:
@@ -306,11 +307,15 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 try:
                     message = await channel.fetch_message(packet.message_id)
                     await message.reply(lang.useful.remind.reminder.format(user.mention, packet.reminder), mention_author=True)
+                    success = True
                 except Exception:
                     try:
                         await channel.send(lang.useful.remind.reminder.format(user.mention, packet.reminder))
+                        success = True
                     except Exception as e:
                         self.logger.error(format_exception(e))
+
+        return {"success": success}
 
     @handle_packet(PacketType.FETCH_STATS)
     async def handle_fetch_stats_packet(self, packet: ClassyDict):
