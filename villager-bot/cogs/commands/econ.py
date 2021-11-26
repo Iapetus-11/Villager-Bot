@@ -362,7 +362,7 @@ class Econ(commands.Cog):
     async def vault_deposit(self, ctx, emerald_blocks: str):
         """Deposits the given amount of emerald blocks into the vault"""
 
-        await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id]})
+        # await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id]})
 
         try:
             db_user = await self.db.fetch_user(ctx.author.id)
@@ -410,7 +410,8 @@ class Econ(commands.Cog):
                 ctx.l.econ.dep.deposited.format(amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald)
             )
         finally:
-            await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id]})
+            # await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id]})
+            pass
 
     @commands.command(name="withdraw", aliases=["with"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -846,7 +847,7 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.give.stupid_2)
             return
 
-        await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id, user.id]})
+        # await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id, user.id]})
 
         try:
             db_user = await self.db.fetch_user(ctx.author.id)
@@ -900,7 +901,8 @@ class Econ(commands.Cog):
                         user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"])
                     )
         finally:
-            await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id, user.id]})
+            # await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id, user.id]})
+            pass
 
     @commands.command(name="gamble", aliases=["bet", "stonk", "stonks"])
     # @commands.cooldown(1, 30, commands.BucketType.user)
@@ -1186,7 +1188,7 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
-        await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id, victim.id]})
+        # await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id, victim.id]})
 
         try:
             p_res = await self.ipc.request({"type": PacketType.PILLAGE, "pillager": ctx.author.id, "victim": victim.id})
@@ -1249,7 +1251,8 @@ class Econ(commands.Cog):
                 await ctx.reply_embed(random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
                 await self.bot.send_embed(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
         finally:
-            await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id, victim.id]})
+            # await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id, victim.id]})
+            pass
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
     # @commands.cooldown(1, 2, commands.BucketType.user)
