@@ -180,11 +180,13 @@ class MechaKaren(PacketHandlerRegistry):
 
     @handle_packet(PacketType.CONCURRENCY_ACQUIRE)
     async def handle_concurrency_acquire_packet(self, packet: ClassyDict):
-        self.concurrency.acquire(packet.command, packet.user_id)
+        # self.concurrency.acquire(packet.command, packet.user_id)
+        pass
 
     @handle_packet(PacketType.CONCURRENCY_RELEASE)
     async def handle_concurrency_release_packet(self, packet: ClassyDict):
-        self.concurrency.release(packet.command, packet.user_id)
+        # self.concurrency.release(packet.command, packet.user_id)
+        pass
 
     @handle_packet(PacketType.COMMAND_RAN)
     async def handle_command_ran_packet(self, packet: ClassyDict):
