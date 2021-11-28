@@ -247,16 +247,24 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         return True
 
     async def before_command_invoked(self, ctx):
-        if str(ctx.command) in self.d.concurrency_limited:
-            await self.ipc.send(
-                {"type": PacketType.CONCURRENCY_ACQUIRE, "command": str(ctx.command), "user_id": ctx.author.id}
-            )
+        try:
+            if str(ctx.command) in self.d.concurrency_limited:
+                await self.ipc.send(
+                    {"type": PacketType.CONCURRENCY_ACQUIRE, "command": str(ctx.command), "user_id": ctx.author.id}
+                )
+        except Exception as e:
+            self.logger.error(format_exception(e))
+            raise
 
     async def after_command_invoked(self, ctx):
-        if str(ctx.command) in self.d.concurrency_limited:
-            await self.ipc.send(
-                {"type": PacketType.CONCURRENCY_RELEASE, "command": str(ctx.command), "user_id": ctx.author.id}
-            )
+        try:
+            if str(ctx.command) in self.d.concurrency_limited:
+                await self.ipc.send(
+                    {"type": PacketType.CONCURRENCY_RELEASE, "command": str(ctx.command), "user_id": ctx.author.id}
+                )
+        except Exception as e:
+            self.logger.error(format_exception(e))
+            raise
 
     @handle_packet(PacketType.MISSING_PACKET)
     async def handle_missing_packet(self, packet: ClassyDict):
@@ -341,10 +349,16 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     @handle_packet(PacketType.UPDATE_SUPPORT_SERVER_ROLES)
     async def handle_update_support_server_roles_packet(self, packet: ClassyDict):
-        support_guild = self.get_guild(self.d.support_server_id)
+        success = False
 
-        if support_guild is not None:
-            member = support_guild.get_member(packet.user)
+        try:
+            support_guild = self.get_guild(self.d.support_server_id)
 
-            if member is not None:
-                await update_support_member_role(self, member)
+            if support_guild is not None:
+                member = support_guild.get_member(packet.user)
+
+                if member is not None:
+                    await update_support_member_role(self, member)
+                    success = True
+        finally:
+            return {"success": success}
