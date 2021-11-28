@@ -21,18 +21,18 @@ class Econ(commands.Cog):
         self.badges = bot.get_cog("Badges")
 
         # This links the max concurrency of the with, dep, sell, give, etc.. cmds
-        # for command in (
-        #     self.vault_deposit,
-        #     self.vault_withdraw,
-        #     self.buy,
-        #     self.sell,
-        #     self.give,
-        #     self.gamble,
-        #     self.search,
-        #     self.mine,
-        #     self.pillage,
-        # ):
-        #     command._max_concurrency = self.max_concurrency_dummy._max_concurrency
+        for command in (
+            self.vault_deposit,
+            self.vault_withdraw,
+            self.buy,
+            self.sell,
+            self.give,
+            self.gamble,
+            self.search,
+            self.mine,
+            self.pillage,
+        ):
+            command._max_concurrency = self.max_concurrency_dummy._max_concurrency
 
     @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
     def calc_yield_chance_list(self, pickaxe: str):
@@ -75,10 +75,10 @@ class Econ(commands.Cog):
 
         return True
 
-    # @commands.command(name="max_concurrency_dummy")
-    # @commands.max_concurrency(1, commands.BucketType.user)
-    # async def max_concurrency_dummy(self, ctx):
-    #     pass
+    @commands.command(name="max_concurrency_dummy")
+    @commands.max_concurrency(1, commands.BucketType.user)
+    async def max_concurrency_dummy(self, ctx):
+        pass
 
     @commands.command(name="profile", aliases=["pp"])
     async def profile(self, ctx, *, user: discord.User = None):
