@@ -285,6 +285,9 @@ class MechaKaren(PacketHandlerRegistry):
             except Exception as e:
                 self.logger.error(format_exception(e))
 
+                with open("reminderrors.txt", "a+") as f:
+                    f.write("\n" + format_exception(e) + "\n")
+
     async def start(self, pp):
         self.db = await asyncpg.create_pool(
             host=self.k.database.host,  # where db is hosted
