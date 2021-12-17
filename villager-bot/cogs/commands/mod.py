@@ -90,8 +90,14 @@ class Mod(commands.Cog):
             await ctx.reply_embed(ctx.l.mod.ban.stupid_2.format(victim))
             return
 
+        reason_split = reason.split()
+
+        if reason_split[0].isnumeric():
+            delete_days = int(float(reason_split[0]))
+            reason = " ".join(reason_split[1:])
+
         try:
-            await ctx.guild.ban(victim, reason=f"{ctx.author} | {reason}", delete_message_days=0)
+            await ctx.guild.ban(victim, reason=f"{ctx.author} | {reason}", delete_message_days=delete_days)
             await ctx.message.add_reaction(self.d.emojis.yes)
         except discord.errors.Forbidden:
             await ctx.reply_embed(ctx.l.mod.ban.stupid_3)
