@@ -136,12 +136,12 @@
         "gayrate": "`{0}gayrate <utilisateur>` *indique à quel point l'utilisateur est homosexuel*"
       },
       "mod": {
-        "warn": "`{0}warn <utilisateur> <raison>` *avertit un utilisateur pour la raison spécifiée*",
+        "warn": "`{0}warn <utilisateur> [optionnel: raison]` *avertit un utilisateur pour la raison spécifiée*",
         "warns": "`{0}warns <utilisateur>` *montre les avertissements d'un utilisateur, laisse vide pour voir les tiens*",
         "purge": "`{0}purge <quantité>` *purge les messages du canal actuel*",
         "delwarns": "`{0}delwarns <utilisateur>` *efface les avertissements qu'un utilisateur a sur ce serveur*",
-        "kick": "`{0}kick <utilisateur>` *kick l'utilisateur du serveur Discord actuel*",
-        "ban": "`{0}ban <utilisateur>` *bannit l'utilisateur du serveur Discord actuel*",
+        "kick": "`{0}kick <utilisateur> [optionnel: raison]` *kick l'utilisateur du serveur Discord actuel*",
+        "ban": "`{0}ban <utilisateur> [optionnel: nombre de jours de messages à supprimer] [optional: raison]` *bannit l'utilisateur du serveur Discord actuel*",
         "pardon": "`{0}pardon <utilisateur>` *débannit l'utilisateur du serveur Discord actuel*",
         "mute": "`{0}mute <utilisateur>` *rend l'utilisateur muet sur le serveur Discord actuel*",
         "unmute": "`{0}unmute <utilisateur>` *redonne la parole à l'utilisateur sur le serveur Discord actuel*"
