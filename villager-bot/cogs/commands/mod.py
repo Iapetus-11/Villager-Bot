@@ -96,6 +96,9 @@ class Mod(commands.Cog):
             delete_days = int(float(reason_split[0]))
             reason = " ".join(reason_split[1:])
 
+        if not reason:
+            reason = "No reason provided."
+
         try:
             await ctx.guild.ban(victim, reason=f"{ctx.author} | {reason}", delete_message_days=delete_days)
             await ctx.message.add_reaction(self.d.emojis.yes)
