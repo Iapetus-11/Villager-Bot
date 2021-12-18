@@ -524,6 +524,36 @@
         768,
         4096,
         true
+      ],
+      [
+        "Rudolphs Red Nose",
+        4096,
+        500000,
+        false
+      ],
+      [
+        "Whole Fucking Christmas Tree",
+        2048,
+        250000,
+        false
+      ],
+      [
+        "Whole Fucking Menorah",
+        2048,
+        250000,
+        false
+      ],
+      [
+        "Santa Hat",
+        1024,
+        20000,
+        false
+      ],
+      [
+        "Bottle Of Menorah Oil",
+        1024,
+        20000,
+        false
       ]
     ]
   },
