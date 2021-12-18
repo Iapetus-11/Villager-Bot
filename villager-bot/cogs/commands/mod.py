@@ -64,6 +64,8 @@ class Mod(commands.Cog):
     async def ban_user(self, ctx, victim: Union[discord.Member, int], *, reason="No reason provided."):
         """Bans the given user from the current Discord server"""
 
+        delete_days = 0
+
         if isinstance(victim, int):
             if self.bot.get_user(victim) is None:
                 try:
