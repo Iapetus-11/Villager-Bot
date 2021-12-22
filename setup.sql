@@ -54,16 +54,16 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
   commands           BIGINT NOT NULL DEFAULT 0 -- not super accurate as commands are cached for speed
 );
 
-CREATE TABLE IF NOT EXISTS pets (
-  user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE,
-  pet_type           VARCHAR(32) NOT NULL,
-  variant            SMALLINT,
-  pet_name           VARCHAR(32),
-  health             SMALLINT NOT NULL, -- 1 point = .5 hearts
-  max_health         SMALLINT NOT NULL, -- max hp
-  hunger             SMALLINT NOT NULL DEFAULT 20, -- 20 hunger points
-  born_at            TIMESTAMPTZ NOT NULL DEFAULT NOW()::TIMESTAMPTZ
-);
+-- CREATE TABLE IF NOT EXISTS pets (
+--   user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE,
+--   pet_type           VARCHAR(32) NOT NULL,
+--   variant            SMALLINT,
+--   pet_name           VARCHAR(32),
+--   health             SMALLINT NOT NULL, -- 1 point = .5 hearts
+--   max_health         SMALLINT NOT NULL, -- max hp
+--   hunger             SMALLINT NOT NULL DEFAULT 20, -- 20 hunger points
+--   born_at            TIMESTAMPTZ NOT NULL DEFAULT NOW()::TIMESTAMPTZ
+-- );
 
 CREATE TABLE IF NOT EXISTS muted_users (
   user_id            BIGINT NOT NULL,
