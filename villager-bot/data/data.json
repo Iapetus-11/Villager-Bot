@@ -1,5 +1,5 @@
 {
-  "default_prefix": "!!",
+  "default_prefix": ".",
   "embed_color": "green",
   "support_server_id": 641117791272960031,
   "error_channel_id": 642446655022432267,
@@ -934,6 +934,16 @@
       "gold_fish": "<:gold_fish:824468050744442900>",
       "emerald_fish": "<:emerald_fish:824468050727927838>"
     },
+    "squares": {
+      "blue": "🟦",
+      "purple": "🟪",
+      "red": "🟥",
+      "orange": "🟧",
+      "yellow": "🟨",
+      "green": "🟩",
+      "brown": "🟫",
+      "black": "⬛"
+    },
     "badges": {
       "code_helper": "<:code_helper:860562240293044224>",
       "translator": "<:translator:859492625132027934>",
@@ -1031,6 +1041,31 @@
     "Fishing Rod": "fishing_rod",
     "Jar Of Bees": "jar_of_bees",
     "Honey Jar": "honey_jar"
+  },
+  "farming": {
+    "emojis": {
+      "chorus_fruit": "purple",
+      "carrots": "orange",
+      "wheat": "yellow",
+      "emerald_fruit": "green",
+      "potatoes": "brown",
+      "dirt": "black"
+    },
+    "yields": {
+      "emerald_fruit": 1024,
+      "chorus_fruit": 512,
+      "potatoes": 256,
+      "carrots": 128,
+      "wheat": 64
+    },
+    "max_plots": {
+      "Netherite Hoe": 60,
+      "Diamond Hoe": 50,
+      "Gold Hoe": 40,
+      "Iron Hoe": 30,
+      "Stone Hoe": 20,
+      "Wood Hoe": 10
+    }
   },
   "build_ideas": {
     "ideas": [

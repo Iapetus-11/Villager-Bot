@@ -68,7 +68,8 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
 CREATE TABLE IF NOT EXISTS farm_plots (
   user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE,
   crop_type          VARCHAR NOT NULL,
-  plot_id            BIGSERIAL NOT NULL -- used for ordering plots in !!farm command
+  planted_at         TIMESTAMPTZ NOT NULL,
+  grow_time          INTERVAL
 );
 
 CREATE TABLE IF NOT EXISTS muted_users (
