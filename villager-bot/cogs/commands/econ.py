@@ -6,7 +6,15 @@ import random
 import arrow
 import math
 
-from util.misc import lb_logic, format_required, make_health_bar, calc_total_wealth, emojify_item, emojify_crop, SuppressCtxManager
+from util.misc import (
+    lb_logic,
+    format_required,
+    make_health_bar,
+    calc_total_wealth,
+    emojify_item,
+    emojify_crop,
+    SuppressCtxManager,
+)
 from util.ipc import PacketType
 
 
@@ -1702,16 +1710,27 @@ class Econ(commands.Cog):
         if ctx.invoked_subcommand is not None:
             return
 
-        db_farm_plots = await self.db.db.fetch("SELECT * FROM farm_plots WHERE user_id = $1 ORDER BY planted_at ASC", ctx.author.id)
-        available = await self.db.db.fetchval("SELECT COUNT(*) FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", ctx.author.id)
+        db_farm_plots = await self.db.db.fetch(
+            "SELECT * FROM farm_plots WHERE user_id = $1 ORDER BY planted_at ASC", ctx.author.id
+        )
+        available = await self.db.db.fetchval(
+            "SELECT COUNT(*) FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", ctx.author.id
+        )
 
-        emojis = [emojify_crop(self.d, r["crop_type"]) for r in db_farm_plots] + [emojify_crop(self.d, "dirt")] * (60 - len(db_farm_plots))
-        emoji_farm = "> " + "\n> ".join("".join(r[::-1]) for r in zip(*[emojis[i:i+5] for i in range(0, len(emojis), 5)][::-1]))
+        emojis = [emojify_crop(self.d, r["crop_type"]) for r in db_farm_plots] + [emojify_crop(self.d, "dirt")] * (
+            60 - len(db_farm_plots)
+        )
+        emoji_farm = "> " + "\n> ".join(
+            "".join(r[::-1]) for r in zip(*[emojis[i : i + 5] for i in range(0, len(emojis), 5)][::-1])
+        )
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f"{ctx.author.display_name}'s Farm", icon_url=ctx.author.avatar_url_as())
 
-        embed.add_field(name="Farm Commands", value="`!!farm plant` - plants one available seed\n`!!farm harvest` - harvests all available crops")
+        embed.add_field(
+            name="Farm Commands",
+            value="`!!farm plant` - plants one available seed\n`!!farm harvest` - harvests all available crops",
+        )
 
         embed.description = emoji_farm + f"\n\nAvailable to harvest: {available}/{len(db_farm_plots)}"
 
