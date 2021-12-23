@@ -1746,7 +1746,7 @@ class Econ(commands.Cog):
             "SELECT COUNT(crop_type) count, crop_type FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time GROUP BY crop_type ORDER BY count DESC", ctx.author.id
         )
 
-        await self.db.db.execute("DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time")
+        await self.db.db.execute("DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", ctx.author.id)
 
         reward = sum(self.d.farming.yields[r["crop_type"]] * r["count"] for r in records)
         await self.db.balance_add(reward)
