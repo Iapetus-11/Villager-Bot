@@ -1705,6 +1705,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.group(name="farm", case_insensitive=True)
+    @commands.is_owner()
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def farm(self, ctx):
         if ctx.invoked_subcommand is not None:
