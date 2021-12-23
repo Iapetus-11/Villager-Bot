@@ -1743,7 +1743,8 @@ class Econ(commands.Cog):
     @farm.command(name="harvest", aliases=["h"])
     async def farm_harvest(self, ctx):
         records = await self.db.db.fetchval(
-            "SELECT COUNT(crop_type) count, crop_type FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time GROUP BY crop_type ORDER BY count DESC", ctx.author.id
+            "SELECT COUNT(crop_type) count, crop_type FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time GROUP BY crop_type ORDER BY count DESC",
+            ctx.author.id,
         )
 
         await self.db.db.execute("DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time")
