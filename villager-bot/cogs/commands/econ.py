@@ -1736,6 +1736,25 @@ class Econ(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @farm.command(name="plant", aliases=["p"])
+    async def farm_plant(self, ctx):
+        raise NotImplementedError
+
+    @farm.command(name="harvest", aliases=["h"])
+    async def farm_harvest(self, ctx):
+        records = await self.db.db.fetchval(
+            "SELECT COUNT(crop_type) count, crop_type FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time GROUP BY crop_type ORDER BY count DESC", ctx.author.id
+        )
+
+        await self.db.db.execute("DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time")
+
+        reward = sum(self.d.farming.yields[r["crop_type"]] * r["count"] for r in records)
+        await self.db.balance_add(reward)
+
+        harvest_str = ", ".join([f"{r['count']} {r['crop_type']}" for r in records])
+
+        await ctx.reply_embed(f"Harvested and sold {harvest_str} for {reward}{self.d.emojis.emerald}")
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))
