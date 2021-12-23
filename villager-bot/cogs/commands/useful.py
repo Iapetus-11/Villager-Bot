@@ -325,10 +325,10 @@ class Useful(commands.Cog):
 
         col_1 = (
             f"{ctx.l.useful.stats.servers}: `{guild_count}`\n"
-            f"{ctx.l.useful.stats.dms}: `{dm_count}/128`\n"
+            f"{ctx.l.useful.stats.dms}: `{dm_count}`\n"
             f"{ctx.l.useful.stats.users}: `{user_count}`\n"
             f"{ctx.l.useful.stats.msgs}: `{message_count}`\n"
-            f"{ctx.l.useful.stats.cmds}: `{command_count}` `({round((command_count / (message_count + .000001)) * 100, 2)}%)`\n"
+            f"{ctx.l.useful.stats.cmds}: `{command_count}` `({round((command_count / (message_count + .0000001)) * 100, 2)}%)`\n"
             f"{ctx.l.useful.stats.cmds_sec}: `{round(command_count / uptime_seconds, 2)}`\n"
             f"{ctx.l.useful.stats.votes}: `{session_votes}`\n"
             f"{ctx.l.useful.stats.topgg}: `{round((session_votes / uptime_seconds) * 3600, 2)}`\n"
