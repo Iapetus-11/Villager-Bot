@@ -1755,7 +1755,7 @@ class Econ(commands.Cog):
 
         harvest_str = ", ".join([f"{r['count']} {r['crop_type']}" for r in records])
 
-        await ctx.reply_embed(f"Harvested and sold {harvest_str} for {reward}{self.d.emojis.emerald}")
+        await ctx.reply_embed(f"Harvested {harvest_str} for {reward}{self.d.emojis.emerald}")
 
 
 def setup(bot):

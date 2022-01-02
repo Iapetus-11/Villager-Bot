@@ -915,6 +915,16 @@
     "jar_of_bees": "<:jar_of_bees:839132481071349840>",
     "honey_jar": "<:honey_jar:839136850823348245>",
     "uno_reverse": "<:uno_reverse:863933879105880085>",
+    "farming": {
+      "growing": {
+        "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
+        "chorus_fruit": "<:chorus_fruit_growing:927292976999333948>",
+        "potatoes": "<:potatoes_growing:927292976995127316>",
+        "carrots": "<:carrots_growing:927292976852529163>",
+        "wheat": "<:wheat_growing:927292977091600494>",
+        "farmland": "<:farmland:927282404958285914>"
+      }
+    },
     "reees": [
       "<:reee1:655577956831199254>",
       "<:reee2:703802166900424754>",
@@ -1044,12 +1054,14 @@
   },
   "farming": {
     "emojis": {
-      "chorus_fruit": "purple",
-      "carrots": "orange",
-      "wheat": "yellow",
-      "emerald_fruit": "green",
-      "potatoes": "brown",
-      "dirt": "black"
+      "growing": {
+        "chorus_fruit": "chorus_fruit",
+        "carrots": "carrots",
+        "wheat": "wheat",
+        "emerald_fruit": "emerald_fruit",
+        "potatoes": "potatoes",
+        "dirt": "farmland"
+      }
     },
     "yields": {
       "emerald_fruit": 1024,

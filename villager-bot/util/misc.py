@@ -112,7 +112,7 @@ def emojify_item(d, item: str):
 
 
 def emojify_crop(d, crop: str):
-    return d.emojis.squares[d.farming.emojis[crop]]
+    return d.emojis.farming.growing[d.farming.emojis.growing[crop]]
 
 
 def format_required(d: object, shop_item: object, amount: int = 1):
