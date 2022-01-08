@@ -1758,7 +1758,7 @@ class Econ(commands.Cog):
                 r["count"],
             )
 
-        harvest_str = ", ".join([f"{r['count']} {r['crop_type']}" for r in records])
+        harvest_str = ", ".join([f"{r['count']} {self.d.emojis.farming.normal[r['crop_type']]}" for r in records])
 
         await ctx.reply_embed(f"Harvested {harvest_str}")
 
