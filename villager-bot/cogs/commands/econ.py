@@ -1750,12 +1750,17 @@ class Econ(commands.Cog):
 
         await self.db.db.execute("DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", ctx.author.id)
 
-        reward = sum(self.d.farming.yields[r["crop_type"]] * r["count"] for r in records)
-        await self.db.balance_add(ctx.author.id, reward)
+        for r in records:
+            await self.db.add_item(
+                ctx.author.id,
+                self.d.farming.name_map[r["crop_type"]],
+                self.d.farming.yields[r["crop_type"]],
+                r["count"],
+            )
 
         harvest_str = ", ".join([f"{r['count']} {r['crop_type']}" for r in records])
 
-        await ctx.reply_embed(f"Harvested {harvest_str} for {reward}{self.d.emojis.emerald}")
+        await ctx.reply_embed(f"Harvested {harvest_str}")
 
 
 def setup(bot):

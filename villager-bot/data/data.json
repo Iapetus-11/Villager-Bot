@@ -1077,6 +1077,13 @@
       "Iron Hoe": 30,
       "Stone Hoe": 20,
       "Wood Hoe": 10
+    },
+    "name_map": {
+      "emerald_fruit": "Emerald Fruit",
+      "chorus_fruit": "Chorus Fruit",
+      "potatoes": "Potatoes",
+      "carrots": "Carrots",
+      "wheat": "Wheat"
     }
   },
   "build_ideas": {
