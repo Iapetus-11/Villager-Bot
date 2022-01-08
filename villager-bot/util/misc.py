@@ -106,8 +106,8 @@ def emojify_item(d, item: str):
         if emoji_key.startswith("fish."):
             return d.emojis.fish[emoji_key[5:]]
 
-        if emoji_key.startswith("farming.normal"):
-            return d.emojis.farming.normal[emoji_key[14:]]
+        if emoji_key.startswith("farming.normal."):
+            return d.emojis.farming.normal[emoji_key[15:]]
 
         return d.emojis[emoji_key]
     except KeyError:
