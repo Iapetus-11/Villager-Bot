@@ -1,5 +1,5 @@
 {
-  "default_prefix": "!!",
+  "default_prefix": ".",
   "embed_color": "green",
   "support_server_id": 641117791272960031,
   "error_channel_id": 642446655022432267,
@@ -923,6 +923,13 @@
         "carrots": "<:carrots_growing:927292976852529163>",
         "wheat": "<:wheat_growing:927292977091600494>",
         "farmland": "<:farmland:927282404958285914>"
+      },
+      "normal": {
+        "emerald_fruit": "<:emerald_fruit:>",
+        "chorus_fruit": "<:chorus_fruit:>",
+        "potatoes": "<:potatoes:>",
+        "carrots": "<:carrots:>",
+        "wheat": "<:wheat:>"
       }
     },
     "reees": [
@@ -1050,7 +1057,12 @@
     "Netherite Pickaxe": "netherite_pick",
     "Fishing Rod": "fishing_rod",
     "Jar Of Bees": "jar_of_bees",
-    "Honey Jar": "honey_jar"
+    "Honey Jar": "honey_jar",
+    "Emerald Fruit": "farming.normal.emerald_fruit",
+    "Chorus Fruit": "farming.normal.chorus_fruit",
+    "Potatoes": "farming.normal.potatoes",
+    "Carrots": "farming.normal.carrots",
+    "Wheat": "farming.normal.wheat"
   },
   "farming": {
     "emojis": {
