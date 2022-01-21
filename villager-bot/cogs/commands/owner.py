@@ -44,9 +44,12 @@ class Owner(commands.Cog):
 
         code = """
         from util.setup import load_text, load_data
-
-        bot.l = load_text()
-        bot.d = load_data()
+        
+        bot.l.clear()
+        bot.l.update(load_text())
+        
+        bot.d.clear()
+        bot.d.update(load_data())
         """
 
         res = await self.ipc.broadcast({"type": PacketType.EXEC, "code": code})
