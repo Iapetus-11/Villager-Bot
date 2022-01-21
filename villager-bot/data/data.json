@@ -845,6 +845,7 @@
     "jar_of_bees": "<:jar_of_bees:839132481071349840>",
     "honey_jar": "<:honey_jar:839136850823348245>",
     "uno_reverse": "<:uno_reverse:863933879105880085>",
+    "rusty_fishing_hook": "<:rusty_fishing_hook:934121573735104592>",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -992,7 +993,8 @@
     "Chorus Fruit": "farming.normal.chorus_fruit",
     "Potatoes": "farming.normal.potatoes",
     "Carrots": "farming.normal.carrots",
-    "Wheat": "farming.normal.wheat"
+    "Wheat": "farming.normal.wheat",
+    "Rusty Fishing Hook": "rusty_fishing_hook"
   },
   "farming": {
     "emojis": {
