@@ -54,7 +54,7 @@
         "economy": "Wirtschaft",
         "minecraft": "Minecraft",
         "utility": "Nützliches",
-        "fun": "Fun",
+        "fun": "Spaß",
         "admin": "Admin",
         "cmd": "Command Benutzung"
       },
@@ -70,8 +70,8 @@
         "profile": "`{0}profile [optional: Benutzer]` *Zeigt das Profil von dir oder einen spezifizierten Benutzer*",
         "balance": "`{0}balance [optional: Benutzer]` *Zeigt die Einnahmen von dir oder einen spezifizierten Benutzer*",
         "inventory": "`{0}inventory [optional: Kategorie] [optional: Benutzer]` *Zeigt das Inventar von dir oder einen spezifizierten Benutzer; optionale Kategorien sind `tools`, `magic`, `fish`, oder `misc`*",
-        "deposit": "`{0}deposit \u003cSmaragdblöcke\u003e` *hinterlege Smaragde im Safe*",
-        "withdraw": "`{0}withdraw \u003cSmaragdblöcke\u003e` *entnehme Smaragde aus dem Safe*",
+        "deposit": "`{0}deposit \u003cSmaragdblöcke\u003e` *hinterlege Smaragde auf deiner Bank*",
+        "withdraw": "`{0}withdraw \u003cSmaragdblöcke\u003e` *entnehme Smaragde von deiner Bank*",
         "give": "`{0}give \u003cBenutzer\u003e \u003cMenge\u003e \u003cGegenstand\u003e` *gebe einem anderen Benutzer Gegenstände*",
         "mine": "`{0}mine` *Baue Smaragde ab*",
         "fish": "`{0}fish` *angel Fische oder Gegenstände*",
@@ -93,7 +93,7 @@
         "stealskin": "`{0}stealskin \u003cBenutzername\u003e` *klaut den Skin eines Minecraft Java Edition Spielers*",
         "buildidea": "`{0}buildidea` *sendet eine zufällige Bau Idee  wenn dir langweilig ist und du Inspiration brauchst*",
         "mccolors": "`{0}mccolors` *Zeigt die Minecraftfarben und wie man sie benutzt im Chat des Spiels*",
-        "mcprofile": "`{0}mcprofile \u003cBenutzer\u003e` *Zeigt Informationen über einenbMinecraft Java Edition Spieler*",
+        "mcprofile": "`{0}mcprofile \u003cBenutzer\u003e` *Zeigt Informationen über einen Minecraft Java Edition Spieler*",
         "nametoxuid": "`{0}nametoxuid \u003cusername\u003e` *ändert ein MC Bedrock Edition Gamertag in ein xuid*"
       },
       "util": {
@@ -113,7 +113,7 @@
         "downloadredditvideo": "`{0}downloadredditvideo \u003creddit post url\u003e` *läd ein Video von Reddit runter*"
       },
       "fun": {
-        "cursed": "`{0}cursed` *sendet ein zufälliges cursed Minecraft Bild*",
+        "cursed": "`{0}cursed` *sendet ein zufälliges verfluchtes Minecraft Bild*",
         "meme": "`{0}meme` *sendet ein zufälliges Meme von reddit*",
         "4chan": "`{0}4chan` *Zeigt ein lustigen Screenshot von 4chan*",
         "comic": "`{0}comic` *sendet ein zufälligen Comic von r/comics von reddit*",
@@ -169,7 +169,7 @@
           "Starke Leistung, das war **richtig**!\nDu bekommst {}{}!"
         ],
         "incorrect": [
-          "Das wae **falsch**...  :pensive:",
+          "Das war **falsch**...  :pensive:",
           "Du bist vielleicht **dumm**... :pensive:",
           "Da ist keine Hoffnung für dich... :pensive:",
           "Ja Doktor, diese Person ist hirntot..."
@@ -183,7 +183,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "Wie viel Leben hat die Ende Dragon?",
+            "q": "Wie viel Leben hat der Enderdrachen?",
             "a": [
               "200 hp",
               "500 hp",
@@ -216,12 +216,12 @@
           {
             "d": 2,
             "tf": false,
-            "q": "How much hunger saturation does a potato restore?",
+            "q": "Wie viel Sättigung stellt eine Kartoffel wieder her?",
             "a": [
-              "0.6 saturation",
-              "1 saturation",
-              "0.1 saturation",
-              "1.7 saturation"
+              "0.6 Sättigung ",
+              "1 Sättigung",
+              "0.1 Sättigung",
+              "1.7 Sättigung"
             ]
           },
           {
@@ -251,10 +251,10 @@
             "tf": false,
             "q": "Was ist das seltenste Biome in Minecraft?",
             "a": [
-              "Modified Jungle Edge",
-              "Snowy Taiga Mountains",
-              "Bamboo Jungle Hill",
-              "Mushroom Field Shore"
+              "Modifizierter Dschungelrand",
+              "Schneebedeckte Taigaberge",
+              "Bambusdschungelhügel",
+              "Pilzlandküste"
             ]
           },
           {
@@ -439,7 +439,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "Welches aggressive Mob wurde im Pretty Scary Update implementiert?",
+            "q": "Welcher aggressive Mob wurde im Pretty Scary Update implementiert?",
             "a": [
               "Hexe",
               "Creeper",
@@ -527,18 +527,18 @@
           {
             "d": 1,
             "tf": false,
-            "q": "Welche Verzauberung hat das gleiche max Level wie Sharpness?",
+            "q": "Welche Verzauberung hat das gleiche max Level wie Schärfe?",
             "a": [
-              "smite",
-              "unbreaking",
-              "feather falling",
-              "blast protection"
+              "Bann",
+              "Haltbarkeit",
+              "Federfall",
+              "Explosionsschutz"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "Ender Dragons Name?",
+            "q": "Enderdrachens Name?",
             "a": [
               "Jean?",
               "Carson",
@@ -564,19 +564,19 @@
             "a": [
               "Invertiertes Englisch",
               "Gefassel",
-              "swedisch",
-              "invertiertes deutsch"
+              "Swedisch",
+              "Invertiertes deutsch"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "Welche Blume gibt es am häufigsten im swamp biome?",
+            "q": "Welche Blume gibt es am häufigsten im Sumpf Biome?",
             "a": [
-              "blue orchid",
-              "dandelion",
-              "wither rose",
-              "sunflower"
+              "Blaue Orchidee ",
+              "Löwenzahn",
+              "Wither-Rose",
+              "Sonnenblume"
             ]
           },
           {
@@ -635,7 +635,7 @@
           {
             "d": 1,
             "tf": true,
-            "q": "**wahr** oder **falsch**: die Ender Dragon kann nur mehrere Euer legen",
+            "q": "**wahr** oder **falsch**: die Enderdrachen kann nur mehrere Euer legen",
             "a": [
               "Falsch",
               "Wahr"
@@ -666,12 +666,12 @@
           {
             "d": 2,
             "tf": false,
-            "q": "Welche 3 Gegenstände brauch man für eins akriven conduit?",
+            "q": "Welche 3 Gegenstände brauch man für eins aktiven Aquisator?",
             "a": [
-              "heart of the sea, nautilus shell, und prismarine",
-              "heart of the sea, beacon, und prismarine",
-              "heart of the sea, nautilus shell, glass",
-              "diamonds, bautilus shell, glass"
+              "Herz des Meeres, Nautilusschale, und Prismarin",
+              "Herz des Meeres, Leuchtfeuer, und Prismarin",
+              "Herz des Meeres, Nautilusschale, Glas",
+              "Diamanten, Nautilusschale, Glas"
             ]
           },
           {
@@ -721,21 +721,21 @@
             "tf": false,
             "q": "Welchen Gegenstand lassen slimes fallen in Minecraft?",
             "a": [
-              "slime bälle",
-              "slime glässer",
-              "Bewegender sand",
-              "magma cream"
+              "Schleimbälle",
+              "Schleimglässer",
+              "Bewegender Sand",
+              "Magmacreme"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "Welcher Mob lässt magma cream fallen?",
+            "q": "Welcher Mob lässt Magmacreme fallen?",
             "a": [
-              "Magma Würfel ",
-              "Lava slime",
-              "Geschmolzen cube",
-              "Geschmolzener slime"
+              "Magmawürfel ",
+              "Lavaschleim",
+              "Geschmolzener Würfel",
+              "Geschmolzener Schleim"
             ]
           },
           {
@@ -838,7 +838,7 @@
             "tf": false,
             "q": "Wie bringst du Schweine dazu sich zu vermehren in Minecraft?",
             "a": [
-              "Karroffel",
+              "Kartoffel",
               "Apfel",
               "Samen",
               "Weizen"
@@ -847,7 +847,7 @@
           {
             "d": 1,
             "tf": true,
-            "q": "**wahr** oder **falsch**: Du kannst mushroom stew von mooshrooms melken",
+            "q": "**wahr** oder **falsch**: Du kannst Pilzsuppe von Pilzen melken",
             "a": [
               "Wahr",
               "Falsch"
@@ -856,7 +856,7 @@
           {
             "d": 0,
             "tf": true,
-            "q": "**wahr** oder **falsch**: Du kannst mushroom stew von Kühen melken mit einer Schale ",
+            "q": "**wahr** oder **falsch**: Du kannst Pilzsuppe von Kühen melken mit einer Schale ",
             "a": [
               "Falsch",
               "Wahr"
@@ -987,7 +987,7 @@
               "Lagerfeuerrauch",
               "Honigglässee",
               "Wasser",
-              "Slimebälle"
+              "Schleimbälle"
             ]
           },
           {
@@ -1024,7 +1024,7 @@
           {
             "d": 1,
             "tf": true,
-            "q": "**wahr** oder **falsch**: Eisengolems können Poppies fallen lassen wenn sie sterben",
+            "q": "**wahr** oder **falsch**: Eisengolems können Mohn fallen lassen wenn sie sterben",
             "a": [
               "Wahr",
               "Falsch"
@@ -1064,7 +1064,7 @@
           {
             "d": 1,
             "tf": true,
-            "q": "**wahr** oder **falsch**: Du kannst Mob spawner mit Silk Touch abbauen",
+            "q": "**wahr** oder **falsch**: Du kannst Mob spawner mit Behutsamkeit abbauen",
             "a": [
               "Falsch",
               "Wahr"
@@ -1128,8 +1128,8 @@
             "tf": false,
             "q": "Welcher Minecraft Block existierte bevor Minecraft?",
             "a": [
-              "Cobblestone",
-              "Dirt",
+              "Pflasterstein",
+              "Erde",
               "Stein",
               "Holz"
             ]
@@ -1172,10 +1172,10 @@
             "tf": false,
             "q": "In welchem Biome findest du Smaragderz?",
             "a": [
-              "mountains biome",
-              "jungle biome",
-              "desert biome",
-              "badlands biome"
+              "Berge Biome",
+              "Dschungel Biome",
+              "Wüsten Biome",
+              "Tafelberg Biome"
             ]
           },
           {
@@ -1183,10 +1183,10 @@
             "tf": false,
             "q": "In welchem Biome findest du Golderz?",
             "a": [
-              "badlands biome",
-              "jungle biome",
-              "desert biome",
-              "beach biome"
+              "Tafelberg Biome",
+              "Dschungel Biome",
+              "Wüsten Biome",
+              "Strand Biome"
             ]
           },
           {
@@ -1194,10 +1194,10 @@
             "tf": false,
             "q": "Wo spawnen normale Skelette im Nether?",
             "a": [
-              "soul sand valley biome",
-              "nether wastes biome",
-              "basalt delta biome",
-              "warped forest biome"
+              "Seelensandtal Biome",
+              "Nether Ödland Biome",
+              "Basaltdelta Biome",
+              "Wirrwald Biome"
             ]
           },
           {
@@ -1225,7 +1225,7 @@
             "a": [
               "Goldrüstung tragen",
               "Piglins töten",
-              "Tragen von Soul Strider Schuhe",
+              "Tragen von Seelenläufer Schuhe",
               "Tragen von Warding III Rüstung"
             ]
           },
@@ -1234,10 +1234,10 @@
             "tf": false,
             "q": "Wie bringst du Hoglins dazu sich zu vermehren?",
             "a": [
-              "crimson fungi",
-              "warped fungi",
-              "nether wart",
-              "porkchops"
+              "Karmesinpilz",
+              "Wirrpilz",
+              "Netherwarze",
+              "Schweinefleisch"
             ]
           }
         ]
@@ -1550,7 +1550,7 @@
         "user_conf": "Per Benutzer Konfiguration",
         "user_content": [
           "`{0}config giftalert \u003can/aus\u003e` - Ändere ob der Bot dir sagen soll ob dir jemand Gegenstände oder Smaragde gegeben hat.",
-          "`{0}config clearrconpasswords` - Löscht deine  gespeicherten remote Console Passwörter von der Database.\n\n"
+          "`{0}config clearrconpasswords` - Löscht deine  gespeicherten remote Console Passwörter von der Database."
         ]
       },
       "prefix": {
@@ -1575,15 +1575,15 @@
       },
       "mcs": {
         "this_server": "Der standard Minecraft Server zurzeit ist **`{}`**",
-        "error_1": "Das ist zu lang, du kannst nicht mehr als `{}` Charakter haben.",
+        "error_1": "Das ist zu lang, du kannst nicht mehr als `{}` Charaktere haben.",
         "set": "Standard Minecraft Server geändert zu **`{}`**"
       },
       "gift": {
-        "this_user": "Geben/Geschenke Alerts sind zurzeit **{}**.",
-        "set": "Geben/Geschenke Alerts **{}**."
+        "this_user": "Geben/Geschenke Benachrichtigungen sind zurzeit **{}**.",
+        "set": "Geben/Geschenke Benachrichtigungen **{}**."
       },
       "cmd": {
-        "not_prem": "Dieses Feature ist nicht möglich auf diesen Server.",
+        "not_prem": "Dieses Feature ist nicht möglich auf diesem Server.",
         "list_cmds": "Deaktivierte Commands: `{}`",
         "nope": "Keine deaktivierten Commands.",
         "cant": "Du kannst diesen Command nicht deaktivieren.",
@@ -1609,7 +1609,7 @@
     "useful": {
       "vote": {
         "click_1": "Klick mich!",
-        "click_2": "Oder hier!"
+        "click_2": "Oder Mich!"
       },
       "links": {
         "support": "Support Server",
@@ -1671,7 +1671,7 @@
       },
       "remind": {
         "reminder_max": "Du kannst nicht mehr als 5 Erinnerungen auf einmal haben.",
-        "stupid_1": "Du nutzt ein unzulässiges Format, Beispiel: `{0}remindme 1w 2d 3h 4m das ist ein Beispiel` das würde doch in einer Woche, zwei Tage, drei Stunden und vier Minuten.",
+        "stupid_1": "Du nutzt ein unzulässiges Format, Beispiel: `{0}remindme 1w 2d 3h 4m das ist ein Beispiel` das würde dich in einer Woche, zwei Tage, drei Stunden und vier Minuten.",
         "time_max": "Du kannst keine Erinnerung 8 Wochen davor einstellen.",
         "remind": "{0} erinnert dich {1}.",
         "reminder": "{0}, du wolltest das ich dich erinner: *{1}*"
@@ -1687,11 +1687,11 @@
           "chez": "Kreierte neue Features und half bei Bug fixes",
           "quack": "Hilfe bei kleineren Problemen mit dem Code und Übersetzungen",
           "zelou": "Hat geholfen bei der Übersetzung des Villager Bot ins spanische",
-          "joaooh": "Übersetze und übersetzt den Villager Bot ins portugiesische",
+          "joaooh": "Übersetzte den Villager Bot ins portugiesische",
           "xe": "Kleinere Bug fixes und Feature Ergänzungen",
           "radar": "Kleinere Bug fixes und Feature Ergänzungen",
-          "kuro" : "Hilft mit mehreren Übersetzungen vom Villager Bot",
-          "noctshell": "Erstellte die deutsche Übersetzung vom Villager Bot"
+          "kuro": "Hilft mit mehreren Übersetzungen vom Villager Bot",
+          "noctshell": "Übersetzte den Villager Bot ins deutsche"
         },
         "others": "Und natürlich, unzählige andere die Ideen eingebracht und Bugs reported haben um den Villager Bot besser zu machen!"
       },
@@ -1711,7 +1711,7 @@
       "pp": {
         "bot_1": "Hey Doofi, Villager Bot hat viiiel zu viele Sachen um sie alle zu zeigen.",
         "bot_2": "Hey Blödi, Bots haben keine Rechte und können deswegen keine Gegenstände oder Smaragde besitzen.",
-        "total_wealth": "Net Vermögen",
+        "total_wealth": "Vermögen",
         "mooderalds": "Moodagde",
         "pick": "Spitzhacke",
         "sword": "Schwert",
@@ -1723,13 +1723,13 @@
         "bot_1": "Villager Bot hat viiiiel zu viele Smaragde um sie zu zeigen!",
         "bot_2": "Bots haben keine Rechte deswegen haben die auch keine Smaragde oder Sachen. ",
         "s_emeralds": "{}\u0027s Smaragde ",
-        "total_wealth": "Net Reichtum: {}{}",
+        "total_wealth": "Vermögen: {}{}",
         "autistic_emeralds": "Moodagde: {}{}",
         "pocket": "Tasche ",
-        "vault": "Safe"
+        "vault": "Bank"
       },
       "inv": {
-        "bot_1": "Villager Bot hat viiiiel zu viele Gegenstände um sie zu zeigens! (Ungefähr 100000000000000000)",
+        "bot_1": "Villager Bot hat viiiiel zu viele Gegenstände um sie zu zeigen! (Ungefähr 100000000000000000)",
         "bot_2": "Bots haben keine Rechte und können deswegen keine Smaragde oder Sachen besitzen.",
         "s_inventory": "{}\u0027s Inventar [{}]",
         "cats": {
@@ -1746,7 +1746,7 @@
         "stupid_1": "Du kannst nicht weniger als 1 Smaragdblock hinterlegen.",
         "stupid_2": "Du hast nicht genug Platz.",
         "stupid_3": "Du kannst nicht mehr hinterlegen als du besitzt.",
-        "deposited": "Hinterlege {}{} ({}{}) in den Safe."
+        "deposited": "Hinterlege {}{} ({}{}) auf deiner Bank."
       },
       "withd": {
         "poor_loser": "Du hast nicht genug Smaragdblöcke um sie abzuholen.",
@@ -1829,7 +1829,7 @@
           "Du findest eine versteckte Falltür, dort liegen {}...",
           "In einer staubigen Ecke findest du {}.",
           "Während du dein Zimmer aufräumt findest du {}, vielleicht solltest du das öfter machen...",
-          "Unter einem Dirt Block findest du {}!",
+          "Unter einem Erd Block findest du {}!",
           "In deinen Taschen findest du {}, daran klebt ein alter Kaugummi...",
           "Dein Haustier kotzt {} aus...",
           "Du scrollst ans Ende von Discord und findest {}!",
@@ -1844,11 +1844,11 @@
           "Neben einem Creeper zu stehen war keine Gute Idee, du verlierst {} wegen der Explosion.",
           "Während du nach Smaragde suchst, vergisst du wo du deine gelassen hast und verlierst {}.",
           "Ein Illusioner erscheint und erzählt dir von einem doppelte Smaragd Trick. Du gibst ihm {} und er verschwindet in einer Rauchwolke.",
-          "Während du in einem Dorf bettelst startet auf einmal ein Raid. Ein Ravager gibt dir einebKopfnuss und schleudert dich durch die Luft. Du verlierst {} während des Fluges."
+          "Während du in einem Dorf bettelst startet auf einmal ein Raid. Ein Verwüster gibt dir eine Kopfnuss und schleudert dich durch die Luft. Du verlierst {} während des Fluges."
         ],
         "mooderald": [
           "Du wurdest von Moofy gesegnet, und auf magischeweise erhälst du {}.",
-          "Du betest für Moodragde, und findest {} in deiner linken Tasche.",
+          "Du betest für Moodagde, und findest {} in deiner linken Tasche.",
           "Du findest {} in deiner Tasche mit einer Notiz."
         ]
       },
@@ -1871,10 +1871,10 @@
           "während du abbaust"
         ],
         "useless": [
-          "nutzlos",
-          "dämliches",
-          "doofes",
-          "wertlos"
+          "nutzlose/en",
+          "dämliche/en",
+          "doofe/en",
+          "wertlose/en"
         ]
       },
       "fishing": {
@@ -1935,7 +1935,7 @@
             "{} hat total versagt dich zu plündern!",
             "{} wurde total zerstört beim Plündern von dir!",
             "{} versagt dich zu plündern mit einen Holzschwert!",
-            "{} tried to pillage you with their wooden sword!"
+            "{} versuchte dich zu plündern mit einen Holzschwert!"
           ]
         }
       },
@@ -1956,9 +1956,9 @@
         "cant_use_any": "Du kannst gerade **{}** nicht benutzen.",
         "cant_use_up_to": "Du kannst gerade nicht mehr {0} **{1}** benutzen.",
         "done": "Der **{}** den du früher getrunken hast ist abgelaufen. ",
-        "need_slimy_balls": "Du brauchst ein **Slime Ball** für jeden **Glass Beaker**.",
-        "slimy_balls_funne": "Du verwandelst {0}x **Slime Ball** + {0}x **Glass Beaker** zu einem {0}x **Beaker Of Slime**!",
-        "beaker_of_slime_undo": "Du verwandelst {0}x **Beaker Of Slime** zu einem {0}x **Slime Ball**!",
+        "need_slimy_balls": "Du brauchst ein **Schleimball** für jeden **Glasbecher**.",
+        "slimy_balls_funne": "Du verwandelst {0}x **Schleimball** + {0}x **Glasbecher** zu einem {0}x **Becher mit Schleim**!",
+        "beaker_of_slime_undo": "Du verwandelst {0}x **Becher mit Schleim** zu einem {0}x **Schleimball**!",
         "present": [
           "Du öffnest dein Geschenk: 1x **{}** (Wert {}{})!",
           "Du reißt das Geschenkpapier ab und erhälst  1x **{}** (Wert {}{})!",
