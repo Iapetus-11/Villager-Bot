@@ -79,7 +79,13 @@ class Useful(commands.Cog):
                     if len(cmd_true.aliases) > 0:
                         embed.description += "\n\n" + ctx.l.help.main.aliases.format("`, `".join(cmd_true.aliases))
 
-                    await ctx.reply(embed=embed, mention_author=False)
+                    try:
+                        await ctx.reply(embed=embed, mention_author=False)
+                    except discord.errors.HTTPException as e:
+                        if e.code == 50035:  # invalid form body, happens sometimes when the message to reply to can't be found?
+                            await ctx.send(embed=embed, mention_author=False)
+                        else:
+                            raise
 
                     return
 

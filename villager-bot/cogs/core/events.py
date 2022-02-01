@@ -190,7 +190,7 @@ class Events(commands.Cog):
                     )
 
                     await message.channel.send(embed=embed)
-        else:
+        elif message.guild is not None:
             if await self.filter_keywords(message):
                 return
 
