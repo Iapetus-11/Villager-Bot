@@ -82,7 +82,9 @@ class Useful(commands.Cog):
                     try:
                         await ctx.reply(embed=embed, mention_author=False)
                     except discord.errors.HTTPException as e:
-                        if e.code == 50035:  # invalid form body, happens sometimes when the message to reply to can't be found?
+                        if (
+                            e.code == 50035
+                        ):  # invalid form body, happens sometimes when the message to reply to can't be found?
                             await ctx.send(embed=embed, mention_author=False)
                         else:
                             raise
