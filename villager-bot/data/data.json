@@ -1007,12 +1007,19 @@
         "dirt": "farmland"
       }
     },
-    "yields": {
+    "emerald_yields": {
       "emerald_fruit": 1024,
       "chorus_fruit": 512,
       "potatoes": 256,
       "carrots": 128,
       "wheat": 64
+    },
+    "crop_yields": {
+      "emerald_fruit": [1, 1],
+      "chorus_fruit": [1, 2],
+      "potatoes": [1, 3],
+      "carrots": [1, 3],
+      "wheat": [1, 1]
     },
     "max_plots": {
       "Netherite Hoe": 60,

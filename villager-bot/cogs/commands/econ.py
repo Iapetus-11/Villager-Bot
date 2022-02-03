@@ -1754,9 +1754,17 @@ class Econ(commands.Cog):
             await self.db.add_item(
                 ctx.author.id,
                 self.d.farming.name_map[r["crop_type"]],
-                self.d.farming.yields[r["crop_type"]],
-                r["count"],
+                self.d.farming.emerald_yields[r["crop_type"]],
+                sum(random.randint(*self.d.farming.crop_yields[r["crop_type"]]) for _ in range(r["count"])),
             )
+            
+            if r["crop_type"] == "wheat":
+                await self.db.add_item(
+                    ctx.author.id,
+                    "Wheat Seed",
+                    0,
+                    sum(random.randint(0, 2) for _ in range(r["count"])),
+                )
 
         harvest_str = ", ".join([f"{r['count']} {self.d.emojis.farming.normal[r['crop_type']]}" for r in records])
 
