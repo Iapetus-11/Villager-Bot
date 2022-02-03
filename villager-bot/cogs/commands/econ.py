@@ -1757,7 +1757,7 @@ class Econ(commands.Cog):
                 self.d.farming.emerald_yields[r["crop_type"]],
                 sum(random.randint(*self.d.farming.crop_yields[r["crop_type"]]) for _ in range(r["count"])),
             )
-            
+
             if r["crop_type"] == "wheat":
                 await self.db.add_item(
                     ctx.author.id,
