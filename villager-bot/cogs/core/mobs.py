@@ -170,23 +170,26 @@ class MobSpawner(commands.Cog):
                 )
 
                 fight_msg = await ctx.send(embed=embed)
+                user_action: str = None
 
-                try:
-                    user_action_msg = await self.bot.wait_for(
-                        "message", check=self.attack_check(ctx, initial_attack_msg), timeout=30
-                    )
-                    user_action = user_action_msg.content.lower()
-                except asyncio.TimeoutError:
-                    timed_out = True
-                else:
-                    timed_out = False
+                # listen for attack or flee message (or timeout)
+                while user_action not in self.d.mobs_mech.valid_attacks:
+                    try:
+                        user_action_msg: discord.Message = await self.bot.wait_for(
+                            "message", check=self.attack_check(ctx, initial_attack_msg), timeout=30
+                        )
+                        user_action = user_action_msg.content.lstrip(ctx.prefix).lower()
+                    except asyncio.TimeoutError:
+                        timed_out = True
+                    else:
+                        timed_out = False
 
-                # check if user is a fucking baby
-                if timed_out or user_action in self.d.mobs_mech.valid_flees:
-                    await fight_msg.edit(suppress=True)
-                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.flee_insults))
+                    # check if user is a fucking baby
+                    if timed_out or user_action in self.d.mobs_mech.valid_flees:
+                        await fight_msg.edit(suppress=True)
+                        await ctx.send_embed(random.choice(ctx.l.mobs_mech.flee_insults))
 
-                    return
+                        return
 
                 user_dmg = await self.calculate_sword_damage(user.id, user_sword, difficulty_multi)
 
