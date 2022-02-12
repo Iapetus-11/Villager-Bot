@@ -292,6 +292,7 @@ class Econ(commands.Cog):
 
     @commands.group(name="inventory", aliases=["inv", "items"], case_insensitive=True)
     @commands.max_concurrency(2, per=commands.BucketType.user, wait=False)
+    @commands.guild_only()
     @commands.cooldown(2, 2, commands.BucketType.user)
     async def inventory(self, ctx):
         if ctx.invoked_subcommand is not None:
@@ -461,6 +462,7 @@ class Econ(commands.Cog):
         )
 
     @commands.group(name="shop", case_insensitive=True)
+    @commands.guild_only()
     @commands.cooldown(2, 10, commands.BucketType.user)
     async def shop(self, ctx):
         """Shows the available options in the Villager Shop"""
