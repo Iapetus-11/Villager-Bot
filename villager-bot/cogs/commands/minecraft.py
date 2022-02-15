@@ -152,12 +152,12 @@ class Minecraft(commands.Cog):
 
         async with SuppressCtxManager(ctx.typing()):
             async with self.aiohttp.get(
-                f"https://api.iapetus11.me/mc/status/{combined.replace('/', '%2F')}",
-                headers={"Authorization": self.k.villager_api},
+                f"https://api.iapetus11.me/mc/server/status/{combined.replace('/', '%2F')}",
+                #headers={"Authorization": self.k.villager_api},
             ) as res:  # fetch status from api
                 jj = await res.json()
 
-        if not (jj["success"] and jj["online"]):
+        if not (jj["online"]):
             await ctx.reply(
                 embed=discord.Embed(
                     color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined)
@@ -171,9 +171,9 @@ class Minecraft(commands.Cog):
         if player_list is None:
             player_list = ()
         else:
-            player_list = [p["name"] for p in player_list]
+            player_list = [p["username"] for p in player_list]
 
-        players_online = jj["players_online"]
+        players_online = jj["online_players"]
 
         embed = discord.Embed(
             color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined)
@@ -193,7 +193,7 @@ class Minecraft(commands.Cog):
 
         if len(player_list_cut) < 1:
             embed.add_field(
-                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["players_max"]),
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["max_players"]),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
                 inline=False,
             )
@@ -203,15 +203,15 @@ class Minecraft(commands.Cog):
                 extra = ctx.l.minecraft.mcping.and_other_players.format(players_online - len(player_list_cut))
 
             embed.add_field(
-                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["players_max"]),
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["max_players"]),
                 value="`" + "`, `".join(player_list_cut) + "`" + extra,
                 inline=False,
             )
 
-        embed.set_image(url=f"https://api.iapetus11.me/mc/servercard/{combined}?v={random.random()*100000}")
+        embed.set_image(url=f"https://api.iapetus11.me/mc/server/status/{combined}/image?v={random.random()*100000}")
 
         if jj["favicon"] is not None:
-            embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/favicon/{combined}")
+            embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/server/status/{combined}/image/favicon")
 
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -239,11 +239,11 @@ class Minecraft(commands.Cog):
 
         async with SuppressCtxManager(ctx.typing()):
             async with self.aiohttp.get(
-                f"https://api.iapetus11.me/mc/status/{address}", headers={"Authorization": self.k.villager_api}
+                f"https://api.iapetus11.me/mc/server/status/{address}" # , headers={"Authorization": self.k.villager_api}
             ) as res:  # fetch status from api
                 jj = await res.json()
 
-        if not jj["success"] or not jj["online"]:
+        if not jj["online"]:
             await self.random_mc_server(ctx)
             return
 
@@ -251,9 +251,9 @@ class Minecraft(commands.Cog):
         if player_list is None:
             player_list = ()
         else:
-            player_list = [p["name"] for p in player_list]
+            player_list = [p["username"] for p in player_list]
 
-        players_online = jj["players_online"]
+        players_online = jj["online_players"]
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address))
 
@@ -277,7 +277,7 @@ class Minecraft(commands.Cog):
 
         if len(player_list_cut) < 1:
             embed.add_field(
-                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["players_max"]),
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["max_players"]),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
                 inline=False,
             )
@@ -287,15 +287,15 @@ class Minecraft(commands.Cog):
                 extra = ctx.l.minecraft.mcping.and_other_players.format(players_online - len(player_list_cut))
 
             embed.add_field(
-                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["players_max"]),
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["max_players"]),
                 value="`" + "`, `".join(player_list_cut) + "`" + extra,
                 inline=False,
             )
 
-        embed.set_image(url=f"https://api.iapetus11.me/mc/servercard/{address}?v={random.random()*100000}")
+        embed.set_image(url=f"https://api.iapetus11.me/mc/server/status/{address}/image?v={random.random()*100000}")
 
         if jj["favicon"] is not None:
-            embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/favicon/{address}")
+            embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/server/status/{address}/image/favicon")
 
         await ctx.reply(embed=embed, mention_author=False)
 

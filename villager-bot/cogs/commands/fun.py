@@ -55,8 +55,8 @@ class Fun(commands.Cog):
             while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
                 resp = await self.aiohttp.get(
                     "https://api.iapetus11.me/reddit/meme",
-                    headers={"Authorization": self.k.villager_api},
-                    params={"queryId": ctx.channel.id},
+                    # headers={"Authorization": self.k.villager_api},
+                    params={"requesterId": ctx.channel.id},
                 )
 
                 meme = cj.classify(await resp.json())
@@ -84,8 +84,8 @@ class Fun(commands.Cog):
             while (not do_nsfw and jj["nsfw"]) or jj.get("image") is None:
                 resp = await self.aiohttp.get(
                     "https://api.iapetus11.me/reddit/greentext",
-                    headers={"Authorization": self.k.villager_api},
-                    params={"queryId": ctx.channel.id},
+                    # headers={"Authorization": self.k.villager_api},
+                    params={"requesterId": ctx.channel.id},
                 )
 
                 jj = await resp.json()
@@ -110,8 +110,8 @@ class Fun(commands.Cog):
             while comic["spoiler"] or (not do_nsfw and comic["nsfw"]) or comic.get("image") is None:
                 resp = await self.aiohttp.get(
                     "https://api.iapetus11.me/reddit/comic",
-                    headers={"Authorization": self.k.villager_api},
-                    params={"queryId": ctx.channel.id},
+                    # headers={"Authorization": self.k.villager_api},
+                    params={"requesterId": ctx.channel.id},
                 )
 
                 comic = cj.classify(await resp.json())
@@ -132,9 +132,9 @@ class Fun(commands.Cog):
             async with SuppressCtxManager(ctx.typing()):
                 while meme["spoiler"] or meme["nsfw"] or meme.get("image") is None:
                     resp = await self.bot.aiohttp.get(
-                        "https://api.iapetus11.me/reddit/cursedminecraft",
-                        headers={"Authorization": self.k.villager_api},
-                        params={"queryId": ctx.channel.id},
+                        "https://api.iapetus11.me/reddit/cursedMinecraft",
+                        # headers={"Authorization": self.k.villager_api},
+                        params={"requesterId": ctx.channel.id},
                     )
 
                     meme = cj.classify(await resp.json())
@@ -341,7 +341,7 @@ class Fun(commands.Cog):
     @commands.command(name="achievement", aliases=["mcachieve"])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_achievement(self, ctx, *, text):
-        url = f"https://api.iapetus11.me/mc/achievement/{urlquote(text[:26])}"
+        url = f"https://api.iapetus11.me/mc/image/achievement/{urlquote(text[:26])}"
         embed = discord.Embed(color=self.d.cc)
 
         embed.description = ctx.l.fun.dl_img.format(url)
@@ -352,7 +352,7 @@ class Fun(commands.Cog):
     @commands.command(name="splashtext", aliases=["mcsplash", "splashscreen", "splash"])
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_splash_screen(self, ctx, *, text):
-        url = f"https://api.iapetus11.me/mc/splash/{urlquote(text[:27])}"
+        url = f"https://api.iapetus11.me/mc/image/splash/{urlquote(text[:27])}"
         embed = discord.Embed(color=self.d.cc)
 
         embed.description = ctx.l.fun.dl_img.format(url)
