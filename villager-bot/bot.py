@@ -173,7 +173,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def send_embed(self, location, message: str, *, ignore_exceptions: bool = False) -> None:
         try:
             await location.send(embed=discord.Embed(color=self.d.cc, description=message))
-        except (discord.errors.Forbidden, discord.errors.HTTPException):
+        except discord.errors.HTTPException:
             if not ignore_exceptions:
                 raise
 
@@ -184,9 +184,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             if e.code == 50035:  # invalid form body, happens sometimes when the message to reply to can't be found?
                 await self.send_embed(location, message, ignore_exceptions=ignore_exceptions)
             elif not ignore_exceptions:
-                raise
-        except discord.errors.Forbidden:
-            if not ignore_exceptions:
                 raise
 
     async def send_tip(self, ctx) -> None:
@@ -362,3 +359,16 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                     success = True
         finally:
             return {"success": success}
+
+    @handle_packet(PacketType.RELOAD_DATA)
+    async def handle_reload_data_packet(self, packet: ClassyDict):
+        try:
+            self.l.clear()
+            self.l.update(load_text())
+            
+            self.d.clear()
+            self.d.update(load_data())
+        except Exception as e:
+            return {"success": False, "result": str(e)}
+
+        return {"success": True, "result": ""}

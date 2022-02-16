@@ -52,7 +52,7 @@ class Webhooks(commands.Cog):
 
             await asyncio.sleep(3600)
 
-    async def webhooks_setup(self):  # holy fucking shit that's hot
+    async def webhooks_setup(self):
         async def handler(req):
             try:
                 if req.headers.get("Authorization") == self.k.topgg_webhook.auth:

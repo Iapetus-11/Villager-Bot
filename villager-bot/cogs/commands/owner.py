@@ -42,17 +42,7 @@ class Owner(commands.Cog):
     async def update_data(self, ctx):
         """Reloads data from data.json and text from the translation files"""
 
-        code = """
-        from util.setup import load_text, load_data
-        
-        bot.l.clear()
-        bot.l.update(load_text())
-        
-        bot.d.clear()
-        bot.d.update(load_data())
-        """
-
-        res = await self.ipc.broadcast({"type": PacketType.EXEC, "code": code})
+        res = await self.ipc.broadcast({"type": PacketType.RELOAD_DATA})
         failed = False
 
         for data in res.responses:
