@@ -365,7 +365,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         try:
             self.l.clear()
             self.l.update(load_text())
-            
+
             self.d.clear()
             self.d.update(load_data())
         except Exception as e:
