@@ -150,14 +150,23 @@ class Minecraft(commands.Cog):
 
             combined = f"{host}{port_str}"
 
+        fail = False
+        jj: dict = None
+
         async with SuppressCtxManager(ctx.typing()):
             async with self.aiohttp.get(
                 f"https://api.iapetus11.me/mc/server/status/{combined.replace('/', '%2F')}",
                 # headers={"Authorization": self.k.villager_api},
             ) as res:  # fetch status from api
-                jj = await res.json()
+                if res.status == 200:
+                    jj = await res.json()
 
-        if not (jj["online"]):
+                    if not jj["online"]:
+                        fail = True
+                else:
+                    fail = True
+
+        if fail:
             await ctx.reply(
                 embed=discord.Embed(
                     color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined)
