@@ -1544,7 +1544,7 @@
           "`{0}config difficulty \u003cfriedlich/leicht/hart\u003e` - Ändert den Schwierigkeitsgrad des Spiels.\n\n",
           "`{0}config lang \u003cSprache\u003e` - Ändert die Sprache des Villager Bots.\n\n",
           "`{0}config mcserver \u003cmcserver\u003e` - Ändert den gepingten Server, wenn du kein Server spezifizierst in `/mcping`.\n\n",
-          "`{0}config togglecmd \u003ccmd\u003e` - Ändert ob der spezifizierte Command benutzt werden kann oder nicht. Muss einen Premium Server haben.\n\n",
+          "`{0}config togglecmd \u003ccmd\u003e` - Ändert ob der spezifizierte Command benutzt werden kann oder nicht.\n\n",
           "`{0}config filterwords \u003chinzufügen/entfernen\u003e \u003cWort\u003e` - Packt Wörter auf oder entfernt sie von der schwarzen Liste die der Bot rausfiltert.\n\n"
         ],
         "user_conf": "Per Benutzer Konfiguration",
@@ -1650,8 +1650,7 @@
         "bans": "Bans",
         "cmd_prefix": "Präfix",
         "lang": "Sprache",
-        "diff": "Schwierigkeitsgrad",
-        "prem": "Premium"
+        "diff": "Schwierigkeitsgrad"
       },
       "meth": {
         "oops": "Uups, etwas ist schief gelaufen..."

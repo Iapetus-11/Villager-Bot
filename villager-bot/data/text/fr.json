@@ -1544,7 +1544,7 @@
           "`{0}config difficulty <peaceful/easy/hard>` - Change la difficulté du jeu\n\n",
           "`{0}config lang <langue>` - Change la langue du Villager Bot\n\n",
           "`{0}config mcserver <mcserver>` - Change le serveur à ping si tu ne spécifies pas de serveur en utilisant `/mcping`\n\n",
-          "`{0}config togglecmd <cmd>` - Change si la commande spécifiée peut être utilisée ou non. Réservé aux serveurs Premium.\n\n",
+          "`{0}config togglecmd <cmd>` - Change si la commande spécifiée peut être utilisée ou non.\n\n",
           "`{0}config filterwords <add/remove> <mot>` - Ajouter ou supprimer des mots de la liste noire que le bot filtrera.\n\n"
         ],
         "user_conf": "Configuration par utilisateur",
@@ -1650,8 +1650,7 @@
         "bans": "Bans",
         "cmd_prefix": "Préfixe",
         "lang": "Langue",
-        "diff": "Difficulté",
-        "prem": "Premium"
+        "diff": "Difficulté"
       },
       "meth": {
         "oops": "Oups, quelque chose a mal tourné ..."

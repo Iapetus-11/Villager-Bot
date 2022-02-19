@@ -154,12 +154,6 @@ class Config(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def config_toggle_cmd_enabled(self, ctx, cmd=None):
-        guild = await self.db.fetch_guild(ctx.guild.id)
-
-        if not guild["premium"]:
-            await ctx.reply_embed(ctx.l.config.cmd.not_prem)
-            return
-
         disabled = self.bot.disabled_commands[ctx.guild.id]
 
         if cmd is None:
@@ -196,12 +190,6 @@ class Config(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def config_filtered_words(self, ctx, operation: str = None, word: str = None):
-        guild = await self.db.fetch_guild(ctx.guild.id)
-
-        if not guild["premium"]:
-            await ctx.reply_embed(ctx.l.config.cmd.not_prem)
-            return
-
         words = await self.db.fetch_filtered_words(ctx.guild.id)
 
         if not (operation and word):

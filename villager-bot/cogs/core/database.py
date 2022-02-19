@@ -108,9 +108,6 @@ class Database(commands.Cog):
         with suppress(KeyError):
             del self.bot.prefix_cache[guild_id]
 
-    async def fetch_guild_premium(self, guild_id: int) -> bool:
-        return bool(await self.db.fetchval("SELECT premium FROM guilds WHERE guild_id = $1", guild_id))
-
     async def set_cmd_usable(self, guild_id: int, command: str, usable: bool) -> None:
         if usable:
             await self.db.execute("DELETE FROM disabled_commands WHERE guild_id = $1 AND command = $2", guild_id, command)
