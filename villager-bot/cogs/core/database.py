@@ -28,6 +28,7 @@ class Database(commands.Cog):
         self.bot.disabled_commands.update(await self.fetch_all_disabled_commands())
         self.bot.language_cache = await self.fetch_all_guild_langs()
         self.bot.prefix_cache = await self.fetch_all_guild_prefixes()
+        self.bot.antiraid_enabled_cache = await self.fetch_all_guild_antiraid()
         self.bot.replies_cache = await self.fetch_all_do_replies()
         self.bot.filter_words_cache = await self.fetch_all_filtered_words()
 
@@ -71,6 +72,9 @@ class Database(commands.Cog):
                 disabled[guild_id] = {command}
 
         return disabled
+
+    async def fetch_all_guild_antiraid(self) -> set:
+        return {r["guild_id"] for r in await self.db.fetch("SELECT * FROM guilds WHERE antiraid = true")}
 
     async def fetch_all_do_replies(self) -> set:
         replies_records = await self.db.fetch("SELECT guild_id FROM guilds WHERE do_replies = true")

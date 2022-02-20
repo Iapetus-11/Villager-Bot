@@ -1,3 +1,4 @@
+from typing import Set
 from discord.ext import commands
 from contextlib import suppress
 import asyncio
@@ -28,6 +29,10 @@ BAD_ARG_ERRORS = (
 )
 
 INVISIBLITY_CLOAK = ("||||\u200B" * 200)[2:-3]
+
+AUTOBAN_KEYWORDS = (
+    "@everyone", "gift", "nitro", "steam", "hack", "free", "discord.gg", "invite.gg", "dsc.gg", "dsc.lol", "discord.com/invite/",
+)
 
 
 class Events(commands.Cog):
@@ -131,6 +136,9 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        # add user to new member cache
+        self.bot.new_member_cache[member.guild.id].add(member.id)
+
         if await self.db.fetch_user_muted(member.id, member.guild.id):
             with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
                 # fetch role
@@ -160,12 +168,12 @@ class Events(commands.Cog):
                 )
 
     @commands.Cog.listener()
-    async def on_message_edit(self, before, after):
+    async def on_message_edit(self, before: discord.Message, after: discord.Message):
         if after.guild:
             await self.filter_keywords(after)
 
     @commands.Cog.listener()
-    async def on_message(self, message):
+    async def on_message(self, message: discord.Message):
         self.bot.message_count += 1
 
         if message.author.bot:
@@ -193,6 +201,33 @@ class Events(commands.Cog):
         elif message.guild is not None:
             if await self.filter_keywords(message):
                 return
+
+            g_new_member_cache: Set[int] = self.bot.new_member_cache[message.guild.id]
+
+            # if this is their first message
+            if message.author.id in g_new_member_cache:
+                try:
+                    g_new_member_cache.remove(message.author.id)
+                except KeyError:
+                    pass
+
+                if len(g_new_member_cache) == 0:
+                    del self.bot.new_member_cache[message.guild.id]
+
+                del g_new_member_cache
+
+                if message.guild.id in self.bot.antiraid_enabled_cache:
+                    # check to see if message is one that should get them banned
+                    if await self.filter_keywords(message):
+                        await message.author.ban(reason="Automated Anti-Spam/Raid", delete_message_days=1)
+                        return
+
+                    content_lower = message.content.lower()
+                    
+                    for keyword in AUTOBAN_KEYWORDS:
+                        if keyword in content_lower:
+                            await message.author.ban(reason="Automated Anti-Spam/Raid", delete_message_days=1)
+                            return
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:

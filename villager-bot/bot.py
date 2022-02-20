@@ -87,13 +87,15 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.prevent_spawn_duplicates = TTLPreventDuplicate(25, 10)
 
         # caches
-        self.ban_cache = set()  # {user_id, user_id,..}
+        self.ban_cache = set()  # set({user_id, user_id,..})
         self.language_cache = {}  # {guild_id: "lang"}
         self.prefix_cache = {}  # {guild_id: "prefix"}
-        self.disabled_commands = defaultdict(set)  # {guild_id: {command, command,..}}
+        self.antiraid_enabled_cache = set()  # {guild_id, guild_id,...}
+        self.disabled_commands = defaultdict(set)  # {guild_id: set({command, command,..})}
         self.replies_cache = set()  # {guild_id, guild_id,..}
         self.rcon_cache = {}  # {(user_id, mc_server): rcon_client}
         self.filter_words_cache = {}  # {guild_id: ["keyword", "keyword"]}
+        self.new_member_cache = defaultdict(set)  # {guild_id: set()}
 
         # support server channels
         self.error_channel = None
