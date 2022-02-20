@@ -237,14 +237,14 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_filtered_words(self, ctx, antiraid = None):
+    async def config_filtered_words(self, ctx, antiraid=None):
         if antiraid is None:
             db_guild = await self.db.fetch_guild(ctx.guild.id)
 
             state = ctx.l.config.antiraid.enabled if db_guild["antiraid"] else ctx.l.config.antiraid.disabled
 
             await ctx.reply_embed(ctx.l.config.antiraid.this_server.format(state))
-            
+
             return
 
         if antiraid.lower() in ["yes", "true", "on"]:
@@ -262,7 +262,6 @@ class Config(commands.Cog):
             await ctx.reply_embed(ctx.l.config.antiraid.set.format("off"))
         else:
             await ctx.reply_embed(ctx.l.config.invalid.format("`on`, `off`"))
-        
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)
