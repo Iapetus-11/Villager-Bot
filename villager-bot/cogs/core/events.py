@@ -31,7 +31,17 @@ BAD_ARG_ERRORS = (
 INVISIBLITY_CLOAK = ("||||\u200B" * 200)[2:-3]
 
 AUTOBAN_KEYWORDS = (
-    "@everyone", "gift", "nitro", "steam", "hack", "free", "discord.gg", "invite.gg", "dsc.gg", "dsc.lol", "discord.com/invite/",
+    "@everyone",
+    "gift",
+    "nitro",
+    "steam",
+    "hack",
+    "free",
+    "discord.gg",
+    "invite.gg",
+    "dsc.gg",
+    "dsc.lol",
+    "discord.com/invite/",
 )
 
 
@@ -223,7 +233,7 @@ class Events(commands.Cog):
                         return
 
                     content_lower = message.content.lower()
-                    
+
                     for keyword in AUTOBAN_KEYWORDS:
                         if keyword in content_lower:
                             await message.author.ban(reason="Automated Anti-Spam/Raid", delete_message_days=1)
