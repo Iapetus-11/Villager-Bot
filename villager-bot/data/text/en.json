@@ -1545,7 +1545,8 @@
           "`{0}config lang <language>` - Changes the language of Villager Bot.\n\n",
           "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`.\n\n",
           "`{0}config togglecmd <cmd>` - Change whether the specified command can be used or not.\n\n",
-          "`{0}config filterwords <add/remove> <word>` - Add or remove blacklisted words that the bot will filter.\n\n"
+          "`{0}config filterwords <add/remove> <word>` - Add or remove blacklisted words that the bot will filter.\n\n",
+          "`{0}config antiraid <on/off>` - Turn anti-raid/spam on/off.\n\n"
         ],
         "user_conf": "Per User Configuration",
         "user_content": [
@@ -1604,6 +1605,12 @@
         "added": "Added `{}` as a blacklisted word.",
         "removed": "Removed `{}` from the blacklisted words.",
         "invalid": "You specified an invalid operation."
+      },
+      "antiraid": {
+        "enabled": "enabled",
+        "disabled": "disabled",
+        "this_server": "Antiraid is currently **{}**.",
+        "set": "Turned antiraid **{}**."
       }
     },
     "useful": {

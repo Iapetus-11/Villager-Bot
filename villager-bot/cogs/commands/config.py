@@ -61,9 +61,7 @@ class Config(commands.Cog):
     async def config_replies(self, ctx, replies=None):
         if replies is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            state = ctx.l.config.replies.enabled * guild["do_replies"] + ctx.l.config.replies.disabled * (
-                not guild["do_replies"]
-            )
+            state = ctx.l.config.replies.enabled if guild["do_replies"] else ctx.l.config.replies.disabled
             await ctx.reply_embed(ctx.l.config.replies.this_server.format(state))
             return
 
@@ -234,6 +232,37 @@ class Config(commands.Cog):
                     ]
                 ),
             )
+
+    @config.command(name="antiraid", aliases=["antispam"])
+    @commands.guild_only()
+    @commands.has_permissions(administrator=True)
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def config_filtered_words(self, ctx, antiraid = None):
+        if antiraid is None:
+            db_guild = await self.db.fetch_guild(ctx.guild.id)
+
+            state = ctx.l.config.antiraid.enabled if db_guild["antiraid"] else ctx.l.config.antiraid.disabled
+
+            await ctx.reply_embed(ctx.l.config.antiraid.this_server.format(state))
+            
+            return
+
+        if antiraid.lower() in ["yes", "true", "on"]:
+            await self.db.set_guild_attr(ctx.guild.id, "antiraid", True)
+            self.bot.antiraid_enabled_cache.add(ctx.guild.id)
+            await ctx.reply_embed(ctx.l.config.antiraid.set.format("on"))
+        elif antiraid.lower() in ["no", "false", "off"]:
+            await self.db.set_guild_attr(ctx.guild.id, "antiraid", False)
+
+            try:
+                self.bot.antiraid_enabled_cache.remove(ctx.guild.id)
+            except KeyError:
+                pass
+
+            await ctx.reply_embed(ctx.l.config.antiraid.set.format("off"))
+        else:
+            await ctx.reply_embed(ctx.l.config.invalid.format("`on`, `off`"))
+        
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)
