@@ -94,7 +94,7 @@
         "buildidea": "`{0}buildidea` *sends a random build idea for if you're bored and need inspiration*",
         "mccolors": "`{0}mccolors` *shows the Minecraft colors and how to use them in the ingame chat*",
         "mcprofile": "`{0}mcprofile <username>` *shows information on a Minecraft Java Edition player*",
-        "nametoxuid": "`{0}nametoxuid <username>` *turns an MC Bedrock Edition gamertag into an xuid*"
+        "nametoxuid": "`{0}nametoxuid <username>` *turns a MC Bedrock Edition gamertag into an xuid*"
       },
       "util": {
         "help": "`{0}help` *view helpful information about Villager Bot*",
@@ -107,6 +107,7 @@
         "google": "`{0}google <search>` *searches on google for your query*",
         "youtube": "`{0}youtube <search>` *searches on youtube for your query*",
         "image": "`{0}image <search>` *searches google images for your query*",
+        "math": "`{0}math <problem>` *solves a math problem",
         "remindme": "`{0}remindme <time> <reminder>` *reminds you in a specified time*",
         "credits": "`{0}credits` *shows who helped make Villager Bot*",
         "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*",
