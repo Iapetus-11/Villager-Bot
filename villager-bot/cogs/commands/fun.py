@@ -161,7 +161,7 @@ class Fun(commands.Cog):
             await ctx.reply("Yes.")
             return
 
-        with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
+        with suppress(discord.errors.HTTPException):
             await ctx.message.delete()
 
         await ctx.send(nice)
@@ -410,7 +410,7 @@ class Fun(commands.Cog):
             await msg.edit(embed=embed)
             return
         finally:
-            with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
+            with suppress(discord.errors.HTTPException):
                 await msg.clear_reactions()
 
         embed = discord.Embed(
@@ -469,7 +469,7 @@ class Fun(commands.Cog):
             await msg.edit(embed=embed)
             return
         finally:
-            with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
+            with suppress(discord.errors.HTTPException):
                 await msg.clear_reactions()
 
         embed = discord.Embed(

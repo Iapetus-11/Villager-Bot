@@ -154,7 +154,7 @@ async def update_support_member_role(bot, member):
         if roles != member.roles:
             try:
                 await member.edit(roles=roles)
-            except (discord.errors.Forbidden, discord.errors.HTTPException):
+            except discord.errors.HTTPException:
                 pass
     except Exception as e:
         print(format_exception(e))

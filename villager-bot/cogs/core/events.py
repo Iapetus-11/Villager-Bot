@@ -150,7 +150,7 @@ class Events(commands.Cog):
         self.bot.new_member_cache[member.guild.id].add(member.id)
 
         if await self.db.fetch_user_muted(member.id, member.guild.id):
-            with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
+            with suppress(discord.errors.HTTPException):
                 # fetch role
                 mute = discord.utils.get(member.guild.roles, name="Muted")
                 if mute is None:
@@ -192,7 +192,7 @@ class Events(commands.Cog):
         if isinstance(message.channel, discord.DMChannel):
             await self.ipc.send({"type": PacketType.DM_MESSAGE, "user_id": message.author.id, "content": message.content})
 
-            with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
+            with suppress(discord.errors.HTTPException):
                 prior_messages = len(await message.channel.history(limit=1, before=message).flatten())
 
                 if prior_messages < 1:
@@ -251,7 +251,7 @@ class Events(commands.Cog):
             embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
             embed.set_footer(text=lang.useful.credits.foot.format(prefix))
 
-            with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
+            with suppress(discord.errors.HTTPException):
                 await message.channel.send(embed=embed)
 
             return
@@ -283,7 +283,7 @@ class Events(commands.Cog):
             ]
 
             if len(someones) > 0:
-                with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
+                with suppress(discord.errors.HTTPException):
                     await message.channel.send(
                         f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}"
                     )
@@ -294,7 +294,7 @@ class Events(commands.Cog):
             prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
 
             if not message.content.startswith(prefix):
-                with suppress(discord.errors.Forbidden, discord.errors.HTTPException):
+                with suppress(discord.errors.HTTPException):
                     if "emerald" in content_lower:
                         await message.channel.send(random.choice(self.d.hmms))
                     elif "creeper" in content_lower:
