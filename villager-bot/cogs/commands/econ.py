@@ -908,7 +908,7 @@ class Econ(commands.Cog):
 
                 if (await self.db.fetch_user(user.id))["give_alert"]:
                     await self.bot.send_embed(
-                        user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"])
+                        user, ctx.l.econ.give.gaveyou.format(ctx.author.mention, amount, db_item["name"]), ignore_exceptions=True
                     )
         finally:
             # await self.ipc.send({"type": PacketType.RELEASE_PILLAGE_LOCK, "user_ids": [ctx.author.id, user.id]})
