@@ -164,7 +164,7 @@ class Config(commands.Cog):
 
         cmd_true = self.bot.get_command(cmd.lower())
 
-        if cmd_true.cog is None or cmd_true.cog_name in ("Owner", "Config") or str(cmd_true) in ("help",):
+        if cmd_true is None or cmd_true.cog is None or cmd_true.cog_name in ("Owner", "Config") or str(cmd_true) in ("help",):
             await ctx.reply_embed(ctx.l.config.cmd.cant)
             return
 
@@ -188,7 +188,6 @@ class Config(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def config_filtered_words(self, ctx, operation: str = None, word: str = None):
-        print(self, ctx, operation, word)
         words = await self.db.fetch_filtered_words(ctx.guild.id)
 
         if not (operation and word):
@@ -217,10 +216,10 @@ class Config(commands.Cog):
         elif operation == "remove" or operation == "delete":
             try:
                 self.bot.filter_words_cache[ctx.guild.id].remove(word)
-            except IndexError:
+            except ValueError:
                 pass
-            else:
-                await self.db.remove_filtered_word(ctx.guild.id, word)
+            
+            await self.db.remove_filtered_word(ctx.guild.id, word)
 
             await ctx.reply_embed(ctx.l.config.wbl.removed.format(word))
         else:
@@ -238,7 +237,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_filtered_words(self, ctx, antiraid=None):
+    async def config_antiraid(self, ctx, antiraid=None):
         if antiraid is None:
             db_guild = await self.db.fetch_guild(ctx.guild.id)
 

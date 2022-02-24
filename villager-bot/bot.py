@@ -94,7 +94,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.disabled_commands = defaultdict(set)  # {guild_id: set({command, command,..})}
         self.replies_cache = set()  # {guild_id, guild_id,..}
         self.rcon_cache = {}  # {(user_id, mc_server): rcon_client}
-        self.filter_words_cache = {}  # {guild_id: ["keyword", "keyword"]}
+        self.filter_words_cache = defaultdict(list)  # {guild_id: ["keyword", "keyword"]}
         self.new_member_cache = defaultdict(set)  # {guild_id: set()}
 
         # support server channels
