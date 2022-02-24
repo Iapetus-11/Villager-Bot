@@ -218,7 +218,7 @@ class Config(commands.Cog):
                 self.bot.filter_words_cache[ctx.guild.id].remove(word)
             except ValueError:
                 pass
-            
+
             await self.db.remove_filtered_word(ctx.guild.id, word)
 
             await ctx.reply_embed(ctx.l.config.wbl.removed.format(word))
