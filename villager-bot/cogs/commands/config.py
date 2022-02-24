@@ -188,6 +188,7 @@ class Config(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def config_filtered_words(self, ctx, operation: str = None, word: str = None):
+        print(self, ctx, operation, word)
         words = await self.db.fetch_filtered_words(ctx.guild.id)
 
         if not (operation and word):
