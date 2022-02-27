@@ -88,12 +88,9 @@ class JsonPacketStream:
         self.drain_lock = asyncio.Lock()
 
     async def read_packet(self) -> cj.ClassyDict:
-        (length,) = struct.unpack(">i", await self.reader.read(LENGTH_LENGTH))  # read the length of the upcoming packet
+        (length,) = struct.unpack(">i", await self.reader.readexactly(LENGTH_LENGTH))  # read the length of the upcoming packet
 
-        data = bytearray(await self.reader.read(length))
-
-        while len(data) < length:
-            data += await self.reader.read(length - len(data))
+        data = await self.reader.readexactly(length)
 
         return cj.loads(data, object_hook=special_obj_hook)
 
