@@ -1,8 +1,8 @@
 from typing import Set
-from discord.ext import commands
+from disnake.ext import commands
 from contextlib import suppress
 import asyncio
-import discord
+import disnake
 import random
 import sys
 
@@ -15,10 +15,10 @@ from util.ipc import PacketType
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 
 NITRO_BOOST_MESSAGES = {
-    discord.MessageType.premium_guild_subscription,
-    discord.MessageType.premium_guild_tier_1,
-    discord.MessageType.premium_guild_tier_2,
-    discord.MessageType.premium_guild_tier_3,
+    disnake.MessageType.premium_guild_subscription,
+    disnake.MessageType.premium_guild_tier_1,
+    disnake.MessageType.premium_guild_tier_2,
+    disnake.MessageType.premium_guild_tier_3,
 }
 
 BAD_ARG_ERRORS = (
@@ -37,11 +37,11 @@ AUTOBAN_KEYWORDS = (
     "steam",
     "hack",
     "free",
-    "discord.gg",
+    "disnake.gg",
     "invite.gg",
     "dsc.gg",
     "dsc.lol",
-    "discord.com/invite/",
+    "disnake.com/invite/",
 )
 
 
@@ -55,7 +55,7 @@ class Events(commands.Cog):
         self.k = bot.k
         self.db = bot.get_cog("Database")
 
-        bot.event(self.on_error)  # discord.py's Cog.listener() doesn't work for on_error events
+        bot.event(self.on_error)  # disnake.py's Cog.listener() doesn't work for on_error events
 
     @property
     def badges(self):
@@ -129,7 +129,7 @@ class Events(commands.Cog):
         if channel is None:
             return
 
-        embed = discord.Embed(
+        embed = disnake.Embed(
             color=self.d.cc,
             description=f"Hey y'all! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
             f"If you need any more help, check out the **[Support Server]({self.d.support})**!\n\n"
@@ -141,7 +141,7 @@ class Events(commands.Cog):
             text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits)  |  Check the {self.d.default_prefix}rules"
         )
 
-        with suppress(discord.errors.Forbidden):
+        with suppress(disnake.errors.Forbidden):
             await channel.send(embed=embed)
 
     @commands.Cog.listener()
@@ -150,11 +150,11 @@ class Events(commands.Cog):
         self.bot.new_member_cache[member.guild.id].add(member.id)
 
         if await self.db.fetch_user_muted(member.id, member.guild.id):
-            with suppress(discord.errors.HTTPException):
+            with suppress(disnake.errors.HTTPException):
                 # fetch role
-                mute = discord.utils.get(member.guild.roles, name="Muted")
+                mute = disnake.utils.get(member.guild.roles, name="Muted")
                 if mute is None:
-                    mute = discord.utils.get(await member.guild.fetch_roles(), name="Muted")
+                    mute = disnake.utils.get(await member.guild.fetch_roles(), name="Muted")
 
                 await member.add_roles(mute)
 
@@ -178,25 +178,25 @@ class Events(commands.Cog):
                 )
 
     @commands.Cog.listener()
-    async def on_message_edit(self, before: discord.Message, after: discord.Message):
+    async def on_message_edit(self, before: disnake.Message, after: disnake.Message):
         if after.guild:
             await self.filter_keywords(after)
 
     @commands.Cog.listener()
-    async def on_message(self, message: discord.Message):
+    async def on_message(self, message: disnake.Message):
         self.bot.message_count += 1
 
         if message.author.bot:
             return
 
-        if isinstance(message.channel, discord.DMChannel):
+        if isinstance(message.channel, disnake.DMChannel):
             await self.ipc.send({"type": PacketType.DM_MESSAGE, "user_id": message.author.id, "content": message.content})
 
-            with suppress(discord.errors.HTTPException):
+            with suppress(disnake.errors.HTTPException):
                 prior_messages = len(await message.channel.history(limit=1, before=message).flatten())
 
                 if prior_messages < 1:
-                    embed = discord.Embed(
+                    embed = disnake.Embed(
                         color=self.d.cc,
                         description=f"Hey {message.author.mention}! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
                         f"If you need any more help, check out the **[Support Server]({self.d.support})**!",
@@ -247,11 +247,11 @@ class Events(commands.Cog):
 
             lang = self.bot.get_language(message)
 
-            embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
+            embed = disnake.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
             embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
             embed.set_footer(text=lang.useful.credits.foot.format(prefix))
 
-            with suppress(discord.errors.HTTPException):
+            with suppress(disnake.errors.HTTPException):
                 await message.channel.send(embed=embed)
 
             return
@@ -276,14 +276,14 @@ class Events(commands.Cog):
                 for u in message.guild.members
                 if (
                     not u.bot
-                    and u.status == discord.Status.online
+                    and u.status == disnake.Status.online
                     and message.author.id != u.id
                     and u.permissions_in(message.channel).read_messages
                 )
             ]
 
             if len(someones) > 0:
-                with suppress(discord.errors.HTTPException):
+                with suppress(disnake.errors.HTTPException):
                     await message.channel.send(
                         f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}"
                     )
@@ -294,7 +294,7 @@ class Events(commands.Cog):
             prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
 
             if not message.content.startswith(prefix):
-                with suppress(discord.errors.HTTPException):
+                with suppress(disnake.errors.HTTPException):
                     if "emerald" in content_lower:
                         await message.channel.send(random.choice(self.d.hmms))
                     elif "creeper" in content_lower:
@@ -371,9 +371,9 @@ class Events(commands.Cog):
             await ctx.reply_embed(ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
             await ctx.reply_embed(ctx.l.misc.errors.user_perms, ignore_exceptions=True)
-        elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
+        elif isinstance(e, (commands.BotMissingPermissions, disnake.errors.Forbidden)):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
-        elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
+        elif getattr(e, "original", None) is not None and isinstance(e.original, disnake.errors.Forbidden):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif isinstance(e, (commands.MaxConcurrencyReached, MaxKarenConcurrencyReached)):
             await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)

@@ -1,9 +1,9 @@
 from contextlib import redirect_stdout, redirect_stderr
-from discord.ext import commands
+from disnake.ext import commands
 from typing import Union
 import aiofiles
 import asyncio
-import discord
+import disnake
 import arrow
 import sys
 import io
@@ -101,8 +101,8 @@ class Owner(commands.Cog):
 
     @commands.command(name="lookup")
     @commands.is_owner()
-    async def lookup(self, ctx, user: Union[discord.User, int]):
-        if isinstance(user, discord.User):
+    async def lookup(self, ctx, user: Union[disnake.User, int]):
+        if isinstance(user, disnake.User):
             uid = user.id
         else:
             uid = user
@@ -127,8 +127,8 @@ class Owner(commands.Cog):
 
     @commands.command(name="setbal")
     @commands.is_owner()
-    async def set_user_bal(self, ctx, user: Union[discord.User, int], balance: int):
-        if isinstance(user, discord.User):
+    async def set_user_bal(self, ctx, user: Union[disnake.User, int], balance: int):
+        if isinstance(user, disnake.User):
             uid = user.id
         else:
             uid = user
@@ -138,8 +138,8 @@ class Owner(commands.Cog):
 
     @commands.command(name="botban")
     @commands.is_owner()
-    async def ban_user_from_bot(self, ctx, user: Union[discord.User, int]):
-        if isinstance(user, discord.User):
+    async def ban_user_from_bot(self, ctx, user: Union[disnake.User, int]):
+        if isinstance(user, disnake.User):
             uid = user.id
         else:
             uid = user
@@ -151,8 +151,8 @@ class Owner(commands.Cog):
 
     @commands.command(name="unbotban")
     @commands.is_owner()
-    async def unban_user_from_bot(self, ctx, user: Union[discord.User, int]):
-        if isinstance(user, discord.User):
+    async def unban_user_from_bot(self, ctx, user: Union[disnake.User, int]):
+        if isinstance(user, disnake.User):
             uid = user.id
         else:
             uid = user
@@ -164,8 +164,8 @@ class Owner(commands.Cog):
 
     @commands.command(name="givehistory", aliases=["transactions", "givelogs", "tradelogs"])
     @commands.is_owner()
-    async def transaction_history(self, ctx, user: Union[discord.User, int]):
-        if isinstance(user, discord.User):
+    async def transaction_history(self, ctx, user: Union[disnake.User, int]):
+        if isinstance(user, disnake.User):
             uid = user.id
             username = str(user)
         else:
@@ -188,10 +188,10 @@ class Owner(commands.Cog):
             entries = await self.db.fetch_transactions_page(uid, page=page)
 
             if len(entries) == 0:
-                embed = discord.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
+                embed = disnake.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
 
                 if user is not None:
-                    embed.set_author(name=f"Transaction history for {username}", icon_url=user.avatar_url_as())
+                    embed.set_author(name=f"Transaction history for {username}", icon_url=user.avatar.url)
                 else:
                     embed.set_author(name=f"Transaction history for {username}")
             else:
@@ -207,8 +207,8 @@ class Owner(commands.Cog):
 
                     body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
 
-                embed = discord.Embed(color=self.d.cc, description=body)
-                embed.set_author(name=f"Transaction history for {user}", icon_url=user.avatar_url_as())
+                embed = disnake.Embed(color=self.d.cc, description=body)
+                embed.set_author(name=f"Transaction history for {user}", icon_url=user.avatar.url)
                 embed.set_footer(text=f"Page {page+1}/{page_max+1}")
 
             if msg is None:

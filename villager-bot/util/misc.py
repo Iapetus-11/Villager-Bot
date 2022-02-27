@@ -2,7 +2,7 @@ from collections import defaultdict
 from contextlib import suppress
 import classyjson as cj
 import asyncio
-import discord
+import disnake
 import math
 import time
 
@@ -80,13 +80,13 @@ async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
         if user is None:
             user = "Unknown User"
         else:
-            user = discord.utils.escape_markdown(user)
+            user = disnake.utils.escape_markdown(user)
 
         body += rank_fstr.format(entry[2], entry[1], user)
 
     # add user if user is missing from the leaderboard
     if u_entry is not None and u_entry[2] > 9:
-        body += "\n⋮" + rank_fstr.format(u_entry[2], u_entry[1], discord.utils.escape_markdown(bot.get_user(u_entry[0]).name))
+        body += "\n⋮" + rank_fstr.format(u_entry[2], u_entry[1], disnake.utils.escape_markdown(bot.get_user(u_entry[0]).name))
 
     return body + "\uFEFF"
 
@@ -154,7 +154,7 @@ async def update_support_member_role(bot, member):
         if roles != member.roles:
             try:
                 await member.edit(roles=roles)
-            except discord.errors.HTTPException:
+            except disnake.errors.HTTPException:
                 pass
     except Exception as e:
         print(format_exception(e))

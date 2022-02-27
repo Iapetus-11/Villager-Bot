@@ -1,6 +1,6 @@
-from discord.ext import commands, tasks
+from disnake.ext import commands, tasks
 from contextlib import suppress
-import discord
+import disnake
 import random
 import arrow
 
@@ -27,7 +27,7 @@ class Loops(commands.Cog):
     async def change_status(self):
         await self.bot.wait_until_ready()
         await self.bot.change_presence(
-            status=discord.Status.online, activity=discord.Game(name=random.choice(self.d.playing_list))
+            status=disnake.Status.online, activity=disnake.Game(name=random.choice(self.d.playing_list))
         )
 
     @tasks.loop(seconds=30)

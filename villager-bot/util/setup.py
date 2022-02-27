@@ -1,13 +1,13 @@
 import classyjson as cj
 import asyncpg
 import logging
-import discord
+import disnake
 import random
 import os
 
 
-def villager_bot_intents() -> discord.Intents:
-    return discord.Intents(
+def villager_bot_intents() -> disnake.Intents:
+    return disnake.Intents(
         guilds=True,
         members=True,
         bans=True,
@@ -27,7 +27,7 @@ def setup_logging(shard_ids: list) -> logging.Logger:
     shard_range_str = str(shard_ids[0]).rjust(2, "0") + "-" + str(shard_ids[-1]).rjust(2, "0")
     logging.basicConfig(level=logging.INFO, format=f"[{shard_range_str}] %(levelname)s: %(message)s")
     logging.getLogger("asyncio").setLevel(logging.WARNING)  # hide annoying asyncio info
-    logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
+    logging.getLogger("disnake.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
     return logging.getLogger("main")
 
 
@@ -83,8 +83,8 @@ def update_fishing_prices(d: cj.ClassyDict):
 
 
 def mod_data(d: cj.ClassyDict) -> None:
-    # make discord.py color class from value in data.json
-    d.cc = getattr(discord.Color, d.embed_color)()
+    # make disnake.py color class from value in data.json
+    d.cc = getattr(disnake.Color, d.embed_color)()
 
     # update fishing data, generate fishing weights
     update_fishing_prices(d)

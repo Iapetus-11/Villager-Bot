@@ -1,6 +1,6 @@
-from discord.ext import commands
+from disnake.ext import commands
 import functools
-import discord
+import disnake
 import asyncio
 import random
 import arrow
@@ -58,11 +58,11 @@ class Econ(commands.Cog):
             prob = (prob, str(x + y))
 
             m = await ctx.reply(
-                embed=discord.Embed(color=self.d.cc, description=ctx.l.econ.math_problem.problem.format("process.exit(69)")),
+                embed=disnake.Embed(color=self.d.cc, description=ctx.l.econ.math_problem.problem.format("process.exit(69)")),
                 mention_author=False,
             )
             asyncio.create_task(
-                m.edit(embed=discord.Embed(color=self.d.cc, description=ctx.l.econ.math_problem.problem.format(prob[0])))
+                m.edit(embed=disnake.Embed(color=self.d.cc, description=ctx.l.econ.math_problem.problem.format(prob[0])))
             )
 
             def author_check(m):
@@ -89,7 +89,7 @@ class Econ(commands.Cog):
         pass
 
     @commands.command(name="profile", aliases=["pp"])
-    async def profile(self, ctx, *, user: discord.User = None):
+    async def profile(self, ctx, *, user: disnake.User = None):
         if user is None:
             user = ctx.author
 
@@ -129,8 +129,8 @@ class Econ(commands.Cog):
 
         user_badges_str = self.badges.emojify_badges(await self.badges.fetch_user_badges(user.id))
 
-        embed = discord.Embed(color=self.d.cc, description=f"{health_bar}")
-        embed.set_author(name=user.display_name, icon_url=user.avatar_url_as())
+        embed = disnake.Embed(color=self.d.cc, description=f"{health_bar}")
+        embed.set_author(name=user.display_name, icon_url=user.avatar.url)
 
         embed.add_field(name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}")
         embed.add_field(name="\uFEFF", value="\uFEFF")
@@ -153,7 +153,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="balance", aliases=["bal", "vault", "pocket"])
-    async def balance(self, ctx, *, user: discord.User = None):
+    async def balance(self, ctx, *, user: disnake.User = None):
         """Shows the balance of a user or the message sender"""
 
         if user is None:
@@ -179,8 +179,8 @@ class Econ(commands.Cog):
         else:
             mooderalds = mooderalds["amount"]
 
-        embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=user.avatar_url_as())
+        embed = disnake.Embed(color=self.d.cc)
+        embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=user.avatar.url)
 
         embed.description = (
             ctx.l.econ.bal.total_wealth.format(total_wealth, self.d.emojis.emerald)
@@ -232,8 +232,8 @@ class Econ(commands.Cog):
 
                     body += f'{emojify_item(self.d, item["name"])} `{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
 
-                embed = discord.Embed(color=self.d.cc, description=body)
-                embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat), icon_url=user.avatar_url_as())
+                embed = disnake.Embed(color=self.d.cc, description=body)
+                embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat), icon_url=user.avatar.url)
                 embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max+1}")
 
             if msg is None:
@@ -273,7 +273,7 @@ class Econ(commands.Cog):
 
             first_time = False
 
-    async def inventory_boiler(self, ctx, user: discord.User = None):
+    async def inventory_boiler(self, ctx, user: disnake.User = None):
         if ctx.invoked_subcommand is not None:
             return False, None
 
@@ -321,7 +321,7 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.all, 16)
 
     @inventory.group(name="tools", aliases=["tool", "pickaxes", "swords"])
-    async def inventory_tools(self, ctx, user: discord.User = None):
+    async def inventory_tools(self, ctx, user: disnake.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -332,7 +332,7 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.tools)
 
     @inventory.group(name="magic", aliases=["books", "potions", "enchants"])
-    async def inventory_magic(self, ctx, user: discord.User = None):
+    async def inventory_magic(self, ctx, user: disnake.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -343,7 +343,7 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.magic)
 
     @inventory.group(name="misc", aliases=["other"])
-    async def inventory_misc(self, ctx, user: discord.User = None):
+    async def inventory_misc(self, ctx, user: disnake.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -355,7 +355,7 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc, (16 if len(items) > 24 else 8))
 
     @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
-    async def inventory_fish(self, ctx, user: discord.User = None):
+    async def inventory_fish(self, ctx, user: disnake.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -468,7 +468,7 @@ class Econ(commands.Cog):
         """Shows the available options in the Villager Shop"""
 
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(color=self.d.cc)
+            embed = disnake.Embed(color=self.d.cc)
             embed.set_author(name=ctx.l.econ.shop.villager_shop, icon_url=self.d.splash_logo)
 
             # row 1
@@ -511,7 +511,7 @@ class Econ(commands.Cog):
         msg = None
 
         while True:
-            embed = discord.Embed(color=self.d.cc)
+            embed = disnake.Embed(color=self.d.cc)
             embed.set_author(name=header, icon_url=self.d.splash_logo)
 
             for item in items_chunked[page]:
@@ -587,7 +587,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
     async def fish_market(self, ctx):
-        embed_template = discord.Embed(
+        embed_template = disnake.Embed(
             color=self.d.cc,
             title=ctx.l.econ.fishing.market.title.format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
             description=ctx.l.econ.fishing.market.desc,
@@ -822,7 +822,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     # @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def give(self, ctx, user: discord.Member, *, amount_item):
+    async def give(self, ctx, user: disnake.Member, *, amount_item):
         """Give an item or emeralds to another person"""
 
         if user.bot:
@@ -1171,7 +1171,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     # @commands.cooldown(1, 300, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def pillage(self, ctx, *, victim: discord.Member):
+    async def pillage(self, ctx, *, victim: disnake.Member):
         if victim.bot:
             if victim.id == self.bot.user.id:
                 await ctx.reply_embed(ctx.l.econ.pillage.bot_1)
@@ -1518,7 +1518,7 @@ class Econ(commands.Cog):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)
 
-            embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
+            embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
 
             embed.add_field(name=ctx.l.econ.lb.emeralds, value=f"`{ctx.prefix}leaderboard emeralds`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
@@ -1551,7 +1551,7 @@ class Econ(commands.Cog):
                 lb_logic(self.bot, ems_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)),
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1574,7 +1574,7 @@ class Econ(commands.Cog):
                 ),
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1595,7 +1595,7 @@ class Econ(commands.Cog):
                 lb_logic(self.bot, kills_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)),
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1614,7 +1614,7 @@ class Econ(commands.Cog):
                 lb_logic(self.bot, bees_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee)),
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1633,7 +1633,7 @@ class Econ(commands.Cog):
                 lb_logic(self.bot, cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", " :keyboard:")),
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: "))
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1652,7 +1652,7 @@ class Econ(commands.Cog):
                 lb_logic(self.bot, votes_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)),
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(" :fire: "))
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(" :fire: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1673,7 +1673,7 @@ class Econ(commands.Cog):
                 lb_logic(self.bot, fish_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)),
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout))
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1702,7 +1702,7 @@ class Econ(commands.Cog):
                 ),
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald))
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1729,8 +1729,8 @@ class Econ(commands.Cog):
             "".join(r[::-1]) for r in zip(*[emojis[i : i + 5] for i in range(0, len(emojis), 5)][::-1])
         )
 
-        embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=f"{ctx.author.display_name}'s Farm", icon_url=ctx.author.avatar_url_as())
+        embed = disnake.Embed(color=self.d.cc)
+        embed.set_author(name=f"{ctx.author.display_name}'s Farm", icon_url=ctx.author.avatar.url)
 
         embed.add_field(
             name="Farm Commands",
