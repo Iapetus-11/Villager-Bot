@@ -1,5 +1,5 @@
-from discord.ext import commands
-import discord
+from disnake.ext import commands
+import disnake
 
 
 class Config(commands.Cog):
@@ -15,7 +15,7 @@ class Config(commands.Cog):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)
 
-            embed = discord.Embed(color=self.d.cc)
+            embed = disnake.Embed(color=self.d.cc)
             embed.set_author(name=ctx.l.config.main.title, icon_url=self.d.splash_logo)
 
             embed.add_field(

@@ -1,9 +1,9 @@
-from discord.ext import commands
+from disnake.ext import commands
 from contextlib import suppress
 from aiohttp import web
 import classyjson as cj
 import asyncio
-import discord
+import disnake
 import arrow
 
 from util.code import format_exception
@@ -76,10 +76,10 @@ class Webhooks(commands.Cog):
         user = self.bot.get_user(user_id)
 
         if user is None:
-            with suppress(discord.HTTPException):
+            with suppress(disnake.HTTPException):
                 user = await self.bot.fetch_user(user_id)
 
-        user_str = "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
+        user_str = "an unknown user" if user is None else disnake.utils.escape_markdown(user.display_name)
 
         await self.bot.after_ready_ready.wait()
         await self.bot.vote_channel.send(f":tada::tada: **{user_str}** has voted! :tada::tada:")

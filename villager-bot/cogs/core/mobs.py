@@ -1,8 +1,8 @@
-from discord.ext import commands
+from disnake.ext import commands
 import classyjson as cj
 import itertools
 import asyncio
-import discord
+import disnake
 import random
 import time
 import math
@@ -100,7 +100,7 @@ class MobSpawner(commands.Cog):
         await asyncio.sleep(random.random() * 3)
 
         # engage embed
-        embed = discord.Embed(
+        embed = disnake.Embed(
             color=self.d.cc,
             title=f"**{random.choice(ctx.l.mobs_mech.mob_drops).format(mob.nice.lower())}**",
             description=ctx.l.mobs_mech.type_engage,
@@ -144,7 +144,7 @@ class MobSpawner(commands.Cog):
             for iteration in itertools.count(start=1):
 
                 # create embed with mob image
-                embed = discord.Embed(color=self.d.cc, title=ctx.l.mobs_mech.attack_or_flee)
+                embed = disnake.Embed(color=self.d.cc, title=ctx.l.mobs_mech.attack_or_flee)
                 embed.set_image(url=mob.image)
 
                 # add user health bar to embed
@@ -175,7 +175,7 @@ class MobSpawner(commands.Cog):
                 # listen for attack or flee message (or timeout)
                 while user_action not in self.d.mobs_mech.valid_attacks:
                     try:
-                        user_action_msg: discord.Message = await self.bot.wait_for(
+                        user_action_msg: disnake.Message = await self.bot.wait_for(
                             "message", check=self.attack_check(ctx, initial_attack_msg), timeout=30
                         )
                         user_action = user_action_msg.content.lstrip(ctx.prefix).lower()
@@ -251,7 +251,7 @@ class MobSpawner(commands.Cog):
                 await fight_msg.edit(suppress=True)
 
             # outside of the for loop
-            embed = discord.Embed(color=self.d.cc)
+            embed = disnake.Embed(color=self.d.cc)
             embed.set_image(url=mob.image)
 
             embed.add_field(  # user health bar

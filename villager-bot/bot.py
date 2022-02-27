@@ -2,11 +2,11 @@ from concurrent.futures import ThreadPoolExecutor
 from statcord import StatcordClusterClient
 from collections import defaultdict
 from classyjson import ClassyDict
-from discord.ext import commands
+from disnake.ext import commands
 import pyximport
 import aiohttp
 import asyncio
-import discord
+import disnake
 import psutil
 import random
 import arrow
@@ -42,7 +42,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     def __init__(self, shard_count: int, shard_ids: list, max_db_pool_size: int):
         commands.AutoShardedBot.__init__(
             self,
-            # status=discord.Status.invisible,
             command_prefix=self.get_prefix,
             case_insensitive=True,
             intents=villager_bot_intents(),
@@ -151,7 +150,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             super().run(self.k.discord_token, *args, **kwargs)
 
     async def get_prefix(self, ctx: commands.Context) -> str:
-        # for some reason discord.py wants this function to be async *sigh*
+        # for some reason disnake.py wants this function to be async *sigh*
 
         if ctx.guild:
             return self.prefix_cache.get(ctx.guild.id, self.d.default_prefix)
@@ -173,20 +172,20 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         return ctx
 
     async def send_embed(self, location, message: str, *, ignore_exceptions: bool = False) -> None:
-        embed = discord.Embed(color=self.d.cc, description=message)
+        embed = disnake.Embed(color=self.d.cc, description=message)
 
         try:
             await location.send(embed=embed)
-        except discord.errors.HTTPException:
+        except disnake.errors.HTTPException:
             if not ignore_exceptions:
                 raise
 
     async def reply_embed(self, location, message: str, ping: bool = False, *, ignore_exceptions: bool = False) -> None:
-        embed = discord.Embed(color=self.d.cc, description=message)
+        embed = disnake.Embed(color=self.d.cc, description=message)
 
         try:
             await location.reply(embed=embed, mention_author=ping)
-        except discord.errors.HTTPException as e:
+        except disnake.errors.HTTPException as e:
             if e.code == 50035:  # invalid form body, happens sometimes when the message to reply to can't be found?
                 await self.send_embed(location, message, ignore_exceptions=ignore_exceptions)
             elif not ignore_exceptions:
