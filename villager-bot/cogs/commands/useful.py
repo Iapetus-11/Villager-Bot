@@ -251,9 +251,12 @@ class Useful(commands.Cog):
 
     @commands.command(name="avatar", aliases=["av"])
     async def member_avatar(self, ctx, member: disnake.Member = None):
-        member = member or ctx.author
-        embed = disnake.Embed(color=self.d.cc, description=f"[Download]({member.avatar.url})")
-        embed.set_image(url=member.avatar.url)
+        user = member or ctx.author
+        avatar_url = getattr(user.avatar, "url", "https://media.discordapp.net/attachments/643648150778675202/947881629047722064/gGWDJSghKgd8QAAAABJRU5ErkJggg.png")
+
+        embed = disnake.Embed(color=self.d.cc, description=ctx.l.fun.dl_img.format(avatar_url))
+        embed.set_image(url=avatar_url)
+
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="ping", aliases=["pong", "ding", "dong", "bing", "bong", "shing", "shling", "schlong"])
