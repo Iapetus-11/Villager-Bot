@@ -180,7 +180,9 @@ class Econ(commands.Cog):
             mooderalds = mooderalds["amount"]
 
         embed = disnake.Embed(color=self.d.cc)
-        embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=getattr(user.avatar, "url", embed.Empty))
+        embed.set_author(
+            name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=getattr(user.avatar, "url", embed.Empty)
+        )
 
         embed.description = (
             ctx.l.econ.bal.total_wealth.format(total_wealth, self.d.emojis.emerald)
@@ -233,7 +235,10 @@ class Econ(commands.Cog):
                     body += f'{emojify_item(self.d, item["name"])} `{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
 
                 embed = disnake.Embed(color=self.d.cc, description=body)
-                embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat), icon_url=getattr(user.avatar, "url", embed.Empty))
+                embed.set_author(
+                    name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat),
+                    icon_url=getattr(user.avatar, "url", embed.Empty),
+                )
                 embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max+1}")
 
             if msg is None:

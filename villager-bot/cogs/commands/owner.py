@@ -191,7 +191,9 @@ class Owner(commands.Cog):
                 embed = disnake.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
 
                 if user is not None:
-                    embed.set_author(name=f"Transaction history for {username}", icon_url=getattr(user.avatar, "url", embed.Empty))
+                    embed.set_author(
+                        name=f"Transaction history for {username}", icon_url=getattr(user.avatar, "url", embed.Empty)
+                    )
                 else:
                     embed.set_author(name=f"Transaction history for {username}")
             else:
