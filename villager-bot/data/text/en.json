@@ -98,6 +98,7 @@
       },
       "util": {
         "help": "`{0}help` *view helpful information about Villager Bot*",
+        "rules": "`{0}rules` *view the rules of using the bot*",
         "config": "`{0}config` *configure / setup the bot to your liking*",
         "ping": "`{0}ping` *shows the latency between Discord and Villager Bot*",
         "serverinfo": "`{0}server` *view information about the current server*",
