@@ -249,6 +249,13 @@ class Useful(commands.Cog):
 
             await asyncio.sleep(0.2)
 
+    @commands.command(name="avatar", aliases=["av"])
+    async def member_avatar(self, ctx, member: disnake.Member = None):
+        member = member or ctx.author
+        embed = disnake.Embed(color=self.d.cc, description=f"[Download]({member.avatar.url})")
+        embed.set_image(url=member.avatar.url)
+        await ctx.reply(embed=embed, mention_author=False)
+
     @commands.command(name="ping", aliases=["pong", "ding", "dong", "bing", "bong", "shing", "shling", "schlong"])
     async def ping_pong(self, ctx):
         content = ctx.message.content.lower()
