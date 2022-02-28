@@ -180,7 +180,7 @@ class Mod(commands.Cog):
         warns = await self.db.fetch_warns(user.id, ctx.guild.id)
 
         embed = disnake.Embed(color=self.d.cc)
-        embed.set_author(name=f"{user}'s warnings ({len(warns)} total):", icon_url=getattr(user.avatar, "url", None))
+        embed.set_author(name=f"{user}'s warnings ({len(warns)} total):", icon_url=getattr(user.avatar, "url", embed.Empty))
 
         if len(warns) < 1:
             embed.add_field(name="\uFEFF", value=f"{user} has no warnings.")
