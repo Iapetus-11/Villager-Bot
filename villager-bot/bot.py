@@ -212,8 +212,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             ctx.failure_reason = "disabled"
             return False
 
+        command_has_cooldown = command in self.d.cooldown_rates
+
         # handle cooldowns that need to be synced between shard groups / processes (aka karen cooldowns)
-        if command in self.d.cooldown_rates:
+        if command_has_cooldown:
             cooldown_info = await self.ipc.request({"type": PacketType.COOLDOWN, "command": command, "user_id": ctx.author.id})
 
             if not cooldown_info.can_run:
@@ -244,7 +246,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             elif random.randint(0, self.d.tip_chance) == 0:  # send tip?
                 asyncio.create_task(self.send_tip(ctx))
 
-        asyncio.create_task(self.ipc.send({"type": PacketType.COMMAND_RAN, "user_id": ctx.author.id}))
+        if command_has_cooldown:
+            asyncio.create_task(self.ipc.send({"type": PacketType.COMMAND_RAN, "user_id": ctx.author.id}))
 
         return True
 

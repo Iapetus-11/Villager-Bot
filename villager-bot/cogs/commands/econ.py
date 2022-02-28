@@ -130,7 +130,7 @@ class Econ(commands.Cog):
         user_badges_str = self.badges.emojify_badges(await self.badges.fetch_user_badges(user.id))
 
         embed = disnake.Embed(color=self.d.cc, description=f"{health_bar}")
-        embed.set_author(name=user.display_name, icon_url=user.avatar.url)
+        embed.set_author(name=user.display_name, icon_url=getattr(user.avatar, "url", None))
 
         embed.add_field(name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}")
         embed.add_field(name="\uFEFF", value="\uFEFF")
@@ -180,7 +180,7 @@ class Econ(commands.Cog):
             mooderalds = mooderalds["amount"]
 
         embed = disnake.Embed(color=self.d.cc)
-        embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=user.avatar.url)
+        embed.set_author(name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=getattr(user.avatar, "url", None))
 
         embed.description = (
             ctx.l.econ.bal.total_wealth.format(total_wealth, self.d.emojis.emerald)
@@ -233,7 +233,9 @@ class Econ(commands.Cog):
                     body += f'{emojify_item(self.d, item["name"])} `{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
 
                 embed = disnake.Embed(color=self.d.cc, description=body)
-                embed.set_author(name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat), icon_url=user.avatar.url)
+                embed.set_author(
+                    name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat), icon_url=getattr(user.avatar, "url", None)
+                )
                 embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max+1}")
 
             if msg is None:
@@ -1730,7 +1732,7 @@ class Econ(commands.Cog):
         )
 
         embed = disnake.Embed(color=self.d.cc)
-        embed.set_author(name=f"{ctx.author.display_name}'s Farm", icon_url=ctx.author.avatar.url)
+        embed.set_author(name=f"{ctx.author.display_name}'s Farm", icon_url=getattr(ctx.author.avatar, "url", None))
 
         embed.add_field(
             name="Farm Commands",

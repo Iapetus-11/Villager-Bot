@@ -109,8 +109,7 @@
         "image": "`{0}image \u003cSuche\u003e` *suche nach Bildern auf Google*",
         "remindme": "`{0}remindme \u003cZeit\u003e \u003cErinnerung\u003e` *erinnert dich zu einem spezifizierten Zeitpunkt*",
         "credits": "`{0}credits` *Zeigt dir wer alles mitgeholfen hat mit Villager Bot*",
-        "snipe": "`{0}snipe` *Zeigt die letzte gelöschte Nachricht in diesen Kanal*",
-        "downloadredditvideo": "`{0}downloadredditvideo \u003creddit post url\u003e` *läd ein Video von Reddit runter*"
+        "snipe": "`{0}snipe` *Zeigt die letzte gelöschte Nachricht in diesen Kanal*"
       },
       "fun": {
         "cursed": "`{0}cursed` *sendet ein zufälliges verfluchtes Minecraft Bild*",

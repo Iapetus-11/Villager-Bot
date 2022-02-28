@@ -191,7 +191,7 @@ class Owner(commands.Cog):
                 embed = disnake.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
 
                 if user is not None:
-                    embed.set_author(name=f"Transaction history for {username}", icon_url=user.avatar.url)
+                    embed.set_author(name=f"Transaction history for {username}", icon_url=getattr(user.avatar, "url", None))
                 else:
                     embed.set_author(name=f"Transaction history for {username}")
             else:
@@ -208,7 +208,7 @@ class Owner(commands.Cog):
                     body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
 
                 embed = disnake.Embed(color=self.d.cc, description=body)
-                embed.set_author(name=f"Transaction history for {user}", icon_url=user.avatar.url)
+                embed.set_author(name=f"Transaction history for {user}", icon_url=getattr(user.avatar, "url", None))
                 embed.set_footer(text=f"Page {page+1}/{page_max+1}")
 
             if msg is None:
