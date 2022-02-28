@@ -1,5 +1,4 @@
 from concurrent.futures import ThreadPoolExecutor
-from statcord import StatcordClusterClient
 from collections import defaultdict
 from classyjson import ClassyDict
 from disnake.ext import commands
@@ -80,7 +79,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.logger = setup_logging(self.shard_ids)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.get_packet_handlers())  # ipc client
         self.aiohttp = aiohttp.ClientSession()
-        self.statcord = None  # StatcordClusterClient instance
         self.db = None  # asyncpg database connection pool
         self.tp = None  # ThreadPoolExecutor instance
         self.prevent_spawn_duplicates = TTLPreventDuplicate(25, 10)
@@ -129,8 +127,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.db = await setup_database_pool(self.k, self.max_db_pool_size)
         asyncio.create_task(self.prevent_spawn_duplicates.run())
 
-        self.statcord = StatcordClusterClient(self, self.k.statcord, ".".join(map(str, self.shard_ids)))
-
         for cog in self.cog_list:
             self.load_extension(cog)
 
@@ -140,8 +136,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         await self.ipc.close()
         await self.db.close()
         await self.aiohttp.close()
-
-        self.statcord.close()
 
         await super().close(*args, **kwargs)
 

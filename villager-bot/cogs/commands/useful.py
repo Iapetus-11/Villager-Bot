@@ -366,8 +366,6 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
         )
 
-        col_2 += "\n" + ctx.l.useful.stats.more.format(self.d.statcord)
-
         embed.add_field(name="\uFEFF", value=col_1 + "\uFEFF")
         embed.add_field(name="\uFEFF", value=col_2 + "\uFEFF")
 
