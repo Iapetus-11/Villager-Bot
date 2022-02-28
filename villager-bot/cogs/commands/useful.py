@@ -250,7 +250,7 @@ class Useful(commands.Cog):
             await asyncio.sleep(0.2)
 
     @commands.command(name="avatar", aliases=["av"])
-    async def member_avatar(self, ctx, member: disnake.Member=None):
+    async def member_avatar(self, ctx, member: disnake.Member = None):
         member = member or ctx.author
         embed = disnake.Embed(color=self.d.cc, description=f"[Download]({member.avatar.url})")
         embed.set_image(url=member.avatar.url)
