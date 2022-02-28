@@ -101,6 +101,7 @@
         "config": "`{0}config` *configure / setup the bot to your liking*",
         "ping": "`{0}ping` *shows the latency between Discord and Villager Bot*",
         "serverinfo": "`{0}server` *view information about the current server*",
+        "avatar": "`{0}avatar` *shows the enlarged avatar of the specified user*",
         "links": "`{0}links` *view useful links relating to Villager Bot*",
         "vote": "`{0}vote` *earn emeralds from voting for Villager Bot on certain websites*",
         "stats": "`{0}stats` *shows statistics about Villager Bot*",
