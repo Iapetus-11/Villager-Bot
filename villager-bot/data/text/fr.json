@@ -110,8 +110,7 @@
         "math": "`{0}math <problème>` *résout un problème de math",
         "remindme": "`{0}remindme <temps> <rappel>` *te rappelles après un temps spécifié*",
         "credits": "`{0}credits` *montre qui a aidé à faire le Villager Bot*",
-        "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*",
-        "downloadredditvideo": "`{0}downloadredditvideo <lien de publication reddit>` *télécharge une vidéo de reddit*"
+        "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envoie une image cursed de Minecraft*",
