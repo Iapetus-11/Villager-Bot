@@ -404,7 +404,7 @@ class Useful(commands.Cog):
                 asyncio.create_task(update_ban_count_cache(bans))
 
         embed = disnake.Embed(color=self.d.cc)
-        embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=guild.icon.url)
+        embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=getattr(guild.icon, "url", None))
 
         embed.description = f"{ctx.l.useful.ginf.age}: `{display_age}`\n{ctx.l.useful.ginf.owner}: {guild.owner.mention}"
 
@@ -426,7 +426,7 @@ class Useful(commands.Cog):
         embed.add_field(name="Villager Bot " + self.d.emojis.emerald, value=villager, inline=True)
         # embed.add_field(name="Roles", value=" ".join([r.mention for r in guild.roles if r.id != guild.id][::-1]))
 
-        embed.set_thumbnail(url=guild.icon.url)
+        embed.set_thumbnail(url=getattr(guild.icon, "url", None))
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         await ctx.reply(embed=embed, mention_author=False)
@@ -606,7 +606,7 @@ class Useful(commands.Cog):
             snipe, _ = snipe
 
             embed = disnake.Embed(color=self.d.cc, description=snipe.content)
-            embed.set_author(name=str(snipe.author), icon_url=snipe.author.avatar.url)
+            embed.set_author(name=str(snipe.author), icon_url=getattr(snipe.author.avatar, "url", None))
             embed.timestamp = snipe.created_at
 
             await ctx.send(embed=embed)
