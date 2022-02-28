@@ -9,9 +9,11 @@ import math
 
 from util.misc import make_health_bar, SuppressCtxManager
 
+from bot import VillagerBotCluster
+
 
 class MobSpawner(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
         self.d = bot.d

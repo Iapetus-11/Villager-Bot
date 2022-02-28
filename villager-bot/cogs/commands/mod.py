@@ -5,9 +5,11 @@ import disnake
 
 from util.misc import SuppressCtxManager
 
+from bot import VillagerBotCluster
+
 
 class Mod(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
         self.d = bot.d

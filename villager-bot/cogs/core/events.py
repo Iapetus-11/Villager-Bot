@@ -11,6 +11,8 @@ from util.misc import update_support_member_role
 from util.code import format_exception
 from util.ipc import PacketType
 
+from bot import VillagerBotCluster
+
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 
@@ -46,7 +48,7 @@ AUTOBAN_KEYWORDS = (
 
 
 class Events(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
         self.logger = bot.logger
@@ -55,7 +57,7 @@ class Events(commands.Cog):
         self.k = bot.k
         self.db = bot.get_cog("Database")
 
-        bot.event(self.on_error)  # disnake.py's Cog.listener() doesn't work for on_error events
+        bot.event(self.on_error)  # Cog.listener() doesn't work for on_error events
 
     @property
     def badges(self):

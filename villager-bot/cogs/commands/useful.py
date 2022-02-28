@@ -11,6 +11,8 @@ import time
 from util.misc import SuppressCtxManager
 from util.ipc import PacketType
 
+from bot import VillagerBotCluster
+
 
 class BanCacheEntry:
     __slots__ = ("ban_count", "time")
@@ -21,7 +23,7 @@ class BanCacheEntry:
 
 
 class Useful(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
         self.d = bot.d

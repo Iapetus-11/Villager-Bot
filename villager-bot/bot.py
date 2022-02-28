@@ -5,6 +5,7 @@ from disnake.ext import commands
 import pyximport
 import aiohttp
 import asyncio
+import asyncpg
 import disnake
 import psutil
 import random
@@ -79,8 +80,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.logger = setup_logging(self.shard_ids)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.get_packet_handlers())  # ipc client
         self.aiohttp = aiohttp.ClientSession()
-        self.db = None  # asyncpg database connection pool
-        self.tp = None  # ThreadPoolExecutor instance
+        self.db: asyncpg.Pool = None
+        self.tp: ThreadPoolExecutor = None
         self.prevent_spawn_duplicates = TTLPreventDuplicate(25, 10)
 
         # caches
@@ -95,8 +96,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.new_member_cache = defaultdict(set)  # {guild_id: set()}
 
         # support server channels
-        self.error_channel = None
-        self.vote_channel = None
+        self.error_channel: disnake.TextChannel = None
+        self.vote_channel: disnake.TextChannel = None
 
         # counters and other things
         self.command_count = 0

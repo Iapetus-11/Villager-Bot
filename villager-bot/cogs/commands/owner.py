@@ -13,9 +13,11 @@ from util.code import execute_code, format_exception
 from util.misc import SuppressCtxManager
 from util.ipc import PacketType
 
+from bot import VillagerBotCluster
+
 
 class Owner(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
         self.ipc = bot.ipc

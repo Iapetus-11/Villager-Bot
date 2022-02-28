@@ -6,9 +6,11 @@ import arrow
 
 from util.setup import update_fishing_prices
 
+from bot import VillagerBotCluster
+
 
 class Loops(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
         self.aiohttp = bot.aiohttp

@@ -9,9 +9,11 @@ import arrow
 from util.code import format_exception
 from util.ipc import PacketType
 
+from bot import VillagerBotCluster
+
 
 class Webhooks(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
         self.d = bot.d

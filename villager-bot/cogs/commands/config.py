@@ -1,9 +1,11 @@
 from disnake.ext import commands
 import disnake
 
+from bot import VillagerBotCluster
+
 
 class Config(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
         self.d = bot.d
