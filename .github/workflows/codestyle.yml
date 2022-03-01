@@ -38,7 +38,7 @@ jobs:
         run: isort .
       
       - name: publish
-        if: steps.black-check.outcome != 'success' && github.event_name != 'pull_request'
+        if: (steps.black-check.outcome != 'success' || steps.isort-check.outcome != 'success') && github.event_name != 'pull_request'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
