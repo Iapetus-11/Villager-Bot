@@ -21,14 +21,14 @@ from util.code import execute_code, format_exception
 from util.ctx import BetterContext
 
 
-def run_cluster(shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
-    # add cython support, with numpy header files
+def run_cluster(cluster_id: int, shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
+    # add cython support, with numpy header files, should be using cached build
     pyximport.install(language_level=3, setup_args={"include_dirs": numpy.get_include()})
 
-    # for some reason, asyncio tries to use the event loop from the main process
+    # for some reason asyncio tries to use the event loop from the main process
     asyncio.set_event_loop(asyncio.new_event_loop())
 
-    cluster = VillagerBotCluster(shard_count, shard_ids, max_db_pool_size)
+    cluster = VillagerBotCluster(cluster_id, shard_count, shard_ids, max_db_pool_size)
 
     try:
         cluster.run()
@@ -39,7 +39,7 @@ def run_cluster(shard_count: int, shard_ids: list, max_db_pool_size: int) -> Non
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
-    def __init__(self, shard_count: int, shard_ids: list, max_db_pool_size: int):
+    def __init__(self, cluster_id: int, shard_count: int, shard_ids: list, max_db_pool_size: int):
         commands.AutoShardedBot.__init__(
             self,
             command_prefix=self.get_prefix,
@@ -50,6 +50,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             help_command=None,
         )
 
+        self.cluster_id = cluster_id
         self.max_db_pool_size = max_db_pool_size
 
         self.start_time = arrow.utcnow()
@@ -148,9 +149,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         # for some reason disnake.py wants this function to be async *sigh*
 
         if ctx.guild:
-            return self.prefix_cache.get(ctx.guild.id, self.d.default_prefix)
+            return self.prefix_cache.get(ctx.guild.id, self.k.default_prefix)
 
-        return self.d.default_prefix
+        return self.k.default_prefix
 
     def get_language(self, ctx: commands.Context) -> ClassyDict:
         if ctx.guild:

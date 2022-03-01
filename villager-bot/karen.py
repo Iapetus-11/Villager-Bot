@@ -1,6 +1,7 @@
 from concurrent.futures import ProcessPoolExecutor
 from collections import defaultdict
 from classyjson import ClassyDict
+from typing import List, Set
 import asyncio
 import asyncpg
 import psutil
@@ -33,14 +34,14 @@ class MechaKaren(PacketHandlerRegistry):
         self.v = self.Share()
 
         self.logger = setup_karen_logging()
-        self.db = None
+        self.db: asyncpg.Pool = None
         self.cooldowns = CooldownManager(self.d.cooldown_rates)
         self.concurrency = MaxConcurrencyManager()
         self.pillage_lock = MultiLock()
         self.server = Server(self.k.manager.host, self.k.manager.port, self.k.manager.auth, self.get_packet_handlers())
 
-        self.shard_ids = tuple(range(self.k.shard_count))
-        self.online_shards = set()
+        self.shard_ids = list(range(self.k.shard_count))
+        self.online_clusters: Set[int] = set()
 
         self.eval_env = {"karen": self, **self.v.__dict__}
 
@@ -65,16 +66,12 @@ class MechaKaren(PacketHandlerRegistry):
 
         self.logger.error(f"Missing packet handler for packet type {packet_type}")
 
-    @handle_packet(PacketType.SHARD_READY)
-    async def handle_shard_ready_packet(self, packet: ClassyDict):
-        self.online_shards.add(packet.shard_id)
+    @handle_packet(PacketType.CLUSTER_READY)
+    async def handle_cluster_ready_packet(self, packet: ClassyDict):
+        self.online_clusters.add(packet.cluster_id)
 
-        if len(self.online_shards) == len(self.shard_ids):
-            self.logger.info(f"\u001b[36;1mALL SHARDS\u001b[0m [0-{len(self.online_shards)-1}] \u001b[36;1mREADY\u001b[0m")
-
-    @handle_packet(PacketType.SHARD_DISCONNECT)
-    async def handle_shard_disconnect_packet(self, packet: ClassyDict):
-        self.online_shards.discard(packet.shard_id)
+        if len(self.online_clusters) == self.k.cluster_count:
+            self.logger.info(f"\u001b[36;1mALL CLUSTERS\u001b[0m [0-{self.k.cluster_count-1}] \u001b[36;1mREADY\u001b[0m")
 
     @handle_packet(PacketType.EVAL)
     async def handle_eval_packet(self, packet: ClassyDict):
@@ -306,19 +303,27 @@ class MechaKaren(PacketHandlerRegistry):
         self.clear_trivia_commands_task = asyncio.create_task(self.clear_trivia_commands_loop())
         self.reminders_task = asyncio.create_task(self.remind_reminders_loop())
 
-        shard_groups = []
         loop = asyncio.get_event_loop()
-        g = self.k.cluster_size
 
         # calculate max connections to the db server per process allowed
         # postgresql is usually configured to allow 100 max, so we use
-        # 75 to leave room for other programs using the db server
-        db_pool_size_per = 75 // (self.k.shard_count // g + 1)
+        # 75 to leave room for other stuff using the db server        
+        db_pool_size_per: int = 75 // self.k.cluster_count
+    
+        cluster_size: int = self.k.shard_count // self.k.cluster_count  # how many shards per cluster
+        clusters: List[asyncio.Future] = []
+        shard_ids_chunked = [self.shard_ids[i : i + cluster_size] for i in range(0, self.k.shard_count, cluster_size)]
 
-        for shard_id_group in [self.shard_ids[i : i + g] for i in range(0, len(self.shard_ids), g)]:
-            shard_groups.append(loop.run_in_executor(pp, run_cluster, self.k.shard_count, shard_id_group, db_pool_size_per))
+        # create and run clusters
+        for cluster_id, shard_ids in enumerate(shard_ids_chunked):
+            clusters.append(
+                loop.run_in_executor(
+                    pp, run_cluster, cluster_id, self.k.shard_count, shard_ids, db_pool_size_per
+                )
+            )
 
-        await asyncio.wait(shard_groups)
+        await asyncio.wait(clusters)
+
         self.cooldowns.stop()
 
         self.commands_task.cancel()
@@ -329,5 +334,5 @@ class MechaKaren(PacketHandlerRegistry):
         await self.db.close()
 
     def run(self):
-        with ProcessPoolExecutor(self.k.shard_count // self.k.cluster_size + 1) as pp:
+        with ProcessPoolExecutor(self.k.cluster_count) as pp:
             asyncio.run(self.start(pp))

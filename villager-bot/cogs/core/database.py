@@ -14,6 +14,7 @@ class Database(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
+        self.k = bot.k
         self.db = bot.db  # the asyncpg pool
 
         asyncio.create_task(self.populate_caches())
@@ -60,7 +61,7 @@ class Database(commands.Cog):
         return {r[0]: r[1] for r in lang_records}
 
     async def fetch_all_guild_prefixes(self) -> dict:
-        prefix_records = await self.db.fetch("SELECT guild_id, prefix FROM guilds WHERE prefix != $1", self.d.default_prefix)
+        prefix_records = await self.db.fetch("SELECT guild_id, prefix FROM guilds WHERE prefix != $1", self.k.default_prefix)
         return {r[0]: r[1] for r in prefix_records}
 
     async def fetch_all_disabled_commands(self) -> dict:

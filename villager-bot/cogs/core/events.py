@@ -92,16 +92,11 @@ class Events(commands.Cog):
         await self.bot.error_channel.send(f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```")
 
     @commands.Cog.listener()
-    async def on_shard_ready(self, shard_id: int):
-        await self.ipc.send({"type": PacketType.SHARD_READY, "shard_id": shard_id})
-        self.bot.logger.info(f"Shard {shard_id} \u001b[36;1mREADY\u001b[0m")
-
-    @commands.Cog.listener()
-    async def on_shard_disconnect(self, shard_id: int):
-        await self.ipc.send({"type": PacketType.SHARD_DISCONNECT, "shard_id": shard_id})
-
-    @commands.Cog.listener()
     async def on_ready(self):
+        await self.ipc.send({"type": PacketType.CLUSTER_READY, "cluster_id": self.bot.cluster_id})
+
+        self.bot.logger.info(f"Cluster {self.bot.cluster_id} \u001b[36;1mREADY\u001b[0m")
+
         self.bot.support_server = await self.bot.fetch_guild(self.d.support_server_id)
 
         self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
@@ -133,14 +128,14 @@ class Events(commands.Cog):
 
         embed = disnake.Embed(
             color=self.d.cc,
-            description=f"Hey y'all! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
+            description=f"Hey y'all! Type `{self.k.default_prefix}help` to get started with Villager Bot!\n"
             f"If you need any more help, check out the **[Support Server]({self.d.support})**!\n\n"
             f"*Our privacy policy can be found [here]({self.d.privacy_policy}).*",
         )
 
         embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
         embed.set_footer(
-            text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits)  |  Check the {self.d.default_prefix}rules"
+            text=f"Made by Iapetus11 and others ({self.k.default_prefix}credits)  |  Check the {self.k.default_prefix}rules"
         )
 
         with suppress(disnake.errors.Forbidden):
@@ -200,13 +195,13 @@ class Events(commands.Cog):
                 if prior_messages < 1:
                     embed = disnake.Embed(
                         color=self.d.cc,
-                        description=f"Hey {message.author.mention}! Type `{self.d.default_prefix}help` to get started with Villager Bot!\n"
+                        description=f"Hey {message.author.mention}! Type `{self.k.default_prefix}help` to get started with Villager Bot!\n"
                         f"If you need any more help, check out the **[Support Server]({self.d.support})**!",
                     )
 
                     embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
                     embed.set_footer(
-                        text=f"Made by Iapetus11 and others ({self.d.default_prefix}credits)  |  Check the {self.d.default_prefix}rules"
+                        text=f"Made by Iapetus11 and others ({self.k.default_prefix}credits)  |  Check the {self.k.default_prefix}rules"
                     )
 
                     await message.channel.send(embed=embed)
@@ -243,9 +238,9 @@ class Events(commands.Cog):
 
         if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
             if message.guild is None:
-                prefix = self.d.default_prefix
+                prefix = self.k.default_prefix
             else:
-                prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
+                prefix = self.bot.prefix_cache.get(message.guild.id, self.k.default_prefix)
 
             lang = self.bot.get_language(message)
 
@@ -293,7 +288,7 @@ class Events(commands.Cog):
                 return
 
         if message.guild.id in self.bot.replies_cache:
-            prefix = self.bot.prefix_cache.get(message.guild.id, self.d.default_prefix)
+            prefix = self.bot.prefix_cache.get(message.guild.id, self.k.default_prefix)
 
             if not message.content.startswith(prefix):
                 with suppress(disnake.errors.HTTPException):
