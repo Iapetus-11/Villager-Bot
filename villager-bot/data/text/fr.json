@@ -98,9 +98,11 @@
       },
       "util": {
         "help": "`{0}help` *affiche des informations utiles à propos du Villager Bot*",
+        "rules": "`{0}rules` *montre les règles d'utilisation du bot*",
         "config": "`{0}config` *configure / règle le bot selon tes préférences*",
         "ping": "`{0}ping` *donne la latence entre Discord et le Villager Bot*",
         "serverinfo": "`{0}server` *affiche des informations à propos du serveur actuel*",
+        "avatar": "`{0}avatar` *montre l'avatar aggrandi de l'utilisateur spécifié*",
         "links": "`{0}links` *donne des liens utiles concernant le Villager Bot*",
         "vote": "`{0}vote` *gagne des émeraudes en votant pour le Villager Bot sur certains sites*",
         "stats": "`{0}stats` *affiche des statistiques à propos du Villager Bot*",
