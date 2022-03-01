@@ -307,20 +307,16 @@ class MechaKaren(PacketHandlerRegistry):
 
         # calculate max connections to the db server per process allowed
         # postgresql is usually configured to allow 100 max, so we use
-        # 75 to leave room for other stuff using the db server        
+        # 75 to leave room for other stuff using the db server
         db_pool_size_per: int = 75 // self.k.cluster_count
-    
+
         cluster_size: int = self.k.shard_count // self.k.cluster_count  # how many shards per cluster
         clusters: List[asyncio.Future] = []
         shard_ids_chunked = [self.shard_ids[i : i + cluster_size] for i in range(0, self.k.shard_count, cluster_size)]
 
         # create and run clusters
         for cluster_id, shard_ids in enumerate(shard_ids_chunked):
-            clusters.append(
-                loop.run_in_executor(
-                    pp, run_cluster, cluster_id, self.k.shard_count, shard_ids, db_pool_size_per
-                )
-            )
+            clusters.append(loop.run_in_executor(pp, run_cluster, cluster_id, self.k.shard_count, shard_ids, db_pool_size_per))
 
         await asyncio.wait(clusters)
 
