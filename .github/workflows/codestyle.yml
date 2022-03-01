@@ -1,0 +1,46 @@
+name: Auto Black & Isort
+on: [push, pull_request]
+
+jobs:
+  autocodestyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v1
+
+      - run: pip install black isort
+
+      - name: autoblack_check
+        id: black-check
+        continue-on-error: true
+        run: black --diff --check --config pyproject.toml . 1>.black_diff
+
+      - name: autoblack_fix
+        if: steps.black-check.outcome != 'success' && github.event_name != 'pull_request'
+        run: black --config pyproject.toml .
+      
+      - name: autoblack_mark
+        if: steps.black-check.outcome != 'success' && github.event_name == 'pull_request'
+        run: |
+          for s in $(cat .black_diff | sort | uniq | grep -e "--- " - | perl -n -e'/--- (.*)\t.*/gs && print($1,"\n")')
+          do
+            echo -e "::warning file=$s,line=0,title=Reformatting Needed::This file needs reformatting with black"
+          done
+         
+      - name: isort_check
+        id: isort-check
+        continue-on-error: true
+        run: isort --check .
+
+      - name: isort_fix
+        if: steps.isort-check.outcome != 'success'
+        run: isort .
+      
+      - name: publish
+        if: steps.black-check.outcome != 'success' && github.event_name != 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "apply black & isort"
+          git push

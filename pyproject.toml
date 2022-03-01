@@ -35,3 +35,7 @@ build-backend = "poetry.core.masonry.api"
 line-length = 127
 target-version = ['py38']
 include = '\.pyi?$'
+
+[tool.isort]
+profile="black"
+line_length=100
