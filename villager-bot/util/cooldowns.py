@@ -1,6 +1,6 @@
-from collections import defaultdict
 import asyncio
 import time
+from collections import defaultdict
 
 
 class CommandOnKarenCooldown(Exception):

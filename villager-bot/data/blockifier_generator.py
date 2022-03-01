@@ -1,8 +1,9 @@
-from multiprocessing import Pool
 import base64
 import json
-import cv2
 import os
+from multiprocessing import Pool
+
+import cv2
 
 IGNORE = [
     "_bottom",

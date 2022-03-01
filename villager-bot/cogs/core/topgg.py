@@ -1,15 +1,14 @@
-from disnake.ext import commands
-from contextlib import suppress
-from aiohttp import web
-import classyjson as cj
 import asyncio
-import disnake
-import arrow
+from contextlib import suppress
 
+import arrow
+import classyjson as cj
+import disnake
+from aiohttp import web
+from bot import VillagerBotCluster
+from disnake.ext import commands
 from util.code import format_exception
 from util.ipc import PacketType
-
-from bot import VillagerBotCluster
 
 
 class Webhooks(commands.Cog):

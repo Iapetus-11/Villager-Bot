@@ -1,11 +1,11 @@
-from collections import defaultdict
-from contextlib import suppress
-import classyjson as cj
 import asyncio
-import disnake
 import math
 import time
+from collections import defaultdict
+from contextlib import suppress
 
+import classyjson as cj
+import disnake
 from util.code import format_exception
 from util.ipc import PacketType
 

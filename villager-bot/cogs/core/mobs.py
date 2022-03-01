@@ -1,15 +1,14 @@
-from disnake.ext import commands
-import classyjson as cj
-import itertools
 import asyncio
-import disnake
+import itertools
+import math
 import random
 import time
-import math
 
-from util.misc import make_health_bar, SuppressCtxManager
-
+import classyjson as cj
+import disnake
 from bot import VillagerBotCluster
+from disnake.ext import commands
+from util.misc import SuppressCtxManager, make_health_bar
 
 
 class MobSpawner(commands.Cog):

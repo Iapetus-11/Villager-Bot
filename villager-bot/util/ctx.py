@@ -1,5 +1,5 @@
-from disnake.ext.commands import Context
 import disnake
+from disnake.ext.commands import Context
 
 
 class BetterContext(Context):

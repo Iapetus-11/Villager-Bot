@@ -1,18 +1,16 @@
-from typing import Set
-from disnake.ext import commands
-from contextlib import suppress
 import asyncio
-import disnake
 import random
 import sys
+from contextlib import suppress
+from typing import Set
 
-from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
-from util.misc import update_support_member_role
-from util.code import format_exception
-from util.ipc import PacketType
-
+import disnake
 from bot import VillagerBotCluster
-
+from disnake.ext import commands
+from util.code import format_exception
+from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
+from util.ipc import PacketType
+from util.misc import update_support_member_role
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 

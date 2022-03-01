@@ -1,24 +1,30 @@
-from concurrent.futures import ThreadPoolExecutor
-from collections import defaultdict
-from classyjson import ClassyDict
-from disnake.ext import commands
-import pyximport
-import aiohttp
 import asyncio
+import random
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
+
+import aiohttp
+import arrow
 import asyncpg
 import disnake
-import psutil
-import random
-import arrow
 import numpy
-
-from util.setup import villager_bot_intents, setup_logging, setup_database_pool
-from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
-from util.ipc import Client, PacketType, PacketHandlerRegistry, handle_packet
-from util.misc import TTLPreventDuplicate, update_support_member_role
-from util.setup import load_text, load_secrets, load_data
+import psutil
+import pyximport
+from classyjson import ClassyDict
+from disnake.ext import commands
 from util.code import execute_code, format_exception
+from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ctx import BetterContext
+from util.ipc import Client, PacketHandlerRegistry, PacketType, handle_packet
+from util.misc import TTLPreventDuplicate, update_support_member_role
+from util.setup import (
+    load_data,
+    load_secrets,
+    load_text,
+    setup_database_pool,
+    setup_logging,
+    villager_bot_intents,
+)
 
 
 def run_cluster(cluster_id: int, shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:

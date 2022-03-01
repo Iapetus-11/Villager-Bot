@@ -1,16 +1,15 @@
-from urllib.parse import quote as urlquote
-from disnake.ext import commands
-from contextlib import suppress
-import classyjson as cj
 import asyncio
-import disnake
 import random
 import typing
+from contextlib import suppress
+from urllib.parse import quote as urlquote
 
-from util.misc import strip_command, SuppressCtxManager
-from util.ipc import PacketType
-
+import classyjson as cj
+import disnake
 from bot import VillagerBotCluster
+from disnake.ext import commands
+from util.ipc import PacketType
+from util.misc import SuppressCtxManager, strip_command
 
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
 INSULTS = {"i am stupid", "i am dumb", "i am very stupid", "i am very dumb", "i stupid", "i'm stupid", "i'm dumb"}

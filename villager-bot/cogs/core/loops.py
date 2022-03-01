@@ -1,12 +1,11 @@
-from disnake.ext import commands, tasks
-from contextlib import suppress
-import disnake
 import random
+from contextlib import suppress
+
 import arrow
-
-from util.setup import update_fishing_prices
-
+import disnake
 from bot import VillagerBotCluster
+from disnake.ext import commands, tasks
+from util.setup import update_fishing_prices
 
 
 class Loops(commands.Cog):

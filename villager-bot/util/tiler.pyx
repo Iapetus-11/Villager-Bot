@@ -1,12 +1,13 @@
-import numpy as np
-import imageio
-import random
 import base64
-import time
-import json
-import cv2
-import os
 import io
+import json
+import os
+import random
+import time
+
+import cv2
+import imageio
+import numpy as np
 
 cimport numpy as np
 

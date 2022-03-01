@@ -1,22 +1,21 @@
+import asyncio
+import base64
+import json
+import random
+from contextlib import suppress
 from urllib.parse import quote as urlquote
+
+import aiohttp
+import aiomcrcon as rcon
+import arrow
+import classyjson as cj
+import disnake
+from bot import VillagerBotCluster
 from cryptography.fernet import Fernet
 from disnake.ext import commands
-from contextlib import suppress
-import aiomcrcon as rcon
-import classyjson as cj
-import aiohttp
-import asyncio
-import disnake
-import random
-import base64
-import arrow
-import json
-
-from util.misc import dm_check, fix_giphy_url, SuppressCtxManager
 from util.code import format_exception
 from util.ipc import PacketType
-
-from bot import VillagerBotCluster
+from util.misc import SuppressCtxManager, dm_check, fix_giphy_url
 
 try:
     from util import tiler

@@ -1,10 +1,9 @@
-from disnake.ext import commands
 from typing import List
+
 import asyncpg
-
-from util.misc import calc_total_wealth
-
 from bot import VillagerBotCluster
+from disnake.ext import commands
+from util.misc import calc_total_wealth
 
 
 class Badges(commands.Cog):

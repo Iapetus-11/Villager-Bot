@@ -1,17 +1,16 @@
-from urllib.parse import quote as urlquote
-from disnake.ext import commands, tasks
-from contextlib import suppress
-import async_cse
 import asyncio
+import time
+from contextlib import suppress
+from urllib.parse import quote as urlquote
+
+import arrow
+import async_cse
 import disnake
 import psutil
-import arrow
-import time
-
-from util.misc import SuppressCtxManager
-from util.ipc import PacketType
-
 from bot import VillagerBotCluster
+from disnake.ext import commands, tasks
+from util.ipc import PacketType
+from util.misc import SuppressCtxManager
 
 
 class BanCacheEntry:

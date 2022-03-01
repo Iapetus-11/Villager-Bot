@@ -1,19 +1,18 @@
-from concurrent.futures import ProcessPoolExecutor
-from collections import defaultdict
-from classyjson import ClassyDict
-from typing import List, Set
 import asyncio
+from collections import defaultdict
+from concurrent.futures import ProcessPoolExecutor
+from typing import List, Set
+
+import arrow
 import asyncpg
 import psutil
-import arrow
-
-from util.ipc import Server, PacketType, PacketHandlerRegistry, handle_packet
-from util.setup import load_secrets, load_data, setup_karen_logging
-from util.cooldowns import CooldownManager, MaxConcurrencyManager
-from util.code import execute_code, format_exception
-from util.misc import MultiLock
-
 from bot import run_cluster
+from classyjson import ClassyDict
+from util.code import execute_code, format_exception
+from util.cooldowns import CooldownManager, MaxConcurrencyManager
+from util.ipc import PacketHandlerRegistry, PacketType, Server, handle_packet
+from util.misc import MultiLock
+from util.setup import load_data, load_secrets, setup_karen_logging
 
 
 class MechaKaren(PacketHandlerRegistry):

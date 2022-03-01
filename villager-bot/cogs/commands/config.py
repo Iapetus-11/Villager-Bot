@@ -1,7 +1,6 @@
-from disnake.ext import commands
 import disnake
-
 from bot import VillagerBotCluster
+from disnake.ext import commands
 
 
 class Config(commands.Cog):

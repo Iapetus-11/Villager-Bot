@@ -1,9 +1,10 @@
-from typing import Awaitable, Dict, Optional, Union, Callable
-from asyncio import StreamReader, StreamWriter
-from enum import IntEnum, auto
-import classyjson as cj
 import asyncio
 import struct
+from asyncio import StreamReader, StreamWriter
+from enum import IntEnum, auto
+from typing import Awaitable, Callable, Dict, Optional, Union
+
+import classyjson as cj
 
 LENGTH_LENGTH = struct.calcsize(">i")
 

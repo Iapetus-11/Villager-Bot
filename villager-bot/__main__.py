@@ -1,6 +1,7 @@
-import numpy
-import sys
 import os
+import sys
+
+import numpy
 
 try:  # add optional cython support
     import pyximport

@@ -1,12 +1,12 @@
+import asyncio
 from collections import defaultdict
-from disnake.ext import commands
 from contextlib import suppress
 from datetime import datetime
 from typing import List, Set
-import asyncio
-import asyncpg
 
+import asyncpg
 from bot import VillagerBotCluster
+from disnake.ext import commands
 
 
 class Database(commands.Cog):
