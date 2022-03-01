@@ -273,7 +273,7 @@ class Events(commands.Cog):
                     not u.bot
                     and u.status == disnake.Status.online
                     and message.author.id != u.id
-                    and u.permissions_in(message.channel).read_messages
+                    and message.channel.permissions_for(u).read_messages
                 )
             ]
 
