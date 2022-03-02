@@ -84,7 +84,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         if 0 in shard_ids:
             self.cog_list.append("cogs.core.topgg")
 
-        self.logger = setup_logging(self.shard_ids)
+        self.logger = setup_logging(self.cluster_id)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.get_packet_handlers())  # ipc client
         self.aiohttp = aiohttp.ClientSession()
         self.db: asyncpg.Pool = None

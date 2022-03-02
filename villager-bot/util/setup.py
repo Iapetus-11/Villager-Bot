@@ -24,9 +24,8 @@ def villager_bot_intents() -> disnake.Intents:
     )
 
 
-def setup_logging(shard_ids: list) -> logging.Logger:
-    shard_range_str = str(shard_ids[0]).rjust(2, "0") + "-" + str(shard_ids[-1]).rjust(2, "0")
-    logging.basicConfig(level=logging.INFO, format=f"[{shard_range_str}] %(levelname)s: %(message)s")
+def setup_logging(cluster_id: int) -> logging.Logger:
+    logging.basicConfig(level=logging.INFO, format=f"[{cluster_id}] %(levelname)s: %(message)s")
     logging.getLogger("asyncio").setLevel(logging.WARNING)  # hide annoying asyncio info
     logging.getLogger("disnake.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
     return logging.getLogger("main")
