@@ -86,7 +86,7 @@ class Owner(commands.Cog):
 
         res = await self.ipc.broadcast({"type": PacketType.EXEC, "code": stuff})
 
-        contents = [f"```py\uFEFF\n{str(r.result).replace('```', '｀｀｀')}"[:1997] + "```" for r in res.responses]
+        contents = [f"```py\n\uFEFF{str(r.result).replace('```', '｀｀｀')}"[:1997] + "```" for r in res.responses]
 
         for content in contents:
             await ctx.reply(content)
