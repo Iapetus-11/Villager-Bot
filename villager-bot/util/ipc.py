@@ -155,7 +155,7 @@ class JsonPacketStream:
 
         buffer = Buffer()
         buffer.writef("?", is_chunked)
-        
+
         if is_chunked:
             buffer.writef("I", len(data))
 
