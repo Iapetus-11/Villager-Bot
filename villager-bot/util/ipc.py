@@ -1,12 +1,18 @@
+from __future__ import annotations
+
 import asyncio
 import struct
 from asyncio import StreamReader, StreamWriter
 from enum import IntEnum, auto
-from typing import Awaitable, Callable, Dict, Optional, Union
+from typing import Any, Awaitable, Callable, Dict, Optional, Union
 
 import classyjson as cj
 
-LENGTH_LENGTH = struct.calcsize(">i")
+ENDIANNESS = ">"
+LENGTH_LENGTH = struct.calcsize("H")
+MTU = 1400
+MAX_DATA_SIZE = 65535 * 2
+REAL_MTU = MTU - struct.calcsize("?I") + LENGTH_LENGTH
 
 # Basically this protocol revolves around sending json data. A packet consists of the length
 # of the upcoming data to read as a big endian int32 (i) as well as the data itself, dumped to
@@ -80,6 +86,36 @@ def special_obj_hook(dct):
     return dct
 
 
+class Buffer(bytearray):
+    def __init__(self, data: Optional[Union[bytes, bytearray, Buffer]] = b""):
+        super().__init__(data)
+        self.pos = 0
+
+    def read(self, length: int = None) -> bytearray:
+        if length is None:
+            length = len(self)
+
+        try:
+            return self[self.pos : self.pos + length]
+        finally:
+            self.pos += length
+
+    def write(self, data: Union[bytes, bytearray, Buffer]) -> None:
+        self.extend(data)
+
+    def readf(self, fmt: str) -> Union[Any, tuple[Any]]:
+        fmt = ENDIANNESS + fmt
+        unpacked = struct.unpack(fmt, self.read(struct.calcsize(fmt)))
+
+        if len(unpacked) == 1:
+            return unpacked[0]
+
+        return unpacked
+
+    def writef(self, fmt: str, *data) -> None:
+        self.write(struct.pack(ENDIANNESS + fmt, *data))
+
+
 class JsonPacketStream:
     def __init__(self, reader: StreamReader, writer: StreamWriter):
         self.reader = reader
@@ -88,22 +124,48 @@ class JsonPacketStream:
         self.drain_lock = asyncio.Lock()
 
     async def read_packet(self) -> cj.ClassyDict:
-        (length,) = struct.unpack(">i", await self.reader.readexactly(LENGTH_LENGTH))  # read the length of the upcoming packet
+        buffer = Buffer(await self.reader.readexactly(1))
+        is_chunked = buffer.readf("?")
+        total_length: int = None
+        length: int = None
 
-        data = await self.reader.readexactly(length)
+        if is_chunked:
+            buffer.extend(await self.reader.readexactly(struct.calcsize("I")))
+            total_length = buffer.readf("I")
 
-        return cj.loads(data, object_hook=special_obj_hook)
+        buffer.extend(await self.reader.readexactly(struct.calcsize("H")))
+        length = buffer.readf("H")
+        buffer = Buffer(await self.reader.readexactly(length))
+
+        if is_chunked:
+            while len(buffer) < total_length:
+                print(total_length - len(buffer))
+                buffer.extend(await self.reader.read(total_length - len(buffer)))
+
+        return cj.loads(buffer.read(), object_hook=special_obj_hook)
 
     async def write_packet(self, data: Union[dict, cj.ClassyDict]) -> None:
-        data = cj.dumps(data, cls=CustomJSONEncoder).encode()
-        packet = struct.pack(">i", len(data)) + data
+        data: bytes = cj.dumps(data, cls=CustomJSONEncoder).encode()
 
-        for i in range(0, len(packet), 65535):
-            self.writer.write(packet[i - 65535 : i])
+        if len(data) > MAX_DATA_SIZE:
+            raise ValueError("Data is too big to send!")
 
-        self.writer.write(packet)
+        is_chunked = len(data) > REAL_MTU
+        packet_size = min(REAL_MTU, len(data))
+
+        buffer = Buffer()
+        buffer.writef("?", is_chunked)
+        
+        if is_chunked:
+            buffer.writef("I", len(data))
+
+        buffer.writef("H", packet_size)
+        buffer.extend(data)
+
         async with self.drain_lock:
-            await self.writer.drain()
+            for data_chunk in [buffer[i : i + MTU] for i in range(0, len(buffer), MTU)]:
+                self.writer.write(data_chunk)
+                await self.writer.drain()
 
     async def close(self) -> None:
         self.writer.close()
