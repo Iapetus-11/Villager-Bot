@@ -380,6 +380,12 @@
         4096,
         500000,
         true
+      ],
+      [
+        "Minecraft Movie Ticket",
+        128,
+        1000,
+        false
       ]
     ]
   },
@@ -482,6 +488,12 @@
         768,
         4096,
         true
+      ],
+      [
+        "Minecraft Movie Ticket",
+        128,
+        1000,
+        false
       ]
     ]
   },
