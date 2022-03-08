@@ -860,6 +860,7 @@
     "barrel": "<:barrel:950570603872649216>",
     "rock": "🪨",
     "gun": "🔫",
+    "alien": "👽",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1012,7 +1013,8 @@
     "Minecraft Movie Ticket": "ticket",
     "Barrel": "barrel",
     "Moon Rock": "rock",
-    "BFG 3000": "gun"
+    "BFG 3000": "gun",
+    "Alien Mask": "alien"
   },
   "farming": {
     "emojis": {
