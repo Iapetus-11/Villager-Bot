@@ -38,4 +38,4 @@ include = '\.pyi?$'
 
 [tool.isort]
 profile="black"
-line_length=100
+line_length=127

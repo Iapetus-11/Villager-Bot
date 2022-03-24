@@ -98,15 +98,18 @@
       },
       "util": {
         "help": "`{0}help` *ver informações úteis sobre o Villager Bot*",
+        "rules": "`{0}rules` *veja as regras de uso do bot*",
         "config": "`{0}config` *configura o bot ao seu gosto*",
         "ping": "`{0}ping` *mostra a latência entre Discord e Villager Bot*",
         "serverinfo": "`{0}server` *ver informações sobre o servidor atual*",
+        "avatar": "`{0}avatar` *mostra o avatar ampliado do usuário especificado*",
         "links": "`{0}links` *veja links úteis relacionados ao Villager Bot*",
         "vote": "`{0}vote` *ganhe esmeraldas votando no Villager Bot em certos sites*",
         "stats": "`{0}stats` *mostra estatísticas sobre o Villager Bot*",
         "google": "`{0}google <pesquisa>` *pesquisa sua consulta no google*",
         "youtube": "`{0}youtube <pesquisa>` *pesquisa sua consulta no youtube*",
         "image": "`{0}image <pesquisa>` *pesquisa sua consulta no google imagens*",
+        "math": "`{0}math <problema>` *resolve um problema matemático",
         "remindme": "`{0}remindme <tempo> <lembrete>` *te lembra algo no horário especificado*",
         "credits": "`{0}credits` *mostra quem ajudou a fazer o Villager Bot*",
         "snipe": "`{0} snipe` *mostra a última mensagem excluída no canal atual*"

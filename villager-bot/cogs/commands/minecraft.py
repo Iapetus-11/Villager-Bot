@@ -437,7 +437,8 @@ class Minecraft(commands.Cog):
         if cape_url is not None:
             embed.description += f" | **[{ctx.l.minecraft.profile.cape}]({cape_url})**"
         else:
-            embed.description += f" | {ctx.l.minecraft.profile.nocape}"
+            pass
+            # embed.description += f" | {ctx.l.minecraft.profile.nocape}"
 
         embed.set_thumbnail(url=f"https://crafatar.com/avatars/{uuid}.png")
 
@@ -608,7 +609,7 @@ class Minecraft(commands.Cog):
             if isinstance(e, rcon.IncorrectPasswordError):
                 await ctx.reply_embed(ctx.l.minecraft.rcon.stupid_2)
             else:
-                await ctx.reply_embed(ctx.l.minecraft.rcon.err_con + f"\n{format_exception(e)}")
+                await ctx.reply_embed(ctx.l.minecraft.rcon.err_con)
 
             await self.db.delete_user_rcon(ctx.author.id, db_guild["mc_server"])
             await rcon_con.close()

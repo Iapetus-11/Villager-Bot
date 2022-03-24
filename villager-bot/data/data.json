@@ -380,6 +380,12 @@
         4096,
         500000,
         true
+      ],
+      [
+        "Minecraft Movie Ticket",
+        128,
+        1000,
+        false
       ]
     ]
   },
@@ -482,6 +488,12 @@
         768,
         4096,
         true
+      ],
+      [
+        "Minecraft Movie Ticket",
+        128,
+        1000,
+        false
       ]
     ]
   },
@@ -844,6 +856,11 @@
     "honey_jar": "<:honey_jar:839136850823348245>",
     "uno_reverse": "<:uno_reverse:863933879105880085>",
     "rusty_fishing_hook": "<:rusty_fishing_hook:934121573735104592>",
+    "ticket": "🎟️",
+    "barrel": "<:barrel:950570603872649216>",
+    "rock": "🪨",
+    "gun": "🔫",
+    "alien": "👽",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -992,7 +1009,12 @@
     "Potatoes": "farming.normal.potatoes",
     "Carrots": "farming.normal.carrots",
     "Wheat": "farming.normal.wheat",
-    "Rusty Fishing Hook": "rusty_fishing_hook"
+    "Rusty Fishing Hook": "rusty_fishing_hook",
+    "Minecraft Movie Ticket": "ticket",
+    "Barrel": "barrel",
+    "Moon Rock": "rock",
+    "BFG 3000": "gun",
+    "Alien Mask": "alien"
   },
   "farming": {
     "emojis": {

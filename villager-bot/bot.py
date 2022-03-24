@@ -17,14 +17,7 @@ from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ctx import BetterContext
 from util.ipc import Client, PacketHandlerRegistry, PacketType, handle_packet
 from util.misc import TTLPreventDuplicate, update_support_member_role
-from util.setup import (
-    load_data,
-    load_secrets,
-    load_text,
-    setup_database_pool,
-    setup_logging,
-    villager_bot_intents,
-)
+from util.setup import load_data, load_secrets, load_text, setup_database_pool, setup_logging, villager_bot_intents
 
 
 def run_cluster(cluster_id: int, shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
@@ -84,7 +77,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         if 0 in shard_ids:
             self.cog_list.append("cogs.core.topgg")
 
-        self.logger = setup_logging(self.shard_ids)
+        self.logger = setup_logging(self.cluster_id)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.get_packet_handlers())  # ipc client
         self.aiohttp = aiohttp.ClientSession()
         self.db: asyncpg.Pool = None
