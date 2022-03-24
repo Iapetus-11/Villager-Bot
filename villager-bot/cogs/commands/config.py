@@ -141,8 +141,8 @@ class Config(commands.Cog):
             await ctx.reply_embed(ctx.l.config.mcs.this_server.format(guild["mc_server"]))
             return
 
-        if len(mcserver) > 30:
-            await ctx.reply_embed(ctx.l.config.mcs.error_1.format(30))
+        if len(mcserver) > 60:
+            await ctx.reply_embed(ctx.l.config.mcs.error_1.format(60))
             return
 
         await self.db.set_guild_attr(ctx.guild.id, "mc_server", mcserver)
