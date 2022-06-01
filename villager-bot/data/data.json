@@ -370,21 +370,21 @@
         false
       ],
       [
-        "Mooderald",
-        768,
-        8192,
-        true
-      ],
-      [
         "Bane Of Pillagers Amulet",
         4096,
         500000,
         true
       ],
       [
-        "Minecraft Movie Ticket",
-        128,
+        "Pride Flag",
+        64,
         1000,
+        false
+      ],
+      [
+        "A Literal Rainbow",
+        2048,
+        99999,
         false
       ]
     ]
@@ -490,9 +490,15 @@
         true
       ],
       [
-        "Minecraft Movie Ticket",
-        128,
+        "Pride Flag",
+        64,
         1000,
+        false
+      ],
+      [
+        "A Literal Rainbow",
+        2048,
+        99999,
         false
       ]
     ]
@@ -861,6 +867,8 @@
     "rock": "🪨",
     "gun": "🔫",
     "alien": "👽",
+    "rainbow": "🌈",
+    "pride_flag": "🏳️‍🌈",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1014,7 +1022,9 @@
     "Barrel": "barrel",
     "Moon Rock": "rock",
     "BFG 3000": "gun",
-    "Alien Mask": "alien"
+    "Alien Mask": "alien",
+    "Pride Flag": "pride_flag",
+    "A Literal Rainbow": "rainbow"
   },
   "farming": {
     "emojis": {
