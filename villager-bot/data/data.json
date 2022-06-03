@@ -129,6 +129,14 @@
     "Stone Sword",
     "Wood Sword"
   ],
+  "hoe_list_proper": [
+    "Netherite Hoe",
+    "Diamond Hoe",
+    "Gold Hoe",
+    "Iron Hoe",
+    "Stone Hoe",
+    "Wood Hoe"
+  ],
   "kills": [
     "**{0}** was suicided.",
     "**{0}** died by death.",
@@ -630,6 +638,69 @@
         }
       }
     },
+    "stone hoe": {
+      "cat": "tools,farming",
+      "buy_price": 32,
+      "db_entry": [
+        "Stone Hoe",
+        8,
+        true
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "iron hoe": {
+      "cat": "tools,farming",
+      "buy_price": 128,
+      "db_entry": [
+        "Iron Hoe",
+        32,
+        true
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "gold hoe": {
+      "cat": "tools,farming",
+      "buy_price": 512,
+      "db_entry": [
+        "Gold Hoe",
+        128,
+        true
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "diamond hoe": {
+      "cat": "tools,farming",
+      "buy_price": 2048,
+      "db_entry": [
+        "Diamond Hoe",
+        512,
+        true
+      ],
+      "requires": {
+        "count_lt": 1
+      }
+    },
+    "netherite hoe": {
+      "cat": "tools,farming",
+      "buy_price": 8192,
+      "db_entry": [
+        "Netherite Hoe",
+        2048,
+        true
+      ],
+      "requires": {
+        "count_lt": 1,
+        "items": {
+          "Netherite Scrap": 2
+        }
+      }
+    },
     "fishing rod": {
       "cat": "tools",
       "buy_price": 1024,
@@ -753,6 +824,56 @@
         false
       ],
       "requires": {}
+    },
+    "wheat seed": {
+      "cat": "farming",
+      "buy_price": 48,
+      "db_entry": [
+        "Wheat Seed",
+        32,
+        false
+      ],
+      "requires": {}
+    },
+    "carrot": {
+      "cat": "farming",
+      "buy_price": 96,
+      "db_entry": [
+        "Carrot",
+        64,
+        false
+      ],
+      "requires": {}
+    },
+    "potato": {
+      "cat": "farming",
+      "buy_price": 192,
+      "db_entry": [
+        "Potato",
+        128,
+        false
+      ],
+      "requires": {}
+    },
+    "melon seed": {
+      "cat": "farming",
+      "buy_price": 384,
+      "db_entry": [
+        "Melon Seed",
+        192,
+        false
+      ],
+      "requires": {}
+    },
+    "chorus seed": {
+      "cat": "farming",
+      "buy_price": 640,
+      "db_entry": [
+        "Chorus Seed",
+        512,
+        false
+      ],
+      "requires": {}
     }
   },
   "rpt_ignore": [
@@ -775,6 +896,12 @@
       "Gold Sword",
       "Diamond Sword",
       "Netherite Sword",
+      "Wood Hoe",
+      "Stone Hoe",
+      "Iron Hoe",
+      "Gold Hoe",
+      "Diamond Hoe",
+      "Netherite Hoe",
       "Fishing Rod"
     ],
     "magic": [
@@ -810,6 +937,23 @@
       "Rainbow Trout",
       "Gold Fish",
       "Emerald Fish"
+    ],
+    "farming": [
+      "Wood Hoe",
+      "Stone Hoe",
+      "Iron Hoe",
+      "Gold Hoe",
+      "Diamond Hoe",
+      "Netherite Hoe",
+      "Emerald Fruit",
+      "Chorus Fruit",
+      "Chorus Seed",
+      "Melon",
+      "Melon Seed",
+      "Potato",
+      "Carrot",
+      "Wheat",
+      "Wheat Seed"
     ]
   },
   "emojis": {
@@ -856,6 +1000,12 @@
     "gold_pick": "<:gold_pick:838789436199796827>",
     "diamond_pick": "<:diamond_pick:838789270540910602>",
     "netherite_pick": "<:netherite_pick:838788994669740043>",
+    "wood_hoe": "<:wooden_hoe:982324946493669386>",
+    "stone_hoe": "<:stone_hoe:982324946380419112>",
+    "iron_hoe": "<:iron_hoe:982324946367819846>",
+    "gold_hoe": "<:golden_hoe:982324946434916372>",
+    "diamond_hoe": "<:diamond_hoe:982324946636247111>",
+    "netherite_hoe": "<:netherite_hoe:982324946447527946>",
     "fishing_rod": "<:fishstick:838794560603029514>",
     "air": "<:air:828359049602662431>",
     "jar_of_bees": "<:jar_of_bees:839132481071349840>",
@@ -873,17 +1023,24 @@
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
         "chorus_fruit": "<:chorus_fruit_growing:927292976999333948>",
-        "potatoes": "<:potatoes_growing:927292976995127316>",
-        "carrots": "<:carrots_growing:927292976852529163>",
+        "melon": "<:melon_growing:982370173711425546>",
+        "potato": "<:potatoes_growing:927292976995127316>",
+        "carrot": "<:carrots_growing:927292976852529163>",
         "wheat": "<:wheat_growing:927292977091600494>",
         "farmland": "<:farmland:927282404958285914>"
       },
       "normal": {
         "emerald_fruit": "<:emerald_fruit:929404115665178635>",
         "chorus_fruit": "<:chorus_fruit:929404115644211200>",
-        "potatoes": "<:potatoes:929404115434500117>",
-        "carrots": "<:carrots:929404115308646411>",
+        "melon": "<:melon_slice:982365225347088444>",
+        "potato": "<:potato:982316859640647741>",
+        "carrot": "<:carrot:982316859573551174>",
         "wheat": "<:wheat:929404115669352519>"
+      },
+      "seeds": {
+        "wheat": "<:wheat_seeds:982320161266733086>",
+        "chorus_fruit": "<:chorus_seeds:982320161409339413>",
+        "melon": "<:melon_seeds:982365225317724240>"
       }
     },
     "reees": [
@@ -1009,14 +1166,24 @@
     "Gold Pickaxe": "gold_pick",
     "Diamond Pickaxe": "diamond_pick",
     "Netherite Pickaxe": "netherite_pick",
+    "Wood Hoe": "wood_hoe",
+    "Stone Hoe": "stone_hoe",
+    "Iron Hoe": "iron_hoe",
+    "Gold Hoe": "gold_hoe",
+    "Diamond Hoe": "diamond_hoe",
+    "Netherite Hoe": "netherite_hoe",
     "Fishing Rod": "fishing_rod",
     "Jar Of Bees": "jar_of_bees",
     "Honey Jar": "honey_jar",
     "Emerald Fruit": "farming.normal.emerald_fruit",
     "Chorus Fruit": "farming.normal.chorus_fruit",
-    "Potatoes": "farming.normal.potatoes",
-    "Carrots": "farming.normal.carrots",
+    "Chorus Seed": "farming.seeds.chorus_fruit",
+    "Melon": "farming.normal.melon",
+    "Melon Seed": "farming.seeds.melon",
+    "Potato": "farming.normal.potato",
+    "Carrot": "farming.normal.carrot",
     "Wheat": "farming.normal.wheat",
+    "Wheat Seed": "farming.seeds.wheat",
     "Rusty Fishing Hook": "rusty_fishing_hook",
     "Minecraft Movie Ticket": "ticket",
     "Barrel": "barrel",
@@ -1030,26 +1197,37 @@
     "emojis": {
       "growing": {
         "chorus_fruit": "chorus_fruit",
-        "carrots": "carrots",
+        "carrot": "carrot",
         "wheat": "wheat",
         "emerald_fruit": "emerald_fruit",
-        "potatoes": "potatoes",
-        "dirt": "farmland"
+        "potato": "potato",
+        "dirt": "farmland",
+        "melon": "melon"
       }
     },
     "emerald_yields": {
       "emerald_fruit": 1024,
-      "chorus_fruit": 512,
-      "potatoes": 256,
-      "carrots": 128,
+      "chorus_fruit": 768,
+      "melon": 192,
+      "potato": 256,
+      "carrot": 128,
       "wheat": 64
     },
     "crop_yields": {
       "emerald_fruit": [1, 1],
       "chorus_fruit": [1, 2],
-      "potatoes": [1, 3],
-      "carrots": [1, 3],
-      "wheat": [1, 1]
+      "melon": [2, 10],
+      "potato": [1, 3],
+      "carrot": [1, 3],
+      "wheat": [1, 2]
+    },
+    "crop_times": {
+      "emerald_fruit": "2 DAYS",
+      "chorus_fruit": "1 DAY",
+      "melon": "16 HOURS",
+      "potato": "12 HOURS",
+      "carrot": "6 HOURS",
+      "wheat": "1 HOUR"
     },
     "max_plots": {
       "Netherite Hoe": 60,
@@ -1062,9 +1240,17 @@
     "name_map": {
       "emerald_fruit": "Emerald Fruit",
       "chorus_fruit": "Chorus Fruit",
-      "potatoes": "Potatoes",
-      "carrots": "Carrots",
+      "melon": "Melon",
+      "potato": "Potato",
+      "carrot": "Carrot",
       "wheat": "Wheat"
+    },
+    "plantable": {
+      "wheat seed": "wheat",
+      "carrot": "carrot",
+      "potato": "potato",
+      "melon seed": "melon",
+      "chorus seed": "chorus_fruit"
     }
   },
   "build_ideas": {

@@ -109,6 +109,9 @@ def emojify_item(d, item: str):
         if emoji_key.startswith("farming.normal."):
             return d.emojis.farming.normal[emoji_key[15:]]
 
+        if emoji_key.startswith("farming.seeds."):
+            return d.emojis.farming.seeds[emoji_key[14:]]
+
         return d.emojis[emoji_key]
     except KeyError:
         return d.emojis.air

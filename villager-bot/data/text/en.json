@@ -75,6 +75,7 @@
         "give": "`{0}give <user> <amount> <item>` *give another user an item or emeralds*",
         "mine": "`{0}mine` *mine for emeralds*",
         "fish": "`{0}fish` *fish for fish and items*",
+        "farm": "`{0}farm` *plant and harvest crops worth emeralds*",
         "search": "`{0}search` *search for emeralds*",
         "honey": "`{0}honey` *harvest honey from the bees you own*",
         "gamble": "`{0}gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*",
@@ -1745,6 +1746,7 @@
           "magic": "magic",
           "fish": "fish",
           "misc": "misc",
+          "farming": "farming",
           "all": "all"
         },
         "empty": "*It's quite empty in here...*"
@@ -1766,8 +1768,8 @@
         "villager_shop": "Villager Shop",
         "tools": "{} Tools",
         "magic": "{} Magic",
+        "farming": "{} Farming",
         "other": "{} Other",
-        "fish": "{} Fish",
         "embed_footer": "Use {}inventory to see what you have!"
       },
       "buy": {
@@ -1994,6 +1996,21 @@
           "You enlist the help of some pillagers to open the barrel containing {}{}!"
         ]
       },
+      "farm": {
+        "s_farm": "{user}'s Farm",
+        "commands_title": "Farm Commands",
+        "commands": {
+          "plant": "`{prefix}farm plant` - plants the item",
+          "harvest": "`{prefix}farm harvest` - harvests all ready crops"
+        },
+        "available": "Available to harvest: {available}/{max}",
+        "cant_plant": "You can't plant this item.",
+        "no_plots": "All your farm plots are full, a better hoe will give you more!",
+        "no_plots_2": "You don't have enough farm plots for that!",
+        "planted": "Planted {amount}x {crop}",
+        "cant_harvest": "There are no ready crops to harvest...",
+        "harvested": "Harvested {crops}"
+      },
       "honey": {
         "stupid_1": [
           "You don't have enough bees to make this business option viable.",
@@ -2022,6 +2039,7 @@
         "votes": "Vote Streak",
         "fish": "Fishies Fished",
         "mooderalds": "Mooderalds",
+        "farming": "Crops Planted",
         "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
         "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
         "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
@@ -2029,7 +2047,8 @@
         "lb_cmds": "{0}__**Commands Sent Leaderboard**__{0}",
         "lb_votes": "{0}__**Vote Streak Leaderboard**__{0}",
         "lb_fish": "{0}__**Fish Fished Leaderboard**__{0}",
-        "lb_moods": "{0}__**Mooderald Leaderboard**__{0}"
+        "lb_moods": "{0}__**Mooderald Leaderboard**__{0}",
+        "lb_farming": "{0}__**Crops Planted Leaderboard**__{0}"
       }
     }
   }

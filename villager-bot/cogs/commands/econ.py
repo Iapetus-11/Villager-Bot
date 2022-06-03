@@ -1,7 +1,9 @@
 import asyncio
+from collections import defaultdict
 import functools
 import math
 import random
+from typing import DefaultDict
 
 import arrow
 import disnake
@@ -17,6 +19,7 @@ from util.misc import (
     lb_logic,
     make_health_bar,
 )
+from cogs.core.database import Database
 
 
 class Econ(commands.Cog):
@@ -26,7 +29,7 @@ class Econ(commands.Cog):
         self.d = bot.d
         self.ipc = bot.ipc
 
-        self.db = bot.get_cog("Database")
+        self.db: Database = bot.get_cog("Database")
         self.badges = bot.get_cog("Badges")
 
         # This links the max concurrency of the with, dep, sell, give, etc.. cmds
@@ -371,6 +374,17 @@ class Econ(commands.Cog):
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.fish)
 
+    @inventory.group(name="farming", aliases=["farm"])
+    async def inventory_farming(self, ctx, user: disnake.User = None):
+        valid, user = await self.inventory_boiler(ctx, user)
+
+        if not valid:
+            return
+
+        items = [e for e in await self.db.fetch_items(user.id) if e["name"] in self.d.cats.farming]
+
+        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.farming)
+
     @commands.command(name="deposit", aliases=["dep"])
     # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
@@ -493,7 +507,7 @@ class Econ(commands.Cog):
             )
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(
-                name=f"__**{ctx.l.econ.shop.fish.format(self.d.emojis.fish.cod)}**__", value=f"`{ctx.prefix}shop fish`"
+                name=f"__**{ctx.l.econ.shop.farming.format(self.d.emojis.farming.normal.wheat)}**__", value=f"`{ctx.prefix}shop farm`"
             )
 
             embed.set_footer(text=ctx.l.econ.shop.embed_footer.format(ctx.prefix))
@@ -505,7 +519,7 @@ class Econ(commands.Cog):
 
         # filter out items which aren't of the right _type
         for item in [self.d.shop_items[key] for key in self.d.shop_items.keys()]:
-            if item.cat == _type:
+            if _type in item.cat:
                 items.append(item)
 
         items_sorted = sorted(items, key=(lambda item: item.buy_price))  # sort by buy price
@@ -522,7 +536,7 @@ class Econ(commands.Cog):
 
             for item in items_chunked[page]:
                 embed.add_field(
-                    name=f"{item.db_entry[0]} ({format_required(self.d, item)})",
+                    name=f"{emojify_item(self.d, item.db_entry[0])} {item.db_entry[0]} ({format_required(self.d, item)})",
                     value=f"`{ctx.prefix}buy {item.db_entry[0].lower()}`",
                     inline=False,
                 )
@@ -580,16 +594,18 @@ class Econ(commands.Cog):
         """Allows you to shop for magic items"""
 
         await self.shop_logic(ctx, "magic", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic[3:]}]")
+        
+    @shop.command(name="farming", aliases=["farm"])
+    async def shop_farming(self, ctx):
+        """Allows you to shop for farming items"""
+
+        await self.shop_logic(ctx, "farming", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.farming[3:]}]")
 
     @shop.command(name="other")
     async def shop_other(self, ctx):
         """Allows you to shop for other/miscellaneous items"""
 
         await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other[3:]}]")
-
-    @shop.command(name="fish")
-    async def shop_fish(self, ctx):
-        await self.fish_market(ctx)
 
     @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
     async def fish_market(self, ctx):
@@ -747,7 +763,12 @@ class Econ(commands.Cog):
         for req_item, req_amount in shop_item.requires.get("items", {}).items():
             await self.db.remove_item(ctx.author.id, req_item, req_amount * amount)
 
-        await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2])
+        sellable = True
+        # hoes shouldn't be sellable, quick bodge
+        if shop_item.db_entry[0].endswith("Hoe"):
+            sellable = False
+
+        await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2], sellable=sellable)
 
         if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
             await self.ipc.broadcast({"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id})
@@ -1542,6 +1563,10 @@ class Econ(commands.Cog):
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(name=ctx.l.econ.lb.cmds, value=f"`{ctx.prefix}leaderboard commands`")
 
+            embed.add_field(name=ctx.l.econ.lb.farming, value=f"`{ctx.prefix}leaderboard farming`")
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+
             await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="emeralds", aliases=["ems"])
@@ -1714,71 +1739,135 @@ class Econ(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
+    @leaderboards.command(name="farming", aliases=["farm", "crop", "crops"])
+    async def leaderboard_farming(self, ctx):
+        async with SuppressCtxManager(ctx.typing()):
+            crops_global, global_u_entry = await self.db.fetch_global_lb("crops_planted", ctx.author.id)
+            crops_local, local_u_entry = await self.db.fetch_local_lb(
+                "crops_planted", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            )
+
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(self.bot, crops_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.farming.seeds.wheat}")),
+                lb_logic(self.bot, crops_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.farming.seeds.wheat}")),
+            )
+
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal.wheat} "))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
+        await ctx.reply(embed=embed, mention_author=False)
+
     @commands.group(name="farm", case_insensitive=True)
-    @commands.is_owner()
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
-    async def farm(self, ctx):
+    async def farm(self, ctx: commands.Context):
         if ctx.invoked_subcommand is not None:
             return
 
-        db_farm_plots = await self.db.db.fetch(
-            "SELECT * FROM farm_plots WHERE user_id = $1 ORDER BY planted_at ASC", ctx.author.id
-        )
-        available = await self.db.db.fetchval(
-            "SELECT COUNT(*) FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", ctx.author.id
-        )
+        db_farm_plots = await self.db.fetch_farm_plots(ctx.author.id)
+        available = await self.db.count_ready_farm_plots(ctx.author.id)
+        
+        max_plots = self.d.farming.max_plots[await self.db.fetch_hoe(ctx.author.id)]
 
         emojis = [emojify_crop(self.d, r["crop_type"]) for r in db_farm_plots] + [emojify_crop(self.d, "dirt")] * (
-            60 - len(db_farm_plots)
+            max_plots - len(db_farm_plots)
         )
         emoji_farm = "> " + "\n> ".join(
             "".join(r[::-1]) for r in zip(*[emojis[i : i + 5] for i in range(0, len(emojis), 5)][::-1])
         )
 
         embed = disnake.Embed(color=self.d.cc)
-        embed.set_author(name=f"{ctx.author.display_name}'s Farm", icon_url=getattr(ctx.author.avatar, "url", embed.Empty))
+        embed.set_author(name=ctx.l.econ.farm.s_farm.format(user=ctx.author.display_name), icon_url=getattr(ctx.author.avatar, "url", embed.Empty))
 
         embed.add_field(
-            name="Farm Commands",
-            value="`!!farm plant` - plants one available seed\n`!!farm harvest` - harvests all available crops",
+            name=ctx.l.econ.farm.commands_title,
+            value="\n".join(c.format(prefix=ctx.prefix) for c in ctx.l.econ.farm.commands.values()),
         )
 
-        embed.description = emoji_farm + f"\n\nAvailable to harvest: {available}/{len(db_farm_plots)}"
+        embed.description = emoji_farm + "\n\n" + ctx.l.econ.farm.available.format(available=available, max=len(db_farm_plots))
 
         await ctx.send(embed=embed)
 
     @farm.command(name="plant", aliases=["p"])
-    async def farm_plant(self, ctx):
-        raise NotImplementedError
+    async def farm_plant(self, ctx: commands.Context, *, item: str):
+        item = item.lower()
+        split = item.split()
+
+        try:
+            amount = int(split[0])
+            item = " ".join(split[1:])
+        except (IndexError, ValueError):
+            amount = 1
+
+        if amount < 1:
+            await ctx.reply_embed(ctx.l.econ.use.stupid_3)
+            return
+
+        if amount > 60:
+            await ctx.reply_embed(ctx.l.econ.use.stupid_4)
+            return
+
+        db_item = await self.db.fetch_item(ctx.author.id, item)
+
+        if db_item is None:
+            await ctx.reply_embed(ctx.l.econ.use.stupid_2)
+            return
+
+        crop_type = self.d.farming.plantable.get(item.lower())
+
+        if crop_type is None:
+            await ctx.reply_embed(ctx.l.econ.farm.cant_plant)
+            return
+
+        max_plots = self.d.farming.max_plots[await self.db.fetch_hoe(ctx.author.id)]
+        plots_count = await self.db.count_farm_plots(ctx.author.id)
+
+        # check count of used farm plots from db
+        if plots_count >= max_plots:
+            await ctx.reply_embed(ctx.l.econ.farm.no_plots)
+            return
+
+        if db_item["amount"] < amount:
+            await ctx.reply_embed(ctx.l.econ.use.stupid_5)
+            return
+
+        if amount > max_plots - plots_count:
+            await ctx.reply_embed(ctx.l.econ.farm.no_plots_2)
+            return
+        
+        # remove the item and plant it
+        await self.db.remove_item(ctx.author.id, item, amount)
+        await self.db.add_farm_plot(ctx.author.id, crop_type, amount)
+
+        await ctx.reply_embed(ctx.l.econ.farm.planted.format(amount=amount, crop=emojify_item(self.d, self.d.farming.name_map[crop_type])))
 
     @farm.command(name="harvest", aliases=["h"])
     async def farm_harvest(self, ctx):
-        records = await self.db.db.fetch(
-            "SELECT COUNT(crop_type) count, crop_type FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time GROUP BY crop_type ORDER BY count DESC",
-            ctx.author.id,
-        )
+        records = await self.db.fetch_ready_crops(ctx.author.id)
+        await self.db.delete_ready_crops(ctx.author.id)
 
-        await self.db.db.execute("DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", ctx.author.id)
+        if not records:
+            await ctx.reply_embed(ctx.l.econ.farm.cant_harvest)
+            return
+
+        amounts_harvested: DefaultDict[str, int] = defaultdict(int)
 
         for r in records:
+            # amount of crop harvested
+            amount = sum(random.randint(*self.d.farming.crop_yields[r["crop_type"]]) for _ in range(r["count"]))
+
             await self.db.add_item(
                 ctx.author.id,
                 self.d.farming.name_map[r["crop_type"]],
                 self.d.farming.emerald_yields[r["crop_type"]],
-                sum(random.randint(*self.d.farming.crop_yields[r["crop_type"]]) for _ in range(r["count"])),
+                amount,
             )
 
-            if r["crop_type"] == "wheat":
-                await self.db.add_item(
-                    ctx.author.id,
-                    "Wheat Seed",
-                    0,
-                    sum(random.randint(0, 2) for _ in range(r["count"])),
-                )
+            amounts_harvested[r["crop_type"]] += amount
 
-        harvest_str = ", ".join([f"{r['count']} {self.d.emojis.farming.normal[r['crop_type']]}" for r in records])
+        harvest_str = ", ".join([f"{amount} {self.d.emojis.farming.normal[crop_type]}" for crop_type, amount in amounts_harvested.items()])
 
-        await ctx.reply_embed(f"Harvested {harvest_str}")
+        await ctx.reply_embed(ctx.l.econ.farm.harvested.format(crops=harvest_str))
 
 
 def setup(bot):

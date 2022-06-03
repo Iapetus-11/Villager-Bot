@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
   pillaged_emeralds  BIGINT NOT NULL DEFAULT 0, -- emeralds pillaged from other users
   mobs_killed        BIGINT NOT NULL DEFAULT 0, -- number of mobs killed
   fish_fished        BIGINT NOT NULL DEFAULT 0, -- fishies fished
-  commands           BIGINT NOT NULL DEFAULT 0 -- not super accurate as commands are cached for speed
+  commands           BIGINT NOT NULL DEFAULT 0, -- not super accurate as commands are cached for speed
+  crops_planted      BIGINT NOT NULL DEFAULT 0
 );
 
 -- CREATE TABLE IF NOT EXISTS pets (
