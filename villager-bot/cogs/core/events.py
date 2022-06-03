@@ -139,6 +139,8 @@ class Events(commands.Cog):
         with suppress(disnake.errors.Forbidden):
             await channel.send(embed=embed)
 
+            self.bot.replies_cache.add(guild.id)
+
     @commands.Cog.listener()
     async def on_member_join(self, member):
         # add user to new member cache
