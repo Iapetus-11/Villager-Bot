@@ -1091,7 +1091,7 @@ class Econ(commands.Cog):
                 if await self.db.fetch_item(ctx.author.id, item) is not None:
                     found += random.choice(self.d.mining.yields_enchant_items[item])
                     break
-                
+
             found = int(found)
 
             if await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None:
