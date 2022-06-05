@@ -548,7 +548,8 @@ class Database(commands.Cog):
     async def delete_ready_crops(self, user_id: int) -> None:
         await self.db.execute("DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", user_id)
 
-    
+    async def use_bonemeal(self, user_id: int) -> None:
+        await self.db.execute("UPDATE farm_plots SET planted_at = planted_at - INTERVAL '1 DAY' WHERE user_id = $1", user_id)
 
 
 def setup(bot):

@@ -1361,6 +1361,18 @@ class Econ(commands.Cog):
             await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('haste ii potion')")
             return
 
+        if thing == "bone meal":
+            if amount > 1:
+                await ctx.reply_embed(ctx.l.econ.use.stupid_1)
+                return
+
+            await self.db.remove_item(ctx.author.id, thing, 1)
+            await ctx.reply_embed(ctx.l.econ.use.use_bonemeal)
+
+            await self.db.use_bonemeal(ctx.author.id)
+            
+            return
+
         if thing == "luck potion":
             if amount > 1:
                 await ctx.reply_embed(ctx.l.econ.use.stupid_1)

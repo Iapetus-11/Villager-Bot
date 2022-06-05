@@ -1959,6 +1959,7 @@
         "vault_max": "You cannot expand your vault further via this method.",
         "vault_pot": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
         "smoke_seaweed": "You've eaten some **Seaweed** which lasts **{} minutes**",
+        "use_bonemeal": "You've used some **Bone Meal** on your crops, making them grow!",
         "seaweed_done": "The **Seaweed** you ate earlier has worn off.",
         "chug": "You've chugged a **{}** which lasts **{} minutes**.",
         "chug_no_end": "You've chugged a **{}**!",
