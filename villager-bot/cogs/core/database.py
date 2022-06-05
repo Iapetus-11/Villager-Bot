@@ -528,15 +528,19 @@ class Database(commands.Cog):
         return await self.db.fetchval("SELECT COUNT(*) FROM farm_plots WHERE user_id = $1", user_id)
 
     async def count_ready_farm_plots(self, user_id: int) -> int:
-        return await self.db.fetchval("SELECT COUNT(*) FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", user_id)
+        return await self.db.fetchval(
+            "SELECT COUNT(*) FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", user_id
+        )
 
     async def add_farm_plot(self, user_id: int, crop_type: str, amount: int) -> None:
         async with self.db.acquire() as con:
             con: asyncpg.Connection
-            statement = await con.prepare("INSERT INTO farm_plots (user_id, crop_type, planted_at, grow_time) VALUES ($1, $2, NOW(), $3::TEXT::INTERVAL)")
+            statement = await con.prepare(
+                "INSERT INTO farm_plots (user_id, crop_type, planted_at, grow_time) VALUES ($1, $2, NOW(), $3::TEXT::INTERVAL)"
+            )
             crop_time = self.d.farming.crop_times[crop_type]
             await statement.executemany([(user_id, crop_type, crop_time) for _ in range(amount)])
-            
+
         await self.update_lb(user_id, "crops_planted", amount)
 
     async def fetch_ready_crops(self, user_id: int) -> List[asyncpg.Record]:
@@ -544,7 +548,7 @@ class Database(commands.Cog):
             "SELECT COUNT(crop_type) count, crop_type FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time GROUP BY crop_type ORDER BY count DESC",
             user_id,
         )
-    
+
     async def delete_ready_crops(self, user_id: int) -> None:
         await self.db.execute("DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", user_id)
 

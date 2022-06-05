@@ -1,13 +1,14 @@
 import asyncio
-from collections import defaultdict
 import functools
 import math
 import random
+from collections import defaultdict
 from typing import DefaultDict
 
 import arrow
 import disnake
 from bot import VillagerBotCluster
+from cogs.core.database import Database
 from disnake.ext import commands
 from util.ipc import PacketType
 from util.misc import (
@@ -19,7 +20,6 @@ from util.misc import (
     lb_logic,
     make_health_bar,
 )
-from cogs.core.database import Database
 
 
 class Econ(commands.Cog):
@@ -507,7 +507,8 @@ class Econ(commands.Cog):
             )
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(
-                name=f"__**{ctx.l.econ.shop.farming.format(self.d.emojis.farming.normal.wheat)}**__", value=f"`{ctx.prefix}shop farm`"
+                name=f"__**{ctx.l.econ.shop.farming.format(self.d.emojis.farming.normal.wheat)}**__",
+                value=f"`{ctx.prefix}shop farm`",
             )
 
             embed.set_footer(text=ctx.l.econ.shop.embed_footer.format(ctx.prefix))
@@ -594,7 +595,7 @@ class Econ(commands.Cog):
         """Allows you to shop for magic items"""
 
         await self.shop_logic(ctx, "magic", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic[3:]}]")
-        
+
     @shop.command(name="farming", aliases=["farm"])
     async def shop_farming(self, ctx):
         """Allows you to shop for farming items"""
@@ -768,7 +769,9 @@ class Econ(commands.Cog):
         if shop_item.db_entry[0].endswith("Hoe"):
             sellable = False
 
-        await self.db.add_item(ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2], sellable=sellable)
+        await self.db.add_item(
+            ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2], sellable=sellable
+        )
 
         if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
             await self.ipc.broadcast({"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id})
@@ -1760,11 +1763,23 @@ class Econ(commands.Cog):
             )
 
             lb_global, lb_local = await asyncio.gather(
-                lb_logic(self.bot, crops_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.farming.seeds.wheat}")),
-                lb_logic(self.bot, crops_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.farming.seeds.wheat}")),
+                lb_logic(
+                    self.bot,
+                    crops_global,
+                    global_u_entry,
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.farming.seeds.wheat}"),
+                ),
+                lb_logic(
+                    self.bot,
+                    crops_local,
+                    local_u_entry,
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.farming.seeds.wheat}"),
+                ),
             )
 
-        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal.wheat} "))
+        embed = disnake.Embed(
+            color=self.d.cc, title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal.wheat} ")
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1778,7 +1793,7 @@ class Econ(commands.Cog):
 
         db_farm_plots = await self.db.fetch_farm_plots(ctx.author.id)
         available = await self.db.count_ready_farm_plots(ctx.author.id)
-        
+
         max_plots = self.d.farming.max_plots[await self.db.fetch_hoe(ctx.author.id)]
 
         emojis = [emojify_crop(self.d, r["crop_type"]) for r in db_farm_plots] + [emojify_crop(self.d, "dirt")] * (
@@ -1789,7 +1804,10 @@ class Econ(commands.Cog):
         )
 
         embed = disnake.Embed(color=self.d.cc)
-        embed.set_author(name=ctx.l.econ.farm.s_farm.format(user=ctx.author.display_name), icon_url=getattr(ctx.author.avatar, "url", embed.Empty))
+        embed.set_author(
+            name=ctx.l.econ.farm.s_farm.format(user=ctx.author.display_name),
+            icon_url=getattr(ctx.author.avatar, "url", embed.Empty),
+        )
 
         embed.add_field(
             name=ctx.l.econ.farm.commands_title,
@@ -1846,12 +1864,14 @@ class Econ(commands.Cog):
         if amount > max_plots - plots_count:
             await ctx.reply_embed(ctx.l.econ.farm.no_plots_2)
             return
-        
+
         # remove the item and plant it
         await self.db.remove_item(ctx.author.id, item, amount)
         await self.db.add_farm_plot(ctx.author.id, crop_type, amount)
 
-        await ctx.reply_embed(ctx.l.econ.farm.planted.format(amount=amount, crop=emojify_item(self.d, self.d.farming.name_map[crop_type])))
+        await ctx.reply_embed(
+            ctx.l.econ.farm.planted.format(amount=amount, crop=emojify_item(self.d, self.d.farming.name_map[crop_type]))
+        )
 
     @farm.command(name="harvest", aliases=["h"])
     async def farm_harvest(self, ctx):
@@ -1877,7 +1897,9 @@ class Econ(commands.Cog):
 
             amounts_harvested[r["crop_type"]] += amount
 
-        harvest_str = ", ".join([f"{amount} {self.d.emojis.farming.normal[crop_type]}" for crop_type, amount in amounts_harvested.items()])
+        harvest_str = ", ".join(
+            [f"{amount} {self.d.emojis.farming.normal[crop_type]}" for crop_type, amount in amounts_harvested.items()]
+        )
 
         await ctx.reply_embed(ctx.l.econ.farm.harvested.format(crops=harvest_str))
 
