@@ -11,9 +11,9 @@ import disnake
 from bot import VillagerBotCluster
 from disnake.ext import commands
 from util.code import execute_code, format_exception
+from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager
-from util.ctx import Ctx
 
 
 class Owner(commands.Cog):

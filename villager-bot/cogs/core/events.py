@@ -9,8 +9,8 @@ from bot import VillagerBotCluster
 from disnake.ext import commands
 from util.code import format_exception
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
-from util.ipc import PacketType
 from util.ctx import Ctx
+from util.ipc import PacketType
 from util.misc import update_support_member_role
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)

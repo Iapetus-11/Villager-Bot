@@ -1,7 +1,6 @@
 import disnake
 from bot import VillagerBotCluster
 from disnake.ext import commands
-
 from util.ctx import Ctx
 
 

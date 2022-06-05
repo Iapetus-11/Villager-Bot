@@ -1,6 +1,6 @@
+import classyjson as cj
 import disnake
 from disnake.ext.commands import Context
-import classyjson as cj
 
 
 class CustomContext(Context):

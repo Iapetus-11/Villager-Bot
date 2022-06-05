@@ -8,9 +8,9 @@ import classyjson as cj
 import disnake
 from bot import VillagerBotCluster
 from disnake.ext import commands
+from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, strip_command
-from util.ctx import Ctx
 
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
 INSULTS = {"i am stupid", "i am dumb", "i am very stupid", "i am very dumb", "i stupid", "i'm stupid", "i'm dumb"}
