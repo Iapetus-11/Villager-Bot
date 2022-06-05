@@ -1,7 +1,7 @@
 import asyncio
 from typing import Union
-import arrow
 
+import arrow
 import disnake
 from bot import VillagerBotCluster
 from disnake.ext import commands
