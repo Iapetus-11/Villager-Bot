@@ -1091,6 +1091,7 @@ class Econ(commands.Cog):
                 if await self.db.fetch_item(ctx.author.id, item) is not None:
                     found += random.choice(self.d.mining.yields_enchant_items[item])
                     break
+                
             found = int(found)
 
             if await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None:
@@ -1104,7 +1105,6 @@ class Econ(commands.Cog):
             )
         else:
             # only works cause num of pickaxes is 6 and levels of fake finds is 3
-            # please don't bug me about jank code, I know
             fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe) / 2)]
 
             await ctx.reply_embed(
@@ -1532,9 +1532,9 @@ class Econ(commands.Cog):
             return
 
         if bees > 32768:
-            bees = max(32768 // 10, bees / 20)
+            bees = max(32768 // 7, bees // 14)
         elif bees > 1024:
-            bees = max(1024, bees / 10)
+            bees = max(1024, bees // 7)
 
         jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
         await self.db.add_item(ctx.author.id, "Honey Jar", 1, jars)

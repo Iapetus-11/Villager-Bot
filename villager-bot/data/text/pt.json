@@ -75,6 +75,7 @@
         "give": "`{0}give <usuário> <quantidade> <item>` *dá a outro usuário um item ou esmeraldas*",
         "mine": "`{0}mine` *minerar esmeraldas*",
         "fish": "`{0}fish` *pesca peixes e itens*",
+        "farm": "`{0}farm` *plantar e colher plantações que valem esmeraldas*",
         "search": "`{0}search` *procura por esmeraldas*",
         "honey": "`{0}honey` *colhe mel das abelhas que você possui*",
         "gamble": "`{0}gamble <esmeraldas>` *aposte com o bot por uma chance de ganhar esmeraldas*",
@@ -1744,8 +1745,8 @@
         "cats": {
           "tools": "ferramentas",
           "magic": "magia",
-          "fish": "peixe",
           "misc": "miscelânea",
+          "farming": "agricultura",
           "all": "tudo"
         },
         "empty": "*Está bem vazio aqui...*"
@@ -1767,8 +1768,8 @@
         "villager_shop": "Loja do Villager",
         "tools": "{} Ferramentas",
         "magic": "{} Magias",
+        "farming": "{} Agricultura",
         "other": "{} Outros",
-        "fish": "{} Peixes",
         "embed_footer": "Use {}inventory para ver o que você tem!"
       },
       "buy": {
@@ -1958,6 +1959,7 @@
         "vault_max": "Você não pode expandir seu cofre ainda mais através deste método.",
         "vault_pot": "Você tomou uma **Poção de Cofre**. O espaço do seu cofre aumentou em {} espaços.",
         "smoke_seaweed": "Você comeu algumas **Algas** que duram **{} minutos**",
+        "use_bonemeal": "Você usou um pouco de **Farinha de Osso** em suas plantações, fazendo-as crescer!",
         "seaweed_done": "A **Alga** que você comeu antes já passou.",
         "chug": "Você bebeu um **{}** que dura **{} minutos**.",
         "chug_no_end": "Você bebeu um **{}**!",
@@ -1995,6 +1997,21 @@
           "Você pede a ajuda de alguns saqueadores para abrir o barril e encontra {}{} dentro dele!"
         ]
       },
+      "farm": {
+        "s_farm": "Fazenda de {user}",
+        "commands_title": "Comandos da Fazenda",
+        "commands": {
+          "plant": "`{prefix}farm plant` - planta o item",
+          "harvest": "`{prefix}farm harvest` - colhe todas as plantações prontas"
+        },
+        "available": "Disponível para colheita: {available}/{max}",
+        "cant_plant": "Você não pode plantar este item.",
+        "no_plots": "Todos os seus lotes agrícolas estão cheios, uma enxada melhor lhe dará mais!",
+        "no_plots_2": "Você não tem lotes agrícolas suficientes para isso!",
+        "planted": "Plantou {amount}x {crop}",
+        "cant_harvest": "Não há plantações prontas para colher...",
+        "harvested": "Colheu {crops}"
+      },
       "honey": {
         "stupid_1": [
           "Você não tem abelhas suficientes para viabilizar essa opção de negócio.",
@@ -2023,6 +2040,7 @@
         "votes": "Sequência de Votos",
         "fish": "Peixes Pescados",
         "mooderalds": "Mooderalds",
+        "farming": "Culturas Plantadas",
         "lb_ems": "{0}__**Tabela de Classificação de Esmeraldas**__{0}",
         "lb_pil": "{0}__**Tabela de Classificação de Esmeraldas Roubadas**__{0}",
         "lb_kil": "{0}__**Tabela de Classificação de Monstros Mortos**__{0}",
@@ -2030,7 +2048,8 @@
         "lb_cmds": "{0}__**Tabela de Classificação de Comandos Enviados**__{0}",
         "lb_votes": "{0}__**Tabela de Classificação de Sequência de Votos**__{0}",
         "lb_fish": "{0}__**Tabela de Classificação de Peixes Pescados**__{0}",
-        "lb_moods": "{0}__**Tabela de Classificação de Mooderald**__{0}"
+        "lb_moods": "{0}__**Tabela de Classificação de Mooderald**__{0}",
+        "lb_farming": "{0}__**Classificação de Culturas Plantadas**__{0}"
       }
     }
   }
