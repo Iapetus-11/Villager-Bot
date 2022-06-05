@@ -1524,18 +1524,17 @@ class Econ(commands.Cog):
     async def honey(self, ctx):
         bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
 
-        if bees is not None:
-            bees = bees["amount"]
-        else:
-            bees = 0
-
-        if bees > 1024:
-            bees = 1024
+        bees = 0 if bees is None else bees["amount"]
 
         if bees < 100:
             await ctx.reply_embed(random.choice(ctx.l.econ.honey.stupid_1))
             ctx.command.reset_cooldown(ctx)
             return
+
+        if bees > 32768:
+            bees = max(32768//10, bees/20)
+        elif bees > 1024:
+            bees = max(1024, bees/10)
 
         jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
         await self.db.add_item(ctx.author.id, "Honey Jar", 1, jars)
@@ -1882,11 +1881,15 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.farm.cant_harvest)
             return
 
+        user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
+        user_bees = 0 if user_bees is None else user_bees["amount"]
+        extra_yield = [0, int(max(0, 3 * math.log10(user_bees / 1000)))]
+
         amounts_harvested: DefaultDict[str, int] = defaultdict(int)
 
         for r in records:
             # amount of crop harvested
-            amount = sum(random.randint(*self.d.farming.crop_yields[r["crop_type"]]) for _ in range(r["count"]))
+            amount = sum(random.randint(*self.d.farming.crop_yields[r["crop_type"]]) for _ in range(r["count"])) + random.randint(*extra_yield)
 
             await self.db.add_item(
                 ctx.author.id,
