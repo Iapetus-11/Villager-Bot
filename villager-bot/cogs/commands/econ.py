@@ -1373,7 +1373,7 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.use.use_bonemeal)
 
             await self.db.use_bonemeal(ctx.author.id)
-            
+
             return
 
         if thing == "luck potion":
