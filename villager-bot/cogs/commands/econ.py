@@ -1534,9 +1534,9 @@ class Econ(commands.Cog):
 
         # https://www.desmos.com/calculator/radpbfvgsp
         if bees >= 32768:
-            bees = (bees + 1024 * 103.725) // 25
+            bees = int((bees + 1024 * 103.725) // 25)
         elif bees >= 1024:
-            bees = (bees + 1024 * 6) // 7
+            bees = int((bees + 1024 * 6) // 7)
 
         jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
         await self.db.add_item(ctx.author.id, "Honey Jar", 1, jars)

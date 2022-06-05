@@ -960,7 +960,8 @@
       "Potato",
       "Carrot",
       "Wheat",
-      "Wheat Seed"
+      "Wheat Seed",
+      "Bone Meal"
     ]
   },
   "emojis": {
@@ -1026,6 +1027,7 @@
     "alien": "👽",
     "rainbow": "🌈",
     "pride_flag": "🏳️‍🌈",
+    "bone_meal": "<:bone_meal:983056520080130079>",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1198,7 +1200,8 @@
     "BFG 3000": "gun",
     "Alien Mask": "alien",
     "Pride Flag": "pride_flag",
-    "A Literal Rainbow": "rainbow"
+    "A Literal Rainbow": "rainbow",
+    "Bone Meal": "bone_meal"
   },
   "farming": {
     "emojis": {

@@ -26,7 +26,6 @@
       "tips": [
         "¿Tienes una sugerencia? ¿Encontraste un bug? ¿Necesitas ayuda? ¿Quieres hacer un intercambio? Únete al Servidor de Soporte! https://discord.gg/39DwwUV",
         "¿Necesitas esmeraldas? ¡Vótanos en top.gg! https://top.gg/bot/639498607632056321",
-        "¿Necesitas esmeraldas? ¡Mira el canal de #shop en el servidor de soporte! https://discord.gg/39DwwUV",
         "¿En quiebra por esos saqueadores? ¡Vota por nosotros para conseguir esmeraldas! https://top.gg/bot/639498607632056321",
         "¡Comprueba el comando `rules` para ver las reglas del Villager Bot!",
         "¿Tienes un servidor de Minecraft o estás buscando uno? Entra en https://minecraft.global/"
@@ -75,6 +74,7 @@
         "give": "`{0}give <usuario> <cantidad> <objeto>` *dar a otro usuario un objeto o esmeraldas*",
         "mine": "`{0}mine` *mina esmeraldas*",
         "fish": "`{0}fish` *pesca peces y objetos*",
+        "farm": "`{0}farm` *Planta y cosecha cultivos por esmeraldas*",
         "search": "`{0}search` *busca esmeraldas*",
         "honey": "`{0}honey` *cosecha la miel de las abejas que tienes*",
         "gamble": "`{0}gamble <esmeraldas>` *apuesta con el bot por una oportunidad de ganar esmeraldas*",
@@ -1528,6 +1528,8 @@
       },
       "mute": {
         "stupid_1": "No puedes silenciarte a ti mismo",
+        "stupid_2": "Has usado un formato inválido, ejemplo: `{0}mute @alguien 1w 2d 3h 4m una razón` aislará a alguien temporalmente por una semana, dos días, tres horas y cuatro minutos.",
+        "stupid_3": "¡Eso es demasiado lejos en el futuro!",
         "mute_msg": "**{}** ha sido silenciado."
       },
       "unmute": {
@@ -1746,6 +1748,7 @@
           "magic": "magia",
           "fish": "peces",
           "misc": "misceláneo",
+          "farming": "agricultura",
           "all": "todo"
         },
         "empty": "*Esto está bastante vacío...*"
@@ -1768,7 +1771,7 @@
         "tools": "{} Herramientas",
         "magic": "{} Magia",
         "other": "{} Otros",
-        "fish": "{} Fish",
+        "farming": "{} Agricultura",
         "embed_footer": "Usa {}inventory para ver lo que tienes"
       },
       "buy": {
@@ -1957,6 +1960,7 @@
         "vault_max": "No se puede expandir más la bóveda con este método.",
         "vault_pot": "Te has tomado una **Vault Potion**. El espacio de tu bóveda se ha incrementado en {} espacios..",
         "smoke_seaweed": "Has comido **Seaweed** que dura **{} minutos**",
+        "use_bonemeal": "Has usado **polvo de hueso** en tus cultivos, haciéndolos crecer!",
         "seaweed_done": "El **Seaweed** que comiste antes ya no tiene efecto.",
         "chug": "Te has tomado un **{}** (Que dura {} minutos)",
         "chug_no_end": "Te has tomado un **{}**",
@@ -1994,6 +1998,21 @@
           "Consigue la ayuda de algunos saqueadores para abrir el barril que contiene {}{}."
         ]
       },
+      "farm": {
+        "s_farm": "Granja de {user}",
+        "commands_title": "Comandos de agricultura",
+        "commands": {
+          "plant": "`{prefix}farm plant` - Planta el ítem",
+          "harvest": "`{prefix}farm harvest` - Cosecha los cultivos"
+        },
+        "available": "Disponible para cosechar: {available}/{max}",
+        "cant_plant": "No puedes plantar este ítem.",
+        "no_plots": "Todas las parcelas de tu granja están ocupadas, ¡una mejor azada te dejará plantar más!",
+        "no_plots_2": "¡No tienes suficientes parcelas para eso!",
+        "planted": "Plantaste{amount}x {crop}",
+        "cant_harvest": "No hay cultivas listos para cosechar...",
+        "harvested": "Cosechaste {crops}"
+      },
       "honey": {
         "stupid_1": [
           "No tienes suficientes abejas para hacer posible esta opción de negocio.",
@@ -2022,6 +2041,7 @@
         "votes": "Racha De Votos",
         "fish": "Pececitos pescados",
         "mooderalds": "Mooderalds",
+        "farming": "Cultivos Plantados",
         "lb_ems": "{0}__**Tabla de clasificación de esmeraldas**__{0}",
         "lb_pil": "{0}__**Tabla de clasificación de esmeraldas robadas**__{0}",
         "lb_kil": "{0}__**Tabla de clasificación de monstruos asesinados**__{0}",
@@ -2029,7 +2049,8 @@
         "lb_cmds": "{0}__**Tabla de clasificación de comandos enviados**__{0}",
         "lb_votes": "{0}__**Tabla de clasificación de racha de votos**__{0}",
         "lb_fish": "{0}__**Tabla de posiciones de peces pescados**__{0}",
-        "lb_moods": "{0}__**Tabla de clasificación de mooderald**__{0}"
+        "lb_moods": "{0}__**Tabla de clasificación de mooderald**__{0}",
+        "lb_farming": "{0}__**Clasificación de cultivos plantados**__{0}"
       }
     }
   }
