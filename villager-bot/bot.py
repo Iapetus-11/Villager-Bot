@@ -14,7 +14,7 @@ from classyjson import ClassyDict
 from disnake.ext import commands
 from util.code import execute_code, format_exception
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
-from util.ctx import BetterContext
+from util.ctx import CustomContext
 from util.ipc import Client, PacketHandlerRegistry, PacketType, handle_packet
 from util.misc import TTLPreventDuplicate, update_support_member_role
 from util.setup import load_data, load_secrets, load_text, setup_database_pool, setup_logging, villager_bot_intents
@@ -144,7 +144,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         with ThreadPoolExecutor() as self.tp:
             super().run(self.k.discord_token, *args, **kwargs)
 
-    async def get_prefix(self, ctx: commands.Context) -> str:
+    async def get_prefix(self, ctx: CustomContext) -> str:
         # for some reason disnake.py wants this function to be async *sigh*
 
         if ctx.guild:
@@ -152,14 +152,14 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         return self.k.default_prefix
 
-    def get_language(self, ctx: commands.Context) -> ClassyDict:
+    def get_language(self, ctx: CustomContext) -> ClassyDict:
         if ctx.guild:
             return self.l[self.language_cache.get(ctx.guild.id, "en")]
 
         return self.l["en"]
 
-    async def get_context(self, *args, **kwargs) -> BetterContext:
-        ctx = await super().get_context(*args, **kwargs, cls=BetterContext)
+    async def get_context(self, *args, **kwargs) -> CustomContext:
+        ctx = await super().get_context(*args, **kwargs, cls=CustomContext)
 
         ctx.embed_color = self.d.cc
         ctx.l = self.get_language(ctx)
@@ -186,11 +186,11 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             elif not ignore_exceptions:
                 raise
 
-    async def send_tip(self, ctx) -> None:
+    async def send_tip(self, ctx: CustomContext) -> None:
         await asyncio.sleep(random.randint(100, 200) / 100)
         await self.send_embed(ctx, f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}")
 
-    async def check_global(self, ctx) -> bool:  # the global command check
+    async def check_global(self, ctx: CustomContext) -> bool:  # the global command check
         self.command_count += 1
 
         command = str(ctx.command)
@@ -246,7 +246,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         return True
 
-    async def before_command_invoked(self, ctx):
+    async def before_command_invoked(self, ctx: CustomContext):
         try:
             if str(ctx.command) in self.d.concurrency_limited:
                 await self.ipc.send(
@@ -256,7 +256,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             self.logger.error(format_exception(e))
             raise
 
-    async def after_command_invoked(self, ctx):
+    async def after_command_invoked(self, ctx: CustomContext):
         try:
             if str(ctx.command) in self.d.concurrency_limited:
                 await self.ipc.send(

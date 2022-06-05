@@ -5,7 +5,8 @@ import arrow
 import disnake
 from bot import VillagerBotCluster
 from disnake.ext import commands
-from util.misc import SuppressCtxManager, parse_input_time
+from util.misc import parse_input_time
+from util.ctx import Ctx
 
 
 class Mod(commands.Cog):
@@ -16,7 +17,7 @@ class Mod(commands.Cog):
 
         self.db = bot.get_cog("Database")
 
-    def permission_check(self, ctx: commands.Context, victim: disnake.Member) -> bool:
+    def permission_check(self, ctx: Ctx, victim: disnake.Member) -> bool:
         author = ctx.author
 
         if author == ctx.guild.owner:
@@ -28,7 +29,7 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(manage_messages=True)
     @commands.has_permissions(manage_messages=True)
-    async def purge(self, ctx, amount: int):
+    async def purge(self, ctx: Ctx, amount: int):
         """Purges the given amount of messages from the current channel"""
 
         if amount < 1:
@@ -45,7 +46,7 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
-    async def kick_user(self, ctx, victim: disnake.Member, *, reason="No reason provided."):
+    async def kick_user(self, ctx: Ctx, victim: disnake.Member, *, reason="No reason provided."):
         """Kicks the given user from the current Discord server"""
 
         if ctx.author == victim:
@@ -63,7 +64,7 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def ban_user(self, ctx, victim: Union[disnake.Member, int], *, reason="No reason provided."):
+    async def ban_user(self, ctx: Ctx, victim: Union[disnake.Member, int], *, reason="No reason provided."):
         """Bans the given user from the current Discord server"""
 
         delete_days = 0
@@ -113,7 +114,7 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def pardon_user(self, ctx, user: Union[disnake.User, int], *, reason="No reason provided."):
+    async def pardon_user(self, ctx: Ctx, user: Union[disnake.User, int], *, reason="No reason provided."):
         """Unbans / pardons the given user from the current Discord server"""
 
         if isinstance(user, int):
@@ -141,7 +142,7 @@ class Mod(commands.Cog):
     @commands.command(name="warn")
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
-    async def warn(self, ctx, victim: disnake.Member, *, reason=None):
+    async def warn(self, ctx: Ctx, victim: disnake.Member, *, reason=None):
         if ctx.author == victim:
             await ctx.reply_embed(ctx.l.mod.warn.stupid_1)
             return
@@ -170,7 +171,7 @@ class Mod(commands.Cog):
 
     @commands.command(name="warns", aliases=["warnings", "karens"])
     @commands.guild_only()
-    async def warnings(self, ctx, user: disnake.Member = None):
+    async def warnings(self, ctx: Ctx, user: disnake.Member = None):
         if user is None:
             user = ctx.author
 
@@ -204,7 +205,7 @@ class Mod(commands.Cog):
     @commands.command(name="delwarns", aliases=["clearwarns", "remwarns", "removewarns", "delwarnings"])
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
-    async def clear_warnings(self, ctx, user: disnake.Member):
+    async def clear_warnings(self, ctx: Ctx, user: disnake.Member):
         if ctx.author == user and ctx.guild.owner != ctx.author:
             await ctx.reply_embed(ctx.l.mod.warn.stupid_2)
             return
@@ -219,7 +220,7 @@ class Mod(commands.Cog):
     @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu"])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
-    async def mute(self, ctx, victim: disnake.Member, *args: str):
+    async def mute(self, ctx: Ctx, victim: disnake.Member, *args: str):
         if ctx.author == victim:
             await ctx.reply_embed(ctx.l.mod.mute.stupid_1)
             return
@@ -245,7 +246,7 @@ class Mod(commands.Cog):
     @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu"])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
-    async def unmute(self, ctx, user: disnake.Member):
+    async def unmute(self, ctx: Ctx, user: disnake.Member):
         if ctx.author == user:
             await ctx.reply_embed(ctx.l.mod.unmute.stupid_1)
             return

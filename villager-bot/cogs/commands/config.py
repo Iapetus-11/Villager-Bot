@@ -2,6 +2,8 @@ import disnake
 from bot import VillagerBotCluster
 from disnake.ext import commands
 
+from util.ctx import Ctx
+
 
 class Config(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
@@ -12,7 +14,7 @@ class Config(commands.Cog):
         self.db = bot.get_cog("Database")
 
     @commands.group(name="config", aliases=["settings", "conf", "gamerule"], case_insensitive=True)
-    async def config(self, ctx):
+    async def config(self, ctx: Ctx):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)
 
@@ -36,7 +38,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def config_prefix(self, ctx, prefix=None):
+    async def config_prefix(self, ctx: Ctx, prefix=None):
         if prefix is None:
             prev = await self.bot.get_prefix(ctx)
             await ctx.reply_embed(ctx.l.config.prefix.this_server.format(prev))
@@ -59,7 +61,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_replies(self, ctx, replies=None):
+    async def config_replies(self, ctx: Ctx, replies=None):
         if replies is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
             state = ctx.l.config.replies.enabled if guild["do_replies"] else ctx.l.config.replies.disabled
@@ -87,7 +89,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def config_difficulty(self, ctx, diff=None):
+    async def config_difficulty(self, ctx: Ctx, diff=None):
         if diff is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
             await ctx.reply_embed(ctx.l.config.diff.this_server.format(guild["difficulty"]))
@@ -109,7 +111,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def config_language(self, ctx, lang=None):
+    async def config_language(self, ctx: Ctx, lang=None):
         lang_codes = [l.replace("_", "-") for l in list(self.bot.l)]
 
         if lang is None:
@@ -135,7 +137,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def config_default_mcserver(self, ctx, mcserver=None):
+    async def config_default_mcserver(self, ctx: Ctx, mcserver=None):
         if mcserver is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
             await ctx.reply_embed(ctx.l.config.mcs.this_server.format(guild["mc_server"]))
@@ -152,7 +154,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_toggle_cmd_enabled(self, ctx, cmd=None):
+    async def config_toggle_cmd_enabled(self, ctx: Ctx, cmd=None):
         disabled = self.bot.disabled_commands[ctx.guild.id]
 
         if cmd is None:
@@ -188,7 +190,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_filtered_words(self, ctx, operation: str = None, word: str = None):
+    async def config_filtered_words(self, ctx: Ctx, operation: str = None, word: str = None):
         words = await self.db.fetch_filtered_words(ctx.guild.id)
 
         if not (operation and word):
@@ -238,7 +240,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_antiraid(self, ctx, antiraid=None):
+    async def config_antiraid(self, ctx: Ctx, antiraid=None):
         if antiraid is None:
             db_guild = await self.db.fetch_guild(ctx.guild.id)
 
@@ -266,7 +268,7 @@ class Config(commands.Cog):
 
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def config_gift_alert(self, ctx, alert=None):
+    async def config_gift_alert(self, ctx: Ctx, alert=None):
         if alert is None:
             db_user = await self.db.fetch_user(ctx.author.id)
             await ctx.reply_embed(
@@ -287,7 +289,7 @@ class Config(commands.Cog):
 
     @config.command(name="clearrconpasswords", aliases=["clearpasswords", "deletepasswords", "delrconpasswords"])
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def config_clear_rcon_passwords(self, ctx):
+    async def config_clear_rcon_passwords(self, ctx: Ctx):
         deleted = len(await self.db.mass_delete_user_rcon(ctx.author.id))
 
         if deleted < 1:

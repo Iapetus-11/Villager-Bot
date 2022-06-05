@@ -1,12 +1,13 @@
 import disnake
 from disnake.ext.commands import Context
+import classyjson as cj
 
 
-class BetterContext(Context):
+class CustomContext(Context):
     def __init__(self, *args, embed_color: disnake.Color = None, **kwargs):
         super().__init__(*args, **kwargs)
         self.embed_color = embed_color  # used in send_embed(...) and reply_embed(...)
-        self.l = None  # the translation of the bot text for the current context
+        self.l: cj.ClassyDict = None  # the translation of the bot text for the current context
 
     async def send_embed(self, message: str, *, ignore_exceptions: bool = False) -> None:
         embed = disnake.Embed(color=self.embed_color, description=message)
@@ -27,3 +28,6 @@ class BetterContext(Context):
                 await self.send_embed(message, ignore_exceptions=ignore_exceptions)
             elif not ignore_exceptions:
                 raise
+
+
+Ctx = CustomContext

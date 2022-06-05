@@ -8,7 +8,6 @@ from typing import List, Tuple
 import arrow
 import classyjson as cj
 import disnake
-from disnake.ext import commands
 from util.code import format_exception
 from util.ipc import PacketType
 

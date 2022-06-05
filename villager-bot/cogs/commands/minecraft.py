@@ -16,6 +16,7 @@ from disnake.ext import commands
 from util.code import format_exception
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, dm_check, fix_giphy_url
+from util.ctx import Ctx
 
 try:
     from util import tiler
@@ -48,7 +49,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="blockify", aliases=["mcpixelart", "mcart", "mcimage", "mcvideo"])
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def blockify_media(self, ctx, media_link: str = None):
+    async def blockify_media(self, ctx: Ctx, media_link: str = None):
         if not self.tiler:
             await ctx.send("This command is disabled because Cython isn't enabled.")
             return
@@ -132,7 +133,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def mcstatus(self, ctx, host=None, port: int = None):
+    async def mcstatus(self, ctx: Ctx, host=None, port: int = None):
         """Checks the status of a given Minecraft server"""
 
         if host is None:
@@ -227,7 +228,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="randommc", aliases=["randommcserver", "randomserver"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def random_mc_server(self, ctx):
+    async def random_mc_server(self, ctx: Ctx):
         """Checks the status of a random Minecraft server"""
 
         res = await self.aiohttp.get("https://api.minecraft.global/server/random")
@@ -311,7 +312,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="stealskin", aliases=["getskin", "skin", "mcskin"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def steal_skin(self, ctx, player):
+    async def steal_skin(self, ctx: Ctx, player):
         if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
             async with SuppressCtxManager(ctx.typing()):
                 res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
@@ -364,7 +365,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="mcprofile", aliases=["minecraftprofile", "nametouuid", "uuidtoname", "mcp"])
     @commands.cooldown(1, 4, commands.BucketType.user)
-    async def minecraft_profile(self, ctx, player):
+    async def minecraft_profile(self, ctx: Ctx, player):
         if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
             async with SuppressCtxManager(ctx.typing()):
                 res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
@@ -453,7 +454,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="nametoxuid", aliases=["grabxuid", "benametoxuid", "bename"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def name_to_xuid(self, ctx, *, username):
+    async def name_to_xuid(self, ctx: Ctx, *, username):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
         async with SuppressCtxManager(ctx.typing()):
@@ -468,7 +469,7 @@ class Minecraft(commands.Cog):
         await ctx.reply_embed(f'**{username}**: `{xuid}` / `{xuid[20:].replace("-", "").upper()}`')
 
     @commands.command(name="mccolors", aliases=["minecraftcolors", "chatcolors", "colorcodes"])
-    async def color_codes(self, ctx):
+    async def color_codes(self, ctx: Ctx):
         """Shows the Minecraft chat color codes"""
 
         embed = disnake.Embed(color=self.d.cc, description=ctx.l.minecraft.mccolors.embed_desc)
@@ -514,7 +515,7 @@ class Minecraft(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="buildidea", aliases=["idea"])
-    async def build_idea(self, ctx):
+    async def build_idea(self, ctx: Ctx):
         """Sends a random "build idea" which you could create"""
 
         prefix = random.choice(self.d.build_ideas["prefixes"])
@@ -526,7 +527,7 @@ class Minecraft(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.guild_only()
-    async def rcon_command(self, ctx, *, cmd):
+    async def rcon_command(self, ctx: Ctx, *, cmd):
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
         if db_guild["mc_server"] is None:

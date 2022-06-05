@@ -20,6 +20,7 @@ from util.misc import (
     lb_logic,
     make_health_bar,
 )
+from util.ctx import Ctx
 
 
 class Econ(commands.Cog):
@@ -51,7 +52,7 @@ class Econ(commands.Cog):
         yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
         return [True] * yield_[0] + [False] * yield_[1]
 
-    async def math_problem(self, ctx, addition=1):
+    async def math_problem(self, ctx: Ctx, addition=1):
         # simultaneously updates the value in Karen and retrivies the current value
         res = await self.ipc.request({"type": PacketType.MINE_COMMAND, "user_id": ctx.author.id, "addition": addition})
         mine_commands = res.current
@@ -89,11 +90,11 @@ class Econ(commands.Cog):
 
     @commands.command(name="max_concurrency_dummy")
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def max_concurrency_dummy(self, ctx):
+    async def max_concurrency_dummy(self, ctx: Ctx):
         pass
 
     @commands.command(name="profile", aliases=["pp"])
-    async def profile(self, ctx, *, user: disnake.User = None):
+    async def profile(self, ctx: Ctx, *, user: disnake.User = None):
         if user is None:
             user = ctx.author
 
@@ -157,7 +158,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="balance", aliases=["bal", "vault", "pocket"])
-    async def balance(self, ctx, *, user: disnake.User = None):
+    async def balance(self, ctx: Ctx, *, user: disnake.User = None):
         """Shows the balance of a user or the message sender"""
 
         if user is None:
@@ -201,7 +202,7 @@ class Econ(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    async def inventory_logic(self, ctx, user, items: list, cat: str, items_per_page: int = 8):
+    async def inventory_logic(self, ctx: Ctx, user, items: list, cat: str, items_per_page: int = 8):
         fishies = {fish.name: fish.current for fish in self.d.fishing.fish.values()}
 
         for i, item in enumerate(items):
@@ -282,7 +283,7 @@ class Econ(commands.Cog):
 
             first_time = False
 
-    async def inventory_boiler(self, ctx, user: disnake.User = None):
+    async def inventory_boiler(self, ctx: Ctx, user: disnake.User = None):
         if ctx.invoked_subcommand is not None:
             return False, None
 
@@ -303,7 +304,7 @@ class Econ(commands.Cog):
     @commands.max_concurrency(2, per=commands.BucketType.user, wait=False)
     @commands.guild_only()
     @commands.cooldown(2, 2, commands.BucketType.user)
-    async def inventory(self, ctx):
+    async def inventory(self, ctx: Ctx):
         if ctx.invoked_subcommand is not None:
             return
 
@@ -329,8 +330,8 @@ class Econ(commands.Cog):
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.all, 16)
 
-    @inventory.group(name="tools", aliases=["tool", "pickaxes", "swords"])
-    async def inventory_tools(self, ctx, user: disnake.User = None):
+    @inventory.command(name="tools", aliases=["tool", "pickaxes", "swords"])
+    async def inventory_tools(self, ctx: Ctx, user: disnake.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -340,8 +341,8 @@ class Econ(commands.Cog):
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.tools)
 
-    @inventory.group(name="magic", aliases=["books", "potions", "enchants"])
-    async def inventory_magic(self, ctx, user: disnake.User = None):
+    @inventory.command(name="magic", aliases=["books", "potions", "enchants"])
+    async def inventory_magic(self, ctx: Ctx, user: disnake.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -351,8 +352,8 @@ class Econ(commands.Cog):
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.magic)
 
-    @inventory.group(name="misc", aliases=["other"])
-    async def inventory_misc(self, ctx, user: disnake.User = None):
+    @inventory.command(name="misc", aliases=["other"])
+    async def inventory_misc(self, ctx: Ctx, user: disnake.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -363,8 +364,8 @@ class Econ(commands.Cog):
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc, (16 if len(items) > 24 else 8))
 
-    @inventory.group(name="fish", aliases=["fishes", "fishing", "fishies"])
-    async def inventory_fish(self, ctx, user: disnake.User = None):
+    @inventory.command(name="fish", aliases=["fishes", "fishing", "fishies"])
+    async def inventory_fish(self, ctx: Ctx, user: disnake.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -374,8 +375,8 @@ class Econ(commands.Cog):
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.fish)
 
-    @inventory.group(name="farming", aliases=["farm"])
-    async def inventory_farming(self, ctx, user: disnake.User = None):
+    @inventory.command(name="farming", aliases=["farm"])
+    async def inventory_farming(self, ctx: Ctx, user: disnake.User = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
@@ -388,7 +389,7 @@ class Econ(commands.Cog):
     @commands.command(name="deposit", aliases=["dep"])
     # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def vault_deposit(self, ctx, emerald_blocks: str):
+    async def vault_deposit(self, ctx: Ctx, emerald_blocks: str):
         """Deposits the given amount of emerald blocks into the vault"""
 
         # await self.ipc.request({"type": PacketType.ACQUIRE_PILLAGE_LOCK, "user_ids": [ctx.author.id]})
@@ -445,7 +446,7 @@ class Econ(commands.Cog):
     @commands.command(name="withdraw", aliases=["with"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def vault_withdraw(self, ctx, emerald_blocks: str):
+    async def vault_withdraw(self, ctx: Ctx, emerald_blocks: str):
         """Withdraws a certain amount of emerald blocks from the vault"""
 
         db_user = await self.db.fetch_user(ctx.author.id)
@@ -484,7 +485,7 @@ class Econ(commands.Cog):
     @commands.group(name="shop", case_insensitive=True)
     @commands.guild_only()
     @commands.cooldown(2, 10, commands.BucketType.user)
-    async def shop(self, ctx):
+    async def shop(self, ctx: Ctx):
         """Shows the available options in the Villager Shop"""
 
         if ctx.invoked_subcommand is None:
@@ -515,7 +516,7 @@ class Econ(commands.Cog):
 
             await ctx.reply(embed=embed, mention_author=False)
 
-    async def shop_logic(self, ctx, _type, header):
+    async def shop_logic(self, ctx: Ctx, _type, header):
         items = []
 
         # filter out items which aren't of the right _type
@@ -585,31 +586,31 @@ class Econ(commands.Cog):
             await asyncio.sleep(0.2)
 
     @shop.command(name="tools")
-    async def shop_tools(self, ctx):
+    async def shop_tools(self, ctx: Ctx):
         """Allows you to shop for tools"""
 
         await self.shop_logic(ctx, "tools", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.tools[3:]}]")
 
     @shop.command(name="magic")
-    async def shop_magic(self, ctx):
+    async def shop_magic(self, ctx: Ctx):
         """Allows you to shop for magic items"""
 
         await self.shop_logic(ctx, "magic", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic[3:]}]")
 
     @shop.command(name="farming", aliases=["farm"])
-    async def shop_farming(self, ctx):
+    async def shop_farming(self, ctx: Ctx):
         """Allows you to shop for farming items"""
 
         await self.shop_logic(ctx, "farming", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.farming[3:]}]")
 
     @shop.command(name="other")
-    async def shop_other(self, ctx):
+    async def shop_other(self, ctx: Ctx):
         """Allows you to shop for other/miscellaneous items"""
 
         await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other[3:]}]")
 
     @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
-    async def fish_market(self, ctx):
+    async def fish_market(self, ctx: Ctx):
         embed_template = disnake.Embed(
             color=self.d.cc,
             title=ctx.l.econ.fishing.market.title.format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
@@ -688,7 +689,7 @@ class Econ(commands.Cog):
     @commands.command(name="buy", aliases=["purchase"])
     # @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def buy(self, ctx, *, amount_item):
+    async def buy(self, ctx: Ctx, *, amount_item):
         """Allows you to buy items"""
 
         amount_item = amount_item.lower()
@@ -787,7 +788,7 @@ class Econ(commands.Cog):
     @commands.command(name="sell", aliases=["emeraldify", "s"])
     # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def sell(self, ctx, *, amount_item):
+    async def sell(self, ctx: Ctx, *, amount_item):
         """Allows you to sell items"""
 
         amount_item = amount_item.lower()
@@ -852,7 +853,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     # @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def give(self, ctx, user: disnake.Member, *, amount_item):
+    async def give(self, ctx: Ctx, user: disnake.Member, *, amount_item):
         """Give an item or emeralds to another person"""
 
         if user.bot:
@@ -949,7 +950,7 @@ class Econ(commands.Cog):
     @commands.command(name="gamble", aliases=["bet", "stonk", "stonks"])
     # @commands.cooldown(1, 30, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def gamble(self, ctx, amount):
+    async def gamble(self, ctx: Ctx, amount):
         """Gamble for emeralds with Villager Bot"""
 
         db_user = await self.db.fetch_user(ctx.author.id)
@@ -1011,7 +1012,7 @@ class Econ(commands.Cog):
     @commands.command(name="search", aliases=["beg"])
     # @commands.cooldown(1, 30 * 60, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def search(self, ctx):
+    async def search(self, ctx: Ctx):
         """Beg for emeralds"""
 
         db_user = await self.db.fetch_user(ctx.author.id)
@@ -1050,7 +1051,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def mine(self, ctx):
+    async def mine(self, ctx: Ctx):
         if not await self.math_problem(ctx):
             return
 
@@ -1126,7 +1127,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def fish(self, ctx):
+    async def fish(self, ctx: Ctx):
         if not await self.math_problem(ctx, 5):
             return
 
@@ -1201,7 +1202,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     # @commands.cooldown(1, 300, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def pillage(self, ctx, *, victim: disnake.Member):
+    async def pillage(self, ctx: Ctx, *, victim: disnake.Member):
         if victim.bot:
             if victim.id == self.bot.user.id:
                 await ctx.reply_embed(ctx.l.econ.pillage.bot_1)
@@ -1298,7 +1299,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
     # @commands.cooldown(1, 2, commands.BucketType.user)
-    async def use_item(self, ctx, *, thing):
+    async def use_item(self, ctx: Ctx, *, thing):
         """Allows you to use potions and some other items"""
 
         thing = thing.lower()
@@ -1521,7 +1522,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="honey", aliases=["harvesthoney", "horny"])  # ~~a strange urge occurs in me~~
     # @commands.cooldown(1, 24 * 60 * 60, commands.BucketType.user)
-    async def honey(self, ctx):
+    async def honey(self, ctx: Ctx):
         bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
 
         bees = 0 if bees is None else bees["amount"]
@@ -1555,7 +1556,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
-    async def leaderboards(self, ctx):
+    async def leaderboards(self, ctx: Ctx):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)
 
@@ -1584,7 +1585,7 @@ class Econ(commands.Cog):
             await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="emeralds", aliases=["ems"])
-    async def leaderboard_emeralds(self, ctx):
+    async def leaderboard_emeralds(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             ems_global, global_u_entry = await self.db.fetch_global_lb_user("emeralds", ctx.author.id)
             ems_local, local_u_entry = await self.db.fetch_local_lb_user(
@@ -1603,7 +1604,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="pillages", aliases=["pil", "stolen"])
-    async def leaderboard_pillages(self, ctx):
+    async def leaderboard_pillages(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             pillages_global, global_u_entry = await self.db.fetch_global_lb("pillaged_emeralds", ctx.author.id)
             pillages_local, local_u_entry = await self.db.fetch_local_lb(
@@ -1626,7 +1627,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="mobkills", aliases=["kil", "kills", "kill", "bonk"])
-    async def leaderboard_mobkills(self, ctx):
+    async def leaderboard_mobkills(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             kills_global, global_u_entry = await self.db.fetch_global_lb("mobs_killed", ctx.author.id)
             kills_local, local_u_entry = await self.db.fetch_local_lb(
@@ -1647,7 +1648,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
-    async def leaderboard_bees(self, ctx):
+    async def leaderboard_bees(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             bees_global, global_u_entry = await self.db.fetch_global_lb_item("Jar Of Bees", ctx.author.id)
             bees_local, local_u_entry = await self.db.fetch_local_lb_item(
@@ -1666,7 +1667,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="commands", aliases=["!!", "cmds"])
-    async def leaderboard_commands(self, ctx):
+    async def leaderboard_commands(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             cmds_global, global_u_entry = await self.db.fetch_global_lb("commands", ctx.author.id)
             cmds_local, local_u_entry = await self.db.fetch_local_lb(
@@ -1685,7 +1686,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
-    async def leaderboard_votes(self, ctx):
+    async def leaderboard_votes(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             votes_global, global_u_entry = await self.db.fetch_global_lb_user("vote_streak", ctx.author.id)
             votes_local, local_u_entry = await self.db.fetch_local_lb_user(
@@ -1704,7 +1705,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
-    async def leaderboard_fish(self, ctx):
+    async def leaderboard_fish(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             fish_global, global_u_entry = await self.db.fetch_global_lb("fish_fished", ctx.author.id)
             fish_local, local_u_entry = await self.db.fetch_local_lb(
@@ -1725,7 +1726,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="mooderalds", aliases=["autism", "moods", "mooderald"])
-    async def leaderboard_mooderalds(self, ctx):
+    async def leaderboard_mooderalds(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             moods_global, global_u_entry = await self.db.fetch_global_lb_item("Mooderald", ctx.author.id)
             moods_local, local_u_entry = await self.db.fetch_local_lb_item(
@@ -1754,7 +1755,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="farming", aliases=["farm", "crop", "crops"])
-    async def leaderboard_farming(self, ctx):
+    async def leaderboard_farming(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             crops_global, global_u_entry = await self.db.fetch_global_lb("crops_planted", ctx.author.id)
             crops_local, local_u_entry = await self.db.fetch_local_lb(
@@ -1786,7 +1787,7 @@ class Econ(commands.Cog):
 
     @commands.group(name="farm", case_insensitive=True)
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
-    async def farm(self, ctx: commands.Context):
+    async def farm(self, ctx: Ctx):
         if ctx.invoked_subcommand is not None:
             return
 
@@ -1818,7 +1819,7 @@ class Econ(commands.Cog):
         await ctx.send(embed=embed)
 
     @farm.command(name="plant", aliases=["p"])
-    async def farm_plant(self, ctx: commands.Context, *, item: str):
+    async def farm_plant(self, ctx: Ctx, *, item: str):
         item = item.lower()
         split = item.split()
 
@@ -1873,7 +1874,7 @@ class Econ(commands.Cog):
         )
 
     @farm.command(name="harvest", aliases=["h"])
-    async def farm_harvest(self, ctx):
+    async def farm_harvest(self, ctx: Ctx):
         records = await self.db.fetch_ready_crops(ctx.author.id)
         await self.db.delete_ready_crops(ctx.author.id)
 

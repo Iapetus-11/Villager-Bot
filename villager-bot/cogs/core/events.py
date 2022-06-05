@@ -10,6 +10,7 @@ from disnake.ext import commands
 from util.code import format_exception
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ipc import PacketType
+from util.ctx import Ctx
 from util.misc import update_support_member_role
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
@@ -303,7 +304,7 @@ class Events(commands.Cog):
                     elif content_lower == "good bot":
                         await message.reply(random.choice(self.d.owos), mention_author=False)
 
-    async def handle_cooldown(self, ctx, remaining: float, karen_cooldown: bool) -> None:
+    async def handle_cooldown(self, ctx: Ctx, remaining: float, karen_cooldown: bool) -> None:
         if ctx.command.name == "mine":
             if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
                 remaining -= 0.5
@@ -349,7 +350,7 @@ class Events(commands.Cog):
         await ctx.reply_embed(random.choice(ctx.l.misc.cooldown_msgs).format(time), ignore_exceptions=True)
 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx, e: Exception):
+    async def on_command_error(self, ctx: Ctx, e: Exception):
         self.bot.error_count += 1
 
         if hasattr(ctx, "custom_error"):

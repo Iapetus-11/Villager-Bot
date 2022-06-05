@@ -10,6 +10,7 @@ from bot import VillagerBotCluster
 from disnake.ext import commands
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, strip_command
+from util.ctx import Ctx
 
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
 INSULTS = {"i am stupid", "i am dumb", "i am very stupid", "i am very dumb", "i stupid", "i'm stupid", "i'm dumb"}
@@ -42,7 +43,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="meme", aliases=["meemee", "meem", "maymay", "mehmeh"])
     @commands.cooldown(1, 1.5, commands.BucketType.user)
-    async def meme(self, ctx):
+    async def meme(self, ctx: Ctx):
         """Sends a meme from reddit"""
 
         do_nsfw = False
@@ -71,7 +72,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="4chan", aliases=["greentext"])
     @commands.cooldown(1, 1.5, commands.BucketType.user)
-    async def greentext(self, ctx):
+    async def greentext(self, ctx: Ctx):
         """Sends a greentext from r/greentext"""
 
         do_nsfw = False
@@ -98,7 +99,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="comic")
     @commands.cooldown(1, 1.5, commands.BucketType.user)
-    async def comic(self, ctx):
+    async def comic(self, ctx: Ctx):
         """Sends a comic from r/comics"""
 
         do_nsfw = False
@@ -126,7 +127,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="cursed", aliases=["cursedmc"])
     @commands.cooldown(1, 1.5, commands.BucketType.user)
-    async def cursed_mc(self, ctx):
+    async def cursed_mc(self, ctx: Ctx):
         if random.choice((True, False)):
             meme = {"nsfw": True, "spoiler": True}
 
@@ -153,7 +154,7 @@ class Fun(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command(name="say")
-    async def say_text(self, ctx, *, text):
+    async def say_text(self, ctx: Ctx, *, text):
         """Sends whatever is put into the command"""
 
         nice = strip_command(ctx)
@@ -168,7 +169,7 @@ class Fun(commands.Cog):
         await ctx.send(nice)
 
     @commands.command(name="villagerspeak")
-    async def villager_speak(self, ctx, *, msg):
+    async def villager_speak(self, ctx: Ctx, *, msg):
         """Turns the given text into Minecraft villager sounds as text"""
 
         try:
@@ -178,7 +179,7 @@ class Fun(commands.Cog):
             await ctx.send_embed(ctx.l.fun.too_long)
 
     @commands.command(name="enchant")
-    async def enchant_lang(self, ctx, *, msg):
+    async def enchant_lang(self, ctx: Ctx, *, msg):
         """Turns regular text into the Minecraft enchantment table language"""
 
         try:
@@ -188,7 +189,7 @@ class Fun(commands.Cog):
             await ctx.send_embed(ctx.l.fun.too_long)
 
     @commands.command(name="unenchant")
-    async def unenchant_lang(self, ctx, *, msg):
+    async def unenchant_lang(self, ctx: Ctx, *, msg):
         """Turns the Minecraft enchantment table language back into regular text"""
 
         try:
@@ -198,7 +199,7 @@ class Fun(commands.Cog):
             await ctx.send_embed(ctx.l.fun.too_long)
 
     @commands.command(name="vaporwave")
-    async def vaporwave_text(self, ctx, *, msg):
+    async def vaporwave_text(self, ctx: Ctx, *, msg):
         """Turns regular text into vaporwave text"""
 
         try:
@@ -208,7 +209,7 @@ class Fun(commands.Cog):
             await ctx.send_embed(ctx.l.fun.too_long)
 
     @commands.command(name="sarcastic", aliases=["spongebob"])
-    async def sarcastic_text(self, ctx, *, msg):
+    async def sarcastic_text(self, ctx: Ctx, *, msg):
         """Turns regular text into "sarcastic" text from spongebob"""
 
         msg = strip_command(ctx)
@@ -228,7 +229,7 @@ class Fun(commands.Cog):
         await ctx.send(sarcastic)
 
     @commands.command(name="clap")
-    async def clap_cheeks(self, ctx, *, text):
+    async def clap_cheeks(self, ctx: Ctx, *, text):
         """Puts the :clap: emoji between words"""
 
         clapped = ":clap: " + " :clap: ".join((strip_command(ctx)).split(" ")) + " :clap:"
@@ -240,7 +241,7 @@ class Fun(commands.Cog):
         await ctx.send(clapped)
 
     @commands.command(name="emojify")
-    async def emojify(self, ctx, *, _text):
+    async def emojify(self, ctx: Ctx, *, _text):
         """Turns text or images into emojis"""
 
         stripped = (strip_command(ctx)).lower()
@@ -258,7 +259,7 @@ class Fun(commands.Cog):
             await ctx.send(text)
 
     @commands.command(name="owo", aliases=["owofy"])
-    async def owofy_text(self, ctx, *, text):
+    async def owofy_text(self, ctx: Ctx, *, text):
         """Make any text more cringe"""
 
         text = text.lower().replace("l", "w").replace("r", "w")
@@ -269,7 +270,7 @@ class Fun(commands.Cog):
             await ctx.send(f"{text} {random.choice(self.d.owos)}")
 
     @commands.command(name="bubblewrap", aliases=["pop"])
-    async def bubblewrap(self, ctx, size=None):
+    async def bubblewrap(self, ctx: Ctx, size=None):
         """Sends bubblewrap to the chat"""
 
         if size is None:
@@ -297,19 +298,19 @@ class Fun(commands.Cog):
         await ctx.send_embed(f"{bubble*size[0]}\n" * size[1])
 
     @commands.command(name="kill", aliases=["die", "kil", "dorito"])
-    async def kill_thing(self, ctx, *, thing: typing.Union[disnake.Member, str]):
+    async def kill_thing(self, ctx: Ctx, *, thing: typing.Union[disnake.Member, str]):
         if isinstance(thing, disnake.Member):
             thing = thing.mention
 
         await ctx.send_embed(random.choice(self.d.kills).format(thing[:500], ctx.author.mention))
 
     @commands.command(name="coinflip", aliases=["flipcoin", "cf"])
-    async def coin_flip(self, ctx):
+    async def coin_flip(self, ctx: Ctx):
         await ctx.send_embed(random.choice(("heads", "tails")))
 
     @commands.command(name="pat")
     @commands.guild_only()
-    async def pat(self, ctx, users: commands.Greedy[disnake.Member] = [], *, text: str = ""):
+    async def pat(self, ctx: Ctx, users: commands.Greedy[disnake.Member] = [], *, text: str = ""):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=pat")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
@@ -325,7 +326,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="slap")
     @commands.guild_only()
-    async def slap(self, ctx, users: commands.Greedy[disnake.Member] = [], *, text: str = ""):
+    async def slap(self, ctx: Ctx, users: commands.Greedy[disnake.Member] = [], *, text: str = ""):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=slap")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
@@ -341,7 +342,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="achievement", aliases=["mcachieve"])
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def minecraft_achievement(self, ctx, *, text):
+    async def minecraft_achievement(self, ctx: Ctx, *, text):
         url = f"https://api.iapetus11.me/mc/image/achievement/{urlquote(text[:26])}"
         embed = disnake.Embed(color=self.d.cc)
 
@@ -352,7 +353,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="splashtext", aliases=["mcsplash", "splashscreen", "splash"])
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def minecraft_splash_screen(self, ctx, *, text):
+    async def minecraft_splash_screen(self, ctx: Ctx, *, text):
         url = f"https://api.iapetus11.me/mc/image/splash/{urlquote(text[:27])}"
         embed = disnake.Embed(color=self.d.cc)
 
@@ -364,7 +365,7 @@ class Fun(commands.Cog):
     def calculate_trivia_reward(self, question_difficulty: int) -> int:
         return int((random.random() + 0.25) * (question_difficulty + 0.25) * 9) + 1
 
-    async def trivia_multiple_choice(self, ctx, question, do_reward):
+    async def trivia_multiple_choice(self, ctx: Ctx, question, do_reward):
         correct_choice = question.a[0]
 
         choices = question.a.copy()
@@ -433,7 +434,7 @@ class Fun(commands.Cog):
 
         await msg.edit(embed=embed)
 
-    async def trivia_true_or_false(self, ctx, question, do_reward):
+    async def trivia_true_or_false(self, ctx: Ctx, question, do_reward):
         correct_choice = question.a[0]
 
         embed = disnake.Embed(
@@ -497,7 +498,7 @@ class Fun(commands.Cog):
     @commands.command(name="trivia", aliases=["mctrivia"])
     @commands.guild_only()
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def minecraft_trivia(self, ctx):
+    async def minecraft_trivia(self, ctx: Ctx):
         do_reward = (await self.ipc.request({"type": PacketType.TRIVIA, "author": ctx.author.id})).do_reward
         question = random.choice(ctx.l.fun.trivia.questions)
 
@@ -507,7 +508,7 @@ class Fun(commands.Cog):
             await self.trivia_multiple_choice(ctx, question, do_reward)
 
     @commands.command(name="gayrate", aliases=["gaypercent"])
-    async def gay_rate(self, ctx, *, thing: typing.Union[disnake.Member, str] = None):
+    async def gay_rate(self, ctx: Ctx, *, thing: typing.Union[disnake.Member, str] = None):
         if thing is None:
             thing = ctx.author.mention
         elif isinstance(thing, disnake.Member):

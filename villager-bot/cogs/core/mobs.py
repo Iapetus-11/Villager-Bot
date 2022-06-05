@@ -9,6 +9,7 @@ import disnake
 from bot import VillagerBotCluster
 from disnake.ext import commands
 from util.misc import SuppressCtxManager, make_health_bar
+from util.ctx import Ctx
 
 
 class MobSpawner(commands.Cog):
@@ -19,7 +20,7 @@ class MobSpawner(commands.Cog):
         self.db = bot.get_cog("Database")
         self.ipc = bot.ipc
 
-    def engage_check(self, ctx):
+    def engage_check(self, ctx: Ctx):
         def _engage_check(m):
             if m.channel != ctx.channel:
                 return False
@@ -37,7 +38,7 @@ class MobSpawner(commands.Cog):
 
         return _engage_check
 
-    def attack_check(self, ctx, engage_msg):
+    def attack_check(self, ctx: Ctx, engage_msg):
         def _attack_check(m):
             if not (m.channel == engage_msg.channel and m.author == engage_msg.author):
                 return False
@@ -75,13 +76,13 @@ class MobSpawner(commands.Cog):
 
         return math.ceil(damage)
 
-    async def spawn_event(self, ctx):
+    async def spawn_event(self, ctx: Ctx):
         try:
             await self._spawn_event(ctx)
         except Exception:
             await self.bot.get_cog("Events").on_error("mob_spawn", ctx)
 
-    async def _spawn_event(self, ctx):
+    async def _spawn_event(self, ctx: Ctx):
         if ctx.guild is None:  # ignore dms
             return
 

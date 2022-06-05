@@ -13,6 +13,7 @@ from disnake.ext import commands
 from util.code import execute_code, format_exception
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager
+from util.ctx import Ctx
 
 
 class Owner(commands.Cog):
@@ -23,12 +24,12 @@ class Owner(commands.Cog):
         self.d = bot.d
         self.db = bot.get_cog("Database")
 
-    async def cog_before_invoke(self, ctx):
+    async def cog_before_invoke(self, ctx: Ctx):
         print(f"{ctx.author}: {ctx.message.content}")
 
     @commands.command(name="reload")
     @commands.is_owner()
-    async def reload_cog(self, ctx, cog: str):
+    async def reload_cog(self, ctx: Ctx, cog: str):
         res = await self.ipc.broadcast({"type": PacketType.EVAL, "code": f"bot.reload_extension('cogs.{cog}')"})
 
         for response in res.responses:
@@ -40,7 +41,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="reloaddata", aliases=["update", "updatedata"])
     @commands.is_owner()
-    async def update_data(self, ctx):
+    async def update_data(self, ctx: Ctx):
         """Reloads data from data.json and text from the translation files"""
 
         res = await self.ipc.broadcast({"type": PacketType.RELOAD_DATA})
@@ -56,7 +57,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="evallocal", aliases=["eval", "evall"])
     @commands.is_owner()
-    async def eval_stuff_local(self, ctx, *, stuff: str):
+    async def eval_stuff_local(self, ctx: Ctx, *, stuff: str):
         stuff = stuff.strip(" `\n")
 
         if stuff.startswith("py"):
@@ -78,7 +79,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="evalglobal", aliases=["evalall", "evalg"])
     @commands.is_owner()
-    async def eval_stuff_global(self, ctx, *, stuff: str):
+    async def eval_stuff_global(self, ctx: Ctx, *, stuff: str):
         stuff = stuff.strip(" `\n")
 
         if stuff.startswith("py"):
@@ -98,7 +99,7 @@ class Owner(commands.Cog):
     @commands.command(name="gitpull")
     @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
     @commands.is_owner()
-    async def gitpull(self, ctx):
+    async def gitpull(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             await self.bot.loop.run_in_executor(self.bot.tp, os.system, "git pull > git_pull_log 2>&1")
 
@@ -109,7 +110,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="lookup")
     @commands.is_owner()
-    async def lookup(self, ctx, user: Union[disnake.User, int]):
+    async def lookup(self, ctx: Ctx, user: Union[disnake.User, int]):
         if isinstance(user, disnake.User):
             uid = user.id
         else:
@@ -135,7 +136,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="setbal")
     @commands.is_owner()
-    async def set_user_bal(self, ctx, user: Union[disnake.User, int], balance: int):
+    async def set_user_bal(self, ctx: Ctx, user: Union[disnake.User, int], balance: int):
         if isinstance(user, disnake.User):
             uid = user.id
         else:
@@ -146,7 +147,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="botban")
     @commands.is_owner()
-    async def ban_user_from_bot(self, ctx, user: Union[disnake.User, int]):
+    async def ban_user_from_bot(self, ctx: Ctx, user: Union[disnake.User, int]):
         if isinstance(user, disnake.User):
             uid = user.id
         else:
@@ -159,7 +160,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="unbotban")
     @commands.is_owner()
-    async def unban_user_from_bot(self, ctx, user: Union[disnake.User, int]):
+    async def unban_user_from_bot(self, ctx: Ctx, user: Union[disnake.User, int]):
         if isinstance(user, disnake.User):
             uid = user.id
         else:
@@ -172,7 +173,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="givehistory", aliases=["transactions", "givelogs", "tradelogs"])
     @commands.is_owner()
-    async def transaction_history(self, ctx, user: Union[disnake.User, int]):
+    async def transaction_history(self, ctx: Ctx, user: Union[disnake.User, int]):
         if isinstance(user, disnake.User):
             uid = user.id
             username = str(user)

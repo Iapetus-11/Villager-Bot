@@ -11,6 +11,7 @@ from bot import VillagerBotCluster
 from disnake.ext import commands, tasks
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, parse_input_time
+from util.ctx import Ctx
 
 
 class BanCacheEntry:
@@ -54,7 +55,7 @@ class Useful(commands.Cog):
                     pass
 
     @commands.group(name="help", case_insensitive=True)
-    async def help(self, ctx):
+    async def help(self, ctx: Ctx):
         if ctx.invoked_subcommand is None:
             cmd = ctx.message.content.replace(f"{ctx.prefix}help ", "")
 
@@ -116,7 +117,7 @@ class Useful(commands.Cog):
             await ctx.reply(embed=embed, mention_author=False)
 
     @help.command(name="economy", aliases=["econ"])
-    async def help_economy(self, ctx):
+    async def help_economy(self, ctx: Ctx):
         embed = disnake.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.economy}]", icon_url=self.d.splash_logo)
@@ -128,7 +129,7 @@ class Useful(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @help.command(name="minecraft", aliases=["mc"])
-    async def help_minecraft(self, ctx):
+    async def help_minecraft(self, ctx: Ctx):
         embed = disnake.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]", icon_url=self.d.splash_logo)
@@ -140,7 +141,7 @@ class Useful(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @help.command(name="utility", aliases=["util", "useful"])
-    async def help_utility(self, ctx):
+    async def help_utility(self, ctx: Ctx):
         embed = disnake.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.utility}]", icon_url=self.d.splash_logo)
@@ -152,7 +153,7 @@ class Useful(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @help.command(name="fun")
-    async def help_fun(self, ctx):
+    async def help_fun(self, ctx: Ctx):
         embed = disnake.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.fun}]", icon_url=self.d.splash_logo)
@@ -164,7 +165,7 @@ class Useful(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
-    async def help_administrative(self, ctx):
+    async def help_administrative(self, ctx: Ctx):
         embed = disnake.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.admin}]", icon_url=self.d.splash_logo)
@@ -177,7 +178,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="credits")
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def credits(self, ctx):
+    async def credits(self, ctx: Ctx):
         embed_template = disnake.Embed(color=self.d.cc)
         embed_template.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
 
@@ -251,7 +252,7 @@ class Useful(commands.Cog):
             await asyncio.sleep(0.2)
 
     @commands.command(name="avatar", aliases=["av"])
-    async def member_avatar(self, ctx, member: disnake.Member = None):
+    async def member_avatar(self, ctx: Ctx, member: disnake.Member = None):
         user = member or ctx.author
         avatar_url = getattr(
             user.avatar,
@@ -265,7 +266,7 @@ class Useful(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="ping", aliases=["pong", "ding", "dong", "bing", "bong", "shing", "shling", "schlong"])
-    async def ping_pong(self, ctx):
+    async def ping_pong(self, ctx: Ctx):
         content = ctx.message.content.lower()
 
         if "ping" in content:
@@ -289,7 +290,7 @@ class Useful(commands.Cog):
         await ctx.reply_embed(f"{self.d.emojis.aniheart} {pp}! \uFEFF `{round(self.bot.latency*1000, 2)} ms`")
 
     @commands.command(name="vote", aliases=["votelink", "votelinks"])
-    async def votelinks(self, ctx):
+    async def votelinks(self, ctx: Ctx):
         embed = disnake.Embed(color=self.d.cc)
         embed.set_author(name="Vote for Villager Bot!", icon_url=self.d.splash_logo)
 
@@ -298,7 +299,7 @@ class Useful(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="links", aliases=["invite", "support", "usefullinks", "website", "source", "privacypolicy"])
-    async def useful_links(self, ctx):
+    async def useful_links(self, ctx: Ctx):
         embed = disnake.Embed(color=self.d.cc)
         embed.set_author(name="Useful Links", icon_url=self.d.splash_logo)
 
@@ -313,7 +314,7 @@ class Useful(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="stats", aliases=["bs"])
-    async def stats(self, ctx):
+    async def stats(self, ctx: Ctx):
         with suppress(Exception):
             await ctx.trigger_typing()
 
@@ -374,7 +375,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="serverinfo", aliases=["server", "guild", "guildinfo"])
     @commands.guild_only()
-    async def server_info(self, ctx, *, guild: disnake.Guild = None):
+    async def server_info(self, ctx: Ctx, *, guild: disnake.Guild = None):
         with suppress(Exception):
             await ctx.trigger_typing()
 
@@ -445,7 +446,7 @@ class Useful(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="rules", aliases=["botrules"])
-    async def rules(self, ctx):
+    async def rules(self, ctx: Ctx):
         embed = disnake.Embed(color=self.d.cc, description=ctx.l.useful.rules.penalty)
 
         embed.set_author(name=ctx.l.useful.rules.rules, icon_url=self.d.splash_logo)
@@ -462,7 +463,7 @@ class Useful(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="math", aliases=["solve", "meth"])
-    async def math(self, ctx, *, problem):
+    async def math(self, ctx: Ctx, *, problem):
         async with SuppressCtxManager(ctx.typing()):
             try:
                 resp = await self.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
@@ -472,7 +473,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="google", aliases=["thegoogle", "gewgle"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def google_search(self, ctx, *, query):
+    async def google_search(self, ctx: Ctx, *, query):
         safesearch = True
         if isinstance(ctx.channel, disnake.TextChannel):
             safesearch = not ctx.channel.is_nsfw()
@@ -498,7 +499,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="youtube", aliases=["ytsearch", "yt"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def youtube_search(self, ctx, *, query):
+    async def youtube_search(self, ctx: Ctx, *, query):
         safesearch = True
         if isinstance(ctx.channel, disnake.TextChannel):
             safesearch = not ctx.channel.is_nsfw()
@@ -525,7 +526,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="image", aliases=["imagesearch", "img"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def image_search(self, ctx, *, query):
+    async def image_search(self, ctx: Ctx, *, query):
         safesearch = True
         if isinstance(ctx.channel, disnake.TextChannel):
             safesearch = not ctx.channel.is_nsfw()
@@ -556,7 +557,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="remindme", aliases=["remind"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def remind_me(self, ctx, *args: str):
+    async def remind_me(self, ctx: Ctx, *args: str):
         user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
 
         if user_reminder_count > 5:
@@ -583,7 +584,7 @@ class Useful(commands.Cog):
         await ctx.reply_embed(ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
 
     @commands.command(name="snipe")
-    async def snipe_message(self, ctx):
+    async def snipe_message(self, ctx: Ctx):
         snipe = self.snipes.pop(ctx.channel.id, None)
 
         if snipe is None:
@@ -599,7 +600,7 @@ class Useful(commands.Cog):
 
     # @commands.command(name="downloadredditvideo", aliases=["dlreddit", "redditdl", "vredditdl", "dlredditvideo"])
     # @commands.cooldown(1, 2, commands.BucketType.user)
-    # async def reddit_media_download(self, ctx, post_url: str):
+    # async def reddit_media_download(self, ctx: Ctx, post_url: str):
     #     if not post_url.startswith("https://www.reddit.com/r/"):
     #         await ctx.reply_embed(ctx.l.useful.vredditdl.invalid_url)
     #         return
