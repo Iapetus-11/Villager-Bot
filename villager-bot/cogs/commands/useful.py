@@ -573,7 +573,13 @@ class Useful(commands.Cog):
             await ctx.reply_embed(ctx.l.useful.remind.time_max)
             return
 
-        await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, rest[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"), at.datetime)
+        await self.db.add_reminder(
+            ctx.author.id,
+            ctx.channel.id,
+            ctx.message.id,
+            rest[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"),
+            at.datetime,
+        )
         await ctx.reply_embed(ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
 
     @commands.command(name="snipe")

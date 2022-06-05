@@ -4,11 +4,11 @@ import time
 from collections import defaultdict
 from contextlib import suppress
 from typing import List, Tuple
-from disnake.ext import commands
-import arrow
 
+import arrow
 import classyjson as cj
 import disnake
+from disnake.ext import commands
 from util.code import format_exception
 from util.ipc import PacketType
 
