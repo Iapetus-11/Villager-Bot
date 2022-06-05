@@ -1532,9 +1532,9 @@ class Econ(commands.Cog):
             return
 
         if bees > 32768:
-            bees = max(32768//10, bees/20)
+            bees = max(32768 // 10, bees / 20)
         elif bees > 1024:
-            bees = max(1024, bees/10)
+            bees = max(1024, bees / 10)
 
         jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
         await self.db.add_item(ctx.author.id, "Honey Jar", 1, jars)
@@ -1889,7 +1889,9 @@ class Econ(commands.Cog):
 
         for r in records:
             # amount of crop harvested
-            amount = sum(random.randint(*self.d.farming.crop_yields[r["crop_type"]]) for _ in range(r["count"])) + random.randint(*extra_yield)
+            amount = sum(
+                random.randint(*self.d.farming.crop_yields[r["crop_type"]]) for _ in range(r["count"])
+            ) + random.randint(*extra_yield)
 
             await self.db.add_item(
                 ctx.author.id,
