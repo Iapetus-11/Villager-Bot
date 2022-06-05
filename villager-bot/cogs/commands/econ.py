@@ -1532,15 +1532,16 @@ class Econ(commands.Cog):
             ctx.command.reset_cooldown(ctx)
             return
 
-        if bees > 32768:
-            bees = max(32768 // 7, bees // 14)
-        elif bees > 1024:
-            bees = max(1024, bees // 7)
+        # https://www.desmos.com/calculator/radpbfvgsp
+        if bees >= 32768:
+            bees = (bees + 1024 * 103.725) // 25
+        elif bees >= 1024:
+            bees = (bees + 1024 * 6) // 7
 
         jars = bees - random.randint(math.ceil(bees / 6), math.ceil(bees / 2))
         await self.db.add_item(ctx.author.id, "Honey Jar", 1, jars)
 
-        await ctx.reply_embed(random.choice(ctx.l.econ.honey.honey).format(jars))  # uwu so sticky oWo
+        await ctx.reply_embed(random.choice(ctx.l.econ.honey.honey).format(jars))
 
         # see if user has chugged a luck potion
         lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]")).result
