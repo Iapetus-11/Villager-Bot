@@ -10,7 +10,7 @@ import psutil
 from bot import VillagerBotCluster
 from disnake.ext import commands, tasks
 from util.ipc import PacketType
-from util.misc import SuppressCtxManager
+from util.misc import SuppressCtxManager, parse_input_time
 
 
 class BanCacheEntry:
@@ -556,49 +556,16 @@ class Useful(commands.Cog):
 
     @commands.command(name="remindme", aliases=["remind"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def remind_me(self, ctx, *, args: str):
+    async def remind_me(self, ctx, *args: str):
         user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
 
         if user_reminder_count > 5:
             await ctx.reply_embed(ctx.l.useful.remind.reminder_max)
             return
 
-        args = ctx.message.clean_content[len(f"{ctx.prefix}{ctx.invoked_with} ") :].split()
-        at = arrow.utcnow()
-        i = 0
+        success, at, rest = parse_input_time(args)
 
-        try:
-            for i, arg in enumerate(args):
-                if arg.endswith("m"):
-                    at = at.shift(minutes=int(arg[:-1]))
-                elif arg.endswith("minute"):
-                    at = at.shift(minutes=int(arg[:-6]))
-                elif arg.endswith("minutes"):
-                    at = at.shift(minutes=int(arg[:-7]))
-                elif arg.endswith("h"):
-                    at = at.shift(hours=int(arg[:-1]))
-                elif arg.endswith("hour"):
-                    at = at.shift(hours=int(arg[:-4]))
-                elif arg.endswith("hours"):
-                    at = at.shift(hours=int(arg[:-5]))
-                elif arg.endswith("d"):
-                    at = at.shift(days=int(arg[:-1]))
-                elif arg.endswith("day"):
-                    at = at.shift(days=int(arg[:-3]))
-                elif arg.endswith("days"):
-                    at = at.shift(days=int(arg[:-4]))
-                elif arg.endswith("w"):
-                    at = at.shift(weeks=int(arg[:-1]))
-                elif arg.endswith("week"):
-                    at = at.shift(weeks=int(arg[:-4]))
-                elif arg.endswith("weeks"):
-                    at = at.shift(weeks=int(arg[:-5]))
-                else:
-                    break
-        except ValueError:
-            pass
-
-        if i == 0:
+        if not success:
             await ctx.reply_embed(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
             return
 
@@ -606,7 +573,7 @@ class Useful(commands.Cog):
             await ctx.reply_embed(ctx.l.useful.remind.time_max)
             return
 
-        await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, " ".join(args[i:])[:499], at.datetime)
+        await self.db.add_reminder(ctx.author.id, ctx.channel.id, ctx.message.id, rest[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"), at.datetime)
         await ctx.reply_embed(ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
 
     @commands.command(name="snipe")

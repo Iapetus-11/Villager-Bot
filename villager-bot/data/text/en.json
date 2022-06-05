@@ -1528,6 +1528,8 @@
       },
       "mute": {
         "stupid_1": "You cannot mute yourself.",
+        "stupid_2": "You used invalid formatting, example: `{0}mute @someone 1w 2d 3h 4m this is the reason` will timeout someone for one week, two days, three hours, and four minutes.",
+        "stupid_3": "That's too far in the future!",
         "mute_msg": "**{}** has been muted."
       },
       "unmute": {

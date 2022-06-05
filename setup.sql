@@ -73,11 +73,6 @@ CREATE TABLE IF NOT EXISTS farm_plots (
   grow_time          INTERVAL
 );
 
-CREATE TABLE IF NOT EXISTS muted_users (
-  user_id            BIGINT NOT NULL,
-  guild_id           BIGINT NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS give_logs (
   item               VARCHAR(250) NOT NULL, -- item traded / given, "emerald" for emeralds
   amount             BIGINT NOT NULL, -- the amount of the item
@@ -117,9 +112,3 @@ CREATE TABLE IF NOT EXISTS filtered_words (
   guild_id           BIGINT NOT NULL,
   word               VARCHAR
 );
-
--- CREATE TABLE IF NOT EXISTS user_roles (
---   user_id            BIGINT NOT NULL, -- the discord user id / snowflake
---   guild_id           BIGINT NOT NULL, -- the guild id for the user's roles
---   roles              BIGINT[] NOT NULL DEFAULT ARRAY[]::BIGINT[] -- the user's roles at the time they left
--- );

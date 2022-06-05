@@ -3,6 +3,9 @@ import math
 import time
 from collections import defaultdict
 from contextlib import suppress
+from typing import List, Tuple
+from disnake.ext import commands
+import arrow
 
 import classyjson as cj
 import disnake
@@ -226,3 +229,44 @@ class MultiLock:
 
     def locked(self, ids: list) -> bool:
         return any([self._locks[i].locked() for i in ids])
+
+
+def parse_input_time(args: List[str]) -> Tuple[bool, arrow.Arrow, str]:
+    at = arrow.utcnow()
+    i = 0
+
+    try:
+        for i, arg in enumerate(args):
+            if arg.endswith("m"):
+                at = at.shift(minutes=int(arg[:-1]))
+            elif arg.endswith("minute"):
+                at = at.shift(minutes=int(arg[:-6]))
+            elif arg.endswith("minutes"):
+                at = at.shift(minutes=int(arg[:-7]))
+            elif arg.endswith("h"):
+                at = at.shift(hours=int(arg[:-1]))
+            elif arg.endswith("hour"):
+                at = at.shift(hours=int(arg[:-4]))
+            elif arg.endswith("hours"):
+                at = at.shift(hours=int(arg[:-5]))
+            elif arg.endswith("d"):
+                at = at.shift(days=int(arg[:-1]))
+            elif arg.endswith("day"):
+                at = at.shift(days=int(arg[:-3]))
+            elif arg.endswith("days"):
+                at = at.shift(days=int(arg[:-4]))
+            elif arg.endswith("w"):
+                at = at.shift(weeks=int(arg[:-1]))
+            elif arg.endswith("week"):
+                at = at.shift(weeks=int(arg[:-4]))
+            elif arg.endswith("weeks"):
+                at = at.shift(weeks=int(arg[:-5]))
+            else:
+                break
+    except ValueError:
+        pass
+
+    if i == 0:
+        return (False, at, " ".join(args[i:]))
+
+    return (True, at, " ".join(args[i:]))

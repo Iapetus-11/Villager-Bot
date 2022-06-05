@@ -1,10 +1,11 @@
 import asyncio
 from typing import Union
+import arrow
 
 import disnake
 from bot import VillagerBotCluster
 from disnake.ext import commands
-from util.misc import SuppressCtxManager
+from util.misc import SuppressCtxManager, parse_input_time
 
 
 class Mod(commands.Cog):
@@ -218,7 +219,7 @@ class Mod(commands.Cog):
     @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu"])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
-    async def mute(self, ctx, victim: disnake.Member):
+    async def mute(self, ctx, victim: disnake.Member, *args: str):
         if ctx.author == victim:
             await ctx.reply_embed(ctx.l.mod.mute.stupid_1)
             return
@@ -227,24 +228,19 @@ class Mod(commands.Cog):
             await ctx.reply_embed(ctx.l.mod.no_perms)
             return
 
-        if disnake.utils.get(ctx.guild.roles, name="Muted") is None:  # check if role exists
-            await ctx.guild.create_role(
-                name="Muted", permissions=disnake.Permissions(send_messages=False, add_reactions=False)
-            )
+        success, at, rest = parse_input_time(args)
 
-        # fetch role
-        mute = disnake.utils.get(ctx.guild.roles, name="Muted")
-        if mute is None:
-            mute = disnake.utils.get(await ctx.guild.fetch_roles(), name="Muted")
+        if not success:
+            await ctx.reply_embed(ctx.l.mod.mute.stupid_2)
+            return
 
-        async with SuppressCtxManager(ctx.typing()):
-            for channel in ctx.guild.text_channels:  # fix perms for channels
-                if mute not in channel.overwrites:
-                    await channel.set_permissions(mute, send_messages=False, add_reactions=False)
+        if at > arrow.utcnow().shift(days=27):
+            await ctx.reply_embed(ctx.l.mod.mute.stupid_3)
+            return
 
-        await victim.add_roles(mute)
-        await self.db.mute_user(victim.id, ctx.guild.id)
-        await ctx.reply_embed(ctx.l.mod.mute.mute_msg.format(victim))
+        await victim.timeout(duration=(at - arrow.utcnow()), reason=f"{ctx.author} | {rest}")
+
+        await ctx.reply_embed(ctx.l.mod.mute.mute_msg.format(victim.mention))
 
     @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu"])
     @commands.guild_only()
@@ -258,14 +254,13 @@ class Mod(commands.Cog):
             await ctx.reply_embed(ctx.l.mod.no_perms)
             return
 
-        mute = disnake.utils.get(user.roles, name="Muted")
+        if user.current_timeout is None:
+            await ctx.reply_embed(ctx.l.mod.unmute.stupid_2.format(user.mention))
+            return
 
-        if mute:
-            await user.remove_roles(mute)
-            await self.db.unmute_user(user.id, ctx.guild.id)
-            await ctx.reply_embed(ctx.l.mod.unmute.unmute_msg.format(user))
-        else:
-            await ctx.reply_embed(ctx.l.mod.unmute.stupid_2.format(user))
+        await user.timeout(duration=None, reason=str(ctx.author))
+
+        await ctx.reply_embed(ctx.l.mod.unmute.unmute_msg.format(user.mention))
 
 
 def setup(bot):

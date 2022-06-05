@@ -21,6 +21,7 @@ def villager_bot_intents() -> disnake.Intents:
         messages=True,
         reactions=True,
         typing=False,
+        message_content=True,
     )
 
 
