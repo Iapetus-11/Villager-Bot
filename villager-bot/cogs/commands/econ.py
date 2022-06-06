@@ -1815,9 +1815,7 @@ class Econ(commands.Cog):
                 ),
             )
 
-        embed = disnake.Embed(
-            color=self.d.cc, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} ")
-        )
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1922,7 +1920,7 @@ class Econ(commands.Cog):
 
         user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
         user_bees = 0 if user_bees is None else user_bees["amount"]
-        extra_yield = [0, int(max(0, 3 * math.log10(user_bees / 1000 + .0001) + 9))]
+        extra_yield = [0, int(max(0, 3 * math.log10(user_bees / 1000 + 0.0001) + 9))]
 
         amounts_harvested: DefaultDict[str, int] = defaultdict(int)
 
@@ -1963,8 +1961,13 @@ class Econ(commands.Cog):
         if len(items) == 0:
             embed.description = ctx.l.econ.trash.no_trash
         else:
-            items_formatted = "\n".join([f"> `{item['amount']}x` {item['item']} ({float(item['amount']) * item['value']:0.02f}{self.d.emojis.emerald})" for item in items])
-            total_ems = sum([float(item['amount']) * item['value'] for item in items])
+            items_formatted = "\n".join(
+                [
+                    f"> `{item['amount']}x` {item['item']} ({float(item['amount']) * item['value']:0.02f}{self.d.emojis.emerald})"
+                    for item in items
+                ]
+            )
+            total_ems = sum([float(item["amount"]) * item["value"] for item in items])
 
             embed.description = (
                 ctx.l.econ.trash.total_contents.format(ems=round(total_ems, 2), ems_emoji=self.d.emojis.emerald)
@@ -1985,6 +1988,7 @@ class Econ(commands.Cog):
         await self.db.update_lb(ctx.author.id, "trash_emptied", amount)
 
         await ctx.reply_embed(ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald))
+
 
 def setup(bot):
     bot.add_cog(Econ(bot))

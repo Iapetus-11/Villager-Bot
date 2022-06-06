@@ -7,10 +7,10 @@ import time
 import classyjson as cj
 import disnake
 from bot import VillagerBotCluster
+from cogs.core.database import Database
 from disnake.ext import commands
 from util.ctx import Ctx
 from util.misc import SuppressCtxManager, make_health_bar
-from cogs.core.database import Database
 
 
 class MobSpawner(commands.Cog):
@@ -115,7 +115,9 @@ class MobSpawner(commands.Cog):
         # get the user who is going to be attacking the mob
         while True:
             try:
-                initial_attack_msg: disnake.Message = await self.bot.wait_for("message", check=self.engage_check(ctx), timeout=15)
+                initial_attack_msg: disnake.Message = await self.bot.wait_for(
+                    "message", check=self.engage_check(ctx), timeout=15
+                )
             except asyncio.TimeoutError:
                 await engage_msg.edit(suppress_embeds=True)
                 return

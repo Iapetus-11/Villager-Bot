@@ -559,13 +559,20 @@ class Database(commands.Cog):
         await self.db.execute("UPDATE farm_plots SET planted_at = planted_at - INTERVAL '1 DAY' WHERE user_id = $1", user_id)
 
     async def add_to_trashcan(self, user_id: int, item: str, value: float, amount: int) -> None:
-        await self.db.execute("INSERT INTO trash_can (user_id, item, value, amount) VALUES ($1, $2, $3, $4)", user_id, item, value, amount)
+        await self.db.execute(
+            "INSERT INTO trash_can (user_id, item, value, amount) VALUES ($1, $2, $3, $4)", user_id, item, value, amount
+        )
 
     async def fetch_trashcan(self, user_id: int) -> List[asyncpg.Record]:
-        return await self.db.fetch("SELECT item, value, SUM(amount) AS amount FROM trash_can WHERE user_id = $1 GROUP BY item, value", user_id)
+        return await self.db.fetch(
+            "SELECT item, value, SUM(amount) AS amount FROM trash_can WHERE user_id = $1 GROUP BY item, value", user_id
+        )
 
     async def empty_trashcan(self, user_id: int) -> Tuple[float, int]:
-        trashcan = await self.db.fetchrow("SELECT COALESCE(SUM(value * amount), 0) AS total_value, SUM(amount) AS amount FROM trash_can WHERE user_id = $1", user_id)
+        trashcan = await self.db.fetchrow(
+            "SELECT COALESCE(SUM(value * amount), 0) AS total_value, SUM(amount) AS amount FROM trash_can WHERE user_id = $1",
+            user_id,
+        )
         await self.db.execute("DELETE FROM trash_can WHERE user_id = $1", user_id)
         return (float(trashcan["total_value"]), int(trashcan["amount"]))
 
