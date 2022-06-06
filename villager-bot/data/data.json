@@ -1066,6 +1066,7 @@
     "pride_flag": "🏳️‍🌈",
     "bone_meal": "<:bone_meal:983056520080130079>",
     "diamond": "<:diamond:827017062291210271>",
+    "recycle": "♻️",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1241,7 +1242,8 @@
     "A Literal Rainbow": "rainbow",
     "Bone Meal": "bone_meal",
     "Rainbow Lego Stud": "rainbow_stud",
-    "Morbius": "morbius"
+    "Morbius": "morbius",
+    "Recycler": "recycle"
   },
   "farming": {
     "emojis": {
