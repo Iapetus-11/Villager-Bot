@@ -74,6 +74,8 @@
         "give": "`{0}give <utilisateur> <quantité> <objet>` *donne un objet ou des émeraudes à un utilisateur*",
         "mine": "`{0}mine` *mine des émeraudes*",
         "fish": "`{0}fish` *pêcher des poissons ou des objets*",
+        "farm": "`{0}farm` *planter et récolter des cultures vaut des émeraudes*",
+        "trash": "`{0}trash` *voir les objets inutiles que vous extrayez*",
         "search": "`{0}search` *cherche des émeraudes*",
         "honey": "`{0}honey` *récolte le miel de tes abeilles*",
         "gamble": "`{0}gamble <émeraudes>` *parie avec le bot pour tenter de gagner des émeraudes*",
@@ -1526,6 +1528,8 @@
       },
       "mute": {
         "stupid_1": "Tu ne peux pas te rendre muet",
+        "stupid_2": "Vous avez utilisé un formatage invalide, exemple: `{0}mute @someone 1w 2d 3h 4m voici la raison` banera temporairement quelqu'un pendant une semaine, deux jours, trois heures, et quatre minutes.",
+        "stupid_3": "C'est trop loin dans le futur!",
         "mute_msg": "**{}** a été rendu muet."
       },
       "unmute": {
@@ -1742,6 +1746,7 @@
           "magic": "magie",
           "fish": "poissons",
           "misc": "divers",
+          "farming": "agriculture",
           "all": "tout"
         },
         "empty": "*C'est plutôt vide là-dedans  ...*"
@@ -1763,8 +1768,8 @@
         "villager_shop": "Magasin du Villager",
         "tools": "{} Outils",
         "magic": "{} Magie",
+        "farming": "{} Agriculture",
         "other": "{} Autre",
-        "fish": "{} Fish",
         "embed_footer": "Utilise {}inventory pour voir ce que tu possèdes !"
       },
       "buy": {
@@ -1954,6 +1959,7 @@
         "vault_max": "Tu ne peux plus agrandir ton coffre de cette manière.",
         "vault_pot": "Tu as descendu une **Vault Potion**. Ton coffre s'est agrandi de {} emplacements.",
         "smoke_seaweed": "Tu as mangé des **Seaweed** dont les effets durent **{} minutes**",
+        "use_bonemeal": "Vous avez utilisé de la Boudre d'Os sur vos cultures, les faisant pousser!",
         "seaweed_done": "Les effets des **Seaweed** que tu as mangés plus tôt se sont dissipés.",
         "chug": "Tu as bu une **{}** (L'effet dure {} minutes)",
         "chug_no_end": "Tu as avalé **{}**",
@@ -1991,6 +1997,21 @@
           "Tu enrôles des pillards pour t'aider à ouvrir le baril contenant {}{}!"
         ]
       },
+      "farm": {
+        "s_farm": "{user}'s Ferme",
+        "commands_title": "Commandes De Ferme",
+        "commands": {
+          "plant": "`{prefix}farm plant` - plante l'objet",
+          "harvest": "`{prefix}farm harvest` - récolte toutes les cultures prêtes"
+        },
+        "available": "Disponible à la récolte: {available}/{max}",
+        "cant_plant": "Vous ne pouvez pas planter cet objet.",
+        "no_plots": "Toutes vos parcelles de ferme sont pleines, une meilleure houe vous en donnera plus!",
+        "no_plots_2": "Vous n'avez pas assez de parcelles agricoles pour cela!",
+        "planted": "Planté {amount}x {crop}",
+        "cant_harvest": "Il n'y a pas de cultures prêtes à récolter...",
+        "harvested": "Récolté {crops}"
+      },
       "honey": {
         "stupid_1": [
           "Tu n'as pas assez d'abeilles pour rendre ce choix commercial viable .",
@@ -2019,6 +2040,8 @@
         "votes": "Série de votes",
         "fish": "Poissons pêchés",
         "mooderalds": "Mooderalds",
+        "farming": "Culture plantée",
+        "trash": "Poubelle vidée",
         "lb_ems": "{0}__**Leaderboard d'émeraudes**__{0}",
         "lb_pil": "{0}__**Leaderboard d'émeraudes volés**__{0}",
         "lb_kil": "{0}__**Leaderboard des monstres tués**__{0}",
@@ -2026,7 +2049,16 @@
         "lb_cmds": "{0}__**Leaderboard des commandes envoyées**__{0}",
         "lb_votes": "{0}__**Leaderboard des séries de votes**__{0}",
         "lb_fish": "{0}__**Leaderboard des poissons pêchés**__{0}",
-        "lb_moods": "{0}__**Mooderald Leaderboard**__{0}"
+        "lb_moods": "{0}__**Leaderboard d'mooderald**__{0}",
+        "lb_farming": "{0}__**Leaderboard des cultures plantées**__{0}",
+        "lb_trash": "{0}__**Classement des poubelles vidées**__{0}"
+      },
+      "trash": {
+        "s_trash": "Poubelle de {user}",
+        "no_trash": "Il n'y a pas de déchets ici... :/",
+        "total_contents": "Le contenu total vaut {ems}{ems_emoji}",
+        "how_to_empty": "Utilisez `{prefix}trashcan empty` vider la corbeille!",
+        "emptied_for": "Vous avez vidé votre poubelle pour {ems}{ems_emoji}"
       }
     }
   }

@@ -75,6 +75,7 @@
         "mine": "`{0}mine` *minerar esmeraldas*",
         "fish": "`{0}fish` *pesca peixes e itens*",
         "farm": "`{0}farm` *plantar e colher plantações que valem esmeraldas*",
+        "trash": "`{0}trash` *vê os itens inúteis que você minera*",
         "search": "`{0}search` *procura por esmeraldas*",
         "honey": "`{0}honey` *colhe mel das abelhas que você possui*",
         "gamble": "`{0}gamble <esmeraldas>` *aposte com o bot por uma chance de ganhar esmeraldas*",
@@ -2042,6 +2043,7 @@
         "fish": "Peixes Pescados",
         "mooderalds": "Mooderalds",
         "farming": "Culturas Plantadas",
+        "trash": "Lixo Esvaziado",
         "lb_ems": "{0}__**Tabela de Classificação de Esmeraldas**__{0}",
         "lb_pil": "{0}__**Tabela de Classificação de Esmeraldas Roubadas**__{0}",
         "lb_kil": "{0}__**Tabela de Classificação de Monstros Mortos**__{0}",
@@ -2050,7 +2052,15 @@
         "lb_votes": "{0}__**Tabela de Classificação de Sequência de Votos**__{0}",
         "lb_fish": "{0}__**Tabela de Classificação de Peixes Pescados**__{0}",
         "lb_moods": "{0}__**Tabela de Classificação de Mooderald**__{0}",
-        "lb_farming": "{0}__**Classificação de Culturas Plantadas**__{0}"
+        "lb_farming": "{0}__**Classificação de Culturas Plantadas**__{0}",
+        "lb_trash": "{0}__**Classificação de Lixo Esvaziado**__{0}"
+      },
+      "trash": {
+        "s_trash": "Lixeira de {user}",
+        "no_trash": "Não há lixo aqui... :/",
+        "total_contents": "Todo o conteúdo vale {ems}{ems_emoji}",
+        "how_to_empty": "Use `{prefix}trashcan empty` para esvaziar sua lixeira!",
+        "emptied_for": "Você esvaziou sua lixeira por {ems}{ems_emoji}"
       }
     }
   }
