@@ -29,6 +29,13 @@ CREATE TABLE IF NOT EXISTS items (
   sellable           BOOLEAN NOT NULL -- whether the item can be sold to the bot
 );
 
+CREATE TABLE IF NOT EXISTS trash_can (
+  user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
+  item               VARCHAR(50) NOT NULL, -- name of item,
+  value              FLOAT NOT NULL,
+  amount             BIGINT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS badges (
   user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE,
   code_helper        BOOLEAN NOT NULL DEFAULT false,
@@ -52,7 +59,8 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
   mobs_killed        BIGINT NOT NULL DEFAULT 0, -- number of mobs killed
   fish_fished        BIGINT NOT NULL DEFAULT 0, -- fishies fished
   commands           BIGINT NOT NULL DEFAULT 0, -- not super accurate as commands are cached for speed
-  crops_planted      BIGINT NOT NULL DEFAULT 0
+  crops_planted      BIGINT NOT NULL DEFAULT 0,
+  trash_emptied      BIGINT NOT NULL DEFAULT 0
 );
 
 -- CREATE TABLE IF NOT EXISTS pets (

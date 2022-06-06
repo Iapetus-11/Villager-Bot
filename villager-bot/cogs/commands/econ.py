@@ -1108,16 +1108,22 @@ class Econ(commands.Cog):
             # only works cause num of pickaxes is 6 and levels of fake finds is 3
             fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe) / 2)]
 
+            find = random.choice(fake_finds)
+            find_amount = random.randint(1, 6)
+
+            await self.db.add_to_trashcan(ctx.author.id, find, self.d.mining.find_values[find], find_amount)
+
             await ctx.reply_embed(
                 f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
                 + ctx.l.econ.mine.found_item_2.format(
                     random.choice(ctx.l.econ.mine.actions),
-                    random.randint(1, 6),
+                    find_amount,
                     random.choice(ctx.l.econ.mine.useless),
-                    random.choice(fake_finds),
+                    find,
                 ),
             )
 
+        # rng increase vault space
         if random.randint(0, 50) == 1 or (lucky and random.randint(1, 25) == 1):
             db_user = await self.db.fetch_user(ctx.author.id)
             if db_user["vault_max"] < 2000:
@@ -1786,6 +1792,37 @@ class Econ(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
+    @leaderboards.command(name="trash", aliases=["trashcan"])
+    async def leaderboard_trash(self, ctx: Ctx):
+        async with SuppressCtxManager(ctx.typing()):
+            trash_global, global_u_entry = await self.db.fetch_global_lb("trash_emptied", ctx.author.id)
+            trash_local, local_u_entry = await self.db.fetch_local_lb(
+                "trash_emptied", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            )
+
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(
+                    self.bot,
+                    trash_global,
+                    global_u_entry,
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
+                ),
+                lb_logic(
+                    self.bot,
+                    trash_local,
+                    local_u_entry,
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
+                ),
+            )
+
+        embed = disnake.Embed(
+            color=self.d.cc, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} ")
+        )
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
+        await ctx.reply(embed=embed, mention_author=False)
+
     @commands.group(name="farm", case_insensitive=True)
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def farm(self, ctx: Ctx):
@@ -1885,7 +1922,7 @@ class Econ(commands.Cog):
 
         user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
         user_bees = 0 if user_bees is None else user_bees["amount"]
-        extra_yield = [0, int(max(0, 3 * math.log10(user_bees / 1000)))]
+        extra_yield = [0, int(max(0, 3 * math.log10(user_bees / 1000 + .0001) + 9))]
 
         amounts_harvested: DefaultDict[str, int] = defaultdict(int)
 
@@ -1910,6 +1947,44 @@ class Econ(commands.Cog):
 
         await ctx.reply_embed(ctx.l.econ.farm.harvested.format(crops=harvest_str))
 
+    @commands.group(name="trashcan", aliases=["trash", "garbage"])
+    async def trashcan(self, ctx: Ctx):
+        if ctx.invoked_subcommand:
+            return
+
+        embed = disnake.Embed(color=self.d.cc)
+        embed.set_author(
+            name=ctx.l.econ.trash.s_trash.format(user=ctx.author.display_name),
+            icon_url=getattr(ctx.author.avatar, "url", embed.Empty),
+        )
+
+        items = await self.db.fetch_trashcan(ctx.author.id)
+
+        if len(items) == 0:
+            embed.description = ctx.l.econ.trash.no_trash
+        else:
+            items_formatted = "\n".join([f"> `{item['amount']}x` {item['item']} ({float(item['amount']) * item['value']:0.02f}{self.d.emojis.emerald})" for item in items])
+            total_ems = sum([float(item['amount']) * item['value'] for item in items])
+
+            embed.description = (
+                ctx.l.econ.trash.total_contents.format(ems=round(total_ems, 2), ems_emoji=self.d.emojis.emerald)
+                + f"\n\n{items_formatted}\n\n"
+                + ctx.l.econ.trash.how_to_empty.format(prefix=ctx.prefix)
+            )
+
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @trashcan.command(name="empty")
+    async def trashcan_empty(self, ctx: Ctx):
+        total_ems, amount = await self.db.empty_trashcan(ctx.author.id)
+
+        total_ems = math.floor(total_ems)
+
+        await self.db.balance_add(ctx.author.id, total_ems)
+
+        await self.db.update_lb(ctx.author.id, "trash_emptied", amount)
+
+        await ctx.reply_embed(ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald))
 
 def setup(bot):
     bot.add_cog(Econ(bot))

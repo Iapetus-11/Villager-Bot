@@ -2,7 +2,7 @@ import asyncio
 from collections import defaultdict
 from contextlib import suppress
 from datetime import datetime
-from typing import List, Set
+from typing import List, Set, Tuple
 
 import asyncpg
 from bot import VillagerBotCluster
@@ -314,6 +314,9 @@ class Database(commands.Cog):
             self.d.rpt_ignore,
         )
 
+        await self.db.execute("DELETE FROM trash_can WHERE user_id = $1", user_id)
+        await self.db.execute("DELETE FROM farm_plots WHERE user_id = $1", user_id)
+
     async def fetch_user_lb(self, user_id: int) -> None:  # idk why this exists
         lbs = await self.db.fetchrow("SELECT * FROM leaderboards WHERE user_id = $1", user_id)
 
@@ -554,6 +557,17 @@ class Database(commands.Cog):
 
     async def use_bonemeal(self, user_id: int) -> None:
         await self.db.execute("UPDATE farm_plots SET planted_at = planted_at - INTERVAL '1 DAY' WHERE user_id = $1", user_id)
+
+    async def add_to_trashcan(self, user_id: int, item: str, value: float, amount: int) -> None:
+        await self.db.execute("INSERT INTO trash_can (user_id, item, value, amount) VALUES ($1, $2, $3, $4)", user_id, item, value, amount)
+
+    async def fetch_trashcan(self, user_id: int) -> List[asyncpg.Record]:
+        return await self.db.fetch("SELECT item, value, SUM(amount) AS amount FROM trash_can WHERE user_id = $1 GROUP BY item, value", user_id)
+
+    async def empty_trashcan(self, user_id: int) -> Tuple[float, int]:
+        trashcan = await self.db.fetchrow("SELECT COALESCE(SUM(value * amount), 0) AS total_value, SUM(amount) AS amount FROM trash_can WHERE user_id = $1", user_id)
+        await self.db.execute("DELETE FROM trash_can WHERE user_id = $1", user_id)
+        return (float(trashcan["total_value"]), int(trashcan["amount"]))
 
 
 def setup(bot):

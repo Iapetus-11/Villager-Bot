@@ -10,6 +10,7 @@ from bot import VillagerBotCluster
 from disnake.ext import commands
 from util.ctx import Ctx
 from util.misc import SuppressCtxManager, make_health_bar
+from cogs.core.database import Database
 
 
 class MobSpawner(commands.Cog):
@@ -17,7 +18,7 @@ class MobSpawner(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.db = bot.get_cog("Database")
+        self.db: Database = bot.get_cog("Database")
         self.ipc = bot.ipc
 
     def engage_check(self, ctx: Ctx):
@@ -114,9 +115,9 @@ class MobSpawner(commands.Cog):
         # get the user who is going to be attacking the mob
         while True:
             try:
-                initial_attack_msg = await self.bot.wait_for("message", check=self.engage_check(ctx), timeout=15)
+                initial_attack_msg: disnake.Message = await self.bot.wait_for("message", check=self.engage_check(ctx), timeout=15)
             except asyncio.TimeoutError:
-                await engage_msg.edit(suppress=True)
+                await engage_msg.edit(suppress_embeds=True)
                 return
 
             user = initial_attack_msg.author
@@ -137,7 +138,7 @@ class MobSpawner(commands.Cog):
         user_sword, slime_trophy, _ = await asyncio.gather(
             self.db.fetch_sword(user.id),
             self.db.fetch_item(user.id, "Slime Trophy"),
-            engage_msg.edit(suppress=True),
+            engage_msg.edit(suppress_embeds=True),
         )
 
         await self.ipc.exec(f"econ_paused_users[{user.id}] = {time.time()}")
@@ -188,7 +189,7 @@ class MobSpawner(commands.Cog):
 
                     # check if user is a fucking baby
                     if timed_out or user_action in self.d.mobs_mech.valid_flees:
-                        await fight_msg.edit(suppress=True)
+                        await fight_msg.edit(suppress_embeds=True)
                         await ctx.send_embed(random.choice(ctx.l.mobs_mech.flee_insults))
 
                         return
@@ -207,7 +208,7 @@ class MobSpawner(commands.Cog):
                 mob.health -= user_dmg
 
                 if mob.health < 1:  # user wins
-                    await fight_msg.edit(suppress=True)
+                    await fight_msg.edit(suppress_embeds=True)
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice.lower(), user_sword.lower())
                     )
@@ -231,7 +232,7 @@ class MobSpawner(commands.Cog):
                         if random.choice((True, True, False)):  # creeper yeets your bloodied corpse across the map
                             user_health = 0
 
-                            await fight_msg.edit(suppress=True)
+                            await fight_msg.edit(suppress_embeds=True)
                             await ctx.send_embed(random.choice(mob.finishers))
 
                             break
@@ -250,7 +251,7 @@ class MobSpawner(commands.Cog):
                 async with SuppressCtxManager(ctx.typing()):
                     await asyncio.sleep(0.75 + random.random() * 2)
 
-                await fight_msg.edit(suppress=True)
+                await fight_msg.edit(suppress_embeds=True)
 
             # outside of the for loop
             embed = disnake.Embed(color=self.d.cc)
@@ -285,9 +286,36 @@ class MobSpawner(commands.Cog):
             db_user = await self.db.fetch_user(user.id)
             user_bal = db_user["emeralds"]
 
+            # calculate looting level
+            looting_level = 0
+            if await self.db.fetch_item(user.id, "Looting II Book") is not None:
+                looting_level = 2
+            elif await self.db.fetch_item(user.id, "Looting I Book") is not None:
+                looting_level = 1
+
             if user_health > 0:  # user win
-                if mob_key != "baby_slime" or random.randint(0, 25) != 1:
-                    if difficulty == "easy":  # copied this ~~meth~~ math from the old code idek what it does lmao
+                # if mob is slime, determine if it drops slime balls (1/26 chance)
+                if mob_key == "baby_slime" and random.randint(0, 25) == 1:
+                    if difficulty == "easy":
+                        balls_won = random.randint(1, 10)
+                    else:
+                        balls_won = random.randint(1, 20)
+
+                    # increase balls won depending on looting level
+                    balls_won = round(balls_won * ({0: 1, 1: 1.25, 2: 1.5}[looting_level]))
+
+                    await self.db.add_item(user.id, "Slime Ball", 5, balls_won, True)
+
+                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(balls_won, self.d.emojis.slimeball))
+                # if mob is skeleton determine if they should drop bone meal (1/16 chance)
+                elif mob_key == "skeleton" and random.randint(0, 15) == 1:
+                    await self.db.add_item(user.id, "Bone Meal", 512, 1)
+
+                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(1, self.d.emojis.bone_meal))
+                # mob should just drop emeralds
+                else:
+                    # calculate emeralds won based off difficulty
+                    if difficulty == "easy":
                         ems_won = (
                             int(user_bal * (1 / random.choice((3, 3.25, 3.5, 3.75, 4))))
                             if user_bal < 256
@@ -302,33 +330,16 @@ class MobSpawner(commands.Cog):
 
                     ems_won = int((ems_won if ems_won > 0 else 1) * difficulty_multi)
 
-                    if await self.db.fetch_item(user.id, "Looting II Book") is not None:
-                        ems_won = int(ems_won * 1.75)
-                    elif await self.db.fetch_item(user.id, "Looting I Book") is not None:
-                        ems_won = int(ems_won * 1.25)
+                    # increase ems won depending on looting_level
+                    ems_won = int(ems_won * ({0: 1, 1: 1.25, 2: 1.75}[looting_level]))
 
                     await self.db.balance_add(user.id, ems_won)
                     await self.db.update_lb(user.id, "mobs_killed", 1, "add")
 
                     await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
-                else:
-                    if difficulty == "easy":
-                        balls_won = random.randint(1, 10)
-                    else:
-                        balls_won = random.randint(1, 20)
-
-                    if await self.db.fetch_item(user.id, "Looting II Book") is not None:
-                        balls_won *= 1.5
-                    elif await self.db.fetch_item(user.id, "Looting I Book") is not None:
-                        balls_won *= 1.25
-
-                    balls_won = round(balls_won)
-
-                    await self.db.add_item(user.id, "Slime Ball", 5, balls_won, True)
-
-                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(balls_won, self.d.emojis.slimeball))
             else:  # mob win
-                if difficulty == "easy":  # haha code copying go brrrrrrrrr
+                # determine how many emeralds they lose based off difficulty
+                if difficulty == "easy":
                     ems_lost = (
                         int(user_bal * (1 / (random.choice([3.05, 3.3, 3.55, 3.8]) + 0.3)))
                         if user_bal > 20

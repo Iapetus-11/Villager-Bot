@@ -254,9 +254,20 @@
         "lapis lazuli",
         "gold ore",
         "diamond",
+        "diamond",
         "redstone"
       ]
     ],
+    "find_values": {
+      "cobblestone": 0.01,
+      "dirt": 0.01,
+      "coal": 0.05,
+      "iron ore": 0.1,
+      "lapis lazuli": 0.15,
+      "gold ore": 0.2,
+      "diamond": 0.0,
+      "redstone": 0.25
+    },
     "yields_enchant_items": {
       "Bane Of Pillagers Amulet": [
         2,
@@ -834,10 +845,10 @@
     },
     "wheat seed": {
       "cat": "farming",
-      "buy_price": 48,
+      "buy_price": 32,
       "db_entry": [
         "Wheat Seed",
-        32,
+        24,
         false
       ],
       "requires": {}
@@ -1028,6 +1039,7 @@
     "rainbow": "🌈",
     "pride_flag": "🏳️‍🌈",
     "bone_meal": "<:bone_meal:983056520080130079>",
+    "diamond": "<:diamond:827017062291210271>",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1221,7 +1233,7 @@
       "melon": 192,
       "potato": 256,
       "carrot": 128,
-      "wheat": 64
+      "wheat": 32
     },
     "crop_yields": {
       "emerald_fruit": [1, 1],

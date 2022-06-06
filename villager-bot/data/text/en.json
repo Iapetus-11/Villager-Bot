@@ -2042,6 +2042,7 @@
         "fish": "Fishies Fished",
         "mooderalds": "Mooderalds",
         "farming": "Crops Planted",
+        "trash": "Trash Emptied",
         "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
         "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
         "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
@@ -2050,7 +2051,15 @@
         "lb_votes": "{0}__**Vote Streak Leaderboard**__{0}",
         "lb_fish": "{0}__**Fish Fished Leaderboard**__{0}",
         "lb_moods": "{0}__**Mooderald Leaderboard**__{0}",
-        "lb_farming": "{0}__**Crops Planted Leaderboard**__{0}"
+        "lb_farming": "{0}__**Crops Planted Leaderboard**__{0}",
+        "lb_trash": "{0}__**Trash Emptied Leaderboard**__{0}"
+      },
+      "trash": {
+        "s_trash": "{user}'s Trash Can",
+        "no_trash": "There's no trash here... :/",
+        "total_contents": "The total contents is worth {ems}{ems_emoji}",
+        "how_to_empty": "Use `{prefix}trashcan empty` to empty the trash!",
+        "emptied_for": "You emptied your trash can for {ems}{ems_emoji}"
       }
     }
   }
