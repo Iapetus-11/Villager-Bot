@@ -75,6 +75,7 @@
         "mine": "`{0}mine` *mina esmeraldas*",
         "fish": "`{0}fish` *pesca peces y objetos*",
         "farm": "`{0}farm` *Planta y cosecha cultivos por esmeraldas*",
+        "trash": "`{0}trash` *Mira los ítems inútiles que puedes minar*",
         "search": "`{0}search` *busca esmeraldas*",
         "honey": "`{0}honey` *cosecha la miel de las abejas que tienes*",
         "gamble": "`{0}gamble <esmeraldas>` *apuesta con el bot por una oportunidad de ganar esmeraldas*",
@@ -2040,9 +2041,10 @@
         "bees": "Jarrones De Abejas",
         "cmds": "Comandos Enviados",
         "votes": "Racha De Votos",
-        "fish": "Pececitos pescados",
+        "fish": "Pececitos Pescados",
         "mooderalds": "Mooderalds",
         "farming": "Cultivos Plantados",
+        "trash": "Basura Tirada",
         "lb_ems": "{0}__**Tabla de clasificación de esmeraldas**__{0}",
         "lb_pil": "{0}__**Tabla de clasificación de esmeraldas robadas**__{0}",
         "lb_kil": "{0}__**Tabla de clasificación de monstruos asesinados**__{0}",
@@ -2051,7 +2053,15 @@
         "lb_votes": "{0}__**Tabla de clasificación de racha de votos**__{0}",
         "lb_fish": "{0}__**Tabla de posiciones de peces pescados**__{0}",
         "lb_moods": "{0}__**Tabla de clasificación de mooderald**__{0}",
-        "lb_farming": "{0}__**Clasificación de cultivos plantados**__{0}"
+        "lb_farming": "{0}__**Clasificación de cultivos plantados**__{0}",
+        "lb_trash": "{0}__**Clasificaciones de basura tirada**__{0}"
+      },
+      "trash": {
+        "s_trash": "Basura de {user}",
+        "no_trash": "Aquí no hay basura.... :/",
+        "total_contents": "El contenido total vale {ems}{ems_emoji}",
+        "how_to_empty": "¡Usa `{prefix}trashcan empty` para tirar la basura!",
+        "emptied_for": "¡Has tirado la basura por {ems}{ems_emoji}!"
       }
     }
   }
