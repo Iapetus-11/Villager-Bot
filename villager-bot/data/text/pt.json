@@ -1527,6 +1527,8 @@
       },
       "mute": {
         "stupid_1": "Você não pode silenciar a si mesmo.",
+        "stupid_2": "Você usou uma formatação inválida, exemplo: `{0}mute @alguém 1w 2d 3h 4m tal razão` irá expulsar por uma semana, dois dias, três horas e quatro minutos.",
+        "stupid_3": "Isso está num futuro distante!",
         "mute_msg": "**{}** foi silenciado."
       },
       "unmute": {
@@ -1721,7 +1723,6 @@
         "bot_2": "Ei, tonto, os bots não têm direitos e, portanto, não podem ter itens ou esmeraldas.",
         "total_wealth": "Patrimônio Líquido",
         "mooderalds": "Mooderalds",
-        "cmds_sent": "Comandos Enviados",
         "pick": "Picareta",
         "sword": "Espada",
         "streak": "Sequência de Votos",
@@ -1744,6 +1745,7 @@
         "cats": {
           "tools": "ferramentas",
           "magic": "magia",
+          "fish": "peixe",
           "misc": "miscelânea",
           "farming": "agricultura",
           "all": "tudo"
