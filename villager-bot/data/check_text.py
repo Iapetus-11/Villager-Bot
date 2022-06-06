@@ -2,6 +2,7 @@ import json
 import os
 from typing import Any, List
 
+
 def check_obj(keys: List[Any], obj: Any, against: Any, against_name: str):
     if isinstance(obj, list):
         obj = dict(enumerate(obj))
@@ -20,8 +21,9 @@ def check_obj(keys: List[Any], obj: Any, against: Any, against_name: str):
 
         # check to see if against has any keys that obj doesn't have
         if isinstance(against, dict):
-            if (key_diff := (set(against.keys()) - set(obj.keys()))):
+            if key_diff := (set(against.keys()) - set(obj.keys())):
                 print(f"EXTRA KEYS ({against_name}): {'.'.join(map(str, keys))}.[{','.join(map(str, key_diff))}]")
+
 
 def main():
     with open("text/en.json", "r", encoding="utf8") as f:
@@ -33,6 +35,7 @@ def main():
             data = json.load(f)[lang]
 
             check_obj([lang], en_data, data, lang)
+
 
 if __name__ == "__main__":
     main()
