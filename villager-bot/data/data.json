@@ -402,6 +402,12 @@
         false
       ],
       [
+        "Morbius",
+        1024,
+        99999,
+        false
+      ],
+      [
         "Bane Of Pillagers Amulet",
         4096,
         500000,
@@ -415,6 +421,12 @@
       ],
       [
         "A Literal Rainbow",
+        2048,
+        99999,
+        false
+      ],
+      [
+        "Rainbow Lego Stud",
         2048,
         99999,
         false
@@ -529,6 +541,12 @@
       ],
       [
         "A Literal Rainbow",
+        2048,
+        99999,
+        false
+      ],
+      [
+        "Rainbow Lego Stud",
         2048,
         99999,
         false
@@ -1005,6 +1023,7 @@
     "bounce": "<a:bounce:783838342956580886>",
     "anichest": "<a:anichest:783838343506427904>",
     "rainbow_shep": "<a:rainbow_shep:783838351001387009>",
+    "rainbow_stud": "<a:rainbow_stud:820806662969360444>",
     "emerald_spinn": "<a:emerald_spinn:783838348695437353>",
     "heart_spin": "<a:heart_spin:789129483809718282>",
     "enchanted_book": "<a:enchanted_book:824820639965118464>",
@@ -1012,6 +1031,7 @@
     "heart_of_the_sea": "<:heart_of_the_sea:832282916385980427>",
     "autistic_emerald": "<:mooderald:837702695245840465>",
     "present": "🎁",
+    "morbius": "<:morbing:983219815911129128>",
     "glass_bottle": "<:glass_bottle:837717502141268028>",
     "wood_sword": "<:wood_sword:924520895635144745>",
     "stone_sword": "<:stone_sword:924520895945510913>",
@@ -1219,7 +1239,9 @@
     "Alien Mask": "alien",
     "Pride Flag": "pride_flag",
     "A Literal Rainbow": "rainbow",
-    "Bone Meal": "bone_meal"
+    "Bone Meal": "bone_meal",
+    "Rainbow Lego Stud": "rainbow_stud",
+    "Morbius": "morbius"
   },
   "farming": {
     "emojis": {

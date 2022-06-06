@@ -1471,8 +1471,6 @@ class Econ(commands.Cog):
 
                         return
 
-                    await asyncio.sleep(0)
-
         if thing == "barrel":
             if amount > 1:
                 await ctx.reply_embed(ctx.l.econ.use.stupid_1)
@@ -1490,8 +1488,6 @@ class Econ(commands.Cog):
                             )
 
                             return
-
-                    await asyncio.sleep(0)
 
             ems = random.randint(2, 4096)
 
@@ -1522,6 +1518,10 @@ class Econ(commands.Cog):
             await self.db.add_item(ctx.author.id, "Slime Ball", 5, amount, True)
 
             await ctx.reply_embed(ctx.l.econ.use.beaker_of_slime_undo.format(amount))
+            return
+
+        if thing == "morbius":
+            await ctx.reply_embed("I'M MOOOOOOOORBINGGGG!!!")
             return
 
         await ctx.reply_embed(ctx.l.econ.use.stupid_6)
@@ -1569,25 +1569,25 @@ class Econ(commands.Cog):
 
             embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
 
-            embed.add_field(name=ctx.l.econ.lb.emeralds, value=f"`{ctx.prefix}leaderboard emeralds`")
+            embed.add_field(name=f"{ctx.l.econ.lb.emeralds} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard emeralds`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=ctx.l.econ.lb.mooderalds, value=f"`{ctx.prefix}leaderboard mooderalds`")
+            embed.add_field(name=f"{ctx.l.econ.lb.mooderalds} {self.d.emojis.autistic_emerald}", value=f"`{ctx.prefix}leaderboard mooderalds`")
 
-            embed.add_field(name=ctx.l.econ.lb.kills, value=f"`{ctx.prefix}leaderboard mobkills`")
+            embed.add_field(name=f"{ctx.l.econ.lb.kills} {self.d.emojis.stevegun}", value=f"`{ctx.prefix}leaderboard mobkills`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=ctx.l.econ.lb.stolen, value=f"`{ctx.prefix}leaderboard stolen`")
+            embed.add_field(name=f"{ctx.l.econ.lb.stolen} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard stolen`")
 
-            embed.add_field(name=ctx.l.econ.lb.bees, value=f"`{ctx.prefix}leaderboard bees`")
+            embed.add_field(name=f"{ctx.l.econ.lb.bees} {self.d.emojis.bee}", value=f"`{ctx.prefix}leaderboard bees`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=ctx.l.econ.lb.fish, value=f"`{ctx.prefix}leaderboard fish`")
+            embed.add_field(name=f"{ctx.l.econ.lb.fish} {self.d.emojis.fish.cod}", value=f"`{ctx.prefix}leaderboard fish`")
 
-            embed.add_field(name=ctx.l.econ.lb.votes, value=f"`{ctx.prefix}leaderboard votes`")
+            embed.add_field(name=f"{ctx.l.econ.lb.votes} {self.d.emojis.updoot}", value=f"`{ctx.prefix}leaderboard votes`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=ctx.l.econ.lb.cmds, value=f"`{ctx.prefix}leaderboard commands`")
+            embed.add_field(name=f"{ctx.l.econ.lb.cmds} :keyboard:", value=f"`{ctx.prefix}leaderboard commands`")
 
-            embed.add_field(name=ctx.l.econ.lb.farming, value=f"`{ctx.prefix}leaderboard farming`")
+            embed.add_field(name=f"{ctx.l.econ.lb.farming} {self.d.emojis.farming.normal.wheat}", value=f"`{ctx.prefix}leaderboard farming`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=ctx.l.econ.lb.trash, value=f"`{ctx.prefix}leaderboard trash`")
+            embed.add_field(name=f"{ctx.l.econ.lb.trash} {self.d.emojis.diamond}", value=f"`{ctx.prefix}leaderboard trash`")
 
             await ctx.reply(embed=embed, mention_author=False)
 
