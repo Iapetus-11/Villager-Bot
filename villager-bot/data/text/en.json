@@ -75,6 +75,7 @@
         "mine": "`{0}mine` *mine for emeralds*",
         "fish": "`{0}fish` *fish for fish and items*",
         "farm": "`{0}farm` *plant and harvest crops worth emeralds*",
+        "trash": "`{0}trash` *view the useless items you mine up*",
         "search": "`{0}search` *search for emeralds*",
         "honey": "`{0}honey` *harvest honey from the bees you own*",
         "gamble": "`{0}gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*",

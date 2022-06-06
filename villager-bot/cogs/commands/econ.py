@@ -1587,7 +1587,7 @@ class Econ(commands.Cog):
 
             embed.add_field(name=ctx.l.econ.lb.farming, value=f"`{ctx.prefix}leaderboard farming`")
             embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name=ctx.l.econ.lb.trash, value=f"`{ctx.prefix}leaderboard trash`")
 
             await ctx.reply(embed=embed, mention_author=False)
 
@@ -1969,6 +1969,9 @@ class Econ(commands.Cog):
             )
             total_ems = sum([float(item["amount"]) * item["value"] for item in items])
 
+            if await self.db.fetch_item(ctx.author.id, "Recycler") is not None:
+                total_ems *= 3
+
             embed.description = (
                 ctx.l.econ.trash.total_contents.format(ems=round(total_ems, 2), ems_emoji=self.d.emojis.emerald)
                 + f"\n\n{items_formatted}\n\n"
@@ -1982,6 +1985,10 @@ class Econ(commands.Cog):
         total_ems, amount = await self.db.empty_trashcan(ctx.author.id)
 
         total_ems = math.floor(total_ems)
+        total_ems *= (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) + 1
+
+        if await self.db.fetch_item(ctx.author.id, "Recycler") is not None:
+            total_ems *= 3
 
         await self.db.balance_add(ctx.author.id, total_ems)
 

@@ -396,6 +396,12 @@
         false
       ],
       [
+        "Recycler",
+        1024,
+        99999,
+        false
+      ],
+      [
         "Bane Of Pillagers Amulet",
         4096,
         500000,
@@ -492,12 +498,6 @@
         false
       ],
       [
-        "Rusty Fishing Hook",
-        128,
-        999,
-        false
-      ],
-      [
         "Seaweed",
         420,
         1666,
@@ -514,6 +514,12 @@
         768,
         4096,
         true
+      ],
+      [
+        "Recycler",
+        1024,
+        99999,
+        false
       ],
       [
         "Pride Flag",
