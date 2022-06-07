@@ -217,7 +217,7 @@ class Mod(commands.Cog):
         await self.db.clear_warns(user.id, ctx.guild.id)
         await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu"])
+    @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu", "timeout"])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     async def mute(self, ctx: Ctx, victim: disnake.Member, *args: str):
@@ -243,7 +243,7 @@ class Mod(commands.Cog):
 
         await ctx.reply_embed(ctx.l.mod.mute.mute_msg.format(victim.mention))
 
-    @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu"])
+    @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu", "untimeout"])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     async def unmute(self, ctx: Ctx, user: disnake.Member):

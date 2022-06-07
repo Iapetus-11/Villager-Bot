@@ -147,15 +147,6 @@ class Events(commands.Cog):
         # add user to new member cache
         self.bot.new_member_cache[member.guild.id].add(member.id)
 
-        if await self.db.fetch_user_muted(member.id, member.guild.id):
-            with suppress(disnake.errors.HTTPException):
-                # fetch role
-                mute = disnake.utils.get(member.guild.roles, name="Muted")
-                if mute is None:
-                    mute = disnake.utils.get(await member.guild.fetch_roles(), name="Muted")
-
-                await member.add_roles(mute)
-
         if member.guild.id == self.d.support_server_id:
             await update_support_member_role(self.bot, member)
 

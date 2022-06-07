@@ -503,12 +503,6 @@ class Database(commands.Cog):
         # this sql query crafting is safe because the user's input is still sanitized by asyncpg
         await self.db.execute(f"UPDATE badges SET {','.join(sql)} WHERE user_id = ${i+2}", *values, user_id)
 
-    async def fetch_user_muted(self, user_id: int, guild_id: int) -> bool:
-        return (
-            await self.db.fetchval("SELECT COUNT(*) FROM muted_users WHERE user_id = $1 AND guild_id = $2", user_id, guild_id)
-            >= 1
-        )
-
     async def mute_user(self, user_id: int, guild_id: int) -> None:
         await self.db.execute("INSERT INTO muted_users (user_id, guild_id) VALUES ($1, $2)", user_id, guild_id)
 
