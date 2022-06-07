@@ -232,7 +232,7 @@ class Mod(commands.Cog):
         success, at, rest = parse_input_time(args)
 
         if not success:
-            await ctx.reply_embed(ctx.l.mod.mute.stupid_2)
+            await ctx.reply_embed(ctx.l.mod.mute.stupid_2.format(ctx.prefix))
             return
 
         if at > arrow.utcnow().shift(days=27):
