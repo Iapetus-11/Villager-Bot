@@ -1261,8 +1261,8 @@
       "emerald_fruit": 1024,
       "chorus_fruit": 768,
       "melon": 192,
-      "potato": 256,
-      "carrot": 128,
+      "potato": 128,
+      "carrot": 64,
       "wheat": 32
     },
     "crop_yields": {
