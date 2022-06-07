@@ -564,7 +564,7 @@ class Database(commands.Cog):
 
     async def empty_trashcan(self, user_id: int) -> Tuple[float, int]:
         trashcan = await self.db.fetchrow(
-            "SELECT COALESCE(SUM(value * amount), 0) AS total_value, SUM(amount) AS amount FROM trash_can WHERE user_id = $1",
+            "SELECT COALESCE(SUM(value * amount), 0) AS total_value, COALESCE(SUM(amount), 0) AS amount FROM trash_can WHERE user_id = $1",
             user_id,
         )
         await self.db.execute("DELETE FROM trash_can WHERE user_id = $1", user_id)
