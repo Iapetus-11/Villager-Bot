@@ -1802,7 +1802,7 @@ class Econ(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    @leaderboards.command(name="trash", aliases=["trashcan"])
+    @leaderboards.command(name="trash", aliases=["trashcan", "tc"])
     async def leaderboard_trash(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             trash_global, global_u_entry = await self.db.fetch_global_lb("trash_emptied", ctx.author.id)
