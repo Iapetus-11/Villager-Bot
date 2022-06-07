@@ -8,7 +8,7 @@
 * Ability to generate Minecraft pixel art from images sent in the chat
 * Ability to ping / check the status of any Minecraft server
 * Expansive economy system (based upon emeralds obviously!)
-* Multi-language support! (English, Español, Français, Português, Deutsch)
+* Multi-language support! (English, Español, Français, Português)
 * Tons of customization and configuration options
 
 ## Support / Contact Information
