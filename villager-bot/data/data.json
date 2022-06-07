@@ -259,14 +259,14 @@
       ]
     ],
     "find_values": {
-      "cobblestone": 0.05,
-      "dirt": 0.05,
-      "coal": 0.1,
-      "iron ore": 0.2,
-      "lapis lazuli": 0.3,
-      "gold ore": 0.5,
+      "cobblestone": 0.1,
+      "dirt": 0.1,
+      "coal": 0.25,
+      "iron ore": 0.5,
+      "lapis lazuli": 0.5,
+      "gold ore": 0.75,
       "diamond": 0.0,
-      "redstone": 0.5
+      "redstone": 0.75
     },
     "yields_enchant_items": {
       "Bane Of Pillagers Amulet": [
