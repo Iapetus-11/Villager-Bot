@@ -1955,7 +1955,7 @@ class Econ(commands.Cog):
 
         await ctx.reply_embed(ctx.l.econ.farm.harvested.format(crops=harvest_str))
 
-    @commands.group(name="trashcan", aliases=["trash", "garbage"])
+    @commands.group(name="trashcan", aliases=["trash", "garbage", "tc"])
     async def trashcan(self, ctx: Ctx):
         if ctx.invoked_subcommand:
             return
