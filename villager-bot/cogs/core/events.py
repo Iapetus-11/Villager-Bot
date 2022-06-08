@@ -12,6 +12,7 @@ from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import update_support_member_role
+from cogs.core.database import Database
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 
@@ -54,7 +55,7 @@ class Events(commands.Cog):
         self.ipc = bot.ipc
         self.d = bot.d
         self.k = bot.k
-        self.db = bot.get_cog("Database")
+        self.db: Database = bot.get_cog("Database")
 
         bot.event(self.on_error)  # Cog.listener() doesn't work for on_error events
 
@@ -103,11 +104,8 @@ class Events(commands.Cog):
 
         self.bot.after_ready_ready.set()
 
-    @commands.Cog.listener()
-    async def on_guild_join(self, guild):
-        await asyncio.sleep(1)
-
-        channel = None
+    async def send_intro_message(self, guild: disnake.Guild):
+        channel: disnake.channel = None
 
         for c in guild.text_channels:
             c_name = c.name.lower()
@@ -140,7 +138,24 @@ class Events(commands.Cog):
         with suppress(disnake.errors.Forbidden):
             await channel.send(embed=embed)
 
-            self.bot.replies_cache.add(guild.id)
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild: disnake.Guild):
+        # bot's funny replies are on by default
+        self.bot.replies_cache.add(guild.id)
+
+        # attempt to set default language based off guild's localization
+        lang = {
+            disnake.Locale.es_ES: "es",
+            disnake.Locale.pt_BR: "pt",
+            disnake.Locale.fr: "fr"
+        }.get(guild.preferred_locale)
+
+        if lang:
+            await self.db.set_guild_attr(guild.id, "language", lang)
+            self.bot.language_cache[guild.id] = lang
+
+        await self.send_intro_message(guild)
+
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
