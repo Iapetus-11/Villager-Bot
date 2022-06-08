@@ -6,13 +6,13 @@ from typing import Set
 
 import disnake
 from bot import VillagerBotCluster
+from cogs.core.database import Database
 from disnake.ext import commands
 from util.code import format_exception
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import update_support_member_role
-from cogs.core.database import Database
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 
@@ -144,18 +144,13 @@ class Events(commands.Cog):
         self.bot.replies_cache.add(guild.id)
 
         # attempt to set default language based off guild's localization
-        lang = {
-            disnake.Locale.es_ES: "es",
-            disnake.Locale.pt_BR: "pt",
-            disnake.Locale.fr: "fr"
-        }.get(guild.preferred_locale)
+        lang = {disnake.Locale.es_ES: "es", disnake.Locale.pt_BR: "pt", disnake.Locale.fr: "fr"}.get(guild.preferred_locale)
 
         if lang:
             await self.db.set_guild_attr(guild.id, "language", lang)
             self.bot.language_cache[guild.id] = lang
 
         await self.send_intro_message(guild)
-
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
