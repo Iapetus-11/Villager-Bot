@@ -298,11 +298,11 @@
     },
     "yields_pickaxes": {
       "Wood Pickaxe": [
-        4,
+        5,
         26
       ],
       "Stone Pickaxe": [
-        5,
+        6,
         26
       ],
       "Iron Pickaxe": [
@@ -310,11 +310,11 @@
         26
       ],
       "Gold Pickaxe": [
-        8,
+        9,
         26
       ],
       "Diamond Pickaxe": [
-        10,
+        11,
         26
       ],
       "Netherite Pickaxe": [
