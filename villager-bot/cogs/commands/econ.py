@@ -1017,22 +1017,23 @@ class Econ(commands.Cog):
 
         db_user = await self.db.fetch_user(ctx.author.id)
 
+        # determine whether user gains (True) or loses emeralds (False)
         if random.choice([True, True, True, True, True, False]) or db_user["emeralds"] < 2:
+            # random chance to get mooderald
             if random.randint(1, 420) == 420:
                 mooderalds = random.randint(1, 3)
                 await self.db.add_item(ctx.author.id, "Mooderald", 768, mooderalds, True)
                 await ctx.reply_embed(
                     random.choice(ctx.l.econ.beg.mooderald).format(f"{mooderalds}{self.d.emojis.autistic_emerald}")
                 )
-
-            else:
+            else:  # give em emeralds
                 amount = 9 + math.ceil(math.log(db_user["emeralds"] + 1, 1.5)) + random.randint(1, 5)
                 amount = random.randint(1, 4) if amount < 1 else amount
 
                 await self.db.balance_add(ctx.author.id, amount)
 
                 await ctx.reply_embed(random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}"))
-        else:
+        else: # user loses emeralds
             amount = 9 + math.ceil(math.log(db_user["emeralds"] + 1, 1.3)) + random.randint(1, 5)  # ah yes, meth
 
             if amount < 1:
@@ -1049,7 +1050,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="mine", aliases=["mein", "eun", "mien", "m"])
     @commands.guild_only()
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    # @commands.cooldown(1, 4, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def mine(self, ctx: Ctx):
         if not await self.math_problem(ctx):
@@ -1144,7 +1145,7 @@ class Econ(commands.Cog):
         await ctx.reply_embed(random.choice(ctx.l.econ.fishing.cast))
 
         async with SuppressCtxManager(ctx.typing()):
-            wait = random.randint(8, 20)
+            wait = random.randint(12, 32)
 
             lure_i_book, active_effects = await asyncio.gather(
                 self.db.fetch_item(ctx.author.id, "Lure I Book"),
@@ -1152,10 +1153,10 @@ class Econ(commands.Cog):
             )
 
             if lure_i_book is not None:
-                wait -= 2
+                wait -= 4
 
             if "seaweed" in active_effects.result:
-                wait -= 2
+                wait -= 4
 
             await asyncio.sleep(wait)
 
@@ -1304,7 +1305,7 @@ class Econ(commands.Cog):
             pass
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
-    # @commands.cooldown(1, 2, commands.BucketType.user)
+    # @commands.cooldown(1, 1, commands.BucketType.user)
     async def use_item(self, ctx: Ctx, *, thing):
         """Allows you to use potions and some other items"""
 

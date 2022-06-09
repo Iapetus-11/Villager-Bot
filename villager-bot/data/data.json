@@ -74,7 +74,7 @@
   "cooldown_rates": {
     "fish": 8,
     "pillage": 300,
-    "use": 2,
+    "use": 1,
     "honey": 86400,
     "deposit": 2,
     "withdraw": 2,
@@ -83,7 +83,7 @@
     "give": 10,
     "gamble": 30,
     "search": 1800,
-    "mine": 2,
+    "mine": 4,
     "trivia": 5
   },
   "concurrency_limited": [

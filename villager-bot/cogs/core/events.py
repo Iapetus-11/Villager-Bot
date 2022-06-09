@@ -185,9 +185,12 @@ class Events(commands.Cog):
     async def on_message(self, message: disnake.Message):
         self.bot.message_count += 1
 
+        # ignore bots
         if message.author.bot:
             return
 
+        # if it's a dm channel, forward the dm message to Karen and if it's the first message in the dm
+        # channel, send them a help message
         if isinstance(message.channel, disnake.DMChannel):
             await self.ipc.send({"type": PacketType.DM_MESSAGE, "user_id": message.author.id, "content": message.content})
 
@@ -207,7 +210,12 @@ class Events(commands.Cog):
                     )
 
                     await message.channel.send(embed=embed)
-        elif message.guild is not None:
+
+            return
+        
+        # anti spam/raid/scam filtering functionality
+        if message.guild is not None:
+            # check for keywords and delete message if found
             if await self.filter_keywords(message):
                 return
 
@@ -238,7 +246,8 @@ class Events(commands.Cog):
                             await message.author.ban(reason="Automated Anti-Spam/Raid", delete_message_days=1)
                             return
 
-        if message.content.startswith(f"<@!{self.bot.user.id}>") or message.content.startswith(f"<@{self.bot.user.id}>"):
+        # check if bot was pinged directly
+        if self.bot.user.id in message.raw_mentions:
             if message.guild is None:
                 prefix = self.k.default_prefix
             else:
@@ -258,17 +267,9 @@ class Events(commands.Cog):
         if message.guild is None:
             return
 
-        if message.guild.id == self.d.support_server_id:
-            if message.type in NITRO_BOOST_MESSAGES:
-                await self.db.add_item(message.author.id, "Barrel", 1024, 1)
-                await self.bot.send_embed(
-                    message.author, "Thanks for boosting the support server! You've received 1x **Barrel**!"
-                )
-
-                return
-
         content_lower = message.content.lower()
 
+        # @someone random ping functionality
         if "@someone" in content_lower:
             someones = [
                 u
@@ -289,6 +290,7 @@ class Events(commands.Cog):
 
                 return
 
+        # "funny" replies like creeper -> awwww man
         if message.guild.id in self.bot.replies_cache:
             prefix = self.bot.prefix_cache.get(message.guild.id, self.k.default_prefix)
 
@@ -305,7 +307,8 @@ class Events(commands.Cog):
                     elif content_lower == "good bot":
                         await message.reply(random.choice(self.d.owos), mention_author=False)
 
-    async def handle_cooldown(self, ctx: Ctx, remaining: float, karen_cooldown: bool) -> None:
+    async def handle_command_cooldown(self, ctx: Ctx, remaining: float, karen_cooldown: bool) -> None:
+        # handle mine command cooldown effects
         if ctx.command.name == "mine":
             if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
                 remaining -= 0.5
@@ -314,9 +317,9 @@ class Events(commands.Cog):
 
             if active_effects:
                 if "haste ii potion" in active_effects:
-                    remaining -= 1
+                    remaining -= 2
                 elif "haste i potion" in active_effects:
-                    remaining -= 0.5
+                    remaining -= 1
 
         seconds = round(remaining, 2)
 
@@ -363,9 +366,9 @@ class Events(commands.Cog):
             )
 
         if isinstance(e, commands.CommandOnCooldown):
-            await self.handle_cooldown(ctx, e.retry_after, False)
+            await self.handle_command_cooldown(ctx, e.retry_after, False)
         elif isinstance(e, CommandOnKarenCooldown):
-            await self.handle_cooldown(ctx, e.remaining, True)
+            await self.handle_command_cooldown(ctx, e.remaining, True)
         elif isinstance(e, commands.NoPrivateMessage):
             await ctx.reply_embed(ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
