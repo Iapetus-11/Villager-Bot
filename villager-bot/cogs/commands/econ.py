@@ -1033,7 +1033,7 @@ class Econ(commands.Cog):
                 await self.db.balance_add(ctx.author.id, amount)
 
                 await ctx.reply_embed(random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}"))
-        else: # user loses emeralds
+        else:  # user loses emeralds
             amount = 9 + math.ceil(math.log(db_user["emeralds"] + 1, 1.3)) + random.randint(1, 5)  # ah yes, meth
 
             if amount < 1:

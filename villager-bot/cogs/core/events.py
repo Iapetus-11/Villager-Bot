@@ -212,7 +212,7 @@ class Events(commands.Cog):
                     await message.channel.send(embed=embed)
 
             return
-        
+
         # anti spam/raid/scam filtering functionality
         if message.guild is not None:
             # check for keywords and delete message if found
