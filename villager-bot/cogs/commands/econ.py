@@ -1060,7 +1060,7 @@ class Econ(commands.Cog):
 
         # see if user has chugged a luck potion
         lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]")).result
-        
+
         # iterate through items findable via mining
         for item in self.d.mining.findables:
             # check if user should get item based on rarity (item[2])
@@ -1236,7 +1236,7 @@ class Econ(commands.Cog):
         if db_victim["emeralds"] < 64:
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
-            
+
         p_res = await self.ipc.request({"type": PacketType.PILLAGE, "pillager": ctx.author.id, "victim": victim.id})
         pillager_pillages = p_res["pillager"]
         victim_pillages = p_res["victim"]
