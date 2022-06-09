@@ -1081,7 +1081,7 @@ class Econ(commands.Cog):
 
                 return
 
-        # calculate if user finds emeralds OR not
+        # calculate if user finds emeralds or not
         found = random.choice(self.calc_yield_chance_list(pickaxe))
 
         if found:
@@ -1104,7 +1104,7 @@ class Econ(commands.Cog):
             )
         else:
             # only works cause num of pickaxes is 6 and levels of fake finds is 3
-            fake_finds = self.d.mining.finds[math.floor(self.d.mining.pickaxes.index(pickaxe) / 2)]
+            fake_finds = self.d.mining.finds[self.d.mining.pickaxes.index(pickaxe) // 2]
 
             find = random.choice(fake_finds)
             find_amount = random.randint(1, 6)
