@@ -182,9 +182,9 @@ class Events(commands.Cog):
             await self.filter_keywords(after)
 
     async def log_dm_message(self, message: disnake.Message) -> None:
-        # # ignore dms from owners
-        # if self.bot.owner_id == message.author.id or message.author.id in self.bot.owner_ids:
-        #     return
+        # ignore dms from owners
+        if self.bot.owner_id == message.author.id or message.author.id in self.bot.owner_ids:
+            return
 
         # ignore commands
         if message.content.startswith(self.k.default_prefix):
