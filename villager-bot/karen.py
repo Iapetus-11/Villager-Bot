@@ -44,7 +44,9 @@ class MechaKaren(PacketHandlerRegistry):
 
         self.eval_env: Dict[str, Any] = {"karen": self, **self.v.__dict__}
 
-        self.broadcasts: Dict[str, Dict[str, Any]] = {}  # {broadcast_id: {ready: asyncio.Event, responses: [response, response,..]}}
+        self.broadcasts: Dict[
+            str, Dict[str, Any]
+        ] = {}  # {broadcast_id: {ready: asyncio.Event, responses: [response, response,..]}}
         self.dm_messages: Dict[int, Dict[str, Any]] = {}  # {user_id: {event: asyncio.Event, content: "contents of message"}}
         self.current_id = 0
 

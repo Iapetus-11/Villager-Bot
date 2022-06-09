@@ -1,7 +1,7 @@
 import random
 import sys
-from contextlib import suppress
 import textwrap
+from contextlib import suppress
 from typing import Set
 
 import disnake
@@ -12,7 +12,7 @@ from util.code import format_exception
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ctx import Ctx
 from util.ipc import PacketType
-from util.misc import update_support_member_role, chunk_by_lines
+from util.misc import chunk_by_lines, update_support_member_role
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 
@@ -189,23 +189,23 @@ class Events(commands.Cog):
         # ignore commands
         if message.content.startswith(self.k.default_prefix):
             return
-        
+
         # attempt to get dm logs channel from cache, then api
         dm_logs_channel = self.bot.get_channel(self.d.dm_logs_channel_id)
         if dm_logs_channel is None:
             dm_logs_channel = await self.bot.fetch_channel(self.d.dm_logs_channel_id)
 
         log_message_content = f"**{message.author} (`{message.author.id}`):**\n"
-        
+
         # add message attachments to message
         if message.attachments:
             log_message_content += "\n".join([a.url for a in message.attachments]) + "\n"
 
-        log_message_content += message.content.replace('@everyone', '').replace("@here", "")
+        log_message_content += message.content.replace("@everyone", "").replace("@here", "")
 
         chunked_message_content = list(chunk_by_lines(log_message_content, 2000))
         previous_message = None
-        
+
         # send chunks to log channel
         for chunk in chunked_message_content:
             if previous_message is None:
