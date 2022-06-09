@@ -54,8 +54,10 @@ class Webhooks(commands.Cog):
             await asyncio.sleep(3600)
 
     async def webhooks_setup(self):
+        # handler to handle the actual incoming requests
         async def handler(req):
             try:
+                # check auth header, and if it matches, dispatch the vote event
                 if req.headers.get("Authorization") == self.k.topgg_webhook.auth:
                     self.bot.dispatch("topgg_event", cj.classify(await req.json()))
                 else:

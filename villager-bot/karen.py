@@ -1,7 +1,7 @@
 import asyncio
 from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
-from typing import List, Set
+from typing import Any, Dict, List, Set
 
 import arrow
 import asyncpg
@@ -42,19 +42,19 @@ class MechaKaren(PacketHandlerRegistry):
         self.shard_ids = list(range(self.k.shard_count))
         self.online_clusters: Set[int] = set()
 
-        self.eval_env = {"karen": self, **self.v.__dict__}
+        self.eval_env: Dict[str, Any] = {"karen": self, **self.v.__dict__}
 
-        self.broadcasts = {}  # {broadcast_id: {ready: asyncio.Event, responses: [response, response,..]}}
-        self.dm_messages = {}  # {user_id: {event: asyncio.Event, content: "contents of message"}}
+        self.broadcasts: Dict[str, Dict[str, Any]] = {}  # {broadcast_id: {ready: asyncio.Event, responses: [response, response,..]}}
+        self.dm_messages: Dict[int, Dict[str, Any]] = {}  # {user_id: {event: asyncio.Event, content: "contents of message"}}
         self.current_id = 0
 
         self.commands = defaultdict(int)
         self.commands_lock = asyncio.Lock()
 
-        self.commands_task = None
-        self.heal_users_task = None
-        self.clear_trivia_commands_task = None
-        self.reminders_task = None
+        self.commands_task: asyncio.Task = None
+        self.heal_users_task: asyncio.Task = None
+        self.clear_trivia_commands_task: asyncio.Task = None
+        self.reminders_task: asyncio.Task = None
 
     @handle_packet(PacketType.MISSING_PACKET)
     async def handle_missing_packet(self, packet: ClassyDict):

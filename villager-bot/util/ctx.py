@@ -4,6 +4,8 @@ from disnake.ext.commands import Context
 
 
 class CustomContext(Context):
+    """Custom context class to provide extra helper methods and multi-language support"""
+
     def __init__(self, *args, embed_color: disnake.Color = None, **kwargs):
         super().__init__(*args, **kwargs)
         self.embed_color = embed_color  # used in send_embed(...) and reply_embed(...)

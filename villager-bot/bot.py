@@ -2,6 +2,7 @@ import asyncio
 import random
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
+from typing import Any, DefaultDict, Dict, List, Set, Tuple, Union
 
 import aiohttp
 import arrow
@@ -85,15 +86,15 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.prevent_spawn_duplicates = TTLPreventDuplicate(25, 10)
 
         # caches
-        self.ban_cache = set()  # set({user_id, user_id,..})
-        self.language_cache = {}  # {guild_id: "lang"}
-        self.prefix_cache = {}  # {guild_id: "prefix"}
-        self.antiraid_enabled_cache = set()  # {guild_id, guild_id,...}
-        self.disabled_commands = defaultdict(set)  # {guild_id: set({command, command,..})}
-        self.replies_cache = set()  # {guild_id, guild_id,..}
-        self.rcon_cache = {}  # {(user_id, mc_server): rcon_client}
-        self.filter_words_cache = defaultdict(list)  # {guild_id: ["keyword", "keyword"]}
-        self.new_member_cache = defaultdict(set)  # {guild_id: set()}
+        self.ban_cache: Set[int] = set()  # set({user_id, user_id,..})
+        self.language_cache: Dict[int, str] = {}  # {guild_id: "lang"}
+        self.prefix_cache: Dict[int, str] = {}  # {guild_id: "prefix"}
+        self.antiraid_enabled_cache: Set[int] = set()  # {guild_id, guild_id,...}
+        self.disabled_commands: DefaultDict[int, Set[str]] = defaultdict(set)  # {guild_id: set({command, command,..})}
+        self.replies_cache: Set[int] = set()  # {guild_id, guild_id,..}
+        self.rcon_cache: Dict[Tuple[int, Any], Any] = {}  # {(user_id, mc_server): rcon_client}
+        self.filter_words_cache: DefaultDict[int, List[str]] = defaultdict(list)  # {guild_id: ["keyword", "keyword"]}
+        self.new_member_cache: DefaultDict[int, set] = defaultdict(set)  # {guild_id: set()}
 
         # support server channels
         self.error_channel: disnake.TextChannel = None

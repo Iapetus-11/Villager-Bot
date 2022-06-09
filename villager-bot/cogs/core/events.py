@@ -1,7 +1,7 @@
-import asyncio
 import random
 import sys
 from contextlib import suppress
+import textwrap
 from typing import Set
 
 import disnake
@@ -12,7 +12,7 @@ from util.code import format_exception
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ctx import Ctx
 from util.ipc import PacketType
-from util.misc import update_support_member_role
+from util.misc import update_support_member_role, chunk_by_lines
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 
@@ -181,6 +181,38 @@ class Events(commands.Cog):
         if after.guild:
             await self.filter_keywords(after)
 
+    async def log_dm_message(self, message: disnake.Message) -> None:
+        # # ignore dms from owners
+        # if self.bot.owner_id == message.author.id or message.author.id in self.bot.owner_ids:
+        #     return
+
+        # ignore commands
+        if message.content.startswith(self.k.default_prefix):
+            return
+        
+        # attempt to get dm logs channel from cache, then api
+        dm_logs_channel = self.bot.get_channel(self.d.dm_logs_channel_id)
+        if dm_logs_channel is None:
+            dm_logs_channel = await self.bot.fetch_channel(self.d.dm_logs_channel_id)
+
+        log_message_content = f"**{message.author} (`{message.author.id}`):**\n"
+        
+        # add message attachments to message
+        if message.attachments:
+            log_message_content += "\n".join([a.url for a in message.attachments]) + "\n"
+
+        log_message_content += message.content.replace('@everyone', '').replace("@here", "")
+
+        chunked_message_content = list(chunk_by_lines(log_message_content, 2000))
+        previous_message = None
+        
+        # send chunks to log channel
+        for chunk in chunked_message_content:
+            if previous_message is None:
+                previous_message = await dm_logs_channel.send(chunk)
+            else:
+                previous_message = await previous_message.reply(chunk)
+
     @commands.Cog.listener()
     async def on_message(self, message: disnake.Message):
         self.bot.message_count += 1
@@ -189,11 +221,12 @@ class Events(commands.Cog):
         if message.author.bot:
             return
 
-        # if it's a dm channel, forward the dm message to Karen and if it's the first message in the dm
-        # channel, send them a help message
+        # check if channel is a dm channel
         if isinstance(message.channel, disnake.DMChannel):
+            # forward dm to karen
             await self.ipc.send({"type": PacketType.DM_MESSAGE, "user_id": message.author.id, "content": message.content})
 
+            # check if there are prior messages, and if there are none, send user a help message
             with suppress(disnake.errors.HTTPException):
                 prior_messages = len(await message.channel.history(limit=1, before=message).flatten())
 
@@ -210,6 +243,9 @@ class Events(commands.Cog):
                     )
 
                     await message.channel.send(embed=embed)
+
+            # send message to logs channel
+            await self.log_dm_message(message)
 
             return
 

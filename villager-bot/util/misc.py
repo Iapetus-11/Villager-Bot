@@ -269,3 +269,23 @@ def parse_input_time(args: List[str]) -> Tuple[bool, arrow.Arrow, str]:
         return (False, at, " ".join(args[i:]))
 
     return (True, at, " ".join(args[i:]))
+
+
+def chunk_by_lines(text: str, max_paragraph_size: int) -> str:
+    text_lines = text.splitlines()
+
+    for line in text_lines:
+        if len(line) > max_paragraph_size:
+            raise ValueError("A singular line may not exceed max_paragraph_size.")
+
+    paragraph = []
+
+    for line in text.splitlines():
+        if sum(len(l) for l in paragraph) + len(line) > max_paragraph_size:
+            yield "\n".join(paragraph)
+            paragraph.clear()
+
+        paragraph.append(line)
+
+    if paragraph:
+        yield "\n".join(paragraph)
