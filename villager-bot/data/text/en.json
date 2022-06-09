@@ -28,7 +28,8 @@
         "In need of emeralds? Vote for us on top.gg! https://top.gg/bot/639498607632056321",
         "Broke because of those pillagers? Vote for us to get emeralds! https://top.gg/bot/639498607632056321",
         "Check out the `rules` command to see the Villager Bot rules!",
-        "Do you own a Minecraft server or are you looking for one? Check out https://minecraft.global/"
+        "Do you own a Minecraft server or are you looking for one? Check out https://minecraft.global/",
+        "Use the `remind` command to keep track of all your cooldowns!"
       ],
       "tip_intros": [
         "**PRO TIP:**",
