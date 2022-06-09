@@ -30,6 +30,7 @@ IGNORE = [
     "comparator",
     "dropper",
     "end_portal_frame",
+    "grass_block_snow",
 ]
 
 
@@ -86,13 +87,14 @@ class Palette:
         if img is None:
             return False
 
+        # ignore any images with transparency
         if img.shape[2] == 4:
             for row in img:
                 for pixel in row:
                     if pixel[3] < 255:
                         return False
 
-            img = cv2.cvtColor(cv2.imread(self.source_dir + image_file, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
+        img = cv2.imread(self.source_dir + image_file, cv2.IMREAD_COLOR)
 
         if img.shape[1] != self.dest_dims[1] or img.shape[0] != self.dest_dims[0]:
             # img = cv2.resize(img, self.dest_dims)
@@ -111,7 +113,7 @@ class Palette:
         for i in range(img.shape[2]):
             avgs[i] /= p_count
 
-        avgs.reverse()
+        # avgs.reverse()
 
         b = base64.b64encode(cv2.imencode(".png", img)[1]).decode("utf-8")
 

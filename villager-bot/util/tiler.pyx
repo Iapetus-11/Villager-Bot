@@ -94,7 +94,7 @@ cdef class Tiler:
         for row in source:
             x = 0
 
-            for b, g, r in row:
+            for r, g, b in row:
                 pal_key = self.palette_oct.get((r // 32, g // 32, b // 32))
 
                 if pal_key is None:
