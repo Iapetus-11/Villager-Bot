@@ -1924,15 +1924,16 @@ class Econ(commands.Cog):
 
         user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
         user_bees = 0 if user_bees is None else user_bees["amount"]
-        extra_yield = [0, int(max(0, max(0, math.log10(user_bees / 10))))]
+        extra_yield_limit = round(max(0, math.log((user_bees + 0.0001)/64)))
 
         amounts_harvested: DefaultDict[str, int] = defaultdict(int)
 
         for r in records:
             # amount of crop harvested
+            crop_type_yield = self.d.farming.crop_yields[r["crop_type"]]
             amount = sum(
-                random.randint(*self.d.farming.crop_yields[r["crop_type"]]) for _ in range(r["count"])
-            ) + random.randint(*extra_yield)
+                random.randint(*crop_type_yield) for _ in range(r["count"])
+            ) + random.randint(0, extra_yield_limit)
 
             await self.db.add_item(
                 ctx.author.id,
