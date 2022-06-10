@@ -1924,7 +1924,7 @@ class Econ(commands.Cog):
 
         user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
         user_bees = 0 if user_bees is None else user_bees["amount"]
-        extra_yield = [0, int(max(0, max(0, math.log10(user_bees/10))))]
+        extra_yield = [0, int(max(0, max(0, math.log10(user_bees / 10))))]
 
         amounts_harvested: DefaultDict[str, int] = defaultdict(int)
 
