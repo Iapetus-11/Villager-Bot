@@ -1,7 +1,13 @@
 import asyncio
+import json
+import os
+import secrets
 import time
 from contextlib import suppress
 from urllib.parse import quote as urlquote
+import aiofiles
+import moviepy.editor
+import aiohttp
 
 import arrow
 import async_cse
@@ -598,27 +604,91 @@ class Useful(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    # @commands.command(name="downloadredditvideo", aliases=["dlreddit", "redditdl", "vredditdl", "dlredditvideo"])
-    # @commands.cooldown(1, 2, commands.BucketType.user)
-    # async def reddit_media_download(self, ctx: Ctx, post_url: str):
-    #     if not post_url.startswith("https://www.reddit.com/r/"):
-    #         await ctx.reply_embed(ctx.l.useful.vredditdl.invalid_url)
-    #         return
+    @commands.command(name="redditdl", aliases=["redditsave", "saveredditpost"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def save_reddit_media(self, ctx: Ctx, post_url: str):
+        if not post_url.startswith("https://www.reddit.com/r/"):
+            await ctx.reply_embed("That's an invalid post URL!")
+            return
 
-    #     async with SuppressCtxManager(ctx.typing()):
-    #         try:
-    #             d = await (await self.aiohttp.get(post_url.rstrip(".json") + ".json")).json()
-    #             await ctx.send(
-    #                 ctx.l.useful.vredditdl.here_ya_go
-    #                 + " "
-    #                 + d[0]["data"]["children"][0]["data"]["media"]["reddit_video"]["fallback_url"].split("?")[0]
-    #             )
-    #         except aiohttp.client_exceptions.InvalidURL:
-    #             await ctx.reply_embed(ctx.l.useful.vredditdl.invalid_url)
-    #             return
-    #         except (IndexError, KeyError) as e:
-    #             print(e)
-    #             await ctx.reply_embed(ctx.l.useful.vredditdl.no_media)
+        post_json_url = post_url.strip().strip("/").split("?")[0] + "/.json"
+
+        async with SuppressCtxManager(ctx.typing()):
+            try:
+                res = await self.aiohttp.get(post_json_url)
+            except aiohttp.client_exceptions.InvalidURL:
+                await ctx.reply_embed("That's an invalid post URL!")
+                return
+
+            try:
+                data = await res.json()
+            except json.JSONDecodeError:
+                await ctx.reply_embed("Uh oh, we got an invalid response from Reddit")
+                return
+
+            post = data[0]["data"]["children"][0]["data"]
+
+            # check and handle a crosspost
+            if post.get("crosspost_parent_list"):
+                post = post["crosspost_parent_list"][0]
+
+            post_media = post.get("secure_media") or post.get("media")
+
+            # try to get video
+            if post_media and (reddit_video := post_media.get("reddit_video")):
+                if reddit_video.get("is_gif"):
+                    # is still a video, but no sound, so no need to download and stitch together
+                    await ctx.reply(reddit_video["fallback_url"])
+                    return
+
+                video_url = reddit_video["fallback_url"]
+                audio_url = video_url.replace(f"DASH_{reddit_video['height']}", "DASH_audio")
+
+                video_fname = f"tmp/video_{secrets.token_hex(4)}_{post['name']}.mp4"
+                audio_fname = f"tmp/audio_{secrets.token_hex(4)}_{post['name']}.mp4"
+                final_fname = f"tmp/final_{secrets.token_hex(4)}_{post['name']}.mp4"
+
+                # download audio and video to temp directory and stitch them together
+                try:
+                    progress_msg = await ctx.reply("Downloading video and audio...", mention_author=False)
+                    asyncio.create_task(ctx.trigger_typing())
+
+                    # stream download video to file
+                    async with self.aiohttp.get(video_url) as res, aiofiles.open(video_fname, mode="wb") as f:
+                        async for data_chunk in res.content.iter_any():
+                            await f.write(data_chunk)
+
+                    # stream download audio to file
+                    async with self.aiohttp.get(audio_url) as res, aiofiles.open(audio_fname, mode="wb") as f:
+                        async for data_chunk in res.content.iter_any():
+                            await f.write(data_chunk)
+
+                    asyncio.create_task(progress_msg.edit("Stitching together video and audio..."))
+                    
+                    # resize video, stitch video and audio together, then save to file
+                    def _ffmpeg_operations():
+                        video: moviepy.editor.VideoFileClip = moviepy.editor.VideoFileClip(video_fname).resize(0.5).set_audio(moviepy.editor.AudioFileClip(audio_fname))
+                        video.write_videofile(final_fname, logger=None, threads=4, fps=min(video.fps or 25, 25))
+
+                    await asyncio.get_event_loop().run_in_executor(self.bot.tp, _ffmpeg_operations)
+
+                    await progress_msg.delete()
+
+                    discord_file = disnake.File(final_fname, filename=f"vb_reddit_save_{post['name']}.mp4", description=post["title"])
+                    await ctx.reply(file=discord_file)
+                    return
+                finally:
+                    await asyncio.get_event_loop().run_in_executor(self.bot.tp, os.remove, video_fname)
+                    await asyncio.get_event_loop().run_in_executor(self.bot.tp, os.remove, audio_fname)
+                    await asyncio.get_event_loop().run_in_executor(self.bot.tp, os.remove, final_fname)
+
+            # try to get image/gif/whatever from preview info
+            if (preview_media := post.get("preview", {}).get("images")):
+                if (preview_gif := preview_media[0].get("variants", {}).get("gif")):
+                    await ctx.reply(preview_gif["source"]["url"])
+                    return
+
+            await ctx.reply("Couldn't find anything to download... :/")
 
 
 def setup(bot):

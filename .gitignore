@@ -7,3 +7,5 @@ villager-bot/*.so
 __pycache__/
 
 .venv/
+
+# villager-bot/tmp/
