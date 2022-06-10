@@ -1708,6 +1708,13 @@
       },
       "snipe": {
         "nothing": "There's nothing to snipe."
+      },
+      "redditdl": {
+        "invalid_url": "That's an invalid post link!",
+        "reddit_error": "Uh oh, something went wrong contacting Reddit",
+        "downloading": "{} Downloading video and audio...",
+        "stitching": "{} Stitching together video and audio...",
+        "couldnt_find": "Couldn't find anything to download... :/"
       }
     },
     "econ": {

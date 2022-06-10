@@ -608,7 +608,7 @@ class Useful(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def save_reddit_media(self, ctx: Ctx, post_url: str):
         if not post_url.startswith("https://www.reddit.com/r/"):
-            await ctx.reply_embed("That's an invalid post URL!")
+            await ctx.reply_embed(ctx.l.useful.redditdl.invalid_url)
             return
 
         post_json_url = post_url.strip().strip("/").split("?")[0] + "/.json"
@@ -617,13 +617,13 @@ class Useful(commands.Cog):
             try:
                 res = await self.aiohttp.get(post_json_url)
             except aiohttp.client_exceptions.InvalidURL:
-                await ctx.reply_embed("That's an invalid post URL!")
+                await ctx.reply_embed(ctx.l.useful.redditdl.invalid_url)
                 return
 
             try:
                 data = await res.json()
             except json.JSONDecodeError:
-                await ctx.reply_embed("Uh oh, we got an invalid response from Reddit")
+                await ctx.reply_embed(ctx.l.useful.redditdl.reddit_error)
                 return
 
             post = data[0]["data"]["children"][0]["data"]
@@ -650,7 +650,7 @@ class Useful(commands.Cog):
 
                 # download audio and video to temp directory and stitch them together
                 try:
-                    progress_msg = await ctx.reply("Downloading video and audio...", mention_author=False)
+                    progress_msg = await ctx.reply(ctx.l.useful.redditdl.downloading.format(self.d.emojis.aniloading), mention_author=False)
                     asyncio.create_task(ctx.trigger_typing())
 
                     # stream download video to file
@@ -663,7 +663,7 @@ class Useful(commands.Cog):
                         async for data_chunk in res.content.iter_any():
                             await f.write(data_chunk)
 
-                    asyncio.create_task(progress_msg.edit("Stitching together video and audio..."))
+                    asyncio.create_task(progress_msg.edit(ctx.l.useful.redditdl.stitching.format(self.d.emojis.aniloading)))
 
                     # resize video, stitch video and audio together, then save to file
                     def _ffmpeg_operations():
@@ -694,7 +694,7 @@ class Useful(commands.Cog):
                     await ctx.reply(preview_gif["source"]["url"])
                     return
 
-            await ctx.reply("Couldn't find anything to download... :/")
+            await ctx.reply(ctx.l.useful.redditdl.couldnt_find)
 
 
 def setup(bot):
