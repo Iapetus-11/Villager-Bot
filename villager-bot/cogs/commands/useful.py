@@ -5,13 +5,13 @@ import secrets
 import time
 from contextlib import suppress
 from urllib.parse import quote as urlquote
-import aiofiles
-import moviepy.editor
-import aiohttp
 
+import aiofiles
+import aiohttp
 import arrow
 import async_cse
 import disnake
+import moviepy.editor
 import psutil
 from bot import VillagerBotCluster
 from disnake.ext import commands, tasks
@@ -664,17 +664,23 @@ class Useful(commands.Cog):
                             await f.write(data_chunk)
 
                     asyncio.create_task(progress_msg.edit("Stitching together video and audio..."))
-                    
+
                     # resize video, stitch video and audio together, then save to file
                     def _ffmpeg_operations():
-                        video: moviepy.editor.VideoFileClip = moviepy.editor.VideoFileClip(video_fname).resize(0.5).set_audio(moviepy.editor.AudioFileClip(audio_fname))
+                        video: moviepy.editor.VideoFileClip = (
+                            moviepy.editor.VideoFileClip(video_fname)
+                            .resize(0.5)
+                            .set_audio(moviepy.editor.AudioFileClip(audio_fname))
+                        )
                         video.write_videofile(final_fname, logger=None, threads=4, fps=min(video.fps or 25, 25))
 
                     await asyncio.get_event_loop().run_in_executor(self.bot.tp, _ffmpeg_operations)
 
                     await progress_msg.delete()
 
-                    discord_file = disnake.File(final_fname, filename=f"vb_reddit_save_{post['name']}.mp4", description=post["title"])
+                    discord_file = disnake.File(
+                        final_fname, filename=f"vb_reddit_save_{post['name']}.mp4", description=post["title"]
+                    )
                     await ctx.reply(file=discord_file)
                     return
                 finally:
@@ -683,8 +689,8 @@ class Useful(commands.Cog):
                     await asyncio.get_event_loop().run_in_executor(self.bot.tp, os.remove, final_fname)
 
             # try to get image/gif/whatever from preview info
-            if (preview_media := post.get("preview", {}).get("images")):
-                if (preview_gif := preview_media[0].get("variants", {}).get("gif")):
+            if preview_media := post.get("preview", {}).get("images"):
+                if preview_gif := preview_media[0].get("variants", {}).get("gif"):
                     await ctx.reply(preview_gif["source"]["url"])
                     return
 
