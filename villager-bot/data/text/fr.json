@@ -403,7 +403,7 @@
           },
           {
             "d": 2,
-            "tf":true,
+            "tf": true,
             "q": "**Vrai** ou **faux**: Une houe en fer a plus de durabilité qu’une houe en or",
             "a": [
               "Vrai",

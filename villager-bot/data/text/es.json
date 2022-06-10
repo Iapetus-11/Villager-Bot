@@ -1245,7 +1245,6 @@
           }
         ]
       }
-      
     },
     "mobs_mech": {
       "no_health": "No tienes suficiente salud para luchar contra este monstruo.",
@@ -1709,6 +1708,13 @@
       },
       "snipe": {
         "nothing": "No hay nada que ver"
+      },
+      "redditdl": {
+        "invalid_url": "¡El link de esa publicación es inválido!",
+        "reddit_error": "Uh oh, algo ha ido mal contactando a Reddit",
+        "downloading": "{} Descargando vídeo y audio...",
+        "stitching": "{} Juntando el vídeo y el audio...",
+        "couldnt_find": "No se pudo encontrar nada para descargar... :/"
       }
     },
     "econ": {
