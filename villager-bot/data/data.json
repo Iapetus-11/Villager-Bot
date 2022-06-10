@@ -81,7 +81,7 @@
     "withdraw": 2,
     "buy": 5,
     "sell": 2,
-    "give": 10,
+    "give": 5,
     "gamble": 30,
     "search": 1800,
     "mine": 4,
