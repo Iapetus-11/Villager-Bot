@@ -650,7 +650,9 @@ class Useful(commands.Cog):
 
                 # download audio and video to temp directory and stitch them together
                 try:
-                    progress_msg = await ctx.reply(ctx.l.useful.redditdl.downloading.format(self.d.emojis.aniloading), mention_author=False)
+                    progress_msg = await ctx.reply(
+                        ctx.l.useful.redditdl.downloading.format(self.d.emojis.aniloading), mention_author=False
+                    )
                     asyncio.create_task(ctx.trigger_typing())
 
                     # stream download video to file
