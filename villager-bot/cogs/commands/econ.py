@@ -849,7 +849,7 @@ class Econ(commands.Cog):
             ),
         )
 
-    @commands.command(name="give", aliases=["gift", "share", "g", "gib"])
+    @commands.command(name="give", aliases=["gift", "share", "g", "gib", "trade"])
     @commands.guild_only()
     # @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
