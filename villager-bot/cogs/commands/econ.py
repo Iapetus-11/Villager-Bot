@@ -1104,7 +1104,7 @@ class Econ(commands.Cog):
             )
         else:
             # only works cause num of pickaxes is 6 and levels of fake finds is 3
-            fake_finds = self.d.mining.finds[self.d.mining.pickaxes.index(pickaxe) // 2]
+            fake_finds = self.d.mining.finds[2 - self.d.mining.pickaxes.index(pickaxe) // 2]
 
             find = random.choice(fake_finds)
             find_amount = random.randint(1, 6)
@@ -1983,7 +1983,7 @@ class Econ(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    @trashcan.command(name="empty")
+    @trash.command(name="empty")
     async def trashcan_empty(self, ctx: Ctx):
         total_ems, amount = await self.db.empty_trashcan(ctx.author.id)
 
