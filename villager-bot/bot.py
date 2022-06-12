@@ -83,7 +83,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.aiohttp = aiohttp.ClientSession()
         self.db: asyncpg.Pool = None
         self.tp: ThreadPoolExecutor = None
-        self.prevent_spawn_duplicates = TTLPreventDuplicate(25, 10)
+        self.prevent_spawn_duplicates = TTLPreventDuplicate(25)
 
         # caches
         self.ban_cache: Set[int] = set()  # set({user_id, user_id,..})
@@ -225,21 +225,20 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 ctx.custom_error = MaxKarenConcurrencyReached()
                 return False
 
-        # handle paused econ users
         if ctx.command.cog_name == "Econ":
             # check if user has paused econ
             res = await self.ipc.eval(f"econ_paused_users.get({ctx.author.id})")
-
             if res.result is not None:
                 ctx.failure_reason = "econ_paused"
                 return False
 
-            if random.randint(0, self.d.mob_chance) == 0:  # spawn mob?
+            # random chance to spawn mob
+            if random.randint(0, self.d.mob_chance) == 0:
                 if self.d.cooldown_rates.get(command, 0) >= 2:
                     if not self.prevent_spawn_duplicates.check(ctx.channel.id):
                         self.prevent_spawn_duplicates.put(ctx.channel.id)
                         asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
-            elif random.randint(0, self.d.tip_chance) == 0:  # send tip?
+            elif random.randint(0, self.d.tip_chance) == 0:  # random chance to send tip
                 asyncio.create_task(self.send_tip(ctx))
 
         if command_has_cooldown:

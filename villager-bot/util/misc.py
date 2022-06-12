@@ -166,9 +166,8 @@ async def update_support_member_role(bot, member):
 
 
 class TTLPreventDuplicate:
-    def __init__(self, expire_after: float, max_size: int):
+    def __init__(self, expire_after: float):
         self.expire_after = expire_after
-        self.max_size = max_size
 
         self.store = {}
 
