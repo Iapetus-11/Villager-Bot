@@ -140,6 +140,9 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild: disnake.Guild):
+        # log guild join
+        await self.db.add_guild_join(guild)
+
         # bot's funny replies are on by default
         self.bot.replies_cache.add(guild.id)
 
@@ -151,6 +154,11 @@ class Events(commands.Cog):
             self.bot.language_cache[guild.id] = lang
 
         await self.send_intro_message(guild)
+
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild: disnake.Guild):
+        # log guild leave
+        await self.db.add_guild_leave(guild)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):

@@ -120,3 +120,4 @@ CREATE TABLE IF NOT EXISTS filtered_words (
   guild_id           BIGINT NOT NULL,
   word               VARCHAR
 );
+

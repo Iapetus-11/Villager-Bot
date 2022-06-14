@@ -5,8 +5,11 @@ from datetime import datetime
 from typing import List, Set, Tuple
 
 import asyncpg
+import disnake
 from bot import VillagerBotCluster
 from disnake.ext import commands
+
+from data.enums.guild_event_type import GuildEventType
 
 
 class Database(commands.Cog):
@@ -571,6 +574,14 @@ class Database(commands.Cog):
         )
         await self.db.execute("DELETE FROM trash_can WHERE user_id = $1", user_id)
         return (float(trashcan["total_value"]), int(trashcan["amount"]))
+
+    async def add_guild_join(self, guild: disnake.Guild):
+        member_count = len([1 for m in guild.members if not m.bot])
+        await self.db.execute("INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, $3, $4)", guild.id, GuildEventType.GUILD_JOIN.value, member_count, guild.member_count)
+
+    async def add_guild_leave(self, guild: disnake.Guild):
+        member_count = len([1 for m in guild.members if not m.bot])
+        await self.db.execute("INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, $3, $4)", guild.id, GuildEventType.GUILD_LEAVE.value, member_count, guild.member_count)
 
 
 def setup(bot):
