@@ -7,9 +7,8 @@ from typing import List, Set, Tuple
 import asyncpg
 import disnake
 from bot import VillagerBotCluster
-from disnake.ext import commands
-
 from data.enums.guild_event_type import GuildEventType
+from disnake.ext import commands
 
 
 class Database(commands.Cog):
@@ -577,11 +576,23 @@ class Database(commands.Cog):
 
     async def add_guild_join(self, guild: disnake.Guild):
         member_count = len([1 for m in guild.members if not m.bot])
-        await self.db.execute("INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, $3, $4)", guild.id, GuildEventType.GUILD_JOIN.value, member_count, guild.member_count)
+        await self.db.execute(
+            "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, $3, $4)",
+            guild.id,
+            GuildEventType.GUILD_JOIN.value,
+            member_count,
+            guild.member_count,
+        )
 
     async def add_guild_leave(self, guild: disnake.Guild):
         member_count = len([1 for m in guild.members if not m.bot])
-        await self.db.execute("INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, $3, $4)", guild.id, GuildEventType.GUILD_LEAVE.value, member_count, guild.member_count)
+        await self.db.execute(
+            "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, $3, $4)",
+            guild.id,
+            GuildEventType.GUILD_LEAVE.value,
+            member_count,
+            guild.member_count,
+        )
 
 
 def setup(bot):
