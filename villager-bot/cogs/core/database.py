@@ -372,7 +372,9 @@ class Database(commands.Cog):
                 await self.badges.update_badge_fisherman(user_id, value)
 
     async def week_lb_add(self, user_id: int, lb: str, value: int) -> None:
-        await self.db.execute(f"UPDATE leaderboards SET week = DATE_TRUNC('WEEK', NOW()), {lb} = {lb} + $1 WHERE user_id = $2", value, user_id)
+        await self.db.execute(
+            f"UPDATE leaderboards SET week = DATE_TRUNC('WEEK', NOW()), {lb} = {lb} + $1 WHERE user_id = $2", value, user_id
+        )
 
     async def fetch_global_lb(self, lb: str, user_id: int) -> tuple:
         return (
