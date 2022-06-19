@@ -13,9 +13,12 @@ from util.cooldowns import CooldownManager, MaxConcurrencyManager
 from util.ipc import PacketHandlerRegistry, PacketType, Server, handle_packet
 from util.misc import MultiLock
 from util.setup import load_data, load_secrets, setup_karen_logging
+from util.recurring_task import RecurringTasksMixin, recurring_task
+
+logger = setup_karen_logging()
 
 
-class MechaKaren(PacketHandlerRegistry):
+class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     class Share:
         def __init__(self):
             self.start_time = arrow.utcnow()
@@ -32,7 +35,6 @@ class MechaKaren(PacketHandlerRegistry):
         self.d = load_data()
         self.v = self.Share()
 
-        self.logger = setup_karen_logging()
         self.db: asyncpg.Pool = None
         self.cooldowns = CooldownManager(self.d.cooldown_rates)
         self.concurrency = MaxConcurrencyManager()
@@ -53,12 +55,6 @@ class MechaKaren(PacketHandlerRegistry):
         self.commands = defaultdict(int)
         self.commands_lock = asyncio.Lock()
 
-        self.commands_task: asyncio.Task = None
-        self.heal_users_task: asyncio.Task = None
-        self.clear_trivia_commands_task: asyncio.Task = None
-        self.reminders_task: asyncio.Task = None
-        self.weekly_lbs_task: asyncio.Task = None
-
     @handle_packet(PacketType.MISSING_PACKET)
     async def handle_missing_packet(self, packet: ClassyDict):
         try:
@@ -66,14 +62,14 @@ class MechaKaren(PacketHandlerRegistry):
         except ValueError:
             packet_type = packet.get("type")
 
-        self.logger.error(f"Missing packet handler for packet type {packet_type}")
+        logger.error(f"Missing packet handler for packet type {packet_type}")
 
     @handle_packet(PacketType.CLUSTER_READY)
     async def handle_cluster_ready_packet(self, packet: ClassyDict):
         self.online_clusters.add(packet.cluster_id)
 
         if len(self.online_clusters) == self.k.cluster_count:
-            self.logger.info(f"\u001b[36;1mALL CLUSTERS\u001b[0m [0-{self.k.cluster_count-1}] \u001b[36;1mREADY\u001b[0m")
+            logger.info(f"\u001b[36;1mALL CLUSTERS\u001b[0m [0-{self.k.cluster_count-1}] \u001b[36;1mREADY\u001b[0m")
 
     @handle_packet(PacketType.EVAL)
     async def handle_eval_packet(self, packet: ClassyDict):
@@ -84,7 +80,7 @@ class MechaKaren(PacketHandlerRegistry):
             result = format_exception(e)
             success = False
 
-            self.logger.error(result)
+            logger.error(result)
 
         return {"type": PacketType.EVAL_RESPONSE, "result": result, "success": success}
 
@@ -97,7 +93,7 @@ class MechaKaren(PacketHandlerRegistry):
             result = format_exception(e)
             success = False
 
-            self.logger.error(result)
+            logger.error(result)
 
         return {"type": PacketType.EXEC_RESPONSE, "result": result, "success": success}
 
@@ -218,80 +214,57 @@ class MechaKaren(PacketHandlerRegistry):
         self.v.trivia_commands[packet.author] += 1
         return {"do_reward": self.v.trivia_commands[packet.author] < 5}
 
+    @recurring_task(seconds=60, logger=logger)
     async def commands_dump_loop(self):
-        try:
-            while True:
-                await asyncio.sleep(60)
+        if not self.commands:
+            return
 
-                if self.commands:
-                    async with self.commands_lock:
-                        commands_dump = list(self.commands.items())
-                        user_ids = [(user_id,) for user_id in list(self.commands.keys())]
+        async with self.commands_lock:
+            commands_dump = list(self.commands.items())
+            user_ids = [(user_id,) for user_id in list(self.commands.keys())]
 
-                        self.commands.clear()
+            self.commands.clear()
 
-                    await self.db.executemany(
-                        'INSERT INTO users (user_id) VALUES ($1) ON CONFLICT ("user_id") DO NOTHING', user_ids
-                    )  # ensure users are in the database first
-                    await self.db.executemany(
-                        'INSERT INTO leaderboards (user_id, commands) VALUES ($1, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2 WHERE leaderboards.user_id = $1',
-                        commands_dump,
-                    )
-        except Exception as e:
-            self.logger.error(format_exception(e))
+        await self.db.executemany(
+            'INSERT INTO users (user_id) VALUES ($1) ON CONFLICT ("user_id") DO NOTHING', user_ids
+        )  # ensure users are in the database first
+        await self.db.executemany(
+            'INSERT INTO leaderboards (user_id, commands) VALUES ($1, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2 WHERE leaderboards.user_id = $1',
+            commands_dump,
+        )
 
+    @recurring_task(seconds=32, logger=logger)
     async def heal_users_loop(self):
-        while True:
-            await asyncio.sleep(32)
+        await self.db.execute("UPDATE users SET health = health + 1 WHERE health < 20")
 
-            try:
-                await self.db.execute("UPDATE users SET health = health + 1 WHERE health < 20")
-            except Exception as e:
-                self.logger.error(format_exception(e))
-
+    @recurring_task(minutes=10, logger=logger)
     async def clear_trivia_commands_loop(self):
-        while True:
-            await asyncio.sleep(10 * 60)
+        self.v.trivia_commands.clear()
 
-            try:
-                self.v.trivia_commands.clear()
-            except Exception as e:
-                self.logger.error(format_exception(e))
-
+    @recurring_task(seconds=5, logger=logger)
     async def remind_reminders_loop(self):
-        while True:
-            await asyncio.sleep(5)
+        reminders = await self.db.fetch(
+            "DELETE FROM reminders WHERE at <= NOW() RETURNING channel_id, user_id, message_id, reminder"
+        )
 
-            try:
-                reminders = await self.db.fetch(
-                    "DELETE FROM reminders WHERE at <= NOW() RETURNING channel_id, user_id, message_id, reminder"
-                )
+        for reminder in reminders:
+            broadcast_id = f"b{self.current_id}"
+            self.current_id += 1
 
-                for reminder in reminders:
-                    broadcast_id = f"b{self.current_id}"
-                    self.current_id += 1
+            broadcast_packet = {"type": PacketType.REMINDER, "id": broadcast_id, **reminder}
+            broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections]
+            broadcast = self.broadcasts[broadcast_id] = {
+                "ready": asyncio.Event(),
+                "responses": [],
+                "expects": len(broadcast_coros),
+            }
 
-                    broadcast_packet = {"type": PacketType.REMINDER, "id": broadcast_id, **reminder}
-                    broadcast_coros = [s.write_packet(broadcast_packet) for s in self.server.connections]
-                    broadcast = self.broadcasts[broadcast_id] = {
-                        "ready": asyncio.Event(),
-                        "responses": [],
-                        "expects": len(broadcast_coros),
-                    }
+            await asyncio.wait(broadcast_coros)
+            await broadcast["ready"].wait()
 
-                    await asyncio.wait(broadcast_coros)
-                    await broadcast["ready"].wait()
-            except Exception as e:
-                self.logger.error(format_exception(e))
-
+    @recurring_task(hours=1, logger=logger)
     async def clear_weekly_leaderboards_loop(self):
-        while True:
-            await asyncio.sleep(3600)
-
-            try:
-                await self.db.execute("UPDATE leaderboards SET week_emeralds = 0 WHERE DATE_TRUNC('WEEK', NOW()) > week")
-            except Exception as e:
-                self.logger.error(format_exception(e))
+        await self.db.execute("UPDATE leaderboards SET week_emeralds = 0 WHERE DATE_TRUNC('WEEK', NOW()) > week")
 
     async def start(self, pp):
         self.db = await asyncpg.create_pool(
@@ -306,11 +279,11 @@ class MechaKaren(PacketHandlerRegistry):
         await self.server.start()
         self.cooldowns.start()
 
-        self.commands_task = asyncio.create_task(self.commands_dump_loop())
-        self.heal_users_task = asyncio.create_task(self.heal_users_loop())
-        self.clear_trivia_commands_task = asyncio.create_task(self.clear_trivia_commands_loop())
-        self.reminders_task = asyncio.create_task(self.remind_reminders_loop())
-        self.weekly_lbs_task = asyncio.create_task(self.clear_weekly_leaderboards_loop())
+        self.commands_dump_loop.start()
+        self.heal_users_loop.start()
+        self.clear_trivia_commands_loop.start()
+        self.remind_reminders_loop.start()
+        self.clear_weekly_leaderboards_loop.start()
 
         loop = asyncio.get_event_loop()
 
@@ -331,11 +304,11 @@ class MechaKaren(PacketHandlerRegistry):
 
         self.cooldowns.stop()
 
-        self.commands_task.cancel()
-        self.heal_users_task.cancel()
-        self.clear_trivia_commands_task.cancel()
-        self.reminders_task.cancel()
-        self.weekly_lbs_task.cancel()
+        self.commands_dump_loop.cancel()
+        self.heal_users_loop.cancel()
+        self.clear_trivia_commands_loop.cancel()
+        self.remind_reminders_loop.cancel()
+        self.clear_weekly_leaderboards_loop.cancel()
 
         await self.db.close()
 
