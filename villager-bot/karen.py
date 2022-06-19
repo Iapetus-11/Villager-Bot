@@ -335,6 +335,7 @@ class MechaKaren(PacketHandlerRegistry):
         self.heal_users_task.cancel()
         self.clear_trivia_commands_task.cancel()
         self.reminders_task.cancel()
+        self.weekly_lbs_task.cancel()
 
         await self.db.close()
 
