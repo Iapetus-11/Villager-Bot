@@ -1848,17 +1848,17 @@ class Econ(commands.Cog):
                     self.bot,
                     wems_global,
                     global_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.emerald}"),
                 ),
                 lb_logic(
                     self.bot,
                     wems_local,
                     local_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.emerald}"),
                 ),
             )
 
-        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald} "))
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -1877,13 +1877,13 @@ class Econ(commands.Cog):
                     self.bot,
                     wcmds_global,
                     global_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" :keyboard:"),
                 ),
                 lb_logic(
                     self.bot,
                     wcmds_local,
                     local_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" :keyboard:"),
                 ),
             )
 
