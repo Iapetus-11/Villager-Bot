@@ -1599,9 +1599,9 @@ class Econ(commands.Cog):
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name=f"{ctx.l.econ.lb.trash} {self.d.emojis.diamond}", value=f"`{ctx.prefix}leaderboard trash`")
 
-        embed.add_field(name=f"{ctx.l.econ.lb.farming} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard wems`")
+        embed.add_field(name=f"{ctx.l.econ.lb.wems} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard wems`")
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=f"{ctx.l.econ.lb.trash} :keyboard:", value=f"`{ctx.prefix}leaderboard wcmds`")
+        embed.add_field(name=f"{ctx.l.econ.lb.wcmds} :keyboard:", value=f"`{ctx.prefix}leaderboard wcmds`")
 
         await ctx.reply(embed=embed, mention_author=False)
 
