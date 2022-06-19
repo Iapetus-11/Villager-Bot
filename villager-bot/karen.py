@@ -264,7 +264,9 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
     @recurring_task(hours=1, logger=logger)
     async def clear_weekly_leaderboards_loop(self):
-        await self.db.execute("UPDATE leaderboards SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) WHERE DATE_TRUNC('WEEK', NOW()) > week")
+        await self.db.execute(
+            "UPDATE leaderboards SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) WHERE DATE_TRUNC('WEEK', NOW()) > week"
+        )
 
     async def start(self, pp):
         self.db = await asyncpg.create_pool(

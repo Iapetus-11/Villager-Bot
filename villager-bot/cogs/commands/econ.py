@@ -1573,18 +1573,14 @@ class Econ(commands.Cog):
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
 
-        embed.add_field(
-            name=f"{ctx.l.econ.lb.emeralds} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard emeralds`"
-        )
+        embed.add_field(name=f"{ctx.l.econ.lb.emeralds} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard emeralds`")
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(
             name=f"{ctx.l.econ.lb.mooderalds} {self.d.emojis.autistic_emerald}",
             value=f"`{ctx.prefix}leaderboard mooderalds`",
         )
 
-        embed.add_field(
-            name=f"{ctx.l.econ.lb.kills} {self.d.emojis.stevegun}", value=f"`{ctx.prefix}leaderboard mobkills`"
-        )
+        embed.add_field(name=f"{ctx.l.econ.lb.kills} {self.d.emojis.stevegun}", value=f"`{ctx.prefix}leaderboard mobkills`")
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name=f"{ctx.l.econ.lb.stolen} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard stolen`")
 
@@ -1602,11 +1598,8 @@ class Econ(commands.Cog):
         )
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name=f"{ctx.l.econ.lb.trash} {self.d.emojis.diamond}", value=f"`{ctx.prefix}leaderboard trash`")
-        
-        embed.add_field(
-            name=f"{ctx.l.econ.lb.farming} {self.d.emojis.emerald}",
-            value=f"`{ctx.prefix}leaderboard wems`"
-        )
+
+        embed.add_field(name=f"{ctx.l.econ.lb.farming} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard wems`")
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name=f"{ctx.l.econ.lb.trash} :keyboard:", value=f"`{ctx.prefix}leaderboard wcmds`")
 
