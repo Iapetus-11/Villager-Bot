@@ -572,7 +572,7 @@ class Database(commands.Cog):
         await self.db.execute("DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", user_id)
 
     async def use_bonemeal(self, user_id: int) -> None:
-        await self.db.execute("UPDATE farm_plots SET planted_at = planted_at - INTERVAL '1 DAY' WHERE user_id = $1", user_id)
+        await self.db.execute("UPDATE farm_plots SET planted_at = planted_at + (grow_time * 6 / 9) WHERE user_id = $1", user_id)
 
     async def add_to_trashcan(self, user_id: int, item: str, value: float, amount: int) -> None:
         await self.db.execute(
