@@ -57,6 +57,7 @@ class MechaKaren(PacketHandlerRegistry):
         self.heal_users_task: asyncio.Task = None
         self.clear_trivia_commands_task: asyncio.Task = None
         self.reminders_task: asyncio.Task = None
+        self.weekly_lbs_task: asyncio.Task = None
 
     @handle_packet(PacketType.MISSING_PACKET)
     async def handle_missing_packet(self, packet: ClassyDict):
@@ -283,9 +284,15 @@ class MechaKaren(PacketHandlerRegistry):
             except Exception as e:
                 self.logger.error(format_exception(e))
 
-                with open("reminderrors.txt", "a+") as f:
-                    f.write("\n" + format_exception(e) + "\n")
+    async def clear_weekly_leaderboards_loop(self):
+        while True:
+            await asyncio.sleep(3600)
 
+            try:
+                await self.db.execute("UPDATE leaderboards SET week_emeralds = 0 WHERE DATE_TRUNC('WEEK', NOW()) > week")
+            except Exception as e:
+                self.logger.error(format_exception(e))
+    
     async def start(self, pp):
         self.db = await asyncpg.create_pool(
             host=self.k.database.host,  # where db is hosted
@@ -303,6 +310,7 @@ class MechaKaren(PacketHandlerRegistry):
         self.heal_users_task = asyncio.create_task(self.heal_users_loop())
         self.clear_trivia_commands_task = asyncio.create_task(self.clear_trivia_commands_loop())
         self.reminders_task = asyncio.create_task(self.remind_reminders_loop())
+        self.weekly_lbs_task  = asyncio.create_task(self.clear_weekly_leaderboards_loop())
 
         loop = asyncio.get_event_loop()
 

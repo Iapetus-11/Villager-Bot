@@ -60,7 +60,9 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
   fish_fished        BIGINT NOT NULL DEFAULT 0, -- fishies fished
   commands           BIGINT NOT NULL DEFAULT 0, -- not super accurate as commands are cached for speed
   crops_planted      BIGINT NOT NULL DEFAULT 0,
-  trash_emptied      BIGINT NOT NULL DEFAULT 0
+  trash_emptied      BIGINT NOT NULL DEFAULT 0,
+  week_emeralds      BIGINT NOT NULL DEFAULT 0,
+  week               TIMESTAMPTZ NOT NULL DEFAULT DATE_TRUNC('WEEK', NOW())
 );
 
 -- CREATE TABLE IF NOT EXISTS pets (
