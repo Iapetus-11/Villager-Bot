@@ -1834,6 +1834,35 @@ class Econ(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
+    @leaderboards.command(name="weeklyemeralds", aliases=["wems", "weeklyems"])
+    async def leaderboard_weekly_emeralds(self, ctx: Ctx):
+        async with SuppressCtxManager(ctx.typing()):
+            wems_global, global_u_entry = await self.db.fetch_global_lb("week_emeralds", ctx.author.id)
+            wems_local, local_u_entry = await self.db.fetch_local_lb(
+                "week_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            )
+
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(
+                    self.bot,
+                    wems_global,
+                    global_u_entry,
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
+                ),
+                lb_logic(
+                    self.bot,
+                    wems_local,
+                    local_u_entry,
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
+                ),
+            )
+
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.emerald} "))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
+        await ctx.reply(embed=embed, mention_author=False)
+
     @commands.group(name="farm", case_insensitive=True)
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
     async def farm(self, ctx: Ctx):
