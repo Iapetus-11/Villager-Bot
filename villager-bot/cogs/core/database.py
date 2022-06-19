@@ -45,7 +45,7 @@ class Database(commands.Cog):
                 return True
 
             self.bot.existing_users_cache.add(user_id)
-            
+
             return False
         finally:
             if len(self.bot.existing_users_cache) > 30:

@@ -95,7 +95,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.rcon_cache: Dict[Tuple[int, Any], Any] = {}  # {(user_id, mc_server): rcon_client}
         self.filter_words_cache: DefaultDict[int, List[str]] = defaultdict(list)  # {guild_id: ["keyword", "keyword"]}
         self.new_member_cache: DefaultDict[int, set] = defaultdict(set)  # {guild_id: set()}
-        self.existing_users_cache: Set[int] = set()  # so the database doesn't have to make a query every time an econ command is ran to ensure user exists
+        self.existing_users_cache: Set[
+            int
+        ] = set()  # so the database doesn't have to make a query every time an econ command is ran to ensure user exists
 
         # support server channels
         self.error_channel: disnake.TextChannel = None
