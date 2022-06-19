@@ -2051,6 +2051,8 @@
         "mooderalds": "Mooderalds",
         "farming": "Cultivos Plantados",
         "trash": "Basura Tirada",
+        "wems": "Esmeraldas Semanales",
+        "wcmds": "Comandos Semanales",
         "lb_ems": "{0}__**Tabla de clasificación de esmeraldas**__{0}",
         "lb_pil": "{0}__**Tabla de clasificación de esmeraldas robadas**__{0}",
         "lb_kil": "{0}__**Tabla de clasificación de monstruos asesinados**__{0}",
@@ -2060,7 +2062,9 @@
         "lb_fish": "{0}__**Tabla de posiciones de peces pescados**__{0}",
         "lb_moods": "{0}__**Tabla de clasificación de mooderald**__{0}",
         "lb_farming": "{0}__**Clasificación de cultivos plantados**__{0}",
-        "lb_trash": "{0}__**Clasificaciones de basura tirada**__{0}"
+        "lb_trash": "{0}__**Clasificaciones de basura tirada**__{0}",
+        "lb_wems": "{0}__**Esmeraldas Semanales**__{0}",
+        "lb_wcmds": "{0}__**Comandos Semanales**__{0}"
       },
       "trash": {
         "s_trash": "Basura de {user}",

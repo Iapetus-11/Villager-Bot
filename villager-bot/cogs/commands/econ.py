@@ -840,7 +840,7 @@ class Econ(commands.Cog):
         await self.db.balance_add(ctx.author.id, amount * db_item["sell_price"])
         await self.db.remove_item(ctx.author.id, db_item["name"], amount)
 
-        await self.db.week_lb_add(ctx.author.id, "week_emeralds", amount * db_item["sell_price"])
+        await self.db.update_lb(ctx.author.id, "week_emeralds", amount * db_item["sell_price"])
 
         if db_item["name"].endswith("Pickaxe") or db_item["name"] == "Bane Of Pillagers Amulet":
             await self.ipc.broadcast({"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id})
@@ -1100,7 +1100,7 @@ class Econ(commands.Cog):
 
             await self.db.balance_add(ctx.author.id, found)
 
-            await self.db.week_lb_add(ctx.author.id, "week_emeralds", found)
+            await self.db.update_lb(ctx.author.id, "week_emeralds", found)
 
             await ctx.reply_embed(
                 f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
@@ -1285,7 +1285,7 @@ class Econ(commands.Cog):
             await self.db.balance_sub(victim.id, stolen)
             await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
 
-            await self.db.week_lb_add(ctx.author.id, "week_emeralds", adjusted)
+            await self.db.update_lb(ctx.author.id, "week_emeralds", adjusted)
 
             await ctx.reply_embed(random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
             await self.bot.send_embed(
@@ -1497,7 +1497,7 @@ class Econ(commands.Cog):
 
             await self.db.balance_add(ctx.author.id, ems)
 
-            await self.db.week_lb_add(ctx.author.id, "week_emeralds", ems)
+            await self.db.update_lb(ctx.author.id, "week_emeralds", ems)
 
             await ctx.reply_embed(random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
             return
@@ -1567,42 +1567,50 @@ class Econ(commands.Cog):
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def leaderboards(self, ctx: Ctx):
-        if ctx.invoked_subcommand is None:
-            ctx.command.reset_cooldown(ctx)
+        if ctx.invoked_subcommand is not None:
+            return
+        ctx.command.reset_cooldown(ctx)
 
-            embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
 
-            embed.add_field(
-                name=f"{ctx.l.econ.lb.emeralds} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard emeralds`"
-            )
-            embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(
-                name=f"{ctx.l.econ.lb.mooderalds} {self.d.emojis.autistic_emerald}",
-                value=f"`{ctx.prefix}leaderboard mooderalds`",
-            )
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.emeralds} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard emeralds`"
+        )
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.mooderalds} {self.d.emojis.autistic_emerald}",
+            value=f"`{ctx.prefix}leaderboard mooderalds`",
+        )
 
-            embed.add_field(
-                name=f"{ctx.l.econ.lb.kills} {self.d.emojis.stevegun}", value=f"`{ctx.prefix}leaderboard mobkills`"
-            )
-            embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=f"{ctx.l.econ.lb.stolen} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard stolen`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.kills} {self.d.emojis.stevegun}", value=f"`{ctx.prefix}leaderboard mobkills`"
+        )
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name=f"{ctx.l.econ.lb.stolen} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard stolen`")
 
-            embed.add_field(name=f"{ctx.l.econ.lb.bees} {self.d.emojis.bee}", value=f"`{ctx.prefix}leaderboard bees`")
-            embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=f"{ctx.l.econ.lb.fish} {self.d.emojis.fish.cod}", value=f"`{ctx.prefix}leaderboard fish`")
+        embed.add_field(name=f"{ctx.l.econ.lb.bees} {self.d.emojis.bee}", value=f"`{ctx.prefix}leaderboard bees`")
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name=f"{ctx.l.econ.lb.fish} {self.d.emojis.fish.cod}", value=f"`{ctx.prefix}leaderboard fish`")
 
-            embed.add_field(name=f"{ctx.l.econ.lb.votes} {self.d.emojis.updoot}", value=f"`{ctx.prefix}leaderboard votes`")
-            embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=f"{ctx.l.econ.lb.cmds} :keyboard:", value=f"`{ctx.prefix}leaderboard commands`")
+        embed.add_field(name=f"{ctx.l.econ.lb.votes} {self.d.emojis.updoot}", value=f"`{ctx.prefix}leaderboard votes`")
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name=f"{ctx.l.econ.lb.cmds} :keyboard:", value=f"`{ctx.prefix}leaderboard commands`")
 
-            embed.add_field(
-                name=f"{ctx.l.econ.lb.farming} {self.d.emojis.farming.normal.wheat}",
-                value=f"`{ctx.prefix}leaderboard farming`",
-            )
-            embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name=f"{ctx.l.econ.lb.trash} {self.d.emojis.diamond}", value=f"`{ctx.prefix}leaderboard trash`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.farming} {self.d.emojis.farming.normal.wheat}",
+            value=f"`{ctx.prefix}leaderboard farming`",
+        )
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name=f"{ctx.l.econ.lb.trash} {self.d.emojis.diamond}", value=f"`{ctx.prefix}leaderboard trash`")
+        
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.farming} {self.d.emojis.emerald}",
+            value=f"`{ctx.prefix}leaderboard wems`"
+        )
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name=f"{ctx.l.econ.lb.trash} :keyboard:", value=f"`{ctx.prefix}leaderboard wcmds`")
 
-            await ctx.reply(embed=embed, mention_author=False)
+        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx: Ctx):
@@ -1857,7 +1865,36 @@ class Econ(commands.Cog):
                 ),
             )
 
-        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.emerald} "))
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald} "))
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @leaderboards.command(name="weeklycommands", aliases=["wcmds", "weeklycmds", "wcmd"])
+    async def leaderboard_weekly_commands(self, ctx: Ctx):
+        async with SuppressCtxManager(ctx.typing()):
+            wcmds_global, global_u_entry = await self.db.fetch_global_lb("week_commands", ctx.author.id)
+            wcmds_local, local_u_entry = await self.db.fetch_local_lb(
+                "week_commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            )
+
+            lb_global, lb_local = await asyncio.gather(
+                lb_logic(
+                    self.bot,
+                    wcmds_global,
+                    global_u_entry,
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
+                ),
+                lb_logic(
+                    self.bot,
+                    wcmds_local,
+                    local_u_entry,
+                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
+                ),
+            )
+
+        embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wcmds.format(f" :keyboard: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
 
@@ -2032,7 +2069,7 @@ class Econ(commands.Cog):
         await self.db.balance_add(ctx.author.id, total_ems)
 
         await self.db.update_lb(ctx.author.id, "trash_emptied", amount)
-        await self.db.week_lb_add(ctx.author.id, "week_emeralds", total_ems)
+        await self.db.update_lb(ctx.author.id, "week_emeralds", total_ems)
 
         await ctx.reply_embed(ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald))
 

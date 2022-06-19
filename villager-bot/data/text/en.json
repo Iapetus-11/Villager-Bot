@@ -2051,6 +2051,8 @@
         "mooderalds": "Mooderalds",
         "farming": "Crops Planted",
         "trash": "Trash Emptied",
+        "wems": "Weekly Emeralds",
+        "wcmds": "Weekly Commands",
         "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
         "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
         "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
@@ -2060,7 +2062,9 @@
         "lb_fish": "{0}__**Fish Fished Leaderboard**__{0}",
         "lb_moods": "{0}__**Mooderald Leaderboard**__{0}",
         "lb_farming": "{0}__**Crops Planted Leaderboard**__{0}",
-        "lb_trash": "{0}__**Trash Emptied Leaderboard**__{0}"
+        "lb_trash": "{0}__**Trash Emptied Leaderboard**__{0}",
+        "lb_wems": "{0}__**Weekly Emeralds**__{0}",
+        "lb_wcmds": "{0}__**Weekly Commands**__{0}"
       },
       "trash": {
         "s_trash": "{user}'s Trash Can",

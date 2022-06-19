@@ -229,7 +229,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             'INSERT INTO users (user_id) VALUES ($1) ON CONFLICT ("user_id") DO NOTHING', user_ids
         )  # ensure users are in the database first
         await self.db.executemany(
-            'INSERT INTO leaderboards (user_id, commands) VALUES ($1, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2 WHERE leaderboards.user_id = $1',
+            'INSERT INTO leaderboards (user_id, commands, week_commands) VALUES ($1, $2, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2, "week_commands" = leaderboards.week_commands + $2 WHERE leaderboards.user_id = $1',
             commands_dump,
         )
 
@@ -264,7 +264,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
     @recurring_task(hours=1, logger=logger)
     async def clear_weekly_leaderboards_loop(self):
-        await self.db.execute("UPDATE leaderboards SET week_emeralds = 0 WHERE DATE_TRUNC('WEEK', NOW()) > week")
+        await self.db.execute("UPDATE leaderboards SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) WHERE DATE_TRUNC('WEEK', NOW()) > week")
 
     async def start(self, pp):
         self.db = await asyncpg.create_pool(
