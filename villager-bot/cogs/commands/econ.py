@@ -840,6 +840,8 @@ class Econ(commands.Cog):
         await self.db.balance_add(ctx.author.id, amount * db_item["sell_price"])
         await self.db.remove_item(ctx.author.id, db_item["name"], amount)
 
+        await self.db.week_lb_add(ctx.author.id, "week_emeralds", amount * db_item["sell_price"])
+
         if db_item["name"].endswith("Pickaxe") or db_item["name"] == "Bane Of Pillagers Amulet":
             await self.ipc.broadcast({"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id})
 
@@ -1097,6 +1099,8 @@ class Econ(commands.Cog):
                 found *= 2
 
             await self.db.balance_add(ctx.author.id, found)
+            
+            await self.db.week_lb_add(ctx.author.id, "week_emeralds", found)
 
             await ctx.reply_embed(
                 f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
@@ -1280,6 +1284,8 @@ class Econ(commands.Cog):
 
             await self.db.balance_sub(victim.id, stolen)
             await self.db.balance_add(ctx.author.id, adjusted)  # 8% tax
+
+            await self.db.week_lb_add(ctx.author.id, "week_emeralds", adjusted)
 
             await ctx.reply_embed(random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
             await self.bot.send_embed(
@@ -1489,8 +1495,11 @@ class Econ(commands.Cog):
                 ems *= 1.5
                 ems = round(ems)
 
-            await ctx.reply_embed(random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
             await self.db.balance_add(ctx.author.id, ems)
+
+            await self.db.week_lb_add(ctx.author.id, "week_emeralds", ems)
+
+            await ctx.reply_embed(random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
             return
 
         if thing == "glass beaker":
@@ -1994,6 +2003,7 @@ class Econ(commands.Cog):
         await self.db.balance_add(ctx.author.id, total_ems)
 
         await self.db.update_lb(ctx.author.id, "trash_emptied", amount)
+        await self.db.week_lb_add(ctx.author.id, "week_emeralds", total_ems)
 
         await ctx.reply_embed(ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald))
 
