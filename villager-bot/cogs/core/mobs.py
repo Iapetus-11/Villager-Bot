@@ -297,7 +297,7 @@ class MobSpawner(commands.Cog):
 
             if user_health > 0:  # user win
                 # if mob is slime, determine if it drops slime balls (1/26 chance)
-                if mob_key == "baby_slime" and random.randint(0, 25) == 1:
+                if mob_key == "baby_slime" and random.randint(0, 25 - (looting_level * 4)) == 1:
                     if difficulty == "easy":
                         balls_won = random.randint(1, 10)
                     else:
@@ -310,7 +310,7 @@ class MobSpawner(commands.Cog):
 
                     await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(balls_won, self.d.emojis.slimeball))
                 # if mob is skeleton determine if they should drop bone meal (1/16 chance)
-                elif mob_key == "skeleton" and random.randint(0, 15) == 1:
+                elif mob_key == "skeleton" and random.randint(0, 20 - (looting_level * 3)) == 1:
                     await self.db.add_item(user.id, "Bone Meal", 512, 1)
 
                     await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(1, self.d.emojis.bone_meal))

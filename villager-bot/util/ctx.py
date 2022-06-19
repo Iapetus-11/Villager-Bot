@@ -10,6 +10,7 @@ class CustomContext(Context):
         super().__init__(*args, **kwargs)
         self.embed_color = embed_color  # used in send_embed(...) and reply_embed(...)
         self.l: cj.ClassyDict = None  # the translation of the bot text for the current context
+        self.failure_reason: str = None  # failure reason used in some command error handling
 
     async def send_embed(self, message: str, *, ignore_exceptions: bool = False) -> None:
         embed = disnake.Embed(color=self.embed_color, description=message)
