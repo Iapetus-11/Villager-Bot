@@ -37,6 +37,24 @@ class Database(commands.Cog):
         self.bot.replies_cache = await self.fetch_all_do_replies()
         self.bot.filter_words_cache = await self.fetch_all_filtered_words()
 
+    def _check_add_user_cache(self, user_id: int) -> bool:
+        """Checks if a user ID is in the cache, adds it if it isn't, and ensures the cache size is <=30"""
+
+        try:
+            if user_id in self.bot.existing_users_cache:
+                return True
+
+            self.bot.existing_users_cache.add(user_id)
+            
+            return False
+        finally:
+            if len(self.bot.existing_users_cache) > 30:
+                self.bot.existing_users_cache.pop()
+
+    async def ensure_user_exists(self, user_id: int):
+        if not self._check_add_user_cache(user_id):
+            await self.fetch_user(user_id)
+
     async def fetch_user_reminder_count(self, user_id: int) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE user_id = $1", user_id)
 
@@ -198,11 +216,11 @@ class Database(commands.Cog):
         await self.badges.update_badge_uncle_scrooge(user_id, db_user)
 
     async def fetch_items(self, user_id: int) -> List[asyncpg.Record]:
-        await self.fetch_user(user_id)
+        await self.ensure_user_exists(user_id)
         return await self.db.fetch("SELECT * FROM items WHERE user_id = $1", user_id)
 
     async def fetch_item(self, user_id: int, name: str) -> asyncpg.Record:
-        await self.fetch_user(user_id)
+        await self.ensure_user_exists(user_id)
         return await self.db.fetchrow("SELECT * FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name)
 
     async def add_item(
@@ -436,7 +454,7 @@ class Database(commands.Cog):
         )
 
     async def set_botbanned(self, user_id: int, botbanned: bool) -> None:
-        await self.fetch_user(user_id)
+        await self.ensure_user_exists(user_id)
 
         if botbanned:
             if user_id not in self.bot.ban_cache:
