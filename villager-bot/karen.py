@@ -12,8 +12,8 @@ from util.code import execute_code, format_exception
 from util.cooldowns import CooldownManager, MaxConcurrencyManager
 from util.ipc import PacketHandlerRegistry, PacketType, Server, handle_packet
 from util.misc import MultiLock
-from util.setup import load_data, load_secrets, setup_karen_logging
 from util.recurring_task import RecurringTasksMixin, recurring_task
+from util.setup import load_data, load_secrets, setup_karen_logging
 
 logger = setup_karen_logging()
 
