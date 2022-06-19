@@ -1099,7 +1099,7 @@ class Econ(commands.Cog):
                 found *= 2
 
             await self.db.balance_add(ctx.author.id, found)
-            
+
             await self.db.week_lb_add(ctx.author.id, "week_emeralds", found)
 
             await ctx.reply_embed(
