@@ -337,6 +337,7 @@ class MobSpawner(commands.Cog):
 
                     await self.db.balance_add(user.id, ems_won)
                     await self.db.update_lb(user.id, "mobs_killed", 1, "add")
+                    await self.db.update_lb(user.id, "week_emeralds", 1, "add")
 
                     await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
             else:  # mob win
