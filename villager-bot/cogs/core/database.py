@@ -174,7 +174,7 @@ class Database(commands.Cog):
 
     async def fetch_balance(self, user_id: int) -> int:
         """Fetches the amount of emeralds a user has"""
-        
+
         await self.ensure_user_exists(user_id)
         return await self.db.fetchval("SELECT emeralds FROM users WHERE user_id = $1", user_id)
 
@@ -382,13 +382,16 @@ class Database(commands.Cog):
     #     )
 
     async def fetch_global_lb(self, lb: str, user_id: int) -> List[asyncpg.Record]:
-        return await self.db.fetch(f"""
+        return await self.db.fetch(
+            f"""
         WITH lb AS (SELECT user_id, {lb} AS amount, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS idx FROM leaderboards)
         (
             (SELECT lb.* FROM lb LIMIT 10)
             UNION
             (SELECT lb.* FROM lb WHERE lb.user_id = $1)
-        ) ORDER BY idx;""", user_id)
+        ) ORDER BY idx;""",
+            user_id,
+        )
 
     # async def fetch_local_lb(self, lb: str, user_id: int, user_ids: list) -> tuple:
     #     return (
@@ -404,13 +407,17 @@ class Database(commands.Cog):
     #     )
 
     async def fetch_local_lb(self, lb: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
-        return await self.db.fetch(f"""
+        return await self.db.fetch(
+            f"""
         WITH lb AS (SELECT user_id, {lb} AS amount, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS idx FROM leaderboards WHERE user_id = ANY($2::BIGINT[]))
         (
             (SELECT lb.* FROM lb LIMIT 10)
             UNION
             (SELECT lb.* FROM lb WHERE lb.user_id = $1)
-        ) ORDER BY idx;""", user_id, user_ids)
+        ) ORDER BY idx;""",
+            user_id,
+            user_ids,
+        )
 
     # async def fetch_global_lb_user(self, column: str, user_id: int) -> tuple:
     #     return (
@@ -428,13 +435,16 @@ class Database(commands.Cog):
     #     )
 
     async def fetch_global_lb_user(self, column: str, user_id: int) -> List[asyncpg.Record]:
-        return await self.db.fetch(f"""
+        return await self.db.fetch(
+            f"""
         WITH lb AS (SELECT user_id, {column} AS amount, ROW_NUMBER() OVER(ORDER BY {column} DESC) AS idx FROM users WHERE {column} > 0 AND bot_banned = false)
         (
             (SELECT lb.* FROM lb LIMIT 10)
             UNION
             (SELECT lb.* FROM lb WHERE lb.user_id = $1)
-        ) ORDER BY idx;""", user_id)
+        ) ORDER BY idx;""",
+            user_id,
+        )
 
     # async def fetch_local_lb_user(self, column: str, user_id: int, user_ids: list) -> tuple:
     #     return (
@@ -454,13 +464,17 @@ class Database(commands.Cog):
     #     )
 
     async def fetch_local_lb_user(self, column: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
-        return await self.db.fetch(f"""
+        return await self.db.fetch(
+            f"""
         WITH lb AS (SELECT user_id, {column} AS amount, ROW_NUMBER() OVER(ORDER BY {column} DESC) AS idx FROM users WHERE {column} > 0 AND bot_banned = false AND user_id = ANY($2::BIGINT[]))
         (
             (SELECT lb.* FROM lb LIMIT 10)
             UNION
             (SELECT lb.* FROM lb WHERE lb.user_id = $1)
-        ) ORDER BY idx;""", user_id, user_ids)
+        ) ORDER BY idx;""",
+            user_id,
+            user_ids,
+        )
 
     # async def fetch_global_lb_item(self, item: str, user_id: int) -> tuple:
     #     return (
@@ -476,13 +490,17 @@ class Database(commands.Cog):
     #     )
 
     async def fetch_global_lb_item(self, item: str, user_id: int) -> List[asyncpg.Record]:
-        return await self.db.fetch("""
+        return await self.db.fetch(
+            """
         WITH lb AS (SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS idx FROM items WHERE LOWER(name) = LOWER($2))
         (
             (SELECT lb.* FROM lb LIMIT 10)
             UNION
             (SELECT lb.* FROM lb WHERE lb.user_id = $1)
-        ) ORDER BY idx;""", user_id, item)
+        ) ORDER BY idx;""",
+            user_id,
+            item,
+        )
 
     # async def fetch_local_lb_item(self, item: str, user_id: int, user_ids: list) -> tuple:
     #     return (
@@ -500,13 +518,18 @@ class Database(commands.Cog):
     #     )
 
     async def fetch_local_lb_item(self, item: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
-        return await self.db.fetch("""
+        return await self.db.fetch(
+            """
         WITH lb AS (SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS idx FROM items WHERE LOWER(name) = LOWER($2) AND user_id = ANY($3::BIGINT[]))
         (
             (SELECT lb.* FROM lb LIMIT 10)
             UNION
             (SELECT lb.* FROM lb WHERE lb.user_id = $1)
-        ) ORDER BY idx;""", user_id, item, user_ids)
+        ) ORDER BY idx;""",
+            user_id,
+            item,
+            user_ids,
+        )
 
     async def set_botbanned(self, user_id: int, botbanned: bool) -> None:
         await self.ensure_user_exists(user_id)

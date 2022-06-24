@@ -15,10 +15,10 @@ from util.ipc import PacketType
 from util.misc import (
     SuppressCtxManager,
     calc_total_wealth,
+    craft_lbs,
     emojify_crop,
     emojify_item,
     format_required,
-    craft_lbs,
     make_health_bar,
 )
 
@@ -1613,7 +1613,9 @@ class Econ(commands.Cog):
                 "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}"
+            )
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
@@ -1629,7 +1631,9 @@ class Econ(commands.Cog):
                 "pillaged_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}"
+            )
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=global_lb_str)
@@ -1645,7 +1649,9 @@ class Econ(commands.Cog):
                 "mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.stevegun} {{}}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.stevegun} {{}}"
+            )
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
@@ -1661,7 +1667,9 @@ class Econ(commands.Cog):
                 "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.bee} {{}}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.bee} {{}}"
+            )
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
@@ -1673,9 +1681,7 @@ class Econ(commands.Cog):
     async def leaderboard_commands(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb("commands", ctx.author.id)
-            local_lb = await self.db.fetch_local_lb(
-                "commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
-            )
+            local_lb = await self.db.fetch_local_lb("commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot])
 
             global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}")
 
@@ -1693,7 +1699,9 @@ class Econ(commands.Cog):
                 "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.updoot} {{}}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.updoot} {{}}"
+            )
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(" :fire: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
@@ -1709,7 +1717,9 @@ class Econ(commands.Cog):
                 "fish_fished", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.fish.cod} {{}}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.fish.cod} {{}}"
+            )
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
@@ -1725,7 +1735,9 @@ class Econ(commands.Cog):
                 "Mooderald", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.autistic_emerald} {{}}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.autistic_emerald} {{}}"
+            )
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
@@ -1741,7 +1753,9 @@ class Econ(commands.Cog):
                 "crops_planted", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds.wheat} {{}}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds.wheat} {{}}"
+            )
 
         embed = disnake.Embed(
             color=self.d.cc, title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal.wheat} ")
@@ -1759,7 +1773,9 @@ class Econ(commands.Cog):
                 "trash_emptied", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.diamond} {{}}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.diamond} {{}}"
+            )
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
@@ -1775,7 +1791,9 @@ class Econ(commands.Cog):
                 "week_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.emerald} {{}}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.emerald} {{}}"
+            )
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
