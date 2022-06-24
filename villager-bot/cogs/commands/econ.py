@@ -18,7 +18,7 @@ from util.misc import (
     emojify_crop,
     emojify_item,
     format_required,
-    lb_logic,
+    craft_lbs,
     make_health_bar,
 )
 
@@ -1608,288 +1608,194 @@ class Econ(commands.Cog):
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            ems_global, global_u_entry = await self.db.fetch_global_lb_user("emeralds", ctx.author.id)
-            ems_local, local_u_entry = await self.db.fetch_local_lb_user(
+            global_lb = await self.db.fetch_global_lb_user("emeralds", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb_user(
                 "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(self.bot, ems_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)),
-                lb_logic(self.bot, ems_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="pillages", aliases=["pil", "stolen"])
     async def leaderboard_pillages(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            pillages_global, global_u_entry = await self.db.fetch_global_lb("pillaged_emeralds", ctx.author.id)
-            pillages_local, local_u_entry = await self.db.fetch_local_lb(
+            global_lb = await self.db.fetch_global_lb("pillaged_emeralds", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb(
                 "pillaged_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(
-                    self.bot, pillages_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
-                ),
-                lb_logic(
-                    self.bot, pillages_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.emerald)
-                ),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=global_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=local_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="mobkills", aliases=["kil", "kills", "kill", "bonk"])
     async def leaderboard_mobkills(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            kills_global, global_u_entry = await self.db.fetch_global_lb("mobs_killed", ctx.author.id)
-            kills_local, local_u_entry = await self.db.fetch_local_lb(
+            global_lb = await self.db.fetch_global_lb("mobs_killed", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb(
                 "mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(
-                    self.bot, kills_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)
-                ),
-                lb_logic(self.bot, kills_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.stevegun)),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.stevegun} {{}}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
     async def leaderboard_bees(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            bees_global, global_u_entry = await self.db.fetch_global_lb_item("Jar Of Bees", ctx.author.id)
-            bees_local, local_u_entry = await self.db.fetch_local_lb_item(
+            global_lb = await self.db.fetch_global_lb_item("Jar Of Bees", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb_item(
                 "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(self.bot, bees_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee)),
-                lb_logic(self.bot, bees_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.bee)),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.bee} {{}}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="commands", aliases=["!!", "cmds"])
     async def leaderboard_commands(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            cmds_global, global_u_entry = await self.db.fetch_global_lb("commands", ctx.author.id)
-            cmds_local, local_u_entry = await self.db.fetch_local_lb(
+            global_lb = await self.db.fetch_global_lb("commands", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb(
                 "commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(self.bot, cmds_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", " :keyboard:")),
-                lb_logic(self.bot, cmds_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", " :keyboard:")),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: "))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            votes_global, global_u_entry = await self.db.fetch_global_lb_user("vote_streak", ctx.author.id)
-            votes_local, local_u_entry = await self.db.fetch_local_lb_user(
+            global_lb = await self.db.fetch_global_lb_user("vote_streak", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb_user(
                 "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(self.bot, votes_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)),
-                lb_logic(self.bot, votes_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.updoot)),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.updoot} {{}}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(" :fire: "))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
     async def leaderboard_fish(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            fish_global, global_u_entry = await self.db.fetch_global_lb("fish_fished", ctx.author.id)
-            fish_local, local_u_entry = await self.db.fetch_local_lb(
+            global_lb = await self.db.fetch_global_lb("fish_fished", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb(
                 "fish_fished", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(
-                    self.bot, fish_global, global_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)
-                ),
-                lb_logic(self.bot, fish_local, local_u_entry, "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.fish.cod)),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.fish.cod} {{}}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="mooderalds", aliases=["autism", "moods", "mooderald"])
     async def leaderboard_mooderalds(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            moods_global, global_u_entry = await self.db.fetch_global_lb_item("Mooderald", ctx.author.id)
-            moods_local, local_u_entry = await self.db.fetch_local_lb_item(
+            global_lb = await self.db.fetch_global_lb_item("Mooderald", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb_item(
                 "Mooderald", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(
-                    self.bot,
-                    moods_global,
-                    global_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald),
-                ),
-                lb_logic(
-                    self.bot,
-                    moods_local,
-                    local_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", self.d.emojis.autistic_emerald),
-                ),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.autistic_emerald} {{}}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="farming", aliases=["farm", "crop", "crops"])
     async def leaderboard_farming(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            crops_global, global_u_entry = await self.db.fetch_global_lb("crops_planted", ctx.author.id)
-            crops_local, local_u_entry = await self.db.fetch_local_lb(
+            global_lb = await self.db.fetch_global_lb("crops_planted", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb(
                 "crops_planted", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(
-                    self.bot,
-                    crops_global,
-                    global_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.farming.seeds.wheat}"),
-                ),
-                lb_logic(
-                    self.bot,
-                    crops_local,
-                    local_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.farming.seeds.wheat}"),
-                ),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds.wheat} {{}}")
 
         embed = disnake.Embed(
             color=self.d.cc, title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal.wheat} ")
         )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="trash", aliases=["trashcan", "garbage", "tc"])
     async def leaderboard_trash(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            trash_global, global_u_entry = await self.db.fetch_global_lb("trash_emptied", ctx.author.id)
-            trash_local, local_u_entry = await self.db.fetch_local_lb(
+            global_lb = await self.db.fetch_global_lb("trash_emptied", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb(
                 "trash_emptied", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(
-                    self.bot,
-                    trash_global,
-                    global_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
-                ),
-                lb_logic(
-                    self.bot,
-                    trash_local,
-                    local_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.diamond}"),
-                ),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.diamond} {{}}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} "))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="weeklyemeralds", aliases=["wems", "weeklyems"])
     async def leaderboard_weekly_emeralds(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            wems_global, global_u_entry = await self.db.fetch_global_lb("week_emeralds", ctx.author.id)
-            wems_local, local_u_entry = await self.db.fetch_local_lb(
+            global_lb = await self.db.fetch_global_lb("week_emeralds", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb(
                 "week_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(
-                    self.bot,
-                    wems_global,
-                    global_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.emerald}"),
-                ),
-                lb_logic(
-                    self.bot,
-                    wems_local,
-                    local_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" {self.d.emojis.emerald}"),
-                ),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.emerald} {{}}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} "))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="weeklycommands", aliases=["wcmds", "weeklycmds", "wcmd"])
     async def leaderboard_weekly_commands(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            wcmds_global, global_u_entry = await self.db.fetch_global_lb("week_commands", ctx.author.id)
-            wcmds_local, local_u_entry = await self.db.fetch_local_lb(
+            global_lb = await self.db.fetch_global_lb("week_commands", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb(
                 "week_commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            lb_global, lb_local = await asyncio.gather(
-                lb_logic(
-                    self.bot,
-                    wcmds_global,
-                    global_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" :keyboard:"),
-                ),
-                lb_logic(
-                    self.bot,
-                    wcmds_local,
-                    local_u_entry,
-                    "\n`{0}.` **{0}**{1} {0}".format("{}", f" :keyboard:"),
-                ),
-            )
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}")
 
         embed = disnake.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wcmds.format(f" :keyboard: "))
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=lb_local)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=lb_global)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 

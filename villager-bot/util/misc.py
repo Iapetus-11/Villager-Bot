@@ -3,6 +3,7 @@ import math
 import time
 from collections import defaultdict
 from contextlib import suppress
+import asyncpg
 from typing import List, Tuple
 
 import arrow
@@ -48,49 +49,88 @@ def make_health_bar(health: int, max_health: int, full: str, half: str, empty: s
         + f" ({health}/{max_health})"
     )
 
+async def _attempt_get_username(bot, user_id: int) -> str:
+    # first see if current cluster has user in cache
+    user_name = getattr(bot.get_user(user_id), "name", None)
 
-async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
-    # add user entry to leaderboard if it's not there already
-    if u_entry is not None and u_entry[0] not in [e[0] for e in lb_list]:
-        lb_list.append(u_entry)
+    # fall back to other clusters to get username
+    if user_name is None:
+        res = await bot.ipc.broadcast(
+            {"type": PacketType.EVAL, "code": f"getattr(bot.get_user({user_id}), 'name', None)"}
+        )
 
-    # sort
-    lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
+        for r in res.responses:
+            if not r.success:
+                raise ValueError(r.result)
 
-    # shorten list
-    lb_list = lb_list[:9] if (u_entry is not None and u_entry[2] > 9) else lb_list[:10]
+            if r.result:
+                return r.result
 
+    return user_name or "unknown user"
+
+async def _craft_lb(bot, leaderboard: List[asyncpg.Record], row_fstr: str) -> str:
     body = ""
+    last_idx = 0
 
-    # create base leaderboard
-    for entry in lb_list:
-        user = getattr(bot.get_user(entry[0]), "name", None)
+    for i, row in enumerate(leaderboard):
+        user_name = disnake.utils.escape_markdown(await _attempt_get_username(bot, row["user_id"]))
 
-        if user is None:
-            res = await bot.ipc.broadcast(
-                {"type": PacketType.EVAL, "code": f"getattr(bot.get_user({entry[0]}), 'name', None)"}
-            )
+        idxs_skipped: bool = last_idx != row["idx"] - 1
 
-            for r in res.responses:
-                if not r.success:
-                    raise ValueError(r.result)
-
-                if r.result:
-                    user = r.result
-                    break
-
-        if user is None:
-            user = "Unknown User"
-        else:
-            user = disnake.utils.escape_markdown(user)
-
-        body += rank_fstr.format(entry[2], entry[1], user)
-
-    # add user if user is missing from the leaderboard
-    if u_entry is not None and u_entry[2] > 9:
-        body += "\n⋮" + rank_fstr.format(u_entry[2], u_entry[1], disnake.utils.escape_markdown(bot.get_user(u_entry[0]).name))
+        if idxs_skipped:
+            body += "\n⋮"
+        
+        if i < 9 or idxs_skipped:
+            body += row_fstr.format(row["idx"], row["amount"], user_name)
+            last_idx = row["idx"]
 
     return body + "\uFEFF"
+
+async def craft_lbs(bot, global_lb: List[asyncpg.Record], local_lb: List[asyncpg.Record], row_fstr: str) -> Tuple[str, str]:
+    return await asyncio.gather(_craft_lb(bot, global_lb, row_fstr), _craft_lb(bot, local_lb, row_fstr))
+
+# async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
+#     # add user entry to leaderboard if it's not there already
+#     if u_entry is not None and u_entry[0] not in [e[0] for e in lb_list]:
+#         lb_list.append(u_entry)
+
+#     # sort
+#     lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
+
+#     # shorten list
+#     lb_list = lb_list[:9] if (u_entry is not None and u_entry[2] > 9) else lb_list[:10]
+
+#     body = ""
+
+#     # create base leaderboard
+#     for entry in lb_list:
+#         user = getattr(bot.get_user(entry[0]), "name", None)
+
+#         if user is None:
+#             res = await bot.ipc.broadcast(
+#                 {"type": PacketType.EVAL, "code": f"getattr(bot.get_user({entry[0]}), 'name', None)"}
+#             )
+
+#             for r in res.responses:
+#                 if not r.success:
+#                     raise ValueError(r.result)
+
+#                 if r.result:
+#                     user = r.result
+#                     break
+
+#         if user is None:
+#             user = "Unknown User"
+#         else:
+#             user = disnake.utils.escape_markdown(user)
+
+#         body += rank_fstr.format(entry[2], entry[1], user)
+
+#     # add user if user is missing from the leaderboard
+#     if u_entry is not None and u_entry[2] > 9:
+#         body += "\n⋮" + rank_fstr.format(u_entry[2], u_entry[1], disnake.utils.escape_markdown(bot.get_user(u_entry[0]).name))
+
+#     return body + "\uFEFF"
 
 
 def calc_total_wealth(db_user, u_items):

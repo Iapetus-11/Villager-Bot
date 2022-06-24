@@ -129,11 +129,8 @@ class Database(commands.Cog):
     async def drop_guild(self, guild_id: int) -> None:
         await self.db.execute("DELETE FROM guilds WHERE guild_id = $1", guild_id)
 
-        with suppress(KeyError):
-            del self.bot.lang_cache[guild_id]
-
-        with suppress(KeyError):
-            del self.bot.prefix_cache[guild_id]
+        self.bot.language_cache.pop(guild_id, None)
+        self.bot.prefix_cache.pop(guild_id, None)
 
     async def set_cmd_usable(self, guild_id: int, command: str, usable: bool) -> None:
         if usable:
@@ -175,9 +172,11 @@ class Database(commands.Cog):
         # update badges
         await self.badges.update_badge_uncle_scrooge(user_id, db_user)
 
-    async def fetch_balance(self, user_id: int) -> int:  # fetches the amount of emeralds a user has
-        # we can do this because self.fetch_user ensures user is not None
-        return (await self.fetch_user(user_id))["emeralds"]
+    async def fetch_balance(self, user_id: int) -> int:
+        """Fetches the amount of emeralds a user has"""
+        
+        await self.ensure_user_exists(user_id)
+        return await self.db.fetchval("SELECT emeralds FROM users WHERE user_id = $1", user_id)
 
     async def set_balance(self, user_id: int, emeralds: int) -> None:
         db_user = await self.fetch_user(user_id)  # ensures user exists + we use db_user for updating badges
@@ -339,14 +338,16 @@ class Database(commands.Cog):
         await self.db.execute("DELETE FROM trash_can WHERE user_id = $1", user_id)
         await self.db.execute("DELETE FROM farm_plots WHERE user_id = $1", user_id)
 
-    async def fetch_user_lb(self, user_id: int) -> None:  # idk why this exists
+    async def ensure_user_lb(self, user_id: int) -> None:
+        """Ensure that a user exists in the leaderboards table"""
+
         lbs = await self.db.fetchrow("SELECT * FROM leaderboards WHERE user_id = $1", user_id)
 
         if lbs is None:
             await self.db.execute("INSERT INTO leaderboards (user_id) VALUES ($1)", user_id)
 
     async def update_lb(self, user_id: int, lb: str, value: int, mode: str = "add") -> None:
-        await self.fetch_user_lb(user_id)  # ensure lb entry exists
+        await self.ensure_user_lb(user_id)  # ensure lb entry exists
 
         if mode == "add":
             user_lb_value = await self.db.fetchval(
@@ -371,87 +372,141 @@ class Database(commands.Cog):
             elif lb == "fish_fished":
                 await self.badges.update_badge_fisherman(user_id, value)
 
-    async def fetch_global_lb(self, lb: str, user_id: int) -> tuple:
-        return (
-            await self.db.fetch(f"SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards"),
-            await self.db.fetchrow(
-                f"SELECT * FROM (SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards) AS leaderboard WHERE user_id = $1",
-                user_id,
-            ),
-        )
+    # async def fetch_global_lb(self, lb: str, user_id: int) -> tuple:
+    #     return (
+    #         await self.db.fetch(f"SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards"),
+    #         await self.db.fetchrow(
+    #             f"SELECT * FROM (SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards) AS leaderboard WHERE user_id = $1",
+    #             user_id,
+    #         ),
+    #     )
 
-    async def fetch_local_lb(self, lb: str, user_id: int, user_ids: list) -> tuple:
-        return (
-            await self.db.fetch(
-                f"SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards WHERE user_id = ANY($1::BIGINT[])",
-                user_ids,
-            ),
-            await self.db.fetchrow(
-                f"SELECT * FROM (SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards WHERE user_id = ANY($2::BIGINT[])) AS leaderboard WHERE user_id = $1",
-                user_id,
-                user_ids,
-            ),
-        )
+    async def fetch_global_lb(self, lb: str, user_id: int) -> List[asyncpg.Record]:
+        return await self.db.fetch(f"""
+        WITH lb AS (SELECT user_id, {lb} AS amount, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS idx FROM leaderboards)
+        (
+            (SELECT lb.* FROM lb LIMIT 10)
+            UNION
+            (SELECT lb.* FROM lb WHERE lb.user_id = $1)
+        ) ORDER BY idx;""", user_id)
 
-    async def fetch_global_lb_user(self, column: str, user_id: int) -> tuple:
-        return (
-            await self.db.fetch(
-                "SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false LIMIT 10".format(
-                    column
-                )
-            ),
-            await self.db.fetchrow(
-                "SELECT * FROM (SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false) AS leaderboard WHERE user_id = $1".format(
-                    column
-                ),
-                user_id,
-            ),
-        )
+    # async def fetch_local_lb(self, lb: str, user_id: int, user_ids: list) -> tuple:
+    #     return (
+    #         await self.db.fetch(
+    #             f"SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards WHERE user_id = ANY($1::BIGINT[])",
+    #             user_ids,
+    #         ),
+    #         await self.db.fetchrow(
+    #             f"SELECT * FROM (SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards WHERE user_id = ANY($2::BIGINT[])) AS leaderboard WHERE user_id = $1",
+    #             user_id,
+    #             user_ids,
+    #         ),
+    #     )
 
-    async def fetch_local_lb_user(self, column: str, user_id: int, user_ids: list) -> tuple:
-        return (
-            await self.db.fetch(
-                "SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND user_id = ANY($1::BIGINT[]) LIMIT 10".format(
-                    column
-                ),
-                user_ids,
-            ),
-            await self.db.fetchrow(
-                "SELECT * FROM (SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND user_id = ANY($2::BIGINT[])) AS leaderboard WHERE user_id = $1".format(
-                    column
-                ),
-                user_id,
-                user_ids,
-            ),
-        )
+    async def fetch_local_lb(self, lb: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
+        return await self.db.fetch(f"""
+        WITH lb AS (SELECT user_id, {lb} AS amount, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS idx FROM leaderboards WHERE user_id = ANY($2::BIGINT[]))
+        (
+            (SELECT lb.* FROM lb LIMIT 10)
+            UNION
+            (SELECT lb.* FROM lb WHERE lb.user_id = $1)
+        ) ORDER BY idx;""", user_id, user_ids)
 
-    async def fetch_global_lb_item(self, item: str, user_id: int) -> tuple:
-        return (
-            await self.db.fetch(
-                "SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) LIMIT 10",
-                item,
-            ),
-            await self.db.fetchrow(
-                "SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) AND user_id = $2",
-                item,
-                user_id,
-            ),
-        )
+    # async def fetch_global_lb_user(self, column: str, user_id: int) -> tuple:
+    #     return (
+    #         await self.db.fetch(
+    #             "SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false LIMIT 10".format(
+    #                 column
+    #             )
+    #         ),
+    #         await self.db.fetchrow(
+    #             "SELECT * FROM (SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false) AS leaderboard WHERE user_id = $1".format(
+    #                 column
+    #             ),
+    #             user_id,
+    #         ),
+    #     )
 
-    async def fetch_local_lb_item(self, item: str, user_id: int, user_ids: list) -> tuple:
-        return (
-            await self.db.fetch(
-                "SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE user_id = ANY($2::BIGINT[]) AND LOWER(name) = LOWER($1) LIMIT 10",
-                item,
-                user_ids,
-            ),
-            await self.db.fetchrow(
-                "SELECT * FROM (SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE user_id = ANY($3::BIGINT[]) AND LOWER(name) = LOWER($1)) AS leaderboard WHERE user_id = $2",
-                item,
-                user_id,
-                user_ids,
-            ),
-        )
+    async def fetch_global_lb_user(self, column: str, user_id: int) -> List[asyncpg.Record]:
+        return await self.db.fetch(f"""
+        WITH lb AS (SELECT user_id, {column} AS amount, ROW_NUMBER() OVER(ORDER BY {column} DESC) AS idx FROM users WHERE {column} > 0 AND bot_banned = false)
+        (
+            (SELECT lb.* FROM lb LIMIT 10)
+            UNION
+            (SELECT lb.* FROM lb WHERE lb.user_id = $1)
+        ) ORDER BY idx;""", user_id)
+
+    # async def fetch_local_lb_user(self, column: str, user_id: int, user_ids: list) -> tuple:
+    #     return (
+    #         await self.db.fetch(
+    #             "SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND user_id = ANY($1::BIGINT[]) LIMIT 10".format(
+    #                 column
+    #             ),
+    #             user_ids,
+    #         ),
+    #         await self.db.fetchrow(
+    #             "SELECT * FROM (SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND user_id = ANY($2::BIGINT[])) AS leaderboard WHERE user_id = $1".format(
+    #                 column
+    #             ),
+    #             user_id,
+    #             user_ids,
+    #         ),
+    #     )
+
+    async def fetch_local_lb_user(self, column: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
+        return await self.db.fetch(f"""
+        WITH lb AS (SELECT user_id, {column} AS amount, ROW_NUMBER() OVER(ORDER BY {column} DESC) AS idx FROM users WHERE {column} > 0 AND bot_banned = false AND user_id = ANY($2::BIGINT[]))
+        (
+            (SELECT lb.* FROM lb LIMIT 10)
+            UNION
+            (SELECT lb.* FROM lb WHERE lb.user_id = $1)
+        ) ORDER BY idx;""", user_id, user_ids)
+
+    # async def fetch_global_lb_item(self, item: str, user_id: int) -> tuple:
+    #     return (
+    #         await self.db.fetch(
+    #             "SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) LIMIT 10",
+    #             item,
+    #         ),
+    #         await self.db.fetchrow(
+    #             "SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) AND user_id = $2",
+    #             item,
+    #             user_id,
+    #         ),
+    #     )
+
+    async def fetch_global_lb_item(self, item: str, user_id: int) -> List[asyncpg.Record]:
+        return await self.db.fetch("""
+        WITH lb AS (SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS idx FROM items WHERE LOWER(name) = LOWER($2))
+        (
+            (SELECT lb.* FROM lb LIMIT 10)
+            UNION
+            (SELECT lb.* FROM lb WHERE lb.user_id = $1)
+        ) ORDER BY idx;""", user_id, item)
+
+    # async def fetch_local_lb_item(self, item: str, user_id: int, user_ids: list) -> tuple:
+    #     return (
+    #         await self.db.fetch(
+    #             "SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE user_id = ANY($2::BIGINT[]) AND LOWER(name) = LOWER($1) LIMIT 10",
+    #             item,
+    #             user_ids,
+    #         ),
+    #         await self.db.fetchrow(
+    #             "SELECT * FROM (SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE user_id = ANY($3::BIGINT[]) AND LOWER(name) = LOWER($1)) AS leaderboard WHERE user_id = $2",
+    #             item,
+    #             user_id,
+    #             user_ids,
+    #         ),
+    #     )
+
+    async def fetch_local_lb_item(self, item: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
+        return await self.db.fetch("""
+        WITH lb AS (SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS idx FROM items WHERE LOWER(name) = LOWER($2) AND user_id = ANY($3::BIGINT[]))
+        (
+            (SELECT lb.* FROM lb LIMIT 10)
+            UNION
+            (SELECT lb.* FROM lb WHERE lb.user_id = $1)
+        ) ORDER BY idx;""", user_id, item, user_ids)
 
     async def set_botbanned(self, user_id: int, botbanned: bool) -> None:
         await self.ensure_user_exists(user_id)
@@ -524,12 +579,6 @@ class Database(commands.Cog):
 
         # this sql query crafting is safe because the user's input is still sanitized by asyncpg
         await self.db.execute(f"UPDATE badges SET {','.join(sql)} WHERE user_id = ${i+2}", *values, user_id)
-
-    async def mute_user(self, user_id: int, guild_id: int) -> None:
-        await self.db.execute("INSERT INTO muted_users (user_id, guild_id) VALUES ($1, $2)", user_id, guild_id)
-
-    async def unmute_user(self, user_id: int, guild_id: int) -> None:
-        await self.db.execute("DELETE FROM muted_users WHERE user_id = $1 AND guild_id = $2", user_id, guild_id)
 
     async def add_filtered_word(self, guild_id: int, word: str) -> None:
         await self.db.execute("INSERT INTO filtered_words (guild_id, word) VALUES ($1, $2)", guild_id, word)
