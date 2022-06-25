@@ -2044,6 +2044,8 @@
         "mooderalds": "Mooderalds",
         "farming": "Culture plantée",
         "trash": "Poubelle vidée",
+        "wems": "Émeraudes Hebdomadaires",
+        "wcmds": "Commandes Hebdomadaires",
         "lb_ems": "{0}__**Leaderboard d'émeraudes**__{0}",
         "lb_pil": "{0}__**Leaderboard d'émeraudes volés**__{0}",
         "lb_kil": "{0}__**Leaderboard des monstres tués**__{0}",
@@ -2053,7 +2055,9 @@
         "lb_fish": "{0}__**Leaderboard des poissons pêchés**__{0}",
         "lb_moods": "{0}__**Leaderboard d'mooderald**__{0}",
         "lb_farming": "{0}__**Leaderboard des cultures plantées**__{0}",
-        "lb_trash": "{0}__**Classement des poubelles vidées**__{0}"
+        "lb_trash": "{0}__**Classement des poubelles vidées**__{0}",
+        "lb_wems": "{0}__**émeraudes Hebdomadaires**__{0}",
+        "lb_wcmds": "{0}__**Commandes Hebdomadaires**__{0}"
       },
       "trash": {
         "s_trash": "Poubelle de {user}",
