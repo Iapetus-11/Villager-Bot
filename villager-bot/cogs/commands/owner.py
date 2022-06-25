@@ -1,4 +1,3 @@
-import asyncio
 import io
 import os
 import sys
@@ -9,6 +8,7 @@ import aiofiles
 import arrow
 import disnake
 from bot import VillagerBotCluster
+from cogs.core.paginator import Paginator
 from disnake.ext import commands
 from util.code import execute_code, format_exception
 from util.ctx import Ctx
@@ -26,6 +26,10 @@ class Owner(commands.Cog):
 
     async def cog_before_invoke(self, ctx: Ctx):
         print(f"{ctx.author}: {ctx.message.content}")
+
+    @property
+    def paginator(self) -> Paginator:
+        return self.bot.get_cog("Paginator")
 
     @commands.command(name="reload")
     @commands.is_owner()
@@ -187,77 +191,39 @@ class Owner(commands.Cog):
             except Exception:
                 username = "Unknown User"
 
-        page_max = await self.db.fetch_transactions_page_count(uid)
-        page = 0
-
-        msg = None
-        first_time = True
-
-        while True:
+        page_count = await self.db.fetch_transactions_page_count(uid)
+        
+        async def get_page(page: int) -> disnake.Embed:
             entries = await self.db.fetch_transactions_page(uid, page=page)
 
+            embed = disnake.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
+
             if len(entries) == 0:
-                embed = disnake.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
+                embed.set_author(
+                    name=f"Transaction history for {username}", icon_url=(getattr(user.avatar, "url", embed.Empty) if user else embed.Empty)
+                )
 
-                if user is not None:
-                    embed.set_author(
-                        name=f"Transaction history for {username}", icon_url=getattr(user.avatar, "url", embed.Empty)
-                    )
-                else:
-                    embed.set_author(name=f"Transaction history for {username}")
-            else:
-                body = ""  # text for that page
+                return embed
 
-                for entry in entries:
-                    giver = self.bot.get_user(entry["sender"])
-                    receiver = self.bot.get_user(entry["receiver"])
-                    item = entry["item"]
+            body = ""
 
-                    if item == "emerald":
-                        item = self.d.emojis.emerald
+            for entry in entries:
+                giver = self.bot.get_user(entry["sender"])
+                receiver = self.bot.get_user(entry["receiver"])
+                item = entry["item"]
 
-                    body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
+                if item == "emerald":
+                    item = self.d.emojis.emerald
 
-                embed = disnake.Embed(color=self.d.cc, description=body)
-                embed.set_author(name=f"Transaction history for {user}", icon_url=getattr(user.avatar, "url", embed.Empty))
-                embed.set_footer(text=f"Page {page+1}/{page_max+1}")
+                body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
 
-            if msg is None:
-                msg = await ctx.reply(embed=embed, mention_author=False)
-            else:
-                await msg.edit(embed=embed)
+            embed = disnake.Embed(color=self.d.cc, description=body)
+            embed.set_author(name=f"Transaction history for {user}", icon_url=getattr(user.avatar, "url", embed.Empty))
+            embed.set_footer(text=f"Page {page+1}/{page_count}")
 
-            if page_max > 0:
-                if first_time:
-                    await msg.add_reaction("⬅️")
-                    await asyncio.sleep(0.1)
-                    await msg.add_reaction("➡️")
-                    await asyncio.sleep(0.1)
-
-                try:
-
-                    def author_check(react, r_user):
-                        return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
-
-                    react, r_user = await self.bot.wait_for(
-                        "reaction_add", check=author_check, timeout=(3 * 60)
-                    )  # wait for reaction from message author
-                except asyncio.TimeoutError:
-                    await asyncio.wait((msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me)))
-                    return
-
-                await react.remove(ctx.author)
-
-                if react.emoji == "⬅️":
-                    page -= 1 if page - 1 >= 0 else 0
-                if react.emoji == "➡️":
-                    page += 1 if page + 1 <= page_max else 0
-
-                await asyncio.sleep(0.1)
-            else:
-                break
-
-            first_time = False
+            return embed
+        
+        await self.paginator.paginate_embed(ctx, get_page, timeout=60, page_count=page_count)
 
 
 def setup(bot):

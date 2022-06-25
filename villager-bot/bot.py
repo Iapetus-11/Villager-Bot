@@ -63,6 +63,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             "cogs.core.database",
             "cogs.core.events",
             "cogs.core.loops",
+            "cogs.core.paginator",
             "cogs.core.badges",
             "cogs.core.mobs",
             "cogs.commands.owner",

@@ -4,7 +4,7 @@ import os
 import secrets
 import time
 from contextlib import suppress
-from typing import Optional
+from typing import Dict, List, Optional, Tuple
 from urllib.parse import quote as urlquote
 
 import aiofiles
@@ -15,6 +15,7 @@ import disnake
 import moviepy.editor
 import psutil
 from bot import VillagerBotCluster
+from cogs.core.paginator import Paginator
 from disnake.ext import commands, tasks
 from util.ctx import Ctx
 from util.ipc import PacketType
@@ -46,6 +47,10 @@ class Useful(commands.Cog):
 
     def cog_unload(self):
         self.clear_snipes.cancel()
+
+    @property
+    def paginator(self) -> Paginator:
+        return self.bot.get_cog("Paginator")
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
@@ -189,74 +194,36 @@ class Useful(commands.Cog):
         embed_template = disnake.Embed(color=self.d.cc)
         embed_template.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
 
-        fields = []
+        fields: List[Dict[str, str]] = []
 
+        entry: Tuple[int, str]
         for i, entry in enumerate(ctx.l.useful.credits.people.items()):
-            person, what = entry
-            user = self.bot.get_user(self.d.credit_users[person])
+            user_id, contribution = entry
 
+            # get user's current name
+            user = self.bot.get_user(self.d.credit_users[user_id])
             if user is None:
-                user = await self.bot.fetch_user(self.d.credit_users[person])
+                user = await self.bot.fetch_user(self.d.credit_users[user_id])
 
-            fields.append({"name": f"**{user.display_name}**", "value": what})
+            fields.append({"name": f"**{user.display_name}**", "value": contribution})
 
             if i % 2 == 1:
                 fields.append({"value": "\uFEFF", "name": "\uFEFF"})
 
-        groups = [fields[i : i + 9] for i in range(0, len(fields), 9)]
-        page_max = len(groups)
-        page = 0
-        msg = None
+        pages = [fields[i : i + 9] for i in range(0, len(fields), 9)]
+        del fields
 
-        while True:
+        def get_page(page: int) -> disnake.Embed:
             embed = embed_template.copy()
 
-            for field in groups[page]:
+            for field in pages[page]:
                 embed.add_field(**field)
 
-            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max}")
+            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{len(pages)}")
 
-            if page == page_max - 1:
-                embed.add_field(name="\uFEFF", value=ctx.l.useful.credits.others, inline=False)
+            return embed
 
-            if msg is None:
-                msg = await ctx.reply(embed=embed, mention_author=False)
-            elif not msg.embeds[0] == embed:
-                await msg.edit(embed=embed)
-
-            if page_max <= 1:
-                return
-
-            await asyncio.sleep(0.25)
-            await msg.add_reaction("⬅️")
-            await asyncio.sleep(0.25)
-            await msg.add_reaction("➡️")
-
-            try:
-
-                def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
-
-                # wait for reaction from message author (1 min)
-                react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=30)
-            except asyncio.TimeoutError:
-                await asyncio.wait((msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me)))
-                return
-
-            await react.remove(ctx.author)
-
-            if react.emoji == "⬅️":
-                page -= 1
-            elif react.emoji == "➡️":
-                page += 1
-
-            if page > page_max - 1:
-                page = page_max - 1
-
-            if page < 0:
-                page = 0
-
-            await asyncio.sleep(0.2)
+        await self.paginator.paginate_embed(ctx, get_page, timeout=60, page_count=len(pages))
 
     @commands.command(name="avatar", aliases=["av"])
     async def member_avatar(self, ctx: Ctx, member: disnake.Member = None):

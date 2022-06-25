@@ -3,12 +3,13 @@ import functools
 import math
 import random
 from collections import defaultdict
-from typing import DefaultDict
+from typing import Any, DefaultDict, Dict, List
 
 import arrow
 import disnake
 from bot import VillagerBotCluster
 from cogs.core.database import Database
+from cogs.core.paginator import Paginator
 from disnake.ext import commands
 from util.ctx import Ctx
 from util.ipc import PacketType
@@ -46,6 +47,10 @@ class Econ(commands.Cog):
             self.pillage,
         ):
             command._max_concurrency = self.max_concurrency_dummy._max_concurrency
+
+    @property
+    def paginator(self) -> Paginator:
+        return self.bot.get_cog("Paginator")
 
     @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
     def calc_yield_chance_list(self, pickaxe: str):
@@ -203,85 +208,44 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     async def inventory_logic(self, ctx: Ctx, user, items: list, cat: str, items_per_page: int = 8):
-        fishies = {fish.name: fish.current for fish in self.d.fishing.fish.values()}
+        """Logic behind generation of inventory embeds + pagination"""
 
-        for i, item in enumerate(items):
+        embed_template = disnake.Embed(color=self.d.cc)
+        embed_template.set_author(
+            name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat),
+            icon_url=getattr(user.avatar, "url", disnake.Embed.Empty),
+        )
+
+        # handle if there are no passed items
+        if len(items) == 0:
+            embed_template.description = ctx.l.econ.inv.empty
+            await ctx.send(embed=embed_template)
+            return
+
+        fish_prices = {fish.name: fish.current for fish in self.d.fishing.fish.values()}
+        # iterate through passed items, try to set fish values properly if they exist
+        for item in items:
             try:
-                items[i] = {**item, "sell_price": fishies[item["name"]]}
+                item["sell_price"] = fish_prices[item["name"]]
             except KeyError:
                 pass
 
-            await asyncio.sleep(0)
-
-        items_sorted = sorted(items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
+        items = sorted(items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
         items_chunks = [
-            items_sorted[i : i + items_per_page] for i in range(0, len(items_sorted), items_per_page)
-        ]  # split items into chunks of 16 [[16..], [16..], [16..]]
+            items[i : i + items_per_page] for i in range(0, len(items), items_per_page)
+        ]  # split items into chunks
+        del items
+        
+        def get_page(page: int) -> disnake.Embed:
+            embed = embed_template.copy()
 
-        page = 0
-        page_max = len(items_chunks) - 1
+            embed.description = "\n".join([f'{emojify_item(self.d, item["name"])} `{item["amount"]}x` **{item["name"]}** ({item["sell_price"]}{self.d.emojis.emerald})' for item in items_chunks[page]])
 
-        if items_chunks == []:
-            items_chunks = [[]]
-            page_max = 0
+            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{len(items_chunks)}")
 
-        msg = None
-        first_time = True
+            return embed
 
-        while True:
-            if len(items_chunks) == 0:
-                body = ctx.l.econ.inv.empty
-            else:
-                body = ""  # text for that page
-
-                for item in items_chunks[page]:
-                    sell_price_nice = f'({item["sell_price"]}{self.d.emojis.emerald})' if item["sell_price"] != -1 else ""
-
-                    body += f'{emojify_item(self.d, item["name"])} `{item["amount"]}x` **{item["name"]}** {sell_price_nice}\n'
-
-                embed = disnake.Embed(color=self.d.cc, description=body)
-                embed.set_author(
-                    name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat),
-                    icon_url=getattr(user.avatar, "url", embed.Empty),
-                )
-                embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max+1}")
-
-            if msg is None:
-                msg = await ctx.reply(embed=embed, mention_author=False)
-            else:
-                await msg.edit(embed=embed)
-
-            if page_max > 0:
-                if first_time:
-                    await msg.add_reaction("⬅️")
-                    await asyncio.sleep(0.1)
-                    await msg.add_reaction("➡️")
-                    await asyncio.sleep(0.1)
-
-                try:
-
-                    def author_check(react, r_user):
-                        return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
-
-                    react, r_user = await self.bot.wait_for(
-                        "reaction_add", check=author_check, timeout=(60)
-                    )  # wait for reaction from message author
-                except asyncio.TimeoutError:
-                    await asyncio.wait((msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me)))
-                    return
-
-                await react.remove(ctx.author)
-
-                if react.emoji == "⬅️":
-                    page -= 1 if page - 1 >= 0 else 0
-                if react.emoji == "➡️":
-                    page += 1 if page + 1 <= page_max else 0
-
-                await asyncio.sleep(0.1)
-            else:
-                break
-
-            first_time = False
+        await self.paginator.paginate_embed(ctx, get_page, timeout=60, page_count=len(items_chunks))
 
     async def inventory_boiler(self, ctx: Ctx, user: disnake.User = None):
         if ctx.invoked_subcommand is not None:
@@ -516,74 +480,37 @@ class Econ(commands.Cog):
 
             await ctx.reply(embed=embed, mention_author=False)
 
-    async def shop_logic(self, ctx: Ctx, _type, header):
-        items = []
+    async def shop_logic(self, ctx: Ctx, category: str, header: str) -> None:
+        """The logic behind the shop pages"""
 
-        # filter out items which aren't of the right _type
-        for item in [self.d.shop_items[key] for key in self.d.shop_items.keys()]:
-            if _type in item.cat:
+        items: List[Dict[str, Any]] = []
+
+        # only get items that are in the specified category
+        item: Dict[str, Any]
+        for item in self.d.shop_items.values():
+            if category in item.cat:
                 items.append(item)
 
-        items_sorted = sorted(items, key=(lambda item: item.buy_price))  # sort by buy price
-        items_chunked = [items_sorted[i : i + 4] for i in range(0, len(items_sorted), 4)]  # split into chunks of 4
+        items = sorted(items, key=(lambda item: item.buy_price))  # sort items by their buy price
+        item_pages = [items[i : i + 4] for i in range(0, len(items), 4)]  # put items in groups of 4
+        del items
 
-        page = 0
-        page_max = len(items_chunked)
-
-        msg = None
-
-        while True:
+        def get_page(page: int) -> disnake.Embed:
             embed = disnake.Embed(color=self.d.cc)
             embed.set_author(name=header, icon_url=self.d.splash_logo)
 
-            for item in items_chunked[page]:
+            for item in item_pages[page]:
                 embed.add_field(
                     name=f"{emojify_item(self.d, item.db_entry[0])} {item.db_entry[0]} ({format_required(self.d, item)})",
                     value=f"`{ctx.prefix}buy {item.db_entry[0].lower()}`",
                     inline=False,
                 )
 
-            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max}")
+            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{len(item_pages)}")
 
-            if msg is None:
-                msg = await ctx.reply(embed=embed, mention_author=False)
-            else:
-                if not msg.embeds[0] == embed:
-                    await msg.edit(embed=embed)
+            return embed
 
-            if page_max <= 1:
-                return
-
-            await asyncio.sleep(0.25)
-            await msg.add_reaction("⬅️")
-            await asyncio.sleep(0.25)
-            await msg.add_reaction("➡️")
-
-            try:
-
-                def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
-
-                # wait for reaction from message author (1 min)
-                react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=60)
-            except asyncio.TimeoutError:
-                await asyncio.wait((msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me)))
-                return
-
-            await react.remove(ctx.author)
-
-            if react.emoji == "⬅️":
-                page -= 1
-            elif react.emoji == "➡️":
-                page += 1
-
-            if page > page_max - 1:
-                page = page_max - 1
-
-            if page < 0:
-                page = 0
-
-            await asyncio.sleep(0.2)
+        await self.paginator.paginate_embed(ctx, get_page, timeout=60, page_count=len(item_pages))
 
     @shop.command(name="tools")
     async def shop_tools(self, ctx: Ctx):
@@ -617,7 +544,7 @@ class Econ(commands.Cog):
             description=ctx.l.econ.fishing.market.desc,
         )
 
-        fields = []
+        fields: List[Dict[str, str]] = []
 
         for i, fish in enumerate(self.d.fishing.fish.items()):
             fish_id, fish = fish
@@ -632,59 +559,20 @@ class Econ(commands.Cog):
             if i % 2 == 0:
                 fields.append({"name": "\uFEFF", "value": "\uFEFF"})
 
-            await asyncio.sleep(0)
+        pages = [fields[i : i + 6] for i in range(0, len(fields), 6)]
+        del fields
 
-        groups = [fields[i : i + 6] for i in range(0, len(fields), 6)]
-        page_max = len(groups)
-        page = 0
-        msg = None
-
-        while True:
+        def get_page(page: int) -> disnake.Embed:
             embed = embed_template.copy()
 
-            for field in groups[page]:
+            for field in pages[page]:
                 embed.add_field(**field)
 
-            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{page_max}")
+            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{len(pages)}")
 
-            if msg is None:
-                msg = await ctx.reply(embed=embed, mention_author=False)
-            elif not msg.embeds[0] == embed:
-                await msg.edit(embed=embed)
+            return embed
 
-            if page_max <= 1:
-                return
-
-            await asyncio.sleep(0.25)
-            await msg.add_reaction("⬅️")
-            await asyncio.sleep(0.25)
-            await msg.add_reaction("➡️")
-
-            try:
-
-                def author_check(react, r_user):
-                    return r_user == ctx.author and ctx.channel == react.message.channel and msg == react.message
-
-                # wait for reaction from message author (1 min)
-                react, r_user = await self.bot.wait_for("reaction_add", check=author_check, timeout=60)
-            except asyncio.TimeoutError:
-                await asyncio.wait((msg.remove_reaction("⬅️", ctx.me), msg.remove_reaction("➡️", ctx.me)))
-                return
-
-            await react.remove(ctx.author)
-
-            if react.emoji == "⬅️":
-                page -= 1
-            elif react.emoji == "➡️":
-                page += 1
-
-            if page > page_max - 1:
-                page = page_max - 1
-
-            if page < 0:
-                page = 0
-
-            await asyncio.sleep(0.2)
+        await self.paginator.paginate_embed(ctx, get_page, timeout=60, page_count=len(pages))
 
     @commands.command(name="buy", aliases=["purchase"])
     # @commands.cooldown(1, 5, commands.BucketType.user)
