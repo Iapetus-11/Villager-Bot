@@ -210,6 +210,8 @@ class Econ(commands.Cog):
     async def inventory_logic(self, ctx: Ctx, user, items: list, cat: str, items_per_page: int = 8):
         """Logic behind generation of inventory embeds + pagination"""
 
+        items = list(map(dict, items))
+
         embed_template = disnake.Embed(color=self.d.cc)
         embed_template.set_author(
             name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat),
