@@ -4,6 +4,7 @@ import os
 import secrets
 import time
 from contextlib import suppress
+from typing import Optional
 from urllib.parse import quote as urlquote
 
 import aiofiles
@@ -539,7 +540,7 @@ class Useful(commands.Cog):
 
         try:
             async with SuppressCtxManager(ctx.typing()):
-                res = await self.google.search(query, safesearch=safesearch, image_search=True)
+                results = await self.google.search(query, safesearch=safesearch, image_search=True)
         except async_cse.search.NoResults:
             await ctx.reply_embed(ctx.l.useful.search.nope)
             return
@@ -547,19 +548,22 @@ class Useful(commands.Cog):
             await ctx.reply_embed(ctx.l.useful.search.error)
             return
 
-        if len(res) == 0:
-            await ctx.reply_embed(ctx.l.useful.search.nope)
-            return
-
-        res = res[0]
-
-        try:
-            await ctx.reply(res.image_url, mention_author=False)
-        except disnake.HTTPException as e:
-            if e.code == 50035:
-                await ctx.send(res.image_url)
-            else:
-                raise
+        # iter through results till a suitable image is found
+        for res in results:
+            image_url: Optional[str]
+            if (image_url := getattr(res, "image_url", None)) and not image_url.startswith("x-raw-image://"):
+                try:
+                    await ctx.reply(results.image_url, mention_author=False)
+                except disnake.HTTPException as e:
+                    if e.code == 50035:
+                        await ctx.send(results.image_url)
+                    else:
+                        raise
+                
+                return
+                
+        await ctx.reply_embed(ctx.l.useful.search.nope)
+        return
 
     @commands.command(name="remindme", aliases=["remind"])
     @commands.cooldown(1, 2, commands.BucketType.user)
