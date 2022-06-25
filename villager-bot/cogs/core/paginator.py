@@ -1,16 +1,17 @@
 import asyncio
 import inspect
 from typing import Any, Callable, Coroutine, Optional, Union
-import disnake
-from disnake.ext import commands
 
+import disnake
 from bot import VillagerBotCluster
+from disnake.ext import commands
 from util.ctx import Ctx
 
 PAGE_EMBED_CALLABLE = Callable[[int], Union[disnake.Embed, Coroutine[Any, Any, disnake.Embed]]]
 LEFT_ARROW = "⬅️"
 RIGHT_ARROW = "➡️"
 NAV_EMOJIS = [LEFT_ARROW, RIGHT_ARROW]
+
 
 class Paginator(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
@@ -33,7 +34,9 @@ class Paginator(commands.Cog):
 
         return embed
 
-    async def paginate_embed(self, ctx: Ctx, get_page: PAGE_EMBED_CALLABLE, *, timeout: float = 60, page_count: Optional[int] = None):
+    async def paginate_embed(
+        self, ctx: Ctx, get_page: PAGE_EMBED_CALLABLE, *, timeout: float = 60, page_count: Optional[int] = None
+    ):
         page = 0
         prev_page = 0
 
@@ -47,14 +50,16 @@ class Paginator(commands.Cog):
 
             # wait for a reaction from the user
             try:
-                reaction, _ = await self.bot.wait_for("reaction_add", check=self._create_reaction_check(ctx, msg), timeout=timeout)
+                reaction, _ = await self.bot.wait_for(
+                    "reaction_add", check=self._create_reaction_check(ctx, msg), timeout=timeout
+                )
             except asyncio.TimeoutError:
                 await asyncio.wait([msg.remove_reaction(e, ctx.me) for e in NAV_EMOJIS])
                 return
-            
+
             reaction: disnake.Reaction
             emoji = str(reaction.emoji)
-            
+
             if emoji == LEFT_ARROW:
                 if page > 0:
                     page -= 1
@@ -70,7 +75,7 @@ class Paginator(commands.Cog):
 
             # remove user's reaction
             await msg.remove_reaction(emoji, ctx.author)
-            
+
 
 def setup(bot: VillagerBotCluster):
     bot.add_cog(Paginator(bot))

@@ -231,15 +231,18 @@ class Econ(commands.Cog):
                 pass
 
         items = sorted(items, key=lambda item: item["sell_price"], reverse=True)  # sort items by sell price
-        items_chunks = [
-            items[i : i + items_per_page] for i in range(0, len(items), items_per_page)
-        ]  # split items into chunks
+        items_chunks = [items[i : i + items_per_page] for i in range(0, len(items), items_per_page)]  # split items into chunks
         del items
-        
+
         def get_page(page: int) -> disnake.Embed:
             embed = embed_template.copy()
 
-            embed.description = "\n".join([f'{emojify_item(self.d, item["name"])} `{item["amount"]}x` **{item["name"]}** ({item["sell_price"]}{self.d.emojis.emerald})' for item in items_chunks[page]])
+            embed.description = "\n".join(
+                [
+                    f'{emojify_item(self.d, item["name"])} `{item["amount"]}x` **{item["name"]}** ({item["sell_price"]}{self.d.emojis.emerald})'
+                    for item in items_chunks[page]
+                ]
+            )
 
             embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{len(items_chunks)}")
 

@@ -192,7 +192,7 @@ class Owner(commands.Cog):
                 username = "Unknown User"
 
         page_count = await self.db.fetch_transactions_page_count(uid)
-        
+
         async def get_page(page: int) -> disnake.Embed:
             entries = await self.db.fetch_transactions_page(uid, page=page)
 
@@ -200,7 +200,8 @@ class Owner(commands.Cog):
 
             if len(entries) == 0:
                 embed.set_author(
-                    name=f"Transaction history for {username}", icon_url=(getattr(user.avatar, "url", embed.Empty) if user else embed.Empty)
+                    name=f"Transaction history for {username}",
+                    icon_url=(getattr(user.avatar, "url", embed.Empty) if user else embed.Empty),
                 )
 
                 return embed
@@ -222,7 +223,7 @@ class Owner(commands.Cog):
             embed.set_footer(text=f"Page {page+1}/{page_count}")
 
             return embed
-        
+
         await self.paginator.paginate_embed(ctx, get_page, timeout=60, page_count=page_count)
 
 
