@@ -553,15 +553,15 @@ class Useful(commands.Cog):
             image_url: Optional[str]
             if (image_url := getattr(res, "image_url", None)) and not image_url.startswith("x-raw-image://"):
                 try:
-                    await ctx.reply(results.image_url, mention_author=False)
+                    await ctx.reply(res.image_url, mention_author=False)
                 except disnake.HTTPException as e:
                     if e.code == 50035:
-                        await ctx.send(results.image_url)
+                        await ctx.send(res.image_url)
                     else:
                         raise
                 
                 return
-                
+
         await ctx.reply_embed(ctx.l.useful.search.nope)
         return
 
