@@ -559,7 +559,7 @@ class Useful(commands.Cog):
                         await ctx.send(res.image_url)
                     else:
                         raise
-                
+
                 return
 
         await ctx.reply_embed(ctx.l.useful.search.nope)
