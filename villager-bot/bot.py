@@ -98,6 +98,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.existing_users_cache: Set[
             int
         ] = set()  # so the database doesn't have to make a query every time an econ command is ran to ensure user exists
+        self.existing_user_lbs_cache: Set[int] = set()  # for same reason above, but for leaderboards instead
 
         # support server channels
         self.error_channel: disnake.TextChannel = None

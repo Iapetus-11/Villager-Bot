@@ -37,23 +37,16 @@ class Database(commands.Cog):
         self.bot.replies_cache = await self.fetch_all_do_replies()
         self.bot.filter_words_cache = await self.fetch_all_filtered_words()
 
-    def _check_add_user_cache(self, user_id: int) -> bool:
-        """Checks if a user ID is in the cache, adds it if it isn't, and ensures the cache size is <=30"""
-
-        try:
-            if user_id in self.bot.existing_users_cache:
-                return True
-
-            self.bot.existing_users_cache.add(user_id)
-
-            return False
-        finally:
-            if len(self.bot.existing_users_cache) > 30:
-                self.bot.existing_users_cache.pop()
-
     async def ensure_user_exists(self, user_id: int):
-        if not self._check_add_user_cache(user_id):
-            await self.fetch_user(user_id)
+        if user_id in self.bot.existing_users_cache:
+            return
+
+        await self.fetch_user(user_id)  # will create user if they don't exist
+
+        self.bot.existing_user_lbs_cache.add(user_id)
+
+        if len(self.bot.existing_users_cache) > 30:
+            self.bot.existing_users_cache.pop()
 
     async def fetch_user_reminder_count(self, user_id: int) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE user_id = $1", user_id)
@@ -86,13 +79,10 @@ class Database(commands.Cog):
 
     async def fetch_all_disabled_commands(self) -> dict:
         disabled_records = await self.db.fetch("SELECT * FROM disabled_commands")
-        disabled = {}
+        disabled = defaultdict(set)
 
         for guild_id, command in disabled_records:
-            try:
-                disabled[guild_id].add(command)
-            except KeyError:
-                disabled[guild_id] = {command}
+            disabled[guild_id].add(command)
 
         return disabled
 
@@ -341,10 +331,18 @@ class Database(commands.Cog):
     async def ensure_user_lb(self, user_id: int) -> None:
         """Ensure that a user exists in the leaderboards table"""
 
+        if user_id in self.bot.existing_user_lbs_cache:
+            return
+
         lbs = await self.db.fetchrow("SELECT * FROM leaderboards WHERE user_id = $1", user_id)
 
         if lbs is None:
             await self.db.execute("INSERT INTO leaderboards (user_id) VALUES ($1)", user_id)
+
+        self.bot.existing_user_lbs_cache.add(user_id)
+
+        if len(self.bot.existing_user_lbs_cache) > 30:
+            self.bot.existing_user_lbs_cache.pop()
 
     async def update_lb(self, user_id: int, lb: str, value: int, mode: str = "add") -> None:
         await self.ensure_user_lb(user_id)  # ensure lb entry exists
@@ -372,15 +370,6 @@ class Database(commands.Cog):
             elif lb == "fish_fished":
                 await self.badges.update_badge_fisherman(user_id, value)
 
-    # async def fetch_global_lb(self, lb: str, user_id: int) -> tuple:
-    #     return (
-    #         await self.db.fetch(f"SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards"),
-    #         await self.db.fetchrow(
-    #             f"SELECT * FROM (SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards) AS leaderboard WHERE user_id = $1",
-    #             user_id,
-    #         ),
-    #     )
-
     async def fetch_global_lb(self, lb: str, user_id: int) -> List[asyncpg.Record]:
         return await self.db.fetch(
             f"""
@@ -392,19 +381,6 @@ class Database(commands.Cog):
         ) ORDER BY idx;""",
             user_id,
         )
-
-    # async def fetch_local_lb(self, lb: str, user_id: int, user_ids: list) -> tuple:
-    #     return (
-    #         await self.db.fetch(
-    #             f"SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards WHERE user_id = ANY($1::BIGINT[])",
-    #             user_ids,
-    #         ),
-    #         await self.db.fetchrow(
-    #             f"SELECT * FROM (SELECT user_id, {lb}, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS ordered FROM leaderboards WHERE user_id = ANY($2::BIGINT[])) AS leaderboard WHERE user_id = $1",
-    #             user_id,
-    #             user_ids,
-    #         ),
-    #     )
 
     async def fetch_local_lb(self, lb: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
         return await self.db.fetch(
@@ -419,21 +395,6 @@ class Database(commands.Cog):
             user_ids,
         )
 
-    # async def fetch_global_lb_user(self, column: str, user_id: int) -> tuple:
-    #     return (
-    #         await self.db.fetch(
-    #             "SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false LIMIT 10".format(
-    #                 column
-    #             )
-    #         ),
-    #         await self.db.fetchrow(
-    #             "SELECT * FROM (SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false) AS leaderboard WHERE user_id = $1".format(
-    #                 column
-    #             ),
-    #             user_id,
-    #         ),
-    #     )
-
     async def fetch_global_lb_user(self, column: str, user_id: int) -> List[asyncpg.Record]:
         return await self.db.fetch(
             f"""
@@ -445,23 +406,6 @@ class Database(commands.Cog):
         ) ORDER BY idx;""",
             user_id,
         )
-
-    # async def fetch_local_lb_user(self, column: str, user_id: int, user_ids: list) -> tuple:
-    #     return (
-    #         await self.db.fetch(
-    #             "SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND user_id = ANY($1::BIGINT[]) LIMIT 10".format(
-    #                 column
-    #             ),
-    #             user_ids,
-    #         ),
-    #         await self.db.fetchrow(
-    #             "SELECT * FROM (SELECT user_id, {0}, ROW_NUMBER() OVER(ORDER BY {0} DESC) AS ordered FROM users WHERE {0} > 0 AND bot_banned = false AND user_id = ANY($2::BIGINT[])) AS leaderboard WHERE user_id = $1".format(
-    #                 column
-    #             ),
-    #             user_id,
-    #             user_ids,
-    #         ),
-    #     )
 
     async def fetch_local_lb_user(self, column: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
         return await self.db.fetch(
@@ -476,19 +420,6 @@ class Database(commands.Cog):
             user_ids,
         )
 
-    # async def fetch_global_lb_item(self, item: str, user_id: int) -> tuple:
-    #     return (
-    #         await self.db.fetch(
-    #             "SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) LIMIT 10",
-    #             item,
-    #         ),
-    #         await self.db.fetchrow(
-    #             "SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE LOWER(name) = LOWER($1) AND user_id = $2",
-    #             item,
-    #             user_id,
-    #         ),
-    #     )
-
     async def fetch_global_lb_item(self, item: str, user_id: int) -> List[asyncpg.Record]:
         return await self.db.fetch(
             """
@@ -501,21 +432,6 @@ class Database(commands.Cog):
             user_id,
             item,
         )
-
-    # async def fetch_local_lb_item(self, item: str, user_id: int, user_ids: list) -> tuple:
-    #     return (
-    #         await self.db.fetch(
-    #             "SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE user_id = ANY($2::BIGINT[]) AND LOWER(name) = LOWER($1) LIMIT 10",
-    #             item,
-    #             user_ids,
-    #         ),
-    #         await self.db.fetchrow(
-    #             "SELECT * FROM (SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS ordered FROM items WHERE user_id = ANY($3::BIGINT[]) AND LOWER(name) = LOWER($1)) AS leaderboard WHERE user_id = $2",
-    #             item,
-    #             user_id,
-    #             user_ids,
-    #         ),
-    #     )
 
     async def fetch_local_lb_item(self, item: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
         return await self.db.fetch(
