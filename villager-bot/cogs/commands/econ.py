@@ -1112,11 +1112,8 @@ class Econ(commands.Cog):
         pillager_pillages = p_res["pillager"]
         victim_pillages = p_res["victim"]
 
-        user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
-        user_bees = user_bees.amount or 0
-
-        victim_bees = await self.db.fetch_item(victim.id, "Jar Of Bees")
-        victim_bees = victim_bees.amount or 0
+        user_bees = getattr(await self.db.fetch_item(ctx.author.id, "Jar Of Bees"), "amount", 0)
+        victim_bees = getattr(await self.db.fetch_item(victim.id, "Jar Of Bees"), "amount", 0)
 
         # lmao
         if pillager_pillages > 7 and pillager_pillages > victim_pillages:
