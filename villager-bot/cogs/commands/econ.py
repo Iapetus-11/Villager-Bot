@@ -11,6 +11,7 @@ from bot import VillagerBotCluster
 from cogs.core.database import Database
 from cogs.core.paginator import Paginator
 from disnake.ext import commands
+from models.database.item import Item
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import (
@@ -22,7 +23,6 @@ from util.misc import (
     format_required,
     make_health_bar,
 )
-from models.database.item import Item
 
 
 class Econ(commands.Cog):
@@ -197,9 +197,9 @@ class Econ(commands.Cog):
             + ctx.l.econ.bal.autistic_emeralds.format(mooderalds, self.d.emojis.autistic_emerald)
         )
 
-        embed.add_field(name=ctx.l.econ.bal.pocket, value=f'{db_user.emeralds}{self.d.emojis.emerald}')
+        embed.add_field(name=ctx.l.econ.bal.pocket, value=f"{db_user.emeralds}{self.d.emojis.emerald}")
         embed.add_field(
-            name=ctx.l.econ.bal.vault, value=f'{db_user.vault_balance}{self.d.emojis.emerald_block}/{db_user.vault_max}'
+            name=ctx.l.econ.bal.vault, value=f"{db_user.vault_balance}{self.d.emojis.emerald_block}/{db_user.vault_max}"
         )
 
         await ctx.reply(embed=embed, mention_author=False)
@@ -236,7 +236,7 @@ class Econ(commands.Cog):
 
             embed.description = "\n".join(
                 [
-                    f'{emojify_item(self.d, item.name)} `{item.amount}x` **{item.name}** ({item.sell_price}{self.d.emojis.emerald})'
+                    f"{emojify_item(self.d, item.name)} `{item.amount}x` **{item.name}** ({item.sell_price}{self.d.emojis.emerald})"
                     for item in items_chunks[page]
                 ]
             )
@@ -721,9 +721,7 @@ class Econ(commands.Cog):
             await self.ipc.broadcast({"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id})
 
         await ctx.reply_embed(
-            ctx.l.econ.sell.you_done_sold.format(
-                amount, db_item.name, amount * db_item.sell_price, self.d.emojis.emerald
-            ),
+            ctx.l.econ.sell.you_done_sold.format(amount, db_item.name, amount * db_item.sell_price, self.d.emojis.emerald),
         )
 
     @commands.command(name="give", aliases=["gift", "share", "g", "gib", "trade"])
@@ -1146,7 +1144,7 @@ class Econ(commands.Cog):
             # calculate base stolen value
             stolen = math.ceil(db_victim.emeralds * (random.randint(10, 40) / 100))
             # calculate and implement cap based off pillager's balance
-            stolen = min(stolen, math.ceil(db_user.emeralds ** 1.1 + db_user.emeralds * 5) + random.randint(1, 10))
+            stolen = min(stolen, math.ceil(db_user.emeralds**1.1 + db_user.emeralds * 5) + random.randint(1, 10))
 
             # 8% tax to prevent exploitation of pillaging leaderboard
             adjusted = math.ceil(stolen * 0.92)

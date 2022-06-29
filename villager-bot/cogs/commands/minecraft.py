@@ -11,13 +11,13 @@ import arrow
 import classyjson as cj
 import disnake
 from bot import VillagerBotCluster
+from cogs.core.database import Database
 from cryptography.fernet import Fernet
 from disnake.ext import commands
 from util.code import format_exception
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, dm_check, fix_giphy_url
-from cogs.core.database import Database
 
 try:
     from util import tiler

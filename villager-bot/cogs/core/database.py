@@ -9,9 +9,9 @@ import disnake
 from bot import VillagerBotCluster
 from data.enums.guild_event_type import GuildEventType
 from disnake.ext import commands
-from models.database.user import User
-from models.database.item import Item
 from models.database.guild import Guild
+from models.database.item import Item
+from models.database.user import User
 
 
 class Database(commands.Cog):
@@ -84,7 +84,13 @@ class Database(commands.Cog):
         g = await self.db.fetchrow("SELECT * FROM guilds WHERE guild_id = $1", guild_id)
 
         if g is None:
-            g = await self.db.fetchrow("INSERT INTO guilds (guild_id, prefix, difficulty, language) VALUES ($1, $2, $3, $4) RETURNING *", guild_id, self.k.default_prefix, "easy", "en")
+            g = await self.db.fetchrow(
+                "INSERT INTO guilds (guild_id, prefix, difficulty, language) VALUES ($1, $2, $3, $4) RETURNING *",
+                guild_id,
+                self.k.default_prefix,
+                "easy",
+                "en",
+            )
 
         return Guild(**g)
 
@@ -195,9 +201,9 @@ class Database(commands.Cog):
 
     async def fetch_item(self, user_id: int, name: str) -> Optional[Item]:
         await self.ensure_user_exists(user_id)
-        
+
         db_item = await self.db.fetchrow("SELECT * FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name)
-        
+
         if db_item:
             return Item(**db_item)
 

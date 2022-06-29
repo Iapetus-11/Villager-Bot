@@ -1,8 +1,8 @@
 import disnake
 from bot import VillagerBotCluster
+from cogs.core.database import Database
 from disnake.ext import commands
 from util.ctx import Ctx
-from cogs.core.database import Database
 
 
 class Config(commands.Cog):
@@ -117,9 +117,7 @@ class Config(commands.Cog):
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
             await ctx.reply_embed(
-                ctx.l.config.lang.this_server.format(
-                    guild.language.replace("_", "-"), "`{}`".format("`, `".join(lang_codes))
-                ),
+                ctx.l.config.lang.this_server.format(guild.language.replace("_", "-"), "`{}`".format("`, `".join(lang_codes))),
             )
             return
 
@@ -192,9 +190,7 @@ class Config(commands.Cog):
         if alert is None:
             db_user = await self.db.fetch_user(ctx.author.id)
             await ctx.reply_embed(
-                ctx.l.config.gift.this_user.format(
-                    db_user.give_alert * "enabled" + "disabled" * (not db_user.give_alert)
-                ),
+                ctx.l.config.gift.this_user.format(db_user.give_alert * "enabled" + "disabled" * (not db_user.give_alert)),
             )
             return
 

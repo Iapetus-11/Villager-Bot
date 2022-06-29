@@ -235,7 +235,7 @@ class Events(commands.Cog):
             await self.log_dm_message(message)
 
             return
-        
+
         # check if message only contained a mention to this bot
         if message.content == f"<@{self.bot.user.id}>" or message.content == f"<@!{self.bot.user.id}>":
             if message.guild is None:

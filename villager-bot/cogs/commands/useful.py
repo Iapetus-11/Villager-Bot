@@ -15,12 +15,12 @@ import disnake
 import moviepy.editor
 import psutil
 from bot import VillagerBotCluster
+from cogs.core.database import Database
 from cogs.core.paginator import Paginator
 from disnake.ext import commands, tasks
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, parse_input_time
-from cogs.core.database import Database
 
 
 class BanCacheEntry:
@@ -407,7 +407,7 @@ class Useful(commands.Cog):
 
         villager = (
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
-            f'{ctx.l.useful.ginf.diff}: `{db_guild.difficulty}`\n'
+            f"{ctx.l.useful.ginf.diff}: `{db_guild.difficulty}`\n"
             f"{ctx.l.useful.ginf.cmd_prefix}: `{await self.bot.get_prefix(ctx)}`\n"
         )
 

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class Guild(BaseModel):
     guild_id: int
     prefix: str

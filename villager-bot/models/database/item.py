@@ -7,5 +7,3 @@ class Item(BaseModel):
     amount: int
     sticky: bool
     sellable: bool
-
-

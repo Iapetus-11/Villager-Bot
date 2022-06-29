@@ -9,10 +9,10 @@ import arrow
 import asyncpg
 import classyjson as cj
 import disnake
-from util.code import format_exception
-from util.ipc import PacketType
 from models.database.item import Item
 from models.database.user import User
+from util.code import format_exception
+from util.ipc import PacketType
 
 
 def strip_command(ctx):  # returns message.clean_content excluding the command used
