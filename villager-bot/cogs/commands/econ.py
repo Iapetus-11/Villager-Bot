@@ -708,9 +708,9 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.sell.stupid_2)
             return
 
-        for fish_id, fish in self.d.fishing.fish.items():
+        for fish in self.d.fishing.fish.values():
             if db_item.name == fish.name:
-                db_item = {**db_item, "sell_price": fish.current}
+                db_item.sell_price = fish.current
 
         await self.db.balance_add(ctx.author.id, amount * db_item.sell_price)
         await self.db.remove_item(ctx.author.id, db_item.name, amount)
