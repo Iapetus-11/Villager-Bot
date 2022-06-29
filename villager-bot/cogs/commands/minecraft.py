@@ -17,6 +17,7 @@ from util.code import format_exception
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, dm_check, fix_giphy_url
+from cogs.core.database import Database
 
 try:
     from util import tiler
@@ -37,7 +38,7 @@ class Minecraft(commands.Cog):
         self.d = bot.d
         self.k = bot.k
 
-        self.db = bot.get_cog("Database")
+        self.db: Database = bot.get_cog("Database")
         self.ipc = bot.ipc
         self.aiohttp = bot.aiohttp
         self.fernet = Fernet(self.k.fernet)
@@ -140,7 +141,7 @@ class Minecraft(commands.Cog):
             if ctx.guild is None:
                 raise commands.MissingRequiredArgument(cj.ClassyDict({"name": "host"}))
 
-            combined = (await self.db.fetch_guild(ctx.guild.id))["mc_server"]
+            combined = (await self.db.fetch_guild(ctx.guild.id)).mc_server
             if combined is None:
                 await ctx.reply_embed(ctx.l.minecraft.mcping.shortcut_error.format(ctx.prefix))
                 return
@@ -530,11 +531,11 @@ class Minecraft(commands.Cog):
     async def rcon_command(self, ctx: Ctx, *, cmd):
         db_guild = await self.db.fetch_guild(ctx.guild.id)
 
-        if db_guild["mc_server"] is None:
+        if db_guild.mc_server is None:
             await ctx.reply_embed(ctx.l.minecraft.rcon.stupid_1.format(ctx.prefix))
             return
 
-        db_user_rcon = await self.db.fetch_user_rcon(ctx.author.id, db_guild["mc_server"])
+        db_user_rcon = await self.db.fetch_user_rcon(ctx.author.id, db_guild.mc_server)
 
         if db_user_rcon is None:
             try:
@@ -596,14 +597,14 @@ class Minecraft(commands.Cog):
             await ctx.trigger_typing()
 
         try:
-            rcon_con = self.bot.rcon_cache.get((ctx.author.id, db_guild["mc_server"]))
+            rcon_con = self.bot.rcon_cache.get((ctx.author.id, db_guild.mc_server))
 
             if rcon_con is None:
-                rcon_con = rcon.Client(db_guild["mc_server"].split(":")[0], rcon_port, password)
-                self.bot.rcon_cache[(ctx.author.id, db_guild["mc_server"])] = (rcon_con, arrow.utcnow())
+                rcon_con = rcon.Client(db_guild.mc_server.split(":")[0], rcon_port, password)
+                self.bot.rcon_cache[(ctx.author.id, db_guild.mc_server)] = (rcon_con, arrow.utcnow())
             else:
                 rcon_con = rcon_con[0]
-                self.bot.rcon_cache[(ctx.author.id, db_guild["mc_server"])] = (rcon_con, arrow.utcnow())
+                self.bot.rcon_cache[(ctx.author.id, db_guild.mc_server)] = (rcon_con, arrow.utcnow())
 
             await rcon_con.connect(timeout=2.5)
         except Exception as e:
@@ -612,22 +613,22 @@ class Minecraft(commands.Cog):
             else:
                 await ctx.reply_embed(ctx.l.minecraft.rcon.err_con)
 
-            await self.db.delete_user_rcon(ctx.author.id, db_guild["mc_server"])
+            await self.db.delete_user_rcon(ctx.author.id, db_guild.mc_server)
             await rcon_con.close()
-            self.bot.rcon_cache.pop((ctx.author.id, db_guild["mc_server"]), None)
+            self.bot.rcon_cache.pop((ctx.author.id, db_guild.mc_server), None)
 
             return
 
         if db_user_rcon is None:
             encrypted_password = Fernet(self.k.fernet).encrypt(password.encode("utf-8")).decode("utf-8")
-            await self.db.add_user_rcon(ctx.author.id, db_guild["mc_server"], rcon_port, encrypted_password)
+            await self.db.add_user_rcon(ctx.author.id, db_guild.mc_server, rcon_port, encrypted_password)
 
         try:
             resp = await rcon_con.send_cmd(cmd[:1445])
         except Exception:
             await ctx.reply_embed(ctx.l.minecraft.rcon.err_cmd)
             await rcon_con.close()
-            self.bot.rcon_cache.pop((ctx.author.id, db_guild["mc_server"]), None)
+            self.bot.rcon_cache.pop((ctx.author.id, db_guild.mc_server), None)
 
             return
 

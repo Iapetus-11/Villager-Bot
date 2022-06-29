@@ -126,8 +126,8 @@ class Webhooks(commands.Cog):
         async with self.lock:
             db_user = await self.db.fetch_user(user_id)
 
-            last_vote = db_user["last_vote"] or 0
-            vote_streak = db_user["vote_streak"] or 0
+            last_vote = db_user.last_vote or 0
+            vote_streak = db_user.vote_streak or 0
 
             if arrow.get(last_vote) > arrow.utcnow().shift(hours=-12):
                 return

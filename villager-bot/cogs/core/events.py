@@ -63,22 +63,6 @@ class Events(commands.Cog):
     def badges(self):
         return self.bot.get_cog("Badges")
 
-    async def filter_keywords(self, message) -> bool:
-        """Returns True if there was a found keyword."""
-
-        if len(message.content) <= 2:
-            return False
-
-        filtered_words = self.bot.filter_words_cache.get(message.guild.id)
-
-        if filtered_words:
-            for word in filtered_words:
-                if word in message.content:
-                    await message.delete()
-                    return True
-
-        return False
-
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
         self.bot.error_count += 1
 
@@ -184,11 +168,6 @@ class Events(commands.Cog):
                     translator=("Translator" in role_names),
                 )
 
-    @commands.Cog.listener()
-    async def on_message_edit(self, before: disnake.Message, after: disnake.Message):
-        if after.guild:
-            await self.filter_keywords(after)
-
     async def log_dm_message(self, message: disnake.Message) -> None:
         # ignore dms from owners
         if self.bot.owner_id == message.author.id or message.author.id in self.bot.owner_ids:
@@ -256,42 +235,9 @@ class Events(commands.Cog):
             await self.log_dm_message(message)
 
             return
-
-        # anti spam/raid/scam filtering functionality
-        if message.guild is not None:
-            # check for keywords and delete message if found
-            if await self.filter_keywords(message):
-                return
-
-            g_new_member_cache: Set[int] = self.bot.new_member_cache[message.guild.id]
-
-            # if this is their first message
-            if message.author.id in g_new_member_cache:
-                try:
-                    g_new_member_cache.remove(message.author.id)
-                except KeyError:
-                    pass
-
-                if len(g_new_member_cache) == 0:
-                    del self.bot.new_member_cache[message.guild.id]
-
-                del g_new_member_cache
-
-                if message.guild.id in self.bot.antiraid_enabled_cache:
-                    # check to see if message is one that should get them banned
-                    if await self.filter_keywords(message):
-                        await message.author.ban(reason="Automated Anti-Spam/Raid", delete_message_days=1)
-                        return
-
-                    content_lower = message.content.lower()
-
-                    for keyword in AUTOBAN_KEYWORDS:
-                        if keyword in content_lower:
-                            await message.author.ban(reason="Automated Anti-Spam/Raid", delete_message_days=1)
-                            return
-
-        # check if bot was pinged directly
-        if self.bot.user.id in message.raw_mentions:
+        
+        # check if message only contained a mention to this bot
+        if message.content == f"<@{self.bot.user.id}>" or message.content == f"<@!{self.bot.user.id}>":
             if message.guild is None:
                 prefix = self.k.default_prefix
             else:

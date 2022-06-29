@@ -88,7 +88,7 @@ class MobSpawner(commands.Cog):
             return
 
         db_guild = await self.db.fetch_guild(ctx.guild.id)
-        difficulty = db_guild["difficulty"]
+        difficulty = db_guild.difficulty
 
         if difficulty == "peaceful":
             return
@@ -128,7 +128,7 @@ class MobSpawner(commands.Cog):
                 continue
 
             db_user = await self.db.fetch_user(user.id)
-            user_health = db_user["health"]
+            user_health = db_user.health
 
             if user_health < 1:
                 await ctx.send_embed(ctx.l.mobs_mech.no_health)
@@ -286,7 +286,7 @@ class MobSpawner(commands.Cog):
             await ctx.send(embed=embed)
 
             db_user = await self.db.fetch_user(user.id)
-            user_bal = db_user["emeralds"]
+            user_bal = db_user.emeralds
 
             # calculate looting level
             looting_level = 0

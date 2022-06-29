@@ -1,11 +1,10 @@
 CREATE TABLE IF NOT EXISTS guilds (
   guild_id           BIGINT PRIMARY KEY, -- the discord guild id / snowflake
-  prefix             VARCHAR(15) NOT NULL DEFAULT '!!', -- the prefix of the guild
-  difficulty         VARCHAR NOT NULL DEFAULT 'easy', -- the difficulty the server is on peaceful, easy, hard
-  language           VARCHAR(6) NOT NULL DEFAULT 'en', -- the language the bot will speak in
+  prefix             VARCHAR(15) NOT NULL, -- the prefix of the guild
+  difficulty         VARCHAR NOT NULL, -- the difficulty the server is on peaceful, easy, hard
+  language           VARCHAR(6) NOT NULL, -- the language the bot will speak in
   mc_server          VARCHAR(100), -- the minecraft server of the guild
   do_replies         BOOLEAN NOT NULL DEFAULT true, -- whether to do funny replies to certain messages
-  antiraid           BOOLEAN NOT NULL DEFAULT false
 );
 
 CREATE TABLE IF NOT EXISTS users ( -- used for economy data
@@ -81,7 +80,7 @@ CREATE TABLE IF NOT EXISTS farm_plots (
   user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE,
   crop_type          VARCHAR NOT NULL,
   planted_at         TIMESTAMPTZ NOT NULL,
-  grow_time          INTERVAL
+  grow_time          INTERVAL NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS give_logs (
@@ -117,10 +116,5 @@ CREATE TABLE IF NOT EXISTS user_rcon (
   mc_server          VARCHAR(50) NOT NULL, -- the minecraft server address, including the port
   rcon_port          INT NOT NULL, -- the port the RCON server is hosted on
   password           VARCHAR(300) NOT NULL -- the encrypted password to login to the RCON server
-);
-
-CREATE TABLE IF NOT EXISTS filtered_words (
-  guild_id           BIGINT NOT NULL,
-  word               VARCHAR
 );
 

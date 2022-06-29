@@ -20,6 +20,7 @@ from disnake.ext import commands, tasks
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, parse_input_time
+from cogs.core.database import Database
 
 
 class BanCacheEntry:
@@ -35,7 +36,7 @@ class Useful(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.db = bot.get_cog("Database")
+        self.db: Database = bot.get_cog("Database")
         self.ipc = bot.ipc
         self.google = async_cse.Search(bot.k.google_search)
         self.aiohttp = bot.aiohttp
@@ -406,7 +407,7 @@ class Useful(commands.Cog):
 
         villager = (
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
-            f'{ctx.l.useful.ginf.diff}: `{db_guild["difficulty"]}`\n'
+            f'{ctx.l.useful.ginf.diff}: `{db_guild.difficulty}`\n'
             f"{ctx.l.useful.ginf.cmd_prefix}: `{await self.bot.get_prefix(ctx)}`\n"
         )
 

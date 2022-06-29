@@ -90,11 +90,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.ban_cache: Set[int] = set()  # set({user_id, user_id,..})
         self.language_cache: Dict[int, str] = {}  # {guild_id: "lang"}
         self.prefix_cache: Dict[int, str] = {}  # {guild_id: "prefix"}
-        self.antiraid_enabled_cache: Set[int] = set()  # {guild_id, guild_id,...}
         self.disabled_commands: DefaultDict[int, Set[str]] = defaultdict(set)  # {guild_id: set({command, command,..})}
         self.replies_cache: Set[int] = set()  # {guild_id, guild_id,..}
         self.rcon_cache: Dict[Tuple[int, Any], Any] = {}  # {(user_id, mc_server): rcon_client}
-        self.filter_words_cache: DefaultDict[int, List[str]] = defaultdict(list)  # {guild_id: ["keyword", "keyword"]}
         self.new_member_cache: DefaultDict[int, set] = defaultdict(set)  # {guild_id: set()}
         self.existing_users_cache: Set[
             int

@@ -11,6 +11,8 @@ import classyjson as cj
 import disnake
 from util.code import format_exception
 from util.ipc import PacketType
+from models.database.item import Item
+from models.database.user import User
 
 
 def strip_command(ctx):  # returns message.clean_content excluding the command used
@@ -135,11 +137,11 @@ async def craft_lbs(bot, global_lb: List[asyncpg.Record], local_lb: List[asyncpg
 #     return body + "\uFEFF"
 
 
-def calc_total_wealth(db_user, u_items):
+def calc_total_wealth(db_user: User, items: List[Item]):
     return (
-        db_user["emeralds"]
-        + db_user["vault_balance"] * 9
-        + sum([u_it["sell_price"] * u_it.get("amount", 0) for u_it in u_items if u_it["sell_price"] > 0])
+        db_user.emeralds
+        + db_user.vault_balance * 9
+        + sum([u_it.sell_price * u_it.amount for u_it in items if u_it.sell_price > 0])
     )
 
 

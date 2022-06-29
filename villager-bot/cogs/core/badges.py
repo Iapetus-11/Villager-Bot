@@ -1,27 +1,25 @@
-from typing import List
+from typing import List, Optional
 
 import asyncpg
 from bot import VillagerBotCluster
 from disnake.ext import commands
 from util.misc import calc_total_wealth
+from models.database.user import User
+from models.database.item import Item
+from cogs.core.database import Database
 
 
 class Badges(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
-        self.db = bot.get_cog("Database")
+        self.db: Database = bot.get_cog("Database")
         self.d = bot.d
 
     async def fetch_user_badges(self, user_id) -> dict:
         return dict(await self.db.fetch_user_badges(user_id))
 
     async def update_user_badges(self, user_id, **kwargs):
-        badges = await self.fetch_user_badges(user_id)
-
-        for badge, value in kwargs.items():
-            badges[badge] = value
-
         await self.db.update_user_badges(user_id, **kwargs)
 
     def emojify_badges(self, user_badges: dict) -> str:
@@ -41,7 +39,7 @@ class Badges(commands.Cog):
         return " ".join(emojis)
 
     async def update_badge_uncle_scrooge(
-        self, user_id: int, db_user: asyncpg.Record = None, user_items: List[asyncpg.Record] = None
+        self, user_id: int, db_user: Optional[User] = None, user_items: List[Item] = None
     ) -> None:
         badges = await self.fetch_user_badges(user_id)
 
@@ -59,7 +57,7 @@ class Badges(commands.Cog):
         if total_wealth > 100_000:
             await self.update_user_badges(user_id, uncle_scrooge=True)
 
-    async def update_badge_collector(self, user_id: int, user_items: List[asyncpg.Record] = None) -> None:
+    async def update_badge_collector(self, user_id: int, user_items: List[Item] = None) -> None:
         # Levels are:
         # I -> 16 unique items
         # II -> 32  ||
@@ -107,7 +105,7 @@ class Badges(commands.Cog):
             if bees is None:
                 bees = 0
             else:
-                bees = bees["amount"]
+                bees = bees.amount
 
         if beekeeper_level < 3 and bees >= 100_000:
             await self.update_user_badges(user_id, beekeeper=3)

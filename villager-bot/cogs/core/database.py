@@ -2,13 +2,16 @@ import asyncio
 from collections import defaultdict
 from contextlib import suppress
 from datetime import datetime
-from typing import List, Set, Tuple
+from typing import List, Optional, Set, Tuple
 
 import asyncpg
 import disnake
 from bot import VillagerBotCluster
 from data.enums.guild_event_type import GuildEventType
 from disnake.ext import commands
+from models.database.user import User
+from models.database.item import Item
+from models.database.guild import Guild
 
 
 class Database(commands.Cog):
@@ -33,20 +36,7 @@ class Database(commands.Cog):
         self.bot.disabled_commands.update(await self.fetch_all_disabled_commands())
         self.bot.language_cache = await self.fetch_all_guild_langs()
         self.bot.prefix_cache = await self.fetch_all_guild_prefixes()
-        self.bot.antiraid_enabled_cache = await self.fetch_all_guild_antiraid()
         self.bot.replies_cache = await self.fetch_all_do_replies()
-        self.bot.filter_words_cache = await self.fetch_all_filtered_words()
-
-    async def ensure_user_exists(self, user_id: int):
-        if user_id in self.bot.existing_users_cache:
-            return
-
-        await self.fetch_user(user_id)  # will create user if they don't exist
-
-        self.bot.existing_user_lbs_cache.add(user_id)
-
-        if len(self.bot.existing_users_cache) > 30:
-            self.bot.existing_users_cache.pop()
 
     async def fetch_user_reminder_count(self, user_id: int) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE user_id = $1", user_id)
@@ -86,31 +76,17 @@ class Database(commands.Cog):
 
         return disabled
 
-    async def fetch_all_guild_antiraid(self) -> set:
-        return {r["guild_id"] for r in await self.db.fetch("SELECT * FROM guilds WHERE antiraid = true")}
-
     async def fetch_all_do_replies(self) -> set:
         replies_records = await self.db.fetch("SELECT guild_id FROM guilds WHERE do_replies = true")
         return {r[0] for r in replies_records}
 
-    async def fetch_all_filtered_words(self) -> dict:
-        records = await self.db.fetch("SELECT * FROM filtered_words")
-        filtered_words = defaultdict(list)
-
-        for r in records:
-            filtered_words[r["guild_id"]].append(r["word"])
-
-        return filtered_words
-
-    async def fetch_guild(self, guild_id: int) -> asyncpg.Record:
+    async def fetch_guild(self, guild_id: int) -> Guild:
         g = await self.db.fetchrow("SELECT * FROM guilds WHERE guild_id = $1", guild_id)
 
         if g is None:
-            await self.db.execute("INSERT INTO guilds (guild_id) VALUES ($1)", guild_id)
+            g = await self.db.fetchrow("INSERT INTO guilds (guild_id, prefix, difficulty, language) VALUES ($1, $2, $3, $4) RETURNING *", guild_id, self.k.default_prefix, "easy", "en")
 
-            return await self.fetch_guild(guild_id)
-
-        return g
+        return Guild(**g)
 
     async def set_guild_attr(self, guild_id: int, attr: str, value: object) -> None:
         await self.fetch_guild(guild_id)  # ensure it exists in db
@@ -128,11 +104,22 @@ class Database(commands.Cog):
         else:
             await self.db.execute("INSERT INTO disabled_commands (guild_id, command) VALUES ($1, $2)", guild_id, command)
 
-    async def fetch_user(self, user_id: int) -> asyncpg.Record:
+    async def ensure_user_exists(self, user_id: int):
+        if user_id in self.bot.existing_users_cache:
+            return
+
+        await self.fetch_user(user_id)  # will create user if they don't exist
+
+        self.bot.existing_user_lbs_cache.add(user_id)
+
+        if len(self.bot.existing_users_cache) > 30:
+            self.bot.existing_users_cache.pop()
+
+    async def fetch_user(self, user_id: int) -> User:
         user = await self.db.fetchrow("SELECT * FROM users WHERE user_id = $1", user_id)
 
         if user is None:
-            await self.db.execute("INSERT INTO users (user_id) VALUES ($1)", user_id)
+            user = await self.db.fetchrow("INSERT INTO users (user_id) VALUES ($1) RETURNING *", user_id)
 
             await self.add_item(user_id, "Wood Pickaxe", 0, 1, True, False)
             await self.add_item(user_id, "Wood Sword", 0, 1, True, False)
@@ -140,9 +127,7 @@ class Database(commands.Cog):
             await self.add_item(user_id, "Bone Meal", 512, 1)
             await self.add_item(user_id, "Wheat Seed", 24, 5)
 
-            return await self.fetch_user(user_id)
-
-        return user
+        return User(**user)
 
     async def update_user(self, user_id: int, **kwargs) -> None:
         db_user = await self.fetch_user(user_id)  # ensures user exists + we use db_user for updating badges
@@ -204,13 +189,19 @@ class Database(commands.Cog):
         # update badges
         await self.badges.update_badge_uncle_scrooge(user_id, db_user)
 
-    async def fetch_items(self, user_id: int) -> List[asyncpg.Record]:
+    async def fetch_items(self, user_id: int) -> List[Item]:
         await self.ensure_user_exists(user_id)
-        return await self.db.fetch("SELECT * FROM items WHERE user_id = $1", user_id)
+        return [Item(**r) for r in await self.db.fetch("SELECT * FROM items WHERE user_id = $1", user_id)]
 
-    async def fetch_item(self, user_id: int, name: str) -> asyncpg.Record:
+    async def fetch_item(self, user_id: int, name: str) -> Optional[Item]:
         await self.ensure_user_exists(user_id)
-        return await self.db.fetchrow("SELECT * FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name)
+        
+        db_item = await self.db.fetchrow("SELECT * FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name)
+        
+        if db_item:
+            return Item(**db_item)
+
+        return None
 
     async def add_item(
         self, user_id: int, name: str, sell_price: int, amount: int, sticky: bool = False, sellable: bool = True
@@ -230,7 +221,7 @@ class Database(commands.Cog):
         else:
             await self.db.execute(
                 "UPDATE items SET amount = $1 WHERE user_id = $2 AND LOWER(name) = LOWER($3)",
-                amount + prev["amount"],
+                amount + prev.amount,
                 user_id,
                 name,
             )
@@ -245,12 +236,12 @@ class Database(commands.Cog):
     async def remove_item(self, user_id: int, name: str, amount: int) -> None:
         prev = await self.fetch_item(user_id, name)
 
-        if prev["amount"] - amount < 1:
+        if prev.amount - amount < 1:
             await self.db.execute("DELETE FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name)
         else:
             await self.db.execute(
                 "UPDATE items SET amount = $1 WHERE user_id = $2 AND LOWER(name) = LOWER($3)",
-                prev["amount"] - amount,
+                prev.amount - amount,
                 user_id,
                 name,
             )
@@ -283,7 +274,7 @@ class Database(commands.Cog):
         return await self.db.fetchval("SELECT COUNT(*) FROM give_logs WHERE sender = $1 OR receiver = $1", user_id) // limit
 
     async def fetch_pickaxe(self, user_id: int) -> str:
-        items_names = {item["name"] for item in await self.fetch_items(user_id)}
+        items_names = {item.name for item in await self.fetch_items(user_id)}
 
         for pickaxe in self.d.mining.pickaxes:
             if pickaxe in items_names:
@@ -294,7 +285,7 @@ class Database(commands.Cog):
         return "Wood Pickaxe"
 
     async def fetch_sword(self, user_id: int) -> str:
-        items_names = {item["name"] for item in await self.fetch_items(user_id)}
+        items_names = {item.name for item in await self.fetch_items(user_id)}
 
         for sword in self.d.sword_list_proper:
             if sword in items_names:
@@ -305,7 +296,7 @@ class Database(commands.Cog):
         return "Wood Sword"
 
     async def fetch_hoe(self, user_id: int) -> str:
-        items_names = {item["name"] for item in await self.fetch_items(user_id)}
+        items_names = {item.name for item in await self.fetch_items(user_id)}
 
         for hoe in self.d.hoe_list_proper:
             if hoe in items_names:
@@ -518,15 +509,6 @@ class Database(commands.Cog):
 
         # this sql query crafting is safe because the user's input is still sanitized by asyncpg
         await self.db.execute(f"UPDATE badges SET {','.join(sql)} WHERE user_id = ${i+2}", *values, user_id)
-
-    async def add_filtered_word(self, guild_id: int, word: str) -> None:
-        await self.db.execute("INSERT INTO filtered_words (guild_id, word) VALUES ($1, $2)", guild_id, word)
-
-    async def remove_filtered_word(self, guild_id: int, word: str) -> None:
-        await self.db.execute("DELETE FROM filtered_words WHERE guild_id = $1 AND LOWER(word) = LOWER($2)", guild_id, word)
-
-    async def fetch_filtered_words(self, guild_id: int) -> List[str]:
-        return [r["word"] for r in await self.db.fetch("SELECT word FROM filtered_words WHERE guild_id = $1", guild_id)]
 
     async def fetch_farm_plots(self, user_id: int) -> List[asyncpg.Record]:
         return await self.db.fetch("SELECT * FROM farm_plots WHERE user_id = $1 ORDER BY planted_at ASC", user_id)

@@ -2,6 +2,7 @@ import disnake
 from bot import VillagerBotCluster
 from disnake.ext import commands
 from util.ctx import Ctx
+from cogs.core.database import Database
 
 
 class Config(commands.Cog):
@@ -10,7 +11,7 @@ class Config(commands.Cog):
 
         self.d = bot.d
 
-        self.db = bot.get_cog("Database")
+        self.db: Database = bot.get_cog("Database")
 
     @commands.group(name="config", aliases=["settings", "conf", "gamerule"], case_insensitive=True)
     async def config(self, ctx: Ctx):
@@ -60,10 +61,10 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_replies(self, ctx: Ctx, replies=None):
+    async def config_replies(self, ctx: Ctx, replies: str = None):
         if replies is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            state = ctx.l.config.replies.enabled if guild["do_replies"] else ctx.l.config.replies.disabled
+            state = ctx.l.config.replies.enabled if guild.do_replies else ctx.l.config.replies.disabled
             await ctx.reply_embed(ctx.l.config.replies.this_server.format(state))
             return
 
@@ -88,10 +89,10 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def config_difficulty(self, ctx: Ctx, diff=None):
+    async def config_difficulty(self, ctx: Ctx, diff: str = None):
         if diff is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await ctx.reply_embed(ctx.l.config.diff.this_server.format(guild["difficulty"]))
+            await ctx.reply_embed(ctx.l.config.diff.this_server.format(guild.difficulty))
             return
 
         if diff.lower() == "peaceful":
@@ -110,14 +111,14 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def config_language(self, ctx: Ctx, lang=None):
-        lang_codes = [l.replace("_", "-") for l in list(self.bot.l)]
+    async def config_language(self, ctx: Ctx, lang: str = None):
+        lang_codes = {l.replace("_", "-") for l in list(self.bot.l)}
 
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
             await ctx.reply_embed(
                 ctx.l.config.lang.this_server.format(
-                    guild["language"].replace("_", "-"), "`{}`".format("`, `".join(lang_codes))
+                    guild.language.replace("_", "-"), "`{}`".format("`, `".join(lang_codes))
                 ),
             )
             return
@@ -136,24 +137,24 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def config_default_mcserver(self, ctx: Ctx, mcserver=None):
-        if mcserver is None:
+    async def config_default_mcserver(self, ctx: Ctx, mc_server: str = None):
+        if mc_server is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            await ctx.reply_embed(ctx.l.config.mcs.this_server.format(guild["mc_server"]))
+            await ctx.reply_embed(ctx.l.config.mcs.this_server.format(guild.mc_server))
             return
 
-        if len(mcserver) > 60:
+        if len(mc_server) > 60:
             await ctx.reply_embed(ctx.l.config.mcs.error_1.format(60))
             return
 
-        await self.db.set_guild_attr(ctx.guild.id, "mc_server", mcserver)
-        await ctx.reply_embed(ctx.l.config.mcs.set.format(mcserver))
+        await self.db.set_guild_attr(ctx.guild.id, "mc_server", mc_server)
+        await ctx.reply_embed(ctx.l.config.mcs.set.format(mc_server))
 
     @config.command(name="togglecommand", aliases=["togglecmd", "toggleenabled"])
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_toggle_cmd_enabled(self, ctx: Ctx, cmd=None):
+    async def config_toggle_cmd_enabled(self, ctx: Ctx, cmd: str = None):
         disabled = self.bot.disabled_commands[ctx.guild.id]
 
         if cmd is None:
@@ -185,86 +186,6 @@ class Config(commands.Cog):
             await self.db.set_cmd_usable(ctx.guild.id, cmd_true, False)
             await ctx.reply_embed(ctx.l.config.cmd.disable.format(cmd_true))
 
-    @config.command(name="filterwords", aliases=["wordfilter", "wordblacklist", "wbl"])
-    @commands.guild_only()
-    @commands.has_permissions(administrator=True)
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_filtered_words(self, ctx: Ctx, operation: str = None, word: str = None):
-        words = await self.db.fetch_filtered_words(ctx.guild.id)
-
-        if not (operation and word):
-            if words:
-                words_nice = ctx.l.config.wbl.current.format("`" + "`, `".join(words) + "`")
-            else:
-                words_nice = ctx.l.config.wbl.current_none
-
-            await ctx.reply_embed(
-                "\n".join(
-                    [
-                        words_nice,
-                        ctx.l.config.wbl.add.format(ctx.prefix),
-                        ctx.l.config.wbl.remove.format(ctx.prefix),
-                    ]
-                ),
-            )
-            return
-
-        word = word.lower()
-
-        if operation == "add":
-            await self.db.add_filtered_word(ctx.guild.id, word)
-            self.bot.filter_words_cache[ctx.guild.id].append(word)
-            await ctx.reply_embed(ctx.l.config.wbl.added.format(word))
-        elif operation == "remove" or operation == "delete":
-            try:
-                self.bot.filter_words_cache[ctx.guild.id].remove(word)
-            except ValueError:
-                pass
-
-            await self.db.remove_filtered_word(ctx.guild.id, word)
-
-            await ctx.reply_embed(ctx.l.config.wbl.removed.format(word))
-        else:
-            await ctx.reply_embed(
-                " ".join(
-                    [
-                        ctx.l.config.wbl.invalid,
-                        ctx.l.config.wbl.add.format(ctx.prefix),
-                        ctx.l.config.wbl.remove.format(ctx.prefix),
-                    ]
-                ),
-            )
-
-    @config.command(name="antiraid", aliases=["antispam"])
-    @commands.guild_only()
-    @commands.has_permissions(administrator=True)
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_antiraid(self, ctx: Ctx, antiraid=None):
-        if antiraid is None:
-            db_guild = await self.db.fetch_guild(ctx.guild.id)
-
-            state = ctx.l.config.antiraid.enabled if db_guild["antiraid"] else ctx.l.config.antiraid.disabled
-
-            await ctx.reply_embed(ctx.l.config.antiraid.this_server.format(state))
-
-            return
-
-        if antiraid.lower() in ["yes", "true", "on"]:
-            await self.db.set_guild_attr(ctx.guild.id, "antiraid", True)
-            self.bot.antiraid_enabled_cache.add(ctx.guild.id)
-            await ctx.reply_embed(ctx.l.config.antiraid.set.format("on"))
-        elif antiraid.lower() in ["no", "false", "off"]:
-            await self.db.set_guild_attr(ctx.guild.id, "antiraid", False)
-
-            try:
-                self.bot.antiraid_enabled_cache.remove(ctx.guild.id)
-            except KeyError:
-                pass
-
-            await ctx.reply_embed(ctx.l.config.antiraid.set.format("off"))
-        else:
-            await ctx.reply_embed(ctx.l.config.invalid.format("`on`, `off`"))
-
     @config.command(name="giftalert", aliases=["gift", "give", "givealert"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def config_gift_alert(self, ctx: Ctx, alert=None):
@@ -272,7 +193,7 @@ class Config(commands.Cog):
             db_user = await self.db.fetch_user(ctx.author.id)
             await ctx.reply_embed(
                 ctx.l.config.gift.this_user.format(
-                    db_user["give_alert"] * "enabled" + "disabled" * (not db_user["give_alert"])
+                    db_user.give_alert * "enabled" + "disabled" * (not db_user.give_alert)
                 ),
             )
             return

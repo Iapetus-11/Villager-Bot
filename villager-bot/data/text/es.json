@@ -1549,9 +1549,7 @@
           "`{0}config difficulty <pacífico/fácil/difícil>` - Cambia la dificultad del juego\n\n",
           "`{0}config lang <idioma>` - Cambia el lenguaje de Villager Bot\n\n",
           "`{0}config mcserver <mcserver>` - Cambia el servidor que se hace ping si no especificas un servidor en `/mcping`\n\n",
-          "`{0}config togglecmd <comando>` - Cambiar si el comando especificado puede ser utilizado o no.\n\n",
-          "`{0}config filterwords <add/remove> <word>` - Añade o elimina palabras de la lista negra que el bot va a filtrar.\n\n",
-          "`{0}config antiraid <on/off>` - Habilitar o deshabilitar anti-spam.\n\n"
+          "`{0}config togglecmd <comando>` - Cambiar si el comando especificado puede ser utilizado o no.\n\n"
         ],
         "user_conf": "Configuración Por Usuario",
         "user_content": [
@@ -1601,21 +1599,6 @@
         "none": "No tenías ninguna contraseña guardada",
         "one": "Has eliminado 1 contraseña",
         "multi": "Has eliminado {} contraseñas"
-      },
-      "wbl": {
-        "current": "Palabras en la lista negra: {}.",
-        "current_none": "Actualmente no hay ninguna palabra en la lista negra.",
-        "add": "Puedes añadir más palabras a la lista negra con`{}config filterwords add <word>`.",
-        "remove": "Puedes quitar palabras de la lista negra con `{}config filterwords remove <word>`.",
-        "added": " `{}` ha sido añadida a la lista negra.",
-        "removed": "`{}` ha sido eliminada de la lista negra.",
-        "invalid": "No has especificado una operación válida."
-      },
-      "antiraid": {
-        "enabled": "habilitado",
-        "disabled": "deshabilitado",
-        "this_server": "El anti-spam está actualmente **{}**.",
-        "set": "Anti-spam puesto en **{}**."
       }
     },
     "useful": {
