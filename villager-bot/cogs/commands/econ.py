@@ -1859,6 +1859,7 @@ class Econ(commands.Cog):
 
     @commands.command(name="fight", aliases=["battle"])
     @commands.guild_only()
+    @commands.is_owner()
     async def fight(self, ctx: Ctx):
         user_1 = ctx.author
 
