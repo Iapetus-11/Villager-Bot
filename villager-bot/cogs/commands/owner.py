@@ -209,8 +209,8 @@ class Owner(commands.Cog):
             body = ""
 
             for entry in entries:
-                giver = getattr(ctx.guild.get_user(entry["sender"]), "mention", None) or f"`{entry['sender']}`"
-                receiver = getattr(ctx.guild.get_user(entry["receiver"]), "mention", None) or f"`{entry['receiver']}`"
+                giver = getattr(ctx.guild.get_member(entry["sender"]), "mention", None) or f"`{entry['sender']}`"
+                receiver = getattr(ctx.guild.get_member(entry["receiver"]), "mention", None) or f"`{entry['receiver']}`"
                 item = entry["item"]
 
                 if item == "emerald":
