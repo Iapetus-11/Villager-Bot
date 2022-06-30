@@ -1024,7 +1024,8 @@ class Econ(commands.Cog):
                 wait -= 4
 
             if "seaweed" in active_effects.result:
-                wait -= 4
+                wait -= 12
+                wait = max(random.randint(3, 10), wait)
 
             await asyncio.sleep(wait)
 
@@ -1683,6 +1684,7 @@ class Econ(commands.Cog):
 
     @commands.group(name="farm", case_insensitive=True)
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
+    @commands.guild_only()
     async def farm(self, ctx: Ctx):
         if ctx.invoked_subcommand is not None:
             return
@@ -1805,6 +1807,7 @@ class Econ(commands.Cog):
         await ctx.reply_embed(ctx.l.econ.farm.harvested.format(crops=harvest_str))
 
     @commands.group(name="trash", aliases=["trashcan", "garbage", "tc"])
+    @commands.guild_only()
     async def trash(self, ctx: Ctx):
         if ctx.invoked_subcommand:
             return
@@ -1853,6 +1856,88 @@ class Econ(commands.Cog):
         await self.db.update_lb(ctx.author.id, "week_emeralds", total_ems)
 
         await ctx.reply_embed(ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald))
+
+    @commands.command(name="fight", aliases=["battle"])
+    @commands.guild_only()
+    async def fight(self, ctx: Ctx):
+        user_1 = ctx.author
+
+        # send challenge/accept message
+        embed = disnake.Embed(color=self.d.cc, title=f"{user_1.mention} wants to fight!", description=f"React with {self.d.emojis.netherite_sword} to accept!")
+        embed.set_footer(f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo)
+        msg = await ctx.send(embed=embed)
+        await msg.add_reaction(self.d.emojis.netherite_sword)
+
+        # wait for someone to accept the fight
+        try:
+            user_2: disnake.User
+            _, user_2 = await self.bot.wait_for("reaction", check=(lambda r, u: str(r.emoji) == self.d.emojis.netherite_sword), timeout=60)
+        except asyncio.TimeoutError:
+            await msg.edit(suppress_embeds=True)
+            await self.bot.reply_embed(msg, "Timed-out waiting for a reaction.")
+            return
+
+        db_user_1 = await self.db.fetch_user(user_1.id)
+        db_user_2 = await self.db.fetch_user(user_2.id)
+
+        user_1_bees = getattr(await self.db.fetch_item(user_1.id, "Jar Of Bees"), "amount", 0)
+        user_2_bees = getattr(await self.db.fetch_item(user_2.id, "Jar Of Bees"), "amount", 0)
+
+        user_1_sword = await self.db.fetch_sword(user_1.id)
+        user_2_sword = await self.db.fetch_sword(user_2.id)
+
+        user_1_hb = make_health_bar(
+            db_user_1.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
+        )
+        user_2_hb = make_health_bar(
+            db_user_2.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
+        )
+
+        jar_of_bees_emoji = emojify_item(self.d, 'Jar Of Bees')
+
+        async def _add_reactions():
+            await msg.add_reaction(":one:")
+            await msg.add_reaction(":two")
+        reactions_task = asyncio.create_task(_add_reactions())
+
+        embed = disnake.Embed(color=self.d.cc, title=f"GET READY TO BATTLE!", description=f"*react with :one: or :two: to bet your balance, battle will start in 15 seconds...*")
+        embed.add_field(name=f":one: {user_1.display_name}", value=f"{user_1_hb}\n{emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{jar_of_bees_emoji}")
+        embed.add_field(name="Betting Pool", value=f"0 {self.d.emojis.emerald}")
+        embed.add_field(name=f":two: {user_2.display_name}", value=f"{user_2_hb}\n{emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{jar_of_bees_emoji}")
+        embed.set_footer(f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo)
+        msg = await msg.edit(embed=embed)
+        await reactions_task
+
+        started_at = arrow.utcnow()
+        bets: Dict[int, int] = {}         
+        bet_tasks: List[asyncio.Task] = []
+
+        async def _handle_bet(u: disnake.User):
+            db_u = await self.db.fetch_user(u.id)
+
+            if db_u.emeralds < 5:
+                await ctx.send(f"{u.mention} you need at least 5 emeralds in your pocket to bet!")
+                return
+
+            bets[u.id] = db_u.emeralds
+
+            embed.set_field_at(1, name="Betting Pool", value=f"{sum(bets.values())} {self.d.emojis.emerald}")
+            await msg.edit(embed=embed)
+
+        async with SuppressCtxManager(ctx.typing()):
+            while arrow.utcnow().shift(seconds=-15) < started_at:
+                try:
+                    u: disnake.User
+                    r, u = await self.bot.wait_for("reaction", check=(lambda r, u: u not in {user_1, user_2} and str(r.emoji) == self.d.emojis.emerald))
+                except asyncio.TimeoutError:
+                    break
+                
+                bet_tasks.append(asyncio.create_task(_handle_bet(u)))
+
+            await asyncio.wait(bet_tasks)
+            del bet_tasks
+
+        await ctx.send("ratio'd + L")
 
 
 def setup(bot):
