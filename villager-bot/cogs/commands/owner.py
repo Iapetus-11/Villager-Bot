@@ -209,8 +209,8 @@ class Owner(commands.Cog):
             body = ""
 
             for entry in entries:
-                giver = self.bot.get_user(entry["sender"])
-                receiver = self.bot.get_user(entry["receiver"])
+                giver = getattr(self.bot.get_user(entry["sender"]), "mention", None) or f"`{entry['sender']}`"
+                receiver = getattr(self.bot.get_user(entry["receiver"]), "mention", None) or f"`{entry['receiver']}`"
                 item = entry["item"]
 
                 if item == "emerald":
