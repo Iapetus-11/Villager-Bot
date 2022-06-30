@@ -1863,7 +1863,11 @@ class Econ(commands.Cog):
         user_1 = ctx.author
 
         # send challenge/accept message
-        embed = disnake.Embed(color=self.d.cc, title=f"{user_1.mention} wants to fight!", description=f"React with {self.d.emojis.netherite_sword} to accept!")
+        embed = disnake.Embed(
+            color=self.d.cc,
+            title=f"{user_1.mention} wants to fight!",
+            description=f"React with {self.d.emojis.netherite_sword} to accept!",
+        )
         embed.set_footer(f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo)
         msg = await ctx.send(embed=embed)
         await msg.add_reaction(self.d.emojis.netherite_sword)
@@ -1871,7 +1875,9 @@ class Econ(commands.Cog):
         # wait for someone to accept the fight
         try:
             user_2: disnake.User
-            _, user_2 = await self.bot.wait_for("reaction", check=(lambda r, u: str(r.emoji) == self.d.emojis.netherite_sword), timeout=60)
+            _, user_2 = await self.bot.wait_for(
+                "reaction", check=(lambda r, u: str(r.emoji) == self.d.emojis.netherite_sword), timeout=60
+            )
         except asyncio.TimeoutError:
             await msg.edit(suppress_embeds=True)
             await self.bot.reply_embed(msg, "Timed-out waiting for a reaction.")
@@ -1893,23 +1899,34 @@ class Econ(commands.Cog):
             db_user_2.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
         )
 
-        jar_of_bees_emoji = emojify_item(self.d, 'Jar Of Bees')
+        jar_of_bees_emoji = emojify_item(self.d, "Jar Of Bees")
 
         async def _add_reactions():
             await msg.add_reaction(":one:")
             await msg.add_reaction(":two")
+
         reactions_task = asyncio.create_task(_add_reactions())
 
-        embed = disnake.Embed(color=self.d.cc, title=f"GET READY TO BATTLE!", description=f"*react with :one: or :two: to bet your balance, battle will start in 15 seconds...*")
-        embed.add_field(name=f":one: {user_1.display_name}", value=f"{user_1_hb}\n{emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{jar_of_bees_emoji}")
+        embed = disnake.Embed(
+            color=self.d.cc,
+            title=f"GET READY TO BATTLE!",
+            description=f"*react with :one: or :two: to bet your balance, battle will start in 15 seconds...*",
+        )
+        embed.add_field(
+            name=f":one: {user_1.display_name}",
+            value=f"{user_1_hb}\n{emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{jar_of_bees_emoji}",
+        )
         embed.add_field(name="Betting Pool", value=f"0 {self.d.emojis.emerald}")
-        embed.add_field(name=f":two: {user_2.display_name}", value=f"{user_2_hb}\n{emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{jar_of_bees_emoji}")
+        embed.add_field(
+            name=f":two: {user_2.display_name}",
+            value=f"{user_2_hb}\n{emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{jar_of_bees_emoji}",
+        )
         embed.set_footer(f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo)
         msg = await msg.edit(embed=embed)
         await reactions_task
 
         started_at = arrow.utcnow()
-        bets: Dict[int, int] = {}         
+        bets: Dict[int, int] = {}
         bet_tasks: List[asyncio.Task] = []
 
         async def _handle_bet(u: disnake.User):
@@ -1928,10 +1945,12 @@ class Econ(commands.Cog):
             while arrow.utcnow().shift(seconds=-15) < started_at:
                 try:
                     u: disnake.User
-                    r, u = await self.bot.wait_for("reaction", check=(lambda r, u: u not in {user_1, user_2} and str(r.emoji) == self.d.emojis.emerald))
+                    r, u = await self.bot.wait_for(
+                        "reaction", check=(lambda r, u: u not in {user_1, user_2} and str(r.emoji) == self.d.emojis.emerald)
+                    )
                 except asyncio.TimeoutError:
                     break
-                
+
                 bet_tasks.append(asyncio.create_task(_handle_bet(u)))
 
             await asyncio.wait(bet_tasks)
