@@ -403,33 +403,45 @@
         false
       ],
       [
-        "Morbius",
-        1024,
-        99999,
-        false
-      ],
-      [
         "Bane Of Pillagers Amulet",
         4096,
         500000,
         true
       ],
       [
-        "Pride Flag",
+        "Sparkler",
+        32,
+        200,
+        false
+      ],
+      [
+        "Firecracker",
         64,
+        500,
+        false
+      ],
+      [
+        "Fireworks Bundle",
+        128,
         1000,
         false
       ],
       [
-        "A Literal Rainbow",
-        2048,
-        99999,
+        "Roman Candle",
+        128,
+        1000,
         false
       ],
       [
-        "Rainbow Lego Stud",
-        2048,
-        99999,
+        "Komodo 30000 SuperNova Aerial Firework",
+        768,
+        9999,
+        false
+      ],
+      [
+        "Ford F150 Keys",
+        768,
+        9999,
         false
       ]
     ]

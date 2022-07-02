@@ -130,7 +130,7 @@ class Database(commands.Cog):
             await self.add_item(user_id, "Wood Pickaxe", 0, 1, True, False)
             await self.add_item(user_id, "Wood Sword", 0, 1, True, False)
             await self.add_item(user_id, "Wood Hoe", 0, 1, True, False)
-            await self.add_item(user_id, "Bone Meal", 512, 1)
+            # await self.add_item(user_id, "Bone Meal", 512, 1)
             await self.add_item(user_id, "Wheat Seed", 24, 5)
 
         return User(**user)
