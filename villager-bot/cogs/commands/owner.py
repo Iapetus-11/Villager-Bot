@@ -226,6 +226,23 @@ class Owner(commands.Cog):
 
         await self.paginator.paginate_embed(ctx, get_page, timeout=60, page_count=page_count)
 
+    @commands.command(name="jlstats", aliases=["joinleavestats", "joinsleaves", "jls"])
+    @commands.is_owner()
+    async def joinleaves(self, ctx: Ctx):
+        records = await self.db.fetch("""SELECT COALESCE(join_count, 0) AS join_count, COALESCE(leave_count, 0) AS leave_count, COALESCE(iq1.event_at_trunc, iq2.event_at_trunc) AS event_at FROM (
+        SELECT COUNT(*) AS join_count, DATE_TRUNC('day', event_at) AS event_at_trunc FROM guild_events WHERE event_type = 1 GROUP BY event_at_trunc ORDER BY event_at_trunc ASC
+    ) iq1
+    FULL OUTER JOIN (
+        SELECT COUNT(*) AS leave_count, DATE_TRUNC('day', event_at) AS event_at_trunc FROM guild_events WHERE event_type = 2 GROUP BY event_at_trunc ORDER BY event_at_trunc ASC
+) iq2 ON iq1.event_at_trunc = iq2.event_at_trunc ORDER BY iq1.event_at_trunc DESC LIMIT 14;""")
+
+        rows = [record["join_count"] - record["leave_count"] for record in records]
+        rows = [("+" if r > 0 else "-") + "#" * abs(r) + f" ({r:+})" for r in rows]
+
+        body = '\n'.join(rows)
+
+        await ctx.send(f"Last 14 days of guild joins / leaves (newest is top)```diff\n{body}\n```")
+        
 
 def setup(bot):
     bot.add_cog(Owner(bot))

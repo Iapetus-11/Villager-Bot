@@ -118,3 +118,10 @@ CREATE TABLE IF NOT EXISTS user_rcon (
   password           VARCHAR(300) NOT NULL -- the encrypted password to login to the RCON server
 );
 
+CREATE TABLE IF NOT EXISTS guild_events (
+  guild_id           BIGINT NOT NULL,
+  event_type         SMALLINT NOT NULL, -- enum: data/enums/guild_event_type.py
+  member_count       INT NOT NULL,
+  total_count        INT NOT NULL,
+  event_at           TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
