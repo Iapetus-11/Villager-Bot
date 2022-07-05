@@ -13,7 +13,7 @@ from util.cooldowns import CooldownManager, MaxConcurrencyManager
 from util.ipc import PacketHandlerRegistry, PacketType, Server, handle_packet
 from util.misc import MultiLock
 from util.recurring_task import RecurringTasksMixin, recurring_task
-from util.setup import load_data, load_secrets, setup_karen_logging
+from util.setup import load_data, load_secrets, setup_karen_logging, setup_database_pool
 
 logger = setup_karen_logging()
 
@@ -269,14 +269,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         )
 
     async def start(self, pp):
-        self.db = await asyncpg.create_pool(
-            host=self.k.database.host,  # where db is hosted
-            database=self.k.database.name,  # name of database
-            user=self.k.database.user,  # database username
-            password=self.k.database.auth,  # password which goes with user
-            max_size=3,
-            min_size=1,
-        )
+        self.db = await setup_database_pool(self.k, max_size=3)
 
         await self.server.start()
         self.cooldowns.start()
@@ -289,18 +282,13 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         loop = asyncio.get_event_loop()
 
-        # calculate max connections to the db server per process allowed
-        # postgresql is usually configured to allow 100 max, so we use
-        # 75 to leave room for other stuff using the db server
-        db_pool_size_per: int = 75 // self.k.cluster_count
-
         cluster_size: int = self.k.shard_count // self.k.cluster_count  # how many shards per cluster
         clusters: List[asyncio.Future] = []
         shard_ids_chunked = [self.shard_ids[i : i + cluster_size] for i in range(0, self.k.shard_count, cluster_size)]
 
         # create and run clusters
         for cluster_id, shard_ids in enumerate(shard_ids_chunked):
-            clusters.append(loop.run_in_executor(pp, run_cluster, cluster_id, self.k.shard_count, shard_ids, db_pool_size_per))
+            clusters.append(loop.run_in_executor(pp, run_cluster, cluster_id, self.k.shard_count, shard_ids, self.k.db.cluster_pool_size))
 
         await asyncio.wait(clusters)
 

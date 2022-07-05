@@ -51,6 +51,7 @@ async def setup_database_pool(secrets: cj.ClassyDict, max_size: int):
         user=secrets.database.user,  # database username
         password=secrets.database.auth,  # password which goes with user
         max_size=max_size,
+        min_size=1,
         command_timeout=10,
     )
 
