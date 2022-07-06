@@ -70,13 +70,15 @@ class Minecraft(commands.Cog):
                 await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_2)
                 return
 
-            try:
-                media.height
-            except Exception:
+            if getattr(media, "height", None) is None:
                 await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_3)
                 return
 
-            media_bytes = await media.read(use_cached=True)
+            try:
+                media_bytes = await media.read(use_cached=True)
+            except disnake.HTTPException:
+                await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_3)
+                return
         else:
             if media_link.startswith("https://giphy.com/"):
                 media_link = fix_giphy_url(media_link)
