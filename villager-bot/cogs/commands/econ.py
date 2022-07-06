@@ -3,6 +3,7 @@ import functools
 import math
 import random
 from collections import defaultdict
+import time
 from typing import Any, DefaultDict, Dict, List
 
 import arrow
@@ -1861,15 +1862,17 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.is_owner()
     async def fight(self, ctx: Ctx):
+        DUMMY_TRUE = True  # signifies that the true value is for testing only
+
         user_1 = ctx.author
 
         # send challenge/accept message
         embed = disnake.Embed(
             color=self.d.cc,
-            title=f"{user_1.mention} wants to fight!",
-            description=f"React with {self.d.emojis.netherite_sword} to accept!",
+            description=f"*React with {self.d.emojis.netherite_sword} to fight!*",
         )
-        embed.set_footer(f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo)
+        embed.set_author(name=f"{user_1.display_name} wants to fight!", icon_url=user_1.display_avatar.url)
+        embed.set_footer(text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo)
         msg = await ctx.send(embed=embed)
         await msg.add_reaction(self.d.emojis.netherite_sword)
 
@@ -1877,87 +1880,121 @@ class Econ(commands.Cog):
         try:
             user_2: disnake.User
             _, user_2 = await self.bot.wait_for(
-                "reaction", check=(lambda r, u: str(r.emoji) == self.d.emojis.netherite_sword), timeout=60
+                "reaction_add", check=(lambda r, u: str(r.emoji) == self.d.emojis.netherite_sword and not u.bot and (u != user_1 or DUMMY_TRUE)), timeout=60
             )
         except asyncio.TimeoutError:
-            await msg.edit(suppress_embeds=True)
-            await self.bot.reply_embed(msg, "Timed-out waiting for a reaction.")
+            await msg.edit(embed=disnake.Embed(color=self.d.cc, description="Timed-out waiting for a reaction."))
+            await msg.remove_reaction(self.d.emojis.netherite_sword, ctx.me)
             return
 
-        db_user_1 = await self.db.fetch_user(user_1.id)
-        db_user_2 = await self.db.fetch_user(user_2.id)
+        # try and clear their reaction from the message
+        try:
+            await msg.clear_reaction(self.d.emojis.netherite_sword)
+        except disnake.Forbidden:
+            pass
 
-        user_1_bees = getattr(await self.db.fetch_item(user_1.id, "Jar Of Bees"), "amount", 0)
-        user_2_bees = getattr(await self.db.fetch_item(user_2.id, "Jar Of Bees"), "amount", 0)
+        # econ pause both users
+        await self.ipc.exec(f"econ_paused_users[{user_1.id}] = {time.time()}")
+        await self.ipc.exec(f"econ_paused_users[{user_2.id}] = {time.time()}")
 
-        user_1_sword = await self.db.fetch_sword(user_1.id)
-        user_2_sword = await self.db.fetch_sword(user_2.id)
+        try:
+            db_user_1 = await self.db.fetch_user(user_1.id)
+            db_user_2 = await self.db.fetch_user(user_2.id)
 
-        user_1_hb = make_health_bar(
-            db_user_1.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
-        )
-        user_2_hb = make_health_bar(
-            db_user_2.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
-        )
+            user_1_bees = getattr(await self.db.fetch_item(user_1.id, "Jar Of Bees"), "amount", 0)
+            user_2_bees = getattr(await self.db.fetch_item(user_2.id, "Jar Of Bees"), "amount", 0)
 
-        jar_of_bees_emoji = emojify_item(self.d, "Jar Of Bees")
+            user_1_sword = await self.db.fetch_sword(user_1.id)
+            user_2_sword = await self.db.fetch_sword(user_2.id)
 
-        async def _add_reactions():
-            await msg.add_reaction(":one:")
-            await msg.add_reaction(":two")
+            jar_of_bees_emoji = emojify_item(self.d, "Jar Of Bees")
 
-        reactions_task = asyncio.create_task(_add_reactions())
+            async def _add_reactions():
+                await msg.add_reaction(self.d.emojis.numbers[1])
+                await msg.add_reaction(self.d.emojis.numbers[2])
 
-        embed = disnake.Embed(
-            color=self.d.cc,
-            title=f"GET READY TO BATTLE!",
-            description=f"*react with :one: or :two: to bet your balance, battle will start in 15 seconds...*",
-        )
-        embed.add_field(
-            name=f":one: {user_1.display_name}",
-            value=f"{user_1_hb}\n{emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{jar_of_bees_emoji}",
-        )
-        embed.add_field(name="Betting Pool", value=f"0 {self.d.emojis.emerald}")
-        embed.add_field(
-            name=f":two: {user_2.display_name}",
-            value=f"{user_2_hb}\n{emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{jar_of_bees_emoji}",
-        )
-        embed.set_footer(f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo)
-        msg = await msg.edit(embed=embed)
-        await reactions_task
+            reactions_task = asyncio.create_task(_add_reactions())
 
-        started_at = arrow.utcnow()
-        bets: Dict[int, int] = {}
-        bet_tasks: List[asyncio.Task] = []
+            embed = disnake.Embed(
+                color=self.d.cc,
+                title=f"GET READY TO BATTLE!",
+                description=f"*react with :one: or :two: to bet your pocket, battle will start in 15 seconds...*",
+            )
+            embed.add_field(
+                name=f":one: {user_1.display_name}",
+                value=f"{db_user_1.health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{jar_of_bees_emoji}",
+            )
+            embed.add_field(name="Betting Pool", value=f"0 {self.d.emojis.emerald}")
+            embed.add_field(
+                name=f":two: {user_2.display_name}",
+                value=f"{db_user_2.health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{jar_of_bees_emoji}",
+            )
+            embed.set_footer(text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo)
+            msg = await msg.edit(embed=embed)
+            await reactions_task
 
-        async def _handle_bet(u: disnake.User):
-            db_u = await self.db.fetch_user(u.id)
+            started_at = arrow.utcnow()
+            user_1_bets: Dict[int, int] = {}
+            user_2_bets: Dict[int, int] = {}
+            bet_tasks: List[asyncio.Task] = []
 
-            if db_u.emeralds < 5:
-                await ctx.send(f"{u.mention} you need at least 5 emeralds in your pocket to bet!")
-                return
+            # handles a bet from a user
+            async def _handle_bet(r: disnake.Reaction, u: disnake.User):
+                db_u = await self.db.fetch_user(u.id)
 
-            bets[u.id] = db_u.emeralds
+                if db_u.emeralds < 5:
+                    await ctx.send(f"{u.mention} you need at least 5 emeralds in your pocket to bet!")
+                    return
 
-            embed.set_field_at(1, name="Betting Pool", value=f"{sum(bets.values())} {self.d.emojis.emerald}")
-            await msg.edit(embed=embed)
+                e = str(r.emoji)
+                if e == self.d.emojis.numbers[1]:
+                    user_1_bets[u.id] = db_u.emeralds
+                    
+                    # subtract their balance only if they're not switching their bet from another person
+                    if not user_2_bets.pop(u.id, None):
+                        await self.db.balance_sub(u.id, db_u.emeralds)
+                elif e == self.d.emojis.numbers[2]:
+                    user_2_bets[u.id] = db_u.emeralds
+                    
+                    # subtract their balance only if they're not switching their bet from another person
+                    if not user_1_bets.pop(u.id, None):
+                        await self.db.balance_sub(u.id, db_u.emeralds)
+                else:
+                    raise ValueError(e)
 
-        async with SuppressCtxManager(ctx.typing()):
-            while arrow.utcnow().shift(seconds=-15) < started_at:
-                try:
-                    u: disnake.User
-                    r, u = await self.bot.wait_for(
-                        "reaction", check=(lambda r, u: u not in {user_1, user_2} and str(r.emoji) == self.d.emojis.emerald)
-                    )
-                except asyncio.TimeoutError:
-                    break
+                embed.set_field_at(1, name="Betting Pool", value=f"{sum(user_1_bets.values()) + sum(user_2_bets.values())} {self.d.emojis.emerald}")
+                await msg.edit(embed=embed)
 
-                bet_tasks.append(asyncio.create_task(_handle_bet(u)))
+            # wait for bet reactions + place bets
+            async with SuppressCtxManager(ctx.typing()):
+                while arrow.utcnow().shift(seconds=-15) < started_at:
+                    try:
+                        u: disnake.User
+                        r, u = await self.bot.wait_for(
+                            "reaction_add",
+                            check=(lambda r, u: (u not in {user_1, user_2} or DUMMY_TRUE) and str(r.emoji) in {self.d.emojis.numbers[1], self.d.emojis.numbers[2]} and not u.bot),
+                            timeout=(15-(arrow.utcnow() - started_at).total_seconds())
+                        )
+                    except asyncio.TimeoutError:
+                        break
 
-            await asyncio.wait(bet_tasks)
-            del bet_tasks
+                    bet_tasks.append(asyncio.create_task(_handle_bet(r, u)))
 
-        await ctx.send("ratio'd + L")
+                # wait for these tasks to finish
+                if bet_tasks:
+                    await asyncio.wait(bet_tasks)
+                del bet_tasks
+
+            # fight loop
+            while True:
+                embed = disnake.Embed(color=self.d.cc, title="")
+
+            # end fight loop
+        finally:
+            # econ unpause both users
+            await self.ipc.eval(f"econ_paused_users.pop({user_1.id}, None)")
+            await self.ipc.eval(f"econ_paused_users.pop({user_2.id}, None)")
+            
 
 
 def setup(bot):
