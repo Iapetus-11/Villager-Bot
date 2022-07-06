@@ -2010,12 +2010,18 @@ class Econ(commands.Cog):
             # fight loop
             for i in itertools.count():
                 embed = disnake.Embed(color=self.d.cc, title=f"{cur_user.display_name}, attack!")
-                embed.add_field(name=user_1.display_name, value=make_health_bar(
-                    db_user_1.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
-                ))
-                embed.add_field(name=user_2.display_name, value=make_health_bar(
-                    db_user_1.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
-                ))
+                embed.add_field(
+                    name=user_1.display_name,
+                    value=make_health_bar(
+                        db_user_1.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
+                    ),
+                )
+                embed.add_field(
+                    name=user_2.display_name,
+                    value=make_health_bar(
+                        db_user_1.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
+                    ),
+                )
 
             # end fight loop
         finally:

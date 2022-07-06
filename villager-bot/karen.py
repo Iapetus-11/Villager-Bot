@@ -288,9 +288,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         # create and run clusters
         for cluster_id, shard_ids in enumerate(shard_ids_chunked):
-            clusters.append(
-                loop.run_in_executor(pp, run_cluster, cluster_id, self.k.shard_count, shard_ids)
-            )
+            clusters.append(loop.run_in_executor(pp, run_cluster, cluster_id, self.k.shard_count, shard_ids))
 
         await asyncio.wait(clusters)
 
