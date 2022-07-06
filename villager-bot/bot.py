@@ -21,14 +21,14 @@ from util.misc import TTLPreventDuplicate, update_support_member_role
 from util.setup import load_data, load_secrets, load_text, setup_database_pool, setup_logging, villager_bot_intents
 
 
-def run_cluster(cluster_id: int, shard_count: int, shard_ids: list, max_db_pool_size: int) -> None:
+def run_cluster(cluster_id: int, shard_count: int, shard_ids: list) -> None:
     # add cython support, with numpy header files, should be using cached build
     pyximport.install(language_level=3, setup_args={"include_dirs": numpy.get_include()})
 
     # for some reason asyncio tries to use the event loop from the main process
     asyncio.set_event_loop(asyncio.new_event_loop())
 
-    cluster = VillagerBotCluster(cluster_id, shard_count, shard_ids, max_db_pool_size)
+    cluster = VillagerBotCluster(cluster_id, shard_count, shard_ids)
 
     try:
         cluster.run()
@@ -39,7 +39,7 @@ def run_cluster(cluster_id: int, shard_count: int, shard_ids: list, max_db_pool_
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
-    def __init__(self, cluster_id: int, shard_count: int, shard_ids: list, max_db_pool_size: int):
+    def __init__(self, cluster_id: int, shard_count: int, shard_ids: list):
         commands.AutoShardedBot.__init__(
             self,
             command_prefix=self.get_prefix,
@@ -51,7 +51,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         )
 
         self.cluster_id = cluster_id
-        self.max_db_pool_size = max_db_pool_size
 
         self.start_time = arrow.utcnow()
 
@@ -129,7 +128,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     async def start(self, *args, **kwargs):
         await self.ipc.connect(self.k.manager.auth)
-        self.db = await setup_database_pool(self.k, self.max_db_pool_size)
+        self.db = await setup_database_pool(self.k, self.k.database.cluster_pool_size)
         asyncio.create_task(self.prevent_spawn_duplicates.run())
 
         for cog in self.cog_list:
