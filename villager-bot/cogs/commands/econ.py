@@ -2,8 +2,8 @@ import asyncio
 import functools
 import math
 import random
-from collections import defaultdict
 import time
+from collections import defaultdict
 from typing import Any, DefaultDict, Dict, List
 
 import arrow
@@ -1872,7 +1872,9 @@ class Econ(commands.Cog):
             description=f"*React with {self.d.emojis.netherite_sword} to fight!*",
         )
         embed.set_author(name=f"{user_1.display_name} wants to fight!", icon_url=user_1.display_avatar.url)
-        embed.set_footer(text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo)
+        embed.set_footer(
+            text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo
+        )
         msg = await ctx.send(embed=embed)
         await msg.add_reaction(self.d.emojis.netherite_sword)
 
@@ -1880,7 +1882,11 @@ class Econ(commands.Cog):
         try:
             user_2: disnake.User
             _, user_2 = await self.bot.wait_for(
-                "reaction_add", check=(lambda r, u: str(r.emoji) == self.d.emojis.netherite_sword and not u.bot and (u != user_1 or DUMMY_TRUE)), timeout=60
+                "reaction_add",
+                check=(
+                    lambda r, u: str(r.emoji) == self.d.emojis.netherite_sword and not u.bot and (u != user_1 or DUMMY_TRUE)
+                ),
+                timeout=60,
             )
         except asyncio.TimeoutError:
             await msg.edit(embed=disnake.Embed(color=self.d.cc, description="Timed-out waiting for a reaction."))
@@ -1929,7 +1935,9 @@ class Econ(commands.Cog):
                 name=f":two: {user_2.display_name}",
                 value=f"{db_user_2.health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{jar_of_bees_emoji}",
             )
-            embed.set_footer(text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo)
+            embed.set_footer(
+                text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo
+            )
             msg = await msg.edit(embed=embed)
             await reactions_task
 
@@ -1949,20 +1957,24 @@ class Econ(commands.Cog):
                 e = str(r.emoji)
                 if e == self.d.emojis.numbers[1]:
                     user_1_bets[u.id] = db_u.emeralds
-                    
+
                     # subtract their balance only if they're not switching their bet from another person
                     if not user_2_bets.pop(u.id, None):
                         await self.db.balance_sub(u.id, db_u.emeralds)
                 elif e == self.d.emojis.numbers[2]:
                     user_2_bets[u.id] = db_u.emeralds
-                    
+
                     # subtract their balance only if they're not switching their bet from another person
                     if not user_1_bets.pop(u.id, None):
                         await self.db.balance_sub(u.id, db_u.emeralds)
                 else:
                     raise ValueError(e)
 
-                embed.set_field_at(1, name="Betting Pool", value=f"{sum(user_1_bets.values()) + sum(user_2_bets.values())} {self.d.emojis.emerald}")
+                embed.set_field_at(
+                    1,
+                    name="Betting Pool",
+                    value=f"{sum(user_1_bets.values()) + sum(user_2_bets.values())} {self.d.emojis.emerald}",
+                )
                 await msg.edit(embed=embed)
 
             # wait for bet reactions + place bets
@@ -1972,8 +1984,12 @@ class Econ(commands.Cog):
                         u: disnake.User
                         r, u = await self.bot.wait_for(
                             "reaction_add",
-                            check=(lambda r, u: (u not in {user_1, user_2} or DUMMY_TRUE) and str(r.emoji) in {self.d.emojis.numbers[1], self.d.emojis.numbers[2]} and not u.bot),
-                            timeout=(15-(arrow.utcnow() - started_at).total_seconds())
+                            check=(
+                                lambda r, u: (u not in {user_1, user_2} or DUMMY_TRUE)
+                                and str(r.emoji) in {self.d.emojis.numbers[1], self.d.emojis.numbers[2]}
+                                and not u.bot
+                            ),
+                            timeout=(15 - (arrow.utcnow() - started_at).total_seconds()),
                         )
                     except asyncio.TimeoutError:
                         break
@@ -1994,7 +2010,6 @@ class Econ(commands.Cog):
             # econ unpause both users
             await self.ipc.eval(f"econ_paused_users.pop({user_1.id}, None)")
             await self.ipc.eval(f"econ_paused_users.pop({user_2.id}, None)")
-            
 
 
 def setup(bot):
