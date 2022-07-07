@@ -1,1 +1,1 @@
-poetry run py villager-bot
+poetry run py bot
