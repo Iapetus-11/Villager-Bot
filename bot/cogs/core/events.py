@@ -5,7 +5,6 @@ from contextlib import suppress
 from typing import Set
 
 import disnake
-from bot import VillagerBotCluster
 from cogs.core.database import Database
 from disnake.ext import commands
 from util.code import format_exception
@@ -13,6 +12,8 @@ from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import chunk_by_lines, update_support_member_role
+
+from bot import VillagerBotCluster
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 

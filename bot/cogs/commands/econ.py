@@ -9,7 +9,6 @@ from typing import Any, DefaultDict, Dict, List
 
 import arrow
 import disnake
-from bot import VillagerBotCluster
 from cogs.core.database import Database
 from cogs.core.paginator import Paginator
 from disnake.ext import commands
@@ -25,6 +24,8 @@ from util.misc import (
     format_required,
     make_health_bar,
 )
+
+from bot import VillagerBotCluster
 
 
 class Econ(commands.Cog):

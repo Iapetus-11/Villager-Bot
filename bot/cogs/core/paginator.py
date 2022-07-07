@@ -3,9 +3,10 @@ import inspect
 from typing import Any, Callable, Coroutine, Optional, Union
 
 import disnake
-from bot import VillagerBotCluster
 from disnake.ext import commands
 from util.ctx import Ctx
+
+from bot import VillagerBotCluster
 
 PAGE_EMBED_CALLABLE = Callable[[int], Union[disnake.Embed, Coroutine[Any, Any, disnake.Embed]]]
 LEFT_ARROW = "⬅️"

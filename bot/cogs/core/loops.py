@@ -3,9 +3,10 @@ from contextlib import suppress
 
 import arrow
 import disnake
-from bot import VillagerBotCluster
 from disnake.ext import commands, tasks
 from util.setup import update_fishing_prices
+
+from bot import VillagerBotCluster
 
 
 class Loops(commands.Cog):

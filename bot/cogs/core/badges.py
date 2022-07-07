@@ -1,12 +1,13 @@
 from typing import List, Optional
 
 import asyncpg
-from bot import VillagerBotCluster
 from cogs.core.database import Database
 from disnake.ext import commands
 from models.database.item import Item
 from models.database.user import User
 from util.misc import calc_total_wealth
+
+from bot import VillagerBotCluster
 
 
 class Badges(commands.Cog):
