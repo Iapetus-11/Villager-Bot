@@ -4,7 +4,7 @@
   "error_channel_id": 642446655022432267,
   "vote_channel_id": 725551439165784115,
   "dm_logs_channel_id": 984281937675956234,
-  "splash_logo": "http://iapetus11.me/static/images/villager-splash.png",
+  "splash_logo": "http://iapetus11.me/images/villager-splash.png",
   "support": "https://discord.gg/39DwwUV",
   "invite": "https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=1074130126&scope=bot%20applications.commands",
   "topgg": "https://top.gg/bot/639498607632056321",
@@ -195,32 +195,32 @@
       "zombie": {
         "nice": "Zombie",
         "health": 20,
-        "image": "https://iapetus11.me/static/images/mob_spawns/zombie.png"
+        "image": "https://iapetus11.me/images/mob_spawns/zombie.png"
       },
       "skeleton": {
         "nice": "Skeleton",
         "health": 20,
-        "image": "https://iapetus11.me/static/images/mob_spawns/skeleton.png"
+        "image": "https://iapetus11.me/images/mob_spawns/skeleton.png"
       },
       "spider": {
         "nice": "Spider",
         "health": 20,
-        "image": "https://iapetus11.me/static/images/mob_spawns/spider.png"
+        "image": "https://iapetus11.me/images/mob_spawns/spider.png"
       },
       "cave_spider": {
         "nice": "Cave Spider",
         "health": 12,
-        "image": "https://iapetus11.me/static/images/mob_spawns/cave_spider.png"
+        "image": "https://iapetus11.me/images/mob_spawns/cave_spider.png"
       },
       "creeper": {
         "nice": "Creeper",
         "health": 20,
-        "image": "https://iapetus11.me/static/images/mob_spawns/creeper.png"
+        "image": "https://iapetus11.me/images/mob_spawns/creeper.png"
       },
       "baby_slime": {
         "nice": "Baby Slime",
         "health": 20,
-        "image": "https://iapetus11.me/static/images/mob_spawns/baby_slime.png"
+        "image": "https://iapetus11.me/images/mob_spawns/baby_slime.png"
       }
     }
   },
