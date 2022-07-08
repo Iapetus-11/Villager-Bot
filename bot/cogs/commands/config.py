@@ -1,8 +1,9 @@
 import disnake
-from bot import VillagerBotCluster
 from cogs.core.database import Database
 from disnake.ext import commands
 from util.ctx import Ctx
+
+from bot import VillagerBotCluster
 
 
 class Config(commands.Cog):

@@ -3,10 +3,11 @@ from typing import Union
 
 import arrow
 import disnake
-from bot import VillagerBotCluster
 from disnake.ext import commands
 from util.ctx import Ctx
 from util.misc import parse_input_time
+
+from bot import VillagerBotCluster
 
 
 class Mod(commands.Cog):
@@ -22,6 +23,8 @@ class Mod(commands.Cog):
 
         if author == ctx.guild.owner:
             return True
+
+        setup_database_pool
 
         return author.top_role > victim.top_role
 

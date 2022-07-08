@@ -5,10 +5,11 @@ import arrow
 import classyjson as cj
 import disnake
 from aiohttp import web
-from bot import VillagerBotCluster
 from disnake.ext import commands
 from util.code import format_exception
 from util.ipc import PacketType
+
+from bot import VillagerBotCluster
 
 
 class Webhooks(commands.Cog):

@@ -6,11 +6,12 @@ import time
 
 import classyjson as cj
 import disnake
-from bot import VillagerBotCluster
 from cogs.core.database import Database
 from disnake.ext import commands
 from util.ctx import Ctx
 from util.misc import SuppressCtxManager, make_health_bar
+
+from bot import VillagerBotCluster
 
 
 class MobSpawner(commands.Cog):

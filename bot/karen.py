@@ -6,7 +6,6 @@ from typing import Any, Dict, List, Set
 import arrow
 import asyncpg
 import psutil
-from bot import run_cluster
 from classyjson import ClassyDict
 from util.code import execute_code, format_exception
 from util.cooldowns import CooldownManager, MaxConcurrencyManager
@@ -14,6 +13,8 @@ from util.ipc import PacketHandlerRegistry, PacketType, Server, handle_packet
 from util.misc import MultiLock
 from util.recurring_task import RecurringTasksMixin, recurring_task
 from util.setup import load_data, load_secrets, setup_database_pool, setup_karen_logging
+
+from bot import run_cluster
 
 logger = setup_karen_logging()
 
@@ -288,9 +289,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         # create and run clusters
         for cluster_id, shard_ids in enumerate(shard_ids_chunked):
-            clusters.append(
-                loop.run_in_executor(pp, run_cluster, cluster_id, self.k.shard_count, shard_ids)
-            )
+            clusters.append(loop.run_in_executor(pp, run_cluster, cluster_id, self.k.shard_count, shard_ids))
 
         await asyncio.wait(clusters)
 

@@ -6,12 +6,13 @@ from typing import List, Optional, Set, Tuple
 
 import asyncpg
 import disnake
-from bot import VillagerBotCluster
 from data.enums.guild_event_type import GuildEventType
 from disnake.ext import commands
 from models.database.guild import Guild
 from models.database.item import Item
 from models.database.user import User
+
+from bot import VillagerBotCluster
 
 
 class Database(commands.Cog):
