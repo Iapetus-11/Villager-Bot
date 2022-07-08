@@ -24,8 +24,6 @@ class Mod(commands.Cog):
         if author == ctx.guild.owner:
             return True
 
-        setup_database_pool
-
         return author.top_role > victim.top_role
 
     @commands.command(name="purge", aliases=["p"])
