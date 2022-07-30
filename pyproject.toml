@@ -39,5 +39,5 @@ target-version = ['py38']
 include = '\.pyi?$'
 
 [tool.isort]
-profile="black"
-line_length=127
+profile = "black"
+line_length = 127
