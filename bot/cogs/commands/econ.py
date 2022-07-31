@@ -931,7 +931,9 @@ class Econ(commands.Cog):
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
 
         # see if user has chugged a luck potion
-        lucky = (await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})).is_active
+        lucky = (
+            await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})
+        ).is_active
 
         # iterate through items findable via mining
         for item in self.d.mining.findables:
@@ -1034,7 +1036,9 @@ class Econ(commands.Cog):
             await asyncio.sleep(wait)
 
         # see if user has chugged a luck potion
-        lucky = (await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})).is_active
+        lucky = (
+            await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})
+        ).is_active
 
         # determine if user has fished up junk or an item (rather than a fish)
         if random.randint(1, 8) == 1 or (lucky and random.randint(1, 5) == 1):
@@ -1194,7 +1198,7 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.use.stupid_4)
             return
 
-        active_effects = (await self.ipc.request({"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id}))
+        active_effects = await self.ipc.request({"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id})
 
         if thing in active_effects:
             await ctx.reply_embed(ctx.l.econ.use.stupid_1)
@@ -1422,7 +1426,9 @@ class Econ(commands.Cog):
         await ctx.reply_embed(random.choice(ctx.l.econ.honey.honey).format(jars))
 
         # see if user has chugged a luck potion
-        lucky = (await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})).is_active
+        lucky = (
+            await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})
+        ).is_active
 
         if not lucky and random.choice([False] * 3 + [True]):
             bees_lost = random.randint(math.ceil(bees / 75), math.ceil(bees / 50))
