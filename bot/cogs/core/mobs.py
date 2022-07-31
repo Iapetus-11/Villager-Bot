@@ -6,6 +6,7 @@ import time
 
 import classyjson as cj
 import disnake
+from util.ipc import PacketType
 from cogs.core.database import Database
 from disnake.ext import commands
 from util.ctx import Ctx
@@ -125,7 +126,7 @@ class MobSpawner(commands.Cog):
 
             user = initial_attack_msg.author
 
-            if (await self.ipc.eval(f"econ_paused_users.get({user.id})")).result is not None:
+            if (await self.ipc.request({"type": PacketType.ECON_PAUSE_CHECK, "user_id": user.id})).paused:
                 continue
 
             db_user = await self.db.fetch_user(user.id)
@@ -366,7 +367,7 @@ class MobSpawner(commands.Cog):
                     )
         finally:
             await self.db.update_user(user.id, health=user_health)
-            await self.ipc.eval(f"econ_paused_users.pop({user.id}, None)")  # unpause user
+            await self.ipc.send({"type": PacketType.ECON_PAUSE_UNDO, "user_id": user.id})  # unpause user
 
 
 def setup(bot):

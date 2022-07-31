@@ -1,6 +1,7 @@
 import asyncio
 from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
+import time
 from typing import Any, Dict, List, Set
 
 import arrow
@@ -214,6 +215,34 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     async def handle_trivia_packet(self, packet: ClassyDict):
         self.v.trivia_commands[packet.author] += 1
         return {"do_reward": self.v.trivia_commands[packet.author] < 5}
+
+    @handle_packet(PacketType.ECON_PAUSE)
+    async def handle_econ_pause_packet(self, packet: ClassyDict):
+        self.v.econ_paused_users[packet.user_id] = time.time()
+    
+    @handle_packet(PacketType.ECON_PAUSE_UNDO)
+    async def handle_econ_pause_undo_packet(self, packet: ClassyDict):
+        self.v.econ_paused_users.pop(packet.userid, None)
+
+    @handle_packet(PacketType.ECON_PAUSE_CHECK)
+    async def handle_econ_pause_check_packet(self, packet: ClassyDict):
+        return {"paused": self.v.econ_paused_users.get(packet.user_id, False)}
+
+    @handle_packet(PacketType.ACTIVE_FX_CHECK)
+    async def handle_active_fx_check_packet(self, packet: ClassyDict):
+        return {"is_active": packet.fx.lower() in self.v.active_effects[packet.user_id]}
+
+    @handle_packet(PacketType.ACTIVE_FX_ADD)
+    async def handle_active_fx_add_packet(self, packet: ClassyDict):
+        self.v.active_effects[packet.user_id].add(packet.fx.lower())
+    
+    @handle_packet(PacketType.ACTIVE_FX_REMOVE)
+    async def handle_active_fx_remove_packet(self, packet: ClassyDict):
+        self.v.active_effects[packet.user_id].remove(packet.fx.lower())
+
+    @handle_packet(PacketType.ACTIVE_FX_FETCH)
+    async def handle_active_fx_fetch_packet(self, packet: ClassyDict):
+        return {"active": self.v.active_effects[packet.user_id]}
 
     @recurring_task(seconds=60, logger=logger)
     async def commands_dump_loop(self):

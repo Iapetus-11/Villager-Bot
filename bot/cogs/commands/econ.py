@@ -931,7 +931,7 @@ class Econ(commands.Cog):
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
 
         # see if user has chugged a luck potion
-        lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]")).result
+        lucky = (await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})).is_active
 
         # iterate through items findable via mining
         for item in self.d.mining.findables:
@@ -1020,20 +1020,21 @@ class Econ(commands.Cog):
 
             lure_i_book, active_effects = await asyncio.gather(
                 self.db.fetch_item(ctx.author.id, "Lure I Book"),
-                self.ipc.eval(f"active_effects[{ctx.author.id}]"),
+                self.ipc.request({"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id}),
             )
+            active_effects = active_effects.active
 
             if lure_i_book is not None:
                 wait -= 4
 
-            if "seaweed" in active_effects.result:
+            if "seaweed" in active_effects:
                 wait -= 12
                 wait = max(random.randint(3, 10), wait)
 
             await asyncio.sleep(wait)
 
         # see if user has chugged a luck potion
-        lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]")).result
+        lucky = (await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})).is_active
 
         # determine if user has fished up junk or an item (rather than a fish)
         if random.randint(1, 8) == 1 or (lucky and random.randint(1, 5) == 1):
@@ -1193,9 +1194,9 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.use.stupid_4)
             return
 
-        current_pots = (await self.ipc.eval(f"active_effects[{ctx.author.id}]")).result
+        active_effects = (await self.ipc.request({"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id}))
 
-        if thing in current_pots:
+        if thing in active_effects:
             await ctx.reply_embed(ctx.l.econ.use.stupid_1)
             return
 
@@ -1215,13 +1216,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.eval(f"active_effects[{ctx.author.id}].add('haste i potion')")
+            await self.ipc.send({"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Haste I Potion"})
             await ctx.reply_embed(ctx.l.econ.use.chug.format("Haste I Potion", 6))
 
             await asyncio.sleep(60 * 6)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Haste I Potion"))
-            await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('haste i potion')")
+            await self.ipc.send({"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Haste I Potion"})
             return
 
         if thing == "haste ii potion":
@@ -1230,13 +1231,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.eval(f"active_effects[{ctx.author.id}].add('haste ii potion')")
+            await self.ipc.send({"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Haste II Potion"})
             await ctx.reply_embed(ctx.l.econ.use.chug.format("Haste II Potion", 4.5))
 
             await asyncio.sleep(60 * 4.5)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Haste II Potion"))
-            await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('haste ii potion')")
+            await self.ipc.send({"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Haste II Potion"})
             return
 
         if thing == "bone meal":
@@ -1257,13 +1258,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.eval(f"active_effects[{ctx.author.id}].add('luck potion')")
+            await self.ipc.send({"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Luck Potion"})
             await ctx.reply_embed(ctx.l.econ.use.chug.format("Luck Potion", 4.5))
 
             await asyncio.sleep(60 * 4.5)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Luck Potion"))
-            await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('luck potion')")
+            await self.ipc.send({"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Luck Potion"})
             return
 
         if thing == "seaweed":
@@ -1272,13 +1273,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.eval(f"active_effects[{ctx.author.id}].add('seaweed')")
+            await self.ipc.send({"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Seaweed"})
             await ctx.reply_embed(ctx.l.econ.use.smoke_seaweed.format(30))
 
             await asyncio.sleep(60 * 30)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.seaweed_done)
-            await self.ipc.eval(f"active_effects[{ctx.author.id}].remove('seaweed')")
+            await self.ipc.send({"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Seaweed"})
             return
 
         if thing == "vault potion":
@@ -1421,7 +1422,7 @@ class Econ(commands.Cog):
         await ctx.reply_embed(random.choice(ctx.l.econ.honey.honey).format(jars))
 
         # see if user has chugged a luck potion
-        lucky = (await self.ipc.eval(f"'luck potion' in active_effects[{ctx.author.id}]")).result
+        lucky = (await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})).is_active
 
         if not lucky and random.choice([False] * 3 + [True]):
             bees_lost = random.randint(math.ceil(bees / 75), math.ceil(bees / 50))
@@ -2027,8 +2028,8 @@ class Econ(commands.Cog):
             # end fight loop
         finally:
             # econ unpause both users
-            await self.ipc.eval(f"econ_paused_users.pop({user_1.id}, None)")
-            await self.ipc.eval(f"econ_paused_users.pop({user_2.id}, None)")
+            await self.ipc.send({"type": PacketType.ECON_PAUSE_UNDO, "user_id": user_1.id})
+            await self.ipc.send({"type": PacketType.ECON_PAUSE_UNDO, "user_id": user_2.id})
 
 
 def setup(bot):
