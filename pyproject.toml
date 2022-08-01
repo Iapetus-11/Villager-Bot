@@ -24,6 +24,7 @@ disnake = "^2.4.0"
 psutil = "^5.9.0"
 moviepy = "^1.0.3"
 pydantic = "^1.9.1"
+websockets = "^10.3"
 
 [tool.poetry.dev-dependencies]
 black = "^21.5b1"

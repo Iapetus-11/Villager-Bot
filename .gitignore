@@ -1,11 +1,6 @@
-secrets.json
-
-villager-bot/cogs/core/hentai.py
-villager-bot/*.pyd
-villager-bot/*.so
-
+.venv/
 __pycache__/
 
-.venv/
+VillagerBot.Bot/tmp/*
 
-villager-bot/tmp/
+secrets.json
