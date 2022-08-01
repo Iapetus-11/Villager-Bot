@@ -230,7 +230,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         if ctx.command.cog_name == "Econ":
             # check if user has paused econ
             res = await self.ipc.request({"type": PacketType.ECON_PAUSE_CHECK, "user_id": ctx.author.id})
-            if res.paused is not None:
+            if res.paused:
                 ctx.failure_reason = "econ_paused"
                 return False
 
