@@ -222,7 +222,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
     @handle_packet(PacketType.ECON_PAUSE_UNDO)
     async def handle_econ_pause_undo_packet(self, packet: ClassyDict):
-        self.v.econ_paused_users.pop(packet.userid, None)
+        self.v.econ_paused_users.pop(packet.user_id, None)
 
     @handle_packet(PacketType.ECON_PAUSE_CHECK)
     async def handle_econ_pause_check_packet(self, packet: ClassyDict):
