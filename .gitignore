@@ -1,6 +1,6 @@
 .venv/
 __pycache__/
 
-VillagerBot.Bot/tmp/*
+bot/tmp/*
 
 secrets.json

@@ -32,18 +32,6 @@ def setup_logging(cluster_id: int) -> logging.Logger:
     return logging.getLogger("main")
 
 
-def setup_karen_logging():
-    logger = logging.getLogger("KAREN")
-    logger.setLevel(logging.INFO)
-
-    handler = logging.StreamHandler()
-    handler.setFormatter(logging.Formatter("[Karen] %(levelname)s: %(message)s"))
-    handler.setLevel(logging.INFO)
-    logger.addHandler(handler)
-
-    return logger
-
-
 async def setup_database_pool(secrets: cj.ClassyDict, max_size: int):
     return await asyncpg.create_pool(
         host=secrets.database.host,  # where db is hosted

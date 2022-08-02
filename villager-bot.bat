@@ -1,1 +1,0 @@
-poetry run py bot

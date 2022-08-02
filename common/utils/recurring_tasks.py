@@ -1,9 +1,6 @@
 import asyncio
-import inspect
 import logging
-from typing import Callable, Coroutine, Optional
-
-from util.code import format_exception
+from typing import Callable, Coroutine
 
 
 class RecurringTask:
@@ -26,10 +23,12 @@ class RecurringTask:
         self._loop_task: asyncio.Task = None
 
     async def _call(self) -> None:
+        self.logger.info("Calling loop callable: %s", self.coro_func.__qualname__)
+
         try:
             await self.coro_func()
-        except Exception as e:
-            self.logger.error(format_exception(e))
+        except Exception:
+            self.logger.error("An error ocurred while calling the loop callable: %s", self.coro_func.__qualname__, ex_info=True)
 
     async def _loop(self) -> None:
         if self.sleep_first:
@@ -40,11 +39,15 @@ class RecurringTask:
             await asyncio.sleep(self.interval)
 
     def start(self):
+        if self._loop_task is not None:
+            raise RuntimeError("This loop has already been started")
+
         self._loop_task = asyncio.create_task(self._loop())
 
     def cancel(self):
-        self._loop_task.cancel()
-        self._loop_task = None
+        if self._loop_task is not None:
+            self._loop_task.cancel()
+            self._loop_task = None
 
 
 def recurring_task(
@@ -52,13 +55,10 @@ def recurring_task(
     seconds: float = 0,
     minutes: float = 0,
     hours: float = 0,
-    logger: Optional[logging.Logger] = None,
+    logger: logging.Logger,
     sleep_first: bool = True,
 ):
     """Decorator for creating a RecurringTask"""
-
-    if logger is None:
-        logger = logging.getLogger(inspect.currentframe().f_back.f_code.co_name)
 
     def _recurring_task(coro_func: Callable[[], Coroutine]):
         return RecurringTask(coro_func, seconds + 60 * minutes + 3600 * hours, logger, sleep_first)
