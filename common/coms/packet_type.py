@@ -5,7 +5,7 @@ class PacketType(IntEnum):
     # special packet types handled directly by the Server/Client classes
     AUTH = auto()
     BROADCAST_REQUEST = auto()
-    
+
     # other regular packet types
     CLUSTER_READY = auto()
     EXEC = auto()

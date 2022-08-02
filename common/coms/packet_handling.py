@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from typing import Any, Awaitable, Callable, TypeAlias
-from common.coms.packet import VALID_PACKET_DATA_TYPES
 
+from common.coms.packet import VALID_PACKET_DATA_TYPES
 from common.coms.packet_type import PacketType
 
 T_PACKET_HANDLER_CALLABLE: TypeAlias = Callable[..., Awaitable[dict[str, Any] | None]]
@@ -23,7 +23,9 @@ class PacketHandler:
 def validate_packet_handler(handler: T_PACKET_HANDLER_CALLABLE) -> None:
     # check if any args are missing annotations
     if any([arg_name not in handler.__annotations__ for arg_name in function.__code__.co_varnames]):
-        raise ValueError(f"The packet handler {handler.__qualname__} is missing argument annotations / typehints for one or more arguments")
+        raise ValueError(
+            f"The packet handler {handler.__qualname__} is missing argument annotations / typehints for one or more arguments"
+        )
 
     # check if typehints are actually json compatible
     annos = {k: getattr(v, "__origin__", v) for k, v in handler.__annotations__.items()}
@@ -31,7 +33,9 @@ def validate_packet_handler(handler: T_PACKET_HANDLER_CALLABLE) -> None:
     annos.pop("self", None)
     for arg, arg_type in annos.items():
         if not isinstance(arg_type, type) or not issubclass(arg_type, VALID_PACKET_DATA_TYPES):
-            raise ValueError(f"Argument {arg!r} of the packet handler {handler.__qualname__} has an unsupported annotation / typehint: {arg_type!r}")
+            raise ValueError(
+                f"Argument {arg!r} of the packet handler {handler.__qualname__} has an unsupported annotation / typehint: {arg_type!r}"
+            )
 
 
 def handle_packet(packet_type: PacketType) -> Callable[[T_PACKET_HANDLER_CALLABLE], PacketHandler]:

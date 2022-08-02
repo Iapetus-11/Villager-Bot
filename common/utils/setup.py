@@ -1,8 +1,10 @@
 import json
+
 import asyncpg
 
 from common.models.secrets import DatabaseSecrets
 from karen.models.secrets import Secrets
+
 
 async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:
     return await asyncpg.create_pool(

@@ -1,13 +1,12 @@
-
 import json
 import logging
 from typing import Any
 
 from pydantic import ValidationError
+
 from common.coms.errors import InvalidPacketReceived
 from common.coms.packet import VALID_PACKET_DATA_TYPES, Packet
 from common.coms.packet_handling import PacketHandler
-
 from common.coms.packet_type import PacketType
 
 
@@ -47,10 +46,14 @@ class ComsBase:
         # check for missing args or incorrect arg types
         for arg, arg_type in annos.items():
             if arg not in packet.data:
-                raise ValueError(f"Argument {arg!r} of packet handler {handler.function.__qualname__} was not present in the packet")
+                raise ValueError(
+                    f"Argument {arg!r} of packet handler {handler.function.__qualname__} was not present in the packet"
+                )
 
             if not isinstance((arg_value := packet.data[arg]), arg_type):
-                raise TypeError(f"Argument {arg!r} of packet handler {handler.function.__qualname__} received an invalid type: {type(arg_value)!r}")
+                raise TypeError(
+                    f"Argument {arg!r} of packet handler {handler.function.__qualname__} received an invalid type: {type(arg_value)!r}"
+                )
 
         # check for extra args
         for arg in packet.data.keys():
@@ -60,6 +63,8 @@ class ComsBase:
         response = await handler(**packet.data)
 
         if not isinstance(response, dict):
-            raise ValueError(f"Packet handler {handler.function.__qualname__} returned an unsupported type: {type(response)!r}")
+            raise ValueError(
+                f"Packet handler {handler.function.__qualname__} returned an unsupported type: {type(response)!r}"
+            )
 
         return response

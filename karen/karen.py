@@ -2,13 +2,12 @@ from typing import Optional
 
 import asyncpg
 
-from common.coms.server import Server
 from common.coms.packet_handling import PacketHandlerRegistry
+from common.coms.server import Server
 from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
 from common.utils.setup import setup_database_pool
-from karen.utils.setup import setup_karen_logging
 from karen.models.secrets import Secrets
-
+from karen.utils.setup import setup_karen_logging
 
 logger = setup_karen_logging()
 

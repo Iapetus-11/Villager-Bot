@@ -1,18 +1,18 @@
 import asyncio
 import logging
+
 from pydantic import BaseModel
+from websockets.server import WebSocketServerProtocol, serve
 
-from websockets.server import serve, WebSocketServerProtocol
-
-from common.coms.packet_handling import PacketHandler, PacketType
 from common.coms.coms_base import ComsBase
 from common.coms.errors import InvalidPacketReceived
 from common.coms.packet import VALID_PACKET_DATA_TYPES, Packet
+from common.coms.packet_handling import PacketHandler, PacketType
 
 
 class Broadcast(BaseModel):
     ready: asyncio.Event
-    ws_ids: set[int] # ws ids to expect a response from
+    ws_ids: set[int]  # ws ids to expect a response from
     responses: list[VALID_PACKET_DATA_TYPES]
 
     class Config:
@@ -20,9 +20,11 @@ class Broadcast(BaseModel):
 
 
 class Server(ComsBase):
-    def __init__(self, host: str, port: int, auth: str, packet_handlers: dict[PacketType, PacketHandler], logger: logging.Logger):
+    def __init__(
+        self, host: str, port: int, auth: str, packet_handlers: dict[PacketType, PacketHandler], logger: logging.Logger
+    ):
         super().__init__(host, port, packet_handlers, logger)
-        
+
         self.auth = auth
 
         self._stop = asyncio.Event()
@@ -34,7 +36,7 @@ class Server(ComsBase):
         packet_id = self._current_id
         self._current_id += 1
         return f"{t}{packet_id}"
-    
+
     async def serve(self) -> None:
         print(self.host, self.port)
 
@@ -65,19 +67,19 @@ class Server(ComsBase):
 
         # send response back to client who requested broadcast
         await self._send(ws, Packet(id=packet.id, data={"responses": broadcast.responses}))
-    
+
     async def _handle_broadcast_response(self, ws: WebSocketServerProtocol, packet: Packet) -> None:
         broadcast = self._broadcasts[packet.id]
-                
+
         if ws.id not in broadcast.ws_ids:
             raise RuntimeError("Unexpected response from websocket {WsId} for broadcast {BroadcastId}", ws.id, packet.id)
-        
+
         broadcast.responses.append(packet.data)
         broadcast.ws_ids.remove(ws.id)
 
         if len(broadcast.ws_ids) == 0:
             broadcast.ready.set()
-    
+
     async def _handle_connection(self, ws: WebSocketServerProtocol):
         authed = False
 
@@ -102,7 +104,7 @@ class Server(ComsBase):
 
                 self._connections.append(ws)
                 authed = True
-            
+
             if not authed:
                 self.logger.error("Authorization packet was not the first received from client: %s", ws.id)
                 await self._disconnect(ws)
@@ -111,7 +113,9 @@ class Server(ComsBase):
             # handle broadcast requests
             if packet.type == PacketType.BROADCAST_REQUEST:
                 # broadcast requests are special types of packets which forward the packet to ALL connected clients
-                asyncio.create_task(self._broadcast(ws, packet))  # TODO: keep track of these tasks and properly cancel them on a server shutdown
+                asyncio.create_task(
+                    self._broadcast(ws, packet)
+                )  # TODO: keep track of these tasks and properly cancel them on a server shutdown
                 continue
 
             # handle broadcast responses
@@ -122,6 +126,8 @@ class Server(ComsBase):
             try:
                 response = await self._call_handler(packet)
             except Exception:
-                self.logger.error("An error ocurred while calling the packet handler for packet type %s", packet.type, exc_info=True)
+                self.logger.error(
+                    "An error ocurred while calling the packet handler for packet type %s", packet.type, exc_info=True
+                )
             else:
                 await self._send(ws, Packet(id=packet.id, data=response))

@@ -28,7 +28,9 @@ class RecurringTask:
         try:
             await self.coro_func()
         except Exception:
-            self.logger.error("An error ocurred while calling the loop callable: %s", self.coro_func.__qualname__, ex_info=True)
+            self.logger.error(
+                "An error ocurred while calling the loop callable: %s", self.coro_func.__qualname__, ex_info=True
+            )
 
     async def _loop(self) -> None:
         if self.sleep_first:
