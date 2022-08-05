@@ -1,11 +1,11 @@
 import asyncio
 
-from common.utils.setup import get_secrets
+from common.utils.setup import load_secrets
 from karen.karen import MechaKaren
 
 
 def main():
-    karen = MechaKaren(get_secrets())
+    karen = MechaKaren(load_secrets())
 
     try:
         asyncio.run(karen.start())

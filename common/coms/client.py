@@ -7,7 +7,7 @@ from websockets.exceptions import ConnectionClosed
 
 from common.coms.coms_base import ComsBase
 from common.coms.errors import InvalidPacketReceived, WebsocketStateError
-from common.coms.packet import Packet
+from common.coms.packet import VALID_PACKET_DATA_TYPES, Packet
 from common.coms.packet_handling import PacketHandler
 from common.coms.packet_type import PacketType
 
@@ -88,7 +88,11 @@ class Client(ComsBase):
         except asyncio.TimeoutError:
             self._task.cancel()
 
-    async def send(self, packet: Packet) -> Packet:
+    async def send(self, packet_type: PacketType, packet_data: dict[str, VALID_PACKET_DATA_TYPES] = None) -> Packet:
+        packet_id = self._get_packet_id()
+
+        packet = Packet(id=packet_id, type=packet_type, data=(packet_data or {}))
+
         self._waiting[packet.id] = asyncio.Event()
         await self._send(packet)
-        await self._waiting[packet.id]
+        return await self._waiting[packet.id]

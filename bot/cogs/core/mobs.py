@@ -5,9 +5,9 @@ import random
 import time
 
 import classyjson as cj
-import disnake
+import discord
 from cogs.core.database import Database
-from disnake.ext import commands
+from discord.ext import commands
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, make_health_bar
@@ -105,7 +105,7 @@ class MobSpawner(commands.Cog):
         await asyncio.sleep(random.random() * 3)
 
         # engage embed
-        embed = disnake.Embed(
+        embed = discord.Embed(
             color=self.d.cc,
             title=f"**{random.choice(ctx.l.mobs_mech.mob_drops).format(mob.nice.lower())}**",
             description=ctx.l.mobs_mech.type_engage,
@@ -117,7 +117,7 @@ class MobSpawner(commands.Cog):
         # get the user who is going to be attacking the mob
         while True:
             try:
-                initial_attack_msg: disnake.Message = await self.bot.wait_for(
+                initial_attack_msg: discord.Message = await self.bot.wait_for(
                     "message", check=self.engage_check(ctx), timeout=15
                 )
             except asyncio.TimeoutError:
@@ -151,7 +151,7 @@ class MobSpawner(commands.Cog):
             for iteration in itertools.count(start=1):
 
                 # create embed with mob image
-                embed = disnake.Embed(color=self.d.cc, title=ctx.l.mobs_mech.attack_or_flee)
+                embed = discord.Embed(color=self.d.cc, title=ctx.l.mobs_mech.attack_or_flee)
                 embed.set_image(url=mob.image)
 
                 # add user health bar to embed
@@ -182,7 +182,7 @@ class MobSpawner(commands.Cog):
                 # listen for attack or flee message (or timeout)
                 while user_action not in self.d.mobs_mech.valid_attacks:
                     try:
-                        user_action_msg: disnake.Message = await self.bot.wait_for(
+                        user_action_msg: discord.Message = await self.bot.wait_for(
                             "message", check=self.attack_check(ctx, initial_attack_msg), timeout=30
                         )
                         user_action = user_action_msg.content.lstrip(ctx.prefix).lower()
@@ -258,7 +258,7 @@ class MobSpawner(commands.Cog):
                 await fight_msg.edit(suppress_embeds=True)
 
             # outside of the for loop
-            embed = disnake.Embed(color=self.d.cc)
+            embed = discord.Embed(color=self.d.cc)
             embed.set_image(url=mob.image)
 
             embed.add_field(  # user health bar

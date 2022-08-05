@@ -2,8 +2,8 @@ import random
 from contextlib import suppress
 
 import arrow
-import disnake
-from disnake.ext import commands, tasks
+import discord
+from discord.ext import commands, tasks
 from util.setup import update_fishing_prices
 
 from bot import VillagerBotCluster
@@ -29,7 +29,7 @@ class Loops(commands.Cog):
     async def change_status(self):
         await self.bot.wait_until_ready()
         await self.bot.change_presence(
-            status=disnake.Status.online, activity=disnake.Game(name=random.choice(self.d.playing_list))
+            status=discord.Status.online, activity=discord.Game(name=random.choice(self.d.playing_list))
         )
 
     @tasks.loop(seconds=30)

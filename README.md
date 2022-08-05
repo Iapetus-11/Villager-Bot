@@ -19,7 +19,7 @@
 - [Click Here](https://github.com/Iapetus-11/Villager-Bot/blob/main/PRIVACY-POLICY.md)
 
 ## Technologies
-- [disnake](https://github.com/DisnakeDev/disnake) (a Discord.py fork)
+- [discord](https://github.com/discordDev/discord) (a Discord.py fork)
 - [Cython](https://cython.org/)
 - [OpenCV](https://opencv.org/) + [Numpy](https://numpy.org/)
 - Custom inter-process communication protocol over TCP

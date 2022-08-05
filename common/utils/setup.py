@@ -1,9 +1,7 @@
-import json
-
 import asyncpg
+from common.models.data import Data
 
 from common.models.secrets import DatabaseSecrets
-from karen.models.secrets import Secrets
 
 
 async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:
@@ -18,6 +16,6 @@ async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:
     )
 
 
-def get_secrets() -> None:
-    with open("karen/secrets.json", "r") as f:
-        return Secrets(**json.load(f))
+def load_data() -> Data:
+    return Data.parse_file("common/data/data.json")
+

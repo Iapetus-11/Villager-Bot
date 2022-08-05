@@ -1,13 +1,12 @@
 import logging
 
+from karen.models.secrets import Secrets
 
-def setup_karen_logging():
-    logger = logging.getLogger("KAREN")
-    logger.setLevel(logging.INFO)
 
-    handler = logging.StreamHandler()
-    handler.setFormatter(logging.Formatter("[Karen] %(levelname)s: %(message)s"))
-    handler.setLevel(logging.INFO)
-    logger.addHandler(handler)
+def setup_logging() -> logging.Logger:
+    logging.basicConfig(level=logging.INFO, format="[Karen] %(levelname)s: %(message)s")
+    return logging.getLogger("karen")
 
-    return logger
+
+def load_secrets() -> Secrets:
+    return Secrets.parse_file("karen/secrets.json")

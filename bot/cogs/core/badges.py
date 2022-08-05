@@ -2,7 +2,7 @@ from typing import List, Optional
 
 import asyncpg
 from cogs.core.database import Database
-from disnake.ext import commands
+from discord.ext import commands
 from models.database.item import Item
 from models.database.user import User
 from util.misc import calc_total_wealth

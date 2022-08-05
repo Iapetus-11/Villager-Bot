@@ -11,6 +11,8 @@ class TopggWebhookSecrets(BaseModel):
 
 
 class Secrets(BaseModel):
+    cluster_count: int
+    shard_count: int
     karen: KarenSecrets
     topgg_webhook: TopggWebhookSecrets
     database: DatabaseSecrets

@@ -11,12 +11,12 @@ import aiofiles
 import aiohttp
 import arrow
 import async_cse
-import disnake
+import discord
 import moviepy.editor
 import psutil
 from cogs.core.database import Database
 from cogs.core.paginator import Paginator
-from disnake.ext import commands, tasks
+from discord.ext import commands, tasks
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, parse_input_time
@@ -85,7 +85,7 @@ class Useful(commands.Cog):
                         await ctx.reply_embed(ctx.l.help.main.nodoc)
                         return
 
-                    embed = disnake.Embed(color=self.d.cc)
+                    embed = discord.Embed(color=self.d.cc)
 
                     embed.set_author(name=ctx.l.help.n.cmd, icon_url=self.d.splash_logo)
                     embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -97,7 +97,7 @@ class Useful(commands.Cog):
 
                     try:
                         await ctx.reply(embed=embed, mention_author=False)
-                    except disnake.errors.HTTPException as e:
+                    except discord.errors.HTTPException as e:
                         if (
                             e.code == 50035
                         ):  # invalid form body, happens sometimes when the message to reply to can't be found?
@@ -107,7 +107,7 @@ class Useful(commands.Cog):
 
                     return
 
-            embed = disnake.Embed(color=self.d.cc)
+            embed = discord.Embed(color=self.d.cc)
             embed.set_author(name=ctx.l.help.n.title, icon_url=self.d.splash_logo)
             embed.description = ctx.l.help.main.desc.format(self.d.support, self.d.topgg)
 
@@ -132,7 +132,7 @@ class Useful(commands.Cog):
 
     @help.command(name="economy", aliases=["econ"])
     async def help_economy(self, ctx: Ctx):
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.economy}]", icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -144,7 +144,7 @@ class Useful(commands.Cog):
 
     @help.command(name="minecraft", aliases=["mc"])
     async def help_minecraft(self, ctx: Ctx):
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]", icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -156,7 +156,7 @@ class Useful(commands.Cog):
 
     @help.command(name="utility", aliases=["util", "useful"])
     async def help_utility(self, ctx: Ctx):
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.utility}]", icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -168,7 +168,7 @@ class Useful(commands.Cog):
 
     @help.command(name="fun")
     async def help_fun(self, ctx: Ctx):
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.fun}]", icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -180,7 +180,7 @@ class Useful(commands.Cog):
 
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
     async def help_administrative(self, ctx: Ctx):
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.admin}]", icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -193,7 +193,7 @@ class Useful(commands.Cog):
     @commands.command(name="credits")
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def credits(self, ctx: Ctx):
-        embed_template = disnake.Embed(color=self.d.cc)
+        embed_template = discord.Embed(color=self.d.cc)
         embed_template.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
 
         fields: List[Dict[str, str]] = []
@@ -215,7 +215,7 @@ class Useful(commands.Cog):
         pages = [fields[i : i + 9] for i in range(0, len(fields), 9)]
         del fields
 
-        def get_page(page: int) -> disnake.Embed:
+        def get_page(page: int) -> discord.Embed:
             embed = embed_template.copy()
 
             for field in pages[page]:
@@ -228,7 +228,7 @@ class Useful(commands.Cog):
         await self.paginator.paginate_embed(ctx, get_page, timeout=60, page_count=len(pages))
 
     @commands.command(name="avatar", aliases=["av"])
-    async def member_avatar(self, ctx: Ctx, member: disnake.Member = None):
+    async def member_avatar(self, ctx: Ctx, member: discord.Member = None):
         user = member or ctx.author
         avatar_url = getattr(
             user.avatar,
@@ -236,7 +236,7 @@ class Useful(commands.Cog):
             "https://media.discordapp.net/attachments/643648150778675202/947881629047722064/gGWDJSghKgd8QAAAABJRU5ErkJggg.png",
         )
 
-        embed = disnake.Embed(color=self.d.cc, description=ctx.l.fun.dl_img.format(avatar_url))
+        embed = discord.Embed(color=self.d.cc, description=ctx.l.fun.dl_img.format(avatar_url))
         embed.set_image(url=avatar_url)
 
         await ctx.reply(embed=embed, mention_author=False)
@@ -267,7 +267,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="vote", aliases=["votelink", "votelinks"])
     async def votelinks(self, ctx: Ctx):
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
         embed.set_author(name="Vote for Villager Bot!", icon_url=self.d.splash_logo)
 
         embed.description = f'**[{ctx.l.useful.vote.click_1}]({self.d.topgg + "/vote"})**'
@@ -276,7 +276,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="links", aliases=["invite", "support", "usefullinks", "website", "source", "privacypolicy"])
     async def useful_links(self, ctx: Ctx):
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
         embed.set_author(name="Useful Links", icon_url=self.d.splash_logo)
 
         embed.description = (
@@ -318,7 +318,7 @@ class Useful(commands.Cog):
 
         total_mem = psutil.virtual_memory().total
 
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
 
         embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -351,7 +351,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="serverinfo", aliases=["server", "guild", "guildinfo"])
     @commands.guild_only()
-    async def server_info(self, ctx: Ctx, *, guild: disnake.Guild = None):
+    async def server_info(self, ctx: Ctx, *, guild: discord.Guild = None):
         with suppress(Exception):
             await ctx.trigger_typing()
 
@@ -360,7 +360,7 @@ class Useful(commands.Cog):
 
         db_guild = await self.db.fetch_guild(guild.id)
 
-        age = arrow.get(disnake.utils.snowflake_time(guild.id))
+        age = arrow.get(discord.utils.snowflake_time(guild.id))
         display_age = age.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + age.humanize(locale=ctx.l.lang)
 
         ban_cache_entry = self.ban_count_cache.get(ctx.guild.id)
@@ -393,7 +393,7 @@ class Useful(commands.Cog):
             if bans > 100:
                 asyncio.create_task(update_ban_count_cache(bans))
 
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
         embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=getattr(guild.icon, "url", embed.Empty))
 
         embed.description = f"{ctx.l.useful.ginf.age}: `{display_age}`\n{ctx.l.useful.ginf.owner}: {guild.owner.mention}"
@@ -423,7 +423,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="rules", aliases=["botrules"])
     async def rules(self, ctx: Ctx):
-        embed = disnake.Embed(color=self.d.cc, description=ctx.l.useful.rules.penalty)
+        embed = discord.Embed(color=self.d.cc, description=ctx.l.useful.rules.penalty)
 
         embed.set_author(name=ctx.l.useful.rules.rules, icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -451,7 +451,7 @@ class Useful(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def google_search(self, ctx: Ctx, *, query):
         safesearch = True
-        if isinstance(ctx.channel, disnake.TextChannel):
+        if isinstance(ctx.channel, discord.TextChannel):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
@@ -470,14 +470,14 @@ class Useful(commands.Cog):
 
         res = res[0]
 
-        embed = disnake.Embed(color=self.d.cc, title=res.title, description=res.description, url=res.url)
+        embed = discord.Embed(color=self.d.cc, title=res.title, description=res.description, url=res.url)
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="youtube", aliases=["ytsearch", "yt"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def youtube_search(self, ctx: Ctx, *, query):
         safesearch = True
-        if isinstance(ctx.channel, disnake.TextChannel):
+        if isinstance(ctx.channel, discord.TextChannel):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
@@ -504,7 +504,7 @@ class Useful(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def image_search(self, ctx: Ctx, *, query):
         safesearch = True
-        if isinstance(ctx.channel, disnake.TextChannel):
+        if isinstance(ctx.channel, discord.TextChannel):
             safesearch = not ctx.channel.is_nsfw()
 
         try:
@@ -523,7 +523,7 @@ class Useful(commands.Cog):
             if (image_url := getattr(res, "image_url", None)) and not image_url.startswith("x-raw-image://"):
                 try:
                     await ctx.reply(res.image_url, mention_author=False)
-                except disnake.HTTPException as e:
+                except discord.HTTPException as e:
                     if e.code == 50035:
                         await ctx.send(res.image_url)
                     else:
@@ -571,7 +571,7 @@ class Useful(commands.Cog):
         else:
             snipe, _ = snipe
 
-            embed = disnake.Embed(color=self.d.cc, description=snipe.content)
+            embed = discord.Embed(color=self.d.cc, description=snipe.content)
             embed.set_author(name=str(snipe.author), icon_url=getattr(snipe.author.avatar, "url", embed.Empty))
             embed.timestamp = snipe.created_at
 
@@ -653,7 +653,7 @@ class Useful(commands.Cog):
 
                     await progress_msg.delete()
 
-                    discord_file = disnake.File(
+                    discord_file = discord.File(
                         final_fname, filename=f"vb_reddit_save_{post['name']}.mp4", description=post["title"]
                     )
                     await ctx.reply(file=discord_file)

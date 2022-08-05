@@ -5,9 +5,9 @@ from datetime import datetime
 from typing import List, Optional, Set, Tuple
 
 import asyncpg
-import disnake
+import discord
 from data.enums.guild_event_type import GuildEventType
-from disnake.ext import commands
+from discord.ext import commands
 from models.database.guild import Guild
 from models.database.item import Item
 from models.database.user import User
@@ -571,7 +571,7 @@ class Database(commands.Cog):
         await self.db.execute("DELETE FROM trash_can WHERE user_id = $1", user_id)
         return (float(trashcan["total_value"]), int(trashcan["amount"]))
 
-    async def add_guild_join(self, guild: disnake.Guild):
+    async def add_guild_join(self, guild: discord.Guild):
         member_count = len([1 for m in guild.members if not m.bot])
         await self.db.execute(
             "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, $3, $4)",
@@ -581,7 +581,7 @@ class Database(commands.Cog):
             guild.member_count,
         )
 
-    async def add_guild_leave(self, guild: disnake.Guild):
+    async def add_guild_leave(self, guild: discord.Guild):
         member_count = len([1 for m in guild.members if not m.bot])
         await self.db.execute(
             "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, $3, $4)",

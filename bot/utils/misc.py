@@ -8,7 +8,7 @@ from typing import List, Tuple
 import arrow
 import asyncpg
 import classyjson as cj
-import disnake
+import discord
 from models.database.item import Item
 from models.database.user import User
 from util.code import format_exception
@@ -75,7 +75,7 @@ async def _craft_lb(bot, leaderboard: List[asyncpg.Record], row_fstr: str) -> st
     last_idx = 0
 
     for i, row in enumerate(leaderboard):
-        user_name = disnake.utils.escape_markdown(await _attempt_get_username(bot, row["user_id"]))
+        user_name = discord.utils.escape_markdown(await _attempt_get_username(bot, row["user_id"]))
 
         idxs_skipped: bool = last_idx != row["idx"] - 1
 
@@ -126,13 +126,13 @@ async def craft_lbs(bot, global_lb: List[asyncpg.Record], local_lb: List[asyncpg
 #         if user is None:
 #             user = "Unknown User"
 #         else:
-#             user = disnake.utils.escape_markdown(user)
+#             user = discord.utils.escape_markdown(user)
 
 #         body += rank_fstr.format(entry[2], entry[1], user)
 
 #     # add user if user is missing from the leaderboard
 #     if u_entry is not None and u_entry[2] > 9:
-#         body += "\n⋮" + rank_fstr.format(u_entry[2], u_entry[1], disnake.utils.escape_markdown(bot.get_user(u_entry[0]).name))
+#         body += "\n⋮" + rank_fstr.format(u_entry[2], u_entry[1], discord.utils.escape_markdown(bot.get_user(u_entry[0]).name))
 
 #     return body + "\uFEFF"
 
@@ -203,7 +203,7 @@ async def update_support_member_role(bot, member):
         if roles != member.roles:
             try:
                 await member.edit(roles=roles)
-            except disnake.errors.HTTPException:
+            except discord.errors.HTTPException:
                 pass
     except Exception as e:
         print(format_exception(e))

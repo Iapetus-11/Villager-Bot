@@ -9,10 +9,10 @@ import aiohttp
 import aiomcrcon as rcon
 import arrow
 import classyjson as cj
-import disnake
+import discord
 from cogs.core.database import Database
 from cryptography.fernet import Fernet
-from disnake.ext import commands
+from discord.ext import commands
 from util.code import format_exception
 from util.ctx import Ctx
 from util.ipc import PacketType
@@ -77,7 +77,7 @@ class Minecraft(commands.Cog):
 
             try:
                 media_bytes = await media.read(use_cached=True)
-            except disnake.HTTPException:
+            except discord.HTTPException:
                 await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_3)
                 return
         else:
@@ -133,7 +133,7 @@ class Minecraft(commands.Cog):
             if is_video:
                 file_name += ".gif"
 
-            await ctx.reply(file=disnake.File(converted, filename=file_name), mention_author=False)
+            await ctx.reply(file=discord.File(converted, filename=file_name), mention_author=False)
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
@@ -174,7 +174,7 @@ class Minecraft(commands.Cog):
 
         if fail:
             await ctx.reply(
-                embed=disnake.Embed(
+                embed=discord.Embed(
                     color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined)
                 ),
                 mention_author=False,
@@ -190,7 +190,7 @@ class Minecraft(commands.Cog):
 
         players_online = jj["online_players"]
 
-        embed = disnake.Embed(
+        embed = discord.Embed(
             color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined)
         )
 
@@ -270,7 +270,7 @@ class Minecraft(commands.Cog):
 
         players_online = jj["online_players"]
 
-        embed = disnake.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address))
 
         embed.description = ctx.l.minecraft.mcping.learn_more.format(
             f"https://minecraft.global/server/{server_id}?utm_source=villager+bot&utm_medium=discord&utm_id=1"
@@ -358,7 +358,7 @@ class Minecraft(commands.Cog):
             await ctx.reply_embed(ctx.l.minecraft.stealskin.no_skin)
             return
 
-        embed = disnake.Embed(
+        embed = discord.Embed(
             color=self.d.cc, description=ctx.l.minecraft.stealskin.embed_desc.format(profile["name"], skin_url)
         )
 
@@ -434,7 +434,7 @@ class Minecraft(commands.Cog):
 
             name_hist += f"**{len(names)-i}.** `{name.name}` - {time}\n"
 
-        embed = disnake.Embed(color=self.d.cc, title=ctx.l.minecraft.profile.mcpp.format(profile.name))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.profile.mcpp.format(profile.name))
 
         if skin_url is not None:
             embed.description = f"**[{ctx.l.minecraft.profile.skin}]({skin_url})**"
@@ -476,7 +476,7 @@ class Minecraft(commands.Cog):
     async def color_codes(self, ctx: Ctx):
         """Shows the Minecraft chat color codes"""
 
-        embed = disnake.Embed(color=self.d.cc, description=ctx.l.minecraft.mccolors.embed_desc)
+        embed = discord.Embed(color=self.d.cc, description=ctx.l.minecraft.mccolors.embed_desc)
 
         embed.set_author(name=ctx.l.minecraft.mccolors.embed_author_name)
 
@@ -557,7 +557,7 @@ class Minecraft(commands.Cog):
             except asyncio.TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
-                except (disnake.Forbidden, disnake.HTTPException):
+                except (discord.Forbidden, discord.HTTPException):
                     pass
 
                 return
@@ -586,7 +586,7 @@ class Minecraft(commands.Cog):
             except asyncio.TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
-                except (disnake.Forbidden, disnake.HTTPException):
+                except (discord.Forbidden, discord.HTTPException):
                     pass
 
                 return

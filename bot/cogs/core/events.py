@@ -4,9 +4,9 @@ import textwrap
 from contextlib import suppress
 from typing import Set
 
-import disnake
+import discord
 from cogs.core.database import Database
-from disnake.ext import commands
+from discord.ext import commands
 from util.code import format_exception
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ctx import Ctx
@@ -18,10 +18,10 @@ from bot import VillagerBotCluster
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 
 NITRO_BOOST_MESSAGES = {
-    disnake.MessageType.premium_guild_subscription,
-    disnake.MessageType.premium_guild_tier_1,
-    disnake.MessageType.premium_guild_tier_2,
-    disnake.MessageType.premium_guild_tier_3,
+    discord.MessageType.premium_guild_subscription,
+    discord.MessageType.premium_guild_tier_1,
+    discord.MessageType.premium_guild_tier_2,
+    discord.MessageType.premium_guild_tier_3,
 }
 
 BAD_ARG_ERRORS = (
@@ -40,11 +40,11 @@ AUTOBAN_KEYWORDS = (
     "steam",
     "hack",
     "free",
-    "disnake.gg",
+    "discord.gg",
     "invite.gg",
     "dsc.gg",
     "dsc.lol",
-    "disnake.com/invite/",
+    "discord.com/invite/",
 )
 
 
@@ -89,8 +89,8 @@ class Events(commands.Cog):
 
         self.bot.after_ready_ready.set()
 
-    async def send_intro_message(self, guild: disnake.Guild):
-        channel: disnake.channel = None
+    async def send_intro_message(self, guild: discord.Guild):
+        channel: discord.channel = None
 
         for c in guild.text_channels:
             c_name = c.name.lower()
@@ -108,7 +108,7 @@ class Events(commands.Cog):
         if channel is None:
             return
 
-        embed = disnake.Embed(
+        embed = discord.Embed(
             color=self.d.cc,
             description=f"Hey y'all! Type `{self.k.default_prefix}help` to get started with Villager Bot!\n"
             f"If you need any more help, check out the **[Support Server]({self.d.support})**!\n\n"
@@ -120,11 +120,11 @@ class Events(commands.Cog):
             text=f"Made by Iapetus11 and others ({self.k.default_prefix}credits)  |  Check the {self.k.default_prefix}rules"
         )
 
-        with suppress(disnake.errors.Forbidden):
+        with suppress(discord.errors.Forbidden):
             await channel.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_guild_join(self, guild: disnake.Guild):
+    async def on_guild_join(self, guild: discord.Guild):
         # log guild join
         await self.db.add_guild_join(guild)
 
@@ -132,7 +132,7 @@ class Events(commands.Cog):
         self.bot.replies_cache.add(guild.id)
 
         # attempt to set default language based off guild's localization
-        lang = {disnake.Locale.es_ES: "es", disnake.Locale.pt_BR: "pt", disnake.Locale.fr: "fr"}.get(guild.preferred_locale)
+        lang = {discord.Locale.es_ES: "es", discord.Locale.pt_BR: "pt", discord.Locale.fr: "fr"}.get(guild.preferred_locale)
 
         if lang:
             await self.db.set_guild_attr(guild.id, "language", lang)
@@ -141,7 +141,7 @@ class Events(commands.Cog):
         await self.send_intro_message(guild)
 
     @commands.Cog.listener()
-    async def on_guild_remove(self, guild: disnake.Guild):
+    async def on_guild_remove(self, guild: discord.Guild):
         # log guild leave
         await self.db.add_guild_leave(guild)
 
@@ -169,7 +169,7 @@ class Events(commands.Cog):
                     translator=("Translator" in role_names),
                 )
 
-    async def log_dm_message(self, message: disnake.Message) -> None:
+    async def log_dm_message(self, message: discord.Message) -> None:
         # ignore dms from owners
         if self.bot.owner_id == message.author.id or message.author.id in self.bot.owner_ids:
             return
@@ -202,7 +202,7 @@ class Events(commands.Cog):
                 previous_message = await previous_message.reply(chunk)
 
     @commands.Cog.listener()
-    async def on_message(self, message: disnake.Message):
+    async def on_message(self, message: discord.Message):
         self.bot.message_count += 1
 
         # ignore bots
@@ -210,16 +210,16 @@ class Events(commands.Cog):
             return
 
         # check if channel is a dm channel
-        if isinstance(message.channel, disnake.DMChannel):
+        if isinstance(message.channel, discord.DMChannel):
             # forward dm to karen
             await self.ipc.send({"type": PacketType.DM_MESSAGE, "user_id": message.author.id, "content": message.content})
 
             # check if there are prior messages, and if there are none, send user a help message
-            with suppress(disnake.errors.HTTPException):
+            with suppress(discord.errors.HTTPException):
                 prior_messages = len(await message.channel.history(limit=1, before=message).flatten())
 
                 if prior_messages < 1:
-                    embed = disnake.Embed(
+                    embed = discord.Embed(
                         color=self.d.cc,
                         description=f"Hey {message.author.mention}! Type `{self.k.default_prefix}help` to get started with Villager Bot!\n"
                         f"If you need any more help, check out the **[Support Server]({self.d.support})**!",
@@ -246,11 +246,11 @@ class Events(commands.Cog):
 
             lang = self.bot.get_language(message)
 
-            embed = disnake.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
+            embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
             embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
             embed.set_footer(text=lang.useful.credits.foot.format(prefix))
 
-            with suppress(disnake.errors.HTTPException):
+            with suppress(discord.errors.HTTPException):
                 await message.channel.send(embed=embed)
 
             return
@@ -267,14 +267,14 @@ class Events(commands.Cog):
                 for u in message.guild.members
                 if (
                     not u.bot
-                    and u.status == disnake.Status.online
+                    and u.status == discord.Status.online
                     and message.author.id != u.id
                     and message.channel.permissions_for(u).read_messages
                 )
             ]
 
             if len(someones) > 0:
-                with suppress(disnake.errors.HTTPException):
+                with suppress(discord.errors.HTTPException):
                     await message.channel.send(
                         f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}"
                     )
@@ -286,7 +286,7 @@ class Events(commands.Cog):
             prefix = self.bot.prefix_cache.get(message.guild.id, self.k.default_prefix)
 
             if not message.content.startswith(prefix):
-                with suppress(disnake.errors.HTTPException):
+                with suppress(discord.errors.HTTPException):
                     if "emerald" in content_lower:
                         await message.channel.send(random.choice(self.d.hmms))
                     elif "creeper" in content_lower:
@@ -364,9 +364,9 @@ class Events(commands.Cog):
             await ctx.reply_embed(ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
             await ctx.reply_embed(ctx.l.misc.errors.user_perms, ignore_exceptions=True)
-        elif isinstance(e, (commands.BotMissingPermissions, disnake.errors.Forbidden)):
+        elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
-        elif getattr(e, "original", None) is not None and isinstance(e.original, disnake.errors.Forbidden):
+        elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif isinstance(e, (commands.MaxConcurrencyReached, MaxKarenConcurrencyReached)):
             await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)

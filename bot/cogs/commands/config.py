@@ -1,6 +1,6 @@
-import disnake
+import discord
 from cogs.core.database import Database
-from disnake.ext import commands
+from discord.ext import commands
 from util.ctx import Ctx
 
 from bot import VillagerBotCluster
@@ -19,7 +19,7 @@ class Config(commands.Cog):
         if ctx.invoked_subcommand is None:
             ctx.command.reset_cooldown(ctx)
 
-            embed = disnake.Embed(color=self.d.cc)
+            embed = discord.Embed(color=self.d.cc)
             embed.set_author(name=ctx.l.config.main.title, icon_url=self.d.splash_logo)
 
             embed.add_field(

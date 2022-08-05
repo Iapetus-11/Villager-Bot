@@ -5,8 +5,8 @@ from contextlib import suppress
 from urllib.parse import quote as urlquote
 
 import classyjson as cj
-import disnake
-from disnake.ext import commands
+import discord
+from discord.ext import commands
 from util.ctx import Ctx
 from util.ipc import PacketType
 from util.misc import SuppressCtxManager, strip_command
@@ -49,7 +49,7 @@ class Fun(commands.Cog):
 
         do_nsfw = False
 
-        if isinstance(ctx.channel, disnake.TextChannel):
+        if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
 
         meme = {"nsfw": True, "spoiler": True}
@@ -64,7 +64,7 @@ class Fun(commands.Cog):
 
                 meme = cj.classify(await resp.json())
 
-        embed = disnake.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
+        embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
 
         embed.set_footer(text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image)
         embed.set_image(url=meme.image)
@@ -78,7 +78,7 @@ class Fun(commands.Cog):
 
         do_nsfw = False
 
-        if isinstance(ctx.channel, disnake.TextChannel):
+        if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
 
         jj = {"nsfw": True}
@@ -93,7 +93,7 @@ class Fun(commands.Cog):
 
                 jj = await resp.json()
 
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
         embed.set_image(url=jj["image"])
 
         await ctx.send(embed=embed)
@@ -104,7 +104,7 @@ class Fun(commands.Cog):
         """Sends a comic from r/comics"""
 
         do_nsfw = False
-        if isinstance(ctx.channel, disnake.TextChannel):
+        if isinstance(ctx.channel, discord.TextChannel):
             do_nsfw = ctx.channel.is_nsfw()
 
         comic = {"nsfw": True, "spoiler": True}
@@ -119,7 +119,7 @@ class Fun(commands.Cog):
 
                 comic = cj.classify(await resp.json())
 
-        embed = disnake.Embed(color=self.d.cc, title=comic.title[:256], url=comic.permalink)
+        embed = discord.Embed(color=self.d.cc, title=comic.title[:256], url=comic.permalink)
 
         embed.set_footer(text=f"{comic.upvotes}  |  u/{comic.author}", icon_url=self.d.upvote_emoji_image)
         embed.set_image(url=comic.image)
@@ -142,14 +142,14 @@ class Fun(commands.Cog):
 
                     meme = cj.classify(await resp.json())
 
-            embed = disnake.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
+            embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
 
             embed.set_footer(text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image)
             embed.set_image(url=meme.image)
 
             await ctx.send(embed=embed)
         else:
-            embed = disnake.Embed(color=self.d.cc)
+            embed = discord.Embed(color=self.d.cc)
             embed.set_image(url=f"https://iapetus11.me/images/cursed_minecraft/{random.choice(self.d.cursed_images)}")
 
             await ctx.send(embed=embed)
@@ -164,7 +164,7 @@ class Fun(commands.Cog):
             await ctx.reply("Yes.")
             return
 
-        with suppress(disnake.errors.HTTPException):
+        with suppress(discord.errors.HTTPException):
             await ctx.message.delete()
 
         await ctx.send(nice)
@@ -299,8 +299,8 @@ class Fun(commands.Cog):
         await ctx.send_embed(f"{bubble*size[0]}\n" * size[1])
 
     @commands.command(name="kill", aliases=["die", "kil", "dorito"])
-    async def kill_thing(self, ctx: Ctx, *, thing: typing.Union[disnake.Member, str]):
-        if isinstance(thing, disnake.Member):
+    async def kill_thing(self, ctx: Ctx, *, thing: typing.Union[discord.Member, str]):
+        if isinstance(thing, discord.Member):
             thing = thing.mention
 
         await ctx.send_embed(random.choice(self.d.kills).format(thing[:500], ctx.author.mention))
@@ -311,13 +311,13 @@ class Fun(commands.Cog):
 
     @commands.command(name="pat")
     @commands.guild_only()
-    async def pat(self, ctx: Ctx, users: commands.Greedy[disnake.Member] = [], *, text: str = ""):
+    async def pat(self, ctx: Ctx, users: commands.Greedy[discord.Member] = [], *, text: str = ""):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=pat")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
-        embed = disnake.Embed(
+        embed = discord.Embed(
             color=self.d.cc,
-            title=f"**{disnake.utils.escape_markdown(ctx.author.display_name)}** pats {', '.join(f'**{disnake.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
+            title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** pats {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
                 :256
             ],
         )
@@ -327,13 +327,13 @@ class Fun(commands.Cog):
 
     @commands.command(name="slap")
     @commands.guild_only()
-    async def slap(self, ctx: Ctx, users: commands.Greedy[disnake.Member] = [], *, text: str = ""):
+    async def slap(self, ctx: Ctx, users: commands.Greedy[discord.Member] = [], *, text: str = ""):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=slap")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
-        embed = disnake.Embed(
+        embed = discord.Embed(
             color=self.d.cc,
-            title=f"**{disnake.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{disnake.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
+            title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
                 :256
             ],
         )
@@ -345,7 +345,7 @@ class Fun(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_achievement(self, ctx: Ctx, *, text):
         url = f"https://api.iapetus11.me/mc/image/achievement/{urlquote(text[:26])}"
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
 
         embed.description = ctx.l.fun.dl_img.format(url)
         embed.set_image(url=url)
@@ -356,7 +356,7 @@ class Fun(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_splash_screen(self, ctx: Ctx, *, text):
         url = f"https://api.iapetus11.me/mc/image/splash/{urlquote(text[:27])}"
-        embed = disnake.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.d.cc)
 
         embed.description = ctx.l.fun.dl_img.format(url)
         embed.set_image(url=url)
@@ -372,7 +372,7 @@ class Fun(commands.Cog):
         choices = question.a.copy()
         random.shuffle(choices)
 
-        embed = disnake.Embed(
+        embed = discord.Embed(
             color=self.d.cc,
             title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
         )
@@ -405,7 +405,7 @@ class Fun(commands.Cog):
         try:
             react, r_user = await self.bot.wait_for("reaction_add", check=reaction_check, timeout=15)
         except asyncio.TimeoutError:
-            embed = disnake.Embed(
+            embed = discord.Embed(
                 color=self.d.cc,
                 title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
                 description=ctx.l.fun.trivia.timeout,
@@ -413,10 +413,10 @@ class Fun(commands.Cog):
             await msg.edit(embed=embed)
             return
         finally:
-            with suppress(disnake.errors.HTTPException):
+            with suppress(discord.errors.HTTPException):
                 await msg.clear_reactions()
 
-        embed = disnake.Embed(
+        embed = discord.Embed(
             color=self.d.cc,
             title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
         )
@@ -438,7 +438,7 @@ class Fun(commands.Cog):
     async def trivia_true_or_false(self, ctx: Ctx, question, do_reward):
         correct_choice = question.a[0]
 
-        embed = disnake.Embed(
+        embed = discord.Embed(
             color=self.d.cc,
             title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
         )
@@ -464,7 +464,7 @@ class Fun(commands.Cog):
         try:
             react, r_user = await self.bot.wait_for("reaction_add", check=reaction_check, timeout=15)
         except asyncio.TimeoutError:
-            embed = disnake.Embed(
+            embed = discord.Embed(
                 color=self.d.cc,
                 title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
                 description=ctx.l.fun.trivia.timeout,
@@ -472,10 +472,10 @@ class Fun(commands.Cog):
             await msg.edit(embed=embed)
             return
         finally:
-            with suppress(disnake.errors.HTTPException):
+            with suppress(discord.errors.HTTPException):
                 await msg.clear_reactions()
 
-        embed = disnake.Embed(
+        embed = discord.Embed(
             color=self.d.cc,
             title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
         )
@@ -509,10 +509,10 @@ class Fun(commands.Cog):
             await self.trivia_multiple_choice(ctx, question, do_reward)
 
     @commands.command(name="gayrate", aliases=["gaypercent"])
-    async def gay_rate(self, ctx: Ctx, *, thing: typing.Union[disnake.Member, str] = None):
+    async def gay_rate(self, ctx: Ctx, *, thing: typing.Union[discord.Member, str] = None):
         if thing is None:
             thing = ctx.author.mention
-        elif isinstance(thing, disnake.Member):
+        elif isinstance(thing, discord.Member):
             thing = thing.mention
 
         await ctx.reply_embed(ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", thing))

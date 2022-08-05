@@ -2,13 +2,13 @@ import asyncio
 import inspect
 from typing import Any, Callable, Coroutine, Optional, Union
 
-import disnake
-from disnake.ext import commands
+import discord
+from discord.ext import commands
 from util.ctx import Ctx
 
 from bot import VillagerBotCluster
 
-PAGE_EMBED_CALLABLE = Callable[[int], Union[disnake.Embed, Coroutine[Any, Any, disnake.Embed]]]
+PAGE_EMBED_CALLABLE = Callable[[int], Union[discord.Embed, Coroutine[Any, Any, discord.Embed]]]
 LEFT_ARROW = "⬅️"
 RIGHT_ARROW = "➡️"
 NAV_EMOJIS = [LEFT_ARROW, RIGHT_ARROW]
@@ -18,20 +18,20 @@ class Paginator(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
-    def _create_reaction_check(self, ctx: Ctx, msg: disnake.Message) -> Callable[[disnake.Reaction, disnake.User], bool]:
-        def predicate(r: disnake.Reaction, u: disnake.User):
+    def _create_reaction_check(self, ctx: Ctx, msg: discord.Message) -> Callable[[discord.Reaction, discord.User], bool]:
+        def predicate(r: discord.Reaction, u: discord.User):
             return (str(r.emoji) in NAV_EMOJIS) and ctx.author == u and r.message == msg
 
         return predicate
 
-    async def _get_page(self, get_page: PAGE_EMBED_CALLABLE, page: int) -> disnake.Embed:
+    async def _get_page(self, get_page: PAGE_EMBED_CALLABLE, page: int) -> discord.Embed:
         embed = get_page(page)
 
         if inspect.isawaitable(embed):
             embed = await embed
 
-        if not isinstance(embed, disnake.Embed):
-            raise TypeError(f"{getattr(type(embed), '__qualname__', type(embed))} is not a {disnake.Embed.__qualname__}")
+        if not isinstance(embed, discord.Embed):
+            raise TypeError(f"{getattr(type(embed), '__qualname__', type(embed))} is not a {discord.Embed.__qualname__}")
 
         return embed
 
@@ -58,7 +58,7 @@ class Paginator(commands.Cog):
                 await asyncio.wait([msg.remove_reaction(e, ctx.me) for e in NAV_EMOJIS])
                 return
 
-            reaction: disnake.Reaction
+            reaction: discord.Reaction
             emoji = str(reaction.emoji)
 
             if emoji == LEFT_ARROW:

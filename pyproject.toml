@@ -7,6 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+"discord.py" = { git = "https://github.com/Rapptz/discord.py.git", branch = "45d498c1b76deaf3b394d17ccf56112fa691d160" }
 asyncpg = "^0.26.0"
 aiofiles = "^0.7.0"
 aiohttp = "^3.7.4"
@@ -19,12 +20,10 @@ numpy = "^1.20.3"
 opencv-python = "^4.5.2"
 imageio = "^2.9.0"
 Pillow = "^9.0.0"
-disnake = "^2.4.0"
 psutil = "^5.9.0"
 moviepy = "^1.0.3"
 pydantic = "^1.9.1"
 websockets = "^10.3"
-seqlog = "^0.3.20"
 
 [tool.poetry.dev-dependencies]
 black = "^21.5b1"
@@ -35,10 +34,10 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
-line-length = 127
-target-version = ['py38']
+line-length = 100
+target-version = ['py310']
 include = '\.pyi?$'
 
 [tool.isort]
 profile = "black"
-line_length = 127
+line_length = 100

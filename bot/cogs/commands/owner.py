@@ -6,9 +6,9 @@ from typing import Union
 
 import aiofiles
 import arrow
-import disnake
+import discord
 from cogs.core.paginator import Paginator
-from disnake.ext import commands
+from discord.ext import commands
 from util.code import execute_code, format_exception
 from util.ctx import Ctx
 from util.ipc import PacketType
@@ -115,8 +115,8 @@ class Owner(commands.Cog):
 
     @commands.command(name="lookup")
     @commands.is_owner()
-    async def lookup(self, ctx: Ctx, user: Union[disnake.User, int]):
-        if isinstance(user, disnake.User):
+    async def lookup(self, ctx: Ctx, user: Union[discord.User, int]):
+        if isinstance(user, discord.User):
             uid = user.id
         else:
             uid = user
@@ -141,8 +141,8 @@ class Owner(commands.Cog):
 
     @commands.command(name="setbal")
     @commands.is_owner()
-    async def set_user_bal(self, ctx: Ctx, user: Union[disnake.User, int], balance: int):
-        if isinstance(user, disnake.User):
+    async def set_user_bal(self, ctx: Ctx, user: Union[discord.User, int], balance: int):
+        if isinstance(user, discord.User):
             uid = user.id
         else:
             uid = user
@@ -152,8 +152,8 @@ class Owner(commands.Cog):
 
     @commands.command(name="botban")
     @commands.is_owner()
-    async def ban_user_from_bot(self, ctx: Ctx, user: Union[disnake.User, int]):
-        if isinstance(user, disnake.User):
+    async def ban_user_from_bot(self, ctx: Ctx, user: Union[discord.User, int]):
+        if isinstance(user, discord.User):
             uid = user.id
         else:
             uid = user
@@ -165,8 +165,8 @@ class Owner(commands.Cog):
 
     @commands.command(name="unbotban")
     @commands.is_owner()
-    async def unban_user_from_bot(self, ctx: Ctx, user: Union[disnake.User, int]):
-        if isinstance(user, disnake.User):
+    async def unban_user_from_bot(self, ctx: Ctx, user: Union[discord.User, int]):
+        if isinstance(user, discord.User):
             uid = user.id
         else:
             uid = user
@@ -178,8 +178,8 @@ class Owner(commands.Cog):
 
     @commands.command(name="givehistory", aliases=["transactions", "givelogs", "tradelogs"])
     @commands.is_owner()
-    async def transaction_history(self, ctx: Ctx, user: Union[disnake.User, int]):
-        if isinstance(user, disnake.User):
+    async def transaction_history(self, ctx: Ctx, user: Union[discord.User, int]):
+        if isinstance(user, discord.User):
             uid = user.id
             username = str(user)
         else:
@@ -194,10 +194,10 @@ class Owner(commands.Cog):
 
         page_count = await self.db.fetch_transactions_page_count(uid)
 
-        async def get_page(page: int) -> disnake.Embed:
+        async def get_page(page: int) -> discord.Embed:
             entries = await self.db.fetch_transactions_page(uid, page=page)
 
-            embed = disnake.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
+            embed = discord.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
 
             if len(entries) == 0:
                 embed.set_author(
@@ -219,7 +219,7 @@ class Owner(commands.Cog):
 
                 body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
 
-            embed = disnake.Embed(color=self.d.cc, description=body)
+            embed = discord.Embed(color=self.d.cc, description=body)
             embed.set_author(name=f"Transaction history for {user}", icon_url=getattr(user.avatar, "url", embed.Empty))
             embed.set_footer(text=f"Page {page+1}/{page_count}")
 
