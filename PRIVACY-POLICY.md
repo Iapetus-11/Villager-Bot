@@ -4,6 +4,7 @@
 - User and guild snowflakes/ids
 - Sometimes text inputted into commands, for example the warn reason for `!!warn @user <reason>`
 - Message content and usernames (rarely, see reason below)
+- Messages directly messaged to the bot
 ## How do we use your data?
 - Your data is stored in Discord text channels or in a secure database.
 - Message content is sometimes logged for the purposes of debugging when an error in the bot occurs as a direct result of the message.
