@@ -128,7 +128,9 @@ class Minecraft(commands.Cog):
             converter = self.tiler.convert_image
 
         async with SuppressCtxManager(ctx.typing()):
-            converted = await self.bot.loop.run_in_executor(self.bot.tp, converter, media_bytes, max_dim, detailed)
+            converted = await self.bot.loop.run_in_executor(
+                self.bot.tp, converter, media_bytes, max_dim, detailed
+            )
 
             if is_video:
                 file_name += ".gif"
@@ -175,7 +177,10 @@ class Minecraft(commands.Cog):
         if fail:
             await ctx.reply(
                 embed=discord.Embed(
-                    color=self.d.cc, title=ctx.l.minecraft.mcping.title_offline.format(self.d.emojis.offline, combined)
+                    color=self.d.cc,
+                    title=ctx.l.minecraft.mcping.title_offline.format(
+                        self.d.emojis.offline, combined
+                    ),
                 ),
                 mention_author=False,
             )
@@ -191,12 +196,15 @@ class Minecraft(commands.Cog):
         players_online = jj["online_players"]
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined)
+            color=self.d.cc,
+            title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined),
         )
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=f'{jj["latency"]}ms')
         ver = jj["version"].get("brand", "Unknown")
-        embed.add_field(name=ctx.l.minecraft.mcping.version, value=("Unknown" if ver is None else ver))
+        embed.add_field(
+            name=ctx.l.minecraft.mcping.version, value=("Unknown" if ver is None else ver)
+        )
 
         player_list_cut = []
 
@@ -208,25 +216,35 @@ class Minecraft(commands.Cog):
 
         if len(player_list_cut) < 1:
             embed.add_field(
-                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["max_players"]),
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(
+                    players_online, jj["max_players"]
+                ),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
                 inline=False,
             )
         else:
             extra = ""
             if len(player_list_cut) < players_online:
-                extra = ctx.l.minecraft.mcping.and_other_players.format(players_online - len(player_list_cut))
+                extra = ctx.l.minecraft.mcping.and_other_players.format(
+                    players_online - len(player_list_cut)
+                )
 
             embed.add_field(
-                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["max_players"]),
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(
+                    players_online, jj["max_players"]
+                ),
                 value="`" + "`, `".join(player_list_cut) + "`" + extra,
                 inline=False,
             )
 
-        embed.set_image(url=f"https://api.iapetus11.me/mc/server/status/{combined}/image?v={random.random()*100000}")
+        embed.set_image(
+            url=f"https://api.iapetus11.me/mc/server/status/{combined}/image?v={random.random()*100000}"
+        )
 
         if jj["favicon"] is not None:
-            embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/server/status/{combined}/image/favicon")
+            embed.set_thumbnail(
+                url=f"https://api.iapetus11.me/mc/server/status/{combined}/image/favicon"
+            )
 
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -270,17 +288,24 @@ class Minecraft(commands.Cog):
 
         players_online = jj["online_players"]
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address))
+        embed = discord.Embed(
+            color=self.d.cc,
+            title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address),
+        )
 
         embed.description = ctx.l.minecraft.mcping.learn_more.format(
             f"https://minecraft.global/server/{server_id}?utm_source=villager+bot&utm_medium=discord&utm_id=1"
         )
 
-        embed.set_footer(text=ctx.l.minecraft.mcping.powered_by, icon_url="https://i.ibb.co/SdZHQ4b/full-1.png")
+        embed.set_footer(
+            text=ctx.l.minecraft.mcping.powered_by, icon_url="https://i.ibb.co/SdZHQ4b/full-1.png"
+        )
 
         embed.add_field(name=ctx.l.minecraft.mcping.latency, value=f'{jj["latency"]}ms')
         ver = jj["version"].get("brand", "Unknown")
-        embed.add_field(name=ctx.l.minecraft.mcping.version, value=("Unknown" if ver is None else ver))
+        embed.add_field(
+            name=ctx.l.minecraft.mcping.version, value=("Unknown" if ver is None else ver)
+        )
 
         player_list_cut = []
 
@@ -292,34 +317,49 @@ class Minecraft(commands.Cog):
 
         if len(player_list_cut) < 1:
             embed.add_field(
-                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["max_players"]),
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(
+                    players_online, jj["max_players"]
+                ),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
                 inline=False,
             )
         else:
             extra = ""
             if len(player_list_cut) < players_online:
-                extra = ctx.l.minecraft.mcping.and_other_players.format(players_online - len(player_list_cut))
+                extra = ctx.l.minecraft.mcping.and_other_players.format(
+                    players_online - len(player_list_cut)
+                )
 
             embed.add_field(
-                name=ctx.l.minecraft.mcping.field_online_players.name.format(players_online, jj["max_players"]),
+                name=ctx.l.minecraft.mcping.field_online_players.name.format(
+                    players_online, jj["max_players"]
+                ),
                 value="`" + "`, `".join(player_list_cut) + "`" + extra,
                 inline=False,
             )
 
-        embed.set_image(url=f"https://api.iapetus11.me/mc/server/status/{address}/image?v={random.random()*100000}")
+        embed.set_image(
+            url=f"https://api.iapetus11.me/mc/server/status/{address}/image?v={random.random()*100000}"
+        )
 
         if jj["favicon"] is not None:
-            embed.set_thumbnail(url=f"https://api.iapetus11.me/mc/server/status/{address}/image/favicon")
+            embed.set_thumbnail(
+                url=f"https://api.iapetus11.me/mc/server/status/{address}/image/favicon"
+            )
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="stealskin", aliases=["getskin", "skin", "mcskin"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def steal_skin(self, ctx: Ctx, player):
-        if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
+        if (
+            17 > len(player) > 1
+            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == ""
+        ):
             async with SuppressCtxManager(ctx.typing()):
-                res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
+                res = await self.aiohttp.get(
+                    f"https://api.mojang.com/users/profiles/minecraft/{player}"
+                )
 
             if res.status == 204:
                 await ctx.reply_embed(ctx.l.minecraft.invalid_player)
@@ -332,7 +372,8 @@ class Minecraft(commands.Cog):
             jj = await res.json()
             uuid = jj["id"]
         elif (
-            len(player) in (32, 36) and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
+            len(player) in (32, 36)
+            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:
@@ -340,7 +381,9 @@ class Minecraft(commands.Cog):
             return
 
         async with SuppressCtxManager(ctx.typing()):
-            res = await self.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}")
+            res = await self.aiohttp.get(
+                f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"
+            )
 
         if res.status != 200:
             await ctx.reply_embed(ctx.l.minecraft.stealskin.error)
@@ -351,7 +394,11 @@ class Minecraft(commands.Cog):
 
         for prop in profile["properties"]:
             if prop["name"] == "textures":
-                skin_url = json.loads(base64.b64decode(prop["value"]))["textures"].get("SKIN", {}).get("url")
+                skin_url = (
+                    json.loads(base64.b64decode(prop["value"]))["textures"]
+                    .get("SKIN", {})
+                    .get("url")
+                )
                 break
 
         if skin_url is None:
@@ -359,7 +406,8 @@ class Minecraft(commands.Cog):
             return
 
         embed = discord.Embed(
-            color=self.d.cc, description=ctx.l.minecraft.stealskin.embed_desc.format(profile["name"], skin_url)
+            color=self.d.cc,
+            description=ctx.l.minecraft.stealskin.embed_desc.format(profile["name"], skin_url),
         )
 
         embed.set_thumbnail(url=skin_url)
@@ -367,12 +415,19 @@ class Minecraft(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    @commands.command(name="mcprofile", aliases=["minecraftprofile", "nametouuid", "uuidtoname", "mcp"])
+    @commands.command(
+        name="mcprofile", aliases=["minecraftprofile", "nametouuid", "uuidtoname", "mcp"]
+    )
     @commands.cooldown(1, 4, commands.BucketType.user)
     async def minecraft_profile(self, ctx: Ctx, player):
-        if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
+        if (
+            17 > len(player) > 1
+            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == ""
+        ):
             async with SuppressCtxManager(ctx.typing()):
-                res = await self.aiohttp.get(f"https://api.mojang.com/users/profiles/minecraft/{player}")
+                res = await self.aiohttp.get(
+                    f"https://api.mojang.com/users/profiles/minecraft/{player}"
+                )
 
             if res.status == 204:
                 await ctx.reply_embed(ctx.l.minecraft.invalid_player)
@@ -385,7 +440,8 @@ class Minecraft(commands.Cog):
             jj = await res.json()
             uuid = jj["id"]
         elif (
-            len(player) in (32, 36) and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
+            len(player) in (32, 36)
+            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:
@@ -395,7 +451,9 @@ class Minecraft(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             resps = await asyncio.gather(
                 self.aiohttp.get(f"https://api.mojang.com/user/profiles/{uuid}/names"),
-                self.aiohttp.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"),
+                self.aiohttp.get(
+                    f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"
+                ),
             )
 
         for res in resps:
@@ -430,11 +488,17 @@ class Minecraft(commands.Cog):
                 time = ctx.l.minecraft.profile.first
             else:
                 time = arrow.Arrow.fromtimestamp(time)
-                time = time.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + time.humanize(locale=ctx.l.lang)
+                time = (
+                    time.format("MMM D, YYYY", locale=ctx.l.lang)
+                    + ", "
+                    + time.humanize(locale=ctx.l.lang)
+                )
 
             name_hist += f"**{len(names)-i}.** `{name.name}` - {time}\n"
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.minecraft.profile.mcpp.format(profile.name))
+        embed = discord.Embed(
+            color=self.d.cc, title=ctx.l.minecraft.profile.mcpp.format(profile.name)
+        )
 
         if skin_url is not None:
             embed.description = f"**[{ctx.l.minecraft.profile.skin}]({skin_url})**"
@@ -452,7 +516,9 @@ class Minecraft(commands.Cog):
             value=f"`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`",
             inline=False,
         )
-        embed.add_field(name=(":label: " + ctx.l.minecraft.profile.hist), value=name_hist, inline=False)
+        embed.add_field(
+            name=(":label: " + ctx.l.minecraft.profile.hist), value=name_hist, inline=False
+        )
 
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -462,7 +528,9 @@ class Minecraft(commands.Cog):
         """Turns a Minecraft BE username/gamertag into an xuid"""
 
         async with SuppressCtxManager(ctx.typing()):
-            res = await self.aiohttp.get(f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi})
+            res = await self.aiohttp.get(
+                f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi}
+            )
 
         if res.status != 200:
             await ctx.reply_embed(ctx.l.minecraft.invalid_player)
@@ -552,7 +620,10 @@ class Minecraft(commands.Cog):
                     port_msg = await self.bot.wait_for("message", check=dm_check(ctx), timeout=60)
                 else:
                     port_msg = await asyncio.wait_for(
-                        self.ipc.request({"type": PacketType.DM_MESSAGE_REQUEST, "user_id": ctx.author.id}), 60
+                        self.ipc.request(
+                            {"type": PacketType.DM_MESSAGE_REQUEST, "user_id": ctx.author.id}
+                        ),
+                        60,
                     )
             except asyncio.TimeoutError:
                 try:
@@ -581,7 +652,10 @@ class Minecraft(commands.Cog):
                     auth_msg = await self.bot.wait_for("message", check=dm_check(ctx), timeout=60)
                 else:
                     auth_msg = await asyncio.wait_for(
-                        self.ipc.request({"type": PacketType.DM_MESSAGE_REQUEST, "user_id": ctx.author.id}), 60
+                        self.ipc.request(
+                            {"type": PacketType.DM_MESSAGE_REQUEST, "user_id": ctx.author.id}
+                        ),
+                        60,
                     )
             except asyncio.TimeoutError:
                 try:
@@ -594,7 +668,9 @@ class Minecraft(commands.Cog):
             password = auth_msg.content
         else:
             rcon_port = db_user_rcon["rcon_port"]
-            password = self.fernet.decrypt(db_user_rcon["password"].encode("utf-8")).decode("utf-8")  # decrypt to plaintext
+            password = self.fernet.decrypt(db_user_rcon["password"].encode("utf-8")).decode(
+                "utf-8"
+            )  # decrypt to plaintext
 
         with suppress(Exception):
             await ctx.trigger_typing()
@@ -604,10 +680,16 @@ class Minecraft(commands.Cog):
 
             if rcon_con is None:
                 rcon_con = rcon.Client(db_guild.mc_server.split(":")[0], rcon_port, password)
-                self.bot.rcon_cache[(ctx.author.id, db_guild.mc_server)] = (rcon_con, arrow.utcnow())
+                self.bot.rcon_cache[(ctx.author.id, db_guild.mc_server)] = (
+                    rcon_con,
+                    arrow.utcnow(),
+                )
             else:
                 rcon_con = rcon_con[0]
-                self.bot.rcon_cache[(ctx.author.id, db_guild.mc_server)] = (rcon_con, arrow.utcnow())
+                self.bot.rcon_cache[(ctx.author.id, db_guild.mc_server)] = (
+                    rcon_con,
+                    arrow.utcnow(),
+                )
 
             await rcon_con.connect(timeout=2.5)
         except Exception as e:
@@ -623,8 +705,12 @@ class Minecraft(commands.Cog):
             return
 
         if db_user_rcon is None:
-            encrypted_password = Fernet(self.k.fernet).encrypt(password.encode("utf-8")).decode("utf-8")
-            await self.db.add_user_rcon(ctx.author.id, db_guild.mc_server, rcon_port, encrypted_password)
+            encrypted_password = (
+                Fernet(self.k.fernet).encrypt(password.encode("utf-8")).decode("utf-8")
+            )
+            await self.db.add_user_rcon(
+                ctx.author.id, db_guild.mc_server, rcon_port, encrypted_password
+            )
 
         try:
             resp = await rcon_con.send_cmd(cmd[:1445])
@@ -640,7 +726,10 @@ class Minecraft(commands.Cog):
             if resp[0][i] != "§" and (i == 0 or resp[0][i - 1] != "§"):
                 resp_text += resp[0][i]
 
-        await ctx.reply("```\uFEFF{}```".format(resp_text.replace("\\n", "\n")[: 2000 - 7]), mention_author=False)
+        await ctx.reply(
+            "```\uFEFF{}```".format(resp_text.replace("\\n", "\n")[: 2000 - 7]),
+            mention_author=False,
+        )
 
 
 def setup(bot):

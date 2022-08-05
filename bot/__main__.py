@@ -1,15 +1,13 @@
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 import os
+from concurrent.futures import ThreadPoolExecutor
+
 import numpy
 import pyximport
 
-
 from bot.utils.setup import load_secrets, load_translations, setup_logging
-
-from common.coms.client import Client
-
 from bot.villager_bot import VillagerBotCluster
+from common.coms.client import Client
 from common.utils.setup import load_data
 
 

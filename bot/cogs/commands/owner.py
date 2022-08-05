@@ -35,7 +35,9 @@ class Owner(commands.Cog):
     @commands.command(name="reload")
     @commands.is_owner()
     async def reload_cog(self, ctx: Ctx, cog: str):
-        res = await self.ipc.broadcast({"type": PacketType.EVAL, "code": f"bot.reload_extension('cogs.{cog}')"})
+        res = await self.ipc.broadcast(
+            {"type": PacketType.EVAL, "code": f"bot.reload_extension('cogs.{cog}')"}
+        )
 
         for response in res.responses:
             if not response.success:
@@ -92,7 +94,10 @@ class Owner(commands.Cog):
 
         res = await self.ipc.broadcast({"type": PacketType.EXEC, "code": stuff})
 
-        contents = [f"```py\n\uFEFF{str(r.result).replace('```', '｀｀｀')}"[:1997] + "```" for r in res.responses]
+        contents = [
+            f"```py\n\uFEFF{str(r.result).replace('```', '｀｀｀')}"[:1997] + "```"
+            for r in res.responses
+        ]
         joined = "".join(contents)
 
         if len(joined) > 2000:
@@ -106,7 +111,9 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def gitpull(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            await self.bot.loop.run_in_executor(self.bot.tp, os.system, "git pull > git_pull_log 2>&1")
+            await self.bot.loop.run_in_executor(
+                self.bot.tp, os.system, "git pull > git_pull_log 2>&1"
+            )
 
             async with aiofiles.open("git_pull_log", "r") as f:
                 await ctx.reply(f"```diff\n{(await f.read())[:2000-11]}```")
@@ -121,7 +128,9 @@ class Owner(commands.Cog):
         else:
             uid = user
 
-        format_str = '"{guild} **|** `{guild.id}`\\n"'  # vsc can't handle nested formatting cause stupid
+        format_str = (
+            '"{guild} **|** `{guild.id}`\\n"'  # vsc can't handle nested formatting cause stupid
+        )
         code = f"""
         guilds = ""
         for guild in bot.guilds:
@@ -210,8 +219,14 @@ class Owner(commands.Cog):
             body = ""
 
             for entry in entries:
-                giver = getattr(ctx.guild.get_member(entry["sender"]), "mention", None) or f"`{entry['sender']}`"
-                receiver = getattr(ctx.guild.get_member(entry["receiver"]), "mention", None) or f"`{entry['receiver']}`"
+                giver = (
+                    getattr(ctx.guild.get_member(entry["sender"]), "mention", None)
+                    or f"`{entry['sender']}`"
+                )
+                receiver = (
+                    getattr(ctx.guild.get_member(entry["receiver"]), "mention", None)
+                    or f"`{entry['receiver']}`"
+                )
                 item = entry["item"]
 
                 if item == "emerald":
@@ -220,7 +235,10 @@ class Owner(commands.Cog):
                 body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
 
             embed = discord.Embed(color=self.d.cc, description=body)
-            embed.set_author(name=f"Transaction history for {user}", icon_url=getattr(user.avatar, "url", embed.Empty))
+            embed.set_author(
+                name=f"Transaction history for {user}",
+                icon_url=getattr(user.avatar, "url", embed.Empty),
+            )
             embed.set_footer(text=f"Page {page+1}/{page_count}")
 
             return embed

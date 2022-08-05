@@ -65,7 +65,9 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def ban_user(self, ctx: Ctx, victim: Union[discord.Member, int], *, reason="No reason provided."):
+    async def ban_user(
+        self, ctx: Ctx, victim: Union[discord.Member, int], *, reason="No reason provided."
+    ):
         """Bans the given user from the current Discord server"""
 
         delete_days = 0
@@ -106,7 +108,9 @@ class Mod(commands.Cog):
             reason = "No reason provided."
 
         try:
-            await ctx.guild.ban(victim, reason=f"{ctx.author} | {reason}", delete_message_days=delete_days)
+            await ctx.guild.ban(
+                victim, reason=f"{ctx.author} | {reason}", delete_message_days=delete_days
+            )
             await ctx.message.add_reaction(self.d.emojis.yes)
         except discord.errors.Forbidden:
             await ctx.reply_embed(ctx.l.mod.ban.stupid_3)
@@ -115,7 +119,9 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def pardon_user(self, ctx: Ctx, user: Union[discord.User, int], *, reason="No reason provided."):
+    async def pardon_user(
+        self, ctx: Ctx, user: Union[discord.User, int], *, reason="No reason provided."
+    ):
         """Unbans / pardons the given user from the current Discord server"""
 
         if isinstance(user, int):
@@ -166,7 +172,10 @@ class Mod(commands.Cog):
 
         await ctx.reply_embed(
             ctx.l.mod.warn.confirm.format(
-                self.d.emojis.yes, victim.mention, len(warns) + 1, discord.utils.escape_markdown(str(reason))
+                self.d.emojis.yes,
+                victim.mention,
+                len(warns) + 1,
+                discord.utils.escape_markdown(str(reason)),
             ),
         )
 
@@ -184,7 +193,10 @@ class Mod(commands.Cog):
         warns = await self.db.fetch_warns(user.id, ctx.guild.id)
 
         embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=f"{user}'s warnings ({len(warns)} total):", icon_url=getattr(user.avatar, "url", embed.Empty))
+        embed.set_author(
+            name=f"{user}'s warnings ({len(warns)} total):",
+            icon_url=getattr(user.avatar, "url", embed.Empty),
+        )
 
         if len(warns) < 1:
             embed.add_field(name="\uFEFF", value=f"{user} has no warnings.")
@@ -203,7 +215,9 @@ class Mod(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    @commands.command(name="delwarns", aliases=["clearwarns", "remwarns", "removewarns", "delwarnings"])
+    @commands.command(
+        name="delwarns", aliases=["clearwarns", "remwarns", "removewarns", "delwarnings"]
+    )
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
     async def clear_warnings(self, ctx: Ctx, user: discord.Member):

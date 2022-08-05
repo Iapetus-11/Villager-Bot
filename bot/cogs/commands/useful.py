@@ -77,7 +77,13 @@ class Useful(commands.Cog):
                 cmd_true = self.bot.get_command(cmd.lower())
 
                 if cmd_true is not None:
-                    all_help = {**ctx.l.help.econ, **ctx.l.help.mc, **ctx.l.help.util, **ctx.l.help.fun, **ctx.l.help.mod}
+                    all_help = {
+                        **ctx.l.help.econ,
+                        **ctx.l.help.mc,
+                        **ctx.l.help.util,
+                        **ctx.l.help.fun,
+                        **ctx.l.help.mod,
+                    }
 
                     help_text = all_help.get(str(cmd_true))
 
@@ -93,7 +99,9 @@ class Useful(commands.Cog):
                     embed.description = help_text.format(ctx.prefix)
 
                     if len(cmd_true.aliases) > 0:
-                        embed.description += "\n\n" + ctx.l.help.main.aliases.format("`, `".join(cmd_true.aliases))
+                        embed.description += "\n\n" + ctx.l.help.main.aliases.format(
+                            "`, `".join(cmd_true.aliases)
+                        )
 
                     try:
                         await ctx.reply(embed=embed, mention_author=False)
@@ -113,19 +121,32 @@ class Useful(commands.Cog):
 
             p = ctx.prefix
 
-            embed.add_field(name=(self.d.emojis.emerald_spinn + ctx.l.help.n.economy), value=f"`{p}help econ`")
-            embed.add_field(name=(self.d.emojis.bounce + " " + ctx.l.help.n.minecraft), value=f"`{p}help mc`")
-            embed.add_field(name=(self.d.emojis.anichest + ctx.l.help.n.utility), value=f"`{p}help util`")
+            embed.add_field(
+                name=(self.d.emojis.emerald_spinn + ctx.l.help.n.economy), value=f"`{p}help econ`"
+            )
+            embed.add_field(
+                name=(self.d.emojis.bounce + " " + ctx.l.help.n.minecraft), value=f"`{p}help mc`"
+            )
+            embed.add_field(
+                name=(self.d.emojis.anichest + ctx.l.help.n.utility), value=f"`{p}help util`"
+            )
 
-            embed.add_field(name=(self.d.emojis.rainbow_shep + ctx.l.help.n.fun), value=f"`{p}help fun`")
-            embed.add_field(name=(self.d.emojis.netherite_sword_ench + ctx.l.help.n.admin), value=f"`{p}help admin`")
+            embed.add_field(
+                name=(self.d.emojis.rainbow_shep + ctx.l.help.n.fun), value=f"`{p}help fun`"
+            )
+            embed.add_field(
+                name=(self.d.emojis.netherite_sword_ench + ctx.l.help.n.admin),
+                value=f"`{p}help admin`",
+            )
             embed.add_field(
                 name=(self.d.emojis.heart_spin + ctx.l.help.main.support),
                 value=f"**[{ctx.l.help.main.clickme}]({self.d.support})**",
             )
 
             embed.set_footer(
-                text=ctx.l.useful.credits.foot.format(ctx.prefix) + "  |  " + ctx.l.useful.rules.slashrules.format(ctx.prefix)
+                text=ctx.l.useful.credits.foot.format(ctx.prefix)
+                + "  |  "
+                + ctx.l.useful.rules.slashrules.format(ctx.prefix)
             )
 
             await ctx.reply(embed=embed, mention_author=False)
@@ -134,7 +155,9 @@ class Useful(commands.Cog):
     async def help_economy(self, ctx: Ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.economy}]", icon_url=self.d.splash_logo)
+        embed.set_author(
+            name=f"{ctx.l.help.n.title} [{ctx.l.help.n.economy}]", icon_url=self.d.splash_logo
+        )
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         commands_formatted = "`, `".join(list(ctx.l.help.econ))
@@ -146,7 +169,9 @@ class Useful(commands.Cog):
     async def help_minecraft(self, ctx: Ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]", icon_url=self.d.splash_logo)
+        embed.set_author(
+            name=f"{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]", icon_url=self.d.splash_logo
+        )
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         commands_formatted = "`, `".join(list(ctx.l.help.mc))
@@ -158,7 +183,9 @@ class Useful(commands.Cog):
     async def help_utility(self, ctx: Ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.utility}]", icon_url=self.d.splash_logo)
+        embed.set_author(
+            name=f"{ctx.l.help.n.title} [{ctx.l.help.n.utility}]", icon_url=self.d.splash_logo
+        )
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         commands_formatted = "`, `".join(list(ctx.l.help.util))
@@ -170,7 +197,9 @@ class Useful(commands.Cog):
     async def help_fun(self, ctx: Ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.fun}]", icon_url=self.d.splash_logo)
+        embed.set_author(
+            name=f"{ctx.l.help.n.title} [{ctx.l.help.n.fun}]", icon_url=self.d.splash_logo
+        )
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         commands_formatted = "`, `".join(list(ctx.l.help.fun))
@@ -182,7 +211,9 @@ class Useful(commands.Cog):
     async def help_administrative(self, ctx: Ctx):
         embed = discord.Embed(color=self.d.cc)
 
-        embed.set_author(name=f"{ctx.l.help.n.title} [{ctx.l.help.n.admin}]", icon_url=self.d.splash_logo)
+        embed.set_author(
+            name=f"{ctx.l.help.n.title} [{ctx.l.help.n.admin}]", icon_url=self.d.splash_logo
+        )
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         commands_formatted = "`, `".join(list(ctx.l.help.mod))
@@ -241,7 +272,9 @@ class Useful(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    @commands.command(name="ping", aliases=["pong", "ding", "dong", "bing", "bong", "shing", "shling", "schlong"])
+    @commands.command(
+        name="ping", aliases=["pong", "ding", "dong", "bing", "bong", "shing", "shling", "schlong"]
+    )
     async def ping_pong(self, ctx: Ctx):
         content = ctx.message.content.lower()
 
@@ -263,7 +296,9 @@ class Useful(commands.Cog):
             await ctx.reply_embed(f"{self.d.emojis.aniheart} Magnum Dong! \uFEFF `69.00 ms`")
             return
 
-        await ctx.reply_embed(f"{self.d.emojis.aniheart} {pp}! \uFEFF `{round(self.bot.latency*1000, 2)} ms`")
+        await ctx.reply_embed(
+            f"{self.d.emojis.aniheart} {pp}! \uFEFF `{round(self.bot.latency*1000, 2)} ms`"
+        )
 
     @commands.command(name="vote", aliases=["votelink", "votelinks"])
     async def votelinks(self, ctx: Ctx):
@@ -274,7 +309,10 @@ class Useful(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    @commands.command(name="links", aliases=["invite", "support", "usefullinks", "website", "source", "privacypolicy"])
+    @commands.command(
+        name="links",
+        aliases=["invite", "support", "usefullinks", "website", "source", "privacypolicy"],
+    )
     async def useful_links(self, ctx: Ctx):
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(name="Useful Links", icon_url=self.d.splash_logo)
@@ -295,10 +333,15 @@ class Useful(commands.Cog):
             await ctx.trigger_typing()
 
         uptime_seconds = (arrow.utcnow() - self.bot.start_time).total_seconds()
-        uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
+        uptime = (
+            arrow.utcnow()
+            .shift(seconds=uptime_seconds)
+            .humanize(locale=ctx.l.lang, only_distance=True)
+        )
 
         res, karen_res = await asyncio.gather(
-            self.ipc.broadcast({"type": PacketType.FETCH_STATS}), self.ipc.request({"type": PacketType.FETCH_STATS})
+            self.ipc.broadcast({"type": PacketType.FETCH_STATS}),
+            self.ipc.request({"type": PacketType.FETCH_STATS}),
         )
 
         res.responses.append(karen_res)
@@ -361,7 +404,9 @@ class Useful(commands.Cog):
         db_guild = await self.db.fetch_guild(guild.id)
 
         age = arrow.get(discord.utils.snowflake_time(guild.id))
-        display_age = age.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + age.humanize(locale=ctx.l.lang)
+        display_age = (
+            age.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + age.humanize(locale=ctx.l.lang)
+        )
 
         ban_cache_entry = self.ban_count_cache.get(ctx.guild.id)
         timed_out = False
@@ -394,7 +439,10 @@ class Useful(commands.Cog):
                 asyncio.create_task(update_ban_count_cache(bans))
 
         embed = discord.Embed(color=self.d.cc)
-        embed.set_author(name=f"{guild.name} {ctx.l.useful.ginf.info}", icon_url=getattr(guild.icon, "url", embed.Empty))
+        embed.set_author(
+            name=f"{guild.name} {ctx.l.useful.ginf.info}",
+            icon_url=getattr(guild.icon, "url", embed.Empty),
+        )
 
         embed.description = f"{ctx.l.useful.ginf.age}: `{display_age}`\n{ctx.l.useful.ginf.owner}: {guild.owner.mention}"
 
@@ -442,7 +490,9 @@ class Useful(commands.Cog):
     async def math(self, ctx: Ctx, *, problem):
         async with SuppressCtxManager(ctx.typing()):
             try:
-                resp = await self.aiohttp.get(f"https://api.mathjs.org/v4/?expr={urlquote(problem)}")
+                resp = await self.aiohttp.get(
+                    f"https://api.mathjs.org/v4/?expr={urlquote(problem)}"
+                )
                 await ctx.reply_embed(f"```{float(await resp.text())}```")
             except Exception:
                 await ctx.reply_embed(ctx.l.useful.meth.oops)
@@ -470,7 +520,9 @@ class Useful(commands.Cog):
 
         res = res[0]
 
-        embed = discord.Embed(color=self.d.cc, title=res.title, description=res.description, url=res.url)
+        embed = discord.Embed(
+            color=self.d.cc, title=res.title, description=res.description, url=res.url
+        )
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="youtube", aliases=["ytsearch", "yt"])
@@ -520,7 +572,9 @@ class Useful(commands.Cog):
         # iter through results till a suitable image is found
         for res in results:
             image_url: Optional[str]
-            if (image_url := getattr(res, "image_url", None)) and not image_url.startswith("x-raw-image://"):
+            if (image_url := getattr(res, "image_url", None)) and not image_url.startswith(
+                "x-raw-image://"
+            ):
                 try:
                     await ctx.reply(res.image_url, mention_author=False)
                 except discord.HTTPException as e:
@@ -560,7 +614,9 @@ class Useful(commands.Cog):
             rest[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"),
             at.datetime,
         )
-        await ctx.reply_embed(ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang)))
+        await ctx.reply_embed(
+            ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang))
+        )
 
     @commands.command(name="snipe")
     async def snipe_message(self, ctx: Ctx):
@@ -572,7 +628,9 @@ class Useful(commands.Cog):
             snipe, _ = snipe
 
             embed = discord.Embed(color=self.d.cc, description=snipe.content)
-            embed.set_author(name=str(snipe.author), icon_url=getattr(snipe.author.avatar, "url", embed.Empty))
+            embed.set_author(
+                name=str(snipe.author), icon_url=getattr(snipe.author.avatar, "url", embed.Empty)
+            )
             embed.timestamp = snipe.created_at
 
             await ctx.send(embed=embed)
@@ -624,21 +682,30 @@ class Useful(commands.Cog):
                 # download audio and video to temp directory and stitch them together
                 try:
                     progress_msg = await ctx.reply(
-                        ctx.l.useful.redditdl.downloading.format(self.d.emojis.aniloading), mention_author=False
+                        ctx.l.useful.redditdl.downloading.format(self.d.emojis.aniloading),
+                        mention_author=False,
                     )
                     asyncio.create_task(ctx.trigger_typing())
 
                     # stream download video to file
-                    async with self.aiohttp.get(video_url) as res, aiofiles.open(video_fname, mode="wb") as f:
+                    async with self.aiohttp.get(video_url) as res, aiofiles.open(
+                        video_fname, mode="wb"
+                    ) as f:
                         async for data_chunk in res.content.iter_any():
                             await f.write(data_chunk)
 
                     # stream download audio to file
-                    async with self.aiohttp.get(audio_url) as res, aiofiles.open(audio_fname, mode="wb") as f:
+                    async with self.aiohttp.get(audio_url) as res, aiofiles.open(
+                        audio_fname, mode="wb"
+                    ) as f:
                         async for data_chunk in res.content.iter_any():
                             await f.write(data_chunk)
 
-                    asyncio.create_task(progress_msg.edit(ctx.l.useful.redditdl.stitching.format(self.d.emojis.aniloading)))
+                    asyncio.create_task(
+                        progress_msg.edit(
+                            ctx.l.useful.redditdl.stitching.format(self.d.emojis.aniloading)
+                        )
+                    )
 
                     # resize video, stitch video and audio together, then save to file
                     def _ffmpeg_operations():
@@ -647,21 +714,31 @@ class Useful(commands.Cog):
                             .resize(0.5)
                             .set_audio(moviepy.editor.AudioFileClip(audio_fname))
                         )
-                        video.write_videofile(final_fname, logger=None, threads=4, fps=min(video.fps or 25, 25))
+                        video.write_videofile(
+                            final_fname, logger=None, threads=4, fps=min(video.fps or 25, 25)
+                        )
 
                     await asyncio.get_event_loop().run_in_executor(self.bot.tp, _ffmpeg_operations)
 
                     await progress_msg.delete()
 
                     discord_file = discord.File(
-                        final_fname, filename=f"vb_reddit_save_{post['name']}.mp4", description=post["title"]
+                        final_fname,
+                        filename=f"vb_reddit_save_{post['name']}.mp4",
+                        description=post["title"],
                     )
                     await ctx.reply(file=discord_file)
                     return
                 finally:
-                    await asyncio.get_event_loop().run_in_executor(self.bot.tp, os.remove, video_fname)
-                    await asyncio.get_event_loop().run_in_executor(self.bot.tp, os.remove, audio_fname)
-                    await asyncio.get_event_loop().run_in_executor(self.bot.tp, os.remove, final_fname)
+                    await asyncio.get_event_loop().run_in_executor(
+                        self.bot.tp, os.remove, video_fname
+                    )
+                    await asyncio.get_event_loop().run_in_executor(
+                        self.bot.tp, os.remove, audio_fname
+                    )
+                    await asyncio.get_event_loop().run_in_executor(
+                        self.bot.tp, os.remove, final_fname
+                    )
 
             # try to get image/gif/whatever from preview info
             if preview_media := post.get("preview", {}).get("images"):

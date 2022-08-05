@@ -32,7 +32,9 @@ def recursive_update(obj, new):
         for k, v in new.items():
             obj[k] = recursive_update(obj.get(k, cj.classify({})), v)
     elif isinstance(obj, list) and isinstance(new, list):
-        obj = []  # obj here needs to be reset to zero to avoid weird list issues (see /update command in cogs/cmds/owner.py)
+        obj = (
+            []
+        )  # obj here needs to be reset to zero to avoid weird list issues (see /update command in cogs/cmds/owner.py)
         for i, v in enumerate(new):
             obj.append(recursive_update(obj[i], v) if i < len(obj) else v)
     else:
@@ -58,7 +60,9 @@ async def _attempt_get_username(bot, user_id: int) -> str:
 
     # fall back to other clusters to get username
     if user_name is None:
-        res = await bot.ipc.broadcast({"type": PacketType.EVAL, "code": f"getattr(bot.get_user({user_id}), 'name', None)"})
+        res = await bot.ipc.broadcast(
+            {"type": PacketType.EVAL, "code": f"getattr(bot.get_user({user_id}), 'name', None)"}
+        )
 
         for r in res.responses:
             if not r.success:
@@ -89,8 +93,12 @@ async def _craft_lb(bot, leaderboard: List[asyncpg.Record], row_fstr: str) -> st
     return body + "\uFEFF"
 
 
-async def craft_lbs(bot, global_lb: List[asyncpg.Record], local_lb: List[asyncpg.Record], row_fstr: str) -> Tuple[str, str]:
-    return await asyncio.gather(_craft_lb(bot, global_lb, row_fstr), _craft_lb(bot, local_lb, row_fstr))
+async def craft_lbs(
+    bot, global_lb: List[asyncpg.Record], local_lb: List[asyncpg.Record], row_fstr: str
+) -> Tuple[str, str]:
+    return await asyncio.gather(
+        _craft_lb(bot, global_lb, row_fstr), _craft_lb(bot, local_lb, row_fstr)
+    )
 
 
 # async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):

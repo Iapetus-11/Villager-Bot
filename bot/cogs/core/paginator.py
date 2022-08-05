@@ -18,7 +18,9 @@ class Paginator(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
-    def _create_reaction_check(self, ctx: Ctx, msg: discord.Message) -> Callable[[discord.Reaction, discord.User], bool]:
+    def _create_reaction_check(
+        self, ctx: Ctx, msg: discord.Message
+    ) -> Callable[[discord.Reaction, discord.User], bool]:
         def predicate(r: discord.Reaction, u: discord.User):
             return (str(r.emoji) in NAV_EMOJIS) and ctx.author == u and r.message == msg
 
@@ -31,12 +33,19 @@ class Paginator(commands.Cog):
             embed = await embed
 
         if not isinstance(embed, discord.Embed):
-            raise TypeError(f"{getattr(type(embed), '__qualname__', type(embed))} is not a {discord.Embed.__qualname__}")
+            raise TypeError(
+                f"{getattr(type(embed), '__qualname__', type(embed))} is not a {discord.Embed.__qualname__}"
+            )
 
         return embed
 
     async def paginate_embed(
-        self, ctx: Ctx, get_page: PAGE_EMBED_CALLABLE, *, timeout: float = 60, page_count: Optional[int] = None
+        self,
+        ctx: Ctx,
+        get_page: PAGE_EMBED_CALLABLE,
+        *,
+        timeout: float = 60,
+        page_count: Optional[int] = None,
     ):
         page = 0
         prev_page = 0

@@ -36,7 +36,9 @@ IGNORE = [
 
 class Palette:
     def __init__(self, *, resolution: int = 16, source_dir: str = ".", verbose: bool = False):
-        self.source_dir = source_dir + ("" if source_dir.endswith("/") or source_dir.endswith("\\") else "\\")
+        self.source_dir = source_dir + (
+            "" if source_dir.endswith("/") or source_dir.endswith("\\") else "\\"
+        )
         self.dest_dims = (resolution, resolution)
         self.data = None
         self.verbose = verbose
@@ -47,7 +49,12 @@ class Palette:
 
         image_files = []
 
-        for f in [*filter((lambda file: (file.endswith(".png") or file.endswith(".jpg"))), next(os.walk(self.source_dir))[2])]:
+        for f in [
+            *filter(
+                (lambda file: (file.endswith(".png") or file.endswith(".jpg"))),
+                next(os.walk(self.source_dir))[2],
+            )
+        ]:
             c = False
 
             for i in IGNORE:
@@ -73,7 +80,13 @@ class Palette:
             map_oct.append(res[2])
             palette.update(res[3])
 
-        self.data = {"dims": self.dest_dims, "bi": map_bi, "quad": map_quad, "oct": map_oct, "palette": palette}
+        self.data = {
+            "dims": self.dest_dims,
+            "bi": map_bi,
+            "quad": map_quad,
+            "oct": map_oct,
+            "palette": palette,
+        }
 
         if self.verbose:
             print(f'Done! ({len(self.data["palette"])})')
