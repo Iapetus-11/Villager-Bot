@@ -350,7 +350,9 @@ class Client:
 
 
 class Server:
-    def __init__(self, host: str, port: int, auth: str, packet_handlers: Dict[PacketType, PacketHandler]):
+    def __init__(
+        self, host: str, port: int, auth: str, packet_handlers: Dict[PacketType, PacketHandler]
+    ):
         self.host = host
         self.port = port
 
@@ -411,9 +413,13 @@ class Server:
 
                 if auth == self.auth:
                     authed = True
-                    await stream.write_packet({"type": PacketType.AUTH_RESPONSE, "success": True, "id": packet.id})
+                    await stream.write_packet(
+                        {"type": PacketType.AUTH_RESPONSE, "success": True, "id": packet.id}
+                    )
                 else:
-                    await stream.write_packet({"type": PacketType.AUTH_RESPONSE, "success": False, "id": packet.id})
+                    await stream.write_packet(
+                        {"type": PacketType.AUTH_RESPONSE, "success": False, "id": packet.id}
+                    )
                     self.connections.remove(stream)
                     return
 

@@ -11,7 +11,13 @@ from common.coms.packet_type import PacketType
 
 
 class ComsBase:
-    def __init__(self, host: str, port: int, packet_handlers: dict[PacketType, PacketHandler], logger: logging.Logger):
+    def __init__(
+        self,
+        host: str,
+        port: int,
+        packet_handlers: dict[PacketType, PacketHandler],
+        logger: logging.Logger,
+    ):
         self.host = host
         self.port = port
         self.packet_handlers = packet_handlers
@@ -58,7 +64,9 @@ class ComsBase:
         # check for extra args
         for arg in packet.data.keys():
             if arg not in annos:
-                raise TypeError(f"Packet handler {handler.function.__qualname__} received an extra argument: {arg!r}")
+                raise TypeError(
+                    f"Packet handler {handler.function.__qualname__} received an extra argument: {arg!r}"
+                )
 
         response = await handler(**packet.data)
 

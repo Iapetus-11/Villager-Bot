@@ -73,7 +73,9 @@ class Webhooks(commands.Cog):
         self.server_runner = web.AppRunner(app)
         await self.server_runner.setup()
 
-        self.webhook_server = web.TCPSite(self.server_runner, self.k.topgg_webhook.host, self.k.topgg_webhook.port)
+        self.webhook_server = web.TCPSite(
+            self.server_runner, self.k.topgg_webhook.host, self.k.topgg_webhook.port
+        )
         await self.webhook_server.start()
 
     async def reward(self, user_id, amount, streak=None):
@@ -83,7 +85,9 @@ class Webhooks(commands.Cog):
             with suppress(discord.HTTPException):
                 user = await self.bot.fetch_user(user_id)
 
-        user_str = "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
+        user_str = (
+            "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
+        )
 
         await self.bot.after_ready_ready.wait()
         await self.bot.vote_channel.send(f":tada::tada: **{user_str}** has voted! :tada::tada:")
@@ -101,7 +105,9 @@ class Webhooks(commands.Cog):
                     barrels = int(streak // 32 + 1)
                     await self.db.add_item(user.id, "Barrel", 1024, barrels)
                     await self.bot.send_embed(
-                        user, f"Thanks for voting! You've received {barrels}x **Barrel**!", ignore_exceptions=True
+                        user,
+                        f"Thanks for voting! You've received {barrels}x **Barrel**!",
+                        ignore_exceptions=True,
                     )
                 else:
                     await self.db.balance_add(user_id, amount)
@@ -141,7 +147,9 @@ class Webhooks(commands.Cog):
             if data.isWeekend:
                 amount *= 2
 
-            amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(user_id))
+            amount *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(
+                await self.db.fetch_pickaxe(user_id)
+            )
 
             vote_streak += 1
 
@@ -150,7 +158,9 @@ class Webhooks(commands.Cog):
 
             amount *= min(vote_streak, 5)
 
-            await self.db.update_user(user_id, last_vote=arrow.utcnow().datetime, vote_streak=vote_streak)
+            await self.db.update_user(
+                user_id, last_vote=arrow.utcnow().datetime, vote_streak=vote_streak
+            )
 
         await self.reward(user_id, amount, vote_streak)
 

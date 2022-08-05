@@ -63,7 +63,9 @@ class Econ(commands.Cog):
 
     async def math_problem(self, ctx: Ctx, addition=1):
         # simultaneously updates the value in Karen and retrivies the current value
-        res = await self.ipc.request({"type": PacketType.MINE_COMMAND, "user_id": ctx.author.id, "addition": addition})
+        res = await self.ipc.request(
+            {"type": PacketType.MINE_COMMAND, "user_id": ctx.author.id, "addition": addition}
+        )
         mine_commands = res.current
 
         if mine_commands >= 100:
@@ -72,11 +74,18 @@ class Econ(commands.Cog):
             prob = (prob, str(x + y))
 
             m = await ctx.reply(
-                embed=discord.Embed(color=self.d.cc, description=ctx.l.econ.math_problem.problem.format("process.exit(69)")),
+                embed=discord.Embed(
+                    color=self.d.cc,
+                    description=ctx.l.econ.math_problem.problem.format("process.exit(69)"),
+                ),
                 mention_author=False,
             )
             asyncio.create_task(
-                m.edit(embed=discord.Embed(color=self.d.cc, description=ctx.l.econ.math_problem.problem.format(prob[0])))
+                m.edit(
+                    embed=discord.Embed(
+                        color=self.d.cc, description=ctx.l.econ.math_problem.problem.format(prob[0])
+                    )
+                )
             )
 
             def author_check(m):
@@ -89,7 +98,9 @@ class Econ(commands.Cog):
                 return False
 
             if m.content != prob[1]:
-                await self.bot.reply_embed(m, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no))
+                await self.bot.reply_embed(
+                    m, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no)
+                )
                 return False
 
             await self.ipc.send({"type": PacketType.MINE_COMMANDS_RESET, "user": ctx.author.id})
@@ -120,7 +131,11 @@ class Econ(commands.Cog):
 
         total_wealth = calc_total_wealth(db_user, u_items)
         health_bar = make_health_bar(
-            db_user.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
+            db_user.health,
+            20,
+            self.d.emojis.heart_full,
+            self.d.emojis.heart_half,
+            self.d.emojis.heart_empty,
         )
 
         try:
@@ -146,9 +161,13 @@ class Econ(commands.Cog):
         embed = discord.Embed(color=self.d.cc, description=f"{health_bar}")
         embed.set_author(name=user.display_name, icon_url=getattr(user.avatar, "url", embed.Empty))
 
-        embed.add_field(name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}")
+        embed.add_field(
+            name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}"
+        )
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=ctx.l.econ.pp.mooderalds, value=f"{mooderalds}{self.d.emojis.autistic_emerald}")
+        embed.add_field(
+            name=ctx.l.econ.pp.mooderalds, value=f"{mooderalds}{self.d.emojis.autistic_emerald}"
+        )
 
         embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak or 0))
         embed.add_field(name="\uFEFF", value="\uFEFF")
@@ -191,7 +210,8 @@ class Econ(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc)
         embed.set_author(
-            name=ctx.l.econ.bal.s_emeralds.format(user.display_name), icon_url=getattr(user.avatar, "url", embed.Empty)
+            name=ctx.l.econ.bal.s_emeralds.format(user.display_name),
+            icon_url=getattr(user.avatar, "url", embed.Empty),
         )
 
         embed.description = (
@@ -200,14 +220,19 @@ class Econ(commands.Cog):
             + ctx.l.econ.bal.autistic_emeralds.format(mooderalds, self.d.emojis.autistic_emerald)
         )
 
-        embed.add_field(name=ctx.l.econ.bal.pocket, value=f"{db_user.emeralds}{self.d.emojis.emerald}")
         embed.add_field(
-            name=ctx.l.econ.bal.vault, value=f"{db_user.vault_balance}{self.d.emojis.emerald_block}/{db_user.vault_max}"
+            name=ctx.l.econ.bal.pocket, value=f"{db_user.emeralds}{self.d.emojis.emerald}"
+        )
+        embed.add_field(
+            name=ctx.l.econ.bal.vault,
+            value=f"{db_user.vault_balance}{self.d.emojis.emerald_block}/{db_user.vault_max}",
         )
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    async def inventory_logic(self, ctx: Ctx, user, items: List[Item], cat: str, items_per_page: int = 8):
+    async def inventory_logic(
+        self, ctx: Ctx, user, items: List[Item], cat: str, items_per_page: int = 8
+    ):
         """Logic behind generation of inventory embeds + pagination"""
 
         embed_template = discord.Embed(color=self.d.cc)
@@ -230,8 +255,12 @@ class Econ(commands.Cog):
             except KeyError:
                 pass
 
-        items = sorted(items, key=(lambda item: item.sell_price), reverse=True)  # sort items by sell price
-        items_chunks = [items[i : i + items_per_page] for i in range(0, len(items), items_per_page)]  # split items into chunks
+        items = sorted(
+            items, key=(lambda item: item.sell_price), reverse=True
+        )  # sort items by sell price
+        items_chunks = [
+            items[i : i + items_per_page] for i in range(0, len(items), items_per_page)
+        ]  # split items into chunks
         del items
 
         def get_page(page: int) -> discord.Embed:
@@ -329,7 +358,9 @@ class Econ(commands.Cog):
         combined_cats = self.d.cats.tools + self.d.cats.magic + self.d.cats.fish
         items = [e for e in await self.db.fetch_items(user.id) if e.name not in combined_cats]
 
-        await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.misc, (16 if len(items) > 24 else 8))
+        await self.inventory_logic(
+            ctx, user, items, ctx.l.econ.inv.cats.misc, (16 if len(items) > 24 else 8)
+        )
 
     @inventory.command(name="fish", aliases=["fishes", "fishing", "fishies"])
     async def inventory_fish(self, ctx: Ctx, user: discord.User = None):
@@ -397,7 +428,9 @@ class Econ(commands.Cog):
         await self.db.set_vault(ctx.author.id, db_user.vault_balance + amount, db_user.vault_max)
 
         await ctx.reply_embed(
-            ctx.l.econ.dep.deposited.format(amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald)
+            ctx.l.econ.dep.deposited.format(
+                amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald
+            )
         )
 
     @commands.command(name="withdraw", aliases=["with"])
@@ -433,7 +466,9 @@ class Econ(commands.Cog):
         await self.db.set_vault(ctx.author.id, db_user.vault_balance - amount, db_user.vault_max)
 
         await ctx.reply_embed(
-            ctx.l.econ.withd.withdrew.format(amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald)
+            ctx.l.econ.withd.withdrew.format(
+                amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald
+            )
         )
 
     @commands.group(name="shop", case_insensitive=True)
@@ -453,12 +488,14 @@ class Econ(commands.Cog):
             )
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(
-                name=f"__**{ctx.l.econ.shop.magic.format(self.d.emojis.enchanted_book)}**__", value=f"`{ctx.prefix}shop magic`"
+                name=f"__**{ctx.l.econ.shop.magic.format(self.d.emojis.enchanted_book)}**__",
+                value=f"`{ctx.prefix}shop magic`",
             )
 
             # row 2
             embed.add_field(
-                name=f"__**{ctx.l.econ.shop.other.format(self.d.emojis.totem)}**__", value=f"`{ctx.prefix}shop other`"
+                name=f"__**{ctx.l.econ.shop.other.format(self.d.emojis.totem)}**__",
+                value=f"`{ctx.prefix}shop other`",
             )
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(
@@ -506,31 +543,41 @@ class Econ(commands.Cog):
     async def shop_tools(self, ctx: Ctx):
         """Allows you to shop for tools"""
 
-        await self.shop_logic(ctx, "tools", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.tools[3:]}]")
+        await self.shop_logic(
+            ctx, "tools", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.tools[3:]}]"
+        )
 
     @shop.command(name="magic")
     async def shop_magic(self, ctx: Ctx):
         """Allows you to shop for magic items"""
 
-        await self.shop_logic(ctx, "magic", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic[3:]}]")
+        await self.shop_logic(
+            ctx, "magic", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic[3:]}]"
+        )
 
     @shop.command(name="farming", aliases=["farm"])
     async def shop_farming(self, ctx: Ctx):
         """Allows you to shop for farming items"""
 
-        await self.shop_logic(ctx, "farming", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.farming[3:]}]")
+        await self.shop_logic(
+            ctx, "farming", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.farming[3:]}]"
+        )
 
     @shop.command(name="other")
     async def shop_other(self, ctx: Ctx):
         """Allows you to shop for other/miscellaneous items"""
 
-        await self.shop_logic(ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other[3:]}]")
+        await self.shop_logic(
+            ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other[3:]}]"
+        )
 
     @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
     async def fish_market(self, ctx: Ctx):
         embed_template = discord.Embed(
             color=self.d.cc,
-            title=ctx.l.econ.fishing.market.title.format(self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout),
+            title=ctx.l.econ.fishing.market.title.format(
+                self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout
+            ),
             description=ctx.l.econ.fishing.market.desc,
         )
 
@@ -542,7 +589,9 @@ class Econ(commands.Cog):
             fields.append(
                 {
                     "name": f"{self.d.emojis.fish[fish_id]} {fish.name}",
-                    "value": ctx.l.econ.fishing.market.current.format(fish.current, self.d.emojis.emerald),
+                    "value": ctx.l.econ.fishing.market.current.format(
+                        fish.current, self.d.emojis.emerald
+                    ),
                 }
             )
 
@@ -634,7 +683,9 @@ class Econ(commands.Cog):
 
             if db_req_item is None or db_req_item.amount < req_amount:
                 await ctx.reply_embed(
-                    ctx.l.econ.buy.need_total_of.format(req_amount, req_item, self.d.emojis[self.d.emoji_items[req_item]])
+                    ctx.l.econ.buy.need_total_of.format(
+                        req_amount, req_item, self.d.emojis[self.d.emoji_items[req_item]]
+                    )
                 )
                 return
 
@@ -649,17 +700,30 @@ class Econ(commands.Cog):
             sellable = False
 
         await self.db.add_item(
-            ctx.author.id, shop_item.db_entry[0], shop_item.db_entry[1], amount, shop_item.db_entry[2], sellable=sellable
+            ctx.author.id,
+            shop_item.db_entry[0],
+            shop_item.db_entry[1],
+            amount,
+            shop_item.db_entry[2],
+            sellable=sellable,
         )
 
-        if shop_item.db_entry[0].endswith("Pickaxe") or shop_item.db_entry[0] == "Bane Of Pillagers Amulet":
-            await self.ipc.broadcast({"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id})
+        if (
+            shop_item.db_entry[0].endswith("Pickaxe")
+            or shop_item.db_entry[0] == "Bane Of Pillagers Amulet"
+        ):
+            await self.ipc.broadcast(
+                {"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id}
+            )
         elif shop_item.db_entry[0] == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
 
         await ctx.reply_embed(
             ctx.l.econ.buy.you_done_bought.format(
-                amount, shop_item.db_entry[0], format_required(self.d, shop_item, amount), amount + db_item_count
+                amount,
+                shop_item.db_entry[0],
+                format_required(self.d, shop_item, amount),
+                amount + db_item_count,
             ),
         )
 
@@ -721,10 +785,14 @@ class Econ(commands.Cog):
         await self.db.update_lb(ctx.author.id, "week_emeralds", amount * db_item.sell_price)
 
         if db_item.name.endswith("Pickaxe") or db_item.name == "Bane Of Pillagers Amulet":
-            await self.ipc.broadcast({"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id})
+            await self.ipc.broadcast(
+                {"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id}
+            )
 
         await ctx.reply_embed(
-            ctx.l.econ.sell.you_done_sold.format(amount, db_item.name, amount * db_item.sell_price, self.d.emojis.emerald),
+            ctx.l.econ.sell.you_done_sold.format(
+                amount, db_item.name, amount * db_item.sell_price, self.d.emojis.emerald
+            ),
         )
 
     @commands.command(name="give", aliases=["gift", "share", "g", "gib", "trade"])
@@ -779,15 +847,22 @@ class Econ(commands.Cog):
 
             await self.db.balance_sub(ctx.author.id, amount)
             await self.db.balance_add(victim.id, amount)
-            await self.db.log_transaction("emerald", amount, arrow.utcnow().datetime, ctx.author.id, victim.id)
+            await self.db.log_transaction(
+                "emerald", amount, arrow.utcnow().datetime, ctx.author.id, victim.id
+            )
 
             await ctx.reply_embed(
-                ctx.l.econ.give.gaveems.format(ctx.author.mention, amount, self.d.emojis.emerald, victim.mention)
+                ctx.l.econ.give.gaveems.format(
+                    ctx.author.mention, amount, self.d.emojis.emerald, victim.mention
+                )
             )
 
             if (await self.db.fetch_user(victim.id)).give_alert:
                 await self.bot.send_embed(
-                    victim, ctx.l.econ.give.gaveyouems.format(ctx.author.mention, amount, self.d.emojis.emerald)
+                    victim,
+                    ctx.l.econ.give.gaveyouems.format(
+                        ctx.author.mention, amount, self.d.emojis.emerald
+                    ),
                 )
         else:
             db_item = await self.db.fetch_item(ctx.author.id, item)
@@ -807,10 +882,16 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, item, amount)
             await self.db.add_item(victim.id, db_item.name, db_item.sell_price, amount)
             self.bot.loop.create_task(
-                self.db.log_transaction(db_item.name, amount, arrow.utcnow().datetime, ctx.author.id, victim.id)
+                self.db.log_transaction(
+                    db_item.name, amount, arrow.utcnow().datetime, ctx.author.id, victim.id
+                )
             )
 
-            await ctx.reply_embed(ctx.l.econ.give.gave.format(ctx.author.mention, amount, db_item.name, victim.mention))
+            await ctx.reply_embed(
+                ctx.l.econ.give.gave.format(
+                    ctx.author.mention, amount, db_item.name, victim.mention
+                )
+            )
 
             if (await self.db.fetch_user(victim.id)).give_alert:
                 await self.bot.send_embed(
@@ -862,9 +943,12 @@ class Econ(commands.Cog):
             multi = (
                 40
                 + random.randint(5, 30)
-                + (await self.db.fetch_item(ctx.author.id, "Bane Of Pillagers Amulet") is not None) * 20
+                + (await self.db.fetch_item(ctx.author.id, "Bane Of Pillagers Amulet") is not None)
+                * 20
             )
-            multi += (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) * 40
+            multi += (
+                await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None
+            ) * 40
             multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
             multi /= 100
 
@@ -873,7 +957,9 @@ class Econ(commands.Cog):
 
             await self.db.balance_add(ctx.author.id, won)
             await ctx.reply_embed(
-                ctx.l.econ.gamble.win.format(random.choice(ctx.l.econ.gamble.actions), won, self.d.emojis.emerald)
+                ctx.l.econ.gamble.win.format(
+                    random.choice(ctx.l.econ.gamble.actions), won, self.d.emojis.emerald
+                )
             )
         elif u_roll < b_roll:
             await self.db.balance_sub(ctx.author.id, amount)
@@ -896,7 +982,9 @@ class Econ(commands.Cog):
                 mooderalds = random.randint(1, 3)
                 await self.db.add_item(ctx.author.id, "Mooderald", 768, mooderalds, True)
                 await ctx.reply_embed(
-                    random.choice(ctx.l.econ.beg.mooderald).format(f"{mooderalds}{self.d.emojis.autistic_emerald}")
+                    random.choice(ctx.l.econ.beg.mooderald).format(
+                        f"{mooderalds}{self.d.emojis.autistic_emerald}"
+                    )
                 )
             else:  # give em emeralds
                 amount = 9 + math.ceil(math.log(db_user.emeralds + 1, 1.5)) + random.randint(1, 5)
@@ -904,9 +992,15 @@ class Econ(commands.Cog):
 
                 await self.db.balance_add(ctx.author.id, amount)
 
-                await ctx.reply_embed(random.choice(ctx.l.econ.beg.positive).format(f"{amount}{self.d.emojis.emerald}"))
+                await ctx.reply_embed(
+                    random.choice(ctx.l.econ.beg.positive).format(
+                        f"{amount}{self.d.emojis.emerald}"
+                    )
+                )
         else:  # user loses emeralds
-            amount = 9 + math.ceil(math.log(db_user.emeralds + 1, 1.3)) + random.randint(1, 5)  # ah yes, meth
+            amount = (
+                9 + math.ceil(math.log(db_user.emeralds + 1, 1.3)) + random.randint(1, 5)
+            )  # ah yes, meth
 
             if amount < 1:
                 amount = random.randint(1, 4)
@@ -918,7 +1012,9 @@ class Econ(commands.Cog):
 
             await self.db.balance_sub(ctx.author.id, amount)
 
-            await ctx.reply_embed(random.choice(ctx.l.econ.beg.negative).format(f"{amount}{self.d.emojis.emerald}"))
+            await ctx.reply_embed(
+                random.choice(ctx.l.econ.beg.negative).format(f"{amount}{self.d.emojis.emerald}")
+            )
 
     @commands.command(name="mine", aliases=["mein", "eun", "mien", "m"])
     @commands.guild_only()
@@ -932,7 +1028,9 @@ class Econ(commands.Cog):
 
         # see if user has chugged a luck potion
         lucky = (
-            await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})
+            await self.ipc.request(
+                {"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"}
+            )
         ).is_active
 
         # iterate through items findable via mining
@@ -976,7 +1074,9 @@ class Econ(commands.Cog):
 
             await ctx.reply_embed(
                 f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
-                + ctx.l.econ.mine.found_emeralds.format(random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald),
+                + ctx.l.econ.mine.found_emeralds.format(
+                    random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald
+                ),
             )
         else:
             # only works cause num of pickaxes is 6 and levels of fake finds is 3
@@ -985,7 +1085,9 @@ class Econ(commands.Cog):
             find = random.choice(fake_finds)
             find_amount = random.randint(1, 6)
 
-            await self.db.add_to_trashcan(ctx.author.id, find, self.d.mining.find_values[find], find_amount)
+            await self.db.add_to_trashcan(
+                ctx.author.id, find, self.d.mining.find_values[find], find_amount
+            )
 
             await ctx.reply_embed(
                 f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
@@ -1037,7 +1139,9 @@ class Econ(commands.Cog):
 
         # see if user has chugged a luck potion
         lucky = (
-            await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})
+            await self.ipc.request(
+                {"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"}
+            )
         ).is_active
 
         # determine if user has fished up junk or an item (rather than a fish)
@@ -1065,7 +1169,9 @@ class Econ(commands.Cog):
                     if random.randint(0, (item[2] // 2) + 2) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                         await ctx.reply_embed(
-                            random.choice(ctx.l.econ.fishing.item).format(item[0], item[1], self.d.emojis.emerald),
+                            random.choice(ctx.l.econ.fishing.item).format(
+                                item[0], item[1], self.d.emojis.emerald
+                            ),
                             True,
                         )
                         return
@@ -1074,7 +1180,10 @@ class Econ(commands.Cog):
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish.name, -1, 1)
-        await ctx.reply_embed(random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]), True)
+        await ctx.reply_embed(
+            random.choice(ctx.l.econ.fishing.caught).format(fish.name, self.d.emojis.fish[fish_id]),
+            True,
+        )
 
         await self.db.update_lb(ctx.author.id, "fish_fished", 1, "add")
 
@@ -1117,7 +1226,9 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
-        p_res = await self.ipc.request({"type": PacketType.PILLAGE, "pillager": ctx.author.id, "victim": victim.id})
+        p_res = await self.ipc.request(
+            {"type": PacketType.PILLAGE, "pillager": ctx.author.id, "victim": victim.id}
+        )
         pillager_pillages = p_res["pillager"]
         victim_pillages = p_res["victim"]
 
@@ -1136,7 +1247,9 @@ class Econ(commands.Cog):
         else:
             chances = [True, False]
 
-        pillager_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(ctx.author.id)).lower())
+        pillager_sword_lvl = self.d.sword_list.index(
+            (await self.db.fetch_sword(ctx.author.id)).lower()
+        )
         victim_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(victim.id)).lower())
 
         if pillager_sword_lvl > victim_sword_lvl:
@@ -1150,7 +1263,10 @@ class Econ(commands.Cog):
             # calculate base stolen value
             stolen = math.ceil(db_victim.emeralds * (random.randint(10, 40) / 100))
             # calculate and implement cap based off pillager's balance
-            stolen = min(stolen, math.ceil(db_user.emeralds**1.1 + db_user.emeralds * 5) + random.randint(1, 10))
+            stolen = min(
+                stolen,
+                math.ceil(db_user.emeralds**1.1 + db_user.emeralds * 5) + random.randint(1, 10),
+            )
 
             # 8% tax to prevent exploitation of pillaging leaderboard
             adjusted = math.ceil(stolen * 0.92)
@@ -1160,10 +1276,14 @@ class Econ(commands.Cog):
 
             await self.db.update_lb(ctx.author.id, "week_emeralds", adjusted)
 
-            await ctx.reply_embed(random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald))
+            await ctx.reply_embed(
+                random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald)
+            )
             await self.bot.send_embed(
                 victim,
-                random.choice(ctx.l.econ.pillage.u_win.victim).format(ctx.author.mention, stolen, self.d.emojis.emerald),
+                random.choice(ctx.l.econ.pillage.u_win.victim).format(
+                    ctx.author.mention, stolen, self.d.emojis.emerald
+                ),
             )
 
             await self.db.update_lb(ctx.author.id, "pillaged_emeralds", adjusted, "add")
@@ -1173,8 +1293,12 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, penalty)
             await self.db.balance_add(victim.id, penalty)
 
-            await ctx.reply_embed(random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald))
-            await self.bot.send_embed(victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention))
+            await ctx.reply_embed(
+                random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald)
+            )
+            await self.bot.send_embed(
+                victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention)
+            )
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
     # @commands.cooldown(1, 1, commands.BucketType.user)
@@ -1198,7 +1322,9 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.use.stupid_4)
             return
 
-        active_effects = await self.ipc.request({"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id})
+        active_effects = await self.ipc.request(
+            {"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id}
+        )
 
         if thing in active_effects:
             await ctx.reply_embed(ctx.l.econ.use.stupid_1)
@@ -1220,13 +1346,21 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.send({"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Haste I Potion"})
+            await self.ipc.send(
+                {"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Haste I Potion"}
+            )
             await ctx.reply_embed(ctx.l.econ.use.chug.format("Haste I Potion", 6))
 
             await asyncio.sleep(60 * 6)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Haste I Potion"))
-            await self.ipc.send({"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Haste I Potion"})
+            await self.ipc.send(
+                {
+                    "type": PacketType.ACTIVE_FX_REMOVE,
+                    "user_id": ctx.author.id,
+                    "fx": "Haste I Potion",
+                }
+            )
             return
 
         if thing == "haste ii potion":
@@ -1235,13 +1369,25 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.send({"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Haste II Potion"})
+            await self.ipc.send(
+                {
+                    "type": PacketType.ACTIVE_FX_ADD,
+                    "user_id": ctx.author.id,
+                    "fx": "Haste II Potion",
+                }
+            )
             await ctx.reply_embed(ctx.l.econ.use.chug.format("Haste II Potion", 4.5))
 
             await asyncio.sleep(60 * 4.5)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Haste II Potion"))
-            await self.ipc.send({"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Haste II Potion"})
+            await self.ipc.send(
+                {
+                    "type": PacketType.ACTIVE_FX_REMOVE,
+                    "user_id": ctx.author.id,
+                    "fx": "Haste II Potion",
+                }
+            )
             return
 
         if thing == "bone meal":
@@ -1262,13 +1408,17 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.send({"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Luck Potion"})
+            await self.ipc.send(
+                {"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Luck Potion"}
+            )
             await ctx.reply_embed(ctx.l.econ.use.chug.format("Luck Potion", 4.5))
 
             await asyncio.sleep(60 * 4.5)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Luck Potion"))
-            await self.ipc.send({"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Luck Potion"})
+            await self.ipc.send(
+                {"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Luck Potion"}
+            )
             return
 
         if thing == "seaweed":
@@ -1277,13 +1427,17 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.send({"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Seaweed"})
+            await self.ipc.send(
+                {"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Seaweed"}
+            )
             await ctx.reply_embed(ctx.l.econ.use.smoke_seaweed.format(30))
 
             await asyncio.sleep(60 * 30)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.seaweed_done)
-            await self.ipc.send({"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Seaweed"})
+            await self.ipc.send(
+                {"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Seaweed"}
+            )
             return
 
         if thing == "vault potion":
@@ -1323,7 +1477,9 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
 
             new_health = amount + db_user.health
-            await ctx.reply_embed(ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
+            await ctx.reply_embed(
+                ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full)
+            )
 
             return
 
@@ -1339,7 +1495,9 @@ class Econ(commands.Cog):
                     if random.randint(0, (item[2] // 2) + 2) == 1:
                         await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                         await ctx.reply_embed(
-                            random.choice(ctx.l.econ.use.present).format(item[0], item[1], self.d.emojis.emerald)
+                            random.choice(ctx.l.econ.use.present).format(
+                                item[0], item[1], self.d.emojis.emerald
+                            )
                         )
 
                         return
@@ -1357,7 +1515,9 @@ class Econ(commands.Cog):
                         if random.randint(0, (item[2] // 1.5) + 5) == 1:
                             await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
                             await ctx.reply_embed(
-                                random.choice(ctx.l.econ.use.barrel_item).format(item[0], item[1], self.d.emojis.emerald)
+                                random.choice(ctx.l.econ.use.barrel_item).format(
+                                    item[0], item[1], self.d.emojis.emerald
+                                )
                             )
 
                             return
@@ -1372,7 +1532,9 @@ class Econ(commands.Cog):
 
             await self.db.update_lb(ctx.author.id, "week_emeralds", ems)
 
-            await ctx.reply_embed(random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald))
+            await ctx.reply_embed(
+                random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald)
+            )
             return
 
         if thing == "glass beaker":
@@ -1402,7 +1564,9 @@ class Econ(commands.Cog):
 
         await ctx.reply_embed(ctx.l.econ.use.stupid_6)
 
-    @commands.command(name="honey", aliases=["harvesthoney", "horny"])  # ~~a strange urge occurs in me~~
+    @commands.command(
+        name="honey", aliases=["harvesthoney", "horny"]
+    )  # ~~a strange urge occurs in me~~
     # @commands.cooldown(1, 24 * 60 * 60, commands.BucketType.user)
     async def honey(self, ctx: Ctx):
         bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
@@ -1427,7 +1591,9 @@ class Econ(commands.Cog):
 
         # see if user has chugged a luck potion
         lucky = (
-            await self.ipc.request({"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"})
+            await self.ipc.request(
+                {"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"}
+            )
         ).is_active
 
         if not lucky and random.choice([False] * 3 + [True]):
@@ -1437,7 +1603,9 @@ class Econ(commands.Cog):
 
             await ctx.reply_embed(random.choice(ctx.l.econ.honey.ded).format(bees_lost))
 
-    @commands.group(name="leaderboards", aliases=["lb", "lbs", "leaderboard"], case_insensitive=True)
+    @commands.group(
+        name="leaderboards", aliases=["lb", "lbs", "leaderboard"], case_insensitive=True
+    )
     @commands.guild_only()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
@@ -1448,35 +1616,63 @@ class Econ(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
 
-        embed.add_field(name=f"{ctx.l.econ.lb.emeralds} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard emeralds`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.emeralds} {self.d.emojis.emerald}",
+            value=f"`{ctx.prefix}leaderboard emeralds`",
+        )
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(
             name=f"{ctx.l.econ.lb.mooderalds} {self.d.emojis.autistic_emerald}",
             value=f"`{ctx.prefix}leaderboard mooderalds`",
         )
 
-        embed.add_field(name=f"{ctx.l.econ.lb.kills} {self.d.emojis.stevegun}", value=f"`{ctx.prefix}leaderboard mobkills`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.kills} {self.d.emojis.stevegun}",
+            value=f"`{ctx.prefix}leaderboard mobkills`",
+        )
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=f"{ctx.l.econ.lb.stolen} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard stolen`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.stolen} {self.d.emojis.emerald}",
+            value=f"`{ctx.prefix}leaderboard stolen`",
+        )
 
-        embed.add_field(name=f"{ctx.l.econ.lb.bees} {self.d.emojis.bee}", value=f"`{ctx.prefix}leaderboard bees`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.bees} {self.d.emojis.bee}",
+            value=f"`{ctx.prefix}leaderboard bees`",
+        )
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=f"{ctx.l.econ.lb.fish} {self.d.emojis.fish.cod}", value=f"`{ctx.prefix}leaderboard fish`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.fish} {self.d.emojis.fish.cod}",
+            value=f"`{ctx.prefix}leaderboard fish`",
+        )
 
-        embed.add_field(name=f"{ctx.l.econ.lb.votes} {self.d.emojis.updoot}", value=f"`{ctx.prefix}leaderboard votes`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.votes} {self.d.emojis.updoot}",
+            value=f"`{ctx.prefix}leaderboard votes`",
+        )
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=f"{ctx.l.econ.lb.cmds} :keyboard:", value=f"`{ctx.prefix}leaderboard commands`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.cmds} :keyboard:", value=f"`{ctx.prefix}leaderboard commands`"
+        )
 
         embed.add_field(
             name=f"{ctx.l.econ.lb.farming} {self.d.emojis.farming.normal.wheat}",
             value=f"`{ctx.prefix}leaderboard farming`",
         )
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=f"{ctx.l.econ.lb.trash} {self.d.emojis.diamond}", value=f"`{ctx.prefix}leaderboard trash`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.trash} {self.d.emojis.diamond}",
+            value=f"`{ctx.prefix}leaderboard trash`",
+        )
 
-        embed.add_field(name=f"{ctx.l.econ.lb.wems} {self.d.emojis.emerald}", value=f"`{ctx.prefix}leaderboard wems`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.wems} {self.d.emojis.emerald}",
+            value=f"`{ctx.prefix}leaderboard wems`",
+        )
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=f"{ctx.l.econ.lb.wcmds} :keyboard:", value=f"`{ctx.prefix}leaderboard wcmds`")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.wcmds} :keyboard:", value=f"`{ctx.prefix}leaderboard wcmds`"
+        )
 
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -1492,7 +1688,9 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn))
+        embed = discord.Embed(
+            color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn)
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1510,7 +1708,9 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald))
+        embed = discord.Embed(
+            color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald)
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=global_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=local_lb_str)
 
@@ -1528,7 +1728,9 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.stevegun} {{}}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun))
+        embed = discord.Embed(
+            color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun)
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1546,7 +1748,9 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.bee} {{}}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee))
+        embed = discord.Embed(
+            color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee)
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1556,9 +1760,13 @@ class Econ(commands.Cog):
     async def leaderboard_commands(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb("commands", ctx.author.id)
-            local_lb = await self.db.fetch_local_lb("commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot])
+            local_lb = await self.db.fetch_local_lb(
+                "commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
+            )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
@@ -1596,7 +1804,9 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.fish.cod} {{}}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout))
+        embed = discord.Embed(
+            color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout)
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1611,10 +1821,15 @@ class Econ(commands.Cog):
             )
 
             global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.autistic_emerald} {{}}"
+                self.bot,
+                global_lb,
+                local_lb,
+                f"\n`{{}}.` **{{}}**{self.d.emojis.autistic_emerald} {{}}",
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald))
+        embed = discord.Embed(
+            color=self.d.cc, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald)
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1629,11 +1844,15 @@ class Econ(commands.Cog):
             )
 
             global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds.wheat} {{}}"
+                self.bot,
+                global_lb,
+                local_lb,
+                f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds.wheat} {{}}",
             )
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal.wheat} ")
+            color=self.d.cc,
+            title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal.wheat} "),
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1652,7 +1871,9 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.diamond} {{}}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} "))
+        embed = discord.Embed(
+            color=self.d.cc, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} ")
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1670,7 +1891,9 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.emerald} {{}}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} "))
+        embed = discord.Embed(
+            color=self.d.cc, title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} ")
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1684,7 +1907,9 @@ class Econ(commands.Cog):
                 "week_commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}")
+            global_lb_str, local_lb_str = await craft_lbs(
+                self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
+            )
 
         embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wcmds.format(f" :keyboard: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
@@ -1704,11 +1929,12 @@ class Econ(commands.Cog):
 
         max_plots = self.d.farming.max_plots[await self.db.fetch_hoe(ctx.author.id)]
 
-        emojis = [emojify_crop(self.d, r["crop_type"]) for r in db_farm_plots] + [emojify_crop(self.d, "dirt")] * (
-            max_plots - len(db_farm_plots)
-        )
+        emojis = [emojify_crop(self.d, r["crop_type"]) for r in db_farm_plots] + [
+            emojify_crop(self.d, "dirt")
+        ] * (max_plots - len(db_farm_plots))
         emoji_farm = "> " + "\n> ".join(
-            "".join(r[::-1]) for r in zip(*[emojis[i : i + 5] for i in range(0, len(emojis), 5)][::-1])
+            "".join(r[::-1])
+            for r in zip(*[emojis[i : i + 5] for i in range(0, len(emojis), 5)][::-1])
         )
 
         embed = discord.Embed(color=self.d.cc)
@@ -1722,7 +1948,11 @@ class Econ(commands.Cog):
             value="\n".join(c.format(prefix=ctx.prefix) for c in ctx.l.econ.farm.commands.values()),
         )
 
-        embed.description = emoji_farm + "\n\n" + ctx.l.econ.farm.available.format(available=available, max=len(db_farm_plots))
+        embed.description = (
+            emoji_farm
+            + "\n\n"
+            + ctx.l.econ.farm.available.format(available=available, max=len(db_farm_plots))
+        )
 
         await ctx.send(embed=embed)
 
@@ -1778,7 +2008,9 @@ class Econ(commands.Cog):
         await self.db.add_farm_plot(ctx.author.id, crop_type, amount)
 
         await ctx.reply_embed(
-            ctx.l.econ.farm.planted.format(amount=amount, crop=emojify_item(self.d, self.d.farming.name_map[crop_type]))
+            ctx.l.econ.farm.planted.format(
+                amount=amount, crop=emojify_item(self.d, self.d.farming.name_map[crop_type])
+            )
         )
 
     @farm.command(name="harvest", aliases=["h"])
@@ -1799,7 +2031,9 @@ class Econ(commands.Cog):
         for r in records:
             # amount of crop harvested
             crop_type_yield = self.d.farming.crop_yields[r["crop_type"]]
-            amount = sum(random.randint(*crop_type_yield) for _ in range(r["count"])) + random.randint(0, extra_yield_limit)
+            amount = sum(
+                random.randint(*crop_type_yield) for _ in range(r["count"])
+            ) + random.randint(0, extra_yield_limit)
 
             await self.db.add_item(
                 ctx.author.id,
@@ -1811,7 +2045,10 @@ class Econ(commands.Cog):
             amounts_harvested[r["crop_type"]] += amount
 
         harvest_str = ", ".join(
-            [f"{amount} {self.d.emojis.farming.normal[crop_type]}" for crop_type, amount in amounts_harvested.items()]
+            [
+                f"{amount} {self.d.emojis.farming.normal[crop_type]}"
+                for crop_type, amount in amounts_harvested.items()
+            ]
         )
 
         await ctx.reply_embed(ctx.l.econ.farm.harvested.format(crops=harvest_str))
@@ -1841,11 +2078,15 @@ class Econ(commands.Cog):
             )
 
             total_ems = sum([float(item["amount"]) * item["value"] for item in items])
-            total_ems *= (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) + 1
+            total_ems *= (
+                await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None
+            ) + 1
             total_ems *= (await self.db.fetch_item(ctx.author.id, "Recycler") is not None) + 1
 
             embed.description = (
-                ctx.l.econ.trash.total_contents.format(ems=round(total_ems, 2), ems_emoji=self.d.emojis.emerald)
+                ctx.l.econ.trash.total_contents.format(
+                    ems=round(total_ems, 2), ems_emoji=self.d.emojis.emerald
+                )
                 + f"\n\n{items_formatted}\n\n"
                 + ctx.l.econ.trash.how_to_empty.format(prefix=ctx.prefix)
             )
@@ -1865,7 +2106,9 @@ class Econ(commands.Cog):
         await self.db.update_lb(ctx.author.id, "trash_emptied", amount)
         await self.db.update_lb(ctx.author.id, "week_emeralds", total_ems)
 
-        await ctx.reply_embed(ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald))
+        await ctx.reply_embed(
+            ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald)
+        )
 
     @commands.command(name="fight", aliases=["battle"])
     @commands.guild_only()
@@ -1880,9 +2123,12 @@ class Econ(commands.Cog):
             color=self.d.cc,
             description=f"*React with {self.d.emojis.netherite_sword} to fight!*",
         )
-        embed.set_author(name=f"{user_1.display_name} wants to fight!", icon_url=user_1.display_avatar.url)
+        embed.set_author(
+            name=f"{user_1.display_name} wants to fight!", icon_url=user_1.display_avatar.url
+        )
         embed.set_footer(
-            text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo
+            text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)",
+            icon_url=self.d.splash_logo,
         )
         msg = await ctx.send(embed=embed)
         await msg.add_reaction(self.d.emojis.netherite_sword)
@@ -1893,12 +2139,18 @@ class Econ(commands.Cog):
             _, user_2 = await self.bot.wait_for(
                 "reaction_add",
                 check=(
-                    lambda r, u: str(r.emoji) == self.d.emojis.netherite_sword and not u.bot and (u != user_1 or DUMMY_TRUE)
+                    lambda r, u: str(r.emoji) == self.d.emojis.netherite_sword
+                    and not u.bot
+                    and (u != user_1 or DUMMY_TRUE)
                 ),
                 timeout=60,
             )
         except asyncio.TimeoutError:
-            await msg.edit(embed=discord.Embed(color=self.d.cc, description="Timed-out waiting for a reaction."))
+            await msg.edit(
+                embed=discord.Embed(
+                    color=self.d.cc, description="Timed-out waiting for a reaction."
+                )
+            )
             await msg.remove_reaction(self.d.emojis.netherite_sword, ctx.me)
             return
 
@@ -1948,7 +2200,8 @@ class Econ(commands.Cog):
                 value=f"{db_user_2.health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{jar_of_bees_emoji}",
             )
             embed.set_footer(
-                text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)", icon_url=self.d.splash_logo
+                text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)",
+                icon_url=self.d.splash_logo,
             )
             msg = await msg.edit(embed=embed)
             await reactions_task
@@ -1963,7 +2216,9 @@ class Econ(commands.Cog):
                 db_u = await self.db.fetch_user(u.id)
 
                 if db_u.emeralds < 5:
-                    await ctx.send(f"{u.mention} you need at least 5 emeralds in your pocket to bet!")
+                    await ctx.send(
+                        f"{u.mention} you need at least 5 emeralds in your pocket to bet!"
+                    )
                     return
 
                 e = str(r.emoji)
@@ -1998,7 +2253,8 @@ class Econ(commands.Cog):
                             "reaction_add",
                             check=(
                                 lambda r, u: (u not in {user_1, user_2} or DUMMY_TRUE)
-                                and str(r.emoji) in {self.d.emojis.numbers[1], self.d.emojis.numbers[2]}
+                                and str(r.emoji)
+                                in {self.d.emojis.numbers[1], self.d.emojis.numbers[2]}
                                 and not u.bot
                             ),
                             timeout=(15 - (arrow.utcnow() - started_at).total_seconds()),
@@ -2021,13 +2277,21 @@ class Econ(commands.Cog):
                 embed.add_field(
                     name=user_1.display_name,
                     value=make_health_bar(
-                        db_user_1.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
+                        db_user_1.health,
+                        20,
+                        self.d.emojis.heart_full,
+                        self.d.emojis.heart_half,
+                        self.d.emojis.heart_empty,
                     ),
                 )
                 embed.add_field(
                     name=user_2.display_name,
                     value=make_health_bar(
-                        db_user_1.health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
+                        db_user_1.health,
+                        20,
+                        self.d.emojis.heart_full,
+                        self.d.emojis.heart_half,
+                        self.d.emojis.heart_empty,
                     ),
                 )
 

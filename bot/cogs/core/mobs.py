@@ -99,7 +99,9 @@ class MobSpawner(commands.Cog):
 
         # type of mob to be spawned
         mob_key = random.choice(tuple(self.d.mobs_mech.mobs))
-        mob = cj.classify({**self.d.mobs_mech.mobs[mob_key].copy(), **ctx.l.mobs_mech.mobs[mob_key]})
+        mob = cj.classify(
+            {**self.d.mobs_mech.mobs[mob_key].copy(), **ctx.l.mobs_mech.mobs[mob_key]}
+        )
         mob_max_health = mob.health
 
         await asyncio.sleep(random.random() * 3)
@@ -126,7 +128,9 @@ class MobSpawner(commands.Cog):
 
             user = initial_attack_msg.author
 
-            if (await self.ipc.request({"type": PacketType.ECON_PAUSE_CHECK, "user_id": user.id})).paused:
+            if (
+                await self.ipc.request({"type": PacketType.ECON_PAUSE_CHECK, "user_id": user.id})
+            ).paused:
                 continue
 
             db_user = await self.db.fetch_user(user.id)
@@ -158,7 +162,11 @@ class MobSpawner(commands.Cog):
                 embed.add_field(
                     name=f"**{user.display_name}**",
                     value=make_health_bar(
-                        user_health, 20, self.d.emojis.heart_full, self.d.emojis.heart_half, self.d.emojis.heart_empty
+                        user_health,
+                        20,
+                        self.d.emojis.heart_full,
+                        self.d.emojis.heart_half,
+                        self.d.emojis.heart_empty,
                     ),
                     inline=False,
                 )
@@ -214,7 +222,9 @@ class MobSpawner(commands.Cog):
                 if mob.health < 1:  # user wins
                     await fight_msg.edit(suppress_embeds=True)
                     await ctx.send_embed(
-                        random.choice(ctx.l.mobs_mech.user_finishers).format(mob.nice.lower(), user_sword.lower())
+                        random.choice(ctx.l.mobs_mech.user_finishers).format(
+                            mob.nice.lower(), user_sword.lower()
+                        )
                     )
 
                     break
@@ -223,7 +233,9 @@ class MobSpawner(commands.Cog):
                         await ctx.send_embed(random.choice(mob.misses).format(user_sword.lower()))
                     else:  # send regular attack message
                         await ctx.send_embed(
-                            random.choice(ctx.l.mobs_mech.user_attacks).format(mob.nice.lower(), user_sword.lower())
+                            random.choice(ctx.l.mobs_mech.user_attacks).format(
+                                mob.nice.lower(), user_sword.lower()
+                            )
                         )
 
                 async with SuppressCtxManager(ctx.typing()):
@@ -233,7 +245,9 @@ class MobSpawner(commands.Cog):
 
                 if mob_key == "creeper":  # add creeper mechanics
                     if iteration > 2:
-                        if random.choice((True, True, False)):  # creeper yeets your bloodied corpse across the map
+                        if random.choice(
+                            (True, True, False)
+                        ):  # creeper yeets your bloodied corpse across the map
                             user_health = 0
 
                             await fight_msg.edit(suppress_embeds=True)
@@ -310,12 +324,18 @@ class MobSpawner(commands.Cog):
 
                     await self.db.add_item(user.id, "Slime Ball", 5, balls_won, True)
 
-                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(balls_won, self.d.emojis.slimeball))
+                    await ctx.send_embed(
+                        random.choice(ctx.l.mobs_mech.found).format(
+                            balls_won, self.d.emojis.slimeball
+                        )
+                    )
                 # if mob is skeleton determine if they should drop bone meal (1/16 chance)
                 elif mob_key == "skeleton" and random.randint(0, 20 - (looting_level * 3)) == 1:
                     await self.db.add_item(user.id, "Bone Meal", 512, 1)
 
-                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(1, self.d.emojis.bone_meal))
+                    await ctx.send_embed(
+                        random.choice(ctx.l.mobs_mech.found).format(1, self.d.emojis.bone_meal)
+                    )
                 # mob should just drop emeralds
                 else:
                     # calculate emeralds won based off difficulty
@@ -341,7 +361,9 @@ class MobSpawner(commands.Cog):
                     await self.db.update_lb(user.id, "mobs_killed", 1, "add")
                     await self.db.update_lb(user.id, "week_emeralds", 1, "add")
 
-                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald))
+                    await ctx.send_embed(
+                        random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald)
+                    )
             else:  # mob win
                 # determine how many emeralds they lose based off difficulty
                 if difficulty == "easy":
@@ -360,14 +382,22 @@ class MobSpawner(commands.Cog):
                 ems_lost = await self.db.balance_sub(user.id, ems_lost)
 
                 if mob_key == "creeper":
-                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.lost.creeper).format(ems_lost, self.d.emojis.emerald))
+                    await ctx.send_embed(
+                        random.choice(ctx.l.mobs_mech.lost.creeper).format(
+                            ems_lost, self.d.emojis.emerald
+                        )
+                    )
                 else:
                     await ctx.send_embed(
-                        random.choice(ctx.l.mobs_mech.lost.normal).format(mob.nice.lower(), ems_lost, self.d.emojis.emerald)
+                        random.choice(ctx.l.mobs_mech.lost.normal).format(
+                            mob.nice.lower(), ems_lost, self.d.emojis.emerald
+                        )
                     )
         finally:
             await self.db.update_user(user.id, health=user_health)
-            await self.ipc.send({"type": PacketType.ECON_PAUSE_UNDO, "user_id": user.id})  # unpause user
+            await self.ipc.send(
+                {"type": PacketType.ECON_PAUSE_UNDO, "user_id": user.id}
+            )  # unpause user
 
 
 def setup(bot):

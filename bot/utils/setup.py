@@ -4,10 +4,9 @@ import random
 
 import discord
 
-from common.models.data import Data
-
-from bot.models.translation import Translation
 from bot.models.secrets import Secrets
+from bot.models.translation import Translation
+from common.models.data import Data
 
 
 def villager_bot_intents() -> discord.Intents:
@@ -30,10 +29,10 @@ def villager_bot_intents() -> discord.Intents:
 
 def setup_logging(cluster_id: int) -> logging.Logger:
     logging.basicConfig(level=logging.INFO, format=f"[{cluster_id}] %(levelname)s: %(message)s")
-    
+
     logging.getLogger("asyncio").setLevel(logging.WARNING)  # hide annoying asyncio info
     logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
-    
+
     return logging.getLogger("main")
 
 

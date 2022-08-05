@@ -42,7 +42,9 @@ class Database(commands.Cog):
     async def fetch_user_reminder_count(self, user_id: int) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE user_id = $1", user_id)
 
-    async def add_reminder(self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime) -> None:
+    async def add_reminder(
+        self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime
+    ) -> None:
         await self.db.execute(
             "INSERT INTO reminders (user_id, channel_id, message_id, reminder, at) VALUES ($1, $2, $3, $4, $5)",
             user_id,
@@ -65,7 +67,9 @@ class Database(commands.Cog):
         return {r[0]: r[1] for r in lang_records}
 
     async def fetch_all_guild_prefixes(self) -> dict:
-        prefix_records = await self.db.fetch("SELECT guild_id, prefix FROM guilds WHERE prefix != $1", self.k.default_prefix)
+        prefix_records = await self.db.fetch(
+            "SELECT guild_id, prefix FROM guilds WHERE prefix != $1", self.k.default_prefix
+        )
         return {r[0]: r[1] for r in prefix_records}
 
     async def fetch_all_disabled_commands(self) -> dict:
@@ -107,9 +111,17 @@ class Database(commands.Cog):
 
     async def set_cmd_usable(self, guild_id: int, command: str, usable: bool) -> None:
         if usable:
-            await self.db.execute("DELETE FROM disabled_commands WHERE guild_id = $1 AND command = $2", guild_id, command)
+            await self.db.execute(
+                "DELETE FROM disabled_commands WHERE guild_id = $1 AND command = $2",
+                guild_id,
+                command,
+            )
         else:
-            await self.db.execute("INSERT INTO disabled_commands (guild_id, command) VALUES ($1, $2)", guild_id, command)
+            await self.db.execute(
+                "INSERT INTO disabled_commands (guild_id, command) VALUES ($1, $2)",
+                guild_id,
+                command,
+            )
 
     async def ensure_user_exists(self, user_id: int):
         if user_id in self.bot.existing_users_cache:
@@ -126,7 +138,9 @@ class Database(commands.Cog):
         user = await self.db.fetchrow("SELECT * FROM users WHERE user_id = $1", user_id)
 
         if user is None:
-            user = await self.db.fetchrow("INSERT INTO users (user_id) VALUES ($1) RETURNING *", user_id)
+            user = await self.db.fetchrow(
+                "INSERT INTO users (user_id) VALUES ($1) RETURNING *", user_id
+            )
 
             await self.add_item(user_id, "Wood Pickaxe", 0, 1, True, False)
             await self.add_item(user_id, "Wood Sword", 0, 1, True, False)
@@ -137,7 +151,9 @@ class Database(commands.Cog):
         return User(**user)
 
     async def update_user(self, user_id: int, **kwargs) -> None:
-        db_user = await self.fetch_user(user_id)  # ensures user exists + we use db_user for updating badges
+        db_user = await self.fetch_user(
+            user_id
+        )  # ensures user exists + we use db_user for updating badges
 
         values = []
         sql = []
@@ -149,7 +165,9 @@ class Database(commands.Cog):
             sql.append(f"{k} = ${i+1}")
 
         # this sql query crafting is safe because the user's input is still sanitized by asyncpg
-        await self.db.execute(f"UPDATE users SET {','.join(sql)} WHERE user_id = ${i+2}", *values, user_id)
+        await self.db.execute(
+            f"UPDATE users SET {','.join(sql)} WHERE user_id = ${i+2}", *values, user_id
+        )
 
         # update badges
         await self.badges.update_badge_uncle_scrooge(user_id, db_user)
@@ -161,8 +179,12 @@ class Database(commands.Cog):
         return await self.db.fetchval("SELECT emeralds FROM users WHERE user_id = $1", user_id)
 
     async def set_balance(self, user_id: int, emeralds: int) -> None:
-        db_user = await self.fetch_user(user_id)  # ensures user exists + we use db_user for updating badges
-        await self.db.execute("UPDATE users SET emeralds = $1 WHERE user_id = $2", emeralds, user_id)
+        db_user = await self.fetch_user(
+            user_id
+        )  # ensures user exists + we use db_user for updating badges
+        await self.db.execute(
+            "UPDATE users SET emeralds = $1 WHERE user_id = $2", emeralds, user_id
+        )
 
         # update badges
         await self.badges.update_badge_uncle_scrooge(user_id, db_user)
@@ -183,14 +205,26 @@ class Database(commands.Cog):
         await self.set_balance(user_id, new)
         return amount
 
-    async def fetch_vault(self, user_id: int) -> dict:  # fetches a user's vault in the form (vault_amount, vault_max)
+    async def fetch_vault(
+        self, user_id: int
+    ) -> dict:  # fetches a user's vault in the form (vault_amount, vault_max)
         user = await self.fetch_user(user_id)
-        return {"vault_bal": user["vault_bal"], 0: user["vault_bal"], "vault_max": user["vault_max"], 1: user["vault_max"]}
+        return {
+            "vault_bal": user["vault_bal"],
+            0: user["vault_bal"],
+            "vault_max": user["vault_max"],
+            1: user["vault_max"],
+        }
 
     async def set_vault(self, user_id: int, vault_balance: int, vault_max: int) -> None:
-        db_user = await self.fetch_user(user_id)  # ensures user exists + we use db_user for updating badges
+        db_user = await self.fetch_user(
+            user_id
+        )  # ensures user exists + we use db_user for updating badges
         await self.db.execute(
-            "UPDATE users SET vault_balance = $1, vault_max = $2 WHERE user_id = $3", vault_balance, vault_max, user_id
+            "UPDATE users SET vault_balance = $1, vault_max = $2 WHERE user_id = $3",
+            vault_balance,
+            vault_max,
+            user_id,
         )
 
         # update badges
@@ -198,12 +232,17 @@ class Database(commands.Cog):
 
     async def fetch_items(self, user_id: int) -> List[Item]:
         await self.ensure_user_exists(user_id)
-        return [Item(**r) for r in await self.db.fetch("SELECT * FROM items WHERE user_id = $1", user_id)]
+        return [
+            Item(**r)
+            for r in await self.db.fetch("SELECT * FROM items WHERE user_id = $1", user_id)
+        ]
 
     async def fetch_item(self, user_id: int, name: str) -> Optional[Item]:
         await self.ensure_user_exists(user_id)
 
-        db_item = await self.db.fetchrow("SELECT * FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name)
+        db_item = await self.db.fetchrow(
+            "SELECT * FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name
+        )
 
         if db_item:
             return Item(**db_item)
@@ -211,7 +250,13 @@ class Database(commands.Cog):
         return None
 
     async def add_item(
-        self, user_id: int, name: str, sell_price: int, amount: int, sticky: bool = False, sellable: bool = True
+        self,
+        user_id: int,
+        name: str,
+        sell_price: int,
+        amount: int,
+        sticky: bool = False,
+        sellable: bool = True,
     ) -> None:
         prev = await self.fetch_item(user_id, name)
 
@@ -244,7 +289,9 @@ class Database(commands.Cog):
         prev = await self.fetch_item(user_id, name)
 
         if prev.amount - amount < 1:
-            await self.db.execute("DELETE FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name)
+            await self.db.execute(
+                "DELETE FROM items WHERE user_id = $1 AND LOWER(name) = LOWER($2)", user_id, name
+            )
         else:
             await self.db.execute(
                 "UPDATE items SET amount = $1 WHERE user_id = $2 AND LOWER(name) = LOWER($3)",
@@ -256,7 +303,9 @@ class Database(commands.Cog):
         # update badges
         await self.badges.update_badge_uncle_scrooge(user_id)
 
-    async def log_transaction(self, item: str, amount: int, at: datetime, giver: int, receiver: int) -> None:
+    async def log_transaction(
+        self, item: str, amount: int, at: datetime, giver: int, receiver: int
+    ) -> None:
         await self.db.execute(
             "INSERT INTO give_logs (item, amount, at, sender, receiver) VALUES ($1, $2, $3, $4, $5)",
             item,
@@ -267,9 +316,13 @@ class Database(commands.Cog):
         )
 
     async def fetch_transactions_by_sender(self, user_id: int, limit: int) -> List[asyncpg.Record]:
-        return await self.db.fetch("SELECT * FROM give_logs WHERE sender = $1 ORDER BY at DESC LIMIT $2", user_id, limit)
+        return await self.db.fetch(
+            "SELECT * FROM give_logs WHERE sender = $1 ORDER BY at DESC LIMIT $2", user_id, limit
+        )
 
-    async def fetch_transactions_page(self, user_id: int, limit: int = 10, *, page: int = 0) -> List[asyncpg.Record]:
+    async def fetch_transactions_page(
+        self, user_id: int, limit: int = 10, *, page: int = 0
+    ) -> List[asyncpg.Record]:
         return await self.db.fetch(
             "SELECT * FROM give_logs WHERE sender = $1 OR receiver = $1 ORDER BY at DESC LIMIT $2 OFFSET $3",
             user_id,
@@ -278,7 +331,12 @@ class Database(commands.Cog):
         )
 
     async def fetch_transactions_page_count(self, user_id: int, limit: int = 10) -> int:
-        return await self.db.fetchval("SELECT COUNT(*) FROM give_logs WHERE sender = $1 OR receiver = $1", user_id) // limit
+        return (
+            await self.db.fetchval(
+                "SELECT COUNT(*) FROM give_logs WHERE sender = $1 OR receiver = $1", user_id
+            )
+            // limit
+        )
 
     async def fetch_pickaxe(self, user_id: int) -> str:
         items_names = {item.name for item in await self.fetch_items(user_id)}
@@ -347,7 +405,9 @@ class Database(commands.Cog):
 
         if mode == "add":
             user_lb_value = await self.db.fetchval(
-                f"UPDATE leaderboards SET {lb} = {lb} + $1 WHERE user_id = $2 RETURNING {lb}", value, user_id
+                f"UPDATE leaderboards SET {lb} = {lb} + $1 WHERE user_id = $2 RETURNING {lb}",
+                value,
+                user_id,
             )
 
             if lb == "pillaged_emeralds":
@@ -357,9 +417,13 @@ class Database(commands.Cog):
             elif lb == "fish_fished":
                 await self.badges.update_badge_fisherman(user_id, user_lb_value)
         elif mode == "sub":
-            await self.db.execute(f"UPDATE leaderboards SET {lb} = {lb} - $1 WHERE user_id = $2", value, user_id)
+            await self.db.execute(
+                f"UPDATE leaderboards SET {lb} = {lb} - $1 WHERE user_id = $2", value, user_id
+            )
         elif mode == "set":
-            await self.db.execute(f"UPDATE leaderboards SET {lb} = $1 WHERE user_id = $2", value, user_id)
+            await self.db.execute(
+                f"UPDATE leaderboards SET {lb} = $1 WHERE user_id = $2", value, user_id
+            )
 
             if lb == "pillaged_emeralds":
                 await self.badges.update_badge_pillager(user_id, value)
@@ -405,7 +469,9 @@ class Database(commands.Cog):
             user_id,
         )
 
-    async def fetch_local_lb_user(self, column: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
+    async def fetch_local_lb_user(
+        self, column: str, user_id: int, user_ids: list
+    ) -> List[asyncpg.Record]:
         return await self.db.fetch(
             f"""
         WITH lb AS (SELECT user_id, {column} AS amount, ROW_NUMBER() OVER(ORDER BY {column} DESC) AS idx FROM users WHERE {column} > 0 AND bot_banned = false AND user_id = ANY($2::BIGINT[]))
@@ -431,7 +497,9 @@ class Database(commands.Cog):
             item,
         )
 
-    async def fetch_local_lb_item(self, item: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
+    async def fetch_local_lb_item(
+        self, item: str, user_id: int, user_ids: list
+    ) -> List[asyncpg.Record]:
         return await self.db.fetch(
             """
         WITH lb AS (SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS idx FROM items WHERE LOWER(name) = LOWER($2) AND user_id = ANY($3::BIGINT[]))
@@ -455,7 +523,9 @@ class Database(commands.Cog):
             with suppress(ValueError):
                 self.bot.ban_cache.remove(user_id)
 
-        await self.db.execute("UPDATE users SET bot_banned = $1 WHERE user_id = $2", botbanned, user_id)
+        await self.db.execute(
+            "UPDATE users SET bot_banned = $1 WHERE user_id = $2", botbanned, user_id
+        )
 
     async def add_warn(self, user_id: int, guild_id: int, mod_id: int, reason: str) -> None:
         await self.db.execute(
@@ -467,15 +537,23 @@ class Database(commands.Cog):
         )
 
     async def fetch_warns(self, user_id: int, guild_id: int) -> List[asyncpg.Record]:
-        return await self.db.fetch("SELECT * FROM warnings WHERE user_id = $1 AND guild_id = $2", user_id, guild_id)
+        return await self.db.fetch(
+            "SELECT * FROM warnings WHERE user_id = $1 AND guild_id = $2", user_id, guild_id
+        )
 
     async def clear_warns(self, user_id: int, guild_id: int) -> None:
-        await self.db.execute("DELETE FROM warnings WHERE user_id = $1 AND guild_id = $2", user_id, guild_id)
+        await self.db.execute(
+            "DELETE FROM warnings WHERE user_id = $1 AND guild_id = $2", user_id, guild_id
+        )
 
     async def fetch_user_rcon(self, user_id: int, mc_server: str) -> asyncpg.Record:
-        return await self.db.fetchrow("SELECT * FROM user_rcon WHERE user_id = $1 AND mc_server = $2", user_id, mc_server)
+        return await self.db.fetchrow(
+            "SELECT * FROM user_rcon WHERE user_id = $1 AND mc_server = $2", user_id, mc_server
+        )
 
-    async def add_user_rcon(self, user_id: int, mc_server: str, rcon_port: int, password: str) -> None:
+    async def add_user_rcon(
+        self, user_id: int, mc_server: str, rcon_port: int, password: str
+    ) -> None:
         await self.db.execute(
             "INSERT INTO user_rcon (user_id, mc_server, rcon_port, password) VALUES ($1, $2, $3, $4)",
             user_id,
@@ -485,7 +563,9 @@ class Database(commands.Cog):
         )
 
     async def delete_user_rcon(self, user_id: int, mc_server: str) -> None:
-        await self.db.execute("DELETE FROM user_rcon WHERE user_id = $1 AND mc_server = $2", user_id, mc_server)
+        await self.db.execute(
+            "DELETE FROM user_rcon WHERE user_id = $1 AND mc_server = $2", user_id, mc_server
+        )
 
     async def mass_delete_user_rcon(self, user_id: int) -> List[asyncpg.Record]:
         return await self.db.fetch("DELETE FROM user_rcon WHERE user_id = $1 RETURNING *", user_id)
@@ -515,17 +595,22 @@ class Database(commands.Cog):
             sql.append(f"{k} = ${i+1}")
 
         # this sql query crafting is safe because the user's input is still sanitized by asyncpg
-        await self.db.execute(f"UPDATE badges SET {','.join(sql)} WHERE user_id = ${i+2}", *values, user_id)
+        await self.db.execute(
+            f"UPDATE badges SET {','.join(sql)} WHERE user_id = ${i+2}", *values, user_id
+        )
 
     async def fetch_farm_plots(self, user_id: int) -> List[asyncpg.Record]:
-        return await self.db.fetch("SELECT * FROM farm_plots WHERE user_id = $1 ORDER BY planted_at ASC", user_id)
+        return await self.db.fetch(
+            "SELECT * FROM farm_plots WHERE user_id = $1 ORDER BY planted_at ASC", user_id
+        )
 
     async def count_farm_plots(self, user_id: int) -> int:
         return await self.db.fetchval("SELECT COUNT(*) FROM farm_plots WHERE user_id = $1", user_id)
 
     async def count_ready_farm_plots(self, user_id: int) -> int:
         return await self.db.fetchval(
-            "SELECT COUNT(*) FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", user_id
+            "SELECT COUNT(*) FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time",
+            user_id,
         )
 
     async def add_farm_plot(self, user_id: int, crop_type: str, amount: int) -> None:
@@ -546,21 +631,29 @@ class Database(commands.Cog):
         )
 
     async def delete_ready_crops(self, user_id: int) -> None:
-        await self.db.execute("DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", user_id)
+        await self.db.execute(
+            "DELETE FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time", user_id
+        )
 
     async def use_bonemeal(self, user_id: int) -> None:
         await self.db.execute(
-            "UPDATE farm_plots SET planted_at = planted_at - (grow_time * 6 / 9) WHERE user_id = $1", user_id
+            "UPDATE farm_plots SET planted_at = planted_at - (grow_time * 6 / 9) WHERE user_id = $1",
+            user_id,
         )
 
     async def add_to_trashcan(self, user_id: int, item: str, value: float, amount: int) -> None:
         await self.db.execute(
-            "INSERT INTO trash_can (user_id, item, value, amount) VALUES ($1, $2, $3, $4)", user_id, item, value, amount
+            "INSERT INTO trash_can (user_id, item, value, amount) VALUES ($1, $2, $3, $4)",
+            user_id,
+            item,
+            value,
+            amount,
         )
 
     async def fetch_trashcan(self, user_id: int) -> List[asyncpg.Record]:
         return await self.db.fetch(
-            "SELECT item, value, SUM(amount) AS amount FROM trash_can WHERE user_id = $1 GROUP BY item, value", user_id
+            "SELECT item, value, SUM(amount) AS amount FROM trash_can WHERE user_id = $1 GROUP BY item, value",
+            user_id,
         )
 
     async def empty_trashcan(self, user_id: int) -> Tuple[float, int]:

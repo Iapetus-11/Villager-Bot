@@ -65,7 +65,9 @@ class Config(commands.Cog):
     async def config_replies(self, ctx: Ctx, replies: str = None):
         if replies is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            state = ctx.l.config.replies.enabled if guild.do_replies else ctx.l.config.replies.disabled
+            state = (
+                ctx.l.config.replies.enabled if guild.do_replies else ctx.l.config.replies.disabled
+            )
             await ctx.reply_embed(ctx.l.config.replies.this_server.format(state))
             return
 
@@ -118,7 +120,9 @@ class Config(commands.Cog):
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
             await ctx.reply_embed(
-                ctx.l.config.lang.this_server.format(guild.language.replace("_", "-"), "`{}`".format("`, `".join(lang_codes))),
+                ctx.l.config.lang.this_server.format(
+                    guild.language.replace("_", "-"), "`{}`".format("`, `".join(lang_codes))
+                ),
             )
             return
 
@@ -130,7 +134,9 @@ class Config(commands.Cog):
             ctx.l = self.bot.get_language(ctx)
             await ctx.reply_embed(ctx.l.config.lang.set.format(lang))
         else:
-            await ctx.reply_embed(ctx.l.config.invalid.format("`{}`".format("`, `".join(lang_codes))))
+            await ctx.reply_embed(
+                ctx.l.config.invalid.format("`{}`".format("`, `".join(lang_codes)))
+            )
 
     @config.command(name="defaultserver", aliases=["defaultmcserver", "mcserver"])
     @commands.guild_only()
@@ -166,7 +172,12 @@ class Config(commands.Cog):
 
         cmd_true = self.bot.get_command(cmd.lower())
 
-        if cmd_true is None or cmd_true.cog is None or cmd_true.cog_name in ("Owner", "Config") or str(cmd_true) in ("help",):
+        if (
+            cmd_true is None
+            or cmd_true.cog is None
+            or cmd_true.cog_name in ("Owner", "Config")
+            or str(cmd_true) in ("help",)
+        ):
             await ctx.reply_embed(ctx.l.config.cmd.cant)
             return
 
@@ -191,7 +202,9 @@ class Config(commands.Cog):
         if alert is None:
             db_user = await self.db.fetch_user(ctx.author.id)
             await ctx.reply_embed(
-                ctx.l.config.gift.this_user.format(db_user.give_alert * "enabled" + "disabled" * (not db_user.give_alert)),
+                ctx.l.config.gift.this_user.format(
+                    db_user.give_alert * "enabled" + "disabled" * (not db_user.give_alert)
+                ),
             )
             return
 
@@ -204,7 +217,9 @@ class Config(commands.Cog):
         else:
             await ctx.reply_embed(ctx.l.config.invalid.format("`on`, `off`"))
 
-    @config.command(name="clearrconpasswords", aliases=["clearpasswords", "deletepasswords", "delrconpasswords"])
+    @config.command(
+        name="clearrconpasswords", aliases=["clearpasswords", "deletepasswords", "delrconpasswords"]
+    )
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def config_clear_rcon_passwords(self, ctx: Ctx):
         deleted = len(await self.db.mass_delete_user_rcon(ctx.author.id))

@@ -14,6 +14,7 @@ from karen.utils.setup import setup_logging
 
 logger = setup_logging()
 
+
 class Share:
     """Class which holds any variables only used from packet handlers"""
 
@@ -28,7 +29,13 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         self.db: Optional[asyncpg.Pool] = None
 
-        self.server = Server(secrets.karen.host, secrets.karen.port, secrets.karen.auth, self.get_packet_handlers(), logger)
+        self.server = Server(
+            secrets.karen.host,
+            secrets.karen.port,
+            secrets.karen.auth,
+            self.get_packet_handlers(),
+            logger,
+        )
 
         self.current_cluster_id = 0
 
@@ -38,7 +45,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     def chunked_shard_ids(self) -> list[list[int]]:
         shard_ids = list(range(self.secrets.shard_count))
         shards_per_cluster = self.secrets.shard_count // self.secrets.cluster_count + 1
-        return [shard_ids[i:i+shards_per_cluster] for i in range(self.secrets.cluster_count)]
+        return [shard_ids[i : i + shards_per_cluster] for i in range(self.secrets.cluster_count)]
 
     async def start(self) -> None:
         self.db = await setup_database_pool(self.secrets.database)

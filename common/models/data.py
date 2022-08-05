@@ -27,7 +27,7 @@ class Mining(BaseModel):
     finds: list[list[str]]
     find_values: dict[str, float]
     yields_enchant_items: dict[str, list[int]]  # extra emerald yield from enchantments
-    yields_pickaxes: dict[str, list[int]] # emerald yield from different pickaxes
+    yields_pickaxes: dict[str, list[int]]  # emerald yield from different pickaxes
     findables: list[Findable]
 
     @cached_property
@@ -49,11 +49,11 @@ class Fishing(BaseModel):
     @cached_property
     def fish_ids(self) -> list[float]:
         return list(self.fish.keys())
-    
+
     @cached_property
     def fishing_weights(self) -> list[float]:
         return [(len(self.fish_ids) - f.rarity) ** self.exponent for f in self.fish.values()]
-    
+
 
 class ShopItem(BaseModel):
     class DbEntry(BaseModel):
@@ -233,7 +233,7 @@ class FunLangs(BaseModel):
 
     @cached_property
     def unenchant(self) -> dict[str, str]:
-        return {v: k for k, v in self.enchant.items()}    
+        return {v: k for k, v in self.enchant.items()}
 
 
 class Data(BaseModel):
@@ -282,7 +282,6 @@ class Data(BaseModel):
     fun_langs: FunLangs
     cursed_images: list[str]
     playing_list: list[str]
-    
 
     class Config:
         validate_all = True

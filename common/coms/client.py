@@ -13,7 +13,13 @@ from common.coms.packet_type import PacketType
 
 
 class Client(ComsBase):
-    def __init__(self, host: str, port: int, packet_handlers: dict[PacketType, PacketHandler], logger: logging.Logger):
+    def __init__(
+        self,
+        host: str,
+        port: int,
+        packet_handlers: dict[PacketType, PacketHandler],
+        logger: logging.Logger,
+    ):
         super().__init__(host, port, packet_handlers, logger)
 
         self.ws: Optional[WebSocketClientProtocol] = None
@@ -43,7 +49,9 @@ class Client(ComsBase):
         await self.ws.send(packet.json())
 
     async def _authorize(self, auth: str) -> None:
-        await self._send(Packet(id=self._get_packet_id(), type=PacketType.AUTH, data={"auth": auth}))
+        await self._send(
+            Packet(id=self._get_packet_id(), type=PacketType.AUTH, data={"auth": auth})
+        )
 
     async def _connect(self, auth: str) -> None:
         async for self.ws in connect(f"ws://{self.host}:{self.port}", logger=self.logger):
@@ -67,7 +75,9 @@ class Client(ComsBase):
                         response = await self._call_handler(packet)
                     except Exception:
                         self.logger.error(
-                            "An error ocurred while calling the packet handler for packet type %s", packet.type, exc_info=True
+                            "An error ocurred while calling the packet handler for packet type %s",
+                            packet.type,
+                            exc_info=True,
                         )
                     else:
                         await self._send(Packet(id=packet.id, data=response))
@@ -88,7 +98,9 @@ class Client(ComsBase):
         except asyncio.TimeoutError:
             self._task.cancel()
 
-    async def send(self, packet_type: PacketType, packet_data: dict[str, VALID_PACKET_DATA_TYPES] = None) -> Packet:
+    async def send(
+        self, packet_type: PacketType, packet_data: dict[str, VALID_PACKET_DATA_TYPES] = None
+    ) -> Packet:
         packet_id = self._get_packet_id()
 
         packet = Packet(id=packet_id, type=packet_type, data=(packet_data or {}))

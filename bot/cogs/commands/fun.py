@@ -14,7 +14,15 @@ from util.misc import SuppressCtxManager, strip_command
 from bot import VillagerBotCluster
 
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
-INSULTS = {"i am stupid", "i am dumb", "i am very stupid", "i am very dumb", "i stupid", "i'm stupid", "i'm dumb"}
+INSULTS = {
+    "i am stupid",
+    "i am dumb",
+    "i am very stupid",
+    "i am very dumb",
+    "i stupid",
+    "i'm stupid",
+    "i'm dumb",
+}
 
 
 class Fun(commands.Cog):
@@ -66,7 +74,9 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
 
-        embed.set_footer(text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image)
+        embed.set_footer(
+            text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image
+        )
         embed.set_image(url=meme.image)
 
         await ctx.send(embed=embed)
@@ -121,7 +131,9 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(color=self.d.cc, title=comic.title[:256], url=comic.permalink)
 
-        embed.set_footer(text=f"{comic.upvotes}  |  u/{comic.author}", icon_url=self.d.upvote_emoji_image)
+        embed.set_footer(
+            text=f"{comic.upvotes}  |  u/{comic.author}", icon_url=self.d.upvote_emoji_image
+        )
         embed.set_image(url=comic.image)
 
         await ctx.send(embed=embed)
@@ -144,13 +156,17 @@ class Fun(commands.Cog):
 
             embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
 
-            embed.set_footer(text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image)
+            embed.set_footer(
+                text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image
+            )
             embed.set_image(url=meme.image)
 
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(color=self.d.cc)
-            embed.set_image(url=f"https://iapetus11.me/images/cursed_minecraft/{random.choice(self.d.cursed_images)}")
+            embed.set_image(
+                url=f"https://iapetus11.me/images/cursed_minecraft/{random.choice(self.d.cursed_images)}"
+            )
 
             await ctx.send(embed=embed)
 
@@ -374,16 +390,25 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(
             color=self.d.cc,
-            title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
+            title=ctx.l.fun.trivia.title.format(
+                self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"
+            ),
         )
 
         embed.description = "*{}*".format(
-            "\n".join(map(" ".join, [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)]))
+            "\n".join(
+                map(
+                    " ".join,
+                    [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)],
+                )
+            )
         )
         embed.set_footer(text="\uFEFF\n" + ctx.l.fun.trivia.time_to_answer)
 
         for i, c in enumerate(choices):
-            c_column = "\n".join(map(" ".join, [c.split()[i : i + 3] for i in range(0, len(c.split()), 3)]))
+            c_column = "\n".join(
+                map(" ".join, [c.split()[i : i + 3] for i in range(0, len(c.split()), 3)])
+            )
             embed.add_field(name="\uFEFF", value=f"**{i+1}.** {c_column}")
 
             if i % 2 == 0:
@@ -403,7 +428,9 @@ class Fun(commands.Cog):
             )
 
         try:
-            react, r_user = await self.bot.wait_for("reaction_add", check=reaction_check, timeout=15)
+            react, r_user = await self.bot.wait_for(
+                "reaction_add", check=reaction_check, timeout=15
+            )
         except asyncio.TimeoutError:
             embed = discord.Embed(
                 color=self.d.cc,
@@ -425,7 +452,9 @@ class Fun(commands.Cog):
             if do_reward:
                 emeralds_won = self.calculate_trivia_reward(question.d)
                 await self.db.balance_add(ctx.author.id, emeralds_won)
-                correct = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
+                correct = random.choice(ctx.l.fun.trivia.correct).format(
+                    emeralds_won, self.d.emojis.emerald
+                )
             else:
                 correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
 
@@ -440,11 +469,18 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(
             color=self.d.cc,
-            title=ctx.l.fun.trivia.title.format(self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"),
+            title=ctx.l.fun.trivia.title.format(
+                self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"
+            ),
         )
 
         embed.description = "*{}*".format(
-            "\n".join(map(" ".join, [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)]))
+            "\n".join(
+                map(
+                    " ".join,
+                    [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)],
+                )
+            )
         )
         embed.set_footer(text="\uFEFF\n" + ctx.l.fun.trivia.time_to_answer)
 
@@ -462,7 +498,9 @@ class Fun(commands.Cog):
             )
 
         try:
-            react, r_user = await self.bot.wait_for("reaction_add", check=reaction_check, timeout=15)
+            react, r_user = await self.bot.wait_for(
+                "reaction_add", check=reaction_check, timeout=15
+            )
         except asyncio.TimeoutError:
             embed = discord.Embed(
                 color=self.d.cc,
@@ -486,7 +524,9 @@ class Fun(commands.Cog):
             if do_reward:
                 emeralds_won = self.calculate_trivia_reward(question.d)
                 await self.db.balance_add(ctx.author.id, emeralds_won)
-                correct = random.choice(ctx.l.fun.trivia.correct).format(emeralds_won, self.d.emojis.emerald)
+                correct = random.choice(ctx.l.fun.trivia.correct).format(
+                    emeralds_won, self.d.emojis.emerald
+                )
             else:
                 correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
 
@@ -500,7 +540,9 @@ class Fun(commands.Cog):
     @commands.guild_only()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def minecraft_trivia(self, ctx: Ctx):
-        do_reward = (await self.ipc.request({"type": PacketType.TRIVIA, "author": ctx.author.id})).do_reward
+        do_reward = (
+            await self.ipc.request({"type": PacketType.TRIVIA, "author": ctx.author.id})
+        ).do_reward
         question = random.choice(ctx.l.fun.trivia.questions)
 
         if question.tf:

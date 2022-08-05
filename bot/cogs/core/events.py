@@ -74,7 +74,9 @@ class Events(commands.Cog):
         self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
 
         await self.bot.after_ready_ready.wait()
-        await self.bot.error_channel.send(f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```")
+        await self.bot.error_channel.send(
+            f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```"
+        )
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -132,7 +134,11 @@ class Events(commands.Cog):
         self.bot.replies_cache.add(guild.id)
 
         # attempt to set default language based off guild's localization
-        lang = {discord.Locale.es_ES: "es", discord.Locale.pt_BR: "pt", discord.Locale.fr: "fr"}.get(guild.preferred_locale)
+        lang = {
+            discord.Locale.es_ES: "es",
+            discord.Locale.pt_BR: "pt",
+            discord.Locale.fr: "fr",
+        }.get(guild.preferred_locale)
 
         if lang:
             await self.db.set_guild_attr(guild.id, "language", lang)
@@ -212,11 +218,19 @@ class Events(commands.Cog):
         # check if channel is a dm channel
         if isinstance(message.channel, discord.DMChannel):
             # forward dm to karen
-            await self.ipc.send({"type": PacketType.DM_MESSAGE, "user_id": message.author.id, "content": message.content})
+            await self.ipc.send(
+                {
+                    "type": PacketType.DM_MESSAGE,
+                    "user_id": message.author.id,
+                    "content": message.content,
+                }
+            )
 
             # check if there are prior messages, and if there are none, send user a help message
             with suppress(discord.errors.HTTPException):
-                prior_messages = len(await message.channel.history(limit=1, before=message).flatten())
+                prior_messages = len(
+                    await message.channel.history(limit=1, before=message).flatten()
+                )
 
                 if prior_messages < 1:
                     embed = discord.Embed(
@@ -238,7 +252,10 @@ class Events(commands.Cog):
             return
 
         # check if message only contained a mention to this bot
-        if message.content == f"<@{self.bot.user.id}>" or message.content == f"<@!{self.bot.user.id}>":
+        if (
+            message.content == f"<@{self.bot.user.id}>"
+            or message.content == f"<@!{self.bot.user.id}>"
+        ):
             if message.guild is None:
                 prefix = self.k.default_prefix
             else:
@@ -246,7 +263,9 @@ class Events(commands.Cog):
 
             lang = self.bot.get_language(message)
 
-            embed = discord.Embed(color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support))
+            embed = discord.Embed(
+                color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support)
+            )
             embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
             embed.set_footer(text=lang.useful.credits.foot.format(prefix))
 
@@ -298,13 +317,19 @@ class Events(commands.Cog):
                     elif content_lower == "good bot":
                         await message.reply(random.choice(self.d.owos), mention_author=False)
 
-    async def handle_command_cooldown(self, ctx: Ctx, remaining: float, karen_cooldown: bool) -> None:
+    async def handle_command_cooldown(
+        self, ctx: Ctx, remaining: float, karen_cooldown: bool
+    ) -> None:
         # handle mine command cooldown effects
         if ctx.command.name == "mine":
             if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
                 remaining -= 0.5
 
-            active_effects = (await self.ipc.request({"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id})).active
+            active_effects = (
+                await self.ipc.request(
+                    {"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id}
+                )
+            ).active
 
             if active_effects:
                 if "haste ii potion" in active_effects:
@@ -316,7 +341,13 @@ class Events(commands.Cog):
 
         if seconds <= 0.05:
             if karen_cooldown:
-                await self.ipc.send({"type": PacketType.COOLDOWN_ADD, "command": ctx.command.name, "user_id": ctx.author.id})
+                await self.ipc.send(
+                    {
+                        "type": PacketType.COOLDOWN_ADD,
+                        "command": ctx.command.name,
+                        "user_id": ctx.author.id,
+                    }
+                )
 
             await ctx.reinvoke()
             return
@@ -342,7 +373,9 @@ class Events(commands.Cog):
         elif seconds > 0:
             time += f"{round(seconds, 2)} {ctx.l.misc.time.seconds}"
 
-        await ctx.reply_embed(random.choice(ctx.l.misc.cooldown_msgs).format(time), ignore_exceptions=True)
+        await ctx.reply_embed(
+            random.choice(ctx.l.misc.cooldown_msgs).format(time), ignore_exceptions=True
+        )
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: Ctx, e: Exception):
@@ -353,7 +386,11 @@ class Events(commands.Cog):
 
         if not isinstance(e, MaxKarenConcurrencyReached):
             await self.ipc.send(
-                {"type": PacketType.CONCURRENCY_RELEASE, "command": str(ctx.command), "user_id": ctx.author.id}
+                {
+                    "type": PacketType.CONCURRENCY_RELEASE,
+                    "command": str(ctx.command),
+                    "user_id": ctx.author.id,
+                }
             )
 
         if isinstance(e, commands.CommandOnCooldown):
@@ -366,7 +403,9 @@ class Events(commands.Cog):
             await ctx.reply_embed(ctx.l.misc.errors.user_perms, ignore_exceptions=True)
         elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
-        elif getattr(e, "original", None) is not None and isinstance(e.original, discord.errors.Forbidden):
+        elif getattr(e, "original", None) is not None and isinstance(
+            e.original, discord.errors.Forbidden
+        ):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif isinstance(e, (commands.MaxConcurrencyReached, MaxKarenConcurrencyReached)):
             await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
@@ -386,14 +425,20 @@ class Events(commands.Cog):
                 await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
             elif failure_reason == "disabled":
                 await ctx.reply_embed(ctx.l.misc.errors.disabled, ignore_exceptions=True)
-        elif isinstance(e, IGNORED_ERRORS) or isinstance(getattr(e, "original", None), IGNORED_ERRORS):
+        elif isinstance(e, IGNORED_ERRORS) or isinstance(
+            getattr(e, "original", None), IGNORED_ERRORS
+        ):
             return
         else:  # no error was caught so log error in error channel
             await self.bot.wait_until_ready()
-            await ctx.reply_embed(ctx.l.misc.errors.andioop.format(self.d.support), ignore_exceptions=True)
+            await ctx.reply_embed(
+                ctx.l.misc.errors.andioop.format(self.d.support), ignore_exceptions=True
+            )
 
             debug_info = (
-                f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}"[:200]
+                f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}"[
+                    :200
+                ]
                 + "```"
                 + f"```py\n{format_exception(e).replace('```', '｀｀｀')}"[: 2000 - 206]
                 + "```"
