@@ -1,7 +1,7 @@
+import inspect
 import json
 import logging
 from typing import Any
-import inspect
 
 from pydantic import ValidationError, create_model, validate_arguments
 
@@ -9,7 +9,6 @@ from common.coms.errors import InvalidPacketReceived
 from common.coms.packet import VALID_PACKET_DATA_TYPES, Packet
 from common.coms.packet_handling import PacketHandler
 from common.coms.packet_type import PacketType
-
 
 EXCLUDED_ANNOS = {"self", "return"}
 

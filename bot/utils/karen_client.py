@@ -52,7 +52,9 @@ class KarenClient:
         )
 
     async def release_concurrency(self, command: str, user_id: int) -> None:
-        await self.client.send(PacketType.CONCURRENCY_RELEASE, {"command": command, "user_id": user_id})
+        await self.client.send(
+            PacketType.CONCURRENCY_RELEASE, {"command": command, "user_id": user_id}
+        )
 
     async def check_econ_paused(self, user_id: int) -> bool:
         resp = await self.client.send(PacketType.ECON_PAUSE_CHECK, {"user_id": user_id})

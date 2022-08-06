@@ -2,7 +2,6 @@ import asyncio
 import logging
 from typing import Awaitable, Callable, Generator, Optional, TypeAlias
 
-
 T_LOOP_CALLABLE: TypeAlias = Callable[[], Awaitable[None]]
 
 

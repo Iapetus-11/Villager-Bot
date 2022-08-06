@@ -1,2 +1,2 @@
-
-def chunk_iterable(): raise NotImplementedError
+def chunk_iterable():
+    raise NotImplementedError

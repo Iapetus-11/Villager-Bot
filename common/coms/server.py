@@ -57,7 +57,9 @@ class Server(ComsBase):
         except ValueError:
             pass
 
-    async def broadcast(self, packet_type: PacketType, packet_data: VALID_PACKET_DATA_TYPES) -> list[VALID_PACKET_DATA_TYPES]:
+    async def broadcast(
+        self, packet_type: PacketType, packet_data: VALID_PACKET_DATA_TYPES
+    ) -> list[VALID_PACKET_DATA_TYPES]:
         broadcast_id = self._get_packet_id("b")
         broadcast_packet = Packet(id=broadcast_id, type=packet_type, data=packet_data)
 

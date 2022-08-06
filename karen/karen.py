@@ -1,21 +1,21 @@
+import asyncio
+import time
 from collections import defaultdict
 from functools import cached_property
-import time
 from typing import Optional
-import asyncio
 
-import psutil
 import asyncpg
+import psutil
 
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.coms.server import Server
 from common.models.data import Data
 from common.utils.code import execute_code, format_exception
-from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
 from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
 from common.utils.setup import setup_database_pool
 from karen.models.secrets import Secrets
+from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
 from karen.utils.setup import setup_logging
 
 logger = setup_logging()
@@ -51,7 +51,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         self.current_cluster_id = 0
 
         self.v = Share(data)
-        
+
         # must be last
         RecurringTasksMixin.__init__(self, logger)
 
@@ -94,7 +94,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         await self.db.executemany(
             'INSERT INTO users (user_id) VALUES ($1) ON CONFLICT ("user_id") DO NOTHING', user_ids
         )
-        
+
         await self.db.executemany(
             'INSERT INTO leaderboards (user_id, commands, week_commands) VALUES ($1, $2, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2, "week_commands" = leaderboards.week_commands + $2 WHERE leaderboards.user_id = $1',
             commands_dump,
@@ -132,9 +132,9 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         except Exception as e:
             result = format_exception(e)
             success = False
-        
+
             logger.error("An error occurred while handling an EXEC packet", exc_info=True)
-        
+
         return {"result": result, "success": success}
 
     @handle_packet(PacketType.COOLDOWN_CHECK_ADD)
@@ -145,14 +145,17 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     @handle_packet(PacketType.COOLDOWN_ADD)
     async def packet_cooldown_add(self, command: str, user_id: int):
         self.v.command_cooldowns.add_cooldown(command, user_id)
-    
+
     @handle_packet(PacketType.COOLDOWN_RESET)
     async def packet_cooldown_reset(self, command: str, user_id: int):
         self.v.command_cooldowns.clear_cooldown(command, user_id)
 
     @handle_packet(PacketType.DM_MESSAGE)
     async def packet_dm_message(self, user_id: int, message_id: int, content: Optional[str]):
-        await self.server.broadcast(PacketType.DM_MESSAGE, {"user_id": user_id, "message_id": message_id, "content": content})
+        await self.server.broadcast(
+            PacketType.DM_MESSAGE,
+            {"user_id": user_id, "message_id": message_id, "content": content},
+        )
 
     @handle_packet(PacketType.MINE_COMMAND)
     async def packet_mine_command(self, user_id: int, addition: int):
@@ -174,7 +177,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     @handle_packet(PacketType.CONCURRENCY_RELEASE)
     async def packet_concurrency_release(self, command: str, user_id: int):
         self.v.command_concurrency.release(command, user_id)
-    
+
     @handle_packet(PacketType.COMMAND_RAN)
     async def packet_command_ran(self, user_id: int):
         self.v.command_counts[user_id] += 1
@@ -195,7 +198,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     @handle_packet(PacketType.ECON_PAUSE)
     async def packet_econ_pause(self, user_id: int):
         self.v.econ_paused_users[user_id] = time.time()
-        
+
     @handle_packet(PacketType.ECON_PAUSE_UNDO)
     async def packet_econ_pause_undo(self, user_id: int):
         self.v.econ_paused_users.pop(user_id, None)
