@@ -15,14 +15,14 @@ from bot.models.secrets import Secrets
 from bot.models.translation import Translation
 from bot.utils.ctx import CustomContext
 from bot.utils.karen_client import KarenClient
-from bot.utils.misc import TTLPreventDuplicate, update_support_member_role
+from bot.utils.misc import update_support_member_role, CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from bot.utils.setup import load_translations, setup_logging, villager_bot_intents
+from common.coms.packet import T_PACKET_DATA
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.models.data import Data
-from common.utils.code import execute_code, format_exception
+from common.utils.code import execute_code
 from common.utils.setup import load_data, setup_database_pool
-from karen.utils.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
@@ -106,19 +106,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.after_invoke(
             self.after_command_invoked
         )  # register self.after_command_invoked as a after_invoked event
-
-    @property
-    def eval_env(self):  # used in the eval and exec packets and the eval commands
-        return {
-            **globals(),
-            "bot": self,
-            "self": self,
-            "k": self.k,
-            "d": self.d,
-            "l": self.l,
-            "aiohttp": self.aiohttp,
-            "db": self.db,
-        }
 
     async def start(self):
         self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
@@ -284,18 +271,16 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             )
             raise
 
-    @handle_packet(PacketType.EXEC)
+    ###### packet handlers #####################################################
+
+    @handle_packet(PacketType.EXEC_CODE)
     async def handle_exec_packet(self, code: str):
-        try:
-            result = await execute_code(code, self.eval_env)
-            success = True
-        except Exception as e:
-            result = format_exception(e)
-            success = False
+        result = await execute_code(code, {"bot": self, "db": self.db, "dbc": self.get_cog("Database"), "http": self.aiohttp})
 
-            self.logger.error(result)
+        if not isinstance(result, T_PACKET_DATA):
+            result = repr(result)
 
-        return {"result": result, "success": success}
+        return result
 
     @handle_packet(PacketType.REMINDER)
     async def handle_reminder_packet(
@@ -354,29 +339,15 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     @handle_packet(PacketType.UPDATE_SUPPORT_SERVER_ROLES)
     async def handle_update_support_server_roles_packet(self, user_id: int):
-        success = False
+        support_guild = self.get_guild(self.d.support_server_id)
 
-        try:
-            support_guild = self.get_guild(self.d.support_server_id)
+        if support_guild is not None:
+            member = support_guild.get_member(user_id)
 
-            if support_guild is not None:
-                member = support_guild.get_member(user_id)
-
-                if member is not None:
-                    await update_support_member_role(self, member)
-                    success = True
-        finally:
-            return {"success": success}
+            if member is not None:
+                await update_support_member_role(self, member)
 
     @handle_packet(PacketType.RELOAD_DATA)
     async def handle_reload_data_packet(self):
-        try:
-            self.l.clear()
-            self.l.update(load_translations())
-
-            self.d.clear()
-            self.d.update(load_data())
-        except Exception as e:
-            return {"success": False, "result": str(e)}
-
-        return {"success": True, "result": ""}
+        self.l = load_translations()
+        self.d = load_data()

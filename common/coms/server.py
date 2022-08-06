@@ -7,14 +7,14 @@ from websockets.server import WebSocketServerProtocol, serve
 
 from common.coms.coms_base import ComsBase
 from common.coms.errors import InvalidPacketReceived
-from common.coms.packet import VALID_PACKET_DATA_TYPES, Packet
+from common.coms.packet import T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler, PacketType
 
 
 class Broadcast(BaseModel):
     ready: asyncio.Event
     ws_ids: set[int]  # ws ids to expect a response from
-    responses: list[VALID_PACKET_DATA_TYPES]
+    responses: list[T_PACKET_DATA]
 
     class Config:
         arbitrary_types_allowed = True
@@ -60,8 +60,8 @@ class Server(ComsBase):
             pass
 
     async def broadcast(
-        self, packet_type: PacketType, packet_data: VALID_PACKET_DATA_TYPES
-    ) -> list[VALID_PACKET_DATA_TYPES]:
+        self, packet_type: PacketType, packet_data: T_PACKET_DATA
+    ) -> list[T_PACKET_DATA]:
         broadcast_id = self._get_packet_id("b")
         broadcast_packet = Packet(id=broadcast_id, type=packet_type, data=packet_data)
 

@@ -7,7 +7,7 @@ from websockets.exceptions import ConnectionClosed
 
 from common.coms.coms_base import ComsBase
 from common.coms.errors import InvalidPacketReceived, WebsocketStateError
-from common.coms.packet import VALID_PACKET_DATA_TYPES, Packet
+from common.coms.packet import T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler
 from common.coms.packet_type import PacketType
 
@@ -99,7 +99,7 @@ class Client(ComsBase):
             self._task.cancel()
 
     async def send(
-        self, packet_type: PacketType, packet_data: dict[str, VALID_PACKET_DATA_TYPES] = None
+        self, packet_type: PacketType, packet_data: dict[str, T_PACKET_DATA] = None
     ) -> Packet:
         packet_id = self._get_packet_id()
 

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Extra
 
 from common.models.secrets import DatabaseSecrets, KarenSecrets
 
@@ -16,3 +16,8 @@ class Secrets(BaseModel):
     karen: KarenSecrets
     topgg_webhook: TopggWebhookSecrets
     database: DatabaseSecrets
+
+    class Config:
+        validate_all = True
+        allow_mutation = False
+        extra = Extra.forbid

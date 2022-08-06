@@ -6,6 +6,7 @@ from typing import Optional
 
 import asyncpg
 import psutil
+from common.coms.packet import T_PACKET_DATA
 
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
@@ -34,6 +35,7 @@ class Share:
         self.trivia_commands = defaultdict[int, int]()  # user_id: cmd_count
         self.command_counts = defaultdict[int, int]()  # user_id: cmd_count
         self.active_fx = defaultdict[int, set[str]]()  # user_id: set[fx]
+        self.current_cluster_id = 0
 
 
 class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
@@ -53,8 +55,6 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         )
 
         self.topgg_server = TopggWebhookServer(self.secrets.topgg_webhook, self.vote_callback, logger)
-
-        self.current_cluster_id = 0
 
         self.v = Share(data)
 
@@ -137,24 +137,20 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
     ###### packet handlers #####################################################
 
-    @handle_packet(PacketType.GET_SHARD_IDS)
+    @handle_packet(PacketType.FETCH_SHARD_IDS)
     async def packet_get_shard_ids(self):
-        shard_ids = self.chunked_shard_ids[self.current_cluster_id]
-        self.current_cluster_id += 1
+        shard_ids = self.chunked_shard_ids[self.v.current_cluster_id]
+        self.v.current_cluster_id += 1
         return shard_ids
 
-    @handle_packet(PacketType.EXEC)
+    @handle_packet(PacketType.EXEC_CODE)
     async def packet_exec(self, code: str):
-        try:
-            result = await execute_code(code, {"karen": self, "v": self.v})
-            success = True
-        except Exception as e:
-            result = format_exception(e)
-            success = False
+        result = await execute_code(code, {"karen": self, "v": self.v})
 
-            logger.error("An error occurred while handling an EXEC packet", exc_info=True)
+        if not isinstance(result, T_PACKET_DATA):
+            result = repr(result)
 
-        return {"result": result, "success": success}
+        return result
 
     @handle_packet(PacketType.COOLDOWN_CHECK_ADD)
     async def packet_cooldown(self, command: str, user_id: int):
@@ -228,8 +224,11 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
     @handle_packet(PacketType.ACTIVE_FX_ADD)
     async def packet_active_fx_add(self, user_id: int, fx: str):
-        self.v.active_fx[user_id].add(fx)
+        self.v.active_fx[user_id].add(fx.lower())
 
     @handle_packet(PacketType.ACTIVE_FX_REMOVE)
     async def packet_active_fx_remove(self, user_id: int, fx: str):
-        self.v.active_fx[user_id].remove(fx.lower())
+        try:
+            self.v.active_fx[user_id].remove(fx.lower())
+        except KeyError:
+            pass

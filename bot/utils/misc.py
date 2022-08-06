@@ -27,22 +27,6 @@ def dm_check(ctx):
     return _dm_check
 
 
-def recursive_update(obj, new):
-    if isinstance(obj, dict) and isinstance(new, dict):
-        for k, v in new.items():
-            obj[k] = recursive_update(obj.get(k, cj.classify({})), v)
-    elif isinstance(obj, list) and isinstance(new, list):
-        obj = (
-            []
-        )  # obj here needs to be reset to zero to avoid weird list issues (see /update command in cogs/cmds/owner.py)
-        for i, v in enumerate(new):
-            obj.append(recursive_update(obj[i], v) if i < len(obj) else v)
-    else:
-        return new
-
-    return obj
-
-
 def make_health_bar(health: int, max_health: int, full: str, half: str, empty: str):
     assert max_health % 2 == 0
 
@@ -229,16 +213,10 @@ class TTLPreventDuplicate:
     def check(self, obj):
         return obj in self.store
 
-    async def run(self):
-        try:
-            while True:
-                for k, v in list(self.store.items()):
-                    if (time.time() - v) > self.expire_after:
-                        del self.store[k]
-
-                await asyncio.sleep(1)
-        except asyncio.CancelledError:
-            pass
+    def clear_dead(self) -> None:
+        for k, v in list(self.store.items()):
+            if (time.time() - v) > self.expire_after:
+                del self.store[k]
 
 
 def fix_giphy_url(url: str) -> str:
@@ -340,3 +318,12 @@ def chunk_by_lines(text: str, max_paragraph_size: int) -> str:
 
     if paragraph:
         yield "\n".join(paragraph)
+
+
+class CommandOnKarenCooldown(Exception):
+    def __init__(self, remaining: float):
+        self.remaining = remaining
+
+
+class MaxKarenConcurrencyReached(Exception):
+    pass

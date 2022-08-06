@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Awaitable, Callable, Optional, TypeAlias
 
-from common.coms.packet import VALID_PACKET_DATA_TYPES
+from common.coms.packet import T_PACKET_DATA
 from common.coms.packet_type import PacketType
 
 T_PACKET_HANDLER_CALLABLE: TypeAlias = Callable[..., Awaitable[dict[str, Any] | None]]
@@ -31,7 +31,7 @@ def validate_packet_handler_function(function: T_PACKET_HANDLER_CALLABLE) -> Non
     annos.pop("return", None)
     annos.pop("self", None)
     for arg, arg_type in annos.items():
-        if not isinstance(arg_type, type) or not issubclass(arg_type, VALID_PACKET_DATA_TYPES):
+        if not isinstance(arg_type, type) or not issubclass(arg_type, T_PACKET_DATA):
             raise ValueError(
                 f"Argument {arg!r} of the packet handler {function.__qualname__} has an unsupported annotation / typehint: {arg_type!r}"
             )

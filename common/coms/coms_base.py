@@ -6,7 +6,7 @@ from typing import Any
 from pydantic import ValidationError, create_model, validate_arguments
 
 from common.coms.errors import InvalidPacketReceived
-from common.coms.packet import VALID_PACKET_DATA_TYPES, Packet
+from common.coms.packet import T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler
 from common.coms.packet_type import PacketType
 
@@ -41,7 +41,7 @@ class ComsBase:
         except (ValidationError, ValueError, TypeError) as e:
             raise InvalidPacketReceived("could not construct Packet model", e)
 
-    async def _call_handler(self, packet: Packet) -> dict[str, VALID_PACKET_DATA_TYPES]:
+    async def _call_handler(self, packet: Packet) -> dict[str, T_PACKET_DATA]:
         handler = self.packet_handlers.get(packet.type)
 
         if handler is None:
@@ -50,7 +50,7 @@ class ComsBase:
 
         response = await validate_arguments(handler.function)(**packet.data)
 
-        if not isinstance(response, VALID_PACKET_DATA_TYPES):
+        if not isinstance(response, T_PACKET_DATA):
             raise ValueError(
                 f"Packet handler {handler.function.__qualname__} returned an unsupported type: {type(response)!r}"
             )
