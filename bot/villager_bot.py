@@ -13,7 +13,7 @@ from discord.ext import commands
 
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
-from bot.utils.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
+from karen.utils.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from bot.utils.ctx import CustomContext
 from bot.utils.karen_client import KarenClient
 from bot.utils.misc import TTLPreventDuplicate, update_support_member_role
@@ -213,7 +213,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         # handle cooldowns that need to be synced between shard groups / processes (aka karen cooldowns)
         if command_has_cooldown:
-            cooldown_info = await self.karen.fetch_cooldown(command, ctx.author.id)
+            cooldown_info = await self.karen.cooldown(command, ctx.author.id)
 
             if not cooldown_info.can_run:
                 ctx.custom_error = CommandOnKarenCooldown(cooldown_info.remaining)

@@ -16,9 +16,6 @@ class PacketHandler:
         self.packet_type = packet_type
         self.function = function
 
-    def __call__(self, packet: dict[str, Any]) -> Optional[dict[str, Any]]:
-        return self.function(**packet)
-
 
 def validate_packet_handler_function(function: T_PACKET_HANDLER_CALLABLE) -> None:
     # check if any args are missing annotations

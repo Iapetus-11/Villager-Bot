@@ -32,24 +32,27 @@ class KarenClient:
 
     async def fetch_shard_ids(self) -> list[int]:
         resp = await self.client.send(PacketType.GET_SHARD_IDS)
-        return resp.data["shard_ids"]
+        return resp.data
 
-    async def fetch_cooldown(self, command: str, user_id: int) -> Cooldown:
+    async def cooldown(self, command: str, user_id: int) -> Cooldown:
         resp = await self.client.send(
-            PacketType.FETCH_COOLDOWN, {"command": command, "user_id": user_id}
+            PacketType.COOLDOWN_CHECK_ADD, {"command": command, "user_id": user_id}
         )
-        return Cooldown(**resp)
+        return Cooldown(**resp.data)
 
     async def check_concurrency(self, command: str, user_id: int) -> bool:
         resp = await self.client.send(
             PacketType.CONCURRENCY_CHECK, {"command": command, "user_id": user_id}
         )
-        return resp.data["can_run"]
+        return resp.data
 
     async def acquire_concurrency(self, command: str, user_id: int) -> None:
         await self.client.send(
             PacketType.CONCURRENCY_ACQUIRE, {"command": command, "user_id": user_id}
         )
+
+    async def release_concurrency(self, command: str, user_id: int) -> None:
+        await self.client.send(PacketType.CONCURRENCY_RELEASE, {"command": command, "user_id": user_id})
 
     async def check_econ_paused(self, user_id: int) -> bool:
         resp = await self.client.send(PacketType.ECON_PAUSE_CHECK, {"user_id": user_id})

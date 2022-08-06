@@ -1,36 +1,41 @@
 import asyncio
 import logging
-from typing import Callable, Coroutine
+from typing import Awaitable, Callable, Generator, Optional, TypeAlias
+
+
+T_LOOP_CALLABLE: TypeAlias = Callable[[], Awaitable[None]]
 
 
 class RecurringTask:
     """Helper class for creating recurring tasks / async loops"""
 
-    __slots__ = ("coro_func", "interval", "logger", "sleep_first", "_loop_task")
+    __slots__ = ("loop_callable", "interval", "sleep_first", "logger", "name", "_loop_task")
 
     def __init__(
         self,
-        coro_func: Callable[[], Coroutine],
+        loop_callable: T_LOOP_CALLABLE,
         interval: int,
-        logger: logging.Logger,
         sleep_first: bool,
     ):
-        self.coro_func = coro_func
+        self.loop_callable = loop_callable
         self.interval = interval
-        self.logger = logger
         self.sleep_first = sleep_first
+
+        self.name = loop_callable.__qualname__
+
+        self.logger: Optional[logging.Logger] = None
 
         self._loop_task: asyncio.Task = None
 
     async def _call(self) -> None:
-        self.logger.info("Calling loop callable: %s", self.coro_func.__qualname__)
+        self.logger.info("Calling loop callable: %s", self.name)
 
         try:
-            await self.coro_func()
+            await self.loop_callable()
         except Exception:
             self.logger.error(
                 "An error ocurred while calling the loop callable: %s",
-                self.coro_func.__qualname__,
+                self.name,
                 ex_info=True,
             )
 
@@ -43,8 +48,13 @@ class RecurringTask:
             await asyncio.sleep(self.interval)
 
     def start(self):
+        if self.logger is None:
+            raise RuntimeError("Logger instance was not set")
+
         if self._loop_task is not None:
             raise RuntimeError("This loop has already been started")
+
+        self.logger.info("Started recurring task: %s", self.name)
 
         self._loop_task = asyncio.create_task(self._loop())
 
@@ -59,13 +69,12 @@ def recurring_task(
     seconds: float = 0,
     minutes: float = 0,
     hours: float = 0,
-    logger: logging.Logger,
     sleep_first: bool = True,
 ):
     """Decorator for creating a RecurringTask"""
 
-    def _recurring_task(coro_func: Callable[[], Coroutine]):
-        return RecurringTask(coro_func, seconds + 60 * minutes + 3600 * hours, logger, sleep_first)
+    def _recurring_task(loop_callable: T_LOOP_CALLABLE):
+        return RecurringTask(loop_callable, seconds + 60 * minutes + 3600 * hours, sleep_first)
 
     return _recurring_task
 
@@ -73,14 +82,24 @@ def recurring_task(
 class RecurringTasksMixin:
     """Adds support for recurring tasks in the subclass."""
 
-    def __new__(cls, *args, **kwargs):
-        self = super().__new__(cls)
+    def __init__(self, logger: logging.Logger):
+        for rc in self.__get_recurring_tasks():
+            # bind coro funcs to their class instance
+            rc.loop_callable = rc.loop_callable.__get__(self)
 
-        # bind functions to their class manually
-        for obj_name in dir(cls):  # for some reason vars() doesn't get stuff from __slots__?
-            obj = getattr(cls, obj_name)
+            rc.logger = logger
+
+    def __get_recurring_tasks(self) -> Generator[RecurringTask, None, None]:
+        for obj_name in dir(self):
+            obj = getattr(self, obj_name)
 
             if isinstance(obj, RecurringTask):
-                obj.coro_func = obj.coro_func.__get__(self)
+                yield obj
 
-        return self
+    def start_recurring_tasks(self) -> None:
+        for rc in self.__get_recurring_tasks():
+            rc.start()
+
+    def cancel_recurring_tasks(self) -> None:
+        for rc in self.__get_recurring_tasks():
+            rc.cancel()

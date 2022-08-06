@@ -324,126 +324,126 @@
       ]
     },
     "findables": [
-      [
-        "Fortune II Book",
-        128,
-        999,
-        false
-      ],
-      [
-        "Fortune III Book",
-        768,
-        9999,
-        false
-      ],
-      [
-        "Efficiency I Book",
-        512,
-        6669,
-        false
-      ],
-      [
-        "Looting I Book",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Sharpness I Book",
-        32,
-        1000,
-        false
-      ],
-      [
-        "Looting II Book",
-        768,
-        9999,
-        false
-      ],
-      [
-        "Sharpness II Book",
-        768,
-        9999,
-        false
-      ],
-      [
-        "Haste I Potion",
-        32,
-        200,
-        false
-      ],
-      [
-        "Haste II Potion",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Luck Potion",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Bone Meal",
-        512,
-        49999,
-        false
-      ],
-      [
-        "Barrel",
-        1024,
-        99999,
-        false
-      ],
-      [
-        "Recycler",
-        1024,
-        99999,
-        false
-      ],
-      [
-        "Bane Of Pillagers Amulet",
-        4096,
-        500000,
-        true
-      ],
-      [
-        "Sparkler",
-        32,
-        200,
-        false
-      ],
-      [
-        "Firecracker",
-        64,
-        500,
-        false
-      ],
-      [
-        "Fireworks Bundle",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Roman Candle",
-        128,
-        1000,
-        false
-      ],
-      [
-        "Komodo 30000 SuperNova Aerial Firework",
-        768,
-        9999,
-        false
-      ],
-      [
-        "Ford F150 Keys",
-        768,
-        9999,
-        false
-      ]
+      {
+        "item": "Fortune II Book",
+        "sell_price": 128,
+        "rarity": 999,
+        "sticky": false
+      },
+      {
+        "item": "Fortune III Book",
+        "sell_price": 768,
+        "rarity": 9999,
+        "sticky": false
+      },
+      {
+        "item": "Efficiency I Book",
+        "sell_price": 512,
+        "rarity": 6669,
+        "sticky": false
+      },
+      {
+        "item": "Looting I Book",
+        "sell_price": 128,
+        "rarity": 1000,
+        "sticky": false
+      },
+      {
+        "item": "Sharpness I Book",
+        "sell_price": 32,
+        "rarity": 1000,
+        "sticky": false
+      },
+      {
+        "item": "Looting II Book",
+        "sell_price": 768,
+        "rarity": 9999,
+        "sticky": false
+      },
+      {
+        "item": "Sharpness II Book",
+        "sell_price": 768,
+        "rarity": 9999,
+        "sticky": false
+      },
+      {
+        "item": "Haste I Potion",
+        "sell_price": 32,
+        "rarity": 200,
+        "sticky": false
+      },
+      {
+        "item": "Haste II Potion",
+        "sell_price": 128,
+        "rarity": 1000,
+        "sticky": false
+      },
+      {
+        "item": "Luck Potion",
+        "sell_price": 128,
+        "rarity": 1000,
+        "sticky": false
+      },
+      {
+        "item": "Bone Meal",
+        "sell_price": 512,
+        "rarity": 49999,
+        "sticky": false
+      },
+      {
+        "item": "Barrel",
+        "sell_price": 1024,
+        "rarity": 99999,
+        "sticky": false
+      },
+      {
+        "item": "Recycler",
+        "sell_price": 1024,
+        "rarity": 99999,
+        "sticky": false
+      },
+      {
+        "item": "Bane Of Pillagers Amulet",
+        "sell_price": 4096,
+        "rarity": 500000,
+        "sticky": true
+      },
+      {
+        "item": "Sparkler",
+        "sell_price": 32,
+        "rarity": 200,
+        "sticky": false
+      },
+      {
+        "item": "Firecracker",
+        "sell_price": 64,
+        "rarity": 500,
+        "sticky": false
+      },
+      {
+        "item": "Fireworks Bundle",
+        "sell_price": 128,
+        "rarity": 1000,
+        "sticky": false
+      },
+      {
+        "item": "Roman Candle",
+        "sell_price": 128,
+        "rarity": 1000,
+        "sticky": false
+      },
+      {
+        "item": "Komodo 30000 SuperNova Aerial Firework",
+        "sell_price": 768,
+        "rarity": 9999,
+        "sticky": false
+      },
+      {
+        "item": "Ford F150 Keys",
+        "sell_price": 768,
+        "rarity": 9999,
+        "sticky": false
+      }
     ]
   },
   "fishing": {
@@ -516,53 +516,53 @@
       }
     },
     "findables": [
-      [
-        "Lure I Book",
-        32,
-        200,
-        false
-      ],
-      [
-        "Seaweed",
-        420,
-        1666,
-        false
-      ],
-      [
-        "Heart Of The Sea",
-        420,
-        6669,
-        false
-      ],
-      [
-        "Mooderald",
-        768,
-        4096,
-        true
-      ],
-      [
-        "Recycler",
-        1024,
-        99999,
-        false
-      ],
-      [
-        "Ford F150 Keys",
-        768,
-        9999,
-        false
-      ]
+      {
+        "item": "Lure I Book",
+        "sell_price": 32,
+        "rarity": 200,
+        "sticky": false
+      },
+      {
+        "item": "Seaweed",
+        "sell_price": 420,
+        "rarity": 1666,
+        "sticky": false
+      },
+      {
+        "item": "Heart Of The Sea",
+        "sell_price": 420,
+        "rarity": 6669,
+        "sticky": false
+      },
+      {
+        "item": "Mooderald",
+        "sell_price": 768,
+        "rarity": 4096,
+        "sticky": true
+      },
+      {
+        "item": "Recycler",
+        "sell_price": 1024,
+        "rarity": 99999,
+        "sticky": false
+      },
+      {
+        "item": "Ford F150 Keys",
+        "sell_price": 768,
+        "rarity": 9999,
+        "sticky": false
+      }
     ]
   },
   "shop_items": {
     "stone pickaxe": {
       "cat": "tools",
       "buy_price": 32,
-      "db_entry": [
-        "Stone Pickaxe",
-        8,
-        true
-      ],
+      "db_entry": {
+        "item": "Stone Pickaxe",
+        "sell_price": 8,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -570,11 +570,11 @@
     "iron pickaxe": {
       "cat": "tools",
       "buy_price": 128,
-      "db_entry": [
-        "Iron Pickaxe",
-        32,
-        true
-      ],
+      "db_entry": {
+        "item": "Iron Pickaxe",
+        "sell_price": 32,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -582,11 +582,11 @@
     "gold pickaxe": {
       "cat": "tools",
       "buy_price": 512,
-      "db_entry": [
-        "Gold Pickaxe",
-        128,
-        true
-      ],
+      "db_entry": {
+        "item": "Gold Pickaxe",
+        "sell_price": 128,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -594,11 +594,11 @@
     "diamond pickaxe": {
       "cat": "tools",
       "buy_price": 2048,
-      "db_entry": [
-        "Diamond Pickaxe",
-        512,
-        true
-      ],
+      "db_entry": {
+        "item": "Diamond Pickaxe",
+        "sell_price": 512,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -606,11 +606,11 @@
     "netherite pickaxe": {
       "cat": "tools",
       "buy_price": 8192,
-      "db_entry": [
-        "Netherite Pickaxe",
-        2048,
-        true
-      ],
+      "db_entry": {
+        "item": "Netherite Pickaxe",
+        "sell_price": 2048,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1,
         "items": {
@@ -621,11 +621,11 @@
     "stone sword": {
       "cat": "tools",
       "buy_price": 32,
-      "db_entry": [
-        "Stone Sword",
-        8,
-        true
-      ],
+      "db_entry": {
+        "item": "Stone Sword",
+        "sell_price": 8,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -633,11 +633,11 @@
     "iron sword": {
       "cat": "tools",
       "buy_price": 128,
-      "db_entry": [
-        "Iron Sword",
-        32,
-        true
-      ],
+      "db_entry": {
+        "item": "Iron Sword",
+        "sell_price": 32,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -645,11 +645,11 @@
     "gold sword": {
       "cat": "tools",
       "buy_price": 512,
-      "db_entry": [
-        "Gold Sword",
-        128,
-        true
-      ],
+      "db_entry": {
+        "item": "Gold Sword",
+        "sell_price": 128,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -657,11 +657,11 @@
     "diamond sword": {
       "cat": "tools",
       "buy_price": 2048,
-      "db_entry": [
-        "Diamond Sword",
-        512,
-        true
-      ],
+      "db_entry": {
+        "item": "Diamond Sword",
+        "sell_price": 512,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -669,11 +669,11 @@
     "netherite sword": {
       "cat": "tools",
       "buy_price": 8192,
-      "db_entry": [
-        "Netherite Sword",
-        2048,
-        true
-      ],
+      "db_entry": {
+        "item": "Netherite Sword",
+        "sell_price": 2048,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1,
         "items": {
@@ -684,11 +684,11 @@
     "stone hoe": {
       "cat": "tools,farming",
       "buy_price": 32,
-      "db_entry": [
-        "Stone Hoe",
-        8,
-        true
-      ],
+      "db_entry": {
+        "item": "Stone Hoe",
+        "sell_price": 8,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -696,11 +696,11 @@
     "iron hoe": {
       "cat": "tools,farming",
       "buy_price": 128,
-      "db_entry": [
-        "Iron Hoe",
-        32,
-        true
-      ],
+      "db_entry": {
+        "item": "Iron Hoe",
+        "sell_price": 32,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -708,11 +708,11 @@
     "gold hoe": {
       "cat": "tools,farming",
       "buy_price": 512,
-      "db_entry": [
-        "Gold Hoe",
-        128,
-        true
-      ],
+      "db_entry": {
+        "item": "Gold Hoe",
+        "sell_price": 128,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -720,11 +720,11 @@
     "diamond hoe": {
       "cat": "tools,farming",
       "buy_price": 2048,
-      "db_entry": [
-        "Diamond Hoe",
-        512,
-        true
-      ],
+      "db_entry": {
+        "item": "Diamond Hoe",
+        "sell_price": 512,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -732,11 +732,11 @@
     "netherite hoe": {
       "cat": "tools,farming",
       "buy_price": 8192,
-      "db_entry": [
-        "Netherite Hoe",
-        2048,
-        true
-      ],
+      "db_entry": {
+        "item": "Netherite Hoe",
+        "sell_price": 2048,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1,
         "items": {
@@ -747,11 +747,11 @@
     "fishing rod": {
       "cat": "tools",
       "buy_price": 1024,
-      "db_entry": [
-        "Fishing Rod",
-        256,
-        true
-      ],
+      "db_entry": {
+        "item": "Fishing Rod",
+        "sell_price": 256,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -759,51 +759,51 @@
     "haste i potion": {
       "cat": "magic",
       "buy_price": 120,
-      "db_entry": [
-        "Haste I Potion",
-        32,
-        false
-      ],
+      "db_entry": {
+        "item": "Haste I Potion",
+        "sell_price": 32,
+        "sticky": false
+      },
       "requires": {}
     },
     "fortune i book": {
       "cat": "magic",
       "buy_price": 120,
-      "db_entry": [
-        "Fortune I Book",
-        24,
-        false
-      ],
+      "db_entry": {
+        "item": "Fortune I Book",
+        "sell_price": 24,
+        "sticky": false
+      },
       "requires": {}
     },
     "jar of bees": {
       "cat": "other",
       "buy_price": 8,
-      "db_entry": [
-        "Jar Of Bees",
-        2,
-        false
-      ],
+      "db_entry": {
+        "item": "Jar Of Bees",
+        "sell_price": 2,
+        "sticky": false
+      },
       "requires": {}
     },
     "netherite scrap": {
       "cat": "other",
       "buy_price": 32,
-      "db_entry": [
-        "Netherite Scrap",
-        8,
-        false
-      ],
+      "db_entry": {
+        "item": "Netherite Scrap",
+        "sell_price": 8,
+        "sticky": false
+      },
       "requires": {}
     },
     "rich person trophy": {
       "cat": "magic",
       "buy_price": 36000,
-      "db_entry": [
-        "Rich Person Trophy",
-        1024,
-        true
-      ],
+      "db_entry": {
+        "item": "Rich Person Trophy",
+        "sell_price": 1024,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1
       }
@@ -811,31 +811,31 @@
     "vault potion": {
       "cat": "magic",
       "buy_price": 81,
-      "db_entry": [
-        "Vault Potion",
-        30,
-        false
-      ],
+      "db_entry": {
+        "item": "Vault Potion",
+        "sell_price": 30,
+        "sticky": false
+      },
       "requires": {}
     },
     "sharpness i book": {
       "cat": "magic",
       "buy_price": 120,
-      "db_entry": [
-        "Sharpness I Book",
-        32,
-        false
-      ],
+      "db_entry": {
+        "item": "Sharpness I Book",
+        "sell_price": 32,
+        "sticky": false
+      },
       "requires": {}
     },
     "slime trophy": {
       "cat": "other",
       "buy_price": 48000,
-      "db_entry": [
-        "Slime Trophy",
-        2048,
-        true
-      ],
+      "db_entry": {
+        "item": "Slime Trophy",
+        "sell_price": 2048,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1,
         "items": {
@@ -846,11 +846,11 @@
     "fishing trophy": {
       "cat": "other",
       "buy_price": 48000,
-      "db_entry": [
-        "Fishing Trophy",
-        2048,
-        true
-      ],
+      "db_entry": {
+        "item": "Fishing Trophy",
+        "sell_price": 2048,
+        "sticky": true
+      },
       "requires": {
         "count_lt": 1,
         "items": {
@@ -861,61 +861,61 @@
     "glass beaker": {
       "cat": "other",
       "buy_price": 8,
-      "db_entry": [
-        "Glass Beaker",
-        2,
-        false
-      ],
+      "db_entry": {
+        "item": "Glass Beaker",
+        "sell_price": 2,
+        "sticky": false
+      },
       "requires": {}
     },
     "wheat seed": {
       "cat": "farming",
       "buy_price": 32,
-      "db_entry": [
-        "Wheat Seed",
-        24,
-        false
-      ],
+      "db_entry": {
+        "item": "Wheat Seed",
+        "sell_price": 24,
+        "sticky": false
+      },
       "requires": {}
     },
     "carrot": {
       "cat": "farming",
       "buy_price": 96,
-      "db_entry": [
-        "Carrot",
-        64,
-        false
-      ],
+      "db_entry": {
+        "item": "Carrot",
+        "sell_price": 64,
+        "sticky": false
+      },
       "requires": {}
     },
     "potato": {
       "cat": "farming",
       "buy_price": 192,
-      "db_entry": [
-        "Potato",
-        128,
-        false
-      ],
+      "db_entry": {
+        "item": "Potato",
+        "sell_price": 128,
+        "sticky": false
+      },
       "requires": {}
     },
     "melon seed": {
       "cat": "farming",
       "buy_price": 384,
-      "db_entry": [
-        "Melon Seed",
-        192,
-        false
-      ],
+      "db_entry": {
+        "item": "Melon Seed",
+        "sell_price": 192,
+        "sticky": false
+      },
       "requires": {}
     },
     "chorus seed": {
       "cat": "farming",
       "buy_price": 640,
-      "db_entry": [
-        "Chorus Seed",
-        512,
-        false
-      ],
+      "db_entry": {
+        "item": "Chorus Seed",
+        "sell_price": 512,
+        "sticky": false
+      },
       "requires": {}
     }
   },
@@ -1274,12 +1274,30 @@
       "wheat": 32
     },
     "crop_yields": {
-      "emerald_fruit": [1, 1],
-      "chorus_fruit": [1, 2],
-      "melon": [2, 10],
-      "potato": [1, 3],
-      "carrot": [1, 3],
-      "wheat": [1, 2]
+      "emerald_fruit": [
+        1,
+        1
+      ],
+      "chorus_fruit": [
+        1,
+        2
+      ],
+      "melon": [
+        2,
+        10
+      ],
+      "potato": [
+        1,
+        3
+      ],
+      "carrot": [
+        1,
+        3
+      ],
+      "wheat": [
+        1,
+        2
+      ]
     },
     "crop_times": {
       "emerald_fruit": "2 DAYS",

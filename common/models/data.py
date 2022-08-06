@@ -1,4 +1,3 @@
-from functools import cached_property
 from typing import Any, Optional
 
 import discord
@@ -13,7 +12,7 @@ class MobsMech(BaseModel):
 
     valid_attacks: set[str]
     valid_flees: set[str]
-    mobs: list[Mob]
+    mobs: dict[str, Mob]
 
 
 class Findable(BaseModel):
@@ -30,7 +29,7 @@ class Mining(BaseModel):
     yields_pickaxes: dict[str, list[int]]  # emerald yield from different pickaxes
     findables: list[Findable]
 
-    @cached_property
+    @property
     def pickaxes(self) -> list[str]:
         return list(self.yields_pickaxes)[::-1]
 
@@ -38,7 +37,7 @@ class Mining(BaseModel):
 class Fishing(BaseModel):
     class Fish(BaseModel):
         name: str
-        value: list = Field(min_items=2, max_items=2)
+        value: list[int] = Field(min_items=2, max_items=2)
         currrent: Optional[float]
         rarity: int
 
@@ -46,11 +45,11 @@ class Fishing(BaseModel):
     fish: dict[str, Fish]
     findables: list[Findable]
 
-    @cached_property
+    @property
     def fish_ids(self) -> list[float]:
         return list(self.fish.keys())
 
-    @cached_property
+    @property
     def fishing_weights(self) -> list[float]:
         return [(len(self.fish_ids) - f.rarity) ** self.exponent for f in self.fish.values()]
 
@@ -231,18 +230,13 @@ class FunLangs(BaseModel):
     villager: dict[str, str]
     vaporwave: dict[str, str]
 
-    @cached_property
+    @property
     def unenchant(self) -> dict[str, str]:
         return {v: k for k, v in self.enchant.items()}
 
 
 class Data(BaseModel):
-    _embed_color: str = Field(alias="embed_color")
-
-    @cached_property
-    def embed_color(self) -> discord.Color:
-        return getattr(discord.Color, self._embed_color)()
-
+    embed_color: str
     support_server_id: int
     error_channel_id: int
     vote_channel_id: int
@@ -270,7 +264,7 @@ class Data(BaseModel):
     mobs_mech: MobsMech
     mining: Mining
     fishing: Fishing
-    shop_items: list[ShopItem]
+    shop_items: dict[str, ShopItem]
     rpt_ignore: list[str]
     cats: dict[str, list[str]]
     emojis: Emojis

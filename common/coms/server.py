@@ -43,8 +43,6 @@ class Server(ComsBase):
         return f"{t}{packet_id}"
 
     async def serve(self) -> None:
-        print(self.host, self.port)
-
         async with serve(self._handle_connection, self.host, self.port, logger=self.logger):
             await self._stop.wait()
 
@@ -59,9 +57,9 @@ class Server(ComsBase):
         except ValueError:
             pass
 
-    async def _broadcast(self, ws: WebSocketServerProtocol, packet: Packet) -> None:
+    async def broadcast(self, packet_type: PacketType, packet_data: VALID_PACKET_DATA_TYPES) -> list[VALID_PACKET_DATA_TYPES]:
         broadcast_id = self._get_packet_id("b")
-        broadcast_packet = Packet(id=broadcast_id, type=packet.type, data=packet.data)
+        broadcast_packet = Packet(id=broadcast_id, type=packet_type, data=packet_data)
 
         ws_ids = {ws.id for ws in self._connections}
         broadcast_coros = [
@@ -74,8 +72,13 @@ class Server(ComsBase):
         await asyncio.wait(broadcast_coros)
         await broadcast.ready.wait()
 
+        return broadcast.responses
+
+    async def _client_broadcast(self, ws: WebSocketServerProtocol, packet: Packet) -> None:
+        responses = await self.broadcast(packet.type, packet.data)
+
         # send response back to client who requested broadcast
-        await self._send(ws, Packet(id=packet.id, data={"responses": broadcast.responses}))
+        await self._send(ws, Packet(id=packet.id, data={"responses": responses}))
 
     async def _handle_broadcast_response(self, ws: WebSocketServerProtocol, packet: Packet) -> None:
         broadcast = self._broadcasts[packet.id]
@@ -131,7 +134,7 @@ class Server(ComsBase):
             if packet.type == PacketType.BROADCAST_REQUEST:
                 # broadcast requests are special types of packets which forward the packet to ALL connected clients
                 asyncio.create_task(
-                    self._broadcast(ws, packet)
+                    self._client_broadcast(ws, packet)
                 )  # TODO: keep track of these tasks and properly cancel them on a server shutdown
                 continue
 
@@ -144,9 +147,10 @@ class Server(ComsBase):
                 response = await self._call_handler(packet)
             except Exception:
                 self.logger.error(
-                    "An error ocurred while calling the packet handler for packet type %s",
-                    packet.type,
+                    "An error ocurred while calling the packet handler for packet %s",
+                    packet,
                     exc_info=True,
                 )
+                # TODO: Send some sort of error packet, since response isn't sent
             else:
                 await self._send(ws, Packet(id=packet.id, data=response))
