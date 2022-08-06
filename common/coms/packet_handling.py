@@ -22,7 +22,9 @@ class PacketHandler:
 
 def validate_packet_handler_function(function: T_PACKET_HANDLER_CALLABLE) -> None:
     # check if any args are missing annotations
-    if any([arg_name not in function.__annotations__ for arg_name in function.__code__.co_varnames]):
+    if any(
+        [arg_name not in function.__annotations__ for arg_name in function.__code__.co_varnames]
+    ):
         raise ValueError(
             f"The packet handler {function.__qualname__} is missing argument annotations / typehints for one or more arguments"
         )
