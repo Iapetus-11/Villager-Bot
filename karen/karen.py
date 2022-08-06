@@ -52,7 +52,9 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             logger,
         )
 
-        self.topgg_server = TopggWebhookServer(self.secrets.topgg_webhook, self.vote_callback, logger)
+        self.topgg_server = TopggWebhookServer(
+            self.secrets.topgg_webhook, self.vote_callback, logger
+        )
 
         self.current_cluster_id = 0
 

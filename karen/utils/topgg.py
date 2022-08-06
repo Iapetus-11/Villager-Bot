@@ -1,9 +1,10 @@
-
 import logging
 from typing import Awaitable, Callable, Optional
-from karen.models.secrets import TopggWebhookSecrets
+
 from aiohttp import web
 from pydantic import BaseModel, ValidationError
+
+from karen.models.secrets import TopggWebhookSecrets
 
 
 class TopggVote(BaseModel):
@@ -15,7 +16,12 @@ class TopggVote(BaseModel):
 
 
 class TopggWebhookServer:
-    def __init__(self, secrets: TopggWebhookSecrets, callback: Callable[[TopggVote], Awaitable[None]], logger: logging.Logger):
+    def __init__(
+        self,
+        secrets: TopggWebhookSecrets,
+        callback: Callable[[TopggVote], Awaitable[None]],
+        logger: logging.Logger,
+    ):
         self.secrets = secrets
         self.callback = callback
         self.logger = logger.getChild("topgg")
@@ -30,7 +36,9 @@ class TopggWebhookServer:
         self._runner = web.AppRunner(app)
         await self._runner.setup()
 
-        self._server = web.TCPSite(self._runner, self.secrets.host, self.secrets.port, shutdown_timeout=1)
+        self._server = web.TCPSite(
+            self._runner, self.secrets.host, self.secrets.port, shutdown_timeout=1
+        )
         await self._server.start()
 
     async def stop(self) -> None:
