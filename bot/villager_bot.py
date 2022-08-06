@@ -11,18 +11,23 @@ import discord
 import psutil
 from discord.ext import commands
 
-from bot.models.secrets import Secrets
-from bot.models.translation import Translation
-from bot.utils.ctx import CustomContext
-from bot.utils.karen_client import KarenClient
-from bot.utils.misc import update_support_member_role, CommandOnKarenCooldown, MaxKarenConcurrencyReached
-from bot.utils.setup import load_translations, setup_logging, villager_bot_intents
 from common.coms.packet import T_PACKET_DATA
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.models.data import Data
 from common.utils.code import execute_code
 from common.utils.setup import load_data, setup_database_pool
+
+from bot.models.secrets import Secrets
+from bot.models.translation import Translation
+from bot.utils.ctx import CustomContext
+from bot.utils.karen_client import KarenClient
+from bot.utils.misc import (
+    CommandOnKarenCooldown,
+    MaxKarenConcurrencyReached,
+    update_support_member_role,
+)
+from bot.utils.setup import load_translations, setup_logging, villager_bot_intents
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
@@ -275,7 +280,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     @handle_packet(PacketType.EXEC_CODE)
     async def handle_exec_packet(self, code: str):
-        result = await execute_code(code, {"bot": self, "db": self.db, "dbc": self.get_cog("Database"), "http": self.aiohttp})
+        result = await execute_code(
+            code,
+            {"bot": self, "db": self.db, "dbc": self.get_cog("Database"), "http": self.aiohttp},
+        )
 
         if not isinstance(result, T_PACKET_DATA):
             result = repr(result)

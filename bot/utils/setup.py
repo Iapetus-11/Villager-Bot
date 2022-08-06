@@ -4,9 +4,10 @@ import random
 
 import discord
 
+from common.models.data import Data
+
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
-from common.models.data import Data
 
 
 def villager_bot_intents() -> discord.Intents:

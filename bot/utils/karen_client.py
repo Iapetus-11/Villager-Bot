@@ -3,12 +3,13 @@ from typing import Optional, Union
 
 import discord
 
-from bot.models.karen.cooldown import Cooldown
 from common.coms.client import Client
+from common.coms.packet import T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler
 from common.coms.packet_type import PacketType
 from common.models.secrets import KarenSecrets
-from common.coms.packet import T_PACKET_DATA, Packet
+
+from bot.models.karen.cooldown import Cooldown
 
 
 class KarenResponseError(Exception):
@@ -54,18 +55,23 @@ class KarenClient:
         return await self._send(PacketType.EXEC_CODE, code=code)
 
     async def cooldown(self, command: str, user_id: int) -> Cooldown:
-        return Cooldown(**await self._send(
-            PacketType.COOLDOWN_CHECK_ADD, command=command, user_id=user_id
-        ))
+        return Cooldown(
+            **await self._send(PacketType.COOLDOWN_CHECK_ADD, command=command, user_id=user_id)
+        )
 
     async def cooldown_add(self, command: str, user_id: int) -> None:
         await self._send(PacketType.COOLDOWN_ADD, command=command, user_id=user_id)
-    
+
     async def cooldown_reset(self, command: str, user_id: int) -> None:
         await self._send(PacketType.COOLDOWN_RESET, command=command, user_id=user_id)
 
     async def dm_message(self, message: discord.Message) -> None:
-        await self._send(PacketType.DM_MESSAGE, user_id=message.author.id, message_id=message.id, content=message.content)
+        await self._send(
+            PacketType.DM_MESSAGE,
+            user_id=message.author.id,
+            message_id=message.id,
+            content=message.content,
+        )
 
     async def mine_command(self, user_id: int, addition: int) -> int:
         return await self._send(PacketType.MINE_COMMAND, user_id=user_id, addition=addition)
@@ -93,7 +99,7 @@ class KarenClient:
 
     async def econ_pause(self, user_id: int) -> None:
         await self._send(PacketType.ECON_PAUSE, user_id=user_id)
-    
+
     async def econ_unpause(self, user_id: int) -> None:
         await self._send(PacketType.ECON_PAUSE_UNDO, user_id=user_id)
 

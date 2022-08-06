@@ -1,6 +1,7 @@
 import asyncio
 
 from common.utils.setup import load_data
+
 from karen.karen import MechaKaren
 from karen.utils.setup import load_secrets
 
