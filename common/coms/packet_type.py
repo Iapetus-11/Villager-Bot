@@ -30,3 +30,4 @@ class PacketType(IntEnum):
     ACTIVE_FX_CHECK = auto()
     ACTIVE_FX_ADD = auto()
     ACTIVE_FX_REMOVE = auto()
+    TOPGG_VOTE = auto()

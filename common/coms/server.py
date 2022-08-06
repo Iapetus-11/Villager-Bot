@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from typing import Callable, Optional
 
 from pydantic import BaseModel
 from websockets.server import WebSocketServerProtocol, serve
@@ -28,7 +29,7 @@ class Server(ComsBase):
         packet_handlers: dict[PacketType, PacketHandler],
         logger: logging.Logger,
     ):
-        super().__init__(host, port, packet_handlers, logger)
+        super().__init__(host, port, packet_handlers, logger.getChild("server"))
 
         self.auth = auth
 
@@ -42,8 +43,9 @@ class Server(ComsBase):
         self._current_id += 1
         return f"{t}{packet_id}"
 
-    async def serve(self) -> None:
+    async def serve(self, ready_cb: Optional[Callable[[], None]]) -> None:
         async with serve(self._handle_connection, self.host, self.port, logger=self.logger):
+            ready_cb()
             await self._stop.wait()
 
     async def _send(self, ws: WebSocketServerProtocol, packet: Packet) -> None:

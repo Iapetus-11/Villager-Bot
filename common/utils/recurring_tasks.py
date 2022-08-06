@@ -35,7 +35,7 @@ class RecurringTask:
             self.logger.error(
                 "An error ocurred while calling the loop callable: %s",
                 self.name,
-                ex_info=True,
+                exc_info=True,
             )
 
     async def _loop(self) -> None:

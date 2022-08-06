@@ -12,11 +12,13 @@ from common.coms.packet_type import PacketType
 from common.coms.server import Server
 from common.models.data import Data
 from common.utils.code import execute_code, format_exception
+from common.utils.misc import chunk_sequence
 from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
 from common.utils.setup import setup_database_pool
 from karen.models.secrets import Secrets
 from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
 from karen.utils.setup import setup_logging
+from karen.utils.topgg import TopggVote, TopggWebhookServer
 
 logger = setup_logging()
 
@@ -40,6 +42,8 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         self.db: Optional[asyncpg.Pool] = None
 
+        self.ready_event = asyncio.Event()
+
         self.server = Server(
             secrets.karen.host,
             secrets.karen.port,
@@ -48,6 +52,8 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             logger,
         )
 
+        self.topgg_server = TopggWebhookServer(self.secrets.topgg_webhook, self.vote_callback, logger)
+
         self.current_cluster_id = 0
 
         self.v = Share(data)
@@ -55,25 +61,29 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         # must be last
         RecurringTasksMixin.__init__(self, logger)
 
-    @cached_property
-    def chunked_shard_ids(self) -> list[list[int]]:
-        shard_ids = list(range(self.secrets.shard_count))
-        shards_per_cluster = self.secrets.shard_count // self.secrets.cluster_count + 1
-        return [shard_ids[i : i + shards_per_cluster] for i in range(self.secrets.cluster_count)]
-
     async def start(self) -> None:
         self.db = await setup_database_pool(self.secrets.database)
 
         self.start_recurring_tasks()
 
         # nothing past this point
-        await self.server.serve()
+        await self.server.serve(lambda: self.ready_event.set())
 
     async def stop(self) -> None:
         self.cancel_recurring_tasks()
 
         if self.db is not None:
             await self.db.close()
+
+    @cached_property
+    def chunked_shard_ids(self) -> list[list[int]]:
+        shard_ids = list(range(self.secrets.shard_count))
+        shards_per_cluster = self.secrets.shard_count // self.secrets.cluster_count + 1
+        return chunk_sequence(shard_ids, shards_per_cluster)
+
+    async def vote_callback(self, vote: TopggVote) -> None:
+        await self.ready_event.wait()
+        await self.server.broadcast(PacketType.TOPGG_VOTE, vote)
 
     ###### loops ###############################################################
 
@@ -108,13 +118,22 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     async def loop_clear_trivia_commands(self):
         self.v.trivia_commands.clear()
 
-    @recurring_task(seconds=5)
+    @recurring_task(seconds=5, sleep_first=False)
     async def loop_remind_reminders(self):
         reminders = await self.db.fetch(
             "DELETE FROM reminders WHERE at <= NOW() RETURNING channel_id, user_id, message_id, reminder"
         )
 
         broadcast_coros = [self.server.broadcast(PacketType.REMINDER, {**r}) for r in reminders]
+
+        for coros_chunk in chunk_sequence(broadcast_coros, 4):
+            await asyncio.wait(coros_chunk)
+
+    @recurring_task(minutes=30, sleep_first=False)
+    async def loop_clear_weekly_leaderboards(self):
+        await self.db.execute(
+            "UPDATE leaderboards SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) WHERE DATE_TRUNC('WEEK', NOW()) > week"
+        )
 
     ###### packet handlers #####################################################
 
