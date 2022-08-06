@@ -57,6 +57,10 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         if self.db is not None:
             await self.db.close()
 
+    # loops
+
+    # packet handlers
+
     @handle_packet(PacketType.GET_SHARD_IDS)
     async def handle_get_shard_ids_packet(self) -> list[int]:
         shard_ids = self.chunked_shard_ids[self.current_cluster_id]
