@@ -1,4 +1,5 @@
-from pydantic import BaseModel as PydanticBaseModel, Extra
+from pydantic import BaseModel as PydanticBaseModel
+from pydantic import Extra
 
 
 class BaseModel(PydanticBaseModel):

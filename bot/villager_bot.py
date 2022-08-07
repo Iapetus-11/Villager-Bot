@@ -9,7 +9,6 @@ import arrow
 import discord
 import psutil
 from discord.ext import commands
-from bot.utils.database_proxy import DatabaseProxy
 
 from common.coms.packet import T_PACKET_DATA
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
@@ -21,6 +20,7 @@ from common.utils.setup import load_data, setup_database_pool
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
 from bot.utils.ctx import CustomContext
+from bot.utils.database_proxy import DatabaseProxy
 from bot.utils.karen_client import KarenClient
 from bot.utils.misc import (
     CommandOnKarenCooldown,

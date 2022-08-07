@@ -109,6 +109,9 @@ class Client(ComsBase):
         await self._send(packet)
         return await self._waiting[packet.id]
 
-    async def broadcast(self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None) -> Packet:
-        return await self.send(PacketType.BROADCAST_REQUEST, data={"type": packet_type, "data": (packet_data or {})})
-
+    async def broadcast(
+        self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
+    ) -> Packet:
+        return await self.send(
+            PacketType.BROADCAST_REQUEST, data={"type": packet_type, "data": (packet_data or {})}
+        )

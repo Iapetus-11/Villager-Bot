@@ -2,7 +2,7 @@ import logging
 
 import asyncpg
 
-from karen.models.secrets import Secrets, DatabaseSecrets
+from karen.models.secrets import DatabaseSecrets, Secrets
 
 
 async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:

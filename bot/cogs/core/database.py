@@ -14,7 +14,7 @@ from common.models.database.user import User
 
 from bot.villager_bot import VillagerBotCluster
 
- 
+
 class Database(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
@@ -616,7 +616,10 @@ class Database(commands.Cog):
     async def add_farm_plot(self, user_id: int, crop_type: str, amount: int) -> None:
         crop_time = self.d.farming.crop_times[crop_type]
 
-        await self.db.executemany("INSERT INTO farm_plots (user_id, crop_type, planted_at, grow_time) VALUES ($1, $2, NOW(), $3::TEXT::INTERVAL)", [(user_id, crop_type, crop_time) for _ in range(amount)])
+        await self.db.executemany(
+            "INSERT INTO farm_plots (user_id, crop_type, planted_at, grow_time) VALUES ($1, $2, NOW(), $3::TEXT::INTERVAL)",
+            [(user_id, crop_type, crop_time) for _ in range(amount)],
+        )
 
         await self.update_lb(user_id, "crops_planted", amount)
 

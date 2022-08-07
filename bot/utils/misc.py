@@ -7,9 +7,10 @@ from typing import Any, List, Tuple
 
 import arrow
 import discord
+from util.code import format_exception
+
 from common.models.database.item import Item
 from common.models.database.user import User
-from util.code import format_exception
 
 
 def strip_command(ctx):  # returns message.clean_content excluding the command used

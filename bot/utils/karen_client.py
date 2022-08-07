@@ -48,12 +48,14 @@ class KarenClient:
 
         return resp.data
 
-    async def _broadcast(self, packet_type: PacketType, **kwargs: T_PACKET_DATA) -> list[T_PACKET_DATA]:
+    async def _broadcast(
+        self, packet_type: PacketType, **kwargs: T_PACKET_DATA
+    ) -> list[T_PACKET_DATA]:
         resp = await self._client.broadcast(packet_type, kwargs)
 
         if resp.error:
             raise KarenResponseError(resp)
-        
+
         return resp.data
 
     async def fetch_shard_ids(self) -> list[int]:
@@ -119,7 +121,7 @@ class KarenClient:
 
     async def remove_active_fx(self, user_id: int, fx: str) -> None:
         await self._send(PacketType.ACTIVE_FX_REMOVE, user_id=user_id, fx=fx)
-    
+
     async def db_exec(self, query: str, *args: Any) -> None:
         await self._send(PacketType.DB_EXEC, query=query, args=args)
 

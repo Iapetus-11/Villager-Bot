@@ -15,11 +15,10 @@ from common.models.data import Data
 from common.utils.code import execute_code
 from common.utils.misc import chunk_sequence
 from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
-from karen.utils.setup import setup_database_pool
 
 from karen.models.secrets import Secrets
 from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
-from karen.utils.setup import setup_logging
+from karen.utils.setup import setup_database_pool, setup_logging
 from karen.utils.topgg import TopggVote, TopggWebhookServer
 
 logger = setup_logging()
@@ -261,7 +260,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     @handle_packet(PacketType.DB_FETCH_ROW)
     async def packet_db_fetch_row(self, query: str, args: list[Any]):
         return self._transform_query_result(await self.db.fetchrow(query, *args))
-    
+
     @handle_packet(PacketType.DB_FETCH_ALL)
     async def packet_db_fetch_all(self, query: str, args: list[Any]):
         return self._transform_query_result(await self.db.fetch(query, *args))
