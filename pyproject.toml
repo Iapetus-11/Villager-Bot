@@ -27,7 +27,7 @@ websockets = "^10.3"
 classy-json = "^3.2.1"
 
 [tool.poetry.dev-dependencies]
-black = "^21.5b1"
+black = "^22.6.0"
 flake8 = "^3.9.2"
 mypy = "^0.971"
 asyncpg-stubs = "^0.26.2"
