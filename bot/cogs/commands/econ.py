@@ -13,9 +13,9 @@ from cogs.core.database import Database
 from cogs.core.paginator import Paginator
 from discord.ext import commands
 from models.database.item import Item
-from util.ctx import Ctx
-from util.ipc import PacketType
-from util.misc import (
+from bot.utils.ctx import Ctx
+from bot.utils.ipc import PacketType
+from bot.utils.misc import (
     SuppressCtxManager,
     calc_total_wealth,
     craft_lbs,
@@ -25,7 +25,7 @@ from util.misc import (
     make_health_bar,
 )
 
-from bot import VillagerBotCluster
+from bot.villager_bot import VillagerBotCluster
 
 
 class Econ(commands.Cog):

@@ -1,9 +1,9 @@
 import discord
 from cogs.core.database import Database
 from discord.ext import commands
-from util.ctx import Ctx
+from bot.utils.ctx import Ctx
 
-from bot import VillagerBotCluster
+from bot.villager_bot import VillagerBotCluster
 
 
 class Config(commands.Cog):

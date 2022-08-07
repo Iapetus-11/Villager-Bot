@@ -27,7 +27,7 @@ class RecurringTask:
         self._loop_task: asyncio.Task = None
 
     async def _call(self) -> None:
-        self.logger.info("Calling loop callable: %s", self.name)
+        self.logger.debug("Calling loop callable: %s", self.name)
 
         try:
             await self.loop_callable()
@@ -61,6 +61,8 @@ class RecurringTask:
         if self._loop_task is not None:
             self._loop_task.cancel()
             self._loop_task = None
+            
+        self.logger.info("Cancelled recurring task: %s", self.name)
 
 
 def recurring_task(

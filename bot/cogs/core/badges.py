@@ -5,9 +5,9 @@ from cogs.core.database import Database
 from discord.ext import commands
 from models.database.item import Item
 from models.database.user import User
-from util.misc import calc_total_wealth
+from bot.utils.misc import calc_total_wealth
 
-from bot import VillagerBotCluster
+from bot.villager_bot import VillagerBotCluster
 
 
 class Badges(commands.Cog):

@@ -17,11 +17,11 @@ import psutil
 from cogs.core.database import Database
 from cogs.core.paginator import Paginator
 from discord.ext import commands, tasks
-from util.ctx import Ctx
-from util.ipc import PacketType
-from util.misc import SuppressCtxManager, parse_input_time
+from bot.utils.ctx import Ctx
+from bot.utils.ipc import PacketType
+from bot.utils.misc import SuppressCtxManager, parse_input_time
 
-from bot import VillagerBotCluster
+from bot.villager_bot import VillagerBotCluster
 
 
 class BanCacheEntry:

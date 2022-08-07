@@ -1,19 +1,16 @@
 import random
 import sys
-import textwrap
 from contextlib import suppress
-from typing import Set
 
 import discord
 from cogs.core.database import Database
 from discord.ext import commands
-from util.code import format_exception
-from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
-from util.ctx import Ctx
-from util.ipc import PacketType
-from util.misc import chunk_by_lines, update_support_member_role
+from common.utils.code import format_exception
+from bot.utils.misc import CommandOnKarenCooldown, MaxKarenConcurrencyReached
+from bot.utils.ctx import Ctx
+from bot.utils.misc import chunk_by_lines, update_support_member_role
 
-from bot import VillagerBotCluster
+from bot.villager_bot import VillagerBotCluster
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 
@@ -53,7 +50,7 @@ class Events(commands.Cog):
         self.bot = bot
 
         self.logger = bot.logger
-        self.ipc = bot.ipc
+        self.karen = bot.karen
         self.d = bot.d
         self.k = bot.k
         self.db: Database = bot.get_cog("Database")
@@ -73,15 +70,13 @@ class Events(commands.Cog):
         event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
         self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
 
-        await self.bot.after_ready_ready.wait()
+        await self.bot.final_ready.wait()
         await self.bot.error_channel.send(
             f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```"
         )
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.ipc.send({"type": PacketType.CLUSTER_READY, "cluster_id": self.bot.cluster_id})
-
         self.bot.logger.info(f"Cluster {self.bot.cluster_id} \u001b[36;1mREADY\u001b[0m")
 
         self.bot.support_server = await self.bot.fetch_guild(self.d.support_server_id)
@@ -89,7 +84,7 @@ class Events(commands.Cog):
         self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
         self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
 
-        self.bot.after_ready_ready.set()
+        self.bot.final_ready.set()
 
     async def send_intro_message(self, guild: discord.Guild):
         channel: discord.channel = None
@@ -134,15 +129,15 @@ class Events(commands.Cog):
         self.bot.replies_cache.add(guild.id)
 
         # attempt to set default language based off guild's localization
-        lang = {
-            discord.Locale.es_ES: "es",
-            discord.Locale.pt_BR: "pt",
-            discord.Locale.fr: "fr",
-        }.get(guild.preferred_locale)
+        # lang = {
+        #     discord.Locale.es_ES: "es",
+        #     discord.Locale.pt_BR: "pt",
+        #     discord.Locale.fr: "fr",
+        # }.get(guild.preferred_locale)
 
-        if lang:
-            await self.db.set_guild_attr(guild.id, "language", lang)
-            self.bot.language_cache[guild.id] = lang
+        # if lang:
+        #     await self.db.set_guild_attr(guild.id, "language", lang)
+        #     self.bot.language_cache[guild.id] = lang
 
         await self.send_intro_message(guild)
 
@@ -152,7 +147,7 @@ class Events(commands.Cog):
         await self.db.add_guild_leave(guild)
 
     @commands.Cog.listener()
-    async def on_member_join(self, member):
+    async def on_member_join(self, member: discord.Member):
         # add user to new member cache
         self.bot.new_member_cache[member.guild.id].add(member.id)
 
@@ -160,7 +155,7 @@ class Events(commands.Cog):
             await update_support_member_role(self.bot, member)
 
     @commands.Cog.listener()
-    async def on_member_update(self, before, after):
+    async def on_member_update(self, before: discord.Member, after: discord.Member):
         if before.guild.id == self.d.support_server_id:
             if before.roles != after.roles:
                 await self.db.fetch_user(after.id)  # ensure user is in db
@@ -218,13 +213,7 @@ class Events(commands.Cog):
         # check if channel is a dm channel
         if isinstance(message.channel, discord.DMChannel):
             # forward dm to karen
-            await self.ipc.send(
-                {
-                    "type": PacketType.DM_MESSAGE,
-                    "user_id": message.author.id,
-                    "content": message.content,
-                }
-            )
+            await self.karen.dm_message(message)
 
             # check if there are prior messages, and if there are none, send user a help message
             with suppress(discord.errors.HTTPException):
@@ -325,11 +314,7 @@ class Events(commands.Cog):
             if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
                 remaining -= 0.5
 
-            active_effects = (
-                await self.ipc.request(
-                    {"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id}
-                )
-            ).active
+            active_effects = await self.karen.fetch_active_fx(ctx.author.id)
 
             if active_effects:
                 if "haste ii potion" in active_effects:
@@ -341,13 +326,7 @@ class Events(commands.Cog):
 
         if seconds <= 0.05:
             if karen_cooldown:
-                await self.ipc.send(
-                    {
-                        "type": PacketType.COOLDOWN_ADD,
-                        "command": ctx.command.name,
-                        "user_id": ctx.author.id,
-                    }
-                )
+                await self.karen.cooldown_add(ctx.command.name, ctx.author.id)
 
             await ctx.reinvoke()
             return
@@ -385,13 +364,7 @@ class Events(commands.Cog):
             e = ctx.custom_error
 
         if not isinstance(e, MaxKarenConcurrencyReached):
-            await self.ipc.send(
-                {
-                    "type": PacketType.CONCURRENCY_RELEASE,
-                    "command": str(ctx.command),
-                    "user_id": ctx.author.id,
-                }
-            )
+            await self.karen.release_concurrency(ctx.command.name, ctx.author.id)
 
         if isinstance(e, commands.CommandOnCooldown):
             await self.handle_command_cooldown(ctx, e.retry_after, False)
@@ -444,7 +417,7 @@ class Events(commands.Cog):
                 + "```"
             )
 
-            await self.bot.after_ready_ready.wait()
+            await self.bot.final_ready.wait()
             await self.bot.error_channel.send(debug_info)
 
 

@@ -8,11 +8,11 @@ import classyjson as cj
 import discord
 from cogs.core.database import Database
 from discord.ext import commands
-from util.ctx import Ctx
-from util.ipc import PacketType
-from util.misc import SuppressCtxManager, make_health_bar
+from bot.utils.ctx import Ctx
+from bot.utils.ipc import PacketType
+from bot.utils.misc import SuppressCtxManager, make_health_bar
 
-from bot import VillagerBotCluster
+from bot.villager_bot import VillagerBotCluster
 
 
 class MobSpawner(commands.Cog):

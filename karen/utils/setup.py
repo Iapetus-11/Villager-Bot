@@ -18,7 +18,7 @@ async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:
 
 
 def setup_logging() -> logging.Logger:
-    logging.basicConfig(level=logging.INFO, format="[Karen] %(levelname)s: %(message)s")
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(name)s] %(levelname)s: %(message)s", datefmt="%m-%d-%y %H:%M:%S")
     return logging.getLogger("karen")
 
 

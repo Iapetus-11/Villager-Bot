@@ -155,6 +155,14 @@ python-versions = ">=3.6.0"
 unicode_backport = ["unicodedata2"]
 
 [[package]]
+name = "classy-json"
+version = "3.2.1"
+description = "Dot-access for Python dictionaries like JS!"
+category = "main"
+optional = false
+python-versions = ">=3.7.3,<4.0.0"
+
+[[package]]
 name = "click"
 version = "8.1.3"
 description = "Composable command line interface toolkit"
@@ -561,7 +569,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "c90ab478ee041f2b8ee9a72757c5974f6f4cd09cddc0d51002aa18310fb50ad6"
+content-hash = "9eea198a7f7b6ba65e6585f2dc3c9e1c28bd3093d693395352e67a621a826bfd"
 
 [metadata.files]
 aio-mc-rcon = [
@@ -638,6 +646,10 @@ chardet = [
     {file = "chardet-4.0.0.tar.gz", hash = "sha256:0d6f53a15db4120f2b08c94f11e7d93d2c911ee118b6b30a04ec3ee8310179fa"},
 ]
 charset-normalizer = []
+classy-json = [
+    {file = "classy-json-3.2.1.tar.gz", hash = "sha256:d38aec14426840179024d0e59b35944f0788b5ff8654ef0eff81cf3563824662"},
+    {file = "classy_json-3.2.1-py3-none-any.whl", hash = "sha256:5e292d65609bb4231694cb37e0c50fc54750e4e4f5f2d391275911f96706a870"},
+]
 click = [
     {file = "click-8.1.3-py3-none-any.whl", hash = "sha256:bb4d8133cb15a609f44e8213d9b391b0809795062913b383c62be0ee95b1db48"},
     {file = "click-8.1.3.tar.gz", hash = "sha256:7682dc8afb30297001674575ea00d1814d808d6a36af415a82bd481d37ba7b8e"},

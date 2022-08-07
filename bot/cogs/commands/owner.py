@@ -9,12 +9,12 @@ import arrow
 import discord
 from cogs.core.paginator import Paginator
 from discord.ext import commands
-from util.code import execute_code, format_exception
-from util.ctx import Ctx
-from util.ipc import PacketType
-from util.misc import SuppressCtxManager
+from bot.utils.code import execute_code, format_exception
+from bot.utils.ctx import Ctx
+from bot.utils.ipc import PacketType
+from bot.utils.misc import SuppressCtxManager
 
-from bot import VillagerBotCluster
+from bot.villager_bot import VillagerBotCluster
 
 
 class Owner(commands.Cog):

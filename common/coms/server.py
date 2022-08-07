@@ -59,9 +59,14 @@ class Server(ComsBase):
         except ValueError:
             pass
 
+        self.logger.info("Disconnected client: %s", ws.id)
+
     async def broadcast(
-        self, packet_type: PacketType, packet_data: T_PACKET_DATA
+        self, packet_type: PacketType, packet_data: T_PACKET_DATA = None
     ) -> list[T_PACKET_DATA]:
+        if len(self._connections) == 0:
+            raise RuntimeError("There are no connected clients to broadcast to.")
+
         broadcast_id = self._get_packet_id("b")
         broadcast_packet = Packet(id=broadcast_id, type=packet_type, data=packet_data)
 
@@ -89,9 +94,7 @@ class Server(ComsBase):
 
         if ws.id not in broadcast.ws_ids:
             raise RuntimeError(
-                "Unexpected response from websocket {WsId} for broadcast {BroadcastId}",
-                ws.id,
-                packet.id,
+                f"Unexpected response from websocket {ws.id} for broadcast {packet.id}",
             )
 
         broadcast.responses.append(packet.data)
@@ -101,6 +104,8 @@ class Server(ComsBase):
             broadcast.ready.set()
 
     async def _handle_connection(self, ws: WebSocketServerProtocol):
+        self.logger.info("New client from %s:%s connected: %s", ws.host, ws.port, ws.id)
+
         authed = False
 
         async for message in ws:
@@ -149,12 +154,13 @@ class Server(ComsBase):
 
             try:
                 response = await self._call_handler(packet)
-            except Exception:
+            except Exception as e:
                 self.logger.error(
                     "An error ocurred while calling the packet handler for packet %s",
                     packet,
                     exc_info=True,
                 )
                 # TODO: Send some sort of error packet, since response isn't sent
+                await self._send(ws, Packet(id=packet.id, data=str(e), error=True))
             else:
                 await self._send(ws, Packet(id=packet.id, data=response))

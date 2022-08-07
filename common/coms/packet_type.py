@@ -27,6 +27,7 @@ class PacketType(IntEnum):
     ECON_PAUSE = auto()
     ECON_PAUSE_UNDO = auto()
     ECON_PAUSE_CHECK = auto()
+    ACTIVE_FX_FETCH = auto()
     ACTIVE_FX_CHECK = auto()
     ACTIVE_FX_ADD = auto()
     ACTIVE_FX_REMOVE = auto()
@@ -37,3 +38,4 @@ class PacketType(IntEnum):
     DB_FETCH_ROW = auto()
     DB_FETCH_ALL = auto()
     GET_USER_NAME = auto()
+    FETCH_GUILD_COUNT = auto()

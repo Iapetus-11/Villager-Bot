@@ -34,7 +34,7 @@ def setup_logging(cluster_id: int) -> logging.Logger:
     logging.getLogger("asyncio").setLevel(logging.WARNING)  # hide annoying asyncio info
     logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
 
-    return logging.getLogger("main")
+    return logging.getLogger("bot")
 
 
 def load_translations() -> dict[str, Translation]:

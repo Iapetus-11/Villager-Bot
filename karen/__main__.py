@@ -5,18 +5,15 @@ from common.utils.setup import load_data
 from karen.karen import MechaKaren
 from karen.utils.setup import load_secrets
 
-
-def main():
+async def main():
     secrets = load_secrets()
     data = load_data()
-
-    karen = MechaKaren(secrets, data)
-
-    try:
-        asyncio.run(karen.start())
-    finally:
-        asyncio.run(karen.stop())
-
+    
+    async with MechaKaren(secrets, data) as karen:
+        await karen.serve()
 
 if __name__ == "__main__":
-    main()
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        pass

@@ -14,7 +14,7 @@ class Packet(BaseModel):
     id: str
     type: Optional[PacketType] = None
     data: T_PACKET_DATA
-    error: bool
+    error: bool = False
 
     class Config:
         json_loads = loads

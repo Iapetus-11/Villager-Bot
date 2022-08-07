@@ -23,6 +23,8 @@ class DatabaseSecrets(ImmutableBaseModel):
 class Secrets(ImmutableBaseModel):
     cluster_count: int
     shard_count: int
+    bot_id: int
     karen: KarenSecrets
+    topgg_api: str
     topgg_webhook: TopggWebhookSecrets
     database: DatabaseSecrets

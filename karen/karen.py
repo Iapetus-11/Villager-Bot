@@ -1,8 +1,12 @@
+from __future__ import annotations
+
 import asyncio
 import time
 from collections import defaultdict
 from functools import cached_property
 from typing import Any, Optional
+
+import aiohttp
 
 import asyncpg
 import psutil
@@ -19,7 +23,7 @@ from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
 from karen.models.secrets import Secrets
 from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
 from karen.utils.setup import setup_database_pool, setup_logging
-from karen.utils.topgg import TopggVote, TopggWebhookServer
+from karen.utils.topgg import TopggVote, VotingWebhookServer
 
 logger = setup_logging()
 
@@ -40,7 +44,7 @@ class Share:
 
 class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     def __init__(self, secrets: Secrets, data: Data):
-        self.secrets = secrets
+        self.k = secrets
 
         self.db: Optional[asyncpg.Pool] = None
 
@@ -54,33 +58,63 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             logger,
         )
 
-        self.topgg_server = TopggWebhookServer(
-            self.secrets.topgg_webhook, self.vote_callback, logger
+        self.votehook_server = VotingWebhookServer(
+            self.k.topgg_webhook, self.vote_callback, logger
         )
 
         self.v = Share(data)
 
+        self.aiohttp: Optional[aiohttp.ClientSession] = None
+
         # must be last
         RecurringTasksMixin.__init__(self, logger)
 
-    async def start(self) -> None:
-        self.db = await setup_database_pool(self.secrets.database)
-
+    def _on_ready(self) -> None:
+        self.ready_event.set()
         self.start_recurring_tasks()
 
-        # nothing past this point
-        await self.server.serve(lambda: self.ready_event.set())
+    async def serve(self) -> None:
+        logger.info("Starting Karen...")
 
-    async def stop(self) -> None:
+        self.db = await setup_database_pool(self.k.database)
+        logger.info("Initialized database connection pool for server %s:%s", self.k.database.host, self.k.database.port)
+
+        self.aiohttp = aiohttp.ClientSession()
+        logger.info("Initialized aiohttp ClientSession")
+
+        await self.votehook_server.start()
+
+        # nothing past this point
+        await self.server.serve(self._on_ready)
+
+    async def _stop(self) -> None:
+        logger.info("Shutting down Karen...")
+
         self.cancel_recurring_tasks()
 
         if self.db is not None:
             await self.db.close()
+            logger.info("Closed database pool")
+
+        if self.aiohttp is not None:
+            await self.aiohttp.close()
+            logger.info("Closed aiohttp ClientSession")
+
+        await self.votehook_server.stop()
+
+    async def __aenter__(self) -> MechaKaren:
+        return self
+
+    async def __aexit__(self, exc_type: type, exc: Exception, tb: Any) -> None:
+        await self._stop()
+
+        if exc:
+            raise exc
 
     @cached_property
     def chunked_shard_ids(self) -> list[list[int]]:
-        shard_ids = list(range(self.secrets.shard_count))
-        shards_per_cluster = self.secrets.shard_count // self.secrets.cluster_count + 1
+        shard_ids = list(range(self.k.shard_count))
+        shards_per_cluster = self.k.shard_count // self.k.cluster_count + 1
         return chunk_sequence(shard_ids, shards_per_cluster)
 
     async def vote_callback(self, vote: TopggVote) -> None:
@@ -147,6 +181,16 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             "UPDATE leaderboards SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) WHERE DATE_TRUNC('WEEK', NOW()) > week"
         )
 
+    @recurring_task(hours=1, sleep_first=False)
+    async def loop_topgg_stats(self):
+        guild_count = sum(await self.server.broadcast(PacketType.FETCH_GUILD_COUNT))
+
+        await self.aiohttp.post(
+            f"https://top.gg/api/bots/{self.k.bot_id}/stats",
+            headers={"Authorization": self.k.topgg_api},
+            json={"server_count": str(guild_count)},
+        )
+
     ###### packet handlers #####################################################
 
     @handle_packet(PacketType.FETCH_SHARD_IDS)
@@ -178,10 +222,10 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         self.v.command_cooldowns.clear_cooldown(command, user_id)
 
     @handle_packet(PacketType.DM_MESSAGE)
-    async def packet_dm_message(self, user_id: int, message_id: int, content: Optional[str]):
+    async def packet_dm_message(self, user_id: int, channel_id: int, message_id: int, content: Optional[str]):
         await self.server.broadcast(
             PacketType.DM_MESSAGE,
-            {"user_id": user_id, "message_id": message_id, "content": content},
+            {"user_id": user_id, "channel_id": channel_id, "message_id": message_id, "content": content},
         )
 
     @handle_packet(PacketType.MINE_COMMAND)
@@ -229,6 +273,10 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     @handle_packet(PacketType.ECON_PAUSE_UNDO)
     async def packet_econ_pause_undo(self, user_id: int):
         self.v.econ_paused_users.pop(user_id, None)
+
+    @handle_packet(PacketType.ACTIVE_FX_FETCH)
+    async def packet_active_fx_fetch(self, user_id: int):
+        return self.v.active_fx[user_id]
 
     @handle_packet(PacketType.ACTIVE_FX_CHECK)
     async def packet_active_fx_check(self, user_id: int, fx: str):

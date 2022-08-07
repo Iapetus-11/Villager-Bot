@@ -2,15 +2,15 @@ import asyncio
 from collections import defaultdict
 from contextlib import suppress
 from datetime import datetime
-from typing import Any, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import discord
 from data.enums.guild_event_type import GuildEventType
 from discord.ext import commands
 
-from common.models.database.guild import Guild
-from common.models.database.item import Item
-from common.models.database.user import User
+from common.models.db.guild import Guild
+from common.models.db.item import Item
+from common.models.db.user import User
 
 from bot.villager_bot import VillagerBotCluster
 
@@ -54,7 +54,7 @@ class Database(commands.Cog):
             at,
         )
 
-    async def fetch_all_botbans(self) -> Set[int]:
+    async def fetch_all_botbans(self) -> set[int]:
         botban_records = await self.db.fetch("SELECT user_id FROM users WHERE bot_banned = true")
         return {r[0] for r in botban_records}
 
@@ -66,13 +66,13 @@ class Database(commands.Cog):
         )
         return {r[0]: r[1] for r in lang_records}
 
-    async def fetch_all_guild_prefixes(self) -> dict:
+    async def fetch_all_guild_prefixes(self) -> dict[int, str]:
         prefix_records = await self.db.fetch(
             "SELECT guild_id, prefix FROM guilds WHERE prefix != $1", self.k.default_prefix
         )
         return {r[0]: r[1] for r in prefix_records}
 
-    async def fetch_all_disabled_commands(self) -> dict:
+    async def fetch_all_disabled_commands(self) -> dict[int, set[str]]:
         disabled_records = await self.db.fetch("SELECT * FROM disabled_commands")
         disabled = defaultdict(set)
 
@@ -81,7 +81,7 @@ class Database(commands.Cog):
 
         return disabled
 
-    async def fetch_all_do_replies(self) -> set:
+    async def fetch_all_do_replies(self) -> set[int]:
         replies_records = await self.db.fetch("SELECT guild_id FROM guilds WHERE do_replies = true")
         return {r[0] for r in replies_records}
 
@@ -230,7 +230,7 @@ class Database(commands.Cog):
         # update badges
         await self.badges.update_badge_uncle_scrooge(user_id, db_user)
 
-    async def fetch_items(self, user_id: int) -> List[Item]:
+    async def fetch_items(self, user_id: int) -> list[Item]:
         await self.ensure_user_exists(user_id)
         return [
             Item(**r)
@@ -655,7 +655,7 @@ class Database(commands.Cog):
             user_id,
         )
 
-    async def empty_trashcan(self, user_id: int) -> Tuple[float, int]:
+    async def empty_trashcan(self, user_id: int) -> tuple[float, int]:
         trashcan = await self.db.fetchrow(
             "SELECT COALESCE(SUM(value * amount), 0) AS total_value, COALESCE(SUM(amount), 0) AS amount FROM trash_can WHERE user_id = $1",
             user_id,

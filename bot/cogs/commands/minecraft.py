@@ -8,20 +8,19 @@ from urllib.parse import quote as urlquote
 import aiohttp
 import aiomcrcon as rcon
 import arrow
-import classyjson as cj
 import discord
+import classyjson as cj
 from cogs.core.database import Database
 from cryptography.fernet import Fernet
 from discord.ext import commands
-from util.code import format_exception
-from util.ctx import Ctx
-from util.ipc import PacketType
-from util.misc import SuppressCtxManager, dm_check, fix_giphy_url
+from common.utils.code import format_exception
+from bot.utils.ctx import Ctx
+from bot.utils.misc import SuppressCtxManager, dm_check, fix_giphy_url
 
-from bot import VillagerBotCluster
+from bot.villager_bot import VillagerBotCluster
 
 try:
-    from util import tiler
+    from bot.utils import tiler
 except ImportError as e:
     print(format_exception(e))
     tiler = None
@@ -40,9 +39,8 @@ class Minecraft(commands.Cog):
         self.k = bot.k
 
         self.db: Database = bot.get_cog("Database")
-        self.ipc = bot.ipc
         self.aiohttp = bot.aiohttp
-        self.fernet = Fernet(self.k.fernet)
+        self.fernet = Fernet(self.k.rcon_fernet_key)
 
         if tiler:
             self.tiler = tiler.Tiler("data/block_palette.json")
@@ -616,15 +614,7 @@ class Minecraft(commands.Cog):
                 return
 
             try:
-                if 0 in self.bot.shard_ids:
-                    port_msg = await self.bot.wait_for("message", check=dm_check(ctx), timeout=60)
-                else:
-                    port_msg = await asyncio.wait_for(
-                        self.ipc.request(
-                            {"type": PacketType.DM_MESSAGE_REQUEST, "user_id": ctx.author.id}
-                        ),
-                        60,
-                    )
+                port_msg = await self.bot.wait_for("dm_message", check=(lambda channel_id, *args, **kwargs: channel_id == ctx.channel.id), timeout=60)
             except asyncio.TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
@@ -634,7 +624,7 @@ class Minecraft(commands.Cog):
                 return
 
             try:
-                rcon_port = int(port_msg.content)
+                rcon_port = int(port_msg["content"])
 
                 if 0 > rcon_port > 65535:
                     rcon_port = 25575
@@ -648,15 +638,7 @@ class Minecraft(commands.Cog):
                 return
 
             try:
-                if 0 in self.bot.shard_ids:
-                    auth_msg = await self.bot.wait_for("message", check=dm_check(ctx), timeout=60)
-                else:
-                    auth_msg = await asyncio.wait_for(
-                        self.ipc.request(
-                            {"type": PacketType.DM_MESSAGE_REQUEST, "user_id": ctx.author.id}
-                        ),
-                        60,
-                    )
+                auth_msg = await self.bot.wait_for("dm_message", check=(lambda channel_id, *args, **kwargs: channel_id == ctx.channel.id), timeout=60)
             except asyncio.TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
@@ -665,7 +647,7 @@ class Minecraft(commands.Cog):
 
                 return
 
-            password = auth_msg.content
+            password = auth_msg["content"]
         else:
             rcon_port = db_user_rcon["rcon_port"]
             password = self.fernet.decrypt(db_user_rcon["password"].encode("utf-8")).decode(

@@ -15,7 +15,7 @@ class TopggVote(BaseModel):
     query: Optional[str]
 
 
-class TopggWebhookServer:
+class VotingWebhookServer:
     def __init__(
         self,
         secrets: TopggWebhookSecrets,
@@ -24,7 +24,7 @@ class TopggWebhookServer:
     ):
         self.secrets = secrets
         self.callback = callback
-        self.logger = logger.getChild("topgg")
+        self.logger = logger.getChild("voting")
 
         self._runner = None
         self._server = None
@@ -40,10 +40,12 @@ class TopggWebhookServer:
             self._runner, self.secrets.host, self.secrets.port, shutdown_timeout=1
         )
         await self._server.start()
+        self.logger.info("Started voting webhooks server on %s:%s", self.secrets.host, self.secrets.port)
 
     async def stop(self) -> None:
         await self._server.stop()
         await self._runner.cleanup()
+        self.logger.info("Stopped voting webhooks server")
 
     async def _handle_post(self, request: web.Request) -> web.Response:
         auth_header = request.headers.get("Authorization")

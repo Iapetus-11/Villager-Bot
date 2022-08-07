@@ -79,6 +79,7 @@ class KarenClient:
         await self._send(
             PacketType.DM_MESSAGE,
             user_id=message.author.id,
+            channel_id=message.channel.id,
             message_id=message.id,
             content=message.content,
         )
@@ -112,6 +113,9 @@ class KarenClient:
 
     async def econ_unpause(self, user_id: int) -> None:
         await self._send(PacketType.ECON_PAUSE_UNDO, user_id=user_id)
+
+    async def fetch_active_fx(self, user_id: int) -> set[str]:
+        return await self._send(PacketType.ACTIVE_FX_FETCH, user_id=user_id)
 
     async def check_active_fx(self, user_id: int, fx: str) -> bool:
         return await self._send(PacketType.ACTIVE_FX_CHECK, user_id=user_id, fx=fx)

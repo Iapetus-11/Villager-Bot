@@ -15,7 +15,7 @@ from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.models.data import Data
 from common.utils.code import execute_code
-from common.utils.setup import load_data, setup_database_pool
+from common.utils.setup import load_data
 
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
@@ -94,7 +94,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             int
         ]()  # for same reason above, but for leaderboards instead
 
-        # support server channels
+        self.support_server: Optional[discord.Guild] = None
         self.error_channel: Optional[discord.TextChannel] = None
         self.vote_channel: Optional[discord.TextChannel] = None
 
@@ -103,6 +103,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.message_count = 0
         self.error_count = 0
         self.session_votes = 0
+
+        self.final_ready = asyncio.Event()
 
         self.add_check(self.check_global)  # register global check
         self.before_invoke(
@@ -185,7 +187,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def check_global(self, ctx: CustomContext) -> bool:  # the global command check
         self.command_count += 1
 
-        command = str(ctx.command)
+        command = ctx.command.name
 
         if ctx.author.id in self.ban_cache:
             ctx.failure_reason = "bot_banned"
@@ -230,22 +232,14 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 asyncio.create_task(self.send_tip(ctx))
 
         if command_has_cooldown:
-            asyncio.create_task(
-                self.ipc.send({"type": PacketType.COMMAND_RAN, "user_id": ctx.author.id})
-            )
+            await self.karen.command_ran(ctx.author.id)
 
         return True
 
     async def before_command_invoked(self, ctx: CustomContext):
         try:
-            if str(ctx.command) in self.d.concurrency_limited:
-                await self.ipc.send(
-                    {
-                        "type": PacketType.CONCURRENCY_ACQUIRE,
-                        "command": str(ctx.command),
-                        "user_id": ctx.author.id,
-                    }
-                )
+            if ctx.command.name in self.d.concurrency_limited:
+                await self.karen.acquire_concurrency(ctx.command.name, ctx.author.id)
         except Exception:
             self.logger.error(
                 "An error occurred while attempting to acquire a concurrency lock for command %s for user %s",
@@ -257,14 +251,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     async def after_command_invoked(self, ctx: CustomContext):
         try:
-            if str(ctx.command) in self.d.concurrency_limited:
-                await self.ipc.send(
-                    {
-                        "type": PacketType.CONCURRENCY_RELEASE,
-                        "command": str(ctx.command),
-                        "user_id": ctx.author.id,
-                    }
-                )
+            if ctx.command.name in self.d.concurrency_limited:
+                await self.karen.release_concurrency(ctx.command.name, ctx.author.id)
         except Exception:
             self.logger.error(
                 "An error occurred while attempting to release a concurrency lock for command %s for user %s",
@@ -277,7 +265,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     ###### packet handlers #####################################################
 
     @handle_packet(PacketType.EXEC_CODE)
-    async def handle_exec_packet(self, code: str):
+    async def packet_exec_code(self, code: str):
         result = await execute_code(
             code,
             {"bot": self, "db": self.db, "dbc": self.get_cog("Database"), "http": self.aiohttp},
@@ -289,7 +277,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         return result
 
     @handle_packet(PacketType.REMINDER)
-    async def handle_reminder_packet(
+    async def packet_reminder(
         self, channel_id: int, user_id: int, message_id: int, reminder: str
     ):
         success = False
@@ -322,7 +310,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         return {"success": success}
 
     @handle_packet(PacketType.FETCH_STATS)
-    async def handle_fetch_stats_packet(self):
+    async def packet_fetch_stats(self):
         proc = psutil.Process()
         with proc.oneshot():
             mem_usage = proc.memory_full_info().uss
@@ -343,8 +331,12 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             ],
         }
 
+    @handle_packet(PacketType.FETCH_GUILD_COUNT)
+    async def packet_fetch_guild_count(self):
+        return len(self.guilds)
+
     @handle_packet(PacketType.UPDATE_SUPPORT_SERVER_ROLES)
-    async def handle_update_support_server_roles_packet(self, user_id: int):
+    async def packet_update_support_server_roles(self, user_id: int):
         support_guild = self.get_guild(self.d.support_server_id)
 
         if support_guild is not None:
@@ -354,10 +346,14 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 await update_support_member_role(self, member)
 
     @handle_packet(PacketType.RELOAD_DATA)
-    async def handle_reload_data_packet(self):
+    async def packet_reload_data(self):
         self.l = load_translations()
         self.d = load_data()
 
     @handle_packet(PacketType.GET_USER_NAME)
-    async def handle_get_user_name(self, user_id: int) -> Optional[str]:
+    async def packet_get_user_name(self, user_id: int) -> Optional[str]:
         return getattr(self.get_user(user_id), "name", None)
+
+    @handle_packet(PacketType.DM_MESSAGE)
+    async def packet_dm_message(self, user_id: int, channel_id: int, message_id: int, content: Optional[str]):
+        self.dispatch("dm_message", user_id=user_id, channel_id=channel_id, message_id=message_id, content=content)
