@@ -40,7 +40,9 @@ class VotingWebhookServer:
             self._runner, self.secrets.host, self.secrets.port, shutdown_timeout=1
         )
         await self._server.start()
-        self.logger.info("Started voting webhooks server on %s:%s", self.secrets.host, self.secrets.port)
+        self.logger.info(
+            "Started voting webhooks server on %s:%s", self.secrets.host, self.secrets.port
+        )
 
     async def stop(self) -> None:
         await self._server.stop()

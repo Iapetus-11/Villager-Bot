@@ -8,15 +8,16 @@ from urllib.parse import quote as urlquote
 import aiohttp
 import aiomcrcon as rcon
 import arrow
-import discord
 import classyjson as cj
+import discord
 from cogs.core.database import Database
 from cryptography.fernet import Fernet
 from discord.ext import commands
+
 from common.utils.code import format_exception
+
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, dm_check, fix_giphy_url
-
 from bot.villager_bot import VillagerBotCluster
 
 try:
@@ -614,7 +615,11 @@ class Minecraft(commands.Cog):
                 return
 
             try:
-                port_msg = await self.bot.wait_for("dm_message", check=(lambda channel_id, *args, **kwargs: channel_id == ctx.channel.id), timeout=60)
+                port_msg = await self.bot.wait_for(
+                    "dm_message",
+                    check=(lambda channel_id, *args, **kwargs: channel_id == ctx.channel.id),
+                    timeout=60,
+                )
             except asyncio.TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
@@ -638,7 +643,11 @@ class Minecraft(commands.Cog):
                 return
 
             try:
-                auth_msg = await self.bot.wait_for("dm_message", check=(lambda channel_id, *args, **kwargs: channel_id == ctx.channel.id), timeout=60)
+                auth_msg = await self.bot.wait_for(
+                    "dm_message",
+                    check=(lambda channel_id, *args, **kwargs: channel_id == ctx.channel.id),
+                    timeout=60,
+                )
             except asyncio.TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)

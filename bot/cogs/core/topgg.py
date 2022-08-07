@@ -6,9 +6,9 @@ import classyjson as cj
 import discord
 from aiohttp import web
 from discord.ext import commands
+
 from bot.utils.code import format_exception
 from bot.utils.ipc import PacketType
-
 from bot.villager_bot import VillagerBotCluster
 
 

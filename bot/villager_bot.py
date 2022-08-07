@@ -277,9 +277,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         return result
 
     @handle_packet(PacketType.REMINDER)
-    async def packet_reminder(
-        self, channel_id: int, user_id: int, message_id: int, reminder: str
-    ):
+    async def packet_reminder(self, channel_id: int, user_id: int, message_id: int, reminder: str):
         success = False
         channel = self.get_channel(channel_id)
 
@@ -355,5 +353,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         return getattr(self.get_user(user_id), "name", None)
 
     @handle_packet(PacketType.DM_MESSAGE)
-    async def packet_dm_message(self, user_id: int, channel_id: int, message_id: int, content: Optional[str]):
-        self.dispatch("dm_message", user_id=user_id, channel_id=channel_id, message_id=message_id, content=content)
+    async def packet_dm_message(
+        self, user_id: int, channel_id: int, message_id: int, content: Optional[str]
+    ):
+        self.dispatch(
+            "dm_message",
+            user_id=user_id,
+            channel_id=channel_id,
+            message_id=message_id,
+            content=content,
+        )

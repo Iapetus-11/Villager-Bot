@@ -7,7 +7,6 @@ from functools import cached_property
 from typing import Any, Optional
 
 import aiohttp
-
 import asyncpg
 import psutil
 
@@ -58,9 +57,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             logger,
         )
 
-        self.votehook_server = VotingWebhookServer(
-            self.k.topgg_webhook, self.vote_callback, logger
-        )
+        self.votehook_server = VotingWebhookServer(self.k.topgg_webhook, self.vote_callback, logger)
 
         self.v = Share(data)
 
@@ -77,7 +74,11 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         logger.info("Starting Karen...")
 
         self.db = await setup_database_pool(self.k.database)
-        logger.info("Initialized database connection pool for server %s:%s", self.k.database.host, self.k.database.port)
+        logger.info(
+            "Initialized database connection pool for server %s:%s",
+            self.k.database.host,
+            self.k.database.port,
+        )
 
         self.aiohttp = aiohttp.ClientSession()
         logger.info("Initialized aiohttp ClientSession")
@@ -222,10 +223,17 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         self.v.command_cooldowns.clear_cooldown(command, user_id)
 
     @handle_packet(PacketType.DM_MESSAGE)
-    async def packet_dm_message(self, user_id: int, channel_id: int, message_id: int, content: Optional[str]):
+    async def packet_dm_message(
+        self, user_id: int, channel_id: int, message_id: int, content: Optional[str]
+    ):
         await self.server.broadcast(
             PacketType.DM_MESSAGE,
-            {"user_id": user_id, "channel_id": channel_id, "message_id": message_id, "content": content},
+            {
+                "user_id": user_id,
+                "channel_id": channel_id,
+                "message_id": message_id,
+                "content": content,
+            },
         )
 
     @handle_packet(PacketType.MINE_COMMAND)

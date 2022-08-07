@@ -7,10 +7,10 @@ from urllib.parse import quote as urlquote
 import classyjson as cj
 import discord
 from discord.ext import commands
+
 from bot.utils.ctx import Ctx
 from bot.utils.ipc import PacketType
 from bot.utils.misc import SuppressCtxManager, strip_command
-
 from bot.villager_bot import VillagerBotCluster
 
 ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"

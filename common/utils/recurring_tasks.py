@@ -61,7 +61,7 @@ class RecurringTask:
         if self._loop_task is not None:
             self._loop_task.cancel()
             self._loop_task = None
-            
+
         self.logger.info("Cancelled recurring task: %s", self.name)
 
 

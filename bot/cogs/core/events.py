@@ -5,11 +5,16 @@ from contextlib import suppress
 import discord
 from cogs.core.database import Database
 from discord.ext import commands
-from common.utils.code import format_exception
-from bot.utils.misc import CommandOnKarenCooldown, MaxKarenConcurrencyReached
-from bot.utils.ctx import Ctx
-from bot.utils.misc import chunk_by_lines, update_support_member_role
 
+from common.utils.code import format_exception
+
+from bot.utils.ctx import Ctx
+from bot.utils.misc import (
+    CommandOnKarenCooldown,
+    MaxKarenConcurrencyReached,
+    chunk_by_lines,
+    update_support_member_role,
+)
 from bot.villager_bot import VillagerBotCluster
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
