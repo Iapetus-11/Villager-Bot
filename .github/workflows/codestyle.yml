@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
@@ -21,7 +21,7 @@ jobs:
       - name: Black Check
         id: black-check
         continue-on-error: true
-        run: poetry run black --check
+        run: poetry run black . --check
 
       - name: Isort Check
         id: isort-check
@@ -30,7 +30,7 @@ jobs:
 
       - name: Black Fix
         if: steps.black-check.outcome != 'success'
-        run: poetry run black
+        run: poetry run black .
 
       - name: Isort Fix
         if: steps.isort-check.outcome != 'success'
