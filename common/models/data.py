@@ -1,11 +1,12 @@
 from typing import Any, Optional
 
-import discord
-from pydantic import BaseModel, Extra, Field, HttpUrl
+from pydantic import Field, HttpUrl
+
+from common.models.base import ImmutableBaseModel
 
 
-class MobsMech(BaseModel):
-    class Mob(BaseModel):
+class MobsMech(ImmutableBaseModel):
+    class Mob(ImmutableBaseModel):
         nice: str
         health: int
         image: HttpUrl
@@ -15,14 +16,14 @@ class MobsMech(BaseModel):
     mobs: dict[str, Mob]
 
 
-class Findable(BaseModel):
+class Findable(ImmutableBaseModel):
     item: str
     sell_price: int
     rarity: int
     sticky: bool
 
 
-class Mining(BaseModel):
+class Mining(ImmutableBaseModel):
     finds: list[list[str]]
     find_values: dict[str, float]
     yields_enchant_items: dict[str, list[int]]  # extra emerald yield from enchantments
@@ -34,8 +35,8 @@ class Mining(BaseModel):
         return list(self.yields_pickaxes)[::-1]
 
 
-class Fishing(BaseModel):
-    class Fish(BaseModel):
+class Fishing(ImmutableBaseModel):
+    class Fish(ImmutableBaseModel):
         name: str
         value: list[int] = Field(min_items=2, max_items=2)
         currrent: Optional[float]
@@ -54,8 +55,8 @@ class Fishing(BaseModel):
         return [(len(self.fish_ids) - f.rarity) ** self.exponent for f in self.fish.values()]
 
 
-class ShopItem(BaseModel):
-    class DbEntry(BaseModel):
+class ShopItem(ImmutableBaseModel):
+    class DbEntry(ImmutableBaseModel):
         item: str
         sell_price: int
         sticky: bool
@@ -66,9 +67,9 @@ class ShopItem(BaseModel):
     requires: dict[str, Any]
 
 
-class Emojis(BaseModel):
-    class FarmingEmojis(BaseModel):
-        class Growing(BaseModel):
+class Emojis(ImmutableBaseModel):
+    class FarmingEmojis(ImmutableBaseModel):
+        class Growing(ImmutableBaseModel):
             emerald_fruit: str
             chorus_fruit: str
             melon: str
@@ -77,7 +78,7 @@ class Emojis(BaseModel):
             wheat: str
             farmland: str
 
-        class Normal(BaseModel):
+        class Normal(ImmutableBaseModel):
             emerald_fruit: str
             chorus_fruit: str
             melon: str
@@ -85,7 +86,7 @@ class Emojis(BaseModel):
             carrot: str
             wheat: str
 
-        class Seeds(BaseModel):
+        class Seeds(ImmutableBaseModel):
             wheat: str
             chorus_fruit: str
             melon: str
@@ -94,7 +95,7 @@ class Emojis(BaseModel):
         normal: Normal
         seeds: Seeds
 
-    class FishEmojis(BaseModel):
+    class FishEmojis(ImmutableBaseModel):
         cod: str
         salmon: str
         tropical_fish: str
@@ -103,7 +104,7 @@ class Emojis(BaseModel):
         gold_fish: str
         emerald_fish: str
 
-    class SquareEmojis(BaseModel):
+    class SquareEmojis(ImmutableBaseModel):
         blue: str
         purple: str
         red: str
@@ -113,7 +114,7 @@ class Emojis(BaseModel):
         brown: str
         black: str
 
-    class BadgeEmojis(BaseModel):
+    class BadgeEmojis(ImmutableBaseModel):
         code_helper: str
         translator: str
         design_helper: str
@@ -207,8 +208,8 @@ class Emojis(BaseModel):
     numbers: list[str]
 
 
-class Farming(BaseModel):
-    class FarmingEmojis(BaseModel):
+class Farming(ImmutableBaseModel):
+    class FarmingEmojis(ImmutableBaseModel):
         growing: dict[str, str]
 
     emojis: FarmingEmojis
@@ -220,12 +221,12 @@ class Farming(BaseModel):
     plantable: dict[str, str]
 
 
-class BuildIdeas(BaseModel):
+class BuildIdeas(ImmutableBaseModel):
     ideas: list[str]
     prefixes: list[str]
 
 
-class FunLangs(BaseModel):
+class FunLangs(ImmutableBaseModel):
     enchant: dict[str, str]
     villager: dict[str, str]
     vaporwave: dict[str, str]
@@ -235,7 +236,7 @@ class FunLangs(BaseModel):
         return {v: k for k, v in self.enchant.items()}
 
 
-class Data(BaseModel):
+class Data(ImmutableBaseModel):
     embed_color: str
     support_server_id: int
     error_channel_id: int
@@ -276,8 +277,3 @@ class Data(BaseModel):
     fun_langs: FunLangs
     cursed_images: list[str]
     playing_list: list[str]
-
-    class Config:
-        validate_all = True
-        allow_mutation = False
-        extra = Extra.forbid

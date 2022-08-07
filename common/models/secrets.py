@@ -1,16 +1,9 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
+
+from common.models.base import ImmutableBaseModel
 
 
-class KarenSecrets(BaseModel):
+class KarenSecrets(ImmutableBaseModel):
     host: str
     port: int = Field(gt=0, le=65535)
     auth: str
-
-
-class DatabaseSecrets(BaseModel):
-    host: str
-    port: int = Field(gt=0, le=65535)
-    name: str
-    user: str
-    auth: str
-    pool_size: int = Field(ge=1)

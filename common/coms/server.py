@@ -79,10 +79,10 @@ class Server(ComsBase):
         return broadcast.responses
 
     async def _client_broadcast(self, ws: WebSocketServerProtocol, packet: Packet) -> None:
-        responses = await self.broadcast(packet.type, packet.data)
+        responses = await self.broadcast(packet.data["type"], packet.data["data"])
 
         # send response back to client who requested broadcast
-        await self._send(ws, Packet(id=packet.id, data={"responses": responses}))
+        await self._send(ws, Packet(id=packet.id, data=responses))
 
     async def _handle_broadcast_response(self, ws: WebSocketServerProtocol, packet: Packet) -> None:
         broadcast = self._broadcasts[packet.id]

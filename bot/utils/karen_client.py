@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Union
+from typing import Any, Optional
 
 import discord
 
@@ -41,11 +41,19 @@ class KarenClient:
         await self._client.close()
 
     async def _send(self, packet_type: PacketType, **kwargs: T_PACKET_DATA) -> T_PACKET_DATA:
-        resp = await self._client.send(packet_type, **kwargs)
+        resp = await self._client.send(packet_type, kwargs)
 
         if resp.error:
             raise KarenResponseError(resp)
 
+        return resp.data
+
+    async def _broadcast(self, packet_type: PacketType, **kwargs: T_PACKET_DATA) -> list[T_PACKET_DATA]:
+        resp = await self._client.broadcast(packet_type, kwargs)
+
+        if resp.error:
+            raise KarenResponseError(resp)
+        
         return resp.data
 
     async def fetch_shard_ids(self) -> list[int]:
@@ -111,3 +119,27 @@ class KarenClient:
 
     async def remove_active_fx(self, user_id: int, fx: str) -> None:
         await self._send(PacketType.ACTIVE_FX_REMOVE, user_id=user_id, fx=fx)
+    
+    async def db_exec(self, query: str, *args: Any) -> None:
+        await self._send(PacketType.DB_EXEC, query=query, args=args)
+
+    async def db_exec_many(self, query: str, args: list[list[Any]]) -> None:
+        await self._send(PacketType.DB_EXEC_MANY, query=query, args=args)
+
+    async def db_fetch_val(self, query: str, *args: Any) -> Any:
+        return await self._send(PacketType.DB_FETCH_VAL, query=query, args=args)
+
+    async def db_fetch_row(self, query: str, *args: Any) -> Optional[dict[str, Any]]:
+        return await self._send(PacketType.DB_FETCH_ROW, query=query, args=args)
+
+    async def db_fetch_all(self, query: str, *args: Any) -> list[dict[str, Any]]:
+        return await self._send(PacketType.DB_FETCH_ALL, query=query, args=args)
+
+    async def get_user_name(self, user_id: int) -> Optional[str]:
+        resps = await self._client.broadcast(PacketType.GET_USER_NAME, user_id=user_id)
+
+        for resp in resps:
+            if resp is not None:
+                return resp
+
+        return None

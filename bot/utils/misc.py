@@ -3,16 +3,13 @@ import math
 import time
 from collections import defaultdict
 from contextlib import suppress
-from typing import List, Tuple
+from typing import Any, List, Tuple
 
 import arrow
-import asyncpg
-import classyjson as cj
 import discord
-from models.database.item import Item
-from models.database.user import User
+from common.models.database.item import Item
+from common.models.database.user import User
 from util.code import format_exception
-from util.ipc import PacketType
 
 
 def strip_command(ctx):  # returns message.clean_content excluding the command used
@@ -44,21 +41,12 @@ async def _attempt_get_username(bot, user_id: int) -> str:
 
     # fall back to other clusters to get username
     if user_name is None:
-        res = await bot.ipc.broadcast(
-            {"type": PacketType.EVAL, "code": f"getattr(bot.get_user({user_id}), 'name', None)"}
-        )
-
-        for r in res.responses:
-            if not r.success:
-                raise ValueError(r.result)
-
-            if r.result:
-                return r.result
+        user_name = await bot.karen.get_user_name(user_id)
 
     return user_name or "unknown user"
 
 
-async def _craft_lb(bot, leaderboard: List[asyncpg.Record], row_fstr: str) -> str:
+async def _craft_lb(bot, leaderboard: List[dict[str, Any]], row_fstr: str) -> str:
     body = ""
     last_idx = 0
 
@@ -78,55 +66,11 @@ async def _craft_lb(bot, leaderboard: List[asyncpg.Record], row_fstr: str) -> st
 
 
 async def craft_lbs(
-    bot, global_lb: List[asyncpg.Record], local_lb: List[asyncpg.Record], row_fstr: str
+    bot, global_lb: List[dict[str, Any]], local_lb: List[dict[str, Any]], row_fstr: str
 ) -> Tuple[str, str]:
     return await asyncio.gather(
         _craft_lb(bot, global_lb, row_fstr), _craft_lb(bot, local_lb, row_fstr)
     )
-
-
-# async def lb_logic(bot, lb_list: list, u_entry: object, rank_fstr: str):
-#     # add user entry to leaderboard if it's not there already
-#     if u_entry is not None and u_entry[0] not in [e[0] for e in lb_list]:
-#         lb_list.append(u_entry)
-
-#     # sort
-#     lb_list = sorted(lb_list, key=(lambda e: e[1]), reverse=True)
-
-#     # shorten list
-#     lb_list = lb_list[:9] if (u_entry is not None and u_entry[2] > 9) else lb_list[:10]
-
-#     body = ""
-
-#     # create base leaderboard
-#     for entry in lb_list:
-#         user = getattr(bot.get_user(entry[0]), "name", None)
-
-#         if user is None:
-#             res = await bot.ipc.broadcast(
-#                 {"type": PacketType.EVAL, "code": f"getattr(bot.get_user({entry[0]}), 'name', None)"}
-#             )
-
-#             for r in res.responses:
-#                 if not r.success:
-#                     raise ValueError(r.result)
-
-#                 if r.result:
-#                     user = r.result
-#                     break
-
-#         if user is None:
-#             user = "Unknown User"
-#         else:
-#             user = discord.utils.escape_markdown(user)
-
-#         body += rank_fstr.format(entry[2], entry[1], user)
-
-#     # add user if user is missing from the leaderboard
-#     if u_entry is not None and u_entry[2] > 9:
-#         body += "\n⋮" + rank_fstr.format(u_entry[2], u_entry[1], discord.utils.escape_markdown(bot.get_user(u_entry[0]).name))
-
-#     return body + "\uFEFF"
 
 
 def calc_total_wealth(db_user: User, items: List[Item]):

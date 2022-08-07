@@ -6,10 +6,10 @@ from typing import Any, Optional
 
 import aiohttp
 import arrow
-import asyncpg
 import discord
 import psutil
 from discord.ext import commands
+from bot.utils.database_proxy import DatabaseProxy
 
 from common.coms.packet import T_PACKET_DATA
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
@@ -74,7 +74,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         self.karen: Optional[KarenClient] = None
         self.aiohttp: Optional[aiohttp.ClientSession] = None
-        self.db: asyncpg.Pool = None
+        self.db: Optional[DatabaseProxy] = None
         self.tp = tp
 
         # caches
@@ -114,11 +114,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     async def start(self):
         self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
+        self.db = DatabaseProxy(self.karen)
 
         self.shard_ids = await self.karen.fetch_shard_ids()
         self.shard_count = len(self.shard_ids)
-
-        self.db = await setup_database_pool(self.k.database)
 
         for cog in self.cog_list:
             self.load_extension(cog)
@@ -127,7 +126,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     async def close(self, *args, **kwargs):
         await self.karen.disconnect()
-        await self.db.close()
         await self.aiohttp.close()
 
         await super().close(*args, **kwargs)
@@ -359,3 +357,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def handle_reload_data_packet(self):
         self.l = load_translations()
         self.d = load_data()
+
+    @handle_packet(PacketType.GET_USER_NAME)
+    async def handle_get_user_name(self, user_id: int) -> Optional[str]:
+        return getattr(self.get_user(user_id), "name", None)

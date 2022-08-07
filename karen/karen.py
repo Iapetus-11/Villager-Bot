@@ -2,7 +2,7 @@ import asyncio
 import time
 from collections import defaultdict
 from functools import cached_property
-from typing import Optional
+from typing import Any, Optional
 
 import asyncpg
 import psutil
@@ -12,10 +12,10 @@ from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.coms.server import Server
 from common.models.data import Data
-from common.utils.code import execute_code, format_exception
+from common.utils.code import execute_code
 from common.utils.misc import chunk_sequence
 from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
-from common.utils.setup import setup_database_pool
+from karen.utils.setup import setup_database_pool
 
 from karen.models.secrets import Secrets
 from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
@@ -87,6 +87,16 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     async def vote_callback(self, vote: TopggVote) -> None:
         await self.ready_event.wait()
         await self.server.broadcast(PacketType.TOPGG_VOTE, vote)
+
+    @classmethod
+    def _transform_query_result(cls, result: Any) -> Any:
+        if isinstance(result, list):
+            return [cls._transform_query_result(r) for r in result]
+
+        if isinstance(result, asyncpg.Record):
+            return {**result}
+
+        return result
 
     ###### loops ###############################################################
 
@@ -235,3 +245,23 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             self.v.active_fx[user_id].remove(fx.lower())
         except KeyError:
             pass
+
+    @handle_packet(PacketType.DB_EXEC)
+    async def packet_db_exec(self, query: str, args: list[Any]):
+        await self.db.execute(query, *args)
+
+    @handle_packet(PacketType.DB_EXEC_MANY)
+    async def packet_db_exec_many(self, query: str, args: list[list[Any]]):
+        await self.db.executemany(query, args)
+
+    @handle_packet(PacketType.DB_FETCH_VAL)
+    async def packet_db_fetch_one(self, query: str, args: list[Any]):
+        return self._transform_query_result(await self.db.fetchval(query, *args))
+
+    @handle_packet(PacketType.DB_FETCH_ROW)
+    async def packet_db_fetch_row(self, query: str, args: list[Any]):
+        return self._transform_query_result(await self.db.fetchrow(query, *args))
+    
+    @handle_packet(PacketType.DB_FETCH_ALL)
+    async def packet_db_fetch_all(self, query: str, args: list[Any]):
+        return self._transform_query_result(await self.db.fetch(query, *args))

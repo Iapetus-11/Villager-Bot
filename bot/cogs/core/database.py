@@ -2,26 +2,26 @@ import asyncio
 from collections import defaultdict
 from contextlib import suppress
 from datetime import datetime
-from typing import List, Optional, Set, Tuple
+from typing import Any, List, Optional, Set, Tuple
 
-import asyncpg
 import discord
 from data.enums.guild_event_type import GuildEventType
 from discord.ext import commands
-from models.database.guild import Guild
-from models.database.item import Item
-from models.database.user import User
 
-from bot import VillagerBotCluster
+from common.models.database.guild import Guild
+from common.models.database.item import Item
+from common.models.database.user import User
 
+from bot.villager_bot import VillagerBotCluster
 
+ 
 class Database(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
         self.d = bot.d
         self.k = bot.k
-        self.db = bot.db  # the asyncpg pool
+        self.db = bot.db
 
         asyncio.create_task(self.populate_caches())
 
@@ -315,14 +315,14 @@ class Database(commands.Cog):
             receiver,
         )
 
-    async def fetch_transactions_by_sender(self, user_id: int, limit: int) -> List[asyncpg.Record]:
+    async def fetch_transactions_by_sender(self, user_id: int, limit: int) -> list[dict[str, Any]]:
         return await self.db.fetch(
             "SELECT * FROM give_logs WHERE sender = $1 ORDER BY at DESC LIMIT $2", user_id, limit
         )
 
     async def fetch_transactions_page(
         self, user_id: int, limit: int = 10, *, page: int = 0
-    ) -> List[asyncpg.Record]:
+    ) -> list[dict[str, Any]]:
         return await self.db.fetch(
             "SELECT * FROM give_logs WHERE sender = $1 OR receiver = $1 ORDER BY at DESC LIMIT $2 OFFSET $3",
             user_id,
@@ -432,7 +432,7 @@ class Database(commands.Cog):
             elif lb == "fish_fished":
                 await self.badges.update_badge_fisherman(user_id, value)
 
-    async def fetch_global_lb(self, lb: str, user_id: int) -> List[asyncpg.Record]:
+    async def fetch_global_lb(self, lb: str, user_id: int) -> list[dict[str, Any]]:
         return await self.db.fetch(
             f"""
         WITH lb AS (SELECT user_id, {lb} AS amount, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS idx FROM leaderboards)
@@ -444,7 +444,7 @@ class Database(commands.Cog):
             user_id,
         )
 
-    async def fetch_local_lb(self, lb: str, user_id: int, user_ids: list) -> List[asyncpg.Record]:
+    async def fetch_local_lb(self, lb: str, user_id: int, user_ids: list) -> list[dict[str, Any]]:
         return await self.db.fetch(
             f"""
         WITH lb AS (SELECT user_id, {lb} AS amount, ROW_NUMBER() OVER(ORDER BY {lb} DESC) AS idx FROM leaderboards WHERE user_id = ANY($2::BIGINT[]))
@@ -457,7 +457,7 @@ class Database(commands.Cog):
             user_ids,
         )
 
-    async def fetch_global_lb_user(self, column: str, user_id: int) -> List[asyncpg.Record]:
+    async def fetch_global_lb_user(self, column: str, user_id: int) -> list[dict[str, Any]]:
         return await self.db.fetch(
             f"""
         WITH lb AS (SELECT user_id, {column} AS amount, ROW_NUMBER() OVER(ORDER BY {column} DESC) AS idx FROM users WHERE {column} > 0 AND bot_banned = false)
@@ -471,7 +471,7 @@ class Database(commands.Cog):
 
     async def fetch_local_lb_user(
         self, column: str, user_id: int, user_ids: list
-    ) -> List[asyncpg.Record]:
+    ) -> list[dict[str, Any]]:
         return await self.db.fetch(
             f"""
         WITH lb AS (SELECT user_id, {column} AS amount, ROW_NUMBER() OVER(ORDER BY {column} DESC) AS idx FROM users WHERE {column} > 0 AND bot_banned = false AND user_id = ANY($2::BIGINT[]))
@@ -484,7 +484,7 @@ class Database(commands.Cog):
             user_ids,
         )
 
-    async def fetch_global_lb_item(self, item: str, user_id: int) -> List[asyncpg.Record]:
+    async def fetch_global_lb_item(self, item: str, user_id: int) -> list[dict[str, Any]]:
         return await self.db.fetch(
             """
         WITH lb AS (SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS idx FROM items WHERE LOWER(name) = LOWER($2))
@@ -499,7 +499,7 @@ class Database(commands.Cog):
 
     async def fetch_local_lb_item(
         self, item: str, user_id: int, user_ids: list
-    ) -> List[asyncpg.Record]:
+    ) -> list[dict[str, Any]]:
         return await self.db.fetch(
             """
         WITH lb AS (SELECT user_id, amount, ROW_NUMBER() OVER(ORDER BY amount DESC) AS idx FROM items WHERE LOWER(name) = LOWER($2) AND user_id = ANY($3::BIGINT[]))
@@ -536,7 +536,7 @@ class Database(commands.Cog):
             reason,
         )
 
-    async def fetch_warns(self, user_id: int, guild_id: int) -> List[asyncpg.Record]:
+    async def fetch_warns(self, user_id: int, guild_id: int) -> list[dict[str, Any]]:
         return await self.db.fetch(
             "SELECT * FROM warnings WHERE user_id = $1 AND guild_id = $2", user_id, guild_id
         )
@@ -546,7 +546,7 @@ class Database(commands.Cog):
             "DELETE FROM warnings WHERE user_id = $1 AND guild_id = $2", user_id, guild_id
         )
 
-    async def fetch_user_rcon(self, user_id: int, mc_server: str) -> asyncpg.Record:
+    async def fetch_user_rcon(self, user_id: int, mc_server: str) -> dict[str, Any]:
         return await self.db.fetchrow(
             "SELECT * FROM user_rcon WHERE user_id = $1 AND mc_server = $2", user_id, mc_server
         )
@@ -567,10 +567,10 @@ class Database(commands.Cog):
             "DELETE FROM user_rcon WHERE user_id = $1 AND mc_server = $2", user_id, mc_server
         )
 
-    async def mass_delete_user_rcon(self, user_id: int) -> List[asyncpg.Record]:
+    async def mass_delete_user_rcon(self, user_id: int) -> list[dict[str, Any]]:
         return await self.db.fetch("DELETE FROM user_rcon WHERE user_id = $1 RETURNING *", user_id)
 
-    async def fetch_user_badges(self, user_id: int) -> asyncpg.Record:
+    async def fetch_user_badges(self, user_id: int) -> dict[str, Any]:
         user_badges = await self.db.fetchrow(
             "SELECT code_helper, translator, design_helper, bug_smasher, villager_og, supporter, uncle_scrooge, collector, beekeeper, pillager, murderer, enthusiast, fisherman FROM badges WHERE user_id = $1",
             user_id,
@@ -599,7 +599,7 @@ class Database(commands.Cog):
             f"UPDATE badges SET {','.join(sql)} WHERE user_id = ${i+2}", *values, user_id
         )
 
-    async def fetch_farm_plots(self, user_id: int) -> List[asyncpg.Record]:
+    async def fetch_farm_plots(self, user_id: int) -> list[dict[str, Any]]:
         return await self.db.fetch(
             "SELECT * FROM farm_plots WHERE user_id = $1 ORDER BY planted_at ASC", user_id
         )
@@ -614,17 +614,13 @@ class Database(commands.Cog):
         )
 
     async def add_farm_plot(self, user_id: int, crop_type: str, amount: int) -> None:
-        async with self.db.acquire() as con:
-            con: asyncpg.Connection
-            statement = await con.prepare(
-                "INSERT INTO farm_plots (user_id, crop_type, planted_at, grow_time) VALUES ($1, $2, NOW(), $3::TEXT::INTERVAL)"
-            )
-            crop_time = self.d.farming.crop_times[crop_type]
-            await statement.executemany([(user_id, crop_type, crop_time) for _ in range(amount)])
+        crop_time = self.d.farming.crop_times[crop_type]
+
+        await self.db.executemany("INSERT INTO farm_plots (user_id, crop_type, planted_at, grow_time) VALUES ($1, $2, NOW(), $3::TEXT::INTERVAL)", [(user_id, crop_type, crop_time) for _ in range(amount)])
 
         await self.update_lb(user_id, "crops_planted", amount)
 
-    async def fetch_ready_crops(self, user_id: int) -> List[asyncpg.Record]:
+    async def fetch_ready_crops(self, user_id: int) -> list[dict[str, Any]]:
         return await self.db.fetch(
             "SELECT COUNT(crop_type) count, crop_type FROM farm_plots WHERE user_id = $1 AND NOW() > planted_at + grow_time GROUP BY crop_type ORDER BY count DESC",
             user_id,
@@ -650,7 +646,7 @@ class Database(commands.Cog):
             amount,
         )
 
-    async def fetch_trashcan(self, user_id: int) -> List[asyncpg.Record]:
+    async def fetch_trashcan(self, user_id: int) -> list[dict[str, Any]]:
         return await self.db.fetch(
             "SELECT item, value, SUM(amount) AS amount FROM trash_can WHERE user_id = $1 GROUP BY item, value",
             user_id,

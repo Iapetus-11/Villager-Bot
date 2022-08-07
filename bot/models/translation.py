@@ -2,11 +2,13 @@ from __future__ import annotations
 
 from typing import Optional
 
-from pydantic import BaseModel, Extra
+from pydantic import Extra
+
+from common.models.base import ImmutableBaseModel
 
 
-class Misc(BaseModel):
-    class Errors(BaseModel):
+class Misc(ImmutableBaseModel):
+    class Errors(ImmutableBaseModel):
         andioop: str
         private: str
         user_perms: str
@@ -18,7 +20,7 @@ class Misc(BaseModel):
         nrn_buddy: str
         disabled: str
 
-    class Time(BaseModel):
+    class Time(ImmutableBaseModel):
         day: str
         days: str
         hour: str
@@ -36,8 +38,8 @@ class Misc(BaseModel):
     time: Time
 
 
-class Help(BaseModel):
-    class Main(BaseModel):
+class Help(ImmutableBaseModel):
+    class Main(ImmutableBaseModel):
         desc: str
         support: str
         clickme: str
@@ -45,7 +47,7 @@ class Help(BaseModel):
         nodoc: str
         aliases: str
 
-    class N(BaseModel):
+    class N(ImmutableBaseModel):
         title: str
         economy: str
         minecraft: str
@@ -63,13 +65,13 @@ class Help(BaseModel):
     mod: dict[str, str]
 
 
-class Fun(BaseModel):
-    class Bubblewrap(BaseModel):
+class Fun(ImmutableBaseModel):
+    class Bubblewrap(ImmutableBaseModel):
         invalid_size_1: str
         invalid_size_2: str
 
-    class Trivia(BaseModel):
-        class Question(BaseModel):
+    class Trivia(ImmutableBaseModel):
+        class Question(ImmutableBaseModel):
             d: int
             tf: bool
             q: str
@@ -91,12 +93,12 @@ class Fun(BaseModel):
     trivia: Trivia
 
 
-class MobsMech(BaseModel):
-    class Lost(BaseModel):
+class MobsMech(ImmutableBaseModel):
+    class Lost(ImmutableBaseModel):
         creeper: list[str]
         normal: list[str]
 
-    class Mobs(BaseModel):
+    class Mobs(ImmutableBaseModel):
         class MobActions:
             attacks: list[str]
             finishers: list[str]
@@ -121,14 +123,14 @@ class MobsMech(BaseModel):
     mobs: Mobs
 
 
-class Minecraft(BaseModel):
-    class Mcimage(BaseModel):
+class Minecraft(ImmutableBaseModel):
+    class Mcimage(ImmutableBaseModel):
         stupid_1: str
         stupid_2: str
         stupid_3: str
 
-    class Mcping(BaseModel):
-        class FieldOnlinePlayers(BaseModel):
+    class Mcping(ImmutableBaseModel):
+        class FieldOnlinePlayers(ImmutableBaseModel):
             name: str
             value: str
 
@@ -143,13 +145,13 @@ class Minecraft(BaseModel):
         learn_more: str
         powered_by: str
 
-    class Stealskin(BaseModel):
+    class Stealskin(ImmutableBaseModel):
         error: str
         no_skin: str
         embed_desc: str
 
-    class Mccolors(BaseModel):
-        class FormattingCodes(BaseModel):
+    class Mccolors(ImmutableBaseModel):
+        class FormattingCodes(ImmutableBaseModel):
             red: str
             yellow: str
             green: str
@@ -180,7 +182,7 @@ class Minecraft(BaseModel):
         more_colors: str
         formatting: str
 
-    class Rcon(BaseModel):
+    class Rcon(ImmutableBaseModel):
         stupid_1: str
         dm_error: str
         msg_timeout: str
@@ -190,7 +192,7 @@ class Minecraft(BaseModel):
         err_con: str
         err_cmd: str
 
-    class Profile(BaseModel):
+    class Profile(ImmutableBaseModel):
         error: str
         first: str
         mcpp: str
@@ -208,23 +210,23 @@ class Minecraft(BaseModel):
     profile: Profile
 
 
-class Mod(BaseModel):
-    class Purge(BaseModel):
+class Mod(ImmutableBaseModel):
+    class Purge(ImmutableBaseModel):
         oop: str
 
-    class Kick(BaseModel):
+    class Kick(ImmutableBaseModel):
         stupid_1: str
 
-    class Ban(BaseModel):
+    class Ban(ImmutableBaseModel):
         stupid_1: str
         stupid_2: str
         stupid_3: str
 
-    class Unban(BaseModel):
+    class Unban(ImmutableBaseModel):
         stupid_1: str
         stupid_2: str
 
-    class Warn(BaseModel):
+    class Warn(ImmutableBaseModel):
         stupid_1: str
         stupid_2: str
         thats_too_much_man: str
@@ -232,13 +234,13 @@ class Mod(BaseModel):
         by: str
         confirm: str
 
-    class Mute(BaseModel):
+    class Mute(ImmutableBaseModel):
         stupid_1: str
         stupid_2: str
         stupid_3: str
         mute_msg: str
 
-    class Unmute(BaseModel):
+    class Unmute(ImmutableBaseModel):
         stupid_1: str
         stupid_2: str
         unmute_msg: str
@@ -253,44 +255,44 @@ class Mod(BaseModel):
     unmute: Unmute
 
 
-class VbConfig(BaseModel):
-    class Main(BaseModel):
+class VbConfig(ImmutableBaseModel):
+    class Main(ImmutableBaseModel):
         title: str
         guild_conf: str
         guild_content: list[str]
         user_conf: str
         user_content: list[str]
 
-    class Prefix(BaseModel):
+    class Prefix(ImmutableBaseModel):
         this_server: str
         error_1: str
         error_2: str
         set: str
 
-    class Replies(BaseModel):
+    class Replies(ImmutableBaseModel):
         enabled: str
         disabled: str
         this_server: str
         set: str
 
-    class Diff(BaseModel):
+    class Diff(ImmutableBaseModel):
         this_server: str
         set: str
 
-    class Lang(BaseModel):
+    class Lang(ImmutableBaseModel):
         this_server: str
         set: str
 
-    class Mcs(BaseModel):
+    class Mcs(ImmutableBaseModel):
         this_server: str
         error_1: str
         set: str
 
-    class Gift(BaseModel):
+    class Gift(ImmutableBaseModel):
         this_user: str
         set: str
 
-    class Cmd(BaseModel):
+    class Cmd(ImmutableBaseModel):
         not_prem: str
         list_cmds: str
         nope: str
@@ -299,7 +301,7 @@ class VbConfig(BaseModel):
         reenable: str
         disable: str
 
-    class Rcon(BaseModel):
+    class Rcon(ImmutableBaseModel):
         none: str
         one: str
         multi: str
@@ -316,12 +318,12 @@ class VbConfig(BaseModel):
     rcon: Rcon
 
 
-class Useful(BaseModel):
-    class Vote(BaseModel):
+class Useful(ImmutableBaseModel):
+    class Vote(ImmutableBaseModel):
         click_1: str
         click_2: str
 
-    class Links(BaseModel):
+    class Links(ImmutableBaseModel):
         support: str
         invite: str
         topgg: str
@@ -329,7 +331,7 @@ class Useful(BaseModel):
         source: str
         privacy: str
 
-    class Stats(BaseModel):
+    class Stats(ImmutableBaseModel):
         stats: str
         more: str
         servers: str
@@ -348,7 +350,7 @@ class Useful(BaseModel):
         tasks: str
         uptime: str
 
-    class Ginf(BaseModel):
+    class Ginf(ImmutableBaseModel):
         info: str
         age: str
         owner: str
@@ -362,14 +364,14 @@ class Useful(BaseModel):
         lang: str
         diff: str
 
-    class Meth(BaseModel):
+    class Meth(ImmutableBaseModel):
         oops: str
 
-    class Search(BaseModel):
+    class Search(ImmutableBaseModel):
         nope: str
         error: str
 
-    class Rules(BaseModel):
+    class Rules(ImmutableBaseModel):
         rules: str
         slashrules: str
         penalty: str
@@ -378,23 +380,23 @@ class Useful(BaseModel):
         rule_3: str
         rule_4: str
 
-    class Remind(BaseModel):
+    class Remind(ImmutableBaseModel):
         reminder_max: str
         stupid_1: str
         time_max: str
         remind: str
         reminder: str
 
-    class Credits(BaseModel):
+    class Credits(ImmutableBaseModel):
         credits: str
         foot: str
         people: dict[str, str]
         others: str
 
-    class Snipe(BaseModel):
+    class Snipe(ImmutableBaseModel):
         nothing: str
 
-    class Redditdl(BaseModel):
+    class Redditdl(ImmutableBaseModel):
         invalid_url: str
         reddit_error: str
         downloading: str
@@ -414,14 +416,14 @@ class Useful(BaseModel):
     redditdl: Redditdl
 
 
-class Econ(BaseModel):
-    class MathProblem(BaseModel):
+class Econ(ImmutableBaseModel):
+    class MathProblem(ImmutableBaseModel):
         problem: str
         timeout: str
         correct: str
         incorrect: str
 
-    class Pp(BaseModel):
+    class Pp(ImmutableBaseModel):
         bot_1: str
         bot_2: str
         total_wealth: str
@@ -432,7 +434,7 @@ class Econ(BaseModel):
         can_vote: str
         yep: str
 
-    class Bal(BaseModel):
+    class Bal(ImmutableBaseModel):
         bot_1: str
         bot_2: str
         s_emeralds: str
@@ -441,8 +443,8 @@ class Econ(BaseModel):
         pocket: str
         vault: str
 
-    class Inv(BaseModel):
-        class Cats(BaseModel):
+    class Inv(ImmutableBaseModel):
+        class Cats(ImmutableBaseModel):
             tools: str
             magic: str
             fish: str
@@ -456,20 +458,20 @@ class Econ(BaseModel):
         cats: Cats
         empty: str
 
-    class Dep(BaseModel):
+    class Dep(ImmutableBaseModel):
         poor_loser: str
         stupid_1: str
         stupid_2: str
         stupid_3: str
         deposited: str
 
-    class Withd(BaseModel):
+    class Withd(ImmutableBaseModel):
         poor_loser: str
         stupid_1: str
         stupid_2: str
         withdrew: str
 
-    class Shop(BaseModel):
+    class Shop(ImmutableBaseModel):
         villager_shop: str
         tools: str
         magic: str
@@ -477,7 +479,7 @@ class Econ(BaseModel):
         other: str
         embed_footer: str
 
-    class Buy(BaseModel):
+    class Buy(ImmutableBaseModel):
         poor_loser_1: str
         stupid_1: str
         stupid_2: str
@@ -487,14 +489,14 @@ class Econ(BaseModel):
         no_to_item_1: str
         no_to_item_2: str
 
-    class Sell(BaseModel):
+    class Sell(ImmutableBaseModel):
         invalid_item: str
         stupid_1: str
         stupid_2: str
         stupid_3: str
         you_done_sold: str
 
-    class Give(BaseModel):
+    class Give(ImmutableBaseModel):
         bot_1: str
         bot_2: str
         stupid_1: str
@@ -507,7 +509,7 @@ class Econ(BaseModel):
         gaveyou: str
         gaveyouems: str
 
-    class Gamble(BaseModel):
+    class Gamble(ImmutableBaseModel):
         stupid_1: str
         stupid_2: str
         stupid_3: str
@@ -518,12 +520,12 @@ class Econ(BaseModel):
         tie: str
         actions: list[str]
 
-    class Beg(BaseModel):
+    class Beg(ImmutableBaseModel):
         positive: list[str]
         negative: list[str]
         mooderald: list[str]
 
-    class Mine(BaseModel):
+    class Mine(ImmutableBaseModel):
         found_item_1: str
         found_item_2: str
         found_emeralds: str
@@ -531,8 +533,8 @@ class Econ(BaseModel):
         places: list[str]
         useless: list[str]
 
-    class Fishing(BaseModel):
-        class Market(BaseModel):
+    class Fishing(ImmutableBaseModel):
+        class Market(ImmutableBaseModel):
             title: str
             desc: str
             current: str
@@ -544,8 +546,8 @@ class Econ(BaseModel):
         caught: list[str]
         market: Market
 
-    class Pillage(BaseModel):
-        class PillageOutcome(BaseModel):
+    class Pillage(ImmutableBaseModel):
+        class PillageOutcome(ImmutableBaseModel):
             user: list[str]
             victim: list[str]
 
@@ -558,7 +560,7 @@ class Econ(BaseModel):
         u_win: PillageOutcome
         u_lose: PillageOutcome
 
-    class Use(BaseModel):
+    class Use(ImmutableBaseModel):
         stupid_1: str
         stupid_2: str
         stupid_3: str
@@ -583,8 +585,8 @@ class Econ(BaseModel):
         barrel_item: list[str]
         barrel_ems: list[str]
 
-    class Farm(BaseModel):
-        class FarmCommands(BaseModel):
+    class Farm(ImmutableBaseModel):
+        class FarmCommands(ImmutableBaseModel):
             plant: str
             harvest: str
 
@@ -599,12 +601,12 @@ class Econ(BaseModel):
         cant_harvest: str
         harvested: str
 
-    class Honey(BaseModel):
+    class Honey(ImmutableBaseModel):
         stupid_1: list[str]
         honey: list[str]
         ded: list[str]
 
-    class Lb(BaseModel):
+    class Lb(ImmutableBaseModel):
         title: str
         global_lb: str
         local_lb: str
@@ -633,7 +635,7 @@ class Econ(BaseModel):
         lb_wems: str
         lb_wcmds: str
 
-    class Trash(BaseModel):
+    class Trash(ImmutableBaseModel):
         s_trash: str
         no_trash: str
         total_contents: str
@@ -664,7 +666,7 @@ class Econ(BaseModel):
     trash: Trash
 
 
-class Translation(BaseModel):
+class Translation(ImmutableBaseModel):
     lang: str
     name: str
     misc: Misc
@@ -676,8 +678,3 @@ class Translation(BaseModel):
     config: VbConfig
     useful: Useful
     econ: Econ
-
-    class Config:
-        validate_all = True
-        allow_mutation = False
-        extra = Extra.forbid

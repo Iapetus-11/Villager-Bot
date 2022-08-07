@@ -1,20 +1,20 @@
-from typing import Optional, TypeAlias
+from typing import Any, Optional, TypeAlias
 
 from pydantic import BaseModel
 
 from common.coms.json_encoder import dumps, loads
 from common.coms.packet_type import PacketType
 
-T_PACKET_DATA: TypeAlias = str | int | float | dict | list | set | None | BaseModel
+T_PACKET_DATA: TypeAlias = str | int | float | dict[str, Any] | list[Any] | set[Any] | None | BaseModel
 
 
 class Packet(BaseModel):
     id: str
     type: Optional[PacketType] = None
-    data: dict[str, T_PACKET_DATA]
+    data: T_PACKET_DATA
     error: bool
 
     class Config:
         json_loads = loads
         json_dumps = dumps
-        mutable = False
+        allow_mutation = False
