@@ -10,7 +10,7 @@ import aiohttp
 import asyncpg
 import psutil
 
-from common.coms.packet import T_PACKET_DATA
+from common.coms.packet import PACKET_DATA_TYPES, T_PACKET_DATA
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.coms.server import Server
@@ -45,7 +45,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     def __init__(self, secrets: Secrets, data: Data):
         self.k = secrets
 
-        self.db: Optional[asyncpg.Pool] = None
+        self._db: Optional[asyncpg.Pool] = None
 
         self.ready_event = asyncio.Event()
 
@@ -57,6 +57,8 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             logger,
         )
 
+        print(self.get_packet_handlers())
+
         self.votehook_server = VotingWebhookServer(self.k.topgg_webhook, self.vote_callback, logger)
 
         self.v = Share(data)
@@ -64,7 +66,19 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         self.aiohttp: Optional[aiohttp.ClientSession] = None
 
         # must be last
+        PacketHandlerRegistry.__init__(self)
         RecurringTasksMixin.__init__(self, logger)
+
+    @property
+    def db(self) -> asyncpg.Pool:
+        if self._db is None:
+            raise RuntimeError("Database has not yet been initialized")
+
+        return self._db
+
+    @db.setter
+    def db(self, value: asyncpg.Pool) -> None:
+        self._db = value
 
     def _on_ready(self) -> None:
         self.ready_event.set()
@@ -91,6 +105,9 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     async def _stop(self) -> None:
         logger.info("Shutting down Karen...")
 
+        await self.server.stop()
+        logger.info("Stopped websocket server")
+
         self.cancel_recurring_tasks()
 
         if self.db is not None:
@@ -116,7 +133,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     def chunked_shard_ids(self) -> list[list[int]]:
         shard_ids = list(range(self.k.shard_count))
         shards_per_cluster = self.k.shard_count // self.k.cluster_count + 1
-        return chunk_sequence(shard_ids, shards_per_cluster)
+        return list(chunk_sequence(shard_ids, shards_per_cluster))  # type: ignore
 
     async def vote_callback(self, vote: TopggVote) -> None:
         await self.ready_event.wait()
@@ -128,7 +145,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             return [cls._transform_query_result(r) for r in result]
 
         if isinstance(result, asyncpg.Record):
-            return {**result}
+            return {k: v for k, v in result.items()}
 
         return result
 
@@ -182,7 +199,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             "UPDATE leaderboards SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) WHERE DATE_TRUNC('WEEK', NOW()) > week"
         )
 
-    @recurring_task(hours=1, sleep_first=False)
+    @recurring_task(hours=1)
     async def loop_topgg_stats(self):
         guild_count = sum(await self.server.broadcast(PacketType.FETCH_GUILD_COUNT))
 
@@ -204,7 +221,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     async def packet_exec(self, code: str):
         result = await execute_code(code, {"karen": self, "v": self.v})
 
-        if not isinstance(result, T_PACKET_DATA):
+        if not isinstance(result, PACKET_DATA_TYPES):
             result = repr(result)
 
         return result

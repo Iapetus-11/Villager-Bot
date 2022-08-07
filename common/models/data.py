@@ -47,7 +47,7 @@ class Fishing(ImmutableBaseModel):
     findables: list[Findable]
 
     @property
-    def fish_ids(self) -> list[float]:
+    def fish_ids(self) -> list[str]:
         return list(self.fish.keys())
 
     @property

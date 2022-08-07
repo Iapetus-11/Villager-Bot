@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from typing import Callable, Optional
+import uuid
 
 from pydantic import BaseModel
 from websockets.server import WebSocketServerProtocol, serve
@@ -13,7 +14,7 @@ from common.coms.packet_handling import PacketHandler, PacketType
 
 class Broadcast(BaseModel):
     ready: asyncio.Event
-    ws_ids: set[int]  # ws ids to expect a response from
+    ws_ids: set[uuid.UUID]  # ws ids to expect a response from
     responses: list[T_PACKET_DATA]
 
     class Config:
@@ -43,10 +44,15 @@ class Server(ComsBase):
         self._current_id += 1
         return f"{t}{packet_id}"
 
-    async def serve(self, ready_cb: Optional[Callable[[], None]]) -> None:
+    async def serve(self, ready_cb: Optional[Callable[[], None]] = None) -> None:
         async with serve(self._handle_connection, self.host, self.port, logger=self.logger):
-            ready_cb()
+            if ready_cb is not None:
+                ready_cb()
+
             await self._stop.wait()
+
+    async def stop(self) -> None:
+        self._stop.set()
 
     async def _send(self, ws: WebSocketServerProtocol, packet: Packet) -> None:
         await ws.send(packet.json())
@@ -84,6 +90,8 @@ class Server(ComsBase):
         return broadcast.responses
 
     async def _client_broadcast(self, ws: WebSocketServerProtocol, packet: Packet) -> None:
+        assert isinstance(packet.data, dict)
+
         responses = await self.broadcast(packet.data["type"], packet.data["data"])
 
         # send response back to client who requested broadcast
@@ -124,7 +132,7 @@ class Server(ComsBase):
                     await self._disconnect(ws)
                     return
 
-                if packet.get("auth") != self.auth:
+                if packet.data != self.auth:
                     await self._disconnect(ws)
                     self.logger.error("Incorrect authorization received from client: %s", ws.id)
                     return

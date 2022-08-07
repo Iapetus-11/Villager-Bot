@@ -9,6 +9,8 @@ T_PACKET_DATA: TypeAlias = (
     str | int | float | dict[str, Any] | list[Any] | set[Any] | None | BaseModel
 )
 
+PACKET_DATA_TYPES = (str, int, float, dict, list, set, type(None), BaseModel)
+
 
 class Packet(BaseModel):
     id: str

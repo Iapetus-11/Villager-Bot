@@ -1,4 +1,5 @@
 import logging
+import typing
 
 import asyncpg
 
@@ -6,7 +7,7 @@ from karen.models.secrets import DatabaseSecrets, Secrets
 
 
 async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:
-    return await asyncpg.create_pool(
+    pool = await asyncpg.create_pool(
         host=secrets.host,
         port=secrets.port,
         database=secrets.name,
@@ -15,6 +16,8 @@ async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:
         max_size=secrets.pool_size,
         min_size=1,
     )
+
+    return typing.cast(asyncpg.Pool[asyncpg.Record], pool)
 
 
 def setup_logging() -> logging.Logger:

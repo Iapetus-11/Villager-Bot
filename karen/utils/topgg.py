@@ -26,27 +26,32 @@ class VotingWebhookServer:
         self.callback = callback
         self.logger = logger.getChild("voting")
 
-        self._runner = None
-        self._server = None
+        self._runner: Optional[web.AppRunner] = None
+        self._server: Optional[web.TCPSite] = None
 
     async def start(self) -> None:
         app = web.Application()
         app.router.add_post(self.secrets.path, self._handle_post)
 
-        self._runner = web.AppRunner(app)
-        await self._runner.setup()
+        runner = self._runner = web.AppRunner(app)
+        await runner.setup()
 
-        self._server = web.TCPSite(
-            self._runner, self.secrets.host, self.secrets.port, shutdown_timeout=1
+        server = self._server = web.TCPSite(
+            runner, self.secrets.host, self.secrets.port, shutdown_timeout=1
         )
-        await self._server.start()
+        await server.start()
+
         self.logger.info(
             "Started voting webhooks server on %s:%s", self.secrets.host, self.secrets.port
         )
 
     async def stop(self) -> None:
-        await self._server.stop()
-        await self._runner.cleanup()
+        if self._server is not None:
+            await self._server.stop()
+
+        if self._runner is not None:
+            await self._runner.cleanup()
+            
         self.logger.info("Stopped voting webhooks server")
 
     async def _handle_post(self, request: web.Request) -> web.Response:
@@ -64,3 +69,5 @@ class VotingWebhookServer:
 
         self.logger.info("Calling handler for vote from top.gg for user %s", data.user)
         await self.callback(data)
+
+        return web.Response(status=200)

@@ -29,6 +29,9 @@ classy-json = "^3.2.1"
 [tool.poetry.dev-dependencies]
 black = "^21.5b1"
 flake8 = "^3.9.2"
+mypy = "^0.971"
+asyncpg-stubs = "^0.26.2"
+types-psutil = "^5.9.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -46,3 +49,11 @@ known_bot = ["bot"]
 known_karen = ["karen"]
 known_common = ["common"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "COMMON", "BOT", "KAREN", "FIRSTPARTY", "LOCALFOLDER"]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+files = ["common/**/*.py", "karen/**/*.py"]
+python_version = "3.10"
+warn_unused_configs = true
+namespace_packages = true
+explicit_package_bases = true

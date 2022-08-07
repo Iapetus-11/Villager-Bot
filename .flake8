@@ -1,0 +1,3 @@
+[flake8]
+ignore = E501,E266,E203,W503,E741
+exclude = .venv/

@@ -6,7 +6,7 @@ from typing import Any
 from pydantic import ValidationError, create_model, validate_arguments
 
 from common.coms.errors import InvalidPacketReceived
-from common.coms.packet import T_PACKET_DATA, Packet
+from common.coms.packet import PACKET_DATA_TYPES, T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler
 from common.coms.packet_type import PacketType
 
@@ -41,57 +41,29 @@ class ComsBase:
         except (ValidationError, ValueError, TypeError) as e:
             raise InvalidPacketReceived("could not construct Packet model", e)
 
-    async def _call_handler(self, packet: Packet) -> dict[str, T_PACKET_DATA]:
+    async def _call_handler(self, packet: Packet) -> T_PACKET_DATA:
+        if packet.type is None:
+            raise ValueError(f"Missing packet type for packet {packet}")
+
         handler = self.packet_handlers.get(packet.type)
 
         if handler is None:
             self.logger.error("Missing packet handler for packet type %s", packet.type)
-            return
+            raise ValueError(f"Missing packet handler for packet type {packet.type}")
 
-        response = await validate_arguments(handler.function)(**packet.data)
+        handler_args = []
+        handler_kwargs = {}
 
-        if not isinstance(response, T_PACKET_DATA):
+        if isinstance(packet.data, dict):
+            handler_kwargs = packet.data
+        else:
+            handler_args.append(packet.data)
+
+        response = await validate_arguments(handler.function)(*handler_args, **handler_kwargs)
+
+        if not isinstance(response, PACKET_DATA_TYPES):
             raise ValueError(
                 f"Packet handler {handler.function.__qualname__} returned an unsupported type: {type(response)!r}"
             )
 
         return response
-
-    # async def _call_handler(self, packet: Packet) -> dict[str, VALID_PACKET_DATA_TYPES]:
-    #     handler = self.packet_handlers.get(packet.type)
-
-    #     if handler is None:
-    #         self.logger.error("Missing packet handler for packet type %s", packet.type)
-    #         return
-
-    #     annos = {k: getattr(v, "__origin__", v) for k, v in handler.__annotations__.items()}
-    #     annos.pop("return", None)
-    #     annos.pop("self", None)
-
-    #     # check for missing args or incorrect arg types
-    #     for arg, arg_type in annos.items():
-    #         if arg not in packet.data:
-    #             raise ValueError(
-    #                 f"Argument {arg!r} of packet handler {handler.function.__qualname__} was not present in the packet"
-    #             )
-
-    #         if not isinstance((arg_value := packet.data[arg]), arg_type):
-    #             raise TypeError(
-    #                 f"Argument {arg!r} of packet handler {handler.function.__qualname__} received an invalid type: {type(arg_value)!r}"
-    #             )
-
-    #     # check for extra args
-    #     for arg in packet.data.keys():
-    #         if arg not in annos:
-    #             raise TypeError(
-    #                 f"Packet handler {handler.function.__qualname__} received an extra argument: {arg!r}"
-    #             )
-
-    #     response = await handler(**packet.data)
-
-    #     if not isinstance(response, VALID_PACKET_DATA_TYPES):
-    #         raise ValueError(
-    #             f"Packet handler {handler.function.__qualname__} returned an unsupported type: {type(response)!r}"
-    #         )
-
-    #     return response

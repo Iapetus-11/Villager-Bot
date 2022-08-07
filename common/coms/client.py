@@ -35,22 +35,22 @@ class Client(ComsBase):
         self._current_id += 1
         return f"c{packet_id}"
 
-    def _assert_connected(self) -> None:
-        if self.ws is None or self.ws.closed:
-            raise WebsocketStateError("Websocket connection is closed")
-
     async def _disconnect(self) -> None:
-        await self.ws.close()
-        self.ws = None
+        if self.ws is not None:
+            await self.ws.close()
+            self.ws = None
+            
         self._connected.clear()
 
     async def _send(self, packet: Packet) -> None:
-        self._assert_connected()
+        if self.ws is None or self.ws.closed:
+            raise WebsocketStateError("Websocket connection is not open")
+
         await self.ws.send(packet.json())
 
     async def _authorize(self, auth: str) -> None:
         await self._send(
-            Packet(id=self._get_packet_id(), type=PacketType.AUTH, data={"auth": auth})
+            Packet(id=self._get_packet_id(), type=PacketType.AUTH, data=auth)
         )
 
     async def _connect(self, auth: str) -> None:
@@ -93,10 +93,11 @@ class Client(ComsBase):
         self._closing = True
         await self._disconnect()
 
-        try:
-            await asyncio.wait_for(self._task, 1)
-        except asyncio.TimeoutError:
-            self._task.cancel()
+        if self._task is not None:
+            try:
+                await asyncio.wait_for(self._task, 1)
+            except asyncio.TimeoutError:
+                self._task.cancel()
 
     async def send(
         self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
@@ -105,7 +106,7 @@ class Client(ComsBase):
 
         packet = Packet(id=packet_id, type=packet_type, data=(packet_data or {}))
 
-        self._waiting[packet.id] = asyncio.Event()
+        self._waiting[packet.id] = asyncio.Future[Packet]()
         await self._send(packet)
         return await self._waiting[packet.id]
 
@@ -113,5 +114,5 @@ class Client(ComsBase):
         self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
     ) -> Packet:
         return await self.send(
-            PacketType.BROADCAST_REQUEST, data={"type": packet_type, "data": (packet_data or {})}
+            PacketType.BROADCAST_REQUEST, {"type": packet_type, "data": (packet_data or {})}
         )
