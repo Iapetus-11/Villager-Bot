@@ -19,10 +19,10 @@
 - [Click Here](https://github.com/Iapetus-11/Villager-Bot/blob/main/PRIVACY-POLICY.md)
 
 ## Technologies
-- [discord](https://github.com/discordDev/discord) (a Discord.py fork)
+- [discord](https://github.com/Rapptz/discord.py)
 - [Cython](https://cython.org/)
 - [OpenCV](https://opencv.org/) + [Numpy](https://numpy.org/)
-- Custom inter-process communication protocol over TCP
+- websockets
 
 
 ## Contributing
