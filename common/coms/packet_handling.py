@@ -26,7 +26,11 @@ def validate_packet_handler_function(function: T_PACKET_HANDLER_CALLABLE) -> Non
         )
 
     # check if typehints are actually json compatible
-    annos = {k: getattr(v, "__origin__", v) for k, v in function.__annotations__.items() if k not in {"return", "self"}}
+    annos = {
+        k: getattr(v, "__origin__", v)
+        for k, v in function.__annotations__.items()
+        if k not in {"return", "self"}
+    }
 
     for arg, arg_type in annos.items():
         if not isinstance(arg_type, type) or not issubclass(arg_type, PACKET_DATA_TYPES):
