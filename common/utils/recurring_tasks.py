@@ -25,7 +25,7 @@ class RecurringTask:
         self._logger: Optional[logging.Logger] = None
 
         self._loop_task: Optional[asyncio.Task] = None
-    
+
     @property
     def logger(self) -> logging.Logger:
         if self._logger is None:

@@ -51,7 +51,7 @@ class VotingWebhookServer:
 
         if self._runner is not None:
             await self._runner.cleanup()
-            
+
         self.logger.info("Stopped voting webhooks server")
 
     async def _handle_post(self, request: web.Request) -> web.Response:

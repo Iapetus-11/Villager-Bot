@@ -29,7 +29,7 @@ def validate_packet_handler_function(function: T_PACKET_HANDLER_CALLABLE) -> Non
     annos = {k: getattr(v, "__origin__", v) for k, v in function.__annotations__.items()}
     annos.pop("return", None)
     annos.pop("self", None)
-    
+
     for arg, arg_type in annos.items():
         if not isinstance(arg_type, type) or not issubclass(arg_type, PACKET_DATA_TYPES):
             raise ValueError(
@@ -44,6 +44,7 @@ def handle_packet(packet_type: PacketType) -> Callable[[T_PACKET_HANDLER_CALLABL
         return PacketHandler(packet_type, handler)
 
     return _inner
+
 
 class PacketHandlerRegistryMeta(type):
     # def __new__(cls, name, bases, dct):

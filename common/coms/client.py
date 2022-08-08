@@ -39,7 +39,7 @@ class Client(ComsBase):
         if self.ws is not None:
             await self.ws.close()
             self.ws = None
-            
+
         self._connected.clear()
 
     async def _send(self, packet: Packet) -> None:
@@ -49,9 +49,7 @@ class Client(ComsBase):
         await self.ws.send(packet.json())
 
     async def _authorize(self, auth: str) -> None:
-        await self._send(
-            Packet(id=self._get_packet_id(), type=PacketType.AUTH, data=auth)
-        )
+        await self._send(Packet(id=self._get_packet_id(), type=PacketType.AUTH, data=auth))
 
     async def _connect(self, auth: str) -> None:
         async for self.ws in connect(f"ws://{self.host}:{self.port}", logger=self.logger):
