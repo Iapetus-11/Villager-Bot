@@ -19,13 +19,6 @@ def strip_command(ctx):  # returns message.clean_content excluding the command u
     return ctx.message.clean_content[length:]
 
 
-def dm_check(ctx):
-    def _dm_check(m):
-        return ctx.author == m.author and ctx.author.dm_channel == m.channel
-
-    return _dm_check
-
-
 def make_health_bar(health: int, max_health: int, full: str, half: str, empty: str):
     assert max_health % 2 == 0
 

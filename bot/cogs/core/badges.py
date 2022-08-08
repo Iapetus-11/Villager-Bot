@@ -1,10 +1,9 @@
 from typing import List, Optional
 
-import asyncpg
-from cogs.core.database import Database
+from bot.cogs.core.database import Database
 from discord.ext import commands
-from models.database.item import Item
-from models.database.user import User
+from common.models.db.item import Item
+from common.models.db.user import User
 
 from bot.utils.misc import calc_total_wealth
 from bot.villager_bot import VillagerBotCluster

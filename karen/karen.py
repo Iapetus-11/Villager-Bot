@@ -10,7 +10,7 @@ import aiohttp
 import asyncpg
 import psutil
 
-from common.coms.packet import PACKET_DATA_TYPES, T_PACKET_DATA
+from common.coms.packet import PACKET_DATA_TYPES
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.coms.server import Server

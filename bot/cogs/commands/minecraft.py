@@ -17,7 +17,7 @@ from discord.ext import commands
 from common.utils.code import format_exception
 
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, dm_check, fix_giphy_url
+from bot.utils.misc import SuppressCtxManager, fix_giphy_url
 from bot.villager_bot import VillagerBotCluster
 
 try:

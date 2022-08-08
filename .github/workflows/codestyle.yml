@@ -13,30 +13,42 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install Dependencies
-        run: |
-          pip install poetry
-          poetry install
+      - name: install poetry
+        uses: snok/install-poetry@v1.0.0
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
 
-      - name: Black Check
+      - name: load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install
+
+      - name: black check
         id: black-check
         continue-on-error: true
         run: poetry run black . --check
 
-      - name: Isort Check
+      - name: isort check
         id: isort-check
         continue-on-error: true
         run: poetry run isort --check
 
-      - name: Black Fix
+      - name: black fix
         if: steps.black-check.outcome != 'success'
         run: poetry run black .
 
-      - name: Isort Fix
+      - name: isort fix
         if: steps.isort-check.outcome != 'success'
         run: poetry run isort
 
-      - name: Auto Commit
+      - name: auto commit
         uses: stefanzweifel/git-auto-commit-action@v4.14.1
         with:
           commit_message: format code

@@ -1,16 +1,13 @@
-import inspect
 import json
 import logging
 from typing import Any
 
-from pydantic import ValidationError, create_model, validate_arguments
+from pydantic import ValidationError, validate_arguments
 
 from common.coms.errors import InvalidPacketReceived
 from common.coms.packet import PACKET_DATA_TYPES, T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler
 from common.coms.packet_type import PacketType
-
-EXCLUDED_ANNOS = {"self", "return"}
 
 
 class ComsBase:

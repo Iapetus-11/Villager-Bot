@@ -5,10 +5,9 @@ from concurrent.futures import ThreadPoolExecutor
 import numpy
 import pyximport
 
-from common.coms.client import Client
 from common.utils.setup import load_data
 
-from bot.utils.setup import load_secrets, load_translations, setup_logging
+from bot.utils.setup import load_secrets, load_translations
 from bot.villager_bot import VillagerBotCluster
 
 

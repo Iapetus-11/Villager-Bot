@@ -1911,7 +1911,7 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wcmds.format(f" :keyboard: "))
+        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wcmds.format(" :keyboard: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -2187,8 +2187,8 @@ class Econ(commands.Cog):
 
             embed = discord.Embed(
                 color=self.d.cc,
-                title=f"GET READY TO BATTLE!",
-                description=f"*react with :one: or :two: to bet your pocket, battle will start in 15 seconds...*",
+                title="GET READY TO BATTLE!",
+                description="*react with :one: or :two: to bet your pocket, battle will start in 15 seconds...*",
             )
             embed.add_field(
                 name=f":one: {user_1.display_name}",
