@@ -3,7 +3,7 @@ name: CD
 on:
   workflow_run:
     workflows: [CI]
-    branches: [main, rewrite-4]
+    branches: [main, "rewrite-4"]
     types:
       - completed
 
