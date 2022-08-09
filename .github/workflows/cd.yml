@@ -1,0 +1,30 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    branches: ["main"]
+    types:
+      - completed
+
+jobs:
+  cd:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: build docker images
+        run: |
+          docker compose build
+          
+      - name: upload bot image
+        uses: ishworkh/docker-image-artifact-upload@v1
+        with:
+          image: "villager-bot_bot:latest"
+          
+      - name: upload karen image
+        uses: ishworkh/docker-image-artifact-upload@v1
+        with:
+          image: "villager-bot_karen:latest"

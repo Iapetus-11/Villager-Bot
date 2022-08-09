@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI
 
 on: [push, pull_request]
 
@@ -32,7 +32,27 @@ jobs:
         run: poetry install
 
       - name: flake8
+        id: flake8
+        continue-on-error: true
         run: poetry run flake8
       
       - name: mypy
+        id: mypy
+        continue-on-error: true
         run: poetry run mypy
+
+      - name: black fix
+        run: poetry run black .
+
+      - name: isort fix
+        run: poetry run isort
+
+      - name: auto commit
+        uses: stefanzweifel/git-auto-commit-action@v4.14.1
+        with:
+          commit_message: format code
+
+      - name: fail if mypy or flake8 failed
+        if: (steps.flake8.outcome != 'success' || steps.mypy.outcome != 'success')
+        run: |
+          exit 1
