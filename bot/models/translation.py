@@ -15,6 +15,7 @@ class Misc_Errors(ImmutableBaseModel):
     nrn_buddy: str
     disabled: str
 
+
 class Misc_Time(ImmutableBaseModel):
     day: str
     days: str
@@ -24,6 +25,7 @@ class Misc_Time(ImmutableBaseModel):
     minutes: str
     second: str
     seconds: str
+
 
 class Misc(ImmutableBaseModel):
     pingpong: str
@@ -42,6 +44,7 @@ class Help_Main(ImmutableBaseModel):
     nodoc: str
     aliases: str
 
+
 class Help_N(ImmutableBaseModel):
     title: str
     economy: str
@@ -50,6 +53,7 @@ class Help_N(ImmutableBaseModel):
     fun: str
     admin: str
     cmd: str
+
 
 class Help(ImmutableBaseModel):
     n: Help_N
@@ -72,6 +76,7 @@ class Fun_Trivia_Question(ImmutableBaseModel):
     q: str
     a: list[str]
 
+
 class Fun_Trivia(ImmutableBaseModel):
     title: str
     title_basic: str
@@ -81,6 +86,7 @@ class Fun_Trivia(ImmutableBaseModel):
     incorrect: list[str]
     difficulty: list[str]
     questions: list[Fun_Trivia_Question]
+
 
 class Fun(ImmutableBaseModel):
     too_long: str
@@ -94,10 +100,12 @@ class MobsMech_Lost(ImmutableBaseModel):
     creeper: list[str]
     normal: list[str]
 
+
 class MobsMech_Mobs_MobActions(ImmutableBaseModel):
     attacks: list[str]
     finishers: list[str]
     misses: Optional[list[str]] = None
+
 
 class MobsMech_Mobs(ImmutableBaseModel):
     zombie: MobsMech_Mobs_MobActions
@@ -106,6 +114,7 @@ class MobsMech_Mobs(ImmutableBaseModel):
     cave_spider: MobsMech_Mobs_MobActions
     creeper: MobsMech_Mobs_MobActions
     baby_slime: MobsMech_Mobs_MobActions
+
 
 class MobsMech(ImmutableBaseModel):
     no_health: str
@@ -130,6 +139,7 @@ class Minecraft_Mcping_FieldOnlinePlayers(ImmutableBaseModel):
     name: str
     value: str
 
+
 class Minecraft_Mcping(ImmutableBaseModel):
     shortcut_error: str
     title_offline: str
@@ -141,6 +151,7 @@ class Minecraft_Mcping(ImmutableBaseModel):
     and_other_players: str
     learn_more: str
     powered_by: str
+
 
 class Minecraft_Stealskin(ImmutableBaseModel):
     error: str
@@ -172,6 +183,7 @@ class Minecraft_Mccolors_FormattingCodes(ImmutableBaseModel):
     obfuscated: str
     reset: str
 
+
 class Minecraft_Mccolors(ImmutableBaseModel):
     embed_desc: str
     embed_author_name: str
@@ -179,6 +191,7 @@ class Minecraft_Mccolors(ImmutableBaseModel):
     colors: str
     more_colors: str
     formatting: str
+
 
 class Minecraft_Rcon(ImmutableBaseModel):
     stupid_1: str
@@ -190,6 +203,7 @@ class Minecraft_Rcon(ImmutableBaseModel):
     err_con: str
     err_cmd: str
 
+
 class Minecraft_Profile(ImmutableBaseModel):
     error: str
     first: str
@@ -198,6 +212,7 @@ class Minecraft_Profile(ImmutableBaseModel):
     cape: str
     nocape: str
     hist: str
+
 
 class Minecraft(ImmutableBaseModel):
     invalid_player: str
@@ -212,17 +227,21 @@ class Minecraft(ImmutableBaseModel):
 class Mod_Purge(ImmutableBaseModel):
     oop: str
 
+
 class Mod_Kick(ImmutableBaseModel):
     stupid_1: str
+
 
 class Mod_Ban(ImmutableBaseModel):
     stupid_1: str
     stupid_2: str
     stupid_3: str
 
+
 class Mod_Unban(ImmutableBaseModel):
     stupid_1: str
     stupid_2: str
+
 
 class Mod_Warn(ImmutableBaseModel):
     stupid_1: str
@@ -232,16 +251,19 @@ class Mod_Warn(ImmutableBaseModel):
     by: str
     confirm: str
 
+
 class Mod_Mute(ImmutableBaseModel):
     stupid_1: str
     stupid_2: str
     stupid_3: str
     mute_msg: str
 
+
 class Mod_Unmute(ImmutableBaseModel):
     stupid_1: str
     stupid_2: str
     unmute_msg: str
+
 
 class Mod(ImmutableBaseModel):
     no_perms: str
@@ -261,11 +283,13 @@ class VbConfig_Main(ImmutableBaseModel):
     user_conf: str
     user_content: list[str]
 
+
 class VbConfig_Prefix(ImmutableBaseModel):
     this_server: str
     error_1: str
     error_2: str
     set: str
+
 
 class VbConfig_Replies(ImmutableBaseModel):
     enabled: str
@@ -273,22 +297,27 @@ class VbConfig_Replies(ImmutableBaseModel):
     this_server: str
     set: str
 
+
 class VbConfig_Diff(ImmutableBaseModel):
     this_server: str
     set: str
 
+
 class VbConfig_Lang(ImmutableBaseModel):
     this_server: str
     set: str
+
 
 class VbConfig_Mcs(ImmutableBaseModel):
     this_server: str
     error_1: str
     set: str
 
+
 class VbConfig_Gift(ImmutableBaseModel):
     this_user: str
     set: str
+
 
 class VbConfig_Cmd(ImmutableBaseModel):
     not_prem: str
@@ -299,10 +328,12 @@ class VbConfig_Cmd(ImmutableBaseModel):
     reenable: str
     disable: str
 
+
 class VbConfig_Rcon(ImmutableBaseModel):
     none: str
     one: str
     multi: str
+
 
 class VbConfig(ImmutableBaseModel):
 
@@ -317,9 +348,11 @@ class VbConfig(ImmutableBaseModel):
     cmd: VbConfig_Cmd
     rcon: VbConfig_Rcon
 
+
 class Useful_Vote(ImmutableBaseModel):
     click_1: str
     click_2: str
+
 
 class Useful_Links(ImmutableBaseModel):
     support: str
@@ -328,6 +361,7 @@ class Useful_Links(ImmutableBaseModel):
     website: str
     source: str
     privacy: str
+
 
 class Useful_Stats(ImmutableBaseModel):
     stats: str
@@ -348,6 +382,7 @@ class Useful_Stats(ImmutableBaseModel):
     tasks: str
     uptime: str
 
+
 class Useful_Ginf(ImmutableBaseModel):
     info: str
     age: str
@@ -362,12 +397,15 @@ class Useful_Ginf(ImmutableBaseModel):
     lang: str
     diff: str
 
+
 class Useful_Meth(ImmutableBaseModel):
     oops: str
+
 
 class Useful_Search(ImmutableBaseModel):
     nope: str
     error: str
+
 
 class Useful_Rules(ImmutableBaseModel):
     rules: str
@@ -378,6 +416,7 @@ class Useful_Rules(ImmutableBaseModel):
     rule_3: str
     rule_4: str
 
+
 class Useful_Remind(ImmutableBaseModel):
     reminder_max: str
     stupid_1: str
@@ -385,14 +424,17 @@ class Useful_Remind(ImmutableBaseModel):
     remind: str
     reminder: str
 
+
 class Useful_Credits(ImmutableBaseModel):
     credits: str
     foot: str
     people: dict[str, str]
     others: str
 
+
 class Useful_Snipe(ImmutableBaseModel):
     nothing: str
+
 
 class Useful_Redditdl(ImmutableBaseModel):
     invalid_url: str
@@ -400,6 +442,7 @@ class Useful_Redditdl(ImmutableBaseModel):
     downloading: str
     stitching: str
     couldnt_find: str
+
 
 class Useful(ImmutableBaseModel):
     vote: Useful_Vote
@@ -414,11 +457,13 @@ class Useful(ImmutableBaseModel):
     snipe: Useful_Snipe
     redditdl: Useful_Redditdl
 
+
 class Econ_MathProblem(ImmutableBaseModel):
     problem: str
     timeout: str
     correct: str
     incorrect: str
+
 
 class Econ_Pp(ImmutableBaseModel):
     bot_1: str
@@ -430,6 +475,7 @@ class Econ_Pp(ImmutableBaseModel):
     streak: str
     can_vote: str
     yep: str
+
 
 class Econ_Bal(ImmutableBaseModel):
     bot_1: str
@@ -449,12 +495,14 @@ class Econ_Inv_Cats(ImmutableBaseModel):
     farming: str
     all: str
 
+
 class Econ_Inv(ImmutableBaseModel):
     bot_1: str
     bot_2: str
     s_inventory: str
     cats: Econ_Inv_Cats
     empty: str
+
 
 class Econ_Dep(ImmutableBaseModel):
     poor_loser: str
@@ -463,11 +511,13 @@ class Econ_Dep(ImmutableBaseModel):
     stupid_3: str
     deposited: str
 
+
 class Econ_Withd(ImmutableBaseModel):
     poor_loser: str
     stupid_1: str
     stupid_2: str
     withdrew: str
+
 
 class Econ_Shop(ImmutableBaseModel):
     villager_shop: str
@@ -476,6 +526,7 @@ class Econ_Shop(ImmutableBaseModel):
     farming: str
     other: str
     embed_footer: str
+
 
 class Econ_Buy(ImmutableBaseModel):
     poor_loser_1: str
@@ -487,12 +538,14 @@ class Econ_Buy(ImmutableBaseModel):
     no_to_item_1: str
     no_to_item_2: str
 
+
 class Econ_Sell(ImmutableBaseModel):
     invalid_item: str
     stupid_1: str
     stupid_2: str
     stupid_3: str
     you_done_sold: str
+
 
 class Econ_Give(ImmutableBaseModel):
     bot_1: str
@@ -507,6 +560,7 @@ class Econ_Give(ImmutableBaseModel):
     gaveyou: str
     gaveyouems: str
 
+
 class Econ_Gamble(ImmutableBaseModel):
     stupid_1: str
     stupid_2: str
@@ -518,10 +572,12 @@ class Econ_Gamble(ImmutableBaseModel):
     tie: str
     actions: list[str]
 
+
 class Econ_Beg(ImmutableBaseModel):
     positive: list[str]
     negative: list[str]
     mooderald: list[str]
+
 
 class Econ_Mine(ImmutableBaseModel):
     found_item_1: str
@@ -537,6 +593,7 @@ class Econ_Fishing_Market(ImmutableBaseModel):
     desc: str
     current: str
 
+
 class Econ_Fishing(ImmutableBaseModel):
     stupid_1: str
     cast: list[str]
@@ -550,6 +607,7 @@ class Econ_Pillage_Outcome(ImmutableBaseModel):
     user: list[str]
     victim: list[str]
 
+
 class Econ_Pillage(ImmutableBaseModel):
     bot_1: str
     bot_2: str
@@ -559,6 +617,7 @@ class Econ_Pillage(ImmutableBaseModel):
     stupid_4: str
     u_win: Econ_Pillage_Outcome
     u_lose: Econ_Pillage_Outcome
+
 
 class Econ_Use(ImmutableBaseModel):
     stupid_1: str
@@ -585,9 +644,11 @@ class Econ_Use(ImmutableBaseModel):
     barrel_item: list[str]
     barrel_ems: list[str]
 
+
 class Econ_Farm_Commands(ImmutableBaseModel):
     plant: str
     harvest: str
+
 
 class Econ_Farm(ImmutableBaseModel):
     s_farm: str
@@ -601,10 +662,12 @@ class Econ_Farm(ImmutableBaseModel):
     cant_harvest: str
     harvested: str
 
+
 class Econ_Honey(ImmutableBaseModel):
     stupid_1: list[str]
     honey: list[str]
     ded: list[str]
+
 
 class Econ_Lb(ImmutableBaseModel):
     title: str
@@ -635,12 +698,14 @@ class Econ_Lb(ImmutableBaseModel):
     lb_wems: str
     lb_wcmds: str
 
+
 class Econ_Trash(ImmutableBaseModel):
     s_trash: str
     no_trash: str
     total_contents: str
     how_to_empty: str
     emptied_for: str
+
 
 class Econ(ImmutableBaseModel):
     use_a_number_stupid: str
