@@ -6,15 +6,9 @@ services:
       context: "."
     ports:
       - 52736:52736
-    deploy:
-      mode: replicated
-      replicas: "${RUN_KAREN}"
   bot:
     build:
       dockerfile: bot/Dockerfile
       context: "."
-    deploy:
-      mode: replicated
-      replicas: "${CLUSTER_COUNT}"
     depends_on:
       - karen
