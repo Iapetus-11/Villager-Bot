@@ -560,5 +560,5 @@ class Fun(commands.Cog):
         await ctx.reply_embed(ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", thing))
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Fun(bot))

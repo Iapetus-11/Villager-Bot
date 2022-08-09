@@ -2302,5 +2302,5 @@ class Econ(commands.Cog):
             await self.ipc.send({"type": PacketType.ECON_PAUSE_UNDO, "user_id": user_2.id})
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Econ(bot))

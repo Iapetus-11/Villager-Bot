@@ -4,3 +4,5 @@ __pycache__/
 bot/tmp/*
 
 secrets.json
+
+.env

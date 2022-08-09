@@ -112,7 +112,7 @@ class Server(ComsBase):
             broadcast.ready.set()
 
     async def _handle_connection(self, ws: WebSocketServerProtocol):
-        self.logger.info("New client from %s:%s connected: %s", ws.host, ws.port, ws.id)
+        self.logger.info("New client connected: %s", ws.id)
 
         authed = False
 
@@ -133,12 +133,14 @@ class Server(ComsBase):
                     return
 
                 if packet.data != self.auth:
-                    await self._disconnect(ws)
                     self.logger.error("Incorrect authorization received from client: %s", ws.id)
+                    await self._disconnect(ws)
                     return
 
                 self._connections.append(ws)
                 authed = True
+
+                continue
 
             if not authed:
                 self.logger.error(

@@ -400,5 +400,5 @@ class MobSpawner(commands.Cog):
             )  # unpause user
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(MobSpawner(bot))

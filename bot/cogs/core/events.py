@@ -3,7 +3,7 @@ import sys
 from contextlib import suppress
 
 import discord
-from cogs.core.database import Database
+from bot.cogs.core.database import Database
 from discord.ext import commands
 
 from common.utils.code import format_exception
@@ -426,5 +426,5 @@ class Events(commands.Cog):
             await self.bot.error_channel.send(debug_info)
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Events(bot))

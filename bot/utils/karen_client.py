@@ -38,7 +38,10 @@ class KarenClient:
         await self._client.connect(self.secrets.auth)
 
     async def disconnect(self) -> None:
-        await self._client.close()
+        if self._client is not None:
+            await self._client.close()
+
+        self.logger.info("Disconnected from Karen")
 
     async def _send(self, packet_type: PacketType, **kwargs: T_PACKET_DATA) -> T_PACKET_DATA:
         resp = await self._client.send(packet_type, kwargs)

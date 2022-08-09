@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+  karen:
+    build:
+      dockerfile: karen/Dockerfile
+      context: "."
+    ports:
+      - 52736:52736
+    deploy:
+      mode: replicated
+      replicas: "${RUN_KAREN}"
+  bot:
+    build:
+      dockerfile: bot/Dockerfile
+      context: "."
+    deploy:
+      mode: replicated
+      replicas: "${CLUSTER_COUNT}"
+    depends_on:
+      - karen

@@ -41,6 +41,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     ):
         commands.AutoShardedBot.__init__(
             self,
+            command_prefix=secrets.default_prefix,
             case_insensitive=True,
             intents=villager_bot_intents(),
             help_command=None,
@@ -55,26 +56,26 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.l = translations
 
         self.cog_list = [
-            "cogs.core.database",
-            "cogs.core.events",
-            "cogs.core.loops",
-            "cogs.core.paginator",
-            "cogs.core.badges",
-            "cogs.core.mobs",
-            "cogs.commands.owner",
-            "cogs.commands.useful",
-            "cogs.commands.config",
-            "cogs.commands.econ",
-            "cogs.commands.minecraft",
-            "cogs.commands.mod",
-            "cogs.commands.fun",
+            "core.database",
+            "core.events",
+            "core.loops",
+            "core.paginator",
+            "core.badges",
+            "core.mobs",
+            "commands.owner",
+            "commands.useful",
+            "commands.config",
+            "commands.econ",
+            "commands.minecraft",
+            "commands.mod",
+            "commands.fun",
         ]
 
         self.logger = setup_logging(self.cluster_id)
 
-        self.karen: Optional[KarenClient] = None
+        self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
+        self.db = DatabaseProxy(self.karen)
         self.aiohttp: Optional[aiohttp.ClientSession] = None
-        self.db: Optional[DatabaseProxy] = None
         self.tp = tp
 
         # caches
@@ -115,20 +116,22 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         )  # register self.after_command_invoked as a after_invoked event
 
     async def start(self):
-        self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
-        self.db = DatabaseProxy(self.karen)
+        await self.karen.connect()
 
         self.shard_ids = await self.karen.fetch_shard_ids()
         self.shard_count = len(self.shard_ids)
 
         for cog in self.cog_list:
-            self.load_extension(cog)
+            await self.load_extension(f"bot.cogs.{cog}")
 
         await super().start(self.k.discord_token)
 
     async def close(self, *args, **kwargs):
         await self.karen.disconnect()
-        await self.aiohttp.close()
+
+        if self.aiohttp is not None:
+            await self.aiohttp.close()
+            self.logger.info("Closed aiohttp ClientSession")
 
         await super().close(*args, **kwargs)
 

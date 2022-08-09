@@ -10,7 +10,7 @@ import discord
 from cogs.core.paginator import Paginator
 from discord.ext import commands
 
-from bot.utils.code import execute_code, format_exception
+from common.utils.code import execute_code, format_exception
 from bot.utils.ctx import Ctx
 from bot.utils.ipc import PacketType
 from bot.utils.misc import SuppressCtxManager
@@ -266,5 +266,5 @@ class Owner(commands.Cog):
         await ctx.send(f"Last 14 days of guild joins / leaves (newest is top)```diff\n{body}\n```")
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Owner(bot))

@@ -232,5 +232,5 @@ class Config(commands.Cog):
             await ctx.reply_embed(ctx.l.config.rcon.multi.format(deleted))
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Config(bot))

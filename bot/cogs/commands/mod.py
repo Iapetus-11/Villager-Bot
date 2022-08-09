@@ -279,5 +279,5 @@ class Mod(commands.Cog):
         await ctx.reply_embed(ctx.l.mod.unmute.unmute_msg.format(user.mention))
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Mod(bot))

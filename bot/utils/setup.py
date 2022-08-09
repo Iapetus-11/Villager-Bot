@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import random
@@ -40,10 +41,13 @@ def setup_logging(cluster_id: int) -> logging.Logger:
 def load_translations() -> dict[str, Translation]:
     translations = dict[str, Translation]()
 
-    for filename in os.listdir("data/text"):
+    for filename in os.listdir("bot/data/text"):
         lang_name = filename.split(".")[0]
 
-        translations[lang_name] = Translation.parse_file(f"bot/data/text/{filename}")
+        with open(f"bot/data/text/{filename}", "r", encoding="utf8") as f:
+            data = json.load(f)
+
+        translations[lang_name] = Translation(**data[lang_name])
 
     return translations
 

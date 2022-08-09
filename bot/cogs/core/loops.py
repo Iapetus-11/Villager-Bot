@@ -49,5 +49,5 @@ class Loops(commands.Cog):
         update_fishing_prices(self.d)
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Loops(bot))

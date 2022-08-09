@@ -1,19 +1,17 @@
 FROM python:3.10
 
-# setup poetry
-ENV POETRY_VIRTUALENVS_CREATE=false
-ENV POETRY_NO_INTERACTION=1
-RUN python -m pip install poetry
+# install & configure poetry
+RUN python3 -m pip install poetry
+RUN poetry config virtualenvs.in-project true
 
 # install dependencies
-ADD pyproject.toml .
-ADD poetry.lock .
-RUN poetry install
+COPY pyproject.toml .
+COPY poetry.lock .
+RUN poetry install --no-dev --no-interaction
 
-# copy over rest of files
-WORKDIR /
-ADD ./common /common
-ADD ./karen /karen
+# copy over common & bot folders
+COPY common common
+COPY karen karen
 
-# run karen
-CMD ["python", "-m", "karen"]
+# run Villager Bot cluster
+CMD ["poetry", "run", "python3", "-m", "karen"]

@@ -20,7 +20,7 @@ class Client(ComsBase):
         packet_handlers: dict[PacketType, PacketHandler],
         logger: logging.Logger,
     ):
-        super().__init__(host, port, packet_handlers, logger)
+        super().__init__(host, port, packet_handlers, logger.getChild("client"))
 
         self.ws: Optional[WebSocketClientProtocol] = None
 
@@ -55,6 +55,7 @@ class Client(ComsBase):
         async for self.ws in connect(f"ws://{self.host}:{self.port}", logger=self.logger):
             try:
                 await self._authorize(auth)
+                self._connected.set()
 
                 async for message in self.ws:
                     try:

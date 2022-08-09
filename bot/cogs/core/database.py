@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 import discord
-from data.enums.guild_event_type import GuildEventType
+from bot.data.enums.guild_event_type import GuildEventType
 from discord.ext import commands
 
 from common.models.db.guild import Guild
@@ -684,5 +684,5 @@ class Database(commands.Cog):
         )
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Database(bot))

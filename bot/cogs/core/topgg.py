@@ -7,7 +7,7 @@ import discord
 from aiohttp import web
 from discord.ext import commands
 
-from bot.utils.code import format_exception
+from common.utils.code import format_exception
 from bot.utils.ipc import PacketType
 from bot.villager_bot import VillagerBotCluster
 
@@ -165,5 +165,5 @@ class Webhooks(commands.Cog):
         await self.reward(user_id, amount, vote_streak)
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Webhooks(bot))

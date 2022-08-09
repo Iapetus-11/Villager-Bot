@@ -749,5 +749,5 @@ class Useful(commands.Cog):
             await ctx.reply(ctx.l.useful.redditdl.couldnt_find)
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Useful(bot))

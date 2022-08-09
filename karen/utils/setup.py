@@ -17,7 +17,7 @@ async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:
         min_size=1,
     )
 
-    return typing.cast(asyncpg.Pool[asyncpg.Record], pool)
+    return pool  # type: ignore
 
 
 def setup_logging() -> logging.Logger:

@@ -57,8 +57,6 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             logger,
         )
 
-        print(self.get_packet_handlers())
-
         self.votehook_server = VotingWebhookServer(self.k.topgg_webhook, self.vote_callback, logger)
 
         self.v = Share(data)

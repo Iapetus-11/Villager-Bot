@@ -723,5 +723,5 @@ class Minecraft(commands.Cog):
         )
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Minecraft(bot))

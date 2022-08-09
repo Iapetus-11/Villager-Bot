@@ -175,5 +175,5 @@ class Badges(commands.Cog):
             await self.update_user_badges(user_id, fisherman=1)
 
 
-def setup(bot):
+async def setup(bot: VillagerBotCluster) -> None:
     bot.add_cog(Badges(bot))
