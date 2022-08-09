@@ -1,9 +1,7 @@
 import asyncio
 import functools
-import itertools
 import math
 import random
-import time
 from collections import defaultdict
 from typing import Any, DefaultDict, Dict, List
 
@@ -12,7 +10,7 @@ import discord
 from cogs.core.database import Database
 from cogs.core.paginator import Paginator
 from discord.ext import commands
-from models.database.item import Item
+from common.models.db.item import Item
 
 from bot.utils.ctx import Ctx
 from bot.utils.ipc import PacketType
