@@ -2,12 +2,16 @@ name: CD
 
 on:
   workflow_run:
-    workflows: ["CI"]
-    branches: ["main", "rewrite-4"]
+    workflows: [CI]
+    branches: [main]
     types:
       - completed
 
 jobs:
+  cdtest:
+    runs-on: ubuntu-latest
+    steps:
+      run: "echo triggered :hmmge:"
   cd:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
