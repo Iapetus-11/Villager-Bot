@@ -31,28 +31,31 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install
 
-      - name: flake8
-        id: flake8
-        continue-on-error: true
-        run: poetry run flake8
-      
-      - name: mypy
-        id: mypy
-        continue-on-error: true
-        run: poetry run mypy
-
       - name: black fix
+        if: github.event_name != 'pull_request'
         run: poetry run black .
 
       - name: isort fix
+        if: github.event_name != 'pull_request'
         run: poetry run isort
 
       - name: auto commit
+        if: github.event_name != 'pull_request'
         uses: stefanzweifel/git-auto-commit-action@v4.14.1
         with:
           commit_message: format code
 
-      - name: fail if mypy or flake8 failed
-        if: (steps.flake8.outcome != 'success' || steps.mypy.outcome != 'success')
-        run: |
-          exit 1
+      - name: flake8
+        id: flake8
+        # continue-on-error: true
+        run: poetry run flake8
+      
+      - name: mypy
+        id: mypy
+        # continue-on-error: true
+        run: poetry run mypy
+
+      # - name: fail if mypy or flake8 failed
+      #   if: (steps.flake8.outcome != 'success' || steps.mypy.outcome != 'success')
+      #   run: |
+      #     exit 1
