@@ -8,6 +8,7 @@ from common.utils.setup import load_data
 from karen.karen import MechaKaren
 from karen.utils.setup import load_secrets
 
+
 async def main():
     secrets = load_secrets()
     data = load_data()

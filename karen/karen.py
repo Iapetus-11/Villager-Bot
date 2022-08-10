@@ -213,7 +213,11 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     async def packet_get_shard_ids(self):
         shard_ids = self.chunked_shard_ids[self.v.current_cluster_id]
         self.v.current_cluster_id += 1
-        return {"shard_ids": shard_ids, "shard_count": self.k.shard_count, "cluster_id": self.v.current_cluster_id - 1}
+        return {
+            "shard_ids": shard_ids,
+            "shard_count": self.k.shard_count,
+            "cluster_id": self.v.current_cluster_id - 1,
+        }
 
     @handle_packet(PacketType.EXEC_CODE)
     async def packet_exec(self, code: str):

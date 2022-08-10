@@ -25,9 +25,9 @@ class CooldownManager:
     def __init__(self, cooldown_rates: dict[str, float]):
         self.rates = cooldown_rates  # {command_name: seconds_per_command}
 
-        self._cooldowns = defaultdict[
-            str, dict[int, float]
-        ](dict)  # {command_name: {user_id: time.time()}}
+        self._cooldowns = defaultdict[str, dict[int, float]](
+            dict
+        )  # {command_name: {user_id: time.time()}}
         self._clear_task = None
 
     def add_cooldown(self, command: str, user_id: int) -> None:
