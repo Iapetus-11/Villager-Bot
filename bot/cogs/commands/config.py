@@ -1,5 +1,5 @@
 import discord
-from cogs.core.database import Database
+from bot.cogs.core.database import Database
 from discord.ext import commands
 
 from bot.utils.ctx import Ctx
@@ -233,4 +233,4 @@ class Config(commands.Cog):
 
 
 async def setup(bot: VillagerBotCluster) -> None:
-    bot.add_cog(Config(bot))
+    await bot.add_cog(Config(bot))

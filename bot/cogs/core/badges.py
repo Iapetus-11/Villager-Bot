@@ -176,4 +176,4 @@ class Badges(commands.Cog):
 
 
 async def setup(bot: VillagerBotCluster) -> None:
-    bot.add_cog(Badges(bot))
+    await bot.add_cog(Badges(bot))

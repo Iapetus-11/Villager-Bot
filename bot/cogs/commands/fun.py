@@ -9,7 +9,6 @@ import discord
 from discord.ext import commands
 
 from bot.utils.ctx import Ctx
-from bot.utils.ipc import PacketType
 from bot.utils.misc import SuppressCtxManager, strip_command
 from bot.villager_bot import VillagerBotCluster
 
@@ -34,7 +33,7 @@ class Fun(commands.Cog):
 
         self.aiohttp = bot.aiohttp
         self.db = bot.get_cog("Database")
-        self.ipc = bot.ipc
+        self.karen = bot.karen
 
     def lang_convert(self, msg, lang):
         keys = list(lang)
@@ -561,4 +560,4 @@ class Fun(commands.Cog):
 
 
 async def setup(bot: VillagerBotCluster) -> None:
-    bot.add_cog(Fun(bot))
+    await bot.add_cog(Fun(bot))

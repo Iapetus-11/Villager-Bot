@@ -7,7 +7,7 @@ class PacketType(IntEnum):
     BROADCAST_REQUEST = auto()
 
     # other regular packet types
-    FETCH_SHARD_IDS = auto()
+    FETCH_CLUSTER_INFO = auto()
     EXEC_CODE = auto()
     COOLDOWN_CHECK_ADD = auto()
     COOLDOWN_ADD = auto()

@@ -1,0 +1,5 @@
+__pycache__/
+**/secrets.json
+**/secrets.example.json
+.venv
+**/Dockerfile

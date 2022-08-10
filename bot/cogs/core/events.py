@@ -427,4 +427,4 @@ class Events(commands.Cog):
 
 
 async def setup(bot: VillagerBotCluster) -> None:
-    bot.add_cog(Events(bot))
+    await bot.add_cog(Events(bot))

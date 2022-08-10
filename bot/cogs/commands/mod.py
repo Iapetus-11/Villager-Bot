@@ -280,4 +280,4 @@ class Mod(commands.Cog):
 
 
 async def setup(bot: VillagerBotCluster) -> None:
-    bot.add_cog(Mod(bot))
+    await bot.add_cog(Mod(bot))

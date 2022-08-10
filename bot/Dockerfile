@@ -1,8 +1,15 @@
 FROM python:3.10
 
+# install libgl
+RUN apt-get update -y && apt-get install libgl1 -y
+
 # install & configure poetry
 RUN python3 -m pip install poetry
 RUN poetry config virtualenvs.in-project true
+
+# make villager-bot dir
+RUN mkdir villager-bot
+WORKDIR /villager-bot
 
 # install dependencies
 COPY pyproject.toml .

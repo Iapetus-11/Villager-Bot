@@ -6,9 +6,21 @@ services:
       context: "."
     ports:
       - 52736:52736
+    volumes:
+      - type: bind
+        source: karen/secrets.json
+        target: /villager-bot/karen/secrets.json
+    deploy:
+      replicas: ${KAREN_ENABLED:-1}
   bot:
     build:
       dockerfile: bot/Dockerfile
       context: "."
     depends_on:
       - karen
+    volumes:
+      - type: bind
+        source: bot/secrets.json
+        target: /villager-bot/bot/secrets.json
+    deploy:
+      replicas: ${CLUSTER_COUNT:-1}

@@ -25,6 +25,7 @@ moviepy = "^1.0.3"
 pydantic = "^1.9.1"
 websockets = "^10.3"
 classy-json = "^3.2.1"
+python-dotenv = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"

@@ -1,5 +1,4 @@
 import asyncio
-import os
 from concurrent.futures import ThreadPoolExecutor
 
 import numpy
@@ -12,13 +11,11 @@ from bot.villager_bot import VillagerBotCluster
 
 
 async def main_async(tp: ThreadPoolExecutor):
-    cluster_id = os.getpid()
-
     secrets = load_secrets()
     translations = load_translations()
     data = load_data()
 
-    villager_bot = VillagerBotCluster(cluster_id, tp, secrets, data, translations)
+    villager_bot = VillagerBotCluster(tp, secrets, data, translations)
 
     async with villager_bot:
         await villager_bot.start()

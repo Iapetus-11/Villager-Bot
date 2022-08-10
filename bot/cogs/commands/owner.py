@@ -7,12 +7,11 @@ from typing import Union
 import aiofiles
 import arrow
 import discord
-from cogs.core.paginator import Paginator
+from bot.cogs.core.paginator import Paginator
 from discord.ext import commands
 
 from common.utils.code import execute_code, format_exception
 from bot.utils.ctx import Ctx
-from bot.utils.ipc import PacketType
 from bot.utils.misc import SuppressCtxManager
 from bot.villager_bot import VillagerBotCluster
 
@@ -21,7 +20,7 @@ class Owner(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
-        self.ipc = bot.ipc
+        self.karen = bot.karen
         self.d = bot.d
         self.db = bot.get_cog("Database")
 
@@ -267,4 +266,4 @@ class Owner(commands.Cog):
 
 
 async def setup(bot: VillagerBotCluster) -> None:
-    bot.add_cog(Owner(bot))
+    await bot.add_cog(Owner(bot))

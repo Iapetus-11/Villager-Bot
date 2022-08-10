@@ -87,5 +87,5 @@ class Paginator(commands.Cog):
             await msg.remove_reaction(emoji, ctx.author)
 
 
-def setup(bot: VillagerBotCluster):
-    bot.add_cog(Paginator(bot))
+async def setup(bot: VillagerBotCluster):
+    await bot.add_cog(Paginator(bot))

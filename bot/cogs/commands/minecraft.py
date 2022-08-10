@@ -10,7 +10,7 @@ import aiomcrcon as rcon
 import arrow
 import classyjson as cj
 import discord
-from cogs.core.database import Database
+from bot.cogs.core.database import Database
 from cryptography.fernet import Fernet
 from discord.ext import commands
 
@@ -44,7 +44,7 @@ class Minecraft(commands.Cog):
         self.fernet = Fernet(self.k.rcon_fernet_key)
 
         if tiler:
-            self.tiler = tiler.Tiler("data/block_palette.json")
+            self.tiler = tiler.Tiler("bot/data/block_palette.json")
         else:
             self.tiler = None
 
@@ -724,4 +724,4 @@ class Minecraft(commands.Cog):
 
 
 async def setup(bot: VillagerBotCluster) -> None:
-    bot.add_cog(Minecraft(bot))
+    await bot.add_cog(Minecraft(bot))

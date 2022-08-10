@@ -4,6 +4,10 @@ FROM python:3.10
 RUN python3 -m pip install poetry
 RUN poetry config virtualenvs.in-project true
 
+# make villager-bot dir
+RUN mkdir villager-bot
+WORKDIR /villager-bot
+
 # install dependencies
 COPY pyproject.toml .
 COPY poetry.lock .

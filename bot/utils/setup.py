@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import random
+from typing import Optional
 
 import discord
 
@@ -29,12 +30,13 @@ def villager_bot_intents() -> discord.Intents:
     )
 
 
-def setup_logging(cluster_id: int) -> logging.Logger:
-    logging.basicConfig(level=logging.INFO, format=f"[{cluster_id}] %(levelname)s: %(message)s")
-
-    logging.getLogger("asyncio").setLevel(logging.WARNING)  # hide annoying asyncio info
-    logging.getLogger("discord.gateway").setLevel(logging.WARNING)  # hide annoying gateway info
-
+def setup_logging() -> logging.Logger:
+    logging.basicConfig(
+        level=logging.INFO,
+        format=f"%(asctime)s [%(name)s] %(levelname)s: %(message)s",
+        datefmt="%m-%d-%y %H:%M:%S",
+    )
+    
     return logging.getLogger("bot")
 
 
@@ -58,4 +60,4 @@ def load_secrets() -> Secrets:
 
 def update_fishing_prices(data: Data):
     for fish in data.fishing.fish.values():
-        fish.currrent = random.randint(*fish.value)
+        fish.current = random.randint(*fish.value)

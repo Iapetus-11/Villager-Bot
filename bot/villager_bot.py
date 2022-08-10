@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import random
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
@@ -33,7 +34,6 @@ from bot.utils.setup import load_translations, setup_logging, villager_bot_inten
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     def __init__(
         self,
-        cluster_id: int,
         tp: ThreadPoolExecutor,
         secrets: Secrets,
         data: Data,
@@ -47,7 +47,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             help_command=None,
         )
 
-        self.cluster_id = cluster_id
+        self.cluster_id: Optional[int] = None
 
         self.start_time = arrow.utcnow()
 
@@ -71,10 +71,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             "commands.fun",
         ]
 
-        self.logger = setup_logging(self.cluster_id)
-
-        self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
-        self.db = DatabaseProxy(self.karen)
+        self.logger = setup_logging()
+        self.karen: Optional[KarenClient] = None
+        self.db: Optional[DatabaseProxy] = None
         self.aiohttp: Optional[aiohttp.ClientSession] = None
         self.tp = tp
 
@@ -116,10 +115,15 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         )  # register self.after_command_invoked as a after_invoked event
 
     async def start(self):
+        self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
+        self.db = DatabaseProxy(self.karen)
+
         await self.karen.connect()
 
-        self.shard_ids = await self.karen.fetch_shard_ids()
-        self.shard_count = len(self.shard_ids)
+        cluster_info = await self.karen.fetch_cluster_info()
+        self.shard_count = cluster_info.shard_count
+        self.shard_ids = cluster_info.shard_ids
+        self.cluster_id = cluster_info.cluster_id
 
         for cog in self.cog_list:
             await self.load_extension(f"bot.cogs.{cog}")
@@ -127,7 +131,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         await super().start(self.k.discord_token)
 
     async def close(self, *args, **kwargs):
-        await self.karen.disconnect()
+        if self.karen is not None:
+            await self.karen.disconnect()
 
         if self.aiohttp is not None:
             await self.aiohttp.close()
@@ -152,7 +157,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def get_context(self, *args, **kwargs) -> CustomContext:
         ctx = await super().get_context(*args, **kwargs, cls=CustomContext)
 
-        ctx.embed_color = self.d.embed_color
+        ctx.embed_color = getattr(discord.Color, self.d.embed_color)()
         ctx.l = self.get_language(ctx)
 
         return ctx

@@ -1,8 +1,10 @@
+import logging
 from typing import Any, Optional
 
+import discord
 from pydantic import Field, HttpUrl
 
-from common.models.base import ImmutableBaseModel
+from common.models.base import BaseModel, ImmutableBaseModel
 
 
 class MobsMech(ImmutableBaseModel):
@@ -36,10 +38,10 @@ class Mining(ImmutableBaseModel):
 
 
 class Fishing(ImmutableBaseModel):
-    class Fish(ImmutableBaseModel):
+    class Fish(BaseModel):
         name: str
         value: list[int] = Field(min_items=2, max_items=2)
-        currrent: Optional[float]
+        current: Optional[float]
         rarity: int
 
     exponent: float

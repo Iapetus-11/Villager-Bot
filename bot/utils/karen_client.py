@@ -2,6 +2,7 @@ import logging
 from typing import Any, Optional
 
 import discord
+from bot.models.karen.cluster_info import ClusterInfo
 
 from common.coms.client import Client
 from common.coms.packet import T_PACKET_DATA, Packet
@@ -61,8 +62,9 @@ class KarenClient:
 
         return resp.data
 
-    async def fetch_shard_ids(self) -> list[int]:
-        return await self._send(PacketType.FETCH_SHARD_IDS)
+    async def fetch_cluster_info(self) -> ClusterInfo:
+        resp = await self._send(PacketType.FETCH_CLUSTER_INFO)
+        return ClusterInfo(**resp)
 
     async def exec_code(self, code: str) -> T_PACKET_DATA:
         return await self._send(PacketType.EXEC_CODE, code=code)

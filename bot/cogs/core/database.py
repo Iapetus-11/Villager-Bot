@@ -685,4 +685,4 @@ class Database(commands.Cog):
 
 
 async def setup(bot: VillagerBotCluster) -> None:
-    bot.add_cog(Database(bot))
+    await bot.add_cog(Database(bot))

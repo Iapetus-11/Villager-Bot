@@ -1,3 +1,4 @@
+from asyncio.log import logger
 import time
 from collections import defaultdict
 from typing import Optional
@@ -26,7 +27,7 @@ class CooldownManager:
 
         self._cooldowns = defaultdict[
             str, dict[int, float]
-        ]()  # {command_name: {user_id: time.time()}}
+        ](dict)  # {command_name: {user_id: time.time()}}
         self._clear_task = None
 
     def add_cooldown(self, command: str, user_id: int) -> None:
@@ -36,6 +37,7 @@ class CooldownManager:
         self._cooldowns[command].pop(user_id, None)
 
     def get_remaining(self, command: str, user_id: int) -> float:  # returns remaning cooldown or 0
+        logger.error("whatfffffffff %s", self._cooldowns)
         started = self._cooldowns[command].get(user_id, 0)
         remaining = self.rates[command] - (time.time() - started)
 

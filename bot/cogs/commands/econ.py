@@ -7,13 +7,12 @@ from typing import Any, DefaultDict, Dict, List
 
 import arrow
 import discord
-from cogs.core.database import Database
-from cogs.core.paginator import Paginator
+from bot.cogs.core.database import Database
+from bot.cogs.core.paginator import Paginator
 from discord.ext import commands
 from common.models.db.item import Item
 
 from bot.utils.ctx import Ctx
-from bot.utils.ipc import PacketType
 from bot.utils.misc import (
     SuppressCtxManager,
     calc_total_wealth,
@@ -31,7 +30,7 @@ class Econ(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.ipc = bot.ipc
+        self.karen = bot.karen
 
         self.db: Database = bot.get_cog("Database")
         self.badges = bot.get_cog("Badges")
@@ -60,11 +59,8 @@ class Econ(commands.Cog):
         return [True] * yield_[0] + [False] * yield_[1]
 
     async def math_problem(self, ctx: Ctx, addition=1):
-        # simultaneously updates the value in Karen and retrivies the current value
-        res = await self.ipc.request(
-            {"type": PacketType.MINE_COMMAND, "user_id": ctx.author.id, "addition": addition}
-        )
-        mine_commands = res.current
+        # simultaneously updates the value in Karen and retrevies the current value
+        mine_commands = await self.karen.mine_command(ctx.author.id, addition)
 
         if mine_commands >= 100:
             x, y = random.randint(0, 15), random.randint(0, 10)
@@ -101,7 +97,7 @@ class Econ(commands.Cog):
                 )
                 return False
 
-            await self.ipc.send({"type": PacketType.MINE_COMMANDS_RESET, "user": ctx.author.id})
+            await self.karen.mine_commands_reset(ctx.author.id)
             await self.bot.reply_embed(m, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
 
         return True
@@ -2301,4 +2297,4 @@ class Econ(commands.Cog):
 
 
 async def setup(bot: VillagerBotCluster) -> None:
-    bot.add_cog(Econ(bot))
+    await bot.add_cog(Econ(bot))

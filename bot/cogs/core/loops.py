@@ -50,4 +50,4 @@ class Loops(commands.Cog):
 
 
 async def setup(bot: VillagerBotCluster) -> None:
-    bot.add_cog(Loops(bot))
+    await bot.add_cog(Loops(bot))
