@@ -22,13 +22,15 @@ def validate_return(function):
         return return_value
 
     if inspect.iscoroutinefunction(function):
+
         @wraps(function)
         async def _validate_return(*args, **kwargs):
             return _validate_type(await function(*args, **kwargs))
+
     else:
+
         @wraps(function)
         def _validate_return(*args, **kwargs):
             return _validate_type(function(*args, **kwargs))
 
     return _validate_return
-

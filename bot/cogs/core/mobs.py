@@ -154,7 +154,9 @@ class MobSpawner(commands.Cog):
             for iteration in itertools.count(start=1):
 
                 # create embed with mob image
-                embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.mobs_mech.attack_or_flee)
+                embed = discord.Embed(
+                    color=self.bot.embed_color, title=ctx.l.mobs_mech.attack_or_flee
+                )
                 embed.set_image(url=mob.image)
 
                 # add user health bar to embed

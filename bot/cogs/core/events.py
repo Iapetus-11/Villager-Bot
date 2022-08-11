@@ -258,7 +258,8 @@ class Events(commands.Cog):
             lang = self.bot.get_language(message)
 
             embed = discord.Embed(
-                color=self.bot.embed_color, description=lang.misc.pingpong.format(prefix, self.d.support)
+                color=self.bot.embed_color,
+                description=lang.misc.pingpong.format(prefix, self.d.support),
             )
             embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
             embed.set_footer(text=lang.useful.credits.foot.format(prefix))

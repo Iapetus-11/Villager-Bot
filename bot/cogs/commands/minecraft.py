@@ -543,7 +543,9 @@ class Minecraft(commands.Cog):
     async def color_codes(self, ctx: Ctx):
         """Shows the Minecraft chat color codes"""
 
-        embed = discord.Embed(color=self.bot.embed_color, description=ctx.l.minecraft.mccolors.embed_desc)
+        embed = discord.Embed(
+            color=self.bot.embed_color, description=ctx.l.minecraft.mccolors.embed_desc
+        )
 
         embed.set_author(name=ctx.l.minecraft.mccolors.embed_author_name)
 

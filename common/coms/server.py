@@ -29,7 +29,7 @@ class Server(ComsBase):
         auth: str,
         packet_handlers: dict[PacketType, PacketHandler],
         logger: logging.Logger,
-        disconnect_cb: Optional[Callable[[uuid.UUID], Awaitable[None]]] = None
+        disconnect_cb: Optional[Callable[[uuid.UUID], Awaitable[None]]] = None,
     ):
         super().__init__(host, port, packet_handlers, logger.getChild("server"))
 
@@ -121,13 +121,15 @@ class Server(ComsBase):
         self.logger.info("New client connected: %s", ws.id)
 
         authed = False
-        
+
         try:
             async for message in ws:
                 try:
                     packet = self._decode(message)
                 except InvalidPacketReceived:
-                    self.logger.error("Invalid packet received from client: %s", ws.id, exc_info=True)
+                    self.logger.error(
+                        "Invalid packet received from client: %s", ws.id, exc_info=True
+                    )
                     await self._disconnect(ws)
                     return
 

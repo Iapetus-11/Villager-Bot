@@ -77,7 +77,8 @@ class Econ(commands.Cog):
             asyncio.create_task(
                 m.edit(
                     embed=discord.Embed(
-                        color=self.bot.embed_color, description=ctx.l.econ.math_problem.problem.format(prob[0])
+                        color=self.bot.embed_color,
+                        description=ctx.l.econ.math_problem.problem.format(prob[0]),
                     )
                 )
             )
@@ -1022,7 +1023,9 @@ class Econ(commands.Cog):
         # iterate through items findable via mining
         for item in self.d.mining.findables:
             # check if user should get item based on rarity (item[2])
-            if random.randint(0, item.rarity) == 1 or (lucky and random.randint(0, item.rarity) < 3):
+            if random.randint(0, item.rarity) == 1 or (
+                lucky and random.randint(0, item.rarity) < 3
+            ):
                 await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
 
                 await ctx.reply_embed(
@@ -1293,7 +1296,7 @@ class Econ(commands.Cog):
 
         if amount > 100:
             await ctx.reply_embed(ctx.l.econ.use.stupid_4)
-            return        
+            return
 
         if await self.karen.check_active_fx(ctx.author.id, thing):
             await ctx.reply_embed(ctx.l.econ.use.stupid_1)
@@ -1626,7 +1629,8 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn)
+            color=self.bot.embed_color,
+            title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn),
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1705,7 +1709,9 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
             )
 
-        embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: "))
+        embed = discord.Embed(
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: ")
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1723,7 +1729,9 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.updoot} {{}}"
             )
 
-        embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.econ.lb.lb_votes.format(" :fire: "))
+        embed = discord.Embed(
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_votes.format(" :fire: ")
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1742,7 +1750,8 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout)
+            color=self.bot.embed_color,
+            title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout),
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1765,7 +1774,8 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald)
+            color=self.bot.embed_color,
+            title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald),
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1809,7 +1819,8 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} ")
+            color=self.bot.embed_color,
+            title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} "),
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1829,7 +1840,8 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} ")
+            color=self.bot.embed_color,
+            title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} "),
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1848,7 +1860,9 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
             )
 
-        embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.econ.lb.lb_wcmds.format(" :keyboard: "))
+        embed = discord.Embed(
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_wcmds.format(" :keyboard: ")
+        )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1882,7 +1896,9 @@ class Econ(commands.Cog):
 
         embed.add_field(
             name=ctx.l.econ.farm.commands_title,
-            value="\n".join(c.format(prefix=ctx.prefix) for c in ctx.l.econ.farm.commands.dict().values()),
+            value="\n".join(
+                c.format(prefix=ctx.prefix) for c in ctx.l.econ.farm.commands.dict().values()
+            ),
         )
 
         embed.description = (

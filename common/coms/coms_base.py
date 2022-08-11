@@ -61,7 +61,9 @@ class ComsBase:
         else:
             handler_args.append(packet.data)
 
-        response = await validate_arguments(handler.function)(*handler_args, **handler_kwargs, **extra)
+        response = await validate_arguments(handler.function)(
+            *handler_args, **handler_kwargs, **extra
+        )
 
         if not isinstance(response, PACKET_DATA_TYPES):
             raise ValueError(

@@ -36,7 +36,9 @@ class Share:
         self.command_cooldowns = CooldownManager(data.cooldown_rates)
         self.command_concurrency = MaxConcurrencyManager()
         self.econ_paused_users = dict[int, float]()  # user_id: time paused
-        self.mine_commands = defaultdict[int, int](int)  # user_id: cmd_count, used for fishing as well
+        self.mine_commands = defaultdict[int, int](
+            int
+        )  # user_id: cmd_count, used for fishing as well
         self.trivia_commands = defaultdict[int, int](int)  # user_id: cmd_count
         self.command_counts = defaultdict[int, int](int)  # user_id: cmd_count
         self.active_fx = defaultdict[int, set[str]](set[str])  # user_id: set[fx]
@@ -60,7 +62,9 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             self._disconnect_callback,
         )
 
-        self.votehook_server = VotingWebhookServer(self.k.topgg_webhook, self._vote_callback, logger)
+        self.votehook_server = VotingWebhookServer(
+            self.k.topgg_webhook, self._vote_callback, logger
+        )
 
         self.v = Share(data)
 
@@ -212,7 +216,11 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     @handle_packet(PacketType.FETCH_CLUSTER_INFO)
     async def packet_fetch_cluster_info(self, ws_id: uuid.UUID):
         self.v.current_cluster_id += 1
-        return {"shard_ids": self.shard_ids.take(ws_id), "shard_count": self.k.shard_count, "cluster_id": self.v.current_cluster_id - 1}
+        return {
+            "shard_ids": self.shard_ids.take(ws_id),
+            "shard_count": self.k.shard_count,
+            "cluster_id": self.v.current_cluster_id - 1,
+        }
 
     @handle_packet(PacketType.EXEC_CODE)
     async def packet_exec(self, code: str):
@@ -340,4 +348,3 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         commands = self.v.trivia_commands[user_id]
         self.v.trivia_commands[user_id] += 1
         return commands
-        
