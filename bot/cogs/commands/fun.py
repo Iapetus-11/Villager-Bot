@@ -71,7 +71,9 @@ class Fun(commands.Cog):
 
                 meme = cj.classify(await resp.json())
 
-        embed = discord.Embed(color=self.bot.embed_color, title=meme.title[:256], url=meme.permalink)
+        embed = discord.Embed(
+            color=self.bot.embed_color, title=meme.title[:256], url=meme.permalink
+        )
 
         embed.set_footer(
             text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image
@@ -128,7 +130,9 @@ class Fun(commands.Cog):
 
                 comic = cj.classify(await resp.json())
 
-        embed = discord.Embed(color=self.bot.embed_color, title=comic.title[:256], url=comic.permalink)
+        embed = discord.Embed(
+            color=self.bot.embed_color, title=comic.title[:256], url=comic.permalink
+        )
 
         embed.set_footer(
             text=f"{comic.upvotes}  |  u/{comic.author}", icon_url=self.d.upvote_emoji_image
@@ -153,7 +157,9 @@ class Fun(commands.Cog):
 
                     meme = cj.classify(await resp.json())
 
-            embed = discord.Embed(color=self.bot.embed_color, title=meme.title[:256], url=meme.permalink)
+            embed = discord.Embed(
+                color=self.bot.embed_color, title=meme.title[:256], url=meme.permalink
+            )
 
             embed.set_footer(
                 text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image

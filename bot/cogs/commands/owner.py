@@ -55,7 +55,9 @@ class Owner(commands.Cog):
             stuff = stuff[2:]
 
         try:
-            result = await execute_code(stuff, {"bot": self.bot, "db": self.db.db, "dbc": self.db, "http": self.bot.aiohttp})
+            result = await execute_code(
+                stuff, {"bot": self.bot, "db": self.db.db, "dbc": self.db, "http": self.bot.aiohttp}
+            )
 
             result_str = f"{result}".replace("```", "｀｀｀")
             await ctx.reply(f"```\n{result_str}```")
@@ -73,8 +75,7 @@ class Owner(commands.Cog):
         responses = await self.karen.exec_code_all(stuff)
 
         contents = [
-            f"```py\n\uFEFF{str(r).replace('```', '｀｀｀')}"[:1997] + "```"
-            for r in responses
+            f"```py\n\uFEFF{str(r).replace('```', '｀｀｀')}"[:1997] + "```" for r in responses
         ]
         joined = "".join(contents)
 

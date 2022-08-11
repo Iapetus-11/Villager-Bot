@@ -1,4 +1,3 @@
-
 import uuid
 
 
@@ -13,12 +12,12 @@ class ShardIdManager:
         self._taken_shards = dict[uuid.UUID, list[int]]()
 
     def take(self, ws_id: uuid.UUID) -> list[int]:
-        shard_ids = self._available_shards[:self.shards_per_cluster]
+        shard_ids = self._available_shards[: self.shards_per_cluster]
 
         if not shard_ids:
             raise RuntimeError("No shard ids left to take!")
 
-        self._available_shards = self._available_shards[self.shards_per_cluster:]
+        self._available_shards = self._available_shards[self.shards_per_cluster :]
 
         self._taken_shards[ws_id] = shard_ids
 

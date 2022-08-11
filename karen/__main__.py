@@ -24,7 +24,9 @@ async def main():
     async with MechaKaren(secrets, data) as karen:
         if os.name != "nt":
             # register sigterm handler
-            asyncio.get_event_loop().add_signal_handler(signal.SIGTERM, lambda: asyncio.ensure_future(karen.stop))
+            asyncio.get_event_loop().add_signal_handler(
+                signal.SIGTERM, lambda: asyncio.ensure_future(karen.stop)
+            )
 
         await karen.serve()
 

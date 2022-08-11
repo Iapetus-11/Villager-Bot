@@ -21,8 +21,10 @@ async def main_async(tp: ThreadPoolExecutor) -> None:
     async with villager_bot:
         if os.name != "nt":
             # register sigterm handler
-            asyncio.get_event_loop().add_signal_handler(signal.SIGTERM, lambda: asyncio.ensure_future(villager_bot.close()))
-            
+            asyncio.get_event_loop().add_signal_handler(
+                signal.SIGTERM, lambda: asyncio.ensure_future(villager_bot.close())
+            )
+
         await villager_bot.start()
 
 
