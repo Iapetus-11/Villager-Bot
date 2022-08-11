@@ -11,7 +11,7 @@ import discord
 import psutil
 from discord.ext import commands
 
-from common.coms.packet import T_PACKET_DATA
+from common.coms.packet import PACKET_DATA_TYPES
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.models.data import Data
@@ -78,7 +78,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.tp = tp
 
         # caches
-        self.ban_cache = set[int]()  # set({user_id, user_id,..})
+        self.botban_cache = set[int]()  # set({user_id, user_id,..})
         self.language_cache = dict[int, str]()  # {guild_id: "lang"}
         self.prefix_cache = dict[int, str]()  # {guild_id: "prefix"}
         self.disabled_commands = defaultdict[int, set[str]](
@@ -113,6 +113,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.after_invoke(
             self.after_command_invoked
         )  # register self.after_command_invoked as a after_invoked event
+
+    @property
+    def embed_color(self) -> discord.Color:
+        return getattr(discord.Color, self.d.embed_color)()
 
     async def start(self):
         self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
@@ -157,13 +161,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def get_context(self, *args, **kwargs) -> CustomContext:
         ctx = await super().get_context(*args, **kwargs, cls=CustomContext)
 
-        ctx.embed_color = getattr(discord.Color, self.d.embed_color)()
+        ctx.embed_color = self.embed_color
         ctx.l = self.get_language(ctx)
 
         return ctx
 
     async def send_embed(self, location, message: str, *, ignore_exceptions: bool = False) -> None:
-        embed = discord.Embed(color=self.d.cc, description=message)
+        embed = discord.Embed(color=self.bot.embed_color, description=message)
 
         try:
             await location.send(embed=embed)
@@ -174,7 +178,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def reply_embed(
         self, location, message: str, ping: bool = False, *, ignore_exceptions: bool = False
     ) -> None:
-        embed = discord.Embed(color=self.d.cc, description=message)
+        embed = discord.Embed(color=self.bot.embed_color, description=message)
 
         try:
             await location.reply(embed=embed, mention_author=ping)
@@ -197,7 +201,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         command = ctx.command.name
 
-        if ctx.author.id in self.ban_cache:
+        if ctx.author.id in self.botban_cache:
             ctx.failure_reason = "bot_banned"
             return False
 
@@ -279,7 +283,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             {"bot": self, "db": self.db, "dbc": self.get_cog("Database"), "http": self.aiohttp},
         )
 
-        if not isinstance(result, T_PACKET_DATA):
+        if not isinstance(result, PACKET_DATA_TYPES):
             result = repr(result)
 
         return result
@@ -322,20 +326,18 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             mem_usage = proc.memory_full_info().uss
             threads = proc.num_threads()
 
-        return {
-            "stats": [
-                mem_usage,
-                threads,
-                len(asyncio.all_tasks()),
-                len(self.guilds),
-                len(self.users),
-                self.message_count,
-                self.command_count,
-                self.latency,
-                len(self.private_channels),
-                self.session_votes,
-            ],
-        }
+        return [
+            mem_usage,
+            threads,
+            len(asyncio.all_tasks()),
+            len(self.guilds),
+            len(self.users),
+            self.message_count,
+            self.command_count,
+            self.latency,
+            len(self.private_channels),
+            self.session_votes,
+        ]
 
     @handle_packet(PacketType.FETCH_GUILD_COUNT)
     async def packet_fetch_guild_count(self):
@@ -371,3 +373,28 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             message_id=message_id,
             content=content,
         )
+
+    @handle_packet(PacketType.RELOAD_COG)
+    async def packet_reload_cog(self, cog: str):
+        await self.reload_extension(cog)
+
+    @handle_packet(PacketType.BOTBAN_CACHE_ADD)
+    async def packet_botban_cache_add(self, user_id: int):
+        self.botban_cache.add(user_id)
+
+    @handle_packet(PacketType.BOTBAN_CACHE_REMOVE)
+    async def packet_botban_cache_remove(self, user_id: int):
+        try:
+            self.botban_cache.remove(user_id)
+        except KeyError:
+            pass
+
+    @handle_packet(PacketType.LOOKUP_USER)
+    async def packet_lookup_user(self, user_id: int):
+        guild_ids = set[tuple[int, str]]()
+        
+        for guild in self.guilds:
+            if guild.get_member(user_id) is not None:
+                guild_ids.add((guild.id, guild.name))
+
+        return guild_ids

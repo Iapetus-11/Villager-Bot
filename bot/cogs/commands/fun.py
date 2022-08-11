@@ -71,7 +71,7 @@ class Fun(commands.Cog):
 
                 meme = cj.classify(await resp.json())
 
-        embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
+        embed = discord.Embed(color=self.bot.embed_color, title=meme.title[:256], url=meme.permalink)
 
         embed.set_footer(
             text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image
@@ -102,7 +102,7 @@ class Fun(commands.Cog):
 
                 jj = await resp.json()
 
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
         embed.set_image(url=jj["image"])
 
         await ctx.send(embed=embed)
@@ -128,7 +128,7 @@ class Fun(commands.Cog):
 
                 comic = cj.classify(await resp.json())
 
-        embed = discord.Embed(color=self.d.cc, title=comic.title[:256], url=comic.permalink)
+        embed = discord.Embed(color=self.bot.embed_color, title=comic.title[:256], url=comic.permalink)
 
         embed.set_footer(
             text=f"{comic.upvotes}  |  u/{comic.author}", icon_url=self.d.upvote_emoji_image
@@ -153,7 +153,7 @@ class Fun(commands.Cog):
 
                     meme = cj.classify(await resp.json())
 
-            embed = discord.Embed(color=self.d.cc, title=meme.title[:256], url=meme.permalink)
+            embed = discord.Embed(color=self.bot.embed_color, title=meme.title[:256], url=meme.permalink)
 
             embed.set_footer(
                 text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image
@@ -162,7 +162,7 @@ class Fun(commands.Cog):
 
             await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(color=self.d.cc)
+            embed = discord.Embed(color=self.bot.embed_color)
             embed.set_image(
                 url=f"https://iapetus11.me/images/cursed_minecraft/{random.choice(self.d.cursed_images)}"
             )
@@ -331,7 +331,7 @@ class Fun(commands.Cog):
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** pats {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
                 :256
             ],
@@ -347,7 +347,7 @@ class Fun(commands.Cog):
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
                 :256
             ],
@@ -360,7 +360,7 @@ class Fun(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_achievement(self, ctx: Ctx, *, text):
         url = f"https://api.iapetus11.me/mc/image/achievement/{urlquote(text[:26])}"
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
 
         embed.description = ctx.l.fun.dl_img.format(url)
         embed.set_image(url=url)
@@ -371,7 +371,7 @@ class Fun(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def minecraft_splash_screen(self, ctx: Ctx, *, text):
         url = f"https://api.iapetus11.me/mc/image/splash/{urlquote(text[:27])}"
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
 
         embed.description = ctx.l.fun.dl_img.format(url)
         embed.set_image(url=url)
@@ -388,7 +388,7 @@ class Fun(commands.Cog):
         random.shuffle(choices)
 
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             title=ctx.l.fun.trivia.title.format(
                 self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"
             ),
@@ -432,7 +432,7 @@ class Fun(commands.Cog):
             )
         except asyncio.TimeoutError:
             embed = discord.Embed(
-                color=self.d.cc,
+                color=self.bot.embed_color,
                 title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
                 description=ctx.l.fun.trivia.timeout,
             )
@@ -443,7 +443,7 @@ class Fun(commands.Cog):
                 await msg.clear_reactions()
 
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
         )
 
@@ -467,7 +467,7 @@ class Fun(commands.Cog):
         correct_choice = question.a[0]
 
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             title=ctx.l.fun.trivia.title.format(
                 self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"
             ),
@@ -502,7 +502,7 @@ class Fun(commands.Cog):
             )
         except asyncio.TimeoutError:
             embed = discord.Embed(
-                color=self.d.cc,
+                color=self.bot.embed_color,
                 title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
                 description=ctx.l.fun.trivia.timeout,
             )
@@ -513,7 +513,7 @@ class Fun(commands.Cog):
                 await msg.clear_reactions()
 
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
         )
 
@@ -539,9 +539,9 @@ class Fun(commands.Cog):
     @commands.guild_only()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def minecraft_trivia(self, ctx: Ctx):
-        do_reward = (
-            await self.ipc.request({"type": PacketType.TRIVIA, "author": ctx.author.id})
-        ).do_reward
+        trivia_commands_ran = await self.karen.trivia_command(ctx.author.id)
+        do_reward = trivia_commands_ran <= 7
+
         question = random.choice(ctx.l.fun.trivia.questions)
 
         if question.tf:

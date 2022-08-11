@@ -1,4 +1,5 @@
 from asyncio.log import logger
+import logging
 import time
 from collections import defaultdict
 from typing import Optional
@@ -6,7 +7,7 @@ from typing import Optional
 
 class MaxConcurrencyManager:
     def __init__(self):
-        self.limits = set()
+        self.limits = set[tuple[str, int]]()
 
     def acquire(self, command: str, user_id: int) -> None:
         self.limits.add((command, user_id))
@@ -18,6 +19,7 @@ class MaxConcurrencyManager:
             pass
 
     def check(self, command: str, user_id: int) -> bool:
+        logging.error(f"{(command, user_id)} not in {self.limits} == {(command, user_id) not in self.limits}")
         return (command, user_id) not in self.limits
 
 
@@ -37,7 +39,6 @@ class CooldownManager:
         self._cooldowns[command].pop(user_id, None)
 
     def get_remaining(self, command: str, user_id: int) -> float:  # returns remaning cooldown or 0
-        logger.error("whatfffffffff %s", self._cooldowns)
         started = self._cooldowns[command].get(user_id, 0)
         remaining = self.rates[command] - (time.time() - started)
 

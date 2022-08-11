@@ -90,7 +90,7 @@ class Useful(commands.Cog):
                         await ctx.reply_embed(ctx.l.help.main.nodoc)
                         return
 
-                    embed = discord.Embed(color=self.d.cc)
+                    embed = discord.Embed(color=self.bot.embed_color)
 
                     embed.set_author(name=ctx.l.help.n.cmd, icon_url=self.d.splash_logo)
                     embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -114,7 +114,7 @@ class Useful(commands.Cog):
 
                     return
 
-            embed = discord.Embed(color=self.d.cc)
+            embed = discord.Embed(color=self.bot.embed_color)
             embed.set_author(name=ctx.l.help.n.title, icon_url=self.d.splash_logo)
             embed.description = ctx.l.help.main.desc.format(self.d.support, self.d.topgg)
 
@@ -152,7 +152,7 @@ class Useful(commands.Cog):
 
     @help.command(name="economy", aliases=["econ"])
     async def help_economy(self, ctx: Ctx):
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
 
         embed.set_author(
             name=f"{ctx.l.help.n.title} [{ctx.l.help.n.economy}]", icon_url=self.d.splash_logo
@@ -166,7 +166,7 @@ class Useful(commands.Cog):
 
     @help.command(name="minecraft", aliases=["mc"])
     async def help_minecraft(self, ctx: Ctx):
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
 
         embed.set_author(
             name=f"{ctx.l.help.n.title} [{ctx.l.help.n.minecraft}]", icon_url=self.d.splash_logo
@@ -180,7 +180,7 @@ class Useful(commands.Cog):
 
     @help.command(name="utility", aliases=["util", "useful"])
     async def help_utility(self, ctx: Ctx):
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
 
         embed.set_author(
             name=f"{ctx.l.help.n.title} [{ctx.l.help.n.utility}]", icon_url=self.d.splash_logo
@@ -194,7 +194,7 @@ class Useful(commands.Cog):
 
     @help.command(name="fun")
     async def help_fun(self, ctx: Ctx):
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
 
         embed.set_author(
             name=f"{ctx.l.help.n.title} [{ctx.l.help.n.fun}]", icon_url=self.d.splash_logo
@@ -208,7 +208,7 @@ class Useful(commands.Cog):
 
     @help.command(name="administrator", aliases=["mod", "moderation", "administrative", "admin"])
     async def help_administrative(self, ctx: Ctx):
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
 
         embed.set_author(
             name=f"{ctx.l.help.n.title} [{ctx.l.help.n.admin}]", icon_url=self.d.splash_logo
@@ -223,7 +223,7 @@ class Useful(commands.Cog):
     @commands.command(name="credits")
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def credits(self, ctx: Ctx):
-        embed_template = discord.Embed(color=self.d.cc)
+        embed_template = discord.Embed(color=self.bot.embed_color)
         embed_template.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
 
         fields: List[Dict[str, str]] = []
@@ -266,7 +266,7 @@ class Useful(commands.Cog):
             "https://media.discordapp.net/attachments/643648150778675202/947881629047722064/gGWDJSghKgd8QAAAABJRU5ErkJggg.png",
         )
 
-        embed = discord.Embed(color=self.d.cc, description=ctx.l.fun.dl_img.format(avatar_url))
+        embed = discord.Embed(color=self.bot.embed_color, description=ctx.l.fun.dl_img.format(avatar_url))
         embed.set_image(url=avatar_url)
 
         await ctx.reply(embed=embed, mention_author=False)
@@ -301,7 +301,7 @@ class Useful(commands.Cog):
 
     @commands.command(name="vote", aliases=["votelink", "votelinks"])
     async def votelinks(self, ctx: Ctx):
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(name="Vote for Villager Bot!", icon_url=self.d.splash_logo)
 
         embed.description = f'**[{ctx.l.useful.vote.click_1}]({self.d.topgg + "/vote"})**'
@@ -313,7 +313,7 @@ class Useful(commands.Cog):
         aliases=["invite", "support", "usefullinks", "website", "source", "privacypolicy"],
     )
     async def useful_links(self, ctx: Ctx):
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(name="Useful Links", icon_url=self.d.splash_logo)
 
         embed.description = (
@@ -338,12 +338,10 @@ class Useful(commands.Cog):
             .humanize(locale=ctx.l.lang, only_distance=True)
         )
 
-        res, karen_res = await asyncio.gather(
-            self.ipc.broadcast({"type": PacketType.FETCH_STATS}),
-            self.ipc.request({"type": PacketType.FETCH_STATS}),
+        clusters_stats, karen_stats = await asyncio.gather(
+            self.karen.fetch_clusters_stats(),
+            self.karen.fetch_karen_stats(),
         )
-
-        res.responses.append(karen_res)
 
         (
             mem_usage,
@@ -356,11 +354,11 @@ class Useful(commands.Cog):
             latency_all,
             dm_count,
             session_votes,
-        ) = map(sum, zip(*[r.stats for r in res.responses]))
+        ) = map(sum, zip(*(clusters_stats + [karen_stats])))
 
         total_mem = psutil.virtual_memory().total
 
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
 
         embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -381,8 +379,8 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.stats.cpu}: `{round(psutil.getloadavg()[0] / psutil.cpu_count() * 100, 2)}%`\n"
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
             f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"
-            f"{ctx.l.useful.stats.ping}: `{round((latency_all/len(res.responses)) * 1000, 2)} ms`\n"
-            f"{ctx.l.useful.stats.shards}: `{self.bot.k.shard_count}`\n"
+            f"{ctx.l.useful.stats.ping}: `{round((latency_all/len(clusters_stats)) * 1000, 2)} ms`\n"
+            f"{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n"
             f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
         )
 
@@ -437,10 +435,10 @@ class Useful(commands.Cog):
             if bans > 100:
                 asyncio.create_task(update_ban_count_cache(bans))
 
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
             name=f"{guild.name} {ctx.l.useful.ginf.info}",
-            icon_url=getattr(guild.icon, "url", embed.Empty),
+            icon_url=getattr(guild.icon, "url", None),
         )
 
         embed.description = f"{ctx.l.useful.ginf.age}: `{display_age}`\n{ctx.l.useful.ginf.owner}: {guild.owner.mention}"
@@ -463,14 +461,14 @@ class Useful(commands.Cog):
         embed.add_field(name="Villager Bot " + self.d.emojis.emerald, value=villager, inline=True)
         # embed.add_field(name="Roles", value=" ".join([r.mention for r in guild.roles if r.id != guild.id][::-1]))
 
-        embed.set_thumbnail(url=getattr(guild.icon, "url", embed.Empty))
+        embed.set_thumbnail(url=getattr(guild.icon, "url", None))
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(name="rules", aliases=["botrules"])
     async def rules(self, ctx: Ctx):
-        embed = discord.Embed(color=self.d.cc, description=ctx.l.useful.rules.penalty)
+        embed = discord.Embed(color=self.bot.embed_color, description=ctx.l.useful.rules.penalty)
 
         embed.set_author(name=ctx.l.useful.rules.rules, icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
@@ -520,7 +518,7 @@ class Useful(commands.Cog):
         res = res[0]
 
         embed = discord.Embed(
-            color=self.d.cc, title=res.title, description=res.description, url=res.url
+            color=self.bot.embed_color, title=res.title, description=res.description, url=res.url
         )
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -626,9 +624,9 @@ class Useful(commands.Cog):
         else:
             snipe, _ = snipe
 
-            embed = discord.Embed(color=self.d.cc, description=snipe.content)
+            embed = discord.Embed(color=self.bot.embed_color, description=snipe.content)
             embed.set_author(
-                name=str(snipe.author), icon_url=getattr(snipe.author.avatar, "url", embed.Empty)
+                name=str(snipe.author), icon_url=getattr(snipe.author.avatar, "url", None)
             )
             embed.timestamp = snipe.created_at
 

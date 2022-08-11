@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from typing import Callable, Optional
+from typing import Awaitable, Callable, Optional
 import uuid
 
 from pydantic import BaseModel
@@ -29,10 +29,12 @@ class Server(ComsBase):
         auth: str,
         packet_handlers: dict[PacketType, PacketHandler],
         logger: logging.Logger,
+        disconnect_cb: Optional[Callable[[uuid.UUID], Awaitable[None]]] = None
     ):
         super().__init__(host, port, packet_handlers, logger.getChild("server"))
 
         self.auth = auth
+        self.disconnect_cb = disconnect_cb
 
         self._stop = asyncio.Event()
         self._connections = list[WebSocketServerProtocol]()  # only authed connections
@@ -58,7 +60,8 @@ class Server(ComsBase):
         await ws.send(packet.json())
 
     async def _disconnect(self, ws: WebSocketServerProtocol) -> None:
-        await ws.close()
+        if not ws.closed:
+            await ws.close()
 
         try:
             self._connections.remove(ws)
@@ -66,6 +69,9 @@ class Server(ComsBase):
             pass
 
         self.logger.info("Disconnected client: %s", ws.id)
+
+        if self.disconnect_cb:
+            await self.disconnect_cb(ws.id)
 
     async def broadcast(
         self, packet_type: PacketType, packet_data: T_PACKET_DATA = None
@@ -115,62 +121,64 @@ class Server(ComsBase):
         self.logger.info("New client connected: %s", ws.id)
 
         authed = False
+        
+        try:
+            async for message in ws:
+                try:
+                    packet = self._decode(message)
+                except InvalidPacketReceived:
+                    self.logger.error("Invalid packet received from client: %s", ws.id, exc_info=True)
+                    await self._disconnect(ws)
+                    return
 
-        async for message in ws:
-            try:
-                packet = self._decode(message)
-            except InvalidPacketReceived:
-                self.logger.error("Invalid packet received from client: %s", ws.id, exc_info=True)
-                await self._disconnect(ws)
-                return
+                if packet.type == PacketType.AUTH:
+                    if authed:
+                        self.logger.error(
+                            "Already received authorization packet from client: %s", ws.id
+                        )
+                        await self._disconnect(ws)
+                        return
 
-            if packet.type == PacketType.AUTH:
-                if authed:
+                    if packet.data != self.auth:
+                        self.logger.error("Incorrect authorization received from client: %s", ws.id)
+                        await self._disconnect(ws)
+                        return
+
+                    self._connections.append(ws)
+                    authed = True
+
+                    continue
+
+                if not authed:
                     self.logger.error(
-                        "Already received authorization packet from client: %s", ws.id
+                        "Authorization packet was not the first received from client: %s", ws.id
                     )
                     await self._disconnect(ws)
                     return
 
-                if packet.data != self.auth:
-                    self.logger.error("Incorrect authorization received from client: %s", ws.id)
-                    await self._disconnect(ws)
-                    return
+                # handle broadcast requests
+                if packet.type == PacketType.BROADCAST_REQUEST:
+                    # broadcast requests are special types of packets which forward the packet to ALL connected clients
+                    asyncio.create_task(
+                        self._client_broadcast(ws, packet)
+                    )  # TODO: keep track of these tasks and properly cancel them on a server shutdown
+                    continue
 
-                self._connections.append(ws)
-                authed = True
+                # handle broadcast responses
+                if packet.id in self._broadcasts:
+                    await self._handle_broadcast_response(ws, packet)
+                    continue
 
-                continue
-
-            if not authed:
-                self.logger.error(
-                    "Authorization packet was not the first received from client: %s", ws.id
-                )
-                await self._disconnect(ws)
-                return
-
-            # handle broadcast requests
-            if packet.type == PacketType.BROADCAST_REQUEST:
-                # broadcast requests are special types of packets which forward the packet to ALL connected clients
-                asyncio.create_task(
-                    self._client_broadcast(ws, packet)
-                )  # TODO: keep track of these tasks and properly cancel them on a server shutdown
-                continue
-
-            # handle broadcast responses
-            if packet.id in self._broadcasts:
-                await self._handle_broadcast_response(ws, packet)
-                continue
-
-            try:
-                response = await self._call_handler(packet)
-            except Exception as e:
-                self.logger.error(
-                    "An error ocurred while calling the packet handler for packet %s",
-                    packet,
-                    exc_info=True,
-                )
-                # TODO: Send some sort of error packet, since response isn't sent
-                await self._send(ws, Packet(id=packet.id, data=str(e), error=True))
-            else:
-                await self._send(ws, Packet(id=packet.id, data=response))
+                try:
+                    response = await self._call_handler(packet, ws_id=ws.id)
+                except Exception as e:
+                    self.logger.error(
+                        "An error ocurred while calling the packet handler for packet %s",
+                        packet,
+                        exc_info=True,
+                    )
+                    await self._send(ws, Packet(id=packet.id, data=repr(e), error=True))
+                else:
+                    await self._send(ws, Packet(id=packet.id, data=response))
+        finally:
+            await self._disconnect(ws)

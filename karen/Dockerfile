@@ -13,9 +13,9 @@ COPY pyproject.toml .
 COPY poetry.lock .
 RUN poetry install --no-dev --no-interaction
 
-# copy over common & bot folders
+# copy over common & karen folders
 COPY common common
 COPY karen karen
 
-# run Villager Bot cluster
-CMD ["poetry", "run", "python3", "-m", "karen"]
+# run karen
+CMD poetry run python3 -m karen

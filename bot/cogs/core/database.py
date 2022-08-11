@@ -31,7 +31,7 @@ class Database(commands.Cog):
 
     async def populate_caches(self):  # initial caches for speeeeeed
         # caches which need to be maintained cross-process *regardless*
-        self.bot.ban_cache = await self.fetch_all_botbans()
+        self.bot.botban_cache = await self.fetch_all_botbans()
 
         # per-guild caches, should only load settings for guilds the process can actually see
         self.bot.disabled_commands.update(await self.fetch_all_disabled_commands())
@@ -517,11 +517,11 @@ class Database(commands.Cog):
         await self.ensure_user_exists(user_id)
 
         if botbanned:
-            if user_id not in self.bot.ban_cache:
-                self.bot.ban_cache.add(user_id)
+            if user_id not in self.bot.botban_cache:
+                self.bot.botban_cache.add(user_id)
         else:
             with suppress(ValueError):
-                self.bot.ban_cache.remove(user_id)
+                self.bot.botban_cache.remove(user_id)
 
         await self.db.execute(
             "UPDATE users SET bot_banned = $1 WHERE user_id = $2", botbanned, user_id

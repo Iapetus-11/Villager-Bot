@@ -38,7 +38,7 @@ class ComsBase:
         except (ValidationError, ValueError, TypeError) as e:
             raise InvalidPacketReceived("could not construct Packet model", e)
 
-    async def _call_handler(self, packet: Packet) -> T_PACKET_DATA:
+    async def _call_handler(self, packet: Packet, **extra: Any) -> T_PACKET_DATA:
         if packet.type is None:
             raise ValueError(f"Missing packet type for packet {packet}")
 
@@ -46,7 +46,12 @@ class ComsBase:
 
         if handler is None:
             self.logger.error("Missing packet handler for packet type %s", packet.type)
-            raise ValueError(f"Missing packet handler for packet type {packet.type}")
+            raise ValueError(f"Missing packet handler for packet type {packet.type.name}")
+
+        # remove any **extra keys/values which aren't expected by the handler function
+        for extra_k in list(extra.keys()):
+            if extra_k not in handler.function.__annotations__:
+                del extra[extra_k]
 
         handler_args = []
         handler_kwargs = {}
@@ -56,7 +61,7 @@ class ComsBase:
         else:
             handler_args.append(packet.data)
 
-        response = await validate_arguments(handler.function)(*handler_args, **handler_kwargs)
+        response = await validate_arguments(handler.function)(*handler_args, **handler_kwargs, **extra)
 
         if not isinstance(response, PACKET_DATA_TYPES):
             raise ValueError(

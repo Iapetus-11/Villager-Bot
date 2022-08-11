@@ -4,13 +4,13 @@
       "name": "Villager Bot Cluster",
       "type": "python",
       "request": "launch",
-      "module": "src.bot",
+      "module": "bot",
     },
     {
       "name": "Villager Bot Karen",
       "type": "python",
       "request": "launch",
-      "module": "src.karen",
+      "module": "karen",
     }
   ]
 }

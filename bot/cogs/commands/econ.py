@@ -69,7 +69,7 @@ class Econ(commands.Cog):
 
             m = await ctx.reply(
                 embed=discord.Embed(
-                    color=self.d.cc,
+                    color=self.bot.embed_color,
                     description=ctx.l.econ.math_problem.problem.format("process.exit(69)"),
                 ),
                 mention_author=False,
@@ -77,7 +77,7 @@ class Econ(commands.Cog):
             asyncio.create_task(
                 m.edit(
                     embed=discord.Embed(
-                        color=self.d.cc, description=ctx.l.econ.math_problem.problem.format(prob[0])
+                        color=self.bot.embed_color, description=ctx.l.econ.math_problem.problem.format(prob[0])
                     )
                 )
             )
@@ -152,8 +152,8 @@ class Econ(commands.Cog):
 
         user_badges_str = self.badges.emojify_badges(await self.badges.fetch_user_badges(user.id))
 
-        embed = discord.Embed(color=self.d.cc, description=f"{health_bar}")
-        embed.set_author(name=user.display_name, icon_url=getattr(user.avatar, "url", embed.Empty))
+        embed = discord.Embed(color=self.bot.embed_color, description=f"{health_bar}")
+        embed.set_author(name=user.display_name, icon_url=getattr(user.avatar, "url", None))
 
         embed.add_field(
             name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}"
@@ -202,10 +202,10 @@ class Econ(commands.Cog):
         mooderalds = await self.db.fetch_item(user.id, "Mooderald")
         mooderalds = 0 if mooderalds is None else mooderalds.amount
 
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
             name=ctx.l.econ.bal.s_emeralds.format(user.display_name),
-            icon_url=getattr(user.avatar, "url", embed.Empty),
+            icon_url=getattr(user.avatar, "url", None),
         )
 
         embed.description = (
@@ -229,10 +229,10 @@ class Econ(commands.Cog):
     ):
         """Logic behind generation of inventory embeds + pagination"""
 
-        embed_template = discord.Embed(color=self.d.cc)
+        embed_template = discord.Embed(color=self.bot.embed_color)
         embed_template.set_author(
             name=ctx.l.econ.inv.s_inventory.format(user.display_name, cat),
-            icon_url=getattr(user.avatar, "url", discord.Embed.Empty),
+            icon_url=getattr(user.avatar, "url", None),
         )
 
         # handle if there are no passed items
@@ -472,7 +472,7 @@ class Econ(commands.Cog):
         """Shows the available options in the Villager Shop"""
 
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(color=self.d.cc)
+            embed = discord.Embed(color=self.bot.embed_color)
             embed.set_author(name=ctx.l.econ.shop.villager_shop, icon_url=self.d.splash_logo)
 
             # row 1
@@ -493,7 +493,7 @@ class Econ(commands.Cog):
             )
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(
-                name=f"__**{ctx.l.econ.shop.farming.format(self.d.emojis.farming.normal.wheat)}**__",
+                name=f"__**{ctx.l.econ.shop.farming.format(self.d.emojis.farming.normal['wheat'])}**__",
                 value=f"`{ctx.prefix}shop farm`",
             )
 
@@ -517,7 +517,7 @@ class Econ(commands.Cog):
         del items
 
         def get_page(page: int) -> discord.Embed:
-            embed = discord.Embed(color=self.d.cc)
+            embed = discord.Embed(color=self.bot.embed_color)
             embed.set_author(name=header, icon_url=self.d.splash_logo)
 
             for item in item_pages[page]:
@@ -568,7 +568,7 @@ class Econ(commands.Cog):
     @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
     async def fish_market(self, ctx: Ctx):
         embed_template = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             title=ctx.l.econ.fishing.market.title.format(
                 self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout
             ),
@@ -706,9 +706,7 @@ class Econ(commands.Cog):
             shop_item.db_entry[0].endswith("Pickaxe")
             or shop_item.db_entry[0] == "Bane Of Pillagers Amulet"
         ):
-            await self.ipc.broadcast(
-                {"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id}
-            )
+            await self.karen.update_support_server_member_roles(ctx.author.id)
         elif shop_item.db_entry[0] == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
 
@@ -779,9 +777,7 @@ class Econ(commands.Cog):
         await self.db.update_lb(ctx.author.id, "week_emeralds", amount * db_item.sell_price)
 
         if db_item.name.endswith("Pickaxe") or db_item.name == "Bane Of Pillagers Amulet":
-            await self.ipc.broadcast(
-                {"type": PacketType.UPDATE_SUPPORT_SERVER_ROLES, "user": ctx.author.id}
-            )
+            await self.karen.update_support_server_member_roles(ctx.author.id)
 
         await ctx.reply_embed(
             ctx.l.econ.sell.you_done_sold.format(
@@ -1021,17 +1017,13 @@ class Econ(commands.Cog):
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
 
         # see if user has chugged a luck potion
-        lucky = (
-            await self.ipc.request(
-                {"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"}
-            )
-        ).is_active
+        lucky = await self.karen.check_active_fx(ctx.author.id, "Luck Potion")
 
         # iterate through items findable via mining
         for item in self.d.mining.findables:
             # check if user should get item based on rarity (item[2])
-            if random.randint(0, item[2]) == 1 or (lucky and random.randint(0, item[2]) < 3):
-                await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+            if random.randint(0, item.rarity) == 1 or (lucky and random.randint(0, item.rarity) < 3):
+                await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
 
                 await ctx.reply_embed(
                     f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
@@ -1118,7 +1110,7 @@ class Econ(commands.Cog):
 
             lure_i_book, active_effects = await asyncio.gather(
                 self.db.fetch_item(ctx.author.id, "Lure I Book"),
-                self.ipc.request({"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id}),
+                self.karen.fetch_active_fx(ctx.author.id),
             )
             active_effects = active_effects.active
 
@@ -1132,11 +1124,7 @@ class Econ(commands.Cog):
             await asyncio.sleep(wait)
 
         # see if user has chugged a luck potion
-        lucky = (
-            await self.ipc.request(
-                {"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"}
-            )
-        ).is_active
+        lucky = await self.karen.check_active_fx(ctx.author.id, "Luck Potion")
 
         # determine if user has fished up junk or an item (rather than a fish)
         if random.randint(1, 8) == 1 or (lucky and random.randint(1, 5) == 1):
@@ -1220,19 +1208,10 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
-        p_res = await self.ipc.request(
-            {"type": PacketType.PILLAGE, "pillager": ctx.author.id, "victim": victim.id}
-        )
-        pillager_pillages = p_res["pillager"]
-        victim_pillages = p_res["victim"]
-
         user_bees = getattr(await self.db.fetch_item(ctx.author.id, "Jar Of Bees"), "amount", 0)
         victim_bees = getattr(await self.db.fetch_item(victim.id, "Jar Of Bees"), "amount", 0)
 
-        # lmao
-        if pillager_pillages > 7 and pillager_pillages > victim_pillages:
-            chances = [False] * 50 + [True]
-        elif await self.db.fetch_item(victim.id, "Bane Of Pillagers Amulet"):
+        if await self.db.fetch_item(victim.id, "Bane Of Pillagers Amulet"):
             chances = [False] * 5 + [True]
         elif user_bees > victim_bees:
             chances = [False] * 3 + [True] * 5
@@ -1314,13 +1293,9 @@ class Econ(commands.Cog):
 
         if amount > 100:
             await ctx.reply_embed(ctx.l.econ.use.stupid_4)
-            return
+            return        
 
-        active_effects = await self.ipc.request(
-            {"type": PacketType.ACTIVE_FX_FETCH, "user_id": ctx.author.id}
-        )
-
-        if thing in active_effects:
+        if await self.karen.check_active_fx(ctx.author.id, thing):
             await ctx.reply_embed(ctx.l.econ.use.stupid_1)
             return
 
@@ -1340,21 +1315,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.send(
-                {"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Haste I Potion"}
-            )
+            await self.karen.add_active_fx(ctx.author.id, "Haste I Potion")
             await ctx.reply_embed(ctx.l.econ.use.chug.format("Haste I Potion", 6))
 
             await asyncio.sleep(60 * 6)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Haste I Potion"))
-            await self.ipc.send(
-                {
-                    "type": PacketType.ACTIVE_FX_REMOVE,
-                    "user_id": ctx.author.id,
-                    "fx": "Haste I Potion",
-                }
-            )
+            await self.karen.remove_active_fx(ctx.author.id, "Haste I Potion")
             return
 
         if thing == "haste ii potion":
@@ -1363,25 +1330,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.send(
-                {
-                    "type": PacketType.ACTIVE_FX_ADD,
-                    "user_id": ctx.author.id,
-                    "fx": "Haste II Potion",
-                }
-            )
+            await self.karen.add_active_fx(ctx.author.id, "Haste II Potion")
             await ctx.reply_embed(ctx.l.econ.use.chug.format("Haste II Potion", 4.5))
 
             await asyncio.sleep(60 * 4.5)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Haste II Potion"))
-            await self.ipc.send(
-                {
-                    "type": PacketType.ACTIVE_FX_REMOVE,
-                    "user_id": ctx.author.id,
-                    "fx": "Haste II Potion",
-                }
-            )
+            await self.karen.remove_active_fx(ctx.author.id, "Haste II Potion")
             return
 
         if thing == "bone meal":
@@ -1402,17 +1357,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.send(
-                {"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Luck Potion"}
-            )
+            await self.karen.add_active_fx(ctx.author.id, "Luck Potion")
             await ctx.reply_embed(ctx.l.econ.use.chug.format("Luck Potion", 4.5))
 
             await asyncio.sleep(60 * 4.5)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Luck Potion"))
-            await self.ipc.send(
-                {"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Luck Potion"}
-            )
+            await self.karen.remove_active_fx(ctx.author.id, "Luck Potion")
             return
 
         if thing == "seaweed":
@@ -1421,17 +1372,13 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.ipc.send(
-                {"type": PacketType.ACTIVE_FX_ADD, "user_id": ctx.author.id, "fx": "Seaweed"}
-            )
+            await self.karen.add_active_fx("Seaweed")
             await ctx.reply_embed(ctx.l.econ.use.smoke_seaweed.format(30))
 
             await asyncio.sleep(60 * 30)
 
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.seaweed_done)
-            await self.ipc.send(
-                {"type": PacketType.ACTIVE_FX_REMOVE, "user_id": ctx.author.id, "fx": "Seaweed"}
-            )
+            await self.karen.remove_active_fx(ctx.author.id, "Seaweed")
             return
 
         if thing == "vault potion":
@@ -1584,11 +1531,7 @@ class Econ(commands.Cog):
         await ctx.reply_embed(random.choice(ctx.l.econ.honey.honey).format(jars))
 
         # see if user has chugged a luck potion
-        lucky = (
-            await self.ipc.request(
-                {"type": PacketType.ACTIVE_FX_CHECK, "user_id": ctx.author.id, "fx": "Luck Potion"}
-            )
-        ).is_active
+        lucky = await self.karen.check_active_fx(ctx.author.id, "Luck Potion")
 
         if not lucky and random.choice([False] * 3 + [True]):
             bees_lost = random.randint(math.ceil(bees / 75), math.ceil(bees / 50))
@@ -1608,7 +1551,7 @@ class Econ(commands.Cog):
             return
         ctx.command.reset_cooldown(ctx)
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.title)
+        embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.econ.lb.title)
 
         embed.add_field(
             name=f"{ctx.l.econ.lb.emeralds} {self.d.emojis.emerald}",
@@ -1650,7 +1593,7 @@ class Econ(commands.Cog):
         )
 
         embed.add_field(
-            name=f"{ctx.l.econ.lb.farming} {self.d.emojis.farming.normal.wheat}",
+            name=f"{ctx.l.econ.lb.farming} {self.d.emojis.farming.normal['wheat']}",
             value=f"`{ctx.prefix}leaderboard farming`",
         )
         embed.add_field(name="\uFEFF", value="\uFEFF")
@@ -1683,7 +1626,7 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn)
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn)
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1703,7 +1646,7 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald)
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald)
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=global_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=local_lb_str)
@@ -1723,7 +1666,7 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun)
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun)
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1743,7 +1686,7 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee)
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee)
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1762,7 +1705,7 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: "))
+        embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1780,7 +1723,7 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.updoot} {{}}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_votes.format(" :fire: "))
+        embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.econ.lb.lb_votes.format(" :fire: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1799,7 +1742,7 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout)
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout)
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1822,7 +1765,7 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald)
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald)
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1841,12 +1784,12 @@ class Econ(commands.Cog):
                 self.bot,
                 global_lb,
                 local_lb,
-                f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds.wheat} {{}}",
+                f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds['wheat']} {{}}",
             )
 
         embed = discord.Embed(
-            color=self.d.cc,
-            title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal.wheat} "),
+            color=self.bot.embed_color,
+            title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal['wheat']} "),
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1866,7 +1809,7 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} ")
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} ")
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1886,7 +1829,7 @@ class Econ(commands.Cog):
             )
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} ")
+            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} ")
         )
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
@@ -1905,7 +1848,7 @@ class Econ(commands.Cog):
                 self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
             )
 
-        embed = discord.Embed(color=self.d.cc, title=ctx.l.econ.lb.lb_wcmds.format(" :keyboard: "))
+        embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.econ.lb.lb_wcmds.format(" :keyboard: "))
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
@@ -1931,15 +1874,15 @@ class Econ(commands.Cog):
             for r in zip(*[emojis[i : i + 5] for i in range(0, len(emojis), 5)][::-1])
         )
 
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
             name=ctx.l.econ.farm.s_farm.format(user=ctx.author.display_name),
-            icon_url=getattr(ctx.author.avatar, "url", embed.Empty),
+            icon_url=getattr(ctx.author.avatar, "url", None),
         )
 
         embed.add_field(
             name=ctx.l.econ.farm.commands_title,
-            value="\n".join(c.format(prefix=ctx.prefix) for c in ctx.l.econ.farm.commands.values()),
+            value="\n".join(c.format(prefix=ctx.prefix) for c in ctx.l.econ.farm.commands.dict().values()),
         )
 
         embed.description = (
@@ -2053,10 +1996,10 @@ class Econ(commands.Cog):
         if ctx.invoked_subcommand:
             return
 
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
             name=ctx.l.econ.trash.s_trash.format(user=ctx.author.display_name),
-            icon_url=getattr(ctx.author.avatar, "url", embed.Empty),
+            icon_url=getattr(ctx.author.avatar, "url", None),
         )
 
         items = await self.db.fetch_trashcan(ctx.author.id)
@@ -2114,7 +2057,7 @@ class Econ(commands.Cog):
 
     #     # send challenge/accept message
     #     embed = discord.Embed(
-    #         color=self.d.cc,
+    #         color=self.bot.embed_color,
     #         description=f"*React with {self.d.emojis.netherite_sword} to fight!*",
     #     )
     #     embed.set_author(
@@ -2142,7 +2085,7 @@ class Econ(commands.Cog):
     #     except asyncio.TimeoutError:
     #         await msg.edit(
     #             embed=discord.Embed(
-    #                 color=self.d.cc, description="Timed-out waiting for a reaction."
+    #                 color=self.bot.embed_color, description="Timed-out waiting for a reaction."
     #             )
     #         )
     #         await msg.remove_reaction(self.d.emojis.netherite_sword, ctx.me)
@@ -2180,7 +2123,7 @@ class Econ(commands.Cog):
     #         reactions_task = asyncio.create_task(_add_reactions())
 
     #         embed = discord.Embed(
-    #             color=self.d.cc,
+    #             color=self.bot.embed_color,
     #             title="GET READY TO BATTLE!",
     #             description="*react with :one: or :two: to bet your pocket, battle will start in 15 seconds...*",
     #         )
@@ -2267,7 +2210,7 @@ class Econ(commands.Cog):
 
     #         # fight loop
     #         for i in itertools.count():
-    #             embed = discord.Embed(color=self.d.cc, title=f"{cur_user.display_name}, attack!")
+    #             embed = discord.Embed(color=self.bot.embed_color, title=f"{cur_user.display_name}, attack!")
     #             embed.add_field(
     #                 name=user_1.display_name,
     #                 value=make_health_bar(

@@ -6,10 +6,10 @@ from common.coms.json_encoder import dumps, loads
 from common.coms.packet_type import PacketType
 
 T_PACKET_DATA: TypeAlias = (
-    str | int | float | dict[str, Any] | list[Any] | set[Any] | None | BaseModel
+    bool | str | int | float | set[Any] | list[Any] | dict[str, Any] | None | BaseModel
 )
 
-PACKET_DATA_TYPES = (str, int, float, dict, list, set, type(None), BaseModel)
+PACKET_DATA_TYPES = (bool, str, int, float, set, list, dict, type(None), BaseModel)
 
 
 class Packet(BaseModel):
@@ -22,3 +22,4 @@ class Packet(BaseModel):
         json_loads = loads
         json_dumps = dumps
         allow_mutation = False
+        smart_union = True

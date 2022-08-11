@@ -1,8 +1,7 @@
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-
-import numpy
-import pyximport
+import os
+import signal
 
 from common.utils.setup import load_data
 
@@ -18,13 +17,14 @@ async def main_async(tp: ThreadPoolExecutor):
     villager_bot = VillagerBotCluster(tp, secrets, data, translations)
 
     async with villager_bot:
+        if os.name != "nt":
+            # register sigterm handler
+            asyncio.get_event_loop().add_signal_handler(signal.SIGTERM, lambda: asyncio.ensure_future(villager_bot.close()))
+            
         await villager_bot.start()
 
 
 def main():
-    # add cython support, with numpy header files
-    pyximport.install(language_level=3, setup_args={"include_dirs": numpy.get_include()})
-
     with ThreadPoolExecutor() as tp:
         asyncio.run(main_async(tp))
 

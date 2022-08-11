@@ -71,31 +71,9 @@ class ShopItem(ImmutableBaseModel):
 
 class Emojis(ImmutableBaseModel):
     class FarmingEmojis(ImmutableBaseModel):
-        class Growing(ImmutableBaseModel):
-            emerald_fruit: str
-            chorus_fruit: str
-            melon: str
-            potato: str
-            carrot: str
-            wheat: str
-            farmland: str
-
-        class Normal(ImmutableBaseModel):
-            emerald_fruit: str
-            chorus_fruit: str
-            melon: str
-            potato: str
-            carrot: str
-            wheat: str
-
-        class Seeds(ImmutableBaseModel):
-            wheat: str
-            chorus_fruit: str
-            melon: str
-
-        growing: Growing
-        normal: Normal
-        seeds: Seeds
+        growing: dict[str, str]
+        normal: dict[str, str]
+        seeds: dict[str, str]
 
     class FishEmojis(ImmutableBaseModel):
         cod: str
@@ -208,6 +186,9 @@ class Emojis(ImmutableBaseModel):
     squares: SquareEmojis
     badges: BadgeEmojis
     numbers: list[str]
+
+    def __getitem__(self, key: str):
+        return getattr(self, key)
 
 
 class Farming(ImmutableBaseModel):

@@ -192,10 +192,10 @@ class Mod(commands.Cog):
 
         warns = await self.db.fetch_warns(user.id, ctx.guild.id)
 
-        embed = discord.Embed(color=self.d.cc)
+        embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
             name=f"{user}'s warnings ({len(warns)} total):",
-            icon_url=getattr(user.avatar, "url", embed.Empty),
+            icon_url=getattr(user.avatar, "url", None),
         )
 
         if len(warns) < 1:

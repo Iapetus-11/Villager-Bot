@@ -5,6 +5,7 @@ import time
 from collections import defaultdict
 from functools import cached_property
 from typing import Any, Optional
+import uuid
 
 import aiohttp
 import asyncpg
@@ -22,6 +23,7 @@ from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
 from karen.models.secrets import Secrets
 from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
 from karen.utils.setup import setup_database_pool, setup_logging
+from karen.utils.shard_ids import ShardIdManager
 from karen.utils.topgg import TopggVote, VotingWebhookServer
 
 logger = setup_logging()
@@ -34,10 +36,10 @@ class Share:
         self.command_cooldowns = CooldownManager(data.cooldown_rates)
         self.command_concurrency = MaxConcurrencyManager()
         self.econ_paused_users = dict[int, float]()  # user_id: time paused
-        self.mine_commands = defaultdict[int, int]()  # user_id: cmd_count, used for fishing as well
-        self.trivia_commands = defaultdict[int, int]()  # user_id: cmd_count
-        self.command_counts = defaultdict[int, int]()  # user_id: cmd_count
-        self.active_fx = defaultdict[int, set[str]]()  # user_id: set[fx]
+        self.mine_commands = defaultdict[int, int](int)  # user_id: cmd_count, used for fishing as well
+        self.trivia_commands = defaultdict[int, int](int)  # user_id: cmd_count
+        self.command_counts = defaultdict[int, int](int)  # user_id: cmd_count
+        self.active_fx = defaultdict[int, set[str]](set[str])  # user_id: set[fx]
         self.current_cluster_id = 0
 
 
@@ -55,16 +57,17 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             secrets.karen.auth,
             self.get_packet_handlers(),
             logger,
+            self._disconnect_callback,
         )
 
-        self.votehook_server = VotingWebhookServer(self.k.topgg_webhook, self.vote_callback, logger)
+        self.votehook_server = VotingWebhookServer(self.k.topgg_webhook, self._vote_callback, logger)
 
         self.v = Share(data)
 
         self.aiohttp: Optional[aiohttp.ClientSession] = None
 
-        # must be last
-        PacketHandlerRegistry.__init__(self)
+        self.shard_ids = ShardIdManager(self.k.shard_count, self.k.cluster_count)
+
         RecurringTasksMixin.__init__(self, logger)
 
     @property
@@ -100,7 +103,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         # nothing past this point
         await self.server.serve(self._on_ready)
 
-    async def _stop(self) -> None:
+    async def stop(self) -> None:
         logger.info("Shutting down Karen...")
 
         await self.server.stop()
@@ -122,20 +125,17 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         return self
 
     async def __aexit__(self, exc_type: type, exc: Exception, tb: Any) -> None:
-        await self._stop()
+        await self.stop()
 
         if exc:
             raise exc
 
-    @cached_property
-    def chunked_shard_ids(self) -> list[list[int]]:
-        shard_ids = list(range(self.k.shard_count))
-        shards_per_cluster = self.k.shard_count // self.k.cluster_count + 1
-        return list(chunk_sequence(shard_ids, shards_per_cluster))  # type: ignore
-
-    async def vote_callback(self, vote: TopggVote) -> None:
+    async def _vote_callback(self, vote: TopggVote) -> None:
         await self.ready_event.wait()
         await self.server.broadcast(PacketType.TOPGG_VOTE, vote)
+
+    async def _disconnect_callback(self, ws_id: uuid.UUID) -> None:
+        self.shard_ids.release(ws_id)
 
     @classmethod
     def _transform_query_result(cls, result: Any) -> Any:
@@ -210,10 +210,9 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     ###### packet handlers #####################################################
 
     @handle_packet(PacketType.FETCH_CLUSTER_INFO)
-    async def packet_get_shard_ids(self):
-        shard_ids = self.chunked_shard_ids[self.v.current_cluster_id]
+    async def packet_fetch_cluster_info(self, ws_id: uuid.UUID):
         self.v.current_cluster_id += 1
-        return {"shard_ids": shard_ids, "shard_count": self.k.shard_count, "cluster_id": self.v.current_cluster_id - 1}
+        return {"shard_ids": self.shard_ids.take(ws_id), "shard_count": self.k.shard_count, "cluster_id": self.v.current_cluster_id - 1}
 
     @handle_packet(PacketType.EXEC_CODE)
     async def packet_exec(self, code: str):
@@ -335,3 +334,10 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     @handle_packet(PacketType.DB_FETCH_ALL)
     async def packet_db_fetch_all(self, query: str, args: list[Any]):
         return self._transform_query_result(await self.db.fetch(query, *args))
+
+    @handle_packet(PacketType.TRIVIA)
+    async def packet_trivia(self, user_id: int):
+        commands = self.v.trivia_commands[user_id]
+        self.v.trivia_commands[user_id] += 1
+        return commands
+        

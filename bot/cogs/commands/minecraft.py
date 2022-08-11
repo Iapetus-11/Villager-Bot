@@ -176,7 +176,7 @@ class Minecraft(commands.Cog):
         if fail:
             await ctx.reply(
                 embed=discord.Embed(
-                    color=self.d.cc,
+                    color=self.bot.embed_color,
                     title=ctx.l.minecraft.mcping.title_offline.format(
                         self.d.emojis.offline, combined
                     ),
@@ -195,7 +195,7 @@ class Minecraft(commands.Cog):
         players_online = jj["online_players"]
 
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined),
         )
 
@@ -288,7 +288,7 @@ class Minecraft(commands.Cog):
         players_online = jj["online_players"]
 
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             title=ctx.l.minecraft.mcping.title_plain.format(self.d.emojis.online, address),
         )
 
@@ -405,7 +405,7 @@ class Minecraft(commands.Cog):
             return
 
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             description=ctx.l.minecraft.stealskin.embed_desc.format(profile["name"], skin_url),
         )
 
@@ -496,7 +496,7 @@ class Minecraft(commands.Cog):
             name_hist += f"**{len(names)-i}.** `{name.name}` - {time}\n"
 
         embed = discord.Embed(
-            color=self.d.cc, title=ctx.l.minecraft.profile.mcpp.format(profile.name)
+            color=self.bot.embed_color, title=ctx.l.minecraft.profile.mcpp.format(profile.name)
         )
 
         if skin_url is not None:
@@ -543,7 +543,7 @@ class Minecraft(commands.Cog):
     async def color_codes(self, ctx: Ctx):
         """Shows the Minecraft chat color codes"""
 
-        embed = discord.Embed(color=self.d.cc, description=ctx.l.minecraft.mccolors.embed_desc)
+        embed = discord.Embed(color=self.bot.embed_color, description=ctx.l.minecraft.mccolors.embed_desc)
 
         embed.set_author(name=ctx.l.minecraft.mccolors.embed_author_name)
 

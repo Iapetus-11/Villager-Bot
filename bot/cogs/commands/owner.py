@@ -1,12 +1,11 @@
-import io
 import os
-import sys
-from contextlib import redirect_stderr, redirect_stdout
 from typing import Union
+import itertools
 
 import aiofiles
 import arrow
 import discord
+from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from discord.ext import commands
 
@@ -22,7 +21,7 @@ class Owner(commands.Cog):
 
         self.karen = bot.karen
         self.d = bot.d
-        self.db = bot.get_cog("Database")
+        self.db: Database = bot.get_cog("Database")
 
     async def cog_before_invoke(self, ctx: Ctx):
         print(f"{ctx.author}: {ctx.message.content}")
@@ -34,14 +33,7 @@ class Owner(commands.Cog):
     @commands.command(name="reload")
     @commands.is_owner()
     async def reload_cog(self, ctx: Ctx, cog: str):
-        res = await self.ipc.broadcast(
-            {"type": PacketType.EVAL, "code": f"bot.reload_extension('cogs.{cog}')"}
-        )
-
-        for response in res.responses:
-            if not response.success:
-                await ctx.send(f"Error while reloading `cogs.{cog}`: ```py\n{response.result}```")
-                return
+        await self.karen.reload_cog(f"bot.cogs.{cog}")
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
@@ -50,16 +42,9 @@ class Owner(commands.Cog):
     async def update_data(self, ctx: Ctx):
         """Reloads data from data.json and text from the translation files"""
 
-        res = await self.ipc.broadcast({"type": PacketType.RELOAD_DATA})
-        failed = False
+        await self.karen.reload_data()
 
-        for data in res.responses:
-            if not data.success:
-                failed = True
-                await ctx.reply_embed(f"Updating data failed: ```py\n{data.result}\n```")
-
-        if not failed:
-            await ctx.message.add_reaction(self.d.emojis.yes)
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name="evallocal", aliases=["eval", "evall"])
     @commands.is_owner()
@@ -70,17 +55,11 @@ class Owner(commands.Cog):
             stuff = stuff[2:]
 
         try:
-            out = io.StringIO()
+            result = await execute_code(stuff, {"bot": self.bot, "db": self.db.db, "dbc": self.db, "http": self.bot.aiohttp})
 
-            with redirect_stdout(out), redirect_stderr(out):
-                result = await execute_code(stuff, {**globals(), **locals(), **self.bot.eval_env})
-
-            sys.stdout.write(out.getvalue())
-
-            result_str = f"{out.getvalue()}{result}".replace("```", "｀｀｀")
+            result_str = f"{result}".replace("```", "｀｀｀")
             await ctx.reply(f"```\n{result_str}```")
         except Exception as e:
-            print("Exception:", e)
             await ctx.reply(f"```py\n{format_exception(e)[:2000-9].replace('```', '｀｀｀')}```")
 
     @commands.command(name="evalglobal", aliases=["evalall", "evalg"])
@@ -91,11 +70,11 @@ class Owner(commands.Cog):
         if stuff.startswith("py"):
             stuff = stuff[2:]
 
-        res = await self.ipc.broadcast({"type": PacketType.EXEC, "code": stuff})
+        responses = await self.karen.exec_code_all(stuff)
 
         contents = [
-            f"```py\n\uFEFF{str(r.result).replace('```', '｀｀｀')}"[:1997] + "```"
-            for r in res.responses
+            f"```py\n\uFEFF{str(r).replace('```', '｀｀｀')}"[:1997] + "```"
+            for r in responses
         ]
         joined = "".join(contents)
 
@@ -127,25 +106,13 @@ class Owner(commands.Cog):
         else:
             uid = user
 
-        format_str = (
-            '"{guild} **|** `{guild.id}`\\n"'  # vsc can't handle nested formatting cause stupid
-        )
-        code = f"""
-        guilds = ""
-        for guild in bot.guilds:
-            if guild.get_member({uid}) is not None:
-                guilds += f{format_str}
-        return guilds
-        """
+        responses = await self.karen.lookup_user(uid)
+        guilds = list(itertools.chain.from_iterable(responses))
 
-        res = await self.ipc.broadcast({"type": PacketType.EXEC, "code": code})
-
-        guilds = "".join([r.result for r in res.responses])
-
-        if guilds == "":
+        if not responses:
             await ctx.reply_embed("No results...")
         else:
-            await ctx.reply_embed(guilds)
+            await ctx.reply_embed("\n".join([f"`{g[0]}` **|** {g[1]}" for g in guilds]))
 
     @commands.command(name="setbal")
     @commands.is_owner()
@@ -167,7 +134,7 @@ class Owner(commands.Cog):
             uid = user
 
         await self.db.update_user(uid, bot_banned=True)
-        await self.ipc.broadcast({"type": PacketType.EVAL, "code": f"self.ban_cache.add({uid})"})
+        await self.karen.botban_cache_add(uid)
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
@@ -180,7 +147,7 @@ class Owner(commands.Cog):
             uid = user
 
         await self.db.update_user(uid, bot_banned=False)
-        await self.ipc.broadcast({"type": PacketType.EVAL, "code": f"self.ban_cache.remove({uid})"})
+        await self.karen.botban_cache_remove(uid)
 
         await ctx.message.add_reaction(self.d.emojis.yes)
 
@@ -205,12 +172,12 @@ class Owner(commands.Cog):
         async def get_page(page: int) -> discord.Embed:
             entries = await self.db.fetch_transactions_page(uid, page=page)
 
-            embed = discord.Embed(color=self.d.cc, description=ctx.l.econ.inv.empty)
+            embed = discord.Embed(color=self.bot.embed_color, description=ctx.l.econ.inv.empty)
 
             if len(entries) == 0:
                 embed.set_author(
                     name=f"Transaction history for {username}",
-                    icon_url=(getattr(user.avatar, "url", embed.Empty) if user else embed.Empty),
+                    icon_url=(getattr(user.avatar, "url", None) if user else None),
                 )
 
                 return embed
@@ -233,10 +200,10 @@ class Owner(commands.Cog):
 
                 body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
 
-            embed = discord.Embed(color=self.d.cc, description=body)
+            embed = discord.Embed(color=self.bot.embed_color, description=body)
             embed.set_author(
                 name=f"Transaction history for {user}",
-                icon_url=getattr(user.avatar, "url", embed.Empty),
+                icon_url=getattr(user.avatar, "url", None),
             )
             embed.set_footer(text=f"Page {page+1}/{page_count}")
 

@@ -1,5 +1,7 @@
 import asyncio
 import os
+import signal
+import sys
 
 import dotenv
 
@@ -16,9 +18,13 @@ async def main():
         env = dotenv.dotenv_values()
         if int(env.get("CLUSTER_COUNT")) != secrets.cluster_count:
             print("CLUSTER_COUNT from .env doesn't match with secrets.json!")
-            return
+            sys.exit(1)
 
     async with MechaKaren(secrets, data) as karen:
+        if os.name != "nt":
+            # register sigterm handler
+            asyncio.get_event_loop().add_signal_handler(signal.SIGTERM, lambda: asyncio.ensure_future(karen.stop))
+
         await karen.serve()
 
 

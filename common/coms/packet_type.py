@@ -39,3 +39,7 @@ class PacketType(IntEnum):
     DB_FETCH_ALL = auto()
     GET_USER_NAME = auto()
     FETCH_GUILD_COUNT = auto()
+    RELOAD_COG = auto()
+    BOTBAN_CACHE_ADD = auto()
+    BOTBAN_CACHE_REMOVE = auto()
+    LOOKUP_USER = auto()

@@ -33,7 +33,7 @@ class MobSpawner(commands.Cog):
             if m.content.lower().lstrip(ctx.prefix) not in self.d.mobs_mech.valid_attacks:
                 return False
 
-            if ctx.author.id in self.bot.ban_cache:
+            if ctx.author.id in self.bot.botban_cache:
                 return False
 
             return True
@@ -107,7 +107,7 @@ class MobSpawner(commands.Cog):
 
         # engage embed
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             title=f"**{random.choice(ctx.l.mobs_mech.mob_drops).format(mob.nice.lower())}**",
             description=ctx.l.mobs_mech.type_engage,
         )
@@ -154,7 +154,7 @@ class MobSpawner(commands.Cog):
             for iteration in itertools.count(start=1):
 
                 # create embed with mob image
-                embed = discord.Embed(color=self.d.cc, title=ctx.l.mobs_mech.attack_or_flee)
+                embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.mobs_mech.attack_or_flee)
                 embed.set_image(url=mob.image)
 
                 # add user health bar to embed
@@ -271,7 +271,7 @@ class MobSpawner(commands.Cog):
                 await fight_msg.edit(suppress_embeds=True)
 
             # outside of the for loop
-            embed = discord.Embed(color=self.d.cc)
+            embed = discord.Embed(color=self.bot.embed_color)
             embed.set_image(url=mob.image)
 
             embed.add_field(  # user health bar

@@ -111,7 +111,7 @@ class Events(commands.Cog):
             return
 
         embed = discord.Embed(
-            color=self.d.cc,
+            color=self.bot.embed_color,
             description=f"Hey y'all! Type `{self.k.default_prefix}help` to get started with Villager Bot!\n"
             f"If you need any more help, check out the **[Support Server]({self.d.support})**!\n\n"
             f"*Our privacy policy can be found [here]({self.d.privacy_policy}).*",
@@ -228,7 +228,7 @@ class Events(commands.Cog):
 
                 if prior_messages < 1:
                     embed = discord.Embed(
-                        color=self.d.cc,
+                        color=self.bot.embed_color,
                         description=f"Hey {message.author.mention}! Type `{self.k.default_prefix}help` to get started with Villager Bot!\n"
                         f"If you need any more help, check out the **[Support Server]({self.d.support})**!",
                     )
@@ -258,7 +258,7 @@ class Events(commands.Cog):
             lang = self.bot.get_language(message)
 
             embed = discord.Embed(
-                color=self.d.cc, description=lang.misc.pingpong.format(prefix, self.d.support)
+                color=self.bot.embed_color, description=lang.misc.pingpong.format(prefix, self.d.support)
             )
             embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
             embed.set_footer(text=lang.useful.credits.foot.format(prefix))
@@ -365,7 +365,7 @@ class Events(commands.Cog):
     async def on_command_error(self, ctx: Ctx, e: Exception):
         self.bot.error_count += 1
 
-        if hasattr(ctx, "custom_error"):
+        if getattr(ctx, "custom_error", None):
             e = ctx.custom_error
 
         if not isinstance(e, MaxKarenConcurrencyReached):

@@ -20,5 +20,8 @@ RUN poetry install --no-dev --no-interaction
 COPY common common
 COPY bot bot
 
+# build tiler.pyx using pyximport
+RUN poetry run python3 bot/build_tiler.py
+
 # run Villager Bot cluster
-CMD ["poetry", "run", "python3", "-m", "bot"]
+CMD poetry run python3 -m bot
