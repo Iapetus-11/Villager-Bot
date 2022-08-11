@@ -19,7 +19,6 @@ class MaxConcurrencyManager:
             pass
 
     def check(self, command: str, user_id: int) -> bool:
-        logging.error(f"{(command, user_id)} not in {self.limits} == {(command, user_id) not in self.limits}")
         return (command, user_id) not in self.limits
 
 

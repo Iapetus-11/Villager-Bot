@@ -4,7 +4,7 @@ FROM python:3.10
 RUN apt-get update -y && apt-get install libgl1 -y
 
 # install & configure poetry
-RUN python3 -m pip install poetry
+RUN python3 -m pip install poetry --no-cache-dir
 RUN poetry config virtualenvs.in-project true
 
 # make villager-bot dir
@@ -20,8 +20,8 @@ RUN poetry install --no-dev --no-interaction
 COPY common common
 COPY bot bot
 
-# build tiler.pyx using pyximport
-RUN poetry run python3 bot/build_tiler.py
+# build cython extensions
+RUN poetry run python3 -m bot --build-pyx-only
 
 # run Villager Bot cluster
 CMD poetry run python3 -m bot

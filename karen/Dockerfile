@@ -1,7 +1,7 @@
 FROM python:3.10
 
 # install & configure poetry
-RUN python3 -m pip install poetry
+RUN python3 -m pip install poetry --no-cache-dir
 RUN poetry config virtualenvs.in-project true
 
 # make villager-bot dir
