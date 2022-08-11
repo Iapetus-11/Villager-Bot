@@ -36,7 +36,7 @@ def setup_logging() -> logging.Logger:
         format=f"%(asctime)s [%(name)s] %(levelname)s: %(message)s",
         datefmt="%m-%d-%y %H:%M:%S",
     )
-    
+
     return logging.getLogger("bot")
 
 
