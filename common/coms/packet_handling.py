@@ -49,21 +49,6 @@ def handle_packet(packet_type: PacketType) -> Callable[[T_PACKET_HANDLER_CALLABL
 
 
 class PacketHandlerRegistryMeta(type):
-    # def __new__(cls, name, bases, dct):
-    #     new = super().__new__(cls, name, bases, dct)
-    #     new.__packet_handlers__ = dict[PacketType, PacketHandler]()
-
-    #     # traverse the method tree to find PacketHandlers to register
-    #     for base in reversed(new.__mro__):
-    #         for obj in base.__dict__.values():
-    #             if isinstance(obj, PacketHandler):
-    #                 if obj.packet_type in new.__packet_handlers__:
-    #                     raise RuntimeError(f"Duplicate packet handler: {obj.function.__qualname__}")
-
-    #                 new.__packet_handlers__[obj.packet_type] = obj
-
-    #     return new
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

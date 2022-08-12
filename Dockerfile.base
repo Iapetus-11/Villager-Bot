@@ -2,7 +2,7 @@ FROM python:3.10-slim-buster
 
 # install git and libgl
 RUN apt-get update -y
-RUN apt-get install -y git build-essential libgl1
+RUN apt-get install libgl1 git -y
 
 # install & configure poetry
 RUN python3 -m pip install poetry --no-cache-dir
@@ -17,12 +17,5 @@ COPY pyproject.toml .
 COPY poetry.lock .
 RUN poetry install --no-dev --no-interaction
 
-# copy over common and bot folders
+# copy common folder over
 COPY common common
-COPY bot bot
-
-# build cython extensions
-RUN poetry run python3 -m bot --build-pyx-only
-
-# run Villager Bot cluster
-CMD poetry run python3 -m bot

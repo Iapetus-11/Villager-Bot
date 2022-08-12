@@ -1,4 +1,8 @@
-FROM python:3.10
+FROM python:3.10-slim-buster
+
+# install git
+RUN apt-get update -y
+RUN apt-get install -y git build-essential
 
 # install & configure poetry
 RUN python3 -m pip install poetry --no-cache-dir
@@ -13,7 +17,7 @@ COPY pyproject.toml .
 COPY poetry.lock .
 RUN poetry install --no-dev --no-interaction
 
-# copy over common & karen folders
+# copy over common and karne folders
 COPY common common
 COPY karen karen
 

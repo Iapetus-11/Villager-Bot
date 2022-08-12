@@ -8,7 +8,7 @@ services:
       - 52736:52736
     volumes:
       - type: bind
-        source: karen/secrets.json
+        source: ./karen/secrets.json
         target: /villager-bot/karen/secrets.json
     deploy:
       replicas: ${KAREN_ENABLED:-1}
@@ -20,7 +20,7 @@ services:
       - karen
     volumes:
       - type: bind
-        source: bot/secrets.json
+        source: ./bot/secrets.json
         target: /villager-bot/bot/secrets.json
     deploy:
       replicas: ${CLUSTER_COUNT:-1}

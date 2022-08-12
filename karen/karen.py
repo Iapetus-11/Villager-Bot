@@ -213,15 +213,6 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
     ###### packet handlers #####################################################
 
-    @handle_packet(PacketType.FETCH_CLUSTER_INFO)
-    async def packet_fetch_cluster_info(self, ws_id: uuid.UUID):
-        self.v.current_cluster_id += 1
-        return {
-            "shard_ids": self.shard_ids.take(ws_id),
-            "shard_count": self.k.shard_count,
-            "cluster_id": self.v.current_cluster_id - 1,
-        }
-
     @handle_packet(PacketType.EXEC_CODE)
     async def packet_exec(self, code: str):
         result = await execute_code(code, {"karen": self, "v": self.v})
@@ -230,6 +221,15 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             result = repr(result)
 
         return result
+
+    @handle_packet(PacketType.FETCH_CLUSTER_INFO)
+    async def packet_fetch_cluster_info(self, ws_id: uuid.UUID):
+        self.v.current_cluster_id += 1
+        return {
+            "shard_ids": self.shard_ids.take(ws_id),
+            "shard_count": self.k.shard_count,
+            "cluster_id": self.v.current_cluster_id - 1,
+        }
 
     @handle_packet(PacketType.COOLDOWN_CHECK_ADD)
     async def packet_cooldown(self, command: str, user_id: int):
