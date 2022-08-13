@@ -8,6 +8,8 @@ from typing import Any, DefaultDict, Dict, List
 
 import arrow
 import discord
+from numpy.random import choice
+
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from discord.ext import commands
@@ -1238,7 +1240,10 @@ class Econ(commands.Cog):
 
         if success:
             # calculate base stolen value
-            stolen = math.ceil(db_victim.emeralds * (random.randint(10, 40) / 100))
+            percents = list(range(10, 41, 5))  # 10%-40% [10, 15, 20, 25, 30, 35, 40]
+            weights = [0.26, 0.22, 0.17, 0.14, 0.11, 0.07, 0.03]
+            percent = choice(percents, 1, p=weights)[0]
+            stolen = math.ceil(db_victim.emeralds * (percent / 100))
             # calculate and implement cap based off pillager's balance
             stolen = min(
                 stolen,
