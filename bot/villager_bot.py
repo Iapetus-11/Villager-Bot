@@ -1,5 +1,4 @@
 import asyncio
-import logging
 import random
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor

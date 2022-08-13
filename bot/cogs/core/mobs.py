@@ -23,7 +23,7 @@ class MobSpawner(commands.Cog):
         self.karen = bot.karen
 
     def engage_check(self, ctx: Ctx):
-        def _engage_check(m):
+        def _engage_check(m: discord.Message):
             if m.channel != ctx.channel:
                 return False
 

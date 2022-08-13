@@ -1,5 +1,10 @@
+.venv/
 __pycache__/
+.mypy_cache/
+.github/
+.vscode/
+
 **/secrets.json
 **/secrets.example.json
-.venv
+
 **/Dockerfile

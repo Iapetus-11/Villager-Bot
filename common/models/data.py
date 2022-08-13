@@ -1,7 +1,5 @@
-import logging
 from typing import Any, Optional
 
-import discord
 from pydantic import Field, HttpUrl
 
 from common.models.base import BaseModel, ImmutableBaseModel

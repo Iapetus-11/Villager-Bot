@@ -2,7 +2,6 @@ import json
 import logging
 import os
 import random
-from typing import Optional
 
 import discord
 
@@ -33,7 +32,7 @@ def villager_bot_intents() -> discord.Intents:
 def setup_logging() -> logging.Logger:
     logging.basicConfig(
         level=logging.INFO,
-        format=f"%(asctime)s [%(name)s] %(levelname)s: %(message)s",
+        format="%(asctime)s [%(name)s] %(levelname)s: %(message)s",
         datefmt="%m-%d-%y %H:%M:%S",
     )
 

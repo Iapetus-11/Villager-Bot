@@ -1,5 +1,3 @@
-from asyncio.log import logger
-import logging
 import time
 from collections import defaultdict
 from typing import Optional

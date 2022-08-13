@@ -3,7 +3,6 @@ from __future__ import annotations
 import asyncio
 import time
 from collections import defaultdict
-from functools import cached_property
 from typing import Any, Optional
 import uuid
 
@@ -115,7 +114,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         self.cancel_recurring_tasks()
 
-        if self.db is not None:
+        if self._db is not None:
             await self.db.close()
             logger.info("Closed database pool")
 
