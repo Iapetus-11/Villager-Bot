@@ -2227,7 +2227,9 @@ class Econ(commands.Cog):
 
             # fight loop
             for i in itertools.count():
-                embed = discord.Embed(color=self.bot.embed_color, title=f"{cur_user.display_name}, attack!")
+                embed = discord.Embed(
+                    color=self.bot.embed_color, title=f"{cur_user.display_name}, attack!"
+                )
                 embed.add_field(
                     name=user_1.display_name,
                     value=make_health_bar(
