@@ -2,7 +2,6 @@ import asyncio
 import itertools
 import math
 import random
-import time
 
 import classyjson as cj
 import discord
@@ -127,9 +126,7 @@ class MobSpawner(commands.Cog):
 
             user = initial_attack_msg.author
 
-            if (
-                await self.ipc.request({"type": PacketType.ECON_PAUSE_CHECK, "user_id": user.id})
-            ).paused:
+            if await self.karen.check_econ_paused(user.id):
                 continue
 
             db_user = await self.db.fetch_user(user.id)
@@ -148,7 +145,7 @@ class MobSpawner(commands.Cog):
             engage_msg.edit(suppress_embeds=True),
         )
 
-        await self.ipc.exec(f"econ_paused_users[{user.id}] = {time.time()}")
+        await self.karen.econ_pause(user.id)
 
         try:
             for iteration in itertools.count(start=1):
@@ -396,9 +393,7 @@ class MobSpawner(commands.Cog):
                     )
         finally:
             await self.db.update_user(user.id, health=user_health)
-            await self.ipc.send(
-                {"type": PacketType.ECON_PAUSE_UNDO, "user_id": user.id}
-            )  # unpause user
+            await self.karen.econ_unpause(user.id)
 
 
 async def setup(bot: VillagerBotCluster) -> None:
