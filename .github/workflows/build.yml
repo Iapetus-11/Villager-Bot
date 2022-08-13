@@ -1,14 +1,14 @@
-name: CD
+name: Build
 
 on:
   workflow_run:
     workflows: [CI]
-    branches: [main, "rewrite*"]
+    branches: [main]
     types:
       - completed
 
 jobs:
-  cd:
+  build:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
