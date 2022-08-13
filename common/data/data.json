@@ -407,42 +407,6 @@
         "sell_price": 4096,
         "rarity": 500000,
         "sticky": true
-      },
-      {
-        "item": "Sparkler",
-        "sell_price": 32,
-        "rarity": 200,
-        "sticky": false
-      },
-      {
-        "item": "Firecracker",
-        "sell_price": 64,
-        "rarity": 500,
-        "sticky": false
-      },
-      {
-        "item": "Fireworks Bundle",
-        "sell_price": 128,
-        "rarity": 1000,
-        "sticky": false
-      },
-      {
-        "item": "Roman Candle",
-        "sell_price": 128,
-        "rarity": 1000,
-        "sticky": false
-      },
-      {
-        "item": "Komodo 30000 SuperNova Aerial Firework",
-        "sell_price": 768,
-        "rarity": 9999,
-        "sticky": false
-      },
-      {
-        "item": "Ford F150 Keys",
-        "sell_price": 768,
-        "rarity": 9999,
-        "sticky": false
       }
     ]
   },
@@ -544,12 +508,6 @@
         "item": "Recycler",
         "sell_price": 1024,
         "rarity": 99999,
-        "sticky": false
-      },
-      {
-        "item": "Ford F150 Keys",
-        "sell_price": 768,
-        "rarity": 9999,
         "sticky": false
       }
     ]
