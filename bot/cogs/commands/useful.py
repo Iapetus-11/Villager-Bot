@@ -6,6 +6,7 @@ import time
 from contextlib import suppress
 from typing import Dict, List, Optional, Tuple
 from urllib.parse import quote as urlquote
+from dateutil.relativedelta import relativedelta
 
 import aiofiles
 import aiohttp
@@ -17,6 +18,7 @@ import psutil
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from discord.ext import commands, tasks
+from bot.utils.command_converters import DurationDelta
 
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, parse_input_time
@@ -591,18 +593,15 @@ class Useful(commands.Cog):
 
     @commands.command(name="remindme", aliases=["remind"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def remind_me(self, ctx: Ctx, *args: str):
+    async def remind_me(self, ctx: Ctx, reldel: DurationDelta, *, reminder: str):
+        reldel: relativedelta
         user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
 
         if user_reminder_count > 5:
             await ctx.reply_embed(ctx.l.useful.remind.reminder_max)
             return
 
-        success, at, rest = parse_input_time(args)
-
-        if not success:
-            await ctx.reply_embed(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
-            return
+        at = arrow.utcnow() + reldel
 
         if at > arrow.utcnow().shift(weeks=8):
             await ctx.reply_embed(ctx.l.useful.remind.time_max)
@@ -612,7 +611,7 @@ class Useful(commands.Cog):
             ctx.author.id,
             ctx.channel.id,
             ctx.message.id,
-            rest[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"),
+            reminder[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"),
             at.datetime,
         )
         await ctx.reply_embed(
