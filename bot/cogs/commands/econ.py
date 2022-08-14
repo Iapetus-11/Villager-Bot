@@ -655,7 +655,9 @@ class Econ(commands.Cog):
 
         # check if user can actually afford to buy that amount of that item
         if shop_item.buy_price * amount > db_user.emeralds:
-            await ctx.reply_embed(ctx.l.econ.buy.poor_loser_2.format(amount, shop_item.db_entry.item))
+            await ctx.reply_embed(
+                ctx.l.econ.buy.poor_loser_2.format(amount, shop_item.db_entry.item)
+            )
             return
 
         db_item = await self.db.fetch_item(ctx.author.id, shop_item.db_entry.item)

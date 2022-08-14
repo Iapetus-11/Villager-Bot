@@ -343,7 +343,7 @@ class Useful(commands.Cog):
         clusters_stats, karen_stats, cluster_ping = await asyncio.gather(
             self.karen.fetch_clusters_stats(),
             self.karen.fetch_karen_stats(),
-            self.karen.fetch_clusters_ping()
+            self.karen.fetch_clusters_ping(),
         )
 
         (

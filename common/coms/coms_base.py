@@ -61,7 +61,12 @@ class ComsBase:
         else:
             handler_args.append(packet.data)
 
-        self.logger.debug("Calling packet handler %s with args %s and kwargs %s", handler.function.__qualname__, handler_args, handler_kwargs)
+        self.logger.debug(
+            "Calling packet handler %s with args %s and kwargs %s",
+            handler.function.__qualname__,
+            handler_args,
+            handler_kwargs,
+        )
 
         response = await validate_arguments(handler.function)(
             *handler_args, **handler_kwargs, **extra
