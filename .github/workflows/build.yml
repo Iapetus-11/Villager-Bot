@@ -15,6 +15,13 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v2
 
+      - name: set up docker buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1.5.1
+        with:
+          version: latest
+          install: true
+
       - name: build docker images
         run: |
           docker build . -f karen/Dockerfile -t villager-bot_karen:latest
@@ -32,5 +39,5 @@ jobs:
 
       - name: push docker images
         run: |
-          docker push ghcr.io/Iapetus-11/villager-bot_karen:latest
-          docker push ghcr.io/Iapetus-11/villager-bot_bot:latest
+          docker push ghcr.io/iapetus-11/villager-bot_karen:latest
+          docker push ghcr.io/iapetus-11/villager-bot_bot:latest
