@@ -202,12 +202,15 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
     @recurring_task(hours=1)
     async def loop_topgg_stats(self):
-        guild_count = sum(await self.server.broadcast(PacketType.FETCH_GUILD_COUNT))
+        try:
+            responses = await self.server.broadcast(PacketType.FETCH_GUILD_COUNT)
+        except RuntimeError:
+            return
 
         await self.aiohttp.post(
             f"https://top.gg/api/bots/{self.k.bot_id}/stats",
             headers={"Authorization": self.k.topgg_api},
-            json={"server_count": str(guild_count)},
+            json={"server_count": str(sum(responses))},
         )
 
     ###### packet handlers #####################################################
