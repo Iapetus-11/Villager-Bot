@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: set up Python 3.10
+      - name: set up python 3.10
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
@@ -47,15 +47,8 @@ jobs:
 
       - name: flake8
         id: flake8
-        # continue-on-error: true
         run: poetry run flake8
       
       - name: mypy
         id: mypy
-        # continue-on-error: true
         run: poetry run mypy
-
-      # - name: fail if mypy or flake8 failed
-      #   if: (steps.flake8.outcome != 'success' || steps.mypy.outcome != 'success')
-      #   run: |
-      #     exit 1
