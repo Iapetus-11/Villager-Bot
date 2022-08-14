@@ -1,6 +1,6 @@
 FROM python:3.10-slim-buster
 
-# install git
+# install essential packages
 RUN apt-get update -y
 RUN apt-get install -y git build-essential
 
@@ -17,7 +17,7 @@ COPY pyproject.toml .
 COPY poetry.lock .
 RUN poetry install --no-dev --no-interaction
 
-# copy over common and karne folders
+# copy over common and karen folders
 COPY common common
 COPY karen karen
 

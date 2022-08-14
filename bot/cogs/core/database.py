@@ -56,7 +56,7 @@ class Database(commands.Cog):
 
     async def fetch_all_botbans(self) -> set[int]:
         botban_records = await self.db.fetch("SELECT user_id FROM users WHERE bot_banned = true")
-        return {r[0] for r in botban_records}
+        return {r["user_id"] for r in botban_records}
 
     async def fetch_all_guild_langs(self) -> dict:
         lang_records = await self.db.fetch(
@@ -64,13 +64,13 @@ class Database(commands.Cog):
             "en",
             "en_us",
         )
-        return {r[0]: r[1] for r in lang_records}
+        return {r["guild_id"]: r["language"] for r in lang_records}
 
     async def fetch_all_guild_prefixes(self) -> dict[int, str]:
         prefix_records = await self.db.fetch(
             "SELECT guild_id, prefix FROM guilds WHERE prefix != $1", self.k.default_prefix
         )
-        return {r[0]: r[1] for r in prefix_records}
+        return {r["guild_id"]: r["prefix"] for r in prefix_records}
 
     async def fetch_all_disabled_commands(self) -> dict[int, set[str]]:
         disabled_records = await self.db.fetch("SELECT * FROM disabled_commands")
@@ -83,7 +83,7 @@ class Database(commands.Cog):
 
     async def fetch_all_do_replies(self) -> set[int]:
         replies_records = await self.db.fetch("SELECT guild_id FROM guilds WHERE do_replies = true")
-        return {r[0] for r in replies_records}
+        return {r["guild_id"] for r in replies_records}
 
     async def fetch_guild(self, guild_id: int) -> Guild:
         g = await self.db.fetchrow("SELECT * FROM guilds WHERE guild_id = $1", guild_id)

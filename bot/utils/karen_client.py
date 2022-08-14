@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import Any, Optional
 
 import discord
@@ -217,3 +218,9 @@ class KarenClient:
     @validate_return
     async def fetch_clusters_stats(self) -> list[list]:
         return await self._broadcast(PacketType.FETCH_STATS)
+    
+    @validate_return
+    async def fetch_clusters_ping(self) -> float:
+        start = time.time()
+        await self._broadcast(PacketType.PING)
+        return time.time() - start

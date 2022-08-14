@@ -397,3 +397,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 guild_ids.add((guild.id, guild.name))
 
         return guild_ids
+
+    @handle_packet(PacketType.PING)
+    async def packet_ping(self):
+        return 1

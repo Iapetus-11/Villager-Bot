@@ -43,3 +43,4 @@ class PacketType(IntEnum):
     BOTBAN_CACHE_ADD = auto()
     BOTBAN_CACHE_REMOVE = auto()
     LOOKUP_USER = auto()
+    PING = auto()

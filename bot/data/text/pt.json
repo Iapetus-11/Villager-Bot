@@ -1626,7 +1626,7 @@
         "votes": "Contagem de Votos da Sessão",
         "topgg": "Votos do Top.gg / Hora",
         "shards": "Contagem de Fragmentos",
-        "ping": "Latência/Ping",
+        "ping": "Ping",
         "mem": "Memória",
         "cpu": "Utilização da CPU",
         "threads": "Núcleos",

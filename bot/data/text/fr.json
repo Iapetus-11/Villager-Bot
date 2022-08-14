@@ -1626,7 +1626,7 @@
         "votes": "Nombre de vote de la session",
         "topgg": "Top.gg Votes / Heure",
         "shards": "Nombre de Shards",
-        "ping": "Latence/Ping",
+        "ping": "Ping",
         "mem": "Mémoire",
         "cpu": "Utilisation du CPU",
         "threads": "Les fils",

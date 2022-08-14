@@ -4,13 +4,13 @@ import itertools
 import math
 import random
 from collections import defaultdict
-from typing import Any, DefaultDict, Dict, List
 
 import arrow
 import discord
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from discord.ext import commands
+from common.models.data import ShopItem
 from common.models.db.item import Item
 
 from bot.utils.ctx import Ctx
@@ -134,10 +134,7 @@ class Econ(commands.Cog):
             self.d.emojis.heart_empty,
         )
 
-        try:
-            mooderalds = (await self.db.fetch_item(user.id, "Mooderald")).amount
-        except AttributeError:
-            mooderalds = 0
+        mooderalds = getattr(await self.db.fetch_item(user.id, "Mooderald"), "amount", 0)
 
         vote_streak = db_user.vote_streak
         last_voted_at = arrow.get(db_user.last_vote or 0)
@@ -227,7 +224,7 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     async def inventory_logic(
-        self, ctx: Ctx, user, items: List[Item], cat: str, items_per_page: int = 8
+        self, ctx: Ctx, user, items: list[Item], cat: str, items_per_page: int = 8
     ):
         """Logic behind generation of inventory embeds + pagination"""
 
@@ -506,10 +503,10 @@ class Econ(commands.Cog):
     async def shop_logic(self, ctx: Ctx, category: str, header: str) -> None:
         """The logic behind the shop pages"""
 
-        items: List[Dict[str, Any]] = []
+        items = list[ShopItem]()
 
         # only get items that are in the specified category
-        item: Dict[str, Any]
+        item: ShopItem
         for item in self.d.shop_items.values():
             if category in item.cat:
                 items.append(item)
@@ -524,8 +521,8 @@ class Econ(commands.Cog):
 
             for item in item_pages[page]:
                 embed.add_field(
-                    name=f"{emojify_item(self.d, item.db_entry[0])} {item.db_entry[0]} ({format_required(self.d, item)})",
-                    value=f"`{ctx.prefix}buy {item.db_entry[0].lower()}`",
+                    name=f"{emojify_item(self.d, item.db_entry.item)} {item.db_entry.item} ({format_required(self.d, item)})",
+                    value=f"`{ctx.prefix}buy {item.db_entry.item.lower()}`",
                     inline=False,
                 )
 
@@ -577,7 +574,7 @@ class Econ(commands.Cog):
             description=ctx.l.econ.fishing.market.desc,
         )
 
-        fields: List[Dict[str, str]] = []
+        fields = list[dict[str, str]]()
 
         for i, fish in enumerate(self.d.fishing.fish.items()):
             fish_id, fish = fish
@@ -656,10 +653,10 @@ class Econ(commands.Cog):
 
         # check if user can actually afford to buy that amount of that item
         if shop_item.buy_price * amount > db_user.emeralds:
-            await ctx.reply_embed(ctx.l.econ.buy.poor_loser_2.format(amount, shop_item.db_entry[0]))
+            await ctx.reply_embed(ctx.l.econ.buy.poor_loser_2.format(amount, shop_item.db_entry.item))
             return
 
-        db_item = await self.db.fetch_item(ctx.author.id, shop_item.db_entry[0])
+        db_item = await self.db.fetch_item(ctx.author.id, shop_item.db_entry.item)
 
         # get count of item in db for that user
         if db_item is not None:
@@ -691,31 +688,31 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, req_item, req_amount * amount)
 
         sellable = True
-        # hoes shouldn't be sellable, quick bodge
-        if shop_item.db_entry[0].endswith("Hoe"):
+        # hoes shouldn't be sellable
+        if shop_item.db_entry.item.endswith("Hoe"):
             sellable = False
 
         await self.db.add_item(
             ctx.author.id,
-            shop_item.db_entry[0],
-            shop_item.db_entry[1],
+            shop_item.db_entry.item,
+            shop_item.db_entry.sell_price,
             amount,
-            shop_item.db_entry[2],
+            shop_item.db_entry.sticky,
             sellable=sellable,
         )
 
         if (
-            shop_item.db_entry[0].endswith("Pickaxe")
-            or shop_item.db_entry[0] == "Bane Of Pillagers Amulet"
+            shop_item.db_entry.item.endswith("Pickaxe")
+            or shop_item.db_entry.item == "Bane Of Pillagers Amulet"
         ):
             await self.karen.update_support_server_member_roles(ctx.author.id)
-        elif shop_item.db_entry[0] == "Rich Person Trophy":
+        elif shop_item.db_entry.item == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
 
         await ctx.reply_embed(
             ctx.l.econ.buy.you_done_bought.format(
                 amount,
-                shop_item.db_entry[0],
+                shop_item.db_entry.item,
                 format_required(self.d, shop_item, amount),
                 amount + db_item_count,
             ),
@@ -1980,7 +1977,7 @@ class Econ(commands.Cog):
         user_bees = 0 if user_bees is None else user_bees.amount
         extra_yield_limit = round(max(0, math.log((user_bees + 0.0001) / 64)))
 
-        amounts_harvested: DefaultDict[str, int] = defaultdict(int)
+        amounts_harvested = defaultdict[str, int](int)
 
         for r in records:
             # amount of crop harvested
@@ -2161,9 +2158,9 @@ class Econ(commands.Cog):
             await reactions_task
 
             started_at = arrow.utcnow()
-            user_1_bets: Dict[int, int] = {}
-            user_2_bets: Dict[int, int] = {}
-            bet_tasks: List[asyncio.Task] = []
+            user_1_bets = dict[int, int]()
+            user_2_bets = dict[int, int]()
+            bet_tasks = list[asyncio.Task]()
 
             # handles a bet from a user
             async def _handle_bet(r: discord.Reaction, u: discord.User):

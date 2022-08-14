@@ -11,6 +11,7 @@ from discord.ext import commands
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, make_health_bar
 from bot.villager_bot import VillagerBotCluster
+    
 
 
 class MobSpawner(commands.Cog):
@@ -21,8 +22,10 @@ class MobSpawner(commands.Cog):
         self.db: Database = bot.get_cog("Database")
         self.karen = bot.karen
 
+        self.active_fights = set[int]()
+
     def engage_check(self, ctx: Ctx):
-        def _engage_check(m: discord.Message):
+        async def _engage_check(m: discord.Message):
             if m.channel != ctx.channel:
                 return False
 
@@ -93,12 +96,12 @@ class MobSpawner(commands.Cog):
         if difficulty == "peaceful":
             return
 
-        difficulty_multi = 1.5 if difficulty == "hard" else 1
+        difficulty_multi = {"easy": 1, "hard": 1.5}[difficulty]
 
         # type of mob to be spawned
         mob_key = random.choice(tuple(self.d.mobs_mech.mobs))
         mob = cj.classify(
-            {**self.d.mobs_mech.mobs[mob_key].copy(), **ctx.l.mobs_mech.mobs[mob_key]}
+            {**self.d.mobs_mech.mobs[mob_key].dict(), **ctx.l.mobs_mech.mobs[mob_key]}
         )
         mob_max_health = mob.health
 

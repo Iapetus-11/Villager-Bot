@@ -340,9 +340,10 @@ class Useful(commands.Cog):
             .humanize(locale=ctx.l.lang, only_distance=True)
         )
 
-        clusters_stats, karen_stats = await asyncio.gather(
+        clusters_stats, karen_stats, cluster_ping = await asyncio.gather(
             self.karen.fetch_clusters_stats(),
             self.karen.fetch_karen_stats(),
+            self.karen.fetch_clusters_ping()
         )
 
         (
@@ -381,7 +382,8 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.stats.cpu}: `{round(psutil.getloadavg()[0] / psutil.cpu_count() * 100, 2)}%`\n"
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
             f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"
-            f"{ctx.l.useful.stats.ping}: `{round((latency_all/len(clusters_stats)) * 1000, 2)} ms`\n"
+            f"Discord {ctx.l.useful.stats.ping}: `{round((latency_all/len(clusters_stats)) * 1000, 2)} ms`\n"
+            f"Cluster {ctx.l.useful.stats.ping}: `{round(cluster_ping * 1000, 2)} ms`\n"
             f"{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n"
             f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
         )
