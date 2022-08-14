@@ -19,12 +19,20 @@ jobs:
         run: |
           docker compose build
           
-      - name: upload bot image
-        uses: ishworkh/docker-image-artifact-upload@v1
-        with:
-          image: "villager-bot-bot:latest"
+      # - name: upload bot image
+      #   uses: ishworkh/docker-image-artifact-upload@v1
+      #   with:
+      #     image: "villager-bot-bot:latest"
           
-      - name: upload karen image
-        uses: ishworkh/docker-image-artifact-upload@v1
+      # - name: upload karen image
+      #   uses: ishworkh/docker-image-artifact-upload@v1
+      #   with:
+      #     image: "villager-bot-karen:latest"
+
+      - name: push docker images
+        uses: docker/build-push-action@v2.6.1
         with:
-          image: "villager-bot-karen:latest"
+          push: true
+          cache-to: type=gha, scope=${{github.repository}}
+          cache-from: type=gha, scope=${{github.repository}}
+          tags: villager-bot-bot:latest,villager-bot-karen:latest

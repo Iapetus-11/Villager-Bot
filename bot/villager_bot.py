@@ -166,7 +166,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         return ctx
 
     async def send_embed(self, location, message: str, *, ignore_exceptions: bool = False) -> None:
-        embed = discord.Embed(color=self.bot.embed_color, description=message)
+        embed = discord.Embed(color=self.embed_color, description=message)
 
         try:
             await location.send(embed=embed)
@@ -177,7 +177,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def reply_embed(
         self, location, message: str, ping: bool = False, *, ignore_exceptions: bool = False
     ) -> None:
-        embed = discord.Embed(color=self.bot.embed_color, description=message)
+        embed = discord.Embed(color=self.embed_color, description=message)
 
         try:
             await location.reply(embed=embed, mention_author=ping)
@@ -236,9 +236,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             # random chance to spawn mob
             if random.randint(0, self.d.mob_chance) == 0:
                 if self.d.cooldown_rates.get(command, 0) >= 2:
-                    if not self.prevent_spawn_duplicates.check(ctx.channel.id):
-                        self.prevent_spawn_duplicates.put(ctx.channel.id)
-                        asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
+                    asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
             elif random.randint(0, self.d.tip_chance) == 0:  # random chance to send tip
                 asyncio.create_task(self.send_tip(ctx))
 

@@ -21,7 +21,7 @@ class MobSpawner(commands.Cog):
         self.db: Database = bot.get_cog("Database")
         self.karen = bot.karen
 
-        self.active_fights = set[int]()
+        self.active_channels = set[int]()
 
     def engage_check(self, ctx: Ctx):
         async def _engage_check(m: discord.Message):
@@ -80,10 +80,17 @@ class MobSpawner(commands.Cog):
         return math.ceil(damage)
 
     async def spawn_event(self, ctx: Ctx):
+        if ctx.channel.id in self.active_channels:
+            return
+
+        self.active_channels.add(ctx.channel.id)
+
         try:
             await self._spawn_event(ctx)
         except Exception:
             await self.bot.get_cog("Events").on_error("mob_spawn", ctx)
+        finally:
+            self.active_channels.remove(ctx.channel.id)
 
     async def _spawn_event(self, ctx: Ctx):
         if ctx.guild is None:  # ignore dms
