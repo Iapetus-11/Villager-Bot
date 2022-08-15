@@ -185,9 +185,6 @@ class Emojis(ImmutableBaseModel):
     badges: BadgeEmojis
     numbers: list[str]
 
-    def __getitem__(self, key: str):
-        return getattr(self, key)
-
 
 class Farming(ImmutableBaseModel):
     class FarmingEmojis(ImmutableBaseModel):

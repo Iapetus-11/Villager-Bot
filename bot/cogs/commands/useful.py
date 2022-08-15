@@ -409,36 +409,6 @@ class Useful(commands.Cog):
             age.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + age.humanize(locale=ctx.l.lang)
         )
 
-        ban_cache_entry = self.ban_count_cache.get(ctx.guild.id)
-        timed_out = False
-
-        if ban_cache_entry is not None:
-            if time.time() - ban_cache_entry.time > 60 * 60 * 60:
-                ban_cache_entry = None
-            else:
-                bans = ban_cache_entry.ban_count
-
-        if ban_cache_entry is None:
-            try:
-                bans = len(await asyncio.wait_for(guild.bans(), 1))
-            except asyncio.TimeoutError:  # so many bans, eeee
-                bans = "unknown"
-                timed_out = True
-            except Exception:
-                bans = "unknown"
-
-        async def update_ban_count_cache(bans_: int = None):
-            if bans_ is None:
-                bans_ = len(await guild.bans())
-
-            self.ban_count_cache[ctx.guild.id] = BanCacheEntry(bans_)
-
-        if timed_out:
-            asyncio.create_task(update_ban_count_cache())
-        elif isinstance(bans, int):
-            if bans > 100:
-                asyncio.create_task(update_ban_count_cache(bans))
-
         embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
             name=f"{guild.name} {ctx.l.useful.ginf.info}",
@@ -452,7 +422,7 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.ginf.channels}: `{len(guild.text_channels) + len(guild.voice_channels)}`\n "
             f"{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n"
             f"{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n"
-            f"{ctx.l.useful.ginf.bans}: `{bans}`\n"
+            # f"{ctx.l.useful.ginf.bans}: `{bans}`\n"
         )
 
         villager = (

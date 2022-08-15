@@ -134,15 +134,13 @@ class Events(commands.Cog):
         self.bot.replies_cache.add(guild.id)
 
         # attempt to set default language based off guild's localization
-        # lang = {
-        #     discord.Locale.es_ES: "es",
-        #     discord.Locale.pt_BR: "pt",
-        #     discord.Locale.fr: "fr",
-        # }.get(guild.preferred_locale)
-
-        # if lang:
-        #     await self.db.set_guild_attr(guild.id, "language", lang)
-        #     self.bot.language_cache[guild.id] = lang
+        if lang := {
+            discord.Locale.spain_spanish: "es",
+            discord.Locale.brazil_portuguese: "pt",
+            discord.Locale.french: "fr",
+        }.get(guild.preferred_locale):
+            await self.db.set_guild_attr(guild.id, "language", lang)
+            self.bot.language_cache[guild.id] = lang
 
         await self.send_intro_message(guild)
 

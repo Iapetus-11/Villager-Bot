@@ -1117,7 +1117,6 @@ class Econ(commands.Cog):
                 self.db.fetch_item(ctx.author.id, "Lure I Book"),
                 self.karen.fetch_active_fx(ctx.author.id),
             )
-            active_effects = active_effects.active
 
             if lure_i_book is not None:
                 wait -= 4

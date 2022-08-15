@@ -147,7 +147,7 @@
         "kick": "`{0}kick <usuário> [opcional: motivo]` *expulsa o usuário do servidor Discord atual*",
         "ban": "`{0}ban <usuário> [opcional: excluir mensagens do dia] [opcional: motivo]` *bane o usuário do servidor Discord atual*",
         "pardon": "`{0}pardon <usuário>` *remove banimento do usuário do servidor Discord atual*",
-        "mute": "`{0}mute <usuário>` *silencia o usuário no servidor Discord atual*",
+        "mute": "`{0}mute <usuário> [tempo] [motivo]` *silencia o usuário no servidor Discord atual*",
         "unmute": "`{0}unmute <usuário>` *remove silenciamento do usuário no servidor Discord atual*"
       }
     },

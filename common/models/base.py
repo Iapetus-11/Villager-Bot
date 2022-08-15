@@ -4,11 +4,11 @@ from pydantic import BaseModel as PydanticBaseModel
 class BaseModel(PydanticBaseModel):
     class Config:
         validate_all = True
-        # extra = Extra.forbid
+
+    def __getitem__(self, key: str):
+        return getattr(self, key)
 
 
-class ImmutableBaseModel(PydanticBaseModel):
+class ImmutableBaseModel(BaseModel):
     class Config:
-        validate_all = True
-        # extra = Extra.forbid
         allow_mutation = False

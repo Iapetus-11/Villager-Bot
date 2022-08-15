@@ -147,7 +147,7 @@
         "kick": "`{0}kick <usuario> [opcional: razon]` *Expulsa a el usuario de el servidor de discord actual.*",
         "ban": "`{0}ban <usuario> [opcional: borrar mensaje dias] [optional: razon]` *Banea a el usuario de el servidor de Discord actual.*",
         "pardon": "`{0}pardon <usuario>` *desbanea al usuario del servidor*",
-        "mute": "`{0}mute <usuario>` *silencia a un usuario del servidor*",
+        "mute": "`{0}mute <user> [time] [reason]` *Silencia al usuario en el actual servidor de Discord*",
         "unmute": "`{0}unmute <usuario>` *quita el silencio de un usuario del servidor*"
       }
     },
@@ -1530,7 +1530,7 @@
         "stupid_1": "No puedes silenciarte a ti mismo",
         "stupid_2": "Has usado un formato inválido, ejemplo: `{0}mute @alguien 1w 2d 3h 4m una razón` aislará a alguien temporalmente por una semana, dos días, tres horas y cuatro minutos.",
         "stupid_3": "¡Eso es demasiado lejos en el futuro!",
-        "mute_msg": "**{}** ha sido silenciado."
+        "mute_msg": "**{user}** ha sido silenciado por {duration}."
       },
       "unmute": {
         "stupid_1": "No puedes quitarte el silencio a ti mismo",
