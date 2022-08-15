@@ -24,6 +24,7 @@ DURATION_REGEX = re.compile(
     r"((?P<seconds>\d+?) ?(seconds|second|sec|S|s))?"
 )
 
+
 def parse_timedelta(duration: str) -> timedelta | None:
     """
     Converts a `duration` string to a relativedelta objects.
@@ -50,7 +51,7 @@ def get_timedelta_granularity(delta: timedelta, granularity: int) -> list[str]:
     def _get_timedelta_granularity():
         if delta.days >= 365:
             yield "year"
-        
+
         if delta.days % 365 >= 31:
             yield "month"
 

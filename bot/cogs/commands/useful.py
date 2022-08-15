@@ -618,7 +618,10 @@ class Useful(commands.Cog):
             at.datetime,
         )
         await ctx.reply_embed(
-            ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang, granularity=get_timedelta_granularity(duration, 3)))
+            ctx.l.useful.remind.remind.format(
+                self.bot.d.emojis.yes,
+                at.humanize(locale=ctx.l.lang, granularity=get_timedelta_granularity(duration, 3)),
+            )
         )
 
     @commands.command(name="snipe")

@@ -235,7 +235,14 @@ class Mod(commands.Cog):
     @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu", "timeout"])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
-    async def mute(self, ctx: Ctx, victim: discord.Member, duration_str: str = "2w", *, reason: str = "No reason provided."):
+    async def mute(
+        self,
+        ctx: Ctx,
+        victim: discord.Member,
+        duration_str: str = "2w",
+        *,
+        reason: str = "No reason provided.",
+    ):
         if ctx.author == victim:
             await ctx.reply_embed(ctx.l.mod.mute.stupid_1)
             return
@@ -258,7 +265,16 @@ class Mod(commands.Cog):
 
         await victim.timeout(duration, reason=f"{ctx.author} | {reason}")
 
-        await ctx.reply_embed(ctx.l.mod.mute.mute_msg.format(user=victim.mention, duration=unmute_at.humanize(locale=ctx.l.lang, only_distance=True, granularity=get_timedelta_granularity(duration, 3))))
+        await ctx.reply_embed(
+            ctx.l.mod.mute.mute_msg.format(
+                user=victim.mention,
+                duration=unmute_at.humanize(
+                    locale=ctx.l.lang,
+                    only_distance=True,
+                    granularity=get_timedelta_granularity(duration, 3),
+                ),
+            )
+        )
 
     @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu", "untimeout"])
     @commands.guild_only()
