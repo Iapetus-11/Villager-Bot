@@ -684,7 +684,8 @@ class Database(commands.Cog):
         )
 
     async def fetch_guilds_jls(self) -> list[dict[str, Any]]:
-        return await self.db.fetch("""SELECT COALESCE(event_at, event_at_gs) AS event_at, COALESCE(join_count, 0) AS join_count, COALESCE(leave_count, 0) AS leave_count FROM (
+        return await self.db.fetch(
+            """SELECT COALESCE(event_at, event_at_gs) AS event_at, COALESCE(join_count, 0) AS join_count, COALESCE(leave_count, 0) AS leave_count FROM (
     SELECT GENERATE_SERIES(MIN(DATE_TRUNC('day', event_at)), NOW(), '1d') AS event_at_gs FROM guild_events
 ) oj1 LEFT JOIN (
     SELECT join_count, leave_count, COALESCE(iq1.event_at_trunc, iq2.event_at_trunc) AS event_at FROM (
@@ -693,7 +694,8 @@ class Database(commands.Cog):
     FULL OUTER JOIN (
         SELECT COUNT(*) AS leave_count, DATE_TRUNC('day', event_at) AS event_at_trunc FROM guild_events WHERE event_type = 2 GROUP BY event_at_trunc ORDER BY event_at_trunc ASC
     ) iq2 ON iq1.event_at_trunc = iq2.event_at_trunc ORDER BY iq1.event_at_trunc DESC LIMIT 14
-) oj2 ON event_at = event_at_gs ORDER BY event_at DESC LIMIT 14;""")
+) oj2 ON event_at = event_at_gs ORDER BY event_at DESC LIMIT 14;"""
+        )
 
 
 async def setup(bot: VillagerBotCluster) -> None:
