@@ -3,15 +3,73 @@ import math
 import time
 from collections import defaultdict
 from contextlib import suppress
-from typing import Any, List, Tuple
+from typing import Any
 
-import arrow
 import discord
 
 from common.models.db.item import Item
 from common.models.db.user import User
 
 from common.utils.code import format_exception
+
+from datetime import timedelta
+import re
+
+
+DURATION_REGEX = re.compile(
+    r"((?P<weeks>\d+?) ?(weeks|week|W|w) ?)?"
+    r"((?P<days>\d+?) ?(days|day|D|d) ?)?"
+    r"((?P<hours>\d+?) ?(hours|hour|hr|H|h) ?)?"
+    r"((?P<minutes>\d+?) ?(minutes|minute|min|M|m) ?)?"
+    r"((?P<seconds>\d+?) ?(seconds|second|sec|S|s))?"
+)
+
+def parse_timedelta(duration: str) -> timedelta | None:
+    """
+    Converts a `duration` string to a relativedelta objects.
+    - weeks: `w`, `W`, `week`, `weeks`
+    - days: `d`, `D`, `day`, `days`
+    - hours: `H`, `h`, `hour`, `hours`
+    - minutes: `m`, `min`, `minute`, `minutes`
+    - seconds: `S`, `sec`, `s`, `second`, `seconds`
+    The units need to be provided in descending order of magnitude.
+    """
+
+    match = DURATION_REGEX.fullmatch(duration)
+    if not match:
+        return None
+
+    duration_dict = {unit: int(amount) for unit, amount in match.groupdict(default=0).items()}
+
+    delta = timedelta(**duration_dict)
+
+    return delta
+
+
+def get_timedelta_granularity(delta: timedelta, granularity: int) -> list[str]:
+    def _get_timedelta_granularity():
+        if delta.days >= 365:
+            yield "year"
+        
+        if delta.days % 365 >= 31:
+            yield "month"
+
+        if delta.days % 30 >= 7:
+            yield "week"
+
+        if delta.days % 7 >= 1:
+            yield "day"
+
+        if delta.seconds >= 3600:
+            yield "hour"
+
+        if delta.seconds % 3600 >= 60:
+            yield "minute"
+
+        if delta.seconds % 60 >= 1:
+            yield "second"
+
+    return list(_get_timedelta_granularity())[:granularity]
 
 
 def strip_command(ctx):  # returns message.clean_content excluding the command used
@@ -41,7 +99,7 @@ async def _attempt_get_username(bot, user_id: int) -> str:
     return user_name or "unknown user"
 
 
-async def _craft_lb(bot, leaderboard: List[dict[str, Any]], row_fstr: str) -> str:
+async def _craft_lb(bot, leaderboard: list[dict[str, Any]], row_fstr: str) -> str:
     body = ""
     last_idx = 0
 
@@ -61,14 +119,14 @@ async def _craft_lb(bot, leaderboard: List[dict[str, Any]], row_fstr: str) -> st
 
 
 async def craft_lbs(
-    bot, global_lb: List[dict[str, Any]], local_lb: List[dict[str, Any]], row_fstr: str
-) -> Tuple[str, str]:
+    bot, global_lb: list[dict[str, Any]], local_lb: list[dict[str, Any]], row_fstr: str
+) -> tuple[str, str]:
     return await asyncio.gather(
         _craft_lb(bot, global_lb, row_fstr), _craft_lb(bot, local_lb, row_fstr)
     )
 
 
-def calc_total_wealth(db_user: User, items: List[Item]):
+def calc_total_wealth(db_user: User, items: list[Item]):
     return (
         db_user.emeralds
         + db_user.vault_balance * 9
@@ -196,47 +254,6 @@ class MultiLock:
 
     def locked(self, ids: list) -> bool:
         return any([self._locks[i].locked() for i in ids])
-
-
-def parse_input_time(args: List[str]) -> Tuple[bool, arrow.Arrow, str]:
-    at = arrow.utcnow()
-    i = 0
-
-    try:
-        for i, arg in enumerate(args):
-            if arg.endswith("m"):
-                at = at.shift(minutes=int(arg[:-1]))
-            elif arg.endswith("minute"):
-                at = at.shift(minutes=int(arg[:-6]))
-            elif arg.endswith("minutes"):
-                at = at.shift(minutes=int(arg[:-7]))
-            elif arg.endswith("h"):
-                at = at.shift(hours=int(arg[:-1]))
-            elif arg.endswith("hour"):
-                at = at.shift(hours=int(arg[:-4]))
-            elif arg.endswith("hours"):
-                at = at.shift(hours=int(arg[:-5]))
-            elif arg.endswith("d"):
-                at = at.shift(days=int(arg[:-1]))
-            elif arg.endswith("day"):
-                at = at.shift(days=int(arg[:-3]))
-            elif arg.endswith("days"):
-                at = at.shift(days=int(arg[:-4]))
-            elif arg.endswith("w"):
-                at = at.shift(weeks=int(arg[:-1]))
-            elif arg.endswith("week"):
-                at = at.shift(weeks=int(arg[:-4]))
-            elif arg.endswith("weeks"):
-                at = at.shift(weeks=int(arg[:-5]))
-            else:
-                break
-    except ValueError:
-        pass
-
-    if i == 0:
-        return (False, at, " ".join(args[i:]))
-
-    return (True, at, " ".join(args[i:]))
 
 
 def chunk_by_lines(text: str, max_paragraph_size: int) -> str:

@@ -1,9 +1,9 @@
 import json
 import os
-from typing import Any, List
+from typing import Any
 
 
-def check_obj(keys: List[Any], obj: Any, against: Any, against_name: str):
+def check_obj(keys: list[Any], obj: Any, against: Any, against_name: str):
     if isinstance(obj, list):
         obj = dict(enumerate(obj))
 

@@ -46,7 +46,7 @@ class Database(commands.Cog):
         self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime
     ) -> None:
         await self.db.execute(
-            "INSERT INTO reminders (user_id, channel_id, message_id, reminder, at) VALUES ($1, $2, $3, $4, $5)",
+            "INSERT INTO reminders (user_id, channel_id, message_id, reminder, at) VALUES ($1, $2, $3, $4, $5::TEXT::TIMESTAMPTZ)",
             user_id,
             channel_id,
             message_id,
@@ -307,7 +307,7 @@ class Database(commands.Cog):
         self, item: str, amount: int, at: datetime, giver: int, receiver: int
     ) -> None:
         await self.db.execute(
-            "INSERT INTO give_logs (item, amount, at, sender, receiver) VALUES ($1, $2, $3, $4, $5)",
+            "INSERT INTO give_logs (item, amount, at, sender, receiver) VALUES ($1, $2, $3::TEXT::TIMESTAMPTZ, $4, $5)",
             item,
             amount,
             at,

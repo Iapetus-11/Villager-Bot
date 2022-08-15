@@ -128,6 +128,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.shard_ids = cluster_info.shard_ids
         self.cluster_id = cluster_info.cluster_id
 
+        self.aiohttp = aiohttp.ClientSession()
+
         for cog in self.cog_list:
             await self.load_extension(f"bot.cogs.{cog}")
 

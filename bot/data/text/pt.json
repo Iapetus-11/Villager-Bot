@@ -1530,7 +1530,7 @@
         "stupid_1": "Você não pode silenciar a si mesmo.",
         "stupid_2": "Você usou uma formatação inválida, exemplo: `{0}mute @alguém 1w 2d 3h 4m tal razão` irá expulsar por uma semana, dois dias, três horas e quatro minutos.",
         "stupid_3": "Isso está num futuro distante!",
-        "mute_msg": "**{}** foi silenciado."
+        "mute_msg": "**{user}** foi silenciado porfoi silenciado por {duration}"
       },
       "unmute": {
         "stupid_1": "Você não pode retirar seu silenciamento.",
@@ -1664,8 +1664,8 @@
         "rule_4": "**4.** Não use o bot para promover qualquer conteúdo não sancionado pelo proprietário do bot."
       },
       "remind": {
-        "reminder_max": "Você não pode ter mais de 5 lembretes de uma vez.",
-        "stupid_1": "Você usou uma formatação inválida, exemplo: `{0}remindme 1w 2d 3h 4m isso é um exemplo` irá lembrá-lo em uma semana, dois dias, três horas e quatro minutos.",
+        "reminder_max": "Você não pode ter mais de {max} lembretes de uma vez.",
+        "stupid_1": "Você usou uma formatação inválida, exemplo: `{0}remindme 1w2d3h4m isso é um exemplo` irá lembrá-lo em uma semana, dois dias, três horas e quatro minutos.",
         "time_max": "Você não pode definir um lembrete com mais de oito semanas de antecedência.",
         "remind": "{0} será lembrado em {1}.",
         "reminder": "{0}, você queria que eu te lembrasse: *{1}*"
@@ -1677,6 +1677,7 @@
           "iapetus11": "O criador, proprietário e desenvolvedor do Villager Bot",
           "hpancakesk": "Ajudou a ter as ideias originais por trás do Villager Bot",
           "moody": "Ajudou com as ideias por trás de vários itens e pesca",
+          "emulator": "Ajudou com correção de bugs e adição de recursos",
           "elrynd": "Ajudou na correção de bugs, entendimento do código, e traduziu o Villager Bot para o francês",
           "chez": "Criou novos recursos e ajuda a corrigir bugs",
           "quack": "Ajuda a corrigir pequenos problemas com o código e traduções",

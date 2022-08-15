@@ -1528,9 +1528,9 @@
       },
       "mute": {
         "stupid_1": "You cannot mute yourself.",
-        "stupid_2": "You used invalid formatting, example: `{0}mute @someone 1w 2d 3h 4m this is the reason` will timeout someone for one week, two days, three hours, and four minutes.",
+        "stupid_2": "You used invalid formatting, example: `{0}mute @someone 1w2d3h4m this is the reason` will timeout someone for one week, two days, three hours, and four minutes.",
         "stupid_3": "That's too far in the future!",
-        "mute_msg": "**{}** has been muted."
+        "mute_msg": "**{user}** has been muted for {duration}."
       },
       "unmute": {
         "stupid_1": "You cannot unmute yourself.",
@@ -1664,8 +1664,8 @@
         "rule_4": "**4.** Don't use the bot to promote any content not sanctioned by the bot owner."
       },
       "remind": {
-        "reminder_max": "You cannot have more than 5 reminders at once.",
-        "stupid_1": "You used invalid formatting, example: `{0}remindme 1w 2d 3h 4m this is an example` will remind you in one week, two days, three hours, and four minutes.",
+        "reminder_max": "You cannot have more than {max} reminders at once.",
+        "stupid_1": "You used invalid formatting, example: `{0}remindme 1w2d3h4m this is an example` will remind you in one week, two days, three hours, and four minutes.",
         "time_max": "You cannot set a reminder more than eight weeks in advance.",
         "remind": "{0} reminding you {1}.",
         "reminder": "{0}, you wanted me to remind you: *{1}*"
@@ -1677,6 +1677,7 @@
           "iapetus11": "The creator, owner, and developer of Villager Bot",
           "hpancakesk": "Helped come up with the original ideas behind Villager Bot",
           "moody": "Helped with the ideas behind several items and fishing",
+          "emulator": "Helped with bug fixes and feature additions",
           "elrynd": "Has helped with bug fixes and code understanding, and translated Villager Bot into French",
           "chez": "Created new features and helps fix bugs",
           "quack": "Helps fix minor issues with the code and translations",

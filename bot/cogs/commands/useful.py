@@ -4,9 +4,8 @@ import os
 import secrets
 import time
 from contextlib import suppress
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 from urllib.parse import quote as urlquote
-from dateutil.relativedelta import relativedelta
 
 import aiofiles
 import aiohttp
@@ -18,10 +17,9 @@ import psutil
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from discord.ext import commands, tasks
-from bot.utils.command_converters import DurationDelta
 
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, parse_input_time
+from bot.utils.misc import SuppressCtxManager, get_timedelta_granularity, parse_timedelta
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -228,9 +226,9 @@ class Useful(commands.Cog):
         embed_template = discord.Embed(color=self.bot.embed_color)
         embed_template.set_author(name=ctx.l.useful.credits.credits, icon_url=self.d.splash_logo)
 
-        fields: List[Dict[str, str]] = []
+        fields: list[dict[str, str]] = []
 
-        entry: Tuple[int, str]
+        entry: tuple[int, str]
         for i, entry in enumerate(ctx.l.useful.credits.people.items()):
             user_id, contribution = entry
 
@@ -593,15 +591,20 @@ class Useful(commands.Cog):
 
     @commands.command(name="remindme", aliases=["remind"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def remind_me(self, ctx: Ctx, reldel: DurationDelta, *, reminder: str):
-        reldel: relativedelta
+    async def remind_me(self, ctx: Ctx, duration_str: str, *, reminder: str):
         user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
 
-        if user_reminder_count > 5:
-            await ctx.reply_embed(ctx.l.useful.remind.reminder_max)
+        if user_reminder_count > 10:
+            await ctx.reply_embed(ctx.l.useful.remind.reminder_max.format(max=10))
             return
 
-        at = arrow.utcnow() + reldel
+        duration = parse_timedelta(duration_str)
+
+        if duration is None:
+            await ctx.reply_embed(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
+            return
+
+        at = arrow.utcnow() + duration
 
         if at > arrow.utcnow().shift(weeks=8):
             await ctx.reply_embed(ctx.l.useful.remind.time_max)
@@ -615,7 +618,7 @@ class Useful(commands.Cog):
             at.datetime,
         )
         await ctx.reply_embed(
-            ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang))
+            ctx.l.useful.remind.remind.format(self.bot.d.emojis.yes, at.humanize(locale=ctx.l.lang, granularity=get_timedelta_granularity(duration, 3)))
         )
 
     @commands.command(name="snipe")

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from bot.cogs.core.database import Database
 from discord.ext import commands
@@ -39,7 +39,7 @@ class Badges(commands.Cog):
         return " ".join(emojis)
 
     async def update_badge_uncle_scrooge(
-        self, user_id: int, db_user: Optional[User] = None, user_items: List[Item] = None
+        self, user_id: int, db_user: Optional[User] = None, user_items: list[Item] = None
     ) -> None:
         badges = await self.fetch_user_badges(user_id)
 
@@ -57,7 +57,7 @@ class Badges(commands.Cog):
         if total_wealth > 100_000:
             await self.update_user_badges(user_id, uncle_scrooge=True)
 
-    async def update_badge_collector(self, user_id: int, user_items: List[Item] = None) -> None:
+    async def update_badge_collector(self, user_id: int, user_items: list[Item] = None) -> None:
         # Levels are:
         # I -> 16 unique items
         # II -> 32  ||

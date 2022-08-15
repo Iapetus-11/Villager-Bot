@@ -6,7 +6,7 @@ import discord
 from discord.ext import commands
 
 from bot.utils.ctx import Ctx
-from bot.utils.misc import parse_input_time
+from bot.utils.misc import get_timedelta_granularity, parse_timedelta
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -235,7 +235,7 @@ class Mod(commands.Cog):
     @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu", "timeout"])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
-    async def mute(self, ctx: Ctx, victim: discord.Member, *args: str):
+    async def mute(self, ctx: Ctx, victim: discord.Member, duration_str: str = "2w", *, reason: str = "No reason provided."):
         if ctx.author == victim:
             await ctx.reply_embed(ctx.l.mod.mute.stupid_1)
             return
@@ -244,19 +244,21 @@ class Mod(commands.Cog):
             await ctx.reply_embed(ctx.l.mod.no_perms)
             return
 
-        success, at, rest = parse_input_time(args)
+        duration = parse_timedelta(duration_str)
 
-        if not success:
+        if duration is None:
             await ctx.reply_embed(ctx.l.mod.mute.stupid_2.format(ctx.prefix))
             return
 
-        if at > arrow.utcnow().shift(days=27):
+        unmute_at = arrow.utcnow() + duration
+
+        if unmute_at > arrow.utcnow().shift(days=27):
             await ctx.reply_embed(ctx.l.mod.mute.stupid_3)
             return
 
-        await victim.timeout(duration=(at - arrow.utcnow()), reason=f"{ctx.author} | {rest}")
+        await victim.timeout(duration, reason=f"{ctx.author} | {reason}")
 
-        await ctx.reply_embed(ctx.l.mod.mute.mute_msg.format(victim.mention))
+        await ctx.reply_embed(ctx.l.mod.mute.mute_msg.format(user=victim.mention, duration=unmute_at.humanize(locale=ctx.l.lang, only_distance=True, granularity=get_timedelta_granularity(duration, 3))))
 
     @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu", "untimeout"])
     @commands.guild_only()

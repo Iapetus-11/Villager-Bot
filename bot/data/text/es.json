@@ -1664,8 +1664,8 @@
         "rule_4": "**4.** No uses el bot para promocionar cualquier cosa que no sea propiedad del dueño del bot."
       },
       "remind": {
-        "reminder_max": "No puedes tener mas de 5 recordatorios a la vez.",
-        "stupid_1": "Has usado un formato invalido, ejemplo: `{0}remindme 1w 2d 3h 4m esto es un ejemplo` te recordará en una semana, dos días, tres horas y cuatro minutos.",
+        "reminder_max": "No puedes tener mas de {max} recordatorios a la vez.",
+        "stupid_1": "Has usado un formato invalido, ejemplo: `{0}remindme 1w2d3h4m esto es un ejemplo` te recordará en una semana, dos días, tres horas y cuatro minutos.",
         "time_max": "No puedes poner un recordatorio para mas de ocho semanas.",
         "remind": "{0} recordatorio {1}.",
         "reminder": "{0}, querías que te recuerde: *{1}*"

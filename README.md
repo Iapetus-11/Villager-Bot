@@ -3,8 +3,9 @@
 [![Bot Status](https://top.gg/api/widget/status/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
 [![Server Count](https://top.gg/api/widget/servers/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
 [![Support Server](https://img.shields.io/discord/641117791272960031?color=0FAE6E&label=discord%20server)](https://discord.gg/39DwwUV)
+[![CI](https://github.com/Iapetus-11/Villager-Bot/actions/workflows/ci.yml/badge.svg)](https://github.com/Iapetus-11/Villager-Bot/actions/workflows/ci.yml)
 
-## Cool / Notable Features
+## Notable Features
 * Ability to generate Minecraft pixel art from images sent in the chat
 * Ability to ping / check the status of any Minecraft server
 * Expansive economy system (based upon emeralds obviously!)
@@ -19,7 +20,7 @@
 - [Click Here](https://github.com/Iapetus-11/Villager-Bot/blob/main/PRIVACY-POLICY.md)
 
 ## Technologies
-- [discord](https://github.com/Rapptz/discord.py)
+- [discord.py](https://github.com/Rapptz/discord.py)
 - [Cython](https://cython.org/)
 - [OpenCV](https://opencv.org/) + [Numpy](https://numpy.org/)
 - websockets
@@ -35,6 +36,12 @@ If you'd like to contribute code to Villager Bot, then please fork the repositor
 ### Setting up Villager Bot
 1. `git clone` Villager Bot, and `cd` into the `Villager-Bot` directory.
 2. create a [PostgreSQL](https://www.postgresql.org/) database, and execute the contents of `setup.sql` to create the necessary tables.
-3. make a new file called `secrets.json` and fill in the fields based off the `secrets.example.json` file.
+3. make a new file called `secrets.json` and fill in the fields based off the `secrets.example.json` file for both `bot/` and `karen/`
 4. use [poetry](https://python-poetry.org) to install the required dependencies with `poetry install`.
-5. run the bot with either `villager-bot.bat` or `villager-bot.sh`.
+
+### Running Villager Bot
+1. Make sure the specified cluster count in `karen/secrets.json` is `1`
+2. Run Karen with `poetry run py -m karen` (or `poetry run python3 ...` if not on windows)
+3. Run a bot cluster with `poetry run py -m bot` (or `poetry run python3 ...` if not on windows)
+
+- Running with Docker is also possible, but requires a .env file based off the .env.example to be created. Then to build run `docker compose build` and to run `docker compose up`

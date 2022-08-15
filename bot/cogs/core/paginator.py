@@ -60,6 +60,7 @@ class Paginator(commands.Cog):
 
             # wait for a reaction from the user
             try:
+                reaction: discord.Reaction
                 reaction, _ = await self.bot.wait_for(
                     "reaction_add", check=self._create_reaction_check(ctx, msg), timeout=timeout
                 )
@@ -67,7 +68,6 @@ class Paginator(commands.Cog):
                 await asyncio.wait([msg.remove_reaction(e, ctx.me) for e in NAV_EMOJIS])
                 return
 
-            reaction: discord.Reaction
             emoji = str(reaction.emoji)
 
             if emoji == LEFT_ARROW:
