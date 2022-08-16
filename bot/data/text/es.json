@@ -45,6 +45,14 @@
         "minutes": "minutos",
         "second": "segundo",
         "seconds": "segundos"
+      },
+      "intro": {
+        "body": [
+          "¡Hola a todos! ¡Escribe `{prefix}help` para empezar a usar Villager Bot!",
+          "Si necesitas más ayuda, únete al **[Servidor de Soporte]({support_server})**!\n",
+          "*Nuestra política de privacidad puede encontrarse [aquí]({privacy_policy}).*"
+        ],
+        "footer": "Hecho por Iapetus y más ({prefix}credits)  |  Revisa las {prefix}rules"
       }
     },
     "help": {

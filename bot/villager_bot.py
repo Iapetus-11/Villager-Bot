@@ -262,7 +262,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     async def after_command_invoked(self, ctx: CustomContext):
         try:
-            if ctx.command.name in self.d.concurrency_limited:
+            if str(ctx.command) in self.d.concurrency_limited:
                 await self.karen.release_concurrency(ctx.command.name, ctx.author.id)
         except Exception:
             self.logger.error(

@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from websockets.server import WebSocketServerProtocol, serve
 
 from common.coms.coms_base import ComsBase
-from common.coms.errors import InvalidPacketReceived
+from common.coms.errors import InvalidPacketReceived, NoConnectedClientsError
 from common.coms.packet import T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler, PacketType
 
@@ -77,7 +77,7 @@ class Server(ComsBase):
         self, packet_type: PacketType, packet_data: T_PACKET_DATA = None
     ) -> list[T_PACKET_DATA]:
         if len(self._connections) == 0:
-            raise RuntimeError("There are no connected clients to broadcast to.")
+            raise NoConnectedClientsError()
 
         broadcast_id = self._get_packet_id("b")
         broadcast_packet = Packet(id=broadcast_id, type=packet_type, data=packet_data)

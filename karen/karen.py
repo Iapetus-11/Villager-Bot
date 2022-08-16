@@ -200,12 +200,9 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             "UPDATE leaderboards SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) WHERE DATE_TRUNC('WEEK', NOW()) > week"
         )
 
-    @recurring_task(hours=1)
+    @recurring_task(hours=1, sleep_first=True)
     async def loop_topgg_stats(self):
-        try:
-            responses = await self.server.broadcast(PacketType.FETCH_GUILD_COUNT)
-        except RuntimeError:
-            return
+        responses = await self.server.broadcast(PacketType.FETCH_GUILD_COUNT)
 
         await self.aiohttp.post(
             f"https://top.gg/api/bots/{self.k.bot_id}/stats",

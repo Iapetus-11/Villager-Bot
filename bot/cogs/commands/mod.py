@@ -288,7 +288,7 @@ class Mod(commands.Cog):
             await ctx.reply_embed(ctx.l.mod.no_perms)
             return
 
-        if user.current_timeout is None:
+        if not user.is_timed_out():
             await ctx.reply_embed(ctx.l.mod.unmute.stupid_2.format(user.mention))
             return
 

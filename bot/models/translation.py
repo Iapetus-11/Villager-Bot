@@ -27,6 +27,11 @@ class Misc_Time(ImmutableBaseModel):
     seconds: str
 
 
+class Misc_Intro(ImmutableBaseModel):
+    body: list[str]
+    footer: str
+
+
 class Misc(ImmutableBaseModel):
     pingpong: str
     cooldown_msgs: list[str]

@@ -1024,7 +1024,7 @@ class Econ(commands.Cog):
 
         # iterate through items findable via mining
         for item in self.d.mining.findables:
-            # check if user should get item based on rarity (item[2])
+            # check if user should get item based on rarity (item.rarity)
             if random.randint(0, item.rarity) == 1 or (
                 lucky and random.randint(0, item.rarity) < 3
             ):
@@ -1035,8 +1035,8 @@ class Econ(commands.Cog):
                     + ctx.l.econ.mine.found_item_1.format(
                         random.choice(ctx.l.econ.mine.actions),
                         1,
-                        item[0],
-                        item[1],
+                        item.item,
+                        item.sell_price,
                         self.d.emojis.emerald,
                         random.choice(ctx.l.econ.mine.places),
                     ),
@@ -1113,22 +1113,20 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             wait = random.randint(12, 32)
 
-            lure_i_book, active_effects = await asyncio.gather(
+            lure_i_book, seaweed_active, lucky = await asyncio.gather(
                 self.db.fetch_item(ctx.author.id, "Lure I Book"),
-                self.karen.fetch_active_fx(ctx.author.id),
+                self.karen.check_active_fx(ctx.author.id, "Seaweed"),
+                self.karen.check_active_fx(ctx.author.id, "Luck Potion")
             )
 
             if lure_i_book is not None:
                 wait -= 4
 
-            if "seaweed" in active_effects:
+            if seaweed_active:
                 wait -= 12
                 wait = max(random.randint(3, 10), wait)
 
             await asyncio.sleep(wait)
-
-        # see if user has chugged a luck potion
-        lucky = await self.karen.check_active_fx(ctx.author.id, "Luck Potion")
 
         # determine if user has fished up junk or an item (rather than a fish)
         if random.randint(1, 8) == 1 or (lucky and random.randint(1, 5) == 1):
@@ -1152,17 +1150,18 @@ class Econ(commands.Cog):
             # iterate through fishing findables until something is found
             while True:
                 for item in self.d.fishing.findables:
-                    if random.randint(0, (item[2] // 2) + 2) == 1:
-                        await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                    if random.randint(0, (item.rarity // 2) + 2) == 1:
+                        await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
                         await ctx.reply_embed(
                             random.choice(ctx.l.econ.fishing.item).format(
-                                item[0], item[1], self.d.emojis.emerald
+                                item.item, item.sell_price, self.d.emojis.emerald
                             ),
                             True,
                         )
                         return
-
-        fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fish_weights)[0]
+        
+        fish_weights = [(len(self.d.fishing.fish) - fish_data.rarity) ** self.d.fishing.exponent for fish_data in self.d.fishing.fish.values()]
+        fish_id = random.choices(self.d.fishing.fish_ids, fish_weights)[0]
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish.name, -1, 1)
@@ -1440,11 +1439,11 @@ class Econ(commands.Cog):
 
             while True:
                 for item in self.d.mining.findables:
-                    if random.randint(0, (item[2] // 2) + 2) == 1:
-                        await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                    if random.randint(0, (item.rarity // 2) + 2) == 1:
+                        await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
                         await ctx.reply_embed(
                             random.choice(ctx.l.econ.use.present).format(
-                                item[0], item[1], self.d.emojis.emerald
+                                item.item, item.sell_price, self.d.emojis.emerald
                             )
                         )
 
@@ -1459,12 +1458,12 @@ class Econ(commands.Cog):
 
             for _ in range(20):
                 for item in self.d.mining.findables:
-                    if item[2] > 1000:
-                        if random.randint(0, (item[2] // 1.5) + 5) == 1:
-                            await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                    if item.rarity > 1000:
+                        if random.randint(0, (item.rarity // 1.5) + 5) == 1:
+                            await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
                             await ctx.reply_embed(
                                 random.choice(ctx.l.econ.use.barrel_item).format(
-                                    item[0], item[1], self.d.emojis.emerald
+                                    item.item, item.sell_price, self.d.emojis.emerald
                                 )
                             )
 
@@ -2071,7 +2070,7 @@ class Econ(commands.Cog):
     @commands.guild_only()
     @commands.is_owner()
     async def fight(self, ctx: Ctx):
-        DUMMY_TRUE = True  # signifies that the true value is for testing only
+        DUMMY_TRUE = True  # signifies that the true value is for testing only  # TODO: remove
 
         user_1 = ctx.author
 

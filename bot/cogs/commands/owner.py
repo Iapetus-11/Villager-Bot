@@ -30,21 +30,21 @@ class Owner(commands.Cog):
     def paginator(self) -> Paginator:
         return self.bot.get_cog("Paginator")
 
-    @commands.command(name="reload")
-    @commands.is_owner()
-    async def reload_cog(self, ctx: Ctx, cog: str):
-        await self.karen.reload_cog(f"bot.cogs.{cog}")
+    # @commands.command(name="reload")
+    # @commands.is_owner()
+    # async def reload_cog(self, ctx: Ctx, cog: str):
+    #     await self.karen.reload_cog(f"bot.cogs.{cog}")
 
-        await ctx.message.add_reaction(self.d.emojis.yes)
+    #     await ctx.message.add_reaction(self.d.emojis.yes)
 
-    @commands.command(name="reloaddata", aliases=["update", "updatedata"])
-    @commands.is_owner()
-    async def update_data(self, ctx: Ctx):
-        """Reloads data from data.json and text from the translation files"""
+    # @commands.command(name="reloaddata", aliases=["update", "updatedata"])
+    # @commands.is_owner()
+    # async def update_data(self, ctx: Ctx):
+    #     """Reloads data from data.json and text from the translation files"""
 
-        await self.karen.reload_data()
+    #     await self.karen.reload_data()
 
-        await ctx.message.add_reaction(self.d.emojis.yes)
+    #     await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name="evallocal", aliases=["eval", "evall"])
     @commands.is_owner()
