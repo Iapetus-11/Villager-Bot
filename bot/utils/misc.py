@@ -78,33 +78,33 @@ def clean_text(msg: discord.Message, text: str) -> str:
 
         def resolve_member(id: int) -> str:
             m = msg.guild.get_member(id) or discord.utils.get(msg.mentions, id=id)  # type: ignore
-            return f'@{m.display_name}' if m else '@deleted-user'
+            return f"@{m.display_name}" if m else "@deleted-user"
 
         def resolve_role(id: int) -> str:
             r = msg.guild.get_role(id) or utils.get(msg.role_mentions, id=id)  # type: ignore
-            return f'@{r.name}' if r else '@deleted-role'
+            return f"@{r.name}" if r else "@deleted-role"
 
         def resolve_channel(id: int) -> str:
             c = msg.guild._resolve_channel(id)  # type: ignore
-            return f'#{c.name}' if c else '#deleted-channel'
+            return f"#{c.name}" if c else "#deleted-channel"
 
     else:
 
         def resolve_member(id: int) -> str:
             m = discord.utils.get(msg.mentions, id=id)
-            return f'@{m.display_name}' if m else '@deleted-user'
+            return f"@{m.display_name}" if m else "@deleted-user"
 
         def resolve_role(id: int) -> str:
-            return '@deleted-role'
+            return "@deleted-role"
 
         def resolve_channel(id: int) -> str:
-            return f'#deleted-channel'
+            return f"#deleted-channel"
 
     transforms = {
-        '@': resolve_member,
-        '@!': resolve_member,
-        '#': resolve_channel,
-        '@&': resolve_role,
+        "@": resolve_member,
+        "@!": resolve_member,
+        "#": resolve_channel,
+        "@&": resolve_role,
     }
 
     def repl(match: re.Match) -> str:
@@ -113,7 +113,7 @@ def clean_text(msg: discord.Message, text: str) -> str:
         transformed = transforms[type](id)
         return transformed
 
-    result = re.sub(r'<(@[!&]?|#)([0-9]{15,20})>', repl, text)
+    result = re.sub(r"<(@[!&]?|#)([0-9]{15,20})>", repl, text)
 
     return discord.utils.escape_mentions(result)
 
@@ -328,6 +328,6 @@ class MaxKarenConcurrencyReached(Exception):
 
 def shorten_text(text: str, to: int = 2000) -> str:
     if len(text) > to:
-        return text[:to-1] + "…"
+        return text[: to - 1] + "…"
 
     return text

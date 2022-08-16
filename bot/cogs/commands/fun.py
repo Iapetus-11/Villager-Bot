@@ -35,7 +35,9 @@ class Fun(commands.Cog):
 
         return msg
 
-    async def reddit_post_logic(self, ctx: Ctx, post_type: str, *, show_details: bool = True) -> None:
+    async def reddit_post_logic(
+        self, ctx: Ctx, post_type: str, *, show_details: bool = True
+    ) -> None:
         do_nsfw = False
 
         if isinstance(ctx.channel, discord.TextChannel):
@@ -61,8 +63,8 @@ class Fun(commands.Cog):
             embed.set_footer(
                 text=f"{post['upvotes']}  |  u/{post['author']}", icon_url=self.d.upvote_emoji_image
             )
-            
-        embed.set_image(url=post['image'])
+
+        embed.set_image(url=post["image"])
 
         await ctx.send(embed=embed)
 
@@ -134,7 +136,9 @@ class Fun(commands.Cog):
     async def enchant_lang(self, ctx: Ctx, *, text: str):
         """Turns regular text into the Minecraft enchantment table language"""
 
-        translated = self.lang_convert(clean_text(ctx.message, text).lower(), self.d.fun_langs.enchant)
+        translated = self.lang_convert(
+            clean_text(ctx.message, text).lower(), self.d.fun_langs.enchant
+        )
         await ctx.send(shorten_text(translated))
 
     @commands.command(name="unenchant")
@@ -245,7 +249,9 @@ class Fun(commands.Cog):
         if isinstance(thing, discord.Member):
             thing = thing.mention
 
-        await ctx.send_embed(random.choice(self.d.kills).format(shorten_text(thing, 500), ctx.author.mention))
+        await ctx.send_embed(
+            random.choice(self.d.kills).format(shorten_text(thing, 500), ctx.author.mention)
+        )
 
     @commands.command(name="coinflip", aliases=["flipcoin", "cf"])
     async def coin_flip(self, ctx: Ctx):
@@ -275,7 +281,10 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(
             color=self.bot.embed_color,
-            title=shorten_text(f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}", 256),
+            title=shorten_text(
+                f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}",
+                256,
+            ),
         )
         embed.set_image(url=image_url)
 
@@ -422,9 +431,7 @@ class Fun(commands.Cog):
             )
 
         try:
-            react, _ = await self.bot.wait_for(
-                "reaction_add", check=reaction_check, timeout=15
-            )
+            react, _ = await self.bot.wait_for("reaction_add", check=reaction_check, timeout=15)
         except asyncio.TimeoutError:
             embed = discord.Embed(
                 color=self.bot.embed_color,
@@ -481,7 +488,9 @@ class Fun(commands.Cog):
         elif isinstance(thing, discord.Member):
             thing = thing.mention
 
-        await ctx.reply_embed(ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", shorten_text(thing, 256)))
+        await ctx.reply_embed(
+            ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", shorten_text(thing, 256))
+        )
 
 
 async def setup(bot: VillagerBotCluster) -> None:

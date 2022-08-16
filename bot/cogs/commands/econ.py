@@ -1116,7 +1116,7 @@ class Econ(commands.Cog):
             lure_i_book, seaweed_active, lucky = await asyncio.gather(
                 self.db.fetch_item(ctx.author.id, "Lure I Book"),
                 self.karen.check_active_fx(ctx.author.id, "Seaweed"),
-                self.karen.check_active_fx(ctx.author.id, "Luck Potion")
+                self.karen.check_active_fx(ctx.author.id, "Luck Potion"),
             )
 
             if lure_i_book is not None:
@@ -1151,7 +1151,9 @@ class Econ(commands.Cog):
             while True:
                 for item in self.d.fishing.findables:
                     if random.randint(0, (item.rarity // 2) + 2) == 1:
-                        await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
+                        await self.db.add_item(
+                            ctx.author.id, item.item, item.sell_price, 1, item.sticky
+                        )
                         await ctx.reply_embed(
                             random.choice(ctx.l.econ.fishing.item).format(
                                 item.item, item.sell_price, self.d.emojis.emerald
@@ -1159,8 +1161,11 @@ class Econ(commands.Cog):
                             True,
                         )
                         return
-        
-        fish_weights = [(len(self.d.fishing.fish) - fish_data.rarity) ** self.d.fishing.exponent for fish_data in self.d.fishing.fish.values()]
+
+        fish_weights = [
+            (len(self.d.fishing.fish) - fish_data.rarity) ** self.d.fishing.exponent
+            for fish_data in self.d.fishing.fish.values()
+        ]
         fish_id = random.choices(self.d.fishing.fish_ids, fish_weights)[0]
         fish = self.d.fishing.fish[fish_id]
 
@@ -1440,7 +1445,9 @@ class Econ(commands.Cog):
             while True:
                 for item in self.d.mining.findables:
                     if random.randint(0, (item.rarity // 2) + 2) == 1:
-                        await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
+                        await self.db.add_item(
+                            ctx.author.id, item.item, item.sell_price, 1, item.sticky
+                        )
                         await ctx.reply_embed(
                             random.choice(ctx.l.econ.use.present).format(
                                 item.item, item.sell_price, self.d.emojis.emerald
@@ -1460,7 +1467,9 @@ class Econ(commands.Cog):
                 for item in self.d.mining.findables:
                     if item.rarity > 1000:
                         if random.randint(0, (item.rarity // 1.5) + 5) == 1:
-                            await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
+                            await self.db.add_item(
+                                ctx.author.id, item.item, item.sell_price, 1, item.sticky
+                            )
                             await ctx.reply_embed(
                                 random.choice(ctx.l.econ.use.barrel_item).format(
                                     item.item, item.sell_price, self.d.emojis.emerald
