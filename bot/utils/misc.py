@@ -81,7 +81,7 @@ def clean_text(msg: discord.Message, text: str) -> str:
             return f"@{m.display_name}" if m else "@deleted-user"
 
         def resolve_role(id: int) -> str:
-            r = msg.guild.get_role(id) or utils.get(msg.role_mentions, id=id)  # type: ignore
+            r = msg.guild.get_role(id) or discord.utils.get(msg.role_mentions, id=id)  # type: ignore
             return f"@{r.name}" if r else "@deleted-role"
 
         def resolve_channel(id: int) -> str:
@@ -98,7 +98,7 @@ def clean_text(msg: discord.Message, text: str) -> str:
             return "@deleted-role"
 
         def resolve_channel(id: int) -> str:
-            return f"#deleted-channel"
+            return "#deleted-channel"
 
     transforms = {
         "@": resolve_member,
