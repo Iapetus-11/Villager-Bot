@@ -68,9 +68,13 @@ class ComsBase:
             handler_kwargs,
         )
 
-        response = await validate_arguments(handler.function)(
-            *handler_args, **handler_kwargs, **extra
-        )
+        try:
+            response = await validate_arguments(handler.function)(
+                *handler_args, **handler_kwargs, **extra
+            )
+        except ValidationError:
+            self.logger.info("A ValidationError ocurred while calling the packet handler %s with args %s and kwargs %s", handler.function.__qualname__, handler_args, handler_kwargs)
+            raise
 
         if not isinstance(response, PACKET_DATA_TYPES):
             raise ValueError(
