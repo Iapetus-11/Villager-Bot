@@ -45,6 +45,14 @@
         "minutes": "minutes",
         "second": "seconde",
         "seconds": "secondes"
+      },
+      "intro": {
+        "body": [
+          "Bonjours à tous! Écris `{prefix}help` pour commencer à utiliser le Villager Bot!",
+          "Si vous avez besoin d'aide, jettez un coup d'oeil par içi **[Support Server]({support_server})**!\n",
+          "*Notre politique de confidentialité peut être consultée içi [here]({privacy_policy}).*"
+        ],
+        "footer": "Fait par Iapetus11 et bien d'autres ({prefix}credits)  |  jette un coup d'oeil aux {prefix}rules"
       }
     },
     "help": {
@@ -147,7 +155,7 @@
         "kick": "`{0}kick <utilisateur> [optionnel: raison]` *kick l'utilisateur du serveur Discord actuel*",
         "ban": "`{0}ban <utilisateur> [optionnel: nombre de jours de messages à supprimer] [optional: raison]` *bannit l'utilisateur du serveur Discord actuel*",
         "pardon": "`{0}pardon <utilisateur>` *débannit l'utilisateur du serveur Discord actuel*",
-        "mute": "`{0}mute <utilisateur>` *rend l'utilisateur muet sur le serveur Discord actuel*",
+        "mute": "`{0}mute <user> [time] [reason]` *Coupe le son de l'utilisateur dans le serveur actuel*",
         "unmute": "`{0}unmute <utilisateur>` *redonne la parole à l'utilisateur sur le serveur Discord actuel*"
       }
     },
@@ -1530,7 +1538,7 @@
         "stupid_1": "Tu ne peux pas te rendre muet",
         "stupid_2": "Vous avez utilisé un formatage invalide, exemple: `{0}mute @someone 1w 2d 3h 4m voici la raison` banera temporairement quelqu'un pendant une semaine, deux jours, trois heures, et quatre minutes.",
         "stupid_3": "C'est trop loin dans le futur!",
-        "mute_msg": "**{}** a été rendu muet."
+        "mute_msg": "**{user}** à été silencié pendant {duration}."
       },
       "unmute": {
         "stupid_1": "Tu ne peux pas te redonner la parole",
@@ -1677,6 +1685,7 @@
           "iapetus11": "Le créateur, propriétaire, et développeur du Villager Bot",
           "hpancakesk": "A aidé à l'élaboration des idées à l'origine du Villager Bot",
           "moody": "A aidé pours les idées à l'origine de certains objets et de la pêche",
+          "emulator": "A aidé à corriger des bug et l'ajout de fonctionnalités",
           "elrynd": "A aidé à la correction de bugs, à la compréhension du code, et a traduit le Villager Bot en français",
           "chez": "A créé de nouvelles fonctionalités et aide à la correction de bugs",
           "quack": "Aide à corriger des problèmes mineurs dans le code et les traductions",

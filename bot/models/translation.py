@@ -39,6 +39,7 @@ class Misc(ImmutableBaseModel):
     tips: list[str]
     tip_intros: list[str]
     time: Misc_Time
+    intro: Misc_Intro
 
 
 class Help_Main(ImmutableBaseModel):
