@@ -48,7 +48,9 @@ class ComsBase:
             self.logger.error("Missing packet handler for packet type %s", packet.type)
             raise ValueError(f"Missing packet handler for packet type {packet.type.name}")
 
-        annos = {k: v for k, v in handler.function.__annotations__.items() if k not in {"self", "return"}}
+        annos = {
+            k: v for k, v in handler.function.__annotations__.items() if k not in {"self", "return"}
+        }
 
         # remove any **extra keys/values which aren't expected by the handler function
         for extra_k in list(extra.keys()):
@@ -63,7 +65,7 @@ class ComsBase:
         elif packet.data is None:
             # check if None is an expected value for an argument rather than signifying there's no data passed
             if len(annos) != 0:
-                handler_args.append(None)                                
+                handler_args.append(None)
         else:
             handler_args.append(packet.data)
 
