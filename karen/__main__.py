@@ -25,7 +25,7 @@ async def main():
         if os.name != "nt":
             # register sigterm handler
             asyncio.get_event_loop().add_signal_handler(
-                signal.SIGTERM, lambda: asyncio.ensure_future(karen.stop)
+                signal.SIGTERM, lambda: asyncio.create_task(karen.stop)
             )
 
         await karen.serve()

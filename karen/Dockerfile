@@ -1,5 +1,7 @@
 FROM python:3.10-slim-buster
 
+ENV PYTHONUNBUFFERED=TRUE
+
 # install essential packages
 RUN apt-get update -y
 RUN apt-get install -y git build-essential

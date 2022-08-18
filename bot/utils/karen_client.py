@@ -167,7 +167,7 @@ class KarenClient:
 
     @validate_return
     async def get_user_name(self, user_id: int) -> Optional[str]:
-        resps = await self._client.broadcast(PacketType.GET_USER_NAME, user_id=user_id)
+        resps = await self._broadcast(PacketType.GET_USER_NAME, user_id=user_id)
 
         for resp in resps:
             if resp is not None:
@@ -194,10 +194,6 @@ class KarenClient:
     @validate_return
     async def exec_code_all(self, code: str) -> Any:
         return await self._broadcast(PacketType.EXEC_CODE, code=code)
-
-    # @validate_return
-    # async def exec_code_karen(self, code: str) -> T_PACKET_DATA:
-    #     return await self._send(PacketType.EXEC_CODE, code=code)
 
     @validate_return
     async def botban_cache_add(self, user_id: int) -> None:

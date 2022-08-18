@@ -404,7 +404,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     @handle_packet(PacketType.FETCH_GUILD_IDS)
     async def packet_fetch_guild_ids(self):
         await self.wait_until_ready()
-        self.logger.info("recvd FETCH_GUILD_IDS")
         return [g.id for g in self.guilds]
 
     @handle_packet(PacketType.SHUTDOWN)
