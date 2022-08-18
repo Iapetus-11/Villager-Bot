@@ -27,6 +27,7 @@ def setup_logging() -> logging.Logger:
     )
 
     logging.getLogger("karen.server.ws").setLevel(logging.INFO)
+    logging.getLogger("karen.loops").setLevel(logging.INFO)
 
     return logging.getLogger("karen")
 

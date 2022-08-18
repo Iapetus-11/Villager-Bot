@@ -221,6 +221,7 @@ class Owner(commands.Cog):
         rows = [record["join_count"] - record["leave_count"] for record in rows]
         rows = [
             ("+" if r > 0 else "-" if r < 0 else "~")
+            + " "
             + "#" * abs(r)
             + (f" ({r:+})" if r != 0 else "")
             for r in rows

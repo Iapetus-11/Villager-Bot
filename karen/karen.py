@@ -77,7 +77,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         self._did_initial_load = False
 
-        RecurringTasksMixin.__init__(self, logger)
+        RecurringTasksMixin.__init__(self, logger.getChild("loops"))
 
     @property
     def db(self) -> asyncpg.Pool:
