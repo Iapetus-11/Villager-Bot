@@ -67,7 +67,7 @@ class Useful(commands.Cog):
                 except KeyError:
                     pass
 
-    @commands.group(name="help", case_insensitive=True)
+    @commands.hybrid_group(name="help", case_insensitive=True)
     async def help(self, ctx: Ctx):
         if ctx.invoked_subcommand is None:
             cmd = ctx.message.content.replace(f"{ctx.prefix}help ", "")
