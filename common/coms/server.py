@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from typing import Any, Awaitable, Callable, Coroutine, Optional
+from typing import Any, Callable, Coroutine, Optional
 import uuid
 
 from pydantic import BaseModel
