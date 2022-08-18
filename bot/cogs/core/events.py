@@ -109,12 +109,16 @@ class Events(commands.Cog):
 
         if channel is None:
             return
-    
+
         translation = self.bot.l[self.bot.language_cache.get(guild.id, "en")]
 
         embed = discord.Embed(
             color=self.bot.embed_color,
-            description="\n".join(translation.misc.intro.body).format(prefix=self.k.default_prefix, support_server=self.d.support, privacy_policy=self.d.privacy_policy),
+            description="\n".join(translation.misc.intro.body).format(
+                prefix=self.k.default_prefix,
+                support_server=self.d.support,
+                privacy_policy=self.d.privacy_policy,
+            ),
         )
 
         embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)

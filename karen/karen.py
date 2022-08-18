@@ -154,24 +154,34 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     async def _update_guild_diffs(self):
         logger.info("Updating guild events table with missed joins and leaves...")
 
-        current_guilds_db = await self.db.fetch("""SELECT COALESCE(js.guild_id, ls.guild_id) AS guild_id FROM (
+        current_guilds_db = await self.db.fetch(
+            """SELECT COALESCE(js.guild_id, ls.guild_id) AS guild_id FROM (
     SELECT guild_id, COUNT(*) AS c FROM guild_events WHERE event_type = 1 GROUP BY guild_id) js
 FULL JOIN (
     SELECT guild_id, COUNT(*) AS c FROM guild_events WHERE event_type = 2 GROUP BY guild_id) ls
-ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""")
+ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0"""
+        )
 
         current_guilds_db: set[int] = {r["guild_id"] for r in current_guilds_db}
 
-        current_guilds = set[int](itertools.chain.from_iterable(await self.server.broadcast(PacketType.FETCH_GUILD_IDS)))
+        current_guilds = set[int](
+            itertools.chain.from_iterable(await self.server.broadcast(PacketType.FETCH_GUILD_IDS))
+        )
 
         missed_guild_joins = current_guilds - current_guilds_db
         missed_guild_leaves = current_guilds_db - current_guilds
 
-        await self.db.executemany("INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, 0, 0)", [(guild_id, GuildEventType.GUILD_JOIN.value) for guild_id in missed_guild_joins])
-        await self.db.executemany("INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, 0, 0)", [(guild_id, GuildEventType.GUILD_LEAVE.value) for guild_id in missed_guild_leaves])
+        await self.db.executemany(
+            "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, 0, 0)",
+            [(guild_id, GuildEventType.GUILD_JOIN.value) for guild_id in missed_guild_joins],
+        )
+        await self.db.executemany(
+            "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, 0, 0)",
+            [(guild_id, GuildEventType.GUILD_LEAVE.value) for guild_id in missed_guild_leaves],
+        )
 
         logger.info("Done updating guild events table")
-        
+
     @classmethod
     def _transform_query_result(cls, result: Any) -> Any:
         if isinstance(result, list):

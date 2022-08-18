@@ -50,7 +50,9 @@ class Server(ComsBase):
         return f"{t}{packet_id}"
 
     async def serve(self, ready_cb: Optional[Callable[[], None]] = None) -> None:
-        async with serve(self._handle_connection, self.host, self.port, logger=self.logger.getChild("ws")):
+        async with serve(
+            self._handle_connection, self.host, self.port, logger=self.logger.getChild("ws")
+        ):
             if ready_cb is not None:
                 ready_cb()
 
@@ -151,7 +153,7 @@ class Server(ComsBase):
 
                     self._connections.append(ws)
                     authed = True
-                    
+
                     if self.connect_cb:
                         asyncio.create_task(self.connect_cb(ws.id))
 
