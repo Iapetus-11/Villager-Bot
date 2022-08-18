@@ -58,7 +58,7 @@ class Server(ComsBase):
             if ready_cb is not None:
                 ready_cb()
 
-            await self._stop.wait()            
+            await self._stop.wait()
 
     async def stop(self) -> None:
         if self._connections:
@@ -83,7 +83,9 @@ class Server(ComsBase):
         if self.disconnect_cb:
             asyncio.create_task(self.disconnect_cb(ws.id))
 
-    async def raw_broadcast(self, packet_type: PacketType, packet_data: T_PACKET_DATA = None) -> None:
+    async def raw_broadcast(
+        self, packet_type: PacketType, packet_data: T_PACKET_DATA = None
+    ) -> None:
         packet = Packet(id=self._get_packet_id("b"), type=packet_type, data=packet_data)
         coros = [self._send(c, packet) for c in self._connections]
         await asyncio.wait(coros)

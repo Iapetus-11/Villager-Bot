@@ -94,6 +94,8 @@ class ComsBase:
                 f"Packet handler {handler.function.__qualname__} returned an unsupported type: {type(response)!r}"
             )
 
-        self.logger.debug("Received value %s from packet handler %s", response, handler.function.__qualname__)
+        self.logger.debug(
+            "Received value %s from packet handler %s", response, handler.function.__qualname__
+        )
 
         return response

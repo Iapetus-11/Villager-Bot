@@ -237,5 +237,6 @@ class Owner(commands.Cog):
         await ctx.message.add_reaction(self.d.emojis.yes)
         await self.karen.shutdown()
 
+
 async def setup(bot: VillagerBotCluster) -> None:
     await bot.add_cog(Owner(bot))
