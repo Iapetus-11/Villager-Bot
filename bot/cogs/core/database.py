@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 import discord
-from bot.data.enums.guild_event_type import GuildEventType
+from common.data.enums.guild_event_type import GuildEventType
 from discord.ext import commands
 
 from common.models.db.guild import Guild
@@ -29,11 +29,11 @@ class Database(commands.Cog):
     def badges(self):
         return self.bot.get_cog("Badges")
 
-    async def populate_caches(self):  # initial caches for speeeeeed
-        # caches which need to be maintained cross-process *regardless*
+    async def populate_caches(self):
+        # caches which need to be maintained across all clusters
         self.bot.botban_cache = await self.fetch_all_botbans()
 
-        # per-guild caches, should only load settings for guilds the process can actually see
+        # per-guild caches, should only load settings for guilds the cluster can actually see
         self.bot.disabled_commands.update(await self.fetch_all_disabled_commands())
         self.bot.language_cache = await self.fetch_all_guild_langs()
         self.bot.prefix_cache = await self.fetch_all_guild_prefixes()
@@ -693,7 +693,7 @@ class Database(commands.Cog):
     ) iq1
     FULL OUTER JOIN (
         SELECT COUNT(*) AS leave_count, DATE_TRUNC('day', event_at) AS event_at_trunc FROM guild_events WHERE event_type = 2 GROUP BY event_at_trunc ORDER BY event_at_trunc ASC
-    ) iq2 ON iq1.event_at_trunc = iq2.event_at_trunc ORDER BY iq1.event_at_trunc DESC LIMIT 14
+    ) iq2 ON iq1.event_at_trunc = iq2.event_at_trunc ORDER BY iq1.event_at_trunc DESC LIMIT 15
 ) oj2 ON event_at = event_at_gs ORDER BY event_at DESC LIMIT 14;"""
         )
 

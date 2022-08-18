@@ -109,18 +109,16 @@ class Events(commands.Cog):
 
         if channel is None:
             return
+    
+        translation = self.bot.l[self.bot.language_cache.get(guild.id, "en")]
 
         embed = discord.Embed(
             color=self.bot.embed_color,
-            description=f"Hey y'all! Type `{self.k.default_prefix}help` to get started with Villager Bot!\n"
-            f"If you need any more help, check out the **[Support Server]({self.d.support})**!\n\n"
-            f"*Our privacy policy can be found [here]({self.d.privacy_policy}).*",
+            description="\n".join(translation.misc.intro.body).format(prefix=self.k.default_prefix, support_server=self.d.support, privacy_policy=self.d.privacy_policy),
         )
 
         embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
-        embed.set_footer(
-            text=f"Made by Iapetus11 and others ({self.k.default_prefix}credits)  |  Check the {self.k.default_prefix}rules"
-        )
+        embed.set_footer(text=translation.misc.intro.footer.format(prefix=self.k.default_prefix))
 
         with suppress(discord.errors.Forbidden):
             await channel.send(embed=embed)
@@ -367,7 +365,7 @@ class Events(commands.Cog):
         if getattr(ctx, "custom_error", None):
             e = ctx.custom_error
 
-        if not isinstance(e, MaxKarenConcurrencyReached):
+        if not isinstance(e, MaxKarenConcurrencyReached) and ctx.command:
             await self.karen.release_concurrency(ctx.command.name, ctx.author.id)
 
         if isinstance(e, commands.CommandOnCooldown):

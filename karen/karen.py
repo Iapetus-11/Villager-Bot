@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import itertools
 import time
 from collections import defaultdict
 from typing import Any, Optional
@@ -18,6 +19,7 @@ from common.models.data import Data
 from common.utils.code import execute_code
 from common.utils.misc import chunk_sequence
 from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
+from common.data.enums.guild_event_type import GuildEventType
 
 from karen.models.secrets import Secrets
 from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
@@ -51,6 +53,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         self._db: Optional[asyncpg.Pool] = None
 
         self.ready_event = asyncio.Event()
+        self.all_clusters_connected_event = asyncio.Event()
 
         self.server = Server(
             secrets.karen.host,
@@ -58,6 +61,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             secrets.karen.auth,
             self.get_packet_handlers(),
             logger,
+            self._connect_callback,
             self._disconnect_callback,
         )
 
@@ -71,6 +75,8 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         self.shard_ids = ShardIdManager(self.k.shard_count, self.k.cluster_count)
 
+        self._did_initial_load = False
+
         RecurringTasksMixin.__init__(self, logger)
 
     @property
@@ -83,10 +89,6 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     @db.setter
     def db(self, value: asyncpg.Pool) -> None:
         self._db = value
-
-    def _on_ready(self) -> None:
-        self.ready_event.set()
-        self.start_recurring_tasks()
 
     async def serve(self) -> None:
         logger.info("Starting Karen...")
@@ -137,9 +139,39 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         await self.ready_event.wait()
         await self.server.broadcast(PacketType.TOPGG_VOTE, vote)
 
+    async def _connect_callback(self, ws_id: uuid.UUID) -> None:
+        if len(self.server._connections) == self.k.cluster_count and not self._did_initial_load:
+            await self._update_guild_diffs()
+            self._did_initial_load = True
+
     async def _disconnect_callback(self, ws_id: uuid.UUID) -> None:
         self.shard_ids.release(ws_id)
 
+    def _on_ready(self) -> None:
+        self.ready_event.set()
+        self.start_recurring_tasks()
+
+    async def _update_guild_diffs(self):
+        logger.info("Updating guild events table with missed joins and leaves...")
+
+        current_guilds_db = await self.db.fetch("""SELECT COALESCE(js.guild_id, ls.guild_id) AS guild_id FROM (
+    SELECT guild_id, COUNT(*) AS c FROM guild_events WHERE event_type = 1 GROUP BY guild_id) js
+FULL JOIN (
+    SELECT guild_id, COUNT(*) AS c FROM guild_events WHERE event_type = 2 GROUP BY guild_id) ls
+ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""")
+
+        current_guilds_db: set[int] = {r["guild_id"] for r in current_guilds_db}
+
+        current_guilds = set[int](itertools.chain.from_iterable(await self.server.broadcast(PacketType.FETCH_GUILD_IDS)))
+
+        missed_guild_joins = current_guilds - current_guilds_db
+        missed_guild_leaves = current_guilds_db - current_guilds
+
+        await self.db.executemany("INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, 0, 0)", [(guild_id, GuildEventType.GUILD_JOIN.value) for guild_id in missed_guild_joins])
+        await self.db.executemany("INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, 0, 0)", [(guild_id, GuildEventType.GUILD_LEAVE.value) for guild_id in missed_guild_leaves])
+
+        logger.info("Done updating guild events table")
+        
     @classmethod
     def _transform_query_result(cls, result: Any) -> Any:
         if isinstance(result, list):

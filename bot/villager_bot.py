@@ -44,6 +44,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             case_insensitive=True,
             intents=villager_bot_intents(),
             help_command=None,
+            max_messages=10_000,
         )
 
         self.cluster_id: Optional[int] = None
@@ -401,3 +402,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     @handle_packet(PacketType.PING)
     async def packet_ping(self):
         return 1
+
+    @handle_packet(PacketType.FETCH_GUILD_IDS)
+    async def packet_fetch_guild_ids(self) -> list[int]:
+        await self.wait_until_ready()
+        self.logger.info("recvd FETCH_GUILD_IDS")
+        return [g.id for g in self.guilds]

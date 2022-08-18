@@ -57,8 +57,8 @@ class ComsBase:
             if extra_k not in annos:
                 del extra[extra_k]
 
-        handler_args = []
-        handler_kwargs = {}
+        handler_args = list[Any]()
+        handler_kwargs = dict[str, Any]()
 
         if isinstance(packet.data, dict):
             handler_kwargs = packet.data
