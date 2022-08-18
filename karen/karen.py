@@ -76,6 +76,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         self.shard_ids = ShardIdManager(self.k.shard_count, self.k.cluster_count)
 
         self._did_initial_load = False
+        self._did_stop = False
 
         RecurringTasksMixin.__init__(self, logger.getChild("loops"))
 
@@ -126,11 +127,14 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         await self.votehook_server.stop()
 
+        self._did_stop = True
+
     async def __aenter__(self) -> MechaKaren:
         return self
 
     async def __aexit__(self, exc_type: type, exc: Exception, tb: Any) -> None:
-        await self.stop()
+        if not self._did_stop:
+            await self.stop()
 
         if exc:
             raise exc
@@ -389,3 +393,8 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
         commands = self.v.trivia_commands[user_id]
         self.v.trivia_commands[user_id] += 1
         return commands
+
+    @handle_packet(PacketType.SHUTDOWN)
+    async def packet_shutdown(self):
+        await self.server.raw_broadcast(PacketType.SHUTDOWN)
+        await self.stop()

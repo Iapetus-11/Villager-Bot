@@ -231,6 +231,11 @@ class Owner(commands.Cog):
 
         await ctx.send(f"Last 14 days of guild joins / leaves (newest is top)```diff\n{body}\n```")
 
+    @commands.command(name="shutdown")
+    @commands.is_owner()
+    async def shutdown(self, ctx: Ctx):
+        await ctx.message.add_reaction(self.d.emojis.yes)
+        await self.karen.shutdown()
 
 async def setup(bot: VillagerBotCluster) -> None:
     await bot.add_cog(Owner(bot))

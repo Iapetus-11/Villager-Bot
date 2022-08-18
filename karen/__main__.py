@@ -17,7 +17,7 @@ async def main():
 
     if os.path.exists(".env"):
         env = dotenv.dotenv_values()
-        if int(env.get("CLUSTER_COUNT")) != secrets.cluster_count:
+        if env.get("CLUSTER_COUNT") != str(secrets.cluster_count):
             print("CLUSTER_COUNT from .env doesn't match with secrets.json!")
             sys.exit(1)
 

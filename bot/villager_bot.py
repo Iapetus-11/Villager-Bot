@@ -147,8 +147,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         await super().close(*args, **kwargs)
 
     async def get_prefix(self, message: discord.Message) -> str:
-        # for some reason discord.py wants this function to be async
-
         if message.guild:
             return self.prefix_cache.get(message.guild.id, self.k.default_prefix)
 
@@ -404,7 +402,12 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         return 1
 
     @handle_packet(PacketType.FETCH_GUILD_IDS)
-    async def packet_fetch_guild_ids(self) -> list[int]:
+    async def packet_fetch_guild_ids(self):
         await self.wait_until_ready()
         self.logger.info("recvd FETCH_GUILD_IDS")
         return [g.id for g in self.guilds]
+
+    @handle_packet(PacketType.SHUTDOWN)
+    async def packet_shutdown(self):
+        self.logger.error("SHUTTING DOWN, BITCH")
+        await self.close()

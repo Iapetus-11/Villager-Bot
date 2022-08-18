@@ -21,13 +21,13 @@ async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:
 
 def setup_logging() -> logging.Logger:
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         format="%(asctime)s [%(name)s] %(levelname)s: %(message)s",
         datefmt="%m-%d-%y %H:%M:%S",
     )
 
-    logging.getLogger("karen.server.ws").setLevel(logging.INFO)
-    logging.getLogger("karen.loops").setLevel(logging.INFO)
+    # logging.getLogger("karen.server.ws").setLevel(logging.INFO)
+    # logging.getLogger("karen.loops").setLevel(logging.INFO)
 
     return logging.getLogger("karen")
 

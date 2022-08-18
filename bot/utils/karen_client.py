@@ -224,3 +224,7 @@ class KarenClient:
         start = time.time()
         await self._broadcast(PacketType.PING)
         return time.time() - start
+
+    @validate_return
+    async def shutdown(self) -> None:
+        await self._send(PacketType.SHUTDOWN)

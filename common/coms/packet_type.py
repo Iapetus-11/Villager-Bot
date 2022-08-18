@@ -45,3 +45,4 @@ class PacketType(IntEnum):
     LOOKUP_USER = auto()
     PING = auto()
     FETCH_GUILD_IDS = auto()
+    SHUTDOWN = auto()

@@ -81,6 +81,8 @@ class Client(ComsBase):
                     else:
                         await self._send(Packet(id=packet.id, data=response))
             except ConnectionClosed:
+                pass
+            finally:
                 if self._closing:
                     break
 
@@ -91,12 +93,6 @@ class Client(ComsBase):
     async def close(self) -> None:
         self._closing = True
         await self._disconnect()
-
-        if self._task is not None:
-            try:
-                await asyncio.wait_for(self._task, 1)
-            except asyncio.TimeoutError:
-                self._task.cancel()
 
     async def send(
         self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
