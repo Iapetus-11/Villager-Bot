@@ -16,15 +16,6 @@ from datetime import timedelta
 import re
 
 
-DURATION_REGEX = re.compile(
-    r"((?P<weeks>\d+?) ?(weeks|week|W|w) ?)?"
-    r"((?P<days>\d+?) ?(days|day|D|d) ?)?"
-    r"((?P<hours>\d+?) ?(hours|hour|hr|H|h) ?)?"
-    r"((?P<minutes>\d+?) ?(minutes|minute|min|M|m) ?)?"
-    r"((?P<seconds>\d+?) ?(seconds|second|sec|S|s))?"
-)
-
-
 def parse_timedelta(duration: str) -> timedelta | None:
     """
     Converts a `duration` string to a relativedelta objects.
@@ -34,7 +25,17 @@ def parse_timedelta(duration: str) -> timedelta | None:
     - minutes: `m`, `min`, `minute`, `minutes`
     - seconds: `S`, `sec`, `s`, `second`, `seconds`
     The units need to be provided in descending order of magnitude.
+
+    CREDIT: This code was taken and modified from https://github.com/ClemBotProject/ClemBot
     """
+
+    DURATION_REGEX = re.compile(
+        r"((?P<weeks>\d+?) ?(weeks|week|W|w) ?)?"
+        r"((?P<days>\d+?) ?(days|day|D|d) ?)?"
+        r"((?P<hours>\d+?) ?(hours|hour|hr|H|h) ?)?"
+        r"((?P<minutes>\d+?) ?(minutes|minute|min|M|m) ?)?"
+        r"((?P<seconds>\d+?) ?(seconds|second|sec|S|s))?"
+    )
 
     match = DURATION_REGEX.fullmatch(duration)
     if not match:
