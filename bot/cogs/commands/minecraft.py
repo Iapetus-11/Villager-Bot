@@ -663,7 +663,7 @@ class Minecraft(commands.Cog):
             )  # decrypt to plaintext
 
         with suppress(Exception):
-            await ctx.trigger_typing()
+            await ctx.defer()
 
         try:
             rcon_con = self.bot.rcon_cache.get((ctx.author.id, db_guild.mc_server))

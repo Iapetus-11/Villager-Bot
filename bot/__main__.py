@@ -31,6 +31,9 @@ async def main_async(tp: ThreadPoolExecutor) -> None:
 def main(args: list[str]) -> None:
     add_cython_ext()
 
+    if not os.path.exists("tmp"):
+        os.mkdir("tmp")
+
     if "--build-pyx-only" not in args:
         with ThreadPoolExecutor() as tp:
             asyncio.run(main_async(tp))

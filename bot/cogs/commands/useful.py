@@ -6,6 +6,7 @@ import time
 from contextlib import suppress
 from typing import Optional
 from urllib.parse import quote as urlquote
+from discord.app_commands import command as slash_command
 
 import aiofiles
 import aiohttp
@@ -17,6 +18,7 @@ import psutil
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from discord.ext import commands, tasks
+from bot.models.translation import Translation
 
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, get_timedelta_granularity, parse_timedelta
@@ -67,7 +69,50 @@ class Useful(commands.Cog):
                 except KeyError:
                     pass
 
-    @commands.hybrid_group(name="help", case_insensitive=True)
+    def _get_main_help_embed(self, l: Translation, prefix: str) -> discord.Embed:
+        embed = discord.Embed(color=self.bot.embed_color)
+        embed.set_author(name=l.help.n.title, icon_url=self.d.splash_logo)
+        embed.description = l.help.main.desc.format(self.d.support, self.d.topgg)
+
+        embed.add_field(
+            name=(self.d.emojis.emerald_spinn + l.help.n.economy), value=f"`{prefix}help econ`"
+        )
+        embed.add_field(
+            name=(self.d.emojis.bounce + " " + l.help.n.minecraft), value=f"`{prefix}help mc`"
+        )
+        embed.add_field(
+            name=(self.d.emojis.anichest + l.help.n.utility), value=f"`{prefix}help util`"
+        )
+
+        embed.add_field(
+            name=(self.d.emojis.rainbow_shep + l.help.n.fun), value=f"`{prefix}help fun`"
+        )
+        embed.add_field(
+            name=(self.d.emojis.netherite_sword_ench + l.help.n.admin),
+            value=f"`{prefix}help admin`",
+        )
+        embed.add_field(
+            name=(self.d.emojis.heart_spin + l.help.main.support),
+            value=f"**[{l.help.main.clickme}]({self.d.support})**",
+        )
+
+        embed.set_footer(
+            text=l.useful.credits.foot.format(prefix)
+            + "  |  "
+            + l.useful.rules.slashrules.format(prefix)
+        )
+
+        return embed
+
+    @slash_command(name="help")
+    async def help_slash_command(self, inter: discord.Interaction):
+        """Get helpful information about Villager Bot"""
+
+        language = self.bot.l[self.bot.language_cache.get(inter.guild_id, "en")]
+        prefix = self.bot.prefix_cache.get(inter.guild_id, self.bot.k.default_prefix)
+        await inter.response.send_message(embed=self._get_main_help_embed(language, prefix))
+
+    @commands.group(name="help", case_insensitive=True)
     async def help(self, ctx: Ctx):
         if ctx.invoked_subcommand is None:
             cmd = ctx.message.content.replace(f"{ctx.prefix}help ", "")
@@ -114,39 +159,7 @@ class Useful(commands.Cog):
 
                     return
 
-            embed = discord.Embed(color=self.bot.embed_color)
-            embed.set_author(name=ctx.l.help.n.title, icon_url=self.d.splash_logo)
-            embed.description = ctx.l.help.main.desc.format(self.d.support, self.d.topgg)
-
-            p = ctx.prefix
-
-            embed.add_field(
-                name=(self.d.emojis.emerald_spinn + ctx.l.help.n.economy), value=f"`{p}help econ`"
-            )
-            embed.add_field(
-                name=(self.d.emojis.bounce + " " + ctx.l.help.n.minecraft), value=f"`{p}help mc`"
-            )
-            embed.add_field(
-                name=(self.d.emojis.anichest + ctx.l.help.n.utility), value=f"`{p}help util`"
-            )
-
-            embed.add_field(
-                name=(self.d.emojis.rainbow_shep + ctx.l.help.n.fun), value=f"`{p}help fun`"
-            )
-            embed.add_field(
-                name=(self.d.emojis.netherite_sword_ench + ctx.l.help.n.admin),
-                value=f"`{p}help admin`",
-            )
-            embed.add_field(
-                name=(self.d.emojis.heart_spin + ctx.l.help.main.support),
-                value=f"**[{ctx.l.help.main.clickme}]({self.d.support})**",
-            )
-
-            embed.set_footer(
-                text=ctx.l.useful.credits.foot.format(ctx.prefix)
-                + "  |  "
-                + ctx.l.useful.rules.slashrules.format(ctx.prefix)
-            )
+            embed = self._get_main_help_embed(ctx.l, ctx.prefix)
 
             await ctx.reply(embed=embed, mention_author=False)
 
@@ -320,7 +333,7 @@ class Useful(commands.Cog):
 
         embed.description = (
             f"**[{ctx.l.useful.links.support}]({self.d.support})\n"
-            f"\n[{ctx.l.useful.links.invite}]({self.d.invite})\n"
+            f"\n[{ctx.l.useful.links.invite}]({self.d.invite.format(bot_id=self.bot.user.id)})\n"
             f"\n[{ctx.l.useful.links.topgg}]({self.d.topgg})\n"
             f"\n[{ctx.l.useful.links.source}]({self.d.github})\n"
             f"\n[{ctx.l.useful.links.privacy}]({self.d.privacy_policy})**"
@@ -331,7 +344,7 @@ class Useful(commands.Cog):
     @commands.command(name="stats", aliases=["bs"])
     async def stats(self, ctx: Ctx):
         with suppress(Exception):
-            await ctx.trigger_typing()
+            await ctx.defer()
 
         uptime_seconds = (arrow.utcnow() - self.bot.start_time).total_seconds()
         uptime = (
@@ -397,7 +410,7 @@ class Useful(commands.Cog):
     @commands.guild_only()
     async def server_info(self, ctx: Ctx, *, guild: discord.Guild = None):
         with suppress(Exception):
-            await ctx.trigger_typing()
+            await ctx.defer()
 
         if guild is None:
             guild = ctx.guild
@@ -661,7 +674,7 @@ class Useful(commands.Cog):
                         ctx.l.useful.redditdl.downloading.format(self.d.emojis.aniloading),
                         mention_author=False,
                     )
-                    asyncio.create_task(ctx.trigger_typing())
+                    asyncio.create_task(ctx.defer())
 
                     # stream download video to file
                     async with self.aiohttp.get(video_url) as res, aiofiles.open(

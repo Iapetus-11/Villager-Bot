@@ -3,6 +3,7 @@ __pycache__/
 .mypy_cache/
 .github/
 .vscode/
+tmp/
 
 **/secrets.json
 **/secrets.example.json

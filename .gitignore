@@ -2,8 +2,7 @@
 __pycache__/
 .idea/
 .mypy_cache/
-
-bot/tmp/*
+tmp/
 
 secrets.json
 .env

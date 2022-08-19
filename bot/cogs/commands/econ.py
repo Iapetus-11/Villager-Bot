@@ -328,7 +328,7 @@ class Econ(commands.Cog):
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats.tools]
+        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats["tools"]]
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.tools)
 
@@ -339,7 +339,7 @@ class Econ(commands.Cog):
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats.magic]
+        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats["magic"]]
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.magic)
 
@@ -350,7 +350,7 @@ class Econ(commands.Cog):
         if not valid:
             return
 
-        combined_cats = self.d.cats.tools + self.d.cats.magic + self.d.cats.fish
+        combined_cats = self.d.cats["tools"] + self.d.cats["magic"] + self.d.cats["fish"]
         items = [e for e in await self.db.fetch_items(user.id) if e.name not in combined_cats]
 
         await self.inventory_logic(
