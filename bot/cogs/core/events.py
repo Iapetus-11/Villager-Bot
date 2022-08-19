@@ -426,6 +426,5 @@ class Events(commands.Cog):
             await self.bot.final_ready.wait()
             await self.bot.error_channel.send(debug_info)
 
-
 async def setup(bot: VillagerBotCluster) -> None:
     await bot.add_cog(Events(bot))

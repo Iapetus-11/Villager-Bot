@@ -141,7 +141,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
     async def _vote_callback(self, vote: TopggVote) -> None:
         await self.ready_event.wait()
-        await self.server.broadcast(PacketType.TOPGG_VOTE, vote)
+        await self.server.broadcast(PacketType.TOPGG_VOTE, {"vote": vote})
 
     async def _connect_callback(self, ws_id: uuid.UUID) -> None:
         if len(self.server._connections) == self.k.cluster_count and not self._did_initial_load:

@@ -28,6 +28,7 @@ from bot.utils.misc import (
     update_support_member_role,
 )
 from bot.utils.setup import load_translations, setup_logging, villager_bot_intents
+from karen.utils.topgg import TopggVote
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
@@ -417,5 +418,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     @handle_packet(PacketType.SHUTDOWN)
     async def packet_shutdown(self):
-        self.logger.error("SHUTTING DOWN, BITCH")
         await self.close()
+
+    @handle_packet(PacketType.TOPGG_VOTE)
+    async def packet_topgg_vote(self, vote: TopggVote):
+        if 0 in self.shard_ids:
+            await self.dispatch("topgg_vote", vote)
