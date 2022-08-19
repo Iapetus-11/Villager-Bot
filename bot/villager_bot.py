@@ -162,7 +162,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         if self.cluster_id == 0:
             self.logger.info("Syncing slash commands...")
 
-            if (support_guild := self.get_guild(self.d.support_server_id)):
+            if support_guild := self.get_guild(self.d.support_server_id):
                 await self.tree.sync(guild=support_guild)
 
             await self.tree.sync()
