@@ -32,7 +32,7 @@ async def async_main():
 
 
 def main():
-    if not vars(sys.modules[__name__])['__package__']:
+    if not vars(sys.modules[__name__])["__package__"]:
         print("Karen must be ran as a module (using the -m flag)")
         sys.exit(1)
 
