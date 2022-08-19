@@ -130,7 +130,7 @@ class MobSpawner(commands.Cog):
                     "message", check=self.engage_check(ctx), timeout=15
                 )
             except asyncio.TimeoutError:
-                await engage_msg.edit(suppress_embeds=True)
+                await engage_msg.edit(suppress=True)
                 return
 
             user = initial_attack_msg.author
@@ -151,7 +151,7 @@ class MobSpawner(commands.Cog):
         user_sword, slime_trophy, _ = await asyncio.gather(
             self.db.fetch_sword(user.id),
             self.db.fetch_item(user.id, "Slime Trophy"),
-            engage_msg.edit(suppress_embeds=True),
+            engage_msg.edit(suppress=True),
         )
 
         await self.karen.econ_pause(user.id)
@@ -208,7 +208,7 @@ class MobSpawner(commands.Cog):
 
                     # check if user is a fucking baby
                     if timed_out or user_action in self.d.mobs_mech.valid_flees:
-                        await fight_msg.edit(suppress_embeds=True)
+                        await fight_msg.edit(suppress=True)
                         await ctx.send_embed(random.choice(ctx.l.mobs_mech.flee_insults))
 
                         return
@@ -227,7 +227,7 @@ class MobSpawner(commands.Cog):
                 mob.health -= user_dmg
 
                 if mob.health < 1:  # user wins
-                    await fight_msg.edit(suppress_embeds=True)
+                    await fight_msg.edit(suppress=True)
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.user_finishers).format(
                             mob.nice.lower(), user_sword.lower()
@@ -257,7 +257,7 @@ class MobSpawner(commands.Cog):
                         ):  # creeper yeets your bloodied corpse across the map
                             user_health = 0
 
-                            await fight_msg.edit(suppress_embeds=True)
+                            await fight_msg.edit(suppress=True)
                             await ctx.send_embed(random.choice(mob.finishers))
 
                             break
@@ -276,7 +276,7 @@ class MobSpawner(commands.Cog):
                 async with SuppressCtxManager(ctx.typing()):
                     await asyncio.sleep(0.75 + random.random() * 2)
 
-                await fight_msg.edit(suppress_embeds=True)
+                await fight_msg.edit(suppress=True)
 
             # outside of the for loop
             embed = discord.Embed(color=self.bot.embed_color)

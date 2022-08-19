@@ -700,7 +700,6 @@ class Useful(commands.Cog):
                     def _ffmpeg_operations():
                         video: moviepy.editor.VideoFileClip = (
                             moviepy.editor.VideoFileClip(video_fname)
-                            .resize(0.5)
                             .set_audio(moviepy.editor.AudioFileClip(audio_fname))
                         )
                         video.write_videofile(
