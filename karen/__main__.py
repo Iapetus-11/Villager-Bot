@@ -10,12 +10,8 @@ from common.utils.setup import load_data
 from karen.karen import MechaKaren
 from karen.utils.setup import load_secrets
 
-if not vars(sys.modules[__name__])['__package__']:
-    print("Karen must be ran as a module (using the -m flag)")
-    sys.exit(1)
 
-
-async def main():
+async def async_main():
     secrets = load_secrets()
     data = load_data()
 
@@ -35,8 +31,16 @@ async def main():
         await karen.serve()
 
 
-if __name__ == "__main__":
+def main():
+    if not vars(sys.modules[__name__])['__package__']:
+        print("Karen must be ran as a module (using the -m flag)")
+        sys.exit(1)
+
     try:
-        asyncio.run(main())
+        asyncio.run(async_main())
     except KeyboardInterrupt:
         pass
+
+
+if __name__ == "__main__":
+    main()
