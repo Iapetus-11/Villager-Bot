@@ -692,7 +692,7 @@ class Useful(commands.Cog):
 
                     asyncio.create_task(
                         progress_msg.edit(
-                            ctx.l.useful.redditdl.stitching.format(self.d.emojis.aniloading)
+                            content=ctx.l.useful.redditdl.stitching.format(self.d.emojis.aniloading)
                         )
                     )
 
