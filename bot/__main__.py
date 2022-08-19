@@ -10,6 +10,9 @@ from bot.utils.setup import load_secrets, load_translations
 from bot.utils.add_cython_ext import add_cython_ext
 from bot.villager_bot import VillagerBotCluster
 
+if not vars(sys.modules[__name__])['__package__']:
+    print("Villager Bot must be ran as a module (using the -m flag)")
+    sys.exit(1)
 
 async def main_async(tp: ThreadPoolExecutor) -> None:
     secrets = load_secrets()

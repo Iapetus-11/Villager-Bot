@@ -10,6 +10,10 @@ from common.utils.setup import load_data
 from karen.karen import MechaKaren
 from karen.utils.setup import load_secrets
 
+if not vars(sys.modules[__name__])['__package__']:
+    print("Karen must be ran as a module (using the -m flag)")
+    sys.exit(1)
+
 
 async def main():
     secrets = load_secrets()
