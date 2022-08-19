@@ -685,7 +685,7 @@ class Database(commands.Cog):
 
     async def fetch_guilds_jls(self) -> list[dict[str, Any]]:
         return await self.db.fetch(
-            """SELECT COALESCE(event_at, event_at_gs) AS event_at, COALESCE(join_count, 0) AS join_count, COALESCE(leave_count, 0) AS leave_count FROM (
+            """SELECT COALESCE(event_at, event_at_gs) AS event_at, COALESCE(join_count, 0) - COALESCE(leave_count, 0) AS diff FROM (
     SELECT GENERATE_SERIES(MIN(DATE_TRUNC('day', event_at)), NOW(), '1d') AS event_at_gs FROM guild_events
 ) oj1 LEFT JOIN (
     SELECT join_count, leave_count, COALESCE(iq1.event_at_trunc, iq2.event_at_trunc) AS event_at FROM (
