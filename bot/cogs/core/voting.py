@@ -8,6 +8,7 @@ from bot.villager_bot import VillagerBotCluster
 from common.models.topgg_vote import TopggVote
 from bot.cogs.core.database import Database
 
+
 class Voting(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
@@ -35,7 +36,9 @@ class Voting(commands.Cog):
             with suppress(discord.HTTPException):
                 user = await self.bot.fetch_user(user_id)
 
-        user_str = "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
+        user_str = (
+            "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
+        )
 
         await self.bot.vote_channel.send(f":tada::tada: **{user_str}** has voted! :tada::tada:")
 
@@ -54,9 +57,11 @@ class Voting(commands.Cog):
         # check if vote streak is expired
         if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(last_vote):  # vote streak expired
             vote_streak = 1
-        
-        await self.db.update_user(user_id, last_vote=arrow.utcnow().datetime, vote_streak=vote_streak)
-        
+
+        await self.db.update_user(
+            user_id, last_vote=arrow.utcnow().datetime, vote_streak=vote_streak
+        )
+
         # determine emeralds reward
         if site == "top.gg":
             emeralds = self.d.topgg_reward
@@ -65,7 +70,9 @@ class Voting(commands.Cog):
                 emeralds *= 2
 
             # higher the pickaxe, better the voting reward
-            emeralds *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(await self.db.fetch_pickaxe(user_id))
+            emeralds *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(
+                await self.db.fetch_pickaxe(user_id)
+            )
 
             # longer vote streak (up to 5 votes) the better the reward
             emeralds *= min(vote_streak, 5)
@@ -83,7 +90,9 @@ class Voting(commands.Cog):
             barrels = int(vote_streak // 32 + 1)
             await self.db.add_item(user.id, "Barrel", 1024, barrels)
             await self.bot.send_embed(
-                user, f"Thanks for voting! You've received {barrels}x **Barrel**!", ignore_exceptions=True
+                user,
+                f"Thanks for voting! You've received {barrels}x **Barrel**!",
+                ignore_exceptions=True,
             )
         else:
             await self.db.balance_add(user_id, emeralds)
@@ -94,8 +103,14 @@ class Voting(commands.Cog):
             )
 
     @commands.Cog.listener()
-    async def on_topgg_vote(self, vote: TopggVote):        
-        await self.vote(user_id=vote.user, site="top.gg", is_weekend=vote.isWeekend, is_test=(vote.type != "upvote"), json=vote.json())
+    async def on_topgg_vote(self, vote: TopggVote):
+        await self.vote(
+            user_id=vote.user,
+            site="top.gg",
+            is_weekend=vote.isWeekend,
+            is_test=(vote.type != "upvote"),
+            json=vote.json(),
+        )
 
 
 async def setup(bot: VillagerBotCluster):
