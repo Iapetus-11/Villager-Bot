@@ -107,7 +107,7 @@ class MobSpawner(commands.Cog):
         # type of mob to be spawned
         mob_key = random.choice(tuple(self.d.mobs_mech.mobs))
         mob = cj.classify(
-            {**self.d.mobs_mech.mobs[mob_key].dict(), **ctx.l.mobs_mech.mobs[mob_key]}
+            {**self.d.mobs_mech.mobs[mob_key].dict(), **ctx.l.mobs_mech.mobs[mob_key].dict()}
         )
         mob_max_health = mob.health
 
