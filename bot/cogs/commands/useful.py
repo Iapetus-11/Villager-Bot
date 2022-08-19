@@ -698,10 +698,9 @@ class Useful(commands.Cog):
 
                     # resize video, stitch video and audio together, then save to file
                     def _ffmpeg_operations():
-                        video: moviepy.editor.VideoFileClip = (
-                            moviepy.editor.VideoFileClip(video_fname)
-                            .set_audio(moviepy.editor.AudioFileClip(audio_fname))
-                        )
+                        video: moviepy.editor.VideoFileClip = moviepy.editor.VideoFileClip(
+                            video_fname
+                        ).set_audio(moviepy.editor.AudioFileClip(audio_fname))
                         video.write_videofile(
                             final_fname, logger=None, threads=4, fps=min(video.fps or 25, 25)
                         )
