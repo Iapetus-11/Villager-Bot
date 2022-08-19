@@ -82,7 +82,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.bot.logger.info(f"Cluster {self.bot.cluster_id} \u001b[36;1mREADY\u001b[0m")
+        self.bot.logger.info(f"Cluster {self.bot.cluster_id} READY")
 
         self.bot.support_server = await self.bot.fetch_guild(self.d.support_server_id)
 

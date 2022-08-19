@@ -4,8 +4,6 @@ import os
 import signal
 import sys
 
-import colorama
-
 from common.utils.setup import load_data
 
 from bot.utils.setup import load_secrets, load_translations
@@ -31,8 +29,6 @@ async def main_async(tp: ThreadPoolExecutor) -> None:
 
 
 def main(args: list[str]) -> None:
-    colorama.init(autoreset=True)
-
     add_cython_ext()
 
     if not os.path.exists("tmp"):

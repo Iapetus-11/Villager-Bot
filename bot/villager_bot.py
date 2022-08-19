@@ -28,7 +28,7 @@ from bot.utils.misc import (
     update_support_member_role,
 )
 from bot.utils.setup import load_translations, setup_logging, villager_bot_intents
-from karen.utils.topgg import TopggVote
+from common.models.topgg_vote import TopggVote
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
@@ -63,6 +63,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             "core.paginator",
             "core.badges",
             "core.mobs",
+            "core.voting",
             "commands.owner",
             "commands.useful",
             "commands.config",

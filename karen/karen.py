@@ -25,7 +25,8 @@ from karen.models.secrets import Secrets
 from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
 from karen.utils.setup import setup_database_pool, setup_logging
 from karen.utils.shard_ids import ShardIdManager
-from karen.utils.topgg import TopggVote, VotingWebhookServer
+from karen.utils.topgg import VotingWebhookServer
+from common.models.topgg_vote import TopggVote
 
 logger = setup_logging()
 

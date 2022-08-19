@@ -1,7 +1,6 @@
 from contextlib import suppress
 from discord.ext import commands
 import discord
-from colorama import Fore
 import arrow
 
 from bot.villager_bot import VillagerBotCluster
@@ -23,11 +22,11 @@ class Voting(commands.Cog):
         await self.bot.wait_until_ready()
 
         if is_test:
-            self.logger.info(f"{Fore.MAGENTA}{site} webhooks test")
+            self.logger.info(f"{site} webhooks test")
             await self.bot.error_channel.send(f"{site.upper()} WEBHOOKS TEST ```json\n{json}\n```")
             return
 
-        self.logger.info(f"{Fore.GREEN}{user_id} voted on {site}")
+        self.logger.info(f"{user_id} voted on {site}")
 
         user = self.bot.get_user(user_id)
 
