@@ -139,7 +139,9 @@ class Server(ComsBase):
         self.logger.info("New client connected: %s", ws.id)
 
         if ws.remote_address[0] in self._ip_blacklist:
-            self.logger.info("Attempted connection from %s:%s denied due to ip blacklist", *ws.remote_address)
+            self.logger.info(
+                "Attempted connection from %s:%s denied due to ip blacklist", *ws.remote_address
+            )
             await self._disconnect(ws)
             return
 
