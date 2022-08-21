@@ -208,8 +208,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         )
 
     async def check_global(self, ctx: CustomContext) -> bool:  # the global command check
-        self.command_count += 1
-
         command = ctx.command.name
 
         if ctx.author.id in self.botban_cache:
@@ -245,19 +243,22 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 ctx.failure_reason = "econ_paused"
                 return False
 
-            # random chance to spawn mob
-            if random.randint(0, self.d.mob_chance) == 0:
-                if self.d.cooldown_rates.get(command, 0) >= 2:
-                    asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
-            elif random.randint(0, self.d.tip_chance) == 0:  # random chance to send tip
-                asyncio.create_task(self.send_tip(ctx))
-
         if command_has_cooldown:
             await self.karen.command_ran(ctx.author.id)
 
         return True
 
     async def before_command_invoked(self, ctx: CustomContext):
+        self.command_count += 1
+
+        if ctx.command.cog_name == "Econ":
+            # random chance to spawn mob
+            if random.randint(0, self.d.mob_chance) == 0:
+                if self.d.cooldown_rates.get(ctx.command.name, 0) >= 2:
+                    asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
+            elif random.randint(0, self.d.tip_chance) == 0:  # random chance to send tip
+                asyncio.create_task(self.send_tip(ctx))
+
         try:
             if ctx.command.name in self.d.concurrency_limited:
                 await self.karen.acquire_concurrency(ctx.command.name, ctx.author.id)

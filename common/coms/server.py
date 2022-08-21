@@ -45,6 +45,7 @@ class Server(ComsBase):
         self._current_id = 0
         self._broadcasts = dict[str, Broadcast]()
         self._server: Optional[WebSocketServer] = None
+        self._ip_blacklist = set[str]()
 
     def _get_packet_id(self, t: str = "s") -> str:
         packet_id = self._current_id
@@ -137,6 +138,11 @@ class Server(ComsBase):
     async def _handle_connection(self, ws: WebSocketServerProtocol):
         self.logger.info("New client connected: %s", ws.id)
 
+        if ws.remote_address[0] in self._ip_blacklist:
+            self.logger.info("Attempted connection from %s:%s denied due to ip blacklist", *ws.remote_address)
+            await self._disconnect(ws)
+            return
+
         authed = False
 
         try:
@@ -160,6 +166,7 @@ class Server(ComsBase):
 
                     if packet.data != self.auth:
                         self.logger.error("Incorrect authorization received from client: %s", ws.id)
+                        self._ip_blacklist.add(ws.remote_address[0])
                         await self._disconnect(ws)
                         return
 
