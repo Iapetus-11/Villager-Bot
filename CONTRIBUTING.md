@@ -1,4 +1,6 @@
-## Setting up Villager Bot development environment
+# Villager Bot Contribution Guide
+
+## Setting up the development environment
 1. Install [Git](https://git-scm.com/)
 2. Install [Python](https://python.org) 3.10+
 3. Install [Poetry](https://python-poetry.org) with Pip
@@ -20,18 +22,18 @@
 8. (Optional if using [Docker](https://docker.com/) to run multiple clusters) Create a `.env` file based off of the `.env.example` file
 
 ## Running Villager Bot
-- Villager Bot is split into two components, Karen and the clusters. A "cluster" is a group of shards (websockets in this case). These clusters need to share state and communicate, which is what Karen facilitates. **To run Villager Bot you must run both Karen and at least one cluster.**
-### Windows
+*Villager Bot is split into two components, Karen and the clusters. A "cluster" is a group of shards (websockets connected to Discord in this case). These clusters need to share state and communicate, which is what Karen facilitates. **To run Villager Bot you must run both Karen and at least one cluster.***
+#### Windows
 1. Run Karen with `poetry run py -m karen` in one terminal/command prompt/powershell instance/window
 2. Run a cluster with `poetry run py -m bot` in another instance/window
-### Linux/Mac
+#### Linux/Mac
 1. Run Karen with `poetry run python3 -m karen` in one terminal window
 2. Run a cluster with `poetry run python3 -m bot` in another terminal window
-### PyCharm
+#### PyCharm
 1. Create run configurations for both Karen and a cluster
     - Both need to be ran as modules (using the `-m` flag) otherwise issues will occur
 2. Click the run/debug buttons
-### Docker
+#### Docker
 1. Build the docker images with `docker compose build`
 2. Run Villager Bot with `docker compose up`
 
