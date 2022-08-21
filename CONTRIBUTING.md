@@ -31,7 +31,7 @@
 2. Run a cluster with `poetry run python3 -m bot` in another terminal window
 #### PyCharm
 1. Create run configurations for both Karen and a cluster
-    - Both need to be ran as modules (using the `-m` flag) otherwise issues will occur
+    - Both need to be ran as modules (using the `-m` flag like `-m bot` or `-m karen`) otherwise issues will occur
 2. Click the run/debug buttons
 #### Docker
 1. Build the docker images with `docker compose build`
