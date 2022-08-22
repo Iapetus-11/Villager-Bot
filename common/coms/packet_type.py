@@ -46,3 +46,5 @@ class PacketType(IntEnum):
     PING = auto()
     FETCH_GUILD_IDS = auto()
     SHUTDOWN = auto()
+    FETCH_TOP_GUILDS_BY_MEMBERS = auto()
+    FETCH_TOP_GUILDS_BY_ACTIVE = auto()

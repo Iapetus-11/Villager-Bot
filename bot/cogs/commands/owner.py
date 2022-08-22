@@ -1,5 +1,5 @@
 import os
-from typing import Union
+from typing import Any, Union
 import itertools
 
 import aiofiles
@@ -11,7 +11,7 @@ from discord.ext import commands
 
 from common.utils.code import execute_code, format_exception
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager
+from bot.utils.misc import SuppressCtxManager, shorten_text
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -21,30 +21,33 @@ class Owner(commands.Cog):
 
         self.karen = bot.karen
         self.d = bot.d
-        self.db: Database = bot.get_cog("Database")
 
     async def cog_before_invoke(self, ctx: Ctx):
-        print(f"{ctx.author}: {ctx.message.content}")
+        self.bot.logger.info("User %s (%s) executed command %s", ctx.author.id, ctx.author, ctx.message.content)
+
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     @property
     def paginator(self) -> Paginator:
         return self.bot.get_cog("Paginator")
 
-    # @commands.command(name="reload")
-    # @commands.is_owner()
-    # async def reload_cog(self, ctx: Ctx, cog: str):
-    #     await self.karen.reload_cog(f"bot.cogs.{cog}")
+    @commands.command(name="reload")
+    @commands.is_owner()
+    async def reload_cog(self, ctx: Ctx, cog: str):
+        await self.karen.reload_cog(f"bot.cogs.{cog}")
 
-    #     await ctx.message.add_reaction(self.d.emojis.yes)
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
-    # @commands.command(name="reloaddata", aliases=["update", "updatedata"])
-    # @commands.is_owner()
-    # async def update_data(self, ctx: Ctx):
-    #     """Reloads data from data.json and text from the translation files"""
+    @commands.command(name="reloaddata", aliases=["update", "updatedata"])
+    @commands.is_owner()
+    async def update_data(self, ctx: Ctx):
+        """Reloads data from data.json and text from the translation files"""
 
-    #     await self.karen.reload_data()
+        await self.karen.reload_data()
 
-    #     await ctx.message.add_reaction(self.d.emojis.yes)
+        await ctx.message.add_reaction(self.d.emojis.yes)
 
     @commands.command(name="evallocal", aliases=["eval", "evall"])
     @commands.is_owner()
@@ -230,6 +233,22 @@ class Owner(commands.Cog):
         body = "\n".join(rows)
 
         await ctx.send(f"Last 14 days of guild joins / leaves (newest is top)```diff\n{body}\n```")
+
+    @commands.command(name="topguilds", aliases=["topgs"])
+    @commands.is_owner()
+    async def top_guilds(self, ctx: Ctx):
+        def fmt_values(values: list[dict[str, Any]]) -> str:
+            return f"```md\n##  count  | guild id           | name\n" + "\n".join([f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']} | {shorten_text(discord.utils.escape_markdown(g['name']), 26)}" for i, g in enumerate(values)]) + "```"
+
+        async with SuppressCtxManager(ctx.typing()):
+            top_guilds_by_members = fmt_values(sorted(await self.karen.fetch_top_guilds_by_members(), key=(lambda g: g["count"]), reverse=True)[:10])
+            top_guilds_by_active = fmt_values(sorted(await self.karen.fetch_top_guilds_by_active(), key=(lambda g: g["count"]), reverse=True)[:10])
+
+        embed = discord.Embed(color=self.bot.embed_color, title="Top Villager Bot Guilds")
+        embed.add_field(name="By Members", value=top_guilds_by_members, inline=False)
+        embed.add_field(name="By Active Users", value=top_guilds_by_active, inline=False)
+
+        await ctx.reply(embed=embed)
 
     @commands.command(name="shutdown")
     @commands.is_owner()

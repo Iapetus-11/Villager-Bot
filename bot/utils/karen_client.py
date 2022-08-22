@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import Any, Optional
+from typing import Any, Iterable, Optional
 
 import discord
 from bot.models.karen.cluster_info import ClusterInfo
@@ -63,6 +63,18 @@ class KarenClient:
             raise KarenResponseError(resp)
 
         return resp.data
+
+    async def _broadcast_aggregate(self, packet_type: PacketType, **kwargs: T_PACKET_DATA) -> list[T_PACKET_DATA]:
+        resp = await self._client.broadcast(packet_type, kwargs)
+
+        aggregate = []
+        for r in resp.data:
+            if not isinstance(r, Iterable):
+                raise ValueError(f"item {r!r} of packet {resp} is not iterable")
+
+            aggregate.extend(r)
+
+        return aggregate
 
     @validate_return
     async def fetch_cluster_info(self) -> ClusterInfo:
@@ -224,3 +236,11 @@ class KarenClient:
     @validate_return
     async def shutdown(self) -> None:
         await self._send(PacketType.SHUTDOWN)
+
+    @validate_return
+    async def fetch_top_guilds_by_members(self) -> list[dict[str, Any]]:
+        return await self._broadcast_aggregate(PacketType.FETCH_TOP_GUILDS_BY_MEMBERS)
+
+    @validate_return
+    async def fetch_top_guilds_by_active(self) -> list[dict[str, Any]]:
+        return await self._broadcast_aggregate(PacketType.FETCH_TOP_GUILDS_BY_ACTIVE)

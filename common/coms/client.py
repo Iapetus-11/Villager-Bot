@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from random import random
 from typing import Optional
 
 from websockets.client import WebSocketClientProtocol, connect
@@ -51,6 +52,23 @@ class Client(ComsBase):
     async def _authorize(self, auth: str) -> None:
         await self._send(Packet(id=self._get_packet_id(), type=PacketType.AUTH, data=auth))
 
+    async def _handle_packet(self, packet: Packet) -> None:
+        # handle expected packets
+        if packet.id in self._waiting:
+            self._waiting[packet.id].set_result(packet)
+            return
+
+        try:
+            response = await self._call_handler(packet)
+        except Exception:
+            self.logger.error(
+                "An error ocurred while calling the packet handler for packet type %s",
+                packet.type,
+                exc_info=True,
+            )
+        else:
+            await self._send(Packet(id=packet.id, data=response))
+
     async def _connect(self, auth: str) -> None:
         async for self.ws in connect(f"ws://{self.host}:{self.port}", logger=self.logger):
             try:
@@ -65,21 +83,7 @@ class Client(ComsBase):
                         await self._disconnect()
                         break
 
-                    # handle expected packets
-                    if packet.id in self._waiting:
-                        self._waiting[packet.id].set_result(packet)
-                        continue
-
-                    try:
-                        response = await self._call_handler(packet)
-                    except Exception:
-                        self.logger.error(
-                            "An error ocurred while calling the packet handler for packet type %s",
-                            packet.type,
-                            exc_info=True,
-                        )
-                    else:
-                        await self._send(Packet(id=packet.id, data=response))
+                    asyncio.create_task(self._handle_packet(packet))
             except ConnectionClosed:
                 pass
             finally:
@@ -99,7 +103,7 @@ class Client(ComsBase):
     ) -> Packet:
         packet_id = self._get_packet_id()
 
-        packet = Packet(id=packet_id, type=packet_type, data=(packet_data or {}))
+        packet = Packet(id=packet_id, type=packet_type, data=({} if packet_data is None else packet_data))
 
         self._waiting[packet.id] = asyncio.Future[Packet]()
         await self._send(packet)
@@ -109,5 +113,5 @@ class Client(ComsBase):
         self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
     ) -> Packet:
         return await self.send(
-            PacketType.BROADCAST_REQUEST, {"type": packet_type, "data": (packet_data or {})}
+            PacketType.BROADCAST_REQUEST, {"type": packet_type, "data": ({} if packet_data is None else packet_data)}
         )

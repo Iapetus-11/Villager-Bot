@@ -135,6 +135,32 @@ class Server(ComsBase):
         if len(broadcast.ws_ids) == 0:
             broadcast.ready.set()
 
+    async def _handle_packet(self, packet: Packet, ws: WebSocketServerProtocol):
+        # handle broadcast requests
+        if packet.type == PacketType.BROADCAST_REQUEST:
+            # broadcast requests are special types of packets which forward the packet to ALL connected clients
+            asyncio.create_task(
+                self._client_broadcast(ws, packet)
+            )  # TODO: keep track of these tasks and properly cancel them on a server shutdown
+            return
+
+        # handle broadcast responses
+        if packet.id in self._broadcasts:
+            await self._handle_broadcast_response(ws, packet)
+            return
+
+        try:
+            response = await self._call_handler(packet, ws_id=ws.id)
+        except Exception as e:
+            self.logger.error(
+                "An error ocurred while calling the packet handler for packet %s",
+                packet,
+                exc_info=True,
+            )
+            await self._send(ws, Packet(id=packet.id, data=repr(e), error=True))
+        else:
+            await self._send(ws, Packet(id=packet.id, data=response))
+
     async def _handle_connection(self, ws: WebSocketServerProtocol):
         self.logger.info("New client connected: %s", ws.id)
 
@@ -187,30 +213,7 @@ class Server(ComsBase):
                     await self._disconnect(ws)
                     return
 
-                # handle broadcast requests
-                if packet.type == PacketType.BROADCAST_REQUEST:
-                    # broadcast requests are special types of packets which forward the packet to ALL connected clients
-                    asyncio.create_task(
-                        self._client_broadcast(ws, packet)
-                    )  # TODO: keep track of these tasks and properly cancel them on a server shutdown
-                    continue
-
-                # handle broadcast responses
-                if packet.id in self._broadcasts:
-                    await self._handle_broadcast_response(ws, packet)
-                    continue
-
-                try:
-                    response = await self._call_handler(packet, ws_id=ws.id)
-                except Exception as e:
-                    self.logger.error(
-                        "An error ocurred while calling the packet handler for packet %s",
-                        packet,
-                        exc_info=True,
-                    )
-                    await self._send(ws, Packet(id=packet.id, data=repr(e), error=True))
-                else:
-                    await self._send(ws, Packet(id=packet.id, data=response))
+                asyncio.create_task(self._handle_packet(packet, ws))  # TODO: keep track of these and properly cancel on close
         except WebSocketConnectionClosedOK:
             pass
         finally:
