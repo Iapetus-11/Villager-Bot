@@ -102,7 +102,9 @@ class Client(ComsBase):
     ) -> Packet:
         packet_id = self._get_packet_id()
 
-        packet = Packet(id=packet_id, type=packet_type, data=({} if packet_data is None else packet_data))
+        packet = Packet(
+            id=packet_id, type=packet_type, data=({} if packet_data is None else packet_data)
+        )
 
         self._waiting[packet.id] = asyncio.Future[Packet]()
         await self._send(packet)
@@ -112,5 +114,6 @@ class Client(ComsBase):
         self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
     ) -> Packet:
         return await self.send(
-            PacketType.BROADCAST_REQUEST, {"type": packet_type, "data": ({} if packet_data is None else packet_data)}
+            PacketType.BROADCAST_REQUEST,
+            {"type": packet_type, "data": ({} if packet_data is None else packet_data)},
         )

@@ -23,7 +23,9 @@ class Owner(commands.Cog):
         self.d = bot.d
 
     async def cog_before_invoke(self, ctx: Ctx):
-        self.bot.logger.info("User %s (%s) executed command %s", ctx.author.id, ctx.author, ctx.message.content)
+        self.bot.logger.info(
+            "User %s (%s) executed command %s", ctx.author.id, ctx.author, ctx.message.content
+        )
 
     @property
     def db(self) -> Database:
@@ -238,11 +240,32 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def top_guilds(self, ctx: Ctx):
         def fmt_values(values: list[dict[str, Any]]) -> str:
-            return "```md\n##  count  | guild id           | name\n" + "\n".join([f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']} | {shorten_text(discord.utils.escape_markdown(g['name']), 26)}" for i, g in enumerate(values)]) + "```"
+            return (
+                "```md\n##  count  | guild id           | name\n"
+                + "\n".join(
+                    [
+                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']} | {shorten_text(discord.utils.escape_markdown(g['name']), 26)}"
+                        for i, g in enumerate(values)
+                    ]
+                )
+                + "```"
+            )
 
         async with SuppressCtxManager(ctx.typing()):
-            top_guilds_by_members = fmt_values(sorted(await self.karen.fetch_top_guilds_by_members(), key=(lambda g: g["count"]), reverse=True)[:10])
-            top_guilds_by_active = fmt_values(sorted(await self.karen.fetch_top_guilds_by_active(), key=(lambda g: g["count"]), reverse=True)[:10])
+            top_guilds_by_members = fmt_values(
+                sorted(
+                    await self.karen.fetch_top_guilds_by_members(),
+                    key=(lambda g: g["count"]),
+                    reverse=True,
+                )[:10]
+            )
+            top_guilds_by_active = fmt_values(
+                sorted(
+                    await self.karen.fetch_top_guilds_by_active(),
+                    key=(lambda g: g["count"]),
+                    reverse=True,
+                )[:10]
+            )
 
         embed = discord.Embed(color=self.bot.embed_color, title="Top Villager Bot Guilds")
         embed.add_field(name="By Members", value=top_guilds_by_members, inline=False)

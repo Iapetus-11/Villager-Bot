@@ -64,7 +64,9 @@ class KarenClient:
 
         return resp.data
 
-    async def _broadcast_aggregate(self, packet_type: PacketType, **kwargs: T_PACKET_DATA) -> list[T_PACKET_DATA]:
+    async def _broadcast_aggregate(
+        self, packet_type: PacketType, **kwargs: T_PACKET_DATA
+    ) -> list[T_PACKET_DATA]:
         resp = await self._client.broadcast(packet_type, kwargs)
 
         aggregate = []

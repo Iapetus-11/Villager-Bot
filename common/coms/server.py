@@ -213,7 +213,9 @@ class Server(ComsBase):
                     await self._disconnect(ws)
                     return
 
-                asyncio.create_task(self._handle_packet(packet, ws))  # TODO: keep track of these and properly cancel on close
+                asyncio.create_task(
+                    self._handle_packet(packet, ws)
+                )  # TODO: keep track of these and properly cancel on close
         except WebSocketConnectionClosedOK:
             pass
         finally:
