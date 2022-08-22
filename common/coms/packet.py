@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from common.coms.json_encoder import dumps, loads
 from common.coms.packet_type import PacketType
 
+# order matters in this due to the way Pydantic handles parsing
 T_PACKET_DATA: TypeAlias = (
     bool | int | float | datetime | set[Any] | list[Any] | dict[str, Any] | None | BaseModel | str
 )

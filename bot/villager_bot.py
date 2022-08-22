@@ -123,8 +123,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def start(self):
         self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
         self.db = DatabaseProxy(self.karen)
-
+        
+        self.logger.info("Connecting to Karen...")
         await self.karen.connect()
+        self.logger.info("Connected to Karen!")
 
         cluster_info = await self.karen.fetch_cluster_info()
         self.shard_count = cluster_info.shard_count

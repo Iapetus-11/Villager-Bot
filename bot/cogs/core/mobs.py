@@ -24,7 +24,7 @@ class MobSpawner(commands.Cog):
         self.active_channels = set[int]()
 
     def engage_check(self, ctx: Ctx):
-        async def _engage_check(m: discord.Message):
+        def _engage_check(m: discord.Message):
             if m.channel != ctx.channel:
                 return False
 

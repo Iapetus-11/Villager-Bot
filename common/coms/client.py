@@ -82,9 +82,15 @@ class Client(ComsBase):
                         await self._disconnect()
                         break
 
+                    if packet.type == PacketType.AUTH and packet.error:
+                        raise WebsocketStateError("Authorization with Karen failed")
+
                     asyncio.create_task(self._handle_packet(packet))
             except ConnectionClosed:
                 pass
+            except Exception:
+                self.logger.error("An error occurred in the message handling loop", exc_info=True)
+                raise
             finally:
                 if self._closing:
                     break

@@ -19,9 +19,10 @@ COPY pyproject.toml .
 COPY poetry.lock .
 RUN poetry install --no-dev --no-interaction
 
-# copy over common and karen folders
+# copy over rest of files
 COPY common common
 COPY karen karen
+COPY .env .env
 
 # run karen
 CMD poetry run python3 -m karen
