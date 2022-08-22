@@ -709,7 +709,7 @@ class Database(commands.Cog):
                 member_ids.append(member.id)
 
         return await self.db.fetch("""WITH guild_members AS (
-	SELECT * FROM UNNEST($1::BIGINT[], $2::BIGINT[], $3::TEXT[]) AS x(guild_id, member_id, guild_name)
+    SELECT * FROM UNNEST($1::BIGINT[], $2::BIGINT[], $3::TEXT[]) AS x(guild_id, member_id, guild_name)
 ) SELECT guild_id AS id, guild_name AS name, COUNT(week_commands) AS count FROM leaderboards RIGHT JOIN guild_members ON user_id = member_id WHERE week_commands > 0 GROUP BY (guild_id, guild_name);""", guild_ids, member_ids, guild_names)
 
 

@@ -238,7 +238,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def top_guilds(self, ctx: Ctx):
         def fmt_values(values: list[dict[str, Any]]) -> str:
-            return f"```md\n##  count  | guild id           | name\n" + "\n".join([f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']} | {shorten_text(discord.utils.escape_markdown(g['name']), 26)}" for i, g in enumerate(values)]) + "```"
+            return "```md\n##  count  | guild id           | name\n" + "\n".join([f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']} | {shorten_text(discord.utils.escape_markdown(g['name']), 26)}" for i, g in enumerate(values)]) + "```"
 
         async with SuppressCtxManager(ctx.typing()):
             top_guilds_by_members = fmt_values(sorted(await self.karen.fetch_top_guilds_by_members(), key=(lambda g: g["count"]), reverse=True)[:10])

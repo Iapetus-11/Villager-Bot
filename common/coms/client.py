@@ -1,6 +1,5 @@
 import asyncio
 import logging
-from random import random
 from typing import Optional
 
 from websockets.client import WebSocketClientProtocol, connect
