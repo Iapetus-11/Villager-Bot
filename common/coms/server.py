@@ -194,7 +194,15 @@ class Server(ComsBase):
 
                     if packet.data != self.auth:
                         self.logger.error("Incorrect authorization received from client: %s", ws.id)
-                        await self._send(ws, Packet(id=self._get_packet_id(), type=PacketType.AUTH, data=None, error=True))
+                        await self._send(
+                            ws,
+                            Packet(
+                                id=self._get_packet_id(),
+                                type=PacketType.AUTH,
+                                data=None,
+                                error=True,
+                            ),
+                        )
                         self._ip_blacklist.add(ws.remote_address[0])
                         await self._disconnect(ws)
                         return
