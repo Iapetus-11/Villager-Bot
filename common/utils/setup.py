@@ -13,7 +13,20 @@ def setup_logging(name: str, debug: bool = False) -> logging.Logger:
     level = logging.DEBUG if debug else logging.INFO
 
     handler = colorlog.StreamHandler()
-    handler.setFormatter(colorlog.ColoredFormatter("%(log_color)s%(asctime)s [%(name)s] %(levelname)s: %(message)s", datefmt="%m-%d-%y %H:%M:%S", log_colors={"DEBUG": "gray", "INFO": "white", "WARNING": "yellow", "ERROR": "red", "CRITICAL": "red"}, reset=False))
+    handler.setFormatter(
+        colorlog.ColoredFormatter(
+            "%(log_color)s%(asctime)s [%(name)s] %(levelname)s: %(message)s",
+            datefmt="%m-%d-%y %H:%M:%S",
+            log_colors={
+                "DEBUG": "gray",
+                "INFO": "white",
+                "WARNING": "yellow",
+                "ERROR": "red",
+                "CRITICAL": "red",
+            },
+            reset=False,
+        )
+    )
     handler.setLevel(level)
 
     logger = logging.getLogger(name)

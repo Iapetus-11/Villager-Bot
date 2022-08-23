@@ -73,7 +73,9 @@ class Events(commands.Cog):
         traceback = format_exception(exception).replace("```", "｀｀｀")
 
         event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
-        self.logger.error("An exception occurred in an event call: %s", event_call_repr, exc_info=True)
+        self.logger.error(
+            "An exception occurred in an event call: %s", event_call_repr, exc_info=True
+        )
 
         await self.bot.final_ready.wait()
         await self.bot.error_channel.send(
@@ -412,7 +414,14 @@ class Events(commands.Cog):
             try:
                 raise e
             except Exception:
-                self.logger.error("An error occurred in a command executed by %s (%s) (lang=%s): %s", ctx.author.id, ctx.author, ctx.l.lang, ctx.message.content, exc_info=True)
+                self.logger.error(
+                    "An error occurred in a command executed by %s (%s) (lang=%s): %s",
+                    ctx.author.id,
+                    ctx.author,
+                    ctx.l.lang,
+                    ctx.message.content,
+                    exc_info=True,
+                )
 
             await self.bot.wait_until_ready()
             await ctx.reply_embed(
