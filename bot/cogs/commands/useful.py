@@ -69,37 +69,37 @@ class Useful(commands.Cog):
                 except KeyError:
                     pass
 
-    def _get_main_help_embed(self, l: Translation, prefix: str) -> discord.Embed:
+    def _get_main_help_embed(self, lang: Translation, prefix: str) -> discord.Embed:
         embed = discord.Embed(color=self.bot.embed_color)
-        embed.set_author(name=l.help.n.title, icon_url=self.d.splash_logo)
-        embed.description = l.help.main.desc.format(self.d.support, self.d.topgg)
+        embed.set_author(name=lang.help.n.title, icon_url=self.d.splash_logo)
+        embed.description = lang.help.main.desc.format(self.d.support, self.d.topgg)
 
         embed.add_field(
-            name=(self.d.emojis.emerald_spinn + l.help.n.economy), value=f"`{prefix}help econ`"
+            name=(self.d.emojis.emerald_spinn + lang.help.n.economy), value=f"`{prefix}help econ`"
         )
         embed.add_field(
-            name=(self.d.emojis.bounce + " " + l.help.n.minecraft), value=f"`{prefix}help mc`"
+            name=(self.d.emojis.bounce + " " + lang.help.n.minecraft), value=f"`{prefix}help mc`"
         )
         embed.add_field(
-            name=(self.d.emojis.anichest + l.help.n.utility), value=f"`{prefix}help util`"
+            name=(self.d.emojis.anichest + lang.help.n.utility), value=f"`{prefix}help util`"
         )
 
         embed.add_field(
-            name=(self.d.emojis.rainbow_shep + l.help.n.fun), value=f"`{prefix}help fun`"
+            name=(self.d.emojis.rainbow_shep + lang.help.n.fun), value=f"`{prefix}help fun`"
         )
         embed.add_field(
-            name=(self.d.emojis.netherite_sword_ench + l.help.n.admin),
+            name=(self.d.emojis.netherite_sword_ench + lang.help.n.admin),
             value=f"`{prefix}help admin`",
         )
         embed.add_field(
-            name=(self.d.emojis.heart_spin + l.help.main.support),
-            value=f"**[{l.help.main.clickme}]({self.d.support})**",
+            name=(self.d.emojis.heart_spin + lang.help.main.support),
+            value=f"**[{lang.help.main.clickme}]({self.d.support})**",
         )
 
         embed.set_footer(
-            text=l.useful.credits.foot.format(prefix)
+            text=lang.useful.credits.foot.format(prefix)
             + "  |  "
-            + l.useful.rules.slashrules.format(prefix)
+            + lang.useful.rules.slashrules.format(prefix)
         )
 
         return embed
