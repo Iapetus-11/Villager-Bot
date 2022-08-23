@@ -225,7 +225,7 @@ class Events(commands.Cog):
             # check if there are prior messages, and if there are none, send user a help message
             with suppress(discord.errors.HTTPException):
                 prior_messages = len(
-                    await message.channel.history(limit=1, before=message).flatten()
+                    [m async for m in message.channel.history(limit=1, before=message)]
                 )
 
                 if prior_messages < 1:

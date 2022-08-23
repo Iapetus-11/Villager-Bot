@@ -408,13 +408,23 @@
         "sell_price": 4096,
         "rarity": 500000,
         "sticky": true
+      },
+      {
+        "item": "Chocolate Chip Cookie",
+        "sell_price": 128,
+        "rarity": 4000,
+        "sticky": false
+      },
+      {
+        "item": "Guacamole Sombrero",
+        "sell_price": 768,
+        "rarity": 4096,
+        "sticky": false
       }
     ]
   },
   "fishing": {
     "exponent": 2.75,
-    "fish_ids": [],
-    "fish_weights": [],
     "fish": {
       "cod": {
         "name": "Cod",

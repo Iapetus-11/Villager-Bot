@@ -380,7 +380,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self, user_id: int, channel_id: int, message_id: int, content: Optional[str]
     ):
         self.dispatch(
-            "dm_message",
+            "fwd_dm_message",
             user_id=user_id,
             channel_id=channel_id,
             message_id=message_id,

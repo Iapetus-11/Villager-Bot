@@ -7,7 +7,7 @@ from collections import defaultdict
 
 import arrow
 import discord
-from numpy.random import choice
+import numpy.random
 
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
@@ -1162,11 +1162,7 @@ class Econ(commands.Cog):
                         )
                         return
 
-        fish_weights = [
-            (len(self.d.fishing.fish) - fish_data.rarity) ** self.d.fishing.exponent
-            for fish_data in self.d.fishing.fish.values()
-        ]
-        fish_id = random.choices(self.d.fishing.fish_ids, fish_weights)[0]
+        fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fishing_weights)[0]
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish.name, -1, 1)
@@ -1244,7 +1240,7 @@ class Econ(commands.Cog):
             # calculate base stolen value
             percents = list(range(10, 41, 5))  # 10%-40% [10, 15, 20, 25, 30, 35, 40]
             weights = [0.26, 0.22, 0.17, 0.14, 0.11, 0.07, 0.03]
-            percent = choice(percents, 1, p=weights)[0]
+            percent = numpy.random.choice(percents, 1, p=weights)[0]
             stolen = math.ceil(db_victim.emeralds * (percent / 100))
             # calculate and implement cap based off pillager's balance
             stolen = min(
