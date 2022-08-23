@@ -27,7 +27,8 @@ from bot.utils.misc import (
     MaxKarenConcurrencyReached,
     update_support_member_role,
 )
-from bot.utils.setup import load_translations, setup_logging, villager_bot_intents
+from bot.utils.setup import load_translations, villager_bot_intents
+from common.utils.setup import setup_logging
 from common.models.topgg_vote import TopggVote
 
 
@@ -73,7 +74,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             "commands.fun",
         ]
 
-        self.logger = setup_logging()
+        self.logger = setup_logging("bot")
         self.karen: Optional[KarenClient] = None
         self.db: Optional[DatabaseProxy] = None
         self.aiohttp: Optional[aiohttp.ClientSession] = None

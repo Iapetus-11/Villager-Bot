@@ -279,6 +279,16 @@ class Owner(commands.Cog):
         await ctx.message.add_reaction(self.d.emojis.yes)
         await self.karen.shutdown()
 
+    @commands.command(name="interror")
+    @commands.is_owner()
+    async def intentional_error(self, ctx: Ctx):
+        raise Exception("intentional!")
+
+    @commands.command(name="intwarning", aliases=["intwarn"])
+    @commands.is_owner()
+    async def intentional_warning(self, ctx: Ctx):
+        self.bot.logger.warning("intentional warning !!!!!!!!")
+
 
 async def setup(bot: VillagerBotCluster) -> None:
     await bot.add_cog(Owner(bot))
