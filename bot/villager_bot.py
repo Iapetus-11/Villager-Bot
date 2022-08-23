@@ -2,13 +2,15 @@ import asyncio
 import random
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any, Optional
+import time
+from typing import Any, Callable, Optional
 
 import aiohttp
 import arrow
 import discord
 import psutil
 from discord.ext import commands
+from bot.models.fwd_dm import ForwardedDirectMessage
 
 from common.coms.packet import PACKET_DATA_TYPES
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
@@ -171,6 +173,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 await self.tree.sync(guild=support_guild)
 
             await self.tree.sync()
+
+            self.logger.info("Slash commands synced!")
 
     async def get_context(self, *args, **kwargs) -> CustomContext:
         ctx = await super().get_context(*args, **kwargs, cls=CustomContext)
@@ -380,11 +384,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self, user_id: int, channel_id: int, message_id: int, content: Optional[str]
     ):
         self.dispatch(
-            "fwd_dm_message",
-            user_id=user_id,
-            channel_id=channel_id,
-            message_id=message_id,
-            content=content,
+            "fwd_dm",
+            ForwardedDirectMessage(
+                user_id=user_id,
+                channel_id=channel_id,
+                message_id=message_id,
+                content=content,
+            )
         )
 
     @handle_packet(PacketType.RELOAD_COG)

@@ -38,7 +38,7 @@ class Minecraft(commands.Cog):
 
         self.db: Database = bot.get_cog("Database")
         self.aiohttp = bot.aiohttp
-        self.fernet = Fernet(self.k.rcon_fernet_key)
+        self.fernet_key = Fernet(self.k.rcon_fernet_key)
 
         if tiler:
             self.tiler = tiler.Tiler("bot/data/block_palette.json")
@@ -615,8 +615,8 @@ class Minecraft(commands.Cog):
 
             try:
                 port_msg = await self.bot.wait_for(
-                    "dm_message",
-                    check=(lambda channel_id, *args, **kwargs: channel_id == ctx.channel.id),
+                    "fwd_dm",
+                    check=(lambda dm: dm.user_id == ctx.author.id),
                     timeout=60,
                 )
             except asyncio.TimeoutError:
@@ -643,8 +643,8 @@ class Minecraft(commands.Cog):
 
             try:
                 auth_msg = await self.bot.wait_for(
-                    "dm_message",
-                    check=(lambda channel_id, *args, **kwargs: channel_id == ctx.channel.id),
+                    "fwd_dm",
+                    check=(lambda dm: dm.user_id == ctx.author.id),
                     timeout=60,
                 )
             except asyncio.TimeoutError:
@@ -658,7 +658,7 @@ class Minecraft(commands.Cog):
             password = auth_msg["content"]
         else:
             rcon_port = db_user_rcon["rcon_port"]
-            password = self.fernet.decrypt(db_user_rcon["password"].encode("utf-8")).decode(
+            password = self.fernet_key.decrypt(db_user_rcon["password"].encode("utf-8")).decode(
                 "utf-8"
             )  # decrypt to plaintext
 
@@ -696,7 +696,7 @@ class Minecraft(commands.Cog):
 
         if db_user_rcon is None:
             encrypted_password = (
-                Fernet(self.k.fernet).encrypt(password.encode("utf-8")).decode("utf-8")
+                self.fernet_key.encrypt(password.encode("utf-8")).decode("utf-8")
             )
             await self.db.add_user_rcon(
                 ctx.author.id, db_guild.mc_server, rcon_port, encrypted_password
