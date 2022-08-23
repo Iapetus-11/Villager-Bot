@@ -2,8 +2,7 @@ import asyncio
 import random
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
-import time
-from typing import Any, Callable, Optional
+from typing import Any, Optional
 
 import aiohttp
 import arrow
@@ -390,7 +389,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 channel_id=channel_id,
                 message_id=message_id,
                 content=content,
-            )
+            ),
         )
 
     @handle_packet(PacketType.RELOAD_COG)

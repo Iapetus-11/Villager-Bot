@@ -695,9 +695,7 @@ class Minecraft(commands.Cog):
             return
 
         if db_user_rcon is None:
-            encrypted_password = (
-                self.fernet_key.encrypt(password.encode("utf-8")).decode("utf-8")
-            )
+            encrypted_password = self.fernet_key.encrypt(password.encode("utf-8")).decode("utf-8")
             await self.db.add_user_rcon(
                 ctx.author.id, db_guild.mc_server, rcon_port, encrypted_password
             )
