@@ -35,6 +35,7 @@ mypy = "^0.971"
 asyncpg-stubs = "^0.26.2"
 types-psutil = "^5.9.3"
 isort = "^5.10.1"
+autoflake = "^1.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
