@@ -86,10 +86,10 @@ class Events(commands.Cog):
     async def on_ready(self):
         self.bot.logger.info(f"Cluster {self.bot.cluster_id} READY")
 
-        self.bot.support_server = await self.bot.fetch_guild(self.d.support_server_id)
+        self.bot.support_server = await self.bot.fetch_guild(self.k.support_server_id)
 
-        self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
-        self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
+        self.bot.error_channel = await self.bot.fetch_channel(self.k.error_channel_id)
+        self.bot.vote_channel = await self.bot.fetch_channel(self.k.vote_channel_id)
 
         self.bot.final_ready.set()
 
@@ -158,12 +158,12 @@ class Events(commands.Cog):
         # add user to new member cache
         self.bot.new_member_cache[member.guild.id].add(member.id)
 
-        if member.guild.id == self.d.support_server_id:
+        if member.guild.id == self.k.support_server_id:
             await update_support_member_role(self.bot, member)
 
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member):
-        if before.guild.id == self.d.support_server_id:
+        if before.guild.id == self.k.support_server_id:
             if before.roles != after.roles:
                 await self.db.fetch_user(after.id)  # ensure user is in db
 
@@ -187,9 +187,9 @@ class Events(commands.Cog):
             return
 
         # attempt to get dm logs channel from cache, then api
-        dm_logs_channel = self.bot.get_channel(self.d.dm_logs_channel_id)
+        dm_logs_channel = self.bot.get_channel(self.k.dm_logs_channel_id)
         if dm_logs_channel is None:
-            dm_logs_channel = await self.bot.fetch_channel(self.d.dm_logs_channel_id)
+            dm_logs_channel = await self.bot.fetch_channel(self.k.dm_logs_channel_id)
 
         log_message_content = f"**{message.author} (`{message.author.id}`):**\n"
 

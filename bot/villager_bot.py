@@ -168,7 +168,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         if self.cluster_id == 0:
             self.logger.info("Syncing slash commands...")
 
-            if support_guild := self.get_guild(self.d.support_server_id):
+            if support_guild := self.get_guild(self.k.support_server_id):
                 await self.tree.sync(guild=support_guild)
 
             await self.tree.sync()
@@ -361,7 +361,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     @handle_packet(PacketType.UPDATE_SUPPORT_SERVER_ROLES)
     async def packet_update_support_server_roles(self, user_id: int):
-        support_guild = self.get_guild(self.d.support_server_id)
+        support_guild = self.get_guild(self.k.support_server_id)
 
         if support_guild is not None:
             member = support_guild.get_member(user_id)

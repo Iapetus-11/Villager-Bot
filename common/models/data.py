@@ -216,10 +216,6 @@ class FunLangs(ImmutableBaseModel):
 
 class Data(ImmutableBaseModel):
     embed_color: str
-    support_server_id: int
-    error_channel_id: int
-    vote_channel_id: int
-    dm_logs_channel_id: int
     splash_logo: str
     support: str
     invite: str

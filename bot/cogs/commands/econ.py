@@ -712,6 +712,7 @@ class Econ(commands.Cog):
             await self.karen.update_support_server_member_roles(ctx.author.id)
         elif shop_item.db_entry.item == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
+            await self.karen.update_support_server_member_roles(ctx.author.id)
 
         await ctx.reply_embed(
             ctx.l.econ.buy.you_done_bought.format(
