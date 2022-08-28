@@ -82,6 +82,7 @@
         "give": "`{0}give <utilisateur> <quantité> <objet>` *donne un objet ou des émeraudes à un utilisateur*",
         "mine": "`{0}mine` *mine des émeraudes*",
         "fish": "`{0}fish` *pêcher des poissons ou des objets*",
+        "fishmarket": "`{0}fishmarket` *voir le prix actuel du poisson*",
         "farm": "`{0}farm` *planter et récolter des cultures vaut des émeraudes*",
         "trash": "`{0}trash` *voir les objets inutiles que vous extrayez*",
         "search": "`{0}search` *cherche des émeraudes*",
@@ -92,7 +93,8 @@
         "shop": "`{0}shop` *affiche le Magasin du Villager*",
         "buy": "`{0}buy [optionnel : quantité d'objet] <objet>` *achète un objet au Magasin du Villager*",
         "sell": "`{0}sell <quantité> <objet>` *revend les objets au Magasin du Villager*",
-        "leaderboards": "`{0}leaderboards` *affiche les leaderboards*"
+        "leaderboards": "`{0}leaderboards` *affiche les leaderboards*",
+        "trivia": "`{0}trivia` *envoie des questions à Trivia que tu puisses répondre contre des émeraudes!*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [optionnel : server]` *vérifie le statut de n'importe quel type de serveur Minecraft*",

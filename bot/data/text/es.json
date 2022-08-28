@@ -82,8 +82,9 @@
         "give": "`{0}give <usuario> <cantidad> <objeto>` *dar a otro usuario un objeto o esmeraldas*",
         "mine": "`{0}mine` *mina esmeraldas*",
         "fish": "`{0}fish` *pesca peces y objetos*",
-        "farm": "`{0}farm` *Planta y cosecha cultivos por esmeraldas*",
-        "trash": "`{0}trash` *Mira los ítems inútiles que puedes minar*",
+        "fishmarket": "`{0}fishmarket` *visualizar los precios actuales del pescado*",
+        "farm": "`{0}farm` *planta y cosecha cultivos por esmeraldas*",
+        "trash": "`{0}trash` *mira los ítems inútiles que puedes minar*",
         "search": "`{0}search` *busca esmeraldas*",
         "honey": "`{0}honey` *cosecha la miel de las abejas que tienes*",
         "gamble": "`{0}gamble <esmeraldas>` *apuesta con el bot por una oportunidad de ganar esmeraldas*",
@@ -92,7 +93,8 @@
         "shop": "`{0}shop` *muestra la tienda de Villager Bot*",
         "buy": "`{0}buy [opcional: cantidad de objetos] <objeto>` *compra un objeto de la tienda de Villager Bot*",
         "sell": "`{0}sell <cantidad> <objeto>` *vende los objetos de nuevo a Villager Bot*",
-        "leaderboards": "`{0}leaderboards` *muestra las tablas de clasificación*"
+        "leaderboards": "`{0}leaderboards` *muestra las tablas de clasificación*",
+        "trivia": "`{0}trivia` *envía preguntas tipo trivia, ¡puedes responderlas para conseguir esmeraldas!*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [opcional: servidor]` *comprueba el estado de cualquier tipo de servidor Minecraft*",
@@ -1685,6 +1687,7 @@
           "iapetus11": "El creador, dueño y desarrollador de Villager Bot",
           "hpancakesk": "Ayudó con las ideas originales detrás de Villager Bot",
           "moody": "Ayudó con las ideas detrás de varios objetos y de pesca",
+          "emulator": "Ayudó a corregir errores y añadir recursos",
           "elrynd": "Ayudó a arreglar bugs y la programación del código, y tradujo Villager Bot al Francés",
           "chez": "Creó nuevas funciones y ayudó a arreglar bugs",
           "quack": "Ayudó a arreglar pequeños errores con el código y traducciones",

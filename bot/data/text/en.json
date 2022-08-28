@@ -82,6 +82,7 @@
         "give": "`{0}give <user> <amount> <item>` *give another user an item or emeralds*",
         "mine": "`{0}mine` *mine for emeralds*",
         "fish": "`{0}fish` *fish for fish and items*",
+        "fishmarket": "`{0}fishmarket` *view the current selling prices of fish*",
         "farm": "`{0}farm` *plant and harvest crops worth emeralds*",
         "trash": "`{0}trash` *view the useless items you mine up*",
         "search": "`{0}search` *search for emeralds*",
@@ -92,7 +93,8 @@
         "shop": "`{0}shop` *shows the Villager Shop*",
         "buy": "`{0}buy [optional: amount of item] <item>` *buy an item from the Villager Shop*",
         "sell": "`{0}sell <amount> <item>` *sell items back to Villager Bot*",
-        "leaderboards": "`{0}leaderboards` *shows the leaderboards*"
+        "leaderboards": "`{0}leaderboards` *shows the leaderboards*",
+        "trivia": "`{0}trivia` *sends trivia questions you can answer for emeralds!*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [optional: server]` *checks the status of any type of Minecraft server*",
@@ -1427,6 +1429,24 @@
             "You slash your **{0}** at the **baby slime** as hard as you can. The **baby slime** is fine.",
             "You miss, swinging your **{0}** at the **baby slime**.",
             "You swing your **{0}**, the **baby slime** makes a cute face, you miss!"
+          ]
+        },
+        "enderman": {
+          "attacks": [
+            "The **enderman** picks up a grass block and throws it at you!",
+            "The **enderman** picks up a tnt block and throws it at you!",
+            "The **enderman** punches you in the face",
+            "The **enderman** screams and whacks you in the face with its long arms",
+            "The **enderman** teleports behind you and slaps you on the head"
+          ],
+          "finishers": [
+            "The **enderman** teleports you off a cliff",
+            "The **enderman** teleports you into the void",
+            "The **enderman** teleports behind you and"
+          ],
+          "misses": [
+            "You swing your **{0}** as hard as you can but the **enderman** teleports out of the way.",
+            "You swing your **{0}** but the **enderman** teleports out of the way."
           ]
         }
       }

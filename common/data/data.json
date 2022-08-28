@@ -218,6 +218,11 @@
         "nice": "Baby Slime",
         "health": 20,
         "image": "https://iapetus11.me/images/mob_spawns/baby_slime.png"
+      },
+      "enderman": {
+        "nice": "Enderman",
+        "health": 20,
+        "image": "https://iapetus11.me/images/mob_spawns/enderman.png"
       }
     }
   },
@@ -1232,9 +1237,9 @@
       }
     },
     "emerald_yields": {
-      "emerald_fruit": 1024,
-      "chorus_fruit": 768,
-      "melon": 192,
+      "emerald_fruit": 2048,
+      "chorus_fruit": 1024,
+      "melon": 256,
       "potato": 128,
       "carrot": 64,
       "wheat": 32
@@ -1250,7 +1255,7 @@
       ],
       "melon": [
         2,
-        10
+        5
       ],
       "potato": [
         1,
@@ -1266,12 +1271,12 @@
       ]
     },
     "crop_times": {
-      "emerald_fruit": "2 DAYS",
-      "chorus_fruit": "1 DAY",
-      "melon": "16 HOURS",
-      "potato": "12 HOURS",
-      "carrot": "6 HOURS",
-      "wheat": "1 HOUR"
+      "emerald_fruit": "4 DAYS",
+      "chorus_fruit": "2 DAYS",
+      "melon": "1 DAY",
+      "potato": "16 HOURS",
+      "carrot": "8 HOURS",
+      "wheat": "2 HOURS"
     },
     "max_plots": {
       "Netherite Hoe": 60,

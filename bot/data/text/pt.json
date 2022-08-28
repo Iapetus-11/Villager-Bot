@@ -82,6 +82,7 @@
         "give": "`{0}give <usuário> <quantidade> <item>` *dá a outro usuário um item ou esmeraldas*",
         "mine": "`{0}mine` *minerar esmeraldas*",
         "fish": "`{0}fish` *pesca peixes e itens*",
+        "fishmarket": "`{0}fishmarket` *vê os atuais preços de venda de peixe*",
         "farm": "`{0}farm` *plantar e colher plantações que valem esmeraldas*",
         "trash": "`{0}trash` *vê os itens inúteis que você minera*",
         "search": "`{0}search` *procura por esmeraldas*",
@@ -92,7 +93,8 @@
         "shop": "`{0}shop` *mostra a Loja do Villager*",
         "buy": "`{0}buy [opcional: quantidade de itens] <item>` *compra um item na Loja de Villager*",
         "sell": "`{0}sell <quantidade> <item>` *vende itens de volta ao Villager Bot*",
-        "leaderboards": "`{0}leaderboards` *mostra as tabelas de classificação*"
+        "leaderboards": "`{0}leaderboards` *mostra as tabelas de classificação*",
+        "trivia": "`{0}trivia` * envia perguntas triviais que você pode responder por esmeraldas!*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [opcional: servidor]` *verifica o status de qualquer tipo de servidor de Minecraft*",
