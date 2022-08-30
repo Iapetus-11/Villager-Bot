@@ -178,6 +178,8 @@ class Emojis(ImmutableBaseModel):
     dirt_block: str
     trophy: str
     aniloading: str
+    ender_pearl: str
+    time_pearl: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis

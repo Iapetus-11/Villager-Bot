@@ -1329,9 +1329,9 @@
           "Un **creeper** también borró tu {}{} ..."
         ],
         "normal": [
-          "El {} te robó {}{}...",
-          "El {} se escapó con tu {}{}...",
-          "El {} te robó {}{} de tu cadáver..."
+          "El **{}** te robó {}{}...",
+          "El **{}** se escapó con tu {}{}...",
+          "El **{}** te robó {}{} de tu cadáver..."
         ]
       },
       "mobs": {

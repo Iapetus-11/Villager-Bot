@@ -104,6 +104,7 @@ class Fun(ImmutableBaseModel):
 
 class MobsMech_Lost(ImmutableBaseModel):
     creeper: list[str]
+    enderman: list[str]
     normal: list[str]
 
 

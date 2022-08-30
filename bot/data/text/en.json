@@ -1328,10 +1328,16 @@
           "The **creeper** made {}{} that was yours go up in a poof of smoke...",
           "The **creeper** also obliterated {}{} that was yours..."
         ],
+        "enderman": [
+          "The **enderman** teleported away with {}{} that was yours...",
+          "The **enderman** stole {}{} from you and teleported it into the void...",
+          "The **enderman** stole {}{} from you and teleported away...",
+          "The **enderman** teleported into your inventory and stole {}{} from you..."
+        ],
         "normal": [
-          "The {} also stole {}{} that was yours...",
-          "The {} also got away with {}{} that was yours...",
-          "The {} stole {}{} off your dead corpse..."
+          "The **{}** also stole {}{} that was yours...",
+          "The **{}** also got away with {}{} that was yours...",
+          "The **{}** stole {}{} off your dead corpse..."
         ]
       },
       "mobs": {

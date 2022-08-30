@@ -9,7 +9,7 @@ from bot.cogs.core.database import Database
 from discord.ext import commands
 
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, make_health_bar
+from bot.utils.misc import SuppressCtxManager, emojify_item, make_health_bar
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -215,13 +215,16 @@ class MobSpawner(commands.Cog):
 
                 user_dmg = await self.calculate_sword_damage(user.id, user_sword, difficulty_multi)
 
-                # bebe slime is godlike
+                # user attack miss logic
                 if mob_key == "baby_slime":
                     if iteration < 3 and slime_trophy is None:
                         user_dmg = 0
                     elif slime_trophy is not None and random.choice((True, False, False)):
                         user_dmg = 0
                     elif iteration >= 3 and random.choice((True, False)):
+                        user_dmg = 0
+                elif mob_key == "enderman":
+                    if iteration >= 1 and random.choice((False, False, False, False, False, True)):
                         user_dmg = 0
 
                 mob.health -= user_dmg
@@ -236,7 +239,7 @@ class MobSpawner(commands.Cog):
 
                     break
                 else:
-                    if mob_key == "baby_slime" and user_dmg == 0:  # say user missed the slime
+                    if user_dmg == 0:  # if user missed
                         await ctx.send_embed(random.choice(mob.misses).format(user_sword.lower()))
                     else:  # send regular attack message
                         await ctx.send_embed(
@@ -267,10 +270,10 @@ class MobSpawner(commands.Cog):
                 user_health -= mob_dmg
                 user_health = max(user_health, 0)
 
-                if user_health < 1:  # you == noob
+                if user_health < 1:  # send mob finisher
                     await ctx.send_embed(random.choice(mob.finishers))
                     break
-                else:
+                else:  # send mob attack
                     await ctx.send_embed(random.choice(mob.attacks))
 
                 async with SuppressCtxManager(ctx.typing()):
@@ -321,10 +324,7 @@ class MobSpawner(commands.Cog):
             if user_health > 0:  # user win
                 # if mob is slime, determine if it drops slime balls (1/26 chance)
                 if mob_key == "baby_slime" and random.randint(0, 25 - (looting_level * 4)) == 1:
-                    if difficulty == "easy":
-                        balls_won = random.randint(1, 10)
-                    else:
-                        balls_won = random.randint(1, 20)
+                    balls_won = random.randint(1, {"easy": 10, "hard": 20}[difficulty])
 
                     # increase balls won depending on looting level
                     balls_won = round(balls_won * ({0: 1, 1: 1.25, 2: 1.5}[looting_level]))
@@ -336,12 +336,21 @@ class MobSpawner(commands.Cog):
                             balls_won, self.d.emojis.slimeball
                         )
                     )
-                # if mob is skeleton determine if they should drop bone meal (1/16 chance)
+                # if mob is skeleton determine if it should drop bone meal
                 elif mob_key == "skeleton" and random.randint(0, 20 - (looting_level * 3)) == 1:
                     await self.db.add_item(user.id, "Bone Meal", 512, 1)
 
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.found).format(1, self.d.emojis.bone_meal)
+                    )
+                # if mob is enderman determine if it should drop enderpearl
+                elif mob_key == "enderman" and random.randint(0, 30 - (looting_level * 3)) == 1:
+                    pearls_won = random.randint(1, {"easy": 1, "hard": 3}[difficulty])
+
+                    await self.db.add_item(user.id, "Ender Pearl", 1024, pearls_won)
+
+                    await ctx.send_embed(
+                        random.choice(ctx.l.mobs_mech.found).format(pearls_won, self.d.emojis.ender_pearl)
                     )
                 # mob should just drop emeralds
                 else:
@@ -388,9 +397,15 @@ class MobSpawner(commands.Cog):
 
                 ems_lost = await self.db.balance_sub(user.id, ems_lost)
 
-                if mob_key == "creeper":
+                if mob_key == "enderman" and random.randint(1, {"easy": 10, "hard": 5}[difficulty]) == 1:
+                    stolen_item = random.choice([item for item in await self.db.fetch_items(user.id) if item.amount > 1])
+
+                    await self.db.remove_item(user.id, stolen_item.name, 1)
+
+                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.lost.enderman).format(1, emojify_item(self.d, stolen_item.name)))
+                elif mob_key in {"creeper", "enderman"}:
                     await ctx.send_embed(
-                        random.choice(ctx.l.mobs_mech.lost.creeper).format(
+                        random.choice(ctx.l.mobs_mech.lost[mob_key]).format(
                             ems_lost, self.d.emojis.emerald
                         )
                     )

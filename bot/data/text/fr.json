@@ -1329,9 +1329,9 @@
           "Le **creeper** a aussi oblitéré {}{} qui t'appartenaient ..."
         ],
         "normal": [
-          "Le {} a aussi volé {}{} qui t'appartenaient ...",
-          "Le {} est aussi parti avec {}{} qui t'appartenaient...",
-          "Le {} a volé {}{} de ton cadavre..."
+          "Le **{}** a aussi volé {}{} qui t'appartenaient ...",
+          "Le **{}** est aussi parti avec {}{} qui t'appartenaient...",
+          "Le **{}** a volé {}{} de ton cadavre..."
         ]
       },
       "mobs": {
