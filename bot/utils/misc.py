@@ -176,7 +176,7 @@ def calc_total_wealth(db_user: User, items: list[Item]):
     )
 
 
-def emojify_item(d, item: str):
+def emojify_item(d, item: str) -> str:
     try:
         emoji_key = d.emoji_items[item]
 
