@@ -350,7 +350,9 @@ class MobSpawner(commands.Cog):
                     await self.db.add_item(user.id, "Ender Pearl", 1024, pearls_won)
 
                     await ctx.send_embed(
-                        random.choice(ctx.l.mobs_mech.found).format(pearls_won, self.d.emojis.ender_pearl)
+                        random.choice(ctx.l.mobs_mech.found).format(
+                            pearls_won, self.d.emojis.ender_pearl
+                        )
                     )
                 # mob should just drop emeralds
                 else:
@@ -397,12 +399,21 @@ class MobSpawner(commands.Cog):
 
                 ems_lost = await self.db.balance_sub(user.id, ems_lost)
 
-                if mob_key == "enderman" and random.randint(1, {"easy": 10, "hard": 5}[difficulty]) == 1:
-                    stolen_item = random.choice([item for item in await self.db.fetch_items(user.id) if item.amount > 1])
+                if (
+                    mob_key == "enderman"
+                    and random.randint(1, {"easy": 10, "hard": 5}[difficulty]) == 1
+                ):
+                    stolen_item = random.choice(
+                        [item for item in await self.db.fetch_items(user.id) if item.amount > 1]
+                    )
 
                     await self.db.remove_item(user.id, stolen_item.name, 1)
 
-                    await ctx.send_embed(random.choice(ctx.l.mobs_mech.lost.enderman).format(1, emojify_item(self.d, stolen_item.name)))
+                    await ctx.send_embed(
+                        random.choice(ctx.l.mobs_mech.lost.enderman).format(
+                            1, emojify_item(self.d, stolen_item.name)
+                        )
+                    )
                 elif mob_key in {"creeper", "enderman"}:
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.lost[mob_key]).format(
