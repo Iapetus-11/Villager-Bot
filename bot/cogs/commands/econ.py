@@ -1661,8 +1661,8 @@ class Econ(commands.Cog):
         embed = discord.Embed(
             color=self.bot.embed_color, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald)
         )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=global_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         await ctx.reply(embed=embed, mention_author=False)
 
