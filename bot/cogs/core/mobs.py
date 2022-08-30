@@ -403,7 +403,11 @@ class MobSpawner(commands.Cog):
                     mob_key == "enderman"
                     and random.randint(1, {"easy": 10, "hard": 5}[difficulty]) == 1
                 ):
-                    stealable_items = [item for item in await self.db.fetch_items(user.id) if item.amount > 1 and emojify_item(self.d, item.name) != self.d.emojis.air]
+                    stealable_items = [
+                        item
+                        for item in await self.db.fetch_items(user.id)
+                        if item.amount > 1 and emojify_item(self.d, item.name) != self.d.emojis.air
+                    ]
 
                     if len(stealable_items) > 2:
                         stolen_item = random.choice(stealable_items)
@@ -417,7 +421,7 @@ class MobSpawner(commands.Cog):
                         )
 
                         return
-                
+
                 if mob_key in {"creeper", "enderman"}:
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.lost[mob_key]).format(
