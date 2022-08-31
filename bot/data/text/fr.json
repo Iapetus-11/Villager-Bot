@@ -1328,6 +1328,11 @@
           "Le **creeper** a transformé {}{} qui t'appartenaient en un nuage de fumée ...",
           "Le **creeper** a aussi oblitéré {}{} qui t'appartenaient ..."
         ],
+        "enderman": [
+          "L' **enderman** s'est téléporté avec ces {}{} qui étaient tiennes...",
+          "L' **enderman**  t'a volé {}{} et les a téléporté dans le vide...",
+          "L' **enderman** t'a volé {}{} et s'est téléporté avec..."
+        ],
         "normal": [
           "Le **{}** a aussi volé {}{} qui t'appartenaient ...",
           "Le **{}** est aussi parti avec {}{} qui t'appartenaient...",
@@ -1429,6 +1434,24 @@
             "Tu donnes un coup de ton **{0}** vers le **bébé slime** aussi fort que tu le puisses. Le **bébé slime** va bien",
             "Tu rates, balançant ton **{0}** vers le **bébé slime**.",
             "Tu balances ton **{0}**, le **bébé slime** fait une tête mignonne, tu rates."
+          ]
+        },
+        "enderman": {
+          "attacks": [
+            "L' **enderman** récupère un bloc d'herbe et te l'envoie dessus!",
+            "L' **enderman** récupère un bloc de tnt et te l'envoie dessus!",
+            "L' **enderman** te frappe dans la tête",
+            "L' **enderman** crie et te tape sur la tête avec ses longs bras",
+            "L' **enderman** se téléporte derrière toi et te claque la tête"
+          ],
+          "finishers": [
+            "L' **enderman** te fait tomber d'une falaise",
+            "L' **enderman** te téléporte dans le vide",
+            "L' **enderman** se téléporte derrière toi et"
+          ],
+          "misses": [
+            "Tu attaques avec ton **{0}** aussi fort que tu peux mais l' **enderman** se téléporte pour esquiver.",
+            "Tu attaques avec ton **{0}** mais l' **enderman** esquive en se téléportant."
           ]
         }
       }

@@ -1331,8 +1331,7 @@
         "enderman": [
           "The **enderman** teleported away with {}{} that was yours...",
           "The **enderman** stole {}{} from you and teleported it into the void...",
-          "The **enderman** stole {}{} from you and teleported away...",
-          "The **enderman** teleported into your inventory and stole {}{} from you..."
+          "The **enderman** stole {}{} from you and teleported away..."
         ],
         "normal": [
           "The **{}** also stole {}{} that was yours...",

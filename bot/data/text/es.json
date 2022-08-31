@@ -1328,6 +1328,11 @@
           "Un **creeper** hizo que tu {}{} desaparezca en una nube de humo...",
           "Un **creeper** también borró tu {}{} ..."
         ],
+        "enderman": [
+          "El **enderman** se teletransportó con {}{} que eran tuyas...",
+          "El **enderman** te robó {}{} y se teletransportó en el vacío...",
+          "El **enderman** te robó {}{} y se teletransportó lejos..."
+        ],
         "normal": [
           "El **{}** te robó {}{}...",
           "El **{}** se escapó con tu {}{}...",
@@ -1429,6 +1434,24 @@
             "Le cortas la **{0}** al **slime bebé** tan fuerte como puedas. El **slime bebé** está bien",
             "Fallaste, balanceando tu **{0}** en el **slime bebé**.",
             "Balanceas tu **{0}**, el **slime bebé** hace una linda cara, fallas."
+          ]
+        },
+        "enderman": {
+          "attacks": [
+            "¡El **enderman** coge un bloque de hierba y te lo tira!",
+            "¡El **enderman** coge un bloque de dinamita y te lo tira!",
+            "El **enderman** te da un puñetazo en la cara",
+            "El **enderman** grita y te golpea en la cara con sus largos brazos",
+            "El **enderman** se teletransporta detrás tuya y te golpea en la cabeza"
+          ],
+          "finishers": [
+            "El **enderman** te teletransporta y te tira de una colina",
+            "El **enderman** te teletransporta en el vacío",
+            "El **enderman** se teletransporta detrás tuya y"
+          ],
+          "misses": [
+            "Mueves tu **{0}** tan fuerte como puedes pero el **enderman** se teletransporta esquivándolos.",
+            "Mueves tu **{0}** pero el **enderman** se teletransporta para esquivarlos."
           ]
         }
       }
