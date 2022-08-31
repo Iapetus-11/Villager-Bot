@@ -41,8 +41,10 @@ def load_translations() -> dict[str, Translation]:
 
             translations[lang_name] = Translation(**data[lang_name])
         except Exception:
-            logging.error("An error occurred while loading the %s translation file", filename, exc_info=True)
-        
+            logging.error(
+                "An error occurred while loading the %s translation file", filename, exc_info=True
+            )
+
     if "en" not in translations:
         raise Exception("Default translation unable to be loaded.")
 
