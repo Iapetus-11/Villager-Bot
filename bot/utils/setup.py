@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import random
 
@@ -34,10 +35,16 @@ def load_translations() -> dict[str, Translation]:
     for filename in os.listdir("bot/data/text"):
         lang_name = filename.split(".")[0]
 
-        with open(f"bot/data/text/{filename}", "r", encoding="utf8") as f:
-            data = json.load(f)
+        try:
+            with open(f"bot/data/text/{filename}", "r", encoding="utf8") as f:
+                data = json.load(f)
 
-        translations[lang_name] = Translation(**data[lang_name])
+            translations[lang_name] = Translation(**data[lang_name])
+        except Exception:
+            logging.error("An error occurred while loading the %s translation file", filename, exc_info=True)
+        
+    if "en" not in translations:
+        raise Exception("Default translation unable to be loaded.")
 
     return translations
 
