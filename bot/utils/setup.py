@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 import random
 
@@ -9,6 +8,7 @@ from common.models.data import Data
 
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
+from common.utils.code import format_exception
 
 
 def villager_bot_intents() -> discord.Intents:
@@ -40,10 +40,8 @@ def load_translations() -> dict[str, Translation]:
                 data = json.load(f)
 
             translations[lang_name] = Translation(**data[lang_name])
-        except Exception:
-            logging.error(
-                "An error occurred while loading the %s translation file", filename, exc_info=True
-            )
+        except Exception as e:
+            print(f"An error occurred while loading the {lang_name} translation: {format_exception(e)}")
 
     if "en" not in translations:
         raise Exception("Default translation unable to be loaded.")
