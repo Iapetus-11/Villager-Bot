@@ -49,9 +49,9 @@ include = '\.pyi?$'
 [tool.isort]
 profile = "black"
 line_length = 100
-known_bot = ["bot.*"]
-known_karen = ["karen.*"]
-known_common = ["common.*"]
+known_bot = ["bot"]
+known_karen = ["karen"]
+known_common = ["common"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "COMMON", "BOT", "KAREN", "FIRSTPARTY", "LOCALFOLDER"]
 
 [tool.mypy]

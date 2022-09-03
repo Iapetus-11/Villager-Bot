@@ -41,7 +41,7 @@ jobs:
         run: poetry run black .
 
       - name: isort fix
-        run: poetry run isort
+        run: poetry run isort .
 
       - name: auto commit
         uses: stefanzweifel/git-auto-commit-action@v4.14.1
