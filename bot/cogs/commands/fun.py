@@ -7,6 +7,7 @@ from urllib.parse import quote as urlquote
 import classyjson as cj
 import discord
 from discord.ext import commands
+from bot.models.translation import Fun_Trivia_Question
 
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, clean_text, shorten_text
@@ -315,7 +316,7 @@ class Fun(commands.Cog):
     def calculate_trivia_reward(self, question_difficulty: int) -> int:
         return int((random.random() + 0.25) * (question_difficulty + 0.25) * 9) + 1
 
-    async def trivia_multiple_choice(self, ctx: Ctx, question, do_reward):
+    async def trivia_multiple_choice(self, ctx: Ctx, question: Fun_Trivia_Question, do_reward: bool) -> None:
         correct_choice = question.a[0]
 
         choices = question.a.copy()
@@ -397,7 +398,7 @@ class Fun(commands.Cog):
 
         await msg.edit(embed=embed)
 
-    async def trivia_true_or_false(self, ctx: Ctx, question, do_reward):
+    async def trivia_true_or_false(self, ctx: Ctx, question: Fun_Trivia_Question, do_reward: bool):
         correct_choice = question.a[0]
 
         embed = discord.Embed(

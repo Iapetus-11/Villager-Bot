@@ -340,7 +340,7 @@ def check_file_signature(*, media_type: str, file_name: str) -> bool:
     return mimetypes.types_map["." + file_name.split(".")[-1]] == media_type
 
 
-def is_valid_image(res: aiohttp.ClientResponse) -> bool:
+def is_valid_image_res(res: aiohttp.ClientResponse) -> bool:
     if not res.content_type.startswith("image/"):
         return False
 

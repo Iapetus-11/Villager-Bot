@@ -26,7 +26,7 @@ from bot.utils.ctx import Ctx
 from bot.utils.misc import (
     SuppressCtxManager,
     get_timedelta_granularity,
-    is_valid_image,
+    is_valid_image_res,
     parse_timedelta,
     read_limited,
 )
@@ -756,12 +756,12 @@ class Useful(commands.Cog):
             await ctx.reply_embed(ctx.l.useful.imgcmds.error)
             return
 
-        if not is_valid_image(res):
+        if not is_valid_image_res(res):
             await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
             return
 
         try:
-            data = await read_limited(res, max_bytes=20000000)  # 20mb
+            data = await read_limited(res, max_bytes=20_000_000)  # 20mb
         except ValueError:
             await ctx.reply_embed(ctx.l.useful.imgcmds.too_big.format("20MB"))
             return
@@ -808,12 +808,12 @@ class Useful(commands.Cog):
             await ctx.reply_embed(ctx.l.useful.imgcmds.error)
             return
 
-        if not is_valid_image(res):
+        if not is_valid_image_res(res):
             await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
             return
 
         try:
-            data = await read_limited(res, max_bytes=8000000)  # 8mb
+            data = await read_limited(res, max_bytes=8_000_000)  # 8mb
         except ValueError:
             await ctx.reply_embed(ctx.l.useful.imgcmds.too_big.format("8MB"))
             return
