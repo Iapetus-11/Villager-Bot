@@ -370,7 +370,7 @@ class Useful(commands.Cog):
             session_votes,
         ) = map(sum, zip(*(clusters_stats + [karen_stats])))
 
-        total_mem = psutil.virtual_memory().total
+        # total_mem = psutil.virtual_memory().total
 
         embed = discord.Embed(color=self.bot.embed_color)
 
