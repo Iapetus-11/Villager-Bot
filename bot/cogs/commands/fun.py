@@ -316,7 +316,9 @@ class Fun(commands.Cog):
     def calculate_trivia_reward(self, question_difficulty: int) -> int:
         return int((random.random() + 0.25) * (question_difficulty + 0.25) * 9) + 1
 
-    async def trivia_multiple_choice(self, ctx: Ctx, question: Fun_Trivia_Question, do_reward: bool) -> None:
+    async def trivia_multiple_choice(
+        self, ctx: Ctx, question: Fun_Trivia_Question, do_reward: bool
+    ) -> None:
         correct_choice = question.a[0]
 
         choices = question.a.copy()
