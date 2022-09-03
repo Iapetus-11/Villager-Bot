@@ -7,8 +7,6 @@ import time
 from contextlib import suppress
 from typing import Optional
 from urllib.parse import quote as urlquote
-from discord.app_commands import command as slash_command
-from PIL import Image, ExifTags
 
 import aiofiles
 import aiohttp
@@ -16,11 +14,13 @@ import arrow
 import async_cse
 import discord
 import moviepy.editor
+from discord.app_commands import command as slash_command
+from discord.ext import commands, tasks
+from PIL import ExifTags, Image
+
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
-from discord.ext import commands, tasks
 from bot.models.translation import Translation
-
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
     SuppressCtxManager,

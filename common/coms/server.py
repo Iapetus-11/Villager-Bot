@@ -1,11 +1,11 @@
 import asyncio
 import logging
-from typing import Any, Callable, Coroutine, Optional
 import uuid
+from typing import Any, Callable, Coroutine, Optional
 
 from pydantic import BaseModel
-from websockets.server import WebSocketServerProtocol, serve, WebSocketServer
 from websockets.exceptions import ConnectionClosedOK as WebSocketConnectionClosedOK
+from websockets.server import WebSocketServer, WebSocketServerProtocol, serve
 
 from common.coms.coms_base import ComsBase
 from common.coms.errors import InvalidPacketReceived, NoConnectedClientsError

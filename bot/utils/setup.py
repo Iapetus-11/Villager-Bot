@@ -5,10 +5,10 @@ import random
 import discord
 
 from common.models.data import Data
+from common.utils.code import format_exception
 
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
-from common.utils.code import format_exception
 
 
 def villager_bot_intents() -> discord.Intents:

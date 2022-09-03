@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any
-from functools import wraps
 import inspect
+from functools import wraps
+from typing import TYPE_CHECKING, Any
+
 from pydantic import create_model
 
 

@@ -1,5 +1,5 @@
-from typing import Any, Optional, TypeAlias
 from datetime import datetime
+from typing import Any, Optional, TypeAlias
 
 from pydantic import BaseModel
 

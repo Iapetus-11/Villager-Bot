@@ -9,15 +9,16 @@ import arrow
 import discord
 import psutil
 from discord.ext import commands
-from bot.models.fwd_dm import ForwardedDirectMessage
 
 from common.coms.packet import PACKET_DATA_TYPES
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.models.data import Data
+from common.models.topgg_vote import TopggVote
 from common.utils.code import execute_code
-from common.utils.setup import load_data
+from common.utils.setup import load_data, setup_logging
 
+from bot.models.fwd_dm import ForwardedDirectMessage
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
 from bot.utils.ctx import CustomContext
@@ -29,8 +30,6 @@ from bot.utils.misc import (
     update_support_member_role,
 )
 from bot.utils.setup import load_translations, villager_bot_intents
-from common.utils.setup import setup_logging
-from common.models.topgg_vote import TopggVote
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):

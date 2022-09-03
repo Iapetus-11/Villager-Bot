@@ -3,9 +3,9 @@ from __future__ import annotations
 import asyncio
 import itertools
 import time
+import uuid
 from collections import defaultdict
 from typing import Any, Optional
-import uuid
 
 import aiohttp
 import asyncpg
@@ -15,11 +15,12 @@ from common.coms.packet import PACKET_DATA_TYPES
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.coms.server import Server
+from common.data.enums.guild_event_type import GuildEventType
 from common.models.data import Data
+from common.models.topgg_vote import TopggVote
 from common.utils.code import execute_code
 from common.utils.misc import chunk_sequence
 from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
-from common.data.enums.guild_event_type import GuildEventType
 from common.utils.setup import setup_logging
 
 from karen.models.secrets import Secrets
@@ -27,7 +28,6 @@ from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
 from karen.utils.setup import setup_database_pool
 from karen.utils.shard_ids import ShardIdManager
 from karen.utils.topgg import VotingWebhookServer
-from common.models.topgg_vote import TopggVote
 
 logger = setup_logging("karen")
 

@@ -1,4 +1,5 @@
 from typing import Optional
+
 from common.models.base import BaseModel
 
 

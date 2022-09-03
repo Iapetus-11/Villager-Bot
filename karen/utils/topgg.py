@@ -4,9 +4,9 @@ from typing import Any, Callable, Coroutine, Optional
 from aiohttp import web
 from pydantic import ValidationError
 
-from karen.models.secrets import TopggWebhookSecrets
-
 from common.models.topgg_vote import TopggVote
+
+from karen.models.secrets import TopggWebhookSecrets
 
 
 class VotingWebhookServer:

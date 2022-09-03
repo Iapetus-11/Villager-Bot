@@ -1,21 +1,19 @@
 import asyncio
 import math
 import mimetypes
+import re
 import time
 from collections import defaultdict
 from contextlib import suppress
+from datetime import timedelta
 from typing import Any
-import aiohttp
 
+import aiohttp
 import discord
 
 from common.models.db.item import Item
 from common.models.db.user import User
-
 from common.utils.code import format_exception
-
-from datetime import timedelta
-import re
 
 
 def parse_timedelta(duration: str) -> timedelta | None:

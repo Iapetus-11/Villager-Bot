@@ -3,11 +3,11 @@ import sys
 from contextlib import suppress
 
 import discord
-from bot.cogs.core.database import Database
 from discord.ext import commands
 
 from common.utils.code import format_exception
 
+from bot.cogs.core.database import Database
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
     CommandOnKarenCooldown,
