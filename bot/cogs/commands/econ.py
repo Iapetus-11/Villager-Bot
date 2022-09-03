@@ -16,7 +16,15 @@ from common.models.data import ShopItem
 from common.models.db.item import Item
 
 from bot.utils.ctx import Ctx
-from bot.utils.misc import (SuppressCtxManager, calc_total_wealth, craft_lbs, emojify_crop, emojify_item, format_required, make_health_bar)
+from bot.utils.misc import (
+    SuppressCtxManager,
+    calc_total_wealth,
+    craft_lbs,
+    emojify_crop,
+    emojify_item,
+    format_required,
+    make_health_bar,
+)
 from bot.villager_bot import VillagerBotCluster
 
 
