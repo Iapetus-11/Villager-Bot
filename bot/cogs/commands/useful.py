@@ -33,14 +33,6 @@ from bot.utils.misc import (
 from bot.villager_bot import VillagerBotCluster
 
 
-class BanCacheEntry:
-    __slots__ = ("ban_count", "time")
-
-    def __init__(self, ban_count: int):
-        self.ban_count = ban_count
-        self.time = time.time()
-
-
 class Useful(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
@@ -51,9 +43,7 @@ class Useful(commands.Cog):
         self.google = async_cse.Search(bot.k.google_search)
         self.aiohttp = bot.aiohttp
 
-        self.ban_count_cache = {}
-
-        self.snipes = {}
+        self.snipes = dict[int, tuple[discord.Message, float]]()
         self.clear_snipes.start()
 
     def cog_unload(self):
@@ -64,7 +54,7 @@ class Useful(commands.Cog):
         return self.bot.get_cog("Paginator")
 
     @commands.Cog.listener()
-    async def on_message_delete(self, message):
+    async def on_message_delete(self, message: discord.Message):
         if not message.author.bot and message.content:
             self.snipes[message.channel.id] = message, time.time()
 
@@ -399,8 +389,8 @@ class Useful(commands.Cog):
         )
 
         col_2 = (
-            f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000000, 2)} GB` `({round(mem_usage / total_mem * 100, 2)}%)`\n"
-            f"{ctx.l.useful.stats.cpu}: `{round(psutil.getloadavg()[0] / psutil.cpu_count() * 100, 2)}%`\n"
+            # f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000000, 2)} GB` `({round(mem_usage / total_mem * 100, 2)}%)`\n"
+            # f"{ctx.l.useful.stats.cpu}: `{round(psutil.getloadavg()[0] / psutil.cpu_count() * 100, 2)}%`\n"
             f"{ctx.l.useful.stats.threads}: `{threads}`\n"
             f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"
             f"Discord {ctx.l.useful.stats.ping}: `{round((latency_all/len(clusters_stats)) * 1000, 2)} ms`\n"
@@ -449,12 +439,13 @@ class Useful(commands.Cog):
         villager = (
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
             f"{ctx.l.useful.ginf.diff}: `{db_guild.difficulty}`\n"
-            f"{ctx.l.useful.ginf.cmd_prefix}: `{await self.bot.get_prefix(ctx)}`\n"
+            f"{ctx.l.useful.ginf.cmd_prefix}: `{ctx.prefix}`\n"
         )
 
         embed.add_field(name="General :gear:", value=general, inline=True)
         embed.add_field(name="Villager Bot " + self.d.emojis.emerald, value=villager, inline=True)
-        # embed.add_field(name="Roles", value=" ".join([r.mention for r in guild.roles if r.id != guild.id][::-1]))
+        
+        embed.add_field(name="Roles", value=" ".join([r.mention for r in guild.roles if r.id != guild.id][::-1]), inline=False)
 
         embed.set_thumbnail(url=getattr(guild.icon, "url", None))
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
