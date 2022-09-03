@@ -775,7 +775,7 @@ class Useful(commands.Cog):
 
         for key, value in exif.items():
             embed.add_field(name=key, value=f"`{value}`")
-        
+
         if not exif:
             embed.description = ctx.l.useful.exif.none
 
