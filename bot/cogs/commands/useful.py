@@ -23,7 +23,13 @@ from discord.ext import commands, tasks
 from bot.models.translation import Translation
 
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, get_timedelta_granularity, is_valid_image, parse_timedelta, read_limited
+from bot.utils.misc import (
+    SuppressCtxManager,
+    get_timedelta_granularity,
+    is_valid_image,
+    parse_timedelta,
+    read_limited,
+)
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -781,7 +787,9 @@ class Useful(commands.Cog):
 
         await ctx.reply(embed=embed)
 
-    @commands.command(name="imagetopng", aliases=["image2png", "topng", "imgtopng", "img2png", "pngify"])
+    @commands.command(
+        name="imagetopng", aliases=["image2png", "topng", "imgtopng", "img2png", "pngify"]
+    )
     @commands.cooldown(1, 3, commands.BucketType.member)
     async def image_to_png(self, ctx: Ctx, url: Optional[str] = None):
         if url is None and not ctx.message.attachments:

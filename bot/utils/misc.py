@@ -346,7 +346,8 @@ def is_valid_image(res: aiohttp.ClientResponse) -> bool:
 
     return True
 
-async def read_limited(res: aiohttp.ClientResponse, *, max_bytes: int = 1e+6) -> bytes:
+
+async def read_limited(res: aiohttp.ClientResponse, *, max_bytes: int = 1e6) -> bytes:
     out = bytearray()
 
     async for data in res.content.iter_any():
