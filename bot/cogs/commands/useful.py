@@ -23,7 +23,12 @@ from discord.ext import commands, tasks
 from bot.models.translation import Translation
 
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, get_timedelta_granularity, is_valid_image, parse_timedelta
+from bot.utils.misc import (
+    SuppressCtxManager,
+    get_timedelta_granularity,
+    is_valid_image,
+    parse_timedelta,
+)
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -741,7 +746,9 @@ class Useful(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.member)
     async def exif_data(self, ctx: Ctx, url: Optional[str] = None):
         if not url:
-            await ctx.reply_embed("This command requires a URL, as Discord automatically strips EXIF data from media.")
+            await ctx.reply_embed(
+                "This command requires a URL, as Discord automatically strips EXIF data from media."
+            )
             return
 
         res = await self.aiohttp.get(url)
@@ -762,12 +769,11 @@ class Useful(commands.Cog):
 
         for key, value in exif.items():
             embed.add_field(name=key, value=f"`{value}`")
-        
+
         if not exif:
             embed.description = "*No EXIF data found...*"
 
         await ctx.reply(embed=embed)
-
 
 
 async def setup(bot: VillagerBotCluster) -> None:
