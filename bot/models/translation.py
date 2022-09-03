@@ -451,6 +451,19 @@ class Useful_Redditdl(ImmutableBaseModel):
     couldnt_find: str
 
 
+class Useful_Imgcmds(ImmutableBaseModel):
+    missing: str
+    invalid: str
+    too_big: str
+    error: str
+
+
+class Useful_Exif(ImmutableBaseModel):
+    title: str
+    none: str
+    discord: str
+
+
 class Useful(ImmutableBaseModel):
     vote: Useful_Vote
     links: Useful_Links
@@ -463,6 +476,8 @@ class Useful(ImmutableBaseModel):
     credits: Useful_Credits
     snipe: Useful_Snipe
     redditdl: Useful_Redditdl
+    imgcmds: Useful_Imgcmds
+    exif: Useful_Exif
 
 
 class Econ_MathProblem(ImmutableBaseModel):

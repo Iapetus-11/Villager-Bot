@@ -1328,6 +1328,11 @@
           "O **creeper** fez {}{} que era seu subir em uma nuvem de fumaça...",
           "O **creeper** também obliterou {}{} que era seu..."
         ],
+        "enderman": [
+          "O **enderman** se teletransportou com {}{} que era seu...",
+          "O **enderman** roubou {}{} de você e o teletransportou no void...",
+          "O **enderman** roubou {}{} de você e se teletransportou para longe..."
+        ],
         "normal": [
           "O **{}** também roubou {}{} que era seu...",
           "O **{}** também fugiu com {}{} que era seu...",
@@ -1429,6 +1434,24 @@
             "Você corta a sua **{0}** no **bebê slime** tão forte quanto você pode. O **bebê slime** está bem.",
             "Você erra, balançando sua **{0}** no **bebê slime**.",
             "Você balança a sua **{0}**, o **bebê slime** faz uma cara fofa e você erra!"
+          ]
+        },
+        "enderman": {
+          "attacks": [
+            "O **enderman** pega um bloco de grama e joga em você!",
+            "O **enderman** pega um bloco de tnt e joga em você!",
+            "O **enderman** te dá um soco na cara",
+            "O **enderman** grita e bate na sua cara com seus longos braços",
+            "O **enderman** se teletransporta atrás de você e te dá um tapa na cabeça"
+          ],
+          "finishers": [
+            "O **enderman** teletransporta você de um penhasco",
+            "O **enderman** teletransporta você para o void",
+            "O **enderman** se teletransporta atrás de você e"
+          ],
+          "misses": [
+            "Você balança sua **{0}** o mais forte que pode, mas o **enderman** se teletransporta para fora do caminho.",
+            "Você balança sua **{0}** mas o **enderman** se teletransporta para fora do caminho."
           ]
         }
       }

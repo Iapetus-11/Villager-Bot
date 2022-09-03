@@ -23,7 +23,7 @@ from discord.ext import commands, tasks
 from bot.models.translation import Translation
 
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, get_timedelta_granularity, is_valid_image, parse_timedelta
+from bot.utils.misc import SuppressCtxManager, get_timedelta_granularity, is_valid_image, parse_timedelta, read_limited
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -738,36 +738,90 @@ class Useful(commands.Cog):
             await ctx.reply(ctx.l.useful.redditdl.couldnt_find)
 
     @commands.command(name="exifdata", aliases=["exif"])
-    @commands.cooldown(1, 2, commands.BucketType.member)
+    @commands.cooldown(1, 3, commands.BucketType.member)
     async def exif_data(self, ctx: Ctx, url: Optional[str] = None):
         if not url:
-            await ctx.reply_embed("This command requires a URL, as Discord automatically strips EXIF data from media.")
-            return
-
-        res = await self.aiohttp.get(url)
-
-        if not is_valid_image(res):
-            await ctx.reply_embed("The specified image is not valid.")
+            await ctx.reply_embed(ctx.l.useful.exif.discord)
             return
 
         try:
-            image = Image.open(io.BytesIO(await res.read()))
+            res = await self.aiohttp.get(url)
         except Exception:
-            await ctx.reply_embed("An error occurred while reading the specified image.")
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        if not is_valid_image(res):
+            await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
+            return
+
+        try:
+            data = await read_limited(res, max_bytes=20000000)  # 20mb
+        except ValueError:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.too_big.format("20MB"))
+            return
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        try:
+            image = Image.open(io.BytesIO(data))
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
             return
 
         exif = {ExifTags.TAGS[k]: v for k, v in image.getexif().items()}
 
-        embed = discord.Embed(color=self.bot.embed_color, title="EXIF Data")
+        embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.useful.exif.title)
 
         for key, value in exif.items():
             embed.add_field(name=key, value=f"`{value}`")
         
         if not exif:
-            embed.description = "*No EXIF data found...*"
+            embed.description = ctx.l.useful.exif.none
 
         await ctx.reply(embed=embed)
 
+    @commands.command(name="imagetopng", aliases=["image2png", "topng", "imgtopng", "img2png", "pngify"])
+    @commands.cooldown(1, 3, commands.BucketType.member)
+    async def image_to_png(self, ctx: Ctx, url: Optional[str] = None):
+        if url is None and not ctx.message.attachments:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.missing)
+            return
+
+        file_name = "vb-png-convert.png"
+
+        if url is None:
+            url = ctx.message.attachments[0].proxy_url
+            file_name = ctx.message.attachments[0].filename + ".png"
+
+        try:
+            res = await self.aiohttp.get(url)
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        if not is_valid_image(res):
+            await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
+            return
+
+        try:
+            data = await read_limited(res, max_bytes=8000000)  # 8mb
+        except ValueError:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.too_big.format("8MB"))
+            return
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        try:
+            image = Image.open(io.BytesIO(data))
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        image.save((out := io.BytesIO()), format="PNG")
+        out.seek(0)
+        await ctx.reply(file=discord.File(out, filename=file_name))
 
 
 async def setup(bot: VillagerBotCluster) -> None:
