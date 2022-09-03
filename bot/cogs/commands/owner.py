@@ -61,7 +61,7 @@ class Owner(commands.Cog):
 
         try:
             result = await execute_code(
-                stuff, {"bot": self.bot, "db": self.db.db, "dbc": self.db, "http": self.bot.aiohttp}
+                stuff, {"bot": self.bot, "db": self.db.db, "dbc": self.db, "http": self.bot.aiohttp, "ctx": ctx}
             )
 
             result_str = f"{result}".replace("```", "｀｀｀")

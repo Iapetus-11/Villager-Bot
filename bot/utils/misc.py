@@ -1,9 +1,11 @@
 import asyncio
 import math
+import mimetypes
 import time
 from collections import defaultdict
 from contextlib import suppress
-from typing import Any
+from typing import Any, Optional
+import aiohttp
 
 import discord
 
@@ -332,3 +334,12 @@ def shorten_text(text: str, to: int = 2000) -> str:
         return text[: to - 1] + "…"
 
     return text
+
+def check_file_signature(*, media_type: str, file_name: str) -> bool:
+    return mimetypes.types_map["." + file_name.split(".")[-1]] == media_type
+
+def is_valid_image(res: aiohttp.ClientResponse) -> bool:
+    if not res.content_type.startswith("image/"):
+        return False
+
+    return True
