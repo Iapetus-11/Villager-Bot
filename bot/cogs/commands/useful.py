@@ -16,7 +16,6 @@ import arrow
 import async_cse
 import discord
 import moviepy.editor
-import psutil
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from discord.ext import commands, tasks
