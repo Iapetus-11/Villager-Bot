@@ -38,7 +38,7 @@ def main(args: list[str]) -> None:
     if not os.path.exists("tmp"):
         os.mkdir("tmp")
 
-    if "--build-pyx-only" not in args:
+    if "--build-cython-only" not in args:
         with ThreadPoolExecutor() as tp:
             asyncio.run(main_async(tp))
 

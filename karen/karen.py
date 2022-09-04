@@ -55,7 +55,6 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         self._db: Optional[asyncpg.Pool] = None
 
         self.ready_event = asyncio.Event()
-        self.all_clusters_connected_event = asyncio.Event()
 
         self.server = Server(
             secrets.karen.host,

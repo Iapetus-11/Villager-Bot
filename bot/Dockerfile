@@ -24,7 +24,7 @@ COPY common common
 COPY bot bot
 
 # build cython extensions
-RUN poetry run python3 -m bot --build-pyx-only
+RUN poetry run python3 -m bot --build-cython-only
 
 # run Villager Bot cluster
 CMD poetry run python3 -m bot

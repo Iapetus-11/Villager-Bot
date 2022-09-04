@@ -4,7 +4,7 @@ from bot.utils.karen_client import KarenClient
 
 
 class DatabaseProxy:
-    """Provides an API similar to that of an asyncpg.Pool but forwards calls to Karen"""
+    """Provides an API similar to that of an asyncpg.Pool but proxies calls through Karen"""
 
     __slots__ = ("karen",)
 
