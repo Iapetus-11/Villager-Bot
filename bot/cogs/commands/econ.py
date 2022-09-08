@@ -1,6 +1,5 @@
 import asyncio
 import functools
-import itertools
 import math
 import random
 from collections import defaultdict
@@ -2278,14 +2277,20 @@ class Econ(commands.Cog):
         await self.karen.econ_pause(user_2.id)
 
         try:
-            db_user_1, db_user_2 = await asyncio.gather(self.db.fetch_user(user_1.id), self.db.fetch_user(user_2.id))
+            db_user_1, db_user_2 = await asyncio.gather(
+                self.db.fetch_user(user_1.id), self.db.fetch_user(user_2.id)
+            )
 
             if db_user_1.emeralds < emerald_pool:
-                await ctx.reply_embed(f"You don't have {emerald_pool}{self.d.emojis.emerald} to bet.")
+                await ctx.reply_embed(
+                    f"You don't have {emerald_pool}{self.d.emojis.emerald} to bet."
+                )
                 return
 
             if db_user_2.emeralds < emerald_pool:
-                await ctx.reply_embed(f"{user_2.mention} doesn't have {emerald_pool}{self.d.emojis.emerald} to bet.")
+                await ctx.reply_embed(
+                    f"{user_2.mention} doesn't have {emerald_pool}{self.d.emojis.emerald} to bet."
+                )
                 return
         finally:
             await self.karen.econ_unpause(user_1.id)
