@@ -123,7 +123,9 @@
         "math": "`{0}math <problem>` *soluciona una operación matemática*",
         "remindme": "`{0}remindme <tiempo> <recordatorio>` *fija un recordatorio en el tiempo especificado*",
         "credits": "`{0}credits` *Muestra quienes ayudaron a hacer Villager Bot*",
-        "snipe": "`{0}snipe` *mostra a última mensagem excluída no canal atual*"
+        "snipe": "`{0}snipe` *mostra a última mensagem excluída no canal atual*",
+        "exif": "`{0}exif` *Extrae datos EXIF de la imagen especificada*",
+        "imagetopng": "`{0}imagetopng *convierte la imagen subida/especificada en png*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envía una imagen Minecraft maldita al azar*",
@@ -1732,6 +1734,17 @@
         "downloading": "{} Descargando vídeo y audio...",
         "stitching": "{} Juntando el vídeo y el audio...",
         "couldnt_find": "No se pudo encontrar nada para descargar... :/"
+      },
+      "imgcmds": {
+        "missing": "Debes de especificar la url de una imagen o subir una.",
+        "invalid": "La imagen especificada es inválida.",
+        "too_big": "La imagen especificada es demasiado grande (no debe exceder {size}).",
+        "error": "Ocurrió un error al leer la imagen especificada."
+      },
+      "exif": {
+        "title": "Datos EXIF",
+        "none": "*No se encontraron datos EXIF...*",
+        "discord": "Este comando requiere una URL, porque Discord retira los datos EXIF de las imágenes."
       }
     },
     "econ": {

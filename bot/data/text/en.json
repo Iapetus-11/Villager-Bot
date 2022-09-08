@@ -124,6 +124,7 @@
         "remindme": "`{0}remindme <time> <reminder>` *reminds you in a specified time*",
         "credits": "`{0}credits` *shows who helped make Villager Bot*",
         "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*",
+        "redditdl": "`{0}redditdl <reddit post url>` *downloads the specified media from Reddit*",
         "exif": "`{0}exif` *extracts EXIF data from the specified image*",
         "imagetopng": "`{0}imagetopng *converts the uploaded/specified image to a png*"
       },
