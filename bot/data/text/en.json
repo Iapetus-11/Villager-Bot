@@ -1766,7 +1766,8 @@
         "sword": "Sword",
         "streak": "Vote Streak",
         "can_vote": "Can Vote?",
-        "yep": "Yep!"
+        "yep": "Yep!",
+        "fx": "Active Effects"
       },
       "bal": {
         "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
@@ -1962,6 +1963,7 @@
         "stupid_2": "You can't pillage people from other servers...",
         "stupid_3": "You can only pillage people if you have more than 64{}",
         "stupid_4": "You can only pillage a person if they have more than 64{}",
+        "stupid_5": "You can't pillage a person who has a **Shield Pearl** active.",
         "u_win": {
           "user": [
             "You escaped with {}{}",
@@ -2010,6 +2012,7 @@
         "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**.",
         "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
         "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
+        "use_shield_pearl": "You've used a **Shield Pearl** and are now invincible against pillagers for the next month.",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",
           "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",

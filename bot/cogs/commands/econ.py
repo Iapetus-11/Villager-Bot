@@ -16,7 +16,7 @@ from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
-    SuppressCtxManager,
+    item_case, SuppressCtxManager,
     calc_total_wealth,
     craft_lbs,
     emojify_crop,
@@ -152,6 +152,11 @@ class Econ(commands.Cog):
 
         user_badges_str = self.badges.emojify_badges(await self.badges.fetch_user_badges(user.id))
 
+        active_fx = await self.karen.fetch_active_fx(user.id)
+
+        if db_user.shield_pearl and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()):
+            active_fx.add('shield pearl')
+
         embed = discord.Embed(color=self.bot.embed_color, description=f"{health_bar}")
         embed.set_author(name=user.display_name, icon_url=getattr(user.avatar, "url", None))
 
@@ -174,8 +179,11 @@ class Econ(commands.Cog):
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name=ctx.l.econ.pp.sword, value=(await self.db.fetch_sword(user.id)))
 
+        if active_fx:
+            embed.add_field(name=ctx.l.econ.pp.fx, value=f"`{'`, `'.join(map(item_case, active_fx))}`", inline=False)
+
         if user_badges_str:
-            embed.add_field(name="\uFEFF", value=user_badges_str)
+            embed.add_field(name="\uFEFF", value=user_badges_str, inline=False)
 
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -199,8 +207,7 @@ class Econ(commands.Cog):
 
         total_wealth = calc_total_wealth(db_user, u_items)
 
-        mooderalds = await self.db.fetch_item(user.id, "Mooderald")
-        mooderalds = 0 if mooderalds is None else mooderalds.amount
+        mooderalds = getattr(await self.db.fetch_item(user.id, "Mooderald"), "amount", 0)
 
         embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
@@ -1212,6 +1219,10 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
+        if db_user.shield_pearl and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()):
+            await ctx.reply_embed(ctx.l.econ.pillage.stupid_5)
+            return
+
         user_bees = getattr(await self.db.fetch_item(ctx.author.id, "Jar Of Bees"), "amount", 0)
         victim_bees = getattr(await self.db.fetch_item(victim.id, "Jar Of Bees"), "amount", 0)
 
@@ -1512,6 +1523,19 @@ class Econ(commands.Cog):
 
         if thing == "morbius":
             await ctx.reply_embed("I'M MOOOOOOOORBINGGGG!!!")
+            return
+
+        if thing == "shield pearl":
+            db_user = await self.db.fetch_user(ctx.author.id)
+
+            if (db_user.shield_pearl and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow())) or amount > 1:
+                await ctx.reply_embed(ctx.l.econ.use.stupid_1)
+                return
+
+            await self.db.remove_item(ctx.author.id, "Shield Pearl", 1)
+            await self.db.update_user(ctx.author.id, shield_pearl=arrow.utcnow().datetime)
+
+            await ctx.reply_embed(ctx.l.econ.use.use_shield_pearl)
             return
 
         await ctx.reply_embed(ctx.l.econ.use.stupid_6)
@@ -2292,6 +2316,31 @@ class Econ(commands.Cog):
                     f"{user_2.mention} doesn't have {emerald_pool}{self.d.emojis.emerald} to bet."
                 )
                 return
+
+            user_1_sword, user_2_sword, user_1_bees, user_2_bees = await asyncio.gather(
+                self.db.fetch_sword(user_1.id),
+                self.db.fetch_sword(user_2.id),
+                self.db.fetch_item(user_1.id, "Jar Of Bees"),
+                self.db.fetch_item(user_2.id, "Jar Of Bees"),
+            )
+
+            user_1_health = db_user_1.health
+            user_2_health = db_user_2.health
+
+            embed = discord.Embed(color=self.bot.embed_color)
+
+            embed.add_field(
+                name=f"{user_1.display_name}",
+                value=f"{user_1_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} "
+            )
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(
+                name=f"{user_2.display_name}",
+                value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} "
+            )
+
+            msg = await ctx.send(f"{user_2.mention} react with {self.d.emojis.netherite_sword_ench} to accept the challenge!", embed=embed)
+            await msg.add_reaction(self.d.emojis.netherite_sword_ench)
         finally:
             await self.karen.econ_unpause(user_1.id)
             await self.karen.econ_unpause(user_2.id)

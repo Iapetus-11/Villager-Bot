@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED=TRUE
 
 # install essential packages
 RUN apt-get update -y
-RUN apt-get install -y git build-essential libgl1 libglib2.0-0
+RUN apt-get install -y git build-essential libgl1 libglib2.0-0 ffmpeg
 
 # install & configure poetry
 RUN python3 -m pip install poetry --no-cache-dir

@@ -115,10 +115,12 @@ class Owner(commands.Cog):
     @commands.command(name="lookup")
     @commands.is_owner()
     async def lookup(self, ctx: Ctx, user: Union[discord.User, int]):
-        if isinstance(user, discord.User):
-            uid = user.id
-        else:
+        if not (uid := getattr(user, "id", None)):
             uid = user
+
+        if uid == self.bot.user.id:
+            await ctx.reply_embed("You do not want to do this.")
+            return
 
         responses = await self.karen.lookup_user(uid)
         guilds = list(itertools.chain.from_iterable(responses))
@@ -131,9 +133,7 @@ class Owner(commands.Cog):
     @commands.command(name="setbal")
     @commands.is_owner()
     async def set_user_bal(self, ctx: Ctx, user: Union[discord.User, int], balance: int):
-        if isinstance(user, discord.User):
-            uid = user.id
-        else:
+        if not (uid := getattr(user, "id", None)):
             uid = user
 
         await self.db.update_user(uid, emeralds=balance)

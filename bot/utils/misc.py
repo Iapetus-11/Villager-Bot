@@ -355,3 +355,7 @@ async def read_limited(res: aiohttp.ClientResponse, *, max_bytes: int = 1e6) -> 
             raise ValueError("Content length exceeds max length")
 
     return bytes(out)
+
+
+def item_case(text: str) -> str:
+    return " ".join([w.capitalize() for w in text.split()])

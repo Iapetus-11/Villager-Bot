@@ -887,6 +887,40 @@
         "sticky": false
       },
       "requires": {}
+    },
+    "time pearl": {
+      "cat": "magic",
+      "buy_price": 9999,
+      "db_entry": {
+        "item": "Time Pearl",
+        "sell_price": 3333,
+        "sticky": true
+      },
+      "requires": {
+        "items": {
+          "Ender Pearl": 1,
+          "Mooderald": 1,
+          "Bone Meal": 1,
+          "Slime Ball": 4
+        }
+      }
+    },
+    "shield pearl": {
+      "cat": "magic",
+      "buy_price": 9999,
+      "db_entry": {
+        "item": "Shield Pearl",
+        "sell_price": 3333,
+        "sticky": true
+      },
+      "requires": {
+        "items": {
+          "Ender Pearl": 1,
+          "Mooderald": 5,
+          "Slime Ball": 4,
+          "Netherite Scrap": 100
+        }
+      }
     }
   },
   "rpt_ignore": [

@@ -145,7 +145,7 @@ class KarenClient:
 
     @validate_return
     async def fetch_active_fx(self, user_id: int) -> set[str]:
-        return await self._send(PacketType.ACTIVE_FX_FETCH, user_id=user_id)
+        return set(await self._send(PacketType.ACTIVE_FX_FETCH, user_id=user_id))
 
     @validate_return
     async def check_active_fx(self, user_id: int, fx: str) -> bool:

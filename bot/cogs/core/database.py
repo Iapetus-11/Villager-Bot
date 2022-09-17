@@ -145,7 +145,6 @@ class Database(commands.Cog):
             await self.add_item(user_id, "Wood Pickaxe", 0, 1, True, False)
             await self.add_item(user_id, "Wood Sword", 0, 1, True, False)
             await self.add_item(user_id, "Wood Hoe", 0, 1, True, False)
-            # await self.add_item(user_id, "Bone Meal", 512, 1)
             await self.add_item(user_id, "Wheat Seed", 24, 5)
 
         return User(**user)
@@ -158,9 +157,7 @@ class Database(commands.Cog):
         values = []
         sql = []
 
-        for i, e in enumerate(kwargs.items()):
-            k, v = e
-
+        for i, (k, v) in enumerate(kwargs.items()):
             values.append(v)
             sql.append(f"{k} = ${i+1}")
 
@@ -204,17 +201,6 @@ class Database(commands.Cog):
 
         await self.set_balance(user_id, new)
         return amount
-
-    async def fetch_vault(
-        self, user_id: int
-    ) -> dict:  # fetches a user's vault in the form (vault_amount, vault_max)
-        user = await self.fetch_user(user_id)
-        return {
-            "vault_bal": user["vault_bal"],
-            0: user["vault_bal"],
-            "vault_max": user["vault_max"],
-            1: user["vault_max"],
-        }
 
     async def set_vault(self, user_id: int, vault_balance: int, vault_max: int) -> None:
         db_user = await self.fetch_user(

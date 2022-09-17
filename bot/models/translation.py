@@ -121,6 +121,7 @@ class MobsMech_Mobs(ImmutableBaseModel):
     cave_spider: MobsMech_Mobs_MobActions
     creeper: MobsMech_Mobs_MobActions
     baby_slime: MobsMech_Mobs_MobActions
+    enderman: MobsMech_Mobs_MobActions
 
 
 class MobsMech(ImmutableBaseModel):
@@ -497,6 +498,7 @@ class Econ_Pp(ImmutableBaseModel):
     streak: str
     can_vote: str
     yep: str
+    fx: str
 
 
 class Econ_Bal(ImmutableBaseModel):
@@ -637,6 +639,7 @@ class Econ_Pillage(ImmutableBaseModel):
     stupid_2: str
     stupid_3: str
     stupid_4: str
+    stupid_5: str
     u_win: Econ_Pillage_Outcome
     u_lose: Econ_Pillage_Outcome
 
@@ -662,6 +665,7 @@ class Econ_Use(ImmutableBaseModel):
     need_slimy_balls: str
     slimy_balls_funne: str
     beaker_of_slime_undo: str
+    use_shield_pearl: str
     present: list[str]
     barrel_item: list[str]
     barrel_ems: list[str]
