@@ -16,12 +16,13 @@ from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
-    item_case, SuppressCtxManager,
+    SuppressCtxManager,
     calc_total_wealth,
     craft_lbs,
     emojify_crop,
     emojify_item,
     format_required,
+    item_case,
     make_health_bar,
 )
 from bot.villager_bot import VillagerBotCluster
@@ -154,8 +155,10 @@ class Econ(commands.Cog):
 
         active_fx = await self.karen.fetch_active_fx(user.id)
 
-        if db_user.shield_pearl and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()):
-            active_fx.add('shield pearl')
+        if db_user.shield_pearl and (
+            arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()
+        ):
+            active_fx.add("shield pearl")
 
         embed = discord.Embed(color=self.bot.embed_color, description=f"{health_bar}")
         embed.set_author(name=user.display_name, icon_url=getattr(user.avatar, "url", None))
@@ -180,7 +183,11 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.pp.sword, value=(await self.db.fetch_sword(user.id)))
 
         if active_fx:
-            embed.add_field(name=ctx.l.econ.pp.fx, value=f"`{'`, `'.join(map(item_case, active_fx))}`", inline=False)
+            embed.add_field(
+                name=ctx.l.econ.pp.fx,
+                value=f"`{'`, `'.join(map(item_case, active_fx))}`",
+                inline=False,
+            )
 
         if user_badges_str:
             embed.add_field(name="\uFEFF", value=user_badges_str, inline=False)
@@ -1219,7 +1226,9 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
-        if db_user.shield_pearl and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()):
+        if db_user.shield_pearl and (
+            arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()
+        ):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_5)
             return
 
@@ -1528,7 +1537,10 @@ class Econ(commands.Cog):
         if thing == "shield pearl":
             db_user = await self.db.fetch_user(ctx.author.id)
 
-            if (db_user.shield_pearl and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow())) or amount > 1:
+            if (
+                db_user.shield_pearl
+                and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow())
+            ) or amount > 1:
                 await ctx.reply_embed(ctx.l.econ.use.stupid_1)
                 return
 
@@ -2331,15 +2343,18 @@ class Econ(commands.Cog):
 
             embed.add_field(
                 name=f"{user_1.display_name}",
-                value=f"{user_1_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} "
+                value=f"{user_1_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} ",
             )
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(
                 name=f"{user_2.display_name}",
-                value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} "
+                value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} ",
             )
 
-            msg = await ctx.send(f"{user_2.mention} react with {self.d.emojis.netherite_sword_ench} to accept the challenge!", embed=embed)
+            msg = await ctx.send(
+                f"{user_2.mention} react with {self.d.emojis.netherite_sword_ench} to accept the challenge!",
+                embed=embed,
+            )
             await msg.add_reaction(self.d.emojis.netherite_sword_ench)
         finally:
             await self.karen.econ_unpause(user_1.id)
