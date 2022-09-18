@@ -8,10 +8,32 @@ from common.coms.packet_type import PacketType
 
 # order matters in this due to the way Pydantic handles parsing
 T_PACKET_DATA: TypeAlias = (
-    bool | int | float | datetime | arrow.Arrow | set[Any] | list[Any] | dict[str, Any] | None | BaseModel | str
+    bool
+    | int
+    | float
+    | datetime
+    | arrow.Arrow
+    | set[Any]
+    | list[Any]
+    | dict[str, Any]
+    | None
+    | BaseModel
+    | str
 )
 
-PACKET_DATA_TYPES = (bool, int, float, datetime, arrow.Arrow, set, list, dict, type(None), BaseModel, str)
+PACKET_DATA_TYPES = (
+    bool,
+    int,
+    float,
+    datetime,
+    arrow.Arrow,
+    set,
+    list,
+    dict,
+    type(None),
+    BaseModel,
+    str,
+)
 
 
 class Packet(BaseModel):
