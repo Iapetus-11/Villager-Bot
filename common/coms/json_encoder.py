@@ -15,10 +15,14 @@ def special_obj_encode(obj: object) -> dict[str, Any]:
 
 
 def special_obj_decode(dct: dict) -> dict | Any:
-    if "__set_object" in dct:
-        return set(dct["__set_object"])
+    if val := dct.get("__set_object"):
+        return set(val)
 
-    if "__arrow_object" in dct:
-        return arrow.get(dct["__arrow_object"])
+    if val := dct.get("__arrow_object"):
+        return arrow.get(val)
+
+    # due to the way Pydantic decodes types, this is necessary
+    if val := dct.get("__datetime_object"):
+        return arrow.get(val).datetime
 
     return dct
