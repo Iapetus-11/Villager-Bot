@@ -46,7 +46,7 @@ class Share:
         self.active_fx = defaultdict[int, set[str]](set[str])  # user_id: set[fx]
         self.current_cluster_id = 0
 
-        self.command_executions = list[tuple[int, Optional[int], str, datetime.datetime, bool]]()
+        self.command_executions = list[tuple[int, Optional[int], str, bool, datetime.datetime]]()
 
 
 class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
