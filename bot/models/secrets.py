@@ -1,4 +1,5 @@
 from common.models.base import ImmutableBaseModel
+from common.models.logging_config import LoggingConfig
 from common.models.secrets import KarenSecrets
 
 
@@ -13,3 +14,4 @@ class Secrets(ImmutableBaseModel):
     google_search: list[str]
     xapi_key: str
     rcon_fernet_key: str
+    logging: LoggingConfig

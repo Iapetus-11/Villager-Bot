@@ -1,3 +1,4 @@
+import asyncio
 import itertools
 import os
 from typing import Any, Union
@@ -103,14 +104,12 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def gitpull(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            await self.bot.loop.run_in_executor(
-                self.bot.tp, os.system, "git pull > git_pull_log 2>&1"
-            )
+            await asyncio.to_thread(os.system, "git pull > git_pull_log 2>&1")
 
             async with aiofiles.open("git_pull_log", "r") as f:
                 await ctx.reply(f"```diff\n{(await f.read())[:2000-11]}```")
 
-        os.remove("git_pull_log")
+        await asyncio.to_thread(os.remove, "git_pull_log")
 
     @commands.command(name="lookup")
     @commands.is_owner()
@@ -252,7 +251,7 @@ class Owner(commands.Cog):
                 "```md\n##  count  | guild id           | name\n"
                 + "\n".join(
                     [
-                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']} | {shorten_text(discord.utils.escape_markdown(g['name']), 26)}"
+                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']} | {shorten_text(discord.utils.escape_markdown(g['name']), 22)}"
                         for i, g in enumerate(values)
                     ]
                 )
@@ -267,9 +266,16 @@ class Owner(commands.Cog):
                     reverse=True,
                 )[:10]
             )
-            top_guilds_by_active = fmt_values(
+            top_guilds_by_active_members = fmt_values(
                 sorted(
-                    await self.karen.fetch_top_guilds_by_active(),
+                    await self.karen.fetch_top_guilds_by_active_members(),
+                    key=(lambda g: g["count"]),
+                    reverse=True,
+                )[:10]
+            )
+            top_guilds_by_commands = fmt_values(
+                sorted(
+                    await self.karen.fetch_top_guilds_by_commands(),
                     key=(lambda g: g["count"]),
                     reverse=True,
                 )[:10]
@@ -277,7 +283,8 @@ class Owner(commands.Cog):
 
         embed = discord.Embed(color=self.bot.embed_color, title="Top Villager Bot Guilds")
         embed.add_field(name="By Members", value=top_guilds_by_members, inline=False)
-        embed.add_field(name="By Active Users", value=top_guilds_by_active, inline=False)
+        embed.add_field(name="By Active Members", value=top_guilds_by_active_members, inline=False)
+        embed.add_field(name="By Commands", value=top_guilds_by_commands, inline=False)
 
         await ctx.reply(embed=embed)
 

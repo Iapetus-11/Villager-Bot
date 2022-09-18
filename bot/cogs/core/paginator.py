@@ -18,15 +18,15 @@ class Paginator(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
-    def _create_reaction_check(
-        self, ctx: Ctx, msg: discord.Message
-    ) -> Callable[[discord.Reaction, discord.User], bool]:
+    @staticmethod
+    def _create_reaction_check(ctx: Ctx, msg: discord.Message) -> Callable[[discord.Reaction, discord.User], bool]:
         def predicate(r: discord.Reaction, u: discord.User):
             return (str(r.emoji) in NAV_EMOJIS) and ctx.author == u and r.message == msg
 
         return predicate
 
-    async def _get_page(self, get_page: PAGE_EMBED_CALLABLE, page: int) -> discord.Embed:
+    @staticmethod
+    async def _get_page(get_page: PAGE_EMBED_CALLABLE, page: int) -> discord.Embed:
         embed = get_page(page)
 
         if inspect.isawaitable(embed):
@@ -48,7 +48,7 @@ class Paginator(commands.Cog):
         page_count: Optional[int] = None,
     ):
         page = 0
-        prev_page = 0
+        prev_page: int
 
         # send initial message and add reactions
         msg = await ctx.reply(embed=(await self._get_page(get_page, page)), mention_author=False)

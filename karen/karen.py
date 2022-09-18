@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import datetime
 import itertools
 import time
 import uuid
@@ -29,8 +30,6 @@ from karen.utils.setup import setup_database_pool
 from karen.utils.shard_ids import ShardIdManager
 from karen.utils.topgg import VotingWebhookServer
 
-logger = setup_logging("karen")
-
 
 class Share:
     """Class which holds any data that clients can access (excluding exec packet)"""
@@ -43,14 +42,18 @@ class Share:
             int
         )  # user_id: cmd_count, used for fishing as well
         self.trivia_commands = defaultdict[int, int](int)  # user_id: cmd_count
-        self.command_counts = defaultdict[int, int](int)  # user_id: cmd_count
+        self.command_counts_lb = defaultdict[int, int](int)  # user_id: cmd_count
         self.active_fx = defaultdict[int, set[str]](set[str])  # user_id: set[fx]
         self.current_cluster_id = 0
+
+        self.command_executions = list[tuple[int, Optional[int], str, datetime.datetime, bool]]()
 
 
 class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     def __init__(self, secrets: Secrets, data: Data):
         self.k = secrets
+
+        self.logger = setup_logging("karen", secrets.logging)
 
         self._db: Optional[asyncpg.Pool] = None
 
@@ -61,13 +64,13 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             secrets.karen.port,
             secrets.karen.auth,
             self.get_packet_handlers(),
-            logger,
+            self.logger,
             self._connect_callback,
             self._disconnect_callback,
         )
 
         self.votehook_server = VotingWebhookServer(
-            self.k.topgg_webhook, self._vote_callback, logger
+            self.k.topgg_webhook, self._vote_callback, self.logger
         )
 
         self.v = Share(data)
@@ -79,7 +82,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         self._did_initial_load = False
         self._did_stop = False
 
-        RecurringTasksMixin.__init__(self, logger.getChild("loops"))
+        RecurringTasksMixin.__init__(self, self.logger.getChild("loops"))
 
     @property
     def db(self) -> asyncpg.Pool:
@@ -93,17 +96,17 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         self._db = value
 
     async def serve(self) -> None:
-        logger.info("Starting Karen...")
+        self.logger.info("Starting Karen...")
 
         self.db = await setup_database_pool(self.k.database)
-        logger.info(
+        self.logger.info(
             "Initialized database connection pool for server %s:%s",
             self.k.database.host,
             self.k.database.port,
         )
 
         self.aiohttp = aiohttp.ClientSession()
-        logger.info("Initialized aiohttp ClientSession")
+        self.logger.info("Initialized aiohttp ClientSession")
 
         await self.votehook_server.start()
 
@@ -111,20 +114,20 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         await self.server.serve(self._on_ready)
 
     async def stop(self) -> None:
-        logger.info("Shutting down Karen...")
+        self.logger.info("Shutting down Karen...")
 
         await self.server.stop()
-        logger.info("Stopped websocket server")
+        self.logger.info("Stopped websocket server")
 
         self.cancel_recurring_tasks()
 
         if self._db is not None:
             await self.db.close()
-            logger.info("Closed database pool")
+            self.logger.info("Closed database pool")
 
         if self.aiohttp is not None:
             await self.aiohttp.close()
-            logger.info("Closed aiohttp ClientSession")
+            self.logger.info("Closed aiohttp ClientSession")
 
         await self.votehook_server.stop()
 
@@ -157,7 +160,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         self.start_recurring_tasks()
 
     async def _update_guild_diffs(self):
-        logger.info("Updating guild events table with missed joins and leaves...")
+        self.logger.info("Updating guild events table with missed joins and leaves...")
 
         current_guilds_db = await self.db.fetch(
             """SELECT COALESCE(js.guild_id, ls.guild_id) AS guild_id FROM (
@@ -185,7 +188,7 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
             [(guild_id, GuildEventType.GUILD_LEAVE.value) for guild_id in missed_guild_leaves],
         )
 
-        logger.info("Done updating guild events table")
+        self.logger.info("Done updating guild events table")
 
     @classmethod
     def _transform_query_result(cls, result: Any) -> Any:
@@ -205,12 +208,12 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
 
     @recurring_task(minutes=1)
     async def loop_dump_command_counts(self):
-        if not self.v.command_counts:
+        if not self.v.command_counts_lb:
             return
 
-        commands_dump = list(self.v.command_counts.items())
-        user_ids = [(user_id,) for user_id in self.v.command_counts.keys()]
-        self.v.command_counts.clear()
+        commands_dump = list(self.v.command_counts_lb.items())
+        user_ids = [(user_id,) for user_id in self.v.command_counts_lb.keys()]
+        self.v.command_counts_lb.clear()
 
         # ensure users are in db first
         await self.db.executemany(
@@ -220,6 +223,19 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
         await self.db.executemany(
             'INSERT INTO leaderboards (user_id, commands, week_commands) VALUES ($1, $2, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2, "week_commands" = leaderboards.week_commands + $2 WHERE leaderboards.user_id = $1',
             commands_dump,
+        )
+
+    @recurring_task(minutes=1)
+    async def loop_dump_commands(self):
+        if not self.v.command_executions:
+            return
+
+        commands_dump = self.v.command_executions
+        self.v.command_executions = []
+
+        await self.db.executemany(
+            "INSERT INTO command_executions (user_id, guild_id, command, is_slash, at) VALUES ($1, $2, $3, $4, $5)",
+            commands_dump
         )
 
     @recurring_task(seconds=32)
@@ -325,9 +341,9 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
     async def packet_concurrency_release(self, command: str, user_id: int):
         self.v.command_concurrency.release(command, user_id)
 
-    @handle_packet(PacketType.COMMAND_RAN)
+    @handle_packet(PacketType.LB_COMMAND_RAN)
     async def packet_command_ran(self, user_id: int):
-        self.v.command_counts[user_id] += 1
+        self.v.command_counts_lb[user_id] += 1
 
     @handle_packet(PacketType.FETCH_STATS)
     async def handle_fetch_stats_packet(self):
@@ -399,3 +415,7 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
     async def packet_shutdown(self):
         await self.server.raw_broadcast(PacketType.SHUTDOWN)
         await self.stop()
+
+    @handle_packet(PacketType.COMMAND_EXECUTION)
+    async def packet_command_execution(self, user_id: int, guild_id: Optional[int], command: str, is_slash: bool):
+        self.v.command_executions.append((user_id, guild_id, command, is_slash, datetime.datetime.utcnow()))

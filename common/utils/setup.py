@@ -3,14 +3,15 @@ import logging
 import colorlog
 
 from common.models.data import Data
+from common.models.logging_config import LoggingConfig
 
 
 def load_data() -> Data:
     return Data.parse_file("common/data/data.json")
 
 
-def setup_logging(name: str, debug: bool = False) -> logging.Logger:
-    level = logging.DEBUG if debug else logging.INFO
+def setup_logging(name: str, config: LoggingConfig) -> logging.Logger:
+    level = logging.getLevelName(config.level)
 
     handler = colorlog.StreamHandler()
     handler.setFormatter(
@@ -18,7 +19,7 @@ def setup_logging(name: str, debug: bool = False) -> logging.Logger:
             "%(log_color)s%(asctime)s [%(name)s] %(levelname)s: %(message)s",
             datefmt="%m-%d-%y %H:%M:%S",
             log_colors={
-                "DEBUG": "gray",
+                "DEBUG": "white",
                 "INFO": "white",
                 "WARNING": "yellow",
                 "ERROR": "red",
@@ -35,5 +36,8 @@ def setup_logging(name: str, debug: bool = False) -> logging.Logger:
     for _, item in logging.root.manager.loggerDict.items():
         if isinstance(item, logging.Logger):
             item.addHandler(handler)
+
+    for name, override in config.overrides.items():
+        logging.getLogger(name).setLevel(logging.getLevelName(override.level))
 
     return logger

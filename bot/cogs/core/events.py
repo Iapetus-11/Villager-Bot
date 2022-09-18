@@ -58,9 +58,12 @@ class Events(commands.Cog):
         self.karen = bot.karen
         self.d = bot.d
         self.k = bot.k
-        self.db: Database = bot.get_cog("Database")
 
         bot.event(self.on_error)  # Cog.listener() doesn't work for on_error events
+
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     @property
     def badges(self):

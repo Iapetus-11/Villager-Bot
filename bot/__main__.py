@@ -2,7 +2,6 @@ import asyncio
 import os
 import signal
 import sys
-from concurrent.futures import ThreadPoolExecutor
 
 from common.utils.setup import load_data
 
@@ -11,12 +10,12 @@ from bot.utils.setup import load_secrets, load_translations
 from bot.villager_bot import VillagerBotCluster
 
 
-async def main_async(tp: ThreadPoolExecutor) -> None:
+async def main_async() -> None:
     secrets = load_secrets()
     translations = load_translations()
     data = load_data()
 
-    villager_bot = VillagerBotCluster(tp, secrets, data, translations)
+    villager_bot = VillagerBotCluster(secrets, data, translations)
 
     async with villager_bot:
         if os.name != "nt":
@@ -39,8 +38,7 @@ def main(args: list[str]) -> None:
         os.mkdir("tmp")
 
     if "--build-cython-only" not in args:
-        with ThreadPoolExecutor() as tp:
-            asyncio.run(main_async(tp))
+        asyncio.run(main_async())
 
 
 if __name__ == "__main__":

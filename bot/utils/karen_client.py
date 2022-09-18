@@ -128,8 +128,8 @@ class KarenClient:
         await self._send(PacketType.CONCURRENCY_RELEASE, command=command, user_id=user_id)
 
     @validate_return
-    async def command_ran(self, user_id: int) -> None:
-        await self._send(PacketType.COMMAND_RAN, user_id=user_id)
+    async def lb_command_ran(self, user_id: int) -> None:
+        await self._send(PacketType.LB_COMMAND_RAN, user_id=user_id)
 
     @validate_return
     async def check_econ_paused(self, user_id: int) -> bool:
@@ -244,5 +244,13 @@ class KarenClient:
         return await self._broadcast_aggregate(PacketType.FETCH_TOP_GUILDS_BY_MEMBERS)
 
     @validate_return
-    async def fetch_top_guilds_by_active(self) -> list[dict[str, Any]]:
-        return await self._broadcast_aggregate(PacketType.FETCH_TOP_GUILDS_BY_ACTIVE)
+    async def fetch_top_guilds_by_active_members(self) -> list[dict[str, Any]]:
+        return await self._broadcast_aggregate(PacketType.FETCH_TOP_GUILDS_BY_ACTIVE_MEMBERS)
+
+    @validate_return
+    async def fetch_top_guilds_by_commands(self) -> list[dict[str, Any]]:
+        return await self._broadcast_aggregate(PacketType.FETCH_TOP_GUILDS_BY_COMMANDS)
+
+    @validate_return
+    async def command_execution(self, user_id: int, guild_id: Optional[int], command: str, is_slash: bool) -> None:
+        await self._send(PacketType.COMMAND_EXECUTION, user_id=user_id, guild_id=guild_id, command=command, is_slash=is_slash)

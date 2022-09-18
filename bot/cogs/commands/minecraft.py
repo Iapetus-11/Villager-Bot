@@ -36,7 +36,6 @@ class Minecraft(commands.Cog):
         self.d = bot.d
         self.k = bot.k
 
-        self.db: Database = bot.get_cog("Database")
         self.aiohttp = bot.aiohttp
         self.fernet_key = Fernet(self.k.rcon_fernet_key)
 
@@ -44,6 +43,10 @@ class Minecraft(commands.Cog):
             self.tiler = tiler.Tiler("bot/data/block_palette.json")
         else:
             self.tiler = None
+
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     @commands.command(name="blockify", aliases=["mcpixelart", "mcart", "mcimage", "mcvideo"])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -124,9 +127,7 @@ class Minecraft(commands.Cog):
             converter = self.tiler.convert_image
 
         async with SuppressCtxManager(ctx.typing()):
-            converted = await self.bot.loop.run_in_executor(
-                self.bot.tp, converter, media_bytes, max_dim, detailed
-            )
+            converted = await asyncio.to_thread(converter, media_bytes, max_dim, detailed)
 
             if is_video:
                 file_name += ".gif"
@@ -445,24 +446,19 @@ class Minecraft(commands.Cog):
             return
 
         async with SuppressCtxManager(ctx.typing()):
-            resps = await asyncio.gather(
-                self.aiohttp.get(f"https://api.mojang.com/user/profiles/{uuid}/names"),
-                self.aiohttp.get(
-                    f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"
-                ),
+            res = await self.aiohttp.get(
+                f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"
             )
 
-        for res in resps:
-            if res.status == 204:
-                await ctx.reply_embed(ctx.l.minecraft.invalid_player)
-                return
+        if res.status == 204:
+            await ctx.reply_embed(ctx.l.minecraft.invalid_player)
+            return
 
-            if res.status != 200:
-                await ctx.reply_embed(ctx.l.minecraft.profile.error)
-                return
+        if res.status != 200:
+            await ctx.reply_embed(ctx.l.minecraft.profile.error)
+            return
 
-        names = cj.classify(await resps[0].json())
-        profile = cj.classify(await resps[1].json())
+        profile = cj.classify(await res.json())
 
         skin_url = None
         cape_url = None
@@ -475,22 +471,22 @@ class Minecraft(commands.Cog):
 
                 break
 
-        name_hist = "\uFEFF"
+        # name_hist = "\uFEFF"
 
-        for i, name in enumerate(list(reversed(names))[:20]):
-            time = name.get("changedToAt")
-
-            if time is None:
-                time = ctx.l.minecraft.profile.first
-            else:
-                time = arrow.Arrow.fromtimestamp(time)
-                time = (
-                    time.format("MMM D, YYYY", locale=ctx.l.lang)
-                    + ", "
-                    + time.humanize(locale=ctx.l.lang)
-                )
-
-            name_hist += f"**{len(names)-i}.** `{name.name}` - {time}\n"
+        # for i, name in enumerate(list(reversed(names))[:20]):
+        #     time = name.get("changedToAt")
+        #
+        #     if time is None:
+        #         time = ctx.l.minecraft.profile.first
+        #     else:
+        #         time = arrow.Arrow.fromtimestamp(time)
+        #         time = (
+        #             time.format("MMM D, YYYY", locale=ctx.l.lang)
+        #             + ", "
+        #             + time.humanize(locale=ctx.l.lang)
+        #         )
+        #
+        #     name_hist += f"**{len(names)-i}.** `{name.name}` - {time}\n"
 
         embed = discord.Embed(
             color=self.bot.embed_color, title=ctx.l.minecraft.profile.mcpp.format(profile.name)
@@ -501,9 +497,8 @@ class Minecraft(commands.Cog):
 
         if cape_url is not None:
             embed.description += f" | **[{ctx.l.minecraft.profile.cape}]({cape_url})**"
-        else:
-            pass
-            # embed.description += f" | {ctx.l.minecraft.profile.nocape}"
+        # else:
+        #     embed.description += f" | {ctx.l.minecraft.profile.nocape}"
 
         embed.set_thumbnail(url=f"https://crafatar.com/avatars/{uuid}.png")
 
@@ -512,9 +507,9 @@ class Minecraft(commands.Cog):
             value=f"`{uuid[:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}`\n`{uuid}`",
             inline=False,
         )
-        embed.add_field(
-            name=(":label: " + ctx.l.minecraft.profile.hist), value=name_hist, inline=False
-        )
+        # embed.add_field(
+        #     name=(":label: " + ctx.l.minecraft.profile.hist), value=name_hist, inline=False
+        # )
 
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -709,6 +704,7 @@ class Minecraft(commands.Cog):
 
             return
 
+        # strip color codes
         resp_text = ""
         for i in range(0, len(resp[0])):
             if resp[0][i] != "§" and (i == 0 or resp[0][i - 1] != "§"):

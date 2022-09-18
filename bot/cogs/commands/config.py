@@ -12,7 +12,9 @@ class Config(commands.Cog):
 
         self.d = bot.d
 
-        self.db: Database = bot.get_cog("Database")
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     @commands.group(name="config", aliases=["settings", "conf", "gamerule"], case_insensitive=True)
     async def config(self, ctx: Ctx):

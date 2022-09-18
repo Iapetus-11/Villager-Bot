@@ -5,6 +5,7 @@ import arrow
 import discord
 from discord.ext import commands
 
+from bot.cogs.core.database import Database
 from bot.utils.ctx import Ctx
 from bot.utils.misc import get_timedelta_granularity, parse_timedelta
 from bot.villager_bot import VillagerBotCluster
@@ -16,7 +17,9 @@ class Mod(commands.Cog):
 
         self.d = bot.d
 
-        self.db = bot.get_cog("Database")
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     def permission_check(self, ctx: Ctx, victim: discord.Member) -> bool:
         author = ctx.author

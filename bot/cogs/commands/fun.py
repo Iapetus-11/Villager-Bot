@@ -8,6 +8,7 @@ import classyjson as cj
 import discord
 from discord.ext import commands
 
+from bot.cogs.core.database import Database
 from bot.models.translation import Fun_Trivia_Question
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, clean_text, shorten_text
@@ -22,10 +23,14 @@ class Fun(commands.Cog):
         self.k = bot.k
 
         self.aiohttp = bot.aiohttp
-        self.db = bot.get_cog("Database")
         self.karen = bot.karen
 
-    def lang_convert(self, msg, lang):
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
+
+    @staticmethod
+    def lang_convert(msg, lang):
         keys = list(lang)
 
         for key in keys:

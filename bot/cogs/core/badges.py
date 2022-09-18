@@ -14,8 +14,11 @@ class Badges(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
 
-        self.db: Database = bot.get_cog("Database")
         self.d = bot.d
+
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     async def fetch_user_badges(self, user_id) -> dict:
         return dict(await self.db.fetch_user_badges(user_id))

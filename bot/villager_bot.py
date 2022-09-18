@@ -35,7 +35,6 @@ from bot.utils.setup import load_translations, villager_bot_intents
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     def __init__(
         self,
-        tp: ThreadPoolExecutor,
         secrets: Secrets,
         data: Data,
         translations: dict[str, Translation],
@@ -74,11 +73,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             "commands.fun",
         ]
 
-        self.logger = setup_logging("bot")
+        self.logger = setup_logging("bot", secrets.logging)
         self.karen: Optional[KarenClient] = None
         self.db: Optional[DatabaseProxy] = None
         self.aiohttp: Optional[aiohttp.ClientSession] = None
-        self.tp = tp
 
         # caches
         self.botban_cache = set[int]()  # set({user_id, user_id,..})
@@ -116,6 +114,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.after_invoke(
             self.after_command_invoked
         )  # register self.after_command_invoked as a after_invoked event
+        self.event(self.on_app_command_completion)
 
     @property
     def embed_color(self) -> discord.Color:
@@ -227,10 +226,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             ctx.failure_reason = "disabled"
             return False
 
-        command_has_cooldown = command in self.d.cooldown_rates
-
         # handle cooldowns that need to be synced between shard groups / processes (aka karen cooldowns)
-        if command_has_cooldown:
+        if command in self.d.cooldown_rates:
             cooldown_info = await self.karen.cooldown(command, ctx.author.id)
 
             if not cooldown_info.can_run:
@@ -247,9 +244,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             if await self.karen.check_econ_paused(ctx.author.id):
                 ctx.failure_reason = "econ_paused"
                 return False
-
-        if command_has_cooldown:
-            await self.karen.command_ran(ctx.author.id)
 
         return True
 
@@ -276,6 +270,11 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             )
             raise
 
+        if ctx.command.name in self.d.cooldown_rates:
+            await self.karen.lb_command_ran(ctx.author.id)
+
+        await self.karen.command_execution(ctx.author.id, getattr(ctx.guild, "id", None), ctx.command.qualified_name, False)
+
     async def after_command_invoked(self, ctx: CustomContext):
         try:
             if str(ctx.command) in self.d.concurrency_limited:
@@ -288,6 +287,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 exc_info=True,
             )
             raise
+
+    async def on_app_command_completion(self, inter: discord.Interaction, command: discord.app_commands.Command | discord.app_commands.ContextMenu):
+        if isinstance(command, discord.app_commands.Command):
+            await self.karen.command_execution(inter.user.id, inter.guild_id, command.qualified_name, True)
 
     ###### packet handlers #####################################################
 
@@ -441,6 +444,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             for g in sorted(self.guilds, key=(lambda g: g.member_count), reverse=True)[:10]
         ]
 
-    @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_ACTIVE)
-    async def packet_fetch_top_guilds_by_active(self):
+    @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_ACTIVE_MEMBERS)
+    async def packet_fetch_top_guilds_by_active_members(self):
         return await self.get_cog("Database").fetch_guilds_active_count()
+
+    @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_COMMANDS)
+    async def packet_fetch_top_guilds_by_commands(self):
+        return [{**v, "name": self.get_guild(v["id"]).name} for v in (await self.get_cog("Database").fetch_guilds_commands_count())]

@@ -37,13 +37,16 @@ class Useful(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.db: Database = bot.get_cog("Database")
         self.karen = bot.karen
         self.google = async_cse.Search(bot.k.google_search)
         self.aiohttp = bot.aiohttp
 
         self.snipes = dict[int, tuple[discord.Message, float]]()
         self.clear_snipes.start()
+
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     def cog_unload(self):
         self.clear_snipes.cancel()
@@ -707,7 +710,7 @@ class Useful(commands.Cog):
                             final_fname, logger=None, threads=4, fps=min(video.fps or 25, 25)
                         )
 
-                    await asyncio.get_event_loop().run_in_executor(self.bot.tp, _ffmpeg_operations)
+                    await asyncio.to_thread(_ffmpeg_operations)
 
                     await progress_msg.delete()
 
@@ -719,15 +722,7 @@ class Useful(commands.Cog):
                     await ctx.reply(file=discord_file)
                     return
                 finally:
-                    await asyncio.get_event_loop().run_in_executor(
-                        self.bot.tp, os.remove, video_fname
-                    )
-                    await asyncio.get_event_loop().run_in_executor(
-                        self.bot.tp, os.remove, audio_fname
-                    )
-                    await asyncio.get_event_loop().run_in_executor(
-                        self.bot.tp, os.remove, final_fname
-                    )
+                    await asyncio.wait([asyncio.to_thread(os.remove, fname) for fname in [video_fname, audio_fname, final_fname]])
 
             # try to get image/gif/whatever from preview info
             if preview_media := post.get("preview", {}).get("images"):

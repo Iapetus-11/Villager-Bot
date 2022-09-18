@@ -18,10 +18,13 @@ class MobSpawner(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.db: Database = bot.get_cog("Database")
         self.karen = bot.karen
 
         self.active_channels = set[int]()
+
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     def engage_check(self, ctx: Ctx):
         def _engage_check(m: discord.Message):

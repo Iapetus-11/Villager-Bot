@@ -9,6 +9,7 @@ import discord
 import numpy.random
 from discord.ext import commands
 
+from bot.cogs.core.badges import Badges
 from common.models.data import ShopItem
 from common.models.db.item import Item
 
@@ -35,9 +36,26 @@ class Econ(commands.Cog):
         self.d = bot.d
         self.karen = bot.karen
 
-        self.db: Database = bot.get_cog("Database")
-        self.badges = bot.get_cog("Badges")
+        self._link_max_concurrency()
 
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
+
+    @property
+    def badges(self) -> Badges:
+        return self.bot.get_cog("Badges")
+
+    @property
+    def paginator(self) -> Paginator:
+        return self.bot.get_cog("Paginator")
+
+    @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
+    def calc_yield_chance_list(self, pickaxe: str):
+        yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
+        return [True] * yield_[0] + [False] * yield_[1]
+
+    def _link_max_concurrency(self):
         # This links the max concurrency of the with, dep, sell, give, etc.. cmds
         for command in (
             self.vault_deposit,
@@ -52,17 +70,8 @@ class Econ(commands.Cog):
         ):
             command._max_concurrency = self.max_concurrency_dummy._max_concurrency
 
-    @property
-    def paginator(self) -> Paginator:
-        return self.bot.get_cog("Paginator")
-
-    @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
-    def calc_yield_chance_list(self, pickaxe: str):
-        yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
-        return [True] * yield_[0] + [False] * yield_[1]
-
     async def math_problem(self, ctx: Ctx, addition=1):
-        # simultaneously updates the value in Karen and retrevies the current value
+        # simultaneously updates the value in Karen and retrieves the current value
         mine_commands = await self.karen.mine_command(ctx.author.id, addition)
 
         if mine_commands >= 100:
@@ -1226,8 +1235,8 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
-        if db_user.shield_pearl and (
-            arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()
+        if db_victim.shield_pearl and (
+            arrow.get(db_victim.shield_pearl).shift(months=1) > arrow.utcnow()
         ):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_5)
             return
