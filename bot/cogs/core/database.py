@@ -705,7 +705,10 @@ class Database(commands.Cog):
 
     async def fetch_guilds_commands_count(self) -> list[dict[str, Any]]:
         guild_ids = [g.id for g in self.bot.guilds]
-        return await self.db.fetch("SELECT guild_id AS id, COUNT(*) AS count FROM command_executions WHERE guild_id = ANY($1::BIGINT[]) GROUP BY guild_id", guild_ids)
+        return await self.db.fetch(
+            "SELECT guild_id AS id, COUNT(*) AS count FROM command_executions WHERE guild_id = ANY($1::BIGINT[]) GROUP BY guild_id",
+            guild_ids,
+        )
 
 
 async def setup(bot: VillagerBotCluster) -> None:

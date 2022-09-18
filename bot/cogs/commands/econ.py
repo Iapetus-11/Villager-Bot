@@ -9,10 +9,10 @@ import discord
 import numpy.random
 from discord.ext import commands
 
-from bot.cogs.core.badges import Badges
 from common.models.data import ShopItem
 from common.models.db.item import Item
 
+from bot.cogs.core.badges import Badges
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from bot.utils.ctx import Ctx

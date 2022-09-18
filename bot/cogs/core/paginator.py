@@ -19,7 +19,9 @@ class Paginator(commands.Cog):
         self.bot = bot
 
     @staticmethod
-    def _create_reaction_check(ctx: Ctx, msg: discord.Message) -> Callable[[discord.Reaction, discord.User], bool]:
+    def _create_reaction_check(
+        ctx: Ctx, msg: discord.Message
+    ) -> Callable[[discord.Reaction, discord.User], bool]:
         def predicate(r: discord.Reaction, u: discord.User):
             return (str(r.emoji) in NAV_EMOJIS) and ctx.author == u and r.message == msg
 

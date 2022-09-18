@@ -235,7 +235,7 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
 
         await self.db.executemany(
             "INSERT INTO command_executions (user_id, guild_id, command, is_slash, at) VALUES ($1, $2, $3, $4, $5)",
-            commands_dump
+            commands_dump,
         )
 
     @recurring_task(seconds=32)
@@ -417,5 +417,9 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
         await self.stop()
 
     @handle_packet(PacketType.COMMAND_EXECUTION)
-    async def packet_command_execution(self, user_id: int, guild_id: Optional[int], command: str, is_slash: bool):
-        self.v.command_executions.append((user_id, guild_id, command, is_slash, datetime.datetime.utcnow()))
+    async def packet_command_execution(
+        self, user_id: int, guild_id: Optional[int], command: str, is_slash: bool
+    ):
+        self.v.command_executions.append(
+            (user_id, guild_id, command, is_slash, datetime.datetime.utcnow())
+        )
