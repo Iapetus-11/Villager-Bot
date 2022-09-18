@@ -4,7 +4,6 @@ from typing import Any, Optional, TypeAlias
 import arrow
 from pydantic import BaseModel
 
-from common.coms.json_encoder import dumps, loads
 from common.coms.packet_type import PacketType
 
 # order matters in this due to the way Pydantic handles parsing
@@ -22,8 +21,6 @@ class Packet(BaseModel):
     error: bool = False
 
     class Config:
-        json_loads = loads
-        json_dumps = dumps
         allow_mutation = False
         smart_union = True
         arbitrary_types_allowed = True

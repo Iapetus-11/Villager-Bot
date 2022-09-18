@@ -5,6 +5,7 @@ from typing import Any
 from pydantic import ValidationError, validate_arguments
 
 from common.coms.errors import InvalidPacketReceived
+from common.coms.json_encoder import special_obj_decode
 from common.coms.packet import PACKET_DATA_TYPES, T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler
 from common.coms.packet_type import PacketType
@@ -26,7 +27,7 @@ class ComsBase:
     def _decode(self, message: str | bytes) -> Packet:
         data: Any
         try:
-            data = json.loads(message)
+            data = json.loads(message, object_hook=special_obj_decode)
         except json.JSONDecodeError as e:
             raise InvalidPacketReceived("packet was not a JSON object", e)
 

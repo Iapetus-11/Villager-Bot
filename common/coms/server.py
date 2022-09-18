@@ -9,6 +9,7 @@ from websockets.server import WebSocketServer, WebSocketServerProtocol, serve
 
 from common.coms.coms_base import ComsBase
 from common.coms.errors import InvalidPacketReceived, NoConnectedClientsError
+from common.coms.json_encoder import special_obj_encode
 from common.coms.packet import T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler, PacketType
 
@@ -68,7 +69,7 @@ class Server(ComsBase):
         self._stop.set()
 
     async def _send(self, ws: WebSocketServerProtocol, packet: Packet) -> None:
-        await ws.send(packet.json())
+        await ws.send(packet.json(encoder=special_obj_encode))
 
     async def _disconnect(self, ws: WebSocketServerProtocol) -> None:
         if not ws.closed:

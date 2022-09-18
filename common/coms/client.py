@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 from typing import Optional
 
@@ -7,6 +8,7 @@ from websockets.exceptions import ConnectionClosed
 
 from common.coms.coms_base import ComsBase
 from common.coms.errors import InvalidPacketReceived, WebsocketStateError
+from common.coms.json_encoder import special_obj_encode
 from common.coms.packet import T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler
 from common.coms.packet_type import PacketType
@@ -46,7 +48,7 @@ class Client(ComsBase):
         if self.ws is None or self.ws.closed:
             raise WebsocketStateError("Websocket connection is not open")
 
-        await self.ws.send(packet.json())
+        await self.ws.send(packet.json(encoder=special_obj_encode))
 
     async def _authorize(self, auth: str) -> None:
         await self._send(Packet(id=self._get_packet_id(), type=PacketType.AUTH, data=auth))
