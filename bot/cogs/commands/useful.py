@@ -722,7 +722,12 @@ class Useful(commands.Cog):
                     await ctx.reply(file=discord_file)
                     return
                 finally:
-                    await asyncio.wait([asyncio.to_thread(os.remove, fname) for fname in [video_fname, audio_fname, final_fname]])
+                    await asyncio.wait(
+                        [
+                            asyncio.to_thread(os.remove, fname)
+                            for fname in [video_fname, audio_fname, final_fname]
+                        ]
+                    )
 
             # try to get image/gif/whatever from preview info
             if preview_media := post.get("preview", {}).get("images"):

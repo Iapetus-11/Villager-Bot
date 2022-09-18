@@ -252,5 +252,13 @@ class KarenClient:
         return await self._broadcast_aggregate(PacketType.FETCH_TOP_GUILDS_BY_COMMANDS)
 
     @validate_return
-    async def command_execution(self, user_id: int, guild_id: Optional[int], command: str, is_slash: bool) -> None:
-        await self._send(PacketType.COMMAND_EXECUTION, user_id=user_id, guild_id=guild_id, command=command, is_slash=is_slash)
+    async def command_execution(
+        self, user_id: int, guild_id: Optional[int], command: str, is_slash: bool
+    ) -> None:
+        await self._send(
+            PacketType.COMMAND_EXECUTION,
+            user_id=user_id,
+            guild_id=guild_id,
+            command=command,
+            is_slash=is_slash,
+        )

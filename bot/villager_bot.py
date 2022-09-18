@@ -1,7 +1,6 @@
 import asyncio
 import random
 from collections import defaultdict
-from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Optional
 
 import aiohttp
@@ -273,7 +272,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         if ctx.command.name in self.d.cooldown_rates:
             await self.karen.lb_command_ran(ctx.author.id)
 
-        await self.karen.command_execution(ctx.author.id, getattr(ctx.guild, "id", None), ctx.command.qualified_name, False)
+        await self.karen.command_execution(
+            ctx.author.id, getattr(ctx.guild, "id", None), ctx.command.qualified_name, False
+        )
 
     async def after_command_invoked(self, ctx: CustomContext):
         try:
@@ -288,9 +289,15 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             )
             raise
 
-    async def on_app_command_completion(self, inter: discord.Interaction, command: discord.app_commands.Command | discord.app_commands.ContextMenu):
+    async def on_app_command_completion(
+        self,
+        inter: discord.Interaction,
+        command: discord.app_commands.Command | discord.app_commands.ContextMenu,
+    ):
         if isinstance(command, discord.app_commands.Command):
-            await self.karen.command_execution(inter.user.id, inter.guild_id, command.qualified_name, True)
+            await self.karen.command_execution(
+                inter.user.id, inter.guild_id, command.qualified_name, True
+            )
 
     ###### packet handlers #####################################################
 
@@ -450,4 +457,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_COMMANDS)
     async def packet_fetch_top_guilds_by_commands(self):
-        return [{**v, "name": self.get_guild(v["id"]).name} for v in (await self.get_cog("Database").fetch_guilds_commands_count())]
+        return [
+            {**v, "name": self.get_guild(v["id"]).name}
+            for v in (await self.get_cog("Database").fetch_guilds_commands_count())
+        ]
