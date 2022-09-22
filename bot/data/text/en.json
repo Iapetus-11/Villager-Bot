@@ -2013,6 +2013,7 @@
         "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
         "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
         "use_shield_pearl": "You've used a **Shield Pearl** and are now invincible against pillagers for the next month.",
+        "use_time_pearl": "You've used a **Time Pearl** which has skipped time forwards two days.",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",
           "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",

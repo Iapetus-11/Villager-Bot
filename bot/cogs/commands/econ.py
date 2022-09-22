@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import functools
 import math
 import random
@@ -1235,11 +1236,15 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
+        # check if victim has a shield pearl active
         if db_victim.shield_pearl and (
             arrow.get(db_victim.shield_pearl).shift(months=1) > arrow.utcnow()
         ):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_5)
             return
+
+        if db_user.shield_pearl:
+            await self.db.update_user(ctx.author.id, shield_pearl=None)
 
         user_bees = getattr(await self.db.fetch_item(ctx.author.id, "Jar Of Bees"), "amount", 0)
         victim_bees = getattr(await self.db.fetch_item(victim.id, "Jar Of Bees"), "amount", 0)
@@ -1408,7 +1413,7 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.karen.add_active_fx(ctx.author.id, "Seaweed")
+            await self.karen.add_active_fx("Seaweed")
             await ctx.reply_embed(ctx.l.econ.use.smoke_seaweed.format(30))
 
             await asyncio.sleep(60 * 30)
@@ -1558,6 +1563,20 @@ class Econ(commands.Cog):
 
             await ctx.reply_embed(ctx.l.econ.use.use_shield_pearl)
             return
+
+        if thing == "time pearl":
+            await asyncio.gather(
+                self.db.grow_crops_by(ctx.author.id, datetime.timedelta(days=2)),
+                self.karen.cooldown_reset("honey", ctx.author.id),
+                self.karen.cooldown_reset("pillage", ctx.author.id),
+                self.karen.cooldown_reset("search", ctx.author.id),
+                self.karen.clear_active_fx(ctx.author.id),
+                self.db.remove_item(ctx.author.id, "Time Pearl", 1),
+            )
+
+            await ctx.reply_embed(ctx.l.econ.use.use_time_pearl)
+            return
+
 
         await ctx.reply_embed(ctx.l.econ.use.stupid_6)
 

@@ -1766,7 +1766,8 @@
         "sword": "Épée",
         "streak": "Série de votes ",
         "can_vote": "Vote possible ?",
-        "yep": "Yep !"
+        "yep": "Yep !",
+        "fx": "Effects Actifs"
       },
       "bal": {
         "bot_1": "Le Villager Bot a bien trop d'émeraudes à afficher !",
@@ -1962,6 +1963,7 @@
         "stupid_2": "Tu ne peux pas piller les gens d'un autre serveur ...",
         "stupid_3": "Tu ne peux piller le gens que si tu possèdes plus de 64{}",
         "stupid_4": "Tu peux uniquement piller quelqu'un s'il a plus de 64{}",
+        "stupid_5": "Tu ne peux pas piller quelqu’un qui a une **Shield Pearl** activée.",
         "u_win": {
           "user": [
             "Tu t'échapes avec {}{}",
@@ -2010,6 +2012,7 @@
         "need_slimy_balls": "Tu as besoin d'une **Slime Ball** pour chaque **Glass Beaker**.",
         "slimy_balls_funne": "Tu as transformé {0}x **Slime Ball** + {0}x **Glass Beaker** en {0}x **Beaker Of Slime** !",
         "beaker_of_slime_undo": "Tu as transformé {0}x **Beaker Of Slime** en {0}x **Slime Ball** !",
+        "use_shield_pearl": "Tu as utilisé une **Shield Pearl** qui te rend invincible au pillages pendant un mois.",
         "present": [
           "Tu ouvre ton cadeau et trouve 1x **{}** (Valant {}{})!",
           "Tu déchiquettes le papier cadeau aussi vite que tu le peux et obtiens 1x **{}** (Valant {}{})!",

@@ -1766,7 +1766,8 @@
         "sword": "Espada",
         "streak": "Racha de votos",
         "can_vote": "¿Puedes Votar?",
-        "yep": "¡Sí!"
+        "yep": "¡Sí!",
+        "fx": "Efectos Activos"
       },
       "bal": {
         "bot_1": "El Villager Bot tiene demasiadas esmeraldas para mostrarlas.",
@@ -1962,6 +1963,7 @@
         "stupid_2": "No puedes robarle a la gente de otros servidores...",
         "stupid_3": "Sólo puedes robarle a la gente si tienes más de 64{}",
         "stupid_4": "Sólo puedes robarle a una persona si tiene más de 64{}",
+        "stupid_5": "No puedes saquear a una persona con un **Shield Pearl** activo.",
         "u_win": {
           "user": [
             "Escapaste con {}{}",
@@ -2010,6 +2012,7 @@
         "need_slimy_balls": "Necesitas un **Slime Ball** por cada **Glass Beaker**.",
         "slimy_balls_funne": "Has convertido {0}x **Slime Ball** + {0}x **Glass Beaker** en {0}x **Beaker Of Slime**!",
         "beaker_of_slime_undo": "Has convertido {0}x **Beaker Of Slime** en {0}x **Slime Ball**!",
+        "use_shield_pearl": "Has usado un **Shield Pearl** y ahora eres invencible a los saqueadores por todo el mes.",
         "present": [
           "Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
           "Arrancaste el papel de envolver tan rápido como pudiste y conseguiste 1x **{}** (Vale {}{})!",

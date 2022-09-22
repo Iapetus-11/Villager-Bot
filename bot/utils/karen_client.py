@@ -160,6 +160,10 @@ class KarenClient:
         await self._send(PacketType.ACTIVE_FX_REMOVE, user_id=user_id, fx=fx)
 
     @validate_return
+    async def clear_active_fx(self, user_id: int) -> None:
+        await self._send(PacketType.ACTIVE_FX_CLEAR, user_id=user_id)
+
+    @validate_return
     async def db_exec(self, query: str, *args: Any) -> None:
         await self._send(PacketType.DB_EXEC, query=query, args=args)
 

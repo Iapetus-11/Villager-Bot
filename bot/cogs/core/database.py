@@ -1,8 +1,8 @@
 import asyncio
 from collections import defaultdict
 from contextlib import suppress
-from datetime import datetime
 from typing import Any, Optional
+import datetime
 
 import discord
 from discord.ext import commands
@@ -43,10 +43,10 @@ class Database(commands.Cog):
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE user_id = $1", user_id)
 
     async def add_reminder(
-        self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime
+        self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime.datetime
     ) -> None:
         await self.db.execute(
-            "INSERT INTO reminders (user_id, channel_id, message_id, reminder, at) VALUES ($1, $2, $3, $4, $5)",
+            "INSERT INTO reminders (user_id, channel_id, message_id, reminder, at) VALUES ($1, $2, $3, $4, $5::TEXT::TIMESTAMPTZ)",
             user_id,
             channel_id,
             message_id,
@@ -290,10 +290,10 @@ class Database(commands.Cog):
         await self.badges.update_badge_uncle_scrooge(user_id)
 
     async def log_transaction(
-        self, item: str, amount: int, at: datetime, giver: int, receiver: int
+        self, item: str, amount: int, at: datetime.datetime, giver: int, receiver: int
     ) -> None:
         await self.db.execute(
-            "INSERT INTO give_logs (item, amount, at, sender, receiver) VALUES ($1, $2, $3, $4, $5)",
+            "INSERT INTO give_logs (item, amount, at, sender, receiver) VALUES ($1, $2, $3::TEXT::TIMESTAMPTZ, $4, $5)",
             item,
             amount,
             at,
@@ -623,6 +623,13 @@ class Database(commands.Cog):
     async def use_bonemeal(self, user_id: int) -> None:
         await self.db.execute(
             "UPDATE farm_plots SET planted_at = planted_at - (grow_time * 6 / 9) WHERE user_id = $1",
+            user_id,
+        )
+
+    async def grow_crops_by(self, user_id: int, interval: datetime.timedelta):
+        await self.db.execute(
+            "UPDATE farm_plots SET planted_at = planted_at + $1 WHERE user_id = $2",
+            interval,
             user_id,
         )
 

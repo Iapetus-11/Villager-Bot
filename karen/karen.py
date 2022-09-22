@@ -385,6 +385,10 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
         except KeyError:
             pass
 
+    @handle_packet(PacketType.ACTIVE_FX_CLEAR)
+    async def packet_active_fx_clear(self, user_id: int):
+        self.v.active_fx.pop(user_id, None)
+
     @handle_packet(PacketType.DB_EXEC)
     async def packet_db_exec(self, query: str, args: list[Any]):
         await self.db.execute(query, *args)

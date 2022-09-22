@@ -666,6 +666,7 @@ class Econ_Use(ImmutableBaseModel):
     slimy_balls_funne: str
     beaker_of_slime_undo: str
     use_shield_pearl: str
+    use_time_pearl: str
     present: list[str]
     barrel_item: list[str]
     barrel_ems: list[str]
