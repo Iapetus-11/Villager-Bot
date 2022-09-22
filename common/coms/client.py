@@ -91,7 +91,6 @@ class Client(ComsBase):
                 pass
             except Exception:
                 self.logger.error("An error occurred in the message handling loop", exc_info=True)
-                raise
             finally:
                 if self._closing:
                     break
