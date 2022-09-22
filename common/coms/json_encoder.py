@@ -40,6 +40,8 @@ def special_obj_decode(dct: dict) -> dict | Any:
         return datetime.datetime.fromisoformat(dct["__datetime_object"])
 
     if "__timedelta_object" in dct:
-        return datetime.timedelta(days=dct["days"], seconds=dct["seconds"], microseconds=dct["microseconds"])
+        return datetime.timedelta(
+            days=dct["days"], seconds=dct["seconds"], microseconds=dct["microseconds"]
+        )
 
     return dct

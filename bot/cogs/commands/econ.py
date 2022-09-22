@@ -1577,7 +1577,6 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.use.use_time_pearl)
             return
 
-
         await ctx.reply_embed(ctx.l.econ.use.stupid_6)
 
     @commands.command(
