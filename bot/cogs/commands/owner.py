@@ -37,6 +37,11 @@ class Owner(commands.Cog):
     def paginator(self) -> Paginator:
         return self.bot.get_cog("Paginator")
 
+    @commands.command(name="ownercommands", aliases=["ocmds", "ownerhelp", "ohelp", "ownercmds"])
+    @commands.is_owner()
+    async def owner_commands(self, ctx: Ctx):
+        await ctx.reply_embed(f"`{'`, `'.join(map(str, self.get_commands()))}`")
+
     @commands.command(name="reload")
     @commands.is_owner()
     async def reload_cog(self, ctx: Ctx, cog: str):
