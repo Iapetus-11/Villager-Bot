@@ -1085,45 +1085,45 @@
       "black": "⬛"
     },
     "badges": {
-      "code_helper": "<:code_helper:860562240293044224>",
-      "translator": "<:translator:859492625132027934>",
-      "design_helper": "<:design_helper:867514565309497374>",
-      "bug_smasher": "<:bug_smasher:866874022549127229>",
-      "villager_og": "<:villager_bot_og:859986642248794123>",
-      "supporter": "<:supporter:866468299327537152>",
-      "uncle_scrooge": "<:uncle_scrooge:859485472823574558>",
+      "code_helper": "<:code_helper:1022680282962333756>",
+      "translator": "<:translator:1022675814996779028>",
+      "design_helper": "<:design_helper:1022680105199337492>",
+      "bug_smasher": "<:bug_smasher:1022680528106827927>",
+      "villager_og": "<:villager_bot_og:1022676899765440643>",
+      "supporter": "<:supporter:1022681142819827802>",
+      "uncle_scrooge": "<:uncle_scrooge:1022677026882199643>",
       "collector": [
-        "<:collector_1:863117267012157480>",
-        "<:collector_2:863117267611942952>",
-        "<:collector_3:863117267113738240>",
-        "<:collector_4:863117267133530122>",
-        "<:collector_5:863117267101548544>"
+        "<:collector_1:1022680349869875252>",
+        "<:collector_2:1022680430530535514>",
+        "<:collector_3:1022680457214693497>",
+        "<:collector_4:1022680479478054923>",
+        "<:collector_5:1022680505264648252>"
       ],
       "beekeeper": [
-        "<:beekeeper_1:866474186637836318>",
-        "<:beekeeper_2:866474202306445343>",
-        "<:beekeeper_3:866474210117681162>"
+        "<:beekeeper_1:1022678713260847164>",
+        "<:beekeeper_2:1022678742918766674>",
+        "<:beekeeper_3:1022678943922397265>"
       ],
       "pillager": [
-        "<:pillager_1:866479984364879892>",
-        "<:pillager_2:866479947778621440>",
-        "<:pillager_3:866479947349753877>"
+        "<:pillager_1:1022679172478423060>",
+        "<:pillager_2:1022679279487684659>",
+        "<:pillager_3:1022679305442041857>"
       ],
       "murderer": [
-        "<:murderer_1:866474385383489617>",
-        "<:murderer_2:866474402337914890>",
-        "<:murderer_3:866474413821001729>"
+        "<:murderer_1:1022677386568941628>",
+        "<:murderer_2:1022677568245223425>",
+        "<:murderer_3:1022677662352814130>"
       ],
       "enthusiast": [
-        "<:enthusiast_1:867148260647632927>",
-        "<:enthusiast_2:867148260916854805>",
-        "<:enthusiast_3:867148260974788678>"
+        "<:enthusiast_1:1022835109788909649>",
+        "<:enthusiast_2:1022835139325218896>",
+        "<:enthusiast_3:1022835162926567524>"
       ],
       "fisherman": [
-        "<:fisherman_1:863111587438395453>",
-        "<:fisherman_2:863111587123298385>",
-        "<:fisherman_3:863111587627532318>",
-        "<:fisherman_4:863111587313090572>"
+        "<:fisherman_1:1022678033330622615>",
+        "<:fisherman_2:1022678179921547314>",
+        "<:fisherman_3:1022678251820294155>",
+        "<:fisherman_4:1022678318065139812>"
       ]
     },
     "numbers": [
