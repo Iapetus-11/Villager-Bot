@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Any, Optional, TypeAlias
 
 import arrow
@@ -12,6 +12,7 @@ T_PACKET_DATA: TypeAlias = (
     | int
     | float
     | datetime
+    | timedelta
     | arrow.Arrow
     | set[Any]
     | list[Any]
@@ -26,6 +27,7 @@ PACKET_DATA_TYPES = (
     int,
     float,
     datetime,
+    timedelta,
     arrow.Arrow,
     set,
     list,
