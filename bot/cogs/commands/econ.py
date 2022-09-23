@@ -1413,7 +1413,7 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.karen.add_active_fx("Seaweed")
+            await self.karen.add_active_fx(ctx.author.id, "Seaweed")
             await ctx.reply_embed(ctx.l.econ.use.smoke_seaweed.format(30))
 
             await asyncio.sleep(60 * 30)
