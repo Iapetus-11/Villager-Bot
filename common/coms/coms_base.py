@@ -32,7 +32,9 @@ class ComsBase:
             raise InvalidPacketReceived("Packet was not a valid JSON object", e)
 
         if not isinstance(data, dict):
-            raise InvalidPacketReceived(f"Packet was expected to be of type 'dict', got '{type(data).__name}' instead")
+            raise InvalidPacketReceived(
+                f"Packet was expected to be of type 'dict', got '{type(data).__name}' instead"
+            )
 
         try:
             return Packet(**data)
