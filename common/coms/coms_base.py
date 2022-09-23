@@ -29,15 +29,15 @@ class ComsBase:
         try:
             data = json.loads(message, object_hook=special_obj_decode)
         except json.JSONDecodeError as e:
-            raise InvalidPacketReceived("packet was not a JSON object", e)
+            raise InvalidPacketReceived("Packet was not a valid JSON object", e)
 
         if not isinstance(data, dict):
-            raise InvalidPacketReceived("packet was not a JSON object")
+            raise InvalidPacketReceived(f"Packet was expected to be of type 'dict', got '{type(data).__name}' instead")
 
         try:
             return Packet(**data)
         except (ValidationError, ValueError, TypeError) as e:
-            raise InvalidPacketReceived("could not construct Packet model", e)
+            raise InvalidPacketReceived("Could not construct Packet model", e)
 
     async def _call_handler(self, packet: Packet, **extra: Any) -> T_PACKET_DATA:
         if packet.type is None:
@@ -47,7 +47,7 @@ class ComsBase:
 
         if handler is None:
             self.logger.error("Missing packet handler for packet type %s", packet.type)
-            raise ValueError(f"Missing packet handler for packet type {packet.type.name}")
+            raise RuntimeError(f"Missing packet handler for packet type {packet.type.name}")
 
         annos = {
             k: v for k, v in handler.function.__annotations__.items() if k not in {"self", "return"}
@@ -91,8 +91,8 @@ class ComsBase:
             raise
 
         if not isinstance(response, PACKET_DATA_TYPES):
-            raise ValueError(
-                f"Packet handler {handler.function.__qualname__} returned an unsupported type: {type(response)!r}"
+            raise TypeError(
+                f"Packet handler {handler.function.__qualname__} returned an unsupported type: '{type(response).__name__}'"
             )
 
         self.logger.debug(
