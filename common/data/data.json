@@ -417,6 +417,12 @@
         "sticky": false
       },
       {
+        "item": "Azure Plush",
+        "sell_price": 1024,
+        "rarity": 99999,
+        "sticky": false
+      },
+      {
         "item": "Guacamole Sombrero",
         "sell_price": 768,
         "rarity": 4096,
