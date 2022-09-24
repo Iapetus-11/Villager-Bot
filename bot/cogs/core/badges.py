@@ -194,5 +194,6 @@ class Badges(commands.Cog):
         elif enthusiast_level < 1 and commands_ran > 100_000_000:
             await self.update_user_badges(user_id, enthusiast=1)
 
+
 async def setup(bot: VillagerBotCluster) -> None:
     await bot.add_cog(Badges(bot))
