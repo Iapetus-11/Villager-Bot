@@ -48,12 +48,12 @@ class Useful(commands.Cog):
     def db(self) -> Database:
         return self.bot.get_cog("Database")
 
-    def cog_unload(self):
-        self.clear_snipes.cancel()
-
     @property
     def paginator(self) -> Paginator:
         return self.bot.get_cog("Paginator")
+
+    def cog_unload(self):
+        self.clear_snipes.cancel()
 
     @commands.Cog.listener()
     async def on_message_delete(self, message: discord.Message):
@@ -63,7 +63,7 @@ class Useful(commands.Cog):
     @tasks.loop(seconds=30)
     async def clear_snipes(self):
         for k, v in list(self.snipes.items()):
-            if time.time() - v[1] > 60:
+            if time.time() - v[1] > 5 * 60:
                 try:
                     del self.snipes[k]
                 except KeyError:

@@ -94,8 +94,8 @@ class Badges(commands.Cog):
     async def update_badge_beekeeper(self, user_id: int, bees: int = None) -> None:
         # levels are:
         # I -> 100 bees
-        # II -> 1000 bees
-        # III -> 100000 bees
+        # II -> 1_000 bees
+        # III -> 100_000 bees
 
         badges = await self.fetch_user_badges(user_id)
         beekeeper_level = badges["beekeeper"]
@@ -121,8 +121,8 @@ class Badges(commands.Cog):
     async def update_badge_pillager(self, user_id: int, pillaged_emeralds: int) -> None:
         # levels are:
         # I -> 100 emeralds stolen
-        # II -> 1000 emeralds stolen
-        # III -> 100000 emeralds stolen
+        # II -> 1_000 emeralds stolen
+        # III -> 100_000 emeralds stolen
 
         badges = await self.fetch_user_badges(user_id)
         pillager_level = badges["pillager"]
@@ -132,7 +132,7 @@ class Badges(commands.Cog):
 
         if pillager_level < 3 and pillaged_emeralds >= 100_000:
             await self.update_user_badges(user_id, pillager=3)
-        elif pillager_level < 2 and pillaged_emeralds >= 1000:
+        elif pillager_level < 2 and pillaged_emeralds >= 1_000:
             await self.update_user_badges(user_id, pillager=2)
         elif pillager_level < 1 and pillaged_emeralds >= 100:
             await self.update_user_badges(user_id, pillager=1)
@@ -140,8 +140,8 @@ class Badges(commands.Cog):
     async def update_badge_murderer(self, user_id: int, murders: int) -> None:
         # levels are:
         # I -> 100 mobs cruelly genocided
-        # II -> 1000 mobs cruelly genocided
-        # III -> 10000 mobs cruelly genocided
+        # II -> 1_000 mobs cruelly genocided
+        # III -> 10_000 mobs cruelly genocided
 
         badges = await self.fetch_user_badges(user_id)
         murderer_level = badges["murderer"]
@@ -151,7 +151,7 @@ class Badges(commands.Cog):
 
         if murderer_level < 3 and murders >= 10_000:
             await self.update_user_badges(user_id, murderer=3)
-        elif murderer_level < 2 and murders >= 1000:
+        elif murderer_level < 2 and murders >= 1_000:
             await self.update_user_badges(user_id, murderer=2)
         elif murderer_level < 1 and murders >= 100:
             await self.update_user_badges(user_id, murderer=1)
@@ -159,9 +159,9 @@ class Badges(commands.Cog):
     async def update_badge_fisherman(self, user_id: int, fishies_fished: int) -> None:
         # levels are:
         # I -> 100 fishies fished (cod)
-        # II -> 1000 fishies fished (tropical)
-        # III -> 10000 fishies fished (rainbow trout)
-        # IV -> 20000 fishies fished (emerald)
+        # II -> 1_000 fishies fished (tropical)
+        # III -> 10_000 fishies fished (rainbow trout)
+        # IV -> 100_000 fishies fished (emerald)
 
         badges = await self.fetch_user_badges(user_id)
         fisherman_level = badges["fisherman"]
@@ -169,15 +169,30 @@ class Badges(commands.Cog):
         if fisherman_level == 4:
             return
 
-        if fisherman_level < 4 and fishies_fished >= 20_000:
+        if fisherman_level < 4 and fishies_fished >= 100_000:
             await self.update_user_badges(user_id, fisherman=4)
         elif fisherman_level < 3 and fishies_fished >= 10_000:
             await self.update_user_badges(user_id, fisherman=3)
-        elif fisherman_level < 2 and fishies_fished >= 1000:
+        elif fisherman_level < 2 and fishies_fished >= 1_000:
             await self.update_user_badges(user_id, fisherman=2)
         elif fisherman_level < 1 and fishies_fished >= 100:
             await self.update_user_badges(user_id, fisherman=1)
 
+    async def update_badge_enthusiast(self, user_id: int, commands_ran: int) -> None:
+        # levels are:
+        # I -> 10_000 commands ran
+        # II -> 1_000_000 commands ran
+        # III -> 100_000_000 commands ran
+
+        badges = await self.fetch_user_badges(user_id)
+        enthusiast_level = badges["enthusiast"]
+
+        if enthusiast_level < 3 and commands_ran > 10_000:
+            await self.update_user_badges(user_id, enthusiast=3)
+        elif enthusiast_level < 2 and commands_ran > 1_000_000:
+            await self.update_user_badges(user_id, enthusiast=2)
+        elif enthusiast_level < 1 and commands_ran > 100_000_000:
+            await self.update_user_badges(user_id, enthusiast=1)
 
 async def setup(bot: VillagerBotCluster) -> None:
     await bot.add_cog(Badges(bot))

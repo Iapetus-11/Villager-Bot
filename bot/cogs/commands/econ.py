@@ -1581,7 +1581,7 @@ class Econ(commands.Cog):
 
     @commands.command(
         name="honey", aliases=["harvesthoney", "horny"]
-    )  # ~~a strange urge occurs in me~~
+    )
     # @commands.cooldown(1, 24 * 60 * 60, commands.BucketType.user)
     async def honey(self, ctx: Ctx):
         bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")

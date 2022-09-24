@@ -88,7 +88,7 @@ class Voting(commands.Cog):
                 ignore_exceptions=True,
             )
         elif vote_streak % 16 == 0:
-            barrels = int(vote_streak // 32 + 1)
+            barrels = max(int(vote_streak // 32 + 1), 8)
             await self.db.add_item(user.id, "Barrel", 1024, barrels)
             await self.bot.send_embed(
                 user,

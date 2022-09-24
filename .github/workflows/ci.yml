@@ -46,7 +46,7 @@ jobs:
       - name: auto commit
         uses: stefanzweifel/git-auto-commit-action@v4.14.1
         with:
-          commit_message: fix code
+          commit_message: format / fix code
 
       - name: flake8
         id: flake8
