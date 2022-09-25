@@ -2364,6 +2364,9 @@ class Econ(commands.Cog):
             user_1_health = db_user_1.health
             user_2_health = db_user_2.health
 
+            user_1_bees = getattr('amount', user_1_bees, 0)
+            user_2_bees = getattr('amount', user_2_bees, 0)
+
             embed = discord.Embed(color=self.bot.embed_color)
 
             embed.add_field(
@@ -2373,7 +2376,7 @@ class Econ(commands.Cog):
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(
                 name=f"{user_2.display_name}",
-                value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} ",
+                value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_2_bees}{self.d.emojis.jar_of_bees} ",
             )
 
             msg = await ctx.send(
@@ -2381,6 +2384,18 @@ class Econ(commands.Cog):
                 embed=embed,
             )
             await msg.add_reaction(self.d.emojis.netherite_sword_ench)
+
+            try:
+                await self.bot.wait_for('reaction', check=(lambda r, u: r.message == msg and u == user_2), timeout=60)
+            except asyncio.TimeoutError:
+                await msg.edit(embed=discord.Embed(
+                    color=self.bot.embed_color,
+                    description=f"{user_2.mention} didn't accept the challenge in time..."
+                ))
+                return
+
+            await msg.delete()
+            await ctx.send_embed("not done")
         finally:
             await self.karen.econ_unpause(user_1.id)
             await self.karen.econ_unpause(user_2.id)

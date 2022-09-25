@@ -36,13 +36,11 @@ def test_custom_object_hooks(value, serialized_value):
         value: T_PACKET_DATA
 
         class Config:
+            allow_mutation = False
+            smart_union = True
             arbitrary_types_allowed = True
 
     serialized = TestModel(value=value).json(encoder=special_obj_encode)
-
-    print("test value:", value)
-    print("serialized real:", serialized)
-    print("serialized fake:", json.dumps({"value": serialized_value}))
 
     assert serialized == json.dumps({"value": serialized_value})
 
