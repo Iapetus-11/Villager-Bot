@@ -2364,8 +2364,8 @@ class Econ(commands.Cog):
             user_1_health = db_user_1.health
             user_2_health = db_user_2.health
 
-            user_1_bees = getattr('amount', user_1_bees, 0)
-            user_2_bees = getattr('amount', user_2_bees, 0)
+            user_1_bees = getattr("amount", user_1_bees, 0)
+            user_2_bees = getattr("amount", user_2_bees, 0)
 
             embed = discord.Embed(color=self.bot.embed_color)
 
@@ -2386,12 +2386,16 @@ class Econ(commands.Cog):
             await msg.add_reaction(self.d.emojis.netherite_sword_ench)
 
             try:
-                await self.bot.wait_for('reaction', check=(lambda r, u: r.message == msg and u == user_2), timeout=60)
+                await self.bot.wait_for(
+                    "reaction", check=(lambda r, u: r.message == msg and u == user_2), timeout=60
+                )
             except asyncio.TimeoutError:
-                await msg.edit(embed=discord.Embed(
-                    color=self.bot.embed_color,
-                    description=f"{user_2.mention} didn't accept the challenge in time..."
-                ))
+                await msg.edit(
+                    embed=discord.Embed(
+                        color=self.bot.embed_color,
+                        description=f"{user_2.mention} didn't accept the challenge in time...",
+                    )
+                )
                 return
 
             await msg.delete()
