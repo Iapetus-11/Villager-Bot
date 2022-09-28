@@ -34,8 +34,8 @@ jobs:
 #        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install
 
-      - name: auto-flake
-        run: poetry run autoflake --remove-all-unused-imports --expand-star-imports --ignore-init-module-imports --in-place --recursive bot/ common/ karen/
+#      - name: auto-flake
+#        run: poetry run autoflake --remove-all-unused-imports --expand-star-imports --ignore-init-module-imports --in-place --recursive bot/ common/ karen/
 
       - name: black fix
         run: poetry run black .
@@ -55,4 +55,4 @@ jobs:
         run: poetry run mypy
 
       - name: pytest
-        run: pytest
+        run: poetry run pytest
