@@ -32,7 +32,7 @@ asyncpg-stubs = "^0.26.3"
 [tool.poetry.group.dev.dependencies]
 black = "^22.6.0"
 flake8 = "^3.9.2"
-mypy = "^0.971"
+mypy = "^0.981"
 asyncpg-stubs = "^0.26.2"
 types-psutil = "^5.9.3"
 isort = "^5.10.1"
