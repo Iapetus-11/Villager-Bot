@@ -31,7 +31,7 @@ jobs:
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+#        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install
 
       - name: auto-flake
