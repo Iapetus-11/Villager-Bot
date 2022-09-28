@@ -18,6 +18,7 @@ from common.coms.packet_type import PacketType
 from common.coms.server import Server
 from common.data.enums.guild_event_type import GuildEventType
 from common.models.data import Data
+from common.models.system_stats import SystemStats
 from common.models.topgg_vote import TopggVote
 from common.utils.code import execute_code
 from common.utils.misc import chunk_sequence
@@ -284,8 +285,8 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
 
         return result
 
-    @handle_packet(PacketType.FETCH_CLUSTER_INFO)
-    async def packet_fetch_cluster_info(self, ws_id: uuid.UUID):
+    @handle_packet(PacketType.FETCH_CLUSTER_INIT_INFO)
+    async def packet_fetch_cluster_init_info(self, ws_id: uuid.UUID):
         self.v.current_cluster_id += 1
         return {
             "shard_ids": self.shard_ids.take(ws_id),
@@ -345,14 +346,18 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
     async def packet_command_ran(self, user_id: int):
         self.v.command_counts_lb[user_id] += 1
 
-    @handle_packet(PacketType.FETCH_STATS)
-    async def handle_fetch_stats_packet(self):
-        proc = psutil.Process()
-        with proc.oneshot():
-            mem_usage = proc.memory_full_info().uss
-            threads = proc.num_threads()
+    @handle_packet(PacketType.FETCH_SYSTEM_STATS)
+    async def packet_fetch_system_stats(self):
+        memory_info = psutil.virtual_memory()
 
-        return [mem_usage, threads, len(asyncio.all_tasks())] + [0] * 7
+        return SystemStats(
+            identifier='Karen',
+            cpu_usage_percent=psutil.getloadavg()[0],
+            memory_usage_bytes=(memory_info.total - memory_info.available),
+            memory_max_bytes=memory_info.total,
+            threads=psutil.Process().num_threads(),
+            asyncio_tasks=len(asyncio.all_tasks()),
+        )
 
     @handle_packet(PacketType.ECON_PAUSE_CHECK)
     async def packet_econ_pause_check(self, user_id: int):

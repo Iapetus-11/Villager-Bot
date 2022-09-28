@@ -5,7 +5,7 @@ import os
 import secrets
 import time
 from contextlib import suppress
-from typing import Optional
+from typing import Any, Optional
 from urllib.parse import quote as urlquote
 
 import aiofiles
@@ -30,6 +30,7 @@ from bot.utils.misc import (
     read_limited,
 )
 from bot.villager_bot import VillagerBotCluster
+from common.models.system_stats import SystemStats
 
 
 class Useful(commands.Cog):
@@ -353,16 +354,18 @@ class Useful(commands.Cog):
             .humanize(locale=ctx.l.lang, only_distance=True)
         )
 
-        clusters_stats, karen_stats, cluster_ping = await asyncio.gather(
-            self.karen.fetch_clusters_stats(),
-            self.karen.fetch_karen_stats(),
-            self.karen.fetch_clusters_ping(),
+        clusters_bot_stats: list[list[Any]]
+        clusters_system_stats: list[SystemStats]
+        karen_system_stats: SystemStats
+        clusters_bot_stats, clusters_system_stats, karen_system_stats = await asyncio.gather(
+            self.karen.fetch_clusters_bot_stats(),
+            self.karen.fetch_clusters_system_stats(),
+            self.karen.fetch_karen_system_stats(),
         )
 
+        cluster_ping = await self.karen.fetch_clusters_ping()
+
         (
-            mem_usage,
-            threads,
-            asyncio_tasks,
             guild_count,
             user_count,
             message_count,
@@ -370,7 +373,7 @@ class Useful(commands.Cog):
             latency_all,
             dm_count,
             session_votes,
-        ) = map(sum, zip(*(clusters_stats + [karen_stats])))
+        ) = map(sum, zip(*clusters_bot_stats))
 
         # total_mem = psutil.virtual_memory().total
 
@@ -379,30 +382,40 @@ class Useful(commands.Cog):
         embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
-        col_1 = (
+        general_col_1 = (
             f"{ctx.l.useful.stats.servers}: `{guild_count}`\n"
             f"{ctx.l.useful.stats.dms}: `{dm_count}`\n"
             f"{ctx.l.useful.stats.users}: `{user_count}`\n"
             f"{ctx.l.useful.stats.msgs}: `{message_count}`\n"
+            f"{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n"
+            f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
+        )
+        general_col_2 = (
             f"{ctx.l.useful.stats.cmds}: `{command_count}` `({round((command_count / (message_count + .0000001)) * 100, 2)}%)`\n"
             f"{ctx.l.useful.stats.cmds_sec}: `{round(command_count / uptime_seconds, 2)}`\n"
             f"{ctx.l.useful.stats.votes}: `{session_votes}`\n"
             f"{ctx.l.useful.stats.topgg}: `{round((session_votes / uptime_seconds) * 3600, 2)}`\n"
-        )
-
-        col_2 = (
-            # f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000000, 2)} GB` `({round(mem_usage / total_mem * 100, 2)}%)`\n"
-            # f"{ctx.l.useful.stats.cpu}: `{round(psutil.getloadavg()[0] / psutil.cpu_count() * 100, 2)}%`\n"
-            f"{ctx.l.useful.stats.threads}: `{threads}`\n"
-            f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"
-            f"Discord {ctx.l.useful.stats.ping}: `{round((latency_all/len(clusters_stats)) * 1000, 2)} ms`\n"
+            f"Discord {ctx.l.useful.stats.ping}: `{round((latency_all/len(clusters_bot_stats)) * 1000, 2)} ms`\n"
             f"Cluster {ctx.l.useful.stats.ping}: `{round(cluster_ping * 1000, 2)} ms`\n"
-            f"{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n"
-            f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
         )
 
-        embed.add_field(name="\uFEFF", value=col_1 + "\uFEFF")
-        embed.add_field(name="\uFEFF", value=col_2 + "\uFEFF")
+        embed.add_field(name="Villager Bot", value=general_col_1)
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="\uFEFF", value=general_col_2)
+
+        for ss in [karen_system_stats, *clusters_system_stats]:
+            mem_gb = ss.memory_usage_bytes / 1000000000
+            mem_percent = ss.memory_usage_bytes / ss.memory_max_bytes * 100
+
+            embed.add_field(name=ss.identifier, value=(
+                f"{ctx.l.useful.stats.mem}: `{round(mem_gb, 2)} GB` `({round(mem_percent, 2)}%)`\n"
+                f"{ctx.l.useful.stats.cpu}: `{round(ss.cpu_usage_percent * 100, 2)}%`\n"
+            ))
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name="\uFEFF", value=(
+                f"{ctx.l.useful.stats.threads}: `{ss.threads}`\n"
+                f"{ctx.l.useful.stats.tasks}: `{ss.asyncio_tasks}`\n"
+            ))
 
         await ctx.reply(embed=embed, mention_author=False)
 

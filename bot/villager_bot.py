@@ -13,6 +13,7 @@ from common.coms.packet import PACKET_DATA_TYPES
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.models.data import Data
+from common.models.system_stats import SystemStats
 from common.models.topgg_vote import TopggVote
 from common.utils.code import execute_code
 from common.utils.setup import load_data, setup_logging
@@ -127,7 +128,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         await self.karen.connect()
         self.logger.info("Connected to Karen!")
 
-        cluster_info = await self.karen.fetch_cluster_info()
+        cluster_info = await self.karen.fetch_cluster_init_info()
         self.shard_count = cluster_info.shard_count
         self.shard_ids = cluster_info.shard_ids
         self.cluster_id = cluster_info.cluster_id
@@ -344,17 +345,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         return {"success": success}
 
-    @handle_packet(PacketType.FETCH_STATS)
-    async def packet_fetch_stats(self):
-        proc = psutil.Process()
-        with proc.oneshot():
-            mem_usage = proc.memory_full_info().uss
-            threads = proc.num_threads()
-
+    @handle_packet(PacketType.FETCH_BOT_STATS)
+    async def packet_fetch_bot_stats(self):
         return [
-            mem_usage,
-            threads,
-            len(asyncio.all_tasks()),
             len(self.guilds),
             len(self.users),
             self.message_count,
@@ -363,6 +356,19 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             len(self.private_channels),
             self.session_votes,
         ]
+
+    @handle_packet(PacketType.FETCH_SYSTEM_STATS)
+    async def packet_fetch_system_stats(self):
+        memory_info = psutil.virtual_memory()
+
+        return SystemStats(
+            identifier=f'Cluster {self.cluster_id} ({",".join(map(str, self.shard_ids))})',
+            cpu_usage_percent=psutil.getloadavg()[0],
+            memory_usage_bytes=(memory_info.total - memory_info.available),
+            memory_max_bytes=memory_info.total,
+            threads=psutil.Process().num_threads(),
+            asyncio_tasks=len(asyncio.all_tasks()),
+        )
 
     @handle_packet(PacketType.FETCH_GUILD_COUNT)
     async def packet_fetch_guild_count(self):

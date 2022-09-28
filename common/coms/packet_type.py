@@ -7,7 +7,7 @@ class PacketType(IntEnum):
     BROADCAST_REQUEST = auto()
 
     # other regular packet types
-    FETCH_CLUSTER_INFO = auto()
+    FETCH_CLUSTER_INIT_INFO = auto()
     EXEC_CODE = auto()
     COOLDOWN_CHECK_ADD = auto()
     COOLDOWN_ADD = auto()
@@ -20,7 +20,8 @@ class PacketType(IntEnum):
     CONCURRENCY_RELEASE = auto()
     LB_COMMAND_RAN = auto()
     REMINDER = auto()
-    FETCH_STATS = auto()
+    FETCH_BOT_STATS = auto()
+    FETCH_SYSTEM_STATS = auto()
     TRIVIA = auto()
     UPDATE_SUPPORT_SERVER_ROLES = auto()
     RELOAD_DATA = auto()

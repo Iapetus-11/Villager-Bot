@@ -12,21 +12,21 @@ from common.coms.packet import T_PACKET_DATA
 @pytest.mark.parametrize(
     "value,serialized_value",
     [
-        ((value := {1, 2, 3}), {"__set_object": list(value)}),
-        ((value := arrow.now()), {"__arrow_object": value.isoformat()}),
-        ((value := datetime.datetime.now()), {"__datetime_object": value.isoformat()}),
+        ((v := {1, 2, 3}), {"__set_object": list(v)}),
+        ((v := arrow.now()), {"__arrow_object": v.isoformat()}),
+        ((v := datetime.datetime.now()), {"__datetime_object": v.isoformat()}),
         (
             (
-                value := datetime.timedelta(
+                v := datetime.timedelta(
                     days=1, seconds=1, microseconds=1, milliseconds=1, minutes=1, hours=1, weeks=1
                 )
             ),
             {
                 "__timedelta_object": {
-                    "days": value.days,
-                    "seconds": value.seconds,
-                    "microseconds": value.microseconds,
-                }
+                    "days": v.days,
+                    "seconds": v.seconds,
+                    "microseconds": v.microseconds,
+                },
             },
         ),
     ],
