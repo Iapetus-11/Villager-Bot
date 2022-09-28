@@ -351,7 +351,7 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
         memory_info = psutil.virtual_memory()
 
         return SystemStats(
-            identifier='Karen',
+            identifier="Karen",
             cpu_usage_percent=psutil.getloadavg()[0],
             memory_usage_bytes=(memory_info.total - memory_info.available),
             memory_max_bytes=memory_info.total,
