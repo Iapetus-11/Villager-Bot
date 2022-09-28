@@ -18,6 +18,8 @@ from discord.app_commands import command as slash_command
 from discord.ext import commands, tasks
 from PIL import ExifTags, Image
 
+from common.models.system_stats import SystemStats
+
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from bot.models.translation import Translation
@@ -30,7 +32,6 @@ from bot.utils.misc import (
     read_limited,
 )
 from bot.villager_bot import VillagerBotCluster
-from common.models.system_stats import SystemStats
 
 
 class Useful(commands.Cog):
@@ -407,15 +408,21 @@ class Useful(commands.Cog):
             mem_gb = ss.memory_usage_bytes / 1000000000
             mem_percent = ss.memory_usage_bytes / ss.memory_max_bytes * 100
 
-            embed.add_field(name=ss.identifier, value=(
-                f"{ctx.l.useful.stats.mem}: `{round(mem_gb, 2)} GB` `({round(mem_percent, 2)}%)`\n"
-                f"{ctx.l.useful.stats.cpu}: `{round(ss.cpu_usage_percent * 100, 2)}%`\n"
-            ))
+            embed.add_field(
+                name=ss.identifier,
+                value=(
+                    f"{ctx.l.useful.stats.mem}: `{round(mem_gb, 2)} GB` `({round(mem_percent, 2)}%)`\n"
+                    f"{ctx.l.useful.stats.cpu}: `{round(ss.cpu_usage_percent * 100, 2)}%`\n"
+                ),
+            )
             embed.add_field(name="\uFEFF", value="\uFEFF")
-            embed.add_field(name="\uFEFF", value=(
-                f"{ctx.l.useful.stats.threads}: `{ss.threads}`\n"
-                f"{ctx.l.useful.stats.tasks}: `{ss.asyncio_tasks}`\n"
-            ))
+            embed.add_field(
+                name="\uFEFF",
+                value=(
+                    f"{ctx.l.useful.stats.threads}: `{ss.threads}`\n"
+                    f"{ctx.l.useful.stats.tasks}: `{ss.asyncio_tasks}`\n"
+                ),
+            )
 
         await ctx.reply(embed=embed, mention_author=False)
 

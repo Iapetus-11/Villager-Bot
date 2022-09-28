@@ -1,9 +1,8 @@
 import pydantic
+import pytest
 
 from common.models.base import BaseModel
 from common.utils.validate_return_type import validate_return_type
-
-import pytest
 
 
 class DummyModel1(BaseModel):
@@ -31,10 +30,10 @@ class DummyModel2(BaseModel):
         {},
         {"a": 1},
         set(),
-        {1,2},
+        {1, 2},
         DummyModel1(a=1, b="abc"),
         DummyModel2,
-    ]
+    ],
 )
 def test_validate_return_type(value):
     @validate_return_type
