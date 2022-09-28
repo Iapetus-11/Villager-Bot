@@ -23,33 +23,33 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
 
-      - name: load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v2
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+#      - name: load cached venv
+#        id: cached-poetry-dependencies
+#        uses: actions/cache@v2
+#        with:
+#          path: .venv
+#          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: install dependencies
 #        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install
 
-#      - name: auto-flake
-#        run: poetry run autoflake --remove-all-unused-imports --expand-star-imports --ignore-init-module-imports --in-place --recursive bot/ common/ karen/
-#
-#      - name: black fix
-#        run: poetry run black .
-#
-#      - name: isort fix
-#        run: poetry run isort .
+      - name: auto-flake
+        run: poetry run autoflake --remove-all-unused-imports --expand-star-imports --ignore-init-module-imports --in-place --recursive bot/ common/ karen/
+
+      - name: black fix
+        run: poetry run black .
+
+      - name: isort fix
+        run: poetry run isort .
 
       - name: auto commit
         uses: stefanzweifel/git-auto-commit-action@v4.14.1
         with:
           commit_message: format / fix code
 
-#      - name: flake8
-#        run: poetry run flake8
+      - name: flake8
+        run: poetry run flake8
       
       - name: mypy
         run: poetry run mypy
