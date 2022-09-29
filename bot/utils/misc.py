@@ -382,6 +382,3 @@ async def fetch_aprox_ban_count(guild: discord.Guild, seconds: float, chunk_size
         # there are no more ban entries to fetch
         if len(ban_entries_chunk) < chunk_size:
             return str(ban_count)
-
-
-

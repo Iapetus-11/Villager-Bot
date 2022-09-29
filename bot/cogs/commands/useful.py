@@ -25,7 +25,8 @@ from bot.cogs.core.paginator import Paginator
 from bot.models.translation import Translation
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
-    fetch_aprox_ban_count, SuppressCtxManager,
+    SuppressCtxManager,
+    fetch_aprox_ban_count,
     get_timedelta_granularity,
     is_valid_image_res,
     parse_timedelta,
@@ -482,7 +483,11 @@ class Useful(commands.Cog):
 
         async with SuppressCtxManager(ctx.defer()):
             aprox_ban_count = await fetch_aprox_ban_count(ctx.guild, seconds=3)
-            embed.set_field_at(0, name=embed.fields[0].name, value=(general + f"{ctx.l.useful.ginf.bans}: `{aprox_ban_count}`\n"))
+            embed.set_field_at(
+                0,
+                name=embed.fields[0].name,
+                value=(general + f"{ctx.l.useful.ginf.bans}: `{aprox_ban_count}`\n"),
+            )
 
         await msg.edit(embed=embed)
 
