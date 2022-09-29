@@ -404,6 +404,8 @@ class Useful_Ginf(ImmutableBaseModel):
     cmd_prefix: str
     lang: str
     diff: str
+    mc_server: str
+    joined_at: str
 
 
 class Useful_Meth(ImmutableBaseModel):

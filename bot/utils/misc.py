@@ -359,3 +359,29 @@ async def read_limited(res: aiohttp.ClientResponse, *, max_bytes: int = 1e6) -> 
 
 def item_case(text: str) -> str:
     return " ".join([w.capitalize() for w in text.split()])
+
+
+async def fetch_aprox_ban_count(guild: discord.Guild, seconds: float, chunk_size: int = 500) -> str:
+    start_time = time.time()
+    last_entry = discord.guild.MISSING
+    ban_count = 0
+
+    while True:
+        # ran out of time
+        if (time.time() - start_time) > seconds:
+            return f"{ban_count}+"
+
+        async for entry in guild.bans(limit=500, after=last_entry):
+            last_entry = entry.user
+            ban_count += 1
+
+        ban_entries_chunk = [e async for e in guild.bans(limit=chunk_size, after=last_entry)]
+        last_entry = ban_entries_chunk[-1]
+        ban_count += len(ban_entries_chunk)
+
+        # there are no more ban entries to fetch
+        if len(ban_entries_chunk) < chunk_size:
+            return str(ban_count)
+
+
+

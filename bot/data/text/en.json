@@ -1681,7 +1681,8 @@
         "bans": "Bans",
         "cmd_prefix": "Prefix",
         "lang": "Language",
-        "diff": "Difficulty"
+        "diff": "Difficulty",
+        "joined_at": "Joined"
       },
       "meth": {
         "oops": "Oops, something went wrong..."

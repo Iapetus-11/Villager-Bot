@@ -25,7 +25,7 @@ from bot.cogs.core.paginator import Paginator
 from bot.models.translation import Translation
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
-    SuppressCtxManager,
+    fetch_aprox_ban_count, SuppressCtxManager,
     get_timedelta_granularity,
     is_valid_image_res,
     parse_timedelta,
@@ -455,16 +455,18 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.ginf.channels}: `{len(guild.text_channels) + len(guild.voice_channels)}`\n "
             f"{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n"
             f"{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n"
-            # f"{ctx.l.useful.ginf.bans}: `{bans}`\n"
         )
+
+        ban_count_display = f"{ctx.l.useful.ginf.bans}: {self.d.emojis.aniloading}\n"
 
         villager = (
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
             f"{ctx.l.useful.ginf.diff}: `{db_guild.difficulty}`\n"
             f"{ctx.l.useful.ginf.cmd_prefix}: `{ctx.prefix}`\n"
+            f"{ctx.l.useful.ginf.joined_at}: `{arrow.get(ctx.me.joined_at).humanize(locale=ctx.l.lang)}`\n"
         )
 
-        embed.add_field(name="General :gear:", value=general, inline=True)
+        embed.add_field(name="General :gear:", value=(general + ban_count_display), inline=True)
         embed.add_field(name="Villager Bot " + self.d.emojis.emerald, value=villager, inline=True)
 
         embed.add_field(
@@ -476,7 +478,13 @@ class Useful(commands.Cog):
         embed.set_thumbnail(url=getattr(guild.icon, "url", None))
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
-        await ctx.reply(embed=embed, mention_author=False)
+        msg = await ctx.reply(embed=embed, mention_author=False)
+
+        async with SuppressCtxManager(ctx.defer()):
+            aprox_ban_count = await fetch_aprox_ban_count(ctx.guild, seconds=3)
+            embed.set_field_at(0, name=embed.fields[0].name, value=(general + f"{ctx.l.useful.ginf.bans}: `{aprox_ban_count}`\n"))
+
+        await msg.edit(embed=embed)
 
     @commands.command(name="rules", aliases=["botrules"])
     async def rules(self, ctx: Ctx):
@@ -509,13 +517,13 @@ class Useful(commands.Cog):
     @commands.command(name="google", aliases=["thegoogle", "gewgle"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def google_search(self, ctx: Ctx, *, query):
-        safesearch = True
+        safe_search = True
         if isinstance(ctx.channel, discord.TextChannel):
-            safesearch = not ctx.channel.is_nsfw()
+            safe_search = not ctx.channel.is_nsfw()
 
         try:
             async with SuppressCtxManager(ctx.typing()):
-                res = await self.google.search(query, safesearch=safesearch)
+                res = await self.google.search(query, safesearch=safe_search)
         except async_cse.search.NoResults:
             await ctx.reply_embed(ctx.l.useful.search.nope)
             return
@@ -537,13 +545,13 @@ class Useful(commands.Cog):
     @commands.command(name="youtube", aliases=["ytsearch", "yt"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def youtube_search(self, ctx: Ctx, *, query):
-        safesearch = True
+        safe_search = True
         if isinstance(ctx.channel, discord.TextChannel):
-            safesearch = not ctx.channel.is_nsfw()
+            safe_search = not ctx.channel.is_nsfw()
 
         try:
             async with SuppressCtxManager(ctx.typing()):
-                res = await self.google.search(query, safesearch=safesearch)
+                res = await self.google.search(query, safesearch=safe_search)
         except async_cse.search.NoResults:
             await ctx.reply_embed(ctx.l.useful.search.nope)
             return
@@ -564,13 +572,13 @@ class Useful(commands.Cog):
     @commands.command(name="image", aliases=["imagesearch", "img"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def image_search(self, ctx: Ctx, *, query):
-        safesearch = True
+        safe_search = True
         if isinstance(ctx.channel, discord.TextChannel):
-            safesearch = not ctx.channel.is_nsfw()
+            safe_search = not ctx.channel.is_nsfw()
 
         try:
             async with SuppressCtxManager(ctx.typing()):
-                results = await self.google.search(query, safesearch=safesearch, image_search=True)
+                results = await self.google.search(query, safesearch=safe_search, image_search=True)
         except async_cse.search.NoResults:
             await ctx.reply_embed(ctx.l.useful.search.nope)
             return

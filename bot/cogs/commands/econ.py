@@ -2364,8 +2364,8 @@ class Econ(commands.Cog):
             user_1_health = db_user_1.health
             user_2_health = db_user_2.health
 
-            user_1_bees = getattr("amount", user_1_bees, 0)
-            user_2_bees = getattr("amount", user_2_bees, 0)
+            user_1_bees = getattr(user_1_bees, "amount", 0)
+            user_2_bees = getattr(user_2_bees, "amount", 0)
 
             embed = discord.Embed(color=self.bot.embed_color)
 
