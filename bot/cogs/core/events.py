@@ -90,7 +90,6 @@ class Events(commands.Cog):
         self.bot.logger.info(f"Cluster {self.bot.cluster_id} READY")
 
         self.bot.support_server = await self.bot.fetch_guild(self.k.support_server_id)
-
         self.bot.error_channel = await self.bot.fetch_channel(self.k.error_channel_id)
         self.bot.vote_channel = await self.bot.fetch_channel(self.k.vote_channel_id)
 
@@ -100,9 +99,7 @@ class Events(commands.Cog):
         channel: discord.channel = None
 
         for c in guild.text_channels:
-            c_name = c.name.lower()
-
-            if "general" in c_name or "chat" in c_name:
+            if "general" in c.name.lower():
                 channel = c
                 break
 
