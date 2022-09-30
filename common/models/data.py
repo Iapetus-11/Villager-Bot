@@ -179,6 +179,7 @@ class Emojis(ImmutableBaseModel):
     trophy: str
     aniloading: str
     ender_pearl: str
+    chocolate_chip_cookie: str
     time_pearl: str
     farming: FarmingEmojis
     reees: list[str]
