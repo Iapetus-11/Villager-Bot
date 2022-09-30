@@ -203,14 +203,8 @@ class Owner(commands.Cog):
             body = ""
 
             for entry in entries:
-                giver = (
-                    getattr(ctx.guild.get_member(entry["sender"]), "mention", None)
-                    or f"`{entry['sender']}`"
-                )
-                receiver = (
-                    getattr(ctx.guild.get_member(entry["receiver"]), "mention", None)
-                    or f"`{entry['receiver']}`"
-                )
+                giver = f"<@{entry['sender']}>"
+                receiver = f"<@{entry['receiver']}>"
                 item = entry["item"]
 
                 if item == "emerald":
@@ -256,7 +250,7 @@ class Owner(commands.Cog):
                 "```md\n##  count  | guild id           | name\n"
                 + "\n".join(
                     [
-                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']} | {shorten_text(discord.utils.escape_markdown(g['name']), 22)}"
+                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']} | {shorten_text(discord.utils.escape_markdown(g['name']), 40)}"
                         for i, g in enumerate(values)
                     ]
                 )
@@ -286,12 +280,11 @@ class Owner(commands.Cog):
                 )[:10]
             )
 
-        embed = discord.Embed(color=self.bot.embed_color, title="Top Villager Bot Guilds")
-        embed.add_field(name="By Members", value=top_guilds_by_members, inline=False)
-        embed.add_field(name="By Active Members", value=top_guilds_by_active_members, inline=False)
-        embed.add_field(name="By Commands", value=top_guilds_by_commands, inline=False)
-
-        await ctx.reply(embed=embed)
+        await ctx.reply(
+            f"**By Members**\n{top_guilds_by_members}\n\n"
+            f"**By Active Members**\n{top_guilds_by_active_members}\n\n"
+            f"**By Commands**\n{top_guilds_by_commands}\n\n"
+        )
 
     @commands.command(name="shutdown")
     @commands.is_owner()

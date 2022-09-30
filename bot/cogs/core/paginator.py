@@ -86,7 +86,10 @@ class Paginator(commands.Cog):
                 msg = await msg.edit(embed=(await self._get_page(get_page, page)))
 
             # remove user's reaction
-            await msg.remove_reaction(emoji, ctx.author)
+            try:
+                await msg.remove_reaction(emoji, ctx.author)
+            except discord.HTTPException:
+                pass
 
 
 async def setup(bot: VillagerBotCluster):
