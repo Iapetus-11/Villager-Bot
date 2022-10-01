@@ -1686,10 +1686,15 @@ class Econ(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
-    async def _lb_logic(self, ctx: Ctx, global_lb: list[dict[str, Any]], local_lb: list[dict[str, Any]], row_fmt: str, title: str):
-        global_lb_str, local_lb_str = await craft_lbs(
-            self.bot, global_lb, local_lb, row_fmt
-        )
+    async def _lb_logic(
+        self,
+        ctx: Ctx,
+        global_lb: list[dict[str, Any]],
+        local_lb: list[dict[str, Any]],
+        row_fmt: str,
+        title: str,
+    ):
+        global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, row_fmt)
 
         embed = discord.Embed(color=self.bot.embed_color, title=title)
 
@@ -1743,7 +1748,7 @@ class Econ(commands.Cog):
                 global_lb=global_lb,
                 local_lb=local_lb,
                 row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.stevegun} {{}}",
-                title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun)
+                title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun),
             )
 
     @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
