@@ -4,6 +4,7 @@ import functools
 import math
 import random
 from collections import defaultdict
+from typing import Any
 
 import arrow
 import discord
@@ -1685,6 +1686,18 @@ class Econ(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
+    async def _lb_logic(self, ctx: Ctx, global_lb: list[dict[str, Any]], local_lb: list[dict[str, Any]], row_fmt: str, title: str):
+        global_lb_str, local_lb_str = await craft_lbs(
+            self.bot, global_lb, local_lb, row_fmt
+        )
+
+        embed = discord.Embed(color=self.bot.embed_color, title=title)
+
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
+
+        await ctx.reply(embed=embed, mention_author=False)
+
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
@@ -1693,18 +1706,13 @@ class Econ(commands.Cog):
                 "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}",
+                title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="pillages", aliases=["pil", "stolen"])
     async def leaderboard_pillages(self, ctx: Ctx):
@@ -1714,17 +1722,13 @@ class Econ(commands.Cog):
                 "pillaged_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}",
+                title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald)
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="mobkills", aliases=["kil", "kills", "kill", "bonk"])
     async def leaderboard_mobkills(self, ctx: Ctx):
@@ -1734,17 +1738,13 @@ class Econ(commands.Cog):
                 "mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.stevegun} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.stevegun} {{}}",
+                title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun)
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun)
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
     async def leaderboard_bees(self, ctx: Ctx):
@@ -1754,17 +1754,13 @@ class Econ(commands.Cog):
                 "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.bee} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.bee} {{}}",
+                title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee)
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="commands", aliases=["!!", "cmds"])
     async def leaderboard_commands(self, ctx: Ctx):
@@ -1774,17 +1770,13 @@ class Econ(commands.Cog):
                 "commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt="\n`{}.` **{}** :keyboard: {}",
+                title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: ")
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx: Ctx):
@@ -1794,17 +1786,13 @@ class Econ(commands.Cog):
                 "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.updoot} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.updoot} {{}}",
+                title=ctx.l.econ.lb.lb_votes.format(" :fire: "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_votes.format(" :fire: ")
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
     async def leaderboard_fish(self, ctx: Ctx):
@@ -1814,18 +1802,13 @@ class Econ(commands.Cog):
                 "fish_fished", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.fish.cod} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.fish.cod} {{}}",
+                title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="mooderalds", aliases=["autism", "moods", "mooderald"])
     async def leaderboard_mooderalds(self, ctx: Ctx):
@@ -1835,21 +1818,13 @@ class Econ(commands.Cog):
                 "Mooderald", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot,
-                global_lb,
-                local_lb,
-                f"\n`{{}}.` **{{}}**{self.d.emojis.autistic_emerald} {{}}",
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.autistic_emerald} {{}}",
+                title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="farming", aliases=["farm", "crop", "crops"])
     async def leaderboard_farming(self, ctx: Ctx):
@@ -1859,21 +1834,13 @@ class Econ(commands.Cog):
                 "crops_planted", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot,
-                global_lb,
-                local_lb,
-                f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds['wheat']} {{}}",
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds['wheat']} {{}}",
+                title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal['wheat']} "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal['wheat']} "),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="trash", aliases=["trashcan", "garbage", "tc"])
     async def leaderboard_trash(self, ctx: Ctx):
@@ -1883,18 +1850,13 @@ class Econ(commands.Cog):
                 "trash_emptied", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.diamond} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.diamond} {{}}",
+                title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} "),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="weeklyemeralds", aliases=["wems", "weeklyems"])
     async def leaderboard_weekly_emeralds(self, ctx: Ctx):
@@ -1904,18 +1866,13 @@ class Econ(commands.Cog):
                 "week_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.emerald} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.emerald} {{}}",
+                title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} "),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="weeklycommands", aliases=["wcmds", "weeklycmds", "wcmd"])
     async def leaderboard_weekly_commands(self, ctx: Ctx):
@@ -1925,17 +1882,13 @@ class Econ(commands.Cog):
                 "week_commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt="\n`{}.` **{}** :keyboard: {}",
+                title=ctx.l.econ.lb.lb_wcmds.format(" :keyboard: "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_wcmds.format(" :keyboard: ")
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.group(name="farm", case_insensitive=True)
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
