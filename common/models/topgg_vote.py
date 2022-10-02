@@ -1,6 +1,6 @@
 from typing import Optional
 
-from common.models.base import BaseModel
+from common.models.base_model import BaseModel
 
 
 class TopggVote(BaseModel):

@@ -1,4 +1,4 @@
-from common.models.base import BaseModel
+from common.models.base_model import BaseModel
 
 
 class SystemStats(BaseModel):

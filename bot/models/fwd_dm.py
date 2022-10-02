@@ -1,4 +1,4 @@
-from common.models.base import ImmutableBaseModel
+from common.models.base_model import ImmutableBaseModel
 
 
 class ForwardedDirectMessage(ImmutableBaseModel):

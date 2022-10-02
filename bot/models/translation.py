@@ -1,6 +1,6 @@
 from typing import Optional
 
-from common.models.base import ImmutableBaseModel
+from common.models.base_model import ImmutableBaseModel
 
 
 class Misc_Errors(ImmutableBaseModel):

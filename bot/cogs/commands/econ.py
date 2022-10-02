@@ -2323,12 +2323,12 @@ class Econ(commands.Cog):
             embed = discord.Embed(color=self.bot.embed_color)
 
             embed.add_field(
-                name=f"{user_1.display_name}",
+                name=f"**{user_1.display_name}**",
                 value=f"{user_1_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} ",
             )
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(
-                name=f"{user_2.display_name}",
+                name=f"**{user_2.display_name}**",
                 value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_2_bees}{self.d.emojis.jar_of_bees} ",
             )
 
@@ -2340,7 +2340,7 @@ class Econ(commands.Cog):
 
             try:
                 await self.bot.wait_for(
-                    "reaction", check=(lambda r, u: r.message == msg and u == user_2), timeout=60
+                    "reaction_add", check=(lambda r, u: r.message == msg and u == user_2), timeout=60
                 )
             except asyncio.TimeoutError:
                 await msg.edit(
@@ -2352,7 +2352,36 @@ class Econ(commands.Cog):
                 return
 
             await msg.delete()
-            await ctx.send_embed("not done")
+
+            while True:
+                embed = discord.Embed(color=self.bot.embed_color)
+
+                embed.add_field(
+                    name=f"**{user_1.display_name}**",
+                    value=make_health_bar(
+                        max(user_1_health, 0),
+                        20,
+                        self.d.emojis.heart_full,
+                        self.d.emojis.heart_half,
+                        self.d.emojis.heart_empty,
+                    ),
+                    inline=False,
+                )
+
+                embed.add_field(
+                    name=f"**{user_2.display_name}**",
+                    value=make_health_bar(
+                        max(user_2_health, 0),
+                        20,
+                        self.d.emojis.heart_full,
+                        self.d.emojis.heart_half,
+                        self.d.emojis.heart_empty,
+                    )
+                )
+
+                await ctx.send(embed=embed)
+
+                break
         finally:
             await self.karen.econ_unpause(user_1.id)
             await self.karen.econ_unpause(user_2.id)

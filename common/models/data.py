@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 from pydantic import Field, HttpUrl
 
-from common.models.base import BaseModel, ImmutableBaseModel
+from common.models.base_model import BaseModel, ImmutableBaseModel
 
 
 class MobsMech(ImmutableBaseModel):

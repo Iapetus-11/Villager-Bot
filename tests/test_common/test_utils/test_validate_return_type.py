@@ -1,7 +1,7 @@
 import pydantic
 import pytest
 
-from common.models.base import BaseModel
+from common.models.base_model import BaseModel
 from common.utils.validate_return_type import validate_return_type
 
 
