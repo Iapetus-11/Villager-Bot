@@ -2345,7 +2345,9 @@ class Econ(commands.Cog):
 
             try:
                 await self.bot.wait_for(
-                    "reaction_add", check=(lambda r, u: r.message == msg and u == user_2), timeout=60
+                    "reaction_add",
+                    check=(lambda r, u: r.message == msg and u == user_2),
+                    timeout=60,
                 )
             except asyncio.TimeoutError:
                 await msg.edit(
@@ -2381,7 +2383,7 @@ class Econ(commands.Cog):
                         self.d.emojis.heart_full,
                         self.d.emojis.heart_half,
                         self.d.emojis.heart_empty,
-                    )
+                    ),
                 )
 
                 await ctx.send(embed=embed)
