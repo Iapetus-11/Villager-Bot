@@ -4,7 +4,7 @@ import functools
 import math
 import random
 from collections import defaultdict
-from typing import Any
+from typing import Any, Optional
 
 import arrow
 import discord
@@ -2312,18 +2312,44 @@ class Econ(commands.Cog):
                 )
                 return
 
-            user_1_sword, user_2_sword, user_1_bees, user_2_bees = await asyncio.gather(
+            user_1_sword: str
+            user_2_sword: str
+            user_1_items: list[Item]
+            user_2_items: list[Item]
+            user_1_sword, user_2_sword, user_1_items, user_2_items = await asyncio.gather(
                 self.db.fetch_sword(user_1.id),
                 self.db.fetch_sword(user_2.id),
-                self.db.fetch_item(user_1.id, "Jar Of Bees"),
-                self.db.fetch_item(user_2.id, "Jar Of Bees"),
+                self.db.fetch_items(user_1.id),
+                self.db.fetch_items(user_2.id),
             )
+
+            def get_item_count(items: list[Item], name: str) -> int:
+                name = name.lower()
+                filtered = [i for i in items if i.name.lower() == name]
+                return filtered[0].amount if filtered else 0
 
             user_1_health = db_user_1.health
             user_2_health = db_user_2.health
 
-            user_1_bees = getattr(user_1_bees, "amount", 0)
-            user_2_bees = getattr(user_2_bees, "amount", 0)
+            user_1_bees = get_item_count(user_1_items, "Jar Of Bees")
+            user_2_bees = get_item_count(user_2_items, "Jar Of Bees")
+
+            user_1_sharpness = 2 if get_item_count(user_1_items, "Sharpness II Book") else 1 if get_item_count(user_1_items, "Sharpness I Book") else 0
+            user_2_sharpness = 2 if get_item_count(user_2_items, "Sharpness II Book") else 1 if get_item_count(user_2_items, "Sharpness I Book") else 0
+
+            def attack_damage(sharp: int, sword: str) -> int:
+                damage = random.randint(*{
+                    "Netherite Sword": [7, 10],
+                    "Diamond Sword": [6, 7],
+                    "Gold Sword": [4, 5],
+                    "Iron Sword": [2, 4],
+                    "Stone Sword": [1, 3],
+                    "Wood Sword": [1, 2],
+                }[sword])
+
+                damage += 0.25 * sharp
+
+                return math.ceil(damage / 1.3)
 
             embed = discord.Embed(color=self.bot.embed_color)
 
@@ -2334,23 +2360,23 @@ class Econ(commands.Cog):
             embed.add_field(name="\uFEFF", value="\uFEFF")
             embed.add_field(
                 name=f"**{user_2.display_name}**",
-                value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_2_bees}{self.d.emojis.jar_of_bees} ",
+                value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{self.d.emojis.jar_of_bees} ",
             )
 
-            msg = await ctx.send(
+            users_msg = await ctx.send(
                 f"{user_2.mention} react with {self.d.emojis.netherite_sword_ench} to accept the challenge!",
                 embed=embed,
             )
-            await msg.add_reaction(self.d.emojis.netherite_sword_ench)
+            await users_msg.add_reaction(self.d.emojis.netherite_sword_ench)
 
             try:
                 await self.bot.wait_for(
                     "reaction_add",
-                    check=(lambda r, u: r.message == msg and u == user_2),
+                    check=(lambda r, u: r.message == users_msg and u == user_2),
                     timeout=60,
                 )
             except asyncio.TimeoutError:
-                await msg.edit(
+                await users_msg.edit(
                     embed=discord.Embed(
                         color=self.bot.embed_color,
                         description=f"{user_2.mention} didn't accept the challenge in time...",
@@ -2358,9 +2384,32 @@ class Econ(commands.Cog):
                 )
                 return
 
-            await msg.delete()
+            try:
+                await users_msg.clear_reaction(self.d.emojis.netherite_sword_ench)
+            except discord.Forbidden:
+                pass
+
+            attack_msg: Optional[discord.Message] = None
 
             while True:
+                if user_1_health <= 0 or user_2_health <= 0:
+                    break
+
+                user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + (user_1_bees > user_2_bees)
+                user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + (user_2_bees > user_1_bees)
+
+                # user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + random.randint(0, user_1_bees > user_2_bees)
+                # user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + random.randint(0, user_2_bees > user_1_bees)
+
+                embed = discord.Embed(color=self.bot.embed_color, description=f"user_1 ({user_1_health}hp) did {user_1_damage} dmg\nuser_2 ({user_2_health}hp) did {user_2_damage}")
+                # attack_msg = await (ctx.send if attack_msg is None else attack_msg.edit)(embed=embed)
+                await ctx.send(embed=embed)
+
+                user_1_health -= user_2_damage
+                user_2_health -= user_1_damage
+
+                await asyncio.sleep(random.random() * 2.5)
+
                 embed = discord.Embed(color=self.bot.embed_color)
 
                 embed.add_field(
@@ -2384,11 +2433,16 @@ class Econ(commands.Cog):
                         self.d.emojis.heart_half,
                         self.d.emojis.heart_empty,
                     ),
+                    inline=False,
                 )
 
+                # users_msg = await users_msg.edit(embed=embed, content=None)
                 await ctx.send(embed=embed)
 
-                break
+                await asyncio.sleep(random.random() * 2.5)
+
+
+            await ctx.send("ding dong done L + ratio + nobitches")
         finally:
             await self.karen.econ_unpause(user_1.id)
             await self.karen.econ_unpause(user_2.id)
