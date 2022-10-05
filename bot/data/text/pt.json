@@ -1681,7 +1681,8 @@
         "bans": "Banimentos",
         "cmd_prefix": "Prefixo",
         "lang": "Idioma",
-        "diff": "Dificuldade"
+        "diff": "Dificuldade",
+        "joined_at": "Juntou-se"
       },
       "meth": {
         "oops": "Oops, algo deu errado..."
