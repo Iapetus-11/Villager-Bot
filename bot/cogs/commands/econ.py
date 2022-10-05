@@ -2334,18 +2334,32 @@ class Econ(commands.Cog):
             user_1_bees = get_item_count(user_1_items, "Jar Of Bees")
             user_2_bees = get_item_count(user_2_items, "Jar Of Bees")
 
-            user_1_sharpness = 2 if get_item_count(user_1_items, "Sharpness II Book") else 1 if get_item_count(user_1_items, "Sharpness I Book") else 0
-            user_2_sharpness = 2 if get_item_count(user_2_items, "Sharpness II Book") else 1 if get_item_count(user_2_items, "Sharpness I Book") else 0
+            user_1_sharpness = (
+                2
+                if get_item_count(user_1_items, "Sharpness II Book")
+                else 1
+                if get_item_count(user_1_items, "Sharpness I Book")
+                else 0
+            )
+            user_2_sharpness = (
+                2
+                if get_item_count(user_2_items, "Sharpness II Book")
+                else 1
+                if get_item_count(user_2_items, "Sharpness I Book")
+                else 0
+            )
 
             def attack_damage(sharp: int, sword: str) -> int:
-                damage = random.randint(*{
-                    "Netherite Sword": [7, 10],
-                    "Diamond Sword": [6, 7],
-                    "Gold Sword": [4, 5],
-                    "Iron Sword": [2, 4],
-                    "Stone Sword": [1, 3],
-                    "Wood Sword": [1, 2],
-                }[sword])
+                damage = random.randint(
+                    *{
+                        "Netherite Sword": [7, 10],
+                        "Diamond Sword": [6, 7],
+                        "Gold Sword": [4, 5],
+                        "Iron Sword": [2, 4],
+                        "Stone Sword": [1, 3],
+                        "Wood Sword": [1, 2],
+                    }[sword]
+                )
 
                 damage += 0.25 * sharp
 
@@ -2395,13 +2409,20 @@ class Econ(commands.Cog):
                 if user_1_health <= 0 or user_2_health <= 0:
                     break
 
-                user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + (user_1_bees > user_2_bees)
-                user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + (user_2_bees > user_1_bees)
+                user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + (
+                    user_1_bees > user_2_bees
+                )
+                user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + (
+                    user_2_bees > user_1_bees
+                )
 
                 # user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + random.randint(0, user_1_bees > user_2_bees)
                 # user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + random.randint(0, user_2_bees > user_1_bees)
 
-                embed = discord.Embed(color=self.bot.embed_color, description=f"user_1 ({user_1_health}hp) did {user_1_damage} dmg\nuser_2 ({user_2_health}hp) did {user_2_damage}")
+                embed = discord.Embed(
+                    color=self.bot.embed_color,
+                    description=f"user_1 ({user_1_health}hp) did {user_1_damage} dmg\nuser_2 ({user_2_health}hp) did {user_2_damage}",
+                )
                 # attack_msg = await (ctx.send if attack_msg is None else attack_msg.edit)(embed=embed)
                 await ctx.send(embed=embed)
 
@@ -2440,7 +2461,6 @@ class Econ(commands.Cog):
                 await ctx.send(embed=embed)
 
                 await asyncio.sleep(random.random() * 2.5)
-
 
             await ctx.send("ding dong done L + ratio + nobitches")
         finally:
