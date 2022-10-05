@@ -517,6 +517,12 @@
         "sticky": true
       },
       {
+        "item": "Luck Potion",
+        "sell_price": 128,
+        "rarity": 6669,
+        "sticky": false
+      },
+      {
         "item": "Recycler",
         "sell_price": 1024,
         "rarity": 99999,
