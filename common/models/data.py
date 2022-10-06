@@ -180,6 +180,7 @@ class Emojis(ImmutableBaseModel):
     aniloading: str
     ender_pearl: str
     chocolate_chip_cookie: str
+    will_o_wisp: str
     time_pearl: str
     farming: FarmingEmojis
     reees: list[str]
