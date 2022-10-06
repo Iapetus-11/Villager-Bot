@@ -417,6 +417,12 @@
         "sticky": false
       },
       {
+        "item": "Jared Will O Wisp",
+        "sell_price": 1024,
+        "rarity": 99999,
+        "sticky": false
+      },
+      {
         "item": "Guacamole Sombrero",
         "sell_price": 768,
         "rarity": 4096,
@@ -1084,6 +1090,7 @@
     "aniloading": "<a:loading:984854701868744794>",
     "ender_pearl": "<:ender_pearl:1022845322147409972>",
     "chocolate_chip_cookie": "<:chocolate_chip_cookie:1025000801330020353>",
+    "will_o_wisp": "<:will_o_wisp:->",
     "time_pearl": "<:time_pearl:1022845301196849153>",
     "farming": {
       "growing": {
@@ -1268,6 +1275,7 @@
     "Rich Person Trophy": "trophy",
     "Ender Pearl": "ender_pearl",
     "Chocolate Chip Cookie": "chocolate_chip_cookie",
+    "Jared Will O Wisp": "will_o_wisp",
     "Time Pearl": "time_pearl"
   },
   "farming": {
