@@ -245,12 +245,12 @@ class Owner(commands.Cog):
     @commands.command(name="topguilds", aliases=["topgs"])
     @commands.is_owner()
     async def top_guilds(self, ctx: Ctx):
-        def fmt_values(values: list[dict[str, Any]]) -> str:
+        def format_lb(values: list[dict[str, Any]]) -> str:
             return (
-                "```md\n##  count  | guild id           | name\n"
+                "```md\n##  count  | guild id            | name\n"
                 + "\n".join(
                     [
-                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']} | {shorten_text(discord.utils.escape_markdown(g['name']), 40)}"
+                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']:<19} | {shorten_text(discord.utils.escape_markdown(g['name']), 40)}"
                         for i, g in enumerate(values)
                     ]
                 )
@@ -258,21 +258,21 @@ class Owner(commands.Cog):
             )
 
         async with SuppressCtxManager(ctx.typing()):
-            top_guilds_by_members = fmt_values(
+            top_guilds_by_members = format_lb(
                 sorted(
                     await self.karen.fetch_top_guilds_by_members(),
                     key=(lambda g: g["count"]),
                     reverse=True,
                 )[:10]
             )
-            top_guilds_by_active_members = fmt_values(
+            top_guilds_by_active_members = format_lb(
                 sorted(
                     await self.karen.fetch_top_guilds_by_active_members(),
                     key=(lambda g: g["count"]),
                     reverse=True,
                 )[:10]
             )
-            top_guilds_by_commands = fmt_values(
+            top_guilds_by_commands = format_lb(
                 sorted(
                     await self.karen.fetch_top_guilds_by_commands(),
                     key=(lambda g: g["count"]),
@@ -285,6 +285,10 @@ class Owner(commands.Cog):
             f"**By Active Members**\n{top_guilds_by_active_members}\n\n"
             f"**By Commands**\n{top_guilds_by_commands}\n\n"
         )
+
+    @commands.command(name="commandstreaks", aliases=["cmdsstreaks", "cmdstreaks"])
+    async def command_streaks(self, ctx: Ctx):
+        pass
 
     @commands.command(name="shutdown")
     @commands.is_owner()
