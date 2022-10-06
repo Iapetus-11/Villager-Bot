@@ -405,6 +405,12 @@
         "sticky": false
       },
       {
+        "item": "Will O Wisp",
+        "sell_price": 1024,
+        "rarity": 99999,
+        "sticky": false
+      },
+      {
         "item": "Bane Of Pillagers Amulet",
         "sell_price": 4096,
         "rarity": 500000,
@@ -524,6 +530,12 @@
       },
       {
         "item": "Recycler",
+        "sell_price": 1024,
+        "rarity": 99999,
+        "sticky": false
+      },
+      {
+        "item": "Will O Wisp",
         "sell_price": 1024,
         "rarity": 99999,
         "sticky": false
@@ -1084,6 +1096,7 @@
     "aniloading": "<a:loading:984854701868744794>",
     "ender_pearl": "<:ender_pearl:1022845322147409972>",
     "chocolate_chip_cookie": "<:chocolate_chip_cookie:1025000801330020353>",
+    "will_o_wisp": "<:will_o_wisp:1027441139256660068>",
     "time_pearl": "<:time_pearl:1022845301196849153>",
     "farming": {
       "growing": {
@@ -1268,6 +1281,7 @@
     "Rich Person Trophy": "trophy",
     "Ender Pearl": "ender_pearl",
     "Chocolate Chip Cookie": "chocolate_chip_cookie",
+    "Will O Wisp": "will_o_wisp",
     "Time Pearl": "time_pearl"
   },
   "farming": {
