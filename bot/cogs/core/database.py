@@ -719,7 +719,9 @@ class Database(commands.Cog):
             guild_ids,
         )
 
-    async def fetch_command_streaks(self, break_interval: datetime.timedelta, after: datetime.datetime, limit: int) -> list[dict[str, Any]]:
+    async def fetch_command_streaks(
+        self, break_interval: datetime.timedelta, after: datetime.datetime, limit: int
+    ) -> list[dict[str, Any]]:
         return await self.db.fetch(
             """
             SELECT * FROM (
@@ -739,6 +741,7 @@ class Database(commands.Cog):
             after,
             limit,
         )
+
 
 async def setup(bot: VillagerBotCluster) -> None:
     await bot.add_cog(Database(bot))

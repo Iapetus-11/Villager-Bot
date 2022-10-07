@@ -299,12 +299,16 @@ class Owner(commands.Cog):
             idx: int
             row: dict[str, Any]
             idx, row = idx_row
-            td = row['duration'] - datetime.timedelta(days=row['duration'].days, microseconds=row['duration'].microseconds)
+            td = row["duration"] - datetime.timedelta(
+                days=row["duration"].days, microseconds=row["duration"].microseconds
+            )
             return f"{f'{idx + 1}.':<2} {td.days:02} {str(td).split(',')[-1]:0>8} | {row['user_id']:<19} | {discord.utils.escape_markdown(str(self.bot.get_user(row['user_id']) or ''))}"
 
         formatted_rows = "\n".join(map(format_row, enumerate(command_streaks)))
 
-        await ctx.reply(f"**Command Streaks** (last two days)\n```md\n## d  h  m s   | user id             | name\n{formatted_rows}\n```")
+        await ctx.reply(
+            f"**Command Streaks** (last two days)\n```md\n## d  h  m s   | user id             | name\n{formatted_rows}\n```"
+        )
 
     @commands.command(name="shutdown")
     @commands.is_owner()
