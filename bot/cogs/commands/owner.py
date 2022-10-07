@@ -251,7 +251,8 @@ class Owner(commands.Cog):
                 "```md\n##  count  | guild id            | name\n"
                 + "\n".join(
                     [
-                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']:<19} | {shorten_text(discord.utils.escape_markdown(g['name']), 40)}"
+                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']:<19} | "
+                        f"{shorten_text(g['name'].replace('_', '').replace('*', '').replace('`', ''), 40)}"
                         for i, g in enumerate(values)
                     ]
                 )
@@ -299,10 +300,13 @@ class Owner(commands.Cog):
             idx: int
             row: dict[str, Any]
             idx, row = idx_row
-            td = row["duration"] - datetime.timedelta(
+
+            td_trunc = row["duration"] - datetime.timedelta(
                 days=row["duration"].days, microseconds=row["duration"].microseconds
             )
-            return f"{f'{idx + 1}.':<2} {td.days:02} {str(td).split(',')[-1]:0>8} | {row['user_id']:<19} | {discord.utils.escape_markdown(str(self.bot.get_user(row['user_id']) or ''))}"
+
+            return f"{f'{idx + 1}.':<2} {td_trunc.days:02} {str(td_trunc).split(',')[-1]:0>8} | {row['user_id']:<19} " \
+                   f"| {str(self.bot.get_user(row['user_id']) or '').replace('_', '').replace('*', '').replace('`', '')}"
 
         formatted_rows = "\n".join(map(format_row, enumerate(command_streaks)))
 
