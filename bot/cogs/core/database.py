@@ -719,6 +719,26 @@ class Database(commands.Cog):
             guild_ids,
         )
 
+    async def fetch_command_streaks(self, break_interval: datetime.timedelta, after: datetime.datetime, limit: int) -> list[dict[str, Any]]:
+        return await self.db.fetch(
+            """
+            SELECT * FROM (
+                SELECT user_id, (MAX(at) - MIN(at)) AS duration, MIN(at) AS group_start, MAX(at) AS group_end, COUNT(*) FROM (
+                    SELECT iq2.*, SUM(new_group) OVER (PARTITION BY user_id ORDER BY at ASC) AS group_id
+                    FROM (
+                        SELECT iq1.*, ((at - lag) > $1)::INT AS new_group
+                        FROM (
+                            SELECT user_id, guild_id, at, LAG(at) OVER (
+                                PARTITION BY user_id ORDER BY at ASC
+                            ) FROM command_executions
+                        ) iq1
+                    ) iq2
+                ) iq3 GROUP BY user_id, group_id ORDER BY duration DESC, group_start DESC
+            ) iq4 WHERE group_end > $2 AND duration > INTERVAL '0' LIMIT $3""",
+            break_interval,
+            after,
+            limit,
+        )
 
 async def setup(bot: VillagerBotCluster) -> None:
     await bot.add_cog(Database(bot))
