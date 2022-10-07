@@ -362,6 +362,8 @@ def item_case(text: str) -> str:
 
 
 async def fetch_aprox_ban_count(guild: discord.Guild, seconds: float, chunk_size: int = 500) -> str:
+    assert chunk_size > 0
+
     start_time = time.time()
     last_entry = discord.guild.MISSING
     ban_count = 0
@@ -376,8 +378,10 @@ async def fetch_aprox_ban_count(guild: discord.Guild, seconds: float, chunk_size
             ban_count += 1
 
         ban_entries_chunk = [e async for e in guild.bans(limit=chunk_size, after=last_entry)]
-        last_entry = ban_entries_chunk[-1]
-        ban_count += len(ban_entries_chunk)
+
+        if ban_entries_chunk:
+            last_entry = ban_entries_chunk[-1]
+            ban_count += len(ban_entries_chunk)
 
         # there are no more ban entries to fetch
         if len(ban_entries_chunk) < chunk_size:
