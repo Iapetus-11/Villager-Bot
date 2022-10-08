@@ -2403,35 +2403,22 @@ class Econ(commands.Cog):
             except discord.Forbidden:
                 pass
 
-            attack_msg: Optional[discord.Message] = None
+            msg: Optional[discord.Message] = None
 
             while True:
                 if user_1_health <= 0 or user_2_health <= 0:
                     break
 
-                user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + (
-                    user_1_bees > user_2_bees
-                )
-                user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + (
-                    user_2_bees > user_1_bees
-                )
+                user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + random.randint(0, user_1_bees > user_2_bees)
+                user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + random.randint(0, user_2_bees > user_1_bees)
 
-                # user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + random.randint(0, user_1_bees > user_2_bees)
-                # user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + random.randint(0, user_2_bees > user_1_bees)
+                user_1_health -= user_2_damage
+                user_2_health -= user_1_damage
 
                 embed = discord.Embed(
                     color=self.bot.embed_color,
                     description=f"user_1 ({user_1_health}hp) did {user_1_damage} dmg\nuser_2 ({user_2_health}hp) did {user_2_damage}",
                 )
-                # attack_msg = await (ctx.send if attack_msg is None else attack_msg.edit)(embed=embed)
-                await ctx.send(embed=embed)
-
-                user_1_health -= user_2_damage
-                user_2_health -= user_1_damage
-
-                await asyncio.sleep(random.random() * 2.5)
-
-                embed = discord.Embed(color=self.bot.embed_color)
 
                 embed.add_field(
                     name=f"**{user_1.display_name}**",
@@ -2457,10 +2444,9 @@ class Econ(commands.Cog):
                     inline=False,
                 )
 
-                # users_msg = await users_msg.edit(embed=embed, content=None)
-                await ctx.send(embed=embed)
+                msg = await (ctx.send if msg is None else msg.edit)(embed=embed)
 
-                await asyncio.sleep(random.random() * 2.5)
+                await asyncio.sleep(random.random() * 5)
 
             await ctx.send("ding dong done L + ratio + nobitches")
         finally:
