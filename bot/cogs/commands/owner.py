@@ -305,8 +305,10 @@ class Owner(commands.Cog):
                 days=row["duration"].days, microseconds=row["duration"].microseconds
             )
 
-            return f"{f'{idx + 1}.':<2} {td_trunc.days:02} {str(td_trunc).split(',')[-1]:0>8} | {row['user_id']:<19} " \
-                   f"| {str(self.bot.get_user(row['user_id']) or '').replace('_', '').replace('*', '').replace('`', '')}"
+            return (
+                f"{f'{idx + 1}.':<2} {td_trunc.days:02} {str(td_trunc).split(',')[-1]:0>8} | {row['user_id']:<19} "
+                f"| {str(self.bot.get_user(row['user_id']) or '').replace('_', '').replace('*', '').replace('`', '')}"
+            )
 
         formatted_rows = "\n".join(map(format_row, enumerate(command_streaks)))
 
