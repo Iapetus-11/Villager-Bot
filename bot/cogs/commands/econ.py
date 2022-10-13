@@ -2296,7 +2296,11 @@ class Econ(commands.Cog):
         await self.karen.econ_pause(user_2.id)
 
         def attack_msg_check(message: discord.Message):
-            return message.channel == ctx.channel and (message.author == user_1 or message.author == user_2) and message.content.strip(ctx.prefix).lower() in self.d.mobs_mech.valid_attacks
+            return (
+                message.channel == ctx.channel
+                and (message.author == user_1 or message.author == user_2)
+                and message.content.strip(ctx.prefix).lower() in self.d.mobs_mech.valid_attacks
+            )
 
         try:
             db_user_1, db_user_2 = await asyncio.gather(
@@ -2413,7 +2417,9 @@ class Econ(commands.Cog):
                     break
 
                 try:
-                    attack_msg = await self.bot.wait_for('message', check=attack_msg_check, timeout=10)
+                    attack_msg = await self.bot.wait_for(
+                        "message", check=attack_msg_check, timeout=10
+                    )
                 except asyncio.TimeoutError:
                     await ctx.send("Fight cancelled because no one was attacking...")
                     return
