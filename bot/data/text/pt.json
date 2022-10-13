@@ -126,7 +126,8 @@
         "snipe": "`{0} snipe` *mostra a última mensagem excluída no canal atual*",
         "redditdl": "`{0}redditdl <url do post do reddit>` *baixa a mídia especificada do Reddit*",
         "exif": "`{0}exif` *extrai dados EXIF da imagem especificada*",
-        "imagetopng": "`{0}imagetopng *converte a imagem enviada/especificada para um png*"
+        "imagetopng": "`{0}imagetopng *converte a imagem enviada/especificada para um png*",
+        "translate": "`{0}translate <alvo> [texto] *traduz o texto ou a mensagem fornecida para o idioma de destino especificado*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envia uma imagem aleatória maldita do Minecraft*",
@@ -1747,6 +1748,12 @@
         "title": "Dados EXIF",
         "none": "*Nenhum dado EXIF encontrado...*",
         "discord": "Este comando requer um URL, pois o Discord retira automaticamente os dados EXIF da mídia."
+      },
+      "translate": {
+        "stupid_1": "Você deve enviar um texto para traduzir ou responder uma mensagem para traduzir.",
+        "stupid_2": "A mensagem respondida deve conter texto para tradução.",
+        "stupid_3": "Idioma de destino desconhecido ou inválido, apenas estes são suportados: {lang_codes}",
+        "error": "Falha ao traduzir o texto."
       }
     },
     "econ": {

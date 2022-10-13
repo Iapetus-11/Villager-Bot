@@ -466,6 +466,13 @@ class Useful_Exif(ImmutableBaseModel):
     discord: str
 
 
+class Useful_Translate(ImmutableBaseModel):
+    stupid_1: str
+    stupid_2: str
+    stupid_3: str
+    error: str
+
+
 class Useful(ImmutableBaseModel):
     vote: Useful_Vote
     links: Useful_Links
@@ -480,6 +487,7 @@ class Useful(ImmutableBaseModel):
     redditdl: Useful_Redditdl
     imgcmds: Useful_Imgcmds
     exif: Useful_Exif
+    translate: Useful_Translate
 
 
 class Econ_MathProblem(ImmutableBaseModel):

@@ -25,7 +25,7 @@ from bot.cogs.core.paginator import Paginator
 from bot.models.translation import Translation
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
-    SuppressCtxManager,
+    clean_text, SuppressCtxManager,
     fetch_aprox_ban_count,
     get_timedelta_granularity,
     is_valid_image_res,
@@ -857,6 +857,53 @@ class Useful(commands.Cog):
         image.save((out := io.BytesIO()), format="PNG")
         out.seek(0)
         await ctx.reply(file=discord.File(out, filename=file_name))
+
+    @commands.command(name="translate", aliases=["tr"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def translate(self, ctx: Ctx, target_lang: str, *, text: Optional[str] = None):
+        if not text:
+            if not (ctx.message.reference and ctx.message.reference.cached_message):
+                await ctx.send_embed('You must either send text to translate or reply to a message to translate.')
+                return
+
+            if not ctx.message.reference.cached_message.content:
+                await ctx.reply_embed('The message replied to must have text to translate.')
+                return
+
+            text = ctx.message.reference.cached_message.content
+
+        async with SuppressCtxManager(ctx.typing()):
+            res = await self.aiohttp.get(
+                'https://api-free.deepl.com/v2/languages?type=target',
+                headers={'Authorization': f'DeepL-Auth-Key {self.bot.k.deepl_api_key}', 'User-Agent': 'Villager-Bot'},
+            )
+            data: list[dict[str, Any]] = await res.json()
+
+        supported_langs = {
+            **{r['language'].lower(): r['language'] for r in data},
+            **{r['name'].lower(): r['language'] for r in data},
+            'english': 'EN-US',
+            'en': 'EN-US',
+            'portuguese': 'PT-BR',
+        }
+
+        if not (target_lang_code := supported_langs.get(target_lang.lower())):
+            await ctx.reply_embed(f'Unknown or invalid target language (Only these are supported: `{"`, `".join([r["language"] for r in data])}`)')
+            return
+
+        text = clean_text(ctx.message, text)
+
+        async with SuppressCtxManager(ctx.typing()):
+            res = await self.aiohttp.post('https://api-free.deepl.com/v2/translate', headers={'Authorization': f'DeepL-Auth-Key {self.bot.k.deepl_api_key}', 'User-Agent': 'Villager-Bot'}, data={'text': text, 'target_lang': target_lang_code})
+            data: dict[str, Any] = await res.json()
+
+        translations: list[dict[str, Any]] = data['translations']
+
+        if not translations:
+            await ctx.reply_embed('Failed to translate text')
+            return
+
+        await ctx.reply(translations[0]['text'])
 
 
 async def setup(bot: VillagerBotCluster) -> None:

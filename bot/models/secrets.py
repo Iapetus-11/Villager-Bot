@@ -14,4 +14,5 @@ class Secrets(ImmutableBaseModel):
     google_search: list[str]
     xapi_key: str
     rcon_fernet_key: str
+    deepl_api_key: str
     logging: LoggingConfig
