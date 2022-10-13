@@ -313,7 +313,7 @@ class Owner(commands.Cog):
         formatted_rows = "\n".join(map(format_row, enumerate(command_streaks)))
 
         await ctx.reply(
-            f"**Command Streaks** (last two days)\n```md\n## d  h  m s   | user id             | name\n{formatted_rows}\n```"
+            f"**Command Streaks** (last two days)\n```md\n## d  h  m  s  | user id             | name\n{formatted_rows}\n```"
         )
 
     @commands.command(name="shutdown")
