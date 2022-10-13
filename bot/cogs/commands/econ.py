@@ -2409,8 +2409,12 @@ class Econ(commands.Cog):
                 if user_1_health <= 0 or user_2_health <= 0:
                     break
 
-                user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + random.randint(0, user_1_bees > user_2_bees)
-                user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + random.randint(0, user_2_bees > user_1_bees)
+                user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + random.randint(
+                    0, user_1_bees > user_2_bees
+                )
+                user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + random.randint(
+                    0, user_2_bees > user_1_bees
+                )
 
                 user_1_health -= user_2_damage
                 user_2_health -= user_1_damage
