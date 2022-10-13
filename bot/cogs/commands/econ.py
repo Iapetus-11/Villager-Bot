@@ -2295,6 +2295,9 @@ class Econ(commands.Cog):
         await self.karen.econ_pause(user_1.id)
         await self.karen.econ_pause(user_2.id)
 
+        def attack_msg_check(message: discord.Message):
+            return message.channel == ctx.channel and (message.author == user_1 or message.author == user_2) and message.content.strip(ctx.prefix).lower() in self.d.mobs_mech.valid_attacks
+
         try:
             db_user_1, db_user_2 = await asyncio.gather(
                 self.db.fetch_user(user_1.id), self.db.fetch_user(user_2.id)
@@ -2377,20 +2380,20 @@ class Econ(commands.Cog):
                 value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{self.d.emojis.jar_of_bees} ",
             )
 
-            users_msg = await ctx.send(
+            challenge_msg = await ctx.send(
                 f"{user_2.mention} react with {self.d.emojis.netherite_sword_ench} to accept the challenge!",
                 embed=embed,
             )
-            await users_msg.add_reaction(self.d.emojis.netherite_sword_ench)
+            await challenge_msg.add_reaction(self.d.emojis.netherite_sword_ench)
 
             try:
                 await self.bot.wait_for(
                     "reaction_add",
-                    check=(lambda r, u: r.message == users_msg and u == user_2),
+                    check=(lambda r, u: r.message == challenge_msg and u == user_2),
                     timeout=60,
                 )
             except asyncio.TimeoutError:
-                await users_msg.edit(
+                await challenge_msg.edit(
                     embed=discord.Embed(
                         color=self.bot.embed_color,
                         description=f"{user_2.mention} didn't accept the challenge in time...",
@@ -2399,7 +2402,7 @@ class Econ(commands.Cog):
                 return
 
             try:
-                await users_msg.clear_reaction(self.d.emojis.netherite_sword_ench)
+                await challenge_msg.clear_reaction(self.d.emojis.netherite_sword_ench)
             except discord.Forbidden:
                 pass
 
@@ -2409,15 +2412,21 @@ class Econ(commands.Cog):
                 if user_1_health <= 0 or user_2_health <= 0:
                     break
 
+                try:
+                    attack_msg = await self.bot.wait_for('message', check=attack_msg_check, timeout=10)
+                except asyncio.TimeoutError:
+                    await ctx.send("Fight cancelled because no one was attacking...")
+                    return
+
                 user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + random.randint(
                     0, user_1_bees > user_2_bees
                 )
                 user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + random.randint(
-                    0, user_2_bees > user_1_bees
+                    0, (user_2_bees > user_1_bees) * 2
                 )
 
-                user_1_health -= user_2_damage
                 user_2_health -= user_1_damage
+                user_1_health -= user_2_damage
 
                 embed = discord.Embed(
                     color=self.bot.embed_color,
