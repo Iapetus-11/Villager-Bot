@@ -423,43 +423,43 @@
         "sticky": false
       },
       {
-        "name": "Jack O Lantern",
+        "item": "Jack O Lantern",
         "sell_price": 512,
         "rarity": 4000,
         "sticky": false
       },
       {
-        "name": "Pumpkin",
+        "item": "Pumpkin",
         "sell_price": 256,
         "rarity": 2000,
         "sticky": false
       },
       {
-        "name": "Spider Web",
+        "item": "Spider Web",
         "sell_price": 64,
         "rarity": 500,
         "sticky": false
       },
       {
-        "name": "Candy Corn",
+        "item": "Candy Corn",
         "sell_price": 64,
         "rarity": 500,
         "sticky": false
       },
       {
-        "name": "KitKat",
+        "item": "KitKat",
         "sell_price": 64,
         "rarity": 500,
         "sticky": false
       },
       {
-        "name": "Crunch Bar",
+        "item": "Crunch Bar",
         "sell_price": 64,
         "rarity": 500,
         "sticky": false
       },
       {
-        "name": "Empty Candy Wrapper",
+        "item": "Empty Candy Wrapper",
         "sell_price": 0,
         "rarity": 100,
         "sticky": false
@@ -583,7 +583,7 @@
         "sticky": false
       },
       {
-        "name": "Empty Candy Wrapper",
+        "item": "Empty Candy Wrapper",
         "sell_price": 0,
         "rarity": 100,
         "sticky": false
