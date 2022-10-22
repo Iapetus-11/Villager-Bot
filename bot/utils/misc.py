@@ -1,4 +1,5 @@
 import asyncio
+import io
 import math
 import mimetypes
 import re
@@ -386,3 +387,9 @@ async def fetch_aprox_ban_count(guild: discord.Guild, seconds: float, chunk_size
         # there are no more ban entries to fetch
         if len(ban_entries_chunk) < chunk_size:
             return str(ban_count)
+
+
+def text_to_discord_file(text: str, *, file_name: str | None = None) -> discord.File:
+    file_data = io.BytesIO(text.encode(encoding="utf8"))
+    file_data.seek(0)
+    return discord.File(file_data, filename=file_name)

@@ -1,10 +1,12 @@
 import random
-import sys
+import time
 from contextlib import suppress
+import traceback
 
 import discord
 from discord.ext import commands
 
+from bot.cogs.core.badges import Badges
 from common.utils.code import format_exception
 
 from bot.cogs.core.database import Database
@@ -13,18 +15,11 @@ from bot.utils.misc import (
     CommandOnKarenCooldown,
     MaxKarenConcurrencyReached,
     chunk_by_lines,
-    update_support_member_role,
+    text_to_discord_file, update_support_member_role,
 )
 from bot.villager_bot import VillagerBotCluster
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
-
-NITRO_BOOST_MESSAGES = {
-    discord.MessageType.premium_guild_subscription,
-    discord.MessageType.premium_guild_tier_1,
-    discord.MessageType.premium_guild_tier_2,
-    discord.MessageType.premium_guild_tier_3,
-}
 
 BAD_ARG_ERRORS = (
     commands.BadArgument,
@@ -34,20 +29,6 @@ BAD_ARG_ERRORS = (
 )
 
 INVISIBLITY_CLOAK = ("||||\u200B" * 200)[2:-3]
-
-AUTOBAN_KEYWORDS = (
-    "@everyone",
-    "gift",
-    "nitro",
-    "steam",
-    "hack",
-    "free",
-    "discord.gg",
-    "invite.gg",
-    "dsc.gg",
-    "dsc.lol",
-    "discord.com/invite/",
-)
 
 
 class Events(commands.Cog):
@@ -66,23 +47,21 @@ class Events(commands.Cog):
         return self.bot.get_cog("Database")
 
     @property
-    def badges(self):
+    def badges(self) -> Badges:
         return self.bot.get_cog("Badges")
 
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
         self.bot.error_count += 1
 
-        exception = sys.exc_info()[1]
-        traceback = format_exception(exception).replace("```", "｀｀｀")
-
-        event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
+        event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={v!r}' for k, v in kwargs.items()])})"
         self.logger.error(
             "An exception occurred in an event call: %s", event_call_repr, exc_info=True
         )
 
         await self.bot.final_ready.wait()
         await self.bot.error_channel.send(
-            f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```"
+            f"```py\n{event_call_repr[:1920].replace('`', '｀')}```",
+            file=text_to_discord_file(traceback.format_exc(), file_name=f'error_tb_ev_{time.time():0.0f}.txt'),
         )
 
     @commands.Cog.listener()
@@ -411,34 +390,27 @@ class Events(commands.Cog):
         ):
             return
         else:  # no error was caught so log error in error channel
-            try:
-                raise e
-            except Exception:
-                self.logger.error(
-                    "An error occurred in a command executed by %s (%s) (lang=%s): %s",
-                    ctx.author.id,
-                    ctx.author,
-                    ctx.l.lang,
-                    ctx.message.content,
-                    exc_info=True,
-                )
+            self.logger.error(
+                "An error occurred in a command executed by %s (%s) (lang=%s): %s",
+                ctx.author.id,
+                ctx.author,
+                ctx.l.lang,
+                ctx.message.content,
+                exc_info=e,
+            )
 
             await self.bot.wait_until_ready()
             await ctx.reply_embed(
                 ctx.l.misc.errors.andioop.format(self.d.support), ignore_exceptions=True
             )
 
-            debug_info = (
-                f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}"[
-                    :200
-                ]
-                + "```"
-                + f"```py\n{format_exception(e).replace('```', '｀｀｀')}"[: 2000 - 206]
-                + "```"
-            )
+            debug_info_call = f"```\n{ctx.author} (user_id={ctx.author.id}) (guild_id={getattr(ctx.guild, 'id', 'None')}) (lang={ctx.l.lang}): {ctx.message.content[:1920]}```"
 
             await self.bot.final_ready.wait()
-            await self.bot.error_channel.send(debug_info)
+            await self.bot.error_channel.send(
+                debug_info_call,
+                file=text_to_discord_file("".join(traceback.format_exception(type(e), e, e.__traceback__, limit=None, chain=True)), file_name=f'error_tb_ev_{time.time():0.0f}.txt'),
+            )
 
 
 async def setup(bot: VillagerBotCluster) -> None:
