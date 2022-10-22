@@ -1,21 +1,20 @@
 import random
 import time
-from contextlib import suppress
 import traceback
+from contextlib import suppress
 
 import discord
 from discord.ext import commands
 
 from bot.cogs.core.badges import Badges
-from common.utils.code import format_exception
-
 from bot.cogs.core.database import Database
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
     CommandOnKarenCooldown,
     MaxKarenConcurrencyReached,
     chunk_by_lines,
-    text_to_discord_file, update_support_member_role,
+    text_to_discord_file,
+    update_support_member_role,
 )
 from bot.villager_bot import VillagerBotCluster
 
@@ -61,7 +60,9 @@ class Events(commands.Cog):
         await self.bot.final_ready.wait()
         await self.bot.error_channel.send(
             f"```py\n{event_call_repr[:1920].replace('`', '｀')}```",
-            file=text_to_discord_file(traceback.format_exc(), file_name=f'error_tb_ev_{time.time():0.0f}.txt'),
+            file=text_to_discord_file(
+                traceback.format_exc(), file_name=f"error_tb_ev_{time.time():0.0f}.txt"
+            ),
         )
 
     @commands.Cog.listener()
@@ -409,7 +410,14 @@ class Events(commands.Cog):
             await self.bot.final_ready.wait()
             await self.bot.error_channel.send(
                 debug_info_call,
-                file=text_to_discord_file("".join(traceback.format_exception(type(e), e, e.__traceback__, limit=None, chain=True)), file_name=f'error_tb_ev_{time.time():0.0f}.txt'),
+                file=text_to_discord_file(
+                    "".join(
+                        traceback.format_exception(
+                            type(e), e, e.__traceback__, limit=None, chain=True
+                        )
+                    ),
+                    file_name=f"error_tb_ev_{time.time():0.0f}.txt",
+                ),
             )
 
 
