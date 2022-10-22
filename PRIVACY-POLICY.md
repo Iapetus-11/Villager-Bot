@@ -9,6 +9,6 @@
 - Your data is stored in a database and retrieved for use in various commands and features of Villager Bot
 - Message content is sometimes logged in Discord channels (for the reasons mentioned above)
 ## Who has access?
-- Only the owner of Villager Bot, Iapetus-11, has access to the data
+- Only the owner of Villager Bot, Iapetus-11, has access to the database
 ## Can I delete my data?
 - Simply DM the owner or ask in the support server, your data will be deleted as soon as the owner sees your message and is able
