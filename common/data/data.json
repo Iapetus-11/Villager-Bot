@@ -417,15 +417,57 @@
         "sticky": true
       },
       {
-        "item": "Chocolate Chip Cookie",
-        "sell_price": 128,
+        "item": "Skeleton Skull",
+        "sell_price": 512,
         "rarity": 4000,
         "sticky": false
       },
       {
-        "item": "Guacamole Sombrero",
-        "sell_price": 768,
-        "rarity": 4096,
+        "name": "Jack O Lantern",
+        "sell_price": 512,
+        "rarity": 4000,
+        "sticky": false
+      },
+      {
+        "name": "Pumpkin",
+        "sell_price": 256,
+        "rarity": 2000,
+        "sticky": false
+      },
+      {
+        "name": "Spider Web",
+        "sell_price": 64,
+        "rarity": 500,
+        "sticky": false
+      },
+      {
+        "name": "Candy Corn",
+        "sell_price": 64,
+        "rarity": 500,
+        "sticky": false
+      },
+      {
+        "name": "KitKat",
+        "sell_price": 64,
+        "rarity": 500,
+        "sticky": false
+      },
+      {
+        "name": "Crunch Bar",
+        "sell_price": 64,
+        "rarity": 500,
+        "sticky": false
+      },
+      {
+        "name": "Empty Candy Wrapper",
+        "sell_price": 0,
+        "rarity": 100,
+        "sticky": false
+      },
+      {
+        "item": "Will O Wisp",
+        "sell_price": 1024,
+        "rarity": 99999,
         "sticky": false
       }
     ]
@@ -532,6 +574,18 @@
         "item": "Recycler",
         "sell_price": 1024,
         "rarity": 99999,
+        "sticky": false
+      },
+      {
+        "item": "Skeleton Skull",
+        "sell_price": 512,
+        "rarity": 4000,
+        "sticky": false
+      },
+      {
+        "name": "Empty Candy Wrapper",
+        "sell_price": 0,
+        "rarity": 100,
         "sticky": false
       },
       {
