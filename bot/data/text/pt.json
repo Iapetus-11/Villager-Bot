@@ -127,7 +127,7 @@
         "redditdl": "`{0}redditdl <url do post do reddit>` *baixa a mídia especificada do Reddit*",
         "exif": "`{0}exif` *extrai dados EXIF da imagem especificada*",
         "imagetopng": "`{0}imagetopng *converte a imagem enviada/especificada para um png*",
-        "translate": "`{0}translate <alvo> [texto] *traduz o texto ou a mensagem fornecida para o idioma de destino especificado*"
+        "translate": "`{0}translate <alvo> [texto]` *traduz o texto ou a mensagem fornecida para o idioma de destino especificado*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envia uma imagem aleatória maldita do Minecraft*",
