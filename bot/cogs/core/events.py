@@ -405,18 +405,18 @@ class Events(commands.Cog):
                 ctx.l.misc.errors.andioop.format(self.d.support), ignore_exceptions=True
             )
 
-            debug_info_call = f"```\n{ctx.author} (user_id={ctx.author.id}) (guild_id={getattr(ctx.guild, 'id', 'None')}) (lang={ctx.l.lang}): {ctx.message.content[:1920]}```"
+            cmd_call_info = f"```\n{ctx.author} (user_id={ctx.author.id}) (guild_id={getattr(ctx.guild, 'id', 'None')}) (lang={ctx.l.lang}): {ctx.message.content[:1920]}```"
 
             await self.bot.final_ready.wait()
             await self.bot.error_channel.send(
-                debug_info_call,
+                cmd_call_info,
                 file=text_to_discord_file(
                     "".join(
                         traceback.format_exception(
                             type(e), e, e.__traceback__, limit=None, chain=True
                         )
                     ),
-                    file_name=f"error_tb_ev_{time.time():0.0f}.txt",
+                    file_name=f"error_tb_cmd_{time.time():0.0f}.txt",
                 ),
             )
 
