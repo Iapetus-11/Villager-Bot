@@ -5,6 +5,7 @@ import arrow
 import discord
 from discord.ext import commands
 
+from bot.cogs.core.database import Database
 from bot.utils.ctx import Ctx
 from bot.utils.misc import get_timedelta_granularity, parse_timedelta
 from bot.villager_bot import VillagerBotCluster
@@ -16,7 +17,9 @@ class Mod(commands.Cog):
 
         self.d = bot.d
 
-        self.db = bot.get_cog("Database")
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     def permission_check(self, ctx: Ctx, victim: discord.Member) -> bool:
         author = ctx.author
@@ -234,7 +237,7 @@ class Mod(commands.Cog):
 
     @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu", "timeout"])
     @commands.guild_only()
-    @commands.has_permissions(manage_messages=True)
+    @commands.has_permissions(mute_members=True)
     async def mute(
         self,
         ctx: Ctx,
@@ -271,14 +274,14 @@ class Mod(commands.Cog):
                 duration=unmute_at.humanize(
                     locale=ctx.l.lang,
                     only_distance=True,
-                    granularity=get_timedelta_granularity(duration, 3),
+                    granularity=get_timedelta_granularity(duration, 3),  # type: ignore
                 ),
             )
         )
 
     @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu", "untimeout"])
     @commands.guild_only()
-    @commands.has_permissions(manage_messages=True)
+    @commands.has_permissions(mute_members=True)
     async def unmute(self, ctx: Ctx, user: discord.Member):
         if ctx.author == user:
             await ctx.reply_embed(ctx.l.mod.unmute.stupid_1)
@@ -288,11 +291,11 @@ class Mod(commands.Cog):
             await ctx.reply_embed(ctx.l.mod.no_perms)
             return
 
-        if user.current_timeout is None:
+        if not user.is_timed_out():
             await ctx.reply_embed(ctx.l.mod.unmute.stupid_2.format(user.mention))
             return
 
-        await user.timeout(duration=None, reason=str(ctx.author))
+        await user.timeout(None, reason=str(ctx.author))
 
         await ctx.reply_embed(ctx.l.mod.unmute.unmute_msg.format(user.mention))
 

@@ -1,13 +1,13 @@
 import asyncio
+import datetime
 from collections import defaultdict
 from contextlib import suppress
-from datetime import datetime
 from typing import Any, Optional
 
 import discord
-from bot.data.enums.guild_event_type import GuildEventType
 from discord.ext import commands
 
+from common.data.enums.guild_event_type import GuildEventType
 from common.models.db.guild import Guild
 from common.models.db.item import Item
 from common.models.db.user import User
@@ -29,11 +29,11 @@ class Database(commands.Cog):
     def badges(self):
         return self.bot.get_cog("Badges")
 
-    async def populate_caches(self):  # initial caches for speeeeeed
-        # caches which need to be maintained cross-process *regardless*
+    async def populate_caches(self):
+        # caches which need to be maintained across all clusters
         self.bot.botban_cache = await self.fetch_all_botbans()
 
-        # per-guild caches, should only load settings for guilds the process can actually see
+        # per-guild caches, should only load settings for guilds the cluster can actually see
         self.bot.disabled_commands.update(await self.fetch_all_disabled_commands())
         self.bot.language_cache = await self.fetch_all_guild_langs()
         self.bot.prefix_cache = await self.fetch_all_guild_prefixes()
@@ -43,10 +43,10 @@ class Database(commands.Cog):
         return await self.db.fetchval("SELECT COUNT(*) FROM reminders WHERE user_id = $1", user_id)
 
     async def add_reminder(
-        self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime
+        self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime.datetime
     ) -> None:
         await self.db.execute(
-            "INSERT INTO reminders (user_id, channel_id, message_id, reminder, at) VALUES ($1, $2, $3, $4, $5::TEXT::TIMESTAMPTZ)",
+            "INSERT INTO reminders (user_id, channel_id, message_id, reminder, at) VALUES ($1, $2, $3, $4, $5)",
             user_id,
             channel_id,
             message_id,
@@ -145,7 +145,6 @@ class Database(commands.Cog):
             await self.add_item(user_id, "Wood Pickaxe", 0, 1, True, False)
             await self.add_item(user_id, "Wood Sword", 0, 1, True, False)
             await self.add_item(user_id, "Wood Hoe", 0, 1, True, False)
-            # await self.add_item(user_id, "Bone Meal", 512, 1)
             await self.add_item(user_id, "Wheat Seed", 24, 5)
 
         return User(**user)
@@ -158,9 +157,7 @@ class Database(commands.Cog):
         values = []
         sql = []
 
-        for i, e in enumerate(kwargs.items()):
-            k, v = e
-
+        for i, (k, v) in enumerate(kwargs.items()):
             values.append(v)
             sql.append(f"{k} = ${i+1}")
 
@@ -204,17 +201,6 @@ class Database(commands.Cog):
 
         await self.set_balance(user_id, new)
         return amount
-
-    async def fetch_vault(
-        self, user_id: int
-    ) -> dict:  # fetches a user's vault in the form (vault_amount, vault_max)
-        user = await self.fetch_user(user_id)
-        return {
-            "vault_bal": user["vault_bal"],
-            0: user["vault_bal"],
-            "vault_max": user["vault_max"],
-            1: user["vault_max"],
-        }
 
     async def set_vault(self, user_id: int, vault_balance: int, vault_max: int) -> None:
         db_user = await self.fetch_user(
@@ -304,10 +290,10 @@ class Database(commands.Cog):
         await self.badges.update_badge_uncle_scrooge(user_id)
 
     async def log_transaction(
-        self, item: str, amount: int, at: datetime, giver: int, receiver: int
+        self, item: str, amount: int, at: datetime.datetime, giver: int, receiver: int
     ) -> None:
         await self.db.execute(
-            "INSERT INTO give_logs (item, amount, at, sender, receiver) VALUES ($1, $2, $3::TEXT::TIMESTAMPTZ, $4, $5)",
+            "INSERT INTO give_logs (item, amount, at, sender, receiver) VALUES ($1, $2, $3, $4, $5)",
             item,
             amount,
             at,
@@ -416,6 +402,8 @@ class Database(commands.Cog):
                 await self.badges.update_badge_murderer(user_id, user_lb_value)
             elif lb == "fish_fished":
                 await self.badges.update_badge_fisherman(user_id, user_lb_value)
+            elif lb == "commands":
+                await self.badges.update_badge_enthusiast(user_id, user_lb_value)
         elif mode == "sub":
             await self.db.execute(
                 f"UPDATE leaderboards SET {lb} = {lb} - $1 WHERE user_id = $2", value, user_id
@@ -640,6 +628,13 @@ class Database(commands.Cog):
             user_id,
         )
 
+    async def grow_crops_by(self, user_id: int, interval: datetime.timedelta):
+        await self.db.execute(
+            "UPDATE farm_plots SET planted_at = planted_at + $1 WHERE user_id = $2",
+            interval,
+            user_id,
+        )
+
     async def add_to_trashcan(self, user_id: int, item: str, value: float, amount: int) -> None:
         await self.db.execute(
             "INSERT INTO trash_can (user_id, item, value, amount) VALUES ($1, $2, $3, $4)",
@@ -685,7 +680,7 @@ class Database(commands.Cog):
 
     async def fetch_guilds_jls(self) -> list[dict[str, Any]]:
         return await self.db.fetch(
-            """SELECT COALESCE(event_at, event_at_gs) AS event_at, COALESCE(join_count, 0) AS join_count, COALESCE(leave_count, 0) AS leave_count FROM (
+            """SELECT COALESCE(event_at, event_at_gs) AS event_at, COALESCE(join_count, 0) - COALESCE(leave_count, 0) AS diff FROM (
     SELECT GENERATE_SERIES(MIN(DATE_TRUNC('day', event_at)), NOW(), '1d') AS event_at_gs FROM guild_events
 ) oj1 LEFT JOIN (
     SELECT join_count, leave_count, COALESCE(iq1.event_at_trunc, iq2.event_at_trunc) AS event_at FROM (
@@ -693,8 +688,58 @@ class Database(commands.Cog):
     ) iq1
     FULL OUTER JOIN (
         SELECT COUNT(*) AS leave_count, DATE_TRUNC('day', event_at) AS event_at_trunc FROM guild_events WHERE event_type = 2 GROUP BY event_at_trunc ORDER BY event_at_trunc ASC
-    ) iq2 ON iq1.event_at_trunc = iq2.event_at_trunc ORDER BY iq1.event_at_trunc DESC LIMIT 14
+    ) iq2 ON iq1.event_at_trunc = iq2.event_at_trunc ORDER BY iq1.event_at_trunc DESC LIMIT 15
 ) oj2 ON event_at = event_at_gs ORDER BY event_at DESC LIMIT 14;"""
+        )
+
+    async def fetch_guilds_active_count(self) -> list[dict[str, Any]]:
+        guild_ids = list[int]()
+        guild_names = list[str]()
+        member_ids = list[int]()
+
+        for guild in self.bot.guilds:
+            for member in guild.members:
+                guild_ids.append(guild.id)
+                guild_names.append(guild.name)
+                member_ids.append(member.id)
+
+        return await self.db.fetch(
+            """WITH guild_members AS (
+    SELECT * FROM UNNEST($1::BIGINT[], $2::BIGINT[], $3::TEXT[]) AS x(guild_id, member_id, guild_name)
+) SELECT guild_id AS id, guild_name AS name, COUNT(week_commands) AS count FROM leaderboards RIGHT JOIN guild_members ON user_id = member_id WHERE week_commands > 0 GROUP BY (guild_id, guild_name);""",
+            guild_ids,
+            member_ids,
+            guild_names,
+        )
+
+    async def fetch_guilds_commands_count(self) -> list[dict[str, Any]]:
+        guild_ids = [g.id for g in self.bot.guilds]
+        return await self.db.fetch(
+            "SELECT guild_id AS id, COUNT(*) AS count FROM command_executions WHERE guild_id = ANY($1::BIGINT[]) GROUP BY guild_id",
+            guild_ids,
+        )
+
+    async def fetch_command_streaks(
+        self, break_interval: datetime.timedelta, after: datetime.datetime, limit: int
+    ) -> list[dict[str, Any]]:
+        return await self.db.fetch(
+            """
+            SELECT * FROM (
+                SELECT user_id, (MAX(at) - MIN(at)) AS duration, MIN(at) AS group_start, MAX(at) AS group_end, COUNT(*) FROM (
+                    SELECT iq2.*, SUM(new_group) OVER (PARTITION BY user_id ORDER BY at ASC) AS group_id
+                    FROM (
+                        SELECT iq1.*, ((at - lag) > $1)::INT AS new_group
+                        FROM (
+                            SELECT user_id, guild_id, at, LAG(at) OVER (
+                                PARTITION BY user_id ORDER BY at ASC
+                            ) FROM command_executions
+                        ) iq1
+                    ) iq2
+                ) iq3 GROUP BY user_id, group_id ORDER BY duration DESC, group_start DESC
+            ) iq4 WHERE group_end > $2 AND duration > INTERVAL '0' LIMIT $3""",
+            break_interval,
+            after,
+            limit,
         )
 
 

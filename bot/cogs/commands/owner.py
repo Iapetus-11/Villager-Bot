@@ -1,17 +1,20 @@
-import os
-from typing import Union
+import asyncio
+import datetime
 import itertools
+import os
+from typing import Any, Union
 
 import aiofiles
 import arrow
 import discord
-from bot.cogs.core.database import Database
-from bot.cogs.core.paginator import Paginator
 from discord.ext import commands
 
 from common.utils.code import execute_code, format_exception
+
+from bot.cogs.core.database import Database
+from bot.cogs.core.paginator import Paginator
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager
+from bot.utils.misc import SuppressCtxManager, shorten_text
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -21,14 +24,24 @@ class Owner(commands.Cog):
 
         self.karen = bot.karen
         self.d = bot.d
-        self.db: Database = bot.get_cog("Database")
 
     async def cog_before_invoke(self, ctx: Ctx):
-        print(f"{ctx.author}: {ctx.message.content}")
+        self.bot.logger.info(
+            "User %s (%s) executed command %s", ctx.author.id, ctx.author, ctx.message.content
+        )
+
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     @property
     def paginator(self) -> Paginator:
         return self.bot.get_cog("Paginator")
+
+    @commands.command(name="ownercommands", aliases=["ocmds", "ownerhelp", "ohelp", "ownercmds"])
+    @commands.is_owner()
+    async def owner_commands(self, ctx: Ctx):
+        await ctx.reply_embed(f"`{'`, `'.join(map(str, self.get_commands()))}`")
 
     @commands.command(name="reload")
     @commands.is_owner()
@@ -56,7 +69,14 @@ class Owner(commands.Cog):
 
         try:
             result = await execute_code(
-                stuff, {"bot": self.bot, "db": self.db.db, "dbc": self.db, "http": self.bot.aiohttp}
+                stuff,
+                {
+                    "bot": self.bot,
+                    "db": self.db.db,
+                    "dbc": self.db,
+                    "http": self.bot.aiohttp,
+                    "ctx": ctx,
+                },
             )
 
             result_str = f"{result}".replace("```", "｀｀｀")
@@ -90,22 +110,22 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def gitpull(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
-            await self.bot.loop.run_in_executor(
-                self.bot.tp, os.system, "git pull > git_pull_log 2>&1"
-            )
+            await asyncio.to_thread(os.system, "git pull > git_pull_log 2>&1")
 
             async with aiofiles.open("git_pull_log", "r") as f:
                 await ctx.reply(f"```diff\n{(await f.read())[:2000-11]}```")
 
-        os.remove("git_pull_log")
+        await asyncio.to_thread(os.remove, "git_pull_log")
 
     @commands.command(name="lookup")
     @commands.is_owner()
     async def lookup(self, ctx: Ctx, user: Union[discord.User, int]):
-        if isinstance(user, discord.User):
-            uid = user.id
-        else:
+        if not (uid := getattr(user, "id", None)):
             uid = user
+
+        if uid == self.bot.user.id:
+            await ctx.reply_embed("You do not want to do this.")
+            return
 
         responses = await self.karen.lookup_user(uid)
         guilds = list(itertools.chain.from_iterable(responses))
@@ -118,9 +138,7 @@ class Owner(commands.Cog):
     @commands.command(name="setbal")
     @commands.is_owner()
     async def set_user_bal(self, ctx: Ctx, user: Union[discord.User, int], balance: int):
-        if isinstance(user, discord.User):
-            uid = user.id
-        else:
+        if not (uid := getattr(user, "id", None)):
             uid = user
 
         await self.db.update_user(uid, emeralds=balance)
@@ -186,14 +204,8 @@ class Owner(commands.Cog):
             body = ""
 
             for entry in entries:
-                giver = (
-                    getattr(ctx.guild.get_member(entry["sender"]), "mention", None)
-                    or f"`{entry['sender']}`"
-                )
-                receiver = (
-                    getattr(ctx.guild.get_member(entry["receiver"]), "mention", None)
-                    or f"`{entry['receiver']}`"
-                )
+                giver = f"<@{entry['sender']}>"
+                receiver = f"<@{entry['receiver']}>"
                 item = entry["item"]
 
                 if item == "emerald":
@@ -218,9 +230,10 @@ class Owner(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             rows = await self.db.fetch_guilds_jls()
 
-        rows = [record["join_count"] - record["leave_count"] for record in rows]
+        rows = [row["diff"] for row in rows]
         rows = [
             ("+" if r > 0 else "-" if r < 0 else "~")
+            + " "
             + "#" * abs(r)
             + (f" ({r:+})" if r != 0 else "")
             for r in rows
@@ -229,6 +242,95 @@ class Owner(commands.Cog):
         body = "\n".join(rows)
 
         await ctx.send(f"Last 14 days of guild joins / leaves (newest is top)```diff\n{body}\n```")
+
+    @commands.command(name="topguilds", aliases=["topgs"])
+    @commands.is_owner()
+    async def top_guilds(self, ctx: Ctx):
+        def format_lb(values: list[dict[str, Any]]) -> str:
+            return (
+                "```md\n##  count  | guild id            | name\n"
+                + "\n".join(
+                    [
+                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']:<19} | "
+                        f"{shorten_text(g['name'].replace('_', '').replace('*', '').replace('`', ''), 40)}"
+                        for i, g in enumerate(values)
+                    ]
+                )
+                + "```"
+            )
+
+        async with SuppressCtxManager(ctx.typing()):
+            top_guilds_by_members = format_lb(
+                sorted(
+                    await self.karen.fetch_top_guilds_by_members(),
+                    key=(lambda g: g["count"]),
+                    reverse=True,
+                )[:10]
+            )
+            top_guilds_by_active_members = format_lb(
+                sorted(
+                    await self.karen.fetch_top_guilds_by_active_members(),
+                    key=(lambda g: g["count"]),
+                    reverse=True,
+                )[:10]
+            )
+            top_guilds_by_commands = format_lb(
+                sorted(
+                    await self.karen.fetch_top_guilds_by_commands(),
+                    key=(lambda g: g["count"]),
+                    reverse=True,
+                )[:10]
+            )
+
+        await ctx.reply(
+            f"**By Members**\n{top_guilds_by_members}\n\n"
+            f"**By Active Members**\n{top_guilds_by_active_members}\n\n"
+            f"**By Commands**\n{top_guilds_by_commands}\n\n"
+        )
+
+    @commands.command(name="commandstreaks", aliases=["cmdsstreaks", "cmdstreaks"])
+    async def command_streaks(self, ctx: Ctx):
+        command_streaks = await self.db.fetch_command_streaks(
+            datetime.timedelta(minutes=5),
+            after=arrow.utcnow().shift(days=-2).datetime,
+            limit=9,
+        )
+
+        def format_row(idx_row) -> str:
+            idx: int
+            row: dict[str, Any]
+            idx, row = idx_row
+
+            td_trunc = row["duration"] - datetime.timedelta(
+                days=row["duration"].days, microseconds=row["duration"].microseconds
+            )
+
+            return (
+                f"{f'{idx + 1}.':<2} {td_trunc.days:02} {str(td_trunc).split(',')[-1]:0>8} | {row['user_id']:<19} "
+                f"| {str(self.bot.get_user(row['user_id']) or '').replace('_', '').replace('*', '').replace('`', '')}"
+            )
+
+        formatted_rows = "\n".join(map(format_row, enumerate(command_streaks)))
+
+        await ctx.reply(
+            f"**Command Streaks** (last two days)\n```md\n## d  h  m  s  | user id             | name\n{formatted_rows}\n```"
+        )
+
+    @commands.command(name="shutdown")
+    @commands.is_owner()
+    async def shutdown(self, ctx: Ctx):
+        await ctx.message.add_reaction(self.d.emojis.yes)
+        await self.karen.shutdown()
+
+    @commands.command(name="interror")
+    @commands.is_owner()
+    async def intentional_error(self, ctx: Ctx):
+        raise Exception("intentional!")
+
+    @commands.command(name="intwarning", aliases=["intwarn"])
+    @commands.is_owner()
+    async def intentional_warning(self, ctx: Ctx):
+        self.bot.logger.warning("intentional warning !!!!!!!!")
 
 
 async def setup(bot: VillagerBotCluster) -> None:

@@ -7,6 +7,7 @@ from websockets.exceptions import ConnectionClosed
 
 from common.coms.coms_base import ComsBase
 from common.coms.errors import InvalidPacketReceived, WebsocketStateError
+from common.coms.json_encoder import special_obj_encode
 from common.coms.packet import T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler
 from common.coms.packet_type import PacketType
@@ -46,10 +47,27 @@ class Client(ComsBase):
         if self.ws is None or self.ws.closed:
             raise WebsocketStateError("Websocket connection is not open")
 
-        await self.ws.send(packet.json())
+        await self.ws.send(packet.json(encoder=special_obj_encode))
 
     async def _authorize(self, auth: str) -> None:
         await self._send(Packet(id=self._get_packet_id(), type=PacketType.AUTH, data=auth))
+
+    async def _handle_packet(self, packet: Packet) -> None:
+        # handle expected packets
+        if packet.id in self._waiting:
+            self._waiting[packet.id].set_result(packet)
+            return
+
+        try:
+            response = await self._call_handler(packet)
+        except Exception:
+            self.logger.error(
+                "An error ocurred while calling the packet handler for packet type %s",
+                packet.type,
+                exc_info=True,
+            )
+        else:
+            await self._send(Packet(id=packet.id, data=response))
 
     async def _connect(self, auth: str) -> None:
         async for self.ws in connect(f"ws://{self.host}:{self.port}", logger=self.logger):
@@ -65,22 +83,15 @@ class Client(ComsBase):
                         await self._disconnect()
                         break
 
-                    # handle expected packets
-                    if packet.id in self._waiting:
-                        self._waiting[packet.id].set_result(packet)
-                        continue
+                    if packet.type == PacketType.AUTH and packet.error:
+                        raise WebsocketStateError("Authorization with Karen failed")
 
-                    try:
-                        response = await self._call_handler(packet)
-                    except Exception:
-                        self.logger.error(
-                            "An error ocurred while calling the packet handler for packet type %s",
-                            packet.type,
-                            exc_info=True,
-                        )
-                    else:
-                        await self._send(Packet(id=packet.id, data=response))
+                    asyncio.create_task(self._handle_packet(packet))
             except ConnectionClosed:
+                pass
+            except Exception:
+                self.logger.error("An error occurred in the message handling loop", exc_info=True)
+            finally:
                 if self._closing:
                     break
 
@@ -92,18 +103,14 @@ class Client(ComsBase):
         self._closing = True
         await self._disconnect()
 
-        if self._task is not None:
-            try:
-                await asyncio.wait_for(self._task, 1)
-            except asyncio.TimeoutError:
-                self._task.cancel()
-
     async def send(
         self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
     ) -> Packet:
         packet_id = self._get_packet_id()
 
-        packet = Packet(id=packet_id, type=packet_type, data=(packet_data or {}))
+        packet = Packet(
+            id=packet_id, type=packet_type, data=({} if packet_data is None else packet_data)
+        )
 
         self._waiting[packet.id] = asyncio.Future[Packet]()
         await self._send(packet)
@@ -113,5 +120,6 @@ class Client(ComsBase):
         self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
     ) -> Packet:
         return await self.send(
-            PacketType.BROADCAST_REQUEST, {"type": packet_type, "data": (packet_data or {})}
+            PacketType.BROADCAST_REQUEST,
+            {"type": packet_type, "data": ({} if packet_data is None else packet_data)},
         )

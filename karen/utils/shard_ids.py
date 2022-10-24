@@ -24,4 +24,7 @@ class ShardIdManager:
         return shard_ids
 
     def release(self, ws_id: uuid.UUID) -> None:
+        if ws_id not in self._taken_shards:
+            return
+
         self._available_shards.extend(self._taken_shards.pop(ws_id))

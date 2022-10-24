@@ -14,3 +14,4 @@ class User(BaseModel):
     vote_streak: int = Field(default=0)
     last_vote: Optional[datetime.datetime]
     give_alert: bool = Field(default=True)
+    shield_pearl: Optional[datetime.datetime]

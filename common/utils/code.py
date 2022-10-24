@@ -2,8 +2,8 @@ import ast
 import traceback
 
 
-def format_exception(e: Exception) -> str:
-    return "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
+def format_exception(e: BaseException, *, levels: int = 4) -> str:
+    return "".join(traceback.format_exception(type(e), e, e.__traceback__, levels))
 
 
 async def execute_code(code: str, env: dict) -> object:

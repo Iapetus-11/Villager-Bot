@@ -1,25 +1,48 @@
-import json
+import datetime
 from typing import Any
 
-
-class CustomJSONEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, set):  # add support for sets
-            return {"__set_object": list(obj)}
-
-        return json.JSONEncoder.default(self, obj)
+import arrow
+import pydantic.json
 
 
-def special_obj_hook(dct):
+def special_obj_encode(obj: object) -> dict[str, Any]:
+    if isinstance(obj, set):  # add support for sets
+        return {"__set_object": list(obj)}
+
+    if isinstance(obj, arrow.Arrow):
+        return {"__arrow_object": obj.isoformat()}
+
+    # due to the way Pydantic decodes types, this is necessary
+    if isinstance(obj, datetime.datetime):
+        return {"__datetime_object": obj.isoformat()}
+
+    if isinstance(obj, datetime.timedelta):
+        return {
+            "__timedelta_object": {
+                "days": obj.days,
+                "seconds": obj.seconds,
+                "microseconds": obj.microseconds,
+            }
+        }
+
+    return pydantic.json.pydantic_encoder(obj)
+
+
+def special_obj_decode(dct: dict) -> dict | Any:
     if "__set_object" in dct:
         return set(dct["__set_object"])
 
+    if "__arrow_object" in dct:
+        return arrow.get(dct["__arrow_object"])
+
+    # due to the way Pydantic decodes types, this is necessary
+    if "__datetime_object" in dct:
+        return datetime.datetime.fromisoformat(dct["__datetime_object"])
+
+    if "__timedelta_object" in dct:
+        data = dct["__timedelta_object"]
+        return datetime.timedelta(
+            days=data["days"], seconds=data["seconds"], microseconds=data["microseconds"]
+        )
+
     return dct
-
-
-def dumps(*args, **kwargs) -> str:
-    return json.dumps(*args, **kwargs, cls=CustomJSONEncoder)
-
-
-def loads(*args, **kwargs) -> Any:
-    return json.loads(*args, **kwargs, object_hook=special_obj_hook)

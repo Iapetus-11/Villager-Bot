@@ -1,10 +1,12 @@
-from typing import TYPE_CHECKING, Any
-from functools import wraps
 import inspect
+from functools import wraps
+from typing import TYPE_CHECKING, Any
+
+import pydantic
 from pydantic import create_model
 
 
-def validate_return(function):
+def validate_return_type(function):
     if TYPE_CHECKING:
         return function
 
@@ -15,7 +17,12 @@ def validate_return(function):
     if return_anno is None:
         return_anno = type(None)
 
-    model = create_model("ReturnValueModel", return_value=(return_anno, ...))
+    class ModelConfig(pydantic.BaseConfig):
+        arbitrary_types_allowed = True
+
+    model = create_model(
+        "ReturnValueModel", return_value=(return_anno, ...), __config__=ModelConfig
+    )
 
     def _validate_type(return_value: Any):
         model(return_value=return_value)

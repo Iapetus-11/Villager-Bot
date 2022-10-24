@@ -1,6 +1,6 @@
 from typing import Optional
 
-from common.models.base import ImmutableBaseModel
+from common.models.base_model import ImmutableBaseModel
 
 
 class Misc_Errors(ImmutableBaseModel):
@@ -27,6 +27,11 @@ class Misc_Time(ImmutableBaseModel):
     seconds: str
 
 
+class Misc_Intro(ImmutableBaseModel):
+    body: list[str]
+    footer: str
+
+
 class Misc(ImmutableBaseModel):
     pingpong: str
     cooldown_msgs: list[str]
@@ -34,6 +39,7 @@ class Misc(ImmutableBaseModel):
     tips: list[str]
     tip_intros: list[str]
     time: Misc_Time
+    intro: Misc_Intro
 
 
 class Help_Main(ImmutableBaseModel):
@@ -98,6 +104,7 @@ class Fun(ImmutableBaseModel):
 
 class MobsMech_Lost(ImmutableBaseModel):
     creeper: list[str]
+    enderman: list[str]
     normal: list[str]
 
 
@@ -114,6 +121,7 @@ class MobsMech_Mobs(ImmutableBaseModel):
     cave_spider: MobsMech_Mobs_MobActions
     creeper: MobsMech_Mobs_MobActions
     baby_slime: MobsMech_Mobs_MobActions
+    enderman: MobsMech_Mobs_MobActions
 
 
 class MobsMech(ImmutableBaseModel):
@@ -396,6 +404,7 @@ class Useful_Ginf(ImmutableBaseModel):
     cmd_prefix: str
     lang: str
     diff: str
+    joined_at: str
 
 
 class Useful_Meth(ImmutableBaseModel):
@@ -444,6 +453,26 @@ class Useful_Redditdl(ImmutableBaseModel):
     couldnt_find: str
 
 
+class Useful_Imgcmds(ImmutableBaseModel):
+    missing: str
+    invalid: str
+    too_big: str
+    error: str
+
+
+class Useful_Exif(ImmutableBaseModel):
+    title: str
+    none: str
+    discord: str
+
+
+class Useful_Translate(ImmutableBaseModel):
+    stupid_1: str
+    stupid_2: str
+    stupid_3: str
+    error: str
+
+
 class Useful(ImmutableBaseModel):
     vote: Useful_Vote
     links: Useful_Links
@@ -456,6 +485,9 @@ class Useful(ImmutableBaseModel):
     credits: Useful_Credits
     snipe: Useful_Snipe
     redditdl: Useful_Redditdl
+    imgcmds: Useful_Imgcmds
+    exif: Useful_Exif
+    translate: Useful_Translate
 
 
 class Econ_MathProblem(ImmutableBaseModel):
@@ -475,6 +507,7 @@ class Econ_Pp(ImmutableBaseModel):
     streak: str
     can_vote: str
     yep: str
+    fx: str
 
 
 class Econ_Bal(ImmutableBaseModel):
@@ -615,6 +648,7 @@ class Econ_Pillage(ImmutableBaseModel):
     stupid_2: str
     stupid_3: str
     stupid_4: str
+    stupid_5: str
     u_win: Econ_Pillage_Outcome
     u_lose: Econ_Pillage_Outcome
 
@@ -640,6 +674,8 @@ class Econ_Use(ImmutableBaseModel):
     need_slimy_balls: str
     slimy_balls_funne: str
     beaker_of_slime_undo: str
+    use_shield_pearl: str
+    use_time_pearl: str
     present: list[str]
     barrel_item: list[str]
     barrel_ems: list[str]

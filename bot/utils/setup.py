@@ -1,11 +1,11 @@
 import json
-import logging
 import os
 import random
 
 import discord
 
 from common.models.data import Data
+from common.utils.code import format_exception
 
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
@@ -29,26 +29,24 @@ def villager_bot_intents() -> discord.Intents:
     )
 
 
-def setup_logging() -> logging.Logger:
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(name)s] %(levelname)s: %(message)s",
-        datefmt="%m-%d-%y %H:%M:%S",
-    )
-
-    return logging.getLogger("bot")
-
-
 def load_translations() -> dict[str, Translation]:
     translations = dict[str, Translation]()
 
     for filename in os.listdir("bot/data/text"):
         lang_name = filename.split(".")[0]
 
-        with open(f"bot/data/text/{filename}", "r", encoding="utf8") as f:
-            data = json.load(f)
+        try:
+            with open(f"bot/data/text/{filename}", "r", encoding="utf8") as f:
+                data = json.load(f)
 
-        translations[lang_name] = Translation(**data[lang_name])
+            translations[lang_name] = Translation(**data[lang_name])
+        except Exception as e:
+            print(
+                f"An error occurred while loading the {lang_name} translation: {format_exception(e)}"
+            )
+
+    if "en" not in translations:
+        raise Exception("Default translation unable to be loaded.")
 
     return translations
 

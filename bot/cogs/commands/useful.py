@@ -1,10 +1,11 @@
 import asyncio
+import io
 import json
 import os
 import secrets
 import time
 from contextlib import suppress
-from typing import Optional
+from typing import Any, Optional
 from urllib.parse import quote as urlquote
 
 import aiofiles
@@ -13,22 +14,26 @@ import arrow
 import async_cse
 import discord
 import moviepy.editor
-import psutil
+from discord.app_commands import command as slash_command
+from discord.ext import commands, tasks
+from PIL import ExifTags, Image
+
+from common.models.system_stats import SystemStats
+
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
-from discord.ext import commands, tasks
-
+from bot.models.translation import Translation
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, get_timedelta_granularity, parse_timedelta
+from bot.utils.misc import (
+    SuppressCtxManager,
+    clean_text,
+    fetch_aprox_ban_count,
+    get_timedelta_granularity,
+    is_valid_image_res,
+    parse_timedelta,
+    read_limited,
+)
 from bot.villager_bot import VillagerBotCluster
-
-
-class BanCacheEntry:
-    __slots__ = ("ban_count", "time")
-
-    def __init__(self, ban_count: int):
-        self.ban_count = ban_count
-        self.time = time.time()
 
 
 class Useful(commands.Cog):
@@ -36,36 +41,80 @@ class Useful(commands.Cog):
         self.bot = bot
 
         self.d = bot.d
-        self.db: Database = bot.get_cog("Database")
         self.karen = bot.karen
         self.google = async_cse.Search(bot.k.google_search)
         self.aiohttp = bot.aiohttp
 
-        self.ban_count_cache = {}
-
-        self.snipes = {}
+        self.snipes = dict[int, tuple[discord.Message, float]]()
         self.clear_snipes.start()
 
-    def cog_unload(self):
-        self.clear_snipes.cancel()
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
 
     @property
     def paginator(self) -> Paginator:
         return self.bot.get_cog("Paginator")
 
+    def cog_unload(self):
+        self.clear_snipes.cancel()
+
     @commands.Cog.listener()
-    async def on_message_delete(self, message):
+    async def on_message_delete(self, message: discord.Message):
         if not message.author.bot and message.content:
             self.snipes[message.channel.id] = message, time.time()
 
     @tasks.loop(seconds=30)
     async def clear_snipes(self):
         for k, v in list(self.snipes.items()):
-            if time.time() - v[1] > 60:
+            if time.time() - v[1] > 5 * 60:
                 try:
                     del self.snipes[k]
                 except KeyError:
                     pass
+
+    def _get_main_help_embed(self, lang: Translation, prefix: str) -> discord.Embed:
+        embed = discord.Embed(color=self.bot.embed_color)
+        embed.set_author(name=lang.help.n.title, icon_url=self.d.splash_logo)
+        embed.description = lang.help.main.desc.format(self.d.support, self.d.topgg)
+
+        embed.add_field(
+            name=(self.d.emojis.emerald_spinn + lang.help.n.economy), value=f"`{prefix}help econ`"
+        )
+        embed.add_field(
+            name=(self.d.emojis.bounce + " " + lang.help.n.minecraft), value=f"`{prefix}help mc`"
+        )
+        embed.add_field(
+            name=(self.d.emojis.anichest + lang.help.n.utility), value=f"`{prefix}help util`"
+        )
+
+        embed.add_field(
+            name=(self.d.emojis.rainbow_shep + lang.help.n.fun), value=f"`{prefix}help fun`"
+        )
+        embed.add_field(
+            name=(self.d.emojis.netherite_sword_ench + lang.help.n.admin),
+            value=f"`{prefix}help admin`",
+        )
+        embed.add_field(
+            name=(self.d.emojis.heart_spin + lang.help.main.support),
+            value=f"**[{lang.help.main.clickme}]({self.d.support})**",
+        )
+
+        embed.set_footer(
+            text=lang.useful.credits.foot.format(prefix)
+            + "  |  "
+            + lang.useful.rules.slashrules.format(prefix)
+        )
+
+        return embed
+
+    @slash_command(name="help")
+    async def help_slash_command(self, inter: discord.Interaction):
+        """Get helpful information about Villager Bot"""
+
+        language = self.bot.l[self.bot.language_cache.get(inter.guild_id, "en")]
+        prefix = self.bot.prefix_cache.get(inter.guild_id, self.bot.k.default_prefix)
+        await inter.response.send_message(embed=self._get_main_help_embed(language, prefix))
 
     @commands.group(name="help", case_insensitive=True)
     async def help(self, ctx: Ctx):
@@ -114,39 +163,7 @@ class Useful(commands.Cog):
 
                     return
 
-            embed = discord.Embed(color=self.bot.embed_color)
-            embed.set_author(name=ctx.l.help.n.title, icon_url=self.d.splash_logo)
-            embed.description = ctx.l.help.main.desc.format(self.d.support, self.d.topgg)
-
-            p = ctx.prefix
-
-            embed.add_field(
-                name=(self.d.emojis.emerald_spinn + ctx.l.help.n.economy), value=f"`{p}help econ`"
-            )
-            embed.add_field(
-                name=(self.d.emojis.bounce + " " + ctx.l.help.n.minecraft), value=f"`{p}help mc`"
-            )
-            embed.add_field(
-                name=(self.d.emojis.anichest + ctx.l.help.n.utility), value=f"`{p}help util`"
-            )
-
-            embed.add_field(
-                name=(self.d.emojis.rainbow_shep + ctx.l.help.n.fun), value=f"`{p}help fun`"
-            )
-            embed.add_field(
-                name=(self.d.emojis.netherite_sword_ench + ctx.l.help.n.admin),
-                value=f"`{p}help admin`",
-            )
-            embed.add_field(
-                name=(self.d.emojis.heart_spin + ctx.l.help.main.support),
-                value=f"**[{ctx.l.help.main.clickme}]({self.d.support})**",
-            )
-
-            embed.set_footer(
-                text=ctx.l.useful.credits.foot.format(ctx.prefix)
-                + "  |  "
-                + ctx.l.useful.rules.slashrules.format(ctx.prefix)
-            )
+            embed = self._get_main_help_embed(ctx.l, ctx.prefix)
 
             await ctx.reply(embed=embed, mention_author=False)
 
@@ -320,7 +337,7 @@ class Useful(commands.Cog):
 
         embed.description = (
             f"**[{ctx.l.useful.links.support}]({self.d.support})\n"
-            f"\n[{ctx.l.useful.links.invite}]({self.d.invite})\n"
+            f"\n[{ctx.l.useful.links.invite}]({self.d.invite.format(bot_id=self.bot.user.id)})\n"
             f"\n[{ctx.l.useful.links.topgg}]({self.d.topgg})\n"
             f"\n[{ctx.l.useful.links.source}]({self.d.github})\n"
             f"\n[{ctx.l.useful.links.privacy}]({self.d.privacy_policy})**"
@@ -331,7 +348,7 @@ class Useful(commands.Cog):
     @commands.command(name="stats", aliases=["bs"])
     async def stats(self, ctx: Ctx):
         with suppress(Exception):
-            await ctx.trigger_typing()
+            await ctx.defer()
 
         uptime_seconds = (arrow.utcnow() - self.bot.start_time).total_seconds()
         uptime = (
@@ -340,16 +357,18 @@ class Useful(commands.Cog):
             .humanize(locale=ctx.l.lang, only_distance=True)
         )
 
-        clusters_stats, karen_stats, cluster_ping = await asyncio.gather(
-            self.karen.fetch_clusters_stats(),
-            self.karen.fetch_karen_stats(),
-            self.karen.fetch_clusters_ping(),
+        clusters_bot_stats: list[list[Any]]
+        clusters_system_stats: list[SystemStats]
+        karen_system_stats: SystemStats
+        clusters_bot_stats, clusters_system_stats, karen_system_stats = await asyncio.gather(
+            self.karen.fetch_clusters_bot_stats(),
+            self.karen.fetch_clusters_system_stats(),
+            self.karen.fetch_karen_system_stats(),
         )
 
+        cluster_ping = await self.karen.fetch_clusters_ping()
+
         (
-            mem_usage,
-            threads,
-            asyncio_tasks,
             guild_count,
             user_count,
             message_count,
@@ -357,39 +376,55 @@ class Useful(commands.Cog):
             latency_all,
             dm_count,
             session_votes,
-        ) = map(sum, zip(*(clusters_stats + [karen_stats])))
+        ) = map(sum, zip(*clusters_bot_stats))
 
-        total_mem = psutil.virtual_memory().total
+        # total_mem = psutil.virtual_memory().total
 
         embed = discord.Embed(color=self.bot.embed_color)
 
         embed.set_author(name=ctx.l.useful.stats.stats, icon_url=self.d.splash_logo)
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
-        col_1 = (
+        general_col_1 = (
             f"{ctx.l.useful.stats.servers}: `{guild_count}`\n"
             f"{ctx.l.useful.stats.dms}: `{dm_count}`\n"
             f"{ctx.l.useful.stats.users}: `{user_count}`\n"
             f"{ctx.l.useful.stats.msgs}: `{message_count}`\n"
+            f"{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n"
+            f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
+        )
+        general_col_2 = (
             f"{ctx.l.useful.stats.cmds}: `{command_count}` `({round((command_count / (message_count + .0000001)) * 100, 2)}%)`\n"
             f"{ctx.l.useful.stats.cmds_sec}: `{round(command_count / uptime_seconds, 2)}`\n"
             f"{ctx.l.useful.stats.votes}: `{session_votes}`\n"
             f"{ctx.l.useful.stats.topgg}: `{round((session_votes / uptime_seconds) * 3600, 2)}`\n"
-        )
-
-        col_2 = (
-            f"{ctx.l.useful.stats.mem}: `{round(mem_usage / 1000000000, 2)} GB` `({round(mem_usage / total_mem * 100, 2)}%)`\n"
-            f"{ctx.l.useful.stats.cpu}: `{round(psutil.getloadavg()[0] / psutil.cpu_count() * 100, 2)}%`\n"
-            f"{ctx.l.useful.stats.threads}: `{threads}`\n"
-            f"{ctx.l.useful.stats.tasks}: `{asyncio_tasks}`\n"
-            f"Discord {ctx.l.useful.stats.ping}: `{round((latency_all/len(clusters_stats)) * 1000, 2)} ms`\n"
+            f"Discord {ctx.l.useful.stats.ping}: `{round((latency_all/len(clusters_bot_stats)) * 1000, 2)} ms`\n"
             f"Cluster {ctx.l.useful.stats.ping}: `{round(cluster_ping * 1000, 2)} ms`\n"
-            f"{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n"
-            f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
         )
 
-        embed.add_field(name="\uFEFF", value=col_1 + "\uFEFF")
-        embed.add_field(name="\uFEFF", value=col_2 + "\uFEFF")
+        embed.add_field(name="Villager Bot", value=general_col_1)
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="\uFEFF", value=general_col_2)
+
+        for ss in [karen_system_stats, *clusters_system_stats]:
+            mem_gb = ss.memory_usage_bytes / 1000000000
+            mem_percent = ss.memory_usage_bytes / ss.memory_max_bytes * 100
+
+            embed.add_field(
+                name=ss.identifier,
+                value=(
+                    f"{ctx.l.useful.stats.mem}: `{round(mem_gb, 2)} GB` `({round(mem_percent, 2)}%)`\n"
+                    f"{ctx.l.useful.stats.cpu}: `{round(ss.cpu_usage_percent * 100, 2)}%`\n"
+                ),
+            )
+            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(
+                name="\uFEFF",
+                value=(
+                    f"{ctx.l.useful.stats.threads}: `{ss.threads}`\n"
+                    f"{ctx.l.useful.stats.tasks}: `{ss.asyncio_tasks}`\n"
+                ),
+            )
 
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -397,7 +432,7 @@ class Useful(commands.Cog):
     @commands.guild_only()
     async def server_info(self, ctx: Ctx, *, guild: discord.Guild = None):
         with suppress(Exception):
-            await ctx.trigger_typing()
+            await ctx.defer()
 
         if guild is None:
             guild = ctx.guild
@@ -422,23 +457,40 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.ginf.channels}: `{len(guild.text_channels) + len(guild.voice_channels)}`\n "
             f"{ctx.l.useful.ginf.roles}: `{len(guild.roles)}`\n"
             f"{ctx.l.useful.ginf.emojis}: `{len(guild.emojis)}`\n"
-            # f"{ctx.l.useful.ginf.bans}: `{bans}`\n"
         )
+
+        ban_count_display = f"{ctx.l.useful.ginf.bans}: {self.d.emojis.aniloading}\n"
 
         villager = (
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
             f"{ctx.l.useful.ginf.diff}: `{db_guild.difficulty}`\n"
-            f"{ctx.l.useful.ginf.cmd_prefix}: `{await self.bot.get_prefix(ctx)}`\n"
+            f"{ctx.l.useful.ginf.cmd_prefix}: `{ctx.prefix}`\n"
+            f"{ctx.l.useful.ginf.joined_at}: `{arrow.get(ctx.me.joined_at).humanize(locale=ctx.l.lang)}`\n"
         )
 
-        embed.add_field(name="General :gear:", value=general, inline=True)
+        embed.add_field(name="General :gear:", value=(general + ban_count_display), inline=True)
         embed.add_field(name="Villager Bot " + self.d.emojis.emerald, value=villager, inline=True)
-        # embed.add_field(name="Roles", value=" ".join([r.mention for r in guild.roles if r.id != guild.id][::-1]))
+
+        embed.add_field(
+            name="Roles",
+            value=" ".join([r.mention for r in guild.roles if r.id != guild.id][::-1]),
+            inline=False,
+        )
 
         embed.set_thumbnail(url=getattr(guild.icon, "url", None))
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
 
-        await ctx.reply(embed=embed, mention_author=False)
+        msg = await ctx.reply(embed=embed, mention_author=False)
+
+        async with SuppressCtxManager(ctx.defer()):
+            aprox_ban_count = await fetch_aprox_ban_count(ctx.guild, seconds=3)
+            embed.set_field_at(
+                0,
+                name=embed.fields[0].name,
+                value=(general + f"{ctx.l.useful.ginf.bans}: `{aprox_ban_count}`\n"),
+            )
+
+        await msg.edit(embed=embed)
 
     @commands.command(name="rules", aliases=["botrules"])
     async def rules(self, ctx: Ctx):
@@ -471,13 +523,13 @@ class Useful(commands.Cog):
     @commands.command(name="google", aliases=["thegoogle", "gewgle"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def google_search(self, ctx: Ctx, *, query):
-        safesearch = True
+        safe_search = True
         if isinstance(ctx.channel, discord.TextChannel):
-            safesearch = not ctx.channel.is_nsfw()
+            safe_search = not ctx.channel.is_nsfw()
 
         try:
             async with SuppressCtxManager(ctx.typing()):
-                res = await self.google.search(query, safesearch=safesearch)
+                res = await self.google.search(query, safesearch=safe_search)
         except async_cse.search.NoResults:
             await ctx.reply_embed(ctx.l.useful.search.nope)
             return
@@ -499,13 +551,13 @@ class Useful(commands.Cog):
     @commands.command(name="youtube", aliases=["ytsearch", "yt"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def youtube_search(self, ctx: Ctx, *, query):
-        safesearch = True
+        safe_search = True
         if isinstance(ctx.channel, discord.TextChannel):
-            safesearch = not ctx.channel.is_nsfw()
+            safe_search = not ctx.channel.is_nsfw()
 
         try:
             async with SuppressCtxManager(ctx.typing()):
-                res = await self.google.search(query, safesearch=safesearch)
+                res = await self.google.search(query, safesearch=safe_search)
         except async_cse.search.NoResults:
             await ctx.reply_embed(ctx.l.useful.search.nope)
             return
@@ -526,13 +578,13 @@ class Useful(commands.Cog):
     @commands.command(name="image", aliases=["imagesearch", "img"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def image_search(self, ctx: Ctx, *, query):
-        safesearch = True
+        safe_search = True
         if isinstance(ctx.channel, discord.TextChannel):
-            safesearch = not ctx.channel.is_nsfw()
+            safe_search = not ctx.channel.is_nsfw()
 
         try:
             async with SuppressCtxManager(ctx.typing()):
-                results = await self.google.search(query, safesearch=safesearch, image_search=True)
+                results = await self.google.search(query, safesearch=safe_search, image_search=True)
         except async_cse.search.NoResults:
             await ctx.reply_embed(ctx.l.useful.search.nope)
             return
@@ -661,7 +713,7 @@ class Useful(commands.Cog):
                         ctx.l.useful.redditdl.downloading.format(self.d.emojis.aniloading),
                         mention_author=False,
                     )
-                    asyncio.create_task(ctx.trigger_typing())
+                    asyncio.create_task(ctx.defer())
 
                     # stream download video to file
                     async with self.aiohttp.get(video_url) as res, aiofiles.open(
@@ -679,22 +731,20 @@ class Useful(commands.Cog):
 
                     asyncio.create_task(
                         progress_msg.edit(
-                            ctx.l.useful.redditdl.stitching.format(self.d.emojis.aniloading)
+                            content=ctx.l.useful.redditdl.stitching.format(self.d.emojis.aniloading)
                         )
                     )
 
                     # resize video, stitch video and audio together, then save to file
                     def _ffmpeg_operations():
-                        video: moviepy.editor.VideoFileClip = (
-                            moviepy.editor.VideoFileClip(video_fname)
-                            .resize(0.5)
-                            .set_audio(moviepy.editor.AudioFileClip(audio_fname))
-                        )
+                        video: moviepy.editor.VideoFileClip = moviepy.editor.VideoFileClip(
+                            video_fname
+                        ).set_audio(moviepy.editor.AudioFileClip(audio_fname))
                         video.write_videofile(
                             final_fname, logger=None, threads=4, fps=min(video.fps or 25, 25)
                         )
 
-                    await asyncio.get_event_loop().run_in_executor(self.bot.tp, _ffmpeg_operations)
+                    await asyncio.to_thread(_ffmpeg_operations)
 
                     await progress_msg.delete()
 
@@ -706,14 +756,11 @@ class Useful(commands.Cog):
                     await ctx.reply(file=discord_file)
                     return
                 finally:
-                    await asyncio.get_event_loop().run_in_executor(
-                        self.bot.tp, os.remove, video_fname
-                    )
-                    await asyncio.get_event_loop().run_in_executor(
-                        self.bot.tp, os.remove, audio_fname
-                    )
-                    await asyncio.get_event_loop().run_in_executor(
-                        self.bot.tp, os.remove, final_fname
+                    await asyncio.wait(
+                        [
+                            asyncio.to_thread(os.remove, fname)
+                            for fname in [video_fname, audio_fname, final_fname]
+                        ]
                     )
 
             # try to get image/gif/whatever from preview info
@@ -723,6 +770,155 @@ class Useful(commands.Cog):
                     return
 
             await ctx.reply(ctx.l.useful.redditdl.couldnt_find)
+
+    @commands.command(name="exifdata", aliases=["exif"])
+    @commands.cooldown(1, 3, commands.BucketType.member)
+    async def exif_data(self, ctx: Ctx, url: Optional[str] = None):
+        if not url:
+            await ctx.reply_embed(ctx.l.useful.exif.discord)
+            return
+
+        try:
+            res = await self.aiohttp.get(url)
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        if not is_valid_image_res(res):
+            await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
+            return
+
+        try:
+            data = await read_limited(res, max_bytes=20_000_000)  # 20mb
+        except ValueError:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.too_big.format("20MB"))
+            return
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        try:
+            image = Image.open(io.BytesIO(data))
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        exif = {ExifTags.TAGS[k]: v for k, v in image.getexif().items()}
+
+        embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.useful.exif.title)
+
+        for key, value in exif.items():
+            embed.add_field(name=key, value=f"`{value}`")
+
+        if not exif:
+            embed.description = ctx.l.useful.exif.none
+
+        await ctx.reply(embed=embed)
+
+    @commands.command(
+        name="imagetopng", aliases=["image2png", "topng", "imgtopng", "img2png", "pngify"]
+    )
+    @commands.cooldown(1, 3, commands.BucketType.member)
+    async def image_to_png(self, ctx: Ctx, url: Optional[str] = None):
+        if url is None and not ctx.message.attachments:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.missing)
+            return
+
+        file_name = "vb-png-convert.png"
+
+        if url is None:
+            url = ctx.message.attachments[0].proxy_url
+            file_name = ctx.message.attachments[0].filename + ".png"
+
+        try:
+            res = await self.aiohttp.get(url)
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        if not is_valid_image_res(res):
+            await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
+            return
+
+        try:
+            data = await read_limited(res, max_bytes=8_000_000)  # 8mb
+        except ValueError:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.too_big.format("8MB"))
+            return
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        try:
+            image = Image.open(io.BytesIO(data))
+        except Exception:
+            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
+            return
+
+        image.save((out := io.BytesIO()), format="PNG")
+        out.seek(0)
+        await ctx.reply(file=discord.File(out, filename=file_name))
+
+    @commands.command(name="translate", aliases=["tr"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def translate(self, ctx: Ctx, target_lang: str, *, text: Optional[str] = None):
+        if not text:
+            if not (ctx.message.reference and ctx.message.reference.cached_message):
+                await ctx.send_embed(
+                    "You must either send text to translate or reply to a message to translate."
+                )
+                return
+
+            if not ctx.message.reference.cached_message.content:
+                await ctx.reply_embed("The message replied to must have text to translate.")
+                return
+
+            text = ctx.message.reference.cached_message.content
+
+        async with SuppressCtxManager(ctx.typing()):
+            res = await self.aiohttp.get(
+                "https://api-free.deepl.com/v2/languages?type=target",
+                headers={
+                    "Authorization": f"DeepL-Auth-Key {self.bot.k.deepl_api_key}",
+                    "User-Agent": "Villager-Bot",
+                },
+            )
+            data: list[dict[str, Any]] = await res.json()
+
+        supported_langs = {
+            **{r["language"].lower(): r["language"] for r in data},
+            **{r["name"].lower(): r["language"] for r in data},
+            "english": "EN-US",
+            "en": "EN-US",
+            "portuguese": "PT-BR",
+        }
+
+        if not (target_lang_code := supported_langs.get(target_lang.lower())):
+            await ctx.reply_embed(
+                f'Unknown or invalid target language (Only these are supported: `{"`, `".join([r["language"] for r in data])}`)'
+            )
+            return
+
+        text = clean_text(ctx.message, text)
+
+        async with SuppressCtxManager(ctx.typing()):
+            res = await self.aiohttp.post(
+                "https://api-free.deepl.com/v2/translate",
+                headers={
+                    "Authorization": f"DeepL-Auth-Key {self.bot.k.deepl_api_key}",
+                    "User-Agent": "Villager-Bot",
+                },
+                data={"text": text, "target_lang": target_lang_code},
+            )
+            data: dict[str, Any] = await res.json()
+
+        translations: list[dict[str, Any]] = data["translations"]
+
+        if not translations:
+            await ctx.reply_embed("Failed to translate text")
+            return
+
+        await ctx.reply(translations[0]["text"])
 
 
 async def setup(bot: VillagerBotCluster) -> None:

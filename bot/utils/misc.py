@@ -1,28 +1,20 @@
 import asyncio
+import io
 import math
+import mimetypes
+import re
 import time
 from collections import defaultdict
 from contextlib import suppress
+from datetime import timedelta
 from typing import Any
 
+import aiohttp
 import discord
 
 from common.models.db.item import Item
 from common.models.db.user import User
-
 from common.utils.code import format_exception
-
-from datetime import timedelta
-import re
-
-
-DURATION_REGEX = re.compile(
-    r"((?P<weeks>\d+?) ?(weeks|week|W|w) ?)?"
-    r"((?P<days>\d+?) ?(days|day|D|d) ?)?"
-    r"((?P<hours>\d+?) ?(hours|hour|hr|H|h) ?)?"
-    r"((?P<minutes>\d+?) ?(minutes|minute|min|M|m) ?)?"
-    r"((?P<seconds>\d+?) ?(seconds|second|sec|S|s))?"
-)
 
 
 def parse_timedelta(duration: str) -> timedelta | None:
@@ -34,7 +26,17 @@ def parse_timedelta(duration: str) -> timedelta | None:
     - minutes: `m`, `min`, `minute`, `minutes`
     - seconds: `S`, `sec`, `s`, `second`, `seconds`
     The units need to be provided in descending order of magnitude.
+
+    CREDIT: This code was taken and modified from https://github.com/ClemBotProject/ClemBot
     """
+
+    DURATION_REGEX = re.compile(
+        r"((?P<weeks>\d+?) ?(weeks|week|W|w) ?)?"
+        r"((?P<days>\d+?) ?(days|day|D|d) ?)?"
+        r"((?P<hours>\d+?) ?(hours|hour|hr|H|h) ?)?"
+        r"((?P<minutes>\d+?) ?(minutes|minute|min|M|m) ?)?"
+        r"((?P<seconds>\d+?) ?(seconds|second|sec|S|s))?"
+    )
 
     match = DURATION_REGEX.fullmatch(duration)
     if not match:
@@ -73,9 +75,49 @@ def get_timedelta_granularity(delta: timedelta, granularity: int) -> list[str]:
     return list(_get_timedelta_granularity())[:granularity]
 
 
-def strip_command(ctx):  # returns message.clean_content excluding the command used
-    length = len(ctx.prefix) + len(ctx.invoked_with) + 1
-    return ctx.message.clean_content[length:]
+def clean_text(msg: discord.Message, text: str) -> str:
+    if msg.guild:
+
+        def resolve_member(id: int) -> str:
+            m = msg.guild.get_member(id) or discord.utils.get(msg.mentions, id=id)  # type: ignore
+            return f"@{m.display_name}" if m else "@deleted-user"
+
+        def resolve_role(id: int) -> str:
+            r = msg.guild.get_role(id) or discord.utils.get(msg.role_mentions, id=id)  # type: ignore
+            return f"@{r.name}" if r else "@deleted-role"
+
+        def resolve_channel(id: int) -> str:
+            c = msg.guild._resolve_channel(id)  # type: ignore
+            return f"#{c.name}" if c else "#deleted-channel"
+
+    else:
+
+        def resolve_member(id: int) -> str:
+            m = discord.utils.get(msg.mentions, id=id)
+            return f"@{m.display_name}" if m else "@deleted-user"
+
+        def resolve_role(id: int) -> str:
+            return "@deleted-role"
+
+        def resolve_channel(id: int) -> str:
+            return "#deleted-channel"
+
+    transforms = {
+        "@": resolve_member,
+        "@!": resolve_member,
+        "#": resolve_channel,
+        "@&": resolve_role,
+    }
+
+    def repl(match: re.Match) -> str:
+        type = match[1]
+        id = int(match[2])
+        transformed = transforms[type](id)
+        return transformed
+
+    result = re.sub(r"<(@[!&]?|#)([0-9]{15,20})>", repl, text)
+
+    return discord.utils.escape_mentions(result)
 
 
 def make_health_bar(health: int, max_health: int, full: str, half: str, empty: str):
@@ -135,7 +177,7 @@ def calc_total_wealth(db_user: User, items: list[Item]):
     )
 
 
-def emojify_item(d, item: str):
+def emojify_item(d, item: str) -> str:
     try:
         emoji_key = d.emoji_items[item]
 
@@ -170,17 +212,17 @@ async def update_support_member_role(bot, member):
     try:
         db = bot.get_cog("Database")
 
-        support_guild = bot.get_guild(bot.d.support_server_id)
+        support_guild = bot.get_guild(bot.k.support_server_id)
 
         if support_guild is None:
-            support_guild = await bot.fetch_guild(bot.d.support_server_id)
+            support_guild = await bot.fetch_guild(bot.k.support_server_id)
 
         role_map_values = set(bot.d.role_mappings.values())
 
         roles = []
 
         for role in member.roles:  # add non rank roles to roles list
-            if role.id not in role_map_values and role.id != bot.d.support_server_id:
+            if role.id not in role_map_values and role.id != bot.k.support_server_id:
                 roles.append(role)
 
         pickaxe_role = bot.d.role_mappings.get(await db.fetch_pickaxe(member.id))
@@ -284,3 +326,70 @@ class CommandOnKarenCooldown(Exception):
 
 class MaxKarenConcurrencyReached(Exception):
     pass
+
+
+def shorten_text(text: str, to: int = 2000) -> str:
+    if len(text) > to:
+        return text[: to - 1] + "…"
+
+    return text
+
+
+def check_file_signature(*, media_type: str, file_name: str) -> bool:
+    return mimetypes.types_map["." + file_name.split(".")[-1]] == media_type
+
+
+def is_valid_image_res(res: aiohttp.ClientResponse) -> bool:
+    if not res.content_type.startswith("image/"):
+        return False
+
+    return True
+
+
+async def read_limited(res: aiohttp.ClientResponse, *, max_bytes: int = 1e6) -> bytes:
+    out = bytearray()
+
+    async for data in res.content.iter_any():
+        out.extend(data)
+
+        if len(out) > max_bytes:
+            raise ValueError("Content length exceeds max length")
+
+    return bytes(out)
+
+
+def item_case(text: str) -> str:
+    return " ".join([w.capitalize() for w in text.split()])
+
+
+async def fetch_aprox_ban_count(guild: discord.Guild, seconds: float, chunk_size: int = 500) -> str:
+    assert chunk_size > 0
+
+    start_time = time.time()
+    last_entry = discord.guild.MISSING
+    ban_count = 0
+
+    while True:
+        # ran out of time
+        if (time.time() - start_time) > seconds:
+            return f"{ban_count}+"
+
+        async for entry in guild.bans(limit=500, after=last_entry):
+            last_entry = entry.user
+            ban_count += 1
+
+        ban_entries_chunk = [e async for e in guild.bans(limit=chunk_size, after=last_entry)]
+
+        if ban_entries_chunk:
+            last_entry = ban_entries_chunk[-1]
+            ban_count += len(ban_entries_chunk)
+
+        # there are no more ban entries to fetch
+        if len(ban_entries_chunk) < chunk_size:
+            return str(ban_count)
+
+
+def text_to_discord_file(text: str, *, file_name: str | None = None) -> discord.File:
+    file_data = io.BytesIO(text.encode(encoding="utf8"))
+    file_data.seek(0)
+    return discord.File(file_data, filename=file_name)

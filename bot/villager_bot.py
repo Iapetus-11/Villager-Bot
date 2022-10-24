@@ -1,7 +1,6 @@
 import asyncio
 import random
 from collections import defaultdict
-from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Optional
 
 import aiohttp
@@ -14,9 +13,12 @@ from common.coms.packet import PACKET_DATA_TYPES
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.models.data import Data
+from common.models.system_stats import SystemStats
+from common.models.topgg_vote import TopggVote
 from common.utils.code import execute_code
-from common.utils.setup import load_data
+from common.utils.setup import load_data, setup_logging
 
+from bot.models.fwd_dm import ForwardedDirectMessage
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
 from bot.utils.ctx import CustomContext
@@ -27,13 +29,12 @@ from bot.utils.misc import (
     MaxKarenConcurrencyReached,
     update_support_member_role,
 )
-from bot.utils.setup import load_translations, setup_logging, villager_bot_intents
+from bot.utils.setup import load_translations, villager_bot_intents
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     def __init__(
         self,
-        tp: ThreadPoolExecutor,
         secrets: Secrets,
         data: Data,
         translations: dict[str, Translation],
@@ -44,6 +45,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             case_insensitive=True,
             intents=villager_bot_intents(),
             help_command=None,
+            max_messages=10_000,
         )
 
         self.cluster_id: Optional[int] = None
@@ -61,6 +63,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             "core.paginator",
             "core.badges",
             "core.mobs",
+            "core.voting",
             "commands.owner",
             "commands.useful",
             "commands.config",
@@ -70,11 +73,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             "commands.fun",
         ]
 
-        self.logger = setup_logging()
+        self.logger = setup_logging("bot", secrets.logging)
         self.karen: Optional[KarenClient] = None
         self.db: Optional[DatabaseProxy] = None
         self.aiohttp: Optional[aiohttp.ClientSession] = None
-        self.tp = tp
 
         # caches
         self.botban_cache = set[int]()  # set({user_id, user_id,..})
@@ -112,6 +114,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.after_invoke(
             self.after_command_invoked
         )  # register self.after_command_invoked as a after_invoked event
+        self.event(self.on_app_command_completion)
 
     @property
     def embed_color(self) -> discord.Color:
@@ -121,9 +124,11 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
         self.db = DatabaseProxy(self.karen)
 
+        self.logger.info("Connecting to Karen...")
         await self.karen.connect()
+        self.logger.info("Connected to Karen!")
 
-        cluster_info = await self.karen.fetch_cluster_info()
+        cluster_info = await self.karen.fetch_cluster_init_info()
         self.shard_count = cluster_info.shard_count
         self.shard_ids = cluster_info.shard_ids
         self.cluster_id = cluster_info.cluster_id
@@ -146,8 +151,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         await super().close(*args, **kwargs)
 
     async def get_prefix(self, message: discord.Message) -> str:
-        # for some reason discord.py wants this function to be async
-
         if message.guild:
             return self.prefix_cache.get(message.guild.id, self.k.default_prefix)
 
@@ -158,6 +161,17 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             return self.l[self.language_cache.get(ctx.guild.id, "en")]
 
         return self.l["en"]
+
+    async def on_ready(self):
+        if self.cluster_id == 0:
+            self.logger.info("Syncing slash commands...")
+
+            if support_guild := self.get_guild(self.k.support_server_id):
+                await self.tree.sync(guild=support_guild)
+
+            await self.tree.sync()
+
+            self.logger.info("Slash commands synced!")
 
     async def get_context(self, *args, **kwargs) -> CustomContext:
         ctx = await super().get_context(*args, **kwargs, cls=CustomContext)
@@ -198,8 +212,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         )
 
     async def check_global(self, ctx: CustomContext) -> bool:  # the global command check
-        self.command_count += 1
-
         command = ctx.command.name
 
         if ctx.author.id in self.botban_cache:
@@ -214,10 +226,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             ctx.failure_reason = "disabled"
             return False
 
-        command_has_cooldown = command in self.d.cooldown_rates
-
         # handle cooldowns that need to be synced between shard groups / processes (aka karen cooldowns)
-        if command_has_cooldown:
+        if command in self.d.cooldown_rates:
             cooldown_info = await self.karen.cooldown(command, ctx.author.id)
 
             if not cooldown_info.can_run:
@@ -235,19 +245,19 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 ctx.failure_reason = "econ_paused"
                 return False
 
+        return True
+
+    async def before_command_invoked(self, ctx: CustomContext):
+        self.command_count += 1
+
+        if ctx.command.cog_name == "Econ":
             # random chance to spawn mob
             if random.randint(0, self.d.mob_chance) == 0:
-                if self.d.cooldown_rates.get(command, 0) >= 2:
+                if self.d.cooldown_rates.get(ctx.command.name, 0) >= 2:
                     asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
             elif random.randint(0, self.d.tip_chance) == 0:  # random chance to send tip
                 asyncio.create_task(self.send_tip(ctx))
 
-        if command_has_cooldown:
-            await self.karen.command_ran(ctx.author.id)
-
-        return True
-
-    async def before_command_invoked(self, ctx: CustomContext):
         try:
             if ctx.command.name in self.d.concurrency_limited:
                 await self.karen.acquire_concurrency(ctx.command.name, ctx.author.id)
@@ -260,9 +270,16 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             )
             raise
 
+        if ctx.command.name in self.d.cooldown_rates:
+            await self.karen.lb_command_ran(ctx.author.id)
+
+        await self.karen.command_execution(
+            ctx.author.id, getattr(ctx.guild, "id", None), ctx.command.qualified_name, False
+        )
+
     async def after_command_invoked(self, ctx: CustomContext):
         try:
-            if ctx.command.name in self.d.concurrency_limited:
+            if str(ctx.command) in self.d.concurrency_limited:
                 await self.karen.release_concurrency(ctx.command.name, ctx.author.id)
         except Exception:
             self.logger.error(
@@ -272,6 +289,16 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 exc_info=True,
             )
             raise
+
+    async def on_app_command_completion(
+        self,
+        inter: discord.Interaction,
+        command: discord.app_commands.Command | discord.app_commands.ContextMenu,
+    ):
+        if isinstance(command, discord.app_commands.Command):
+            await self.karen.command_execution(
+                inter.user.id, inter.guild_id, command.qualified_name, True
+            )
 
     ###### packet handlers #####################################################
 
@@ -318,17 +345,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         return {"success": success}
 
-    @handle_packet(PacketType.FETCH_STATS)
-    async def packet_fetch_stats(self):
-        proc = psutil.Process()
-        with proc.oneshot():
-            mem_usage = proc.memory_full_info().uss
-            threads = proc.num_threads()
-
+    @handle_packet(PacketType.FETCH_BOT_STATS)
+    async def packet_fetch_bot_stats(self):
         return [
-            mem_usage,
-            threads,
-            len(asyncio.all_tasks()),
             len(self.guilds),
             len(self.users),
             self.message_count,
@@ -338,13 +357,26 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             self.session_votes,
         ]
 
+    @handle_packet(PacketType.FETCH_SYSTEM_STATS)
+    async def packet_fetch_system_stats(self):
+        memory_info = psutil.virtual_memory()
+
+        return SystemStats(
+            identifier=f'Cluster {self.cluster_id} ({",".join(map(str, self.shard_ids))})',
+            cpu_usage_percent=psutil.getloadavg()[0],
+            memory_usage_bytes=(memory_info.total - memory_info.available),
+            memory_max_bytes=memory_info.total,
+            threads=psutil.Process().num_threads(),
+            asyncio_tasks=len(asyncio.all_tasks()),
+        )
+
     @handle_packet(PacketType.FETCH_GUILD_COUNT)
     async def packet_fetch_guild_count(self):
         return len(self.guilds)
 
     @handle_packet(PacketType.UPDATE_SUPPORT_SERVER_ROLES)
     async def packet_update_support_server_roles(self, user_id: int):
-        support_guild = self.get_guild(self.d.support_server_id)
+        support_guild = self.get_guild(self.k.support_server_id)
 
         if support_guild is not None:
             member = support_guild.get_member(user_id)
@@ -366,11 +398,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self, user_id: int, channel_id: int, message_id: int, content: Optional[str]
     ):
         self.dispatch(
-            "dm_message",
-            user_id=user_id,
-            channel_id=channel_id,
-            message_id=message_id,
-            content=content,
+            "fwd_dm",
+            ForwardedDirectMessage(
+                user_id=user_id,
+                channel_id=channel_id,
+                message_id=message_id,
+                content=content,
+            ),
         )
 
     @handle_packet(PacketType.RELOAD_COG)
@@ -401,3 +435,35 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     @handle_packet(PacketType.PING)
     async def packet_ping(self):
         return 1
+
+    @handle_packet(PacketType.FETCH_GUILD_IDS)
+    async def packet_fetch_guild_ids(self):
+        await self.wait_until_ready()
+        return [g.id for g in self.guilds]
+
+    @handle_packet(PacketType.SHUTDOWN)
+    async def packet_shutdown(self):
+        await self.close()
+
+    @handle_packet(PacketType.TOPGG_VOTE)
+    async def packet_topgg_vote(self, vote: TopggVote):
+        if 0 in self.shard_ids:
+            await self.dispatch("topgg_vote", vote)
+
+    @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_MEMBERS)
+    async def packet_fetch_top_guilds_by_members(self):
+        return [
+            {"id": g.id, "name": g.name, "count": g.member_count}
+            for g in sorted(self.guilds, key=(lambda g: g.member_count), reverse=True)[:10]
+        ]
+
+    @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_ACTIVE_MEMBERS)
+    async def packet_fetch_top_guilds_by_active_members(self):
+        return await self.get_cog("Database").fetch_guilds_active_count()
+
+    @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_COMMANDS)
+    async def packet_fetch_top_guilds_by_commands(self):
+        return [
+            {**v, "name": self.get_guild(v["id"]).name}
+            for v in (await self.get_cog("Database").fetch_guilds_commands_count())
+        ]

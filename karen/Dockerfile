@@ -1,5 +1,7 @@
 FROM python:3.10-slim-buster
 
+ENV PYTHONUNBUFFERED=TRUE
+
 # install essential packages
 RUN apt-get update -y
 RUN apt-get install -y git build-essential
@@ -17,9 +19,10 @@ COPY pyproject.toml .
 COPY poetry.lock .
 RUN poetry install --no-dev --no-interaction
 
-# copy over common and karen folders
+# copy over rest of files
 COPY common common
 COPY karen karen
+COPY .env .env
 
 # run karen
 CMD poetry run python3 -m karen

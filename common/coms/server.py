@@ -1,13 +1,15 @@
 import asyncio
 import logging
-from typing import Awaitable, Callable, Optional
 import uuid
+from typing import Any, Callable, Coroutine, Optional
 
 from pydantic import BaseModel
-from websockets.server import WebSocketServerProtocol, serve
+from websockets.exceptions import ConnectionClosedOK as WebSocketConnectionClosedOK
+from websockets.server import WebSocketServer, WebSocketServerProtocol, serve
 
 from common.coms.coms_base import ComsBase
-from common.coms.errors import InvalidPacketReceived
+from common.coms.errors import InvalidPacketReceived, NoConnectedClientsError
+from common.coms.json_encoder import special_obj_encode
 from common.coms.packet import T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler, PacketType
 
@@ -29,17 +31,22 @@ class Server(ComsBase):
         auth: str,
         packet_handlers: dict[PacketType, PacketHandler],
         logger: logging.Logger,
-        disconnect_cb: Optional[Callable[[uuid.UUID], Awaitable[None]]] = None,
+        connect_cb: Optional[Callable[[uuid.UUID], Coroutine[None, Any, Any]]] = None,
+        disconnect_cb: Optional[Callable[[uuid.UUID], Coroutine[None, Any, Any]]] = None,
     ):
         super().__init__(host, port, packet_handlers, logger.getChild("server"))
 
         self.auth = auth
+
+        self.connect_cb = connect_cb
         self.disconnect_cb = disconnect_cb
 
         self._stop = asyncio.Event()
         self._connections = list[WebSocketServerProtocol]()  # only authed connections
         self._current_id = 0
         self._broadcasts = dict[str, Broadcast]()
+        self._server: Optional[WebSocketServer] = None
+        self._ip_blacklist = set[str]()
 
     def _get_packet_id(self, t: str = "s") -> str:
         packet_id = self._current_id
@@ -47,17 +54,22 @@ class Server(ComsBase):
         return f"{t}{packet_id}"
 
     async def serve(self, ready_cb: Optional[Callable[[], None]] = None) -> None:
-        async with serve(self._handle_connection, self.host, self.port, logger=self.logger):
+        async with serve(
+            self._handle_connection, self.host, self.port, logger=self.logger.getChild("ws")
+        ) as self._server:
             if ready_cb is not None:
                 ready_cb()
 
             await self._stop.wait()
 
     async def stop(self) -> None:
+        if self._connections:
+            await asyncio.wait([c.drain() for c in self._connections])
+
         self._stop.set()
 
     async def _send(self, ws: WebSocketServerProtocol, packet: Packet) -> None:
-        await ws.send(packet.json())
+        await ws.send(packet.json(encoder=special_obj_encode))
 
     async def _disconnect(self, ws: WebSocketServerProtocol) -> None:
         if not ws.closed:
@@ -71,13 +83,20 @@ class Server(ComsBase):
         self.logger.info("Disconnected client: %s", ws.id)
 
         if self.disconnect_cb:
-            await self.disconnect_cb(ws.id)
+            asyncio.create_task(self.disconnect_cb(ws.id))
+
+    async def raw_broadcast(
+        self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
+    ) -> None:
+        packet = Packet(id=self._get_packet_id("b"), type=packet_type, data=packet_data)
+        coros = [self._send(c, packet) for c in self._connections]
+        await asyncio.wait(coros)
 
     async def broadcast(
-        self, packet_type: PacketType, packet_data: T_PACKET_DATA = None
+        self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
     ) -> list[T_PACKET_DATA]:
         if len(self._connections) == 0:
-            raise RuntimeError("There are no connected clients to broadcast to.")
+            raise NoConnectedClientsError()
 
         broadcast_id = self._get_packet_id("b")
         broadcast_packet = Packet(id=broadcast_id, type=packet_type, data=packet_data)
@@ -117,8 +136,41 @@ class Server(ComsBase):
         if len(broadcast.ws_ids) == 0:
             broadcast.ready.set()
 
+    async def _handle_packet(self, packet: Packet, ws: WebSocketServerProtocol):
+        # handle broadcast requests
+        if packet.type == PacketType.BROADCAST_REQUEST:
+            # broadcast requests are special types of packets which forward the packet to ALL connected clients
+            asyncio.create_task(
+                self._client_broadcast(ws, packet)
+            )  # TODO: keep track of these tasks and properly cancel them on a server shutdown
+            return
+
+        # handle broadcast responses
+        if packet.id in self._broadcasts:
+            await self._handle_broadcast_response(ws, packet)
+            return
+
+        try:
+            response = await self._call_handler(packet, ws_id=ws.id)
+        except Exception as e:
+            self.logger.error(
+                "An error ocurred while calling the packet handler for packet %s",
+                packet,
+                exc_info=True,
+            )
+            await self._send(ws, Packet(id=packet.id, data=repr(e), error=True))
+        else:
+            await self._send(ws, Packet(id=packet.id, data=response))
+
     async def _handle_connection(self, ws: WebSocketServerProtocol):
         self.logger.info("New client connected: %s", ws.id)
+
+        if ws.remote_address[0] in self._ip_blacklist:
+            self.logger.info(
+                "Attempted connection from %s:%s denied due to ip blacklist", *ws.remote_address
+            )
+            await self._disconnect(ws)
+            return
 
         authed = False
 
@@ -143,11 +195,24 @@ class Server(ComsBase):
 
                     if packet.data != self.auth:
                         self.logger.error("Incorrect authorization received from client: %s", ws.id)
+                        await self._send(
+                            ws,
+                            Packet(
+                                id=self._get_packet_id(),
+                                type=PacketType.AUTH,
+                                data=None,
+                                error=True,
+                            ),
+                        )
+                        self._ip_blacklist.add(ws.remote_address[0])
                         await self._disconnect(ws)
                         return
 
                     self._connections.append(ws)
                     authed = True
+
+                    if self.connect_cb:
+                        asyncio.create_task(self.connect_cb(ws.id))
 
                     continue
 
@@ -158,29 +223,10 @@ class Server(ComsBase):
                     await self._disconnect(ws)
                     return
 
-                # handle broadcast requests
-                if packet.type == PacketType.BROADCAST_REQUEST:
-                    # broadcast requests are special types of packets which forward the packet to ALL connected clients
-                    asyncio.create_task(
-                        self._client_broadcast(ws, packet)
-                    )  # TODO: keep track of these tasks and properly cancel them on a server shutdown
-                    continue
-
-                # handle broadcast responses
-                if packet.id in self._broadcasts:
-                    await self._handle_broadcast_response(ws, packet)
-                    continue
-
-                try:
-                    response = await self._call_handler(packet, ws_id=ws.id)
-                except Exception as e:
-                    self.logger.error(
-                        "An error ocurred while calling the packet handler for packet %s",
-                        packet,
-                        exc_info=True,
-                    )
-                    await self._send(ws, Packet(id=packet.id, data=repr(e), error=True))
-                else:
-                    await self._send(ws, Packet(id=packet.id, data=response))
+                asyncio.create_task(
+                    self._handle_packet(packet, ws)
+                )  # TODO: keep track of these and properly cancel on close
+        except WebSocketConnectionClosedOK:
+            pass
         finally:
             await self._disconnect(ws)

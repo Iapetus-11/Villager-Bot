@@ -1,30 +1,24 @@
 import random
-import sys
+import time
+import traceback
 from contextlib import suppress
 
 import discord
-from bot.cogs.core.database import Database
 from discord.ext import commands
 
-from common.utils.code import format_exception
-
+from bot.cogs.core.badges import Badges
+from bot.cogs.core.database import Database
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
     CommandOnKarenCooldown,
     MaxKarenConcurrencyReached,
     chunk_by_lines,
+    text_to_discord_file,
     update_support_member_role,
 )
 from bot.villager_bot import VillagerBotCluster
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
-
-NITRO_BOOST_MESSAGES = {
-    discord.MessageType.premium_guild_subscription,
-    discord.MessageType.premium_guild_tier_1,
-    discord.MessageType.premium_guild_tier_2,
-    discord.MessageType.premium_guild_tier_3,
-}
 
 BAD_ARG_ERRORS = (
     commands.BadArgument,
@@ -35,20 +29,6 @@ BAD_ARG_ERRORS = (
 
 INVISIBLITY_CLOAK = ("||||\u200B" * 200)[2:-3]
 
-AUTOBAN_KEYWORDS = (
-    "@everyone",
-    "gift",
-    "nitro",
-    "steam",
-    "hack",
-    "free",
-    "discord.gg",
-    "invite.gg",
-    "dsc.gg",
-    "dsc.lol",
-    "discord.com/invite/",
-)
-
 
 class Events(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
@@ -58,36 +38,40 @@ class Events(commands.Cog):
         self.karen = bot.karen
         self.d = bot.d
         self.k = bot.k
-        self.db: Database = bot.get_cog("Database")
 
         bot.event(self.on_error)  # Cog.listener() doesn't work for on_error events
 
     @property
-    def badges(self):
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
+
+    @property
+    def badges(self) -> Badges:
         return self.bot.get_cog("Badges")
 
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
         self.bot.error_count += 1
 
-        exception = sys.exc_info()[1]
-        traceback = format_exception(exception).replace("```", "｀｀｀")
-
-        event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={repr(v)}' for k, v in kwargs.items()])})"
-        self.logger.error(f"An exception occurred in this call:\n{event_call_repr}\n\n{traceback}")
+        event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={v!r}' for k, v in kwargs.items()])})"
+        self.logger.error(
+            "An exception occurred in an event call: %s", event_call_repr, exc_info=True
+        )
 
         await self.bot.final_ready.wait()
         await self.bot.error_channel.send(
-            f"```py\n{event_call_repr[:100]}``````py\n{traceback[:1880]}```"
+            f"```py\n{event_call_repr[:1920].replace('`', '｀')}```",
+            file=text_to_discord_file(
+                traceback.format_exc(), file_name=f"error_tb_ev_{time.time():0.0f}.txt"
+            ),
         )
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.bot.logger.info(f"Cluster {self.bot.cluster_id} \u001b[36;1mREADY\u001b[0m")
+        self.bot.logger.info(f"Cluster {self.bot.cluster_id} READY")
 
-        self.bot.support_server = await self.bot.fetch_guild(self.d.support_server_id)
-
-        self.bot.error_channel = await self.bot.fetch_channel(self.d.error_channel_id)
-        self.bot.vote_channel = await self.bot.fetch_channel(self.d.vote_channel_id)
+        self.bot.support_server = await self.bot.fetch_guild(self.k.support_server_id)
+        self.bot.error_channel = await self.bot.fetch_channel(self.k.error_channel_id)
+        self.bot.vote_channel = await self.bot.fetch_channel(self.k.vote_channel_id)
 
         self.bot.final_ready.set()
 
@@ -95,9 +79,7 @@ class Events(commands.Cog):
         channel: discord.channel = None
 
         for c in guild.text_channels:
-            c_name = c.name.lower()
-
-            if "general" in c_name or "chat" in c_name:
+            if "general" in c.name.lower():
                 channel = c
                 break
 
@@ -110,17 +92,19 @@ class Events(commands.Cog):
         if channel is None:
             return
 
+        translation = self.bot.l[self.bot.language_cache.get(guild.id, "en")]
+
         embed = discord.Embed(
             color=self.bot.embed_color,
-            description=f"Hey y'all! Type `{self.k.default_prefix}help` to get started with Villager Bot!\n"
-            f"If you need any more help, check out the **[Support Server]({self.d.support})**!\n\n"
-            f"*Our privacy policy can be found [here]({self.d.privacy_policy}).*",
+            description="\n".join(translation.misc.intro.body).format(
+                prefix=self.k.default_prefix,
+                support_server=self.d.support,
+                privacy_policy=self.d.privacy_policy,
+            ),
         )
 
         embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
-        embed.set_footer(
-            text=f"Made by Iapetus11 and others ({self.k.default_prefix}credits)  |  Check the {self.k.default_prefix}rules"
-        )
+        embed.set_footer(text=translation.misc.intro.footer.format(prefix=self.k.default_prefix))
 
         with suppress(discord.errors.Forbidden):
             await channel.send(embed=embed)
@@ -154,12 +138,12 @@ class Events(commands.Cog):
         # add user to new member cache
         self.bot.new_member_cache[member.guild.id].add(member.id)
 
-        if member.guild.id == self.d.support_server_id:
+        if member.guild.id == self.k.support_server_id:
             await update_support_member_role(self.bot, member)
 
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member):
-        if before.guild.id == self.d.support_server_id:
+        if before.guild.id == self.k.support_server_id:
             if before.roles != after.roles:
                 await self.db.fetch_user(after.id)  # ensure user is in db
 
@@ -183,9 +167,9 @@ class Events(commands.Cog):
             return
 
         # attempt to get dm logs channel from cache, then api
-        dm_logs_channel = self.bot.get_channel(self.d.dm_logs_channel_id)
+        dm_logs_channel = self.bot.get_channel(self.k.dm_logs_channel_id)
         if dm_logs_channel is None:
-            dm_logs_channel = await self.bot.fetch_channel(self.d.dm_logs_channel_id)
+            dm_logs_channel = await self.bot.fetch_channel(self.k.dm_logs_channel_id)
 
         log_message_content = f"**{message.author} (`{message.author.id}`):**\n"
 
@@ -221,7 +205,7 @@ class Events(commands.Cog):
             # check if there are prior messages, and if there are none, send user a help message
             with suppress(discord.errors.HTTPException):
                 prior_messages = len(
-                    await message.channel.history(limit=1, before=message).flatten()
+                    [m async for m in message.channel.history(limit=1, before=message)]
                 )
 
                 if prior_messages < 1:
@@ -367,7 +351,7 @@ class Events(commands.Cog):
         if getattr(ctx, "custom_error", None):
             e = ctx.custom_error
 
-        if not isinstance(e, MaxKarenConcurrencyReached):
+        if not isinstance(e, MaxKarenConcurrencyReached) and ctx.command:
             await self.karen.release_concurrency(ctx.command.name, ctx.author.id)
 
         if isinstance(e, commands.CommandOnCooldown):
@@ -407,22 +391,34 @@ class Events(commands.Cog):
         ):
             return
         else:  # no error was caught so log error in error channel
+            self.logger.error(
+                "An error occurred in a command executed by %s (%s) (lang=%s): %s",
+                ctx.author.id,
+                ctx.author,
+                ctx.l.lang,
+                ctx.message.content,
+                exc_info=e,
+            )
+
             await self.bot.wait_until_ready()
             await ctx.reply_embed(
                 ctx.l.misc.errors.andioop.format(self.d.support), ignore_exceptions=True
             )
 
-            debug_info = (
-                f"```\n{ctx.author} {ctx.author.id} (lang={ctx.l.lang}): {ctx.message.content}"[
-                    :200
-                ]
-                + "```"
-                + f"```py\n{format_exception(e).replace('```', '｀｀｀')}"[: 2000 - 206]
-                + "```"
-            )
+            cmd_call_info = f"```\n{ctx.author} (user_id={ctx.author.id}) (guild_id={getattr(ctx.guild, 'id', 'None')}) (lang={ctx.l.lang}): {ctx.message.content[:1920]}```"
 
             await self.bot.final_ready.wait()
-            await self.bot.error_channel.send(debug_info)
+            await self.bot.error_channel.send(
+                cmd_call_info,
+                file=text_to_discord_file(
+                    "".join(
+                        traceback.format_exception(
+                            type(e), e, e.__traceback__, limit=None, chain=True
+                        )
+                    ),
+                    file_name=f"error_tb_cmd_{time.time():0.0f}.txt",
+                ),
+            )
 
 
 async def setup(bot: VillagerBotCluster) -> None:

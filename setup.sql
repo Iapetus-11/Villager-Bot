@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS users ( -- used for economy data
   health             SMALLINT NOT NULL DEFAULT 20, -- the amount of health the user currently has
   vote_streak        INT NOT NULL DEFAULT 0, -- the current vote streak of the user
   last_vote          TIMESTAMPTZ, -- the time at which the last user voted
-  give_alert         BOOLEAN NOT NULL DEFAULT true -- whether users should be alerted if someone gives them items or emeralds or not
+  give_alert         BOOLEAN NOT NULL DEFAULT true, -- whether users should be alerted if someone gives them items or emeralds or not
+  shield_pearl       TIMESTAMPTZ -- time at which last shield pearl was activated
 );
 
 CREATE TABLE IF NOT EXISTS items (
@@ -124,4 +125,12 @@ CREATE TABLE IF NOT EXISTS guild_events (
   member_count       INT NOT NULL,
   total_count        INT NOT NULL,
   event_at           TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS command_executions (
+  user_id            BIGINT NOT NULL,
+  guild_id           BIGINT,
+  command            VARCHAR(300) NOT NULL,
+  is_slash           BOOLEAN NOT NULL,
+  at                 TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

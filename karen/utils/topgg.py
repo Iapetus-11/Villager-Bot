@@ -1,25 +1,19 @@
 import logging
-from typing import Awaitable, Callable, Optional
+from typing import Any, Callable, Coroutine, Optional
 
 from aiohttp import web
-from pydantic import BaseModel, ValidationError
+from pydantic import ValidationError
+
+from common.models.topgg_vote import TopggVote
 
 from karen.models.secrets import TopggWebhookSecrets
-
-
-class TopggVote(BaseModel):
-    bot: int
-    user: int
-    type: str
-    isWeekend: bool
-    query: Optional[str]
 
 
 class VotingWebhookServer:
     def __init__(
         self,
         secrets: TopggWebhookSecrets,
-        callback: Callable[[TopggVote], Awaitable[None]],
+        callback: Callable[[TopggVote], Coroutine[None, Any, Any]],
         logger: logging.Logger,
     ):
         self.secrets = secrets

@@ -4,6 +4,7 @@ import signal
 import sys
 
 import dotenv
+import psutil
 
 from common.utils.setup import load_data
 
@@ -11,13 +12,13 @@ from karen.karen import MechaKaren
 from karen.utils.setup import load_secrets
 
 
-async def main():
+async def async_main():
     secrets = load_secrets()
     data = load_data()
 
     if os.path.exists(".env"):
         env = dotenv.dotenv_values()
-        if int(env.get("CLUSTER_COUNT")) != secrets.cluster_count:
+        if env.get("CLUSTER_COUNT") != str(secrets.cluster_count):
             print("CLUSTER_COUNT from .env doesn't match with secrets.json!")
             sys.exit(1)
 
@@ -25,14 +26,25 @@ async def main():
         if os.name != "nt":
             # register sigterm handler
             asyncio.get_event_loop().add_signal_handler(
-                signal.SIGTERM, lambda: asyncio.ensure_future(karen.stop)
+                signal.SIGTERM, lambda: asyncio.create_task(karen.stop)
             )
 
         await karen.serve()
 
 
-if __name__ == "__main__":
+def main():
+    if not vars(sys.modules[__name__])["__package__"]:
+        print("Karen must be ran as a module (using the -m flag)")
+        sys.exit(1)
+
+    # start thread which handles this
+    psutil.getloadavg()
+
     try:
-        asyncio.run(main())
+        asyncio.run(async_main())
     except KeyboardInterrupt:
         pass
+
+
+if __name__ == "__main__":
+    main()

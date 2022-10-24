@@ -1,15 +1,14 @@
 # Villager Bot Data Privacy Policy
-*By using Villager Bot, you consent to the collection of the following data*
-## What data do we collect or log?
-- User and guild snowflakes/ids
+*By using Villager Bot, you consent to this policy*
+## What data do we collect?
+- User, channel, and guild snowflakes/IDs
 - Sometimes text inputted into commands, for example the warn reason for `!!warn @user <reason>`
-- Message content and usernames (rarely, see reason below)
-- Messages directly messaged to the bot
+- Message content and usernames when an error is triggered as a direct result of a message
+- Messages directly messaged to the bot are logged
 ## How do we use your data?
-- Your data is stored in Discord text channels or in a secure database.
-- Message content is sometimes logged for the purposes of debugging when an error in the bot occurs as a direct result of the message.
-- Any other data stored is not from Discord and is purely integral to the function of Villager Bot.
+- Your data is stored in a database and retrieved for use in various commands and features of Villager Bot
+- Message content is sometimes logged in Discord channels (for the reasons mentioned above)
 ## Who has access?
-- Only the owner of Villager Bot, Iapetus-11, has access to the data.
+- Only the owner of Villager Bot, Iapetus-11, has access to the database
 ## Can I delete my data?
-- Simply DM the owner or ask in the support server, your data will be deleted as soon as the owner sees your message and is able.
+- Simply DM the owner or ask in the support server, your data will be deleted as soon as the owner sees your message and is able

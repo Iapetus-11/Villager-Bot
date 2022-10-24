@@ -1,8 +1,10 @@
 FROM python:3.10-slim-buster
 
+ENV PYTHONUNBUFFERED=TRUE
+
 # install essential packages
 RUN apt-get update -y
-RUN apt-get install -y git build-essential libgl1 libglib2.0-0
+RUN apt-get install -y git build-essential libgl1 libglib2.0-0 ffmpeg
 
 # install & configure poetry
 RUN python3 -m pip install poetry --no-cache-dir
@@ -22,7 +24,7 @@ COPY common common
 COPY bot bot
 
 # build cython extensions
-RUN poetry run python3 -m bot --build-pyx-only
+RUN poetry run python3 -m bot --build-cython-only
 
 # run Villager Bot cluster
 CMD poetry run python3 -m bot

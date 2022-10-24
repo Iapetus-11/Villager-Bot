@@ -1,12 +1,8 @@
 {
   "embed_color": "green",
-  "support_server_id": 641117791272960031,
-  "error_channel_id": 642446655022432267,
-  "vote_channel_id": 725551439165784115,
-  "dm_logs_channel_id": 984281937675956234,
   "splash_logo": "http://iapetus11.me/images/villager-splash.png",
   "support": "https://discord.gg/39DwwUV",
-  "invite": "https://discord.com/oauth2/authorize?client_id=639498607632056321&permissions=1074130126&scope=bot%20applications.commands",
+  "invite": "https://discord.com/oauth2/authorize?client_id={bot_id}&permissions=1074130126&scope=bot%20applications.commands",
   "topgg": "https://top.gg/bot/639498607632056321",
   "github": "https://github.com/Iapetus-11/Villager-Bot",
   "privacy_policy": "https://github.com/Iapetus-11/Villager-Bot/blob/main/PRIVACY-POLICY.md",
@@ -222,6 +218,11 @@
         "nice": "Baby Slime",
         "health": 20,
         "image": "https://iapetus11.me/images/mob_spawns/baby_slime.png"
+      },
+      "enderman": {
+        "nice": "Enderman",
+        "health": 20,
+        "image": "https://iapetus11.me/images/mob_spawns/enderman.png"
       }
     }
   },
@@ -404,17 +405,75 @@
         "sticky": false
       },
       {
+        "item": "Will O Wisp",
+        "sell_price": 1024,
+        "rarity": 99999,
+        "sticky": false
+      },
+      {
         "item": "Bane Of Pillagers Amulet",
         "sell_price": 4096,
         "rarity": 500000,
         "sticky": true
+      },
+      {
+        "item": "Skeleton Skull",
+        "sell_price": 512,
+        "rarity": 4000,
+        "sticky": false
+      },
+      {
+        "item": "Jack O Lantern",
+        "sell_price": 512,
+        "rarity": 4000,
+        "sticky": false
+      },
+      {
+        "item": "Pumpkin",
+        "sell_price": 256,
+        "rarity": 2000,
+        "sticky": false
+      },
+      {
+        "item": "Spider Web",
+        "sell_price": 64,
+        "rarity": 500,
+        "sticky": false
+      },
+      {
+        "item": "Candy Corn",
+        "sell_price": 64,
+        "rarity": 500,
+        "sticky": false
+      },
+      {
+        "item": "KitKat",
+        "sell_price": 64,
+        "rarity": 500,
+        "sticky": false
+      },
+      {
+        "item": "Crunch Bar",
+        "sell_price": 64,
+        "rarity": 500,
+        "sticky": false
+      },
+      {
+        "item": "Empty Candy Wrapper",
+        "sell_price": 0,
+        "rarity": 100,
+        "sticky": false
+      },
+      {
+        "item": "Will O Wisp",
+        "sell_price": 1024,
+        "rarity": 99999,
+        "sticky": false
       }
     ]
   },
   "fishing": {
     "exponent": 2.75,
-    "fish_ids": [],
-    "fish_weights": [],
     "fish": {
       "cod": {
         "name": "Cod",
@@ -506,7 +565,31 @@
         "sticky": true
       },
       {
+        "item": "Luck Potion",
+        "sell_price": 128,
+        "rarity": 6669,
+        "sticky": false
+      },
+      {
         "item": "Recycler",
+        "sell_price": 1024,
+        "rarity": 99999,
+        "sticky": false
+      },
+      {
+        "item": "Skeleton Skull",
+        "sell_price": 512,
+        "rarity": 4000,
+        "sticky": false
+      },
+      {
+        "item": "Empty Candy Wrapper",
+        "sell_price": 0,
+        "rarity": 100,
+        "sticky": false
+      },
+      {
+        "item": "Will O Wisp",
         "sell_price": 1024,
         "rarity": 99999,
         "sticky": false
@@ -876,6 +959,40 @@
         "sticky": false
       },
       "requires": {}
+    },
+    "time pearl": {
+      "cat": "magic",
+      "buy_price": 9999,
+      "db_entry": {
+        "item": "Time Pearl",
+        "sell_price": 3333,
+        "sticky": true
+      },
+      "requires": {
+        "items": {
+          "Ender Pearl": 1,
+          "Mooderald": 1,
+          "Bone Meal": 1,
+          "Slime Ball": 4
+        }
+      }
+    },
+    "shield pearl": {
+      "cat": "magic",
+      "buy_price": 9999,
+      "db_entry": {
+        "item": "Shield Pearl",
+        "sell_price": 3333,
+        "sticky": true
+      },
+      "requires": {
+        "items": {
+          "Ender Pearl": 1,
+          "Mooderald": 5,
+          "Slime Ball": 4,
+          "Netherite Scrap": 100
+        }
+      }
     }
   },
   "rpt_ignore": [
@@ -1031,6 +1148,10 @@
     "dirt_block": "<:dirt_block:984470670568218634>",
     "trophy": "🏆",
     "aniloading": "<a:loading:984854701868744794>",
+    "ender_pearl": "<:ender_pearl:1022845322147409972>",
+    "chocolate_chip_cookie": "<:chocolate_chip_cookie:1025000801330020353>",
+    "will_o_wisp": "<:will_o_wisp:1027441139256660068>",
+    "time_pearl": "<:time_pearl:1022845301196849153>",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1085,45 +1206,45 @@
       "black": "⬛"
     },
     "badges": {
-      "code_helper": "<:code_helper:860562240293044224>",
-      "translator": "<:translator:859492625132027934>",
-      "design_helper": "<:design_helper:867514565309497374>",
-      "bug_smasher": "<:bug_smasher:866874022549127229>",
-      "villager_og": "<:villager_bot_og:859986642248794123>",
-      "supporter": "<:supporter:866468299327537152>",
-      "uncle_scrooge": "<:uncle_scrooge:859485472823574558>",
+      "code_helper": "<:code_helper:1022680282962333756>",
+      "translator": "<:translator:1022675814996779028>",
+      "design_helper": "<:design_helper:1022680105199337492>",
+      "bug_smasher": "<:bug_smasher:1022680528106827927>",
+      "villager_og": "<:villager_bot_og:1022676899765440643>",
+      "supporter": "<:supporter:1022681142819827802>",
+      "uncle_scrooge": "<:uncle_scrooge:1022677026882199643>",
       "collector": [
-        "<:collector_1:863117267012157480>",
-        "<:collector_2:863117267611942952>",
-        "<:collector_3:863117267113738240>",
-        "<:collector_4:863117267133530122>",
-        "<:collector_5:863117267101548544>"
+        "<:collector_1:1022680349869875252>",
+        "<:collector_2:1022680430530535514>",
+        "<:collector_3:1022680457214693497>",
+        "<:collector_4:1022680479478054923>",
+        "<:collector_5:1022680505264648252>"
       ],
       "beekeeper": [
-        "<:beekeeper_1:866474186637836318>",
-        "<:beekeeper_2:866474202306445343>",
-        "<:beekeeper_3:866474210117681162>"
+        "<:beekeeper_1:1022678713260847164>",
+        "<:beekeeper_2:1022678742918766674>",
+        "<:beekeeper_3:1022678943922397265>"
       ],
       "pillager": [
-        "<:pillager_1:866479984364879892>",
-        "<:pillager_2:866479947778621440>",
-        "<:pillager_3:866479947349753877>"
+        "<:pillager_1:1022679172478423060>",
+        "<:pillager_2:1022679279487684659>",
+        "<:pillager_3:1022679305442041857>"
       ],
       "murderer": [
-        "<:murderer_1:866474385383489617>",
-        "<:murderer_2:866474402337914890>",
-        "<:murderer_3:866474413821001729>"
+        "<:murderer_1:1022677386568941628>",
+        "<:murderer_2:1022677568245223425>",
+        "<:murderer_3:1022677662352814130>"
       ],
       "enthusiast": [
-        "<:enthusiast_1:867148260647632927>",
-        "<:enthusiast_2:867148260916854805>",
-        "<:enthusiast_3:867148260974788678>"
+        "<:enthusiast_1.:1022835109788909649>",
+        "<:enthusiast_2.:1022835139325218896>",
+        "<:enthusiast_3.:1022835162926567524>"
       ],
       "fisherman": [
-        "<:fisherman_1:863111587438395453>",
-        "<:fisherman_2:863111587123298385>",
-        "<:fisherman_3:863111587627532318>",
-        "<:fisherman_4:863111587313090572>"
+        "<:fisherman_1:1022678033330622615>",
+        "<:fisherman_2:1022678179921547314>",
+        "<:fisherman_3:1022678251820294155>",
+        "<:fisherman_4:1022678318065139812>"
       ]
     },
     "numbers": [
@@ -1210,7 +1331,12 @@
     "Recycler": "recycle",
     "Guacamole Sombrero": "guacamole_sombrero",
     "Dirt Block": "dirt_block",
-    "Forever Alone Trophy": "trophy"
+    "Forever Alone Trophy": "trophy",
+    "Rich Person Trophy": "trophy",
+    "Ender Pearl": "ender_pearl",
+    "Chocolate Chip Cookie": "chocolate_chip_cookie",
+    "Will O Wisp": "will_o_wisp",
+    "Time Pearl": "time_pearl"
   },
   "farming": {
     "emojis": {
@@ -1225,9 +1351,9 @@
       }
     },
     "emerald_yields": {
-      "emerald_fruit": 1024,
-      "chorus_fruit": 768,
-      "melon": 192,
+      "emerald_fruit": 2048,
+      "chorus_fruit": 1024,
+      "melon": 256,
       "potato": 128,
       "carrot": 64,
       "wheat": 32
@@ -1243,7 +1369,7 @@
       ],
       "melon": [
         2,
-        10
+        5
       ],
       "potato": [
         1,
@@ -1259,12 +1385,12 @@
       ]
     },
     "crop_times": {
-      "emerald_fruit": "2 DAYS",
-      "chorus_fruit": "1 DAY",
-      "melon": "16 HOURS",
-      "potato": "12 HOURS",
-      "carrot": "6 HOURS",
-      "wheat": "1 HOUR"
+      "emerald_fruit": "4 DAYS",
+      "chorus_fruit": "2 DAYS",
+      "melon": "1 DAY",
+      "potato": "16 HOURS",
+      "carrot": "8 HOURS",
+      "wheat": "2 HOURS"
     },
     "max_plots": {
       "Netherite Hoe": 60,

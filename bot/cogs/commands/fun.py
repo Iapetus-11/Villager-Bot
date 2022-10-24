@@ -8,20 +8,11 @@ import classyjson as cj
 import discord
 from discord.ext import commands
 
+from bot.cogs.core.database import Database
+from bot.models.translation import Fun_Trivia_Question
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, strip_command
+from bot.utils.misc import SuppressCtxManager, clean_text, shorten_text
 from bot.villager_bot import VillagerBotCluster
-
-ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz"
-INSULTS = {
-    "i am stupid",
-    "i am dumb",
-    "i am very stupid",
-    "i am very dumb",
-    "i stupid",
-    "i'm stupid",
-    "i'm dumb",
-}
 
 
 class Fun(commands.Cog):
@@ -32,10 +23,14 @@ class Fun(commands.Cog):
         self.k = bot.k
 
         self.aiohttp = bot.aiohttp
-        self.db = bot.get_cog("Database")
         self.karen = bot.karen
 
-    def lang_convert(self, msg, lang):
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
+
+    @staticmethod
+    def lang_convert(msg, lang):
         keys = list(lang)
 
         for key in keys:
@@ -44,129 +39,67 @@ class Fun(commands.Cog):
             with suppress(Exception):
                 msg = msg.replace(key.upper(), lang.get(key).upper())
 
-        if len(msg) > 2000 - 6:
-            raise ValueError("message is too big")
-
         return msg
+
+    async def reddit_post_logic(
+        self, ctx: Ctx, post_type: str, *, show_details: bool = True
+    ) -> None:
+        do_nsfw = False
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            do_nsfw = ctx.channel.is_nsfw()
+
+        post = {"nsfw": True, "spoiler": True}
+
+        async with SuppressCtxManager(ctx.typing()):
+            while post["spoiler"] or (not do_nsfw and post["nsfw"]):
+                resp = await self.aiohttp.get(
+                    f"https://api.iapetus11.me/reddit/{post_type}",
+                    # headers={"Authorization": self.k.villager_api},
+                    params={"requesterId": ctx.channel.id},
+                )
+
+                post = cj.classify(await resp.json())
+
+        embed = discord.Embed(color=self.bot.embed_color)
+
+        if show_details:
+            embed.title = shorten_text(post["title"], 256)
+            embed.url = post["permalink"]
+            embed.set_footer(
+                text=f"{post['upvotes']}  |  u/{post['author']}", icon_url=self.d.upvote_emoji_image
+            )
+
+        embed.set_image(url=post["image"])
+
+        await ctx.send(embed=embed)
 
     @commands.command(name="meme", aliases=["meemee", "meem", "maymay", "mehmeh"])
     @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def meme(self, ctx: Ctx):
         """Sends a meme from reddit"""
 
-        do_nsfw = False
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            do_nsfw = ctx.channel.is_nsfw()
-
-        meme = {"nsfw": True, "spoiler": True}
-
-        async with SuppressCtxManager(ctx.typing()):
-            while meme["spoiler"] or (not do_nsfw and meme["nsfw"]) or meme.get("image") is None:
-                resp = await self.aiohttp.get(
-                    "https://api.iapetus11.me/reddit/meme",
-                    # headers={"Authorization": self.k.villager_api},
-                    params={"requesterId": ctx.channel.id},
-                )
-
-                meme = cj.classify(await resp.json())
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=meme.title[:256], url=meme.permalink
-        )
-
-        embed.set_footer(
-            text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image
-        )
-        embed.set_image(url=meme.image)
-
-        await ctx.send(embed=embed)
+        await self.reddit_post_logic(ctx, "meme")
 
     @commands.command(name="4chan", aliases=["greentext"])
     @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def greentext(self, ctx: Ctx):
         """Sends a greentext from r/greentext"""
 
-        do_nsfw = False
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            do_nsfw = ctx.channel.is_nsfw()
-
-        jj = {"nsfw": True}
-
-        async with SuppressCtxManager(ctx.typing()):
-            while (not do_nsfw and jj["nsfw"]) or jj.get("image") is None:
-                resp = await self.aiohttp.get(
-                    "https://api.iapetus11.me/reddit/greentext",
-                    # headers={"Authorization": self.k.villager_api},
-                    params={"requesterId": ctx.channel.id},
-                )
-
-                jj = await resp.json()
-
-        embed = discord.Embed(color=self.bot.embed_color)
-        embed.set_image(url=jj["image"])
-
-        await ctx.send(embed=embed)
+        await self.reddit_post_logic(ctx, "greentext", show_details=False)
 
     @commands.command(name="comic")
     @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def comic(self, ctx: Ctx):
         """Sends a comic from r/comics"""
 
-        do_nsfw = False
-        if isinstance(ctx.channel, discord.TextChannel):
-            do_nsfw = ctx.channel.is_nsfw()
-
-        comic = {"nsfw": True, "spoiler": True}
-
-        async with SuppressCtxManager(ctx.typing()):
-            while comic["spoiler"] or (not do_nsfw and comic["nsfw"]) or comic.get("image") is None:
-                resp = await self.aiohttp.get(
-                    "https://api.iapetus11.me/reddit/comic",
-                    # headers={"Authorization": self.k.villager_api},
-                    params={"requesterId": ctx.channel.id},
-                )
-
-                comic = cj.classify(await resp.json())
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=comic.title[:256], url=comic.permalink
-        )
-
-        embed.set_footer(
-            text=f"{comic.upvotes}  |  u/{comic.author}", icon_url=self.d.upvote_emoji_image
-        )
-        embed.set_image(url=comic.image)
-
-        await ctx.send(embed=embed)
+        await self.reddit_post_logic(ctx, "comic")
 
     @commands.command(name="cursed", aliases=["cursedmc"])
     @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def cursed_mc(self, ctx: Ctx):
         if random.choice((True, False)):
-            meme = {"nsfw": True, "spoiler": True}
-
-            async with SuppressCtxManager(ctx.typing()):
-                while meme["spoiler"] or meme["nsfw"] or meme.get("image") is None:
-                    resp = await self.bot.aiohttp.get(
-                        "https://api.iapetus11.me/reddit/cursedMinecraft",
-                        # headers={"Authorization": self.k.villager_api},
-                        params={"requesterId": ctx.channel.id},
-                    )
-
-                    meme = cj.classify(await resp.json())
-
-            embed = discord.Embed(
-                color=self.bot.embed_color, title=meme.title[:256], url=meme.permalink
-            )
-
-            embed.set_footer(
-                text=f"{meme.upvotes}  |  u/{meme.author}", icon_url=self.d.upvote_emoji_image
-            )
-            embed.set_image(url=meme.image)
-
-            await ctx.send(embed=embed)
+            await self.reddit_post_logic(ctx, "cursedMinecraft")
         else:
             embed = discord.Embed(color=self.bot.embed_color)
             embed.set_image(
@@ -176,70 +109,68 @@ class Fun(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command(name="say")
-    async def say_text(self, ctx: Ctx, *, text):
+    async def say_text(self, ctx: Ctx, *, text: str):
         """Sends whatever is put into the command"""
 
-        nice = strip_command(ctx)
+        text = clean_text(ctx.message, text)
 
-        if nice.lower() in INSULTS:
+        if text.lower() in {
+            "i am stupid",
+            "i am dumb",
+            "i am very stupid",
+            "i am very dumb",
+            "i stupid",
+            "i'm stupid",
+            "i'm dumb",
+        }:
             await ctx.reply("Yes.")
             return
 
         with suppress(discord.errors.HTTPException):
             await ctx.message.delete()
 
-        await ctx.send(nice)
+        await ctx.send(text)
 
     @commands.command(name="villagerspeak")
-    async def villager_speak(self, ctx: Ctx, *, msg):
+    async def villager_speak(self, ctx: Ctx, *, text: str):
         """Turns the given text into Minecraft villager sounds as text"""
 
-        try:
-            translated = self.lang_convert(strip_command(ctx), self.d.fun_langs.villager)
-            await ctx.send(translated)
-        except ValueError:
-            await ctx.send_embed(ctx.l.fun.too_long)
+        translated = self.lang_convert(clean_text(ctx.message, text), self.d.fun_langs.villager)
+        await ctx.send(shorten_text(translated))
 
     @commands.command(name="enchant")
-    async def enchant_lang(self, ctx: Ctx, *, msg):
+    async def enchant_lang(self, ctx: Ctx, *, text: str):
         """Turns regular text into the Minecraft enchantment table language"""
 
-        try:
-            translated = self.lang_convert((strip_command(ctx)).lower(), self.d.fun_langs.enchant)
-            await ctx.send(translated)
-        except ValueError:
-            await ctx.send_embed(ctx.l.fun.too_long)
+        translated = self.lang_convert(
+            clean_text(ctx.message, text).lower(), self.d.fun_langs.enchant
+        )
+        await ctx.send(shorten_text(translated))
 
     @commands.command(name="unenchant")
-    async def unenchant_lang(self, ctx: Ctx, *, msg):
+    async def unenchant_lang(self, ctx: Ctx, *, text: str):
         """Turns the Minecraft enchantment table language back into regular text"""
 
-        try:
-            translated = self.lang_convert(strip_command(ctx), self.d.fun_langs.unenchant)
-            await ctx.send(translated)
-        except ValueError:
-            await ctx.send_embed(ctx.l.fun.too_long)
+        translated = self.lang_convert(clean_text(ctx.message, text), self.d.fun_langs.unenchant)
+        await ctx.send(shorten_text(translated))
 
     @commands.command(name="vaporwave")
-    async def vaporwave_text(self, ctx: Ctx, *, msg):
+    async def vaporwave_text(self, ctx: Ctx, *, text: str):
         """Turns regular text into vaporwave text"""
 
-        try:
-            translated = self.lang_convert(strip_command(ctx), self.d.fun_langs.vaporwave)
-            await ctx.send(translated)
-        except ValueError:
-            await ctx.send_embed(ctx.l.fun.too_long)
+        translated = self.lang_convert(clean_text(ctx.message, text), self.d.fun_langs.vaporwave)
+        await ctx.send(shorten_text(translated))
 
     @commands.command(name="sarcastic", aliases=["spongebob"])
-    async def sarcastic_text(self, ctx: Ctx, *, msg):
+    async def sarcastic_text(self, ctx: Ctx, *, text: str):
         """Turns regular text into "sarcastic" text from spongebob"""
 
-        msg = strip_command(ctx)
+        text = clean_text(ctx.message, text)
 
         caps = True
         sarcastic = ""
 
-        for letter in msg:
+        for letter in text:
             if not letter == " ":
                 caps = not caps
 
@@ -251,10 +182,10 @@ class Fun(commands.Cog):
         await ctx.send(sarcastic)
 
     @commands.command(name="clap")
-    async def clap_cheeks(self, ctx: Ctx, *, text):
+    async def clap_cheeks(self, ctx: Ctx, *, text: str):
         """Puts the :clap: emoji between words"""
 
-        clapped = ":clap: " + " :clap: ".join((strip_command(ctx)).split(" ")) + " :clap:"
+        clapped = ":clap: " + " :clap: ".join(clean_text(ctx.message, text).split(" ")) + " :clap:"
 
         if len(clapped) > 2000:
             await ctx.send_embed(ctx.l.fun.too_long)
@@ -263,22 +194,22 @@ class Fun(commands.Cog):
         await ctx.send(clapped)
 
     @commands.command(name="emojify")
-    async def emojify(self, ctx: Ctx, *, _text):
+    async def emojify(self, ctx: Ctx, *, text: str):
         """Turns text or images into emojis"""
 
-        stripped = (strip_command(ctx)).lower()
-        text = ""
+        text = clean_text(ctx.message, text)
+        emojified = ""
 
-        for letter in stripped:
-            if letter in ALPHABET_LOWER:
-                text += f":regional_indicator_{letter}: "
+        for letter in text:
+            if letter in "abcdefghijklmnopqrstuvwxyz":
+                emojified += f":regional_indicator_{letter}: "
             else:
-                text += self.d.emojified.get(letter, letter) + " "
+                emojified += self.d.emojified.get(letter, letter) + " "
 
-        if len(text) > 2000:
+        if len(emojified) > 2000:
             await ctx.send_embed(ctx.l.fun.too_long)
         else:
-            await ctx.send(text)
+            await ctx.send(emojified)
 
     @commands.command(name="owo", aliases=["owofy"])
     async def owofy_text(self, ctx: Ctx, *, text):
@@ -324,7 +255,9 @@ class Fun(commands.Cog):
         if isinstance(thing, discord.Member):
             thing = thing.mention
 
-        await ctx.send_embed(random.choice(self.d.kills).format(thing[:500], ctx.author.mention))
+        await ctx.send_embed(
+            random.choice(self.d.kills).format(shorten_text(thing, 500), ctx.author.mention)
+        )
 
     @commands.command(name="coinflip", aliases=["flipcoin", "cf"])
     async def coin_flip(self, ctx: Ctx):
@@ -354,9 +287,10 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(
             color=self.bot.embed_color,
-            title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
-                :256
-            ],
+            title=shorten_text(
+                f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}",
+                256,
+            ),
         )
         embed.set_image(url=image_url)
 
@@ -364,8 +298,8 @@ class Fun(commands.Cog):
 
     @commands.command(name="achievement", aliases=["mcachieve"])
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def minecraft_achievement(self, ctx: Ctx, *, text):
-        url = f"https://api.iapetus11.me/mc/image/achievement/{urlquote(text[:26])}"
+    async def minecraft_achievement(self, ctx: Ctx, *, text: str):
+        url = f"https://api.iapetus11.me/mc/image/achievement/{urlquote(shorten_text(text, 26))}"
         embed = discord.Embed(color=self.bot.embed_color)
 
         embed.description = ctx.l.fun.dl_img.format(url)
@@ -375,8 +309,8 @@ class Fun(commands.Cog):
 
     @commands.command(name="splashtext", aliases=["mcsplash", "splashscreen", "splash"])
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def minecraft_splash_screen(self, ctx: Ctx, *, text):
-        url = f"https://api.iapetus11.me/mc/image/splash/{urlquote(text[:27])}"
+    async def minecraft_splash_screen(self, ctx: Ctx, *, text: str):
+        url = f"https://api.iapetus11.me/mc/image/splash/{urlquote(shorten_text(text, 27))}"
         embed = discord.Embed(color=self.bot.embed_color)
 
         embed.description = ctx.l.fun.dl_img.format(url)
@@ -387,7 +321,9 @@ class Fun(commands.Cog):
     def calculate_trivia_reward(self, question_difficulty: int) -> int:
         return int((random.random() + 0.25) * (question_difficulty + 0.25) * 9) + 1
 
-    async def trivia_multiple_choice(self, ctx: Ctx, question, do_reward):
+    async def trivia_multiple_choice(
+        self, ctx: Ctx, question: Fun_Trivia_Question, do_reward: bool
+    ) -> None:
         correct_choice = question.a[0]
 
         choices = question.a.copy()
@@ -469,7 +405,7 @@ class Fun(commands.Cog):
 
         await msg.edit(embed=embed)
 
-    async def trivia_true_or_false(self, ctx: Ctx, question, do_reward):
+    async def trivia_true_or_false(self, ctx: Ctx, question: Fun_Trivia_Question, do_reward: bool):
         correct_choice = question.a[0]
 
         embed = discord.Embed(
@@ -503,9 +439,7 @@ class Fun(commands.Cog):
             )
 
         try:
-            react, r_user = await self.bot.wait_for(
-                "reaction_add", check=reaction_check, timeout=15
-            )
+            react, _ = await self.bot.wait_for("reaction_add", check=reaction_check, timeout=15)
         except asyncio.TimeoutError:
             embed = discord.Embed(
                 color=self.bot.embed_color,
@@ -562,7 +496,9 @@ class Fun(commands.Cog):
         elif isinstance(thing, discord.Member):
             thing = thing.mention
 
-        await ctx.reply_embed(ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", thing))
+        await ctx.reply_embed(
+            ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", shorten_text(thing, 256))
+        )
 
 
 async def setup(bot: VillagerBotCluster) -> None:

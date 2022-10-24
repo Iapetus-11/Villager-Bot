@@ -1,6 +1,9 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    types: [opened]
 
 jobs:
   ci:
@@ -14,11 +17,10 @@ jobs:
           python-version: "3.10"
 
       - name: install poetry
-        uses: snok/install-poetry@v1.0.0
-        with:
-          version: 1.1.14
-          virtualenvs-create: true
-          virtualenvs-in-project: true
+        run: curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: configure poetry
+        run: poetry config virtualenvs.in-project true
 
       - name: load cached venv
         id: cached-poetry-dependencies
@@ -28,27 +30,28 @@ jobs:
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+#        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install
 
+      - name: auto-flake
+        run: poetry run autoflake --remove-all-unused-imports --expand-star-imports --ignore-init-module-imports --in-place --recursive bot/ common/ karen/
+
       - name: black fix
-        if: github.event_name != 'pull_request'
         run: poetry run black .
 
       - name: isort fix
-        if: github.event_name != 'pull_request'
-        run: poetry run isort
+        run: poetry run isort .
 
       - name: auto commit
-        if: github.event_name != 'pull_request'
         uses: stefanzweifel/git-auto-commit-action@v4.14.1
         with:
-          commit_message: format code
+          commit_message: format / fix code
 
       - name: flake8
-        id: flake8
         run: poetry run flake8
       
       - name: mypy
-        id: mypy
         run: poetry run mypy
+
+      - name: pytest
+        run: poetry run pytest

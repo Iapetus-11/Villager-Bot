@@ -45,6 +45,14 @@
         "minutes": "minutes",
         "second": "second",
         "seconds": "seconds"
+      },
+      "intro": {
+        "body": [
+          "Hey y'all! Type `{prefix}help` to get started with Villager Bot!",
+          "If you need any more help, check out the **[Support Server]({support_server})**!\n",
+          "*Our privacy policy can be found [here]({privacy_policy}).*"
+        ],
+        "footer": "Made by Iapetus11 and others ({prefix}credits)  |  Check the {prefix}rules"
       }
     },
     "help": {
@@ -74,6 +82,7 @@
         "give": "`{0}give <user> <amount> <item>` *give another user an item or emeralds*",
         "mine": "`{0}mine` *mine for emeralds*",
         "fish": "`{0}fish` *fish for fish and items*",
+        "fishmarket": "`{0}fishmarket` *view the current selling prices of fish*",
         "farm": "`{0}farm` *plant and harvest crops worth emeralds*",
         "trash": "`{0}trash` *view the useless items you mine up*",
         "search": "`{0}search` *search for emeralds*",
@@ -84,7 +93,8 @@
         "shop": "`{0}shop` *shows the Villager Shop*",
         "buy": "`{0}buy [optional: amount of item] <item>` *buy an item from the Villager Shop*",
         "sell": "`{0}sell <amount> <item>` *sell items back to Villager Bot*",
-        "leaderboards": "`{0}leaderboards` *shows the leaderboards*"
+        "leaderboards": "`{0}leaderboards` *shows the leaderboards*",
+        "trivia": "`{0}trivia` *sends trivia questions you can answer for emeralds!*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [optional: server]` *checks the status of any type of Minecraft server*",
@@ -113,7 +123,11 @@
         "math": "`{0}math <problem>` *solves a math problem",
         "remindme": "`{0}remindme <time> <reminder>` *reminds you in a specified time*",
         "credits": "`{0}credits` *shows who helped make Villager Bot*",
-        "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*"
+        "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*",
+        "redditdl": "`{0}redditdl <reddit post url>` *downloads the specified media from Reddit*",
+        "exif": "`{0}exif` *extracts EXIF data from the specified image*",
+        "imagetopng": "`{0}imagetopng *converts the uploaded/specified image to a png*",
+        "translate": "`{0}translate <target> [text]` *translates the given text or message to the specified target language*"
       },
       "fun": {
         "cursed": "`{0}cursed` *sends a random cursed Minecraft image*",
@@ -1318,10 +1332,15 @@
           "The **creeper** made {}{} that was yours go up in a poof of smoke...",
           "The **creeper** also obliterated {}{} that was yours..."
         ],
+        "enderman": [
+          "The **enderman** teleported away with {}{} that was yours...",
+          "The **enderman** stole {}{} from you and teleported it into the void...",
+          "The **enderman** stole {}{} from you and teleported away..."
+        ],
         "normal": [
-          "The {} also stole {}{} that was yours...",
-          "The {} also got away with {}{} that was yours...",
-          "The {} stole {}{} off your dead corpse..."
+          "The **{}** also stole {}{} that was yours...",
+          "The **{}** also got away with {}{} that was yours...",
+          "The **{}** stole {}{} off your dead corpse..."
         ]
       },
       "mobs": {
@@ -1419,6 +1438,24 @@
             "You slash your **{0}** at the **baby slime** as hard as you can. The **baby slime** is fine.",
             "You miss, swinging your **{0}** at the **baby slime**.",
             "You swing your **{0}**, the **baby slime** makes a cute face, you miss!"
+          ]
+        },
+        "enderman": {
+          "attacks": [
+            "The **enderman** picks up a grass block and throws it at you!",
+            "The **enderman** picks up a tnt block and throws it at you!",
+            "The **enderman** punches you in the face",
+            "The **enderman** screams and whacks you in the face with its long arms",
+            "The **enderman** teleports behind you and slaps you on the head"
+          ],
+          "finishers": [
+            "The **enderman** teleports you off a cliff",
+            "The **enderman** teleports you into the void",
+            "The **enderman** teleports behind you and"
+          ],
+          "misses": [
+            "You swing your **{0}** as hard as you can but the **enderman** teleports out of the way.",
+            "You swing your **{0}** but the **enderman** teleports out of the way."
           ]
         }
       }
@@ -1645,7 +1682,8 @@
         "bans": "Bans",
         "cmd_prefix": "Prefix",
         "lang": "Language",
-        "diff": "Difficulty"
+        "diff": "Difficulty",
+        "joined_at": "Joined"
       },
       "meth": {
         "oops": "Oops, something went wrong..."
@@ -1699,6 +1737,23 @@
         "downloading": "{} Downloading video and audio...",
         "stitching": "{} Stitching together video and audio...",
         "couldnt_find": "Couldn't find anything to download... :/"
+      },
+      "imgcmds": {
+        "missing": "You must specify the url of an image or upload one.",
+        "invalid": "The specified image is invalid.",
+        "too_big": "The specified image is too big (must not exceed {size}).",
+        "error": "An error occurred while reading the specified image."
+      },
+      "exif": {
+        "title": "EXIF Data",
+        "none": "*No EXIF data found...*",
+        "discord": "This command requires a URL, as Discord automatically strips EXIF data from media."
+      },
+      "translate": {
+        "stupid_1": "You must either send text to translate or reply to a message to translate.",
+        "stupid_2": "The message replied to must have text to translate.",
+        "stupid_3": "Unknown or invalid target language, only these are supported: {lang_codes}",
+        "error": "Failed to translate text."
       }
     },
     "econ": {
@@ -1719,7 +1774,8 @@
         "sword": "Sword",
         "streak": "Vote Streak",
         "can_vote": "Can Vote?",
-        "yep": "Yep!"
+        "yep": "Yep!",
+        "fx": "Active Effects"
       },
       "bal": {
         "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
@@ -1915,6 +1971,7 @@
         "stupid_2": "You can't pillage people from other servers...",
         "stupid_3": "You can only pillage people if you have more than 64{}",
         "stupid_4": "You can only pillage a person if they have more than 64{}",
+        "stupid_5": "You can't pillage a person who has a **Shield Pearl** active.",
         "u_win": {
           "user": [
             "You escaped with {}{}",
@@ -1963,6 +2020,8 @@
         "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**.",
         "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
         "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
+        "use_shield_pearl": "You've used a **Shield Pearl** and are now invincible against pillagers for the next month.",
+        "use_time_pearl": "You've used a **Time Pearl** which has skipped time forwards two days.",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",
           "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",

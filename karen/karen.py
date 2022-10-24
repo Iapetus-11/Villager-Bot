@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import asyncio
+import datetime
+import itertools
 import time
+import uuid
 from collections import defaultdict
 from typing import Any, Optional
-import uuid
 
 import aiohttp
 import asyncpg
@@ -14,18 +16,20 @@ from common.coms.packet import PACKET_DATA_TYPES
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
 from common.coms.server import Server
+from common.data.enums.guild_event_type import GuildEventType
 from common.models.data import Data
+from common.models.system_stats import SystemStats
+from common.models.topgg_vote import TopggVote
 from common.utils.code import execute_code
 from common.utils.misc import chunk_sequence
 from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
+from common.utils.setup import setup_logging
 
 from karen.models.secrets import Secrets
 from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
-from karen.utils.setup import setup_database_pool, setup_logging
+from karen.utils.setup import setup_database_pool
 from karen.utils.shard_ids import ShardIdManager
-from karen.utils.topgg import TopggVote, VotingWebhookServer
-
-logger = setup_logging()
+from karen.utils.topgg import VotingWebhookServer
 
 
 class Share:
@@ -39,14 +43,18 @@ class Share:
             int
         )  # user_id: cmd_count, used for fishing as well
         self.trivia_commands = defaultdict[int, int](int)  # user_id: cmd_count
-        self.command_counts = defaultdict[int, int](int)  # user_id: cmd_count
+        self.command_counts_lb = defaultdict[int, int](int)  # user_id: cmd_count
         self.active_fx = defaultdict[int, set[str]](set[str])  # user_id: set[fx]
         self.current_cluster_id = 0
+
+        self.command_executions = list[tuple[int, Optional[int], str, bool, datetime.datetime]]()
 
 
 class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     def __init__(self, secrets: Secrets, data: Data):
         self.k = secrets
+
+        self.logger = setup_logging("karen", secrets.logging)
 
         self._db: Optional[asyncpg.Pool] = None
 
@@ -57,12 +65,13 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             secrets.karen.port,
             secrets.karen.auth,
             self.get_packet_handlers(),
-            logger,
+            self.logger,
+            self._connect_callback,
             self._disconnect_callback,
         )
 
         self.votehook_server = VotingWebhookServer(
-            self.k.topgg_webhook, self._vote_callback, logger
+            self.k.topgg_webhook, self._vote_callback, self.logger
         )
 
         self.v = Share(data)
@@ -71,7 +80,10 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         self.shard_ids = ShardIdManager(self.k.shard_count, self.k.cluster_count)
 
-        RecurringTasksMixin.__init__(self, logger)
+        self._did_initial_load = False
+        self._did_stop = False
+
+        RecurringTasksMixin.__init__(self, self.logger.getChild("loops"))
 
     @property
     def db(self) -> asyncpg.Pool:
@@ -84,22 +96,18 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     def db(self, value: asyncpg.Pool) -> None:
         self._db = value
 
-    def _on_ready(self) -> None:
-        self.ready_event.set()
-        self.start_recurring_tasks()
-
     async def serve(self) -> None:
-        logger.info("Starting Karen...")
+        self.logger.info("Starting Karen...")
 
         self.db = await setup_database_pool(self.k.database)
-        logger.info(
+        self.logger.info(
             "Initialized database connection pool for server %s:%s",
             self.k.database.host,
             self.k.database.port,
         )
 
         self.aiohttp = aiohttp.ClientSession()
-        logger.info("Initialized aiohttp ClientSession")
+        self.logger.info("Initialized aiohttp ClientSession")
 
         await self.votehook_server.start()
 
@@ -107,38 +115,81 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         await self.server.serve(self._on_ready)
 
     async def stop(self) -> None:
-        logger.info("Shutting down Karen...")
+        self.logger.info("Shutting down Karen...")
 
         await self.server.stop()
-        logger.info("Stopped websocket server")
+        self.logger.info("Stopped websocket server")
 
         self.cancel_recurring_tasks()
 
         if self._db is not None:
             await self.db.close()
-            logger.info("Closed database pool")
+            self.logger.info("Closed database pool")
 
         if self.aiohttp is not None:
             await self.aiohttp.close()
-            logger.info("Closed aiohttp ClientSession")
+            self.logger.info("Closed aiohttp ClientSession")
 
         await self.votehook_server.stop()
+
+        self._did_stop = True
 
     async def __aenter__(self) -> MechaKaren:
         return self
 
     async def __aexit__(self, exc_type: type, exc: Exception, tb: Any) -> None:
-        await self.stop()
+        if not self._did_stop:
+            await self.stop()
 
         if exc:
             raise exc
 
     async def _vote_callback(self, vote: TopggVote) -> None:
         await self.ready_event.wait()
-        await self.server.broadcast(PacketType.TOPGG_VOTE, vote)
+        await self.server.broadcast(PacketType.TOPGG_VOTE, {"vote": vote})
+
+    async def _connect_callback(self, ws_id: uuid.UUID) -> None:
+        if len(self.server._connections) == self.k.cluster_count and not self._did_initial_load:
+            await self._update_guild_diffs()
+            self._did_initial_load = True
 
     async def _disconnect_callback(self, ws_id: uuid.UUID) -> None:
         self.shard_ids.release(ws_id)
+
+    def _on_ready(self) -> None:
+        self.ready_event.set()
+        self.start_recurring_tasks()
+
+    async def _update_guild_diffs(self):
+        self.logger.info("Updating guild events table with missed joins and leaves...")
+
+        current_guilds_db = await self.db.fetch(
+            """SELECT COALESCE(js.guild_id, ls.guild_id) AS guild_id FROM (
+    SELECT guild_id, COUNT(*) AS c FROM guild_events WHERE event_type = 1 GROUP BY guild_id) js
+FULL JOIN (
+    SELECT guild_id, COUNT(*) AS c FROM guild_events WHERE event_type = 2 GROUP BY guild_id) ls
+ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0"""
+        )
+
+        current_guilds_db: set[int] = {r["guild_id"] for r in current_guilds_db}
+
+        current_guilds = set[int](
+            itertools.chain.from_iterable(await self.server.broadcast(PacketType.FETCH_GUILD_IDS))
+        )
+
+        missed_guild_joins = current_guilds - current_guilds_db
+        missed_guild_leaves = current_guilds_db - current_guilds
+
+        await self.db.executemany(
+            "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, 0, 0)",
+            [(guild_id, GuildEventType.GUILD_JOIN.value) for guild_id in missed_guild_joins],
+        )
+        await self.db.executemany(
+            "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, 0, 0)",
+            [(guild_id, GuildEventType.GUILD_LEAVE.value) for guild_id in missed_guild_leaves],
+        )
+
+        self.logger.info("Done updating guild events table")
 
     @classmethod
     def _transform_query_result(cls, result: Any) -> Any:
@@ -158,12 +209,12 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
     @recurring_task(minutes=1)
     async def loop_dump_command_counts(self):
-        if not self.v.command_counts:
+        if not self.v.command_counts_lb:
             return
 
-        commands_dump = list(self.v.command_counts.items())
-        user_ids = [(user_id,) for user_id in self.v.command_counts.keys()]
-        self.v.command_counts.clear()
+        commands_dump = list(self.v.command_counts_lb.items())
+        user_ids = [(user_id,) for user_id in self.v.command_counts_lb.keys()]
+        self.v.command_counts_lb.clear()
 
         # ensure users are in db first
         await self.db.executemany(
@@ -172,6 +223,19 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         await self.db.executemany(
             'INSERT INTO leaderboards (user_id, commands, week_commands) VALUES ($1, $2, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2, "week_commands" = leaderboards.week_commands + $2 WHERE leaderboards.user_id = $1',
+            commands_dump,
+        )
+
+    @recurring_task(minutes=1)
+    async def loop_dump_commands(self):
+        if not self.v.command_executions:
+            return
+
+        commands_dump = self.v.command_executions
+        self.v.command_executions = []
+
+        await self.db.executemany(
+            "INSERT INTO command_executions (user_id, guild_id, command, is_slash, at) VALUES ($1, $2, $3, $4, $5)",
             commands_dump,
         )
 
@@ -200,12 +264,9 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
             "UPDATE leaderboards SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) WHERE DATE_TRUNC('WEEK', NOW()) > week"
         )
 
-    @recurring_task(hours=1)
+    @recurring_task(hours=1, sleep_first=True)
     async def loop_topgg_stats(self):
-        try:
-            responses = await self.server.broadcast(PacketType.FETCH_GUILD_COUNT)
-        except RuntimeError:
-            return
+        responses = await self.server.broadcast(PacketType.FETCH_GUILD_COUNT)
 
         await self.aiohttp.post(
             f"https://top.gg/api/bots/{self.k.bot_id}/stats",
@@ -224,8 +285,8 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         return result
 
-    @handle_packet(PacketType.FETCH_CLUSTER_INFO)
-    async def packet_fetch_cluster_info(self, ws_id: uuid.UUID):
+    @handle_packet(PacketType.FETCH_CLUSTER_INIT_INFO)
+    async def packet_fetch_cluster_init_info(self, ws_id: uuid.UUID):
         self.v.current_cluster_id += 1
         return {
             "shard_ids": self.shard_ids.take(ws_id),
@@ -281,18 +342,22 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     async def packet_concurrency_release(self, command: str, user_id: int):
         self.v.command_concurrency.release(command, user_id)
 
-    @handle_packet(PacketType.COMMAND_RAN)
+    @handle_packet(PacketType.LB_COMMAND_RAN)
     async def packet_command_ran(self, user_id: int):
-        self.v.command_counts[user_id] += 1
+        self.v.command_counts_lb[user_id] += 1
 
-    @handle_packet(PacketType.FETCH_STATS)
-    async def handle_fetch_stats_packet(self):
-        proc = psutil.Process()
-        with proc.oneshot():
-            mem_usage = proc.memory_full_info().uss
-            threads = proc.num_threads()
+    @handle_packet(PacketType.FETCH_SYSTEM_STATS)
+    async def packet_fetch_system_stats(self):
+        memory_info = psutil.virtual_memory()
 
-        return [mem_usage, threads, len(asyncio.all_tasks())] + [0] * 7
+        return SystemStats(
+            identifier="Karen",
+            cpu_usage_percent=psutil.getloadavg()[0],
+            memory_usage_bytes=(memory_info.total - memory_info.available),
+            memory_max_bytes=memory_info.total,
+            threads=psutil.Process().num_threads(),
+            asyncio_tasks=len(asyncio.all_tasks()),
+        )
 
     @handle_packet(PacketType.ECON_PAUSE_CHECK)
     async def packet_econ_pause_check(self, user_id: int):
@@ -325,6 +390,10 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         except KeyError:
             pass
 
+    @handle_packet(PacketType.ACTIVE_FX_CLEAR)
+    async def packet_active_fx_clear(self, user_id: int):
+        self.v.active_fx.pop(user_id, None)
+
     @handle_packet(PacketType.DB_EXEC)
     async def packet_db_exec(self, query: str, args: list[Any]):
         await self.db.execute(query, *args)
@@ -350,3 +419,16 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         commands = self.v.trivia_commands[user_id]
         self.v.trivia_commands[user_id] += 1
         return commands
+
+    @handle_packet(PacketType.SHUTDOWN)
+    async def packet_shutdown(self):
+        await self.server.raw_broadcast(PacketType.SHUTDOWN)
+        await self.stop()
+
+    @handle_packet(PacketType.COMMAND_EXECUTION)
+    async def packet_command_execution(
+        self, user_id: int, guild_id: Optional[int], command: str, is_slash: bool
+    ):
+        self.v.command_executions.append(
+            (user_id, guild_id, command, is_slash, datetime.datetime.utcnow())
+        )

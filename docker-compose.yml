@@ -12,6 +12,7 @@ services:
         target: /villager-bot/karen/secrets.json
     deploy:
       replicas: ${KAREN_ENABLED:-1}
+    init: true
   bot:
     build:
       dockerfile: bot/Dockerfile
@@ -24,3 +25,4 @@ services:
         target: /villager-bot/bot/secrets.json
     deploy:
       replicas: ${CLUSTER_COUNT:-1}
+    init: true

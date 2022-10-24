@@ -45,6 +45,14 @@
         "minutes": "minutos",
         "second": "segundo",
         "seconds": "segundos"
+      },
+      "intro": {
+        "body": [
+          "¡Hola a todos! ¡Escribe `{prefix}help` para empezar a usar Villager Bot!",
+          "Si necesitas más ayuda, únete al **[Servidor de Soporte]({support_server})**!\n",
+          "*Nuestra política de privacidad puede encontrarse [aquí]({privacy_policy}).*"
+        ],
+        "footer": "Hecho por Iapetus y más ({prefix}credits)  |  Revisa las {prefix}rules"
       }
     },
     "help": {
@@ -74,8 +82,9 @@
         "give": "`{0}give <usuario> <cantidad> <objeto>` *dar a otro usuario un objeto o esmeraldas*",
         "mine": "`{0}mine` *mina esmeraldas*",
         "fish": "`{0}fish` *pesca peces y objetos*",
-        "farm": "`{0}farm` *Planta y cosecha cultivos por esmeraldas*",
-        "trash": "`{0}trash` *Mira los ítems inútiles que puedes minar*",
+        "fishmarket": "`{0}fishmarket` *visualizar los precios actuales del pescado*",
+        "farm": "`{0}farm` *planta y cosecha cultivos por esmeraldas*",
+        "trash": "`{0}trash` *mira los ítems inútiles que puedes minar*",
         "search": "`{0}search` *busca esmeraldas*",
         "honey": "`{0}honey` *cosecha la miel de las abejas que tienes*",
         "gamble": "`{0}gamble <esmeraldas>` *apuesta con el bot por una oportunidad de ganar esmeraldas*",
@@ -84,7 +93,8 @@
         "shop": "`{0}shop` *muestra la tienda de Villager Bot*",
         "buy": "`{0}buy [opcional: cantidad de objetos] <objeto>` *compra un objeto de la tienda de Villager Bot*",
         "sell": "`{0}sell <cantidad> <objeto>` *vende los objetos de nuevo a Villager Bot*",
-        "leaderboards": "`{0}leaderboards` *muestra las tablas de clasificación*"
+        "leaderboards": "`{0}leaderboards` *muestra las tablas de clasificación*",
+        "trivia": "`{0}trivia` *envía preguntas tipo trivia, ¡puedes responderlas para conseguir esmeraldas!*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [opcional: servidor]` *comprueba el estado de cualquier tipo de servidor Minecraft*",
@@ -113,7 +123,11 @@
         "math": "`{0}math <problem>` *soluciona una operación matemática*",
         "remindme": "`{0}remindme <tiempo> <recordatorio>` *fija un recordatorio en el tiempo especificado*",
         "credits": "`{0}credits` *Muestra quienes ayudaron a hacer Villager Bot*",
-        "snipe": "`{0}snipe` *mostra a última mensagem excluída no canal atual*"
+        "snipe": "`{0}snipe` *mostra a última mensagem excluída no canal atual*",
+        "redditdl": "`{0}redditdl <reddit post url>` *descarga el archivo especificado de Reddit*",
+        "exif": "`{0}exif` *Extrae datos EXIF de la imagen especificada*",
+        "imagetopng": "`{0}imagetopng *convierte la imagen subida/especificada en png*",
+        "translate": "`{0}translate <target> [text]` *Traduce el texto enviado al idioma especificado*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envía una imagen Minecraft maldita al azar*",
@@ -1318,10 +1332,15 @@
           "Un **creeper** hizo que tu {}{} desaparezca en una nube de humo...",
           "Un **creeper** también borró tu {}{} ..."
         ],
+        "enderman": [
+          "El **enderman** se teletransportó con {}{} que eran tuyas...",
+          "El **enderman** te robó {}{} y se teletransportó en el vacío...",
+          "El **enderman** te robó {}{} y se teletransportó lejos..."
+        ],
         "normal": [
-          "El {} te robó {}{}...",
-          "El {} se escapó con tu {}{}...",
-          "El {} te robó {}{} de tu cadáver..."
+          "El **{}** te robó {}{}...",
+          "El **{}** se escapó con tu {}{}...",
+          "El **{}** te robó {}{} de tu cadáver..."
         ]
       },
       "mobs": {
@@ -1419,6 +1438,24 @@
             "Le cortas la **{0}** al **slime bebé** tan fuerte como puedas. El **slime bebé** está bien",
             "Fallaste, balanceando tu **{0}** en el **slime bebé**.",
             "Balanceas tu **{0}**, el **slime bebé** hace una linda cara, fallas."
+          ]
+        },
+        "enderman": {
+          "attacks": [
+            "¡El **enderman** coge un bloque de hierba y te lo tira!",
+            "¡El **enderman** coge un bloque de dinamita y te lo tira!",
+            "El **enderman** te da un puñetazo en la cara",
+            "El **enderman** grita y te golpea en la cara con sus largos brazos",
+            "El **enderman** se teletransporta detrás tuya y te golpea en la cabeza"
+          ],
+          "finishers": [
+            "El **enderman** te teletransporta y te tira de una colina",
+            "El **enderman** te teletransporta en el vacío",
+            "El **enderman** se teletransporta detrás tuya y"
+          ],
+          "misses": [
+            "Mueves tu **{0}** tan fuerte como puedes pero el **enderman** se teletransporta esquivándolos.",
+            "Mueves tu **{0}** pero el **enderman** se teletransporta para esquivarlos."
           ]
         }
       }
@@ -1645,7 +1682,8 @@
         "bans": "Baneos",
         "cmd_prefix": "Prefijo",
         "lang": "Idioma",
-        "diff": "Dificultad"
+        "diff": "Dificultad",
+        "joined_at": "Unido"
       },
       "meth": {
         "oops": "Oops, algo salió mal..."
@@ -1677,6 +1715,7 @@
           "iapetus11": "El creador, dueño y desarrollador de Villager Bot",
           "hpancakesk": "Ayudó con las ideas originales detrás de Villager Bot",
           "moody": "Ayudó con las ideas detrás de varios objetos y de pesca",
+          "emulator": "Ayudó a corregir errores y añadir recursos",
           "elrynd": "Ayudó a arreglar bugs y la programación del código, y tradujo Villager Bot al Francés",
           "chez": "Creó nuevas funciones y ayudó a arreglar bugs",
           "quack": "Ayudó a arreglar pequeños errores con el código y traducciones",
@@ -1698,6 +1737,23 @@
         "downloading": "{} Descargando vídeo y audio...",
         "stitching": "{} Juntando el vídeo y el audio...",
         "couldnt_find": "No se pudo encontrar nada para descargar... :/"
+      },
+      "imgcmds": {
+        "missing": "Debes de especificar la url de una imagen o subir una.",
+        "invalid": "La imagen especificada es inválida.",
+        "too_big": "La imagen especificada es demasiado grande (no debe exceder {size}).",
+        "error": "Ocurrió un error al leer la imagen especificada."
+      },
+      "exif": {
+        "title": "Datos EXIF",
+        "none": "*No se encontraron datos EXIF...*",
+        "discord": "Este comando requiere una URL, porque Discord retira los datos EXIF de las imágenes."
+      },
+      "translate": {
+        "stupid_1": "Tienes que enviar texto escrito o responder a un mensaje para traducir.",
+        "stupid_2": "El mensaje al que respondes tiene que tener texto para traducir.",
+        "stupid_3": "Idioma inválido o desconocido, solo se puede traducir en estes idiomas: {lang_codes}",
+        "error": "No se pudo traducir el texto."
       }
     },
     "econ": {
@@ -1718,7 +1774,8 @@
         "sword": "Espada",
         "streak": "Racha de votos",
         "can_vote": "¿Puedes Votar?",
-        "yep": "¡Sí!"
+        "yep": "¡Sí!",
+        "fx": "Efectos Activos"
       },
       "bal": {
         "bot_1": "El Villager Bot tiene demasiadas esmeraldas para mostrarlas.",
@@ -1914,6 +1971,7 @@
         "stupid_2": "No puedes robarle a la gente de otros servidores...",
         "stupid_3": "Sólo puedes robarle a la gente si tienes más de 64{}",
         "stupid_4": "Sólo puedes robarle a una persona si tiene más de 64{}",
+        "stupid_5": "No puedes saquear a una persona con un **Shield Pearl** activo.",
         "u_win": {
           "user": [
             "Escapaste con {}{}",
@@ -1962,6 +2020,8 @@
         "need_slimy_balls": "Necesitas un **Slime Ball** por cada **Glass Beaker**.",
         "slimy_balls_funne": "Has convertido {0}x **Slime Ball** + {0}x **Glass Beaker** en {0}x **Beaker Of Slime**!",
         "beaker_of_slime_undo": "Has convertido {0}x **Beaker Of Slime** en {0}x **Slime Ball**!",
+        "use_shield_pearl": "Has usado un **Shield Pearl** y ahora eres invencible a los saqueadores por todo el mes.",
+        "use_time_pearl": "Usaste una **Time Pearl** la cuál adelantó el tiempo 2 días.",
         "present": [
           "Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
           "Arrancaste el papel de envolver tan rápido como pudiste y conseguiste 1x **{}** (Vale {}{})!",

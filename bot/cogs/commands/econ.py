@@ -1,20 +1,22 @@
 import asyncio
+import datetime
 import functools
-import itertools
 import math
 import random
 from collections import defaultdict
+from typing import Any
 
 import arrow
 import discord
-from numpy.random import choice
-
-from bot.cogs.core.database import Database
-from bot.cogs.core.paginator import Paginator
+import numpy.random
 from discord.ext import commands
+
 from common.models.data import ShopItem
 from common.models.db.item import Item
 
+from bot.cogs.core.badges import Badges
+from bot.cogs.core.database import Database
+from bot.cogs.core.paginator import Paginator
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
     SuppressCtxManager,
@@ -23,6 +25,7 @@ from bot.utils.misc import (
     emojify_crop,
     emojify_item,
     format_required,
+    item_case,
     make_health_bar,
 )
 from bot.villager_bot import VillagerBotCluster
@@ -35,9 +38,26 @@ class Econ(commands.Cog):
         self.d = bot.d
         self.karen = bot.karen
 
-        self.db: Database = bot.get_cog("Database")
-        self.badges = bot.get_cog("Badges")
+        self._link_max_concurrency()
 
+    @property
+    def db(self) -> Database:
+        return self.bot.get_cog("Database")
+
+    @property
+    def badges(self) -> Badges:
+        return self.bot.get_cog("Badges")
+
+    @property
+    def paginator(self) -> Paginator:
+        return self.bot.get_cog("Paginator")
+
+    @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
+    def calc_yield_chance_list(self, pickaxe: str):
+        yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
+        return [True] * yield_[0] + [False] * yield_[1]
+
+    def _link_max_concurrency(self):
         # This links the max concurrency of the with, dep, sell, give, etc.. cmds
         for command in (
             self.vault_deposit,
@@ -52,17 +72,8 @@ class Econ(commands.Cog):
         ):
             command._max_concurrency = self.max_concurrency_dummy._max_concurrency
 
-    @property
-    def paginator(self) -> Paginator:
-        return self.bot.get_cog("Paginator")
-
-    @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
-    def calc_yield_chance_list(self, pickaxe: str):
-        yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
-        return [True] * yield_[0] + [False] * yield_[1]
-
     async def math_problem(self, ctx: Ctx, addition=1):
-        # simultaneously updates the value in Karen and retrevies the current value
+        # simultaneously updates the value in Karen and retrieves the current value
         mine_commands = await self.karen.mine_command(ctx.author.id, addition)
 
         if mine_commands >= 100:
@@ -153,6 +164,13 @@ class Econ(commands.Cog):
 
         user_badges_str = self.badges.emojify_badges(await self.badges.fetch_user_badges(user.id))
 
+        active_fx = await self.karen.fetch_active_fx(user.id)
+
+        if db_user.shield_pearl and (
+            arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()
+        ):
+            active_fx.add("shield pearl")
+
         embed = discord.Embed(color=self.bot.embed_color, description=f"{health_bar}")
         embed.set_author(name=user.display_name, icon_url=getattr(user.avatar, "url", None))
 
@@ -175,8 +193,15 @@ class Econ(commands.Cog):
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(name=ctx.l.econ.pp.sword, value=(await self.db.fetch_sword(user.id)))
 
+        if active_fx:
+            embed.add_field(
+                name=ctx.l.econ.pp.fx,
+                value=f"`{'`, `'.join(map(item_case, active_fx))}`",
+                inline=False,
+            )
+
         if user_badges_str:
-            embed.add_field(name="\uFEFF", value=user_badges_str)
+            embed.add_field(name="\uFEFF", value=user_badges_str, inline=False)
 
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -200,8 +225,7 @@ class Econ(commands.Cog):
 
         total_wealth = calc_total_wealth(db_user, u_items)
 
-        mooderalds = await self.db.fetch_item(user.id, "Mooderald")
-        mooderalds = 0 if mooderalds is None else mooderalds.amount
+        mooderalds = getattr(await self.db.fetch_item(user.id, "Mooderald"), "amount", 0)
 
         embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
@@ -328,7 +352,7 @@ class Econ(commands.Cog):
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats.tools]
+        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats["tools"]]
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.tools)
 
@@ -339,7 +363,7 @@ class Econ(commands.Cog):
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats.magic]
+        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats["magic"]]
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.magic)
 
@@ -350,7 +374,7 @@ class Econ(commands.Cog):
         if not valid:
             return
 
-        combined_cats = self.d.cats.tools + self.d.cats.magic + self.d.cats.fish
+        combined_cats = self.d.cats["tools"] + self.d.cats["magic"] + self.d.cats["fish"]
         items = [e for e in await self.db.fetch_items(user.id) if e.name not in combined_cats]
 
         await self.inventory_logic(
@@ -364,7 +388,7 @@ class Econ(commands.Cog):
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats.fish]
+        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats["fish"]]
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.fish)
 
@@ -375,7 +399,7 @@ class Econ(commands.Cog):
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats.farming]
+        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats["farming"]]
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.farming)
 
@@ -712,6 +736,7 @@ class Econ(commands.Cog):
             await self.karen.update_support_server_member_roles(ctx.author.id)
         elif shop_item.db_entry.item == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
+            await self.karen.update_support_server_member_roles(ctx.author.id)
 
         await ctx.reply_embed(
             ctx.l.econ.buy.you_done_bought.format(
@@ -1024,7 +1049,7 @@ class Econ(commands.Cog):
 
         # iterate through items findable via mining
         for item in self.d.mining.findables:
-            # check if user should get item based on rarity (item[2])
+            # check if user should get item based on rarity (item.rarity)
             if random.randint(0, item.rarity) == 1 or (
                 lucky and random.randint(0, item.rarity) < 3
             ):
@@ -1035,8 +1060,8 @@ class Econ(commands.Cog):
                     + ctx.l.econ.mine.found_item_1.format(
                         random.choice(ctx.l.econ.mine.actions),
                         1,
-                        item[0],
-                        item[1],
+                        item.item,
+                        item.sell_price,
                         self.d.emojis.emerald,
                         random.choice(ctx.l.econ.mine.places),
                     ),
@@ -1113,22 +1138,20 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             wait = random.randint(12, 32)
 
-            lure_i_book, active_effects = await asyncio.gather(
+            lure_i_book, seaweed_active, lucky = await asyncio.gather(
                 self.db.fetch_item(ctx.author.id, "Lure I Book"),
-                self.karen.fetch_active_fx(ctx.author.id),
+                self.karen.check_active_fx(ctx.author.id, "Seaweed"),
+                self.karen.check_active_fx(ctx.author.id, "Luck Potion"),
             )
 
             if lure_i_book is not None:
                 wait -= 4
 
-            if "seaweed" in active_effects:
+            if seaweed_active:
                 wait -= 12
                 wait = max(random.randint(3, 10), wait)
 
             await asyncio.sleep(wait)
-
-        # see if user has chugged a luck potion
-        lucky = await self.karen.check_active_fx(ctx.author.id, "Luck Potion")
 
         # determine if user has fished up junk or an item (rather than a fish)
         if random.randint(1, 8) == 1 or (lucky and random.randint(1, 5) == 1):
@@ -1152,17 +1175,19 @@ class Econ(commands.Cog):
             # iterate through fishing findables until something is found
             while True:
                 for item in self.d.fishing.findables:
-                    if random.randint(0, (item[2] // 2) + 2) == 1:
-                        await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                    if random.randint(0, (item.rarity // 2) + 2) == 1:
+                        await self.db.add_item(
+                            ctx.author.id, item.item, item.sell_price, 1, item.sticky
+                        )
                         await ctx.reply_embed(
                             random.choice(ctx.l.econ.fishing.item).format(
-                                item[0], item[1], self.d.emojis.emerald
+                                item.item, item.sell_price, self.d.emojis.emerald
                             ),
                             True,
                         )
                         return
 
-        fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fish_weights)[0]
+        fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fishing_weights)[0]
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish.name, -1, 1)
@@ -1212,6 +1237,16 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_4.format(self.d.emojis.emerald))
             return
 
+        # check if victim has a shield pearl active
+        if db_victim.shield_pearl and (
+            arrow.get(db_victim.shield_pearl).shift(months=1) > arrow.utcnow()
+        ):
+            await ctx.reply_embed(ctx.l.econ.pillage.stupid_5)
+            return
+
+        if db_user.shield_pearl:
+            await self.db.update_user(ctx.author.id, shield_pearl=None)
+
         user_bees = getattr(await self.db.fetch_item(ctx.author.id, "Jar Of Bees"), "amount", 0)
         victim_bees = getattr(await self.db.fetch_item(victim.id, "Jar Of Bees"), "amount", 0)
 
@@ -1240,7 +1275,7 @@ class Econ(commands.Cog):
             # calculate base stolen value
             percents = list(range(10, 41, 5))  # 10%-40% [10, 15, 20, 25, 30, 35, 40]
             weights = [0.26, 0.22, 0.17, 0.14, 0.11, 0.07, 0.03]
-            percent = choice(percents, 1, p=weights)[0]
+            percent = numpy.random.choice(percents, 1, p=weights)[0]
             stolen = math.ceil(db_victim.emeralds * (percent / 100))
             # calculate and implement cap based off pillager's balance
             stolen = min(
@@ -1379,7 +1414,7 @@ class Econ(commands.Cog):
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.karen.add_active_fx("Seaweed")
+            await self.karen.add_active_fx(ctx.author.id, "Seaweed")
             await ctx.reply_embed(ctx.l.econ.use.smoke_seaweed.format(30))
 
             await asyncio.sleep(60 * 30)
@@ -1440,11 +1475,13 @@ class Econ(commands.Cog):
 
             while True:
                 for item in self.d.mining.findables:
-                    if random.randint(0, (item[2] // 2) + 2) == 1:
-                        await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                    if random.randint(0, (item.rarity // 2) + 2) == 1:
+                        await self.db.add_item(
+                            ctx.author.id, item.item, item.sell_price, 1, item.sticky
+                        )
                         await ctx.reply_embed(
                             random.choice(ctx.l.econ.use.present).format(
-                                item[0], item[1], self.d.emojis.emerald
+                                item.item, item.sell_price, self.d.emojis.emerald
                             )
                         )
 
@@ -1459,12 +1496,14 @@ class Econ(commands.Cog):
 
             for _ in range(20):
                 for item in self.d.mining.findables:
-                    if item[2] > 1000:
-                        if random.randint(0, (item[2] // 1.5) + 5) == 1:
-                            await self.db.add_item(ctx.author.id, item[0], item[1], 1, item[3])
+                    if item.rarity > 1000:
+                        if random.randint(0, (item.rarity // 1.5) + 5) == 1:
+                            await self.db.add_item(
+                                ctx.author.id, item.item, item.sell_price, 1, item.sticky
+                            )
                             await ctx.reply_embed(
                                 random.choice(ctx.l.econ.use.barrel_item).format(
-                                    item[0], item[1], self.d.emojis.emerald
+                                    item.item, item.sell_price, self.d.emojis.emerald
                                 )
                             )
 
@@ -1510,11 +1549,38 @@ class Econ(commands.Cog):
             await ctx.reply_embed("I'M MOOOOOOOORBINGGGG!!!")
             return
 
+        if thing == "shield pearl":
+            db_user = await self.db.fetch_user(ctx.author.id)
+
+            if (
+                db_user.shield_pearl
+                and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow())
+            ) or amount > 1:
+                await ctx.reply_embed(ctx.l.econ.use.stupid_1)
+                return
+
+            await self.db.remove_item(ctx.author.id, "Shield Pearl", 1)
+            await self.db.update_user(ctx.author.id, shield_pearl=arrow.utcnow().datetime)
+
+            await ctx.reply_embed(ctx.l.econ.use.use_shield_pearl)
+            return
+
+        if thing == "time pearl":
+            await asyncio.gather(
+                self.db.grow_crops_by(ctx.author.id, datetime.timedelta(days=2)),
+                self.karen.cooldown_reset("honey", ctx.author.id),
+                self.karen.cooldown_reset("pillage", ctx.author.id),
+                self.karen.cooldown_reset("search", ctx.author.id),
+                self.karen.clear_active_fx(ctx.author.id),
+                self.db.remove_item(ctx.author.id, "Time Pearl", 1),
+            )
+
+            await ctx.reply_embed(ctx.l.econ.use.use_time_pearl)
+            return
+
         await ctx.reply_embed(ctx.l.econ.use.stupid_6)
 
-    @commands.command(
-        name="honey", aliases=["harvesthoney", "horny"]
-    )  # ~~a strange urge occurs in me~~
+    @commands.command(name="honey", aliases=["harvesthoney", "horny"])
     # @commands.cooldown(1, 24 * 60 * 60, commands.BucketType.user)
     async def honey(self, ctx: Ctx):
         bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
@@ -1620,6 +1686,23 @@ class Econ(commands.Cog):
 
         await ctx.reply(embed=embed, mention_author=False)
 
+    async def _lb_logic(
+        self,
+        ctx: Ctx,
+        global_lb: list[dict[str, Any]],
+        local_lb: list[dict[str, Any]],
+        row_fmt: str,
+        title: str,
+    ):
+        global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, row_fmt)
+
+        embed = discord.Embed(color=self.bot.embed_color, title=title)
+
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
+
+        await ctx.reply(embed=embed, mention_author=False)
+
     @leaderboards.command(name="emeralds", aliases=["ems"])
     async def leaderboard_emeralds(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
@@ -1628,18 +1711,13 @@ class Econ(commands.Cog):
                 "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}",
+                title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_ems.format(self.d.emojis.emerald_spinn),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="pillages", aliases=["pil", "stolen"])
     async def leaderboard_pillages(self, ctx: Ctx):
@@ -1649,17 +1727,13 @@ class Econ(commands.Cog):
                 "pillaged_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.emerald} {{}}",
+                title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_pil.format(self.d.emojis.emerald)
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=global_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=local_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="mobkills", aliases=["kil", "kills", "kill", "bonk"])
     async def leaderboard_mobkills(self, ctx: Ctx):
@@ -1669,17 +1743,13 @@ class Econ(commands.Cog):
                 "mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.stevegun} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.stevegun} {{}}",
+                title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun)
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
     async def leaderboard_bees(self, ctx: Ctx):
@@ -1689,17 +1759,13 @@ class Econ(commands.Cog):
                 "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.bee} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.bee} {{}}",
+                title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee)
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="commands", aliases=["!!", "cmds"])
     async def leaderboard_commands(self, ctx: Ctx):
@@ -1709,17 +1775,13 @@ class Econ(commands.Cog):
                 "commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt="\n`{}.` **{}** :keyboard: {}",
+                title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_cmds.format(" :keyboard: ")
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="votes", aliases=["votestreaks", "votestreak"])
     async def leaderboard_votes(self, ctx: Ctx):
@@ -1729,17 +1791,13 @@ class Econ(commands.Cog):
                 "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.updoot} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.updoot} {{}}",
+                title=ctx.l.econ.lb.lb_votes.format(" :fire: "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_votes.format(" :fire: ")
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="fish", aliases=["fishies", "fishing"])
     async def leaderboard_fish(self, ctx: Ctx):
@@ -1749,18 +1807,13 @@ class Econ(commands.Cog):
                 "fish_fished", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}**{self.d.emojis.fish.cod} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.fish.cod} {{}}",
+                title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="mooderalds", aliases=["autism", "moods", "mooderald"])
     async def leaderboard_mooderalds(self, ctx: Ctx):
@@ -1770,21 +1823,13 @@ class Econ(commands.Cog):
                 "Mooderald", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot,
-                global_lb,
-                local_lb,
-                f"\n`{{}}.` **{{}}**{self.d.emojis.autistic_emerald} {{}}",
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.autistic_emerald} {{}}",
+                title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="farming", aliases=["farm", "crop", "crops"])
     async def leaderboard_farming(self, ctx: Ctx):
@@ -1794,21 +1839,13 @@ class Econ(commands.Cog):
                 "crops_planted", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot,
-                global_lb,
-                local_lb,
-                f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds['wheat']} {{}}",
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.farming.seeds['wheat']} {{}}",
+                title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal['wheat']} "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_farming.format(f" {self.d.emojis.farming.normal['wheat']} "),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="trash", aliases=["trashcan", "garbage", "tc"])
     async def leaderboard_trash(self, ctx: Ctx):
@@ -1818,18 +1855,13 @@ class Econ(commands.Cog):
                 "trash_emptied", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.diamond} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.diamond} {{}}",
+                title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_trash.format(f" {self.d.emojis.diamond} "),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="weeklyemeralds", aliases=["wems", "weeklyems"])
     async def leaderboard_weekly_emeralds(self, ctx: Ctx):
@@ -1839,18 +1871,13 @@ class Econ(commands.Cog):
                 "week_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, f"\n`{{}}.` **{{}}** {self.d.emojis.emerald} {{}}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.emerald} {{}}",
+                title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            title=ctx.l.econ.lb.lb_wems.format(f" {self.d.emojis.emerald_spinn} "),
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @leaderboards.command(name="weeklycommands", aliases=["wcmds", "weeklycmds", "wcmd"])
     async def leaderboard_weekly_commands(self, ctx: Ctx):
@@ -1860,17 +1887,13 @@ class Econ(commands.Cog):
                 "week_commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
 
-            global_lb_str, local_lb_str = await craft_lbs(
-                self.bot, global_lb, local_lb, "\n`{}.` **{}** :keyboard: {}"
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt="\n`{}.` **{}** :keyboard: {}",
+                title=ctx.l.econ.lb.lb_wcmds.format(" :keyboard: "),
             )
-
-        embed = discord.Embed(
-            color=self.bot.embed_color, title=ctx.l.econ.lb.lb_wcmds.format(" :keyboard: ")
-        )
-        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
-        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
-
-        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.group(name="farm", case_insensitive=True)
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
@@ -2067,198 +2090,196 @@ class Econ(commands.Cog):
             ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald)
         )
 
-    @commands.command(name="fight", aliases=["battle"])
-    @commands.guild_only()
-    @commands.is_owner()
-    async def fight(self, ctx: Ctx):
-        DUMMY_TRUE = True  # signifies that the true value is for testing only
-
-        user_1 = ctx.author
-
-        # send challenge/accept message
-        embed = discord.Embed(
-            color=self.bot.embed_color,
-            description=f"*React with {self.d.emojis.netherite_sword} to fight!*",
-        )
-        embed.set_author(
-            name=f"{user_1.display_name} wants to fight!", icon_url=user_1.display_avatar.url
-        )
-        embed.set_footer(
-            text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)",
-            icon_url=self.d.splash_logo,
-        )
-        msg = await ctx.send(embed=embed)
-        await msg.add_reaction(self.d.emojis.netherite_sword)
-
-        # wait for someone to accept the fight
-        try:
-            user_2: discord.User
-            _, user_2 = await self.bot.wait_for(
-                "reaction_add",
-                check=(
-                    lambda r, u: str(r.emoji) == self.d.emojis.netherite_sword
-                    and not u.bot
-                    and (u != user_1 or DUMMY_TRUE)
-                ),
-                timeout=60,
-            )
-        except asyncio.TimeoutError:
-            await msg.edit(
-                embed=discord.Embed(
-                    color=self.bot.embed_color, description="Timed-out waiting for a reaction."
-                )
-            )
-            await msg.remove_reaction(self.d.emojis.netherite_sword, ctx.me)
-            return
-
-        # try and clear their reaction from the message
-        try:
-            await msg.clear_reaction(self.d.emojis.netherite_sword)
-        except discord.Forbidden:
-            pass
-
-        # econ pause both users
-        await self.karen.econ_pause(user_1.id)
-        await self.karen.econ_pause(user_2.id)
-
-        try:
-            db_user_1 = await self.db.fetch_user(user_1.id)
-            db_user_2 = await self.db.fetch_user(user_2.id)
-
-            # user_1_health = db_user_1.health
-            # user_2_health = db_user_2.health
-
-            user_1_bees = getattr(await self.db.fetch_item(user_1.id, "Jar Of Bees"), "amount", 0)
-            user_2_bees = getattr(await self.db.fetch_item(user_2.id, "Jar Of Bees"), "amount", 0)
-
-            user_1_sword = await self.db.fetch_sword(user_1.id)
-            user_2_sword = await self.db.fetch_sword(user_2.id)
-
-            jar_of_bees_emoji = emojify_item(self.d, "Jar Of Bees")
-
-            async def _add_reactions():
-                await msg.add_reaction(self.d.emojis.numbers[1])
-                await msg.add_reaction(self.d.emojis.numbers[2])
-
-            reactions_task = asyncio.create_task(_add_reactions())
-
-            embed = discord.Embed(
-                color=self.bot.embed_color,
-                title="GET READY TO BATTLE!",
-                description="*react with :one: or :two: to bet your pocket, battle will start in 15 seconds...*",
-            )
-            embed.add_field(
-                name=f":one: {user_1.display_name}",
-                value=f"{db_user_1.health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{jar_of_bees_emoji}",
-            )
-            embed.add_field(name="Betting Pool", value=f"0 {self.d.emojis.emerald}")
-            embed.add_field(
-                name=f":two: {user_2.display_name}",
-                value=f"{db_user_2.health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{jar_of_bees_emoji}",
-            )
-            embed.set_footer(
-                text=f"Villager Bot | Made by Iapetus11 and others ({ctx.prefix}credits)",
-                icon_url=self.d.splash_logo,
-            )
-            msg = await msg.edit(embed=embed)
-            await reactions_task
-
-            started_at = arrow.utcnow()
-            user_1_bets = dict[int, int]()
-            user_2_bets = dict[int, int]()
-            bet_tasks = list[asyncio.Task]()
-
-            # handles a bet from a user
-            async def _handle_bet(r: discord.Reaction, u: discord.User):
-                db_u = await self.db.fetch_user(u.id)
-
-                if db_u.emeralds < 5:
-                    await ctx.send(
-                        f"{u.mention} you need at least 5 emeralds in your pocket to bet!"
-                    )
-                    return
-
-                e = str(r.emoji)
-                if e == self.d.emojis.numbers[1]:
-                    user_1_bets[u.id] = db_u.emeralds
-
-                    # subtract their balance only if they're not switching their bet from another person
-                    if not user_2_bets.pop(u.id, None):
-                        await self.db.balance_sub(u.id, db_u.emeralds)
-                elif e == self.d.emojis.numbers[2]:
-                    user_2_bets[u.id] = db_u.emeralds
-
-                    # subtract their balance only if they're not switching their bet from another person
-                    if not user_1_bets.pop(u.id, None):
-                        await self.db.balance_sub(u.id, db_u.emeralds)
-                else:
-                    raise ValueError(e)
-
-                embed.set_field_at(
-                    1,
-                    name="Betting Pool",
-                    value=f"{sum(user_1_bets.values()) + sum(user_2_bets.values())} {self.d.emojis.emerald}",
-                )
-                await msg.edit(embed=embed)
-
-            # wait for bet reactions + place bets
-            async with SuppressCtxManager(ctx.typing()):
-                while arrow.utcnow().shift(seconds=-15) < started_at:
-                    try:
-                        u: discord.User
-                        r, u = await self.bot.wait_for(
-                            "reaction_add",
-                            check=(
-                                lambda r, u: (u not in {user_1, user_2} or DUMMY_TRUE)
-                                and str(r.emoji)
-                                in {self.d.emojis.numbers[1], self.d.emojis.numbers[2]}
-                                and not u.bot
-                            ),
-                            timeout=(15 - (arrow.utcnow() - started_at).total_seconds()),
-                        )
-                    except asyncio.TimeoutError:
-                        break
-
-                    bet_tasks.append(asyncio.create_task(_handle_bet(r, u)))
-
-                # wait for these tasks to finish
-                if bet_tasks:
-                    await asyncio.wait(bet_tasks)
-                del bet_tasks
-
-            cur_user = random.choice([user_1, user_2])
-
-            # fight loop
-            for i in itertools.count():
-                embed = discord.Embed(
-                    color=self.bot.embed_color, title=f"{cur_user.display_name}, attack!"
-                )
-                embed.add_field(
-                    name=user_1.display_name,
-                    value=make_health_bar(
-                        db_user_1.health,
-                        20,
-                        self.d.emojis.heart_full,
-                        self.d.emojis.heart_half,
-                        self.d.emojis.heart_empty,
-                    ),
-                )
-                embed.add_field(
-                    name=user_2.display_name,
-                    value=make_health_bar(
-                        db_user_1.health,
-                        20,
-                        self.d.emojis.heart_full,
-                        self.d.emojis.heart_half,
-                        self.d.emojis.heart_empty,
-                    ),
-                )
-
-            # end fight loop
-        finally:
-            # econ unpause both users
-            await self.karen.econ_unpause(user_1.id)
-            await self.karen.econ_unpause(user_2.id)
+    # @commands.command(name="fight", aliases=["battle"])
+    # @commands.is_owner()
+    # @commands.cooldown(1, 1, commands.BucketType.user)
+    # async def fight(self, ctx: Ctx, user_2: discord.Member, emerald_pool: int):
+    #     user_1 = ctx.author
+    #
+    #     if user_1 == user_2:
+    #         await ctx.reply_embed("You can't fight yourself!")
+    #         return
+    #
+    #     await self.karen.econ_pause(user_1.id)
+    #     await self.karen.econ_pause(user_2.id)
+    #
+    #     def attack_msg_check(message: discord.Message):
+    #         return (
+    #             message.channel == ctx.channel
+    #             and (message.author == user_1 or message.author == user_2)
+    #             and message.content.strip(ctx.prefix).lower() in self.d.mobs_mech.valid_attacks
+    #         )
+    #
+    #     try:
+    #         db_user_1, db_user_2 = await asyncio.gather(
+    #             self.db.fetch_user(user_1.id), self.db.fetch_user(user_2.id)
+    #         )
+    #
+    #         if db_user_1.emeralds < emerald_pool:
+    #             await ctx.reply_embed(
+    #                 f"You don't have {emerald_pool}{self.d.emojis.emerald} to bet."
+    #             )
+    #             return
+    #
+    #         if db_user_2.emeralds < emerald_pool:
+    #             await ctx.reply_embed(
+    #                 f"{user_2.mention} doesn't have {emerald_pool}{self.d.emojis.emerald} to bet."
+    #             )
+    #             return
+    #
+    #         user_1_sword: str
+    #         user_2_sword: str
+    #         user_1_items: list[Item]
+    #         user_2_items: list[Item]
+    #         user_1_sword, user_2_sword, user_1_items, user_2_items = await asyncio.gather(
+    #             self.db.fetch_sword(user_1.id),
+    #             self.db.fetch_sword(user_2.id),
+    #             self.db.fetch_items(user_1.id),
+    #             self.db.fetch_items(user_2.id),
+    #         )
+    #
+    #         def get_item_count(items: list[Item], name: str) -> int:
+    #             name = name.lower()
+    #             filtered = [i for i in items if i.name.lower() == name]
+    #             return filtered[0].amount if filtered else 0
+    #
+    #         user_1_health = db_user_1.health
+    #         user_2_health = db_user_2.health
+    #
+    #         user_1_bees = get_item_count(user_1_items, "Jar Of Bees")
+    #         user_2_bees = get_item_count(user_2_items, "Jar Of Bees")
+    #
+    #         user_1_sharpness = (
+    #             2
+    #             if get_item_count(user_1_items, "Sharpness II Book")
+    #             else 1
+    #             if get_item_count(user_1_items, "Sharpness I Book")
+    #             else 0
+    #         )
+    #         user_2_sharpness = (
+    #             2
+    #             if get_item_count(user_2_items, "Sharpness II Book")
+    #             else 1
+    #             if get_item_count(user_2_items, "Sharpness I Book")
+    #             else 0
+    #         )
+    #
+    #         def attack_damage(sharp: int, sword: str) -> int:
+    #             damage = random.randint(
+    #                 *{
+    #                     "Netherite Sword": [7, 10],
+    #                     "Diamond Sword": [6, 7],
+    #                     "Gold Sword": [4, 5],
+    #                     "Iron Sword": [2, 4],
+    #                     "Stone Sword": [1, 3],
+    #                     "Wood Sword": [1, 2],
+    #                 }[sword]
+    #             )
+    #
+    #             damage += 0.25 * sharp
+    #
+    #             return math.ceil(damage / 1.3)
+    #
+    #         embed = discord.Embed(color=self.bot.embed_color)
+    #
+    #         embed.add_field(
+    #             name=f"**{user_1.display_name}**",
+    #             value=f"{user_1_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} ",
+    #         )
+    #         embed.add_field(name="\uFEFF", value="\uFEFF")
+    #         embed.add_field(
+    #             name=f"**{user_2.display_name}**",
+    #             value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{self.d.emojis.jar_of_bees} ",
+    #         )
+    #
+    #         challenge_msg = await ctx.send(
+    #             f"{user_2.mention} react with {self.d.emojis.netherite_sword_ench} to accept the challenge!",
+    #             embed=embed,
+    #         )
+    #         await challenge_msg.add_reaction(self.d.emojis.netherite_sword_ench)
+    #
+    #         try:
+    #             await self.bot.wait_for(
+    #                 "reaction_add",
+    #                 check=(lambda r, u: r.message == challenge_msg and u == user_2),
+    #                 timeout=60,
+    #             )
+    #         except asyncio.TimeoutError:
+    #             await challenge_msg.edit(
+    #                 embed=discord.Embed(
+    #                     color=self.bot.embed_color,
+    #                     description=f"{user_2.mention} didn't accept the challenge in time...",
+    #                 )
+    #             )
+    #             return
+    #
+    #         try:
+    #             await challenge_msg.clear_reaction(self.d.emojis.netherite_sword_ench)
+    #         except discord.Forbidden:
+    #             pass
+    #
+    #         msg: Optional[discord.Message] = None
+    #
+    #         while True:
+    #             if user_1_health <= 0 or user_2_health <= 0:
+    #                 break
+    #
+    #             try:
+    #                 attack_msg = await self.bot.wait_for(
+    #                     "message", check=attack_msg_check, timeout=10
+    #                 )
+    #                 last_user_who_attacked = attack_msg.author
+    #             except asyncio.TimeoutError:
+    #                 await ctx.send("Fight cancelled because no one was attacking...")
+    #                 return
+    #
+    #             user_1_damage = attack_damage(user_1_sharpness, user_1_sword) + random.randint(
+    #                 0, user_1_bees > user_2_bees
+    #             )
+    #             user_2_damage = attack_damage(user_2_sharpness, user_2_sword) + random.randint(
+    #                 0, (user_2_bees > user_1_bees) * 2
+    #             )
+    #
+    #             user_2_health -= user_1_damage
+    #             user_1_health -= user_2_damage
+    #
+    #             embed = discord.Embed(
+    #                 color=self.bot.embed_color,
+    #                 description=f"user_1 ({user_1_health}hp) did {user_1_damage} dmg\nuser_2 ({user_2_health}hp) did {user_2_damage}",
+    #             )
+    #
+    #             embed.add_field(
+    #                 name=f"**{user_1.display_name}**",
+    #                 value=make_health_bar(
+    #                     max(user_1_health, 0),
+    #                     20,
+    #                     self.d.emojis.heart_full,
+    #                     self.d.emojis.heart_half,
+    #                     self.d.emojis.heart_empty,
+    #                 ),
+    #                 inline=False,
+    #             )
+    #
+    #             embed.add_field(
+    #                 name=f"**{user_2.display_name}**",
+    #                 value=make_health_bar(
+    #                     max(user_2_health, 0),
+    #                     20,
+    #                     self.d.emojis.heart_full,
+    #                     self.d.emojis.heart_half,
+    #                     self.d.emojis.heart_empty,
+    #                 ),
+    #                 inline=False,
+    #             )
+    #
+    #             msg = await (ctx.send if msg is None else msg.edit)(embed=embed)
+    #
+    #             await asyncio.sleep(random.random() * 5)
+    #
+    #         await ctx.send("ding dong done L + ratio + nobitches")
+    #     finally:
+    #         await self.karen.econ_unpause(user_1.id)
+    #         await self.karen.econ_unpause(user_2.id)
 
 
 async def setup(bot: VillagerBotCluster) -> None:
