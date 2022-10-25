@@ -35,7 +35,6 @@ def parse_timedelta(duration: str) -> timedelta | None:
         r"((?P<days>\d+?) ?(days|day|D|d) ?)?"
         r"((?P<hours>\d+?) ?(hours|hour|hr|H|h) ?)?"
         r"((?P<minutes>\d+?) ?(minutes|minute|min|M|m) ?)?"
-        r"((?P<seconds>\d+?) ?(seconds|second|sec|S|s))?"
     )
 
     match = DURATION_REGEX.fullmatch(duration)
@@ -43,8 +42,10 @@ def parse_timedelta(duration: str) -> timedelta | None:
         return None
 
     duration_dict = {unit: int(amount) for unit, amount in match.groupdict(default=0).items()}
+    print("DUR_DICT", duration_dict)
 
     delta = timedelta(**duration_dict)
+    print("DURDELTA", delta)
 
     return delta
 
@@ -63,7 +64,7 @@ def get_timedelta_granularity(delta: timedelta, granularity: int) -> list[str]:
         if delta.days % 7 >= 1:
             yield "day"
 
-        if delta.seconds >= 3600:
+        if delta.seconds % (3600 * 24) >= 1:
             yield "hour"
 
         if delta.seconds % 3600 >= 60:
