@@ -126,7 +126,8 @@
         "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*",
         "redditdl": "`{0}redditdl <reddit post url>` *télécharge le média spécifié depuis Reddit*",
         "exif": "`{0}exif` *extrait les données EXIF de l'image spécifiée*",
-        "imagetopng": "`{0}imagetopng *convertis l'image installée/spécifiée en png*"
+        "imagetopng": "`{0}imagetopng *convertis l'image installée/spécifiée en png*",
+        "translate": "`{0}translate <target> [text]` *traduit le texte donné ou le message vers la langue de la cible spécifiée*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envoie une image cursed de Minecraft*",
