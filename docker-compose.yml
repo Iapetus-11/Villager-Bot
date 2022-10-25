@@ -6,6 +6,7 @@ services:
       context: "."
     ports:
       - 52736:52736
+      - 8674:8674
     volumes:
       - type: bind
         source: ./karen/secrets.json
