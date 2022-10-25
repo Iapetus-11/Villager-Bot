@@ -70,10 +70,13 @@ class Client(ComsBase):
             await self._send(Packet(id=packet.id, data=response))
 
     async def _connect(self, auth: str) -> None:
+        self.logger.info("Connecting to Karen...")
+
         async for self.ws in connect(f"ws://{self.host}:{self.port}", logger=self.logger):
             try:
                 await self._authorize(auth)
                 self._connected.set()
+                self.logger.info("Connected to Karen!")
 
                 async for message in self.ws:
                     try:
@@ -94,6 +97,8 @@ class Client(ComsBase):
             finally:
                 if self._closing:
                     break
+
+            self.logger.info("Reconnecting to Karen...")
 
     async def connect(self, auth: str) -> None:
         self._task = asyncio.create_task(self._connect(auth))
