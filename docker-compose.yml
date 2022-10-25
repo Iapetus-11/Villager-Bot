@@ -14,6 +14,8 @@ services:
     deploy:
       replicas: ${KAREN_ENABLED:-1}
     init: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   bot:
     build:
       dockerfile: bot/Dockerfile
