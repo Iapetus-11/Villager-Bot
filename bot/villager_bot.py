@@ -460,7 +460,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     @handle_packet(PacketType.TOPGG_VOTE)
     async def packet_topgg_vote(self, vote: TopggVote):
         if 0 in self.shard_ids:
-            await self.dispatch("topgg_vote", vote)
+            self.dispatch("topgg_vote", vote)
 
     @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_MEMBERS)
     async def packet_fetch_top_guilds_by_members(self):

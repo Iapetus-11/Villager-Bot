@@ -21,9 +21,6 @@ class Voting(commands.Cog):
         return self.bot.get_cog("Database")
 
     async def vote(self, *, user_id: int, site: str, is_weekend: bool, is_test: bool, json: str):
-        if 0 not in self.bot.shard_ids:
-            return
-
         await self.bot.final_ready.wait()
         await self.bot.wait_until_ready()
 
