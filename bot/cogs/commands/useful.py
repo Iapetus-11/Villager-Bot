@@ -622,7 +622,7 @@ class Useful(commands.Cog):
 
         duration = parse_timedelta(duration_str)
 
-        if duration is None:
+        if duration is None or duration.total_seconds() <= 0:
             await ctx.reply_embed(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
             return
 
