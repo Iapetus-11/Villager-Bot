@@ -122,8 +122,8 @@ CREATE TABLE IF NOT EXISTS user_rcon (
 CREATE TABLE IF NOT EXISTS guild_events (
   guild_id           BIGINT NOT NULL,
   event_type         SMALLINT NOT NULL, -- enum: data/enums/guild_event_type.py
-  member_count       INT NOT NULL,
-  total_count        INT NOT NULL,
+  member_count       INT,
+  total_count        INT,
   event_at           TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
