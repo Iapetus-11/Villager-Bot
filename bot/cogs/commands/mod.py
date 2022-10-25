@@ -237,7 +237,7 @@ class Mod(commands.Cog):
 
     @commands.command(name="mute", aliases=["shutup", "silence", "shush", "stfu", "timeout"])
     @commands.guild_only()
-    @commands.has_permissions(mute_members=True)
+    @commands.has_permissions(kick_members=True)
     async def mute(
         self,
         ctx: Ctx,
@@ -281,7 +281,7 @@ class Mod(commands.Cog):
 
     @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu", "untimeout"])
     @commands.guild_only()
-    @commands.has_permissions(mute_members=True)
+    @commands.has_permissions(kick_members=True)
     async def unmute(self, ctx: Ctx, user: discord.Member):
         if ctx.author == user:
             await ctx.reply_embed(ctx.l.mod.unmute.stupid_1)
