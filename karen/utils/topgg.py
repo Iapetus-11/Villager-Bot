@@ -49,6 +49,8 @@ class VotingWebhookServer:
         self.logger.info("Stopped voting webhooks server")
 
     async def _handle_post(self, request: web.Request) -> web.Response:
+        self.logger.debug("Received request %s", request)
+
         auth_header = request.headers.get("Authorization")
 
         if auth_header != self.secrets.auth:
