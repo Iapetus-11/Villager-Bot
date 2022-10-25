@@ -463,12 +463,6 @@
         "sell_price": 0,
         "rarity": 100,
         "sticky": false
-      },
-      {
-        "item": "Will O Wisp",
-        "sell_price": 1024,
-        "rarity": 99999,
-        "sticky": false
       }
     ]
   },
