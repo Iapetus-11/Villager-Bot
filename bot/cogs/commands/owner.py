@@ -234,7 +234,7 @@ class Owner(commands.Cog):
         rows = [
             ("+" if r > 0 else "-" if r < 0 else "~")
             + " "
-            + "#" * abs(r)
+            + (("#" * abs(r)) if r < 30 else ("#" * 30 + "+"))
             + (f" ({r:+})" if r != 0 else "")
             for r in rows
         ]
