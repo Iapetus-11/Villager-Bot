@@ -267,13 +267,13 @@ class Owner(commands.Cog):
                     reverse=True,
                 )[:10]
             )
-            # top_guilds_by_active_members = format_lb(
-            #     sorted(
-            #         await self.karen.fetch_top_guilds_by_active_members(),
-            #         key=(lambda g: g["count"]),
-            #         reverse=True,
-            #     )[:10]
-            # )
+            top_guilds_by_active_members = format_lb(
+                sorted(
+                    await self.karen.fetch_top_guilds_by_active_members(),
+                    key=(lambda g: g["count"]),
+                    reverse=True,
+                )[:10]
+            )
             top_guilds_by_commands = format_lb(
                 sorted(
                     await self.karen.fetch_top_guilds_by_commands(),
@@ -284,7 +284,7 @@ class Owner(commands.Cog):
 
         await ctx.reply(
             f"**By Members**\n{top_guilds_by_members}\n\n"
-            # f"**By Active Members**\n{top_guilds_by_active_members}\n\n"
+            f"**By Active Members**\n{top_guilds_by_active_members}\n\n"
             f"**By Commands**\n{top_guilds_by_commands}\n\n"
         )
 

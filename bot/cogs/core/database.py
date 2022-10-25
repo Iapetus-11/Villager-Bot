@@ -693,23 +693,11 @@ class Database(commands.Cog):
         )
 
     async def fetch_guilds_active_count(self) -> list[dict[str, Any]]:
-        guild_ids = list[int]()
-        guild_names = list[str]()
-        member_ids = list[int]()
-
-        for guild in self.bot.guilds:
-            for member in guild.members:
-                guild_ids.append(guild.id)
-                guild_names.append(guild.name)
-                member_ids.append(member.id)
+        guild_ids = [g.id for g in self.bot.guilds]
 
         return await self.db.fetch(
-            """WITH guild_members AS (
-    SELECT * FROM UNNEST($1::BIGINT[], $2::BIGINT[], $3::TEXT[]) AS x(guild_id, member_id, guild_name)
-) SELECT guild_id AS id, guild_name AS name, COUNT(week_commands) AS count FROM leaderboards RIGHT JOIN guild_members ON user_id = member_id WHERE week_commands > 0 GROUP BY (guild_id, guild_name) ORDER BY count DESC LIMIT 10;""",
+            "SELECT guild_id AS id, COUNT(user_id) AS count FROM (SELECT DISTINCT guild_id, user_id FROM command_executions WHERE guild_id = ANY($1::BIGINT[]) AND ((NOW() - at) < INTERVAL '1 WEEK')) iq GROUP BY guild_id ORDER BY count DESC LIMIT 10",
             guild_ids,
-            member_ids,
-            guild_names,
         )
 
     async def fetch_guilds_commands_count(self) -> list[dict[str, Any]]:

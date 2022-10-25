@@ -457,7 +457,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_ACTIVE_MEMBERS)
     async def packet_fetch_top_guilds_by_active_members(self):
-        return await self.get_cog("Database").fetch_guilds_active_count()
+        return [
+            {**v, "name": self.get_guild(v["id"]).name}
+            for v in (await self.get_cog("Database").fetch_guilds_active_count())
+        ]
 
     @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_COMMANDS)
     async def packet_fetch_top_guilds_by_commands(self):
