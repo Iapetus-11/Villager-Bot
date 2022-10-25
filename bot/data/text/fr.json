@@ -1748,6 +1748,12 @@
         "title": "EXIF Data",
         "none": "*No EXIF data found...*",
         "discord": "Cette commande requiert une URL, car Discord retire les données EXIF des pièces jointes."
+      },
+      "translate": {
+        "stupid_1": "Tu dois envoyer un message à traduire ou répondre au message à traduire.",
+        "stupid_2": "Le message auquel tu as répondu doit avoir du texte a traduire.",
+        "stupid_3": "Langue ciblée invalide ou inconnue, seulement les suivantes sont supportées: {lang_codes}",
+        "error": "Erreur lors de la traduction du texte."
       }
     },
     "econ": {
