@@ -41,6 +41,9 @@ def parse_timedelta(duration: str) -> timedelta | None:
     if not match:
         return None
 
+    duration_dict = {unit: int(amount) for unit, amount in match.groupdict(default=0).items()}
+    delta = timedelta(**duration_dict)
+
     return delta
 
 
