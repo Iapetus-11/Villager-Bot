@@ -224,7 +224,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         )
 
     async def check_global(self, ctx: CustomContext) -> bool:  # the global command check
-        command = ctx.command.name
+        command_name = ctx.command.qualified_name
 
         if ctx.author.id in self.botban_cache:
             ctx.failure_reason = "bot_banned"
@@ -234,20 +234,20 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             ctx.failure_reason = "not_ready"
             return False
 
-        if ctx.guild is not None and command in self.disabled_commands.get(ctx.guild.id, ()):
+        if ctx.guild is not None and command_name in self.disabled_commands.get(ctx.guild.id, ()):
             ctx.failure_reason = "disabled"
             return False
 
         # handle cooldowns that need to be synced between shard groups / processes (aka karen cooldowns)
-        if command in self.d.cooldown_rates:
-            cooldown_info = await self.karen.cooldown(command, ctx.author.id)
+        if command_name in self.d.cooldown_rates:
+            cooldown_info = await self.karen.cooldown(command_name, ctx.author.id)
 
             if not cooldown_info.can_run:
                 ctx.custom_error = CommandOnKarenCooldown(cooldown_info.remaining)
                 return False
 
-        if command in self.d.concurrency_limited:
-            if not await self.karen.check_concurrency(command, ctx.author.id):
+        if command_name in self.d.concurrency_limited:
+            if not await self.karen.check_concurrency(command_name, ctx.author.id):
                 ctx.custom_error = MaxKarenConcurrencyReached()
                 return False
 
@@ -265,14 +265,14 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         if ctx.command.cog_name == "Econ":
             # random chance to spawn mob
             if random.randint(0, self.d.mob_chance) == 0:
-                if self.d.cooldown_rates.get(ctx.command.name, 0) >= 2:
+                if self.d.cooldown_rates.get(ctx.command.qualified_name, 0) >= 2:
                     asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
             elif random.randint(0, self.d.tip_chance) == 0:  # random chance to send tip
                 asyncio.create_task(self.send_tip(ctx))
 
         try:
-            if ctx.command.name in self.d.concurrency_limited:
-                await self.karen.acquire_concurrency(ctx.command.name, ctx.author.id)
+            if ctx.command.qualified_name in self.d.concurrency_limited:
+                await self.karen.acquire_concurrency(ctx.command.qualified_name, ctx.author.id)
         except Exception:
             self.logger.error(
                 "An error occurred while attempting to acquire a concurrency lock for command %s for user %s",
@@ -282,7 +282,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             )
             raise
 
-        if ctx.command.name in self.d.cooldown_rates:
+        if ctx.command.qualified_name in self.d.cooldown_rates:
             await self.karen.lb_command_ran(ctx.author.id)
 
         await self.karen.command_execution(
@@ -291,8 +291,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     async def after_command_invoked(self, ctx: CustomContext):
         try:
-            if str(ctx.command) in self.d.concurrency_limited:
-                await self.karen.release_concurrency(ctx.command.name, ctx.author.id)
+            if ctx.command.qualified_name in self.d.concurrency_limited:
+                await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
         except Exception:
             self.logger.error(
                 "An error occurred while attempting to release a concurrency lock for command %s for user %s",

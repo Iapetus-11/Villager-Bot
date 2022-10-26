@@ -298,7 +298,7 @@ class Events(commands.Cog):
         self, ctx: Ctx, remaining: float, karen_cooldown: bool
     ) -> None:
         # handle mine command cooldown effects
-        if ctx.command.name == "mine":
+        if ctx.command.qualified_name == "mine":
             if await self.db.fetch_item(ctx.author.id, "Efficiency I Book") is not None:
                 remaining -= 0.5
 
@@ -314,7 +314,7 @@ class Events(commands.Cog):
 
         if seconds <= 0.05:
             if karen_cooldown:
-                await self.karen.cooldown_add(ctx.command.name, ctx.author.id)
+                await self.karen.cooldown_add(ctx.command.qualified_name, ctx.author.id)
 
             await ctx.reinvoke()
             return
@@ -352,7 +352,7 @@ class Events(commands.Cog):
             e = ctx.custom_error
 
         if not isinstance(e, MaxKarenConcurrencyReached) and ctx.command:
-            await self.karen.release_concurrency(ctx.command.name, ctx.author.id)
+            await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
 
         if isinstance(e, commands.CommandOnCooldown):
             await self.handle_command_cooldown(ctx, e.retry_after, False)
