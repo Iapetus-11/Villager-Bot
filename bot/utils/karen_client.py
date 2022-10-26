@@ -72,8 +72,8 @@ class KarenClient:
 
         aggregate = []
         for r in resp.data:
-            if not isinstance(r, Iterable):
-                raise ValueError(f"item {r!r} of packet {resp} is not iterable")
+            if not isinstance(r, list):
+                raise ValueError(f"item {r!r} of packet {resp} is not a list")
 
             aggregate.extend(r)
 
@@ -223,8 +223,8 @@ class KarenClient:
         await self._send(PacketType.BOTBAN_CACHE_REMOVE, user_id=user_id)
 
     @validate_return_type
-    async def lookup_user(self, user_id: int) -> list[list[tuple[int, str]]]:
-        return await self._broadcast(PacketType.LOOKUP_USER, user_id=user_id)
+    async def lookup_user(self, user_id: int) -> list[list[int | str]]:
+        return await self._broadcast_aggregate(PacketType.LOOKUP_USER, user_id=user_id)
 
     @validate_return_type
     async def fetch_clusters_system_stats(self) -> list[SystemStats]:

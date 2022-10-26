@@ -61,7 +61,7 @@ def get_timedelta_granularity(delta: timedelta, granularity: int) -> list[str]:
         if delta.days % 7 >= 1:
             yield "day"
 
-        if delta.seconds % (3600 * 24) >= 1:
+        if delta.seconds >= 3600:
             yield "hour"
 
         if delta.seconds % 3600 >= 60:

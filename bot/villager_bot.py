@@ -436,13 +436,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     @handle_packet(PacketType.LOOKUP_USER)
     async def packet_lookup_user(self, user_id: int):
-        guild_ids = set[tuple[int, str]]()
+        member_matches = list[list[int, str]]()
 
         for guild in self.guilds:
             if guild.get_member(user_id) is not None:
-                guild_ids.add((guild.id, guild.name))
+                member_matches.append([guild.id, guild.name])
 
-        return guild_ids
+        return member_matches
 
     @handle_packet(PacketType.PING)
     async def packet_ping(self):

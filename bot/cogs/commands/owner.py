@@ -127,13 +127,12 @@ class Owner(commands.Cog):
             await ctx.reply_embed("You do not want to do this.")
             return
 
-        responses = await self.karen.lookup_user(uid)
-        guilds = list(itertools.chain.from_iterable(responses))
+        member_matches = await self.karen.lookup_user(uid)
 
-        if not responses:
+        if not member_matches:
             await ctx.reply_embed("No results...")
         else:
-            await ctx.reply_embed("\n".join([f"`{g[0]}` **|** {g[1]}" for g in guilds]))
+            await ctx.reply_embed("\n".join([f"`{mm[0]}` **|** {mm[1]}" for mm in member_matches]))
 
     @commands.command(name="setbal")
     @commands.is_owner()
