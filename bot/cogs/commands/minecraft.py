@@ -520,7 +520,7 @@ class Minecraft(commands.Cog):
 
         async with SuppressCtxManager(ctx.typing()):
             res = await self.aiohttp.get(
-                f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi}
+                f"https://xapi.us/v2/xuid/{urlquote(username)}", headers={"X-AUTH": self.k.xapi_key}
             )
 
         if res.status != 200:
