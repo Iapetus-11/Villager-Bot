@@ -630,7 +630,7 @@ class Database(commands.Cog):
 
     async def grow_crops_by(self, user_id: int, interval: datetime.timedelta):
         await self.db.execute(
-            "UPDATE farm_plots SET planted_at = planted_at + $1 WHERE user_id = $2",
+            "UPDATE farm_plots SET planted_at = planted_at - $1 WHERE user_id = $2",
             interval,
             user_id,
         )
