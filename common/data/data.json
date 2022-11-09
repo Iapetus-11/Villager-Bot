@@ -405,63 +405,27 @@
         "sticky": false
       },
       {
-        "item": "Will O Wisp",
-        "sell_price": 1024,
-        "rarity": 99999,
-        "sticky": false
-      },
-      {
         "item": "Bane Of Pillagers Amulet",
         "sell_price": 4096,
         "rarity": 500000,
         "sticky": true
       },
       {
-        "item": "Skeleton Skull",
+        "item": "Turkey Leg",
         "sell_price": 512,
-        "rarity": 4000,
+        "rarity": 49999,
         "sticky": false
       },
       {
-        "item": "Jack O Lantern",
-        "sell_price": 512,
-        "rarity": 4000,
+        "item": "Turkey Feather",
+        "sell_price": 128,
+        "rarity": 1000,
         "sticky": false
       },
       {
-        "item": "Pumpkin",
-        "sell_price": 256,
-        "rarity": 2000,
-        "sticky": false
-      },
-      {
-        "item": "Spider Web",
-        "sell_price": 64,
-        "rarity": 500,
-        "sticky": false
-      },
-      {
-        "item": "Candy Corn",
-        "sell_price": 64,
-        "rarity": 500,
-        "sticky": false
-      },
-      {
-        "item": "KitKat",
-        "sell_price": 64,
-        "rarity": 500,
-        "sticky": false
-      },
-      {
-        "item": "Crunch Bar",
-        "sell_price": 64,
-        "rarity": 500,
-        "sticky": false
-      },
-      {
-        "item": "Empty Candy Wrapper",
-        "sell_price": 0,
-        "rarity": 100,
+        "item": "Pilgrim Hat",
+        "sell_price": 1024,
+        "rarity": 99999,
         "sticky": false
       }
     ]
@@ -566,24 +530,6 @@
       },
       {
         "item": "Recycler",
-        "sell_price": 1024,
-        "rarity": 99999,
-        "sticky": false
-      },
-      {
-        "item": "Skeleton Skull",
-        "sell_price": 512,
-        "rarity": 4000,
-        "sticky": false
-      },
-      {
-        "item": "Empty Candy Wrapper",
-        "sell_price": 0,
-        "rarity": 100,
-        "sticky": false
-      },
-      {
-        "item": "Will O Wisp",
         "sell_price": 1024,
         "rarity": 99999,
         "sticky": false
@@ -1146,6 +1092,9 @@
     "chocolate_chip_cookie": "<:chocolate_chip_cookie:1025000801330020353>",
     "will_o_wisp": "<:will_o_wisp:1027441139256660068>",
     "time_pearl": "<:time_pearl:1022845301196849153>",
+    "feather": ":feather:",
+    "cowboy": ":cowboy:",
+    "turkey_leg": "<:turkey_leg:1040036196887310407>",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1330,7 +1279,10 @@
     "Ender Pearl": "ender_pearl",
     "Chocolate Chip Cookie": "chocolate_chip_cookie",
     "Will O Wisp": "will_o_wisp",
-    "Time Pearl": "time_pearl"
+    "Time Pearl": "time_pearl",
+    "Turkey Leg": "turkey_leg",
+    "Pilgrim Hat": "cowboy",
+    "Turkey Feather": "feather"
   },
   "farming": {
     "emojis": {
