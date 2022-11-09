@@ -731,7 +731,9 @@ class Database(commands.Cog):
         )
 
     async def sync_item_prices(self, prices: dict[str, int]):
-        await self.db.executemany("UPDATE items SET sell_price = $2 WHERE name = $1", list(prices.items()))
+        await self.db.executemany(
+            "UPDATE items SET sell_price = $2 WHERE name = $1", list(prices.items())
+        )
 
 
 async def setup(bot: VillagerBotCluster) -> None:
