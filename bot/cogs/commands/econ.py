@@ -1567,7 +1567,7 @@ class Econ(commands.Cog):
 
         if thing == "time pearl":
             await asyncio.gather(
-                self.db.grow_crops_by(ctx.author.id, datetime.timedelta(days=2)),
+                self.db.add_crop_time(ctx.author.id, datetime.timedelta(days=-2)),
                 self.karen.cooldown_reset("honey", ctx.author.id),
                 self.karen.cooldown_reset("pillage", ctx.author.id),
                 self.karen.cooldown_reset("search", ctx.author.id),
