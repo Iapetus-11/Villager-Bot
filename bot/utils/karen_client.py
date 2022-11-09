@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import Any, Iterable, Optional
+from typing import Any, Optional
 
 import discord
 

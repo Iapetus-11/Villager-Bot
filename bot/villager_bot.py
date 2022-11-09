@@ -170,20 +170,31 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
                 self.logger.info("Slash commands synced!")
             except Exception:
-                self.logger.error("An error occurred in on_ready while syncing slash commands", exc_info=True)
+                self.logger.error(
+                    "An error occurred in on_ready while syncing slash commands", exc_info=True
+                )
 
             try:
                 self.logger.info("Syncing db item prices...")
 
-                item_prices = {v.db_entry.item: v.db_entry.sell_price for k, v in self.d.shop_items.items()}
-                item_prices.update({self.d.farming.name_map[k]: v for k, v in self.d.farming.emerald_yields.items()})
+                item_prices = {
+                    v.db_entry.item: v.db_entry.sell_price for k, v in self.d.shop_items.items()
+                }
+                item_prices.update(
+                    {
+                        self.d.farming.name_map[k]: v
+                        for k, v in self.d.farming.emerald_yields.items()
+                    }
+                )
                 item_prices.update({f.item: f.sell_price for f in self.d.fishing.findables})
 
                 await self.get_cog("Database").sync_item_prices(item_prices)
 
                 self.logger.info("Done syncing db item prices!")
             except Exception:
-                self.logger.error("An error occurred in on_ready while syncing db item prices", exc_info=True)
+                self.logger.error(
+                    "An error occurred in on_ready while syncing db item prices", exc_info=True
+                )
 
     async def get_context(self, *args, **kwargs) -> CustomContext:
         ctx = await super().get_context(*args, **kwargs, cls=CustomContext)
