@@ -1,5 +1,6 @@
-from pydantic.fields import Field
 from typing import Optional
+
+from pydantic.fields import Field
 
 from common.models.base_model import BaseModel
 
