@@ -34,15 +34,19 @@ jobs:
         run: poetry install
 
       - name: auto-flake
+        if: ${GITHUB_REF##*/} != 'main'
         run: poetry run autoflake --remove-all-unused-imports --expand-star-imports --ignore-init-module-imports --in-place --recursive bot/ common/ karen/
 
       - name: black fix
+        if: ${GITHUB_REF##*/} != 'main'
         run: poetry run black .
 
       - name: isort fix
+        if: ${GITHUB_REF##*/} != 'main'
         run: poetry run isort .
 
       - name: auto commit
+        if: ${GITHUB_REF##*/} != 'main'
         uses: stefanzweifel/git-auto-commit-action@v4.14.1
         with:
           commit_message: format / fix code
