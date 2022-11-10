@@ -182,6 +182,9 @@ class Emojis(ImmutableBaseModel):
     chocolate_chip_cookie: str
     will_o_wisp: str
     time_pearl: str
+    feather: str
+    cowboy: str
+    turkey_leg: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis
