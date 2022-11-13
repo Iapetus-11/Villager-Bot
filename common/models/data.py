@@ -185,6 +185,10 @@ class Emojis(ImmutableBaseModel):
     feather: str
     cowboy: str
     turkey_leg: str
+    seaweed: str
+    mask: str
+    cornucopia: str
+    moon_dust: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis
