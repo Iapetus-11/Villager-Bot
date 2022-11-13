@@ -423,6 +423,12 @@
         "sticky": false
       },
       {
+        "item": "Cornucopia",
+        "sell_price": 512,
+        "rarity": 9999,
+        "sticky": false
+      },
+      {
         "item": "Pilgrim Hat",
         "sell_price": 1024,
         "rarity": 99999,
@@ -1095,6 +1101,10 @@
     "feather": ":feather:",
     "cowboy": ":cowboy:",
     "turkey_leg": "<:turkey_leg:1040036196887310407>",
+    "seaweed": "<:seaweed:1041473550562897943>",
+    "mask": ":mask:",
+    "cornucopia": "<:cornucopia:1041419085474435184>",
+    "moon_dust": "<:moon_dust:1041416265555783711>"
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1283,6 +1293,10 @@
     "Turkey Leg": "turkey_leg",
     "Pilgrim Hat": "cowboy",
     "Turkey Feather": "feather"
+    "Seaweed": "seaweed",
+    "Mask": "mask",
+    "Cornucopia": "cornucopia",
+    "Moon Dust": "moon_dust"
   },
   "farming": {
     "emojis": {
