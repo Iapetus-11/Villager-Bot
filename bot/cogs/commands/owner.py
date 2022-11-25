@@ -13,7 +13,7 @@ from common.utils.code import execute_code, format_exception
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from bot.utils.ctx import Ctx
-from bot.utils.misc import parse_timedelta, SuppressCtxManager, shorten_text
+from bot.utils.misc import SuppressCtxManager, parse_timedelta, shorten_text
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -287,7 +287,7 @@ class Owner(commands.Cog):
         )
 
     @commands.command(name="commandstreaks", aliases=["cmdsstreaks", "cmdstreaks"])
-    async def command_streaks(self, ctx: Ctx, duration_str: str = '5m'):
+    async def command_streaks(self, ctx: Ctx, duration_str: str = "5m"):
         duration = parse_timedelta(duration_str)
 
         if duration is None or duration.total_seconds() <= 0:

@@ -25,13 +25,14 @@ from bot.cogs.core.paginator import Paginator
 from bot.models.translation import Translation
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
-    shorten_chunks, SuppressCtxManager,
+    SuppressCtxManager,
     clean_text,
     fetch_aprox_ban_count,
     get_timedelta_granularity,
     is_valid_image_res,
     parse_timedelta,
     read_limited,
+    shorten_chunks,
 )
 from bot.villager_bot import VillagerBotCluster
 
@@ -477,7 +478,12 @@ class Useful(commands.Cog):
 
         embed.add_field(
             name="Roles",
-            value=" ".join(role_mentions_cut) + ((" " + ctx.l.useful.ginf.roles_and_n_others.format(n=role_mentions_diff)) if role_mentions_diff else ""),
+            value=" ".join(role_mentions_cut)
+            + (
+                (" " + ctx.l.useful.ginf.roles_and_n_others.format(n=role_mentions_diff))
+                if role_mentions_diff
+                else ""
+            ),
             inline=False,
         )
 
