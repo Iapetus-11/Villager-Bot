@@ -399,6 +399,7 @@ class Useful_Ginf(ImmutableBaseModel):
     bots: str
     channels: str
     roles: str
+    roles_and_n_others: str
     emojis: str
     bans: str
     cmd_prefix: str

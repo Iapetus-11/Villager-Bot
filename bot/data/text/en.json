@@ -1678,6 +1678,7 @@
         "bots": "Bots",
         "channels": "Channels",
         "roles": "Roles",
+        "roles_and_n_others": "and {n} others...",
         "emojis": "Emojis",
         "bans": "Bans",
         "cmd_prefix": "Prefix",

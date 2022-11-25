@@ -1678,6 +1678,7 @@
         "bots": "Bots",
         "channels": "Canais",
         "roles": "Cargos",
+        "roles_and_n_others": "e {n} outros...",
         "emojis": "Emojis",
         "bans": "Banimentos",
         "cmd_prefix": "Prefixo",

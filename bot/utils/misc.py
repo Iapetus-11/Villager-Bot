@@ -7,7 +7,7 @@ import time
 from collections import defaultdict
 from contextlib import suppress
 from datetime import timedelta
-from typing import Any
+from typing import Any, Generator
 
 import aiohttp
 import discord
@@ -295,6 +295,18 @@ class MultiLock:
 
     def locked(self, ids: list) -> bool:
         return any([self._locks[i].locked() for i in ids])
+
+
+def shorten_chunks(items: list[str], max_size: int) -> Generator[str, None, None]:
+    size = 0
+
+    for item in items:
+        if len(item) + size > max_size:
+            break
+
+        size += len(item)
+
+        yield item
 
 
 def chunk_by_lines(text: str, max_paragraph_size: int) -> str:
