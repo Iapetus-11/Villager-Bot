@@ -711,29 +711,30 @@ class Econ_Lb(ImmutableBaseModel):
     global_lb: str
     local_lb: str
     emeralds: str
+    item: str
+    unique_items: str
     stolen: str
     kills: str
-    bees: str
     cmds: str
     votes: str
     fish: str
-    mooderalds: str
     farming: str
     trash: str
     wems: str
     wcmds: str
     lb_ems: str
+    lb_item: str
+    lb_unique_items: str
     lb_pil: str
     lb_kil: str
-    lb_bee: str
     lb_cmds: str
     lb_votes: str
     lb_fish: str
-    lb_moods: str
     lb_farming: str
     lb_trash: str
     lb_wems: str
     lb_wcmds: str
+    no_item_lb: str
 
 
 class Econ_Trash(ImmutableBaseModel):

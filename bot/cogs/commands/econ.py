@@ -1632,8 +1632,18 @@ class Econ(commands.Cog):
         )
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(
-            name=f"{ctx.l.econ.lb.mooderalds} {self.d.emojis.autistic_emerald}",
-            value=f"`{ctx.prefix}leaderboard mooderalds`",
+            name=f"{ctx.l.econ.lb.trash} {self.d.emojis.diamond}",
+            value=f"`{ctx.prefix}leaderboard trash`",
+        )
+
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.farming} {self.d.emojis.farming.normal['wheat']}",
+            value=f"`{ctx.prefix}leaderboard farming`",
+        )
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.fish} {self.d.emojis.fish.cod}",
+            value=f"`{ctx.prefix}leaderboard fish`",
         )
 
         embed.add_field(
@@ -1647,16 +1657,6 @@ class Econ(commands.Cog):
         )
 
         embed.add_field(
-            name=f"{ctx.l.econ.lb.bees} {self.d.emojis.bee}",
-            value=f"`{ctx.prefix}leaderboard bees`",
-        )
-        embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(
-            name=f"{ctx.l.econ.lb.fish} {self.d.emojis.fish.cod}",
-            value=f"`{ctx.prefix}leaderboard fish`",
-        )
-
-        embed.add_field(
             name=f"{ctx.l.econ.lb.votes} {self.d.emojis.updoot}",
             value=f"`{ctx.prefix}leaderboard votes`",
         )
@@ -1666,22 +1666,22 @@ class Econ(commands.Cog):
         )
 
         embed.add_field(
-            name=f"{ctx.l.econ.lb.farming} {self.d.emojis.farming.normal['wheat']}",
-            value=f"`{ctx.prefix}leaderboard farming`",
-        )
-        embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(
-            name=f"{ctx.l.econ.lb.trash} {self.d.emojis.diamond}",
-            value=f"`{ctx.prefix}leaderboard trash`",
-        )
-
-        embed.add_field(
             name=f"{ctx.l.econ.lb.wems} {self.d.emojis.emerald}",
             value=f"`{ctx.prefix}leaderboard wems`",
         )
         embed.add_field(name="\uFEFF", value="\uFEFF")
         embed.add_field(
             name=f"{ctx.l.econ.lb.wcmds} :keyboard:", value=f"`{ctx.prefix}leaderboard wcmds`"
+        )
+
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.item} {self.d.emojis.barrel}",
+            value=f"`{ctx.prefix}leaderboard item <{ctx.l.econ.lb.item.lower()}>`",
+        )
+        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.unique_items} {self.d.emojis.barrel}",
+            value=f"`{ctx.prefix}leaderboard uniqueitems`",
         )
 
         await ctx.reply(embed=embed, mention_author=False)
@@ -1751,22 +1751,6 @@ class Econ(commands.Cog):
                 title=ctx.l.econ.lb.lb_kil.format(self.d.emojis.stevegun),
             )
 
-    @leaderboards.command(name="bees", aliases=["jarofbees", "jarsofbees"])
-    async def leaderboard_bees(self, ctx: Ctx):
-        async with SuppressCtxManager(ctx.typing()):
-            global_lb = await self.db.fetch_global_lb_item("Jar Of Bees", ctx.author.id)
-            local_lb = await self.db.fetch_local_lb_item(
-                "Jar Of Bees", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
-            )
-
-            await self._lb_logic(
-                ctx,
-                global_lb=global_lb,
-                local_lb=local_lb,
-                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.bee} {{}}",
-                title=ctx.l.econ.lb.lb_bee.format(self.d.emojis.anibee),
-            )
-
     @leaderboards.command(name="commands", aliases=["!!", "cmds"])
     async def leaderboard_commands(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
@@ -1813,22 +1797,6 @@ class Econ(commands.Cog):
                 local_lb=local_lb,
                 row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.fish.cod} {{}}",
                 title=ctx.l.econ.lb.lb_fish.format(self.d.emojis.fish.rainbow_trout),
-            )
-
-    @leaderboards.command(name="mooderalds", aliases=["autism", "moods", "mooderald"])
-    async def leaderboard_mooderalds(self, ctx: Ctx):
-        async with SuppressCtxManager(ctx.typing()):
-            global_lb = await self.db.fetch_global_lb_item("Mooderald", ctx.author.id)
-            local_lb = await self.db.fetch_local_lb_item(
-                "Mooderald", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
-            )
-
-            await self._lb_logic(
-                ctx,
-                global_lb=global_lb,
-                local_lb=local_lb,
-                row_fmt=f"\n`{{}}.` **{{}}**{self.d.emojis.autistic_emerald} {{}}",
-                title=ctx.l.econ.lb.lb_moods.format(self.d.emojis.autistic_emerald),
             )
 
     @leaderboards.command(name="farming", aliases=["farm", "crop", "crops"])
@@ -1893,6 +1861,46 @@ class Econ(commands.Cog):
                 local_lb=local_lb,
                 row_fmt="\n`{}.` **{}** :keyboard: {}",
                 title=ctx.l.econ.lb.lb_wcmds.format(" :keyboard: "),
+            )
+
+    @leaderboards.command(name="uniqueitems", aliases=["uniqueitem", "uitems", "uitem", "ui"])
+    async def leaderboard_unique_items(self, ctx: Ctx):
+        async with SuppressCtxManager(ctx.typing()):
+            global_lb = await self.db.fetch_global_lb_unique_items(ctx.author.id)
+            local_lb = await self.db.fetch_local_lb_unique_items(
+                ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            )
+
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.barrel} {{}}",
+                title=ctx.l.econ.lb.lb_unique_items.format(f" {self.d.emojis.barrel} "),
+            )
+
+    @leaderboards.command(name="item", aliases=["i"])
+    async def leaderboard_items(self, ctx: Ctx, *, item: str):
+        async with SuppressCtxManager(ctx.typing()):
+            global_lb = await self.db.fetch_global_lb_item(item, ctx.author.id)
+            local_lb = await self.db.fetch_local_lb_item(
+                item, ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+            )
+
+            if not global_lb:
+                await ctx.reply_embed(ctx.l.econ.lb.no_item_lb)
+                return
+
+            item_emoji = emojify_item(
+                self.d, item_case(item), default=emojify_item(self.d, item, default=None)
+            )
+
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}**{item_emoji or ''} {{}}",
+                title=ctx.l.econ.lb.lb_item.format(f" {item_emoji} " or "", item_case(item)),
             )
 
     @commands.group(name="farm", case_insensitive=True)

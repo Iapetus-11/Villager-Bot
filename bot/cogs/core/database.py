@@ -501,6 +501,33 @@ class Database(commands.Cog):
             user_ids,
         )
 
+    async def fetch_global_lb_unique_items(self, user_id: int) -> list[dict[str, Any]]:
+        return await self.db.fetch(
+            """
+        WITH lb AS (SELECT user_id, COUNT(*) AS amount, ROW_NUMBER() OVER(ORDER BY COUNT(*) DESC) AS idx FROM items GROUP BY user_id)
+        (
+            (SELECT lb.* FROM lb LIMIT 10)
+            UNION
+            (SELECT lb.* FROM lb WHERE lb.user_id = $1)
+        ) ORDER BY idx;""",
+            user_id,
+        )
+
+    async def fetch_local_lb_unique_items(
+        self, user_id: int, user_ids: list
+    ) -> list[dict[str, Any]]:
+        return await self.db.fetch(
+            """
+        WITH lb AS (SELECT user_id, COUNT(*) AS amount, ROW_NUMBER() OVER(ORDER BY COUNT(*) DESC) AS idx FROM items WHERE user_id = ANY($2::BIGINT[]) GROUP BY user_id)
+        (
+            (SELECT lb.* FROM lb LIMIT 10)
+            UNION
+            (SELECT lb.* FROM lb WHERE lb.user_id = $1)
+        ) ORDER BY idx;""",
+            user_id,
+            user_ids,
+        )
+
     async def set_botbanned(self, user_id: int, botbanned: bool) -> None:
         await self.ensure_user_exists(user_id)
 
