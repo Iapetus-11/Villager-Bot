@@ -1891,14 +1891,16 @@ class Econ(commands.Cog):
                 await ctx.reply_embed(ctx.l.econ.lb.no_item_lb)
                 return
 
-            item_emoji = emojify_item(self.d, item_case(item), default=emojify_item(self.d, item, default=None))
+            item_emoji = emojify_item(
+                self.d, item_case(item), default=emojify_item(self.d, item, default=None)
+            )
 
             await self._lb_logic(
                 ctx,
                 global_lb=global_lb,
                 local_lb=local_lb,
                 row_fmt=f"\n`{{}}.` **{{}}**{item_emoji or ''} {{}}",
-                title=ctx.l.econ.lb.lb_item.format(f' {item_emoji} ' or '', item_case(item)),
+                title=ctx.l.econ.lb.lb_item.format(f" {item_emoji} " or "", item_case(item)),
             )
 
     @commands.group(name="farm", case_insensitive=True)
