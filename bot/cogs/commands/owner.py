@@ -13,7 +13,7 @@ from common.utils.code import execute_code, format_exception
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, shorten_text
+from bot.utils.misc import SuppressCtxManager, parse_timedelta, shorten_text
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -228,16 +228,16 @@ class Owner(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             rows = await self.db.fetch_guilds_jls()
 
-        rows = [row["diff"] for row in rows]
-        rows = [
-            ("+" if r > 0 else "-" if r < 0 else "~")
-            + " "
-            + (("#" * abs(r)) if r < 30 else ("#" * 30 + "+"))
-            + (f" ({r:+})" if r != 0 else "")
-            for r in rows
-        ]
+            rows = [row["diff"] for row in rows]
+            rows = [
+                ("+" if r > 0 else "-" if r < 0 else "~")
+                + " "
+                + (("#" * abs(r)) if r < 30 else ("#" * 30 + "+"))
+                + (f" ({r:+})" if r != 0 else "")
+                for r in rows
+            ]
 
-        body = "\n".join(rows)
+            body = "\n".join(rows)
 
         await ctx.send(f"Last 14 days of guild joins / leaves (newest is top)```diff\n{body}\n```")
 
@@ -287,12 +287,12 @@ class Owner(commands.Cog):
         )
 
     @commands.command(name="commandstreaks", aliases=["cmdsstreaks", "cmdstreaks"])
-    async def command_streaks(self, ctx: Ctx):
-        command_streaks = await self.db.fetch_command_streaks(
-            datetime.timedelta(minutes=5),
-            after=arrow.utcnow().shift(days=-2).datetime,
-            limit=9,
-        )
+    async def command_streaks(self, ctx: Ctx, duration_str: str = "5m"):
+        duration = parse_timedelta(duration_str)
+
+        if duration is None or duration.total_seconds() <= 0:
+            await ctx.reply_embed("Invalid duration specified")
+            return
 
         def format_row(idx_row) -> str:
             idx: int
@@ -308,10 +308,17 @@ class Owner(commands.Cog):
                 f"| {str(self.bot.get_user(row['user_id']) or '').replace('_', '').replace('*', '').replace('`', '')}"
             )
 
-        formatted_rows = "\n".join(map(format_row, enumerate(command_streaks)))
+        async with SuppressCtxManager(ctx.typing()):
+            command_streaks = await self.db.fetch_command_streaks(
+                break_interval=duration,
+                after=arrow.utcnow().shift(days=-7).datetime,
+                limit=9,
+            )
+
+            formatted_rows = "\n".join(map(format_row, enumerate(command_streaks)))
 
         await ctx.reply(
-            f"**Command Streaks** (last two days)\n```md\n## d  h  m  s  | user id             | name\n{formatted_rows}\n```"
+            f"**Command Streaks** (last week)\n```md\n## d  h  m  s  | user id             | name\n{formatted_rows}\n```"
         )
 
     @commands.command(name="shutdown")

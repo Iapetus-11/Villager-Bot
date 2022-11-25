@@ -216,11 +216,11 @@ class KarenClient:
 
     @validate_return_type
     async def botban_cache_add(self, user_id: int) -> None:
-        await self._send(PacketType.BOTBAN_CACHE_ADD, user_id=user_id)
+        await self._broadcast(PacketType.BOTBAN_CACHE_ADD, user_id=user_id)
 
     @validate_return_type
     async def botban_cache_remove(self, user_id: int) -> None:
-        await self._send(PacketType.BOTBAN_CACHE_REMOVE, user_id=user_id)
+        await self._broadcast(PacketType.BOTBAN_CACHE_REMOVE, user_id=user_id)
 
     @validate_return_type
     async def lookup_user(self, user_id: int) -> list[list[int | str]]:
