@@ -182,8 +182,9 @@ class Emojis(ImmutableBaseModel):
     chocolate_chip_cookie: str
     will_o_wisp: str
     time_pearl: str
+    shield_pearl: str
     feather: str
-    cowboy: str
+    pilgrim_hat: str
     turkey_leg: str
     seaweed: str
     mask: str
