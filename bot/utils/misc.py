@@ -17,6 +17,13 @@ from common.models.db.user import User
 from common.utils.code import format_exception
 
 
+class _Sentinel:
+    pass
+
+
+SENTINEL = _Sentinel()
+
+
 def parse_timedelta(duration: str) -> timedelta | None:
     """
     Converts a `duration` string to a relativedelta objects.
@@ -175,7 +182,7 @@ def calc_total_wealth(db_user: User, items: list[Item]):
     )
 
 
-def emojify_item(d, item: str) -> str:
+def emojify_item(d, item: str, default: Any = SENTINEL) -> str | Any:
     try:
         emoji_key = d.emoji_items[item]
 
@@ -190,7 +197,7 @@ def emojify_item(d, item: str) -> str:
 
         return d.emojis[emoji_key]
     except KeyError:
-        return d.emojis.air
+        return d.emojis.air if default is SENTINEL else default
 
 
 def emojify_crop(d, crop: str):
