@@ -56,3 +56,6 @@ jobs:
 
       - name: pytest
         run: poetry run pytest
+
+      - name: json-check
+        run: "find bot karen common -name \"*.json\" | while read file; do { echo \"Checking file: $file\"; cat $file | jq -c > /dev/null; }; done"
