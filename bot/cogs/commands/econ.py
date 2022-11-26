@@ -1900,7 +1900,9 @@ class Econ(commands.Cog):
                 global_lb=global_lb,
                 local_lb=local_lb,
                 row_fmt=f"\n`{{}}.` **{{}}**{item_emoji or ''} {{}}",
-                title=ctx.l.econ.lb.lb_item.format(f" {item_emoji} " if item_emoji else "", item_case(item)),
+                title=ctx.l.econ.lb.lb_item.format(
+                    f" {item_emoji} " if item_emoji else "", item_case(item)
+                ),
             )
 
     @commands.group(name="farm", case_insensitive=True)
