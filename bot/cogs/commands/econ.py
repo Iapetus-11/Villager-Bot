@@ -1889,7 +1889,7 @@ class Econ(commands.Cog):
             )
             item_stats = await self.db.get_item_stats(item)
 
-        if not global_lb:
+        if not global_lb or global_lb[0]['amount'] <= 1:
             await ctx.reply_embed(ctx.l.econ.lb.no_item_lb)
             return
 
