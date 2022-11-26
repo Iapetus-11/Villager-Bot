@@ -2109,7 +2109,8 @@
         "lb_trash": "{0}__**Classificação de Lixo Esvaziado**__{0}",
         "lb_wems": "{0}__**Esmeraldas da Semana**__{0}",
         "lb_wcmds": "{0}__**Comandos Semanais**__{0}",
-        "no_item_lb": "Não existe tabela de classificação para esse item"
+        "no_item_lb": "Não existe tabela de classificação para esse item",
+        "item_lb_stats": "*total de {total_count:,} possuídos por {user_count:,} usuários diferentes*"
       },
       "trash": {
         "s_trash": "Lixeira de {user}",

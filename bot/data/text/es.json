@@ -2109,7 +2109,8 @@
         "lb_trash": "{0}__**Clasificaciones de basura tirada**__{0}",
         "lb_wems": "{0}__**Esmeraldas Semanales**__{0}",
         "lb_wcmds": "{0}__**Comandos Semanales**__{0}",
-        "no_item_lb": "No existe una clasificacion para ese item"
+        "no_item_lb": "No existe una clasificacion para ese item",
+        "item_lb_stats": "*total de {total_count:,} propiedad de {user_count:,} usuarios diferentes*"
       },
       "trash": {
         "s_trash": "Basura de {user}",

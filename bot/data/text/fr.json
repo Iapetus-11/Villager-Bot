@@ -2109,7 +2109,8 @@
         "lb_trash": "{0}__**Classement des poubelles vidées**__{0}",
         "lb_wems": "{0}__**émeraudes Hebdomadaires**__{0}",
         "lb_wcmds": "{0}__**Commandes Hebdomadaires**__{0}",
-        "no_item_lb": "Il n’y a pas de leaderboard pour cet objet"
+        "no_item_lb": "Il n’y a pas de leaderboard pour cet objet",
+        "item_lb_stats": "*total de {total_count:,} détenus par {user_count:,} différents utilisateurs*"
       },
       "trash": {
         "s_trash": "Poubelle de {user}",
