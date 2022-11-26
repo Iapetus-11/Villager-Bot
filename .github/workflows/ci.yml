@@ -58,4 +58,4 @@ jobs:
         run: poetry run pytest
 
       - name: json-check
-        run: "find . -name \"*.json\" | while read -r file; do { echo Checking file: $file; cat $file | jq -c > /dev/null }; done"
+        run: "find . -name \"*.json\" | while read -r file; do { echo \"Checking file: $file\"; cat $file | jq -c > /dev/null }; done"
