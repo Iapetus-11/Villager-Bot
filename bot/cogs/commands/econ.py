@@ -1911,7 +1911,11 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
-        embed.add_field(name="\uFEFF", value=f"*total of {item_stats['total_count']:,} owned by {item_stats['users_in_possession']} different users*", inline=False)
+        embed.add_field(
+            name="\uFEFF",
+            value=f"*total of {item_stats['total_count']:,} owned by {item_stats['users_in_possession']} different users*",
+            inline=False,
+        )
 
         await ctx.reply(embed=embed, mention_author=False)
 
