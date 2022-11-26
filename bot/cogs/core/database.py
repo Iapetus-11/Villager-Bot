@@ -764,8 +764,13 @@ class Database(commands.Cog):
 
     async def get_item_stats(self, item: str) -> dict[str, int]:
         users_in_possession, total_count = await asyncio.gather(
-            self.db.fetchval("SELECT COUNT(*) FROM (SELECT user_id FROM items WHERE LOWER(name) = LOWER($1) GROUP BY user_id) iq", item),
-            self.db.fetchval("SELECT SUM(amount)::BIGINT FROM items WHERE LOWER(name) = LOWER($1)", item),
+            self.db.fetchval(
+                "SELECT COUNT(*) FROM (SELECT user_id FROM items WHERE LOWER(name) = LOWER($1) GROUP BY user_id) iq",
+                item,
+            ),
+            self.db.fetchval(
+                "SELECT SUM(amount)::BIGINT FROM items WHERE LOWER(name) = LOWER($1)", item
+            ),
         )
 
         return {"users_in_possession": users_in_possession, "total_count": total_count}
