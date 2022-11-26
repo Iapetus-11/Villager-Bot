@@ -1622,6 +1622,7 @@ class Econ(commands.Cog):
     async def leaderboards(self, ctx: Ctx):
         if ctx.invoked_subcommand is not None:
             return
+
         ctx.command.reset_cooldown(ctx)
 
         embed = discord.Embed(color=self.bot.embed_color, title=ctx.l.econ.lb.title)
@@ -1880,30 +1881,41 @@ class Econ(commands.Cog):
             )
 
     @leaderboards.command(name="item", aliases=["i"])
-    async def leaderboard_items(self, ctx: Ctx, *, item: str):
+    async def leaderboard_item(self, ctx: Ctx, *, item: str):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb_item(item, ctx.author.id)
             local_lb = await self.db.fetch_local_lb_item(
                 item, ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
             )
+            item_stats = await self.db.get_item_stats(item)
 
-            if not global_lb:
-                await ctx.reply_embed(ctx.l.econ.lb.no_item_lb)
-                return
+        if not global_lb:
+            await ctx.reply_embed(ctx.l.econ.lb.no_item_lb)
+            return
 
-            item_emoji = emojify_item(
-                self.d, item_case(item), default=emojify_item(self.d, item, default=None)
-            )
+        item_emoji = emojify_item(
+            self.d, item_case(item), default=emojify_item(self.d, item, default=None)
+        )
 
-            await self._lb_logic(
-                ctx,
-                global_lb=global_lb,
-                local_lb=local_lb,
-                row_fmt=f"\n`{{}}.` **{{}}**{item_emoji or ''} {{}}",
-                title=ctx.l.econ.lb.lb_item.format(
-                    f" {item_emoji} " if item_emoji else "", item_case(item)
-                ),
-            )
+        row_fmt = f"\n`{{}}.` **{{}}**{item_emoji or ''} {{}}"
+
+        title = ctx.l.econ.lb.lb_item.format(
+            f" {item_emoji} " if item_emoji else "", item_case(item)
+        )
+
+        async with SuppressCtxManager(ctx.typing()):
+            global_lb_str, local_lb_str = await craft_lbs(self.bot, global_lb, local_lb, row_fmt)
+
+        embed = discord.Embed(color=self.bot.embed_color, title=title)
+
+        embed.add_field(name=ctx.l.econ.lb.local_lb, value=local_lb_str)
+        embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
+
+        value=ctx.l.econ.lb.item_lb_stats.format(total_count=item_stats['total_count'], user_count=item_stats['users_in_possession'])
+
+        embed.add_field(name="\uFEFF", value=f"*total of {item_stats['total_count']:,} owned by {item_stats['users_in_possession']} different users*", inline=False)
+
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.group(name="farm", case_insensitive=True)
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)

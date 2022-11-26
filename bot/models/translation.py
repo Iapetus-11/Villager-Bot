@@ -735,6 +735,7 @@ class Econ_Lb(ImmutableBaseModel):
     lb_wems: str
     lb_wcmds: str
     no_item_lb: str
+    item_lb_stats: str
 
 
 class Econ_Trash(ImmutableBaseModel):
