@@ -44,7 +44,9 @@ class Share:
         )  # user_id: cmd_count, used for fishing as well
         self.trivia_commands = defaultdict[int, int](int)  # user_id: cmd_count
         self.command_counts_lb = defaultdict[int, int](int)  # user_id: cmd_count
-        self.active_fx = defaultdict[int, set[str]](set[str])  # user_id: set[fx]
+        self.active_fx = defaultdict[int, dict[str, float]](
+            dict[str, float]
+        )  # user_id: dict[fx: expires_at]
         self.current_cluster_id = 0
 
         self.command_executions = list[tuple[int, Optional[int], str, bool, datetime.datetime]]()
@@ -274,6 +276,13 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
             json={"server_count": str(sum(responses))},
         )
 
+    @recurring_task(seconds=2)
+    async def loop_clear_active_fx(self):
+        for user_id, active_fx in self.v.active_fx.items():
+            for effect, expires_at in list(active_fx.items()):
+                if time.time() > expires_at:
+                    del active_fx[effect]
+
     ###### packet handlers #####################################################
 
     @handle_packet(PacketType.EXEC_CODE)
@@ -373,22 +382,35 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
 
     @handle_packet(PacketType.ACTIVE_FX_FETCH)
     async def packet_active_fx_fetch(self, user_id: int):
-        return self.v.active_fx[user_id]
+        return set(self.v.active_fx[user_id].keys())
 
     @handle_packet(PacketType.ACTIVE_FX_CHECK)
     async def packet_active_fx_check(self, user_id: int, fx: str):
         return fx.lower() in self.v.active_fx[user_id]
 
     @handle_packet(PacketType.ACTIVE_FX_ADD)
-    async def packet_active_fx_add(self, user_id: int, fx: str):
-        self.v.active_fx[user_id].add(fx.lower())
+    async def packet_active_fx_add(self, user_id: int, fx: str, duration: float):
+        fx = fx.lower()
+
+        if fx in self.v.active_fx[user_id]:
+            self.v.active_fx[user_id][fx] += duration
+
+        self.v.active_fx[user_id][fx.lower()] = time.time() + duration
 
     @handle_packet(PacketType.ACTIVE_FX_REMOVE)
-    async def packet_active_fx_remove(self, user_id: int, fx: str):
-        try:
-            self.v.active_fx[user_id].remove(fx.lower())
-        except KeyError:
-            pass
+    async def packet_active_fx_remove(self, user_id: int, fx: str, duration: float | None):
+        fx = fx.lower()
+
+        if duration is None:
+            try:
+                del self.v.active_fx[user_id][fx]
+            except KeyError:
+                pass
+        else:
+            self.v.active_fx[user_id][fx] -= duration
+
+            if self.v.active_fx[user_id][fx] < time.time():
+                del self.v.active_fx[user_id][fx]
 
     @handle_packet(PacketType.ACTIVE_FX_CLEAR)
     async def packet_active_fx_clear(self, user_id: int):

@@ -153,12 +153,12 @@ class KarenClient:
         return await self._send(PacketType.ACTIVE_FX_CHECK, user_id=user_id, fx=fx)
 
     @validate_return_type
-    async def add_active_fx(self, user_id: int, fx: str) -> None:
-        await self._send(PacketType.ACTIVE_FX_ADD, user_id=user_id, fx=fx)
+    async def add_active_fx(self, user_id: int, fx: str, duration: float) -> None:
+        await self._send(PacketType.ACTIVE_FX_ADD, user_id=user_id, fx=fx, duration=duration)
 
     @validate_return_type
-    async def remove_active_fx(self, user_id: int, fx: str) -> None:
-        await self._send(PacketType.ACTIVE_FX_REMOVE, user_id=user_id, fx=fx)
+    async def remove_active_fx(self, user_id: int, fx: str, duration: float) -> None:
+        await self._send(PacketType.ACTIVE_FX_REMOVE, user_id=user_id, fx=fx, duration=duration)
 
     @validate_return_type
     async def clear_active_fx(self, user_id: int) -> None:
