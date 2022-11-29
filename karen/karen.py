@@ -44,7 +44,9 @@ class Share:
         )  # user_id: cmd_count, used for fishing as well
         self.trivia_commands = defaultdict[int, int](int)  # user_id: cmd_count
         self.command_counts_lb = defaultdict[int, int](int)  # user_id: cmd_count
-        self.active_fx = defaultdict[int, dict[str, float]](dict[str, float])  # user_id: dict[fx: expires_at]
+        self.active_fx = defaultdict[int, dict[str, float]](
+            dict[str, float]
+        )  # user_id: dict[fx: expires_at]
         self.current_cluster_id = 0
 
         self.command_executions = list[tuple[int, Optional[int], str, bool, datetime.datetime]]()
@@ -280,7 +282,6 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
             for effect, expires_at in list(active_fx.items()):
                 if time.time() > expires_at:
                     del active_fx[effect]
-
 
     ###### packet handlers #####################################################
 
