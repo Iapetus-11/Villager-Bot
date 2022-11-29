@@ -1351,34 +1351,25 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.use.stupid_5)
             return
 
-        if thing == "haste i potion":
+        generic_potions = {
+            "haste i potion": 60 * 7,
+            "haste ii potion": 60 * 6,
+            "luck potion": 60 * 4.5,
+        }
+
+        if thing in generic_potions:
+            duration = generic_potions[thing]
+
             if amount > 1:
                 await ctx.reply_embed(ctx.l.econ.use.stupid_1)
                 return
 
-            await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.karen.add_active_fx(ctx.author.id, "Haste I Potion")
-            await ctx.reply_embed(ctx.l.econ.use.chug.format("Haste I Potion", 6))
+            await self.db.remove_item(ctx.author.id, db_item.name, 1)
+            await self.karen.add_active_fx(ctx.author.id, db_item.name, duration)
+            await ctx.reply_embed(ctx.l.econ.use.chug.format(db_item.name, duration / 60))
 
-            await asyncio.sleep(60 * 6)
-
-            await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Haste I Potion"))
-            await self.karen.remove_active_fx(ctx.author.id, "Haste I Potion")
-            return
-
-        if thing == "haste ii potion":
-            if amount > 1:
-                await ctx.reply_embed(ctx.l.econ.use.stupid_1)
-                return
-
-            await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.karen.add_active_fx(ctx.author.id, "Haste II Potion")
-            await ctx.reply_embed(ctx.l.econ.use.chug.format("Haste II Potion", 4.5))
-
-            await asyncio.sleep(60 * 4.5)
-
-            await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Haste II Potion"))
-            await self.karen.remove_active_fx(ctx.author.id, "Haste II Potion")
+            await asyncio.sleep(duration)
+            await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format(db_item.name))
             return
 
         if thing == "bone meal":
@@ -1391,21 +1382,6 @@ class Econ(commands.Cog):
 
             await self.db.use_bonemeal(ctx.author.id)
 
-            return
-
-        if thing == "luck potion":
-            if amount > 1:
-                await ctx.reply_embed(ctx.l.econ.use.stupid_1)
-                return
-
-            await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.karen.add_active_fx(ctx.author.id, "Luck Potion")
-            await ctx.reply_embed(ctx.l.econ.use.chug.format("Luck Potion", 4.5))
-
-            await asyncio.sleep(60 * 4.5)
-
-            await self.bot.send_embed(ctx.author, ctx.l.econ.use.done.format("Luck Potion"))
-            await self.karen.remove_active_fx(ctx.author.id, "Luck Potion")
             return
 
         if thing == "seaweed":
