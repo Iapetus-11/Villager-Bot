@@ -1142,11 +1142,11 @@
     "mask": ":mask:",
     "cornucopia": "<:cornucopia:1041714283924422836>",
     "rudolfs_red_nose": "<:rudolfs_red_nose:1047335258598670356>",
-    "tree": "<a:traditional_christmas_tree:1047335222708011058>",
+    "christmas_tree": "<a:traditional_christmas_tree:1047335222708011058>",
     "mistletoe": "<:mistletoe:1047336566638526545>",
     "inflate_santa": "<:inflate_santa:1047337111151464458>",
     "tree_globe": "<:tree_globe:1047337839068729364>",
-     "s_sack": "<:s_sack:1047338463097266217>",
+     "santa_sack": "<:santa_sack:1047338463097266217>",
     "moon_dust": "<:moon_dust:1041714170325909585>",
     "farming": {
       "growing": {
@@ -1341,11 +1341,11 @@
     "Mask": "mask",
     "Cornucopia": "cornucopia",
     "Rudolfs Red Nose": "rudolfs_red_nose",
-    "Traditional Christmas Tree": "tree",
+    "Traditional Christmas Tree": "christmas_tree",
     "Traditional Mistletoe": "mistletoe",
     "Inflatable Santa": "inflate_santa",
     "Christmas Tree Snow-Globe": "tree_globe",
-    "Santa Sack": "s_sack",
+    "Santa Sack": "santa_sack",
     "Moon Dust": "moon_dust"
   },
   "farming": {
