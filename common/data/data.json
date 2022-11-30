@@ -411,19 +411,13 @@
         "sticky": true
       },
       {
-        "item": "Traditional Mistletoe",
-        "sell_price": 128,
-        "rarity": 500,
-        "sticky": false
-      },
-      {
         "item": "Present",
         "sell_price": 512,
         "rarity": 2000,
         "sticky": false
       },
       {
-        "item": "Christmas Tree Snow-Globe",
+        "item": "Snow Globe",
         "sell_price": 512,
         "rarity": 6669,
         "sticky": false
@@ -447,7 +441,7 @@
         "sticky": false
       },
       {
-        "item": "Traditional Christmas Tree",
+        "item": "Christmas Tree",
         "sell_price": 2048,
         "rarity": 125000,
         "sticky": false
@@ -1143,7 +1137,6 @@
     "cornucopia": "<:cornucopia:1041714283924422836>",
     "rudolfs_red_nose": "<:rudolfs_red_nose:1047335258598670356>",
     "christmas_tree": "<a:traditional_christmas_tree:1047335222708011058>",
-    "mistletoe": "<:mistletoe:1047336566638526545>",
     "inflate_santa": "<:inflate_santa:1047337111151464458>",
     "tree_globe": "<:tree_globe:1047337839068729364>",
      "santa_sack": "<:santa_sack:1047338463097266217>",
@@ -1341,10 +1334,9 @@
     "Mask": "mask",
     "Cornucopia": "cornucopia",
     "Rudolfs Red Nose": "rudolfs_red_nose",
-    "Traditional Christmas Tree": "christmas_tree",
-    "Traditional Mistletoe": "mistletoe",
+    "Christmas Tree": "christmas_tree",
     "Inflatable Santa": "inflate_santa",
-    "Christmas Tree Snow-Globe": "tree_globe",
+    "Snow Globe": "tree_globe",
     "Santa Sack": "santa_sack",
     "Moon Dust": "moon_dust"
   },
