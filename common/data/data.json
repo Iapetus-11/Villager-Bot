@@ -441,7 +441,7 @@
         "sticky": false
       },
       {
-        "item": "Rodulfs Red Nose",
+        "item": "Rudolfs Red Nose",
         "sell_price": 3333,
         "rarity": 150000,
         "sticky": false
@@ -553,7 +553,7 @@
         "sticky": false
       },
       {
-        "item": "Rodulfs Red Nose",
+        "item": "Rudolfs Red Nose",
         "sell_price": 3333,
         "rarity": 150000,
         "sticky": false
@@ -1141,7 +1141,7 @@
     "seaweed": "<:seaweed:1043637964158279742>",
     "mask": ":mask:",
     "cornucopia": "<:cornucopia:1041714283924422836>",
-    "rudolfs_red_nose": "<:rodulfs_red_nose:1047335258598670356>",
+    "rudolfs_red_nose": "<:rudolfs_red_nose:1047335258598670356>",
     "tree": "<a:traditional_christmas_tree:1047335222708011058>",
     "mistletoe": "<:mistletoe:1047336566638526545>",
     "inflate_santa": "<:inflate_santa:1047337111151464458>",
