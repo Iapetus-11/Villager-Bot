@@ -190,11 +190,10 @@ class Emojis(ImmutableBaseModel):
     mask: str
     cornucopia: str
     rudolfs_red_nose: str
-    tree: str
-    mistletoe: str
+    christmas_tree: str
     inflate_santa: str
     tree_globe: str
-    s_sack: str
+    santa_sack: str
     moon_dust: str
     farming: FarmingEmojis
     reees: list[str]
