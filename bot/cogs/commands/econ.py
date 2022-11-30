@@ -1385,18 +1385,18 @@ class Econ(commands.Cog):
             return
 
         if thing == "seaweed":
+            duration = 60 * 30
+
             if amount > 1:
                 await ctx.reply_embed(ctx.l.econ.use.stupid_1)
                 return
 
             await self.db.remove_item(ctx.author.id, thing, 1)
-            await self.karen.add_active_fx(ctx.author.id, "Seaweed")
+            await self.karen.add_active_fx(ctx.author.id, "Seaweed", duration)
             await ctx.reply_embed(ctx.l.econ.use.smoke_seaweed.format(30))
 
-            await asyncio.sleep(60 * 30)
-
+            await asyncio.sleep(duration)
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.seaweed_done)
-            await self.karen.remove_active_fx(ctx.author.id, "Seaweed")
             return
 
         if thing == "vault potion":
