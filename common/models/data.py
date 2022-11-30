@@ -189,6 +189,12 @@ class Emojis(ImmutableBaseModel):
     seaweed: str
     mask: str
     cornucopia: str
+    rudolfs_red_nose: str
+    tree: str
+    mistletoe: str
+    inflate_santa: str
+    tree_globe: str
+    s_sack: str
     moon_dust: str
     farming: FarmingEmojis
     reees: list[str]
