@@ -559,7 +559,7 @@
         "sticky": false
       },
       {
-        "item": "Christmas Tree Snow-Globe",
+        "item": "Snow Globe",
         "sell_price": 512,
         "rarity": 6669,
         "sticky": false
@@ -1136,9 +1136,9 @@
     "mask": ":mask:",
     "cornucopia": "<:cornucopia:1041714283924422836>",
     "rudolfs_red_nose": "<:rudolfs_red_nose:1047335258598670356>",
-    "christmas_tree": "<:christmas_tree:1047335222708011058>",
+    "christmas_tree": ":christmas_tree:",
     "inflate_santa": "<:inflate_santa:1047337111151464458>",
-    "tree_globe": "<:tree_globe:1047337839068729364>",
+    "snow_globe": "<:snow_globe:1047337839068729364>",
     "santa_sack": "<:santa_sack:1047338463097266217>",
     "moon_dust": "<:moon_dust:1041714170325909585>",
     "farming": {
@@ -1336,7 +1336,7 @@
     "Rudolfs Red Nose": "rudolfs_red_nose",
     "Christmas Tree": "christmas_tree",
     "Inflatable Santa": "inflate_santa",
-    "Snow Globe": "tree_globe",
+    "Snow Globe": "snow_globe",
     "Santa Sack": "santa_sack",
     "Moon Dust": "moon_dust"
   },
