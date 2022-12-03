@@ -76,8 +76,8 @@ class Database(commands.Cog):
         disabled_records = await self.db.fetch("SELECT * FROM disabled_commands")
         disabled = defaultdict(set)
 
-        for guild_id, command in disabled_records:
-            disabled[guild_id].add(command)
+        for record in disabled_records:
+            disabled[record['guild_id']].add(record['command'])
 
         return disabled
 
