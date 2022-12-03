@@ -77,7 +77,7 @@ class Database(commands.Cog):
         disabled = defaultdict(set)
 
         for record in disabled_records:
-            disabled[record['guild_id']].add(record['command'])
+            disabled[record["guild_id"]].add(record["command"])
 
         return disabled
 
