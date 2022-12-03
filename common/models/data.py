@@ -191,7 +191,7 @@ class Emojis(ImmutableBaseModel):
     cornucopia: str
     rudolfs_red_nose: str
     christmas_tree: str
-    inflate_santa: str
+    inflatable_santa: str
     snow_globe: str
     santa_sack: str
     moon_dust: str
