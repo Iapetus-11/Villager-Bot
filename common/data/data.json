@@ -411,27 +411,39 @@
         "sticky": true
       },
       {
-        "item": "Turkey Leg",
+        "item": "Present",
         "sell_price": 512,
-        "rarity": 49999,
+        "rarity": 2000,
         "sticky": false
       },
       {
-        "item": "Turkey Feather",
-        "sell_price": 128,
-        "rarity": 1000,
+        "item": "Snow Globe",
+        "sell_price": 512,
+        "rarity": 6669,
         "sticky": false
       },
       {
-        "item": "Cornucopia",
-        "sell_price": 512,
+        "item": "Santa Sack",
+        "sell_price": 768,
         "rarity": 9999,
         "sticky": false
       },
       {
-        "item": "Pilgrim Hat",
+        "item": "Inflatable Santa",
         "sell_price": 1024,
         "rarity": 99999,
+        "sticky": false
+      },
+      {
+        "item": "Rudolfs Red Nose",
+        "sell_price": 3333,
+        "rarity": 150000,
+        "sticky": false
+      },
+      {
+        "item": "Christmas Tree",
+        "sell_price": 2048,
+        "rarity": 125000,
         "sticky": false
       }
     ]
@@ -535,15 +547,21 @@
         "sticky": false
       },
       {
-        "item": "Cornucopia",
-        "sell_price": 512,
-        "rarity": 9999,
+        "item": "Rudolfs Red Nose",
+        "sell_price": 3333,
+        "rarity": 150000,
         "sticky": false
       },
       {
-        "item": "Pilgrim Hat",
+        "item": "Inflatable Santa",
         "sell_price": 1024,
         "rarity": 99999,
+        "sticky": false
+      },
+      {
+        "item": "Snow Globe",
+        "sell_price": 512,
+        "rarity": 6669,
         "sticky": false
       },
       {
@@ -1117,6 +1135,11 @@
     "seaweed": "<:seaweed:1043637964158279742>",
     "mask": ":mask:",
     "cornucopia": "<:cornucopia:1041714283924422836>",
+    "rudolfs_red_nose": "<:rudolfs_red_nose:1047335258598670356>",
+    "christmas_tree": ":christmas_tree:",
+    "inflatable_santa": "<:inflatable_santa:1047337111151464458>",
+    "snow_globe": "<:snow_globe:1047337839068729364>",
+    "santa_sack": "<:santa_sack:1047338463097266217>",
     "moon_dust": "<:moon_dust:1041714170325909585>",
     "farming": {
       "growing": {
@@ -1310,6 +1333,11 @@
     "Seaweed": "seaweed",
     "Mask": "mask",
     "Cornucopia": "cornucopia",
+    "Rudolfs Red Nose": "rudolfs_red_nose",
+    "Christmas Tree": "christmas_tree",
+    "Inflatable Santa": "inflatable_santa",
+    "Snow Globe": "snow_globe",
+    "Santa Sack": "santa_sack",
     "Moon Dust": "moon_dust"
   },
   "farming": {
