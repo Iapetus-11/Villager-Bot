@@ -103,7 +103,7 @@ class Fun(commands.Cog):
         else:
             embed = discord.Embed(color=self.bot.embed_color)
             embed.set_image(
-                url=f"https://iapetus11.me/images/cursed_minecraft/{random.choice(self.d.cursed_images)}"
+                url=f"https://villagerbot.com/images/cursed_minecraft/{random.choice(self.d.cursed_images)}"
             )
 
             await ctx.send(embed=embed)
