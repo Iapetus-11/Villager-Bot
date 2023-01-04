@@ -445,7 +445,7 @@
         "sell_price": 3333,
         "rarity": 150000,
         "sticky": false
-      },
+      }
     ]
   },
   "fishing": {
@@ -569,7 +569,7 @@
         "sell_price": 3333,
         "rarity": 150000,
         "sticky": false
-      },
+      }
     ]
   },
   "shop_items": {
