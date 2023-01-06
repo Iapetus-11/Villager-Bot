@@ -409,6 +409,42 @@
         "sell_price": 4096,
         "rarity": 500000,
         "sticky": true
+      },
+      {
+        "item": "Champagne Glass",
+        "sell_price": 512,
+        "rarity": 2048,
+        "sticky": false
+      },
+      {
+        "item": "Leftover Party Confetti",
+        "sell_price": 1,
+        "rarity": 1000,
+        "sticky": false
+      },
+      {
+        "item": "Party Hat",
+        "sell_price": 512,
+        "rarity": 2048,
+        "sticky": false
+      },
+      {
+        "item": "Fireworks Bundle",
+        "sell_price": 1024,
+        "rarity": 8192,
+        "sticky": false
+      },
+      {
+        "item": "New Years Balloon",
+        "sell_price": 1024,
+        "rarity": 9999,
+        "sticky": false
+      },
+      {
+        "item": "Premium 2023 Calendar",
+        "sell_price": 3333,
+        "rarity": 150000,
+        "sticky": false
       }
     ]
   },
@@ -514,6 +550,24 @@
         "item": "Recycler",
         "sell_price": 1024,
         "rarity": 99999,
+        "sticky": false
+      },
+      {
+        "item": "Party Hat",
+        "sell_price": 512,
+        "rarity": 2048,
+        "sticky": false
+      },
+      {
+        "item": "Champagne Glass",
+        "sell_price": 512,
+        "rarity": 2048,
+        "sticky": false
+      },
+      {
+        "item": "Premium 2023 Calendar",
+        "sell_price": 3333,
+        "rarity": 150000,
         "sticky": false
       }
     ]
