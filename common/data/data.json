@@ -411,39 +411,57 @@
         "sticky": true
       },
       {
-        "item": "Champagne Glass",
+        "item": "Mushroom",
         "sell_price": 512,
         "rarity": 2048,
         "sticky": false
       },
       {
-        "item": "Leftover Party Confetti",
-        "sell_price": 1,
+        "item": "Fake Item Box",
+        "sell_price": 32,
         "rarity": 1000,
         "sticky": false
       },
       {
-        "item": "Party Hat",
+        "item": "Item Box",
+        "sell_price": 128,
+        "rarity": 1000,
+        "sticky": false
+      },
+      {
+        "item": "Banana",
         "sell_price": 512,
         "rarity": 2048,
         "sticky": false
       },
       {
-        "item": "Fireworks Bundle",
-        "sell_price": 1024,
-        "rarity": 8192,
+        "item": "Green Shell",
+        "sell_price": 512,
+        "rarity": 3000,
         "sticky": false
       },
       {
-        "item": "New Years Balloon",
-        "sell_price": 1024,
-        "rarity": 9999,
+        "item": "Red Shell",
+        "sell_price": 768,
+        "rarity": 4000,
         "sticky": false
       },
       {
-        "item": "Premium 2023 Calendar",
-        "sell_price": 3333,
-        "rarity": 150000,
+        "item": "Mega Mushroom",
+        "sell_price": 768,
+        "rarity": 5000,
+        "sticky": false
+      },
+      {
+        "item": "Golden Mushroom",
+        "sell_price": 1024,
+        "rarity": 8000,
+        "sticky": false
+      },
+      {
+        "item": "Blue Shell",
+        "sell_price": 2048,
+        "rarity": 99999,
         "sticky": false
       }
     ]
@@ -553,21 +571,21 @@
         "sticky": false
       },
       {
-        "item": "Party Hat",
-        "sell_price": 512,
-        "rarity": 2048,
+        "item": "Item Box",
+        "sell_price": 128,
+        "rarity": 2000,
         "sticky": false
       },
       {
-        "item": "Champagne Glass",
-        "sell_price": 512,
-        "rarity": 2048,
+        "item": "Mega Mushroom",
+        "sell_price": 768,
+        "rarity": 5000,
         "sticky": false
       },
       {
-        "item": "Premium 2023 Calendar",
-        "sell_price": 3333,
-        "rarity": 150000,
+        "item": "Blue Shell",
+        "sell_price": 2048,
+        "rarity": 99999,
         "sticky": false
       }
     ]
@@ -1141,6 +1159,15 @@
     "snow_globe": "<:snow_globe:1047337839068729364>",
     "santa_sack": "<:santa_sack:1047338463097266217>",
     "moon_dust": "<:moon_dust:1041714170325909585>",
+    "item_box": "<:item_box:1073977639901085776>",
+    "fake_box": "<:fake_item:1073977738127483071>",
+    "banana": "<:banana:1073977357490204702>",
+    "green_shell": "<:green_shell:1073977851625353266>",
+    "red_shell": "<:red_shell:1073977884999430184>",
+    "mushroom": "<:mushroom:1073977912778305546>",
+    "mega_mushroom": "<:mega_mushroom:1073978241523654696>",
+    "golden_mushroom": "<:golden_mushroom:1073977939357606021>",
+    "blue_shell": "<:blue_shell:1073977769840619632>"
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1338,7 +1365,17 @@
     "Inflatable Santa": "inflatable_santa",
     "Snow Globe": "snow_globe",
     "Santa Sack": "santa_sack",
-    "Moon Dust": "moon_dust"
+    "Moon Dust": "moon_dust",
+    "Item Box": "item_box",
+    "Fake Item Box": "fake_box",
+    "Banana": "banana",
+    "Green Shell": "green_shell",
+    "Red Shell": "red_shell",
+    "Mushroom": "mushroom",
+    "Mega Mushroom": "mega_mushroom",
+    "Golden Mushroom": "golden_mushroom",
+    "Blue Shell": "blue_shell"
+    
   },
   "farming": {
     "emojis": {
