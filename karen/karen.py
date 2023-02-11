@@ -9,6 +9,7 @@ from collections import defaultdict
 from typing import Any, Optional
 
 import aiohttp
+import arrow
 import asyncpg
 import psutil
 
@@ -60,6 +61,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         self._db: Optional[asyncpg.Pool] = None
 
+        self.start_time = arrow.utcnow()
         self.ready_event = asyncio.Event()
 
         self.server = Server(
@@ -366,6 +368,7 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
             memory_max_bytes=memory_info.total,
             threads=psutil.Process().num_threads(),
             asyncio_tasks=len(asyncio.all_tasks()),
+            start_time=self.start_time.datetime,
         )
 
     @handle_packet(PacketType.ECON_PAUSE_CHECK)

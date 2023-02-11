@@ -351,13 +351,6 @@ class Useful(commands.Cog):
         with suppress(Exception):
             await ctx.defer()
 
-        uptime_seconds = (arrow.utcnow() - self.bot.start_time).total_seconds()
-        uptime = (
-            arrow.utcnow()
-            .shift(seconds=uptime_seconds)
-            .humanize(locale=ctx.l.lang, only_distance=True)
-        )
-
         clusters_bot_stats: list[list[Any]]
         clusters_system_stats: list[SystemStats]
         karen_system_stats: SystemStats
@@ -379,7 +372,12 @@ class Useful(commands.Cog):
             session_votes,
         ) = map(sum, zip(*clusters_bot_stats))
 
-        # total_mem = psutil.virtual_memory().total
+        uptime_seconds = (arrow.utcnow() - karen_system_stats.start_time).total_seconds()
+        uptime = (
+            arrow.utcnow()
+            .shift(seconds=uptime_seconds)
+            .humanize(locale=ctx.l.lang, only_distance=True)
+        )
 
         embed = discord.Embed(color=self.bot.embed_color)
 
@@ -392,7 +390,6 @@ class Useful(commands.Cog):
             f"{ctx.l.useful.stats.users}: `{user_count}`\n"
             f"{ctx.l.useful.stats.msgs}: `{message_count}`\n"
             f"{ctx.l.useful.stats.shards}: `{self.bot.shard_count}`\n"
-            f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
         )
         general_col_2 = (
             f"{ctx.l.useful.stats.cmds}: `{command_count}` `({round((command_count / (message_count + .0000001)) * 100, 2)}%)`\n"
@@ -408,14 +405,22 @@ class Useful(commands.Cog):
         embed.add_field(name="\uFEFF", value=general_col_2)
 
         for ss in [karen_system_stats, *clusters_system_stats]:
-            mem_gb = ss.memory_usage_bytes / 1000000000
+            mem_gb = ss.memory_usage_bytes / 1_000_000_000
             mem_percent = ss.memory_usage_bytes / ss.memory_max_bytes * 100
+
+            uptime_seconds = (arrow.utcnow() - ss.start_time).total_seconds()
+            uptime = (
+                arrow.utcnow()
+                .shift(seconds=uptime_seconds)
+                .humanize(locale=ctx.l.lang, only_distance=True)
+            )
 
             embed.add_field(
                 name=ss.identifier,
                 value=(
                     f"{ctx.l.useful.stats.mem}: `{round(mem_gb, 2)} GB` `({round(mem_percent, 2)}%)`\n"
                     f"{ctx.l.useful.stats.cpu}: `{round(ss.cpu_usage_percent * 100, 2)}%`\n"
+                    f"{ctx.l.useful.stats.uptime}: `{uptime}`\n"
                 ),
             )
             embed.add_field(name="\uFEFF", value="\uFEFF")

@@ -391,6 +391,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             memory_max_bytes=memory_info.total,
             threads=psutil.Process().num_threads(),
             asyncio_tasks=len(asyncio.all_tasks()),
+            start_time=self.start_time.datetime,
         )
 
     @handle_packet(PacketType.FETCH_GUILD_COUNT)
