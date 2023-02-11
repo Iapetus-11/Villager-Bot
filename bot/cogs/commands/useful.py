@@ -472,20 +472,20 @@ class Useful(commands.Cog):
         embed.add_field(name="General :gear:", value=(general + ban_count_display), inline=True)
         embed.add_field(name="Villager Bot " + self.d.emojis.emerald, value=villager, inline=True)
 
-        role_mentions = [r.mention for r in guild.roles if r.id != guild.id][::-1]
-        role_mentions_cut = list(shorten_chunks(role_mentions, 1000))
-        role_mentions_diff = len(role_mentions) - len(role_mentions_cut)
+        if role_mentions := [r.mention for r in guild.roles if r.id != guild.id][::-1]:
+            role_mentions_cut = list(shorten_chunks(role_mentions, 900))
+            role_mentions_diff = len(role_mentions) - len(role_mentions_cut)
 
-        embed.add_field(
-            name="Roles",
-            value=" ".join(role_mentions_cut)
-            + (
-                (" " + ctx.l.useful.ginf.roles_and_n_others.format(n=role_mentions_diff))
-                if role_mentions_diff
-                else ""
-            ),
-            inline=False,
-        )
+            embed.add_field(
+                name="Roles",
+                value=" ".join(role_mentions_cut)
+                + (
+                    (" " + ctx.l.useful.ginf.roles_and_n_others.format(n=role_mentions_diff))
+                    if role_mentions_diff
+                    else ""
+                ),
+                inline=False,
+            )
 
         embed.set_thumbnail(url=getattr(guild.icon, "url", None))
         embed.set_footer(text=ctx.l.useful.credits.foot.format(ctx.prefix))
