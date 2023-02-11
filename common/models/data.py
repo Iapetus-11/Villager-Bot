@@ -195,6 +195,15 @@ class Emojis(ImmutableBaseModel):
     snow_globe: str
     santa_sack: str
     moon_dust: str
+    item_box: str
+    fake_box: str
+    banana: str
+    green_shell: str
+    red_shell: str
+    mushroom: str
+    mega_mushroom: str
+    golden_mushroom: str
+    blue_shell: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis
