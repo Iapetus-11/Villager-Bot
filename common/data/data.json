@@ -413,13 +413,13 @@
       {
         "item": "Mushroom",
         "sell_price": 512,
-        "rarity": 2048,
+        "rarity": 6144,
         "sticky": false
       },
       {
         "item": "Fake Item Box",
         "sell_price": 32,
-        "rarity": 1000,
+        "rarity": 512,
         "sticky": false
       },
       {
@@ -437,31 +437,31 @@
       {
         "item": "Green Shell",
         "sell_price": 512,
-        "rarity": 3000,
+        "rarity": 3192,
         "sticky": false
       },
       {
         "item": "Red Shell",
         "sell_price": 768,
-        "rarity": 4000,
+        "rarity": 4096,
         "sticky": false
       },
       {
         "item": "Mega Mushroom",
         "sell_price": 768,
-        "rarity": 5000,
+        "rarity": 8192,
         "sticky": false
       },
       {
         "item": "Golden Mushroom",
         "sell_price": 1024,
-        "rarity": 8000,
+        "rarity": 50000,
         "sticky": false
       },
       {
         "item": "Blue Shell",
         "sell_price": 2048,
-        "rarity": 99999,
+        "rarity": 120000,
         "sticky": false
       }
     ]
@@ -579,13 +579,13 @@
       {
         "item": "Mega Mushroom",
         "sell_price": 768,
-        "rarity": 5000,
+        "rarity": 8192,
         "sticky": false
       },
       {
         "item": "Blue Shell",
         "sell_price": 2048,
-        "rarity": 99999,
+        "rarity": 120000,
         "sticky": false
       }
     ]
