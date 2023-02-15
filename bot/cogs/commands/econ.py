@@ -11,7 +11,7 @@ import discord
 import numpy.random
 from discord.ext import commands
 
-from common.models.data import ShopItem
+from common.models.data import Findable, ShopItem
 from common.models.db.item import Item
 
 from bot.cogs.core.badges import Badges
@@ -1499,6 +1499,22 @@ class Econ(commands.Cog):
                 random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald)
             )
             return
+
+        if thing == "item box":
+            if amount > 1:
+                await ctx.reply_embed(ctx.l.econ.use.stupid_1)
+                return
+
+            await self.db.remove_item(ctx.author.id, "Item Box", 1)
+
+            mkwii_findables = self.d.filter_findables("mkwii")
+            findable_weights = [item.rarity for item in mkwii_findables]
+
+            item: Findable = random.choices(mkwii_findables, findable_weights)
+
+            await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
+
+            await ctx.reply_embed(random.choice(ctx.l.econ.use.open_item_box).format(item=item.item, sell_price=item.sell_price, emerald=self.d.emojis.emerald))
 
         if thing == "glass beaker":
             slime_balls = await self.db.fetch_item(ctx.author.id, "Slime Ball")

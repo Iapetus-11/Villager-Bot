@@ -281,8 +281,11 @@ class Data(ImmutableBaseModel):
 
     @cached_property
     def mining_findables(self) -> list[Findable]:
-        return [f for f in self.findables if ("mine" in f.tags and "disabled" not in f.tags)]
+        return self.filter_findables("mine")
 
     @cached_property
     def fishing_findables(self) -> list[Findable]:
-        return [f for f in self.findables if ("fish" in f.tags and "disabled" not in f.tags)]
+        return self.filter_findables("fish")
+
+    def filter_findables(self, tag: str, *, skip_disabled: bool = True):
+        return [f for f in self.findables if (tag in f.tags and (skip_disabled or "disabled" not in f.tags))]
