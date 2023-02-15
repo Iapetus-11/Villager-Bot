@@ -1510,7 +1510,7 @@ class Econ(commands.Cog):
             mkwii_findables = self.d.filter_findables("mkwii")
             findable_weights = [item.rarity for item in mkwii_findables]
 
-            item: Findable = random.choices(mkwii_findables, findable_weights)
+            item: Findable = random.choices(mkwii_findables, findable_weights)[0]
 
             await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
 
