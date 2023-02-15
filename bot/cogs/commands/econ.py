@@ -1048,7 +1048,7 @@ class Econ(commands.Cog):
         lucky = await self.karen.check_active_fx(ctx.author.id, "Luck Potion")
 
         # iterate through items findable via mining
-        for item in self.d.mining.findables:
+        for item in self.d.mining_findables:
             # check if user should get item based on rarity (item.rarity)
             if random.randint(0, item.rarity) == 1 or (
                 lucky and random.randint(0, item.rarity) < 3
@@ -1174,7 +1174,7 @@ class Econ(commands.Cog):
 
             # iterate through fishing findables until something is found
             while True:
-                for item in self.d.fishing.findables:
+                for item in self.d.fishing_findables:
                     if random.randint(0, (item.rarity // 2) + 2) == 1:
                         await self.db.add_item(
                             ctx.author.id, item.item, item.sell_price, 1, item.sticky
@@ -1450,7 +1450,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Present", 1)
 
             while True:
-                for item in self.d.mining.findables:
+                for item in self.d.mining_findables:
                     if random.randint(0, (item.rarity // 2) + 2) == 1:
                         await self.db.add_item(
                             ctx.author.id, item.item, item.sell_price, 1, item.sticky
@@ -1471,7 +1471,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Barrel", 1)
 
             for _ in range(20):
-                for item in self.d.mining.findables:
+                for item in self.d.mining_findables:
                     if item.rarity > 1000:
                         if random.randint(0, (item.rarity // 1.5) + 5) == 1:
                             await self.db.add_item(
