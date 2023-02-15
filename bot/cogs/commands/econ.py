@@ -1514,7 +1514,11 @@ class Econ(commands.Cog):
 
             await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
 
-            await ctx.reply_embed(random.choice(ctx.l.econ.use.open_item_box).format(item=item.item, sell_price=item.sell_price, emerald=self.d.emojis.emerald))
+            await ctx.reply_embed(
+                random.choice(ctx.l.econ.use.open_item_box).format(
+                    item=item.item, sell_price=item.sell_price, emerald=self.d.emojis.emerald
+                )
+            )
 
         if thing == "glass beaker":
             slime_balls = await self.db.fetch_item(ctx.author.id, "Slime Ball")
