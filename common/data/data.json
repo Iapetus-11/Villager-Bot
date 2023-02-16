@@ -953,7 +953,7 @@
       "sell_price": 128,
       "rarity": 4096,
       "sticky": false,
-      "tags": ["mine", "mkwii"]
+      "tags": ["mine", "fish", "mkwii"]
     },
     {
       "item": "Banana",
@@ -988,14 +988,14 @@
       "sell_price": 1024,
       "rarity": 50000,
       "sticky": false,
-      "tags": ["mine", "fish", "mkwii"]
+      "tags": ["mine", "mkwii"]
     },
     {
       "item": "Blue Shell",
       "sell_price": 2048,
       "rarity": 120000,
       "sticky": false,
-      "tags": ["mine", "mkwii"]
+      "tags": ["mine", "fish", "mkwii"]
     }
   ],
   "rpt_ignore": [
