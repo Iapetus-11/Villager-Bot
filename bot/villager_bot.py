@@ -186,7 +186,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                         for k, v in self.d.farming.emerald_yields.items()
                     }
                 )
-                item_prices.update({f.item: f.sell_price for f in self.d.fishing.findables})
+                item_prices.update({f.item: f.sell_price for f in self.d.fishing_findables})
 
                 await self.get_cog("Database").sync_item_prices(item_prices)
 

@@ -437,9 +437,18 @@ class Useful(commands.Cog):
 
     @commands.command(name="serverinfo", aliases=["server", "guild", "guildinfo"])
     @commands.guild_only()
-    async def server_info(self, ctx: Ctx, *, guild: discord.Guild = None):
+    async def server_info(self, ctx: Ctx, *, guild: discord.Guild | int = None):
         with suppress(Exception):
             await ctx.defer()
+
+        if isinstance(guild, int):
+            guild = self.bot.get_guild(guild)
+
+            if guild is None:
+                try:
+                    guild = await self.bot.fetch_guild(guild)
+                except discord.HTTPException:
+                    pass
 
         if guild is None:
             guild = ctx.guild
@@ -471,7 +480,7 @@ class Useful(commands.Cog):
         villager = (
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
             f"{ctx.l.useful.ginf.diff}: `{db_guild.difficulty}`\n"
-            f"{ctx.l.useful.ginf.cmd_prefix}: `{ctx.prefix}`\n"
+            f"{ctx.l.useful.ginf.cmd_prefix}: `{self.bot.prefix_cache.get(guild.id, self.bot.k.default_prefix)}`\n"
             f"{ctx.l.useful.ginf.joined_at}: `{arrow.get(ctx.me.joined_at).humanize(locale=ctx.l.lang)}`\n"
         )
 
@@ -499,7 +508,7 @@ class Useful(commands.Cog):
         msg = await ctx.reply(embed=embed, mention_author=False)
 
         async with SuppressCtxManager(ctx.defer()):
-            aprox_ban_count = await fetch_aprox_ban_count(ctx.guild, seconds=3)
+            aprox_ban_count = await fetch_aprox_ban_count(guild, seconds=3)
             embed.set_field_at(
                 0,
                 name=embed.fields[0].name,

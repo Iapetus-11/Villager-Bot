@@ -680,6 +680,7 @@ class Econ_Use(ImmutableBaseModel):
     present: list[str]
     barrel_item: list[str]
     barrel_ems: list[str]
+    open_item_box: list[str]
 
 
 class Econ_Farm_Commands(ImmutableBaseModel):

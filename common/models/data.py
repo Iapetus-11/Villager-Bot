@@ -1,3 +1,4 @@
+from functools import cached_property
 from typing import Any, Optional
 
 from pydantic import Field, HttpUrl
@@ -21,6 +22,7 @@ class Findable(ImmutableBaseModel):
     sell_price: int
     rarity: int
     sticky: bool
+    tags: set[str]
 
 
 class Mining(ImmutableBaseModel):
@@ -28,9 +30,8 @@ class Mining(ImmutableBaseModel):
     find_values: dict[str, float]
     yields_enchant_items: dict[str, list[int]]  # extra emerald yield from enchantments
     yields_pickaxes: dict[str, list[int]]  # emerald yield from different pickaxes
-    findables: list[Findable]
 
-    @property
+    @cached_property
     def pickaxes(self) -> list[str]:
         return list(self.yields_pickaxes)[::-1]
 
@@ -44,13 +45,12 @@ class Fishing(ImmutableBaseModel):
 
     exponent: float
     fish: dict[str, Fish]
-    findables: list[Findable]
 
-    @property
+    @cached_property
     def fish_ids(self) -> list[str]:
         return list(self.fish.keys())
 
-    @property
+    @cached_property
     def fishing_weights(self) -> list[float]:
         return [(len(self.fish_ids) - f.rarity) ** self.exponent for f in self.fish.values()]
 
@@ -235,7 +235,7 @@ class FunLangs(ImmutableBaseModel):
     villager: dict[str, str]
     vaporwave: dict[str, str]
 
-    @property
+    @cached_property
     def unenchant(self) -> dict[str, str]:
         return {v: k for k, v in self.enchant.items()}
 
@@ -266,6 +266,7 @@ class Data(ImmutableBaseModel):
     mining: Mining
     fishing: Fishing
     shop_items: dict[str, ShopItem]
+    findables: list[Findable]
     rpt_ignore: list[str]
     cats: dict[str, list[str]]
     emojis: Emojis
@@ -277,3 +278,18 @@ class Data(ImmutableBaseModel):
     fun_langs: FunLangs
     cursed_images: list[str]
     playing_list: list[str]
+
+    @cached_property
+    def mining_findables(self) -> list[Findable]:
+        return self.filter_findables("mine")
+
+    @cached_property
+    def fishing_findables(self) -> list[Findable]:
+        return self.filter_findables("fish")
+
+    def filter_findables(self, tag: str, *, skip_disabled: bool = True):
+        return [
+            f
+            for f in self.findables
+            if (tag in f.tags and (skip_disabled or "disabled" not in f.tags))
+        ]

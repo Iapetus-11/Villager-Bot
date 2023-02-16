@@ -2048,6 +2048,10 @@
           "Tu ouvres le baril pour trouver {}{}!",
           "Tu donnes un coup de hache dans le baril pour trouver {}{}!",
           "Tu enrôles des pillards pour t'aider à ouvrir le baril contenant {}{}!"
+        ],
+        "open_item_box": [
+          "Tu as ouvert l'**Item Box** qui contenait 1x **{item}** (Valant {sell_price}{emerald})!",
+          "Tu as déchiré l'**Item Box** qui contenait 1x **{item}** (Valant {sell_price}{emerald})!"
         ]
       },
       "farm": {

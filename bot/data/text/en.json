@@ -2048,6 +2048,10 @@
           "You open the barrel to find {}{}!",
           "You hack the barrel open with an axe to find {}{}!",
           "You enlist the help of some pillagers to open the barrel containing {}{}!"
+        ],
+        "open_item_box": [
+          "You opened the **Item Box** and found 1x **{item}** (Worth {sell_price}{emerald})!",
+          "You ripped open the **Item Box** and found 1x **{item}** (Worth {sell_price}{emerald})!"
         ]
       },
       "farm": {
