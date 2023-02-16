@@ -951,7 +951,7 @@
     {
       "item": "Item Box",
       "sell_price": 128,
-      "rarity": 1000,
+      "rarity": 4096,
       "sticky": false,
       "tags": ["mine", "mkwii"]
     },

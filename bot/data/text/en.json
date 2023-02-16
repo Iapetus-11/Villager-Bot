@@ -2050,8 +2050,8 @@
           "You enlist the help of some pillagers to open the barrel containing {}{}!"
         ],
         "open_item_box": [
-          "You opened the **Item Box** and found 1x **{item}** (Worth {emerald}{emerald_emoji})!",
-          "You ripped open the **Item Box** and found 1x **{item}** (Worth {emerald}{emerald_emoji})!"
+          "You opened the **Item Box** and found 1x **{item}** (Worth {sell_price}{emerald})!",
+          "You ripped open the **Item Box** and found 1x **{item}** (Worth {sell_price}{emerald})!"
         ]
       },
       "farm": {

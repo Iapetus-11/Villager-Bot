@@ -2048,6 +2048,10 @@
           "Você abre o barril e acaba encontrando {}{}!",
           "Você abre o barril com um machado para encontrar {}{}!",
           "Você pede a ajuda de alguns saqueadores para abrir o barril e encontra {}{} dentro dele!"
+        ],
+        "open_item_box": [
+          "Você abriu a **Caixa de Itens** e encontrou 1x **{item}** (Vale {sell_price}{emerald})!",
+          "Você detonou a **Caixa de Itens** e encontrou 1x **{item}** (Vale {sell_price}{emerald})!"
         ]
       },
       "farm": {
