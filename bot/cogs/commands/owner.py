@@ -42,22 +42,6 @@ class Owner(commands.Cog):
     async def owner_commands(self, ctx: Ctx):
         await ctx.reply_embed(f"`{'`, `'.join(map(str, self.get_commands()))}`")
 
-    @commands.command(name="reload")
-    @commands.is_owner()
-    async def reload_cog(self, ctx: Ctx, cog: str):
-        await self.karen.reload_cog(f"bot.cogs.{cog}")
-
-        await ctx.message.add_reaction(self.d.emojis.yes)
-
-    @commands.command(name="reloaddata", aliases=["update", "updatedata"])
-    @commands.is_owner()
-    async def update_data(self, ctx: Ctx):
-        """Reloads data from data.json and text from the translation files"""
-
-        await self.karen.reload_data()
-
-        await ctx.message.add_reaction(self.d.emojis.yes)
-
     @commands.command(name="evallocal", aliases=["eval", "evall"])
     @commands.is_owner()
     async def eval_stuff_local(self, ctx: Ctx, *, stuff: str):
@@ -103,18 +87,6 @@ class Owner(commands.Cog):
                 await ctx.reply(content)
         else:
             await ctx.reply("".join(joined))
-
-    @commands.command(name="gitpull")
-    @commands.max_concurrency(1, per=commands.BucketType.default, wait=True)
-    @commands.is_owner()
-    async def gitpull(self, ctx: Ctx):
-        async with SuppressCtxManager(ctx.typing()):
-            await asyncio.to_thread(os.system, "git pull > git_pull_log 2>&1")
-
-            async with aiofiles.open("git_pull_log", "r") as f:
-                await ctx.reply(f"```diff\n{(await f.read())[:2000-11]}```")
-
-        await asyncio.to_thread(os.remove, "git_pull_log")
 
     @commands.command(name="lookup")
     @commands.is_owner()
