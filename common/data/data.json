@@ -324,147 +324,7 @@
         13,
         26
       ]
-    },
-    "findables": [
-      {
-        "item": "Fortune II Book",
-        "sell_price": 128,
-        "rarity": 999,
-        "sticky": false
-      },
-      {
-        "item": "Fortune III Book",
-        "sell_price": 768,
-        "rarity": 9999,
-        "sticky": false
-      },
-      {
-        "item": "Efficiency I Book",
-        "sell_price": 512,
-        "rarity": 6669,
-        "sticky": false
-      },
-      {
-        "item": "Looting I Book",
-        "sell_price": 128,
-        "rarity": 1000,
-        "sticky": false
-      },
-      {
-        "item": "Sharpness I Book",
-        "sell_price": 32,
-        "rarity": 1000,
-        "sticky": false
-      },
-      {
-        "item": "Looting II Book",
-        "sell_price": 768,
-        "rarity": 9999,
-        "sticky": false
-      },
-      {
-        "item": "Sharpness II Book",
-        "sell_price": 768,
-        "rarity": 9999,
-        "sticky": false
-      },
-      {
-        "item": "Haste I Potion",
-        "sell_price": 32,
-        "rarity": 200,
-        "sticky": false
-      },
-      {
-        "item": "Haste II Potion",
-        "sell_price": 128,
-        "rarity": 1000,
-        "sticky": false
-      },
-      {
-        "item": "Luck Potion",
-        "sell_price": 128,
-        "rarity": 1000,
-        "sticky": false
-      },
-      {
-        "item": "Bone Meal",
-        "sell_price": 512,
-        "rarity": 49999,
-        "sticky": false
-      },
-      {
-        "item": "Barrel",
-        "sell_price": 1024,
-        "rarity": 99999,
-        "sticky": false
-      },
-      {
-        "item": "Recycler",
-        "sell_price": 1024,
-        "rarity": 99999,
-        "sticky": false
-      },
-      {
-        "item": "Bane Of Pillagers Amulet",
-        "sell_price": 4096,
-        "rarity": 500000,
-        "sticky": true
-      },
-      {
-        "item": "Mushroom",
-        "sell_price": 512,
-        "rarity": 6144,
-        "sticky": false
-      },
-      {
-        "item": "Fake Item Box",
-        "sell_price": 32,
-        "rarity": 512,
-        "sticky": false
-      },
-      {
-        "item": "Item Box",
-        "sell_price": 128,
-        "rarity": 1000,
-        "sticky": false
-      },
-      {
-        "item": "Banana",
-        "sell_price": 512,
-        "rarity": 2048,
-        "sticky": false
-      },
-      {
-        "item": "Green Shell",
-        "sell_price": 512,
-        "rarity": 3192,
-        "sticky": false
-      },
-      {
-        "item": "Red Shell",
-        "sell_price": 768,
-        "rarity": 4096,
-        "sticky": false
-      },
-      {
-        "item": "Mega Mushroom",
-        "sell_price": 768,
-        "rarity": 8192,
-        "sticky": false
-      },
-      {
-        "item": "Golden Mushroom",
-        "sell_price": 1024,
-        "rarity": 50000,
-        "sticky": false
-      },
-      {
-        "item": "Blue Shell",
-        "sell_price": 2048,
-        "rarity": 120000,
-        "sticky": false
-      }
-    ]
+    }
   },
   "fishing": {
     "exponent": 2.75,
@@ -532,63 +392,7 @@
         "current": null,
         "rarity": 5
       }
-    },
-    "findables": [
-      {
-        "item": "Lure I Book",
-        "sell_price": 32,
-        "rarity": 200,
-        "sticky": false
-      },
-      {
-        "item": "Seaweed",
-        "sell_price": 420,
-        "rarity": 1666,
-        "sticky": false
-      },
-      {
-        "item": "Heart Of The Sea",
-        "sell_price": 420,
-        "rarity": 6669,
-        "sticky": false
-      },
-      {
-        "item": "Mooderald",
-        "sell_price": 768,
-        "rarity": 4096,
-        "sticky": true
-      },
-      {
-        "item": "Luck Potion",
-        "sell_price": 128,
-        "rarity": 3099,
-        "sticky": false
-      },
-      {
-        "item": "Recycler",
-        "sell_price": 1024,
-        "rarity": 99999,
-        "sticky": false
-      },
-      {
-        "item": "Item Box",
-        "sell_price": 128,
-        "rarity": 2000,
-        "sticky": false
-      },
-      {
-        "item": "Mega Mushroom",
-        "sell_price": 768,
-        "rarity": 8192,
-        "sticky": false
-      },
-      {
-        "item": "Blue Shell",
-        "sell_price": 2048,
-        "rarity": 120000,
-        "sticky": false
-      }
-    ]
+    }
   },
   "shop_items": {
     "stone pickaxe": {
@@ -989,6 +793,211 @@
       }
     }
   },
+  "findables": [
+    {
+      "item": "Fortune II Book",
+      "sell_price": 128,
+      "rarity": 999,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Fortune III Book",
+      "sell_price": 768,
+      "rarity": 9999,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Efficiency I Book",
+      "sell_price": 512,
+      "rarity": 6669,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Looting I Book",
+      "sell_price": 128,
+      "rarity": 1000,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Sharpness I Book",
+      "sell_price": 32,
+      "rarity": 1000,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Looting II Book",
+      "sell_price": 768,
+      "rarity": 9999,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Sharpness II Book",
+      "sell_price": 768,
+      "rarity": 9999,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Haste I Potion",
+      "sell_price": 32,
+      "rarity": 200,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Haste II Potion",
+      "sell_price": 128,
+      "rarity": 1000,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Luck Potion",
+      "sell_price": 128,
+      "rarity": 1000,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Luck Potion",
+      "sell_price": 128,
+      "rarity": 3099,
+      "sticky": false,
+      "tags": ["fish"]
+    },
+    {
+      "item": "Recycler",
+      "sell_price": 1024,
+      "rarity": 99999,
+      "sticky": false,
+      "tags": ["fish"]
+    },
+    {
+      "item": "Lure I Book",
+      "sell_price": 32,
+      "rarity": 200,
+      "sticky": false,
+      "tags": ["fish"]
+    },
+    {
+      "item": "Seaweed",
+      "sell_price": 420,
+      "rarity": 1666,
+      "sticky": false,
+      "tags": ["fish"]
+    },
+    {
+      "item": "Heart Of The Sea",
+      "sell_price": 420,
+      "rarity": 6669,
+      "sticky": false,
+      "tags": ["fish"]
+    },
+    {
+      "item": "Mooderald",
+      "sell_price": 768,
+      "rarity": 4096,
+      "sticky": true,
+      "tags": ["fish"]
+    },
+    {
+      "item": "Bone Meal",
+      "sell_price": 512,
+      "rarity": 49999,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Barrel",
+      "sell_price": 1024,
+      "rarity": 99999,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Recycler",
+      "sell_price": 1024,
+      "rarity": 99999,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Bane Of Pillagers Amulet",
+      "sell_price": 4096,
+      "rarity": 500000,
+      "sticky": true,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Mushroom",
+      "sell_price": 512,
+      "rarity": 6144,
+      "sticky": false,
+      "tags": ["mine", "mkwii"]
+    },
+    {
+      "item": "Fake Item Box",
+      "sell_price": 32,
+      "rarity": 512,
+      "sticky": false,
+      "tags": ["mine", "mkwii"]
+    },
+    {
+      "item": "Item Box",
+      "sell_price": 128,
+      "rarity": 4096,
+      "sticky": false,
+      "tags": ["mine", "mkwii"]
+    },
+    {
+      "item": "Banana",
+      "sell_price": 512,
+      "rarity": 2048,
+      "sticky": false,
+      "tags": ["mine", "mkwii"]
+    },
+    {
+      "item": "Green Shell",
+      "sell_price": 512,
+      "rarity": 3192,
+      "sticky": false,
+      "tags": ["mine", "mkwii"]
+    },
+    {
+      "item": "Red Shell",
+      "sell_price": 768,
+      "rarity": 4096,
+      "sticky": false,
+      "tags": ["mine", "mkwii"]
+    },
+    {
+      "item": "Mega Mushroom",
+      "sell_price": 768,
+      "rarity": 8192,
+      "sticky": false,
+      "tags": ["mine", "fish", "mkwii"]
+    },
+    {
+      "item": "Golden Mushroom",
+      "sell_price": 1024,
+      "rarity": 50000,
+      "sticky": false,
+      "tags": ["mine", "fish", "mkwii"]
+    },
+    {
+      "item": "Blue Shell",
+      "sell_price": 2048,
+      "rarity": 120000,
+      "sticky": false,
+      "tags": ["mine", "mkwii"]
+    }
+  ],
   "rpt_ignore": [
     "Rich Person Trophy",
     "Bane Of Pillagers Amulet",
