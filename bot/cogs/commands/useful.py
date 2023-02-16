@@ -34,6 +34,7 @@ from bot.utils.misc import (
     read_limited,
     shorten_chunks,
 )
+from discord.utils import format_dt
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -663,13 +664,29 @@ class Useful(commands.Cog):
             reminder[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"),
             at.datetime,
         )
+        unix_timestamp = format_dt(at.datetime, style = "r")
         await ctx.reply_embed(
             ctx.l.useful.remind.remind.format(
                 self.bot.d.emojis.yes,
-                at.humanize(locale=ctx.l.lang, granularity=get_timedelta_granularity(duration, 3)),
+                unix_timestamp,
             )
         )
 
+    @commands.command(name="reminders")
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def reminders_list(self, ctx: Ctx):
+        user_reminders = await self.db.fetch_user_reminders(ctx.author.id)
+        embed = discord.Embed(color=self.bot.embed_color)
+        embed.set_author(name=f"{ctx.author.display_name}'s reminders", icon_url=ctx.author.avatar.url)
+        for i in user_reminders:
+            unix_timestamp = format_dt(i['at'], style = "R")
+            reminder = f"{i['reminder']}"
+            if len(reminder) > 75:
+                reminder = reminder[:75] + '...'
+            id = i['id']
+            embed.add_field(name=f'`#{id}` - {unix_timestamp}', value=reminder, inline=False)
+        await ctx.send(embed=embed)
+        
     @commands.command(name="snipe")
     async def snipe_message(self, ctx: Ctx):
         snipe = self.snipes.pop(ctx.channel.id, None)

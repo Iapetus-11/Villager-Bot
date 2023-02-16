@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS give_logs (
 );
 
 CREATE TABLE IF NOT EXISTS reminders (
+  id                 SERIAL PRIMARY KEY, -- the serial number for the reminder (1, 2, 3)
   user_id            BIGINT NOT NULL, -- the discord user id / snowflake
   channel_id         BIGINT NOT NULL, -- the channel id where the reminder command was summoned
   message_id         BIGINT NOT NULL, -- the message where the reminder command was summoned
