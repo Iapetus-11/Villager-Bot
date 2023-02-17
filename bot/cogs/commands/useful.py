@@ -27,6 +27,7 @@ from bot.utils.ctx import Ctx
 from bot.utils.misc import (
     SuppressCtxManager,
     clean_text,
+    shorten_text,
     fetch_aprox_ban_count,
     get_timedelta_granularity,
     is_valid_image_res,
@@ -678,13 +679,13 @@ class Useful(commands.Cog):
         user_reminders = await self.db.fetch_user_reminders(ctx.author.id)
         embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(name=f"{ctx.author.display_name}'s reminders", icon_url=ctx.author.avatar.url)
-        for i in user_reminders:
-            unix_timestamp = format_dt(i['at'], style = "R")
-            reminder = f"{i['reminder']}"
+
+        for reminder in user_reminders:
+            unix_timestamp = format_dt(reminder['at'], style="R")
+            reminder = reminder['reminder']
             if len(reminder) > 75:
-                reminder = reminder[:75] + '...'
-            id = i['id']
-            embed.add_field(name=f'`#{id}` - {unix_timestamp}', value=reminder, inline=False)
+                reminder = shorten_text(reminder, 75)
+            embed.add_field(name=f"`#{reminder['id']}` - {unix_timestamp}", value=reminder, inline=False)
         await ctx.send(embed=embed)
         
     @commands.command(name="snipe")

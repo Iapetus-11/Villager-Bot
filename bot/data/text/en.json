@@ -127,7 +127,8 @@
         "redditdl": "`{0}redditdl <reddit post url>` *downloads the specified media from Reddit*",
         "exif": "`{0}exif` *extracts EXIF data from the specified image*",
         "imagetopng": "`{0}imagetopng *converts the uploaded/specified image to a png*",
-        "translate": "`{0}translate <target> [text]` *translates the given text or message to the specified target language*"
+        "translate": "`{0}translate <target> [text]` *translates the given text or message to the specified target language*",
+        "reminders": "`{0}reminders` *shows you all your current reminders*"
       },
       "fun": {
         "cursed": "`{0}cursed` *sends a random cursed Minecraft image*",
