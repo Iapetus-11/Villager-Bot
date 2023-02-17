@@ -1726,7 +1726,8 @@
           "xe": "Minor bug fixes and feature additions",
           "radar": "Minor bug fixes and feature additions",
           "kuro": "Helps with multiple translations of Villager Bot",
-          "hilt": "Helps with multiple translations of Villager Bot"
+          "hilt": "Helps with multiple translations of Villager Bot",
+          "infernum": "Miscellaneous bug fixes and feature additions and reminders system improvements"
         },
         "others": "And of course, the countless others who have contributed ideas and bug reports to help make Villager Bot better!"
       },
