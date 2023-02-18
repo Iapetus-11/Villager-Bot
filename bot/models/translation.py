@@ -373,7 +373,6 @@ class Useful_Links(ImmutableBaseModel):
 
 class Useful_Stats(ImmutableBaseModel):
     stats: str
-    more: str
     servers: str
     dms: str
     users: str
