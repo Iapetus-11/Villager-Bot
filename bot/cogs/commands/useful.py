@@ -667,7 +667,7 @@ class Useful(commands.Cog):
         await ctx.reply_embed(
             ctx.l.useful.remind.remind.format(
                 self.bot.d.emojis.yes,
-                format_dt(at.datetime, style="R"),
+                format_dt(at.datetime, style = "R"),
             )
         )
 
