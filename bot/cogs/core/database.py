@@ -44,7 +44,7 @@ class Database(commands.Cog):
 
     async def fetch_user_reminders(self, user_id: int) -> list[dict[str, Any]]:
         return await self.db.fetch("SELECT * FROM reminders WHERE user_id = $1", user_id)
-    
+
     async def add_reminder(
         self, user_id: int, channel_id: int, message_id: int, reminder: str, at: datetime.datetime
     ) -> None:

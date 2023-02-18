@@ -16,6 +16,7 @@ import discord
 import moviepy.editor
 from discord.app_commands import command as slash_command
 from discord.ext import commands, tasks
+from discord.utils import format_dt
 from PIL import ExifTags, Image
 
 from common.models.system_stats import SystemStats
@@ -27,15 +28,13 @@ from bot.utils.ctx import Ctx
 from bot.utils.misc import (
     SuppressCtxManager,
     clean_text,
-    shorten_text,
     fetch_aprox_ban_count,
-    get_timedelta_granularity,
     is_valid_image_res,
     parse_timedelta,
     read_limited,
     shorten_chunks,
+    shorten_text,
 )
-from discord.utils import format_dt
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -665,7 +664,7 @@ class Useful(commands.Cog):
             reminder[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"),
             at.datetime,
         )
-        unix_timestamp = format_dt(at.datetime, style = "r")
+        unix_timestamp = format_dt(at.datetime, style="r")
         await ctx.reply_embed(
             ctx.l.useful.remind.remind.format(
                 self.bot.d.emojis.yes,
@@ -678,16 +677,20 @@ class Useful(commands.Cog):
     async def reminders_list(self, ctx: Ctx):
         user_reminders = await self.db.fetch_user_reminders(ctx.author.id)
         embed = discord.Embed(color=self.bot.embed_color)
-        embed.set_author(name=f"{ctx.author.display_name}'s reminders", icon_url=ctx.author.avatar.url)
+        embed.set_author(
+            name=f"{ctx.author.display_name}'s reminders", icon_url=ctx.author.avatar.url
+        )
 
         for reminder in user_reminders:
-            unix_timestamp = format_dt(reminder['at'], style="R")
-            reminder = reminder['reminder']
+            unix_timestamp = format_dt(reminder["at"], style="R")
+            reminder = reminder["reminder"]
             if len(reminder) > 75:
                 reminder = shorten_text(reminder, 75)
-            embed.add_field(name=f"`#{reminder['id']}` - {unix_timestamp}", value=reminder, inline=False)
+            embed.add_field(
+                name=f"`#{reminder['id']}` - {unix_timestamp}", value=reminder, inline=False
+            )
         await ctx.send(embed=embed)
-        
+
     @commands.command(name="snipe")
     async def snipe_message(self, ctx: Ctx):
         snipe = self.snipes.pop(ctx.channel.id, None)
