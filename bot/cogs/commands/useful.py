@@ -664,11 +664,10 @@ class Useful(commands.Cog):
             reminder[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"),
             at.datetime,
         )
-        unix_timestamp = format_dt(at.datetime, style="r")
         await ctx.reply_embed(
             ctx.l.useful.remind.remind.format(
                 self.bot.d.emojis.yes,
-                unix_timestamp,
+                format_dt(at.datetime, style="R"),
             )
         )
 
@@ -683,11 +682,9 @@ class Useful(commands.Cog):
 
         for reminder in user_reminders:
             unix_timestamp = format_dt(reminder["at"], style="R")
-            reminder = reminder["reminder"]
-            if len(reminder) > 75:
-                reminder = shorten_text(reminder, 75)
+            reminder["reminder"] = shorten_text(reminder["reminder"], 75)
             embed.add_field(
-                name=f"`#{reminder['id']}` - {unix_timestamp}", value=reminder, inline=False
+                name=f"`#{reminder['id']}` - {unix_timestamp}", value=reminder["reminder"], inline=False
             )
         await ctx.send(embed=embed)
 
