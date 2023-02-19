@@ -679,7 +679,11 @@ class Useful(commands.Cog):
         embed.set_author(
             name=f"{ctx.author.display_name}'s reminders", icon_url=ctx.author.avatar.url
         )
-
+        
+        if len(user_reminders) == 0:
+            embed.description =  "There's nothing here..."
+            return await ctx.send(embed=embed)
+        
         for reminder in user_reminders:
             unix_timestamp = format_dt(reminder["at"], style="R")
             reminder["reminder"] = shorten_text(reminder["reminder"], 75)
