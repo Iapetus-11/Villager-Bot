@@ -684,7 +684,9 @@ class Useful(commands.Cog):
             unix_timestamp = format_dt(reminder["at"], style="R")
             reminder["reminder"] = shorten_text(reminder["reminder"], 75)
             embed.add_field(
-                name=f"`#{reminder['id']}` - {unix_timestamp}", value=reminder["reminder"], inline=False
+                name=f"`#{reminder['id']}` - {unix_timestamp}",
+                value=reminder["reminder"],
+                inline=False,
             )
         await ctx.send(embed=embed)
 
