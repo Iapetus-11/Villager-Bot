@@ -78,7 +78,7 @@ class Econ(commands.Cog):
 
         if mine_commands >= 100:
             x, y = random.randint(0, 15), random.randint(0, 10)
-            chars = (65279, 8203, 8204, 8205, 8292, 8291, 8290)
+            chars = list(map(chr, (65279, 8203, 8204, 8205, 8292, 8291, 8290)))
             prob = f"{''.join(random.choice(chars) for _ in range(x))}{x}{''.join(random.choice(chars) for _ in range(y))}+{y}"
             prob = (prob, str(x + y))
 
