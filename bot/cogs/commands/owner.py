@@ -160,12 +160,12 @@ class Owner(commands.Cog):
 
             embed = discord.Embed(color=self.bot.embed_color, description=ctx.l.econ.inv.empty)
 
-            if len(entries) == 0:
-                embed.set_author(
-                    name=f"Transaction history for {username}",
-                    icon_url=(getattr(user.avatar, "url", None) if user else None),
-                )
+            embed.set_author(
+                name=f"Transaction history for {username}",
+                icon_url=(getattr(user.avatar, "url", None) if user else None),
+            )
 
+            if len(entries) == 0:
                 return embed
 
             body = ""
