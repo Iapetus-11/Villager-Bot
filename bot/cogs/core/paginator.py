@@ -54,6 +54,10 @@ class Paginator(commands.Cog):
 
         # send initial message and add reactions
         msg = await ctx.reply(embed=(await self._get_page(get_page, page)), mention_author=False)
+
+        if page_count <= 1:
+            return
+
         for emoji in NAV_EMOJIS:
             await msg.add_reaction(emoji)
 
