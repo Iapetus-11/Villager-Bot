@@ -278,6 +278,7 @@ class Data(ImmutableBaseModel):
     fun_langs: FunLangs
     cursed_images: list[str]
     playing_list: list[str]
+    font_urls: list[str]
 
     @cached_property
     def mining_findables(self) -> list[Findable]:

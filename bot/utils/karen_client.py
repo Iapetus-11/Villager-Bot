@@ -109,12 +109,14 @@ class KarenClient:
         )
 
     @validate_return_type
-    async def mine_command(self, user_id: int, addition: int) -> int:
-        return await self._send(PacketType.MINE_COMMAND, user_id=user_id, addition=addition)
+    async def bottable_command_execution(self, user_id: int, points: int) -> int:
+        return await self._send(
+            PacketType.BOTTABLE_COMMAND_EXECUTION, user_id=user_id, points=points
+        )
 
     @validate_return_type
-    async def mine_commands_reset(self, user_id: int) -> None:
-        await self._send(PacketType.MINE_COMMANDS_RESET, user_id=user_id)
+    async def bottable_commands_reset(self, user_id: int) -> None:
+        await self._send(PacketType.BOTTABLE_COMMAND_POINTS_RESET, user_id=user_id)
 
     @validate_return_type
     async def check_concurrency(self, command: str, user_id: int) -> bool:

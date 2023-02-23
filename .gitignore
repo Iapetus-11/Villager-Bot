@@ -9,3 +9,4 @@ secrets.json
 .env
 
 tmp/
+fonts/

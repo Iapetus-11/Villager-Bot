@@ -5,8 +5,10 @@ from typing import Any, Optional
 
 import aiohttp
 import arrow
+import captcha.image
 import discord
 import psutil
+from captcha.image import ImageCaptcha
 from discord.ext import commands
 
 from common.coms.packet import PACKET_DATA_TYPES
@@ -16,6 +18,7 @@ from common.models.data import Data
 from common.models.system_stats import SystemStats
 from common.models.topgg_vote import TopggVote
 from common.utils.code import execute_code
+from common.utils.font_handler import FontHandler
 from common.utils.setup import load_data, setup_logging
 
 from bot.models.fwd_dm import ForwardedDirectMessage
@@ -104,6 +107,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.message_count = 0
         self.error_count = 0
         self.session_votes = 0
+        self.font_files = list[str]()
+        self.captcha_generator: ImageCaptcha | None = None
 
         self.final_ready = asyncio.Event()
 
@@ -121,6 +126,11 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         return getattr(discord.Color, self.d.embed_color)()
 
     async def start(self):
+        self.font_files = await FontHandler(
+            font_urls=self.d.font_urls, output_directory="fonts"
+        ).retrieve()
+        self.captcha_generator = captcha.image.ImageCaptcha(fonts=self.font_files)
+
         self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
         self.db = DatabaseProxy(self.karen)
 

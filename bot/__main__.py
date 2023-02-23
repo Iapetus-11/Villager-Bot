@@ -34,8 +34,9 @@ def main(args: list[str]) -> None:
 
     add_cython_ext()
 
-    if not os.path.exists("tmp"):
-        os.mkdir("tmp")
+    for required_path in ["tmp", "fonts"]:
+        if not os.path.exists(required_path):
+            os.mkdir(required_path)
 
     if "--build-cython-only" not in args:
         asyncio.run(main_async())

@@ -1761,8 +1761,8 @@
     "econ": {
       "use_a_number_stupid": "Tienes que usar un número.",
       "page": "Página",
-      "math_problem": {
-        "problem": "Por favor, resuelve este problema para continuar: `{}`",
+      "bot_prevention": {
+        "problem": "Por favor, escriba las letras de abajo para continuar:",
         "timeout": "Te quedaste sin tiempo, que lento...",
         "correct": "{} ¡Respuesta correcta!",
         "incorrect": "{} ¡Respuesta incorrecta!"
