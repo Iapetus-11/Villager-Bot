@@ -691,6 +691,14 @@ slack = ["slack-sdk"]
 telegram = ["requests"]
 
 [[package]]
+name = "types-aiofiles"
+version = "22.1.0.9"
+description = "Typing stubs for aiofiles"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "types-psutil"
 version = "5.9.5"
 description = "Typing stubs for psutil"
@@ -742,7 +750,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "d3587dc93b9c858d0b1ec4f879899f481ef817285fa523bd4a3763603737fb32"
+content-hash = "2a9759f544fd78cebd40aad4f6356c8ae8c1029c53a0a1479c5c5acf7b6896bc"
 
 [metadata.files]
 aio-mc-rcon = [
@@ -1519,6 +1527,10 @@ tomli = [
 tqdm = [
     {file = "tqdm-4.64.1-py2.py3-none-any.whl", hash = "sha256:6fee160d6ffcd1b1c68c65f14c829c22832bc401726335ce92c52d395944a6a1"},
     {file = "tqdm-4.64.1.tar.gz", hash = "sha256:5f4f682a004951c1b450bc753c710e9280c5746ce6ffedee253ddbcbf54cf1e4"},
+]
+types-aiofiles = [
+    {file = "types-aiofiles-22.1.0.9.tar.gz", hash = "sha256:d46712556746cb4c9b63f86217c8cc0e9c54b5cf228ed9d8c1c21e38c2d9de99"},
+    {file = "types_aiofiles-22.1.0.9-py3-none-any.whl", hash = "sha256:d0bdc4d978528c6df37816879b7ff9dc0096dd70483d885e9c8624a560f31cc5"},
 ]
 types-psutil = [
     {file = "types-psutil-5.9.5.tar.gz", hash = "sha256:bef91de096b77ff7bc3a92bafe466ee55f842286c1d734658b7c26b259078253"},
