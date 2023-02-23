@@ -72,49 +72,47 @@ class Econ(commands.Cog):
         ):
             command._max_concurrency = self.max_concurrency_dummy._max_concurrency
 
-    async def math_problem(self, ctx: Ctx, addition=1):
-        # simultaneously updates the value in Karen and retrieves the current value
-        mine_commands = await self.karen.mine_command(ctx.author.id, addition)
+    async def bot_prevention(self, ctx: Ctx, points: int = 1) -> bool:
+        """
+        If a certain number of bottable commands have been executed, present an image captcha and wait for user
+        to solve captcha before proceeding
+        """
 
-        if mine_commands >= 100:
-            x, y = random.randint(0, 15), random.randint(0, 10)
-            chars = list(map(chr, (65279, 8203, 8204, 8205, 8292, 8291, 8290)))
-            prob = f"{''.join(random.choice(chars) for _ in range(x))}{x}{''.join(random.choice(chars) for _ in range(y))}+{y}"
-            prob = (prob, str(x + y))
+        command_points = await self.karen.bottable_command_execution(ctx.author.id, points)
 
-            m = await ctx.reply(
-                embed=discord.Embed(
-                    color=self.bot.embed_color,
-                    description=ctx.l.econ.math_problem.problem.format("process.exit(69)"),
-                ),
-                mention_author=False,
+        if command_points >= 100:
+            captcha_text = "".join(random.choices("ABCDEFGHJKNPQRSTWXYZ", k=4))
+            captcha_image = self.bot.captcha_generator.generate(captcha_text)
+
+            embed = discord.Embed(
+                color=self.bot.embed_color,
+                description=ctx.l.econ.bot_prevention.problem,
             )
-            asyncio.create_task(
-                m.edit(
-                    embed=discord.Embed(
-                        color=self.bot.embed_color,
-                        description=ctx.l.econ.math_problem.problem.format(prob[0]),
-                    )
-                )
+            embed.set_image(url="attachment://captcha.png")
+
+            captcha_msg = await ctx.reply(
+                embed=embed, file=discord.File(captcha_image, filename="captcha.png")
             )
 
-            def author_check(m):
+            def msg_check(m):
                 return m.channel == ctx.channel and m.author == ctx.author
 
             try:
-                m = await self.bot.wait_for("message", check=author_check, timeout=10)
+                response_msg: discord.Message = await self.bot.wait_for(
+                    "message", check=msg_check, timeout=15
+                )
             except asyncio.TimeoutError:
-                await ctx.reply_embed(ctx.l.econ.math_problem.timeout)
+                await captcha_msg.reply_embed(ctx.l.econ.bot_prevention.timeout)
                 return False
 
-            if m.content != prob[1]:
-                await self.bot.reply_embed(
-                    m, ctx.l.econ.math_problem.incorrect.format(self.d.emojis.no)
+            if response_msg.content.upper() != captcha_text:
+                await response_msg.reply(
+                    ctx.l.econ.bot_prevention.incorrect.format(self.d.emojis.no)
                 )
                 return False
 
-            await self.karen.mine_commands_reset(ctx.author.id)
-            await self.bot.reply_embed(m, ctx.l.econ.math_problem.correct.format(self.d.emojis.yes))
+            await self.karen.bottable_commands_reset(ctx.author.id)
+            await response_msg.reply(ctx.l.econ.bot_prevention.correct.format(self.d.emojis.yes))
 
         return True
 
@@ -1040,7 +1038,7 @@ class Econ(commands.Cog):
     # @commands.cooldown(1, 4, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def mine(self, ctx: Ctx):
-        if not await self.math_problem(ctx):
+        if not await self.bot_prevention(ctx):
             return
 
         pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
@@ -1127,7 +1125,7 @@ class Econ(commands.Cog):
     # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def fish(self, ctx: Ctx):
-        if not await self.math_problem(ctx, 5):
+        if not await self.bot_prevention(ctx, 5):
             return
 
         if await self.db.fetch_item(ctx.author.id, "Fishing Rod") is None:

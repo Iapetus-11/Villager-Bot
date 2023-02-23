@@ -28,6 +28,7 @@ python-dotenv = "^0.20.0"
 "discord.py" = "^2.0.0"
 colorlog = "^6.6.0"
 asyncpg-stubs = "^0.26.3"
+captcha = "^0.4"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.6.0"

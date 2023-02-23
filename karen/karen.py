@@ -40,7 +40,7 @@ class Share:
         self.command_cooldowns = CooldownManager(data.cooldown_rates)
         self.command_concurrency = MaxConcurrencyManager()
         self.econ_paused_users = dict[int, float]()  # user_id: time paused
-        self.mine_commands = defaultdict[int, int](
+        self.bottable_command_points = defaultdict[int, int](
             int
         )  # user_id: cmd_count, used for fishing as well
         self.trivia_commands = defaultdict[int, int](int)  # user_id: cmd_count
@@ -332,14 +332,14 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
             },
         )
 
-    @handle_packet(PacketType.MINE_COMMAND)
-    async def packet_mine_command(self, user_id: int, addition: int):
-        self.v.mine_commands[user_id] += addition
-        return self.v.mine_commands[user_id]
+    @handle_packet(PacketType.BOTTABLE_COMMAND_EXECUTION)
+    async def packet_bottable_command_execution(self, user_id: int, points: int):
+        self.v.bottable_command_points[user_id] += points
+        return self.v.bottable_command_points[user_id]
 
-    @handle_packet(PacketType.MINE_COMMANDS_RESET)
-    async def packet_mine_commands_reset(self, user_id: int):
-        self.v.mine_commands.pop(user_id, None)
+    @handle_packet(PacketType.BOTTABLE_COMMAND_POINTS_RESET)
+    async def packet_bottable_command_points_reset(self, user_id: int):
+        self.v.bottable_command_points.pop(user_id, None)
 
     @handle_packet(PacketType.CONCURRENCY_CHECK)
     async def packet_concurrency_check(self, command: str, user_id: int):

@@ -490,7 +490,7 @@ class Useful(ImmutableBaseModel):
     translate: Useful_Translate
 
 
-class Econ_MathProblem(ImmutableBaseModel):
+class Econ_BotPrevention(ImmutableBaseModel):
     problem: str
     timeout: str
     correct: str
@@ -749,7 +749,7 @@ class Econ_Trash(ImmutableBaseModel):
 class Econ(ImmutableBaseModel):
     use_a_number_stupid: str
     page: str
-    math_problem: Econ_MathProblem
+    bot_prevention: Econ_BotPrevention
     pp: Econ_Pp
     bal: Econ_Bal
     inv: Econ_Inv
