@@ -17,7 +17,7 @@ WORKDIR /villager-bot
 # install dependencies
 COPY pyproject.toml .
 COPY poetry.lock .
-RUN poetry install --no-dev --no-interaction
+RUN poetry install --no-root --only main --no-interaction
 
 # copy over common and bot folders
 COPY common common
