@@ -42,6 +42,7 @@
 ## Contributing
 - Before contributing please discuss your proposed changes in the [Discord server](https://discord.gg/39DwwUV)
 - Please open a [PR (pull request)](https://github.com/Iapetus-11/Villager-Bot/pulls) to have your changes reviewed and merged
+- You should run the `format` script (`poetry run format`) provided to format your code prior to submitting your PR or the PR checks will fail
 
 ## Technical discussion/questions/help
 - Please join the [Discord server](https://discord.gg/39DwwUV) and use the `#💻tech-talk` channel

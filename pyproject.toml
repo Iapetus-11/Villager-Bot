@@ -4,6 +4,12 @@ version = "0.0.1"
 description = ""
 authors = ["Milo Weinberg <iapetus011@gmail.com>"]
 license = "MIT"
+packages = [
+    { include = "bot" },
+    { include = "common" },
+    { include = "karen" },
+    { include = "scripts" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -41,6 +47,9 @@ autoflake = "^1.4"
 pytest = "^7.1.3"
 types-aiofiles = "^22.1.0.9"
 
+[tool.poetry.scripts]
+format = { callable = "scripts.format:run" }
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -60,7 +69,7 @@ sections = ["FUTURE", "STDLIB", "THIRDPARTY", "COMMON", "BOT", "KAREN", "FIRSTPA
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]
-files = ["common/**/*.py", "karen/**/*.py"]
+files = ["common/**/*.py", "karen/**/*.py", "scripts/**/*.py"]
 python_version = "3.10"
 warn_unused_configs = true
 namespace_packages = true
