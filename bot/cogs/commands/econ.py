@@ -80,7 +80,7 @@ class Econ(commands.Cog):
 
         command_points = await self.karen.bottable_command_execution(ctx.author.id, points)
 
-        if command_points >= 100:
+        if command_points >= 5:
             captcha_text = "".join(random.choices("ABCDEFGHJKNPQRSTWXYZ", k=4))
             captcha_image = self.bot.captcha_generator.generate(captcha_text)
 
@@ -102,7 +102,7 @@ class Econ(commands.Cog):
                     "message", check=msg_check, timeout=15
                 )
             except asyncio.TimeoutError:
-                await captcha_msg.reply(ctx.l.econ.bot_prevention.timeout)
+                await captcha_msg.reply(embed=discord.Embed(description=ctx.l.econ.bot_prevention.timeout, color=self.bot.embed_color))
                 return False
 
             if response_msg.content.upper() != captcha_text:
