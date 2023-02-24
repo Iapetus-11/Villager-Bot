@@ -31,23 +31,13 @@ jobs:
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: install dependencies
-#        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install
 
-      - name: auto-flake
-        run: poetry run autoflake --remove-all-unused-imports --expand-star-imports --ignore-init-module-imports --in-place --recursive bot/ common/ karen/
+      - name: black check
+        run: poetry run black . --check
 
-      - name: black fix
-        run: poetry run black .
-
-      - name: isort fix
-        run: poetry run isort .
-
-      - name: auto commit
-        if: github.ref != 'refs/heads/main'
-        uses: stefanzweifel/git-auto-commit-action@v4.15.4
-        with:
-          commit_message: format / fix code
+      - name: isort check
+        run: poetry run isort . --check
 
       - name: flake8
         run: poetry run flake8
@@ -58,5 +48,5 @@ jobs:
       - name: pytest
         run: poetry run pytest
 
-      - name: json-check
+      - name: json check
         run: "find bot karen common -name \"*.json\" | while read file; do { echo \"Checking file: $file\"; jq . $file -c > /dev/null; }; done"
