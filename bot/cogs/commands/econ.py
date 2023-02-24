@@ -80,7 +80,7 @@ class Econ(commands.Cog):
 
         command_points = await self.karen.bottable_command_execution(ctx.author.id, points)
 
-        if command_points >= 100:
+        if command_points >= 2:
             captcha_text = "".join(random.choices("ABCDEFGHJKNPQRSTWXYZ", k=4))
             captcha_image = self.bot.captcha_generator.generate(captcha_text)
 
@@ -102,17 +102,19 @@ class Econ(commands.Cog):
                     "message", check=msg_check, timeout=15
                 )
             except asyncio.TimeoutError:
-                await captcha_msg.reply_embed(ctx.l.econ.bot_prevention.timeout)
+                await self.bot.reply_embed(captcha_msg, ctx.l.econ.bot_prevention.timeout)
                 return False
 
             if response_msg.content.upper() != captcha_text:
-                await response_msg.reply(
-                    ctx.l.econ.bot_prevention.incorrect.format(self.d.emojis.no)
+                await self.bot.reply_embed(
+                    response_msg, ctx.l.econ.bot_prevention.incorrect.format(self.d.emojis.no)
                 )
                 return False
 
             await self.karen.bottable_commands_reset(ctx.author.id)
-            await response_msg.reply(ctx.l.econ.bot_prevention.correct.format(self.d.emojis.yes))
+            await self.bot.reply_embed(
+                response_msg, ctx.l.econ.bot_prevention.correct.format(self.d.emojis.yes)
+            )
 
         return True
 
