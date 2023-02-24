@@ -80,7 +80,7 @@ class Econ(commands.Cog):
 
         command_points = await self.karen.bottable_command_execution(ctx.author.id, points)
 
-        if command_points >= 5:
+        if command_points >= 100:
             captcha_text = "".join(random.choices("ABCDEFGHJKNPQRSTWXYZ", k=4))
             captcha_image = self.bot.captcha_generator.generate(captcha_text)
 
