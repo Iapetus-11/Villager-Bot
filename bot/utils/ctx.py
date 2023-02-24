@@ -23,9 +23,9 @@ class CustomContext(Context):
         await self.bot.send_embed(self, message, ignore_exceptions=ignore_exceptions)
 
     async def reply_embed(
-        self, message: str, ping: bool = False, *, ignore_exceptions: bool = False
+        self, message: str, ping: bool = False, *, ignore_exceptions: bool = False, reference: discord.Message = None
     ) -> None:
-        await self.bot.reply_embed(self, message, ping, ignore_exceptions=ignore_exceptions)
+        await self.bot.reply_embed(self, message, ping, ignore_exceptions=ignore_exceptions, reference=reference)
 
 
 Ctx = CustomContext

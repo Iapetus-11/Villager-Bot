@@ -102,7 +102,7 @@ class Econ(commands.Cog):
                     "message", check=msg_check, timeout=15
                 )
             except asyncio.TimeoutError:
-                await captcha_msg.reply_embed(ctx.l.econ.bot_prevention.timeout)
+                await ctx.reply_embed(ctx.l.econ.bot_prevention.timeout, reference=captcha_msg)
                 return False
 
             if response_msg.content.upper() != captcha_text:
