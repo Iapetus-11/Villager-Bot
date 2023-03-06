@@ -256,6 +256,7 @@ class Owner(commands.Cog):
         )
 
     @commands.command(name="commandstreaks", aliases=["cmdsstreaks", "cmdstreaks"])
+    @commands.is_owner()
     async def command_streaks(self, ctx: Ctx, duration_str: str = "5m"):
         duration = parse_timedelta(duration_str)
 
