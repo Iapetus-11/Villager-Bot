@@ -300,7 +300,8 @@ class Owner(commands.Cog):
 
             item_count += 1
             await self.db.add_item(to_user.id, item.name, item.sell_price, item.amount, item.sticky, item.sellable)
-            await ctx.send(f"{self.d.emojis.yes} Transferred **{item_count}** items from {from_user.mention} to {to_user.mention}.")
+            
+        await ctx.send(f"{self.d.emojis.yes} Transferred **{item_count}** items from {from_user.mention} to {to_user.mention}.")
 
     @commands.command(name="shutdown")
     @commands.is_owner()
