@@ -290,6 +290,18 @@ class Owner(commands.Cog):
             f"**Command Streaks** (last week)\n```md\n## d  h  m  s  | user id             | name\n{formatted_rows}\n```"
         )
 
+    @commands.command(name="transfer_inventory", aliases=["invtransfer", "auction", "transferinv", "trinv"])
+    @commands.is_owner()
+    async def transfer_inventory(self, ctx: Ctx, from_user: discord.User, to_user: discord.User):
+        item_count = 0
+        for item in await self.db.fetch_items(from_user.id):
+            if item.sticky or not item.sellable:
+                continue
+
+            item_count += 1
+            await self.db.add_item(to_user.id, item.name, item.sell_price, item.amount, item.sticky, item.sellable)
+            await ctx.send(f"{self.d.emojis.yes} Transferred **{item_count}** items from {from_user.mention} to {to_user.mention}.")
+
     @commands.command(name="shutdown")
     @commands.is_owner()
     async def shutdown(self, ctx: Ctx):
