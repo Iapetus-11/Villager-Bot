@@ -295,7 +295,6 @@ class Owner(commands.Cog):
     )
     @commands.is_owner()
     async def transfer_inventory(self, ctx: Ctx, from_user: int | discord.User, to_user: int | discord.User):
-
         if isinstance(from_user, int):
             from_user = self.bot.get_user(from_user) or await self.bot.fetch_user(from_user)
 
