@@ -294,7 +294,14 @@ class Owner(commands.Cog):
         name="transfer_inventory", aliases=["invtransfer", "auction", "transferinv", "trinv"]
     )
     @commands.is_owner()
-    async def transfer_inventory(self, ctx: Ctx, from_user: discord.User, to_user: discord.User):
+    async def transfer_inventory(self, ctx: Ctx, from_user: int | discord.User, to_user: int | discord.User):
+
+        if isinstance(from_user, int):
+            from_user = self.bot.get_user(from_user) or await self.bot.fetch_user(from_user)
+
+        if isinstance(to_user, int):
+            to_user = self.bot.get_user(to_user) or await self.bot.fetch_user(to_user)
+
         item_count = 0
         for item in await self.db.fetch_items(from_user.id):
             if item.sticky or not item.sellable:
