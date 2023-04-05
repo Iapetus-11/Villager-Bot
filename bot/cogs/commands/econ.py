@@ -1508,7 +1508,9 @@ class Econ(commands.Cog):
 
             await self.db.remove_item(ctx.author.id, "Item Box", 1)
 
-            mkwii_findables = sorted(self.d.filter_findables("mkwii"), key=(lambda f: f.rarity))
+            mkwii_findables = sorted(
+                self.d.filter_findables("mkwii", skip_disabled=False), key=(lambda f: f.rarity)
+            )
             findable_weights = [1.25**i for i in range(len(mkwii_findables))][::-1]
 
             item: Findable = random.choices(mkwii_findables, findable_weights)[0]
