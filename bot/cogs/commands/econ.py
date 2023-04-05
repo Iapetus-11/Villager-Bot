@@ -1509,7 +1509,7 @@ class Econ(commands.Cog):
             await self.db.remove_item(ctx.author.id, "Item Box", 1)
 
             mkwii_findables = sorted(
-                self.d.filter_findables("mkwii", skip_disabled=False), key=(lambda f: f.rarity)
+                self.d.filter_findables("mkwii", allow_disabled=True), key=(lambda f: f.rarity)
             )
             findable_weights = [1.25**i for i in range(len(mkwii_findables))][::-1]
 

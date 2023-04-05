@@ -288,9 +288,9 @@ class Data(ImmutableBaseModel):
     def fishing_findables(self) -> list[Findable]:
         return self.filter_findables("fish")
 
-    def filter_findables(self, tag: str, *, skip_disabled: bool = True):
+    def filter_findables(self, tag: str, *, allow_disabled: bool = False):
         return [
             f
             for f in self.findables
-            if (tag in f.tags and (skip_disabled or "disabled" not in f.tags))
+            if (tag in f.tags and (allow_disabled or "disabled" not in f.tags))
         ]
