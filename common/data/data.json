@@ -940,63 +940,63 @@
       "sell_price": 512,
       "rarity": 6144,
       "sticky": false,
-      "tags": ["mine", "mkwii"]
+      "tags": ["mine", "mkwii", "disabled"]
     },
     {
       "item": "Fake Item Box",
       "sell_price": 32,
       "rarity": 512,
       "sticky": false,
-      "tags": ["mine", "mkwii"]
+      "tags": ["mine", "mkwii", "disabled"]
     },
     {
       "item": "Item Box",
       "sell_price": 128,
       "rarity": 4096,
       "sticky": false,
-      "tags": ["mine", "fish", "mkwii"]
+      "tags": ["mine", "fish", "mkwii", "disabled"]
     },
     {
       "item": "Banana",
       "sell_price": 512,
       "rarity": 2048,
       "sticky": false,
-      "tags": ["mine", "mkwii"]
+      "tags": ["mine", "mkwii", "disabled"]
     },
     {
       "item": "Green Shell",
       "sell_price": 512,
       "rarity": 3192,
       "sticky": false,
-      "tags": ["mine", "mkwii"]
+      "tags": ["mine", "mkwii", "disabled"]
     },
     {
       "item": "Red Shell",
       "sell_price": 768,
       "rarity": 4096,
       "sticky": false,
-      "tags": ["mine", "mkwii"]
+      "tags": ["mine", "mkwii", "disabled"]
     },
     {
       "item": "Mega Mushroom",
       "sell_price": 768,
       "rarity": 8192,
       "sticky": false,
-      "tags": ["mine", "fish", "mkwii"]
+      "tags": ["mine", "fish", "mkwii", "disabled"]
     },
     {
       "item": "Golden Mushroom",
       "sell_price": 1024,
       "rarity": 50000,
       "sticky": false,
-      "tags": ["mine", "mkwii"]
+      "tags": ["mine", "mkwii", "disabled"]
     },
     {
       "item": "Blue Shell",
       "sell_price": 2048,
       "rarity": 120000,
       "sticky": false,
-      "tags": ["mine", "fish", "mkwii"]
+      "tags": ["mine", "fish", "mkwii", "disabled"]
     }
   ],
   "rpt_ignore": [
