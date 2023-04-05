@@ -997,6 +997,174 @@
       "rarity": 120000,
       "sticky": false,
       "tags": ["mine", "fish", "mkwii", "disabled"]
+    },
+    {
+      "item": "Red Easter Egg",
+      "sell_price": 32,
+      "rarity": 256,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Orange Easter Egg",
+      "sell_price": 64,
+      "rarity": 512,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Yellow Easter Egg",
+      "sell_price": 64,
+      "rarity": 512,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Green Easter Egg",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Blue Easter Egg",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Purple Easter Egg",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Red Striped Easter Egg",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Orange Striped Easter Egg",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Yellow Striped Easter Egg",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Green Striped Easter Egg",
+      "sell_price": 256,
+      "rarity": 2048,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Blue Striped Easter Egg",
+      "sell_price": 256,
+      "rarity": 2048,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Purple Striped Easter Egg",
+      "sell_price": 256,
+      "rarity": 2048,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Red Dotted Easter Egg",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Orange Dotted Easter Egg",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Yellow Dotted Easter Egg",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Green Dotted Easter Egg",
+      "sell_price": 256,
+      "rarity": 2048,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Blue Dotted Easter Egg",
+      "sell_price": 256,
+      "rarity": 2048,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Purple Dotted Easter Egg",
+      "sell_price": 256,
+      "rarity": 2048,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Golden Easter Egg",
+      "sell_price": 1024,
+      "rarity": 8192,
+      "sticky": false,
+      "tags": ["fish", "easter"]
+    },
+    {
+      "item": "Rainbow Easter Egg",
+      "sell_price": 1024,
+      "rarity": 8192,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Rainbow Sparkles Easter Egg",
+      "sell_price": 2048,
+      "rarity": 16384,
+      "sticky": false,
+      "tags": ["mine", "easter"]
+    },
+    {
+      "item": "Bunny Ears",
+      "sell_price": 2048,
+      "rarity": 16384,
+      "sticky": false,
+      "tags": ["mine", "easter"]
+    },
+    {
+      "item": "Rotten Egg",
+      "sell_price": 64,
+      "rarity": 512,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Golden Bunny Ears",
+      "sell_price": 8192,
+      "rarity": 131072,
+      "sticky": false,
+      "tags": ["mine", "fish", "easter"]
     }
   ],
   "rpt_ignore": [
