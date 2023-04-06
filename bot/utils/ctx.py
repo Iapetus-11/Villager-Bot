@@ -27,5 +27,11 @@ class CustomContext(Context):
     ) -> None:
         await self.bot.reply_embed(self, message, ping, ignore_exceptions=ignore_exceptions)
 
+    def __repr__(self) -> str:
+        guild_id = getattr(self.guild, 'id', None)
+        author_id = getattr(self.author, 'id', None)
+
+        return f'Ctx({guild_id=}, {author_id=})'
+
 
 Ctx = CustomContext
