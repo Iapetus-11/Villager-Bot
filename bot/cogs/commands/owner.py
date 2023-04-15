@@ -294,10 +294,11 @@ class Owner(commands.Cog):
 
     @commands.command(name="commandstats", aliases=["cmdstats"])
     @commands.is_owner()
-    async def command_stats(self, ctx: Ctx, interval: str):
-        command_stats = await self.db.get_command_uses_per_day_over(parse_timedelta(interval))
+    async def command_stats(self, ctx: Ctx, interval: str = '7d'):
+        delta = parse_timedelta(interval)
+        command_stats = await self.db.get_command_uses_per_day_over(delta)
 
-        rows = [int(math.log(r['count'] + 1, 10) * 30) for r in command_stats]
+        rows = [int(math.log(r['count'] + 1, 10) * 5) for r in command_stats]
         rows = [
             ("#" * r)
             + (f" ({r})" if r != 0 else "")
@@ -305,7 +306,7 @@ class Owner(commands.Cog):
         ]
         rows = "\n".join(rows)
 
-        await ctx.reply(f'```c\n{rows}\n```')
+        await ctx.reply(f'Last {math.ceil(delta.total_seconds() / 3600 / 24)} days of commands per day:\n```c\n{rows}\n```')
 
     @commands.command(
         name="transfer_inventory", aliases=["invtransfer", "auction", "transferinv", "trinv"]
