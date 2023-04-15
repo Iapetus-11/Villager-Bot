@@ -1,4 +1,5 @@
 import datetime
+import math
 from typing import Any, Union
 
 import arrow
@@ -290,6 +291,21 @@ class Owner(commands.Cog):
         await ctx.reply(
             f"**Command Streaks** (last week)\n```md\n## d  h  m  s  | user id             | name\n{formatted_rows}\n```"
         )
+
+    @commands.command(name="commandstats", aliases=["cmdstats"])
+    @commands.is_owner()
+    async def command_stats(self, ctx: Ctx, interval: str):
+        command_stats = await self.db.get_command_uses_per_day_over(parse_timedelta(interval))
+
+        rows = [int(math.log(r['count'] + 1, 10) * 30) for r in command_stats]
+        rows = [
+            ("#" * r)
+            + (f" ({r})" if r != 0 else "")
+            for r in rows
+        ]
+        rows = "\n".join(rows)
+
+        await ctx.reply(f'```c\n{rows}\n```')
 
     @commands.command(
         name="transfer_inventory", aliases=["invtransfer", "auction", "transferinv", "trinv"]

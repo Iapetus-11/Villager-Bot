@@ -778,6 +778,14 @@ class Database(commands.Cog):
 
         return {"users_in_possession": users_in_possession, "total_count": total_count}
 
+    async def get_command_uses_per_day_over(self, interval: datetime.timedelta):
+        return await self.db.fetch(
+            "SELECT DATE_TRUNC('day', at) AS day, COUNT(*) AS count FROM command_executions WHERE at > (NOW() - "
+            "$1::INTERVAL)::TIMESTAMPTZ GROUP BY DATE_TRUNC('day', at) ORDER BY DATE_TRUNC('day', at) DESC "
+            "LIMIT 10",
+            interval,
+        )
+
 
 async def setup(bot: VillagerBotCluster) -> None:
     await bot.add_cog(Database(bot))
