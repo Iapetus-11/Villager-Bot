@@ -782,7 +782,7 @@ class Database(commands.Cog):
         return await self.db.fetch(
             "SELECT DATE_TRUNC('day', at) AS day, COUNT(*) AS count FROM command_executions WHERE at > "
             "DATE_TRUNC('day', (NOW() - $1::INTERVAL)::TIMESTAMPTZ) GROUP BY DATE_TRUNC('day', at) ORDER BY "
-            "DATE_TRUNC('day', at) DESC LIMIT 10",
+            "DATE_TRUNC('day', at) DESC",
             interval,
         )
 
