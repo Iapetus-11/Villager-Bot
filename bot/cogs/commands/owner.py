@@ -295,7 +295,7 @@ class Owner(commands.Cog):
     @commands.command(name="commandstats", aliases=["cmdstats"])
     @commands.is_owner()
     async def command_stats(self, ctx: Ctx, interval: str = "7d"):
-        with SuppressCtxManager(ctx.typing()):
+        async with SuppressCtxManager(ctx.typing()):
             delta = parse_timedelta(interval)
 
             command_stats = await self.db.get_command_uses_per_day_over(delta)
