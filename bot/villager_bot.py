@@ -90,7 +90,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         )  # {guild_id: set({command, command,..})}
         self.replies_cache = set[int]()  # {guild_id, guild_id,..}
         self.rcon_cache = dict[tuple[int, Any], Any]()  # {(user_id, mc_server): rcon_client}
-        self.new_member_cache = defaultdict[int, set](set)  # {guild_id: set()}
         self.existing_users_cache = set[
             int
         ]()  # so the database doesn't have to make a query every time an econ command is ran to ensure user exists
