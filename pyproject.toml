@@ -31,7 +31,7 @@ pydantic = "^1.10.5"
 websockets = "^10.4"
 classy-json = "^3.2.1"
 python-dotenv = "^1.0.0"
-"discord.py" = "^2.0.0"
+"discord.py" = "^2.2.3"
 colorlog = "^6.6.0"
 captcha = "^0.4"
 
