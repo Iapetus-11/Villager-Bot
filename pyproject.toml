@@ -47,7 +47,9 @@ pytest = "^7.1.3"
 types-aiofiles = "^22.1.0.9"
 
 [tool.poetry.scripts]
-format = { callable = "scripts.format:run" }
+check_text = { callable = "scripts:check_text" }
+format = { callable = "scripts:format" }
+generate_blockify_data = { callable = "scripts:generate_blockify_data" }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

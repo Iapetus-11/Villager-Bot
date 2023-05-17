@@ -138,9 +138,13 @@ class Palette:
         )
 
 
-if __name__ == "__main__":
+def run():
     p = Palette(verbose=True)
     p.generate()
 
     with open("0_out.json", "w+") as f:
         json.dump(p.data, f)
+
+
+if __name__ == "__main__":
+    run()
