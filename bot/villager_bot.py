@@ -48,7 +48,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             case_insensitive=True,
             intents=villager_bot_intents(),
             help_command=None,
-            max_messages=10_000,
         )
 
         self.cluster_id: Optional[int] = None
