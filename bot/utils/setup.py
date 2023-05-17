@@ -15,7 +15,7 @@ def villager_bot_intents() -> discord.Intents:
     return discord.Intents(
         guilds=True,
         members=True,
-        bans=True,
+        moderation=False,
         emojis=False,
         integrations=False,
         webhooks=False,
