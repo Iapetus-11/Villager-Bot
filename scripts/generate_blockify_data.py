@@ -3,7 +3,7 @@ import json
 import os
 from multiprocessing import Pool
 
-import cv2
+import cv2  # type: ignore
 
 IGNORE = [
     "_bottom",
