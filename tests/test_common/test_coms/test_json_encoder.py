@@ -10,7 +10,7 @@ from common.coms.packet import T_PACKET_DATA
 
 
 @pytest.mark.parametrize(
-    "value,serialized_value",
+    ("value", "serialized_value"),
     [
         ((v := {1, 2, 3}), {"__set_object": list(v)}),
         ((v := arrow.now()), {"__arrow_object": v.isoformat()}),
