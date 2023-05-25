@@ -34,10 +34,10 @@ python-dotenv = "^1.0.0"
 "discord.py" = "^2.2.3"
 colorlog = "^6.6.0"
 captcha = "^0.4"
+ruff = "^0.0.270"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.6.0"
-flake8 = "^3.9.2"
 mypy = "^0.981"
 asyncpg-stubs = "^0.26.2"
 types-psutil = "^5.9.3"
@@ -54,6 +54,11 @@ generate_blockify_data = { callable = "scripts:generate_blockify_data" }
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+ignore = ["E501", "E266", "E203", "E741", "W293", "W291"]
+target-version = "py310"
 
 [tool.black]
 line-length = 100

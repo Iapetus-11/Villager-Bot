@@ -98,7 +98,7 @@ class Minecraft(commands.Cog):
                 await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_2)
                 return
 
-            if not file_name.split(".")[-1] in VALID_TILER_FILE_TYPES:
+            if file_name.split(".")[-1] not in VALID_TILER_FILE_TYPES:
                 await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_2)
                 return
 
@@ -108,7 +108,7 @@ class Minecraft(commands.Cog):
                 await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_1)
                 return
 
-        if not file_name.split(".")[-1] in VALID_TILER_FILE_TYPES:
+        if file_name.split(".")[-1] not in VALID_TILER_FILE_TYPES:
             await ctx.reply_embed(ctx.l.minecraft.mcimage.stupid_2)
             return
 

@@ -39,8 +39,8 @@ jobs:
       - name: isort check
         run: poetry run isort . --check
 
-      - name: flake8
-        run: poetry run flake8
+      - name: ruff
+        run: poetry run ruff .
       
       - name: mypy
         run: poetry run mypy

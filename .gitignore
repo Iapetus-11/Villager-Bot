@@ -1,9 +1,12 @@
+.venv/
 __pycache__/
 
-.venv/
-.mypy_cache/
-.pytest_cache/
+.vscode/
 .idea/
+
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
 
 secrets.json
 .env
