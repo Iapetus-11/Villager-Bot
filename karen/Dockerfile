@@ -3,11 +3,9 @@ FROM python:3.10-slim-buster AS build
 WORKDIR /build
 
 RUN apt-get update -y
-RUN apt-get install -y gcc python3-dev
+RUN apt-get install -y --no-install-recommends gcc python3-dev
 
-RUN pip install poetry
-
-RUN python3 -m pip install poetry --no-cache-dir
+RUN pip install --no-cache-dir poetry
 RUN poetry config virtualenvs.in-project true
 
 COPY pyproject.toml /build/pyproject.toml
