@@ -1,30 +1,37 @@
-FROM python:3.10-slim-buster
+FROM python:3.10-slim-buster AS build
 
-ENV PYTHONUNBUFFERED=TRUE
+WORKDIR /build
 
-# install essential packages
 RUN apt-get update -y
-RUN apt-get install -y git build-essential libgl1 libglib2.0-0 ffmpeg
+RUN apt-get install -y gcc python3-dev
 
-# install & configure poetry
+RUN pip install poetry
+
 RUN python3 -m pip install poetry --no-cache-dir
 RUN poetry config virtualenvs.in-project true
 
-# make villager-bot dir
-RUN mkdir villager-bot
-WORKDIR /villager-bot
+COPY pyproject.toml /build/pyproject.toml
+COPY poetry.lock /build/poetry.lock
 
-# install dependencies
-COPY pyproject.toml .
-COPY poetry.lock .
-RUN poetry install --no-root --only main --no-interaction
+RUN poetry install --no-root --without dev
 
-# copy over common and bot folders
 COPY common common
 COPY bot bot
 
-# build cython extensions
-RUN poetry run python3 -m bot --build-cython-only
+#RUN poetry run python3 -m bot --build-cython-only
 
-# run Villager Bot cluster
-CMD poetry run python3 -m bot
+FROM python:3.10-slim-buster
+
+RUN apt-get update -y
+# TODO: I would like to figure out how to build the cython portion of Villager Bot in the build stage
+# Unfortunately, it does not work properly so I have to install gcc again here
+RUN apt-get install -y gcc ffmpeg
+
+WORKDIR /villager-bot
+
+COPY --from=build /build/.venv/ /villager-bot/.venv/
+
+COPY common /villager-bot/common/
+COPY bot /villager-bot/bot/
+
+CMD [".venv/bin/python3", "-m", "bot"]
