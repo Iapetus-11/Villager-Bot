@@ -794,6 +794,9 @@
       }
     }
   },
+  "findable_seasons": {
+    "easter": [[3, 31], [4, 15]]
+  },
   "findables": [
     {
       "item": "Fortune II Book",
