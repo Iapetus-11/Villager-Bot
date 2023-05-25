@@ -1,28 +1,25 @@
-FROM python:3.10-slim-buster
+FROM python:3.10-slim-buster AS build
 
-ENV PYTHONUNBUFFERED=TRUE
+WORKDIR /build
 
-# install essential packages
 RUN apt-get update -y
-RUN apt-get install -y git build-essential
+RUN apt-get install -y --no-install-recommends gcc python3-dev
 
-# install & configure poetry
-RUN python3 -m pip install poetry --no-cache-dir
+RUN pip install --no-cache-dir poetry
 RUN poetry config virtualenvs.in-project true
 
-# make villager-bot dir
-RUN mkdir villager-bot
+COPY pyproject.toml /build/pyproject.toml
+COPY poetry.lock /build/poetry.lock
+
+RUN poetry install --no-root --without dev
+
+FROM python:3.10-slim-buster
+
 WORKDIR /villager-bot
 
-# install dependencies
-COPY pyproject.toml .
-COPY poetry.lock .
-RUN poetry install --no-root --only main --no-interaction
+COPY --from=build /build/.venv/ /villager-bot/.venv/
 
-# copy over rest of files
-COPY common common
-COPY karen karen
-COPY .env .env
+COPY common /villager-bot/common/
+COPY karen /villager-bot/karen/
 
-# run karen
-CMD poetry run python3 -m karen
+CMD [".venv/bin/python3", "-m", "karen"]
