@@ -1,9 +1,10 @@
 from functools import cached_property
-from typing import Any, Optional
+from typing import Any, Generator, Optional
 
 from pydantic import Field, HttpUrl
 
 from common.models.base_model import BaseModel, ImmutableBaseModel
+from common.utils.misc import today_within_date_range
 
 
 class MobsMech(ImmutableBaseModel):
@@ -267,6 +268,7 @@ class Data(ImmutableBaseModel):
     fishing: Fishing
     shop_items: dict[str, ShopItem]
     findables: list[Findable]
+    findable_seasons: dict[str, tuple[tuple[int, int], tuple[int, int]]]
     rpt_ignore: list[str]
     cats: dict[str, list[str]]
     emojis: Emojis
@@ -282,15 +284,38 @@ class Data(ImmutableBaseModel):
 
     @cached_property
     def mining_findables(self) -> list[Findable]:
-        return self.filter_findables("mine")
+        return list(self.filter_findables("mine"))
 
     @cached_property
     def fishing_findables(self) -> list[Findable]:
-        return self.filter_findables("fish")
+        return list(self.filter_findables("fish"))
 
-    def filter_findables(self, tag: str, *, allow_disabled: bool = False):
-        return [
-            f
-            for f in self.findables
-            if (tag in f.tags and (allow_disabled or "disabled" not in f.tags))
-        ]
+    def filter_findables(
+        self,
+        tag: str,
+        *,
+        allow_disabled: bool = False,
+        enable_seasons: bool = True,
+    ) -> Generator[Findable, None, None]:
+        """
+        Returns all enabled findables from data.json
+
+        The allow_disabled param, when True, includes "disabled" items.
+        The seasons param, when True, filters out items which aren't "in season"
+        """
+
+        offline_seasons = {
+            k for k, v in self.findable_seasons.items() if not today_within_date_range(v)
+        }
+
+        for findable in self.findables:
+            if not allow_disabled and "disabled" in findable.tags:
+                continue
+
+            if tag not in findable.tags:
+                continue
+
+            if enable_seasons and offline_seasons.issubset(findable.tags):
+                continue
+
+            yield findable
