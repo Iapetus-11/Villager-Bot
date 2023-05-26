@@ -1707,7 +1707,12 @@
         "stupid_1": "You used invalid formatting, example: `{0}remindme 1w2d3h4m this is an example` will remind you in one week, two days, three hours, and four minutes.",
         "time_max": "You cannot set a reminder more than eight weeks in advance.",
         "remind": "{0} reminding you {1}.",
-        "reminder": "{0}, you wanted me to remind you: *{1}*"
+        "reminder": "{0}, you wanted me to remind you: *{1}*",
+        "none": "*You have no reminders...*",
+        "add": "You can add reminders with {}remindme",
+        "unauthorized": "{0}, that is not your reminder.",
+        "authorized": "{0}, succesfully deleted your reminder."
+        
       },
       "credits": {
         "credits": "Villager Bot wouldn't be possible without...",
