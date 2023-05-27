@@ -1712,7 +1712,6 @@
         "add": "You can add reminders with {}remindme",
         "unauthorized": "{0}, that is not your reminder.",
         "authorized": "{0}, succesfully deleted your reminder."
-        
       },
       "credits": {
         "credits": "Villager Bot wouldn't be possible without...",
