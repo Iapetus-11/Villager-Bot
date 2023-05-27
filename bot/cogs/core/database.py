@@ -65,7 +65,7 @@ class Database(commands.Cog):
         )
 
         return bool(count)
-        
+
     async def fetch_all_botbans(self) -> set[int]:
         botban_records = await self.db.fetch("SELECT user_id FROM users WHERE bot_banned = true")
         return {r["user_id"] for r in botban_records}
