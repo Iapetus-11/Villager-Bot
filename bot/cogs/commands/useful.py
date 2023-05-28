@@ -693,7 +693,7 @@ class Useful(commands.Cog):
             )
         )
 
-    @reminders.command(name="delete", aliases=["remove"])
+    @reminders.command(name="delete", aliases=["remove", "rm", "del"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def reminders_remove(self, ctx: Ctx, reminder_id: int):
         deleted = await self.db.delete_user_reminder(ctx.author.id, reminder_id)
