@@ -1708,6 +1708,8 @@
         "time_max": "No puedes poner un recordatorio para mas de ocho semanas.",
         "remind": "{0} recordatorio {1}.",
         "reminder": "{0}, querías que te recuerde: *{1}*",
+        "none": "*No tienes recordatorios...*",
+        "add": "Puedes añadir recordatorios con {}remindme",
         "unauthorized": "{0}, ese no es tu recordatorio.",
         "authorized": "{0}, recordatorio eliminado con éxito."
       },
