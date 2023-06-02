@@ -32,7 +32,7 @@ from bot.utils.misc import (
     MaxKarenConcurrencyReached,
     update_support_member_role,
 )
-from bot.utils.setup import load_translations, villager_bot_intents, load_disabled_translations
+from bot.utils.setup import load_disabled_translations, load_translations, villager_bot_intents
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
