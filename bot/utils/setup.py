@@ -29,11 +29,14 @@ def villager_bot_intents() -> discord.Intents:
     )
 
 
-def load_translations() -> dict[str, Translation]:
+def load_translations(disabled_translations: list[str]) -> dict[str, Translation]:
     translations = dict[str, Translation]()
 
     for filename in os.listdir("bot/data/text"):
         lang_name = filename.split(".")[0]
+
+        if lang_name in disabled_translations:
+            continue
 
         try:
             with open(f"bot/data/text/{filename}", "r", encoding="utf8") as f:
@@ -49,6 +52,13 @@ def load_translations() -> dict[str, Translation]:
         raise Exception("Default translation unable to be loaded.")
 
     return translations
+
+
+def load_disabled_translations() -> list[str]:
+    with open("bot/secrets.json", "r") as f:
+        secrets = json.load(f)
+
+    return secrets.get("disabled_translations", [])
 
 
 def load_secrets() -> Secrets:

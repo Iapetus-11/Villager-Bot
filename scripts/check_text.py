@@ -31,10 +31,18 @@ def run():
     with open("bot/data/text/en.json", "r", encoding="utf8") as f:
         en_data = json.load(f)["en"]
 
+    with open("bot/secrets.json", "r") as f:
+        secrets = json.load(f)
+
+    disabled_translations = secrets.get("disabled_translations", [])
+
     for filename in os.listdir("bot/data/text"):
         with open(f"bot/data/text/{filename}", "r", encoding="utf8") as f:
             lang = filename.replace(".json", "")
             data = json.load(f)[lang]
+
+            if lang in disabled_translations:
+                continue
 
             check_obj([lang], en_data, data, lang)
 

@@ -6,13 +6,13 @@ import sys
 from common.utils.setup import load_data
 
 from bot.utils.add_cython_ext import add_cython_ext
-from bot.utils.setup import load_secrets, load_translations
+from bot.utils.setup import load_secrets, load_translations, load_disabled_translations
 from bot.villager_bot import VillagerBotCluster
 
 
 async def main_async() -> None:
     secrets = load_secrets()
-    translations = load_translations()
+    translations = load_translations(load_disabled_translations())
     data = load_data()
 
     villager_bot = VillagerBotCluster(secrets, data, translations)

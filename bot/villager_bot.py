@@ -32,7 +32,7 @@ from bot.utils.misc import (
     MaxKarenConcurrencyReached,
     update_support_member_role,
 )
-from bot.utils.setup import load_translations, villager_bot_intents
+from bot.utils.setup import load_translations, villager_bot_intents, load_disabled_translations
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
@@ -418,7 +418,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     @handle_packet(PacketType.RELOAD_DATA)
     async def packet_reload_data(self):
-        self.l = load_translations()
+        self.l = load_translations(load_disabled_translations())
         self.d = load_data()
 
     @handle_packet(PacketType.GET_USER_NAME)
