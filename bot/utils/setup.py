@@ -29,13 +29,13 @@ def villager_bot_intents() -> discord.Intents:
     )
 
 
-def load_translations(data_file: Data) -> dict[str, Translation]:
+def load_translations(disabled_translations: list[str]) -> dict[str, Translation]:
     translations = dict[str, Translation]()
 
     for filename in os.listdir("bot/data/text"):
         lang_name = filename.split(".")[0]
 
-        if lang_name in data_file.disabled_translations:
+        if lang_name in disabled_translations:
             continue
 
         try:

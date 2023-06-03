@@ -419,7 +419,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     @handle_packet(PacketType.RELOAD_DATA)
     async def packet_reload_data(self):
         self.d = load_data()
-        self.l = load_translations(self.d)
+        self.l = load_translations(self.d.disabled_translations)
 
     @handle_packet(PacketType.GET_USER_NAME)
     async def packet_get_user_name(self, user_id: int) -> Optional[str]:
