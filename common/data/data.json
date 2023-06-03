@@ -2224,5 +2224,6 @@
     "https://fonts.google.com/download?family=Playfair%20Display",
     "https://fonts.google.com/download?family=Gloock",
     "https://fonts.google.com/download?family=Roboto"
-  ]
+  ],
+  "disabled_translations": ["ua"]
 }

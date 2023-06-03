@@ -12,8 +12,8 @@ from bot.villager_bot import VillagerBotCluster
 
 async def main_async() -> None:
     secrets = load_secrets()
-    translations = load_translations()
     data = load_data()
+    translations = load_translations(data.disabled_translations)
 
     villager_bot = VillagerBotCluster(secrets, data, translations)
 

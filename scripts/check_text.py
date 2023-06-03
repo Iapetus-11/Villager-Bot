@@ -2,6 +2,8 @@ import json
 import os
 from typing import Any
 
+from common.utils.setup import load_data
+
 
 def check_obj(keys: list[Any], obj: Any, against: Any, against_name: str):
     if isinstance(obj, list):
@@ -31,10 +33,15 @@ def run():
     with open("bot/data/text/en.json", "r", encoding="utf8") as f:
         en_data = json.load(f)["en"]
 
+    data_file = load_data()
+
     for filename in os.listdir("bot/data/text"):
         with open(f"bot/data/text/{filename}", "r", encoding="utf8") as f:
             lang = filename.replace(".json", "")
             data = json.load(f)[lang]
+
+            if lang in data_file.disabled_translations:
+                continue
 
             check_obj([lang], en_data, data, lang)
 
