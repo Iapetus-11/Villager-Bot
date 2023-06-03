@@ -6,7 +6,6 @@ import discord
 
 from common.models.data import Data
 from common.utils.code import format_exception
-from common.utils.setup import load_data
 
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
@@ -30,9 +29,8 @@ def villager_bot_intents() -> discord.Intents:
     )
 
 
-def load_translations() -> dict[str, Translation]:
+def load_translations(data_file: Data) -> dict[str, Translation]:
     translations = dict[str, Translation]()
-    data_file = load_data()
 
     for filename in os.listdir("bot/data/text"):
         lang_name = filename.split(".")[0]
