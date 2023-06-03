@@ -6,6 +6,7 @@ import discord
 
 from common.models.data import Data
 from common.utils.code import format_exception
+from common.utils.setup import load_data
 
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
@@ -29,13 +30,14 @@ def villager_bot_intents() -> discord.Intents:
     )
 
 
-def load_translations(disabled_translations: list[str]) -> dict[str, Translation]:
+def load_translations() -> dict[str, Translation]:
     translations = dict[str, Translation]()
+    data_file = load_data()
 
     for filename in os.listdir("bot/data/text"):
         lang_name = filename.split(".")[0]
 
-        if lang_name in disabled_translations:
+        if lang_name in data_file.disabled_translations:
             continue
 
         try:
@@ -52,13 +54,6 @@ def load_translations(disabled_translations: list[str]) -> dict[str, Translation
         raise Exception("Default translation unable to be loaded.")
 
     return translations
-
-
-def load_disabled_translations() -> list[str]:
-    with open("bot/secrets.json", "r") as f:
-        secrets = json.load(f)
-
-    return secrets.get("disabled_translations", [])
 
 
 def load_secrets() -> Secrets:
