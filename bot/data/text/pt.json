@@ -128,7 +128,7 @@
         "exif": "`{0}exif` *extrai dados EXIF da imagem especificada*",
         "imagetopng": "`{0}imagetopng *converte a imagem enviada/especificada para um png*",
         "translate": "`{0}translate <alvo> [texto]` *traduz o texto ou a mensagem fornecida para o idioma de destino especificado*",
-        "reminders": "`{0}reminders` *mostra todos os seus lembretes atuais*"
+        "reminders": "`{0}reminders` `add` *ou* `remove` *para adicionar ou remover um lembrete, respectivamente*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envia uma imagem aleatória maldita do Minecraft*",
