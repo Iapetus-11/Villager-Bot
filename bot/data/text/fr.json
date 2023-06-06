@@ -1709,9 +1709,9 @@
         "remind": "{0} rappel {1}.",
         "reminder": "{0}, tu voulais que je te rappelle : *{1}*",
         "none": "Tu n’a aucun rappels...",
-        "add": "Tu peux ajouter des rappels avec {}remindme",
-        "unauthorized": "{0}, ce rappel ne t’appartient pas.",
-        "authorized": "{0}, suppression du rappel réussie."
+        "add": "Tu peux ajouter des rappels avec {}reminder add <duration> <text>",
+        "unauthorized": "{0} ce rappel ne t’appartient pas.",
+        "authorized": "{0} suppression du rappel réussie."
       },
       "credits": {
         "credits": "Villager Bot n'aurait pas été possible sans ...",

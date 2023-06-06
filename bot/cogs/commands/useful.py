@@ -647,6 +647,10 @@ class Useful(commands.Cog):
         embed.set_author(
             name=f"{ctx.author.display_name}'s reminders", icon_url=ctx.author.avatar.url
         )
+        embed.set_footer(text=ctx.l.useful.remind.add.format(ctx.prefix))
+
+        if len(user_reminders) == 0:
+            embed.description = ctx.l.useful.remind.none
 
         for reminder in user_reminders:
             unix_timestamp = format_dt(reminder["at"], style="R")

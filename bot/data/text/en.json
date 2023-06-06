@@ -1708,9 +1708,9 @@
         "remind": "{0} reminding you {1}.",
         "reminder": "{0}, you wanted me to remind you: *{1}*",
         "none": "*You have no reminders...*",
-        "add": "You can add reminders with {}remindme",
-        "unauthorized": "{0}, that is not your reminder.",
-        "authorized": "{0}, succesfully deleted your reminder."
+        "add": "You can add reminders with {}reminder add <duration> <text>",
+        "unauthorized": "{0} that is not your reminder.",
+        "authorized": "{0} succesfully deleted your reminder."
       },
       "credits": {
         "credits": "Villager Bot wouldn't be possible without...",
