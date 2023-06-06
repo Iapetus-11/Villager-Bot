@@ -1710,8 +1710,8 @@
         "reminder": "{0}, você queria que eu te lembrasse: *{1}*",
         "none": "*Você não tem lembretes...*",
         "add": "Você pode adicionar lembretes com {}reminder add <duration> <text>",
-        "unauthorized": "{0}, esse lembrete não pertence a você.",
-        "authorized": "{0}, excluiu seu lembrete com sucesso."
+        "unauthorized": "{0} esse lembrete não pertence a você.",
+        "authorized": "{0} excluiu seu lembrete com sucesso."
       },
       "credits": {
         "credits": "O Villager Bot não seria possível sem...",
