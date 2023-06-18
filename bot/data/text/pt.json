@@ -121,7 +121,6 @@
         "youtube": "`{0}youtube <pesquisa>` *pesquisa sua consulta no youtube*",
         "image": "`{0}image <pesquisa>` *pesquisa sua consulta no google imagens*",
         "math": "`{0}math <problema>` *resolve um problema matemático",
-        "remindme": "`{0}remindme <tempo> <lembrete>` *te lembra algo no horário especificado*",
         "credits": "`{0}credits` *mostra quem ajudou a fazer o Villager Bot*",
         "snipe": "`{0} snipe` *mostra a última mensagem excluída no canal atual*",
         "redditdl": "`{0}redditdl <url do post do reddit>` *baixa a mídia especificada do Reddit*",
