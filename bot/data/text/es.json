@@ -121,14 +121,13 @@
         "youtube": "`{0}youtube <consulta>` *busca en youtubetu consulta*",
         "image": "`{0}image <consulta>` *busca en imágenes de google tu consulta*",
         "math": "`{0}math <problem>` *soluciona una operación matemática*",
-        "remindme": "`{0}remindme <tiempo> <recordatorio>` *fija un recordatorio en el tiempo especificado*",
         "credits": "`{0}credits` *Muestra quienes ayudaron a hacer Villager Bot*",
         "snipe": "`{0}snipe` *mostra a última mensagem excluída no canal atual*",
         "redditdl": "`{0}redditdl <reddit post url>` *descarga el archivo especificado de Reddit*",
         "exif": "`{0}exif` *Extrae datos EXIF de la imagen especificada*",
         "imagetopng": "`{0}imagetopng *convierte la imagen subida/especificada en png*",
         "translate": "`{0}translate <target> [text]` *Traduce el texto enviado al idioma especificado*",
-        "reminders": "`{0}reminders`*muestra todos tus recordatorios activos*"
+        "reminders": "`{0}reminders` `add` *o* `remove` *para añadir o eliminar un recordatorio, respectivamente*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envía una imagen Minecraft maldita al azar*",
@@ -1707,7 +1706,11 @@
         "stupid_1": "Has usado un formato invalido, ejemplo: `{0}remindme 1w2d3h4m esto es un ejemplo` te recordará en una semana, dos días, tres horas y cuatro minutos.",
         "time_max": "No puedes poner un recordatorio para mas de ocho semanas.",
         "remind": "{0} recordatorio {1}.",
-        "reminder": "{0}, querías que te recuerde: *{1}*"
+        "reminder": "{0}, querías que te recuerde: *{1}*",
+        "none": "*No tienes recordatorios...*",
+        "add": "Puedes añadir recordatorios con {}reminder add <duración> <texto>",
+        "unauthorized": "{0} ese no es tu recordatorio.",
+        "authorized": "{0} recordatorio eliminado con éxito."
       },
       "credits": {
         "credits": "Villager Bot no sería posible sin...",

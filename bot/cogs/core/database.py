@@ -57,6 +57,15 @@ class Database(commands.Cog):
             at,
         )
 
+    async def delete_user_reminder(self, user_id, reminder_id: int) -> bool:
+        count = await self.db.fetchval(
+            "WITH deleted AS (DELETE FROM reminders WHERE user_id = $1 AND id = $2 RETURNING *) SELECT COUNT(*) FROM deleted;",
+            user_id,
+            reminder_id,
+        )
+
+        return bool(count)
+
     async def fetch_all_botbans(self) -> set[int]:
         botban_records = await self.db.fetch("SELECT user_id FROM users WHERE bot_banned = true")
         return {r["user_id"] for r in botban_records}

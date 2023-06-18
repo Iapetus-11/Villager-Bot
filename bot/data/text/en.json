@@ -121,14 +121,13 @@
         "youtube": "`{0}youtube <search>` *searches on youtube for your query*",
         "image": "`{0}image <search>` *searches google images for your query*",
         "math": "`{0}math <problem>` *solves a math problem",
-        "remindme": "`{0}remindme <time> <reminder>` *reminds you in a specified time*",
         "credits": "`{0}credits` *shows who helped make Villager Bot*",
         "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*",
         "redditdl": "`{0}redditdl <reddit post url>` *downloads the specified media from Reddit*",
         "exif": "`{0}exif` *extracts EXIF data from the specified image*",
         "imagetopng": "`{0}imagetopng *converts the uploaded/specified image to a png*",
         "translate": "`{0}translate <target> [text]` *translates the given text or message to the specified target language*",
-        "reminders": "`{0}reminders` *shows you all your current reminders*"
+        "reminders": "`{0}reminders` `add` *or* `remove` *to add or remove a reminder respectively*"
       },
       "fun": {
         "cursed": "`{0}cursed` *sends a random cursed Minecraft image*",
@@ -1707,7 +1706,11 @@
         "stupid_1": "You used invalid formatting, example: `{0}remindme 1w2d3h4m this is an example` will remind you in one week, two days, three hours, and four minutes.",
         "time_max": "You cannot set a reminder more than eight weeks in advance.",
         "remind": "{0} reminding you {1}.",
-        "reminder": "{0}, you wanted me to remind you: *{1}*"
+        "reminder": "{0}, you wanted me to remind you: *{1}*",
+        "none": "*You have no reminders...*",
+        "add": "You can add reminders with {}reminder add <duration> <text>",
+        "unauthorized": "{0} that is not your reminder.",
+        "authorized": "{0} succesfully deleted your reminder."
       },
       "credits": {
         "credits": "Villager Bot wouldn't be possible without...",

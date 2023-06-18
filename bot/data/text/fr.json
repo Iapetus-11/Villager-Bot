@@ -121,14 +121,13 @@
         "youtube": "`{0}youtube <recherche>` *recherche ta requête sur youtube*",
         "image": "`{0}image <recherche>` *recherche ta requête sur google images*",
         "math": "`{0}math <problème>` *résout un problème de math",
-        "remindme": "`{0}remindme <temps> <rappel>` *te rappelles après un temps spécifié*",
         "credits": "`{0}credits` *montre qui a aidé à faire le Villager Bot*",
         "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*",
         "redditdl": "`{0}redditdl <reddit post url>` *télécharge le média spécifié depuis Reddit*",
         "exif": "`{0}exif` *extrait les données EXIF de l'image spécifiée*",
         "imagetopng": "`{0}imagetopng *convertis l'image installée/spécifiée en png*",
         "translate": "`{0}translate <target> [text]` *traduit le texte donné ou le message vers la langue de la cible spécifiée*",
-        "reminders": "`{0}reminders` *montre tout tes rappels actuels*"
+        "reminders": "`{0}reminders` `add` *ou* `remove` *ajouter ou supprimer un rappel respectivement*"
       },
       "fun": {
         "cursed": "`{0}cursed` *envoie une image cursed de Minecraft*",
@@ -1707,7 +1706,11 @@
         "stupid_1": "Tu as utilisé un format invalide, exemple : `{0}remindme 1w2d3h4m ceci est un exemple` te fera un rappel dans une semaine, deux jours, trois heures, et quatre minutes.",
         "time_max": "Tu ne peux pas créer un rappel plus de huit semaines en avance.",
         "remind": "{0} rappel {1}.",
-        "reminder": "{0}, tu voulais que je te rappelle : *{1}*"
+        "reminder": "{0}, tu voulais que je te rappelle : *{1}*",
+        "none": "Tu n’a aucun rappels...",
+        "add": "Tu peux ajouter des rappels avec {}reminder add <durée> <texte>",
+        "unauthorized": "{0} ce rappel ne t’appartient pas.",
+        "authorized": "{0} suppression du rappel réussie."
       },
       "credits": {
         "credits": "Villager Bot n'aurait pas été possible sans ...",

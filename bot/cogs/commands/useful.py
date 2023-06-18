@@ -636,9 +636,35 @@ class Useful(commands.Cog):
         await ctx.reply_embed(ctx.l.useful.search.nope)
         return
 
-    @commands.command(name="remindme", aliases=["remind"])
+    @commands.group(name="reminders", aliases=["reminder", "remind"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def remind_me(self, ctx: Ctx, duration_str: str, *, reminder: str):
+    async def reminders(self, ctx: Ctx):
+        if ctx.invoked_subcommand:
+            return
+
+        user_reminders = await self.db.fetch_user_reminders(ctx.author.id)
+        embed = discord.Embed(color=self.bot.embed_color)
+        embed.set_author(
+            name=f"{ctx.author.display_name}'s reminders", icon_url=ctx.author.avatar.url
+        )
+        embed.set_footer(text=ctx.l.useful.remind.add.format(ctx.prefix))
+
+        if len(user_reminders) == 0:
+            embed.description = ctx.l.useful.remind.none
+
+        for reminder in user_reminders:
+            unix_timestamp = format_dt(reminder["at"], style="R")
+            reminder["reminder"] = shorten_text(reminder["reminder"], 75)
+            embed.add_field(
+                name=f"`#{reminder['id']}` - {unix_timestamp}",
+                value=reminder["reminder"],
+                inline=False,
+            )
+        await ctx.send(embed=embed)
+
+    @reminders.command(name="add", aliases=["create"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def reminders_add(self, ctx: Ctx, duration_str: str, *, reminder: str):
         user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
 
         if user_reminder_count > 10:
@@ -671,24 +697,15 @@ class Useful(commands.Cog):
             )
         )
 
-    @commands.command(name="reminders")
+    @reminders.command(name="delete", aliases=["remove", "rm", "del"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def reminders_list(self, ctx: Ctx):
-        user_reminders = await self.db.fetch_user_reminders(ctx.author.id)
-        embed = discord.Embed(color=self.bot.embed_color)
-        embed.set_author(
-            name=f"{ctx.author.display_name}'s reminders", icon_url=ctx.author.avatar.url
-        )
+    async def reminders_remove(self, ctx: Ctx, reminder_id: int):
+        deleted = await self.db.delete_user_reminder(ctx.author.id, reminder_id)
+        if deleted:
+            await ctx.reply_embed(ctx.l.useful.remind.authorized.format(self.bot.d.emojis.yes))
+            return
 
-        for reminder in user_reminders:
-            unix_timestamp = format_dt(reminder["at"], style="R")
-            reminder["reminder"] = shorten_text(reminder["reminder"], 75)
-            embed.add_field(
-                name=f"`#{reminder['id']}` - {unix_timestamp}",
-                value=reminder["reminder"],
-                inline=False,
-            )
-        await ctx.send(embed=embed)
+        await ctx.reply_embed(ctx.l.useful.remind.unauthorized.format(self.bot.d.emojis.no))
 
     @commands.command(name="snipe")
     async def snipe_message(self, ctx: Ctx):

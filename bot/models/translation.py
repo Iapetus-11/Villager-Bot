@@ -432,6 +432,10 @@ class Useful_Remind(ImmutableBaseModel):
     time_max: str
     remind: str
     reminder: str
+    none: str
+    add: str
+    unauthorized: str
+    authorized: str
 
 
 class Useful_Credits(ImmutableBaseModel):
