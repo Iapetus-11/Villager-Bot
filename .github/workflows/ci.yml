@@ -46,3 +46,6 @@ jobs:
 
       - name: json check
         run: "find bot karen common -name \"*.json\" | while read file; do { echo \"Checking file: $file\"; jq . $file -c > /dev/null; }; done"
+
+      - name: text check
+        run: poetry run check_text
