@@ -121,12 +121,6 @@
         "youtube": "`{0}youtube <consulta>` *busca en youtubetu consulta*",
         "image": "`{0}image <consulta>` *busca en imágenes de google tu consulta*",
         "math": "`{0}math <problem>` *soluciona una operación matemática*",
-        "credits": "`{0}credits` *Muestra quienes ayudaron a hacer Villager Bot*",
-        "snipe": "`{0}snipe` *mostra a última mensagem excluída no canal atual*",
-        "redditdl": "`{0}redditdl <reddit post url>` *descarga el archivo especificado de Reddit*",
-        "exif": "`{0}exif` *Extrae datos EXIF de la imagen especificada*",
-        "imagetopng": "`{0}imagetopng *convierte la imagen subida/especificada en png*",
-        "translate": "`{0}translate <target> [text]` *Traduce el texto enviado al idioma especificado*",
         "reminders": "`{0}reminders` `add` *o* `remove` *para añadir o eliminar un recordatorio, respectivamente*"
       },
       "fun": {
