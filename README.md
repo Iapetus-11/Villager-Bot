@@ -14,7 +14,6 @@
 
 ## Support / Contact Information
 * [Discord Support Server](https://discord.gg/39DwwUV)
-* Discord Username: `Iapetus11#6821`
 
 ## Technologies
 - [discord.py](https://github.com/Rapptz/discord.py)
