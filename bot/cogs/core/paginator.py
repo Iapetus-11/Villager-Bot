@@ -11,7 +11,9 @@ from bot.villager_bot import VillagerBotCluster
 PAGE_EMBED_CALLABLE = Callable[[int], Union[discord.Embed, Coroutine[Any, Any, discord.Embed]]]
 LEFT_ARROW = "⬅️"
 RIGHT_ARROW = "➡️"
-NAV_EMOJIS = [LEFT_ARROW, RIGHT_ARROW]
+SKIP_TO_LAST = "⏩"
+BACK_TO_FIRST = "⏪"
+NAV_EMOJIS = [BACK_TO_FIRST, LEFT_ARROW, RIGHT_ARROW, SKIP_TO_LAST]
 
 
 class Paginator(commands.Cog):
@@ -82,6 +84,11 @@ class Paginator(commands.Cog):
             elif emoji == RIGHT_ARROW:
                 if page < page_count - 1:
                     page += 1
+            elif emoji == SKIP_TO_LAST:
+                page += page_count - 1
+            elif emoji == BACK_TO_FIRST:
+                page = 0
+
             else:
                 raise ValueError(emoji)  # shouldn't happen
 
