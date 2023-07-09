@@ -85,7 +85,7 @@ class Paginator(commands.Cog):
                 if page < page_count - 1:
                     page += 1
             elif emoji == SKIP_TO_LAST:
-                page += page_count - 1
+                page = page_count - 1
             elif emoji == BACK_TO_FIRST:
                 page = 0
 
