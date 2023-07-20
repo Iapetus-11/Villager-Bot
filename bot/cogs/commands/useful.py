@@ -61,6 +61,39 @@ class Useful(commands.Cog):
     def cog_unload(self):
         self.clear_snipes.cancel()
 
+    async def reminders_add_logic(self, ctx: Ctx, duration_str: str, reminder: str):
+        user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
+
+        if user_reminder_count > 10:
+            await ctx.reply_embed(ctx.l.useful.remind.reminder_max.format(max=10))
+            return
+
+        duration = parse_timedelta(duration_str)
+
+        if duration is None or duration.total_seconds() <= 0:
+            await ctx.reply_embed(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
+            return
+
+        at = arrow.utcnow() + duration
+
+        if at > arrow.utcnow().shift(weeks=8):
+            await ctx.reply_embed(ctx.l.useful.remind.time_max)
+            return
+
+        await self.db.add_reminder(
+            ctx.author.id,
+            ctx.channel.id,
+            ctx.message.id,
+            reminder[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"),
+            at.datetime,
+        )
+        await ctx.reply_embed(
+            ctx.l.useful.remind.remind.format(
+                self.bot.d.emojis.yes,
+                format_dt(at.datetime, style="R"),
+            )
+        )
+
     @commands.Cog.listener()
     async def on_message_delete(self, message: discord.Message):
         if not message.author.bot and message.content:
@@ -665,37 +698,7 @@ class Useful(commands.Cog):
     @reminders.command(name="add", aliases=["create"])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def reminders_add(self, ctx: Ctx, duration_str: str, *, reminder: str):
-        user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
-
-        if user_reminder_count > 10:
-            await ctx.reply_embed(ctx.l.useful.remind.reminder_max.format(max=10))
-            return
-
-        duration = parse_timedelta(duration_str)
-
-        if duration is None or duration.total_seconds() <= 0:
-            await ctx.reply_embed(ctx.l.useful.remind.stupid_1.format(ctx.prefix))
-            return
-
-        at = arrow.utcnow() + duration
-
-        if at > arrow.utcnow().shift(weeks=8):
-            await ctx.reply_embed(ctx.l.useful.remind.time_max)
-            return
-
-        await self.db.add_reminder(
-            ctx.author.id,
-            ctx.channel.id,
-            ctx.message.id,
-            reminder[:499].replace("@everyone", "@\uFEFFeveryone").replace("@here", "@\uFEFFhere"),
-            at.datetime,
-        )
-        await ctx.reply_embed(
-            ctx.l.useful.remind.remind.format(
-                self.bot.d.emojis.yes,
-                format_dt(at.datetime, style="R"),
-            )
-        )
+        await self.reminders_add_logic(ctx, duration_str, reminder)
 
     @reminders.command(name="delete", aliases=["remove", "rm", "del"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -706,6 +709,11 @@ class Useful(commands.Cog):
             return
 
         await ctx.reply_embed(ctx.l.useful.remind.unauthorized.format(self.bot.d.emojis.no))
+
+    @commands.command(name="remindme")
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def reminders_alias(self, ctx: Ctx, duration_str: str, *, reminder: str):
+        await self.reminders_add_logic(ctx, duration_str, reminder)
 
     @commands.command(name="snipe")
     async def snipe_message(self, ctx: Ctx):
