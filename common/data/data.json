@@ -795,7 +795,8 @@
     }
   },
   "findable_seasons": {
-    "easter": [[3, 31], [4, 15]]
+    "easter": [[3, 31], [4, 15]],
+    "halloween": [[10, 20], [11, 5]]
   },
   "findables": [
     {
@@ -1168,6 +1169,76 @@
       "rarity": 131072,
       "sticky": false,
       "tags": ["mine", "fish", "easter"]
+    },
+    {
+      "item": "Skeleton Skull",
+      "sell_price": 512,
+      "rarity": 4000,
+      "sticky": false,
+      "tags": ["mine", "fish", "halloween"]
+    },
+    {
+      "item": "Jack O Lantern",
+      "sell_price": 512,
+      "rarity": 4000,
+      "sticky": false,
+      "tags": ["mine", "halloween"]
+    },
+    {
+      "item": "Pumpkin",
+      "sell_price": 256,
+      "rarity": 2000,
+      "sticky": false,
+      "tags": ["mine", "halloween"]
+    },
+    {
+      "item": "Spider Web",
+      "sell_price": 16,
+      "rarity": 500,
+      "sticky": false,
+      "tags": ["mine", "halloween"]
+    },
+    {
+      "item": "Candy Corn",
+      "sell_price": 64,
+      "rarity": 500,
+      "sticky": false,
+      "tags": ["fish", "mine", "halloween"]
+    },
+    {
+      "item": "KitKat",
+      "sell_price": 64,
+      "rarity": 500,
+      "sticky": false,
+      "tags": ["fish", "mine", "halloween"]
+    },
+    {
+      "item": "Crunch Bar",
+      "sell_price": 64,
+      "rarity": 500,
+      "sticky": false,
+      "tags": ["fish", "mine", "halloween"]
+    },
+    {
+      "item": "Empty Candy Wrapper",
+      "sell_price": 0,
+      "rarity": 100,
+      "sticky": false,
+      "tags": ["fish", "mine", "halloween"]
+    },
+    {
+      "item": "Will O Wisp",
+      "sell_price": 1024,
+      "rarity": 99999,
+      "sticky": false,
+      "tags": ["fish", "mine", "halloween"]
+    },
+    {
+      "item": "Pumpkin Pie",
+      "sell_price": 512,
+      "rarity": 4000,
+      "sticky": false,
+      "tags": ["mine", "halloween"]
     }
   ],
   "rpt_ignore": [
