@@ -796,7 +796,7 @@
   },
   "findable_seasons": {
     "easter": [[3, 31], [4, 15]],
-    "halloween": [[9, 20], [10, 5]]
+    "halloween": [[10, 20], [11, 5]]
   },
   "findables": [
     {
