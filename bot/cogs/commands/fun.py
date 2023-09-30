@@ -98,15 +98,16 @@ class Fun(commands.Cog):
     @commands.command(name="cursed", aliases=["cursedmc"])
     @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def cursed_mc(self, ctx: Ctx):
-        if random.choice((True, False)):
-            await self.reddit_post_logic(ctx, "cursedMinecraft")
-        else:
-            embed = discord.Embed(color=self.bot.embed_color)
-            embed.set_image(
-                url=f"https://villagerbot.com/images/cursed_minecraft/{random.choice(self.d.cursed_images)}"
-            )
+        # if random.choice((True, False)):
+        #     await self.reddit_post_logic(ctx, "cursedMinecraft")
+        # else:
 
-            await ctx.send(embed=embed)
+        embed = discord.Embed(color=self.bot.embed_color)
+        embed.set_image(
+            url=f"https://villagerbot.com/images/cursed_minecraft/{random.choice(self.d.cursed_images)}"
+        )
+
+        await ctx.send(embed=embed)
 
     @commands.command(name="say")
     async def say_text(self, ctx: Ctx, *, text: str):
