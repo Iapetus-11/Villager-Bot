@@ -316,7 +316,7 @@ class Data(ImmutableBaseModel):
             if tag not in findable.tags:
                 continue
 
-            if enable_seasons and offline_seasons.issubset(findable.tags):
+            if enable_seasons and offline_seasons.intersection(findable.tags):
                 continue
 
             yield findable
