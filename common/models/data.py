@@ -283,11 +283,11 @@ class Data(ImmutableBaseModel):
     font_urls: list[str]
     disabled_translations: set[str]
 
-    @cached_property
+    @property
     def mining_findables(self) -> list[Findable]:
         return list(self.filter_findables("mine"))
 
-    @cached_property
+    @property
     def fishing_findables(self) -> list[Findable]:
         return list(self.filter_findables("fish"))
 
