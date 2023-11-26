@@ -250,17 +250,16 @@ class Minecraft(commands.Cog):
     async def random_mc_server(self, ctx: Ctx):
         """Checks the status of a random Minecraft server"""
 
-        res = await self.aiohttp.get("https://api.minecraft.global/server/random")
-        data = await res.json()
-
-        if not data["success"]:
-            await asyncio.sleep(1)
-
-            res = await self.aiohttp.get("https://api.minecraft.global/server/random")
-            data = await res.json()
-
-        server = cj.ClassyDict((await res.json())["payload"])
-        server_id = server.server_id
+        server_id = (
+            await (
+                await self.aiohttp.get("https://api.minecraft.global/MinecraftServers/random/")
+            ).json()
+        )["id"]
+        server = cj.ClassyDict(
+            await (
+                await self.aiohttp.get(f"https://api.minecraft.global/MinecraftServers/{server_id}")
+            ).json()
+        )
 
         if server.port:
             address = server.host + ":" + str(server.port)
@@ -291,7 +290,7 @@ class Minecraft(commands.Cog):
         )
 
         embed.description = ctx.l.minecraft.mcping.learn_more.format(
-            f"https://minecraft.global/server/{server_id}?utm_source=villager+bot&utm_medium=discord&utm_id=1"
+            f"https://minecraft.global/servers/{server_id}?utm_source=villager+bot&utm_medium=discord&utm_id=1"
         )
 
         embed.set_footer(
