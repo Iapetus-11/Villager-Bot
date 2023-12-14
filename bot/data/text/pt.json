@@ -1704,7 +1704,7 @@
       "remind": {
         "reminder_max": "Você não pode ter mais de {max} lembretes de uma vez.",
         "stupid_1": "Você usou uma formatação inválida, exemplo: `{0}remindme 1w2d3h4m isso é um exemplo` irá lembrá-lo em uma semana, dois dias, três horas e quatro minutos.",
-        "time_max": "Você não pode definir um lembrete com mais de oito semanas de antecedência.",
+        "time_max": "Não é possível definir um lembrete com mais de um ano de antecedência.",
         "remind": "{0} será lembrado em {1}.",
         "reminder": "{0}, você queria que eu te lembrasse: *{1}*",
         "none": "*Você não tem lembretes...*",

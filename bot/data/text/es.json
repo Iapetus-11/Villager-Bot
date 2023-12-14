@@ -1704,7 +1704,7 @@
       "remind": {
         "reminder_max": "No puedes tener mas de {max} recordatorios a la vez.",
         "stupid_1": "Has usado un formato invalido, ejemplo: `{0}remindme 1w2d3h4m esto es un ejemplo` te recordará en una semana, dos días, tres horas y cuatro minutos.",
-        "time_max": "No puedes poner un recordatorio para mas de ocho semanas.",
+        "time_max": "No puede fijar un recordatorio con más de un año de antelación.",
         "remind": "{0} recordatorio {1}.",
         "reminder": "{0}, querías que te recuerde: *{1}*",
         "none": "*No tienes recordatorios...*",

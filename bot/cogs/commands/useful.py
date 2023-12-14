@@ -76,7 +76,7 @@ class Useful(commands.Cog):
 
         at = arrow.utcnow() + duration
 
-        if at > arrow.utcnow().shift(weeks=8):
+        if at > arrow.utcnow().shift(days=365):
             await ctx.reply_embed(ctx.l.useful.remind.time_max)
             return
 
