@@ -2291,10 +2291,10 @@
     "Minecraft 1.18"
   ],
   "font_urls": [
-    "https://fonts.google.com/download?family=Mynerve",
-    "https://fonts.google.com/download?family=Playfair%20Display",
-    "https://fonts.google.com/download?family=Gloock",
-    "https://fonts.google.com/download?family=Roboto"
+    "https://font.download/dl/font/mynerve.zip",
+    "https://font.download/dl/font/playfair.zip",
+    "https://font.download/dl/font/gloock.zip",
+    "https://font.download/dl/font/roboto.zip"
   ],
   "disabled_translations": ["ua"]
 }
