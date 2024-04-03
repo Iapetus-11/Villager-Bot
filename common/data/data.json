@@ -1653,32 +1653,27 @@
     "Mega Mushroom": "mega_mushroom",
     "Golden Mushroom": "golden_mushroom",
     "Blue Shell": "blue_shell"
-  },
-
-  "easter": {
-    "emojis": {
-      "golden_bunny_ears": "Golden Bunny Ears",
-      "rainbow_easter_egg": "Rainbow Easter Egg",
-      "bunny_ears": "Bunny Ears",
-      "green_striped_easter_egg": "Green Striped Easter Egg",
-      "purple_striped_easter_egg": "Purple Striped Easter Egg",
-      "blue_striped_easter_egg": "Blue Striped Easter Egg",
-      "blue_dotted_easter_egg": "Blue Dotted Easter Egg",
-      "green_dotted_easter_egg": "Green Dotted Easter Egg",
-      "purple_dotted_easter_egg": "Purple Dotted Easter Egg",
-      "purple_easter_egg": "Purple Easter Egg",
-      "green_easter_egg": "Green Easter Egg",
-      "blue_easter_egg": "Blue Easter Egg",
-      "red_striped_easter_egg": "Red Striped Easter Egg",
-      "yellow_striped_easter_egg": "Yellow Striped Easter Egg",
-      "orange_striped_easter_egg": "Orange Striped Easter Egg",
-      "red_dotted_easter_egg": "Red Dotted Easter Egg",
-      "yellow_dotted_easter_egg": "Yellow Dotted Easter Egg",
-      "orange_dotted_easter_egg": "Orange Dotted Easter Egg",
-      "orange_easter_egg": "Orange Easter Egg",
-      "yellow_easter_egg": "Yellow Easter Egg",
-      "red_easter_egg": "Red Easter Egg"
-    }
+    "golden_bunny_ears": "Golden Bunny Ears",
+    "rainbow_easter_egg": "Rainbow Easter Egg",
+    "bunny_ears": "Bunny Ears",
+    "green_striped_easter_egg": "Green Striped Easter Egg",
+    "purple_striped_easter_egg": "Purple Striped Easter Egg",
+    "blue_striped_easter_egg": "Blue Striped Easter Egg",
+    "blue_dotted_easter_egg": "Blue Dotted Easter Egg",
+    "green_dotted_easter_egg": "Green Dotted Easter Egg",
+    "purple_dotted_easter_egg": "Purple Dotted Easter Egg",
+    "purple_easter_egg": "Purple Easter Egg",
+    "green_easter_egg": "Green Easter Egg",
+    "blue_easter_egg": "Blue Easter Egg",
+    "red_striped_easter_egg": "Red Striped Easter Egg",
+    "yellow_striped_easter_egg": "Yellow Striped Easter Egg",
+    "orange_striped_easter_egg": "Orange Striped Easter Egg",
+    "red_dotted_easter_egg": "Red Dotted Easter Egg",
+    "yellow_dotted_easter_egg": "Yellow Dotted Easter Egg",
+    "orange_dotted_easter_egg": "Orange Dotted Easter Egg",
+    "orange_easter_egg": "Orange Easter Egg",
+    "yellow_easter_egg": "Yellow Easter Egg",
+    "red_easter_egg": "Red Easter Egg"
   },
   
   "farming": {
