@@ -5,12 +5,12 @@ import random
 from contextlib import suppress
 from urllib.parse import quote as urlquote
 
-import minecraftstatus
 import aiohttp
 import aiomcrcon as rcon
 import arrow
 import classyjson as cj
 import discord
+import minecraftstatus
 from cryptography.fernet import Fernet
 from discord.ext import commands
 
