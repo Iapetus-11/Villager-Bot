@@ -156,23 +156,24 @@ class Minecraft(commands.Cog):
 
             combined = f"{host}{port_str}"
 
-        async with minecraftstatus.MCStatus() as client:
-            try:
-                server = await client.get_server(combined.replace("/", "%2F"))
-                server_card = await client.get_server_card(combined.replace("/", "%2F"))
+        async with SuppressCtxManager(ctx.typing()):
+            async with minecraftstatus.MCStatus() as client:
+                try:
+                    server = await client.get_server(combined.replace("/", "%2F"))
+                    server_card = await client.get_server_card(combined.replace("/", "%2F"))
 
-            except minecraftstatus.errors.ServerNotFound:
-                await ctx.reply(
-                    embed=discord.Embed(
-                        color=self.bot.embed_color,
-                        title=ctx.l.minecraft.mcping.title_offline.format(
-                            self.d.emojis.offline, combined
+                except minecraftstatus.errors.ServerNotFound:
+                    await ctx.reply(
+                        embed=discord.Embed(
+                            color=self.bot.embed_color,
+                            title=ctx.l.minecraft.mcping.title_offline.format(
+                                self.d.emojis.offline, combined
+                            ),
                         ),
-                    ),
-                    mention_author=False,
-                )
+                        mention_author=False,
+                    )
 
-                return
+                    return
 
         player_list = server.online_players
         if player_list is None:
