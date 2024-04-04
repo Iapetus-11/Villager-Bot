@@ -205,6 +205,27 @@ class Emojis(ImmutableBaseModel):
     mega_mushroom: str
     golden_mushroom: str
     blue_shell: str
+    bunny_ears: str
+    golden_bunny_ears: str
+    rainbow_easter_egg: str
+    green_striped_easter_egg: str
+    purple_striped_easter_egg: str
+    blue_striped_easter_egg: str
+    blue_dotted_easter_egg: str
+    green_dotted_easter_egg: str
+    purple_dotted_easter_egg: str
+    purple_easter_egg: str
+    green_easter_egg: str
+    blue_easter_egg: str
+    red_striped_easter_egg: str
+    yellow_striped_easter_egg: str
+    orange_striped_easter_egg: str
+    red_dotted_easter_egg: str
+    yellow_dotted_easter_egg: str
+    orange_dotted_easter_egg: str
+    orange_easter_egg: str
+    yellow_easter_egg: str
+    red_easter_egg: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis
