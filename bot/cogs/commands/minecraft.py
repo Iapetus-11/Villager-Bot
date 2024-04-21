@@ -10,6 +10,7 @@ import aiomcrcon as rcon
 import arrow
 import classyjson as cj
 import discord
+import minecraftstatus
 from cryptography.fernet import Fernet
 from discord.ext import commands
 
@@ -155,50 +156,39 @@ class Minecraft(commands.Cog):
 
             combined = f"{host}{port_str}"
 
-        fail = False
-        jj: dict = None
+        async with SuppressCtxManager(ctx.typing()), minecraftstatus.MCStatus() as client:
+            try:
+                server = await client.get_server(combined.replace("/", "%2F"))
+                server_card = await client.get_server_card(combined.replace("/", "%2F"))
 
-        async with SuppressCtxManager(ctx.typing()):
-            async with self.aiohttp.get(
-                f"https://api.iapetus11.me/mc/server/status/{combined.replace('/', '%2F')}",
-                # headers={"Authorization": self.k.villager_api},
-            ) as res:  # fetch status from api
-                if res.status == 200:
-                    jj = await res.json()
-
-                    if not jj["online"]:
-                        fail = True
-                else:
-                    fail = True
-
-        if fail:
-            await ctx.reply(
-                embed=discord.Embed(
-                    color=self.bot.embed_color,
-                    title=ctx.l.minecraft.mcping.title_offline.format(
-                        self.d.emojis.offline, combined
+            except minecraftstatus.errors.ServerNotFound:
+                await ctx.reply(
+                    embed=discord.Embed(
+                        color=self.bot.embed_color,
+                        title=ctx.l.minecraft.mcping.title_offline.format(
+                            self.d.emojis.offline, combined
+                        ),
                     ),
-                ),
-                mention_author=False,
-            )
+                    mention_author=False,
+                )
 
-            return
+                return
 
-        player_list = jj.get("players", [])
+        player_list = server.online_players
         if player_list is None:
             player_list = ()
         else:
             player_list = [p["username"] for p in player_list]
 
-        players_online = jj["online_players"]
+        players_online = server.online_player_count
 
         embed = discord.Embed(
             color=self.bot.embed_color,
             title=ctx.l.minecraft.mcping.title_online.format(self.d.emojis.online, combined),
         )
 
-        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=f'{jj["latency"]}ms')
-        ver = jj["version"].get("brand", "Unknown")
+        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=f"{server.latency}ms")
+        ver = server.version_info.get("brand", "Unknown")
         embed.add_field(
             name=ctx.l.minecraft.mcping.version, value=("Unknown" if ver is None else ver)
         )
@@ -214,7 +204,7 @@ class Minecraft(commands.Cog):
         if len(player_list_cut) < 1:
             embed.add_field(
                 name=ctx.l.minecraft.mcping.field_online_players.name.format(
-                    players_online, jj["max_players"]
+                    players_online, server.max_players
                 ),
                 value=ctx.l.minecraft.mcping.field_online_players.value,
                 inline=False,
@@ -228,22 +218,20 @@ class Minecraft(commands.Cog):
 
             embed.add_field(
                 name=ctx.l.minecraft.mcping.field_online_players.name.format(
-                    players_online, jj["max_players"]
+                    players_online, server.max_players
                 ),
                 value="`" + "`, `".join(player_list_cut) + "`" + extra,
                 inline=False,
             )
 
-        embed.set_image(
-            url=f"https://api.iapetus11.me/mc/server/status/{combined}/image?v={random.random()*100000}"
-        )
-
-        if jj["favicon"] is not None:
+        card = discord.File(server_card, "server_card.png")
+        embed.set_image(url="attachment://server_card.png")
+        if server.favicon is not None:
             embed.set_thumbnail(
                 url=f"https://api.iapetus11.me/mc/server/status/{combined}/image/favicon"
             )
 
-        await ctx.reply(embed=embed, mention_author=False)
+        await ctx.reply(embed=embed, file=card, mention_author=False)
 
     @commands.command(name="randommc", aliases=["randommcserver", "randomserver"])
     @commands.cooldown(1, 2, commands.BucketType.user)

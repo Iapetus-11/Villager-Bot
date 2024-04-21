@@ -35,6 +35,7 @@ python-dotenv = "^1.0.0"
 colorlog = "^6.6.0"
 captcha = "^0.4"
 ruff = "^0.0.270"
+minecraftstatus = "^0.0.9"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.6.0"
