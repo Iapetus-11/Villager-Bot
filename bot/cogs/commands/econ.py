@@ -2103,9 +2103,9 @@ class Econ(commands.Cog):
     async def trashcan_empty(self, ctx: Ctx):
         total_ems, amount = await self.db.empty_trashcan(ctx.author.id)
 
-        total_ems = math.floor(total_ems)
         total_ems *= (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) + 1
         total_ems *= (await self.db.fetch_item(ctx.author.id, "Recycler") is not None) + 1
+        total_ems = math.floor(total_ems)
 
         await self.db.balance_add(ctx.author.id, total_ems)
 
