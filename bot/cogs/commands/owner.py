@@ -179,7 +179,7 @@ class Owner(commands.Cog):
                 if item == "emerald":
                     item = self.d.emojis.emerald
 
-                body += f"__[{giver}]({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __[{receiver}]({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
+                body += f"__{giver} ({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __{receiver} ({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
 
             embed = discord.Embed(color=self.bot.embed_color, description=body)
             embed.set_author(
