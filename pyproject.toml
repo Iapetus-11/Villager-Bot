@@ -33,7 +33,7 @@ classy-json = "^3.2.1"
 python-dotenv = "^1.0.0"
 "discord.py" = "^2.3.2"
 colorlog = "^6.6.0"
-captcha = "^0.4"
+captcha = "^0.5.0"
 ruff = "^0.0.270"
 minecraftstatus = "^0.0.9"
 

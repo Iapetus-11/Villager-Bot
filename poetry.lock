@@ -300,13 +300,13 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "captcha"
-version = "0.4"
+version = "0.5.0"
 description = "A captcha library that generates audio and image CAPTCHAs."
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 files = [
-    {file = "captcha-0.4-py3-none-any.whl", hash = "sha256:529941705c01c20143d030805f82a362ba5a2af898e59426acc2c8d649ba034c"},
-    {file = "captcha-0.4.tar.gz", hash = "sha256:2ae5e8daac4f1649b57b34328bcc45ba691b5c707fc6fbdd016e213aece9a8b8"},
+    {file = "captcha-0.5.0-py3-none-any.whl", hash = "sha256:9c86fdc6d453e1b41c330d07c1600e07217557a3e64f8307efe20ef4766eb46a"},
+    {file = "captcha-0.5.0.tar.gz", hash = "sha256:132cb5b9aafd1586bfa421c19f994f7b482873e7f981f80fff888954e02c35c8"},
 ]
 
 [package.dependencies]
@@ -1778,4 +1778,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "06337fe3651fd66d3c7481eaff12e8932473bf31adbccd73dafb982c08b8f487"
+content-hash = "0983a762659b004c1bbe4a184280674094e6eddf39adc0e672fe034bf0f755c2"
