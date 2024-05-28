@@ -731,18 +731,18 @@ class Database(commands.Cog):
 ) oj2 ON event_at = event_at_gs ORDER BY event_at DESC LIMIT 14;"""
         )
 
-    async def fetch_guilds_active_count(self) -> list[dict[str, Any]]:
+    async def fetch_guilds_active_member_count(self) -> list[dict[str, Any]]:
         guild_ids = [g.id for g in self.bot.guilds]
 
         return await self.db.fetch(
-            "SELECT guild_id AS id, COUNT(user_id) AS count FROM (SELECT DISTINCT guild_id, user_id FROM command_executions WHERE guild_id = ANY($1::BIGINT[]) AND ((NOW() - at) < INTERVAL '1 WEEK')) iq GROUP BY guild_id ORDER BY count DESC LIMIT 10",
+            "SELECT guild_id AS id, COUNT(user_id) AS count FROM (SELECT DISTINCT guild_id, user_id FROM command_executions WHERE guild_id = ANY($1::BIGINT[]) AND ((NOW() - at) < INTERVAL '7 DAYS')) iq GROUP BY guild_id ORDER BY count DESC LIMIT 10",
             guild_ids,
         )
 
-    async def fetch_guilds_commands_count(self) -> list[dict[str, Any]]:
+    async def fetch_guilds_commands_count_over_30d(self) -> list[dict[str, Any]]:
         guild_ids = [g.id for g in self.bot.guilds]
         return await self.db.fetch(
-            "SELECT guild_id AS id, COUNT(*) AS count FROM command_executions WHERE guild_id = ANY($1::BIGINT[]) GROUP BY guild_id ORDER BY count DESC LIMIT 10",
+            "SELECT guild_id AS id, COUNT(*) AS count FROM command_executions WHERE guild_id = ANY($1::BIGINT[]) AND ((NOW() - at) < INTERVAL '30 DAYS') GROUP BY guild_id ORDER BY count DESC LIMIT 10",
             guild_ids,
         )
 

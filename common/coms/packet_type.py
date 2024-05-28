@@ -50,5 +50,5 @@ class PacketType(IntEnum):
     SHUTDOWN = auto()
     FETCH_TOP_GUILDS_BY_MEMBERS = auto()
     FETCH_TOP_GUILDS_BY_ACTIVE_MEMBERS = auto()
-    FETCH_TOP_GUILDS_BY_COMMANDS = auto()
+    FETCH_TOP_GUILDS_BY_COMMANDS_LAST_30D = auto()
     COMMAND_EXECUTION = auto()

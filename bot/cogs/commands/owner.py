@@ -252,8 +252,8 @@ class Owner(commands.Cog):
 
         await ctx.reply(
             f"**By Members**\n{top_guilds_by_members}\n\n"
-            f"**By Active Members**\n{top_guilds_by_active_members}\n\n"
-            f"**By Commands**\n{top_guilds_by_commands}\n\n"
+            f"**By Active Members** (those who executed a command within last 7 days)\n{top_guilds_by_active_members}\n\n"
+            f"**By Commands** (last 30 days)\n{top_guilds_by_commands}\n\n"
         )
 
     @commands.command(name="commandstreaks", aliases=["cmdsstreaks", "cmdstreaks"])

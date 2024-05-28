@@ -260,7 +260,7 @@ class KarenClient:
 
     @validate_return_type
     async def fetch_top_guilds_by_commands(self) -> list[dict[str, Any]]:
-        return await self._broadcast_aggregate(PacketType.FETCH_TOP_GUILDS_BY_COMMANDS)
+        return await self._broadcast_aggregate(PacketType.FETCH_TOP_GUILDS_BY_COMMANDS_LAST_30D)
 
     @validate_return_type
     async def command_execution(
