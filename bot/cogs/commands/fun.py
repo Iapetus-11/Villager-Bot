@@ -44,35 +44,44 @@ class Fun(commands.Cog):
     async def reddit_post_logic(
         self, ctx: Ctx, post_type: str, *, show_details: bool = True
     ) -> None:
-        do_nsfw = False
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            do_nsfw = ctx.channel.is_nsfw()
-
-        post = {"nsfw": True, "spoiler": True}
-
-        async with SuppressCtxManager(ctx.typing()):
-            while post["spoiler"] or (not do_nsfw and post["nsfw"]):
-                resp = await self.aiohttp.get(
-                    f"https://api.iapetus11.me/reddit/{post_type}",
-                    # headers={"Authorization": self.k.villager_api},
-                    params={"requesterId": ctx.channel.id},
-                )
-
-                post = cj.classify(await resp.json())
+        # TODO: Fix Reddit API access
 
         embed = discord.Embed(color=self.bot.embed_color)
-
-        if show_details:
-            embed.title = shorten_text(post["title"], 256)
-            embed.url = post["permalink"]
-            embed.set_footer(
-                text=f"{post['upvotes']}  |  u/{post['author']}", icon_url=self.d.upvote_emoji_image
-            )
-
-        embed.set_image(url=post["image"])
-
+        embed.title = "Reddit Functionality Offline"
+        embed.description = "Reddit has blocked Villager Bot"
         await ctx.send(embed=embed)
+
+        return
+
+        # do_nsfw = False
+        #
+        # if isinstance(ctx.channel, discord.TextChannel):
+        #     do_nsfw = ctx.channel.is_nsfw()
+        #
+        # post = {"nsfw": True, "spoiler": True}
+        #
+        # async with SuppressCtxManager(ctx.typing()):
+        #     while post["spoiler"] or (not do_nsfw and post["nsfw"]):
+        #         resp = await self.aiohttp.get(
+        #             f"https://api.iapetus11.me/reddit/{post_type}",
+        #             # headers={"Authorization": self.k.villager_api},
+        #             params={"requesterId": ctx.channel.id},
+        #         )
+        #
+        #         post = cj.classify(await resp.json())
+        #
+        # embed = discord.Embed(color=self.bot.embed_color)
+        #
+        # if show_details:
+        #     embed.title = shorten_text(post["title"], 256)
+        #     embed.url = post["permalink"]
+        #     embed.set_footer(
+        #         text=f"{post['upvotes']}  |  u/{post['author']}", icon_url=self.d.upvote_emoji_image
+        #     )
+        #
+        # embed.set_image(url=post["image"])
+        #
+        # await ctx.send(embed=embed)
 
     @commands.command(name="meme", aliases=["meemee", "meem", "maymay", "mehmeh"])
     @commands.cooldown(1, 1.5, commands.BucketType.user)
@@ -98,6 +107,7 @@ class Fun(commands.Cog):
     @commands.command(name="cursed", aliases=["cursedmc"])
     @commands.cooldown(1, 1.5, commands.BucketType.user)
     async def cursed_mc(self, ctx: Ctx):
+        # TODO: Fix Reddit API access
         # if random.choice((True, False)):
         #     await self.reddit_post_logic(ctx, "cursedMinecraft")
         # else:

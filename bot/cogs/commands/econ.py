@@ -1124,7 +1124,6 @@ class Econ(commands.Cog):
 
     @commands.command(name="fish", aliases=["phish", "feesh", "f"])
     @commands.guild_only()
-    # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def fish(self, ctx: Ctx):
         if not await self.bot_prevention(ctx, 5):
@@ -1165,11 +1164,16 @@ class Econ(commands.Cog):
 
             # determine if they fished up junk
             if random.choice(junk_chance):
-                junk = random.choice(ctx.l.econ.fishing.junk)
+                # TODO: Stop depending on "meme" in translated text because it breaks when a language's
+                #  translation for "meme" is not "meme"
+                # TODO: Fix Reddit API access
+                while "meme" in (junk := random.choice(ctx.l.econ.fishing.junk)):
+                    continue
+
                 await ctx.reply_embed(junk, True)
 
-                if "meme" in junk:
-                    await self.bot.get_cog("Fun").meme(ctx)
+                # if "meme" in junk:
+                #     await self.bot.get_cog("Fun").meme(ctx)
 
                 return
 
