@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 import asyncio
 import datetime
+import typing
 from collections import defaultdict
 from contextlib import suppress
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 import discord
 from discord.ext import commands
@@ -13,6 +16,9 @@ from common.models.db.item import Item
 from common.models.db.user import User
 
 from bot.villager_bot import VillagerBotCluster
+
+if TYPE_CHECKING:
+    from badges import Badges
 
 
 class Database(commands.Cog):
@@ -26,8 +32,8 @@ class Database(commands.Cog):
         asyncio.create_task(self.populate_caches())
 
     @property
-    def badges(self):
-        return self.bot.get_cog("Badges")
+    def badges(self) -> Badges:
+        return typing.cast(self.bot.get_cog("Badges"), "Badges")
 
     async def populate_caches(self):
         # caches which need to be maintained across all clusters
@@ -393,10 +399,10 @@ class Database(commands.Cog):
         if lbs is None:
             await self.db.execute("INSERT INTO leaderboards (user_id) VALUES ($1)", user_id)
 
-        self.bot.existing_user_lbs_cache.add(user_id)
-
-        if len(self.bot.existing_user_lbs_cache) > 30:
+        if len(self.bot.existing_user_lbs_cache) >= 30:
             self.bot.existing_user_lbs_cache.pop()
+
+        self.bot.existing_user_lbs_cache.add(user_id)
 
     async def update_lb(self, user_id: int, lb: str, value: int, mode: str = "add") -> None:
         await self.ensure_user_lb(user_id)  # ensure lb entry exists

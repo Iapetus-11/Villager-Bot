@@ -1,3 +1,5 @@
+import typing
+
 import discord
 from discord.ext import commands
 
@@ -14,7 +16,7 @@ class Config(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return self.bot.get_cog("Database")
+        return typing.cast(self.bot.get_cog("Database"), Database)
 
     @commands.group(name="config", aliases=["settings", "conf", "gamerule"], case_insensitive=True)
     async def config(self, ctx: Ctx):

@@ -1,5 +1,5 @@
 import asyncio
-from typing import Union
+import typing
 
 import arrow
 import discord
@@ -19,7 +19,7 @@ class Mod(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return self.bot.get_cog("Database")
+        return typing.cast(self.bot.get_cog("Database"), Database)
 
     def permission_check(self, ctx: Ctx, victim: discord.Member) -> bool:
         author = ctx.author
@@ -69,7 +69,7 @@ class Mod(commands.Cog):
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     async def ban_user(
-        self, ctx: Ctx, victim: Union[discord.Member, int], *, reason="No reason provided."
+        self, ctx: Ctx, victim: discord.Member | int, *, reason="No reason provided."
     ):
         """Bans the given user from the current Discord server"""
 
@@ -123,7 +123,7 @@ class Mod(commands.Cog):
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     async def pardon_user(
-        self, ctx: Ctx, user: Union[discord.User, int], *, reason="No reason provided."
+        self, ctx: Ctx, user: discord.User | int, *, reason="No reason provided."
     ):
         """Unbans / pardons the given user from the current Discord server"""
 

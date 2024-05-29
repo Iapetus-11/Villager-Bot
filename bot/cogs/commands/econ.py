@@ -3,6 +3,7 @@ import datetime
 import functools
 import math
 import random
+import typing
 from collections import defaultdict
 from typing import Any
 
@@ -42,15 +43,15 @@ class Econ(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return self.bot.get_cog("Database")
+        return typing.cast(self.bot.get_cog("Database"), Database)
 
     @property
     def badges(self) -> Badges:
-        return self.bot.get_cog("Badges")
+        return typing.cast(self.bot.get_cog("Badges"), Badges)
 
     @property
     def paginator(self) -> Paginator:
-        return self.bot.get_cog("Paginator")
+        return typing.cast(self.bot.get_cog("Paginator"), Paginator)
 
     @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
     def calc_yield_chance_list(self, pickaxe: str):

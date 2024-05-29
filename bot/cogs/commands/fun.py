@@ -26,7 +26,7 @@ class Fun(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return self.bot.get_cog("Database")
+        return typing.cast(self.bot.get_cog("Database"), Database)
 
     @staticmethod
     def lang_convert(msg, lang):
@@ -261,7 +261,7 @@ class Fun(commands.Cog):
         await ctx.send_embed(f"{bubble*size[0]}\n" * size[1])
 
     @commands.command(name="kill", aliases=["die", "kil", "dorito"])
-    async def kill_thing(self, ctx: Ctx, *, thing: typing.Union[discord.Member, str]):
+    async def kill_thing(self, ctx: Ctx, *, thing: discord.Member | str):
         if isinstance(thing, discord.Member):
             thing = thing.mention
 

@@ -1,5 +1,3 @@
-from typing import Optional
-
 import discord
 from discord.ext.commands import Context
 
@@ -9,15 +7,15 @@ from bot.models.translation import Translation
 class CustomContext(Context):
     """Custom context class to provide extra helper methods and multi-language support"""
 
+    embed_color: discord.Color  # used in send_embed(...) and reply_embed(...)
+    l: Translation  # the translation of the bot text for the current context
+    failure_reason: str | None  # failure reason used in some command error handling
+    custom_error: Exception | None
+
     def __init__(self, *args, embed_color: discord.Color = None, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.embed_color = embed_color  # used in send_embed(...) and reply_embed(...)
-        self.l: Translation = None  # the translation of the bot text for the current context
-        self.failure_reason: Optional[
-            str
-        ] = None  # failure reason used in some command error handling
-        self.custom_error: Optional[Exception] = None
+        self.embed_color = embed_color
 
     async def send_embed(self, message: str, *, ignore_exceptions: bool = False) -> None:
         await self.bot.send_embed(self, message, ignore_exceptions=ignore_exceptions)

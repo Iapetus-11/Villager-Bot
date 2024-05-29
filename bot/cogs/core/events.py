@@ -1,6 +1,7 @@
 import random
 import time
 import traceback
+import typing
 from contextlib import suppress
 
 import discord
@@ -43,11 +44,11 @@ class Events(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return self.bot.get_cog("Database")
+        return typing.cast(self.bot.get_cog("Database"), Database)
 
     @property
     def badges(self) -> Badges:
-        return self.bot.get_cog("Badges")
+        return typing.cast(self.bot.get_cog("Badges"), Badges)
 
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
         self.bot.error_count += 1

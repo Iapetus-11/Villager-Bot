@@ -1,4 +1,4 @@
-from typing import Optional
+import typing
 
 from discord.ext import commands
 
@@ -18,7 +18,7 @@ class Badges(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return self.bot.get_cog("Database")
+        return typing.cast(self.bot.get_cog("Database"), Database)
 
     async def fetch_user_badges(self, user_id) -> dict:
         return dict(await self.db.fetch_user_badges(user_id))
@@ -43,7 +43,7 @@ class Badges(commands.Cog):
         return " ".join(emojis)
 
     async def update_badge_uncle_scrooge(
-        self, user_id: int, db_user: Optional[User] = None, user_items: list[Item] = None
+        self, user_id: int, db_user: User | None = None, user_items: list[Item] = None
     ) -> None:
         badges = await self.fetch_user_badges(user_id)
 

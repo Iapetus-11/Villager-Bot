@@ -2,6 +2,7 @@ import asyncio
 import itertools
 import math
 import random
+import typing
 
 import classyjson as cj
 import discord
@@ -24,7 +25,7 @@ class MobSpawner(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return self.bot.get_cog("Database")
+        return typing.cast(self.bot.get_cog("Database"), Database)
 
     def engage_check(self, ctx: Ctx):
         def _engage_check(m: discord.Message):

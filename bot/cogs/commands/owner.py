@@ -1,6 +1,7 @@
 import datetime
 import math
-from typing import Any, Union
+import typing
+from typing import Any
 
 import arrow
 import discord
@@ -29,11 +30,11 @@ class Owner(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return self.bot.get_cog("Database")
+        return typing.cast(self.bot.get_cog("Database"), Database)
 
     @property
     def paginator(self) -> Paginator:
-        return self.bot.get_cog("Paginator")
+        return typing.cast(self.bot.get_cog("Paginator"), Paginator)
 
     @commands.command(name="ownercommands", aliases=["ocmds", "ownerhelp", "ohelp", "ownercmds"])
     @commands.is_owner()
@@ -88,7 +89,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="lookup")
     @commands.is_owner()
-    async def lookup(self, ctx: Ctx, user: Union[discord.User, int]):
+    async def lookup(self, ctx: Ctx, user: discord.User | int):
         if not (uid := getattr(user, "id", None)):
             uid = user
 
@@ -105,7 +106,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="setbal")
     @commands.is_owner()
-    async def set_user_bal(self, ctx: Ctx, user: Union[discord.User, int], balance: int):
+    async def set_user_bal(self, ctx: Ctx, user: discord.User | int, balance: int):
         if not (uid := getattr(user, "id", None)):
             uid = user
 
@@ -114,7 +115,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="botban")
     @commands.is_owner()
-    async def ban_user_from_bot(self, ctx: Ctx, user: Union[discord.User, int]):
+    async def ban_user_from_bot(self, ctx: Ctx, user: discord.User | int):
         if isinstance(user, discord.User):
             uid = user.id
         else:
@@ -127,7 +128,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="unbotban")
     @commands.is_owner()
-    async def unban_user_from_bot(self, ctx: Ctx, user: Union[discord.User, int]):
+    async def unban_user_from_bot(self, ctx: Ctx, user: discord.User | int):
         if isinstance(user, discord.User):
             uid = user.id
         else:
@@ -140,7 +141,7 @@ class Owner(commands.Cog):
 
     @commands.command(name="givehistory", aliases=["transactions", "givelogs", "tradelogs"])
     @commands.is_owner()
-    async def transaction_history(self, ctx: Ctx, user: Union[discord.User, int]):
+    async def transaction_history(self, ctx: Ctx, user: discord.User | int):
         if isinstance(user, discord.User):
             uid = user.id
             username = str(user)

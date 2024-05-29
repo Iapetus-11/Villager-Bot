@@ -2,6 +2,7 @@ import asyncio
 import base64
 import json
 import random
+import typing
 from contextlib import suppress
 from urllib.parse import quote as urlquote
 
@@ -47,7 +48,7 @@ class Minecraft(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return self.bot.get_cog("Database")
+        return typing.cast(self.bot.get_cog("Database"), Database)
 
     @commands.command(name="blockify", aliases=["mcpixelart", "mcart", "mcimage", "mcvideo"])
     @commands.cooldown(1, 10, commands.BucketType.user)

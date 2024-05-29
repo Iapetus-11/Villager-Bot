@@ -4,6 +4,7 @@ import json
 import os
 import secrets
 import time
+import typing
 from contextlib import suppress
 from typing import Any, Optional
 from urllib.parse import quote as urlquote
@@ -52,11 +53,11 @@ class Useful(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return self.bot.get_cog("Database")
+        return typing.cast(self.bot.get_cog("Database"), Database)
 
     @property
     def paginator(self) -> Paginator:
-        return self.bot.get_cog("Paginator")
+        return typing.cast(self.bot.get_cog("Paginator"), Paginator)
 
     def cog_unload(self):
         self.clear_snipes.cancel()
