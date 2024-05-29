@@ -1,5 +1,5 @@
 import inspect
-from typing import Any, Callable, Coroutine, Optional, Union
+from typing import Any, Callable, Coroutine
 
 import discord
 from discord.ext import commands
@@ -7,7 +7,7 @@ from discord.ext import commands
 from bot.utils.ctx import Ctx
 from bot.villager_bot import VillagerBotCluster
 
-PAGE_EMBED_CALLABLE = Callable[[int], Union[discord.Embed, Coroutine[Any, Any, discord.Embed]]]
+PAGE_EMBED_CALLABLE = Callable[[int], discord.Embed | Coroutine[Any, Any, discord.Embed]]
 
 
 class PaginatorView(discord.ui.View):
@@ -79,7 +79,7 @@ class Paginator(commands.Cog):
         get_page: PAGE_EMBED_CALLABLE,
         *,
         timeout: float = 60,
-        page_count: Optional[int] = None,
+        page_count: int | None = None,
     ):
         # send initial message
         embed = await self._get_page(get_page, 0)
