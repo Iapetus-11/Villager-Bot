@@ -1,6 +1,8 @@
 import typing
 
 from discord.ext import commands
+from PIL import Image
+from io import BytesIO
 
 from common.models.db.item import Item
 from common.models.db.user import User
@@ -193,6 +195,33 @@ class Badges(commands.Cog):
             await self.update_user_badges(user_id, enthusiast=2)
         elif enthusiast_level < 1 and commands_ran > 100_000_000:
             await self.update_user_badges(user_id, enthusiast=1)
+
+    def combine_badges(self, badge_filenames):
+        badge_size = (32, 32)
+        badge_filepaths = []
+
+        for filename in badge_filenames:
+            badge_filepaths.append(f"./bot/data/assets/images/badges/{filename}.png")
+
+        badge_images = [
+            Image.open(filename).resize(badge_size, Image.LANCZOS) for filename in badge_filepaths
+        ]
+
+        total_width = sum(image.width for image in badge_images)
+        max_height = max(image.height for image in badge_images)
+
+        combined_image = Image.new("RGBA", (total_width, max_height))
+
+        current_x = 0
+        for image in badge_images:
+            combined_image.paste(image, (current_x, 0))
+            current_x += image.width
+
+        img_bytes = BytesIO()
+        combined_image.save(img_bytes, format="PNG")
+        img_bytes.seek(0)
+
+        return img_bytes
 
 
 async def setup(bot: VillagerBotCluster) -> None:
