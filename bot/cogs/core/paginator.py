@@ -15,35 +15,35 @@ class PaginatorView(discord.ui.View):
         super().__init__(timeout=timeout)
 
         self._page = 0
-        self._pages = page_count
+        self._page_count = page_count
         self._get_page = get_page
 
     @discord.ui.button(emoji="⏪", style=discord.ButtonStyle.gray)
-    async def first(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def btn_first(self, interaction: discord.Interaction, button: discord.ui.Button):
         self._page = 0
         await self.update_message(interaction)
 
     @discord.ui.button(emoji="⬅️", style=discord.ButtonStyle.gray)
-    async def back(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def btn_back(self, interaction: discord.Interaction, button: discord.ui.Button):
         self._page -= 1
         await self.update_message(interaction)
 
     @discord.ui.button(emoji="➡️", style=discord.ButtonStyle.gray)
-    async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def btn_next(self, interaction: discord.Interaction, button: discord.ui.Button):
         self._page += 1
         await self.update_message(interaction)
 
     @discord.ui.button(emoji="⏩", style=discord.ButtonStyle.gray)
-    async def last(self, interaction: discord.Interaction, button: discord.ui.Button):
-        self._page = self._pages - 1
+    async def btn_last(self, interaction: discord.Interaction, button: discord.ui.Button):
+        self._page = self._page_count - 1
         await self.update_message(interaction)
 
     async def update_message(self, interaction: discord.Interaction):
         # disable buttons if necessary
-        self.children[0].disabled = self._page == 0
-        self.children[1].disabled = self._page == 0
-        self.children[2].disabled = self._page == self._pages - 1
-        self.children[3].disabled = self._page == self._pages - 1
+        self.btn_first.disabled = self._page == 0
+        self.btn_back.disabled = self._page == 0
+        self.btn_next.disabled = self._page == self._page_count - 1
+        self.btn_last.disabled = self._page == self._page_count - 1
 
         # update message with new page/embed
         embed = await self._get_page(self._page)
