@@ -44,11 +44,11 @@ class Events(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return typing.cast(self.bot.get_cog("Database"), Database)
+        return typing.cast(Database, self.bot.get_cog("Database"))
 
     @property
     def badges(self) -> Badges:
-        return typing.cast(self.bot.get_cog("Badges"), Badges)
+        return typing.cast(Badges, self.bot.get_cog("Badges"))
 
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
         self.bot.error_count += 1

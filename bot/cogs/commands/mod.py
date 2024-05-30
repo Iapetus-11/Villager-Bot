@@ -19,7 +19,7 @@ class Mod(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return typing.cast(self.bot.get_cog("Database"), Database)
+        return typing.cast(Database, self.bot.get_cog("Database"))
 
     def permission_check(self, ctx: Ctx, victim: discord.Member) -> bool:
         author = ctx.author

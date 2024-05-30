@@ -18,7 +18,7 @@ class Badges(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return typing.cast(self.bot.get_cog("Database"), Database)
+        return typing.cast(Database, self.bot.get_cog("Database"))
 
     async def fetch_user_badges(self, user_id) -> dict:
         return dict(await self.db.fetch_user_badges(user_id))

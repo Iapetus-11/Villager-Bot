@@ -30,11 +30,11 @@ class Owner(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return typing.cast(self.bot.get_cog("Database"), Database)
+        return typing.cast(Database, self.bot.get_cog("Database"))
 
     @property
     def paginator(self) -> Paginator:
-        return typing.cast(self.bot.get_cog("Paginator"), Paginator)
+        return typing.cast(Paginator, self.bot.get_cog("Paginator"))
 
     @commands.command(name="ownercommands", aliases=["ocmds", "ownerhelp", "ohelp", "ownercmds"])
     @commands.is_owner()

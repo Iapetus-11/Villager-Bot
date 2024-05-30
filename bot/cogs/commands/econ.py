@@ -43,15 +43,15 @@ class Econ(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return typing.cast(self.bot.get_cog("Database"), Database)
+        return typing.cast(Database, self.bot.get_cog("Database"))
 
     @property
     def badges(self) -> Badges:
-        return typing.cast(self.bot.get_cog("Badges"), Badges)
+        return typing.cast(Badges, self.bot.get_cog("Badges"))
 
     @property
     def paginator(self) -> Paginator:
-        return typing.cast(self.bot.get_cog("Paginator"), Paginator)
+        return typing.cast(Paginator, self.bot.get_cog("Paginator"))
 
     @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
     def calc_yield_chance_list(self, pickaxe: str):

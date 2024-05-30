@@ -16,7 +16,7 @@ class Config(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return typing.cast(self.bot.get_cog("Database"), Database)
+        return typing.cast(Database, self.bot.get_cog("Database"))
 
     @commands.group(name="config", aliases=["settings", "conf", "gamerule"], case_insensitive=True)
     async def config(self, ctx: Ctx):

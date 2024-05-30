@@ -26,7 +26,7 @@ class Fun(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return typing.cast(self.bot.get_cog("Database"), Database)
+        return typing.cast(Database, self.bot.get_cog("Database"))
 
     @staticmethod
     def lang_convert(msg, lang):

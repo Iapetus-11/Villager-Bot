@@ -33,7 +33,7 @@ class Database(commands.Cog):
 
     @property
     def badges(self) -> Badges:
-        return typing.cast(self.bot.get_cog("Badges"), "Badges")
+        return typing.cast("Badges", self.bot.get_cog("Badges"))
 
     async def populate_caches(self):
         # caches which need to be maintained across all clusters

@@ -48,7 +48,7 @@ class Minecraft(commands.Cog):
 
     @property
     def db(self) -> Database:
-        return typing.cast(self.bot.get_cog("Database"), Database)
+        return typing.cast(Database, self.bot.get_cog("Database"))
 
     @commands.command(name="blockify", aliases=["mcpixelart", "mcart", "mcimage", "mcvideo"])
     @commands.cooldown(1, 10, commands.BucketType.user)
