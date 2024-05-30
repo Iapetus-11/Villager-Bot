@@ -1,8 +1,8 @@
 import typing
+from io import BytesIO
 
 from discord.ext import commands
 from PIL import Image
-from io import BytesIO
 
 from common.models.db.item import Item
 from common.models.db.user import User
