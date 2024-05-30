@@ -13,6 +13,7 @@ PAGE_EMBED_CALLABLE = Callable[[int], discord.Embed | Coroutine[Any, Any, discor
 class PaginatorView(discord.ui.View):
     def __init__(self, get_page, page_count, timeout):
         super().__init__(timeout=timeout)
+
         self._page = 0
         self._pages = page_count
         self._get_page = get_page
