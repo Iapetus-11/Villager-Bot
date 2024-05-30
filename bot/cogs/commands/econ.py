@@ -164,8 +164,11 @@ class Econ(commands.Cog):
         else:
             can_vote_value = f"[{ctx.l.econ.pp.yep}]({self.d.topgg + '/vote'})"
 
-        user_badges_str = self.badges.emojify_badges(await self.badges.fetch_user_badges(user.id))
-
+        user_badges = [
+            f'{k}_{v if isinstance(v, int) else ""}'.strip("_")
+            for k, v in (await self.badges.fetch_user_badges(user.id)).items()
+            if v is True or v > 0
+        ]
         active_fx = await self.karen.fetch_active_fx(user.id)
 
         if db_user.shield_pearl and (
@@ -191,9 +194,18 @@ class Econ(commands.Cog):
             value=can_vote_value,
         )
 
-        embed.add_field(name=ctx.l.econ.pp.pick, value=(await self.db.fetch_pickaxe(user.id)))
+        pickaxe = await self.db.fetch_pickaxe(user.id)
+        sword = await self.db.fetch_sword(user.id)
+
+        embed.add_field(
+            name=ctx.l.econ.pp.pick,
+            value=f"{pickaxe}{self.d.emojis[self.d.emoji_items[pickaxe]]}",
+        )
         embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=ctx.l.econ.pp.sword, value=(await self.db.fetch_sword(user.id)))
+        embed.add_field(
+            name=ctx.l.econ.pp.sword,
+            value=f"{sword}{self.d.emojis[self.d.emoji_items[sword]]}",
+        )
 
         if active_fx:
             embed.add_field(
@@ -202,10 +214,14 @@ class Econ(commands.Cog):
                 inline=False,
             )
 
-        if user_badges_str:
-            embed.add_field(name="\uFEFF", value=user_badges_str, inline=False)
+        if user_badges:
+            img_bytes = self.badges.combine_badges(user_badges)
+            file = discord.File(fp=img_bytes, filename=f"{user.id}_badges.png")
+            embed.set_image(url=f"attachment://{file.filename}")
+        else:
+            file = None
 
-        await ctx.reply(embed=embed, mention_author=False)
+        await ctx.reply(embed=embed, file=file, mention_author=False)
 
     @commands.command(name="balance", aliases=["bal", "vault", "pocket"])
     async def balance(self, ctx: Ctx, *, user: discord.User = None):
