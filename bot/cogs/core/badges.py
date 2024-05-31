@@ -1,6 +1,9 @@
+import io
 import typing
+from io import BytesIO
 
 from discord.ext import commands
+from PIL import Image
 
 from common.models.db.item import Item
 from common.models.db.user import User
@@ -193,6 +196,46 @@ class Badges(commands.Cog):
             await self.update_user_badges(user_id, enthusiast=2)
         elif enthusiast_level < 1 and commands_ran > 100_000_000:
             await self.update_user_badges(user_id, enthusiast=1)
+
+    async def generate_badges_image(self, user_id: int) -> io.BytesIO | None:
+        """
+        Generates an image for a user's badges. Returns None if the user has no badges,
+        otherwise a BytesIO object containing the image's data.
+        """
+
+        user_badges = [
+            f'{badge}_{"" if isinstance(value, bool) else value}'.strip("_")
+            for badge, value in (await self.fetch_user_badges(user_id)).items()
+            if value is True or value > 0
+        ]
+
+        if not user_badges:
+            return None
+
+        badge_images = [
+            (
+                Image.open(f"./bot/data/assets/images/badges/{badge_name}.png").resize(
+                    (100, 100), resample=Image.Resampling.BICUBIC
+                )
+            )
+            for badge_name in user_badges
+        ]
+
+        total_width = max(1000, sum(image.width for image in badge_images))
+        max_height = max(image.height for image in badge_images)
+
+        badges_image = Image.new("RGBA", (total_width, max_height))
+
+        current_x_pos = 0
+        for image in badge_images:
+            badges_image.paste(image, (current_x_pos, 0))
+            current_x_pos += image.width
+
+        img_bytes = BytesIO()
+        badges_image.save(img_bytes, format="PNG")
+        img_bytes.seek(0)
+
+        return img_bytes
 
 
 async def setup(bot: VillagerBotCluster) -> None:

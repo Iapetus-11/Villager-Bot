@@ -125,7 +125,7 @@ class Econ(commands.Cog):
         pass
 
     @commands.command(name="profile", aliases=["pp"])
-    async def profile(self, ctx: Ctx, *, user: discord.User = None):
+    async def profile(self, ctx: Ctx, *, user: discord.User | None = None):
         if user is None:
             user = ctx.author
 
@@ -164,8 +164,6 @@ class Econ(commands.Cog):
         else:
             can_vote_value = f"[{ctx.l.econ.pp.yep}]({self.d.topgg + '/vote'})"
 
-        user_badges_str = self.badges.emojify_badges(await self.badges.fetch_user_badges(user.id))
-
         active_fx = await self.karen.fetch_active_fx(user.id)
 
         if db_user.shield_pearl and (
@@ -179,21 +177,34 @@ class Econ(commands.Cog):
         embed.add_field(
             name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}"
         )
-        embed.add_field(name="\uFEFF", value="\uFEFF")
+
         embed.add_field(
             name=ctx.l.econ.pp.mooderalds, value=f"{mooderalds}{self.d.emojis.autistic_emerald}"
         )
 
         embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak or 0))
-        embed.add_field(name="\uFEFF", value="\uFEFF")
+
+        if user.id == ctx.author.id:
+            embed.add_field(
+                name=ctx.l.econ.pp.can_vote,
+                value=can_vote_value,
+            )
+
+        pickaxe = await self.db.fetch_pickaxe(user.id)
         embed.add_field(
-            name=ctx.l.econ.pp.can_vote,
-            value=can_vote_value,
+            name=ctx.l.econ.pp.pick,
+            value=f"{self.d.emojis[self.d.emoji_items[pickaxe]]} {pickaxe}",
         )
 
-        embed.add_field(name=ctx.l.econ.pp.pick, value=(await self.db.fetch_pickaxe(user.id)))
-        embed.add_field(name="\uFEFF", value="\uFEFF")
-        embed.add_field(name=ctx.l.econ.pp.sword, value=(await self.db.fetch_sword(user.id)))
+        sword = await self.db.fetch_sword(user.id)
+        embed.add_field(
+            name=ctx.l.econ.pp.sword,
+            value=f"{self.d.emojis[self.d.emoji_items[sword]]} {sword}",
+        )
+
+        # add empty field to account for missing "Can Vote?" field
+        if user.id != ctx.author.id:
+            embed.add_field(name="\uFEFF", value="\uFEFF")
 
         if active_fx:
             embed.add_field(
@@ -202,10 +213,16 @@ class Econ(commands.Cog):
                 inline=False,
             )
 
-        if user_badges_str:
-            embed.add_field(name="\uFEFF", value=user_badges_str, inline=False)
+        user_badges_image_file: discord.File | None
+        if user_badges_image_data := await self.badges.generate_badges_image(user.id):
+            user_badges_image_file = discord.File(
+                fp=user_badges_image_data, filename=f"{user.id}_badges.png"
+            )
+            embed.set_image(url=f"attachment://{user_badges_image_file.filename}")
+        else:
+            user_badges_image_file = None
 
-        await ctx.reply(embed=embed, mention_author=False)
+        await ctx.reply(embed=embed, file=user_badges_image_file, mention_author=False)
 
     @commands.command(name="balance", aliases=["bal", "vault", "pocket"])
     async def balance(self, ctx: Ctx, *, user: discord.User = None):
