@@ -1,5 +1,3 @@
-from typing import Optional
-
 from common.models.base_model import ImmutableBaseModel
 
 
@@ -111,7 +109,7 @@ class MobsMech_Lost(ImmutableBaseModel):
 class MobsMech_Mobs_MobActions(ImmutableBaseModel):
     attacks: list[str]
     finishers: list[str]
-    misses: Optional[list[str]] = None
+    misses: list[str] | None = None
 
 
 class MobsMech_Mobs(ImmutableBaseModel):
@@ -344,7 +342,6 @@ class VbConfig_Rcon(ImmutableBaseModel):
 
 
 class VbConfig(ImmutableBaseModel):
-
     invalid: str
     main: VbConfig_Main
     prefix: VbConfig_Prefix

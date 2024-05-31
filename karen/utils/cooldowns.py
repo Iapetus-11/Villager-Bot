@@ -1,6 +1,5 @@
 import time
 from collections import defaultdict
-from typing import Optional
 
 
 class MaxConcurrencyManager:
@@ -24,9 +23,8 @@ class CooldownManager:
     def __init__(self, cooldown_rates: dict[str, float]):
         self.rates = cooldown_rates  # {command_name: seconds_per_command}
 
-        self._cooldowns = defaultdict[str, dict[int, float]](
-            dict
-        )  # {command_name: {user_id: time.time()}}
+        # {command_name: {user_id: time.time()}}
+        self._cooldowns = defaultdict[str, dict[int, float]](dict)
 
     def add_cooldown(self, command: str, user_id: int) -> None:
         self._cooldowns[command][user_id] = time.time()
@@ -44,7 +42,7 @@ class CooldownManager:
 
         return remaining
 
-    def check_add_cooldown(self, command: str, user_id: int) -> tuple[bool, Optional[float]]:
+    def check_add_cooldown(self, command: str, user_id: int) -> tuple[bool, float | None]:
         remaining = self.get_remaining(command, user_id)
 
         if remaining:
@@ -56,7 +54,7 @@ class CooldownManager:
 
     def clear_dead(self) -> None:
         for command, users in list(self._cooldowns.items()):
-            for user_id, started in list(users.items()):
+            for user_id in list(users.keys()):
                 if (
                     self.rates[command] - (time.time() - self._cooldowns[command].get(user_id, 0))
                     <= 0

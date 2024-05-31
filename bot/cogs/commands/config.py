@@ -119,13 +119,14 @@ class Config(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def config_language(self, ctx: Ctx, lang: str = None):
-        lang_codes = {l.replace("_", "-") for l in list(self.bot.l)}
+        lang_codes = {lang.replace("_", "-") for lang in list(self.bot.l)}
 
         if lang is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
             await ctx.reply_embed(
                 ctx.l.config.lang.this_server.format(
-                    guild.language.replace("_", "-"), "`{}`".format("`, `".join(lang_codes))
+                    guild.language.replace("_", "-"),
+                    "`{}`".format("`, `".join(lang_codes)),
                 ),
             )
             return
@@ -139,7 +140,7 @@ class Config(commands.Cog):
             await ctx.reply_embed(ctx.l.config.lang.set.format(lang))
         else:
             await ctx.reply_embed(
-                ctx.l.config.invalid.format("`{}`".format("`, `".join(lang_codes)))
+                ctx.l.config.invalid.format("`{}`".format("`, `".join(lang_codes))),
             )
 
     @config.command(name="defaultserver", aliases=["defaultmcserver", "mcserver"])
@@ -207,7 +208,7 @@ class Config(commands.Cog):
             db_user = await self.db.fetch_user(ctx.author.id)
             await ctx.reply_embed(
                 ctx.l.config.gift.this_user.format(
-                    db_user.give_alert * "enabled" + "disabled" * (not db_user.give_alert)
+                    "enabled" if db_user.give_alert else "disabled",
                 ),
             )
             return
@@ -222,7 +223,8 @@ class Config(commands.Cog):
             await ctx.reply_embed(ctx.l.config.invalid.format("`on`, `off`"))
 
     @config.command(
-        name="clearrconpasswords", aliases=["clearpasswords", "deletepasswords", "delrconpasswords"]
+        name="clearrconpasswords",
+        aliases=["clearpasswords", "deletepasswords", "delrconpasswords"],
     )
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def config_clear_rcon_passwords(self, ctx: Ctx):

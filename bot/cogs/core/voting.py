@@ -61,7 +61,9 @@ class Voting(commands.Cog):
             vote_streak = 1
 
         await self.db.update_user(
-            user_id, last_vote=arrow.utcnow().datetime, vote_streak=vote_streak
+            user_id,
+            last_vote=arrow.utcnow().datetime,
+            vote_streak=vote_streak,
         )
 
         # determine emeralds reward
@@ -73,7 +75,7 @@ class Voting(commands.Cog):
 
             # higher the pickaxe, better the voting reward
             emeralds *= len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(
-                await self.db.fetch_pickaxe(user_id)
+                await self.db.fetch_pickaxe(user_id),
             )
 
             # longer vote streak (up to 5 votes) the better the reward
@@ -100,7 +102,10 @@ class Voting(commands.Cog):
             await self.db.balance_add(user_id, emeralds)
             await self.bot.send_embed(
                 user,
-                f"Thanks for voting! You've received **{emeralds}**{self.d.emojis.emerald}! (Vote streak is now {vote_streak})",
+                (
+                    f"Thanks for voting! You've received **{emeralds}**{self.d.emojis.emerald}! "
+                    f"(Vote streak is now {vote_streak})"
+                ),
                 ignore_exceptions=True,
             )
 

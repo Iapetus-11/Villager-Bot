@@ -26,7 +26,7 @@ def setup_logging(name: str, config: LoggingConfig) -> logging.Logger:
                 "CRITICAL": "red",
             },
             reset=False,
-        )
+        ),
     )
     handler.setLevel(level)
 

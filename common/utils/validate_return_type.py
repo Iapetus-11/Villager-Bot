@@ -21,7 +21,9 @@ def validate_return_type(function):
         arbitrary_types_allowed = True
 
     model = create_model(
-        "ReturnValueModel", return_value=(return_anno, ...), __config__=ModelConfig
+        "ReturnValueModel",
+        return_value=(return_anno, ...),
+        __config__=ModelConfig,
     )
 
     def _validate_type(return_value: Any):

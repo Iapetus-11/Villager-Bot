@@ -22,7 +22,7 @@ def special_obj_encode(obj: object) -> dict[str, Any]:
                 "days": obj.days,
                 "seconds": obj.seconds,
                 "microseconds": obj.microseconds,
-            }
+            },
         }
 
     return pydantic.json.pydantic_encoder(obj)
@@ -42,7 +42,9 @@ def special_obj_decode(dct: dict) -> dict | Any:
     if "__timedelta_object" in dct:
         data = dct["__timedelta_object"]
         return datetime.timedelta(
-            days=data["days"], seconds=data["seconds"], microseconds=data["microseconds"]
+            days=data["days"],
+            seconds=data["seconds"],
+            microseconds=data["microseconds"],
         )
 
     return dct

@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 
 from bot.utils.karen_client import KarenClient
 
@@ -20,7 +20,7 @@ class DatabaseProxy:
     async def fetchval(self, query: str, *args: Any) -> Any:
         return await self.karen.db_fetch_val(query, *args)
 
-    async def fetchrow(self, query: str, *args: Any) -> Optional[dict[str, Any]]:
+    async def fetchrow(self, query: str, *args: Any) -> dict[str, Any] | None:
         return await self.karen.db_fetch_row(query, *args)
 
     async def fetch(self, query: str, *args: Any) -> list[dict[str, Any]]:

@@ -3,7 +3,7 @@ import asyncpg
 from karen.models.secrets import DatabaseSecrets, Secrets
 
 
-async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:
+async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool[asyncpg.Record]:
     pool = await asyncpg.create_pool(
         host=secrets.host,
         port=secrets.port,
@@ -14,7 +14,9 @@ async def setup_database_pool(secrets: DatabaseSecrets) -> asyncpg.Pool:
         min_size=1,
     )
 
-    return pool  # type: ignore
+    assert pool is not None
+
+    return pool
 
 
 def load_secrets() -> Secrets:

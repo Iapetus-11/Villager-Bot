@@ -8,7 +8,7 @@ class CustomContext(Context):
     """Custom context class to provide extra helper methods and multi-language support"""
 
     embed_color: discord.Color  # used in send_embed(...) and reply_embed(...)
-    l: Translation  # the translation of the bot text for the current context
+    l: Translation  # the translation of the bot text for the current context  # noqa: E741
     failure_reason: str | None  # failure reason used in some command error handling
     custom_error: Exception | None
 
@@ -21,7 +21,11 @@ class CustomContext(Context):
         await self.bot.send_embed(self, message, ignore_exceptions=ignore_exceptions)
 
     async def reply_embed(
-        self, message: str, ping: bool = False, *, ignore_exceptions: bool = False
+        self,
+        message: str,
+        ping: bool = False,
+        *,
+        ignore_exceptions: bool = False,
     ) -> None:
         await self.bot.reply_embed(self, message, ping, ignore_exceptions=ignore_exceptions)
 

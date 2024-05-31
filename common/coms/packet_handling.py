@@ -19,10 +19,11 @@ class PacketHandler:
 def validate_packet_handler_function(function: T_PACKET_HANDLER_CALLABLE) -> None:
     # check if any args are missing annotations
     if any(
-        [arg_name not in function.__annotations__ for arg_name in function.__code__.co_varnames]
+        [arg_name not in function.__annotations__ for arg_name in function.__code__.co_varnames],
     ):
         raise ValueError(
-            f"The packet handler {function.__qualname__} is missing argument annotations / typehints for one or more arguments"
+            f"The packet handler {function.__qualname__} is missing argument "
+            "annotations / typehints for one or more arguments",
         )
 
     # check if typehints are actually json compatible
@@ -35,7 +36,8 @@ def validate_packet_handler_function(function: T_PACKET_HANDLER_CALLABLE) -> Non
     for arg, arg_type in annos.items():
         if not isinstance(arg_type, type) or not issubclass(arg_type, PACKET_DATA_TYPES):
             raise ValueError(
-                f"Argument {arg!r} of the packet handler {function.__qualname__} has an unsupported annotation / typehint: {arg_type!r}"
+                f"Argument {arg!r} of the packet handler {function.__qualname__} has an "
+                f"unsupported annotation / typehint: {arg_type!r}",
             )
 
 

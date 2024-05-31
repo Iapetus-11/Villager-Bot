@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 
@@ -8,5 +6,5 @@ class Guild(BaseModel):
     prefix: str
     difficulty: str
     language: str
-    mc_server: Optional[str]
+    mc_server: str | None
     do_replies: bool

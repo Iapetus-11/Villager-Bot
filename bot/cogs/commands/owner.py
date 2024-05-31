@@ -25,7 +25,10 @@ class Owner(commands.Cog):
 
     async def cog_before_invoke(self, ctx: Ctx):
         self.bot.logger.info(
-            "User %s (%s) executed command %s", ctx.author.id, ctx.author, ctx.message.content
+            "User %s (%s) executed command %s",
+            ctx.author.id,
+            ctx.author,
+            ctx.message.content,
         )
 
     @property
@@ -64,7 +67,7 @@ class Owner(commands.Cog):
             result_str = f"{result}".replace("```", "｀｀｀")
             await ctx.reply(f"```\n{result_str}```")
         except Exception as e:
-            await ctx.reply(f"```py\n{format_exception(e)[:2000-9].replace('```', '｀｀｀')}```")
+            await ctx.reply(f"```py\n{format_exception(e)[: 2000 - 9].replace('```', '｀｀｀')}```")
 
     @commands.command(name="evalglobal", aliases=["evalall", "evalg"])
     @commands.is_owner()
@@ -77,7 +80,7 @@ class Owner(commands.Cog):
         responses = await self.karen.exec_code_all(stuff)
 
         contents = [
-            f"```py\n\uFEFF{str(r).replace('```', '｀｀｀')}"[:1997] + "```" for r in responses
+            f"```py\n\ufeff{str(r).replace('```', '｀｀｀')}"[:1997] + "```" for r in responses
         ]
         joined = "".join(contents)
 
@@ -180,14 +183,20 @@ class Owner(commands.Cog):
                 if item == "emerald":
                     item = self.d.emojis.emerald
 
-                body += f"__{giver} ({entry['sender']})__ *gave* __{entry['amount']}x **{item}**__ *to* __{receiver} ({entry['receiver']})__ *{arrow.get(entry['at']).humanize()}*\n"
+                # TODO: Use Discord timestamp formatting here?
+                body += (
+                    f"__{giver} ({entry['sender']})__ *gave* "
+                    f"__{entry['amount']}x **{item}**__ *to* "
+                    f"__{receiver} ({entry['receiver']})__ "
+                    f"*{arrow.get(entry['at']).humanize()}*\n"
+                )
 
             embed = discord.Embed(color=self.bot.embed_color, description=body)
             embed.set_author(
                 name=f"Transaction history for {user}",
                 icon_url=getattr(user.avatar, "url", None),
             )
-            embed.set_footer(text=f"Page {page+1}/{page_count}")
+            embed.set_footer(text=f"Page {page + 1}/{page_count}")
 
             return embed
 
@@ -220,10 +229,10 @@ class Owner(commands.Cog):
                 "```md\n##  count  | guild id            | name\n"
                 + "\n".join(
                     [
-                        f"{f'{i+1}.':<3} {g['count']:<6} | {g['id']:<19} | "
-                        f"{shorten_text(g['name'].replace('_', '').replace('*', '').replace('`', ''), 40)}"
+                        f"{f'{i + 1}.':<3} {g['count']:<6} | {g['id']:<19} | "
+                        f"{shorten_text(g['name'].replace('_', '').replace('*', '').replace('`', ''), 40)}"  # noqa: E501
                         for i, g in enumerate(values)
-                    ]
+                    ],
                 )
                 + "```"
             )
@@ -234,27 +243,27 @@ class Owner(commands.Cog):
                     await self.karen.fetch_top_guilds_by_members(),
                     key=(lambda g: g["count"]),
                     reverse=True,
-                )[:10]
+                )[:10],
             )
             top_guilds_by_active_members = format_lb(
                 sorted(
                     await self.karen.fetch_top_guilds_by_active_members(),
                     key=(lambda g: g["count"]),
                     reverse=True,
-                )[:10]
+                )[:10],
             )
             top_guilds_by_commands = format_lb(
                 sorted(
                     await self.karen.fetch_top_guilds_by_commands(),
                     key=(lambda g: g["count"]),
                     reverse=True,
-                )[:10]
+                )[:10],
             )
 
         await ctx.reply(
             f"**By Members**\n{top_guilds_by_members}\n\n"
-            f"**By Active Members** (those who executed a command within last 7 days)\n{top_guilds_by_active_members}\n\n"
-            f"**By Commands** (last 30 days)\n{top_guilds_by_commands}\n\n"
+            f"**By Active Members** (those who executed a command within last 7 days)\n{top_guilds_by_active_members}\n\n"  # noqa: E501
+            f"**By Commands** (last 30 days)\n{top_guilds_by_commands}\n\n",
         )
 
     @commands.command(name="commandstreaks", aliases=["cmdsstreaks", "cmdstreaks"])
@@ -272,12 +281,22 @@ class Owner(commands.Cog):
             idx, row = idx_row
 
             td_trunc = row["duration"] - datetime.timedelta(
-                days=row["duration"].days, microseconds=row["duration"].microseconds
+                days=row["duration"].days,
+                microseconds=row["duration"].microseconds,
+            )
+
+            # TODO: Fetch name from other clusters/discord API
+            sanitized_name = (
+                str(self.bot.get_user(row["user_id"]) or "")
+                .replace("_", "")
+                .replace("*", "")
+                .replace("`", "")
             )
 
             return (
-                f"{f'{idx + 1}.':<2} {td_trunc.days:02} {str(td_trunc).split(',')[-1]:0>8} | {row['user_id']:<19} "
-                f"| {str(self.bot.get_user(row['user_id']) or '').replace('_', '').replace('*', '').replace('`', '')}"
+                f"{f'{idx + 1}.':<2} {td_trunc.days:02} {str(td_trunc).split(',')[-1]:0>8} "
+                f"| {row['user_id']:<19} "
+                f"| {sanitized_name}"
             )
 
         async with SuppressCtxManager(ctx.typing()):
@@ -290,7 +309,8 @@ class Owner(commands.Cog):
             formatted_rows = "\n".join(map(format_row, enumerate(command_streaks)))
 
         await ctx.reply(
-            f"**Command Streaks** (last week)\n```md\n## d  h  m  s  | user id             | name\n{formatted_rows}\n```"
+            f"**Command Streaks** (last week)\n"
+            f"```md\n## d  h  m  s  | user id             | name\n{formatted_rows}\n```",
         )
 
     @commands.command(name="commandstats", aliases=["cmdstats"])
@@ -306,15 +326,20 @@ class Owner(commands.Cog):
             rows = "\n".join(rows)
 
             await ctx.reply(
-                f"Last {math.ceil(delta.total_seconds() / 3600 / 24)} days of commands per day:\n```c\n{rows}\n```"
+                f"Last {math.ceil(delta.total_seconds() / 3600 / 24)} days of commands per day:"
+                f"\n```c\n{rows}\n```",
             )
 
     @commands.command(
-        name="transfer_inventory", aliases=["invtransfer", "auction", "transferinv", "trinv"]
+        name="transfer_inventory",
+        aliases=["invtransfer", "auction", "transferinv", "trinv"],
     )
     @commands.is_owner()
     async def transfer_inventory(
-        self, ctx: Ctx, from_user: int | discord.User, to_user: int | discord.User
+        self,
+        ctx: Ctx,
+        from_user: int | discord.User,
+        to_user: int | discord.User,
     ):
         if isinstance(from_user, int):
             from_user = self.bot.get_user(from_user) or await self.bot.fetch_user(from_user)
@@ -330,11 +355,17 @@ class Owner(commands.Cog):
             item_count += 1
             await self.db.remove_item(from_user.id, item.name, item.amount)
             await self.db.add_item(
-                to_user.id, item.name, item.sell_price, item.amount, item.sticky, item.sellable
+                to_user.id,
+                item.name,
+                item.sell_price,
+                item.amount,
+                item.sticky,
+                item.sellable,
             )
 
         await ctx.reply(
-            f"{self.d.emojis.yes} Transferred **{item_count}** items from {from_user.mention} to {to_user.mention}."
+            f"{self.d.emojis.yes} Transferred **{item_count}** items from "
+            f"{from_user.mention} to {to_user.mention}.",
         )
 
     @commands.command(name="shutdown")

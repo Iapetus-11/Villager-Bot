@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Any, Optional, TypeAlias
+from typing import Any, TypeAlias
 
 import arrow
 from pydantic import BaseModel
@@ -40,7 +40,7 @@ PACKET_DATA_TYPES = (
 
 class Packet(BaseModel):
     id: str
-    type: Optional[PacketType] = None
+    type: PacketType | None = None
     data: T_PACKET_DATA
     error: bool = False
 

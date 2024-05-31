@@ -28,7 +28,7 @@ BAD_ARG_ERRORS = (
     commands.errors.BadUnionArgument,
 )
 
-INVISIBLITY_CLOAK = ("||||\u200B" * 200)[2:-3]
+INVISIBLITY_CLOAK = ("||||\u200b" * 200)[2:-3]
 
 
 class Events(commands.Cog):
@@ -53,16 +53,22 @@ class Events(commands.Cog):
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
         self.bot.error_count += 1
 
-        event_call_repr = f"{event}({',  '.join(list(map(repr, args)) + [f'{k}={v!r}' for k, v in kwargs.items()])})"
-        self.logger.error(
-            "An exception occurred in an event call: %s", event_call_repr, exc_info=True
+        event_call_repr_args = ",  ".join(
+            list(map(repr, args)) + [f"{k}={v!r}" for k, v in kwargs.items()],
+        )
+        event_call_repr = f"{event}({event_call_repr_args})"
+
+        self.logger.exception(
+            "An exception occurred in an event call: %s",
+            event_call_repr,
         )
 
         await self.bot.final_ready.wait()
         await self.bot.error_channel.send(
             f"```py\n{event_call_repr[:1920].replace('`', '｀')}```",
             file=text_to_discord_file(
-                traceback.format_exc(), file_name=f"error_tb_ev_{time.time():0.0f}.txt"
+                traceback.format_exc(),
+                file_name=f"error_tb_ev_{time.time():0.0f}.txt",
             ),
         )
 
@@ -141,19 +147,18 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member):
-        if before.guild.id == self.k.support_server_id:
-            if before.roles != after.roles:
-                await self.db.fetch_user(after.id)  # ensure user is in db
+        if before.guild.id == self.k.support_server_id and before.roles != after.roles:
+            await self.db.fetch_user(after.id)  # ensure user is in db
 
-                role_names = {r.name for r in after.roles}
+            role_names = {r.name for r in after.roles}
 
-                await self.badges.update_user_badges(
-                    after.id,
-                    code_helper=("Code Helper" in role_names),
-                    design_helper=("Design Helper" in role_names),
-                    bug_smasher=("Bug Smasher" in role_names),
-                    translator=("Translator" in role_names),
-                )
+            await self.badges.update_user_badges(
+                after.id,
+                code_helper=("Code Helper" in role_names),
+                design_helper=("Design Helper" in role_names),
+                bug_smasher=("Bug Smasher" in role_names),
+                translator=("Translator" in role_names),
+            )
 
     async def log_dm_message(self, message: discord.Message) -> None:
         # ignore dms from owners
@@ -203,19 +208,25 @@ class Events(commands.Cog):
             # check if there are prior messages, and if there are none, send user a help message
             with suppress(discord.errors.HTTPException):
                 prior_messages = len(
-                    [m async for m in message.channel.history(limit=1, before=message)]
+                    [m async for m in message.channel.history(limit=1, before=message)],
                 )
 
                 if prior_messages < 1:
                     embed = discord.Embed(
                         color=self.bot.embed_color,
-                        description=f"Hey {message.author.mention}! Type `{self.k.default_prefix}help` to get started with Villager Bot!\n"
-                        f"If you need any more help, check out the **[Support Server]({self.d.support})**!",
+                        description=(
+                            f"Hey {message.author.mention}! Type `{self.k.default_prefix}help` to "
+                            f"get started with Villager Bot!\nIf you need any more help, check out "
+                            f"the **[Support Server]({self.d.support})**!"
+                        ),
                     )
 
                     embed.set_author(name="Villager Bot", icon_url=self.d.splash_logo)
                     embed.set_footer(
-                        text=f"Made by Iapetus11 and others ({self.k.default_prefix}credits)  |  Check the {self.k.default_prefix}rules"
+                        text=(
+                            f"Made by Iapetus11 and others ({self.k.default_prefix}credits)  |  "
+                            f"Check the {self.k.default_prefix}rules"
+                        ),
                     )
 
                     await message.channel.send(embed=embed)
@@ -270,7 +281,8 @@ class Events(commands.Cog):
             if len(someones) > 0:
                 with suppress(discord.errors.HTTPException):
                     await message.channel.send(
-                        f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}"
+                        f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} "
+                        f"{message.author.mention}",
                     )
 
                 return
@@ -293,7 +305,10 @@ class Events(commands.Cog):
                         await message.reply(random.choice(self.d.owos), mention_author=False)
 
     async def handle_command_cooldown(
-        self, ctx: Ctx, remaining: float, karen_cooldown: bool
+        self,
+        ctx: Ctx,
+        remaining: float,
+        karen_cooldown: bool,
     ) -> None:
         # handle mine command cooldown effects
         if ctx.command.qualified_name == "mine":
@@ -339,7 +354,8 @@ class Events(commands.Cog):
             time += f"{round(seconds, 2)} {ctx.l.misc.time.seconds}"
 
         await ctx.reply_embed(
-            random.choice(ctx.l.misc.cooldown_msgs).format(time), ignore_exceptions=True
+            random.choice(ctx.l.misc.cooldown_msgs).format(time),
+            ignore_exceptions=True,
         )
 
     @commands.Cog.listener()
@@ -360,13 +376,14 @@ class Events(commands.Cog):
             await ctx.reply_embed(ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
             await ctx.reply_embed(ctx.l.misc.errors.user_perms, ignore_exceptions=True)
-        elif isinstance(e, (commands.BotMissingPermissions, discord.errors.Forbidden)):
+        elif isinstance(e, (commands.BotMissingPermissions | discord.errors.Forbidden)):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif getattr(e, "original", None) is not None and isinstance(
-            e.original, discord.errors.Forbidden
+            e.original,
+            discord.errors.Forbidden,
         ):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
-        elif isinstance(e, (commands.MaxConcurrencyReached, MaxKarenConcurrencyReached)):
+        elif isinstance(e, commands.MaxConcurrencyReached | MaxKarenConcurrencyReached):
             await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
         elif isinstance(e, commands.MissingRequiredArgument):
             await ctx.reply_embed(ctx.l.misc.errors.missing_arg, ignore_exceptions=True)
@@ -377,7 +394,7 @@ class Events(commands.Cog):
 
             if failure_reason == "bot_banned" or failure_reason == "ignore":
                 return
-            elif failure_reason == "not_ready":
+            if failure_reason == "not_ready":
                 await self.bot.wait_until_ready()
                 await ctx.reply_embed(ctx.l.misc.errors.not_ready, ignore_exceptions=True)
             elif failure_reason == "econ_paused":
@@ -385,7 +402,8 @@ class Events(commands.Cog):
             elif failure_reason == "disabled":
                 await ctx.reply_embed(ctx.l.misc.errors.disabled, ignore_exceptions=True)
         elif isinstance(e, IGNORED_ERRORS) or isinstance(
-            getattr(e, "original", None), IGNORED_ERRORS
+            getattr(e, "original", None),
+            IGNORED_ERRORS,
         ):
             return
         else:  # no error was caught so log error in error channel
@@ -400,10 +418,15 @@ class Events(commands.Cog):
 
             await self.bot.wait_until_ready()
             await ctx.reply_embed(
-                ctx.l.misc.errors.andioop.format(self.d.support), ignore_exceptions=True
+                ctx.l.misc.errors.andioop.format(self.d.support),
+                ignore_exceptions=True,
             )
 
-            cmd_call_info = f"```\n{ctx.author} (user_id={ctx.author.id}) (guild_id={getattr(ctx.guild, 'id', 'None')}) (lang={ctx.l.lang}): {ctx.message.content[:1920]}```"
+            cmd_call_info = (
+                f"```\n{ctx.author} (user_id={ctx.author.id}) "
+                f"(guild_id={getattr(ctx.guild, 'id', 'None')}) "
+                f"(lang={ctx.l.lang}): {ctx.message.content[:1920]}```"
+            )
 
             await self.bot.final_ready.wait()
             await self.bot.error_channel.send(
@@ -411,8 +434,12 @@ class Events(commands.Cog):
                 file=text_to_discord_file(
                     "".join(
                         traceback.format_exception(
-                            type(e), e, e.__traceback__, limit=None, chain=True
-                        )
+                            type(e),
+                            e,
+                            e.__traceback__,
+                            limit=None,
+                            chain=True,
+                        ),
                     ),
                     file_name=f"error_tb_cmd_{time.time():0.0f}.txt",
                 ),

@@ -1,3 +1,5 @@
+# ruff: noqa: T201
+
 import asyncio
 import os
 import signal
@@ -21,7 +23,8 @@ async def main_async() -> None:
         if os.name != "nt":
             # register sigterm handler
             asyncio.get_event_loop().add_signal_handler(
-                signal.SIGTERM, lambda: asyncio.create_task(villager_bot.close())
+                signal.SIGTERM,
+                lambda: asyncio.create_task(villager_bot.close()),
             )
 
         await villager_bot.start()

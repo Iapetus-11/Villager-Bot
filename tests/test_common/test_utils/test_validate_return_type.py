@@ -37,11 +37,11 @@ class DummyModel2(BaseModel):
 )
 def test_validate_return_type(value):
     @validate_return_type
-    def dummy_succeed() -> (None if value is None else type(value)):
+    def dummy_succeed() -> None if value is None else type(value):
         return value
 
     @validate_return_type
-    def dummy_fail() -> (None if value is None else type(value)):
+    def dummy_fail() -> None if value is None else type(value):
         class Dummy:
             pass
 

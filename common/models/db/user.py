@@ -1,5 +1,4 @@
 import datetime
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -12,6 +11,6 @@ class User(BaseModel):
     vault_max: int = Field(default=1)
     health: int = Field(default=20)
     vote_streak: int = Field(default=0)
-    last_vote: Optional[datetime.datetime]
+    last_vote: datetime.datetime | None
     give_alert: bool = Field(default=True)
-    shield_pearl: Optional[datetime.datetime]
+    shield_pearl: datetime.datetime | None

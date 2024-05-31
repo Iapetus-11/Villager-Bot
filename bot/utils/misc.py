@@ -41,7 +41,7 @@ def parse_timedelta(duration: str) -> timedelta | None:
         r"((?P<weeks>\d+?) ?(weeks|week|W|w) ?)?"
         r"((?P<days>\d+?) ?(days|day|D|d) ?)?"
         r"((?P<hours>\d+?) ?(hours|hour|hr|H|h) ?)?"
-        r"((?P<minutes>\d+?) ?(minutes|minute|min|M|m) ?)?"
+        r"((?P<minutes>\d+?) ?(minutes|minute|min|M|m) ?)?",
     )
 
     match = DURATION_REGEX.fullmatch(duration)
@@ -49,9 +49,8 @@ def parse_timedelta(duration: str) -> timedelta | None:
         return None
 
     duration_dict = {unit: int(amount) for unit, amount in match.groupdict(default=0).items()}
-    delta = timedelta(**duration_dict)
 
-    return delta
+    return timedelta(**duration_dict)
 
 
 def get_timedelta_granularity(delta: timedelta, granularity: int) -> list[str]:
@@ -115,10 +114,7 @@ def clean_text(msg: discord.Message, text: str) -> str:
     }
 
     def repl(match: re.Match) -> str:
-        type = match[1]
-        id = int(match[2])
-        transformed = transforms[type](id)
-        return transformed
+        return transforms[match[1]](int(match[2]))
 
     result = re.sub(r"<(@[!&]?|#)([0-9]{15,20})>", repl, text)
 
@@ -163,14 +159,18 @@ async def _craft_lb(bot, leaderboard: list[dict[str, Any]], row_fstr: str) -> st
             body += row_fstr.format(row["idx"], row["amount"], user_name)
             last_idx = row["idx"]
 
-    return body + "\uFEFF"
+    return body + "\ufeff"
 
 
 async def craft_lbs(
-    bot, global_lb: list[dict[str, Any]], local_lb: list[dict[str, Any]], row_fstr: str
+    bot,
+    global_lb: list[dict[str, Any]],
+    local_lb: list[dict[str, Any]],
+    row_fstr: str,
 ) -> tuple[str, str]:
     return await asyncio.gather(
-        _craft_lb(bot, global_lb, row_fstr), _craft_lb(bot, local_lb, row_fstr)
+        _craft_lb(bot, global_lb, row_fstr),
+        _craft_lb(bot, local_lb, row_fstr),
     )
 
 
@@ -243,7 +243,7 @@ async def update_support_member_role(bot, member):
             except discord.errors.HTTPException:
                 pass
     except Exception as e:
-        print(format_exception(e))
+        print(format_exception(e))  # noqa: T201
 
 
 class TTLPreventDuplicate:
@@ -326,7 +326,7 @@ def chunk_by_lines(text: str, max_paragraph_size: int) -> str:
     paragraph = []
 
     for line in text.splitlines():
-        if sum(len(l) for l in paragraph) + len(line) > max_paragraph_size:
+        if sum(map(len, paragraph)) + len(line) > max_paragraph_size:
             yield "\n".join(paragraph)
             paragraph.clear()
 
@@ -357,10 +357,7 @@ def check_file_signature(*, media_type: str, file_name: str) -> bool:
 
 
 def is_valid_image_res(res: aiohttp.ClientResponse) -> bool:
-    if not res.content_type.startswith("image/"):
-        return False
-
-    return True
+    return res.content_type.startswith("image/")
 
 
 async def read_limited(res: aiohttp.ClientResponse, *, max_bytes: int = 1e6) -> bytes:

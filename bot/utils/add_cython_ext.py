@@ -12,4 +12,4 @@ def add_cython_ext():
 
         import bot.utils.tiler  # noqa: F401
     except Exception:
-        logging.error("An error occurred while setting up Cython extensions", exc_info=True)
+        logging.exception("An error occurred while setting up Cython extensions")

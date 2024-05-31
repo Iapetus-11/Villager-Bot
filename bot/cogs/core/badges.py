@@ -46,7 +46,10 @@ class Badges(commands.Cog):
         return " ".join(emojis)
 
     async def update_badge_uncle_scrooge(
-        self, user_id: int, db_user: User | None = None, user_items: list[Item] = None
+        self,
+        user_id: int,
+        db_user: User | None = None,
+        user_items: list[Item] = None,
     ) -> None:
         badges = await self.fetch_user_badges(user_id)
 

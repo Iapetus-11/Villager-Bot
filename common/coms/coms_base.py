@@ -33,7 +33,7 @@ class ComsBase:
 
         if not isinstance(data, dict):
             raise InvalidPacketReceived(
-                f"Packet was expected to be of type 'dict', got '{type(data).__name}' instead"
+                f"Packet was expected to be of type 'dict', got '{type(data).__name}' instead",
             )
 
         try:
@@ -66,7 +66,8 @@ class ComsBase:
         if isinstance(packet.data, dict):
             handler_kwargs = packet.data
         elif packet.data is None:
-            # check if None is an expected value for an argument rather than signifying there's no data passed
+            # check if None is an expected value for an argument rather than signifying there's
+            # no data passed
             if len(annos) != 0:
                 handler_args.append(None)
         else:
@@ -81,11 +82,16 @@ class ComsBase:
 
         try:
             response = await validate_arguments(handler.function)(
-                *handler_args, **handler_kwargs, **extra
+                *handler_args,
+                **handler_kwargs,
+                **extra,
             )
         except ValidationError:
             self.logger.info(
-                "A ValidationError ocurred while calling the packet handler %s with args %s and kwargs %s",
+                (
+                    "A ValidationError ocurred while calling the packet handler %s with args %s "
+                    "and kwargs %s"
+                ),
                 handler.function.__qualname__,
                 handler_args,
                 handler_kwargs,
@@ -94,11 +100,14 @@ class ComsBase:
 
         if not isinstance(response, PACKET_DATA_TYPES):
             raise TypeError(
-                f"Packet handler {handler.function.__qualname__} returned an unsupported type: '{type(response).__name__}'"
+                f"Packet handler {handler.function.__qualname__} returned an unsupported type: "
+                f"'{type(response).__name__}'",
             )
 
         self.logger.debug(
-            "Received value %s from packet handler %s", response, handler.function.__qualname__
+            "Received value %s from packet handler %s",
+            response,
+            handler.function.__qualname__,
         )
 
         return response

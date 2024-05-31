@@ -38,10 +38,7 @@ class MobSpawner(commands.Cog):
             if m.content.lower().lstrip(ctx.prefix) not in self.d.mobs_mech.valid_attacks:
                 return False
 
-            if ctx.author.id in self.bot.botban_cache:
-                return False
-
-            return True
+            return ctx.author.id not in self.bot.botban_cache
 
         return _engage_check
 
@@ -111,7 +108,7 @@ class MobSpawner(commands.Cog):
         # type of mob to be spawned
         mob_key = random.choice(tuple(self.d.mobs_mech.mobs))
         mob = cj.classify(
-            {**self.d.mobs_mech.mobs[mob_key].dict(), **ctx.l.mobs_mech.mobs[mob_key].dict()}
+            {**self.d.mobs_mech.mobs[mob_key].dict(), **ctx.l.mobs_mech.mobs[mob_key].dict()},
         )
         mob_max_health = mob.health
 
@@ -131,7 +128,9 @@ class MobSpawner(commands.Cog):
         while True:
             try:
                 initial_attack_msg: discord.Message = await self.bot.wait_for(
-                    "message", check=self.engage_check(ctx), timeout=15
+                    "message",
+                    check=self.engage_check(ctx),
+                    timeout=15,
                 )
             except asyncio.TimeoutError:
                 await engage_msg.edit(suppress=True)
@@ -162,10 +161,10 @@ class MobSpawner(commands.Cog):
 
         try:
             for iteration in itertools.count(start=1):
-
                 # create embed with mob image
                 embed = discord.Embed(
-                    color=self.bot.embed_color, title=ctx.l.mobs_mech.attack_or_flee
+                    color=self.bot.embed_color,
+                    title=ctx.l.mobs_mech.attack_or_flee,
                 )
                 embed.set_image(url=mob.image)
 
@@ -202,7 +201,9 @@ class MobSpawner(commands.Cog):
                 while user_action not in self.d.mobs_mech.valid_attacks:
                     try:
                         user_action_msg: discord.Message = await self.bot.wait_for(
-                            "message", check=self.attack_check(ctx, initial_attack_msg), timeout=30
+                            "message",
+                            check=self.attack_check(ctx, initial_attack_msg),
+                            timeout=30,
                         )
                         user_action = user_action_msg.content.lstrip(ctx.prefix).lower()
                     except asyncio.TimeoutError:
@@ -227,7 +228,7 @@ class MobSpawner(commands.Cog):
                         user_dmg = 0
                     elif iteration >= 3 and random.choice((True, False)):
                         user_dmg = 0
-                elif mob_key == "enderman":
+                elif mob_key == "enderman":  # noqa: SIM102
                     if iteration >= 1 and random.choice((False, False, False, False, False, True)):
                         user_dmg = 0
 
@@ -237,20 +238,21 @@ class MobSpawner(commands.Cog):
                     await fight_msg.edit(suppress=True)
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.user_finishers).format(
-                            mob.nice.lower(), user_sword.lower()
-                        )
+                            mob.nice.lower(),
+                            user_sword.lower(),
+                        ),
                     )
 
                     break
-                else:
-                    if user_dmg == 0:  # if user missed
-                        await ctx.send_embed(random.choice(mob.misses).format(user_sword.lower()))
-                    else:  # send regular attack message
-                        await ctx.send_embed(
-                            random.choice(ctx.l.mobs_mech.user_attacks).format(
-                                mob.nice.lower(), user_sword.lower()
-                            )
-                        )
+                if user_dmg == 0:  # if user missed
+                    await ctx.send_embed(random.choice(mob.misses).format(user_sword.lower()))
+                else:  # send regular attack message
+                    await ctx.send_embed(
+                        random.choice(ctx.l.mobs_mech.user_attacks).format(
+                            mob.nice.lower(),
+                            user_sword.lower(),
+                        ),
+                    )
 
                 async with SuppressCtxManager(ctx.typing()):
                     await asyncio.sleep(0.75 + random.random() * 2)
@@ -258,16 +260,14 @@ class MobSpawner(commands.Cog):
                 mob_dmg = random.randint(2, 6)
 
                 if mob_key == "creeper":  # add creeper mechanics
-                    if iteration > 2:
-                        if random.choice(
-                            (True, True, False)
-                        ):  # creeper yeets your bloodied corpse across the map
-                            user_health = 0
+                    if iteration > 2 and random.choice((True, True, False)):
+                        # creeper yeets your bloodied corpse across the map
+                        user_health = 0
 
-                            await fight_msg.edit(suppress=True)
-                            await ctx.send_embed(random.choice(mob.finishers))
+                        await fight_msg.edit(suppress=True)
+                        await ctx.send_embed(random.choice(mob.finishers))
 
-                            break
+                        break
 
                     mob_dmg = 0
 
@@ -277,8 +277,8 @@ class MobSpawner(commands.Cog):
                 if user_health < 1:  # send mob finisher
                     await ctx.send_embed(random.choice(mob.finishers))
                     break
-                else:  # send mob attack
-                    await ctx.send_embed(random.choice(mob.attacks))
+                # send mob attack
+                await ctx.send_embed(random.choice(mob.attacks))
 
                 async with SuppressCtxManager(ctx.typing()):
                     await asyncio.sleep(0.75 + random.random() * 2)
@@ -337,15 +337,16 @@ class MobSpawner(commands.Cog):
 
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.found).format(
-                            balls_won, self.d.emojis.slimeball
-                        )
+                            balls_won,
+                            self.d.emojis.slimeball,
+                        ),
                     )
                 # if mob is skeleton determine if it should drop bone meal
                 elif mob_key == "skeleton" and random.randint(0, 20 - (looting_level * 3)) == 1:
                     await self.db.add_item(user.id, "Bone Meal", 512, 1)
 
                     await ctx.send_embed(
-                        random.choice(ctx.l.mobs_mech.found).format(1, self.d.emojis.bone_meal)
+                        random.choice(ctx.l.mobs_mech.found).format(1, self.d.emojis.bone_meal),
                     )
                 # if mob is enderman determine if it should drop enderpearl
                 elif mob_key == "enderman" and random.randint(0, 30 - (looting_level * 3)) == 1:
@@ -355,8 +356,9 @@ class MobSpawner(commands.Cog):
 
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.found).format(
-                            pearls_won, self.d.emojis.ender_pearl
-                        )
+                            pearls_won,
+                            self.d.emojis.ender_pearl,
+                        ),
                     )
                 # mob should just drop emeralds
                 else:
@@ -384,7 +386,7 @@ class MobSpawner(commands.Cog):
                     await self.db.update_lb(user.id, "week_emeralds", 1, "add")
 
                     await ctx.send_embed(
-                        random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald)
+                        random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald),
                     )
             else:  # mob win
                 # determine how many emeralds they lose based off difficulty
@@ -420,8 +422,9 @@ class MobSpawner(commands.Cog):
 
                         await ctx.send_embed(
                             random.choice(ctx.l.mobs_mech.lost.enderman).format(
-                                1, emojify_item(self.d, stolen_item.name)
-                            )
+                                1,
+                                emojify_item(self.d, stolen_item.name),
+                            ),
                         )
 
                         return
@@ -429,14 +432,17 @@ class MobSpawner(commands.Cog):
                 if mob_key in {"creeper", "enderman"}:
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.lost[mob_key]).format(
-                            ems_lost, self.d.emojis.emerald
-                        )
+                            ems_lost,
+                            self.d.emojis.emerald,
+                        ),
                     )
                 else:
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.lost.normal).format(
-                            mob.nice.lower(), ems_lost, self.d.emojis.emerald
-                        )
+                            mob.nice.lower(),
+                            ems_lost,
+                            self.d.emojis.emerald,
+                        ),
                     )
         finally:
             await self.db.update_user(user.id, health=user_health)

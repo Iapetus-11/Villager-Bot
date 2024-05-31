@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import uuid
-from typing import Any, Callable, Coroutine, Optional
+from typing import Any, Callable, Coroutine
 
 from pydantic import BaseModel
 from websockets.exceptions import ConnectionClosedOK as WebSocketConnectionClosedOK
@@ -31,8 +31,8 @@ class Server(ComsBase):
         auth: str,
         packet_handlers: dict[PacketType, PacketHandler],
         logger: logging.Logger,
-        connect_cb: Optional[Callable[[uuid.UUID], Coroutine[None, Any, Any]]] = None,
-        disconnect_cb: Optional[Callable[[uuid.UUID], Coroutine[None, Any, Any]]] = None,
+        connect_cb: Callable[[uuid.UUID], Coroutine[None, Any, Any]] | None = None,
+        disconnect_cb: Callable[[uuid.UUID], Coroutine[None, Any, Any]] | None = None,
     ):
         super().__init__(host, port, packet_handlers, logger.getChild("server"))
 
@@ -45,7 +45,7 @@ class Server(ComsBase):
         self._connections = list[WebSocketServerProtocol]()  # only authed connections
         self._current_id = 0
         self._broadcasts = dict[str, Broadcast]()
-        self._server: Optional[WebSocketServer] = None
+        self._server: WebSocketServer | None = None
         self._ip_blacklist = set[str]()
 
     def _get_packet_id(self, t: str = "s") -> str:
@@ -53,9 +53,12 @@ class Server(ComsBase):
         self._current_id += 1
         return f"{t}{packet_id}"
 
-    async def serve(self, ready_cb: Optional[Callable[[], None]] = None) -> None:
+    async def serve(self, ready_cb: Callable[[], None] | None = None) -> None:
         async with serve(
-            self._handle_connection, self.host, self.port, logger=self.logger.getChild("ws")
+            self._handle_connection,
+            self.host,
+            self.port,
+            logger=self.logger.getChild("ws"),
         ) as self._server:
             if ready_cb is not None:
                 ready_cb()
@@ -86,14 +89,18 @@ class Server(ComsBase):
             asyncio.create_task(self.disconnect_cb(ws.id))
 
     async def raw_broadcast(
-        self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
+        self,
+        packet_type: PacketType,
+        packet_data: dict[str, T_PACKET_DATA] | None = None,
     ) -> None:
         packet = Packet(id=self._get_packet_id("b"), type=packet_type, data=packet_data)
         coros = [self._send(c, packet) for c in self._connections]
         await asyncio.wait(coros)
 
     async def broadcast(
-        self, packet_type: PacketType, packet_data: Optional[dict[str, T_PACKET_DATA]] = None
+        self,
+        packet_type: PacketType,
+        packet_data: dict[str, T_PACKET_DATA] | None = None,
     ) -> list[T_PACKET_DATA]:
         if len(self._connections) == 0:
             raise NoConnectedClientsError()
@@ -106,7 +113,9 @@ class Server(ComsBase):
             self._send(c, broadcast_packet) for c in self._connections if c.id in ws_ids
         ]
         broadcast = self._broadcasts[broadcast_id] = Broadcast(
-            ready=asyncio.Event(), ws_ids=ws_ids, responses=[]
+            ready=asyncio.Event(),
+            ws_ids=ws_ids,
+            responses=[],
         )
 
         await asyncio.wait(broadcast_coros)
@@ -139,9 +148,10 @@ class Server(ComsBase):
     async def _handle_packet(self, packet: Packet, ws: WebSocketServerProtocol):
         # handle broadcast requests
         if packet.type == PacketType.BROADCAST_REQUEST:
-            # broadcast requests are special types of packets which forward the packet to ALL connected clients
+            # broadcast requests are special types of packets which forward the packet to
+            # ALL connected clients
             asyncio.create_task(
-                self._client_broadcast(ws, packet)
+                self._client_broadcast(ws, packet),
             )  # TODO: keep track of these tasks and properly cancel them on a server shutdown
             return
 
@@ -153,10 +163,9 @@ class Server(ComsBase):
         try:
             response = await self._call_handler(packet, ws_id=ws.id)
         except Exception as e:
-            self.logger.error(
+            self.logger.exception(
                 "An error ocurred while calling the packet handler for packet %s",
                 packet,
-                exc_info=True,
             )
             await self._send(ws, Packet(id=packet.id, data=repr(e), error=True))
         else:
@@ -167,7 +176,8 @@ class Server(ComsBase):
 
         if ws.remote_address[0] in self._ip_blacklist:
             self.logger.info(
-                "Attempted connection from %s:%s denied due to ip blacklist", *ws.remote_address
+                "Attempted connection from %s:%s denied due to ip blacklist",
+                *ws.remote_address,
             )
             await self._disconnect(ws)
             return
@@ -179,8 +189,9 @@ class Server(ComsBase):
                 try:
                     packet = self._decode(message)
                 except InvalidPacketReceived:
-                    self.logger.error(
-                        "Invalid packet received from client: %s", ws.id, exc_info=True
+                    self.logger.exception(
+                        "Invalid packet received from client: %s",
+                        ws.id,
                     )
                     await self._disconnect(ws)
                     return
@@ -188,7 +199,8 @@ class Server(ComsBase):
                 if packet.type == PacketType.AUTH:
                     if authed:
                         self.logger.error(
-                            "Already received authorization packet from client: %s", ws.id
+                            "Already received authorization packet from client: %s",
+                            ws.id,
                         )
                         await self._disconnect(ws)
                         return
@@ -218,13 +230,14 @@ class Server(ComsBase):
 
                 if not authed:
                     self.logger.error(
-                        "Authorization packet was not the first received from client: %s", ws.id
+                        "Authorization packet was not the first received from client: %s",
+                        ws.id,
                     )
                     await self._disconnect(ws)
                     return
 
                 asyncio.create_task(
-                    self._handle_packet(packet, ws)
+                    self._handle_packet(packet, ws),
                 )  # TODO: keep track of these and properly cancel on close
         except WebSocketConnectionClosedOK:
             pass
