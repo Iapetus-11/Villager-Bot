@@ -283,7 +283,7 @@ class Fun(commands.Cog):
     async def pat(
         self,
         ctx: Ctx,
-        users: commands.Greedy[discord.Member] | None = None,
+        users: commands.Greedy[discord.Member] = None,
         *,
         text: str = "",
     ):
@@ -310,7 +310,7 @@ class Fun(commands.Cog):
     async def slap(
         self,
         ctx: Ctx,
-        users: commands.Greedy[discord.Member] | None = None,
+        users: commands.Greedy[discord.Member] = None,
         *,
         text: str = "",
     ):
