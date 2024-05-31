@@ -318,7 +318,6 @@ class Econ(commands.Cog):
         return True, user
 
     @commands.group(name="inventory", aliases=["inv", "items"], case_insensitive=True)
-    @commands.max_concurrency(3, per=commands.BucketType.user, wait=False)
     @commands.guild_only()
     @commands.cooldown(2, 2, commands.BucketType.user)
     async def inventory(self, ctx: Ctx):

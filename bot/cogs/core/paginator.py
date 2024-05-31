@@ -11,19 +11,30 @@ PAGE_EMBED_CALLABLE = Callable[[int], discord.Embed | Coroutine[Any, Any, discor
 
 
 class PaginatorView(discord.ui.View):
-    def __init__(self, get_page, page_count, timeout):
+    def __init__(
+        self,
+        *,
+        author_id: int,
+        get_page: PAGE_EMBED_CALLABLE,
+        page_count: int,
+        timeout: float = 60.0,
+    ):
         super().__init__(timeout=timeout)
 
+        self._author_id = author_id
         self._page = 0
         self._page_count = page_count
         self._get_page = get_page
 
-    @discord.ui.button(emoji="⏪", style=discord.ButtonStyle.gray)
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        return interaction.user.id == self._author_id
+
+    @discord.ui.button(emoji="⏪", style=discord.ButtonStyle.gray, disabled=True)
     async def btn_first(self, interaction: discord.Interaction, button: discord.ui.Button):
         self._page = 0
         await self.update_message(interaction)
 
-    @discord.ui.button(emoji="⬅️", style=discord.ButtonStyle.gray)
+    @discord.ui.button(emoji="⬅️", style=discord.ButtonStyle.gray, disabled=True)
     async def btn_back(self, interaction: discord.Interaction, button: discord.ui.Button):
         self._page -= 1
         await self.update_message(interaction)
@@ -89,12 +100,11 @@ class Paginator(commands.Cog):
             return await ctx.reply(embed=embed, mention_author=False)
 
         view = PaginatorView(
+            author_id=ctx.author.id,
             get_page=lambda page: self._get_page(get_page, page),
             page_count=page_count,
             timeout=timeout,
         )
-        view.children[0].disabled = True
-        view.children[1].disabled = True
 
         message = await ctx.reply(embed=embed, mention_author=False, view=view)
         view.message = message
