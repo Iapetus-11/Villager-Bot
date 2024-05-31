@@ -1,3 +1,5 @@
+# ruff: noqa: T201
+
 import json
 import os
 import sys
@@ -26,12 +28,12 @@ def check_obj(keys: list[Any], obj: Any, against: Any, against_name: str) -> boo
             error |= check_obj(keys + [key], value, against[key], against_name)
 
         # check to see if against has any keys that obj doesn't have
-        if isinstance(against, dict):
-            if key_diff := (set(against.keys()) - set(obj.keys())):
-                print(
-                    f"EXTRA KEYS ({against_name}): {'.'.join(map(str, keys))}.[{','.join(map(str, key_diff))}]"
-                )
-                error = True
+        if isinstance(against, dict) and (key_diff := (set(against.keys()) - set(obj.keys()))):
+            print(
+                f"EXTRA KEYS ({against_name}): {'.'.join(map(str, keys))}"
+                f".[{','.join(map(str, key_diff))}]",
+            )
+            error = True
 
     return error
 

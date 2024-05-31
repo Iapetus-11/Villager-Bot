@@ -31,7 +31,7 @@ class FontHandler:
     async def retrieve(self) -> list[str]:
         async with aiohttp.ClientSession() as http:
             responses: list[aiohttp.ClientResponse] = await asyncio.gather(
-                *map(http.get, self.font_urls)
+                *map(http.get, self.font_urls),
             )
             contents: list[bytes] = await asyncio.gather(*[r.read() for r in responses])
 
@@ -39,7 +39,7 @@ class FontHandler:
                 *[
                     self._write_file(self._get_file_name(response), content)
                     for response, content in zip(responses, contents)
-                ]
+                ],
             )
 
         await asyncio.to_thread(self._handle_zip_files)

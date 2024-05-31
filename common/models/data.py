@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Any, Generator, Optional
+from typing import Any, Generator
 
 from pydantic import Field, HttpUrl
 
@@ -41,7 +41,7 @@ class Fishing(ImmutableBaseModel):
     class Fish(BaseModel):
         name: str
         value: list[int] = Field(min_items=2, max_items=2)
-        current: Optional[float]
+        current: float | None
         rarity: int
 
     exponent: float

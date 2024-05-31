@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Callable, Coroutine, Optional
+from typing import Any, Callable, Coroutine
 
 from aiohttp import web
 from pydantic import ValidationError
@@ -20,8 +20,8 @@ class VotingWebhookServer:
         self.callback = callback
         self.logger = logger.getChild("voting")
 
-        self._runner: Optional[web.AppRunner] = None
-        self._server: Optional[web.TCPSite] = None
+        self._runner: web.AppRunner | None = None
+        self._server: web.TCPSite | None = None
 
     async def start(self) -> None:
         app = web.Application()
@@ -31,12 +31,17 @@ class VotingWebhookServer:
         await runner.setup()
 
         server = self._server = web.TCPSite(
-            runner, self.secrets.host, self.secrets.port, shutdown_timeout=1
+            runner,
+            self.secrets.host,
+            self.secrets.port,
+            shutdown_timeout=1,
         )
         await server.start()
 
         self.logger.info(
-            "Started voting webhooks server on %s:%s", self.secrets.host, self.secrets.port
+            "Started voting webhooks server on %s:%s",
+            self.secrets.host,
+            self.secrets.port,
         )
 
     async def stop(self) -> None:
@@ -60,7 +65,7 @@ class VotingWebhookServer:
         try:
             data = TopggVote(**await request.json())
         except ValidationError:
-            self.logger.error("Invalid data received from top.gg", exc_info=True)
+            self.logger.exception("Invalid data received from top.gg")
             return web.Response(status=400)
 
         self.logger.info("Calling handler for vote from top.gg for user %s", data.user)

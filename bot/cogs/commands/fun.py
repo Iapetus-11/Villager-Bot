@@ -41,7 +41,11 @@ class Fun(commands.Cog):
         return msg
 
     async def reddit_post_logic(
-        self, ctx: Ctx, post_type: str, *, show_details: bool = True
+        self,
+        ctx: Ctx,
+        post_type: str,
+        *,
+        show_details: bool = True,
     ) -> None:
         # TODO: Fix Reddit API access
 
@@ -75,7 +79,7 @@ class Fun(commands.Cog):
         #     embed.title = shorten_text(post["title"], 256)
         #     embed.url = post["permalink"]
         #     embed.set_footer(
-        #         text=f"{post['upvotes']}  |  u/{post['author']}", icon_url=self.d.upvote_emoji_image
+        #         text=f"{post['upvotes']}  |  u/{post['author']}", icon_url=self.d.upvote_emoji_image  # noqa: E501
         #     )
         #
         # embed.set_image(url=post["image"])
@@ -113,7 +117,7 @@ class Fun(commands.Cog):
 
         embed = discord.Embed(color=self.bot.embed_color)
         embed.set_image(
-            url=f"https://villagerbot.com/images/cursed_minecraft/{random.choice(self.d.cursed_images)}"
+            url=f"https://villagerbot.com/images/cursed_minecraft/{random.choice(self.d.cursed_images)}",
         )
 
         await ctx.send(embed=embed)
@@ -153,7 +157,8 @@ class Fun(commands.Cog):
         """Turns regular text into the Minecraft enchantment table language"""
 
         translated = self.lang_convert(
-            clean_text(ctx.message, text).lower(), self.d.fun_langs.enchant
+            clean_text(ctx.message, text).lower(),
+            self.d.fun_langs.enchant,
         )
         await ctx.send(shorten_text(translated))
 
@@ -181,7 +186,7 @@ class Fun(commands.Cog):
         sarcastic = ""
 
         for letter in text:
-            if not letter == " ":
+            if letter != " ":
                 caps = not caps
 
             if caps:
@@ -258,7 +263,7 @@ class Fun(commands.Cog):
                     return
 
         bubble = "||**pop**||"
-        await ctx.send_embed(f"{bubble*size[0]}\n" * size[1])
+        await ctx.send_embed(f"{bubble * size[0]}\n" * size[1])
 
     @commands.command(name="kill", aliases=["die", "kil", "dorito"])
     async def kill_thing(self, ctx: Ctx, *, thing: discord.Member | str):
@@ -266,7 +271,7 @@ class Fun(commands.Cog):
             thing = thing.mention
 
         await ctx.send_embed(
-            random.choice(self.d.kills).format(shorten_text(thing, 500), ctx.author.mention)
+            random.choice(self.d.kills).format(shorten_text(thing, 500), ctx.author.mention),
         )
 
     @commands.command(name="coinflip", aliases=["flipcoin", "cf"])
@@ -275,15 +280,26 @@ class Fun(commands.Cog):
 
     @commands.command(name="pat")
     @commands.guild_only()
-    async def pat(self, ctx: Ctx, users: commands.Greedy[discord.Member] = [], *, text: str = ""):
+    async def pat(
+        self,
+        ctx: Ctx,
+        users: commands.Greedy[discord.Member] | None = None,
+        *,
+        text: str = "",
+    ):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=pat")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
 
+        target = ", ".join(
+            f"**{discord.utils.escape_markdown(u.display_name)}**" for u in (users or [])
+        )
+
         embed = discord.Embed(
             color=self.bot.embed_color,
-            title=f"**{discord.utils.escape_markdown(ctx.author.display_name)}** pats {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}"[
-                :256
-            ],
+            title=(
+                f"**{discord.utils.escape_markdown(ctx.author.display_name)}** "
+                f"pats {target} {text}"[:256]
+            ),
         )
         embed.set_image(url=image_url)
 
@@ -291,14 +307,27 @@ class Fun(commands.Cog):
 
     @commands.command(name="slap")
     @commands.guild_only()
-    async def slap(self, ctx: Ctx, users: commands.Greedy[discord.Member] = [], *, text: str = ""):
+    async def slap(
+        self,
+        ctx: Ctx,
+        users: commands.Greedy[discord.Member] | None = None,
+        *,
+        text: str = "",
+    ):
         resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=slap")
         image_url = "https://rra.ram.moe" + (await resp.json())["path"]
+
+        target = ", ".join(
+            f"**{discord.utils.escape_markdown(u.display_name)}**" for u in (users or [])
+        )
 
         embed = discord.Embed(
             color=self.bot.embed_color,
             title=shorten_text(
-                f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {', '.join(f'**{discord.utils.escape_markdown(u.display_name)}**' for u in users)} {text}",
+                (
+                    f"**{discord.utils.escape_markdown(ctx.author.display_name)}** "
+                    f"slaps {target} {text}"
+                ),
                 256,
             ),
         )
@@ -332,7 +361,10 @@ class Fun(commands.Cog):
         return int((random.random() + 0.25) * (question_difficulty + 0.25) * 9) + 1
 
     async def trivia_multiple_choice(
-        self, ctx: Ctx, question: Fun_Trivia_Question, do_reward: bool
+        self,
+        ctx: Ctx,
+        question: Fun_Trivia_Question,
+        do_reward: bool,
     ) -> None:
         correct_choice = question.a[0]
 
@@ -342,7 +374,9 @@ class Fun(commands.Cog):
         embed = discord.Embed(
             color=self.bot.embed_color,
             title=ctx.l.fun.trivia.title.format(
-                self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"
+                self.d.emojis.bounce,
+                ctx.l.fun.trivia.difficulty[question.d],
+                ":question:",
             ),
         )
 
@@ -351,19 +385,19 @@ class Fun(commands.Cog):
                 map(
                     " ".join,
                     [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)],
-                )
-            )
+                ),
+            ),
         )
-        embed.set_footer(text="\uFEFF\n" + ctx.l.fun.trivia.time_to_answer)
+        embed.set_footer(text="\ufeff\n" + ctx.l.fun.trivia.time_to_answer)
 
         for i, c in enumerate(choices):
             c_column = "\n".join(
-                map(" ".join, [c.split()[i : i + 3] for i in range(0, len(c.split()), 3)])
+                map(" ".join, [c.split()[i : i + 3] for i in range(0, len(c.split()), 3)]),
             )
-            embed.add_field(name="\uFEFF", value=f"**{i+1}.** {c_column}")
+            embed.add_field(name="\ufeff", value=f"**{i + 1}.** {c_column}")
 
             if i % 2 == 0:
-                embed.add_field(name="\uFEFF", value="\uFEFF")
+                embed.add_field(name="\ufeff", value="\ufeff")
 
         msg = await ctx.reply(embed=embed, mention_author=False)
 
@@ -379,8 +413,10 @@ class Fun(commands.Cog):
             )
 
         try:
-            react, r_user = await self.bot.wait_for(
-                "reaction_add", check=reaction_check, timeout=15
+            react, _ = await self.bot.wait_for(
+                "reaction_add",
+                check=reaction_check,
+                timeout=15,
             )
         except asyncio.TimeoutError:
             embed = discord.Embed(
@@ -404,7 +440,8 @@ class Fun(commands.Cog):
                 emeralds_won = self.calculate_trivia_reward(question.d)
                 await self.db.balance_add(ctx.author.id, emeralds_won)
                 correct = random.choice(ctx.l.fun.trivia.correct).format(
-                    emeralds_won, self.d.emojis.emerald
+                    emeralds_won,
+                    self.d.emojis.emerald,
                 )
             else:
                 correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
@@ -421,7 +458,9 @@ class Fun(commands.Cog):
         embed = discord.Embed(
             color=self.bot.embed_color,
             title=ctx.l.fun.trivia.title.format(
-                self.d.emojis.bounce, ctx.l.fun.trivia.difficulty[question.d], ":question:"
+                self.d.emojis.bounce,
+                ctx.l.fun.trivia.difficulty[question.d],
+                ":question:",
             ),
         )
 
@@ -430,10 +469,10 @@ class Fun(commands.Cog):
                 map(
                     " ".join,
                     [question.q.split()[i : i + 7] for i in range(0, len(question.q.split()), 7)],
-                )
-            )
+                ),
+            ),
         )
-        embed.set_footer(text="\uFEFF\n" + ctx.l.fun.trivia.time_to_answer)
+        embed.set_footer(text="\ufeff\n" + ctx.l.fun.trivia.time_to_answer)
 
         msg = await ctx.reply(embed=embed, mention_author=False)
 
@@ -474,7 +513,8 @@ class Fun(commands.Cog):
                 emeralds_won = self.calculate_trivia_reward(question.d)
                 await self.db.balance_add(ctx.author.id, emeralds_won)
                 correct = random.choice(ctx.l.fun.trivia.correct).format(
-                    emeralds_won, self.d.emojis.emerald
+                    emeralds_won,
+                    self.d.emojis.emerald,
                 )
             else:
                 correct = random.choice(ctx.l.fun.trivia.correct).split("\n")[0]
@@ -500,14 +540,14 @@ class Fun(commands.Cog):
             await self.trivia_multiple_choice(ctx, question, do_reward)
 
     @commands.command(name="gayrate", aliases=["gaypercent"])
-    async def gay_rate(self, ctx: Ctx, *, thing: typing.Union[discord.Member, str] = None):
+    async def gay_rate(self, ctx: Ctx, *, thing: discord.Member | str = None):
         if thing is None:
             thing = ctx.author.mention
         elif isinstance(thing, discord.Member):
             thing = thing.mention
 
         await ctx.reply_embed(
-            ctx.l.fun.gayrate.format("\uFEFF :rainbow_flag: \uFEFF", shorten_text(thing, 256))
+            ctx.l.fun.gayrate.format("\ufeff :rainbow_flag: \ufeff", shorten_text(thing, 256)),
         )
 
 

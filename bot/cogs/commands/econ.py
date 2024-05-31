@@ -75,8 +75,8 @@ class Econ(commands.Cog):
 
     async def bot_prevention(self, ctx: Ctx, points: int = 1) -> bool:
         """
-        If a certain number of bottable commands have been executed, present an image captcha and wait for user
-        to solve captcha before proceeding
+        If a certain number of bottable commands have been executed, present an image captcha
+        and wait for user to solve captcha before proceeding
         """
 
         command_points = await self.karen.bottable_command_execution(ctx.author.id, points)
@@ -92,7 +92,8 @@ class Econ(commands.Cog):
             embed.set_image(url="attachment://captcha.png")
 
             captcha_msg = await ctx.reply(
-                embed=embed, file=discord.File(captcha_image, filename="captcha.png")
+                embed=embed,
+                file=discord.File(captcha_image, filename="captcha.png"),
             )
 
             def msg_check(m):
@@ -100,7 +101,9 @@ class Econ(commands.Cog):
 
             try:
                 response_msg: discord.Message = await self.bot.wait_for(
-                    "message", check=msg_check, timeout=15
+                    "message",
+                    check=msg_check,
+                    timeout=15,
                 )
             except asyncio.TimeoutError:
                 await self.bot.reply_embed(captcha_msg, ctx.l.econ.bot_prevention.timeout)
@@ -108,13 +111,15 @@ class Econ(commands.Cog):
 
             if response_msg.content.upper() != captcha_text:
                 await self.bot.reply_embed(
-                    response_msg, ctx.l.econ.bot_prevention.incorrect.format(self.d.emojis.no)
+                    response_msg,
+                    ctx.l.econ.bot_prevention.incorrect.format(self.d.emojis.no),
                 )
                 return False
 
             await self.karen.bottable_commands_reset(ctx.author.id)
             await self.bot.reply_embed(
-                response_msg, ctx.l.econ.bot_prevention.correct.format(self.d.emojis.yes)
+                response_msg,
+                ctx.l.econ.bot_prevention.correct.format(self.d.emojis.yes),
             )
 
         return True
@@ -175,11 +180,13 @@ class Econ(commands.Cog):
         embed.set_author(name=user.display_name, icon_url=getattr(user.avatar, "url", None))
 
         embed.add_field(
-            name=ctx.l.econ.pp.total_wealth, value=f"{total_wealth}{self.d.emojis.emerald}"
+            name=ctx.l.econ.pp.total_wealth,
+            value=f"{total_wealth}{self.d.emojis.emerald}",
         )
 
         embed.add_field(
-            name=ctx.l.econ.pp.mooderalds, value=f"{mooderalds}{self.d.emojis.autistic_emerald}"
+            name=ctx.l.econ.pp.mooderalds,
+            value=f"{mooderalds}{self.d.emojis.autistic_emerald}",
         )
 
         embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak or 0))
@@ -204,7 +211,7 @@ class Econ(commands.Cog):
 
         # add empty field to account for missing "Can Vote?" field
         if user.id != ctx.author.id:
-            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name="\ufeff", value="\ufeff")
 
         if active_fx:
             embed.add_field(
@@ -213,14 +220,12 @@ class Econ(commands.Cog):
                 inline=False,
             )
 
-        user_badges_image_file: discord.File | None
+        user_badges_image_file: discord.File | None = None
         if user_badges_image_data := await self.badges.generate_badges_image(user.id):
             user_badges_image_file = discord.File(
                 fp=user_badges_image_data, filename=f"{user.id}_badges.png"
             )
             embed.set_image(url=f"attachment://{user_badges_image_file.filename}")
-        else:
-            user_badges_image_file = None
 
         await ctx.reply(embed=embed, file=user_badges_image_file, mention_author=False)
 
@@ -259,7 +264,8 @@ class Econ(commands.Cog):
         )
 
         embed.add_field(
-            name=ctx.l.econ.bal.pocket, value=f"{db_user.emeralds}{self.d.emojis.emerald}"
+            name=ctx.l.econ.bal.pocket,
+            value=f"{db_user.emeralds}{self.d.emojis.emerald}",
         )
         embed.add_field(
             name=ctx.l.econ.bal.vault,
@@ -269,7 +275,12 @@ class Econ(commands.Cog):
         await ctx.reply(embed=embed, mention_author=False)
 
     async def inventory_logic(
-        self, ctx: Ctx, user, items: list[Item], cat: str, items_per_page: int = 8
+        self,
+        ctx: Ctx,
+        user,
+        items: list[Item],
+        cat: str,
+        items_per_page: int = 8,
     ):
         """Logic behind generation of inventory embeds + pagination"""
 
@@ -294,7 +305,9 @@ class Econ(commands.Cog):
                 pass
 
         items = sorted(
-            items, key=(lambda item: item.sell_price), reverse=True
+            items,
+            key=(lambda item: item.sell_price),
+            reverse=True,
         )  # sort items by sell price
         items_chunks = [
             items[i : i + items_per_page] for i in range(0, len(items), items_per_page)
@@ -306,12 +319,15 @@ class Econ(commands.Cog):
 
             embed.description = "\n".join(
                 [
-                    f"{emojify_item(self.d, item.name)} `{item.amount}x` **{item.name}** ({item.sell_price}{self.d.emojis.emerald})"
+                    (
+                        f"{emojify_item(self.d, item.name)} `{item.amount}x` "
+                        f"**{item.name}** ({item.sell_price}{self.d.emojis.emerald})"
+                    )
                     for item in items_chunks[page]
-                ]
+                ],
             )
 
-            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{len(items_chunks)}")
+            embed.set_footer(text=f"{ctx.l.econ.page} {page + 1}/{len(items_chunks)}")
 
             return embed
 
@@ -396,7 +412,11 @@ class Econ(commands.Cog):
         items = [e for e in await self.db.fetch_items(user.id) if e.name not in combined_cats]
 
         await self.inventory_logic(
-            ctx, user, items, ctx.l.econ.inv.cats.misc, (16 if len(items) > 24 else 8)
+            ctx,
+            user,
+            items,
+            ctx.l.econ.inv.cats.misc,
+            (16 if len(items) > 24 else 8),
         )
 
     @inventory.command(name="fish", aliases=["fishes", "fishing", "fishies"])
@@ -466,8 +486,11 @@ class Econ(commands.Cog):
 
         await ctx.reply_embed(
             ctx.l.econ.dep.deposited.format(
-                amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald
-            )
+                amount,
+                self.d.emojis.emerald_block,
+                amount * 9,
+                self.d.emojis.emerald,
+            ),
         )
 
     @commands.command(name="withdraw", aliases=["with"])
@@ -504,8 +527,11 @@ class Econ(commands.Cog):
 
         await ctx.reply_embed(
             ctx.l.econ.withd.withdrew.format(
-                amount, self.d.emojis.emerald_block, amount * 9, self.d.emojis.emerald
-            )
+                amount,
+                self.d.emojis.emerald_block,
+                amount * 9,
+                self.d.emojis.emerald,
+            ),
         )
 
     @commands.group(name="shop", case_insensitive=True)
@@ -523,7 +549,7 @@ class Econ(commands.Cog):
                 name=f"__**{ctx.l.econ.shop.tools.format(self.d.emojis.netherite_pickaxe_ench)}**__",
                 value=f"`{ctx.prefix}shop tools`",
             )
-            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name="\ufeff", value="\ufeff")
             embed.add_field(
                 name=f"__**{ctx.l.econ.shop.magic.format(self.d.emojis.enchanted_book)}**__",
                 value=f"`{ctx.prefix}shop magic`",
@@ -534,7 +560,7 @@ class Econ(commands.Cog):
                 name=f"__**{ctx.l.econ.shop.other.format(self.d.emojis.totem)}**__",
                 value=f"`{ctx.prefix}shop other`",
             )
-            embed.add_field(name="\uFEFF", value="\uFEFF")
+            embed.add_field(name="\ufeff", value="\ufeff")
             embed.add_field(
                 name=f"__**{ctx.l.econ.shop.farming.format(self.d.emojis.farming.normal['wheat'])}**__",
                 value=f"`{ctx.prefix}shop farm`",
@@ -565,12 +591,15 @@ class Econ(commands.Cog):
 
             for item in item_pages[page]:
                 embed.add_field(
-                    name=f"{emojify_item(self.d, item.db_entry.item)} {item.db_entry.item} ({format_required(self.d, item)})",
+                    name=(
+                        f"{emojify_item(self.d, item.db_entry.item)} {item.db_entry.item} "
+                        f"({format_required(self.d, item)})"
+                    ),
                     value=f"`{ctx.prefix}buy {item.db_entry.item.lower()}`",
                     inline=False,
                 )
 
-            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{len(item_pages)}")
+            embed.set_footer(text=f"{ctx.l.econ.page} {page + 1}/{len(item_pages)}")
 
             return embed
 
@@ -581,7 +610,9 @@ class Econ(commands.Cog):
         """Allows you to shop for tools"""
 
         await self.shop_logic(
-            ctx, "tools", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.tools[3:]}]"
+            ctx,
+            "tools",
+            f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.tools[3:]}]",
         )
 
     @shop.command(name="magic")
@@ -589,7 +620,9 @@ class Econ(commands.Cog):
         """Allows you to shop for magic items"""
 
         await self.shop_logic(
-            ctx, "magic", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic[3:]}]"
+            ctx,
+            "magic",
+            f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.magic[3:]}]",
         )
 
     @shop.command(name="farming", aliases=["farm"])
@@ -597,7 +630,9 @@ class Econ(commands.Cog):
         """Allows you to shop for farming items"""
 
         await self.shop_logic(
-            ctx, "farming", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.farming[3:]}]"
+            ctx,
+            "farming",
+            f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.farming[3:]}]",
         )
 
     @shop.command(name="other")
@@ -605,7 +640,9 @@ class Econ(commands.Cog):
         """Allows you to shop for other/miscellaneous items"""
 
         await self.shop_logic(
-            ctx, "other", f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other[3:]}]"
+            ctx,
+            "other",
+            f"{ctx.l.econ.shop.villager_shop} [{ctx.l.econ.shop.other[3:]}]",
         )
 
     @commands.command(name="fishmarket", aliases=["fishshop", "fishprices", "fishprice"])
@@ -613,7 +650,8 @@ class Econ(commands.Cog):
         embed_template = discord.Embed(
             color=self.bot.embed_color,
             title=ctx.l.econ.fishing.market.title.format(
-                self.d.emojis.fish.cod, self.d.emojis.fish.rainbow_trout
+                self.d.emojis.fish.cod,
+                self.d.emojis.fish.rainbow_trout,
             ),
             description=ctx.l.econ.fishing.market.desc,
         )
@@ -627,13 +665,14 @@ class Econ(commands.Cog):
                 {
                     "name": f"{self.d.emojis.fish[fish_id]} {fish.name}",
                     "value": ctx.l.econ.fishing.market.current.format(
-                        fish.current, self.d.emojis.emerald
+                        fish.current,
+                        self.d.emojis.emerald,
                     ),
-                }
+                },
             )
 
             if i % 2 == 0:
-                fields.append({"name": "\uFEFF", "value": "\uFEFF"})
+                fields.append({"name": "\ufeff", "value": "\ufeff"})
 
         pages = [fields[i : i + 6] for i in range(0, len(fields), 6)]
         del fields
@@ -644,7 +683,7 @@ class Econ(commands.Cog):
             for field in pages[page]:
                 embed.add_field(**field)
 
-            embed.set_footer(text=f"{ctx.l.econ.page} {page+1}/{len(pages)}")
+            embed.set_footer(text=f"{ctx.l.econ.page} {page + 1}/{len(pages)}")
 
             return embed
 
@@ -698,7 +737,7 @@ class Econ(commands.Cog):
         # check if user can actually afford to buy that amount of that item
         if shop_item.buy_price * amount > db_user.emeralds:
             await ctx.reply_embed(
-                ctx.l.econ.buy.poor_loser_2.format(amount, shop_item.db_entry.item)
+                ctx.l.econ.buy.poor_loser_2.format(amount, shop_item.db_entry.item),
             )
             return
 
@@ -723,8 +762,10 @@ class Econ(commands.Cog):
             if db_req_item is None or db_req_item.amount < req_amount:
                 await ctx.reply_embed(
                     ctx.l.econ.buy.need_total_of.format(
-                        req_amount, req_item, self.d.emojis[self.d.emoji_items[req_item]]
-                    )
+                        req_amount,
+                        req_item,
+                        self.d.emojis[self.d.emoji_items[req_item]],
+                    ),
                 )
                 return
 
@@ -827,7 +868,10 @@ class Econ(commands.Cog):
 
         await ctx.reply_embed(
             ctx.l.econ.sell.you_done_sold.format(
-                amount, db_item.name, amount * db_item.sell_price, self.d.emojis.emerald
+                amount,
+                db_item.name,
+                amount * db_item.sell_price,
+                self.d.emojis.emerald,
             ),
         )
 
@@ -884,20 +928,29 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, amount)
             await self.db.balance_add(victim.id, amount)
             await self.db.log_transaction(
-                "emerald", amount, arrow.utcnow().datetime, ctx.author.id, victim.id
+                "emerald",
+                amount,
+                arrow.utcnow().datetime,
+                ctx.author.id,
+                victim.id,
             )
 
             await ctx.reply_embed(
                 ctx.l.econ.give.gaveems.format(
-                    ctx.author.mention, amount, self.d.emojis.emerald, victim.mention
-                )
+                    ctx.author.mention,
+                    amount,
+                    self.d.emojis.emerald,
+                    victim.mention,
+                ),
             )
 
             if (await self.db.fetch_user(victim.id)).give_alert:
                 await self.bot.send_embed(
                     victim,
                     ctx.l.econ.give.gaveyouems.format(
-                        ctx.author.mention, amount, self.d.emojis.emerald
+                        ctx.author.mention,
+                        amount,
+                        self.d.emojis.emerald,
                     ),
                 )
         else:
@@ -919,14 +972,21 @@ class Econ(commands.Cog):
             await self.db.add_item(victim.id, db_item.name, db_item.sell_price, amount)
             self.bot.loop.create_task(
                 self.db.log_transaction(
-                    db_item.name, amount, arrow.utcnow().datetime, ctx.author.id, victim.id
-                )
+                    db_item.name,
+                    amount,
+                    arrow.utcnow().datetime,
+                    ctx.author.id,
+                    victim.id,
+                ),
             )
 
             await ctx.reply_embed(
                 ctx.l.econ.give.gave.format(
-                    ctx.author.mention, amount, db_item.name, victim.mention
-                )
+                    ctx.author.mention,
+                    amount,
+                    db_item.name,
+                    victim.mention,
+                ),
             )
 
             if (await self.db.fetch_user(victim.id)).give_alert:
@@ -994,8 +1054,10 @@ class Econ(commands.Cog):
             await self.db.balance_add(ctx.author.id, won)
             await ctx.reply_embed(
                 ctx.l.econ.gamble.win.format(
-                    random.choice(ctx.l.econ.gamble.actions), won, self.d.emojis.emerald
-                )
+                    random.choice(ctx.l.econ.gamble.actions),
+                    won,
+                    self.d.emojis.emerald,
+                ),
             )
         elif u_roll < b_roll:
             await self.db.balance_sub(ctx.author.id, amount)
@@ -1019,8 +1081,8 @@ class Econ(commands.Cog):
                 await self.db.add_item(ctx.author.id, "Mooderald", 768, mooderalds, True)
                 await ctx.reply_embed(
                     random.choice(ctx.l.econ.beg.mooderald).format(
-                        f"{mooderalds}{self.d.emojis.autistic_emerald}"
-                    )
+                        f"{mooderalds}{self.d.emojis.autistic_emerald}",
+                    ),
                 )
             else:  # give em emeralds
                 amount = 9 + math.ceil(math.log(db_user.emeralds + 1, 1.5)) + random.randint(1, 5)
@@ -1030,8 +1092,8 @@ class Econ(commands.Cog):
 
                 await ctx.reply_embed(
                     random.choice(ctx.l.econ.beg.positive).format(
-                        f"{amount}{self.d.emojis.emerald}"
-                    )
+                        f"{amount}{self.d.emojis.emerald}",
+                    ),
                 )
         else:  # user loses emeralds
             amount = (
@@ -1049,7 +1111,7 @@ class Econ(commands.Cog):
             await self.db.balance_sub(ctx.author.id, amount)
 
             await ctx.reply_embed(
-                random.choice(ctx.l.econ.beg.negative).format(f"{amount}{self.d.emojis.emerald}")
+                random.choice(ctx.l.econ.beg.negative).format(f"{amount}{self.d.emojis.emerald}"),
             )
 
     @commands.command(name="mine", aliases=["mein", "eun", "mien", "m"])
@@ -1074,7 +1136,7 @@ class Econ(commands.Cog):
                 await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
 
                 await ctx.reply_embed(
-                    f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
+                    f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \ufeff "
                     + ctx.l.econ.mine.found_item_1.format(
                         random.choice(ctx.l.econ.mine.actions),
                         1,
@@ -1092,7 +1154,7 @@ class Econ(commands.Cog):
 
         if found:
             # calculate bonus emeralds from enchantment items
-            for item in self.d.mining.yields_enchant_items.keys():
+            for item in self.d.mining.yields_enchant_items:
                 if await self.db.fetch_item(ctx.author.id, item) is not None:
                     found += random.choice(self.d.mining.yields_enchant_items[item])
                     break
@@ -1107,9 +1169,11 @@ class Econ(commands.Cog):
             await self.db.update_lb(ctx.author.id, "week_emeralds", found)
 
             await ctx.reply_embed(
-                f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
+                f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \ufeff "
                 + ctx.l.econ.mine.found_emeralds.format(
-                    random.choice(ctx.l.econ.mine.actions), found, self.d.emojis.emerald
+                    random.choice(ctx.l.econ.mine.actions),
+                    found,
+                    self.d.emojis.emerald,
                 ),
             )
         else:
@@ -1120,11 +1184,14 @@ class Econ(commands.Cog):
             find_amount = random.randint(1, 6)
 
             await self.db.add_to_trashcan(
-                ctx.author.id, find, self.d.mining.find_values[find], find_amount
+                ctx.author.id,
+                find,
+                self.d.mining.find_values[find],
+                find_amount,
             )
 
             await ctx.reply_embed(
-                f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \uFEFF "
+                f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \ufeff "
                 + ctx.l.econ.mine.found_item_2.format(
                     random.choice(ctx.l.econ.mine.actions),
                     find_amount,
@@ -1172,7 +1239,6 @@ class Econ(commands.Cog):
 
         # determine if user has fished up junk or an item (rather than a fish)
         if random.randint(1, 8) == 1 or (lucky and random.randint(1, 5) == 1):
-
             # calculate the chance for them to fish up junk (True means junk)
             if await self.db.fetch_item(ctx.author.id, "Fishing Trophy") is not None or lucky:
                 junk_chance = (True, False, False, False, False)
@@ -1181,8 +1247,8 @@ class Econ(commands.Cog):
 
             # determine if they fished up junk
             if random.choice(junk_chance):
-                # TODO: Stop depending on "meme" in translated text because it breaks when a language's
-                #  translation for "meme" is not "meme"
+                # TODO: Stop depending on "meme" in translated text because it breaks when a
+                #   language's translation for "meme" is not "meme"
                 # TODO: Fix Reddit API access
                 while "meme" in (junk := random.choice(ctx.l.econ.fishing.junk)):
                     continue
@@ -1199,11 +1265,17 @@ class Econ(commands.Cog):
                 for item in self.d.fishing_findables:
                     if random.randint(0, (item.rarity // 2) + 2) == 1:
                         await self.db.add_item(
-                            ctx.author.id, item.item, item.sell_price, 1, item.sticky
+                            ctx.author.id,
+                            item.item,
+                            item.sell_price,
+                            1,
+                            item.sticky,
                         )
                         await ctx.reply_embed(
                             random.choice(ctx.l.econ.fishing.item).format(
-                                item.item, item.sell_price, self.d.emojis.emerald
+                                item.item,
+                                item.sell_price,
+                                self.d.emojis.emerald,
                             ),
                             True,
                         )
@@ -1282,7 +1354,7 @@ class Econ(commands.Cog):
             chances = [True, False]
 
         pillager_sword_lvl = self.d.sword_list.index(
-            (await self.db.fetch_sword(ctx.author.id)).lower()
+            (await self.db.fetch_sword(ctx.author.id)).lower(),
         )
         victim_sword_lvl = self.d.sword_list.index((await self.db.fetch_sword(victim.id)).lower())
 
@@ -1314,12 +1386,17 @@ class Econ(commands.Cog):
             await self.db.update_lb(ctx.author.id, "week_emeralds", adjusted)
 
             await ctx.reply_embed(
-                random.choice(ctx.l.econ.pillage.u_win.user).format(adjusted, self.d.emojis.emerald)
+                random.choice(ctx.l.econ.pillage.u_win.user).format(
+                    adjusted,
+                    self.d.emojis.emerald,
+                ),
             )
             await self.bot.send_embed(
                 victim,
                 random.choice(ctx.l.econ.pillage.u_win.victim).format(
-                    ctx.author.mention, stolen, self.d.emojis.emerald
+                    ctx.author.mention,
+                    stolen,
+                    self.d.emojis.emerald,
                 ),
             )
 
@@ -1331,10 +1408,14 @@ class Econ(commands.Cog):
             await self.db.balance_add(victim.id, penalty)
 
             await ctx.reply_embed(
-                random.choice(ctx.l.econ.pillage.u_lose.user).format(penalty, self.d.emojis.emerald)
+                random.choice(ctx.l.econ.pillage.u_lose.user).format(
+                    penalty,
+                    self.d.emojis.emerald,
+                ),
             )
             await self.bot.send_embed(
-                victim, random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention)
+                victim,
+                random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention),
             )
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
@@ -1459,7 +1540,7 @@ class Econ(commands.Cog):
 
             new_health = amount + db_user.health
             await ctx.reply_embed(
-                ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full)
+                ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full),
             )
 
             return
@@ -1475,12 +1556,18 @@ class Econ(commands.Cog):
                 for item in self.d.mining_findables:
                     if random.randint(0, (item.rarity // 2) + 2) == 1:
                         await self.db.add_item(
-                            ctx.author.id, item.item, item.sell_price, 1, item.sticky
+                            ctx.author.id,
+                            item.item,
+                            item.sell_price,
+                            1,
+                            item.sticky,
                         )
                         await ctx.reply_embed(
                             random.choice(ctx.l.econ.use.present).format(
-                                item.item, item.sell_price, self.d.emojis.emerald
-                            )
+                                item.item,
+                                item.sell_price,
+                                self.d.emojis.emerald,
+                            ),
                         )
 
                         return
@@ -1494,18 +1581,23 @@ class Econ(commands.Cog):
 
             for _ in range(20):
                 for item in self.d.mining_findables:
-                    if item.rarity > 1000:
-                        if random.randint(0, (item.rarity // 1.5) + 5) == 1:
-                            await self.db.add_item(
-                                ctx.author.id, item.item, item.sell_price, 1, item.sticky
-                            )
-                            await ctx.reply_embed(
-                                random.choice(ctx.l.econ.use.barrel_item).format(
-                                    item.item, item.sell_price, self.d.emojis.emerald
-                                )
-                            )
+                    if item.rarity > 1000 and random.randint(0, int((item.rarity // 1.5) + 5)) == 1:
+                        await self.db.add_item(
+                            ctx.author.id,
+                            item.item,
+                            item.sell_price,
+                            1,
+                            item.sticky,
+                        )
+                        await ctx.reply_embed(
+                            random.choice(ctx.l.econ.use.barrel_item).format(
+                                item.item,
+                                item.sell_price,
+                                self.d.emojis.emerald,
+                            ),
+                        )
 
-                            return
+                        return
 
             ems = random.randint(2, 4096)
 
@@ -1518,7 +1610,7 @@ class Econ(commands.Cog):
             await self.db.update_lb(ctx.author.id, "week_emeralds", ems)
 
             await ctx.reply_embed(
-                random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald)
+                random.choice(ctx.l.econ.use.barrel_ems).format(ems, self.d.emojis.emerald),
             )
             return
 
@@ -1541,8 +1633,10 @@ class Econ(commands.Cog):
 
             await ctx.reply_embed(
                 random.choice(ctx.l.econ.use.open_item_box).format(
-                    item=item.item, sell_price=item.sell_price, emerald=self.d.emojis.emerald
-                )
+                    item=item.item,
+                    sell_price=item.sell_price,
+                    emerald=self.d.emojis.emerald,
+                ),
             )
 
             return
@@ -1637,7 +1731,9 @@ class Econ(commands.Cog):
             await ctx.reply_embed(random.choice(ctx.l.econ.honey.ded).format(bees_lost))
 
     @commands.group(
-        name="leaderboards", aliases=["lb", "lbs", "leaderboard"], case_insensitive=True
+        name="leaderboards",
+        aliases=["lb", "lbs", "leaderboard"],
+        case_insensitive=True,
     )
     @commands.guild_only()
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -1654,7 +1750,7 @@ class Econ(commands.Cog):
             name=f"{ctx.l.econ.lb.emeralds} {self.d.emojis.emerald}",
             value=f"`{ctx.prefix}leaderboard emeralds`",
         )
-        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="\ufeff", value="\ufeff")
         embed.add_field(
             name=f"{ctx.l.econ.lb.trash} {self.d.emojis.diamond}",
             value=f"`{ctx.prefix}leaderboard trash`",
@@ -1664,7 +1760,7 @@ class Econ(commands.Cog):
             name=f"{ctx.l.econ.lb.farming} {self.d.emojis.farming.normal['wheat']}",
             value=f"`{ctx.prefix}leaderboard farming`",
         )
-        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="\ufeff", value="\ufeff")
         embed.add_field(
             name=f"{ctx.l.econ.lb.fish} {self.d.emojis.fish.cod}",
             value=f"`{ctx.prefix}leaderboard fish`",
@@ -1674,7 +1770,7 @@ class Econ(commands.Cog):
             name=f"{ctx.l.econ.lb.kills} {self.d.emojis.stevegun}",
             value=f"`{ctx.prefix}leaderboard mobkills`",
         )
-        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="\ufeff", value="\ufeff")
         embed.add_field(
             name=f"{ctx.l.econ.lb.stolen} {self.d.emojis.emerald}",
             value=f"`{ctx.prefix}leaderboard stolen`",
@@ -1684,25 +1780,27 @@ class Econ(commands.Cog):
             name=f"{ctx.l.econ.lb.votes} {self.d.emojis.updoot}",
             value=f"`{ctx.prefix}leaderboard votes`",
         )
-        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="\ufeff", value="\ufeff")
         embed.add_field(
-            name=f"{ctx.l.econ.lb.cmds} :keyboard:", value=f"`{ctx.prefix}leaderboard commands`"
+            name=f"{ctx.l.econ.lb.cmds} :keyboard:",
+            value=f"`{ctx.prefix}leaderboard commands`",
         )
 
         embed.add_field(
             name=f"{ctx.l.econ.lb.wems} {self.d.emojis.emerald}",
             value=f"`{ctx.prefix}leaderboard wems`",
         )
-        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="\ufeff", value="\ufeff")
         embed.add_field(
-            name=f"{ctx.l.econ.lb.wcmds} :keyboard:", value=f"`{ctx.prefix}leaderboard wcmds`"
+            name=f"{ctx.l.econ.lb.wcmds} :keyboard:",
+            value=f"`{ctx.prefix}leaderboard wcmds`",
         )
 
         embed.add_field(
             name=f"{ctx.l.econ.lb.item} {self.d.emojis.barrel}",
             value=f"`{ctx.prefix}leaderboard item <{ctx.l.econ.lb.item.lower()}>`",
         )
-        embed.add_field(name="\uFEFF", value="\uFEFF")
+        embed.add_field(name="\ufeff", value="\ufeff")
         embed.add_field(
             name=f"{ctx.l.econ.lb.unique_items} {self.d.emojis.barrel}",
             value=f"`{ctx.prefix}leaderboard uniqueitems`",
@@ -1732,7 +1830,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb_user("emeralds", ctx.author.id)
             local_lb = await self.db.fetch_local_lb_user(
-                "emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "emeralds",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1748,7 +1848,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb("pillaged_emeralds", ctx.author.id)
             local_lb = await self.db.fetch_local_lb(
-                "pillaged_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "pillaged_emeralds",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1764,7 +1866,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb("mobs_killed", ctx.author.id)
             local_lb = await self.db.fetch_local_lb(
-                "mobs_killed", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "mobs_killed",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1780,7 +1884,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb("commands", ctx.author.id)
             local_lb = await self.db.fetch_local_lb(
-                "commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "commands",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1796,7 +1902,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb_user("vote_streak", ctx.author.id)
             local_lb = await self.db.fetch_local_lb_user(
-                "vote_streak", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "vote_streak",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1812,7 +1920,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb("fish_fished", ctx.author.id)
             local_lb = await self.db.fetch_local_lb(
-                "fish_fished", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "fish_fished",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1828,7 +1938,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb("crops_planted", ctx.author.id)
             local_lb = await self.db.fetch_local_lb(
-                "crops_planted", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "crops_planted",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1844,7 +1956,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb("trash_emptied", ctx.author.id)
             local_lb = await self.db.fetch_local_lb(
-                "trash_emptied", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "trash_emptied",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1860,7 +1974,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb("week_emeralds", ctx.author.id)
             local_lb = await self.db.fetch_local_lb(
-                "week_emeralds", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "week_emeralds",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1876,7 +1992,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb("week_commands", ctx.author.id)
             local_lb = await self.db.fetch_local_lb(
-                "week_commands", ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                "week_commands",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1892,7 +2010,8 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb_unique_items(ctx.author.id)
             local_lb = await self.db.fetch_local_lb_unique_items(
-                ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
 
             await self._lb_logic(
@@ -1908,7 +2027,9 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             global_lb = await self.db.fetch_global_lb_item(item, ctx.author.id)
             local_lb = await self.db.fetch_local_lb_item(
-                item, ctx.author.id, [m.id for m in ctx.guild.members if not m.bot]
+                item,
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
             )
             item_stats = await self.db.get_item_stats(item)
 
@@ -1917,13 +2038,16 @@ class Econ(commands.Cog):
             return
 
         item_emoji = emojify_item(
-            self.d, item_case(item), default=emojify_item(self.d, item, default=None)
+            self.d,
+            item_case(item),
+            default=emojify_item(self.d, item, default=None),
         )
 
         row_fmt = f"\n`{{}}.` **{{}}**{item_emoji or ''} {{}}"
 
         title = ctx.l.econ.lb.lb_item.format(
-            f" {item_emoji} " if item_emoji else "", item_case(item)
+            f" {item_emoji} " if item_emoji else "",
+            item_case(item),
         )
 
         async with SuppressCtxManager(ctx.typing()):
@@ -1935,8 +2059,11 @@ class Econ(commands.Cog):
         embed.add_field(name=ctx.l.econ.lb.global_lb, value=global_lb_str)
 
         embed.add_field(
-            name="\uFEFF",
-            value=f"*total of {item_stats['total_count']:,} owned by {item_stats['users_in_possession']} different users*",
+            name="\ufeff",
+            value=(
+                f"*total of {item_stats['total_count']:,} owned by "
+                f"{item_stats['users_in_possession']} different users*"
+            ),
             inline=False,
         )
 
@@ -1955,7 +2082,7 @@ class Econ(commands.Cog):
         max_plots = self.d.farming.max_plots[await self.db.fetch_hoe(ctx.author.id)]
 
         emojis = [emojify_crop(self.d, r["crop_type"]) for r in db_farm_plots] + [
-            emojify_crop(self.d, "dirt")
+            emojify_crop(self.d, "dirt"),
         ] * (max_plots - len(db_farm_plots))
         emoji_farm = "> " + "\n> ".join(
             "".join(r[::-1])
@@ -2036,8 +2163,9 @@ class Econ(commands.Cog):
 
         await ctx.reply_embed(
             ctx.l.econ.farm.planted.format(
-                amount=amount, crop=emojify_item(self.d, self.d.farming.name_map[crop_type])
-            )
+                amount=amount,
+                crop=emojify_item(self.d, self.d.farming.name_map[crop_type]),
+            ),
         )
 
     @farm.command(name="harvest", aliases=["h"])
@@ -2075,7 +2203,7 @@ class Econ(commands.Cog):
             [
                 f"{amount} {self.d.emojis.farming.normal[crop_type]}"
                 for crop_type, amount in amounts_harvested.items()
-            ]
+            ],
         )
 
         await ctx.reply_embed(ctx.l.econ.farm.harvested.format(crops=harvest_str))
@@ -2099,9 +2227,12 @@ class Econ(commands.Cog):
         else:
             items_formatted = "\n".join(
                 [
-                    f"> `{item['amount']}x` {item['item']} ({float(item['amount']) * item['value']:0.02f}{self.d.emojis.emerald})"
+                    (
+                        f"> `{item['amount']}x` {item['item']} "
+                        f"({float(item['amount']) * item['value']:0.02f}{self.d.emojis.emerald})"
+                    )
                     for item in items
-                ]
+                ],
             )
 
             total_ems = sum([float(item["amount"]) * item["value"] for item in items])
@@ -2112,7 +2243,8 @@ class Econ(commands.Cog):
 
             embed.description = (
                 ctx.l.econ.trash.total_contents.format(
-                    ems=round(total_ems, 2), ems_emoji=self.d.emojis.emerald
+                    ems=round(total_ems, 2),
+                    ems_emoji=self.d.emojis.emerald,
                 )
                 + f"\n\n{items_formatted}\n\n"
                 + ctx.l.econ.trash.how_to_empty.format(prefix=ctx.prefix)
@@ -2134,7 +2266,7 @@ class Econ(commands.Cog):
         await self.db.update_lb(ctx.author.id, "week_emeralds", total_ems)
 
         await ctx.reply_embed(
-            ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald)
+            ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald),
         )
 
     # @commands.command(name="fight", aliases=["battle"])
@@ -2170,7 +2302,7 @@ class Econ(commands.Cog):
     #
     #         if db_user_2.emeralds < emerald_pool:
     #             await ctx.reply_embed(
-    #                 f"{user_2.mention} doesn't have {emerald_pool}{self.d.emojis.emerald} to bet."
+    #                 f"{user_2.mention} doesn't have {emerald_pool}{self.d.emojis.emerald} to bet."  # noqa: E501
     #             )
     #             return
     #
@@ -2231,16 +2363,16 @@ class Econ(commands.Cog):
     #
     #         embed.add_field(
     #             name=f"**{user_1.display_name}**",
-    #             value=f"{user_1_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} ",
+    #             value=f"{user_1_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_1_sword)} **|** {user_1_bees}{self.d.emojis.jar_of_bees} ",  # noqa: E501
     #         )
     #         embed.add_field(name="\uFEFF", value="\uFEFF")
     #         embed.add_field(
     #             name=f"**{user_2.display_name}**",
-    #             value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{self.d.emojis.jar_of_bees} ",
+    #             value=f"{user_2_health}/20 {self.d.emojis.heart_full} **|** {emojify_item(self.d, user_2_sword)} **|** {user_2_bees}{self.d.emojis.jar_of_bees} ",  # noqa: E501
     #         )
     #
     #         challenge_msg = await ctx.send(
-    #             f"{user_2.mention} react with {self.d.emojis.netherite_sword_ench} to accept the challenge!",
+    #             f"{user_2.mention} react with {self.d.emojis.netherite_sword_ench} to accept the challenge!",  # noqa: E501
     #             embed=embed,
     #         )
     #         await challenge_msg.add_reaction(self.d.emojis.netherite_sword_ench)
@@ -2292,7 +2424,7 @@ class Econ(commands.Cog):
     #
     #             embed = discord.Embed(
     #                 color=self.bot.embed_color,
-    #                 description=f"user_1 ({user_1_health}hp) did {user_1_damage} dmg\nuser_2 ({user_2_health}hp) did {user_2_damage}",
+    #                 description=f"user_1 ({user_1_health}hp) did {user_1_damage} dmg\nuser_2 ({user_2_health}hp) did {user_2_damage}",  # noqa: E501
     #             )
     #
     #             embed.add_field(

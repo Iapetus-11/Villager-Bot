@@ -18,7 +18,13 @@ from common.coms.packet import T_PACKET_DATA
         (
             (
                 v := datetime.timedelta(
-                    days=1, seconds=1, microseconds=1, milliseconds=1, minutes=1, hours=1, weeks=1
+                    days=1,
+                    seconds=1,
+                    microseconds=1,
+                    milliseconds=1,
+                    minutes=1,
+                    hours=1,
+                    weeks=1,
                 )
             ),
             {

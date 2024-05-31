@@ -69,7 +69,11 @@ class Mod(commands.Cog):
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     async def ban_user(
-        self, ctx: Ctx, victim: discord.Member | int, *, reason="No reason provided."
+        self,
+        ctx: Ctx,
+        victim: discord.Member | int,
+        *,
+        reason="No reason provided.",
     ):
         """Bans the given user from the current Discord server"""
 
@@ -88,10 +92,9 @@ class Mod(commands.Cog):
             await ctx.reply_embed(ctx.l.mod.ban.stupid_1)
             return
 
-        if isinstance(victim, discord.Member):
-            if not self.permission_check(ctx, victim):
-                await ctx.reply_embed(ctx.l.mod.no_perms)
-                return
+        if isinstance(victim, discord.Member) and not self.permission_check(ctx, victim):
+            await ctx.reply_embed(ctx.l.mod.no_perms)
+            return
 
         try:
             await ctx.guild.fetch_ban(victim)
@@ -112,7 +115,9 @@ class Mod(commands.Cog):
 
         try:
             await ctx.guild.ban(
-                victim, reason=f"{ctx.author} | {reason}", delete_message_days=delete_days
+                victim,
+                reason=f"{ctx.author} | {reason}",
+                delete_message_days=delete_days,
             )
             await ctx.message.add_reaction(self.d.emojis.yes)
         except discord.errors.Forbidden:
@@ -123,7 +128,11 @@ class Mod(commands.Cog):
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     async def pardon_user(
-        self, ctx: Ctx, user: discord.User | int, *, reason="No reason provided."
+        self,
+        ctx: Ctx,
+        user: discord.User | int,
+        *,
+        reason="No reason provided.",
     ):
         """Unbans / pardons the given user from the current Discord server"""
 
@@ -167,9 +176,8 @@ class Mod(commands.Cog):
             await ctx.reply_embed(ctx.l.mod.warn.thats_too_much_man)
             return
 
-        if reason is not None:
-            if len(reason) > 245:
-                reason = f"{reason[:245]}..."
+        if reason is not None and len(reason) > 245:
+            reason = f"{reason[:245]}..."
 
         await self.db.add_warn(victim.id, ctx.guild.id, ctx.author.id, reason)
 
@@ -188,10 +196,9 @@ class Mod(commands.Cog):
         if user is None:
             user = ctx.author
 
-        if ctx.author != user:
-            if not self.permission_check(ctx, user):
-                await ctx.reply_embed(ctx.l.mod.no_perms)
-                return
+        if ctx.author != user and not self.permission_check(ctx, user):
+            await ctx.reply_embed(ctx.l.mod.no_perms)
+            return
 
         warns = await self.db.fetch_warns(user.id, ctx.guild.id)
 
@@ -202,7 +209,7 @@ class Mod(commands.Cog):
         )
 
         if len(warns) < 1:
-            embed.add_field(name="\uFEFF", value=f"{user} has no warnings.")
+            embed.add_field(name="\ufeff", value=f"{user} has no warnings.")
         else:
             for warn in warns:
                 reason = ctx.l.mod.warn.no_reason
@@ -211,15 +218,20 @@ class Mod(commands.Cog):
                     reason = warn["reason"]
 
                 embed.add_field(
-                    name="\uFEFF",
-                    value=f'**{ctx.l.mod.warn.by} {getattr(self.bot.get_user(warn["mod_id"]), "mention", "Unknown User")}**: *{reason}*',
+                    name="\ufeff",
+                    value=(
+                        f'**{ctx.l.mod.warn.by} '
+                        f'{getattr(self.bot.get_user(warn["mod_id"]), "mention", "Unknown User")}'
+                        f'**: *{reason}*'
+                    ),
                     inline=False,
                 )
 
         await ctx.reply(embed=embed, mention_author=False)
 
     @commands.command(
-        name="delwarns", aliases=["clearwarns", "remwarns", "removewarns", "delwarnings"]
+        name="delwarns",
+        aliases=["clearwarns", "remwarns", "removewarns", "delwarnings"],
     )
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
@@ -276,7 +288,7 @@ class Mod(commands.Cog):
                     only_distance=True,
                     granularity=get_timedelta_granularity(duration, 3),  # type: ignore
                 ),
-            )
+            ),
         )
 
     @commands.command(name="unmute", aliases=["unshut", "shutnt", "unstfu", "untimeout"])

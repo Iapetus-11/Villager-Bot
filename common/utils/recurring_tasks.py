@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from typing import Awaitable, Callable, Generator, Optional, TypeAlias
+from typing import Awaitable, Callable, Generator, TypeAlias
 
 T_LOOP_CALLABLE: TypeAlias = Callable[[], Awaitable[None]]
 
@@ -22,9 +22,9 @@ class RecurringTask:
 
         self.name = loop_callable.__qualname__
 
-        self._logger: Optional[logging.Logger] = None
+        self._logger: logging.Logger | None = None
 
-        self._loop_task: Optional[asyncio.Task] = None
+        self._loop_task: asyncio.Task | None = None
 
     @property
     def logger(self) -> logging.Logger:
@@ -43,10 +43,9 @@ class RecurringTask:
         try:
             await self.loop_callable()
         except Exception:
-            self.logger.error(
+            self.logger.exception(
                 "An error ocurred while calling the loop callable: %s",
                 self.name,
-                exc_info=True,
             )
 
     async def _loop(self) -> None:

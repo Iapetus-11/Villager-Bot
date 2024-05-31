@@ -1,3 +1,3 @@
-from .check_text import run as check_text  # noqa: F401
-from .format import run as format  # noqa: F401
-from .generate_blockify_data import run as generate_blockify_data  # noqa: F401
+from .check_text import run as check_text
+from .format_and_lint import main as format_and_lint
+from .generate_blockify_data import run as generate_blockify_data

@@ -29,14 +29,8 @@ jobs:
       - name: install dependencies
         run: poetry install
 
-      - name: black check
-        run: poetry run black . --check
-
-      - name: isort check
-        run: poetry run isort . --check
-
-      - name: ruff
-        run: poetry run ruff .
+      - name: ruff formatter & linter
+        run: poetry run format_and_lint
       
       - name: mypy
         run: poetry run mypy

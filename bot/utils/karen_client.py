@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import Any, Optional
+from typing import Any
 
 import discord
 
@@ -33,11 +33,14 @@ class KarenClient:
         self.packet_handlers = packet_handlers
         self.logger = logger.getChild("karen")
 
-        self._client: Optional[Client] = None
+        self._client: Client | None = None
 
     async def connect(self) -> None:
         self._client = Client(
-            self.secrets.host, self.secrets.port, self.packet_handlers, self.logger
+            self.secrets.host,
+            self.secrets.port,
+            self.packet_handlers,
+            self.logger,
         )
         await self._client.connect(self.secrets.auth)
 
@@ -56,7 +59,9 @@ class KarenClient:
         return resp.data
 
     async def _broadcast(
-        self, packet_type: PacketType, **kwargs: T_PACKET_DATA
+        self,
+        packet_type: PacketType,
+        **kwargs: T_PACKET_DATA,
     ) -> list[T_PACKET_DATA]:
         resp = await self._client.broadcast(packet_type, kwargs)
 
@@ -66,7 +71,9 @@ class KarenClient:
         return resp.data
 
     async def _broadcast_aggregate(
-        self, packet_type: PacketType, **kwargs: T_PACKET_DATA
+        self,
+        packet_type: PacketType,
+        **kwargs: T_PACKET_DATA,
     ) -> list[T_PACKET_DATA]:
         resp = await self._client.broadcast(packet_type, kwargs)
 
@@ -87,7 +94,7 @@ class KarenClient:
     @validate_return_type
     async def cooldown(self, command: str, user_id: int) -> Cooldown:
         return Cooldown(
-            **await self._send(PacketType.COOLDOWN_CHECK_ADD, command=command, user_id=user_id)
+            **await self._send(PacketType.COOLDOWN_CHECK_ADD, command=command, user_id=user_id),
         )
 
     @validate_return_type
@@ -111,7 +118,9 @@ class KarenClient:
     @validate_return_type
     async def bottable_command_execution(self, user_id: int, points: int) -> int:
         return await self._send(
-            PacketType.BOTTABLE_COMMAND_EXECUTION, user_id=user_id, points=points
+            PacketType.BOTTABLE_COMMAND_EXECUTION,
+            user_id=user_id,
+            points=points,
         )
 
     @validate_return_type
@@ -179,7 +188,7 @@ class KarenClient:
         return await self._send(PacketType.DB_FETCH_VAL, query=query, args=args)
 
     @validate_return_type
-    async def db_fetch_row(self, query: str, *args: Any) -> Optional[dict[str, Any]]:
+    async def db_fetch_row(self, query: str, *args: Any) -> dict[str, Any] | None:
         return await self._send(PacketType.DB_FETCH_ROW, query=query, args=args)
 
     @validate_return_type
@@ -187,7 +196,7 @@ class KarenClient:
         return await self._send(PacketType.DB_FETCH_ALL, query=query, args=args)
 
     @validate_return_type
-    async def get_user_name(self, user_id: int) -> Optional[str]:
+    async def get_user_name(self, user_id: int) -> str | None:
         resps = await self._broadcast(PacketType.GET_USER_NAME, user_id=user_id)
 
         for resp in resps:
@@ -264,7 +273,11 @@ class KarenClient:
 
     @validate_return_type
     async def command_execution(
-        self, user_id: int, guild_id: Optional[int], command: str, is_slash: bool
+        self,
+        user_id: int,
+        guild_id: int | None,
+        command: str,
+        is_slash: bool,
     ) -> None:
         await self._send(
             PacketType.COMMAND_EXECUTION,

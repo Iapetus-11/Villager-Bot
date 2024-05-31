@@ -44,8 +44,9 @@ def load_translations(disabled_translations: list[str]) -> dict[str, Translation
 
             translations[lang_name] = Translation(**data[lang_name])
         except Exception as e:
-            print(
-                f"An error occurred while loading the {lang_name} translation: {format_exception(e)}"
+            print(  # noqa: T201
+                f"An error occurred while loading the {lang_name} translation: "
+                f"{format_exception(e)}",
             )
 
     if "en" not in translations:

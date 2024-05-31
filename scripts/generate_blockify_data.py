@@ -1,3 +1,5 @@
+# ruff: noqa: T201
+
 import base64
 import json
 import os
@@ -53,7 +55,7 @@ class Palette:
             *filter(
                 (lambda file: (file.endswith(".png") or file.endswith(".jpg"))),
                 next(os.walk(self.source_dir))[2],
-            )
+            ),
         ]:
             c = False
 

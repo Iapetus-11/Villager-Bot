@@ -34,22 +34,19 @@ python-dotenv = "^1.0.0"
 "discord.py" = "^2.3.2"
 colorlog = "^6.6.0"
 captcha = "^0.5.0"
-ruff = "^0.0.270"
 minecraftstatus = "^0.0.9"
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.6.0"
 mypy = "^0.981"
 asyncpg-stubs = "^0.26.2"
 types-psutil = "^5.9.3"
-isort = "^5.10.1"
-autoflake = "^1.4"
 pytest = "^7.1.3"
 types-aiofiles = "^22.1.0.9"
+ruff = "^0.4.6"
 
 [tool.poetry.scripts]
 check_text = { callable = "scripts:check_text" }
-format = { callable = "scripts:format" }
+format_and_lint = { callable = "scripts:format_and_lint" }
 generate_blockify_data = { callable = "scripts:generate_blockify_data" }
 
 [build-system]
@@ -57,22 +54,96 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
+target-version = "py311"
+preview = true
 line-length = 100
-ignore = ["E501", "E266", "E203", "E741", "W293", "W291"]
-target-version = "py310"
+indent-width = 4
 
-[tool.black]
-line-length = 100
-target-version = ['py310']
-include = '\.pyi?$'
+[tool.ruff.lint]
+# https://docs.astral.sh/ruff/rules
+extend-select = [
+    "F",
+    "W",
+    "E",
+    "COM818",
+    "COM819",
+    "D300",
+    "UP003",
+    "UP004",
+    "UP006",
+    "UP007",
+    "UP010",
+    "UP032",
+    "UP038",
+    "B006",
+    "B007",
+    "B014",
+    "B015",
+    "B016",
+    "B018",
+    "B021",
+    "B022",
+    "B032",
+    "B033",
+    "DTZ001",
+    "DTZ003",
+    "G010",
+    "G201",
+    "PIE790",
+    "PIE794",
+    "PIE796",
+    "T201",
+    "PT013",
+    "PT014",
+    "Q000",
+    "Q002",
+    "Q003",
+    "Q004",
+    "RET501",
+    "RET502",
+    "RET503",
+    "RET504",
+    "RET505",
+    "RET506",
+    "RET507",
+    "RET508",
+    "SIM101",
+    "SIM102",
+    "SIM103",
+    "SIM115",
+    "SIM117",
+    "SIM118",
+    "SIM201",
+    "SIM202",
+    "SIM208",
+    "SIM210",
+    "SIM211",
+    "SIM212",
+    "SIM300",
+    "SIM910",
+    "TD004",
+    "TD005",
+    "TD006",
+    "TD007",
+    "PLE0604",
+    "PLE0605",
+    "PLE0704",
+    "PLE1205",
+    "PLE1206",
+]
+extend-per-file-ignores = { "__init__.py" = ["F401", "F403"] }
 
-[tool.isort]
-profile = "black"
-line_length = 100
-known_bot = ["bot"]
-known_karen = ["karen"]
-known_common = ["common"]
-sections = ["FUTURE", "STDLIB", "THIRDPARTY", "COMMON", "BOT", "KAREN", "FIRSTPARTY", "LOCALFOLDER"]
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "double"
+
+[tool.ruff.format]
+quote-style = "double"
+line-ending = "lf"
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint.isort]
+sections = { bot = ["bot"], karen = ["karen"], common = ["common"] }
+section-order = ["future", "standard-library", "third-party", "common", "bot", "karen", "first-party", "local-folder"]
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]

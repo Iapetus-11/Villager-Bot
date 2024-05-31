@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import asyncio
-import datetime
+from datetime import datetime, timezone
 import itertools
 import time
 import uuid
 from collections import defaultdict
-from typing import Any, Optional
+from typing import Any
 
 import aiohttp
 import arrow
@@ -41,16 +41,16 @@ class Share:
         self.command_concurrency = MaxConcurrencyManager()
         self.econ_paused_users = dict[int, float]()  # user_id: time paused
         self.bottable_command_points = defaultdict[int, int](
-            int
+            int,
         )  # user_id: cmd_count, used for fishing as well
         self.trivia_commands = defaultdict[int, int](int)  # user_id: cmd_count
         self.command_counts_lb = defaultdict[int, int](int)  # user_id: cmd_count
         self.active_fx = defaultdict[int, dict[str, float]](
-            dict[str, float]
+            dict[str, float],
         )  # user_id: dict[fx: expires_at]
         self.current_cluster_id = 0
 
-        self.command_executions = list[tuple[int, Optional[int], str, bool, datetime.datetime]]()
+        self.command_executions = list[tuple[int, int | None, str, bool, datetime]]()
 
 
 class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
@@ -59,7 +59,7 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
 
         self.logger = setup_logging("karen", secrets.logging)
 
-        self._db: Optional[asyncpg.Pool] = None
+        self._db: asyncpg.Pool | None = None
 
         self.start_time = arrow.utcnow()
         self.ready_event = asyncio.Event()
@@ -75,12 +75,14 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
         )
 
         self.votehook_server = VotingWebhookServer(
-            self.k.topgg_webhook, self._vote_callback, self.logger
+            self.k.topgg_webhook,
+            self._vote_callback,
+            self.logger,
         )
 
         self.v = Share(data)
 
-        self.aiohttp: Optional[aiohttp.ClientSession] = None
+        self.aiohttp: aiohttp.ClientSession | None = None
 
         self.shard_ids = ShardIdManager(self.k.shard_count, self.k.cluster_count)
 
@@ -172,24 +174,30 @@ class MechaKaren(PacketHandlerRegistry, RecurringTasksMixin):
     SELECT guild_id, COUNT(*) AS c FROM guild_events WHERE event_type = 1 GROUP BY guild_id) js
 FULL JOIN (
     SELECT guild_id, COUNT(*) AS c FROM guild_events WHERE event_type = 2 GROUP BY guild_id) ls
-ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0"""
+ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""",
         )
 
         current_guilds_db: set[int] = {r["guild_id"] for r in current_guilds_db}
 
         current_guilds = set[int](
-            itertools.chain.from_iterable(await self.server.broadcast(PacketType.FETCH_GUILD_IDS))
+            itertools.chain.from_iterable(await self.server.broadcast(PacketType.FETCH_GUILD_IDS)),
         )
 
         missed_guild_joins = current_guilds - current_guilds_db
         missed_guild_leaves = current_guilds_db - current_guilds
 
         await self.db.executemany(
-            "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, 0, 0)",
+            (
+                "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) "
+                "VALUES ($1, $2, 0, 0)"
+            ),
             [(guild_id, GuildEventType.GUILD_JOIN.value) for guild_id in missed_guild_joins],
         )
         await self.db.executemany(
-            "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) VALUES ($1, $2, 0, 0)",
+            (
+                "INSERT INTO guild_events (guild_id, event_type, member_count, total_count) "
+                "VALUES ($1, $2, 0, 0)"
+            ),
             [(guild_id, GuildEventType.GUILD_LEAVE.value) for guild_id in missed_guild_leaves],
         )
 
@@ -205,7 +213,7 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
 
         return result
 
-    ###### loops ###############################################################
+    # loops ###############################################################
 
     @recurring_task(minutes=2)
     async def loop_clear_dead(self):
@@ -217,16 +225,23 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
             return
 
         commands_dump = list(self.v.command_counts_lb.items())
-        user_ids = [(user_id,) for user_id in self.v.command_counts_lb.keys()]
+        user_ids = [(user_id,) for user_id in self.v.command_counts_lb]
         self.v.command_counts_lb.clear()
 
         # ensure users are in db first
         await self.db.executemany(
-            'INSERT INTO users (user_id) VALUES ($1) ON CONFLICT ("user_id") DO NOTHING', user_ids
+            'INSERT INTO users (user_id) VALUES ($1) ON CONFLICT ("user_id") DO NOTHING',
+            user_ids,
         )
 
         await self.db.executemany(
-            'INSERT INTO leaderboards (user_id, commands, week_commands) VALUES ($1, $2, $2) ON CONFLICT ("user_id") DO UPDATE SET "commands" = leaderboards.commands + $2, "week_commands" = leaderboards.week_commands + $2 WHERE leaderboards.user_id = $1',
+            (
+                "INSERT INTO leaderboards (user_id, commands, week_commands) VALUES ($1, $2, $2) "
+                'ON CONFLICT ("user_id") DO UPDATE SET '
+                '"commands" = leaderboards.commands + $2, '
+                '"week_commands" = leaderboards.week_commands + $2 '
+                "WHERE leaderboards.user_id = $1"
+            ),
             commands_dump,
         )
 
@@ -239,7 +254,10 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
         self.v.command_executions = []
 
         await self.db.executemany(
-            "INSERT INTO command_executions (user_id, guild_id, command, is_slash, at) VALUES ($1, $2, $3, $4, $5)",
+            (
+                "INSERT INTO command_executions (user_id, guild_id, command, is_slash, at) "
+                "VALUES ($1, $2, $3, $4, $5)"
+            ),
             commands_dump,
         )
 
@@ -254,7 +272,8 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
     @recurring_task(seconds=5, sleep_first=False)
     async def loop_remind_reminders(self):
         reminders = await self.db.fetch(
-            "DELETE FROM reminders WHERE at <= NOW() RETURNING channel_id, user_id, message_id, reminder"
+            "DELETE FROM reminders WHERE at <= NOW() "
+            "RETURNING channel_id, user_id, message_id, reminder",
         )
 
         broadcast_coros = [self.server.broadcast(PacketType.REMINDER, {**r}) for r in reminders]
@@ -265,7 +284,9 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
     @recurring_task(minutes=30, sleep_first=False)
     async def loop_clear_weekly_leaderboards(self):
         await self.db.execute(
-            "UPDATE leaderboards SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) WHERE DATE_TRUNC('WEEK', NOW()) > week"
+            "UPDATE leaderboards "
+            "SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) "
+            "WHERE DATE_TRUNC('WEEK', NOW()) > week",
         )
 
     @recurring_task(hours=1, sleep_first=True)
@@ -280,12 +301,12 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
 
     @recurring_task(seconds=2)
     async def loop_clear_active_fx(self):
-        for user_id, active_fx in self.v.active_fx.items():
+        for active_fx in self.v.active_fx.values():
             for effect, expires_at in list(active_fx.items()):
                 if time.time() > expires_at:
                     del active_fx[effect]
 
-    ###### packet handlers #####################################################
+    # packet handlers #####################################################
 
     @handle_packet(PacketType.EXEC_CODE)
     async def packet_exec(self, code: str):
@@ -320,7 +341,11 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
 
     @handle_packet(PacketType.DM_MESSAGE)
     async def packet_dm_message(
-        self, user_id: int, channel_id: int, message_id: int, content: Optional[str]
+        self,
+        user_id: int,
+        channel_id: int,
+        message_id: int,
+        content: str | None,
     ):
         await self.server.broadcast(
             PacketType.DM_MESSAGE,
@@ -452,8 +477,12 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
 
     @handle_packet(PacketType.COMMAND_EXECUTION)
     async def packet_command_execution(
-        self, user_id: int, guild_id: Optional[int], command: str, is_slash: bool
+        self,
+        user_id: int,
+        guild_id: int | None,
+        command: str,
+        is_slash: bool,
     ):
         self.v.command_executions.append(
-            (user_id, guild_id, command, is_slash, datetime.datetime.utcnow())
+            (user_id, guild_id, command, is_slash, datetime.now(timezone.utc)),
         )

@@ -80,7 +80,8 @@ class Paginator(commands.Cog):
 
         if not isinstance(embed, discord.Embed):
             raise TypeError(
-                f"{getattr(type(embed), '__qualname__', type(embed))} is not a {discord.Embed.__qualname__}"
+                f"{getattr(type(embed), '__qualname__', type(embed))} is not a "
+                f"{discord.Embed.__qualname__}",
             )
 
         return embed
@@ -97,7 +98,8 @@ class Paginator(commands.Cog):
         embed = await self._get_page(get_page, 0)
 
         if page_count <= 1:
-            return await ctx.reply(embed=embed, mention_author=False)
+            await ctx.reply(embed=embed, mention_author=False)
+            return
 
         view = PaginatorView(
             author_id=ctx.author.id,

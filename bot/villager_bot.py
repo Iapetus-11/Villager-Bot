@@ -1,7 +1,7 @@
 import asyncio
 import random
 from collections import defaultdict
-from typing import Any, Optional
+from typing import Any
 
 import aiohttp
 import arrow
@@ -50,7 +50,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             help_command=None,
         )
 
-        self.cluster_id: Optional[int] = None
+        self.cluster_id: int | None = None
 
         self.start_time = arrow.utcnow()
 
@@ -76,29 +76,27 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         ]
 
         self.logger = setup_logging("bot", secrets.logging)
-        self.karen: Optional[KarenClient] = None
-        self.db: Optional[DatabaseProxy] = None
-        self.aiohttp: Optional[aiohttp.ClientSession] = None
+        self.karen: KarenClient | None = None
+        self.db: DatabaseProxy | None = None
+        self.aiohttp: aiohttp.ClientSession | None = None
 
         # caches
         self.botban_cache = set[int]()  # set({user_id, user_id,..})
         self.language_cache = dict[int, str]()  # {guild_id: "lang"}
         self.prefix_cache = dict[int, str]()  # {guild_id: "prefix"}
-        self.disabled_commands = defaultdict[int, set[str]](
-            set
-        )  # {guild_id: set({command, command,..})}
+        # {guild_id: set({command, command,..})}
+        self.disabled_commands = defaultdict[int, set[str]](set)
         self.replies_cache = set[int]()  # {guild_id, guild_id,..}
         self.rcon_cache = dict[tuple[int, Any], Any]()  # {(user_id, mc_server): rcon_client}
-        self.existing_users_cache = set[
-            int
-        ]()  # so the database doesn't have to make a query every time an econ command is ran to ensure user exists
-        self.existing_user_lbs_cache = set[
-            int
-        ]()  # for same reason above, but for leaderboards instead
+        # so the database doesn't have to make a query every time an econ command is ran
+        # to ensure user exists
+        self.existing_users_cache = set[int]()
+        # for same reason above, but for leaderboards instead
+        self.existing_user_lbs_cache = set[int]()
 
-        self.support_server: Optional[discord.Guild] = None
-        self.error_channel: Optional[discord.TextChannel] = None
-        self.vote_channel: Optional[discord.TextChannel] = None
+        self.support_server: discord.Guild | None = None
+        self.error_channel: discord.TextChannel | None = None
+        self.vote_channel: discord.TextChannel | None = None
 
         # counters and other things
         self.command_count = 0
@@ -112,10 +110,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         self.add_check(self.check_global)  # register global check
         self.before_invoke(
-            self.before_command_invoked
+            self.before_command_invoked,
         )  # register self.before_command_invoked as a before_invoked event
         self.after_invoke(
-            self.after_command_invoked
+            self.after_command_invoked,
         )  # register self.after_command_invoked as a after_invoked event
         self.event(self.on_app_command_completion)
 
@@ -125,7 +123,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     async def start(self):
         self.font_files = await FontHandler(
-            font_urls=self.d.font_urls, output_directory="fonts"
+            font_urls=self.d.font_urls,
+            output_directory="fonts",
         ).retrieve()
         self.captcha_generator = captcha.image.ImageCaptcha(fonts=self.font_files)
 
@@ -178,8 +177,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
                 self.logger.info("Slash commands synced!")
             except Exception:
-                self.logger.error(
-                    "An error occurred in on_ready while syncing slash commands", exc_info=True
+                self.logger.exception(
+                    "An error occurred in on_ready while syncing slash commands",
                 )
 
             try:
@@ -192,7 +191,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                     {
                         self.d.farming.name_map[k]: v
                         for k, v in self.d.farming.emerald_yields.items()
-                    }
+                    },
                 )
                 item_prices.update({f.item: f.sell_price for f in self.d.fishing_findables})
 
@@ -200,8 +199,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
                 self.logger.info("Done syncing db item prices!")
             except Exception:
-                self.logger.error(
-                    "An error occurred in on_ready while syncing db item prices", exc_info=True
+                self.logger.exception(
+                    "An error occurred in on_ready while syncing db item prices",
                 )
 
     async def get_context(self, *args, **kwargs) -> CustomContext:
@@ -222,7 +221,12 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 raise
 
     async def reply_embed(
-        self, location, message: str, ping: bool = False, *, ignore_exceptions: bool = False
+        self,
+        location,
+        message: str,
+        ping: bool = False,
+        *,
+        ignore_exceptions: bool = False,
     ) -> None:
         embed = discord.Embed(color=self.embed_color, description=message)
 
@@ -239,7 +243,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     async def send_tip(self, ctx: CustomContext) -> None:
         await asyncio.sleep(random.randint(100, 200) / 100)
         await self.send_embed(
-            ctx, f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}"
+            ctx,
+            f"{random.choice(ctx.l.misc.tip_intros)} {random.choice(ctx.l.misc.tips)}",
         )
 
     async def check_global(self, ctx: CustomContext) -> bool:  # the global command check
@@ -257,7 +262,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             ctx.failure_reason = "disabled"
             return False
 
-        # handle cooldowns that need to be synced between shard groups / processes (aka karen cooldowns)
+        # handle cooldowns that need to be synced between shard groups / processes
+        # (aka karen cooldowns)
         if command_name in self.d.cooldown_rates:
             cooldown_info = await self.karen.cooldown(command_name, ctx.author.id)
 
@@ -265,16 +271,17 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 ctx.custom_error = CommandOnKarenCooldown(cooldown_info.remaining)
                 return False
 
-        if command_name in self.d.concurrency_limited:
-            if not await self.karen.check_concurrency(command_name, ctx.author.id):
-                ctx.custom_error = MaxKarenConcurrencyReached()
-                return False
+        if command_name in self.d.concurrency_limited and not await self.karen.check_concurrency(
+            command_name,
+            ctx.author.id,
+        ):
+            ctx.custom_error = MaxKarenConcurrencyReached()
+            return False
 
-        if ctx.command.cog_name == "Econ":
-            # check if user has paused econ
-            if await self.karen.check_econ_paused(ctx.author.id):
-                ctx.failure_reason = "econ_paused"
-                return False
+        # check if user has paused econ
+        if ctx.command.cog_name == "Econ" and await self.karen.check_econ_paused(ctx.author.id):
+            ctx.failure_reason = "econ_paused"
+            return False
 
         return True
 
@@ -293,11 +300,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             if ctx.command.qualified_name in self.d.concurrency_limited:
                 await self.karen.acquire_concurrency(ctx.command.qualified_name, ctx.author.id)
         except Exception:
-            self.logger.error(
-                "An error occurred while attempting to acquire a concurrency lock for command %s for user %s",
+            self.logger.exception(
+                (
+                    "An error occurred while attempting to acquire a concurrency lock for "
+                    "command %s for user %s"
+                ),
                 ctx.command,
                 ctx.author.id,
-                exc_info=True,
             )
             raise
 
@@ -305,7 +314,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             await self.karen.lb_command_ran(ctx.author.id)
 
         await self.karen.command_execution(
-            ctx.author.id, getattr(ctx.guild, "id", None), ctx.command.qualified_name, False
+            ctx.author.id,
+            getattr(ctx.guild, "id", None),
+            ctx.command.qualified_name,
+            False,
         )
 
     async def after_command_invoked(self, ctx: CustomContext):
@@ -313,11 +325,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             if ctx.command.qualified_name in self.d.concurrency_limited:
                 await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
         except Exception:
-            self.logger.error(
-                "An error occurred while attempting to release a concurrency lock for command %s for user %s",
+            self.logger.exception(
+                (
+                    "An error occurred while attempting to release a concurrency lock for "
+                    "command %s for user %s"
+                ),
                 ctx.command,
                 ctx.author.id,
-                exc_info=True,
             )
             raise
 
@@ -328,10 +342,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
     ):
         if isinstance(command, discord.app_commands.Command):
             await self.karen.command_execution(
-                inter.user.id, inter.guild_id, command.qualified_name, True
+                inter.user.id,
+                inter.guild_id,
+                command.qualified_name,
+                True,
             )
 
-    ###### packet handlers #####################################################
+    # packet handlers #####################################################
 
     @handle_packet(PacketType.EXEC_CODE)
     async def packet_exec_code(self, code: str):
@@ -366,13 +383,11 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 except Exception:
                     try:
                         await channel.send(
-                            lang.useful.remind.reminder.format(user.mention, reminder)
+                            lang.useful.remind.reminder.format(user.mention, reminder),
                         )
                         success = True
                     except Exception:
-                        self.logger.error(
-                            "An error occurred while sending a reminder", exc_info=True
-                        )
+                        self.logger.exception("An error occurred while sending a reminder")
 
         return {"success": success}
 
@@ -422,12 +437,16 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.l = load_translations(self.d.disabled_translations)
 
     @handle_packet(PacketType.GET_USER_NAME)
-    async def packet_get_user_name(self, user_id: int) -> Optional[str]:
+    async def packet_get_user_name(self, user_id: int) -> str | None:
         return getattr(self.get_user(user_id), "name", None)
 
     @handle_packet(PacketType.DM_MESSAGE)
     async def packet_dm_message(
-        self, user_id: int, channel_id: int, message_id: int, content: Optional[str]
+        self,
+        user_id: int,
+        channel_id: int,
+        message_id: int,
+        content: str | None,
     ):
         self.dispatch(
             "fwd_dm",
