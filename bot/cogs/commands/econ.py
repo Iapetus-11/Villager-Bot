@@ -215,7 +215,9 @@ class Econ(commands.Cog):
 
         user_badges_image_file: discord.File | None
         if user_badges_image_data := await self.badges.generate_badges_image(user.id):
-            user_badges_image_file = discord.File(fp=user_badges_image_data, filename=f"{user.id}_badges.png")
+            user_badges_image_file = discord.File(
+                fp=user_badges_image_data, filename=f"{user.id}_badges.png"
+            )
             embed.set_image(url=f"attachment://{user_badges_image_file.filename}")
         else:
             user_badges_image_file = None

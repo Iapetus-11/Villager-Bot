@@ -214,8 +214,9 @@ class Badges(commands.Cog):
 
         badge_images = [
             (
-                Image.open(f"./bot/data/assets/images/badges/{badge_name}.png")
-                .resize((100, 100), resample=Image.Resampling.BICUBIC)
+                Image.open(f"./bot/data/assets/images/badges/{badge_name}.png").resize(
+                    (100, 100), resample=Image.Resampling.BICUBIC
+                )
             )
             for badge_name in user_badges
         ]
