@@ -419,11 +419,6 @@ class Useful(commands.Cog):
         ) = map(sum, zip(*clusters_bot_stats))
 
         uptime_seconds = (arrow.utcnow() - karen_system_stats.start_time).total_seconds()
-        uptime = (
-            arrow.utcnow()
-            .shift(seconds=uptime_seconds)
-            .humanize(locale=ctx.l.lang, only_distance=True)
-        )
 
         embed = discord.Embed(color=self.bot.embed_color)
 
