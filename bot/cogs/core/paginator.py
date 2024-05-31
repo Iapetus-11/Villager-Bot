@@ -11,7 +11,14 @@ PAGE_EMBED_CALLABLE = Callable[[int], discord.Embed | Coroutine[Any, Any, discor
 
 
 class PaginatorView(discord.ui.View):
-    def __init__(self, *, author_id: int, get_page: PAGE_EMBED_CALLABLE, page_count: int, timeout: float = 60):
+    def __init__(
+        self,
+        *,
+        author_id: int,
+        get_page: PAGE_EMBED_CALLABLE,
+        page_count: int,
+        timeout: float = 60.0,
+    ):
         super().__init__(timeout=timeout)
 
         self._author_id = author_id
@@ -20,9 +27,7 @@ class PaginatorView(discord.ui.View):
         self._get_page = get_page
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
-        if interaction.user.id != self._author_id:
-            return False
-        return True
+        return interaction.user.id == self._author_id
 
     @discord.ui.button(emoji="⏪", style=discord.ButtonStyle.gray)
     async def btn_first(self, interaction: discord.Interaction, button: discord.ui.Button):
