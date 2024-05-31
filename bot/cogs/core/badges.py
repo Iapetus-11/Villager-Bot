@@ -1,3 +1,4 @@
+import io
 import typing
 from io import BytesIO
 
@@ -196,29 +197,41 @@ class Badges(commands.Cog):
         elif enthusiast_level < 1 and commands_ran > 100_000_000:
             await self.update_user_badges(user_id, enthusiast=1)
 
-    def combine_badges(self, badge_filenames):
-        badge_size = (32, 32)
-        badge_filepaths = []
+    async def generate_badges_image(self, user_id: int) -> io.BytesIO | None:
+        """
+        Generates an image for a user's badges. Returns None if the user has no badges,
+        otherwise a BytesIO object containing the image's data.
+        """
 
-        for filename in badge_filenames:
-            badge_filepaths.append(f"./bot/data/assets/images/badges/{filename}.png")
-
-        badge_images = [
-            Image.open(filename).resize(badge_size, Image.LANCZOS) for filename in badge_filepaths
+        user_badges = [
+            f'{badge}_{"" if isinstance(value, bool) else value}'.strip("_")
+            for badge, value in (await self.fetch_user_badges(user_id)).items()
+            if value is True or value > 0
         ]
 
-        total_width = sum(image.width for image in badge_images)
+        if not user_badges:
+            return None
+
+        badge_images = [
+            (
+                Image.open(f"./bot/data/assets/images/badges/{badge_name}.png")
+                .resize((100, 100), resample=Image.Resampling.BICUBIC)
+            )
+            for badge_name in user_badges
+        ]
+
+        total_width = max(1000, sum(image.width for image in badge_images))
         max_height = max(image.height for image in badge_images)
 
-        combined_image = Image.new("RGBA", (total_width, max_height))
+        badges_image = Image.new("RGBA", (total_width, max_height))
 
-        current_x = 0
+        current_x_pos = 0
         for image in badge_images:
-            combined_image.paste(image, (current_x, 0))
-            current_x += image.width
+            badges_image.paste(image, (current_x_pos, 0))
+            current_x_pos += image.width
 
         img_bytes = BytesIO()
-        combined_image.save(img_bytes, format="PNG")
+        badges_image.save(img_bytes, format="PNG")
         img_bytes.seek(0)
 
         return img_bytes
