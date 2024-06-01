@@ -1658,7 +1658,7 @@
         "users": "Recuento De Usuarios",
         "msgs": "Mensajes De Sesión",
         "cmds": "Comandos De Sesión",
-        "cmds_sec": "Comandos/Segundo",
+        "cmds_hour": "Comandos/Hora",
         "votes": "Votos De Sesión",
         "topgg": "Top.gg Votos/Hora",
         "shards": "Recuento De Fragmentos",

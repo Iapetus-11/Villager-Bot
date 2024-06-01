@@ -375,7 +375,7 @@ class Useful_Stats(ImmutableBaseModel):
     users: str
     msgs: str
     cmds: str
-    cmds_sec: str
+    cmds_hour: str
     votes: str
     topgg: str
     shards: str

@@ -1658,7 +1658,7 @@
         "users": "User Count",
         "msgs": "Session Messages",
         "cmds": "Session Commands",
-        "cmds_sec": "Commands/Second",
+        "cmds_hour": "Commands/Hour",
         "votes": "Session Votes",
         "topgg": "Top.gg Votes/Hour",
         "shards": "Shard Count",

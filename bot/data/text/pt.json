@@ -1658,7 +1658,7 @@
         "users": "Contagem de Usuários",
         "msgs": "Mensagens da Sessão",
         "cmds": "Comandos da Sessão",
-        "cmds_sec": "Comandos/Segundo",
+        "cmds_hour": "Comandos/Hora",
         "votes": "Votos da Sessão",
         "topgg": "Votos do Top.gg/Hora",
         "shards": "Contagem de Fragmentos",
