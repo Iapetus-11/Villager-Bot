@@ -434,7 +434,7 @@ class Useful(commands.Cog):
         )
         general_col_2 = (
             f"{ctx.l.useful.stats.cmds}: `{command_count}` `({round((command_count / (message_count + 0.0000001)) * 100, 2)}%)`\n"  # noqa: E501
-            f"{ctx.l.useful.stats.cmds_hour}: `{round(command_count / (uptime_seconds / 3600), 2)}`\n"
+            f"{ctx.l.useful.stats.cmds_hour}: `{round(command_count / (uptime_seconds / 3600), 2)}`\n"  # noqa: E501
             f"{ctx.l.useful.stats.votes}: `{session_votes}`\n"
             f"{ctx.l.useful.stats.topgg}: `{round((session_votes / uptime_seconds) * 3600, 2)}`\n"
             f"Discord {ctx.l.useful.stats.ping}: `{round((latency_all / len(clusters_bot_stats)) * 1000, 2)} ms`\n"  # noqa: E501
