@@ -226,6 +226,9 @@ class Emojis(ImmutableBaseModel):
     orange_easter_egg: str
     yellow_easter_egg: str
     red_easter_egg: str
+    rich_person_trophy: str
+    fishing_trophy: str
+    slime_trophy: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis
