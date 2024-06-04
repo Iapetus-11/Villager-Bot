@@ -1442,6 +1442,9 @@
     "orange_easter_egg": "<:Orange_Easter_Egg:1224720512224071771>",
     "yellow_easter_egg": "<:Yellow_Easter_Egg:1224720577106018467>",
     "red_easter_egg": "<:Red_Easter_Egg:1224720573075034245>",
+    "rich_person_trophy": "<:rich_person_trophy:1247339664721969265>",
+    "fishing_trophy": "<:fishing_trophy:1247339663853879407>",
+    "slime_trophy": "<:slime_trophy:1247339662146666499>",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1622,7 +1625,9 @@
     "Guacamole Sombrero": "guacamole_sombrero",
     "Dirt Block": "dirt_block",
     "Forever Alone Trophy": "trophy",
-    "Rich Person Trophy": "trophy",
+    "Rich Person Trophy": "rich_person_trophy",
+    "Fishing Trophy": "fishing_trophy",
+    "Slime Trophy": "slime_trophy",
     "Ender Pearl": "ender_pearl",
     "Chocolate Chip Cookie": "chocolate_chip_cookie",
     "Will O Wisp": "will_o_wisp",
