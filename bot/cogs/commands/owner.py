@@ -202,11 +202,14 @@ class Owner(commands.Cog):
 
         await self.paginator.paginate_embed(ctx, get_page, timeout=60, page_count=page_count)
 
-    @commands.command(name="jlstats", aliases=["joinleavestats", "joinsleaves", "jls"])
+    @commands.command(name="joinleavestats", aliases=["joinsleaves", "jls"])
     @commands.is_owner()
-    async def joinleaves(self, ctx: Ctx):
+    async def join_leave_stats(self, ctx: Ctx):
         async with SuppressCtxManager(ctx.typing()):
             rows = await self.db.fetch_guilds_jls()
+
+            total_minus = sum(row["diff"] for row in rows if row["diff"] < 0)
+            total_plus = sum(row["diff"] for row in rows if row["diff"] > 1)
 
             rows = [row["diff"] for row in rows]
             rows = [
@@ -219,7 +222,10 @@ class Owner(commands.Cog):
 
             body = "\n".join(rows)
 
-        await ctx.send(f"Last 14 days of guild joins / leaves (newest is top)```diff\n{body}\n```")
+        await ctx.send(
+            f"Last 14 days of guild joins / leaves (newest is top) ({total_plus:+}/{total_minus:+} "
+            f"-> {total_plus + total_minus:+})\n```diff\n{body}\n```"
+        )
 
     @commands.command(name="topguilds", aliases=["topgs"])
     @commands.is_owner()
