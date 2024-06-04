@@ -6,6 +6,7 @@ from common.models.secrets import KarenSecrets
 class Secrets(ImmutableBaseModel):
     default_prefix: str
     discord_token: str
+    owner_id: int
     support_server_id: int
     error_channel_id: int
     vote_channel_id: int

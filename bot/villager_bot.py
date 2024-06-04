@@ -58,6 +58,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         self.d = data
         self.l = translations
 
+        self.owner_id = self.k.owner_id
+        self.owner_ids = {self.k.owner_id}
+
         self.cog_list = [
             "core.database",
             "core.events",
