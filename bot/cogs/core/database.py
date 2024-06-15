@@ -9,18 +9,22 @@ from collections import defaultdict
 from contextlib import suppress
 from typing import TYPE_CHECKING, Any
 
+import arrow
 import discord
 from discord.ext import commands
 
+from bot.cogs.core.quests import Quests
 from common.data.enums.guild_event_type import GuildEventType
 from common.models.db.guild import Guild
 from common.models.db.item import Item
+from common.models.db.quests import UserQuest
 from common.models.db.user import User
 
 from bot.villager_bot import VillagerBotCluster
 
 if TYPE_CHECKING:
     from badges import Badges
+    from quests import Quests
 
 
 class Database(commands.Cog):
@@ -36,6 +40,10 @@ class Database(commands.Cog):
     @property
     def badges(self) -> Badges:
         return typing.cast("Badges", self.bot.get_cog("Badges"))
+
+    @property
+    def quests(self) -> Quests:
+        return typing.cast("Quests", self.bot.get_cog("Quests"))
 
     async def populate_caches(self):
         # caches which need to be maintained across all clusters
@@ -868,6 +876,90 @@ class Database(commands.Cog):
                 "GROUP BY DATE_TRUNC('day', at) ORDER BY DATE_TRUNC('day', at) DESC"
             ),
             interval,
+        )
+
+    async def delete_user_daily_quest(self, user_id: int) -> None:
+        await self.db.execute("DELETE FROM daily_quests WHERE user_id = $1", user_id)
+
+    async def fetch_user_daily_quest(self, user_id: int) -> UserQuest:
+        db_quest = await self.db.fetchrow(
+            "SELECT *, DATE_TRUNC('DAY', NOW()) as now FROM daily_quests WHERE user_id = $1",
+            user_id,
+        )
+
+        if db_quest is None:
+            random_quest_values = await self.quests.get_random_quest_to_store(user_id)
+
+            await self.db.execute(
+                (
+                    "INSERT INTO daily_quests "
+                    "(user_id, key, variant, reward_item, reward_amount, difficulty_multi) "
+                    "VALUES ($1, $2, $3, $4, $5, $6)"
+                ),
+                user_id,
+                random_quest_values["key"],
+                random_quest_values["variant_idx"],
+                random_quest_values["def"].reward_item,
+                random_quest_values["variant"].reward,
+                random_quest_values["difficulty_multi"],
+            )
+            return await self.fetch_user_daily_quest(user_id)
+
+        if db_quest["day"] != db_quest["now"]:
+            await self.delete_user_daily_quest(user_id)
+            return await self.fetch_user_daily_quest(user_id)
+
+        return {
+            "key": db_quest["key"],
+            "variant": db_quest["variant"],
+            "value": db_quest[db_quest["key"]],
+            "difficulty_multi": db_quest["difficulty_multi"],
+            "reward_item": db_quest["reward_item"],
+            "reward_amount": db_quest["reward_amount"],
+            "day": arrow.get(db_quest["day"]),
+            "done": db_quest["done"],
+        }
+
+    async def update_user_daily_quest(
+        self,
+        user_id: int,
+        key: str,
+        value: int | float,
+        mode: typing.Literal["add", "set"] = "add",
+    ) -> UserQuest:
+        sql_value: str
+        if mode == "add":
+            sql_value = f"daily_quests.{key} + $1"
+        else:
+            sql_value = "$1"
+
+        await self.fetch_user_daily_quest(user_id)
+
+        db_quest = await self.db.fetchrow(
+            (
+                f"UPDATE daily_quests SET {key} = {sql_value} WHERE daily_quests.user_id = $2 "
+                f"RETURNING *"
+            ),
+            value,
+            user_id,
+        )
+
+        return {
+            "key": db_quest["key"],
+            "variant": db_quest["variant"],
+            "value": db_quest[db_quest["key"]],
+            "difficulty_multi": db_quest["difficulty_multi"],
+            "reward_item": db_quest["reward_item"],
+            "reward_amount": db_quest["reward_amount"],
+            "day": arrow.get(db_quest["day"]),
+            "done": db_quest["done"],
+        }
+
+    async def mark_daily_quest_as_done(self, user_id: int, key: str) -> None:
+        await self.db.execute(
+            "UPDATE daily_quests SET done = true WHERE user_id = $1 AND key = $2",
+            user_id,
+            key,
         )
 
 

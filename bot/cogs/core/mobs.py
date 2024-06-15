@@ -195,7 +195,7 @@ class MobSpawner(commands.Cog):
                 )
 
                 fight_msg = await ctx.send(embed=embed)
-                user_action: str = None
+                user_action: str | None = None
 
                 # listen for attack or flee message (or timeout)
                 while user_action not in self.d.mobs_mech.valid_attacks:
@@ -382,12 +382,14 @@ class MobSpawner(commands.Cog):
                     ems_won = int(ems_won * ({0: 1, 1: 1.25, 2: 1.75}[looting_level]))
 
                     await self.db.balance_add(user.id, ems_won)
-                    await self.db.update_lb(user.id, "mobs_killed", 1, "add")
                     await self.db.update_lb(user.id, "week_emeralds", 1, "add")
 
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald),
                     )
+
+                await self.db.update_lb(user.id, "mobs_killed", 1, "add")
+                await self.db.update_user_daily_quest(user.id, f"killed_{mob_key}", 1)
             else:  # mob win
                 # determine how many emeralds they lose based off difficulty
                 if difficulty == "easy":

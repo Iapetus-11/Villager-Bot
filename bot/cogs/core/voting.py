@@ -5,10 +5,10 @@ import arrow
 import discord
 from discord.ext import commands
 
-from common.models.topgg_vote import TopggVote
-
 from bot.cogs.core.database import Database
+from bot.cogs.core.quests import Quests
 from bot.villager_bot import VillagerBotCluster
+from common.models.topgg_vote import TopggVote
 
 
 class Voting(commands.Cog):
@@ -20,6 +20,10 @@ class Voting(commands.Cog):
     @property
     def db(self) -> Database:
         return typing.cast(Database, self.bot.get_cog("Database"))
+
+    @property
+    def quests(self) -> Quests:
+        return typing.cast(Quests, self.bot.get_cog("Quests"))
 
     async def vote(self, *, user_id: int, site: str, is_weekend: bool, is_test: bool, json: str):
         await self.bot.final_ready.wait()
@@ -66,6 +70,8 @@ class Voting(commands.Cog):
             last_vote=arrow.utcnow().datetime,
             vote_streak=vote_streak,
         )
+
+        await self.quests.update_user_daily_quest(user, "votes", 1)
 
         # determine emeralds reward
         if site == "top.gg":

@@ -2127,6 +2127,97 @@
         "total_contents": "The total contents is worth {ems}{ems_emoji}",
         "how_to_empty": "Use `{prefix}trashcan empty` to empty the trash!",
         "emptied_for": "You emptied your trash can for {ems}{ems_emoji}"
+      },
+      "daily_quests": {
+        "mapping": {
+          "mined_emeralds": {
+            "title": "Mine up {target} emeralds {emoji}",
+            "progress": "{value}/{target} emeralds mined... {encouragement}"
+          },
+          "fished_cod": {
+            "title": "Fish up {target} cod {emoji}",
+            "progress": "{value}/{target} cod fished... {encouragement}"
+          },
+          "fished_salmon": {
+            "title": "Fish up {target} salmon {emoji}",
+            "progress": "{value}/{target} salmon fished... {encouragement}"
+          },
+          "fished_tropical_fish": {
+            "title": "Fish up {target} tropical fish {emoji}",
+            "progress": "{value}/{target} tropical fish fished... {encouragement}"
+          },
+          "fished_pufferfish": {
+            "title": "Fish up {target} pufferfish {emoji}",
+            "progress": "{value}/{target} pufferfish fished... {encouragement}"
+          },
+          "fished_rainbow_trout": {
+            "title": "Fish up {target} rainbow trout {emoji}",
+            "progress": "{value}/{target} rainbow trout fished... {encouragement}"
+          },
+          "fished_gold_fish": {
+            "title": "Fish up {target} gold fish {emoji}",
+            "progress": "{value}/{target} gold fish fished... {encouragement}"
+          },
+          "fished_emerald_fish": {
+            "title": "Fish up {target} emerald fish {emoji}",
+            "progress": "{value}/{target} emerald fish fished... {encouragement}"
+          },
+          "votes": {
+            "title": "Vote on top.gg {emoji}",
+            "progress": "{value}/{target} votes... {encouragement}"
+          },
+          "killed_zombie": {
+            "title": "Kill {target} zombies {emoji}",
+            "progress": "{value}/{target} zombies killed... {encouragement}"
+          },
+          "killed_skeleton": {
+            "title": "Kill {target} skeletons {emoji}",
+            "progress": "{value}/{target} skeletons killed... {encouragement}"
+          },
+          "killed_spider": {
+            "title": "Kill {target} spiders {emoji}",
+            "progress": "{value}/{target} spiders killed... {encouragement}"
+          },
+          "killed_cave_spider": {
+            "title": "Kill {target} cave spiders {emoji}",
+            "progress": "{value}/{target} cave spiders killed... {encouragement}"
+          },
+          "killed_creeper": {
+            "title": "Kill {target} creepers {emoji}",
+            "progress": "{value}/{target} creepers killed... {encouragement}"
+          },
+          "killed_baby_slime": {
+            "title": "Kill {target} baby slimes {emoji}",
+            "progress": "{value}/{target} baby slimes killed... {encouragement}"
+          },
+          "killed_enderman": {
+            "title": "Kill {target} endermen {emoji}",
+            "progress": "{value}/{target} endermen killed... {encouragement}"
+          }
+        },
+        "completed": "Quest completed: {quest_title}!",
+        "current": "Current daily quest: {quest_title}",
+        "rewarded": "You have been rewarded {reward_amount}{reward_emoji}!",
+        "progress": "**Progress:** {progress}",
+        "reward": "**Reward:** {reward_amount}x {reward_emoji}",
+        "expires_at": "**Expires:** {expires_at}",
+        "encouragements": {
+          "close": [
+            "You're getting close!",
+            "Only a little to go!",
+            "Suuuuper close..."
+          ],
+          "far": [
+            "Some way to go huh...",
+            "You better get grinding!",
+            "You better hurry up!"
+          ],
+          "done": [
+            "You're all done!",
+            "You did it!",
+            "Pog champ!"
+          ]
+        }
       }
     }
   }

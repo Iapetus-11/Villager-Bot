@@ -67,6 +67,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             "core.loops",
             "core.paginator",
             "core.badges",
+            "core.quests",
             "core.mobs",
             "core.voting",
             "commands.owner",

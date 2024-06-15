@@ -1,6 +1,5 @@
 import asyncio
 import datetime
-import functools
 import math
 import random
 import typing
@@ -12,12 +11,10 @@ import discord
 import numpy.random
 from discord.ext import commands
 
-from common.models.data import Findable, ShopItem
-from common.models.db.item import Item
-
 from bot.cogs.core.badges import Badges
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
+from bot.cogs.core.quests import DailyQuestDoneView, Quests
 from bot.utils.ctx import Ctx
 from bot.utils.misc import (
     SuppressCtxManager,
@@ -30,6 +27,8 @@ from bot.utils.misc import (
     make_health_bar,
 )
 from bot.villager_bot import VillagerBotCluster
+from common.models.data import Findable, ShopItem
+from common.models.db.item import Item
 
 
 class Econ(commands.Cog):
@@ -50,10 +49,13 @@ class Econ(commands.Cog):
         return typing.cast(Badges, self.bot.get_cog("Badges"))
 
     @property
+    def quests(self) -> Quests:
+        return typing.cast(Quests, self.bot.get_cog("Quests"))
+
+    @property
     def paginator(self) -> Paginator:
         return typing.cast(Paginator, self.bot.get_cog("Paginator"))
 
-    @functools.lru_cache(maxsize=None)  # calculate chances for a specific pickaxe to find emeralds
     def calc_yield_chance_list(self, pickaxe: str):
         yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
         return [True] * yield_[0] + [False] * yield_[1]
@@ -1168,6 +1170,8 @@ class Econ(commands.Cog):
 
             await self.db.update_lb(ctx.author.id, "week_emeralds", found)
 
+            await self.quests.update_user_daily_quest(ctx, "mined_emeralds", found)
+
             await ctx.reply_embed(
                 f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \ufeff "
                 + ctx.l.econ.mine.found_emeralds.format(
@@ -1291,6 +1295,7 @@ class Econ(commands.Cog):
         )
 
         await self.db.update_lb(ctx.author.id, "fish_fished", 1, "add")
+        await self.db.update_user_daily_quest(ctx.author.id, f"fished_{fish_id}", 1)
 
         if random.randint(0, 50) == 1 or (lucky and random.randint(1, 25) == 1):
             db_user = await self.db.fetch_user(ctx.author.id)
@@ -2198,6 +2203,7 @@ class Econ(commands.Cog):
                 self.d.farming.emerald_yields[r["crop_type"]],
                 amount,
             )
+            await self.db.update_user_daily_quest(ctx.author.id, f"farmed_{r['crop_type']}", 1)
 
             amounts_harvested[r["crop_type"]] += amount
 
@@ -2270,6 +2276,20 @@ class Econ(commands.Cog):
         await ctx.reply_embed(
             ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald),
         )
+
+    @commands.command(name="dailyquest", aliases=["dq"])
+    async def daily_quest(self, ctx: Ctx):
+        await self.db.ensure_user_exists(ctx.author.id)
+
+        quest = await self.quests.fetch_user_daily_quest(ctx.author.id)
+
+        embed = self.quests.get_quest_embed(ctx, quest)
+
+        view: discord.ui.View | None = None
+        if quest.done:
+            view = DailyQuestDoneView(bot=self.bot, loc=ctx, user_id=ctx.author.id)
+
+        await ctx.send(embed=embed, view=view)
 
     # @commands.command(name="fight", aliases=["battle"])
     # @commands.is_owner()
