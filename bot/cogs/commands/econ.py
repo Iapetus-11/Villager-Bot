@@ -2095,6 +2095,8 @@ class Econ(commands.Cog):
             icon_url=getattr(ctx.author.avatar, "url", None),
         )
 
+        # embed.add_field(name='\uFEFF', value=(self.d.emojis.air * 20), inline=False)
+
         embed.add_field(
             name=ctx.l.econ.farm.commands_title,
             value="\n".join(
@@ -2104,7 +2106,7 @@ class Econ(commands.Cog):
 
         embed.description = (
             emoji_farm
-            + "\n\n"
+            + f"\n{self.d.emojis.air * 15}\n"
             + ctx.l.econ.farm.available.format(available=available, max=len(db_farm_plots))
         )
 
