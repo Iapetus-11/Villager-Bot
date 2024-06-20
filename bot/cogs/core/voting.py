@@ -31,6 +31,7 @@ class Voting(commands.Cog):
             return
 
         self.logger.info(f"{user_id} voted on {site}")
+        self.bot.session_votes += 1
 
         user = self.bot.get_user(user_id)
 
