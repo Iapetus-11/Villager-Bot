@@ -792,8 +792,8 @@ class Database(commands.Cog):
     ) iq1
     FULL OUTER JOIN (
         SELECT COUNT(*) AS leave_count, DATE_TRUNC('day', event_at) AS event_at_trunc FROM guild_events WHERE event_type = 2 GROUP BY event_at_trunc ORDER BY event_at_trunc ASC
-    ) iq2 ON iq1.event_at_trunc = iq2.event_at_trunc ORDER BY iq1.event_at_trunc DESC LIMIT 15
-) oj2 ON event_at = event_at_gs ORDER BY event_at DESC LIMIT 14;""",
+    ) iq2 ON iq1.event_at_trunc = iq2.event_at_trunc ORDER BY iq1.event_at_trunc DESC LIMIT 31
+) oj2 ON event_at = event_at_gs ORDER BY event_at DESC LIMIT 30;""",
         )
 
     async def fetch_guilds_active_member_count(self) -> list[dict[str, Any]]:

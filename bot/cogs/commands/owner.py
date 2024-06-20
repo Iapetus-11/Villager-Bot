@@ -223,7 +223,7 @@ class Owner(commands.Cog):
             body = "\n".join(rows)
 
         await ctx.send(
-            f"Last 14 days of guild joins / leaves (newest is top) ({total_plus:+}/{total_minus:+} "
+            f"Last 30 days of guild joins / leaves (newest is top) ({total_plus:+}/{total_minus:+} "
             f"-> {total_plus + total_minus:+})\n```diff\n{body}\n```"
         )
 
