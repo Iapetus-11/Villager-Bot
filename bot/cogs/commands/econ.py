@@ -1295,7 +1295,7 @@ class Econ(commands.Cog):
         )
 
         await self.db.update_lb(ctx.author.id, "fish_fished", 1, "add")
-        await self.quests.update_user_daily_quest(ctx.author.id, f"fished_{fish_id}", 1)
+        await self.quests.update_user_daily_quest(ctx, f"fished_{fish_id}", 1)
 
         if random.randint(0, 50) == 1 or (lucky and random.randint(1, 25) == 1):
             db_user = await self.db.fetch_user(ctx.author.id)
@@ -2203,7 +2203,7 @@ class Econ(commands.Cog):
                 self.d.farming.emerald_yields[r["crop_type"]],
                 amount,
             )
-            await self.quests.update_user_daily_quest(ctx.author.id, f"farmed_{r['crop_type']}", 1)
+            await self.quests.update_user_daily_quest(ctx, f"farmed_{r['crop_type']}", 1)
 
             amounts_harvested[r["crop_type"]] += amount
 

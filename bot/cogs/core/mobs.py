@@ -394,7 +394,7 @@ class MobSpawner(commands.Cog):
                     )
 
                 await self.db.update_lb(user.id, "mobs_killed", 1, "add")
-                await self.quests.update_user_daily_quest(user.id, f"killed_{mob_key}", 1)
+                await self.quests.update_user_daily_quest(ctx, f"killed_{mob_key}", 1)
             else:  # mob win
                 # determine how many emeralds they lose based off difficulty
                 if difficulty == "easy":
