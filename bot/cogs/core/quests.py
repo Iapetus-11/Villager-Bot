@@ -33,13 +33,15 @@ class DailyQuestDoneView(discord.ui.View):
         self._bot = bot
         self._loc = loc
         self._user_id = user_id
+        
+        self.message: discord.Message | None = None
 
     @property
-    def db(self) -> "Database":
+    def _db(self) -> "Database":
         return typing.cast("Database", self._bot.get_cog("Database"))
 
     @property
-    def quests(self) -> "Quests":
+    def _quests(self) -> "Quests":
         return typing.cast("Quests", self._bot.get_cog("Quests"))
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
@@ -47,11 +49,11 @@ class DailyQuestDoneView(discord.ui.View):
 
     @discord.ui.button(label="Get New Quest", style=discord.ButtonStyle.gray)
     async def btn_get_new_quest(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await self.db.delete_user_daily_quest(self._user_id)
+        await self._db.delete_user_daily_quest(self._user_id)
 
-        quest = await self.quests.fetch_user_daily_quest(self._user_id)
+        quest = await self._quests.fetch_user_daily_quest(self._user_id)
 
-        embed = self.quests.get_quest_embed(self._loc, quest)
+        embed = self._quests.get_quest_embed(self._loc, quest)
 
         await interaction.response.edit_message(embed=embed, view=None)
 
@@ -231,7 +233,8 @@ class Quests(commands.Cog):
 
         embed = self.get_quest_embed(loc, quest)
         view = DailyQuestDoneView(bot=self.bot, loc=loc, user_id=user_id)
-        await loc.send(embed=embed, view=view)
+        message = await loc.send(embed=embed, view=view)
+        view.message = message
 
     def _get_user_quest_from_db_quest(self, db_quest: DbUserQuest) -> UserQuest:
         quest_def = self.d.normalized_quests[db_quest["key"]]
