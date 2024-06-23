@@ -2127,6 +2127,97 @@
         "total_contents": "Le contenu total vaut {ems}{ems_emoji}",
         "how_to_empty": "Utilisez `{prefix}trashcan empty` vider la corbeille!",
         "emptied_for": "Vous avez vidé votre poubelle pour {ems}{ems_emoji}"
+      },
+      "daily_quests": {
+        "mapping": {
+          "mined_emeralds": {
+            "title": "Mine {target} émeraudes {emoji}",
+            "progress": "{value}/{target} émeraudes minées ... {encouragement}"
+          },
+          "fished_cod": {
+            "title": "Pêche {target} morues {emoji}",
+            "progress": "{value}/{target} morues pêchées ... {encouragement}"
+          },
+          "fished_salmon": {
+            "title": "Pêche {target} saumons {emoji}",
+            "progress": "{value}/{target} saumons pêchés ... {encouragement}"
+          },
+          "fished_tropical_fish": {
+            "title": "Pêche {target} poissons tropicaux {emoji}",
+            "progress": "{value}/{target} poissons tropicaux pêchés ... {encouragement}"
+          },
+          "fished_pufferfish": {
+            "title": "Pêche {target} poissons-globes {emoji}",
+            "progress": "{value}/{target} poissons-globes pêchés... {encouragement}"
+          },
+          "fished_rainbow_trout": {
+            "title": "Pêche {target} truites arc-en-ciel {emoji}",
+            "progress": "{value}/{target} truites arc-en-ciel pêchées ... {encouragement}"
+          },
+          "fished_gold_fish": {
+            "title": "Pêche {target} poissons dorés {emoji}",
+            "progress": "{value}/{target} poissons dorés pêchés ... {encouragement}"
+          },
+          "fished_emerald_fish": {
+            "title": "Pêche {target} poissons émeraude {emoji}",
+            "progress": "{value}/{target} poissons émeraude pêchés ... {encouragement}"
+          },
+          "votes": {
+            "title": "Vote sur top.gg {emoji}",
+            "progress": "{value}/{target} votes ... {encouragement}"
+          },
+          "killed_zombie": {
+            "title": "Tue {target} zombies {emoji}",
+            "progress": "{value}/{target} zombies tués ... {encouragement}"
+          },
+          "killed_skeleton": {
+            "title": "Tue {target} squelettes {emoji}",
+            "progress": "{value}/{target} squelettes tués ... {encouragement}"
+          },
+          "killed_spider": {
+            "title": "Tue {target} araignées {emoji}",
+            "progress": "{value}/{target} araignées tuées ... {encouragement}"
+          },
+          "killed_cave_spider": {
+            "title": "Tue {target} araignées venimeuses {emoji}",
+            "progress": "{value}/{target} araignées venimeuses tuées ... {encouragement}"
+          },
+          "killed_creeper": {
+            "title": "Tue {target} creepers {emoji}",
+            "progress": "{value}/{target} creepers tués ... {encouragement}"
+          },
+          "killed_baby_slime": {
+            "title": "Tue {target} bébés slimes {emoji}",
+            "progress": "{value}/{target} bébés slimes tués ... {encouragement}"
+          },
+          "killed_enderman": {
+            "title": "Tue {target} endermen {emoji}",
+            "progress": "{value}/{target} endermen tués ... {encouragement}"
+          }
+        },
+        "completed": "Quête accomplie : {quest_title}!",
+        "current": "Quête quotidienne en cours : {quest_title}",
+        "rewarded": "Tu as gagné {reward_amount}{reward_emoji}!",
+        "progress": "**Avancement :** {progress}",
+        "reward": "**Récompense :** {reward_amount}x {reward_emoji}",
+        "expires_at": "**Fin :** {expires_at}",
+        "encouragements": {
+          "close": [
+            "Tu y es presque !",
+            "Encore un petit peu !",
+            "Preeeeesque fini ..."
+          ],
+          "far": [
+            "Il y a encore du chemin hein ...",
+            "Tu ferais bien de t'y mettre !",
+            "Tu devrais te dépêcher !"
+          ],
+          "done": [
+            "Tu as fini !",
+            "Tu l'as fait !",
+            "Pog champ !"
+          ]
+        }
       }
     }
   }

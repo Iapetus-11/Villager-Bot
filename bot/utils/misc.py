@@ -132,6 +132,13 @@ def make_health_bar(health: int, max_health: int, full: str, half: str, empty: s
     )
 
 
+def make_progress_bar(percent: float, width: int, full: str, empty: str) -> str:
+    full_count = int(percent * width)
+    empty_count = width - full_count
+
+    return (full * full_count) + (empty * empty_count)
+
+
 async def _attempt_get_username(bot, user_id: int) -> str:
     # first see if current cluster has user in cache
     user_name = getattr(bot.get_user(user_id), "name", None)

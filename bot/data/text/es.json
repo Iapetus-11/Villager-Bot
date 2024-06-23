@@ -2127,6 +2127,97 @@
         "total_contents": "El contenido total vale {ems}{ems_emoji}",
         "how_to_empty": "¡Usa `{prefix}trashcan empty` para tirar la basura!",
         "emptied_for": "¡Has tirado la basura por {ems}{ems_emoji}!"
+      },
+      "daily_quests": {
+        "mapping": {
+          "mined_emeralds": {
+            "title": "Mina {target} esmeraldas {emoji}",
+            "progress": "{value}/{target} esmeraldas minadas... {encouragement}"
+          },
+          "fished_cod": {
+            "title": "Pesca {target} bacalaos {emoji}",
+            "progress": "{value}/{target} bacalaos pescados... {encouragement}"
+          },
+          "fished_salmon": {
+            "title": "Pescaste {target} salmones {emoji}",
+            "progress": "{value}/{target} salmones pescados... {encouragement}"
+          },
+          "fished_tropical_fish": {
+            "title": "Pesca {target} peces tropicales {emoji}",
+            "progress": "{value}/{target} peces tropicales pescados... {encouragement}"
+          },
+          "fished_pufferfish": {
+            "title": "Pesca {target} peces globo {emoji}",
+            "progress": "{value}/{target} peces globo pescados... {encouragement}"
+          },
+          "fished_rainbow_trout": {
+            "title": "Fish up {target} rainbow trout {emoji}",
+            "progress": "{value}/{target} rainbow trout fished... {encouragement}"
+          },
+          "fished_gold_fish": {
+            "title": "Fish up {target} gold fish {emoji}",
+            "progress": "{value}/{target} gold fish fished... {encouragement}"
+          },
+          "fished_emerald_fish": {
+            "title": "Pesca {target} peces esmeralda {emoji}",
+            "progress": "{value}/{target} peces esmeralda pescados... {encouragement}"
+          },
+          "votes": {
+            "title": "Vota en top.gg {emoji}",
+            "progress": "{value}/{target} votos... {encouragement}"
+          },
+          "killed_zombie": {
+            "title": "Mata a {target} zombis {emoji}",
+            "progress": "{value}/{target} zombis matados... {encouragement}"
+          },
+          "killed_skeleton": {
+            "title": "Mata a {target} esqueletos {emoji}",
+            "progress": "{value}/{target} esqueletos matados... {encouragement}"
+          },
+          "killed_spider": {
+            "title": "Mata a {target} arañas {emoji}",
+            "progress": "{value}/{target} arañas matadas... {encouragement}"
+          },
+          "killed_cave_spider": {
+            "title": "Mata a {target} arañas de cueva {emoji}",
+            "progress": "{value}/{target} arañas de cueva matadas... {encouragement}"
+          },
+          "killed_creeper": {
+            "title": "Mata a {target} creepers {emoji}",
+            "progress": "{value}/{target} creepers matados... {encouragement}"
+          },
+          "killed_baby_slime": {
+            "title": "Mata a {target} babés slime {emoji}",
+            "progress": "{value}/{target} bebés slime matados... {encouragement}"
+          },
+          "killed_enderman": {
+            "title": "Mata a {target} endermans {emoji}",
+            "progress": "{value}/{target} endermans matados... {encouragement}"
+          }
+        },
+        "completed": "¡Misión cumplida: {quest_title}!",
+        "current": "Misión del día: {quest_title}",
+        "rewarded": "¡Has sido recompensado {reward_amount}{reward_emoji}!",
+        "progress": "**Progreso:** {progress}",
+        "reward": "**Recompensa:** {reward_amount}x {reward_emoji}",
+        "expires_at": "**Tiempo límite:** {expires_at}",
+        "encouragements": {
+          "close": [
+            "¡Ya casi lo tienes!",
+            "¡Un poco más!",
+            "Estás súper cerca..."
+          ],
+          "far": [
+            "Aún te falta, eh...",
+            "¡Ponte a trabajar ya!",
+            "¡Será mejor que apures!"
+          ],
+          "done": [
+            "¡Ya acabaste!",
+            "¡Lo hiciste!",
+            "De locos"
+          ]
+        }
       }
     }
   }

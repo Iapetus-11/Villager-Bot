@@ -2127,6 +2127,97 @@
         "total_contents": "Todo o conteúdo vale {ems}{ems_emoji}",
         "how_to_empty": "Use `{prefix}trashcan empty` para esvaziar sua lixeira!",
         "emptied_for": "Você esvaziou sua lixeira por {ems}{ems_emoji}"
+      },
+      "daily_quests": {
+        "mapping": {
+          "mined_emeralds": {
+            "title": "Minere {target} esmeraldas {emoji}",
+            "progress": "{value}/{target} esmeraldas mineradas... {encouragement}"
+          },
+          "fished_cod": {
+            "title": "Pescar {target} bacalhaus {emoji}",
+            "progress": "{value}/{target} bacalhaus pescados... {encouragement}"
+          },
+          "fished_salmon": {
+            "title": "Pescar {target} salmões {emoji}",
+            "progress": "{value}/{target} salmões pescados... {encouragement}"
+          },
+          "fished_tropical_fish": {
+            "title": "Pescar {target} peixes tropicais {emoji}",
+            "progress": "{value}/{target} peixes tropicais pescados... {encouragement}"
+          },
+          "fished_pufferfish": {
+            "title": "Pescar {target} baiacus {emoji}",
+            "progress": "{value}/{target} baiacus pescados... {encouragement}"
+          },
+          "fished_rainbow_trout": {
+            "title": "Pescar {target} trutas-arco-íris {emoji}",
+            "progress": "{value}/{target} trutas-arco-íris pescadas... {encouragement}"
+          },
+          "fished_gold_fish": {
+            "title": "Pescar {target} peixes-dourados {emoji}",
+            "progress": "{value}/{target} peixes-dourados pescados... {encouragement}"
+          },
+          "fished_emerald_fish": {
+            "title": "Pescar {target} peixes-esmeralda {emoji}",
+            "progress": "{value}/{target} peixes-esmeralda pescados... {encouragement}"
+          },
+          "votes": {
+            "title": "Vote em top.gg {emoji}",
+            "progress": "{value}/{target} votos... {encouragement}"
+          },
+          "killed_zombie": {
+            "title": "Mate {target} zumbis {emoji}",
+            "progress": "{value}/{target} zumbis mortos... {encouragement}"
+          },
+          "killed_skeleton": {
+            "title": "Mate {target} esqueletos {emoji}",
+            "progress": "{value}/{target} esqueletos mortos... {encouragement}"
+          },
+          "killed_spider": {
+            "title": "Mate {target} aranhas {emoji}",
+            "progress": "{value}/{target} aranhas mortas... {encouragement}"
+          },
+          "killed_cave_spider": {
+            "title": "Mate {target} aranhas das cavernas {emoji}",
+            "progress": "{value}/{target} aranhas das cavernas mortas... {encouragement}"
+          },
+          "killed_creeper": {
+            "title": "Mate {target} creepers {emoji}",
+            "progress": "{value}/{target} creepers mortos... {encouragement}"
+          },
+          "killed_baby_slime": {
+            "title": "Mate {target} bebês slime {emoji}",
+            "progress": "{value}/{target} bebês slime mortos... {encouragement}"
+          },
+          "killed_enderman": {
+            "title": "Mate {target} endermen {emoji}",
+            "progress": "{value}/{target} endermen mortos... {encouragement}"
+          }
+        },
+        "completed": "Missão concluída: {quest_title}!",
+        "current": "Missão diária atual: {quest_title}",
+        "rewarded": "Você foi recompensado {reward_amount}{reward_emoji}!",
+        "progress": "**Progresso:** {progress}",
+        "reward": "**Recompensa:** {reward_amount}x {reward_emoji}",
+        "expires_at": "**Expira em:** {expires_at}",
+        "encouragements": {
+          "close": [
+            "Você está chegando perto!",
+            "Só mais um pouquinho!",
+            "Muuuuito perto..."
+          ],
+          "far": [
+            "Algum caminho pra seguir, hum...",
+            "É melhor você grindar!",
+            "É melhor se apressar!"
+          ],
+          "done": [
+            "Você terminou!",
+            "Você conseguiu!",
+            "Pog champ!"
+          ]
+        }
       }
     }
   }

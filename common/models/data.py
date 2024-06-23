@@ -265,6 +265,50 @@ class FunLangs(ImmutableBaseModel):
         return {v: k for k, v in self.enchant.items()}
 
 
+class Quest(ImmutableBaseModel):
+    class TargetChoice(ImmutableBaseModel):
+        value: int | float
+        reward: int
+
+    class TargetRange(ImmutableBaseModel):
+        start: int
+        stop: int
+        step: int
+        reward_eval: str
+
+    targets: list[TargetChoice] | TargetRange
+    difficulty_eval_multi: str
+    acceptance_eval: str
+    required_item: str | None = Field(default=None)
+    reward_item: str
+    emoji: str
+
+    def normalize(self) -> "NormalizedQuest":
+        targets: list[Quest.TargetChoice] = []
+        if isinstance(self.targets, list):
+            targets = self.targets
+        else:
+            for value in range(
+                self.targets.start,
+                self.targets.stop + self.targets.step,
+                self.targets.step,
+            ):
+                reward = eval(self.targets.reward_eval)
+                targets.append(Quest.TargetChoice(value=value, reward=reward))
+
+        return NormalizedQuest(
+            targets=targets,
+            difficulty_eval_multi=self.difficulty_eval_multi,
+            acceptance_eval=self.acceptance_eval,
+            reward_item=self.reward_item,
+            emoji=self.emoji,
+        )
+
+
+class NormalizedQuest(Quest):
+    targets: list[Quest.TargetChoice]
+
+
 class Data(ImmutableBaseModel):
     embed_color: str
     splash_logo: str
@@ -306,6 +350,7 @@ class Data(ImmutableBaseModel):
     playing_list: list[str]
     font_urls: list[str]
     disabled_translations: set[str]
+    quests: dict[str, Quest]
 
     @property
     def mining_findables(self) -> list[Findable]:
@@ -344,3 +389,7 @@ class Data(ImmutableBaseModel):
                 continue
 
             yield findable
+
+    @cached_property
+    def normalized_quests(self) -> dict[str, NormalizedQuest]:
+        return {key: quest.normalize() for key, quest in self.quests.items()}

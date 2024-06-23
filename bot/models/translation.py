@@ -747,6 +747,28 @@ class Econ_Trash(ImmutableBaseModel):
     emptied_for: str
 
 
+class Econ_Quests_MappingValue(ImmutableBaseModel):
+    title: str
+    progress: str
+
+
+class Econ_Quests_Encouragements(ImmutableBaseModel):
+    close: list[str]
+    far: list[str]
+    done: list[str]
+
+
+class Econ_DailyQuests(ImmutableBaseModel):
+    mapping: dict[str, Econ_Quests_MappingValue]
+    completed: str
+    current: str
+    rewarded: str
+    progress: str
+    reward: str
+    expires_at: str
+    encouragements: Econ_Quests_Encouragements
+
+
 class Econ(ImmutableBaseModel):
     use_a_number_stupid: str
     page: str
@@ -770,6 +792,7 @@ class Econ(ImmutableBaseModel):
     honey: Econ_Honey
     lb: Econ_Lb
     trash: Econ_Trash
+    daily_quests: Econ_DailyQuests
 
 
 class Translation(ImmutableBaseModel):

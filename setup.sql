@@ -66,6 +66,39 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
   week               TIMESTAMPTZ NOT NULL DEFAULT DATE_TRUNC('WEEK', NOW())
 );
 
+CREATE TABLE IF NOT EXISTS daily_quests (
+  user_id               BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE,
+  day                   TIMESTAMPTZ NOT NULL DEFAULT DATE_TRUNC('DAY', NOW()),
+  done                  BOOLEAN NOT NULL DEFAULT FALSE,
+  key                   VARCHAR(48) NOT NULL,
+  variant               SMALLINT NOT NULL,
+  reward_item           VARCHAR(50) NOT NULL,
+  reward_amount         INTEGER NOT NULL,
+  difficulty_multi      FLOAT,
+--   commands_ran          BIGINT NOT NULL DEFAULT 0,
+  mined_emeralds        BIGINT NOT NULL DEFAULT 0,
+  fished_cod            BIGINT NOT NULL DEFAULT 0,
+  fished_salmon         BIGINT NOT NULL DEFAULT 0,
+  fished_tropical_fish  BIGINT NOT NULL DEFAULT 0,
+  fished_pufferfish     BIGINT NOT NULL DEFAULT 0,
+  fished_rainbow_trout  BIGINT NOT NULL DEFAULT 0,
+  fished_gold_fish      BIGINT NOT NULL DEFAULT 0,
+  fished_emerald_fish   BIGINT NOT NULL DEFAULT 0,
+  farmed_wheat          BIGINT NOT NULL DEFAULT 0,
+  farmed_carrot         BIGINT NOT NULL DEFAULT 0,
+  farmed_potato         BIGINT NOT NULL DEFAULT 0,
+  farmed_melon          BIGINT NOT NULL DEFAULT 0,
+  farmed_chorus_fruit   BIGINT NOT NULL DEFAULT 0,
+  votes                 SMALLINT NOT NULL DEFAULT 0,
+  killed_zombie         BIGINT NOT NULL DEFAULT 0,
+  killed_skeleton       BIGINT NOT NULL DEFAULT 0,
+  killed_spider         BIGINT NOT NULL DEFAULT 0,
+  killed_cave_spider    BIGINT NOT NULL DEFAULT 0,
+  killed_creeper        BIGINT NOT NULL DEFAULT 0,
+  killed_baby_slime     BIGINT NOT NULL DEFAULT 0,
+  killed_enderman       BIGINT NOT NULL DEFAULT 0
+);
+
 -- CREATE TABLE IF NOT EXISTS pets (
 --   user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE,
 --   pet_type           VARCHAR(32) NOT NULL,

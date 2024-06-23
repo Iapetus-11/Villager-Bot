@@ -21,13 +21,13 @@ class PaginatorView(discord.ui.View):
     ):
         super().__init__(timeout=timeout)
 
-        self._author_id = author_id
+        self._user_id = author_id
         self._page = 0
         self._page_count = page_count
         self._get_page = get_page
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
-        return interaction.user.id == self._author_id
+        return interaction.user.id == self._user_id
 
     @discord.ui.button(emoji="⏪", style=discord.ButtonStyle.gray, disabled=True)
     async def btn_first(self, interaction: discord.Interaction, button: discord.ui.Button):
