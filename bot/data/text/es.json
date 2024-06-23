@@ -2199,7 +2199,7 @@
         "current": "Misión del día: {quest_title}",
         "rewarded": "¡Has sido recompensado {reward_amount}{reward_emoji}!",
         "progress": "**Progreso:** {progress}",
-        "reward": "**Recompensa:** {reward_amount}x {reward_emoji}",
+        "reward": "**Recompensa:** {reward_amount}{reward_emoji}",
         "expires_at": "**Tiempo límite:** {expires_at}",
         "encouragements": {
           "close": [
