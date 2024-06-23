@@ -9,6 +9,7 @@ import discord
 from discord.ext import commands
 
 from bot.cogs.core.database import Database
+from bot.cogs.core.quests import Quests
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, emojify_item, make_health_bar
 from bot.villager_bot import VillagerBotCluster
@@ -26,6 +27,10 @@ class MobSpawner(commands.Cog):
     @property
     def db(self) -> Database:
         return typing.cast(Database, self.bot.get_cog("Database"))
+
+    @property
+    def quests(self) -> Quests:
+        return typing.cast("Quests", self.bot.get_cog("Quests"))
 
     def engage_check(self, ctx: Ctx):
         def _engage_check(m: discord.Message):
@@ -389,7 +394,7 @@ class MobSpawner(commands.Cog):
                     )
 
                 await self.db.update_lb(user.id, "mobs_killed", 1, "add")
-                await self.db.update_user_daily_quest(user.id, f"killed_{mob_key}", 1)
+                await self.quests.update_user_daily_quest(user.id, f"killed_{mob_key}", 1)
             else:  # mob win
                 # determine how many emeralds they lose based off difficulty
                 if difficulty == "easy":
