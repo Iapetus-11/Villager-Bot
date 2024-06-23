@@ -10,7 +10,7 @@ import discord
 from discord.ext import commands
 
 from bot.utils.ctx import CustomContext
-from bot.utils.misc import emojify_item
+from bot.utils.misc import emojify_item, make_progress_bar
 from bot.villager_bot import VillagerBotCluster
 from common.models.data import Quest
 from common.models.db.quests import UserQuest as DbUserQuest
@@ -98,7 +98,23 @@ class Quests(commands.Cog):
             )
         )(self.d.emojis, quest.emoji.split("."))
 
-        close_to_completion = (quest.value / (quest.target_value + 0.1)) > 0.75
+        completion_percent: float = quest.value / quest.target_value if quest.value else 0
+        close_to_completion = completion_percent > 0.75
+
+        completion_bar = make_progress_bar(
+            completion_percent,
+            10,
+            (
+                self.d.emojis.squares.red
+                if completion_percent < 0.4
+                else self.d.emojis.squares.purple
+                if completion_percent < 0.75
+                else self.d.emojis.squares.blue
+            ),
+            self.d.emojis.air,
+        )
+        completion_bar = f"|{completion_bar}|\n"
+
         encouragements = (
             lang.econ.daily_quests.encouragements.done
             if quest.done
@@ -112,12 +128,17 @@ class Quests(commands.Cog):
         )
 
         if quest.done:
-            description = lang.econ.daily_quests.rewarded.format(
-                reward_amount=quest.reward_amount,
-                reward_emoji=emojify_item(self.d, quest.reward_item),
+            description = (
+                completion_bar
+                + "\n"
+                + lang.econ.daily_quests.rewarded.format(
+                    reward_amount=quest.reward_amount,
+                    reward_emoji=emojify_item(self.d, quest.reward_item),
+                )
             )
         else:
             description = "\n".join([
+                completion_bar,
                 lang.econ.daily_quests.progress.format(
                     progress=quest_text.progress.format(
                         value=quest.value,
