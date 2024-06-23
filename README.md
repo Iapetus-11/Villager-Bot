@@ -6,9 +6,9 @@
 [![CI](https://github.com/Iapetus-11/Villager-Bot/actions/workflows/ci.yml/badge.svg)](https://github.com/Iapetus-11/Villager-Bot/actions/workflows/ci.yml)
 
 ## Notable Features
+* Check/ping the status of any Minecraft server (Bedrock & Java supported!)
 * Ability to generate Minecraft pixel art from images sent in the chat
-* Ability to ping / check the status of any Minecraft server
-* Expansive economy system (based upon emeralds obviously!)
+* Expansive economy game (based upon emeralds obviously!) with mining, fishing, farming, quests, and so much more!
 * Multi-language support! (English, Español, Français, Português)
 * Tons of customization and configuration options
 
