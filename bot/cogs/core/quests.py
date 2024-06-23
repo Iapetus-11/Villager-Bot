@@ -201,8 +201,7 @@ class Quests(commands.Cog):
         await self.db.mark_daily_quest_as_done(user_id, quest.key)
         quest = await self.fetch_user_daily_quest(user_id)
 
-        assert quest.reward_item == "emerald"
-        if quest.reward_amount == "emerald":
+        if quest.reward_item == "emerald":
             await self.db.balance_add(user_id, quest.reward_amount)
         elif quest.reward_item == "Barrel":
             await self.db.add_item(user_id, "Barrel", 1024, quest.reward_amount)
