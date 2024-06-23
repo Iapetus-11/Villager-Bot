@@ -2289,7 +2289,10 @@ class Econ(commands.Cog):
         if quest.done:
             view = DailyQuestDoneView(bot=self.bot, loc=ctx, user_id=ctx.author.id)
 
-        await ctx.send(embed=embed, view=view)
+        message = await ctx.send(embed=embed, view=view)
+
+        if view is not None:
+            view.message = message
 
     # @commands.command(name="fight", aliases=["battle"])
     # @commands.is_owner()
