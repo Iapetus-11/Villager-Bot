@@ -2199,7 +2199,7 @@
         "current": "Current daily quest: {quest_title}",
         "rewarded": "You have been rewarded {reward_amount}{reward_emoji}!",
         "progress": "**Progress:** {progress}",
-        "reward": "**Reward:** {reward_amount}x {reward_emoji}",
+        "reward": "**Reward:** {reward_amount}{reward_emoji}",
         "expires_at": "**Expires:** {expires_at}",
         "encouragements": {
           "close": [
