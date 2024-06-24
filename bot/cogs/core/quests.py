@@ -33,7 +33,7 @@ class DailyQuestDoneView(discord.ui.View):
         self._bot = bot
         self._loc = loc
         self._user_id = user_id
-        
+
         self.message: discord.Message | None = None
 
     @property
@@ -104,18 +104,17 @@ class Quests(commands.Cog):
         close_to_completion = completion_percent > 0.75
 
         completion_bar = make_progress_bar(
+            self.d,
             completion_percent,
             10,
             (
-                self.d.emojis.squares.red
+                "red"
                 if completion_percent < 0.4
-                else self.d.emojis.squares.purple
+                else "purple"
                 if completion_percent < 0.75
-                else self.d.emojis.squares.blue
+                else "green"
             ),
-            self.d.emojis.air,
-        )
-        completion_bar = f"|{completion_bar}|\n"
+        ) + "\n"
 
         encouragements = (
             lang.econ.daily_quests.encouragements.done

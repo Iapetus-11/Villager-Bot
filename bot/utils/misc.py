@@ -7,11 +7,12 @@ import time
 from collections import defaultdict
 from contextlib import suppress
 from datetime import timedelta
-from typing import Any, Generator
+from typing import Any, Generator, Literal
 
 import aiohttp
 import discord
 
+from common.models.data import Data, Emojis
 from common.models.db.item import Item
 from common.models.db.user import User
 from common.utils.code import format_exception
@@ -132,11 +133,29 @@ def make_health_bar(health: int, max_health: int, full: str, half: str, empty: s
     )
 
 
-def make_progress_bar(percent: float, width: int, full: str, empty: str) -> str:
-    full_count = int(percent * width)
-    empty_count = width - full_count
+def make_progress_bar(
+    d: Data, percent: float, width: int, palette_name: Literal["red", "purple", "green"]
+) -> str:
+    pallete: Emojis.ProgressBarEmojis.ProgressBarSetEmojis = getattr(
+        d.emojis.progress_bar, palette_name
+    )
 
-    return (full * full_count) + (empty * empty_count)
+    full_count = int(percent * width) - 1
+    empty_count = width - full_count - 1
+
+    result = (pallete.middle * full_count) + (d.emojis.progress_bar.empty.middle * empty_count)
+
+    if empty_count == 0:
+        result += pallete.right
+    else:
+        result += d.emojis.progress_bar.empty.right
+
+    if full_count == 0:
+        result = d.emojis.progress_bar.empty.left + result
+    else:
+        result = pallete.left + result
+
+    return result
 
 
 async def _attempt_get_username(bot, user_id: int) -> str:

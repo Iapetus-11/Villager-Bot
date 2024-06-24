@@ -1552,7 +1552,29 @@
       "8️⃣",
       "9️⃣",
       "🔟"
-    ]
+    ],
+    "progress_bar": {
+      "empty": {
+        "left": "<:progress_bar_empty_left:1254598338385547274>",
+        "middle": "<:progress_bar_empty_middle:1254598337005486161>",
+        "right": "<:progress_bar_empty_right:1254598336246317198>"
+      },
+      "red": {
+        "left": "<:progress_bar_red_left:1254598234568134676>",
+        "middle": "<:progress_bar_red_middle:1254598233347592265>",
+        "right": "<:progress_bar_red_right:1254598232521048155>"
+      },
+      "purple": {
+        "left": "<:progress_bar_purple_left:1254598236799500350>",
+        "middle": "<:progress_bar_purple_middle:1254598236073627708>",
+        "right": "<:progress_bar_purple_right:1254598235322847262>"
+      },
+      "green": {
+        "left": "<:progress_bar_green_left:1254598378470510682>",
+        "middle": "<:progress_bar_green_middle:1254598379250520064>",
+        "right": "<:progress_bar_green_right:1254598380038918305>"
+      }
+    }
   },
   "emoji_items": {
     "Netherite Scrap": "netherite",

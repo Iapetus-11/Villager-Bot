@@ -108,6 +108,17 @@ class Emojis(ImmutableBaseModel):
         enthusiast: list[str]
         fisherman: list[str]
 
+    class ProgressBarEmojis(ImmutableBaseModel):
+        class ProgressBarSetEmojis(ImmutableBaseModel):
+            left: str
+            middle: str
+            right: str
+
+        empty: ProgressBarSetEmojis
+        red: ProgressBarSetEmojis
+        purple: ProgressBarSetEmojis
+        green: ProgressBarSetEmojis
+
     emerald: str
     emerald_block: str
     online: str
@@ -235,6 +246,7 @@ class Emojis(ImmutableBaseModel):
     squares: SquareEmojis
     badges: BadgeEmojis
     numbers: list[str]
+    progress_bar: ProgressBarEmojis
 
 
 class Farming(ImmutableBaseModel):
