@@ -145,12 +145,12 @@ def make_progress_bar(
 
     result = (pallete.middle * full_count) + (d.emojis.progress_bar.empty.middle * empty_count)
 
-    if empty_count == 0:
+    if empty_count <= 0:
         result += pallete.right
     else:
         result += d.emojis.progress_bar.empty.right
 
-    if full_count == 0:
+    if full_count <= 0:
         result = d.emojis.progress_bar.empty.left + result
     else:
         result = pallete.left + result
