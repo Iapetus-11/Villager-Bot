@@ -723,6 +723,8 @@ class Econ_Lb(ImmutableBaseModel):
     trash: str
     wems: str
     wcmds: str
+    dq: str
+    wdq: str
     lb_ems: str
     lb_item: str
     lb_unique_items: str
@@ -735,6 +737,8 @@ class Econ_Lb(ImmutableBaseModel):
     lb_trash: str
     lb_wems: str
     lb_wcmds: str
+    lb_dq: str
+    lb_wdq: str
     no_item_lb: str
     item_lb_stats: str
 

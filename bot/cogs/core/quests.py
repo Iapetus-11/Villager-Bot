@@ -103,18 +103,21 @@ class Quests(commands.Cog):
         completion_percent: float = quest.value / quest.target_value if quest.value else 0
         close_to_completion = completion_percent > 0.75
 
-        completion_bar = make_progress_bar(
-            self.d,
-            completion_percent,
-            10,
-            (
-                "red"
-                if completion_percent < 0.4
-                else "purple"
-                if completion_percent < 0.75
-                else "green"
-            ),
-        ) + "\n"
+        completion_bar = (
+            make_progress_bar(
+                self.d,
+                completion_percent,
+                10,
+                (
+                    "red"
+                    if completion_percent < 0.4
+                    else "purple"
+                    if completion_percent < 0.75
+                    else "green"
+                ),
+            )
+            + "\n"
+        )
 
         encouragements = (
             lang.econ.daily_quests.encouragements.done
@@ -229,6 +232,9 @@ class Quests(commands.Cog):
             await self.db.add_item(user_id, "Barrel", 1024, quest.reward_amount)
         else:
             raise NotImplementedError(f"Couldn't reward item {quest.reward_item} to user {user_id}")
+
+        await self.db.update_lb(user_id, "daily_quests", 1)
+        await self.db.update_lb(user_id, "week_daily_quests", 1)
 
         embed = self.get_quest_embed(loc, quest)
         view = DailyQuestDoneView(bot=self.bot, loc=loc, user_id=user_id)

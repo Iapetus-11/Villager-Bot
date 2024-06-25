@@ -63,6 +63,8 @@ CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't s
   trash_emptied      BIGINT NOT NULL DEFAULT 0,
   week_emeralds      BIGINT NOT NULL DEFAULT 0,
   week_commands      BIGINT NOT NULL DEFAULT 0,
+  daily_quests       INTEGER NOT NULL DEFAULT 0,
+  week_daily_quests  SMALLINT NOT NULL DEFAULT 0,
   week               TIMESTAMPTZ NOT NULL DEFAULT DATE_TRUNC('WEEK', NOW())
 );
 

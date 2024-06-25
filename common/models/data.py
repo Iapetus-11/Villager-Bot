@@ -240,6 +240,7 @@ class Emojis(ImmutableBaseModel):
     rich_person_trophy: str
     fishing_trophy: str
     slime_trophy: str
+    calendar: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis

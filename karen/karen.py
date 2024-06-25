@@ -283,8 +283,11 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
     @recurring_task(minutes=30, sleep_first=False)
     async def loop_clear_weekly_leaderboards(self):
         await self.db.execute(
-            "UPDATE leaderboards "
-            "SET week_emeralds = 0, week_commands = 0, week = DATE_TRUNC('WEEK', NOW()) "
+            "UPDATE leaderboards SET "
+            "week_emeralds = 0, "
+            "week_commands = 0, "
+            "week_daily_quests = 0, "
+            "week = DATE_TRUNC('WEEK', NOW()) "
             "WHERE DATE_TRUNC('WEEK', NOW()) > week",
         )
 

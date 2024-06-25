@@ -1811,6 +1811,16 @@ class Econ(commands.Cog):
             value=f"`{ctx.prefix}leaderboard uniqueitems`",
         )
 
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.dq} {self.d.emojis.calendar}",
+            value=f"`{ctx.prefix}leaderboard dailyquests`",
+        )
+        embed.add_field(name="\ufeff", value="\ufeff")
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.wdq} {self.d.emojis.calendar}",
+            value=f"`{ctx.prefix}leaderboard wdq`",
+        )
+
         await ctx.reply(embed=embed, mention_author=False)
 
     async def _lb_logic(
@@ -2073,6 +2083,42 @@ class Econ(commands.Cog):
         )
 
         await ctx.reply(embed=embed, mention_author=False)
+
+    @leaderboards.command(name="dailyquests", aliases=["dq"])
+    async def leaderboard_daily_quests(self, ctx: Ctx):
+        async with SuppressCtxManager(ctx.typing()):
+            global_lb = await self.db.fetch_global_lb("daily_quests", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb(
+                "daily_quests",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
+            )
+
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.calendar} {{}}",
+                title=ctx.l.econ.lb.lb_dq.format(f" {self.d.emojis.calendar} "),
+            )
+
+    @leaderboards.command(name="weeklydailyquests", aliases=["wdq"])
+    async def leaderboard_weekly_daily_quests(self, ctx: Ctx):
+        async with SuppressCtxManager(ctx.typing()):
+            global_lb = await self.db.fetch_global_lb("week_daily_quests", ctx.author.id)
+            local_lb = await self.db.fetch_local_lb(
+                "week_daily_quests",
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
+            )
+
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.calendar} {{}}",
+                title=ctx.l.econ.lb.lb_wdq.format(f" {self.d.emojis.calendar} "),
+            )
 
     @commands.group(name="farm", case_insensitive=True)
     @commands.max_concurrency(1, per=commands.BucketType.user, wait=False)
