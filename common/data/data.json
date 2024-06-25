@@ -2389,7 +2389,7 @@
         "start": 10,
         "stop": 50,
         "step": 5,
-        "reward_eval": "value * 10"
+        "reward_eval": "value * 15"
       },
       "difficulty_eval_multi": "ceil(pickaxe_level / 5)",
       "acceptance_eval": "value >= target",
@@ -2402,7 +2402,7 @@
         "start": 10,
         "stop": 50,
         "step": 5,
-        "reward_eval": "value * 10"
+        "reward_eval": "value * 15"
       },
       "difficulty_eval_multi": "ceil(pickaxe_level / 5)",
       "acceptance_eval": "value >= target",
@@ -2415,7 +2415,7 @@
         "start": 4,
         "stop": 20,
         "step": 2,
-        "reward_eval": "value * 15"
+        "reward_eval": "value * 20"
       },
       "difficulty_eval_multi": "ceil(pickaxe_level / 5)",
       "acceptance_eval": "value >= target",
@@ -2428,7 +2428,7 @@
         "start": 3,
         "stop": 15,
         "step": 1,
-        "reward_eval": "value * 20"
+        "reward_eval": "value * 25"
       },
       "difficulty_eval_multi": "ceil(pickaxe_level / 3)",
       "acceptance_eval": "value >= target",
@@ -2441,7 +2441,7 @@
         "start": 3,
         "stop": 10,
         "step": 1,
-        "reward_eval": "value * 25"
+        "reward_eval": "value * 30"
       },
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
@@ -2454,7 +2454,7 @@
         "start": 2,
         "stop": 5,
         "step": 1,
-        "reward_eval": "value * 30"
+        "reward_eval": "value * 35"
       },
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
@@ -2467,7 +2467,7 @@
         "start": 1,
         "stop": 3,
         "step": 1,
-        "reward_eval": "value * 35"
+        "reward_eval": "value * 40"
       },
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
