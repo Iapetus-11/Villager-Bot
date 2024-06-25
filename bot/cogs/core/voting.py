@@ -85,8 +85,8 @@ class Voting(commands.Cog):
                 await self.db.fetch_pickaxe(user_id),
             )
 
-            # longer vote streak (up to 5 votes) the better the reward
-            emeralds *= min(vote_streak, 5)
+            # longer vote streak (up to 10 votes) the better the reward
+            emeralds *= min(vote_streak, 10)
         else:
             raise NotImplementedError(f"No case for site {site}")
 
