@@ -2484,7 +2484,7 @@
       ],
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
-      "requirements_eval": "(user.last_vote - now).total_seconds() >= (11 * 3600)",
+      "requirements_eval": "(user.last_vote is None) or ((user.last_vote - now).total_seconds() >= (11 * 3600))",
       "reward_item": "Barrel",
       "emoji": "updoot"
     },
