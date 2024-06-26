@@ -183,7 +183,7 @@ class Quests(commands.Cog):
             "difficulty_multi": float | None,
         },
     ):
-        now = datetime.datetime.utcnow()
+        now = datetime.datetime.now(datetime.timezone.utc)
 
         user = await self.db.fetch_user(user_id)
         user_items = {item.name for item in await self.db.fetch_items(user_id)}
