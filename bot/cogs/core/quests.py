@@ -183,12 +183,25 @@ class Quests(commands.Cog):
             "difficulty_multi": float | None,
         },
     ):
+        now = datetime.datetime.utcnow()
+
+        user = await self.db.fetch_user(user_id)
+        user_items = {item.name for item in await self.db.fetch_items(user_id)}
+
+        pickaxe = await self.db.fetch_pickaxe(user_id)
+        pickaxe_level = len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(pickaxe)
+
         quest_key: str = random.choice(list(self.d.normalized_quests.keys()))
         quest_def = self.d.normalized_quests[quest_key]
-
-        while quest_def.required_item and all(
-            await self.db.fetch_item(user_id, required_item) is None
-            for required_item in quest_def.required_item.split(" | ")
+        while not eval(
+            quest_def.requirements_eval,
+            {
+                "user": user,
+                "user_items": user_items,
+                "now": now,
+                "pickaxe": pickaxe,
+                "pickaxe_level": pickaxe_level,
+            },
         ):
             quest_key: str = random.choice(list(self.d.normalized_quests.keys()))
             quest_def = self.d.normalized_quests[quest_key]
@@ -196,8 +209,6 @@ class Quests(commands.Cog):
         variant_idx = random.randint(0, len(quest_def.targets) - 1)
         variant = quest_def.targets[variant_idx]
 
-        pickaxe = await self.db.fetch_pickaxe(user_id)
-        pickaxe_level = len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(pickaxe)
         difficulty_multi = eval(
             quest_def.difficulty_eval_multi,
             {"pickaxe_level": pickaxe_level, "ceil": math.ceil},

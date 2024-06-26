@@ -292,7 +292,7 @@ class Quest(ImmutableBaseModel):
     targets: list[TargetChoice] | TargetRange
     difficulty_eval_multi: str
     acceptance_eval: str
-    required_item: str | None = Field(default=None)
+    requirements_eval: str | None = Field(default=None)
     reward_item: str
     emoji: str
 
@@ -313,6 +313,7 @@ class Quest(ImmutableBaseModel):
             targets=targets,
             difficulty_eval_multi=self.difficulty_eval_multi,
             acceptance_eval=self.acceptance_eval,
+            requirements_eval=self.requirements_eval,
             reward_item=self.reward_item,
             emoji=self.emoji,
         )

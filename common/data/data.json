@@ -2393,7 +2393,7 @@
       },
       "difficulty_eval_multi": "ceil(pickaxe_level / 5)",
       "acceptance_eval": "value >= target",
-      "required_item": "Fishing Rod",
+      "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
       "emoji": "fish.cod"
     },
@@ -2406,7 +2406,7 @@
       },
       "difficulty_eval_multi": "ceil(pickaxe_level / 5)",
       "acceptance_eval": "value >= target",
-      "required_item": "Fishing Rod",
+      "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
       "emoji": "fish.salmon"
     },
@@ -2419,7 +2419,7 @@
       },
       "difficulty_eval_multi": "ceil(pickaxe_level / 5)",
       "acceptance_eval": "value >= target",
-      "required_item": "Fishing Rod",
+      "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
       "emoji": "fish.salmon"
     },
@@ -2432,7 +2432,7 @@
       },
       "difficulty_eval_multi": "ceil(pickaxe_level / 3)",
       "acceptance_eval": "value >= target",
-      "required_item": "Fishing Rod",
+      "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
       "emoji": "fish.pufferfish"
     },
@@ -2445,7 +2445,7 @@
       },
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
-      "required_item": "Fishing Rod",
+      "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
       "emoji": "fish.rainbow_trout"
     },
@@ -2458,7 +2458,7 @@
       },
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
-      "required_item": "Fishing Rod",
+      "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
       "emoji": "fish.gold_fish"
     },
@@ -2471,7 +2471,7 @@
       },
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
-      "required_item": "Fishing Rod",
+      "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
       "emoji": "fish.emerald_fish"
     },
@@ -2484,6 +2484,7 @@
       ],
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
+      "requirements_eval": "(user.last_vote - now).total_seconds() >= (11 * 3600)",
       "reward_item": "Barrel",
       "emoji": "updoot"
     },
@@ -2544,7 +2545,7 @@
       },
       "difficulty_eval_multi": "2 if pickaxe_level > 4 else 1",
       "acceptance_eval": "value >= target",
-      "required_item": "Iron Sword | Gold Sword | Diamond Sword | Netherite Sword",
+      "requirements_eval": "pickaxe_level >= 3",
       "reward_item": "emerald",
       "emoji": "stevegun"
     },
@@ -2557,7 +2558,7 @@
       },
       "difficulty_eval_multi": "2 if pickaxe_level > 4 else 1",
       "acceptance_eval": "value >= target",
-      "required_item": "Diamond Sword | Netherite Sword",
+      "requirements_eval": "pickaxe_level >= 5",
       "reward_item": "emerald",
       "emoji": "stevegun"
     },
@@ -2570,7 +2571,7 @@
       },
       "difficulty_eval_multi": "2 if pickaxe_level > 4 else 1",
       "acceptance_eval": "value >= target",
-      "required_item": "Gold Sword | Diamond Sword | Netherite Sword",
+      "requirements_eval": "pickaxe_level >= 4",
       "reward_item": "emerald",
       "emoji": "stevegun"
     }
