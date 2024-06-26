@@ -193,7 +193,7 @@ class Quests(commands.Cog):
 
         quest_key: str = random.choice(list(self.d.normalized_quests.keys()))
         quest_def = self.d.normalized_quests[quest_key]
-        while not eval(
+        while quest_def.requirements_eval is not None and not eval(
             quest_def.requirements_eval,
             {
                 "user": user,
