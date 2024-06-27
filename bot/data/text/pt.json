@@ -94,7 +94,7 @@
         "buy": "`{0}buy [opcional: quantidade de itens] <item>` *compra um item na Loja de Villager*",
         "sell": "`{0}sell <quantidade> <item>` *vende itens de volta ao Villager Bot*",
         "leaderboards": "`{0}leaderboards` *mostra as tabelas de classificação*",
-        "trivia": "`{0}trivia` * envia perguntas triviais que você pode responder por esmeraldas!*",
+        "trivia": "`{0}trivia` *envia perguntas triviais que você pode responder por esmeraldas!*",
         "dailyquest": "`{0}dailyquest` *te dá uma missão divertida que expira em um dia*"
       },
       "mc": {
