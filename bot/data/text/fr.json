@@ -94,7 +94,8 @@
         "buy": "`{0}buy [optionnel : quantité d'objet] <objet>` *achète un objet au Magasin du Villager*",
         "sell": "`{0}sell <quantité> <objet>` *revend les objets au Magasin du Villager*",
         "leaderboards": "`{0}leaderboards` *affiche les leaderboards*",
-        "trivia": "`{0}trivia` *envoie des questions à Trivia que tu puisses répondre contre des émeraudes!*"
+        "trivia": "`{0}trivia` *envoie des questions à Trivia que tu puisses répondre contre des émeraudes!*",
+        "dailyquest": "`{0}dailyquest` *donne-vous un quête d’amusant cette expire dans un jour*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [optionnel : server]` *vérifie le statut de n'importe quel type de serveur Minecraft*",
