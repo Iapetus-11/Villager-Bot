@@ -477,20 +477,24 @@ class Useful(commands.Cog):
 
     @commands.command(name="serverinfo", aliases=["server", "guild", "guildinfo"])
     @commands.guild_only()
-    async def server_info(self, ctx: Ctx, *, guild: discord.Guild | int = None):
+    async def server_info(self, ctx: Ctx, *, guild: int | discord.Guild | None = None):
         with suppress(Exception):
             await ctx.defer()
 
         if isinstance(guild, int):
+            guild_id = guild
             guild = self.bot.get_guild(guild)
 
             if guild is None:
                 try:
-                    guild = await self.bot.fetch_guild(guild)
+                    guild = await self.bot.fetch_guild(guild_id)
                 except discord.HTTPException:
                     pass
 
-        if guild is None:
+            if guild is None:
+                await ctx.reply_embed(ctx.l.useful.ginf.not_found)
+                return
+        elif guild is None:
             guild = ctx.guild
 
         db_guild = await self.db.fetch_guild(guild.id)

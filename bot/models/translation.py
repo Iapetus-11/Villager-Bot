@@ -402,6 +402,7 @@ class Useful_Ginf(ImmutableBaseModel):
     lang: str
     diff: str
     joined_at: str
+    not_found: str
 
 
 class Useful_Meth(ImmutableBaseModel):
