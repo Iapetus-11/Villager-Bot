@@ -2426,7 +2426,7 @@
     "fished_pufferfish": {
       "targets": {
         "start": 3,
-        "stop": 15,
+        "stop": 12,
         "step": 1,
         "reward_eval": "value * 25"
       },
