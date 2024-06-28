@@ -2421,7 +2421,7 @@
       "acceptance_eval": "value >= target",
       "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
-      "emoji": "fish.salmon"
+      "emoji": "fish.tropical_fish"
     },
     "fished_pufferfish": {
       "targets": {
