@@ -798,6 +798,7 @@
   "findable_seasons": {
     "easter": [[3, 31], [4, 15]],
     "halloween": [[10, 20], [11, 5]]
+    "4july": [[6, 30], [7, 15]]
   },
   "findables": [
     {
@@ -1240,7 +1241,120 @@
       "rarity": 4000,
       "sticky": false,
       "tags": ["mine", "halloween"]
+    },
+    {
+      "item": "Red Firework Rocket",
+      "sell_price": 1024,
+      "rarity": 128,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "Blue Firework Rocket",
+      "sell_price": 1024,
+      "rarity": 128,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "Green Firework Rocket",
+      "sell_price": 1024,
+      "rarity": 128,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "Orange Firework Rocket",
+      "sell_price": 1024,
+      "rarity": 128,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "Purple Firework Rocket",
+      "sell_price": 1024,
+      "rarity": 128,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "Yellow Firework Rocket",
+      "sell_price": 1024,
+      "rarity": 128,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "American Flag",
+      "sell_price": 1024,
+      "rarity": 128,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "Lady Liberty Torch",
+      "sell_price": 8192,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "4july"]
+    },
+    {
+      "item": "Declaration Of Independence",
+      "sell_price": 16384,
+      "rarity": 2048,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "Uncle Sams Hat",
+      "sell_price": 2048,
+      "rarity": 256,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "Freedom Firework Bundle",
+      "sell_price": 2048,
+      "rarity": 256,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "Lady Liberty Tabula Ansata",
+      "sell_price": 8192,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["fish", "4july"]
+    },
+    {
+      "item": "Hot Dog",
+      "sell_price": 512,
+      "rarity": 64,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "4th Of July Decorations",
+      "sell_price": 512,
+      "rarity": 64,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "A Literal Bonfire",
+      "sell_price": 2048,
+      "rarity": 256,
+      "sticky": false,
+      "tags": ["mine", "4july"]
+    },
+    {
+      "item": "Eating Competition Prize",
+      "sell_price": 8192,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
     }
+
   ],
   "rpt_ignore": [
     "Rich Person Trophy",
@@ -1446,6 +1560,24 @@
     "fishing_trophy": "<:fishing_trophy:1247339663853879407>",
     "slime_trophy": "<:slime_trophy:1247339662146666499>",
     "calendar": "<:calendar:1254931644931113063>",
+    "red_firework_rocket": "<:red_firework_rocket:1256238587519959185>",
+    "blue_firework_rocket": "<:blue_firework_rocket:1256238580385316966>",
+    "green_firework_rocket": "<:green_firework_rocket:1256238581715046572>",
+    "orange_firework_rocket": "<:orange_firework_rocket:1256238584353001643>",
+    "purple_firework_rocket": "<:purple_firework_rocket:1256238585594515519>",
+    "yellow_firework_rocket": "<:yellow_firework_rocket:1256238590640525444>",
+    "american_flag": "<:american_flag:1256238578187370497>",
+    "lady_liberty_torch": "<:air:828359049602662431>",
+    "declaration_of_independence": "<:air:828359049602662431>",
+    "uncle_sams_hat": "<:uncle_sams_hat:1256238589218525264>",
+    "freedom_firework_bundle": "<:air:828359049602662431>",
+    "lady_liberty_tabula_ansata": "<:air:828359049602662431>",
+    "hot_dog": "<:hot_dog:1256238582985785470>",
+    "4th_of_july_decorations": "<:air:828359049602662431>",
+    "a_literal_bonfire": "<:air:828359049602662431>",
+    "eating_competition_prize": "<:eating_competition_prize:1256240063222911029>"
+
+    
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1699,6 +1831,23 @@
     "Yellow Easter Egg": "yellow_easter_egg",
     "Red Easter Egg": "red_easter_egg",
     "emerald": "emerald"
+    "Red Firework Rocket": "red_firework_rocket",
+    "Blue Firework Rocket": "blue_firework_rocket",
+    "Green Firework Rocket": "green_firework_rocket",
+    "Orange Firework Rocket": "orange_firework_rocket",
+    "Purple Firework Rocket": "purple_firework_rocket",
+    "Yellow Firework Rocket": "yellow_firework_rocket",
+    "American Flag": "american_flag",
+    "Lady Liberty Torch": "lady_liberty_torch",
+    "Declaration Of Independence": "declaration_of_independence",
+    "Uncle Sams Hat": "uncle_sams_hat",
+    "Freedom Firework Bundle": "freedom_firework_bundle",
+    "Lady Liberty Tabula Ansata": "lady_liberty_tabula_ansata",
+    "Hot Dog": "hot_dog",
+    "4th Of July Decorations": "4th_of_july_decorations",
+    "A Literal Bonfire": "a_literal_bonfire",
+    "Eating Competition Prize": "eating_competition_prize"
+
   },
   "farming": {
     "emojis": {
