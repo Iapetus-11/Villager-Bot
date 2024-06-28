@@ -1244,113 +1244,113 @@
     },
     {
       "item": "Red Firework Rocket",
-      "sell_price": 1024,
-      "rarity": 128,
+      "sell_price": 128,
+      "rarity": 1024,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "Blue Firework Rocket",
-      "sell_price": 1024,
-      "rarity": 128,
+      "sell_price": 128,
+      "rarity": 1024,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "Green Firework Rocket",
-      "sell_price": 1024,
-      "rarity": 128,
+      "sell_price": 128,
+      "rarity": 1024,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "Orange Firework Rocket",
-      "sell_price": 1024,
-      "rarity": 128,
+      "sell_price": 128,
+      "rarity": 1024,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "Purple Firework Rocket",
-      "sell_price": 1024,
-      "rarity": 128,
+      "sell_price": 128,
+      "rarity": 1024,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "Yellow Firework Rocket",
-      "sell_price": 1024,
-      "rarity": 128,
+      "sell_price": 128,
+      "rarity": 1024,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "American Flag",
-      "sell_price": 1024,
-      "rarity": 128,
+      "sell_price": 128,
+      "rarity": 1024,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "Lady Liberty Torch",
-      "sell_price": 8192,
-      "rarity": 1024,
+      "sell_price": 1024,
+      "rarity": 8192,
       "sticky": false,
       "tags": ["mine", "4july"]
     },
     {
       "item": "Declaration Of Independence",
-      "sell_price": 16384,
-      "rarity": 2048,
+      "sell_price": 2048,
+      "rarity": 16384,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "Uncle Sams Hat",
-      "sell_price": 2048,
-      "rarity": 256,
+      "sell_price": 256,
+      "rarity": 2048,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "Freedom Firework Bundle",
-      "sell_price": 2048,
-      "rarity": 256,
+      "sell_price": 256,
+      "rarity": 2048,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "Lady Liberty Tabula Ansata",
-      "sell_price": 8192,
-      "rarity": 1024,
+      "sell_price": 1024,
+      "rarity": 8192,
       "sticky": false,
       "tags": ["fish", "4july"]
     },
     {
       "item": "Hot Dog",
-      "sell_price": 512,
-      "rarity": 64,
+      "sell_price": 64,
+      "rarity": 512,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "4th Of July Decorations",
-      "sell_price": 512,
-      "rarity": 64,
+      "sell_price": 64,
+      "rarity": 512,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     },
     {
       "item": "A Literal Bonfire",
-      "sell_price": 2048,
-      "rarity": 256,
+      "sell_price": 256,
+      "rarity": 2048,
       "sticky": false,
       "tags": ["mine", "4july"]
     },
     {
       "item": "Eating Competition Prize",
-      "sell_price": 8192,
-      "rarity": 1024,
+      "sell_price": 1024,
+      "rarity": 8192,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
     }
