@@ -2019,6 +2019,8 @@
         "smoke_seaweed": "Has comido **Seaweed** que dura **{} minutos**",
         "use_bonemeal": "Has usado **polvo de hueso** en tus cultivos, haciéndolos crecer!",
         "seaweed_done": "El **Seaweed** que comiste antes ya no tiene efecto.",
+        "fishing_bait_used": "¡Has usado un poco de **Cebo de Pesca**, ahora pescarás mejores peces durante los próximos **{} minutos**!",
+        "fishing_bait_done": "El cebo de pesca que usaste finalmente se soltó del anzuelo.",
         "chug": "Te has tomado un **{}** (Que dura {} minutos)",
         "chug_no_end": "Te has tomado un **{}**",
         "chug_honey": "Te has tomado {0}x frascos de miel! (Ahora tienes {1}/20 {2})",
@@ -2132,7 +2134,7 @@
         "no_trash": "Aquí no hay basura.... :/",
         "total_contents": "El contenido total vale {ems}{ems_emoji}",
         "how_to_empty": "¡Usa `{prefix}trashcan empty` para tirar la basura!",
-        "emptied_for": "¡Has tirado la basura por {ems}{ems_emoji}!"
+        "emptied_for": "¡Has tirado la basura por {reward}!"
       },
       "daily_quests": {
         "mapping": {

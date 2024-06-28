@@ -667,6 +667,8 @@ class Econ_Use(ImmutableBaseModel):
     smoke_seaweed: str
     use_bonemeal: str
     seaweed_done: str
+    fishing_bait_used: str
+    fishing_bait_done: str
     chug: str
     chug_no_end: str
     chug_honey: str

@@ -2019,6 +2019,8 @@
         "smoke_seaweed": "Tu as mangé des **Seaweed** dont les effets durent **{} minutes**",
         "use_bonemeal": "Vous avez utilisé de la Boudre d'Os sur vos cultures, les faisant pousser!",
         "seaweed_done": "Les effets des **Seaweed** que tu as mangés plus tôt se sont dissipés.",
+        "fishing_bait_used": "Vous avez utilisé de l' **appât de pêche**, vous allez maintenant pêcher de meilleurs poissons pendant les **{} minutes**!",
+        "fishing_bait_done": "L'appât de pêche que vous avez utilisé s'est finalement échappé de l'hameçon.",
         "chug": "Tu as bu une **{}** (L'effet dure {} minutes)",
         "chug_no_end": "Tu as avalé **{}**",
         "chug_honey": "Tu as avalé {0}x Honey Jar! (Tu es maintenant à {1}/20 {2})",
@@ -2132,7 +2134,7 @@
         "no_trash": "Il n'y a pas de déchets ici... :/",
         "total_contents": "Le contenu total vaut {ems}{ems_emoji}",
         "how_to_empty": "Utilisez `{prefix}trashcan empty` vider la corbeille!",
-        "emptied_for": "Vous avez vidé votre poubelle pour {ems}{ems_emoji}"
+        "emptied_for": "Vous avez vidé votre poubelle pour {reward}"
       },
       "daily_quests": {
         "mapping": {

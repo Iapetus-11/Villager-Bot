@@ -2019,6 +2019,8 @@
         "smoke_seaweed": "Você comeu algumas **Algas** que duram **{} minutos**",
         "use_bonemeal": "Você usou um pouco de **Farinha de Osso** em suas plantações, fazendo-as crescer!",
         "seaweed_done": "A **Alga** que você comeu antes já passou.",
+        "fishing_bait_used": "Você usou uma **Isca de Pesca**, agora pescará peixes melhores pelos próximos **{} minutos**!",
+        "fishing_bait_done": "A isca de pesca que você usou finalmente caiu do anzol.",
         "chug": "Você bebeu um **{}** que dura **{} minutos**.",
         "chug_no_end": "Você bebeu um **{}**!",
         "chug_honey": "Você bebeu {0}x **Potes de Mel**! (Agora você tem {1}/20 {2})",
@@ -2132,7 +2134,7 @@
         "no_trash": "Não há lixo aqui... :/",
         "total_contents": "Todo o conteúdo vale {ems}{ems_emoji}",
         "how_to_empty": "Use `{prefix}trashcan empty` para esvaziar sua lixeira!",
-        "emptied_for": "Você esvaziou sua lixeira por {ems}{ems_emoji}"
+        "emptied_for": "Você esvaziou sua lixeira por {reward}"
       },
       "daily_quests": {
         "mapping": {

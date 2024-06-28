@@ -241,6 +241,7 @@ class Emojis(ImmutableBaseModel):
     fishing_trophy: str
     slime_trophy: str
     calendar: str
+    worm: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis

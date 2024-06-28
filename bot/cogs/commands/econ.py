@@ -1226,10 +1226,11 @@ class Econ(commands.Cog):
         async with SuppressCtxManager(ctx.typing()):
             wait = random.randint(12, 32)
 
-            lure_i_book, seaweed_active, lucky = await asyncio.gather(
+            lure_i_book, seaweed_active, lucky, bait_active = await asyncio.gather(
                 self.db.fetch_item(ctx.author.id, "Lure I Book"),
                 self.karen.check_active_fx(ctx.author.id, "Seaweed"),
                 self.karen.check_active_fx(ctx.author.id, "Luck Potion"),
+                self.karen.check_active_fx(ctx.author.id, "Fishing Bait"),
             )
 
             if lure_i_book is not None:
@@ -1237,12 +1238,18 @@ class Econ(commands.Cog):
 
             if seaweed_active:
                 wait -= 12
-                wait = max(random.randint(3, 10), wait)
+
+            if bait_active:
+                wait -= 8
+
+            wait = max(random.randint(3, 10), wait)
 
             await asyncio.sleep(wait)
 
         # determine if user has fished up junk or an item (rather than a fish)
-        if random.randint(1, 8) == 1 or (lucky and random.randint(1, 5) == 1):
+        if random.randint(1, 8 + 4 * bait_active) == 1 or (
+            lucky and random.randint(1, 5 + 3 * bait_active) == 1
+        ):
             # calculate the chance for them to fish up junk (True means junk)
             if await self.db.fetch_item(ctx.author.id, "Fishing Trophy") is not None or lucky:
                 junk_chance = (True, False, False, False, False)
@@ -1285,7 +1292,17 @@ class Econ(commands.Cog):
                         )
                         return
 
-        fish_id = random.choices(self.d.fishing.fish_ids, self.d.fishing.fishing_weights)[0]
+        fish_ids: list[str]
+        fish_weights: list[float]
+        fish_ids, fish_weights = zip(*[
+            (fish_id, weight)
+            for idx, (fish_id, weight) in enumerate(
+                zip(self.d.fishing.fish_ids, self.d.fishing.fishing_weights)
+            )
+            if idx > 2
+        ])
+
+        fish_id = random.choices(fish_ids, fish_weights)[0]
         fish = self.d.fishing.fish[fish_id]
 
         await self.db.add_item(ctx.author.id, fish.name, -1, 1)
@@ -1505,6 +1522,21 @@ class Econ(commands.Cog):
 
             await asyncio.sleep(duration)
             await self.bot.send_embed(ctx.author, ctx.l.econ.use.seaweed_done)
+            return
+
+        if thing == "fishing bait":
+            duration = 60 * 20
+
+            if amount > 1:
+                await ctx.reply_embed(ctx.l.econ.use.stupid_1)
+                return
+
+            await self.db.remove_item(ctx.author.id, thing, 1)
+            await self.karen.add_active_fx(ctx.author.id, "Fishing Bait", duration)
+            await ctx.reply_embed(ctx.l.econ.use.fishing_bait_used.format(20))
+
+            await asyncio.sleep(duration)
+            await self.bot.send_embed(ctx.author, ctx.l.econ.use.fishing_bait_used)
             return
 
         if thing == "vault potion":
@@ -2308,6 +2340,9 @@ class Econ(commands.Cog):
 
     @trash.command(name="empty")
     async def trashcan_empty(self, ctx: Ctx):
+        trashcan = await self.db.fetch_trashcan(ctx.author.id)
+        dirt_count = next((tce["amount"] for tce in trashcan if tce["item"] == "dirt"), 0)
+
         total_ems, amount = await self.db.empty_trashcan(ctx.author.id)
 
         total_ems *= (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) + 1
@@ -2319,8 +2354,23 @@ class Econ(commands.Cog):
         await self.db.update_lb(ctx.author.id, "trash_emptied", amount)
         await self.db.update_lb(ctx.author.id, "week_emeralds", total_ems)
 
+        reward_info: list[tuple[str, int]] = [
+            (self.d.emojis.emerald, total_ems),
+        ]
+
+        if dirt_count > 5:
+            dirt_contains_bait_chance = max(10, 1000 / dirt_count)
+            if self.karen.check_active_fx(ctx.author.id, "Luck Potion"):
+                dirt_contains_bait_chance = int(dirt_contains_bait_chance / 2)
+
+            if random.randint(0, dirt_contains_bait_chance) == 1:
+                await self.db.add_item(ctx.author.id, "Fishing Bait", 768, False, True)
+                reward_info.append((self.d.emojis.worm, 1))
+
         await ctx.reply_embed(
-            ctx.l.econ.trash.emptied_for.format(ems=total_ems, ems_emoji=self.d.emojis.emerald),
+            ctx.l.econ.trash.emptied_for.format(
+                reward=" + ".join([f"{amount}{emoji}" for emoji, amount in reward_info])
+            ),
         )
 
     @commands.command(name="dailyquest", aliases=["dq"])

@@ -2019,6 +2019,8 @@
         "smoke_seaweed": "You've eaten some **Seaweed** which lasts **{} minutes**",
         "use_bonemeal": "You've used some **Bone Meal** on your crops, making them grow!",
         "seaweed_done": "The **Seaweed** you ate earlier has worn off.",
+        "fishing_bait_used": "You used some **Fishing Bait**, you'll now fish up better fish for the next **{} minutes**!",
+        "fishing_bait_done": "The fishing bait you used finally fell off the hook.",
         "chug": "You've chugged a **{}** which lasts **{} minutes**.",
         "chug_no_end": "You've chugged a **{}**!",
         "chug_honey": "You've chugged {0}x **Honey Jar**! (You now have {1}/20 {2})",
@@ -2132,7 +2134,7 @@
         "no_trash": "There's no trash here... :/",
         "total_contents": "The total contents is worth {ems}{ems_emoji}",
         "how_to_empty": "Use `{prefix}trashcan empty` to empty the trash!",
-        "emptied_for": "You emptied your trash can for {ems}{ems_emoji}"
+        "emptied_for": "You emptied your trash can for {reward}"
       },
       "daily_quests": {
         "mapping": {

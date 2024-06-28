@@ -878,13 +878,6 @@
       "tags": ["fish"]
     },
     {
-      "item": "Recycler",
-      "sell_price": 1024,
-      "rarity": 99999,
-      "sticky": false,
-      "tags": ["fish"]
-    },
-    {
       "item": "Lure I Book",
       "sell_price": 32,
       "rarity": 200,
@@ -930,6 +923,13 @@
       "item": "Recycler",
       "sell_price": 1024,
       "rarity": 99999,
+      "sticky": false,
+      "tags": ["mine", "fish"]
+    },
+    {
+      "item": "Fishing Bait",
+      "sell_price": 768,
+      "rarity": 12288,
       "sticky": false,
       "tags": ["mine"]
     },
@@ -1446,6 +1446,7 @@
     "fishing_trophy": "<:fishing_trophy:1247339663853879407>",
     "slime_trophy": "<:slime_trophy:1247339662146666499>",
     "calendar": "<:calendar:1254931644931113063>",
+    "worm": ":worm:",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1698,7 +1699,8 @@
     "Orange Easter Egg": "orange_easter_egg",
     "Yellow Easter Egg": "yellow_easter_egg",
     "Red Easter Egg": "red_easter_egg",
-    "emerald": "emerald"
+    "emerald": "emerald",
+    "Fishing Bait": "worm"
   },
   "farming": {
     "emojis": {
