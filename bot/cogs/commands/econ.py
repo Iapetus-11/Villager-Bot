@@ -2364,7 +2364,7 @@ class Econ(commands.Cog):
                 dirt_contains_bait_chance = int(dirt_contains_bait_chance / 2)
 
             if random.randint(0, dirt_contains_bait_chance) == 1:
-                await self.db.add_item(ctx.author.id, "Fishing Bait", 768, False, True)
+                await self.db.add_item(ctx.author.id, "Fishing Bait", 768, 1, False, True)
                 reward_info.append((self.d.emojis.worm, 1))
 
         await ctx.reply_embed(
