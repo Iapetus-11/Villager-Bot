@@ -1308,7 +1308,7 @@
     {
       "item": "Komodo 30000 SuperNova Aerial Firework",
       "sell_price": 768,
-      "rarity": 16384,
+      "rarity": 131072,
       "sticky": false,
       "tags": ["mine", "4july"]
     },
