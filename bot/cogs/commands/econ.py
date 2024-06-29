@@ -1299,7 +1299,7 @@ class Econ(commands.Cog):
             for idx, (fish_id, weight) in enumerate(
                 zip(self.d.fishing.fish_ids, self.d.fishing.fishing_weights)
             )
-            if idx > 2
+            if (not bait_active or idx > 2)
         ])
 
         fish_id = random.choices(fish_ids, fish_weights)[0]
