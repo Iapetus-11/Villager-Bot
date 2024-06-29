@@ -1544,6 +1544,7 @@
     "hot_dog": "<:hot_dog:1256238582985785470>",
     "bomb": "\uD83D\uDCA3",
     "firecracker": "\uD83E\uDDE8",
+    "scroll": "\uD83D\uDCDC",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1808,7 +1809,8 @@
     "Uncle Sams Hat": "uncle_sams_hat",
     "Hot Dog": "hot_dog",
     "Komodo 30000 SuperNova Aerial Firework": "bomb",
-    "Firecracker": "firecracker"
+    "Firecracker": "firecracker",
+    "Declaration Of Independence": "scroll"
   },
   "farming": {
     "emojis": {
