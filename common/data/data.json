@@ -2371,9 +2371,7 @@
     "https://font.download/dl/font/gloock.zip",
     "https://font.download/dl/font/roboto.zip"
   ],
-  "disabled_translations": [
-    "ua"
-  ],
+  "disabled_translations": [],
   "quests": {
     "mined_emeralds": {
       "targets": {
