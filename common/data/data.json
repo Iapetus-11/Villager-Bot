@@ -2390,11 +2390,11 @@
     "fished_cod": {
       "targets": {
         "start": 10,
-        "stop": 50,
+        "stop": 40,
         "step": 5,
-        "reward_eval": "value * 15"
+        "reward_eval": "value * 10"
       },
-      "difficulty_eval_multi": "ceil(pickaxe_level / 5)",
+      "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
       "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
@@ -2403,11 +2403,11 @@
     "fished_salmon": {
       "targets": {
         "start": 10,
-        "stop": 50,
+        "stop": 40,
         "step": 5,
-        "reward_eval": "value * 15"
+        "reward_eval": "value * 25"
       },
-      "difficulty_eval_multi": "ceil(pickaxe_level / 5)",
+      "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
       "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
@@ -2415,12 +2415,12 @@
     },
     "fished_tropical_fish": {
       "targets": {
-        "start": 4,
-        "stop": 20,
-        "step": 2,
-        "reward_eval": "value * 20"
+        "start": 5,
+        "stop": 15,
+        "step": 1,
+        "reward_eval": "value * 75"
       },
-      "difficulty_eval_multi": "ceil(pickaxe_level / 5)",
+      "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
       "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
@@ -2431,9 +2431,9 @@
         "start": 3,
         "stop": 12,
         "step": 1,
-        "reward_eval": "value * 25"
+        "reward_eval": "value * 130"
       },
-      "difficulty_eval_multi": "ceil(pickaxe_level / 3)",
+      "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
       "requirements_eval": "'Fishing Rod' in user_items",
       "reward_item": "emerald",
@@ -2444,7 +2444,7 @@
         "start": 3,
         "stop": 10,
         "step": 1,
-        "reward_eval": "value * 30"
+        "reward_eval": "value * 235"
       },
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
@@ -2457,7 +2457,7 @@
         "start": 2,
         "stop": 5,
         "step": 1,
-        "reward_eval": "value * 35"
+        "reward_eval": "value * 250"
       },
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
@@ -2470,7 +2470,7 @@
         "start": 1,
         "stop": 3,
         "step": 1,
-        "reward_eval": "value * 40"
+        "reward_eval": "value * 700"
       },
       "difficulty_eval_multi": "1",
       "acceptance_eval": "value >= target",
