@@ -2201,6 +2201,14 @@
           "killed_enderman": {
             "title": "Mate {target} endermen {emoji}",
             "progress": "{value}/{target} endermen mortos... {encouragement}"
+          },
+          "mined_collectibles": {
+            "title": "Minerar {target} colecionáveis {emoji}",
+            "progress": "{value}/{target} colecionáveis minerados... {encouragement}"
+          },
+          "fished_collectibles": {
+            "title": "Pescar {target} colecionáveis {emoji}",
+            "progress": "{value}/{target} colecionáveis pescados... {encouragement}"
           }
         },
         "completed": "Missão concluída: {quest_title}!",

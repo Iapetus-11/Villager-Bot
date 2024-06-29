@@ -2575,6 +2575,31 @@
       "requirements_eval": "pickaxe_level >= 4",
       "reward_item": "emerald",
       "emoji": "stevegun"
+    },
+    "mined_collectibles": {
+      "targets": {
+        "start": 2,
+        "stop": 5,
+        "step": 1,
+        "reward_eval": "value * 100"
+      },
+      "difficulty_eval_multi": "int(pickaxe_level / 2)",
+      "acceptance_eval": "value >= target",
+      "reward_item": "emerald",
+      "emoji": "netherite_pick"
+    },
+    "fished_collectibles": {
+      "targets": {
+        "start": 2,
+        "stop": 4,
+        "step": 1,
+        "reward_eval": "value * 100"
+      },
+      "difficulty_eval_multi": "int(pickaxe_level / 3)",
+      "acceptance_eval": "value >= target",
+      "requirements_eval": "'Fishing Rod' in user_items",
+      "reward_item": "emerald",
+      "emoji": "fishing_rod"
     }
   }
 }

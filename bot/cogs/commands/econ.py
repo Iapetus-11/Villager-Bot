@@ -1136,6 +1136,7 @@ class Econ(commands.Cog):
                 lucky and random.randint(0, item.rarity) < 3
             ):
                 await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
+                await self.db.update_user_daily_quest(ctx.author.id, "mined_collectibles", 1)
 
                 await ctx.reply_embed(
                     f"{self.d.emojis[self.d.emoji_items[pickaxe]]} \ufeff "
@@ -1282,6 +1283,10 @@ class Econ(commands.Cog):
                             1,
                             item.sticky,
                         )
+                        await self.db.update_user_daily_quest(
+                            ctx.author.id, "fished_collectibles", 1
+                        )
+
                         await ctx.reply_embed(
                             random.choice(ctx.l.econ.fishing.item).format(
                                 item.item,
@@ -1290,6 +1295,7 @@ class Econ(commands.Cog):
                             ),
                             True,
                         )
+
                         return
 
         fish_ids: list[str]

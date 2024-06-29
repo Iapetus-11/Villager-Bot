@@ -99,7 +99,9 @@ CREATE TABLE IF NOT EXISTS daily_quests (
   killed_cave_spider    BIGINT NOT NULL DEFAULT 0,
   killed_creeper        BIGINT NOT NULL DEFAULT 0,
   killed_baby_slime     BIGINT NOT NULL DEFAULT 0,
-  killed_enderman       BIGINT NOT NULL DEFAULT 0
+  killed_enderman       BIGINT NOT NULL DEFAULT 0,
+  mined_collectibles    SMALLINT NOT NULL DEFAULT 0,
+  fished_collectibles   SMALLINT NOT NULL DEFAULT 0
 );
 
 -- CREATE TABLE IF NOT EXISTS pets (
