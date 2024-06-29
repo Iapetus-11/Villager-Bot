@@ -12,3 +12,4 @@ class UserQuest(TypedDict):
     reward_amount: int
     day: arrow.Arrow
     done: bool
+    notified: bool

@@ -252,6 +252,22 @@ class Quests(commands.Cog):
         message = await loc.send(embed=embed, view=view)
         view.message = message
 
+    async def notify_of_quest(
+        self,
+        loc: CustomContext | commands.Context | discord.User,
+        quest: UserQuest,
+    ) -> None:
+        user_id: int
+        if isinstance(loc, CustomContext | commands.Context):
+            user_id = loc.author.id
+        else:
+            user_id = loc.id
+
+        await self.db.mark_daily_quest_as_notified(user_id, quest.key)
+
+        embed = self.get_quest_embed(loc, quest)
+        await loc.send(embed=embed)
+
     def _get_user_quest_from_db_quest(self, db_quest: DbUserQuest) -> UserQuest:
         quest_def = self.d.normalized_quests[db_quest["key"]]
 
@@ -297,6 +313,9 @@ class Quests(commands.Cog):
 
         if target_met and not db_quest["done"]:
             asyncio.create_task(self.quest_completed(loc, quest))
+
+        if not db_quest["notified"]:
+            asyncio.create_task(self.notify_of_quest(loc, quest))
 
     async def fetch_user_daily_quest(self, user_id: int) -> UserQuest:
         db_quest = await self.db.fetch_user_daily_quest(user_id)

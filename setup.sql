@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS daily_quests (
   user_id               BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE,
   day                   TIMESTAMPTZ NOT NULL DEFAULT DATE_TRUNC('DAY', NOW()),
   done                  BOOLEAN NOT NULL DEFAULT FALSE,
+  notified              BOOLEAN NOT NULL DEFAULT FALSE,
   key                   VARCHAR(48) NOT NULL,
   variant               SMALLINT NOT NULL,
   reward_item           VARCHAR(50) NOT NULL,

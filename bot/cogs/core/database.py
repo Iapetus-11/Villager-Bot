@@ -918,6 +918,7 @@ class Database(commands.Cog):
             "reward_amount": db_quest["reward_amount"],
             "day": arrow.get(db_quest["day"]),
             "done": db_quest["done"],
+            "notified": db_quest["notified"],
         }
 
     async def update_user_daily_quest(
@@ -953,11 +954,19 @@ class Database(commands.Cog):
             "reward_amount": db_quest["reward_amount"],
             "day": arrow.get(db_quest["day"]),
             "done": db_quest["done"],
+            "notified": db_quest["notified"],
         }
 
     async def mark_daily_quest_as_done(self, user_id: int, key: str) -> None:
         await self.db.execute(
             "UPDATE daily_quests SET done = true WHERE user_id = $1 AND key = $2",
+            user_id,
+            key,
+        )
+
+    async def mark_daily_quest_as_notified(self, user_id: int, key: str) -> None:
+        await self.db.execute(
+            "UPDATE daily_quests SET notified = true WHERE user_id = $1 AND key = $2",
             user_id,
             key,
         )
