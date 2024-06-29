@@ -1318,6 +1318,13 @@
       "rarity": 512,
       "sticky": false,
       "tags": ["mine", "4july"]
+    },
+    {
+      "item": "Declaration Of Independence",
+      "sell_price": 768,
+      "rarity": 16384,
+      "sticky": false,
+      "tags": ["mine", "fish", "4july"]
     }
   ],
   "rpt_ignore": [
@@ -1525,7 +1532,7 @@
     "fishing_trophy": "<:fishing_trophy:1247339663853879407>",
     "slime_trophy": "<:slime_trophy:1247339662146666499>",
     "calendar": "<:calendar:1254931644931113063>",
-    "worm": ":worm:",
+    "worm": "\uD83E\uDEB1",
     "red_firework_rocket": "<:red_firework_rocket:1256238587519959185>",
     "blue_firework_rocket": "<:blue_firework_rocket:1256238580385316966>",
     "green_firework_rocket": "<:green_firework_rocket:1256238581715046572>",
@@ -1535,8 +1542,8 @@
     "american_flag": "<:american_flag:1256238578187370497>",
     "uncle_sams_hat": "<:uncle_sams_hat:1256238589218525264>",
     "hot_dog": "<:hot_dog:1256238582985785470>",
-    "bomb": ":bomb:",
-    "firecracker": ":firecracker:",
+    "bomb": "\uD83D\uDCA3",
+    "firecracker": "\uD83E\uDDE8",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
