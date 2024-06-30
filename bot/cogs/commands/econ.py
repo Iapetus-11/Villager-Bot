@@ -1542,7 +1542,7 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.use.fishing_bait_used.format(20))
 
             await asyncio.sleep(duration)
-            await self.bot.send_embed(ctx.author, ctx.l.econ.use.fishing_bait_used)
+            await self.bot.send_embed(ctx.author, ctx.l.econ.use.fishing_bait_done)
             return
 
         if thing == "vault potion":
