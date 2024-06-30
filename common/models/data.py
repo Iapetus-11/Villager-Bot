@@ -242,6 +242,18 @@ class Emojis(ImmutableBaseModel):
     slime_trophy: str
     calendar: str
     worm: str
+    red_firework_rocket: str
+    blue_firework_rocket: str
+    green_firework_rocket: str
+    orange_firework_rocket: str
+    purple_firework_rocket: str
+    yellow_firework_rocket: str
+    american_flag: str
+    uncle_sams_hat: str
+    hot_dog: str
+    bomb: str
+    firecracker: str
+    scroll: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis
