@@ -512,7 +512,7 @@ class Useful(commands.Cog):
 
         embed.description = (
             f"{ctx.l.useful.ginf.age}: `{display_age}`\n"
-            f"{ctx.l.useful.ginf.owner}: {guild.owner.mention}"
+            f"{ctx.l.useful.ginf.owner}: <@{guild.owner_id}>"
         )
 
         general = (
