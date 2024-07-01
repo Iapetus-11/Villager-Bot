@@ -121,7 +121,7 @@
         "google": "`{0}google <search>` *searches on google for your query*",
         "youtube": "`{0}youtube <search>` *searches on youtube for your query*",
         "image": "`{0}image <search>` *searches google images for your query*",
-        "math": "`{0}math <problem>` *solves a math problem",
+        "math": "`{0}math <problem>` *solves a math problem*",
         "credits": "`{0}credits` *shows who helped make Villager Bot*",
         "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*",
         "redditdl": "`{0}redditdl <reddit post url>` *downloads the specified media from Reddit*",
