@@ -2385,6 +2385,8 @@ class Econ(commands.Cog):
 
         quest = await self.quests.fetch_user_daily_quest(ctx.author.id)
 
+        await self.db.mark_daily_quest_as_notified(ctx.author.id, quest.key)
+
         embed = self.quests.get_quest_embed(ctx, quest)
 
         view: discord.ui.View | None = None
