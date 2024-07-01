@@ -121,7 +121,7 @@
         "google": "`{0}google <recherche>` *recherche ta requête sur google*",
         "youtube": "`{0}youtube <recherche>` *recherche ta requête sur youtube*",
         "image": "`{0}image <recherche>` *recherche ta requête sur google images*",
-        "math": "`{0}math <problème>` *résout un problème de math",
+        "math": "`{0}math <problème>` *résout un problème de math*",
         "credits": "`{0}credits` *montre qui a aidé à faire le Villager Bot*",
         "snipe": "`{0}snipe` *shows the latest deleted message in the current channel*",
         "redditdl": "`{0}redditdl <reddit post url>` *télécharge le média spécifié depuis Reddit*",
