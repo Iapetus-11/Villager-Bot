@@ -680,6 +680,7 @@ class Econ_Use(ImmutableBaseModel):
     beaker_of_slime_undo: str
     use_shield_pearl: str
     use_time_pearl: str
+    use_infernums_scroll: str
     present: list[str]
     barrel_item: list[str]
     barrel_ems: list[str]

@@ -1738,6 +1738,13 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.use.use_time_pearl)
             return
 
+        if thing == "infernum's scroll":
+            await self.db.remove_item(ctx.author.id, "Infernum's Scroll", 1)
+            await self.db.delete_user_daily_quest(ctx.author.id)
+
+            await ctx.reply_embed(ctx.l.econ.use.use_infernums_scroll)
+            return
+
         await ctx.reply_embed(ctx.l.econ.use.stupid_6)
 
     @commands.command(name="honey", aliases=["harvesthoney", "horny"])

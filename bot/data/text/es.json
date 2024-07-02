@@ -1321,11 +1321,11 @@
         "¡Te encontraste con un vil {0}!"
       ],
       "found": [
-        "¡Wow, mira eso! Encontraste {}{} justo ahí en el suelo",
-        "¡A través del humo blanco del monstruo asesinado se ven {}{}!",
-        "¡El monstruo deja caer {}{}!",
-        "¡Miras al suelo y ves {}{}!",
-        "¡Encuentras {}{} junto al monstruo caído!"
+        "¡Wow, mira eso! Encontraste {} justo ahí en el suelo",
+        "¡A través del humo blanco del monstruo asesinado se ven {}!",
+        "¡El monstruo deja caer {}!",
+        "¡Miras al suelo y ves {}!",
+        "¡Encuentras {} junto al monstruo caído!"
       ],
       "lost": {
         "creeper": [
@@ -2032,6 +2032,7 @@
         "beaker_of_slime_undo": "¡Has convertido {0}x **Recipiente(s) de Slime** en {0}x **Bola(s) de Slime**!",
         "use_shield_pearl": "Has usado una **Escudo de Perla** y ahora eres invencible a los saqueadores por todo el mes.",
         "use_time_pearl": "Usaste una **Perla del Tiempo** la cuál adelantó el tiempo 2 días.",
+        "use_infernums_scroll": "Has usado **Infernum's Scroll**, tu misión diaria ha sido reiniciada :game_die:",
         "present": [
           "¡Abriste tu regalo y encontraste 1x **{}** (Vale {}{})!",
           "¡Arrancaste el papel de regalo tan rápido como pudiste y conseguiste 1x **{}** (Vale {}{})!",

@@ -1321,11 +1321,11 @@
         "You ran into a vicious {0}!"
       ],
       "found": [
-        "Wow look at that! You found {}{} just right there on the ground!",
-        "Through the white smoke from the slain mob you spot {}{}!",
-        "The mob drops {}{}!",
-        "You glance at the ground and see {}{}!",
-        "You find {}{} next to the fallen mob!"
+        "Wow look at that! You found {} just right there on the ground!",
+        "Through the white smoke from the slain mob you spot {}!",
+        "The mob drops {}!",
+        "You glance at the ground and see {}!",
+        "You find {} next to the fallen mob!"
       ],
       "lost": {
         "creeper": [
@@ -2032,6 +2032,7 @@
         "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
         "use_shield_pearl": "You've used a **Shield Pearl** and are now invincible against pillagers for the next month.",
         "use_time_pearl": "You've used a **Time Pearl** which has skipped time forwards two days.",
+        "use_infernums_scroll": "You've used **Infernum's Scroll**, your daily quest has been re-rolled :game_die:",
         "present": [
           "You opened your present and found 1x **{}** (Worth {}{})!",
           "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",
