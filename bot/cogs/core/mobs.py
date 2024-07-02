@@ -342,8 +342,7 @@ class MobSpawner(commands.Cog):
 
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.found).format(
-                            balls_won,
-                            self.d.emojis.slimeball,
+                            f"{balls_won}{self.d.emojis.slimeball}"
                         ),
                     )
                 # if mob is skeleton determine if it should drop bone meal
@@ -351,7 +350,7 @@ class MobSpawner(commands.Cog):
                     await self.db.add_item(user.id, "Bone Meal", 512, 1)
 
                     await ctx.send_embed(
-                        random.choice(ctx.l.mobs_mech.found).format(1, self.d.emojis.bone_meal),
+                        random.choice(ctx.l.mobs_mech.found).format(f"1{self.d.emojis.bone_meal}"),
                     )
                 # if mob is enderman determine if it should drop enderpearl
                 elif mob_key == "enderman" and random.randint(0, 30 - (looting_level * 3)) == 1:
@@ -361,11 +360,10 @@ class MobSpawner(commands.Cog):
 
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.found).format(
-                            pearls_won,
-                            self.d.emojis.ender_pearl,
+                            f"{pearls_won}{self.d.emojis.ender_pearl}"
                         ),
                     )
-                # mob should just drop emeralds
+                # mob should just drop normal rewards
                 else:
                     # calculate emeralds won based off difficulty
                     if difficulty == "easy":
@@ -382,15 +380,24 @@ class MobSpawner(commands.Cog):
                         )
 
                     ems_won = int((ems_won if ems_won > 0 else 1) * difficulty_multi)
-
                     # increase ems won depending on looting_level
                     ems_won = int(ems_won * ({0: 1, 1: 1.25, 2: 1.75}[looting_level]))
+
+                    reward_info: list[tuple[str, int]] = [
+                        (self.d.emojis.emerald, ems_won),
+                    ]
+
+                    if random.randint(0, 40 - (looting_level * 3)) == 1:
+                        reward_info.append((self.d.emojis.infernums_scroll, 1))
+                        await self.db.add_item(user.id, "Infernum's Scroll", 512, 1, False, True)
 
                     await self.db.balance_add(user.id, ems_won)
                     await self.db.update_lb(user.id, "week_emeralds", 1, "add")
 
                     await ctx.send_embed(
-                        random.choice(ctx.l.mobs_mech.found).format(ems_won, self.d.emojis.emerald),
+                        random.choice(ctx.l.mobs_mech.found).format(
+                            " + ".join([f"{amount}{emoji}" for emoji, amount in reward_info])
+                        ),
                     )
 
                 await self.db.update_lb(user.id, "mobs_killed", 1, "add")

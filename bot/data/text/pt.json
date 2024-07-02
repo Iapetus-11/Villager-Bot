@@ -1321,11 +1321,11 @@
         "Você se deparou com um {0} vicioso!"
       ],
       "found": [
-        "Uau, olha isso! Você encontrou {}{} bem ali no chão!",
-        "Através da fumaça branca dos monstros que matou você avista {}{}!",
-        "O monstro deixou cair {}{}!",
-        "Você olha para o chão e vê {}{}!",
-        "Você encontra {}{} ao lado de monstros caídos!"
+        "Uau, olha isso! Você encontrou {} bem ali no chão!",
+        "Através da fumaça branca dos monstros que matou você avista {}!",
+        "O monstro deixou cair {}!",
+        "Você olha para o chão e vê {}!",
+        "Você encontra {} ao lado de monstros caídos!"
       ],
       "lost": {
         "creeper": [
@@ -2032,6 +2032,7 @@
         "beaker_of_slime_undo": "Você converteu {0}x **Copos de Slime** em {0}x **Bolas de Slime**!",
         "use_shield_pearl": "Você usou um **Shield Pearl** e agora está invencível contra saqueadores pelo próximo mês.",
         "use_time_pearl": "Você usou uma **Time Pearl** que avançou dois dias no tempo.",
+        "use_infernums_scroll": "Você usou o **Infernum's Scroll**, sua missão diária foi alterada :game_die:",
         "present": [
           "Você abriu o seu presente e encontrou 1x **{}** (Vale {}{})!",
           "Você rasgou o papel de embrulho o mais rápido que pôde e conseguiu 1x **{}** (Vale {}{})!",

@@ -1325,6 +1325,13 @@
       "rarity": 16384,
       "sticky": false,
       "tags": ["mine", "fish", "4july"]
+    },
+    {
+      "item": "Infernum's Scroll",
+      "sell_price": 512,
+      "rarity": 8192,
+      "sticky": false,
+      "tags": ["mine"]
     }
   ],
   "rpt_ignore": [
@@ -1545,6 +1552,7 @@
     "bomb": "\uD83D\uDCA3",
     "firecracker": "\uD83E\uDDE8",
     "scroll": "\uD83D\uDCDC",
+    "infernums_scroll": "<:infernums_scroll:1257669297770205306>",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1810,7 +1818,8 @@
     "Hot Dog": "hot_dog",
     "Komodo 30000 SuperNova Aerial Firework": "bomb",
     "Firecracker": "firecracker",
-    "Declaration Of Independence": "scroll"
+    "Declaration Of Independence": "scroll",
+    "Infernum's Scroll": "infernums_scroll"
   },
   "farming": {
     "emojis": {
