@@ -14,3 +14,4 @@ class User(BaseModel):
     last_vote: datetime.datetime | None
     give_alert: bool = Field(default=True)
     shield_pearl: datetime.datetime | None
+    last_dq_reroll: datetime.datetime

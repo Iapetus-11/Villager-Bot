@@ -2218,6 +2218,7 @@
         "progress": "**Progreso:** {progress}",
         "reward": "**Recompensa:** {reward_amount}{reward_emoji}",
         "expires_at": "**Tiempo límite:** {expires_at}",
+        "cant_reroll": "No puede volver a reiniciar su misión todavía. Si cree que esto es un error, por favor reportarlo",
         "encouragements": {
           "close": [
             "¡Ya casi lo tienes!",

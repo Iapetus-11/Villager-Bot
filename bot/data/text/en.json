@@ -2218,6 +2218,7 @@
         "progress": "**Progress:** {progress}",
         "reward": "**Reward:** {reward_amount}{reward_emoji}",
         "expires_at": "**Expires:** {expires_at}",
+        "cant_reroll": "You can't re-roll your quest yet, if you think this is a bug please report it",
         "encouragements": {
           "close": [
             "You're getting close!",

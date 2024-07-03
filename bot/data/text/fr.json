@@ -2218,6 +2218,7 @@
         "progress": "**Avancement :** {progress}",
         "reward": "**Récompense :** {reward_amount}{reward_emoji}",
         "expires_at": "**Fin :** {expires_at}",
+        "cant_reroll": "Vous ne pouvez pas encore réinitialiser votre quête, si vous pensez qu'il s'agit d'un bug, veuillez le signaler",
         "encouragements": {
           "close": [
             "Tu y es presque !",

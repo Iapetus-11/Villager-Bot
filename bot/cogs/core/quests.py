@@ -10,7 +10,7 @@ import discord
 from discord.ext import commands
 
 from bot.utils.ctx import CustomContext
-from bot.utils.misc import emojify_item, make_progress_bar
+from bot.utils.misc import emojify_item, get_user_and_lang_from_loc, make_progress_bar
 from bot.villager_bot import VillagerBotCluster
 from common.models.data import Quest
 from common.models.db.quests import UserQuest as DbUserQuest
@@ -49,12 +49,26 @@ class DailyQuestDoneView(discord.ui.View):
 
     @discord.ui.button(label="Get New Quest", style=discord.ButtonStyle.gray)
     async def btn_get_new_quest(self, interaction: discord.Interaction, button: discord.ui.Button):
+        # TODO: This shit is cooked broua;odkfja;lkdfja;lkdjf;lskj
+        _, lang = get_user_and_lang_from_loc(self._bot.l, self._loc)
+        user = await self._db.fetch_user(self._user_id)
+
+        if (arrow.now(datetime.timezone.utc) - user.last_dq_reroll).total_seconds() <= (60 * 30):
+            await interaction.response.edit_message(
+                embed=None,
+                view=None,
+                content=lang.econ.daily_quests.cant_reroll,
+            )
+            return
+
         await self._db.delete_user_daily_quest(self._user_id)
+        await self._db.update_user(
+            self._user_id, last_dq_reroll=datetime.datetime.now(datetime.timezone.utc)
+        )
 
         quest = await self._quests.fetch_user_daily_quest(self._user_id)
 
         embed = self._quests.get_quest_embed(self._loc, quest)
-
         await interaction.response.edit_message(embed=embed, view=None)
 
     async def on_timeout(self) -> None:
@@ -89,9 +103,7 @@ class Quests(commands.Cog):
     def get_quest_embed(
         self, loc: CustomContext | commands.Context | discord.User, quest: UserQuest
     ):
-        lang = self.bot.l["en"]
-        if isinstance(loc, CustomContext | commands.Context):
-            lang = loc.l
+        _, lang = get_user_and_lang_from_loc(self.bot.l, loc)
 
         quest_text = lang.econ.daily_quests.mapping[quest.key]
         quest_emoji = (
@@ -226,11 +238,7 @@ class Quests(commands.Cog):
     async def quest_completed(
         self, loc: CustomContext | commands.Context | discord.User, quest: UserQuest
     ) -> None:
-        user_id: int
-        if isinstance(loc, CustomContext | commands.Context):
-            user_id = loc.author.id
-        else:
-            user_id = loc.id
+        user_id, _ = get_user_and_lang_from_loc(self.bot.l, loc)
 
         await asyncio.sleep(1.0 + random.randint(0, 2))
 
@@ -257,11 +265,7 @@ class Quests(commands.Cog):
         loc: CustomContext | commands.Context | discord.User,
         quest: UserQuest,
     ) -> None:
-        user_id: int
-        if isinstance(loc, CustomContext | commands.Context):
-            user_id = loc.author.id
-        else:
-            user_id = loc.id
+        user_id, _ = get_user_and_lang_from_loc(self.bot.l, loc)
 
         await self.db.mark_daily_quest_as_notified(user_id, quest.key)
 
@@ -298,11 +302,7 @@ class Quests(commands.Cog):
         value: int | float,
         mode: typing.Literal["add", "set"] = "add",
     ) -> None:
-        user_id: int
-        if isinstance(loc, CustomContext | commands.Context):
-            user_id = loc.author.id
-        else:
-            user_id = loc.id
+        user_id, _ = get_user_and_lang_from_loc(self.bot.l, loc)
 
         db_quest = await self.db.update_user_daily_quest(user_id, key, value, mode)
         quest = self._get_user_quest_from_db_quest(db_quest)

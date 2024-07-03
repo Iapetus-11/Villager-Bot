@@ -774,6 +774,7 @@ class Econ_DailyQuests(ImmutableBaseModel):
     progress: str
     reward: str
     expires_at: str
+    cant_reroll: str
     encouragements: Econ_Quests_Encouragements
 
 

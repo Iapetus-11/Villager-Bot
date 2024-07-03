@@ -11,7 +11,10 @@ from typing import Any, Generator, Literal
 
 import aiohttp
 import discord
+from discord.ext import commands
 
+from bot.models.translation import Translation
+from bot.utils.ctx import CustomContext
 from common.models.data import Data, Emojis
 from common.models.db.item import Item
 from common.models.db.user import User
@@ -429,3 +432,20 @@ def text_to_discord_file(text: str, *, file_name: str | None = None) -> discord.
     file_data = io.BytesIO(text.encode(encoding="utf8"))
     file_data.seek(0)
     return discord.File(file_data, filename=file_name)
+
+
+def get_user_and_lang_from_loc(
+    langs: dict[str, Translation],
+    loc: CustomContext | commands.Context | discord.User,
+) -> tuple[int, Translation]:
+    user_id: int
+    if isinstance(loc, CustomContext | commands.Context):
+        user_id = loc.author.id
+    else:
+        user_id = loc.id
+
+    lang = langs["en"]
+    if isinstance(loc, CustomContext | commands.Context):
+        lang = loc.l
+
+    return user_id, lang

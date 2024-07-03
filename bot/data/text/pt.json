@@ -2218,6 +2218,7 @@
         "progress": "**Progresso:** {progress}",
         "reward": "**Recompensa:** {reward_amount}{reward_emoji}",
         "expires_at": "**Expira em:** {expires_at}",
+        "cant_reroll": "Você não pode alterar sua missão ainda, se achar que isso é um bug, por favor reporte",
         "encouragements": {
           "close": [
             "Você está chegando perto!",
