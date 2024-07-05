@@ -325,7 +325,7 @@ class Events(commands.Cog):
 
         seconds = round(remaining, 2)
 
-        if seconds <= 0.05:
+        if seconds <= 0.08:
             if karen_cooldown:
                 await self.karen.cooldown_add(ctx.command.qualified_name, ctx.author.id)
 
