@@ -538,7 +538,7 @@ class Econ(commands.Cog):
 
     @commands.group(name="shop", case_insensitive=True)
     @commands.guild_only()
-    @commands.cooldown(2, 10, commands.BucketType.user)
+    @commands.cooldown(4, 10, commands.BucketType.user)
     async def shop(self, ctx: Ctx):
         """Shows the available options in the Villager Shop"""
 
