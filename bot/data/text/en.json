@@ -2236,6 +2236,305 @@
             "Pog champ!"
           ]
         }
+      },
+      "item_bible": {
+        "item_mapping": {
+          "Wood Pickaxe": {
+            "description": [
+              "When mining, has a `5/26` chance of mining up emeralds. Upgrade to a **Stone Pickaxe** to receive better voting rewards."
+            ]
+          },
+          "Stone Pickaxe": {
+            "description": [
+              "When mining, has a `6/26` chance of mining up emeralds. Upgrade to an **Iron Pickaxe** to receive better voting rewards."
+            ]
+          },
+          "Iron Pickaxe": {
+            "description": [
+              "When mining, has a `7/26` chance of mining up emeralds. Upgrade to a **Gold Pickaxe** to receive better voting rewards."
+            ]
+          },
+          "Gold Pickaxe": {
+            "description": [
+              "When mining, has a `9/26` chance of mining up emeralds. Upgrade to a **Diamond Pickaxe** to receive better voting rewards."
+            ]
+          },
+          "Diamond Pickaxe": {
+            "description": [
+              "When mining, has a `11/26` chance of mining up emeralds. Upgrade to a **Netherite Pickaxe** to receive better voting rewards."
+            ]
+          },
+          "Netherite Pickaxe": {
+            "description": [
+              "When mining, has a `13/26` chance of mining up emeralds."
+            ]
+          },
+          "Wood Sword": {
+            "description": [
+              "Deals a base damage of `1-2hp` against mobs."
+            ]
+          },
+          "Stone Sword": {
+            "description": [
+              "Deals a base damage of `1-3hp` against mobs."
+            ]
+          },
+          "Iron Sword": {
+            "description": [
+              "Deals a base damage of `2-4hp` against mobs."
+            ]
+          },
+          "Gold Sword": {
+            "description": [
+              "Deals a base damage of `4-5hp` against mobs."
+            ]
+          },
+          "Diamond Sword": {
+            "description": [
+              "Deals a base damage of `6-7hp` against mobs."
+            ]
+          },
+          "Netherite Sword": {
+            "description": [
+              "Deals a base damage of `7-10hp` against mobs."
+            ]
+          },
+          "Wood Hoe": {
+            "description": [
+              "Allows you to plant up to `10 plots` of farmland using the `{prefix}farm` command."
+            ]
+          },
+          "Stone Hoe": {
+            "description": [
+              "Allows you to plant up to `20 plots` of farmland using the `{prefix}farm` command."
+            ]
+          },
+          "Iron Hoe": {
+            "description": [
+              "Allows you to plant up to `30 plots` of farmland using the `{prefix}farm` command."
+            ]
+          },
+          "Gold Hoe": {
+            "description": [
+              "Allows you to plant up to `40 plots` of farmland using the `{prefix}farm` command."
+            ]
+          },
+          "Diamond Hoe": {
+            "description": [
+              "Allows you to plant up to `50 plots` of farmland using the `{prefix}farm` command."
+            ]
+          },
+          "Netherite Hoe": {
+            "description": [
+              "Allows you to plant up to `60 plots` of farmland using the `{prefix}farm` command."
+            ]
+          },
+          "Fishing Rod": {
+            "description": [
+              "Allows you to fish for **Cod**, **Salmon**, **Tropical Fish**, **Pufferfish**, **Rainbow Trout**, **Gold Fish**, and **Emerald Fish** using the `{prefix}fish` command."
+            ]
+          },
+          "Vault Potion": {
+            "description": [
+              "Use this item with the `{prefix}use Vault Potion` command to increase your available `{prefix}vault` capacity."
+            ]
+          },
+          "Haste I Potion": {
+            "description": [
+              "Reduces the `{prefix}mine` command cooldown by `1 second` for `7 minutes`."
+            ]
+          },
+          "Haste II Potion": {
+            "description": [
+              "Reduces the `{prefix}mine` command cooldown by `2 seconds` for `6 minutes`."
+            ]
+          },
+          "Fortune I Book": {
+            "description": [
+              "Increases the emerald reward from the `{prefix}mine` command by `1-2 emeralds`.",
+              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new pickaxes. This enchantment book does not stack."
+            ]
+          },
+          "Fortune II Book": {
+            "description": [
+              "Increases the emerald reward from the `{prefix}mine` command by `1-3 emeralds`.",
+              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new pickaxes. This enchantment book does not stack."
+            ]
+          },
+          "Fortune III Book": {
+            "description": [
+              "Increases the emerald reward from the `{prefix}mine` command by `1-4 emeralds`.",
+              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new pickaxes. This enchantment book does not stack."
+            ]
+          },
+          "Sharpness I Book": {
+            "description": [
+              "Increases base sword damage by `25%` (for a total of `125%`) when fighting mobs.",
+              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new swords. This enchantment book does not stack."
+            ]
+          },
+          "Sharpness II Book": {
+            "description": [
+              "Increases base sword damage by `50%` (for a total of `150%`) when fighting mobs.",
+              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new swords. This enchantment book does not stack."
+            ]
+          },
+          "Time Pearl": {
+            "description": [
+              "Upon using the item with the `{prefix}use Time Pearl` command, it fast-forwards time by two days; growing crops, resetting cooldowns for `{prefix}honey`, `{prefix}pillage`, `{prefix}search`, clears all active effects (for example, haste) and consumes the item."
+            ]
+          },
+          "Shield Pearl": {
+            "description": [
+              "Using this item with the `{prefix}use Shield Pearl` command will allow you to prevent people from pillaging you with the `{prefix}pillage` for up to one month. Using this item will consume it.",
+              "If you use the `{prefix}pillage` command while a **Shield Pearl** is active, its effect will be cancelled and you will become pillageable."
+            ]
+          },
+          "Rich Person Trophy": {
+            "description": [
+              "With a **Rich Person Trophy**, you get a bonus to the `{prefix}gamble` command, `200%` emeralds from the `{prefix}trashcan empty` command, `150%` emeralds from opening **Barrel**s, and `200%` emeralds from the `{prefix}mine` command. But remember... **greed has a price**..."
+            ]
+          },
+          "Jar Of Bees": {
+            "description": [
+              "Purchasing **Jar Of Bees** from the `{prefix}shop` allows you to harvest honey from them daily using the `{prefix}honey` command."
+            ]
+          },
+          "Glass Beaker": {
+            "description": [
+              "Allows you to transform a **Slime Ball** into a **Beaker Of Slime** with the `{prefix}use <amount> Glass Beaker` command, allowing it to be traded with other players."
+            ]
+          },
+          "Netherite Scrap": {
+            "description": [
+              "This item is required when purchasing certain items from the `{prefix}shop`."
+            ]
+          },
+          "Slime Trophy": {
+            "description": [
+              "Having this item in your inventory decreases your chances of missing attacks against **Baby Slime**s."
+            ]
+          },
+          "Fishing Trophy": {
+            "description": [
+              "Having this item in your inventory decreases your chances of fishing up junk when using the `{prefix}fish` command."
+            ]
+          },
+          "Wheat Seed": {
+            "description": [
+              "You can plant a **Wheat Seed** using the `{prefix}farm plant <amount> Wheat Seed` command to grow `1-2` **Wheat**."
+            ]
+          },
+          "Carrot": {
+            "description": [
+              "You can plant a **Carrot** using the `{prefix}farm plant <amount> Carrot` command to grow `1-3` **Carrot**s."
+            ]
+          },
+          "Potato": {
+            "description": [
+              "You can plant a **Potato** using the `{prefix}farm plant <amount> Potato` command to grow `1-3` **Potato**es."
+            ]
+          },
+          "Melon Seed": {
+            "description": [
+              "You can plant a **Melon Seed** using the `{prefix}farm plant <amount> Melon Seed` command to grow `2-5` **Melon**."
+            ]
+          },
+          "Chorus Seed": {
+            "description": [
+              "You can plant a **Chorus Seed** using the `{prefix}farm plant <amount> Chorus Seed` command to grow `1-2` **Chorus Fruit**."
+            ]
+          },
+
+
+
+
+
+          "Bone Meal": {
+            "description": [
+              "Dropped from killing Skeletons with a chance of `1/20` (affected by looting enchantments). You can use this item with the `{prefix}use Bone Meal` command, which grows all crops by `67%` of the time they take to grow."
+            ]
+          },
+          "Fishing Bait": {
+            "description": [
+              "Can be found by emptying your trash can with `{prefix}trash` command if you have enough dirt.",
+              "When used with the `{prefix}use Fishing Bait` command, it reduces the wait time for the `{prefix}fish` command by `8 seconds` and increases the chances of fishing up fish instead of junk or collectibles."
+            ]
+          },
+          "Honey Jar": {
+            "description": [
+              "When used with the `{prefix}use <amount> Honey Jar` command, it will heal you `1/2hp` per **Honey Jar**."
+            ]
+          },
+          "Barrel": {
+            "description": [
+              "When used with the `{prefix}use <amount> Barrel` command, it will give you a reward of either emeralds or a collectible item."
+            ]
+          },
+          "Beaker Of Slime": {
+            "description": [
+              "When used with the `{prefix}use <amount> Beaker Of Slime` command, it will separate out into a **Slime Ball** and **Glass Beaker**."
+            ]
+          },
+          "Infernum's Scroll": {
+            "description": [
+              "Allows you to change (re-roll) your daily quest with the `{prefix}use Infernum's Scroll` command. Using this item consumes it.",
+              "This item drops from all mobs with a chance of about `1/40` (affected by looting enchantments)."
+            ]
+          },
+          "Lure I Book": {
+            "description": [
+              "Reduces `4 seconds` of wait time from the `{prefix}fish` command.",
+              "This enchantment book is applied automatically as long as it remains in your inventory. This enchantment book does not stack."
+            ]
+          },
+          "Looting I Book": {
+            "description": [
+              "Increases chances and quantities of recovered items and emeralds from slain mobs.",
+              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new swords. This enchantment book does not stack."
+            ]
+          },
+          "Looting II Book": {
+            "description": [
+              "Increases chances and quantities of recovered items and emeralds from slain mobs, more so than the **Looting I Book**.",
+              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new swords. This enchantment book does not stack."
+            ]
+          },
+          "Efficiency I Book": {
+            "description": [
+              "Reduces the cooldown on the `{prefix}mine` command by `0.5 seconds`.",
+              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new pickaxes. This enchantment book does not stack."
+            ]
+          }
+        },
+        "item_tag_names": {
+          "4july": "Fourth of July",
+          "halloween": "Halloween",
+          "mkwii": "Mario Kart Wii",
+          "easter": "Easter"
+        },
+        "not_found": "No item with the name can be found. This item could exist, but no one has it and there's no documentation for it.",
+        "drop_rate": {
+          "title": "Drop Rate",
+          "not_mineable_or_fishable": "Not mineable / fishable",
+          "mining": "Mining: `1/{}`",
+          "fishing": "Fishing: `1/{}`"
+        },
+        "traits": {
+          "title": "Traits",
+          "sellable": "Sellable",
+          "tradeable": "Tradeable",
+          "purchaseable": "Purchaseable in `{prefix}shop`"
+        },
+        "rarity": {
+          "title": "Rarity",
+          "singular": "*`1` person has this item*",
+          "plural": "*`{amount}` people have this item*"
+        },
+        "season": {
+          "title": "Event / Season",
+          "date_format": "{month}/{day}"
+        }
       }
     }
   }

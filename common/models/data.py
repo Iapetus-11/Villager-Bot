@@ -255,6 +255,7 @@ class Emojis(ImmutableBaseModel):
     firecracker: str
     scroll: str
     infernums_scroll: str
+    pumpkin: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis

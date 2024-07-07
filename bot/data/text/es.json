@@ -2236,6 +2236,216 @@
             "De locos"
           ]
         }
+      },
+      "item_bible": {
+        "item_mapping": {
+                    "Wood Pickaxe": {
+            "description": [
+              "Cuando minas, tienes una probabilidad de `5/26` de conseguir esmeraldas. Mejóralo a un **Stone Pickaxe** para recibir más premios cuando votes."
+            ]
+          },
+          "Stone Pickaxe": {
+            "description": [
+              "Cuando minas, tienes una probabilidad de `6/26` de conseguir esmeraldas. Mejóralo a un **Iron Pickaxe** para recibir más premios cuando votes."
+            ]
+          },
+          "Iron Pickaxe": {
+            "description": [
+              "Cuando minas, tienes una probabilidad de `7/26` de conseguir esmeraldas. Mejóralo a un **Gold Pickaxe** para recibir más premios cuando votes."
+            ]
+          },
+          "Gold Pickaxe": {
+            "description": [
+              "Cuando minas, tienes una probabilidad de `9/26` de conseguir esmeraldas. Mejóralo a un **Diamond Pickaxe** para recibir más premios cuando votes."
+            ]
+          },
+          "Diamond Pickaxe": {
+            "description": [
+              "Cuando minas, tienes una probabilidad de `11/26` de conseguir esmeraldas. Mejóralo a un **Netherite Pickaxe** para recibir más premios cuando votes."
+            ]
+          },
+          "Netherite Pickaxe": {
+            "description": [
+              "Cuando minas, tienes una probabilidad de `13/26` de conseguir esmeraldas."
+            ]
+          },
+          "Wood Sword": {
+            "description": [
+              "Hace un daño de `1-2hp` contra monstruos."
+            ]
+          },
+          "Stone Sword": {
+            "description": [
+              "Hace un daño de `1-3hp` contra monstruos."
+            ]
+          },
+          "Iron Sword": {
+            "description": [
+              "Hace un daño de `2-4hp` contra monstruos."
+            ]
+          },
+          "Gold Sword": {
+            "description": [
+              "Hace un daño de `4-5hp` contra monstruos."
+            ]
+          },
+          "Diamond Sword": {
+            "description": [
+              "Hace un daño de `6-7hp` contra monstruos."
+            ]
+          },
+          "Netherite Sword": {
+            "description": [
+              "Hace un daño de `7-10hp` contra monstruos."
+            ]
+          },
+          "Wood Hoe": {
+            "description": [
+              "Te deja plantar hasta `10 parcelas` de terreno usando el comando `{prefix}farm`."
+            ]
+          },
+          "Stone Hoe": {
+            "description": [
+              "Te deja plantar hasta `20 parcelas` de terreno usando el comando `{prefix}farm`."
+            ]
+          },
+          "Iron Hoe": {
+            "description": [
+              "Te deja plantar hasta `30 parcelas` de terreno usando el comando `{prefix}farm`"
+            ]
+          },
+          "Gold Hoe": {
+            "description": [
+              "Te deja plantar hasta `40 parcelas` de terreno usando el comando `{prefix}farm`."
+            ]
+          },
+          "Diamond Hoe": {
+            "description": [
+              "Te deja plantar hasta `50 parcelas` de terreno usando el comando `{prefix}farm`."
+            ]
+          },
+          "Netherite Hoe": {
+            "description": [
+              "Te deja plantar hasta `60 parcelas` de terreno usando el comando `{prefix}farm`."
+            ]
+          },
+          "Fishing Rod": {
+            "description": [
+              "Te permite pescar **Cod**, **Salmon**, **Tropical Fish**, **Pufferfish**, **Rainbow Trout**, **Gold Fish**, y **Emerald Fish** usando el comando `{prefix}fish`."
+            ]
+          },
+          "Vault Potion": {
+            "description": [
+              "Usa la **Vault Potion** con el comando `{prefix}use Vault Potion` para aumentar la capacidad del `{prefix}vault`."
+            ]
+          },
+          "Haste I Potion": {
+            "description": [
+              "Reduce el tiempo de espera del comando `{prefix}mine` por `1 segundo` durante `7 minutos`."
+            ]
+          },
+          "Haste II Potion": {
+            "description": [
+              "Reduce el tiempo de espera del comando `{prefix}mine` por `2 segundos` durante `6 minutos`."
+            ]
+          },
+          "Fortune I Book": {
+            "description": [
+              "Aumenta las esmeraldas recibidas con el comando `{prefix}mine` unas `1-2 esmeraldas`.",
+              "Este libro de encantamientos es aplicado automáticamente mientras permanezca en el inventario en todos los picos. No es acumulable."
+            ]
+          },
+          "Fortune II Book": {
+            "description": [
+              "Aumenta las esmeraldas recibidas con el comando `{prefix}mine` unas `1-3 esmeraldas`.",
+              "Este libro de encantamientos es aplicado automáticamente mientras permanezca en el inventario en todos los picos. No es acumulable."
+            ]
+          },
+          "Fortune III Book": {
+            "description": [
+              "Aumenta las esmeraldas recibidas con el comando `{prefix}mine` unas `1-4 esmeraldas`.",
+              "Este libro de encantamientos es aplicado automáticamente mientras permanezca en el inventario en todos los picos. No es acumulable."
+            ]
+          },
+          "Sharpness I Book": {
+            "description": [
+              "Aumenta el daño de espada un `25%` (hasta un total de `125%`) cuando luches contra monstruos.",
+              "Este libro de encantamientos es aplicado automáticamente mientras permanezca en el inventario en todos los picos. No es acumulable."
+            ]
+          },
+          "Sharpness II Book": {
+            "description": [
+              "Aumenta el daño de espada un `50%` (hasta un total de `150%`) cuando luches contra monstruos.",
+              "Este libro de encantamientos es aplicado automáticamente mientras permanezca en el inventario en todos los picos. No es acumulable."
+            ]
+          },
+          "Time Pearl": {
+            "description": [
+              "Usar este objeto con el comando `{prefix}use Time Pearl` hará que se adelante el tiempo 2 días; haciendo que tus cultivos crezcan, y reduciendo totalmente el tiempo de espera de los comandos `{prefix}honey`, `{prefix}pillage`, `{prefix}search`, y elimina todos los efectos activos (por ejemplo, Haste). Para usar este objeto tienes que consumirlo."
+            ]
+          },
+          "Shield Pearl": {
+            "description": [
+              "Usar este objeto con el comando `{prefix}use Shield Pearl` te permitirá evitar que la gente te saquee con el comando `{prefix}pillage` hasta 1 mes. Para usar este objeto tienes que consumirlo.",
+              "Si usas el comando `{prefix}pillage` con un **Shield Pearl** activo, su efecto se cancelará y podrás ser saqueado."
+            ]
+          },
+          "Rich Person Trophy": {
+            "description": [
+              "Con un **Rich Person Trophy**, obtienes un bonus de esmeraldas de hasta un `200%` con el comando `{prefix}gamble`, `200%` con `{prefix}trashcan empty`, `150%` abriendo **Barrel**s, y `200%` con `{prefix}mine`. Pero recuerda... **la avaricia tiene un precio**..."
+            ]
+          },
+          "Jar Of Bees": {
+            "description": [
+              "Comprar **Jar Of Bees** con el comando `{prefix}shop` te permite recoger miel diariamente con el comando `{prefix}honey`."
+            ]
+          },
+          "Glass Beaker": {
+            "description": [
+              "Te permite transformar una **Slime Ball** en un **Slime Beaker** con el comando `{prefix}use <cantidad> Glass Beaker`, permitiendo su intercambio entre jugadores."
+            ]
+          },
+          "Netherite Scrap": {
+            "description": [
+              "Objeto necesario al comprar artículos de la `{prefix}shop`."
+            ]
+          },
+          "Slime Trophy": {
+            "description": [
+              "Tener este trofeo en tu inventario reduce las posibilidades de que los **Baby Slime** esquiven tus ataques."
+            ]
+          },
+          "Fishing Trophy": {
+            "description": [
+              "Tener este trofeo en tu inventario reduce las posibilidades de pescar basura con el comando `{prefix}fish`."
+            ]
+          },
+          "Wheat Seed": {
+            "description": [
+              "Puedes plantar una **Wheat Seed** usando el comando `{prefix}farm plant <cantidad> Wheat Seed` para obtener `1-2` de **Wheat**."
+            ]
+          },
+          "Carrot": {
+            "description": [
+              "Puedes plantar una **Carrot** usando el comando `{prefix}farm plant <cantidad> Carrot` para obtener `1-3` **Carrot**s."
+            ]
+          },
+          "Potato": {
+            "description": [
+              "Puedes plantar una **Potato** usando el comando `{prefix}farm plant <cantidad> Potato` para obtener `1-3` **Potato**s."
+            ]
+          },
+          "Melon Seed": {
+            "description": [
+              "Puedes plantar una **Melon Seed** usando el comando `{prefix}farm plant <cantidad> Melon Seed` para obtener `2-5` **Melon**es."
+            ]
+          },
+          "Chorus Seed": {
+            "description": [
+              "Puedes plantar una **Chorus Seed** usando el comando `{prefix}farm plant <cantidad> Chorus Seed` para obtener `1-2` **Chorus Fruit**."
+            ]
+          }
+        }
       }
     }
   }

@@ -2236,6 +2236,216 @@
             "Pog champ !"
           ]
         }
+      },
+      "item_bible": {
+        "item_mapping": {
+          "Wood Pickaxe": {
+            "description": [
+              "Lorsque vous minez, a une chance de `5/26` de miner des émeraudes. Achetez une **Stone Pickaxe** pour recevoir de meilleures recompenses de vote."
+            ]
+          },
+          "Stone Pickaxe": {
+            "description": [
+              "Lorsque vous minez, a une chance de `6/26` de miner des émeraudes. Achetez une **Iron Pickaxe** pour recevoir de meilleures recompenses de vote."
+            ]
+          },
+          "Iron Pickaxe": {
+            "description": [
+              "Lorsque vous minez, a une chance de `7/26` de miner des émeraudes. Achetez une **Gold Pickaxe** pour recevoir de meilleures recompenses de vote."
+            ]
+          },
+          "Gold Pickaxe": {
+            "description": [
+              "Lorsque vous minez, a une chance de `9/26` de miner des émeraudes. Achetez une **Diamond Pickaxe** pour recevoir de meilleures recompenses de vote."
+            ]
+          },
+          "Diamond Pickaxe": {
+            "description": [
+              "Lorsque vous minez, a une chance de `11/26` de miner des émeraudes. Achetez une **Netherite Pickaxe** pour recevoir de meilleures recompenses de vote."
+            ]
+          },
+          "Netherite Pickaxe": {
+            "description": [
+              "Lorsque vous minez, a une chance de `13/26` de miner des émeraudes."
+            ]
+          },
+          "Wood Sword": {
+            "description": [
+              "Inflige `1-2hp` de dégâts de base contre les entités."
+            ]
+          },
+          "Stone Sword": {
+            "description": [
+              "Inflige `1-3hp` de dégâts de base contre les entités."
+            ]
+          },
+          "Iron Sword": {
+            "description": [
+              "Inflige `2-4hp` de dégâts de base contre les entités."
+            ]
+          },
+          "Gold Sword": {
+            "description": [
+              "Inflige `4-5hp` de dégâts de base contre les entités."
+            ]
+          },
+          "Diamond Sword": {
+            "description": [
+              "Inflige `6-7hp` de dégâts de base contre les entités."
+            ]
+          },
+          "Netherite Sword": {
+            "description": [
+              "Inflige `7-10hp` de dégâts de base contre les entités."
+            ]
+          },
+          "Wood Hoe": {
+            "description": [
+              "Vous permet d'utiliser jusqu'à `10 plots` de terre en utilisant la commande `{prefix}farm` ."
+            ]
+          },
+          "Stone Hoe": {
+            "description": [
+              "Vous permet d'utiliser jusqu'à `20 plots` de terre en utilisant la commande `{prefix}farm` ."
+            ]
+          },
+          "Iron Hoe": {
+            "description": [
+              "Vous permet d'utiliser jusqu'à `30 plots` de terre en utilisant la commande `{prefix}farm` ."
+            ]
+          },
+          "Gold Hoe": {
+            "description": [
+              "Vous permet d'utiliser jusqu'à `40 plots` de terre en utilisant la commande `{prefix}farm` ."
+            ]
+          },
+          "Diamond Hoe": {
+            "description": [
+              "Vous permet d'utiliser jusqu'à `50 plots` de terre en utilisant la commande `{prefix}farm` ."
+            ]
+          },
+          "Netherite Hoe": {
+            "description": [
+              "Vous permet d'utiliser jusqu'à `60 plots` de terre en utilisant la commande `{prefix}farm` ."
+            ]
+          },
+          "Fishing Rod": {
+            "description": [
+              "Vous permet de pêcher des **Cod**, **Salmon**, **Tropical Fish**, **Pufferfish**, **Rainbow Trout**, **Gold Fish**, et*Emerald Fish** en utilisant la commande `{prefix}fish` ."
+            ]
+          },
+          "Vault Potion": {
+            "description": [
+              "Utilisez la vault potion en utilisant la commande `{prefix}use Vault Potion` pour augmenter la taille de votre `{prefix}vault` "
+            ]
+          },
+          "Haste I Potion": {
+            "description": [
+              "Réduit le cooldown de la commande `{prefix}mine` de `1 second` pendant `7 minutes`."
+            ]
+          },
+          "Haste II Potion": {
+            "description": [
+              "Réduit le cooldown de la commande `{prefix}mine` de `2 seconds` pendant `6 minutes`."
+            ]
+          },
+          "Fortune I Book": {
+            "description": [
+              "Augmente les émeraudes obtenues par la commande `{prefix}mine` de `1-2 emeralds`.",
+              "Les effets de ce livre sont appliqués automatiquement tant qu'il est présent dans votre inventaire, et se transfère automatiquement à toutes vos nouvelles pioches. Ces effets ne s'additionnent pas."
+            ]
+          },
+          "Fortune II Book": {
+            "description": [
+              "Augmente les émeraudes obtenues par la commande `{prefix}mine` de `1-3 emeralds`.",
+              "Les effets de ce livre sont appliqués automatiquement tant qu'il est présent dans votre inventaire, et se transfère automatiquement à toutes vos nouvelles pioches. Ces effets ne s'additionnent pas."
+            ]
+          },
+          "Fortune III Book": {
+            "description": [
+              "Augmente les émeraudes obtenues par la commande `{prefix}mine` de `1-4 emeralds`.",
+              "Les effets de ce livre sont appliqués automatiquement tant qu'il est présent dans votre inventaire, et se transfère automatiquement à toutes vos nouvelles pioches. Ces effets ne s'additionnent pas."
+            ]
+          },
+          "Sharpness I Book": {
+            "description": [
+              "Augmente les dégâts de base de `25%` (pour un total de `125%`) lorsque vous combattez des entités.",
+              "Les effets de ce livre sont appliqués automatiquement tant qu'il est présent dans votre inventaire, et se transfère automatiquement à toutes vos nouvelles épées. Ces effets ne s'additionnent pas."
+            ]
+          },
+          "Sharpness II Book": {
+            "description": [
+              "Augmente les dégâts de base de `50%` (pour un total de `150%`) lorsque vous combattez des entités.",
+              "Les effets de ce livre sont appliqués automatiquement tant qu'il est présent dans votre inventaire, et se transfère automatiquement à toutes vos nouvelles épées. Ces effets ne s'additionnent pas."
+            ]
+          },
+          "Time Pearl": {
+            "description": [
+              "Après avoir utilisé cet objet en utilisant la commande `{prefix}use Time Pearl` , ce dernier saute dans le temps et passe direcrtement deux jours après; ce qui fait pousser les plantations, réinitialise les cooldown pour `{prefix}honey`, `{prefix}pillage`, `{prefix}search`, ainsi que tout les effets actifs (par exemple, haste) ce en consommant l'objet."
+            ]
+          },
+          "Shield Pearl": {
+            "description": [
+              "Utiliser cet objet à l'aide de la commande `{prefix}use Shield Pearl` vous permettra d'empécher les gens de vousd pillier à l'aide de la commande `{prefix}pillage` pendant plus d'un mois. L'utilisation de cet objet le consommera.",
+              "Si vous utilisez la commande `{prefix}pillage` pendant qu'une **Shield Pearl** est active, son effet sera annulé et vous redeviendrez vulnérable aux pillages."
+            ]
+          },
+          "Rich Person Trophy": {
+            "description": [
+              "Avec un **Rich Person Trophy**, vous obtenez un bonus sur la commande `{prefix}gamble` , `200%` d'émeraudes lorsque vous utilisez la commande `{prefix}trashcan empty` , `150%` d'émeraudes lorsque vous ouvrez des **Barrel**s, et `200%` d'émeraudes lorsque vous utilisez la commande `{prefix}mine` . Mais n'oubliez pas... **la cupidité à un prix**..."
+            ]
+          },
+          "Jar Of Bees": {
+            "description": [
+              "Acheter **Jar Of Bees** dans le `{prefix}shop` vous permet de récolter du miel journalièrement en utilisant la commande `{prefix}honey` ."
+            ]
+          },
+          "Glass Beaker": {
+            "description": [
+              "Vous permet de transformer une **Slime Ball** en un **Beaker Of Slime** en utilisant la commande `{prefix}use <amount> Glass Beaker` , ce qui vous permet de l'échanger avec d'autres joueurs."
+            ]
+          },
+          "Netherite Scrap": {
+            "description": [
+              "Cet objet est nécessaire pour acheter certains objets dans le `{prefix}shop`."
+            ]
+          },
+          "Slime Trophy": {
+            "description": [
+              "Avoir cet objet dans votre inventaire diminue vos chances de rater vos attaques contre les  **Baby Slime**s."
+            ]
+          },
+          "Fishing Trophy": {
+            "description": [
+              "Avoir cet objet dans votre inventaire diminue vos chances de pêcher des déchets lorsque vous utilisez la commande `{prefix}fish` ."
+            ]
+          },
+          "Wheat Seed": {
+            "description": [
+              "Vous pouvez planter une **Wheat Seed** en utilisant la commande `{prefix}farm plant <amount> Wheat Seed` pour faire pousser `1-2` **Wheat**."
+            ]
+          },
+          "Carrot": {
+            "description": [
+              "Vous pouvez planter une **Carrot** en utilisant la commande `{prefix}farm plant <amount> Carrot` pour faire pousser `1-3` **Carrot**s."
+            ]
+          },
+          "Potato": {
+            "description": [
+              "Vous pouvez planter une **Potato** en utilisant la commande `{prefix}farm plant <amount> Potato` pour faire pousser `1-3` **Potato**es."
+            ]
+          },
+          "Melon Seed": {
+            "description": [
+              "Vous pouvez planter une **Melon Seed** en utilisant la commande `{prefix}farm plant <amount> Melon Seed` pour faire pousser `2-5` **Melon**."
+            ]
+          },
+          "Chorus Seed": {
+            "description": [
+              "Vous pouvez planter une **Chorus Seed** en utilisant la commande `{prefix}farm plant <amount> Chorus Seed` pour faire pousser `1-2` **Chorus Fruit**."
+            ]
+          }
+        }
       }
     }
   }
