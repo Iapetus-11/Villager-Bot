@@ -2501,6 +2501,34 @@
               "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário e também é transferido para todas as novas picaretas. Este livro de encantamentos não acumula."
             ]
           }
+        },
+        "item_tag_names": {
+          "4july": "Quatro de Julho",
+          "halloween": "Halloween",
+          "mkwii": "Mario Kart Wii",
+          "easter": "Páscoa"
+        },
+        "not_found": "Nenhum item com o nome pode ser encontrado. Este item pode existir, mas ninguém o possui e não há documentação para ele.",
+        "drop_rate": {
+          "title": "Chance de Drop",
+          "not_mineable_or_fishable": "Não minável / pescável",
+          "mining": "Minerando: `1/{}`",
+          "fishing": "Pescando: `1/{}`"
+        },
+        "traits": {
+          "title": "Características",
+          "sellable": "Vendável",
+          "tradeable": "Negociável",
+          "purchaseable": "Adquirível na `{prefix}shop`"
+        },
+        "rarity": {
+          "title": "Raridade",
+          "singular": "*`1` pessoa tem esse item*",
+          "plural": "*`{amount}` pessoas têm esse item*"
+        },
+        "season": {
+          "title": "Evento / Temporada",
+          "date_format": "{month}/{day}"
         }
       }
     }

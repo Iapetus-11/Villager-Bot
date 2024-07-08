@@ -2239,7 +2239,7 @@
       },
       "item_bible": {
         "item_mapping": {
-                    "Wood Pickaxe": {
+          "Wood Pickaxe": {
             "description": [
               "Cuando minas, tienes una probabilidad de `5/26` de conseguir esmeraldas. Mejóralo a un **Stone Pickaxe** para recibir más premios cuando votes."
             ]
@@ -2444,7 +2444,91 @@
             "description": [
               "Puedes plantar una **Chorus Seed** usando el comando `{prefix}farm plant <cantidad> Chorus Seed` para obtener `1-2` **Chorus Fruit**."
             ]
+          },
+          "Bone Meal": {
+            "description": [
+              "Hay una probabilidad de `1/20`  de que los elementos suelten este objeto (variable si se poseen encantamientos de botín). Puedes usr este objeto con el comando `{prefix}use Bone Meal`, el cual aumenta el progreso de tus cultivos un 67%."
+            ]
+          },
+          "Fishing Bait": {
+            "description": [
+              "Puedes encontrarla con el comando `{prefix}trash` cuando está considerablemente llena.",
+              "Cuando se usa con el comando `{prefix}use Fishing Bait`, reduce el tiempo de espera del comando `{prefix}fish` `8 segundos` y aumenta la probabilidad de pescar peces en vez de basura u objetos coleccionables."
+            ]
+          },
+          "Honey Jar": {
+            "description": [
+              "Cuando se usa con el comando `{prefix}use <cantidad> Honey Jar` command, te curará `1/2hp` por cada **Honey Jar**."
+            ]
+          },
+          "Barrel": {
+            "description": [
+              "Cuando se usa con el comando `{prefix}use <cantidad> Barrel`, obtendrás esmeraldas o un objeto coleccionable."
+            ]
+          },
+          "Beaker Of Slime": {
+            "description": [
+              "Cuando se usa con el comando `{prefix}use <cantidad> Beaker Of Slime`, se separará en una **Slime Ball** y un **Glass Beaker**."
+            ]
+          },
+          "Infernum's Scroll": {
+            "description": [
+              "Te permite cambiar tu misión diaria con el comando `{prefix}use Infernum's Scroll`. Este objeto es de un sólo uso.",
+              "Todos los mobs pueden soltar este item con una probabilidad de `1/40` (variable si se poseen encantamientos de botín)."
+            ]
+          },
+          "Lure I Book": {
+            "description": [
+              "Reduce por `4 segundos` el tiempo de espera del comando `{prefix}fish`.",
+              "Este libro de encantamientos es aplicado automáticamente mientras permanezca en el inventario. No es acumulable."
+            ]
+          },
+          "Looting I Book": {
+            "description": [
+              "Aumenta las probabilidades de conseguir objetos o esmeraldas al matar monstruos y aumenta las cantidad obtenida de estes.",
+              "Este libro de encantamientos es aplicado automáticamente mientras permanezca en el inventario a todas las espadas. No es acumulable."
+            ]
+          },
+          "Looting II Book": {
+            "description": [
+              "Aumenta las probabilidades de conseguir objetos o esmeraldas al matar monstruos y aumenta las cantidad obtenida de estes más que el **Looting Book I**.",
+              "Este libro de encantamientos es aplicado automáticamente mientras permanezca en el inventario a todas las espadas. No es acumulable."
+            ]
+          },
+          "Efficiency I Book": {
+            "description": [
+              "Reduce el tiempo de espera del comando `{prefix}mine` por `0.5 segundos`.",
+              "Este libro de encantamientos es aplicado automáticamente mientras permanezca en el inventario a todos los picos. No es acumulable."
+            ]
           }
+        },
+        "item_tag_names": {
+          "4july": "4 de Julio",
+          "halloween": "Halloween",
+          "mkwii": "Mario Kart Wii",
+          "easter": "Pascua"
+        },
+        "not_found": "No se ha encontrado ningún objeto con este nombre. Este objeto podría existir, pero nadie lo posee por lo que no hay documentación.",
+        "drop_rate": {
+          "title": "Probabilidad de obtención",
+          "not_mineable_or_fishable": "No es minable / pescable",
+          "mining": "Minando: `1/{}`",
+          "fishing": "Pescando: `1/{}`"
+        },
+        "traits": {
+          "title": "Traits",
+          "sellable": "Vendible",
+          "tradeable": "Intercambiable",
+          "purchaseable": "Comprable en `{prefix}shop`"
+        },
+        "rarity": {
+          "title": "Rareza",
+          "singular": "*`1` persona posee este objeto*",
+          "plural": "*`{amount}` personas poseen este objeto*"
+        },
+        "season": {
+          "title": "Evento / Temporada",
+          "date_format": "{month}/{day}"
         }
       }
     }

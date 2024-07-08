@@ -2444,7 +2444,91 @@
             "description": [
               "Vous pouvez planter une **Chorus Seed** en utilisant la commande `{prefix}farm plant <amount> Chorus Seed` pour faire pousser `1-2` **Chorus Fruit**."
             ]
+          },
+          "Bone Meal": {
+            "description": [
+              "Obtenable lorsque vous tuez un squelette avec une chance de `1/20` (affecté par les enchantements looting). Vous pouvez utiliser cet objet en utilisant la commande`{prefix}use Bone Meal` , ce qui fait grandir vos plantations de `67%` du temps qu'elles prennent a pousser complètement."
+            ]
+          },
+          "Fishing Bait": {
+            "description": [
+              "Obtenable lorsque vous videz vos déchets a l'aide de la commande `{prefix}trash` si vous avez assez de terre.",
+              "Lors qu'utilisé à l'aide de la commande`{prefix}use Fishing Bait` , cet objet reduit le temps d'attente de la commande `{prefix}fish` de `8 seconds` et augmente la chance de pêcher du poisson plutot que des déchets ou des objets."
+            ]
+          },
+          "Honey Jar": {
+            "description": [
+              "En utilisant cet objet à l'aide de la commande `{prefix}use <amount> Honey Jar` , vous serez soigné d'`1/2hp` par **Honey Jar**."
+            ]
+          },
+          "Barrel": {
+            "description": [
+              "Lorsque vous utilsez cet objet à l'aide de la commande `{prefix}use <amount> Barrel` , ce dernier vous récompensera avec des émeraudes ou un objet."
+            ]
+          },
+          "Beaker Of Slime": {
+            "description": [
+              "Lorsque vous utilisez cet objet à l'aide de la commande `{prefix}use <amount> Beaker Of Slime` , ce dernier sera séparé en une **Slime Ball** et un **Glass Beaker**."
+            ]
+          },
+          "Infernum's Scroll": {
+            "description": [
+              "Vous permet de changer (re-roll) votre quête journalière en utilisant la commande`{prefix}use Infernum's Scroll` . L'utilisation de cet objet le consomme.",
+              "Cet objet est lâché par toutes les entités avec une chance de `1/40` (affecté par les enchantement looting)."
+            ]
+          },
+          "Lure I Book": {
+            "description": [
+              "Réduit de `4 seconds` le temps d'attente de la commande `{prefix}fish` .",
+              "Cet effet est appliqué automatiquement tant que l'objet se trouve dans votre inventaire. Cet effet ne s'additionne pas."
+            ]
+          },
+          "Looting I Book": {
+            "description": [
+              "Augmente les chances et les quantités d'obtention d'objets et d'émeraudes lorques vous tuez une entité.",
+              "Cet effet est appliqué automatiquement tant que l'objet se trouve dans votre inventaire, et s'applique à toutes vos épées. Cet effet ne s'additionne pas."
+            ]
+          },
+          "Looting II Book": {
+            "description": [
+              "Augmente les chances et les quantités d'obtention d'objets et d'émeraudes lorques vous tuez une entité, et ce encore plus que le **Looting I Book**.",
+              "Cet effet est appliqué automatiquement tant que l'objet se trouve dans votre inventaire, et s'applique à toutes vos épées. Cet effet ne s'additionne pas."
+            ]
+          },
+          "Efficiency I Book": {
+            "description": [
+              "Reduit le cooldown de la commande `{prefix}mine` par `0.5 seconds`.",
+              "Cet effet est appliqué automatiquement tant que l'objet se trouve dans votre inventaire, et s'applique à toutes vos pioches. Cet effet ne s'additionne pas."
+            ]
           }
+        },
+        "item_tag_names": {
+          "4july": "4 Juillet",
+          "halloween": "Halloween",
+          "mkwii": "Mario Kart Wii",
+          "easter": "Paques"
+        },
+        "not_found": "Aucun objet avec ce nom n'a été trouvé. Ce dernier pourrait exister, mais il est possible que personne ne l'ait et qu'il n'y ait aucune documentation dessus.",
+        "drop_rate": {
+          "title": "Drop Rate",
+          "not_mineable_or_fishable": "N'est pas obtenable en minant/pêchant ",
+          "mining": "Miner: `1/{}`",
+          "fishing": "Pêcher: `1/{}`"
+        },
+        "traits": {
+          "title": "Traits",
+          "sellable": "Vendable",
+          "tradeable": "Échangeable",
+          "purchaseable": "Achetable dans le `{prefix}shop`"
+        },
+        "rarity": {
+          "title": "Rarity",
+          "singular": "*`1` personne a cet objet*",
+          "plural": "*`{amount}` personnes ont cet objet*"
+        },
+        "season": {
+          "title": "Évenement / Saison",
+          "date_format": "{month}/{day}"
         }
       }
     }
