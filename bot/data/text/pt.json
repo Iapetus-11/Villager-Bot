@@ -95,7 +95,8 @@
         "sell": "`{0}sell <quantidade> <item>` *vende itens de volta ao Villager Bot*",
         "leaderboards": "`{0}leaderboards` *mostra as tabelas de classificação*",
         "trivia": "`{0}trivia` *envia perguntas triviais que você pode responder por esmeraldas!*",
-        "dailyquest": "`{0}dailyquest` *te dá uma missão divertida que expira em um dia*"
+        "dailyquest": "`{0}dailyquest` *te dá uma missão divertida que expira em um dia*",
+        "iteminfo": "`{0}iteminfo <item>` *envia informações e estatísticas do item especificado*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [opcional: servidor]` *verifica o status de qualquer tipo de servidor de Minecraft*",

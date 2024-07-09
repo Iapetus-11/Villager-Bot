@@ -95,7 +95,8 @@
         "sell": "`{0}sell <cantidad> <objeto>` *vende de vuelta los objetos a Villager Bot*",
         "leaderboards": "`{0}leaderboards` *muestra las tablas de clasificación*",
         "trivia": "`{0}trivia` *envía preguntas de trivia, ¡puedes responderlas para conseguir esmeraldas!*",
-        "dailyquest": "`{0}dailyquest` *te asigna una entretenida misión que tiene un tiempo límite de un día*"
+        "dailyquest": "`{0}dailyquest` *te asigna una entretenida misión que tiene un tiempo límite de un día*",
+        "iteminfo": "`{0}iteminfo <objeto>` *envía información y estadísticas del objeto especificado*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [opcional: servidor]` *comprueba el estado de cualquier tipo de servidor de Minecraft*",

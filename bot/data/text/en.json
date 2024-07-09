@@ -95,7 +95,8 @@
         "sell": "`{0}sell <amount> <item>` *sell items back to Villager Bot*",
         "leaderboards": "`{0}leaderboards` *shows the leaderboards*",
         "trivia": "`{0}trivia` *sends trivia questions you can answer for emeralds!*",
-        "dailyquest": "`{0}dailyquest` *gives you a fun quest that expires within a day*"
+        "dailyquest": "`{0}dailyquest` *gives you a fun quest that expires within a day*",
+        "iteminfo": "`{0}iteminfo <item>` *sends information and stats on the specified item*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [optional: server]` *checks the status of any type of Minecraft server*",
