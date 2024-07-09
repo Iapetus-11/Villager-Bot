@@ -72,7 +72,7 @@
     "~"
   ],
   "cooldown_rates": {
-    "fish": 8,
+    "fish": 4,
     "pillage": 300,
     "use": 1,
     "honey": 86400,
