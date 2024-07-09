@@ -729,6 +729,7 @@ class Econ_Lb(ImmutableBaseModel):
     wcmds: str
     dq: str
     wdq: str
+    tw: str
     lb_ems: str
     lb_item: str
     lb_unique_items: str
@@ -743,6 +744,7 @@ class Econ_Lb(ImmutableBaseModel):
     lb_wcmds: str
     lb_dq: str
     lb_wdq: str
+    lb_tw: str
     no_item_lb: str
     item_lb_stats: str
 

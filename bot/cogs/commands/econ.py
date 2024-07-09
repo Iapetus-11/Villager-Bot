@@ -1866,6 +1866,11 @@ class Econ(commands.Cog):
             value=f"`{ctx.prefix}leaderboard wdq`",
         )
 
+        embed.add_field(
+            name=f"{ctx.l.econ.lb.tw} {self.d.emojis.emerald_block}",
+            value=f"`{ctx.prefix}leaderboard totalwealth`",
+        )
+
         await ctx.reply(embed=embed, mention_author=False)
 
     async def _lb_logic(
@@ -2163,6 +2168,23 @@ class Econ(commands.Cog):
                 local_lb=local_lb,
                 row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.calendar} {{}}",
                 title=ctx.l.econ.lb.lb_wdq.format(f" {self.d.emojis.calendar} "),
+            )
+
+    @leaderboards.command(name="totalwealth", aliases=["tw"])
+    async def leaderboard_total_wealth(self, ctx: Ctx):
+        async with SuppressCtxManager(ctx.typing()):
+            global_lb = await self.db.fetch_global_lb_total_wealth(ctx.author.id)
+            local_lb = await self.db.fetch_local_lb_total_wealth(
+                ctx.author.id,
+                [m.id for m in ctx.guild.members if not m.bot],
+            )
+
+            await self._lb_logic(
+                ctx,
+                global_lb=global_lb,
+                local_lb=local_lb,
+                row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.emerald_block} {{}}",
+                title=ctx.l.econ.lb.lb_tw.format(f" {self.d.emojis.emerald_block} "),
             )
 
     @commands.group(name="farm", case_insensitive=True)
