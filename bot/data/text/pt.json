@@ -2114,6 +2114,7 @@
         "wcmds": "Comandos Semanais",
         "dq": "Missões Diárias Concluídas",
         "wdq": "Missões Diárias Semanais Concluídas",
+        "tw": "Patrimônio",
         "lb_ems": "{0}__**Tabela de Classificação de Esmeraldas**__{0}",
         "lb_item": "{0}__**Tabela de Classificação de {1}**__{0}",
         "lb_unique_items": "{0}__**Tabela de Classificação de Itens Exclusivos**__{0}",
@@ -2128,6 +2129,7 @@
         "lb_wcmds": "{0}__**Comandos Semanais**__{0}",
         "lb_dq": "{0}__**Missões Diárias Concluídas**__{0}",
         "lb_wdq": "{0}__**Missões Diárias Semanais Concluídas**__{0}",
+        "lb_tw": "{0}__**Patrimônio**__{0}",
         "no_item_lb": "Não existe tabela de classificação para esse item",
         "item_lb_stats": "*total de {total_count:,} possuídos por {user_count:,} usuários diferentes*"
       },

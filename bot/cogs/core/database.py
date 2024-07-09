@@ -611,6 +611,65 @@ class Database(commands.Cog):
             user_ids,
         )
 
+    async def fetch_global_lb_total_wealth(self, user_id: int) -> list[dict[str, Any]]:
+        return await self.db.fetch(
+            (
+                """
+                WITH
+                    users_total_wealth AS (
+                        SELECT
+                            users.user_id,
+                            (emeralds + vault_balance * 9 + SUM(items.sell_price * items.amount)) AS amount
+                        FROM users
+                        JOIN items ON users.user_id = items.user_id
+                        GROUP BY users.user_id
+                    ),
+                    lb AS (
+                        SELECT *, ROW_NUMBER() OVER (ORDER BY amount DESC) AS idx
+                        FROM users_total_wealth
+                        WHERE amount IS NOT NULL
+                    )
+                SELECT * FROM lb
+                WHERE idx <= 10 OR user_id = $1
+                ORDER BY idx ASC;
+                """
+            ),
+            user_id,
+        )
+
+    async def fetch_local_lb_total_wealth(
+        self, user_id: int, user_ids: list[int]
+    ) -> list[dict[str, Any]]:
+        return await self.db.fetch(
+            (
+                """
+                WITH
+                    users_total_wealth AS (
+                        SELECT
+                            users.user_id,
+                            (emeralds + vault_balance * 9 + SUM(items.sell_price * items.amount)) AS amount
+                        FROM users
+                        JOIN items ON users.user_id = items.user_id
+                        WHERE users.user_id = ANY($2::BIGINT[])
+                        GROUP BY users.user_id
+                    ),
+                    lb AS (
+                        SELECT *, ROW_NUMBER() OVER (ORDER BY amount DESC) AS idx
+                        FROM users_total_wealth
+                        WHERE amount IS NOT NULL
+                    )
+                (
+                    (SELECT * FROM lb LIMIT 10)
+                    UNION
+                    (SELECT * FROM lb WHERE user_id = $1)
+                )
+                ORDER BY idx ASC;
+                """
+            ),
+            user_id,
+            user_ids,
+        )
+
     async def set_botbanned(self, user_id: int, botbanned: bool) -> None:
         await self.ensure_user_exists(user_id)
 
