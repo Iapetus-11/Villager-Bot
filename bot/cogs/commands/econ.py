@@ -2544,8 +2544,9 @@ class Econ(commands.Cog):
             value=(
                 ctx.l.econ.item_bible.rarity.singular
                 if item_count == 1
-                else ctx.l.econ.item_bible.rarity.plural.format(amount=item_count)
-            ),
+                else ctx.l.econ.item_bible.rarity.plural.format(amount=item_count))
+                +
+                ("\n"  + ctx.l.econ.item_bible.owned.text.format(amount=db_item.amount)) if db_item else "",
             inline=False,
         )
 

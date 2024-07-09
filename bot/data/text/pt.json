@@ -2529,6 +2529,9 @@
           "singular": "*`1` pessoa tem esse item*",
           "plural": "*`{amount}` pessoas têm esse item*"
         },
+        "owned": {
+          "text": "*Você tem `{amount}` desse item*"
+        },
         "season": {
           "title": "Evento / Temporada",
           "date_format": "{month}/{day}"

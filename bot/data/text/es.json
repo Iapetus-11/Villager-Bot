@@ -2529,6 +2529,9 @@
           "singular": "*`1` persona posee este objeto*",
           "plural": "*`{amount}` personas poseen este objeto*"
         },
+        "owned": {
+          "text": "*Posees `{amount}` unidades de este objeto*"
+        },
         "season": {
           "title": "Evento / Temporada",
           "date_format": "{month}/{day}"
