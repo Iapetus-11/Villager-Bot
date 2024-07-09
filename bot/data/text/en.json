@@ -2448,11 +2448,6 @@
               "You can plant a **Chorus Seed** using the `{prefix}farm plant <amount> Chorus Seed` command to grow `1-2` **Chorus Fruit**."
             ]
           },
-
-
-
-
-
           "Bone Meal": {
             "description": [
               "Dropped from killing Skeletons with a chance of `1/20` (affected by looting enchantments). You can use this item with the `{prefix}use Bone Meal` command, which grows all crops by `67%` of the time they take to grow."
