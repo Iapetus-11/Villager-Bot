@@ -95,6 +95,7 @@ class Quests(commands.Cog):
     def __init__(self, bot: VillagerBotCluster):
         self.bot = bot
         self.d = bot.d
+        self._quest_completed_lock = asyncio.Lock()
 
     @property
     def db(self) -> "Database":
@@ -242,20 +243,25 @@ class Quests(commands.Cog):
     ) -> None:
         user_id, _ = get_user_and_lang_from_loc(self.bot.l, loc)
 
+        async with self._quest_completed_lock:
+            quest = await self.fetch_user_daily_quest(user_id)
+
+            if quest.done:
+                return
+
+            await self.db.mark_daily_quest_as_done(user_id, quest.key)
+
+            if quest.reward_item == "emerald":
+                await self.db.balance_add(user_id, quest.reward_amount)
+            elif quest.reward_item == "Barrel":
+                await self.db.add_item(user_id, "Barrel", 1024, quest.reward_amount)
+            else:
+                raise NotImplementedError(f"Couldn't reward item {quest.reward_item} to user {user_id}")
+
+            await self.db.update_lb(user_id, "daily_quests", 1)
+            await self.db.update_lb(user_id, "week_daily_quests", 1)
+
         await asyncio.sleep(1.0 + random.randint(0, 2))
-
-        await self.db.mark_daily_quest_as_done(user_id, quest.key)
-        quest = await self.fetch_user_daily_quest(user_id)
-
-        if quest.reward_item == "emerald":
-            await self.db.balance_add(user_id, quest.reward_amount)
-        elif quest.reward_item == "Barrel":
-            await self.db.add_item(user_id, "Barrel", 1024, quest.reward_amount)
-        else:
-            raise NotImplementedError(f"Couldn't reward item {quest.reward_item} to user {user_id}")
-
-        await self.db.update_lb(user_id, "daily_quests", 1)
-        await self.db.update_lb(user_id, "week_daily_quests", 1)
 
         embed = self.get_quest_embed(loc, quest)
         view = DailyQuestDoneView(bot=self.bot, loc=loc, user_id=user_id)
