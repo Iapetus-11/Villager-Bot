@@ -30,7 +30,7 @@ jobs:
         run: poetry install
 
       - name: ruff formatter & linter
-        run: poetry run format_and_lint
+        run: poetry run format_and_lint --github-output
       
       - name: mypy
         run: poetry run mypy
