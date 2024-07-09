@@ -807,6 +807,7 @@ class Econ_ItemBible_Rarity(ImmutableBaseModel):
 class Econ_ItemBible_Owned(ImmutableBaseModel):
     text: str
 
+
 class Econ_ItemBible_Season(ImmutableBaseModel):
     title: str
     date_format: str
