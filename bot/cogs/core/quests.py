@@ -256,7 +256,9 @@ class Quests(commands.Cog):
             elif quest.reward_item == "Barrel":
                 await self.db.add_item(user_id, "Barrel", 1024, quest.reward_amount)
             else:
-                raise NotImplementedError(f"Couldn't reward item {quest.reward_item} to user {user_id}")
+                raise NotImplementedError(
+                    f"Couldn't reward item {quest.reward_item} to user {user_id}"
+                )
 
             await self.db.update_lb(user_id, "daily_quests", 1)
             await self.db.update_lb(user_id, "week_daily_quests", 1)

@@ -2486,6 +2486,11 @@ class Econ(commands.Cog):
 
         drop_rate_text = ctx.l.econ.item_bible.drop_rate.not_mineable_or_fishable
         trait_text = ""
+        rarity_text = (
+            ctx.l.econ.item_bible.rarity.singular
+            if item_count == 1
+            else ctx.l.econ.item_bible.rarity.plural.format(amount=item_count)
+        )
 
         if db_item is not None and db_item.sellable:
             trait_text += f"💸 {ctx.l.econ.item_bible.traits.sellable}\n"
@@ -2533,6 +2538,11 @@ class Econ(commands.Cog):
                 f"🛍️ {ctx.l.econ.item_bible.traits.purchaseable.format(prefix=ctx.prefix)}\n"
             )
 
+        if db_item is not None:
+            rarity_text += (
+                f"\n{ctx.l.econ.item_bible.rarity.owned_amount.format(amount=db_item.amount)}"
+            )
+
         if trait_text:
             embed.add_field(name=ctx.l.econ.item_bible.traits.title, value=trait_text)
             embed.add_field(name="\ufeff", value="\ufeff")
@@ -2541,11 +2551,7 @@ class Econ(commands.Cog):
 
         embed.add_field(
             name=ctx.l.econ.item_bible.rarity.title,
-            value=(
-                ctx.l.econ.item_bible.rarity.singular
-                if item_count == 1
-                else ctx.l.econ.item_bible.rarity.plural.format(amount=item_count)
-            ),
+            value=rarity_text,
             inline=False,
         )
 

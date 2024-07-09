@@ -802,6 +802,11 @@ class Econ_ItemBible_Rarity(ImmutableBaseModel):
     title: str
     singular: str
     plural: str
+    owned_amount: str
+
+
+class Econ_ItemBible_Owned(ImmutableBaseModel):
+    text: str
 
 
 class Econ_ItemBible_Season(ImmutableBaseModel):
