@@ -802,6 +802,7 @@ class Econ_ItemBible_Rarity(ImmutableBaseModel):
     title: str
     singular: str
     plural: str
+    owned_amount: str
 
 
 class Econ_ItemBible_Owned(ImmutableBaseModel):
@@ -820,7 +821,6 @@ class Econ_ItemBible(ImmutableBaseModel):
     drop_rate: Econ_ItemBible_DropRate
     traits: Econ_ItemBible_Traits
     rarity: Econ_ItemBible_Rarity
-    owned: Econ_ItemBible_Owned
     season: Econ_ItemBible_Season
 
 

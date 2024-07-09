@@ -2527,10 +2527,8 @@
         "rarity": {
           "title": "Rarity",
           "singular": "*`1` person has this item*",
-          "plural": "*`{amount}` people have this item*"
-        },
-        "owned": {
-          "text": "*You have `{amount}` of this item*"
+          "plural": "*`{amount}` people have this item*",
+          "owned_amount": "*You have `{amount}` of this item*"
         },
         "season": {
           "title": "Event / Season",
