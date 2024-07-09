@@ -2114,6 +2114,7 @@
         "wcmds": "Commandes Hebdomadaires",
         "dq": "terminé quête de quotidien",
         "wdq": "de la semaine terminé quête de quotidien",
+        "tw": "Richesse Nette",
         "lb_ems": "{0}__**Leaderboard d'émeraudes**__{0}",
         "lb_item": "{0}__**Leaderboard des {1}**__{0}",
         "lb_unique_items": "{0}__**Unique Items Leaderboard**__{0}",
@@ -2128,6 +2129,7 @@
         "lb_wcmds": "{0}__**Commandes Hebdomadaires**__{0}",
         "lb_dq": "{0}__**terminé quête de quotidien**__{0}",
         "lb_wdq": "{0}__**de la semaine terminée quête de quotidienne**__{0}",
+        "lb_tw": "{0}__**Richesse Nette**__{0}",
         "no_item_lb": "Il n’y a pas de leaderboard pour cet objet",
         "item_lb_stats": "*total de {total_count:,} détenus par {user_count:,} différents utilisateurs*"
       },
