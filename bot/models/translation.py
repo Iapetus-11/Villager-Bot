@@ -778,6 +778,45 @@ class Econ_DailyQuests(ImmutableBaseModel):
     encouragements: Econ_Quests_Encouragements
 
 
+class Econ_ItemBible_MappingEntry(ImmutableBaseModel):
+    description: list[str]
+
+
+class Econ_ItemBible_DropRate(ImmutableBaseModel):
+    title: str
+    not_mineable_or_fishable: str
+    mining: str
+    fishing: str
+
+
+class Econ_ItemBible_Traits(ImmutableBaseModel):
+    title: str
+    sellable: str
+    tradeable: str
+    purchaseable: str
+
+
+class Econ_ItemBible_Rarity(ImmutableBaseModel):
+    title: str
+    singular: str
+    plural: str
+
+
+class Econ_ItemBible_Season(ImmutableBaseModel):
+    title: str
+    date_format: str
+
+
+class Econ_ItemBible(ImmutableBaseModel):
+    item_mapping: dict[str, Econ_ItemBible_MappingEntry]
+    item_tag_names: dict[str, str]
+    not_found: str
+    drop_rate: Econ_ItemBible_DropRate
+    traits: Econ_ItemBible_Traits
+    rarity: Econ_ItemBible_Rarity
+    season: Econ_ItemBible_Season
+
+
 class Econ(ImmutableBaseModel):
     use_a_number_stupid: str
     page: str
@@ -802,6 +841,7 @@ class Econ(ImmutableBaseModel):
     lb: Econ_Lb
     trash: Econ_Trash
     daily_quests: Econ_DailyQuests
+    item_bible: Econ_ItemBible
 
 
 class Translation(ImmutableBaseModel):

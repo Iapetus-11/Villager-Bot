@@ -112,7 +112,9 @@ class Quests(commands.Cog):
             )
         )(self.d.emojis, quest.emoji.split("."))
 
-        completion_percent: float = min(max((quest.value / quest.target_value) if quest.value else 0, 0), 1)
+        completion_percent: float = min(
+            max((quest.value / quest.target_value) if quest.value else 0, 0), 1
+        )
         close_to_completion = completion_percent > 0.75
 
         completion_bar = (

@@ -1552,6 +1552,7 @@
     "bomb": "\uD83D\uDCA3",
     "firecracker": "\uD83E\uDDE8",
     "scroll": "\uD83D\uDCDC",
+    "pumpkin": "<:pumpkin:763123129593495582>",
     "infernums_scroll": "<:infernums_scroll:1257669297770205306>",
     "farming": {
       "growing": {
@@ -1819,7 +1820,8 @@
     "Komodo 30000 SuperNova Aerial Firework": "bomb",
     "Firecracker": "firecracker",
     "Declaration Of Independence": "scroll",
-    "Infernum's Scroll": "infernums_scroll"
+    "Infernum's Scroll": "infernums_scroll",
+    "Pumpkin": "pumpkin"
   },
   "farming": {
     "emojis": {

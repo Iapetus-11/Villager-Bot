@@ -95,7 +95,8 @@
         "sell": "`{0}sell <quantidade> <item>` *vende itens de volta ao Villager Bot*",
         "leaderboards": "`{0}leaderboards` *mostra as tabelas de classificação*",
         "trivia": "`{0}trivia` *envia perguntas triviais que você pode responder por esmeraldas!*",
-        "dailyquest": "`{0}dailyquest` *te dá uma missão divertida que expira em um dia*"
+        "dailyquest": "`{0}dailyquest` *te dá uma missão divertida que expira em um dia*",
+        "iteminfo": "`{0}iteminfo <item>` *envia informações e estatísticas do item especificado*"
       },
       "mc": {
         "mcstatus": "`{0}mcstatus [opcional: servidor]` *verifica o status de qualquer tipo de servidor de Minecraft*",
@@ -2235,6 +2236,300 @@
             "Você conseguiu!",
             "Pog champ!"
           ]
+        }
+      },
+      "item_bible": {
+        "item_mapping": {
+          "Wood Pickaxe": {
+            "description": [
+              "Ao minerar, tem uma chance de `5/26` de extrair esmeraldas. Melhore para uma **Stone Pickaxe** para receber melhores recompensas de votação."
+            ]
+          },
+          "Stone Pickaxe": {
+            "description": [
+              "Ao minerar, tem uma chance de `6/26` de extrair esmeraldas. Melhore para uma **Iron Pickaxe** para receber melhores recompensas de votação."
+            ]
+          },
+          "Iron Pickaxe": {
+            "description": [
+              "Ao minerar, tem uma chance de `7/26` de extrair esmeraldas. Melhore para uma **Gold Pickaxe** para receber melhores recompensas de votação."
+            ]
+          },
+          "Gold Pickaxe": {
+            "description": [
+              "Ao minerar, tem uma chance de `9/26` de extrair esmeraldas. Melhore para uma **Diamond Pickaxe** para receber melhores recompensas de votação."
+            ]
+          },
+          "Diamond Pickaxe": {
+            "description": [
+              "Ao minerar, tem uma chance de `11/26` de extrair esmeraldas. Melhore para uma **Netherite Pickaxe** para receber melhores recompensas de votação."
+            ]
+          },
+          "Netherite Pickaxe": {
+            "description": [
+              "Ao minerar, tem uma chance de `13/26` de extrair esmeraldas."
+            ]
+          },
+          "Wood Sword": {
+            "description": [
+              "Causa um dano base de `1-2hp` contra mobs."
+            ]
+          },
+          "Stone Sword": {
+            "description": [
+              "Causa um dano base de `1-3hp` contra mobs."
+            ]
+          },
+          "Iron Sword": {
+            "description": [
+              "Causa um dano base de `2-4hp` contra mobs."
+            ]
+          },
+          "Gold Sword": {
+            "description": [
+              "Causa um dano base de `4-5hp` contra mobs."
+            ]
+          },
+          "Diamond Sword": {
+            "description": [
+              "Causa um dano base de `6-7hp` contra mobs."
+            ]
+          },
+          "Netherite Sword": {
+            "description": [
+              "Causa um dano base de `7-10hp` contra mobs."
+            ]
+          },
+          "Wood Hoe": {
+            "description": [
+              "Te permite plantar até `10 lotes` de terra usando o comando `{prefix}farm`."
+            ]
+          },
+          "Stone Hoe": {
+            "description": [
+              "Te permite plantar até `20 lotes` de terra usando o comando `{prefix}farm`."
+            ]
+          },
+          "Iron Hoe": {
+            "description": [
+              "Te permite plantar até `30 lotes` de terra usando o comando `{prefix}farm`."
+            ]
+          },
+          "Gold Hoe": {
+            "description": [
+              "Te permite plantar até `40 lotes` de terra usando o comando `{prefix}farm`."
+            ]
+          },
+          "Diamond Hoe": {
+            "description": [
+              "Te permite plantar até `50 lotes` de terra usando o comando `{prefix}farm`."
+            ]
+          },
+          "Netherite Hoe": {
+            "description": [
+              "Te permite plantar até `60 lotes` de terra usando o comando `{prefix}farm`."
+            ]
+          },
+          "Fishing Rod": {
+            "description": [
+              "Te permite pescar **Cod**, **Salmon**, **Tropical Fish**, **Pufferfish**, **Rainbow Trout**, **Gold Fish**, e **Emerald Fish** usando o comando `{prefix}fish`."
+            ]
+          },
+          "Vault Potion": {
+            "description": [
+              "Use a poção do cofre com o comando `{prefix}use Vault Potion` para aumentar a capacidade disponível do seu `{prefix}vault`."
+            ]
+          },
+          "Haste I Potion": {
+            "description": [
+              "Reduz o tempo de espera do comando `{prefix}mine` em `1 segundo` por `7 minutos`."
+            ]
+          },
+          "Haste II Potion": {
+            "description": [
+              "Reduz o tempo de espera do comando `{prefix}mine` em `2 segundos` por `6 minutos`."
+            ]
+          },
+          "Fortune I Book": {
+            "description": [
+              "Aumenta a recompensa de esmeraldas do comando `{prefix}mine` em `1-2 esmeraldas`.",
+              "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário e também é transferido para todas as novas picaretas. Este livro de encantamentos não acumula."
+            ]
+          },
+          "Fortune II Book": {
+            "description": [
+              "Aumenta a recompensa de esmeraldas do comando `{prefix}mine` em `1-3 esmeraldas`.",
+              "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário e também é transferido para todas as novas picaretas. Este livro de encantamentos não acumula."
+            ]
+          },
+          "Fortune III Book": {
+            "description": [
+              "Aumenta a recompensa de esmeraldas do comando `{prefix}mine` em `1-4 esmeraldas`.",
+              "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário e também é transferido para todas as novas picaretas. Este livro de encantamentos não acumula."
+            ]
+          },
+          "Sharpness I Book": {
+            "description": [
+              "Aumenta o dano base da espada em `25%` (para um total de `125%`) ao lutar contra mobs.",
+              "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário e também é transferido para todas as novas espadas. Este livro de encantamentos não acumula."
+            ]
+          },
+          "Sharpness II Book": {
+            "description": [
+              "Aumenta o dano base da espada em `50%` (para um total de `150%`) ao lutar contra mobs.",
+              "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário e também é transferido para todas as novas espadas. Este livro de encantamentos não acumula."
+            ]
+          },
+          "Time Pearl": {
+            "description": [
+              "Ao usar o item com o comando `{prefix}use Time Pearl`, ele avança o tempo em dois dias; cultivando colheitas, redefinindo os tempos de espera do `{prefix}honey`, `{prefix}pillage`, `{prefix}search`, limpa todos os efeitos ativos (por exemplo, pressa) e consome o item."
+            ]
+          },
+          "Shield Pearl": {
+            "description": [
+              "Usar este item com o comando `{prefix}use Shield Pearl` permitirá que você impeça as pessoas de te saquearem com o `{prefix}pillage` por até um mês. Usar este item irá consumi-lo.",
+              "Se você usar o comando `{prefix}pillage` enquanto um **Shield Pearl** estiver ativo, seu efeito será cancelado e você se tornará saqueável."
+            ]
+          },
+          "Rich Person Trophy": {
+            "description": [
+              "Com um **Rich Person Trophy**, você ganha um bônus no comando `{prefix}gamble`, `200%` de esmeraldas do comando `{prefix}trashcan empty`, `150%` de esmeraldas ao abrir **Barris** e `200%` de esmeraldas do comando `{prefix}mine`. Mas lembre-se... **a ganância tem um preço**..."
+            ]
+          },
+          "Jar Of Bees": {
+            "description": [
+              "Comprar **Jar Of Bees** na `{prefix}shop` permite que você colha mel delas diariamente usando o comando `{prefix}honey`."
+            ]
+          },
+          "Glass Beaker": {
+            "description": [
+              "Permite que você transforme uma **Slime Ball** em um **Beaker Of Slime** com o comando `{prefix}use <quantidade> Glass Beaker`, permitindo que ela seja negociado com outros jogadores."
+            ]
+          },
+          "Netherite Scrap": {
+            "description": [
+              "Este item é necessário ao comprar certos itens da `{prefix}shop`."
+            ]
+          },
+          "Slime Trophy": {
+            "description": [
+              "Ter este item em seu inventário diminui suas chances de errar ataques contra **Baby Slime**s."
+            ]
+          },
+          "Fishing Trophy": {
+            "description": [
+              "Ter este item em seu inventário diminui suas chances de pescar lixo ao usar o comando `{prefix}fish`."
+            ]
+          },
+          "Wheat Seed": {
+            "description": [
+              "Você pode plantar **Wheat Seed** usando o comando `{prefix}farm plant <quantidade> Wheat Seed` para cultivar `1-2` **Wheat**."
+            ]
+          },
+          "Carrot": {
+            "description": [
+              "Você pode plantar **Carrot** usando o comando `{prefix}farm plant <quantidade> Carrot` para cultivar `1-3` **Carrot**s."
+            ]
+          },
+          "Potato": {
+            "description": [
+              "Você pode plantar **Potato** usando o comando `{prefix}farm plant <quantidade> Potato` para cultivar `1-3` **Potato**es."
+            ]
+          },
+          "Melon Seed": {
+            "description": [
+              "Você pode plantar **Melon Seed** usando o comando `{prefix}farm plant <quantidade> Melon Seed` para cultivar `2-5` **Melon**."
+            ]
+          },
+          "Chorus Seed": {
+            "description": [
+              "Você pode plantar **Chorus Seed** usando o comando `{prefix}farm plant <quantidade> Chorus Seed` para cultivar `1-2` **Chorus Fruit**."
+            ]
+          },
+          "Bone Meal": {
+            "description": [
+              "Dropado ao matar Esqueletos com uma chance de `1/20` (afetado por encantamentos de saque). Você pode usar este item com o comando `{prefix}use Bone Meal`, que faz todas as plantações crescerem `67%` do tempo que levam para crescer."
+            ]
+          },
+          "Fishing Bait": {
+            "description": [
+              "Pode ser encontrado esvaziando sua lata de lixo com o comando `{prefix}trash` se você tiver lixo suficiente.",
+              "Quando usado com o comando `{prefix}use Fishing Bait`, reduz o tempo de espera do comando `{prefix}fish` em `8 segundos` e aumenta as chances de pescar peixes em vez de lixo ou itens colecionáveis."
+            ]
+          },
+          "Honey Jar": {
+            "description": [
+              "Quando usado com o comando `{prefix}use <quantidade> Honey Jar`, ele irá curar `1/2hp` por **Honey Jar**."
+            ]
+          },
+          "Barrel": {
+            "description": [
+              "Quando usado com o comando `{prefix}use <quantidade> Barrel`, ele lhe dará uma recompensa em esmeraldas ou um item colecionável."
+            ]
+          },
+          "Beaker Of Slime": {
+            "description": [
+              "Quando usado com o comando `{prefix}use <quantidade> Beaker Of Slime`, ele irá separar em **Slime Ball** e **Glass Beaker**."
+            ]
+          },
+          "Infernum's Scroll": {
+            "description": [
+              "Permite que você altere (re-roll) sua missão diária com o comando `{prefix}use Infernum's Scroll`. Usar este item o consome.",
+              "Este item dropa de todos os mobs com uma chance de cerca de `1/40` (afetado por encantamentos de saque)."
+            ]
+          },
+          "Lure I Book": {
+            "description": [
+              "Reduz `4 segundos` do tempo de espera do comando `{prefix}fish`.",
+              "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário. Este livro de encantamentos não acumula."
+            ]
+          },
+          "Looting I Book": {
+            "description": [
+              "Aumenta as chances e quantidade de itens recuperados e esmeraldas de mobs mortos.",
+              "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário e também é transferido para todas as novas espadas. Este livro de encantamentos não acumula."
+            ]
+          },
+          "Looting II Book": {
+            "description": [
+              "Aumenta as chances e quantidade de itens recuperados e esmeraldas de mobs mortos, mais do que o **Looting I Book**.",
+              "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário e também é transferido para todas as novas espadas. Este livro de encantamentos não acumula."
+            ]
+          },
+          "Efficiency I Book": {
+            "description": [
+              "Reduz o tempo de espera do comando `{prefix}mine` em `0,5 segundos`.",
+              "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário e também é transferido para todas as novas picaretas. Este livro de encantamentos não acumula."
+            ]
+          }
+        },
+        "item_tag_names": {
+          "4july": "Quatro de Julho",
+          "halloween": "Halloween",
+          "mkwii": "Mario Kart Wii",
+          "easter": "Páscoa"
+        },
+        "not_found": "Nenhum item com o nome pode ser encontrado. Este item pode existir, mas ninguém o possui e não há documentação para ele.",
+        "drop_rate": {
+          "title": "Chance de Drop",
+          "not_mineable_or_fishable": "Não minável / pescável",
+          "mining": "Minerando: `1/{}`",
+          "fishing": "Pescando: `1/{}`"
+        },
+        "traits": {
+          "title": "Características",
+          "sellable": "Vendável",
+          "tradeable": "Negociável",
+          "purchaseable": "Adquirível na `{prefix}shop`"
+        },
+        "rarity": {
+          "title": "Raridade",
+          "singular": "*`1` pessoa tem esse item*",
+          "plural": "*`{amount}` pessoas têm esse item*"
+        },
+        "season": {
+          "title": "Evento / Temporada",
+          "date_format": "{month}/{day}"
         }
       }
     }

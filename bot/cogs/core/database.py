@@ -332,6 +332,22 @@ class Database(commands.Cog):
         # update badges
         await self.badges.update_badge_uncle_scrooge(user_id)
 
+    async def fuzzy_fetch_item_and_count(self, name: str) -> tuple[str | None, int]:
+        result = await self.db.fetchrow(
+            (
+                "SELECT name, COUNT(*) AS count "
+                "FROM items WHERE "
+                "   REGEXP_REPLACE(LOWER(name), '[''\\s]', '', 'gi') = REGEXP_REPLACE(LOWER($1), '[''\\s]', '', 'gi') "
+                "GROUP BY name;"
+            ),
+            name,
+        )
+
+        if result is None:
+            return None, 0
+
+        return result["name"], result["count"]
+
     async def log_transaction(
         self,
         item: str,

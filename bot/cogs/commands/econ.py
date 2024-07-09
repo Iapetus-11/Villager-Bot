@@ -2405,6 +2405,155 @@ class Econ(commands.Cog):
         if view is not None:
             view.message = message
 
+    @commands.command(name="iteminfo", aliases=["ii"])
+    async def item_info(self, ctx: Ctx, *, item_name: str):
+        FORMATTED_TAGS_FOR_TITLE = {
+            "mine": f"[{self.d.emojis.netherite_pickaxe_ench}]",
+            "fish": f"[{self.d.emojis.fishing_rod}\u2009]",
+            "4july": (
+                f"[{self.d.emojis.american_flag} "
+                f"{ctx.l.econ.item_bible.item_tag_names['4july']}]"
+            ),
+            "halloween": (
+                f"[{self.d.emojis.pumpkin} {ctx.l.econ.item_bible.item_tag_names['halloween']}]"
+            ),
+            "mkwii": f"[{self.d.emojis.item_box} {ctx.l.econ.item_bible.item_tag_names['mkwii']}]",
+            "easter": (
+                f"[{self.d.emojis.bunny_ears} {ctx.l.econ.item_bible.item_tag_names['easter']}]"
+            ),
+        }
+        FORMATTED_TAG_SORT_INDEXES = dict([
+            (key, idx) for idx, key in enumerate(list(FORMATTED_TAGS_FOR_TITLE))
+        ])
+
+        processed_item_name = item_name.lower().replace(" ", "").replace("'", "")
+        item_name, item_count = await self.db.fuzzy_fetch_item_and_count(item_name)
+
+        findable_entry: Findable | None
+        if item_name is None:
+            # Couldn't find item in database, so no one has it, so try to find it in
+            # findable entries
+            findable_entry = next(
+                (
+                    fe
+                    for fe in self.d.findables
+                    if fe.item.lower().replace(" ", "").replace("'", "") == processed_item_name
+                ),
+                None,
+            )
+
+            if findable_entry:
+                item_name = findable_entry.item
+        else:
+            findable_entry = next(
+                (fe for fe in self.d.findables if fe.item == item_name),
+                None,
+            )
+
+        if item_name is None:
+            await ctx.reply_embed(ctx.l.econ.item_bible.not_found)
+            return
+
+        db_item = await self.db.fetch_item(ctx.author.id, item_name)
+
+        item_emoji = emojify_item(self.d, item_name, default="❔")
+
+        embed = discord.Embed(color=self.bot.embed_color)
+
+        embed.title = f"{item_emoji} {item_name} {self.d.emojis.air}"
+
+        drop_rate_text = ctx.l.econ.item_bible.drop_rate.not_mineable_or_fishable
+        trait_text = ""
+
+        if db_item is not None and db_item.sellable:
+            trait_text += f"💸 {ctx.l.econ.item_bible.traits.sellable}\n"
+
+        if findable_entry:
+            for findable_tag in sorted(
+                findable_entry.tags, key=(lambda t: FORMATTED_TAG_SORT_INDEXES.get(t, 100))
+            ):
+                if findable_tag in ("mine", "fish") and "disabled" in findable_entry.tags:
+                    continue
+
+                if formatted_tag := FORMATTED_TAGS_FOR_TITLE.get(findable_tag):
+                    embed.title += " " + formatted_tag
+
+            if "disabled" not in findable_entry.tags:
+                drop_rate_text = ""
+                if "mine" in findable_entry.tags:
+                    drop_rate_text += (
+                        f"{self.d.emojis.netherite_pickaxe_ench} "
+                        f"{ctx.l.econ.item_bible.drop_rate.mining.format(findable_entry.rarity)}\n"
+                    )
+
+                if "fish" in findable_entry.tags:
+                    drop_rate_text += (
+                        f"{self.d.emojis.fishing_rod} "
+                        f"{ctx.l.econ.item_bible.drop_rate.fishing.format(findable_entry.rarity)}\n"
+                    )
+
+        if item_name in ctx.l.econ.item_bible.item_mapping:
+            embed.description = (
+                "\n> \ufeff\n".join([
+                    f"> {dl.format(prefix=ctx.prefix)}"
+                    for dl in ctx.l.econ.item_bible.item_mapping[item_name].description
+                ])
+                + "\n\ufeff"
+            )
+
+        if (findable_entry is not None and not findable_entry.sticky) or (
+            db_item is not None and not db_item.sticky
+        ):
+            trait_text += f"🤝 {ctx.l.econ.item_bible.traits.tradeable}\n"
+
+        if item_name.lower() in self.d.shop_items:
+            trait_text += (
+                f"🛍️ {ctx.l.econ.item_bible.traits.purchaseable.format(prefix=ctx.prefix)}\n"
+            )
+
+        if trait_text:
+            embed.add_field(name=ctx.l.econ.item_bible.traits.title, value=trait_text)
+            embed.add_field(name="\ufeff", value="\ufeff")
+
+        embed.add_field(name=ctx.l.econ.item_bible.drop_rate.title, value=drop_rate_text)
+
+        embed.add_field(
+            name=ctx.l.econ.item_bible.rarity.title,
+            value=(
+                ctx.l.econ.item_bible.rarity.singular
+                if item_count == 1
+                else ctx.l.econ.item_bible.rarity.plural.format(amount=item_count)
+            ),
+            inline=False,
+        )
+
+        if (
+            findable_entry
+            and (
+                item_season := next(
+                    (t for t in findable_entry.tags if t in ctx.l.econ.item_bible.item_tag_names),
+                    None,
+                )
+            )
+            and (season_dates := self.d.findable_seasons.get(item_season))
+        ):
+            item_season_name = ctx.l.econ.item_bible.item_tag_names[item_season]
+
+            formatted_start_date = ctx.l.econ.item_bible.season.date_format.format(
+                month=season_dates[0][0], day=season_dates[0][1]
+            )
+            formatted_end_date = ctx.l.econ.item_bible.season.date_format.format(
+                month=season_dates[1][0], day=season_dates[1][1]
+            )
+
+            embed.add_field(
+                name=ctx.l.econ.item_bible.season.title,
+                value=f"{item_season_name} ({formatted_start_date} - {formatted_end_date})",
+                inline=False,
+            )
+
+        await ctx.reply(embed=embed)
+
     # @commands.command(name="fight", aliases=["battle"])
     # @commands.is_owner()
     # @commands.cooldown(1, 1, commands.BucketType.user)
