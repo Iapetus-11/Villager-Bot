@@ -124,10 +124,9 @@ class Database(commands.Cog):
 
         if g is None:
             g = await self.db.fetchrow(
-                "INSERT INTO guilds (guild_id, prefix, difficulty, language) VALUES ($1, $2, $3, $4) RETURNING *",
+                "INSERT INTO guilds (guild_id, prefix, language) VALUES ($1, $2, $3) RETURNING *",
                 guild_id,
                 self.k.default_prefix,
-                "easy",
                 "en",
             )
 
