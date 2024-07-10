@@ -198,6 +198,10 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                     },
                 )
                 item_prices.update({f.item: f.sell_price for f in self.d.fishing_findables})
+                item_prices.update({
+                    self.d.farming.name_map[crop_type]: emerald_amount
+                    for crop_type, emerald_amount in self.d.farming.emerald_yields
+                })
 
                 await self.get_cog("Database").sync_item_prices(item_prices)
 
