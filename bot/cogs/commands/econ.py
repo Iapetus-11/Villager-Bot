@@ -1577,8 +1577,8 @@ class Econ(commands.Cog):
 
         if thing == "vault potion":
             # TODO: Multi-chug https://github.com/Iapetus-11/Baby-Villager-Bot/commit/da613f3eb13278ef307d609ca2896ff4dd73d61b
-            if amount > 1:
-                await ctx.reply_embed(ctx.l.econ.use.stupid_1)
+            if amount > 100:
+                await ctx.reply_embed("You can't use more than 100 **{}** at once".format('Vault Potion'))
                 return
 
             db_user = await self.db.fetch_user(ctx.author.id)
@@ -1589,15 +1589,17 @@ class Econ(commands.Cog):
                 await ctx.reply_embed(ctx.l.econ.use.vault_max)
                 return
 
-            add = random.randint(9, 15)
+            vault_max_adds_cumsum = numpy.cumsum(numpy.random.randint(9, 15, size=amount))
+            used_amount_index = int(next(iter(reversed(numpy.where((vault_max_adds_cumsum + db_user.vault_max) <= vault_max_cap)[0])), 0))
+            vault_max_add = int(vault_max_adds_cumsum[used_amount_index])
 
-            if db_user.vault_max + add > vault_max_cap:
-                add = vault_max_cap - db_user.vault_max
+            if db_user.vault_max + vault_max_add > vault_max_cap:
+                vault_max_add = vault_max_cap - db_user.vault_max
 
-            await self.db.remove_item(ctx.author.id, "Vault Potion", 1)
-            await self.db.set_vault(ctx.author.id, db_user.vault_balance, db_user.vault_max + add)
+            await self.db.remove_item(ctx.author.id, "Vault Potion", used_amount_index + 1)
+            await self.db.set_vault(ctx.author.id, db_user.vault_balance, db_user.vault_max + vault_max_add)
 
-            await ctx.reply_embed(ctx.l.econ.use.vault_pot.format(add))
+            await ctx.reply_embed(ctx.l.econ.use.vault_pot.format(vault_max_add))  # TODO: Fix message to incorporate amount
             return
 
         if thing == "honey jar":
