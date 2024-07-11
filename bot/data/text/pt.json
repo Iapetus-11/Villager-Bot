@@ -1608,10 +1608,6 @@
         "this_server": "As respostas das mensagens são **{}**.",
         "set": "Respostas de mensagens definidas como **{}**."
       },
-      "diff": {
-        "this_server": "A dificuldade do servidor está atualmente definida como **{}**.",
-        "set": "Dificuldade do servidor definida para **{}**."
-      },
       "lang": {
         "this_server": "O idioma do servidor está atualmente definido como **{}**.\n\nOs idiomas disponíveis são: {}",
         "set": "Idioma do servidor definido para **{}**."
@@ -1684,7 +1680,6 @@
         "bans": "Banimentos",
         "cmd_prefix": "Prefixo",
         "lang": "Idioma",
-        "diff": "Dificuldade",
         "joined_at": "Juntou-se",
         "not_found": "Não encontrado"
       },
