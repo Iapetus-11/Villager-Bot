@@ -29,6 +29,7 @@ from bot.utils.misc import (
 from bot.villager_bot import VillagerBotCluster
 from common.models.data import Findable, ShopItem
 from common.models.db.item import Item
+from common.models.db.user import User
 
 
 class Econ(commands.Cog):
@@ -125,6 +126,36 @@ class Econ(commands.Cog):
             )
 
         return True
+
+    def get_vault_max_cap_from_pickaxe(self, pickaxe: str) -> int:
+        pickaxe_level = len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(pickaxe)
+        return math.floor(100 * (pickaxe_level**4.5))
+
+    async def randomly_increase_vault(
+        self,
+        user_id: int | None = None,
+        db_user: User | None = None,
+        lucky: bool | None = None,
+        pickaxe: str | None = None,
+    ):
+        if user_id is None and db_user is None:
+            raise ValueError("This function requires you to specify at least user_id or user")
+
+        if user_id is None:
+            user_id = db_user.user_id
+
+        if lucky is None:
+            lucky = await self.karen.check_active_fx(user_id, "Luck Potion")
+
+        if random.randint(0, 50) == 1 or (lucky and random.randint(1, 25) == 1):
+            if db_user is None:
+                db_user = await self.db.fetch_user(user_id)
+
+            if pickaxe is None:
+                pickaxe = await self.db.fetch_pickaxe(user_id)
+
+            if db_user.vault_max < self.get_vault_max_cap_from_pickaxe(pickaxe):
+                await self.db.update_user(user_id, vault_max=(db_user.vault_max + 1))
 
     @commands.command(name="max_concurrency_dummy")
     @commands.max_concurrency(1, commands.BucketType.user)
@@ -1205,11 +1236,11 @@ class Econ(commands.Cog):
                 ),
             )
 
-        # rng increase vault space
-        if random.randint(0, 50) == 1 or (lucky and random.randint(1, 25) == 1):
-            db_user = await self.db.fetch_user(ctx.author.id)
-            if db_user.vault_max < 2000:
-                await self.db.update_user(ctx.author.id, vault_max=(db_user.vault_max + 1))
+        await self.randomly_increase_vault(
+            user_id=ctx.author.id,
+            lucky=lucky,
+            pickaxe=pickaxe,
+        )
 
     @commands.command(name="fish", aliases=["phish", "feesh", "f"])
     @commands.guild_only()
@@ -1320,11 +1351,10 @@ class Econ(commands.Cog):
         await self.db.update_lb(ctx.author.id, "fish_fished", 1, "add")
         await self.quests.update_user_daily_quest(ctx, f"fished_{fish_id}", 1)
 
-        if random.randint(0, 50) == 1 or (lucky and random.randint(1, 25) == 1):
-            db_user = await self.db.fetch_user(ctx.author.id)
-
-            if db_user.vault_max < 2000:
-                await self.db.update_user(ctx.author.id, vault_max=(db_user.vault_max + 1))
+        await self.randomly_increase_vault(
+            user_id=ctx.author.id,
+            lucky=lucky,
+        )
 
     @commands.command(name="pillage", aliases=["rob", "mug"])
     @commands.guild_only()
@@ -1546,25 +1576,47 @@ class Econ(commands.Cog):
             return
 
         if thing == "vault potion":
-            if amount > 1:
-                await ctx.reply_embed(ctx.l.econ.use.stupid_1)
-                return
+            amount = min(100, amount)
 
             db_user = await self.db.fetch_user(ctx.author.id)
+            pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
+            vault_max_cap = self.get_vault_max_cap_from_pickaxe(pickaxe)
 
-            if db_user.vault_max > 1999:
+            if db_user.vault_max >= vault_max_cap:
                 await ctx.reply_embed(ctx.l.econ.use.vault_max)
                 return
 
-            add = random.randint(9, 15)
+            vault_max_adds_cumsum = numpy.cumsum(numpy.random.randint(9, 15, size=amount))
+            used_amount_index = int(
+                next(
+                    iter(
+                        reversed(
+                            numpy.where(
+                                (vault_max_adds_cumsum + db_user.vault_max) <= vault_max_cap
+                            )[0]
+                        )
+                    ),
+                    0,
+                )
+            )
+            amount = used_amount_index + 1
+            vault_max_add = int(vault_max_adds_cumsum[used_amount_index])
 
-            if db_user.vault_max + add > 2000:
-                add = 2000 - db_user.vault_max
+            if db_user.vault_max + vault_max_add > vault_max_cap:
+                vault_max_add = vault_max_cap - db_user.vault_max
 
-            await self.db.remove_item(ctx.author.id, "Vault Potion", 1)
-            await self.db.set_vault(ctx.author.id, db_user.vault_balance, db_user.vault_max + add)
+            await self.db.remove_item(ctx.author.id, "Vault Potion", amount)
+            await self.db.set_vault(
+                ctx.author.id, db_user.vault_balance, db_user.vault_max + vault_max_add
+            )
 
-            await ctx.reply_embed(ctx.l.econ.use.vault_pot.format(add))
+            await ctx.reply_embed(
+                (
+                    ctx.l.econ.use.vault_pot_singular
+                    if amount == 1
+                    else ctx.l.econ.use.vault_pot_plural
+                ).format(vault_max_add, amount=amount)
+            )
             return
 
         if thing == "honey jar":
