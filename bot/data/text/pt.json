@@ -1453,7 +1453,7 @@
           "finishers": [
             "O **enderman** teletransporta você de um penhasco",
             "O **enderman** teletransporta você para o void",
-            "O **enderman** se teletransporta atrás de você e"
+            "O **enderman** se teletransporta atrás de você e te decapita"
           ],
           "misses": [
             "Você balança sua **{0}** o mais forte que pode, mas o **enderman** se teletransporta para fora do caminho.",

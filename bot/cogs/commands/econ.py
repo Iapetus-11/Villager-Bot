@@ -2183,7 +2183,7 @@ class Econ(commands.Cog):
                 ctx,
                 global_lb=global_lb,
                 local_lb=local_lb,
-                row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.emerald_block} {{}}",
+                row_fmt=f"\n`{{}}.` **{{}}** {self.d.emojis.emerald} {{}}",
                 title=ctx.l.econ.lb.lb_tw.format(f" {self.d.emojis.emerald_block} "),
             )
 
