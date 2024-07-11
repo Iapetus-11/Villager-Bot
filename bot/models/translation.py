@@ -661,7 +661,8 @@ class Econ_Use(ImmutableBaseModel):
     stupid_5: str
     stupid_6: str
     vault_max: str
-    vault_pot: str
+    vault_pot_singular: str
+    vault_pot_plural: str
     smoke_seaweed: str
     use_bonemeal: str
     seaweed_done: str

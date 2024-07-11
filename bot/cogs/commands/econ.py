@@ -129,7 +129,7 @@ class Econ(commands.Cog):
 
     def get_vault_max_cap_from_pickaxe(self, pickaxe: str) -> int:
         pickaxe_level = len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(pickaxe)
-        return 2000 * (pickaxe_level ** 3)
+        return 2000 * (pickaxe_level**3)
 
     async def randomly_increase_vault(
         self,
@@ -139,13 +139,13 @@ class Econ(commands.Cog):
         pickaxe: str | None = None,
     ):
         if user_id is None and db_user is None:
-            raise ValueError('This function requires you to specify at least user_id or user')
+            raise ValueError("This function requires you to specify at least user_id or user")
 
         if user_id is None:
             user_id = db_user.user_id
 
         if lucky is None:
-            lucky = await self.karen.check_active_fx(user_id, 'Luck Potion')
+            lucky = await self.karen.check_active_fx(user_id, "Luck Potion")
 
         if random.randint(0, 50) == 1 or (lucky and random.randint(1, 25) == 1):
             if db_user is None:
@@ -1576,10 +1576,7 @@ class Econ(commands.Cog):
             return
 
         if thing == "vault potion":
-            # TODO: Multi-chug https://github.com/Iapetus-11/Baby-Villager-Bot/commit/da613f3eb13278ef307d609ca2896ff4dd73d61b
-            if amount > 100:
-                await ctx.reply_embed("You can't use more than 100 **{}** at once".format('Vault Potion'))
-                return
+            amount = min(100, amount)
 
             db_user = await self.db.fetch_user(ctx.author.id)
             pickaxe = await self.db.fetch_pickaxe(ctx.author.id)
@@ -1590,16 +1587,36 @@ class Econ(commands.Cog):
                 return
 
             vault_max_adds_cumsum = numpy.cumsum(numpy.random.randint(9, 15, size=amount))
-            used_amount_index = int(next(iter(reversed(numpy.where((vault_max_adds_cumsum + db_user.vault_max) <= vault_max_cap)[0])), 0))
+            used_amount_index = int(
+                next(
+                    iter(
+                        reversed(
+                            numpy.where(
+                                (vault_max_adds_cumsum + db_user.vault_max) <= vault_max_cap
+                            )[0]
+                        )
+                    ),
+                    0,
+                )
+            )
+            amount = used_amount_index + 1
             vault_max_add = int(vault_max_adds_cumsum[used_amount_index])
 
             if db_user.vault_max + vault_max_add > vault_max_cap:
                 vault_max_add = vault_max_cap - db_user.vault_max
 
-            await self.db.remove_item(ctx.author.id, "Vault Potion", used_amount_index + 1)
-            await self.db.set_vault(ctx.author.id, db_user.vault_balance, db_user.vault_max + vault_max_add)
+            await self.db.remove_item(ctx.author.id, "Vault Potion", amount)
+            await self.db.set_vault(
+                ctx.author.id, db_user.vault_balance, db_user.vault_max + vault_max_add
+            )
 
-            await ctx.reply_embed(ctx.l.econ.use.vault_pot.format(vault_max_add))  # TODO: Fix message to incorporate amount
+            await ctx.reply_embed(
+                (
+                    ctx.l.econ.use.vault_pot_singular
+                    if amount == 1
+                    else ctx.l.econ.use.vault_pot_plural
+                ).format(vault_max_add, amount=amount)
+            )
             return
 
         if thing == "honey jar":
