@@ -1608,10 +1608,6 @@
         "this_server": "Les réponses aux messages sont **{}**",
         "set": "Passage des réponses aux messages sur **{}**"
       },
-      "diff": {
-        "this_server": "La difficulté du serveur est actuellement réglée sur **{}**",
-        "set": "Réglage de la difficulté du serveur sur **{}**"
-      },
       "lang": {
         "this_server": "La langue du serveur est actuellement réglée sur **{}**\n\nLes langues disponibles sont : {}",
         "set": "Réglage de la langue du serveur sur **{}**"
@@ -1684,7 +1680,6 @@
         "bans": "Bans",
         "cmd_prefix": "Préfixe",
         "lang": "Langue",
-        "diff": "Difficulté",
         "joined_at": "A Rejoint",
         "not_found": "Non trouvé"
       },

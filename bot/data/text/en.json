@@ -1608,10 +1608,6 @@
         "this_server": "Message replies are **{}**.",
         "set": "Turned message replies **{}**."
       },
-      "diff": {
-        "this_server": "The server difficulty is currently set to **{}**.",
-        "set": "Set the server difficulty to **{}**."
-      },
       "lang": {
         "this_server": "The server language is currently set to **{}**.\n\nAvailable languages are: {}",
         "set": "Set the server language to **{}**."
@@ -1684,7 +1680,6 @@
         "bans": "Bans",
         "cmd_prefix": "Prefix",
         "lang": "Language",
-        "diff": "Difficulty",
         "joined_at": "Joined",
         "not_found": "Not Found"
       },

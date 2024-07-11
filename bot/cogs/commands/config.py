@@ -92,28 +92,6 @@ class Config(commands.Cog):
         else:
             await ctx.reply_embed(ctx.l.config.invalid.format("`on`, `off`"))
 
-    @config.command(name="difficulty", aliases=["diff"])
-    @commands.guild_only()
-    @commands.has_permissions(administrator=True)
-    @commands.cooldown(1, 10, commands.BucketType.user)
-    async def config_difficulty(self, ctx: Ctx, diff: str = None):
-        if diff is None:
-            guild = await self.db.fetch_guild(ctx.guild.id)
-            await ctx.reply_embed(ctx.l.config.diff.this_server.format(guild.difficulty))
-            return
-
-        if diff.lower() == "peaceful":
-            await self.db.set_guild_attr(ctx.guild.id, "difficulty", "peaceful")
-            await ctx.reply_embed(ctx.l.config.diff.set.format("peaceful"))
-        elif diff.lower() == "easy":
-            await self.db.set_guild_attr(ctx.guild.id, "difficulty", "easy")
-            await ctx.reply_embed(ctx.l.config.diff.set.format("easy"))
-        elif diff.lower() == "hard":
-            await self.db.set_guild_attr(ctx.guild.id, "difficulty", "hard")
-            await ctx.reply_embed(ctx.l.config.diff.set.format("hard"))
-        else:
-            await ctx.reply_embed(ctx.l.config.invalid.format("`peaceful`, `easy`, `hard`"))
-
     @config.command(name="language", aliases=["lang"])
     @commands.guild_only()
     @commands.has_permissions(administrator=True)

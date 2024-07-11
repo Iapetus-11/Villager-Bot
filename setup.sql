@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS guilds (
   guild_id           BIGINT PRIMARY KEY, -- the discord guild id / snowflake
   prefix             VARCHAR(15) NOT NULL, -- the prefix of the guild
-  difficulty         VARCHAR NOT NULL, -- the difficulty the server is on peaceful, easy, hard
   language           VARCHAR(6) NOT NULL, -- the language the bot will speak in
   mc_server          VARCHAR(100), -- the minecraft server of the guild
   do_replies         BOOLEAN NOT NULL DEFAULT true -- whether to do funny replies to certain messages

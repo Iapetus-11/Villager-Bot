@@ -1608,10 +1608,6 @@
         "this_server": "Las respuestas a los mensajes están **{}**.",
         "set": "Las respuestas de los mensajes fue establecida a **{}**."
       },
-      "diff": {
-        "this_server": "La dificultad del servidor actualmente está establecida en **{}**.",
-        "set": "Se ha establecido la dificultad del servidor a **{}**."
-      },
       "lang": {
         "this_server": "El lenguaje del servidor actualmente está establecido en **{}**\n\nLos idiomas disponibles son: {}",
         "set": "Se ha establecido el idioma del servidor a **{}**."
@@ -1684,7 +1680,6 @@
         "bans": "Baneos",
         "cmd_prefix": "Prefijo",
         "lang": "Idioma",
-        "diff": "Dificultad",
         "joined_at": "Unido",
         "not_found": "No se ha encontrado"
       },

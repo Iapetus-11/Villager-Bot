@@ -497,8 +497,6 @@ class Useful(commands.Cog):
         elif guild is None:
             guild = ctx.guild
 
-        db_guild = await self.db.fetch_guild(guild.id)
-
         age = arrow.get(discord.utils.snowflake_time(guild.id))
         display_age = (
             age.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + age.humanize(locale=ctx.l.lang)
@@ -526,7 +524,6 @@ class Useful(commands.Cog):
 
         villager = (
             f"{ctx.l.useful.ginf.lang}: `{ctx.l.name}`\n"
-            f"{ctx.l.useful.ginf.diff}: `{db_guild.difficulty}`\n"
             f"{ctx.l.useful.ginf.cmd_prefix}: `{self.bot.prefix_cache.get(guild.id, self.bot.k.default_prefix)}`\n"  # noqa: E501
             f"{ctx.l.useful.ginf.joined_at}: `{arrow.get(ctx.me.joined_at).humanize(locale=ctx.l.lang)}`\n"  # noqa: E501
         )

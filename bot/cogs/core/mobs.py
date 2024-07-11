@@ -102,11 +102,16 @@ class MobSpawner(commands.Cog):
         if ctx.guild is None:  # ignore dms
             return
 
-        db_guild = await self.db.fetch_guild(ctx.guild.id)
-        difficulty = db_guild.difficulty
-
-        if difficulty == "peaceful":
-            return
+        # The difficulty of the mob spawned is based off who triggered the action, rather
+        # than the person who actually engages the mob
+        ctx_user_pickaxe_lvl = len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(
+            await self.db.fetch_pickaxe(ctx.author.id)
+        )
+        difficulty: typing.Literal["easy", "hard"]
+        if ctx_user_pickaxe_lvl >= 3:  # Gold pick
+            difficulty = "hard"
+        else:
+            difficulty = "easy"
 
         difficulty_multi = {"easy": 1, "hard": 1.5}[difficulty]
 

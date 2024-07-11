@@ -346,7 +346,6 @@ class VbConfig(ImmutableBaseModel):
     main: VbConfig_Main
     prefix: VbConfig_Prefix
     replies: VbConfig_Replies
-    diff: VbConfig_Diff
     lang: VbConfig_Lang
     mcs: VbConfig_Mcs
     gift: VbConfig_Gift
@@ -400,7 +399,6 @@ class Useful_Ginf(ImmutableBaseModel):
     bans: str
     cmd_prefix: str
     lang: str
-    diff: str
     joined_at: str
     not_found: str
 
