@@ -129,7 +129,7 @@ class Econ(commands.Cog):
 
     def get_vault_max_cap_from_pickaxe(self, pickaxe: str) -> int:
         pickaxe_level = len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(pickaxe)
-        return 2000 * (pickaxe_level**3)
+        return math.floor(100 * (pickaxe_level**4.5))
 
     async def randomly_increase_vault(
         self,
