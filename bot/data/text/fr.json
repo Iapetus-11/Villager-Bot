@@ -1976,6 +1976,7 @@
         "stupid_3": "Tu ne peux piller le gens que si tu possèdes plus de 64{}",
         "stupid_4": "Tu peux uniquement piller quelqu'un s'il a plus de 64{}",
         "stupid_5": "Tu ne peux pas piller quelqu’un qui a une **Shield Pearl** activée.",
+        "stupid_6": "Vous ne pouvez pas encore piller, vous devez attendre {time}",
         "u_win": {
           "user": [
             "Tu t'échapes avec {}{}",

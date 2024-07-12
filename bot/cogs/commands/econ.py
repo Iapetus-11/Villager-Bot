@@ -4,6 +4,7 @@ import math
 import random
 import typing
 from collections import defaultdict
+from contextlib import suppress
 from typing import Any
 
 import arrow
@@ -1396,6 +1397,19 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_5)
             return
 
+        if ctx.author.joined_at is None or (
+            (ctx.author.joined_at + datetime.timedelta(hours=12))
+            > datetime.datetime.now(datetime.timezone.utc)
+        ):
+            wait_until_time = (
+                ctx.author.joined_at or datetime.datetime.now(datetime.timezone.utc)
+            ) + datetime.timedelta(hours=12)
+            await ctx.reply_embed(
+                "You can't pillage yet, you must wait "
+                f"{discord.utils.format_dt(wait_until_time, style='R')}"
+            )
+            return
+
         if db_user.shield_pearl:
             await self.db.update_user(ctx.author.id, shield_pearl=None)
 
@@ -1449,14 +1463,16 @@ class Econ(commands.Cog):
                     self.d.emojis.emerald,
                 ),
             )
-            await self.bot.send_embed(
-                victim,
-                random.choice(ctx.l.econ.pillage.u_win.victim).format(
-                    ctx.author.mention,
-                    stolen,
-                    self.d.emojis.emerald,
-                ),
-            )
+
+            with suppress(discord.errors.Forbidden):
+                await self.bot.send_embed(
+                    victim,
+                    random.choice(ctx.l.econ.pillage.u_win.victim).format(
+                        ctx.author.mention,
+                        stolen,
+                        self.d.emojis.emerald,
+                    ),
+                )
 
             await self.db.update_lb(ctx.author.id, "pillaged_emeralds", adjusted, "add")
         else:
@@ -1471,10 +1487,12 @@ class Econ(commands.Cog):
                     self.d.emojis.emerald,
                 ),
             )
-            await self.bot.send_embed(
-                victim,
-                random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention),
-            )
+
+            with suppress(discord.errors.Forbidden):
+                await self.bot.send_embed(
+                    victim,
+                    random.choice(ctx.l.econ.pillage.u_lose.victim).format(ctx.author.mention),
+                )
 
     @commands.command(name="use", aliases=["eat", "chug", "smoke"])
     # @commands.cooldown(1, 1, commands.BucketType.user)

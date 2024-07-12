@@ -1976,6 +1976,7 @@
         "stupid_3": "You can only pillage people if you have more than 64{}",
         "stupid_4": "You can only pillage a person if they have more than 64{}",
         "stupid_5": "You can't pillage a person who has a **Shield Pearl** active.",
+        "stupid_6": "You can't pillage yet, you must wait {time}",
         "u_win": {
           "user": [
             "You escaped with {}{}",

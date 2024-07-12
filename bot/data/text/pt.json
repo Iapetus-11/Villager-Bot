@@ -1976,6 +1976,7 @@
         "stupid_3": "Você só pode saquear pessoas se tiver mais de 64{}",
         "stupid_4": "Você só pode saquear uma pessoa se ela tiver mais de 64{}",
         "stupid_5": "Você não pode saquear uma pessoa que tenha um **Shield Pearl** ativo.",
+        "stupid_6": "Você não pode saquear ainda, deve esperar {time}",
         "u_win": {
           "user": [
             "Escapou com {}{}",

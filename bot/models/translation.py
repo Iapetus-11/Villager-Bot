@@ -649,6 +649,7 @@ class Econ_Pillage(ImmutableBaseModel):
     stupid_3: str
     stupid_4: str
     stupid_5: str
+    stupid_6: str
     u_win: Econ_Pillage_Outcome
     u_lose: Econ_Pillage_Outcome
 

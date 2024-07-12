@@ -1976,6 +1976,7 @@
         "stupid_3": "Sólo puedes robarle a la gente si tienes más de 64{}",
         "stupid_4": "Sólo puedes robarle a una persona si tiene más de 64{}",
         "stupid_5": "No puedes robarle a una persona que tiene un **Shield Pearl** activo.",
+        "stupid_6": "Aún no puedes saquear, debes esperar {time}",
         "u_win": {
           "user": [
             "Escapaste con {}{}",
