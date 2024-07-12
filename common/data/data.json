@@ -73,7 +73,7 @@
   ],
   "cooldown_rates": {
     "fish": 4,
-    "pillage": 300,
+    "pillage": 14400,
     "use": 1,
     "honey": 86400,
     "deposit": 2,
