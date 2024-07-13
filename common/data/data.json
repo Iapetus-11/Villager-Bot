@@ -1554,6 +1554,7 @@
     "scroll": "\uD83D\uDCDC",
     "pumpkin": "<:pumpkin:763123129593495582>",
     "infernums_scroll": "<:infernums_scroll:1257669297770205306>",
+    "bopa": "<:bopa:1261478828690247710>",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
@@ -1821,7 +1822,8 @@
     "Firecracker": "firecracker",
     "Declaration Of Independence": "scroll",
     "Infernum's Scroll": "infernums_scroll",
-    "Pumpkin": "pumpkin"
+    "Pumpkin": "pumpkin",
+    "Bane Of Pillagers Amulet": "bopa"
   },
   "farming": {
     "emojis": {
