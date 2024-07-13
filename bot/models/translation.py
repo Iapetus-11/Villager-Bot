@@ -1,3 +1,5 @@
+from pydantic import Field
+
 from common.models.base_model import ImmutableBaseModel
 
 
@@ -782,6 +784,7 @@ class Econ_DailyQuests(ImmutableBaseModel):
 
 class Econ_ItemBible_MappingEntry(ImmutableBaseModel):
     description: list[str]
+    quoted: bool = Field(default=True)
 
 
 class Econ_ItemBible_DropRate(ImmutableBaseModel):
