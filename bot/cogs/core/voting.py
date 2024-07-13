@@ -4,11 +4,68 @@ from contextlib import suppress
 import arrow
 import discord
 from discord.ext import commands
+from discord.utils import format_dt
+
 
 from bot.cogs.core.database import Database
 from bot.cogs.core.quests import Quests
 from bot.villager_bot import VillagerBotCluster
 from common.models.topgg_vote import TopggVote
+
+
+class VoteReminderView(discord.ui.View):
+    def __init__(
+        self,
+        *,
+        bot: VillagerBotCluster,
+        user: discord.User,
+        timeout: float = 300.0,
+    ):
+        super().__init__(timeout=timeout)
+
+        self._bot = bot
+        self._user = user
+
+        self.message: discord.Message | None = None
+
+    @property
+    def _db(self) -> Database:
+        return typing.cast(Database, self._bot.get_cog("Database"))
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        return interaction.user.id == self._user.id
+
+    @discord.ui.button(label="Add Vote Reminder", style=discord.ButtonStyle.gray)
+    async def btn_add_vote_reminder(
+        self, interaction: discord.Interaction, button: discord.ui.Button
+    ):
+        await interaction.response.defer(thinking=False)
+        lang = self._bot.l["en"]
+
+        at = arrow.utcnow().shift(hours=12)
+        await self._db.add_reminder(
+            interaction.user.id,
+            interaction.channel.id,
+            interaction.message.id,
+            f"[Vote]({self._bot.d.topgg}/vote) for Villager Bot",
+            at.datetime,
+        )
+
+        await self._bot.send_embed(
+            interaction.user,
+            lang.useful.remind.remind.format(
+                self._bot.d.emojis.yes,
+                format_dt(at.datetime, style="R"),
+            ),
+        )
+
+        await self.on_timeout()
+
+    async def on_timeout(self) -> None:
+        for child in self.children:
+            child.disabled = True
+
+        await self.message.edit(view=self)
 
 
 class Voting(commands.Cog):
@@ -37,7 +94,8 @@ class Voting(commands.Cog):
         self.logger.info(f"{user_id} voted on {site}")
         self.bot.session_votes += 1
 
-        user = self.bot.get_user(user_id)
+        user = await self.bot.fetch_user(user_id)
+        embed = discord.Embed(color=self.bot.embed_color)
 
         if user is None:
             with suppress(discord.HTTPException):
@@ -90,31 +148,28 @@ class Voting(commands.Cog):
         else:
             raise NotImplementedError(f"No case for site {site}")
 
+        view = VoteReminderView(bot=self.bot, user=user)
         if vote_streak is None:
             await self.db.balance_add(user_id, emeralds)
-            await self.bot.send_embed(
-                user,
+            embed.description = (
                 f"Thanks for voting! You've received **{emeralds}**{self.d.emojis.emerald}!",
-                ignore_exceptions=True,
             )
+            message = await user.send(embed=embed, view=view)
+
         elif vote_streak % 16 == 0:
             barrels = min(int(vote_streak // 32 + 1), 8)
             await self.db.add_item(user.id, "Barrel", 1024, barrels)
-            await self.bot.send_embed(
-                user,
-                f"Thanks for voting! You've received {barrels}x **Barrel**!",
-                ignore_exceptions=True,
-            )
+            embed.description = f"Thanks for voting! You've received {barrels}x **Barrel**!"
+            message = await user.send(embed=embed, view=view)
+
         else:
             await self.db.balance_add(user_id, emeralds)
-            await self.bot.send_embed(
-                user,
-                (
-                    f"Thanks for voting! You've received **{emeralds}**{self.d.emojis.emerald}! "
-                    f"(Vote streak is now {vote_streak})"
-                ),
-                ignore_exceptions=True,
+            embed.description = (
+                f"Thanks for voting! You've received **{emeralds}**{self.d.emojis.emerald}! "
+                f"(Vote streak is now {vote_streak})"
             )
+            message = await user.send(embed=embed, view=view)
+        view.message = message
 
     @commands.Cog.listener()
     async def on_topgg_vote(self, vote: TopggVote):
