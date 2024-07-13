@@ -20,14 +20,12 @@ class VoteReminderView(discord.ui.View):
         *,
         bot: VillagerBotCluster,
         user: discord.User,
-        user_id: int,
         timeout: float = 300.0,
     ):
         super().__init__(timeout=timeout)
 
         self._bot = bot
         self._user = user
-        self._user_id = user_id
 
         self.message: discord.Message | None = None
 
@@ -36,7 +34,7 @@ class VoteReminderView(discord.ui.View):
         return typing.cast(Database, self._bot.get_cog("Database"))
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
-        return interaction.user.id == self._user_id
+        return interaction.user.id == self._user.id
 
     @discord.ui.button(label="Add Vote Reminder", style=discord.ButtonStyle.gray)
     async def btn_add_vote_reminder(
@@ -151,7 +149,7 @@ class Voting(commands.Cog):
         else:
             raise NotImplementedError(f"No case for site {site}")
 
-        view = VoteReminderView(bot=self.bot, loc=user, user_id=user.id)
+        view = VoteReminderView(bot=self.bot, user=user)
         if vote_streak is None:
             await self.db.balance_add(user_id, emeralds)
             embed.description = (
