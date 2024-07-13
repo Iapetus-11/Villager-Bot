@@ -20,14 +20,14 @@ class VoteReminderView(discord.ui.View):
         self,
         *,
         bot: VillagerBotCluster,
-        loc: CustomContext | commands.Context | discord.User,
+        user: discord.User,
         user_id: int,
         timeout: float = 300.0,
     ):
         super().__init__(timeout=timeout)
 
         self._bot = bot
-        self._loc = loc
+        self._user = user
         self._user_id = user_id
 
         self.message: discord.Message | None = None
@@ -44,14 +44,14 @@ class VoteReminderView(discord.ui.View):
         self, interaction: discord.Interaction, button: discord.ui.Button
     ):
         await interaction.response.defer(thinking=False)
-        _, lang = get_user_and_lang_from_loc(self._bot.l, self._loc)
+        _, lang = get_user_and_lang_from_loc(self._bot.l, self._user)
 
         at = arrow.utcnow().shift(hours=12)
         await self._db.add_reminder(
             interaction.user.id,
             interaction.channel.id,
             interaction.message.id,
-            f"[Vote]({self._bot.d.topgg + '/vote'}) for Villager Bot",
+            f"[Vote]({self._bot.d.topgg}/vote) for Villager Bot",
             at.datetime,
         )
 
@@ -62,10 +62,8 @@ class VoteReminderView(discord.ui.View):
                 format_dt(at.datetime, style="R"),
             ),
         )
-        for child in self.children:
-            child.disabled = True
-
-        await self.message.edit(view=self)
+        
+        await self.on_timeout()
 
     async def on_timeout(self) -> None:
         for child in self.children:
@@ -121,7 +119,7 @@ class Voting(commands.Cog):
         last_vote = db_user.last_vote or 0
         vote_streak = (db_user.vote_streak or 0) + 1
 
-        # # make sure last vote wasn't within 12 hours
+        # make sure last vote wasn't within 12 hours
         if arrow.get(last_vote) > arrow.utcnow().shift(hours=-12):
             return
 
