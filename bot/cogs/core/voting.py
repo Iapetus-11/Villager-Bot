@@ -41,7 +41,7 @@ class VoteReminderView(discord.ui.View):
         self, interaction: discord.Interaction, button: discord.ui.Button
     ):
         await interaction.response.defer(thinking=False)
-        _, lang = get_user_and_lang_from_loc(self._bot.l, self._user)
+        lang = self._bot.l['en']
 
         at = arrow.utcnow().shift(hours=12)
         await self._db.add_reminder(
