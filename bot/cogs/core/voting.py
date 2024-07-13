@@ -7,7 +7,6 @@ from discord.ext import commands
 from discord.utils import format_dt
 
 
-from bot.utils.ctx import CustomContext
 from bot.cogs.core.database import Database
 from bot.cogs.core.quests import Quests
 from bot.utils.misc import get_user_and_lang_from_loc
@@ -62,7 +61,7 @@ class VoteReminderView(discord.ui.View):
                 format_dt(at.datetime, style="R"),
             ),
         )
-        
+
         await self.on_timeout()
 
     async def on_timeout(self) -> None:
