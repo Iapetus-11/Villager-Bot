@@ -2500,6 +2500,29 @@
               "Reduce el tiempo de espera del comando `{prefix}mine` por `0.5 segundos`.",
               "Este libro de encantamientos es aplicado automáticamente mientras permanezca en el inventario a todos los picos. No es acumulable."
             ]
+          },
+          "Luck Potion": {
+            "description": [
+              "> Cuando se usa con el comando `{prefix}chug Luck Potion` serás afectado por `4 minutos y 30 segundos` con los efectos listados a continuación",
+              "Aumenta significativamente las probabilidades de:\n- Obtener espacios extra en tu baúl al usar comandos de economía.\n- Encontrar objetos coleccionables minando.\n- Encontrar cebo cuando se usa el comando `{prefix}trashcan`.",
+              "Reduce significativamente las probabilidades de: \n- Pescar basura (en vez de peces u objetos coleccionables).\n- Perder abejas cuando se usa el comando `{prefix}honey`."
+            ],
+            "quoted": false
+          },
+          "Recycler": {
+            "description": [
+              "Cuando está presente en el inventario, duplica las esmeraldas recibidas con el comando `{prefix}trashcan`."
+            ]
+          },
+          "Slime Ball": {
+            "description": [
+              "Obtenible al matar  Bebés Slime con una probabilidad de`1/25` (variable con encantamientos de botín). Este objeto puede usarse para comprar el **Slime Trophy** e intercambiable al combinarlo con un **Glass Beaker**s."
+            ]
+          },
+          "Ender Pearl": {
+            "description": [
+              "Obtenible al matar Endermans con una probabilidad de `1/30` (variable con encantamientos de botín). Este objeto puede usarse para comprar varios productos en la `{prefix}shop`."
+            ]
           }
         },
         "item_tag_names": {
