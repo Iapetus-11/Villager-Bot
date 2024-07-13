@@ -2523,6 +2523,12 @@
             "description": [
               "Obtenible al matar Endermans con una probabilidad de `1/30` (variable con encantamientos de botín). Este objeto puede usarse para comprar varios productos en la `{prefix}shop`."
             ]
+          },
+          "Bane Of Pillagers Amulet": {
+            "description": [
+              "Cuando está presente en el inventario, aumenta las esmeradas ganadas apostando y ayuda a protegerte de los saqueos.",
+              "Este objeto te permite tener un rol especial en el servidor de soporte de Villager Bot."
+            ]
           }
         },
         "item_tag_names": {
