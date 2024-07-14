@@ -2523,6 +2523,12 @@
             "description": [
               "Dropado ao matar Endermen com uma chance de `1/30` (afetado por encantamentos de saque). Este item pode ser usado para comprar vários itens na `{prefix}shop`."
             ]
+          },
+          "Bane Of Pillagers Amulet": {
+            "description": [
+              "Quando presente em seu inventário, aumenta as esmeraldas ganhas em apostas e ajuda a protegê-lo de saqueamentos bem-sucedidos.",
+              "Este item concede um cargo especial no servidor de suporte do Villager Bot"
+            ]
           }
         },
         "item_tag_names": {
