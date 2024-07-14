@@ -2369,7 +2369,7 @@ class Econ(commands.Cog):
 
         user_bees = await self.db.fetch_item(ctx.author.id, "Jar Of Bees")
         user_bees = 0 if user_bees is None else user_bees.amount
-        extra_yield_limit = round(max(0, math.log((user_bees + 0.0001) / 64)))
+        extra_yield_limit = round(max(0, math.log10((user_bees + 0.0001) / 64)))
 
         amounts_harvested = defaultdict[str, int](int)
 
