@@ -712,17 +712,17 @@
     },
     "wheat seed": {
       "cat": "farming",
-      "buy_price": 32,
+      "buy_price": 40,
       "db_entry": {
         "item": "Wheat Seed",
-        "sell_price": 24,
+        "sell_price": 32,
         "sticky": false
       },
       "requires": {}
     },
     "carrot": {
       "cat": "farming",
-      "buy_price": 96,
+      "buy_price": 72,
       "db_entry": {
         "item": "Carrot",
         "sell_price": 64,
@@ -732,7 +732,7 @@
     },
     "potato": {
       "cat": "farming",
-      "buy_price": 192,
+      "buy_price": 144,
       "db_entry": {
         "item": "Potato",
         "sell_price": 128,
@@ -752,10 +752,10 @@
     },
     "chorus seed": {
       "cat": "farming",
-      "buy_price": 640,
+      "buy_price": 512,
       "db_entry": {
         "item": "Chorus Seed",
-        "sell_price": 512,
+        "sell_price": 384,
         "sticky": false
       },
       "requires": {}
@@ -1855,8 +1855,8 @@
         2
       ],
       "melon": [
-        1,
-        3
+        2,
+        4
       ],
       "potato": [
         1,
