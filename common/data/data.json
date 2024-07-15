@@ -1332,7 +1332,29 @@
       "rarity": 8192,
       "sticky": false,
       "tags": ["mine"]
-    }
+    },
+    {
+      "item": "Regeneration Totem",
+      "sell_price": 64,
+      "rarity": 512,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Flaming Quiver",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "placeholder",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine","fish"]
+    },
+    {
   ],
   "rpt_ignore": [
     "Rich Person Trophy",
@@ -1822,6 +1844,8 @@
     "Firecracker": "firecracker",
     "Declaration Of Independence": "scroll",
     "Infernum's Scroll": "infernums_scroll",
+    "Regeneration Totem": "regeneration_totem",
+    "Flaming Quiver": "flaming_quiver",
     "Pumpkin": "pumpkin",
     "Bane Of Pillagers Amulet": "bopa"
   },
