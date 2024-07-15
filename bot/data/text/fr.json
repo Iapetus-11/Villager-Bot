@@ -2500,6 +2500,13 @@
               "Reduit le cooldown de la commande `{prefix}mine` par `0.5 seconds`.",
               "Cet effet est appliqué automatiquement tant que l'objet se trouve dans votre inventaire, et s'applique à toutes vos pioches. Cet effet ne s'additionne pas."
             ]
+          },
+
+          "Bane Of Pillagers Amulet": {
+            "description": [
+              "Lorsque cet objet est présent dans votre inventaire, il augmente les émeraudes obtenues dans les paris tout en aidant à vous protéger des pillages.",
+              "Cet objet vous offre un rôle spécial dans le Villager Bot Support Server"
+            ]
           }
         },
         "item_tag_names": {
