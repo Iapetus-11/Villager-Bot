@@ -2500,6 +2500,35 @@
               "Reduz o tempo de espera do comando `{prefix}mine` em `0,5 segundos`.",
               "Este livro de encantamentos é aplicado automaticamente enquanto permanecer em seu inventário e também é transferido para todas as novas picaretas. Este livro de encantamentos não acumula."
             ]
+          },
+          "Luck Potion": {
+            "description": [
+              "> Quando usada com o comando `{prefix}chug Luck Potion`, você irá experienciar os efeitos listados abaixo por `4 minutos e 30 segundos`.",
+              "Aumentar significativamente as chances de:\n- Obter espaços de cofre extras ao executar comandos de economia.\n- Encontrar itens colecionáveis ​​da mineração.",
+              "Diminuir significativamente as chances de:\n- Pescar lixo (em vez de itens colecionáveis ​​ou peixes).\n- Perder abelhas ao usar o comando `{prefix}honey`.\n- Encontrar isca de pesca ao esvaziar a `{prefix}trashcan`."
+            ],
+            "quoted": false
+          },
+          "Recycler": {
+            "description": [
+              "Quando presente em seu inventário, dobra a recompensa de esmeralda ao esvaziar sua `{prefix}trashcan`."
+            ]
+          },
+          "Slime Ball": {
+            "description": [
+              "Dropado ao matar Bebês Slime com uma chance de `1/25` (afetado por encantamentos de saque). Este item pode ser usado para comprar o **Slime Trophy** e pode ser negociado usando **Glass Beaker**s."
+            ]
+          },
+          "Ender Pearl": {
+            "description": [
+              "Dropado ao matar Endermen com uma chance de `1/30` (afetado por encantamentos de saque). Este item pode ser usado para comprar vários itens na `{prefix}shop`."
+            ]
+          },
+          "Bane Of Pillagers Amulet": {
+            "description": [
+              "Quando presente em seu inventário, aumenta as esmeraldas ganhas em apostas e ajuda a protegê-lo de saqueamentos bem-sucedidos.",
+              "Este item concede um cargo especial no servidor de suporte do Villager Bot"
+            ]
           }
         },
         "item_tag_names": {
