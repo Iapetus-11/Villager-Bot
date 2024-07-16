@@ -2501,7 +2501,6 @@
               "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new pickaxes. This enchantment book does not stack."
             ]
           },
-
           "Luck Potion": {
             "description": [
               "> When used with the `{prefix}chug Luck Potion` command you will experience the effects listed below for `4 minutes and 30 seconds`.",
