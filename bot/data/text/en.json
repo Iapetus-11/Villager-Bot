@@ -2500,6 +2500,36 @@
               "Reduces the cooldown on the `{prefix}mine` command by `0.5 seconds`.",
               "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new pickaxes. This enchantment book does not stack."
             ]
+          },
+
+          "Luck Potion": {
+            "description": [
+              "> When used with the `{prefix}chug Luck Potion` command you will experience the effects listed below for `4 minutes and 30 seconds`.",
+              "Significantly increases chances of:\n- Obtaining extra vault spaces while running economy commands.\n- Finding collectibles from mining.\n- Finding fishing bait when emptying the `{prefix}trashcan`.",
+              "Significantly decreases chances of:\n- Fishing up junk (instead of collectibles or fish).\n- Losing bees when using the `{prefix}honey` command."
+            ],
+            "quoted": false
+          },
+          "Recycler": {
+            "description": [
+              "When present in your inventory, it doubles the emerald reward from emptying your `{prefix}trashcan`."
+            ]
+          },
+          "Slime Ball": {
+            "description": [
+              "Dropped from killing Baby Slimes with a chance of `1/25` (affected by looting enchantments). This item can be used to purchase the **Slime Trophy** and can be traded using **Glass Beaker**s."
+            ]
+          },
+          "Ender Pearl": {
+            "description": [
+              "Dropped from killing Endermen with a chance of `1/30` (affected by looting enchantments). This item can be used to purchase various items in the `{prefix}shop`."
+            ]
+          },
+          "Bane Of Pillagers Amulet": {
+            "description": [
+              "When present in your inventory, it increases the emeralds won from gambling and aids in protecting you from successful pillages.",
+              "This item awards a special role in the Villager Bot Support Server"
+            ]
           }
         },
         "item_tag_names": {

@@ -2500,6 +2500,35 @@
               "Reduit le cooldown de la commande `{prefix}mine` par `0.5 seconds`.",
               "Cet effet est appliqué automatiquement tant que l'objet se trouve dans votre inventaire, et s'applique à toutes vos pioches. Cet effet ne s'additionne pas."
             ]
+          },
+          "Luck Potion": {
+            "description": [
+              "> Lorsqu'elle est utilisée avec la commande`{prefix}chug Luck Potion`, vous ressentirez les effets énumérés ci-dessous pendant `4 minutes et 30 secondes`.",
+              "Augmente grandement les chances de :\n- Obtenir des espaces de coffre supplémentaires lors de l'exécution des commandes économiques.\n- Trouver des objets de collection en minant.\n- Trouver des appâts de pêche en vidant la `{prefix}trashcan`.",
+              "Diminue grandement les chances de :\n- Pêcher des déchets (au lieu des objets de collection ou des poissons).\n- Perdre des abeilles lors de l'utilisation de la commande `{prefix}miel`."
+            ],
+            "quoted": false
+          },
+          "Recycler": {
+            "description": [
+              "Lorsqu'il est présent dans votre inventaire, il double la récompense en émeraudes lorsque vous videz votre `{prefix}poubelle`."
+            ]
+          },
+          "Slime Ball": {
+            "description": [
+              "Lachée en tuant des Bébés Slimes avec une chance de `1/25` (affectée par les enchantements de pillage). Cet objet peut être utilisé pour acheter le **Slime Trophy** et peut être échangé à l'aide de **Glass Beaker**s."
+            ]
+          },
+          "Ender Pearl": {
+            "description": [
+              "Lachée en tuant des Endermen avec une chance de `1/30` (affectée par les enchantements de pillage). Cet objet peut être utilisé pour acheter divers objets dans le `{prefix}magasin`."
+            ]
+          },
+          "Bane Of Pillagers Amulet": {
+            "description": [
+              "Lorsque cet objet est présent dans votre inventaire, il augmente les émeraudes obtenues dans les paris tout en aidant à vous protéger des pillages.",
+              "Cet objet vous offre un rôle spécial dans le Villager Bot Support Server"
+            ]
           }
         },
         "item_tag_names": {

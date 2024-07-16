@@ -2590,9 +2590,17 @@ class Econ(commands.Cog):
                     )
 
         if item_name in ctx.l.econ.item_bible.item_mapping:
+            item_info = ctx.l.econ.item_bible.item_mapping[item_name]
+
+            prefix = ""
+            joiner = ""
+            if item_info.quoted:
+                prefix = "> "
+                joiner = "> \ufeff"
+
             embed.description = (
-                "\n> \ufeff\n".join([
-                    f"> {dl.format(prefix=ctx.prefix)}"
+                f"\n{joiner}\n".join([
+                    f"{prefix}{dl.format(prefix=ctx.prefix)}"
                     for dl in ctx.l.econ.item_bible.item_mapping[item_name].description
                 ])
                 + "\n\ufeff"
