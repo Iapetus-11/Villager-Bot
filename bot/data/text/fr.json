@@ -1694,7 +1694,7 @@
         "rules": "Règlement du Villager Bot",
         "slashrules": "{}rules pour afficher les règles !",
         "penalty": "Enfreindre ces règles peut entraîner : un reset/effacement des données, une pénalité / un désavantage en jeu, ou **un ban permanent du serveur de support et/ou de l'utilisation du bot**.",
-        "rule_1": "**1.** N'abuse pas des bugs, signale les dans le canal #bug-smasher sur le [serveur de support]({}) pour une récompense !",
+        "rule_1": "**1.** N'abuse pas des bugs, signale les dans le canal #support sur le [serveur de support]({}) pour une récompense !",
         "rule_2": "**2.** Ne triche pas de quelque façon que ce soit, cela inclut l'utilisation de comptes alternatifs ou ceux d'autres utilisateurs pour stocker tes émeraudes ou objets. (Cela inclut aussi l'utilisation de self-bot.)",
         "rule_3": "**3.** Ne soit pas dérangeant, ou toxique, et n'harcèle personne en utilisant les fonctionnalités du bot.",
         "rule_4": "**4.** N'utilise pas le bot pour promouvoir du contenu non approuvé par le propriétaire du bot."
