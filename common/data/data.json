@@ -1369,14 +1369,14 @@
       "tags": ["mine"]
     },
     {
-      "item": "Obsidian Claymore",
+      "item": "Weakening Gong",
       "sell_price": 512,
       "rarity": 4096,
       "sticky": false,
       "tags": ["mine"]
     },
     {
-      "item": "Power Bow",
+      "item": "Soul Protection Totem",
       "sell_price": 512,
       "rarity": 4096,
       "sticky": false,
@@ -1397,7 +1397,7 @@
       "tags": ["mine", "fish"]
     },
     {
-      "item": "Saber Wing",
+      "item": "Gastly Totem",
       "sell_price": 1024,
       "rarity": 50000,
       "sticky": false,
@@ -1411,7 +1411,14 @@
       "tags": ["mine"]
     },
     {
-      "item": "Starless Night",
+      "item": "Satchel Of Elements",
+      "sell_price": 1024,
+      "rarity": 99999
+      "sticky": false,
+      "tags": ["mine", "fish"]
+    },
+    {
+      "item": "Dark Rooted Robes",
       "sell_price": 2048,
       "rarity": 125000,
       "sticky": false,
@@ -1638,18 +1645,19 @@
     "scroll": "\uD83D\uDCDC",
     "pumpkin": "<:pumpkin:763123129593495582>",
     "infernums_scroll": "<:infernums_scroll:1257669297770205306>",
-    "regeneration_totem": "<::>",
-    "flaming_quiver": "<::>",
-    "love_medallion": "<::>",
-    "wind_horn": "<::>",
-    "battle_robes": "<::>",
-    "obsidian_claymore": "<::>",
-    "power_bow": "<::>",
-    "deathcap_mushroom": "<::>",
-    "shadow_shifter": "<::>",
-    "saber_wing": "<::>",
-    "splendid_robes": "<::>",
-    "starless_night": "<::>",
+    "regeneration_totem": "<:regeneration_totem:>",
+    "flaming_quiver": "<:flaming_quiver:>",
+    "love_medallion": "<:love_medallion:>",
+    "wind_horn": "<:wind_horn:>",
+    "battle_robes": "<:battle_robes:>",
+    "weakening_gong": "<:weakening_gong:>",
+    "soul_protection_totem": "<:soul_protection_totem:>",
+    "deathcap_mushroom": "<:deathcap_mushroom:>",
+    "shadow_shifter": "<:shadow_shifter:>",
+    "gastly_totem": "<:gastly_totem:>",
+    "splendid_robes": "<:splendid_robes:>",
+    "satchel_of_elements": "<:satchel_of_elements:>",
+    "dark_rooted_robes": "<:dark_rooted_robes:>",
     "bopa": "<:bopa:1261478828690247710>",
     "farming": {
       "growing": {
@@ -1923,13 +1931,14 @@
     "Love Medallion": "love_medallion",
     "Wind Horn": "wind_horn",
     "Battle Robes": "battle_robes",
-    "Obsidian Claymore": "obsidian_claymore",
-    "Power Bow": "power_bow",
+    "Weakening Gong": "weakening_gong",
+    "Soul Protection Totem": "soul_protection_totem",
     "Deathcap Mushroom": "deathcap_mushroom",
     "Shadow Shifter": "shadow_shifter",
-    "Saber Wing": "saber_wing",
+    "Gastly Totem": "gastly_totem",
     "Splendid Robes": "splendid_robes",
-    "Starless Night": "starless_night",
+    "Satchel Of Elements": "satchel_of_elements",
+    "Dark Rooted Robes": "dark_rooted_robes",
     "Pumpkin": "pumpkin",
     "Bane Of Pillagers Amulet": "bopa"
   },
