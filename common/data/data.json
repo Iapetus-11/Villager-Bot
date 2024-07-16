@@ -1413,7 +1413,7 @@
     {
       "item": "Satchel Of Elements",
       "sell_price": 1024,
-      "rarity": 99999
+      "rarity": 99999,
       "sticky": false,
       "tags": ["mine", "fish"]
     },
