@@ -288,7 +288,7 @@ class Fun(commands.Cog):
         text: str = "",
     ):
         resp = await self.bot.aiohttp.get("https://api.otakugifs.xyz/gif?reaction=pat")
-        image_url = (await resp.json())["url"]
+        gif_url = (await resp.json())["url"]
 
         target = ", ".join(
             f"**{discord.utils.escape_markdown(u.display_name)}**" for u in (users or [])
@@ -301,7 +301,7 @@ class Fun(commands.Cog):
                 f"pats {target} {text}"[:256]
             ),
         )
-        embed.set_image(url=image_url)
+        embed.set_image(url=gif_url)
 
         await ctx.send(embed=embed)
 
