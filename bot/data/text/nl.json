@@ -12,73 +12,73 @@
         "Wacht nog **{}**, alsjeblieft."
       ],
       "errors": {
-        "andioop": "Oops! Something went really wrong... Please take a screenshot and report it on the **[Support Server]({})**, thank you!",
-        "private": "This command can't be used in private chat channels.",
-        "user_perms": "Nice try stupid, but you don't have the permissions to do that!",
-        "bot_perms": "You didn't give me the proper permissions to do that, dummy.",
-        "concurrency": "Hold on! You're using this command tooooo fast!",
-        "missing_arg": "Looks like you're forgetting to put something in!",
-        "bad_arg": "Looks like you didn't type something correctly, try typing it right the first time, dum dum.",
-        "not_ready": "Hold on! Villager Bot is still starting up!",
-        "nrn_buddy": "Hold on, you can't use that command right now!",
-        "disabled": "This command is disabled in this server and can not be used!"
+        "andioop": "Oeps! Er ging iets helemaal mis... Kun je alsjeblieft een screenshot nemen en deze in de **[Support Server]({})** plaatsen? Dank je wel!",
+        "private": "Dit commando kan niet gebruikt worden in privé chat kanalen.",
+        "user_perms": "Leuk geprobeerd, maar je hebt niet voldoende permissies om dat te doen!",
+        "bot_perms": "Je hebt me de juiste permissies niet gegeven om dat te doen, slimmerd.",
+        "concurrency": "Wacht even! Je gebruikt dit command veeeel te snel!",
+        "missing_arg": "Het ziet eruit alsof je vergeet iets in te voeren!",
+        "bad_arg": "Het ziet eruit alsof je iets niet juist hebt ingevoerd, probeer het de volgende keer goed te typen graag.",
+        "not_ready": "Wacht een moment! Villager Bot is nog aan het opstarten!",
+        "nrn_buddy": "Wacht even, je kan dit commando op het moment nog niet gebruiken!",
+        "disabled": "Dit commando is in deze server uitgeschakeld en kan niet gebruikt worden!"
       },
       "tips": [
-        "Got a suggestion? Found a bug? Need help? Want to trade? Join the Support Server! https://discord.gg/39DwwUV",
-        "In need of emeralds? Vote for us on top.gg! https://top.gg/bot/639498607632056321",
-        "Broke because of those pillagers? Vote for us to get emeralds! https://top.gg/bot/639498607632056321",
-        "Check out the `rules` command to see the Villager Bot rules!",
-        "Do you own a Minecraft server or are you looking for one? Check out https://minecraft.global/"
+        "Heb je een suggestie? Een bug gevonden? Hulp nodig? Wil je handelen? Kom in de Support Server! https://discord.gg/39DwwUV",
+        "Heb je smaragden nodig? Stem voor ons op top.gg! https://top.gg/bot/639498607632056321",
+        "Blut door al die plunderaars? Stem voor ons om smaragden te krijgen! https://top.gg/bot/639498607632056321",
+        "Check het `rules` commando om de Villager Bot regels te zien!",
+        "Ben je eigenaar van een Minecraft server of ben je er naar een op zoek? Check https://minecraft.global/"
       ],
       "tip_intros": [
         "**PRO TIP:**",
-        "**How to become god gamer tip #1:**",
-        "**Handy Dandy Tip:**",
+        "**Hoe wordt je een god gamer tip #1:**",
+        "**Handige Harry Tip:**",
         "**Pro Tip #1:**"
       ],
       "time": {
-        "day": "day",
-        "days": "days",
-        "hour": "hour",
-        "hours": "hours",
-        "minute": "minute",
-        "minutes": "minutes",
-        "second": "second",
-        "seconds": "seconds"
+        "day": "dag",
+        "days": "dagen",
+        "hour": "uur",
+        "hours": "uren",
+        "minute": "minuut",
+        "minutes": "minuten",
+        "second": "seconde",
+        "seconds": "seconden"
       },
       "intro": {
         "body": [
-          "Hey y'all! Type `{prefix}help` to get started with Villager Bot!",
-          "If you need any more help, check out the **[Support Server]({support_server})**!\n",
-          "*Our privacy policy can be found [here]({privacy_policy}).*"
+          "Hey jullie! Typ `{prefix}help` om te starten met Villager Bot!",
+          "Als je meer hulp nodig hebt, check de **[Support Server]({support_server})**!\n",
+          "*Ons privacybeleid can [hier]({privacy_policy}) gevonden worden.*"
         ],
-        "footer": "Made by Iapetus11 and others ({prefix}credits)  |  Check the {prefix}rules"
+        "footer": "Gemaakt door Iapetus11 en anderen ({prefix}credits)  |  Check de {prefix}rules"
       }
     },
     "help": {
       "n": {
-        "title": "Villager Bot Commands",
-        "economy": "Economy",
+        "title": "Villager Bot Commando's",
+        "economy": "Economie",
         "minecraft": "Minecraft",
-        "utility": "Utility",
-        "fun": "Fun",
+        "utility": "Gebruik",
+        "fun": "Plezier",
         "admin": "Admin",
-        "cmd": "Command Usage"
+        "cmd": "Commando Gebruik"
       },
       "main": {
-        "desc": "Need more help? Check out the **[Support Server]({})**!\nEnjoying the bot? Vote for us on **[top.gg]({})** and earn emeralds!",
-        "support": "Support",
-        "clickme": "Click Me",
-        "howto": "Do `{0}help <command>` to see how to use that command!",
-        "nodoc": "No documentation exists for that command.",
-        "aliases": "Aliases: `{}`"
+        "desc": "Meer hulp nodig? Check de **[Support Server]({})**!\nGeniet je van de bot? Stem voor ons op **[top.gg]({})** en verdien smaragden!",
+        "support": "Ondersteuning",
+        "clickme": "Druk Op Mij",
+        "howto": "Doe `{0}help <commando>` om te zien hoe je dat commando gebruikt!",
+        "nodoc": "Geen documentatie bestaat voor dat commando.",
+        "aliases": "Aliassen: `{}`"
       },
       "econ": {
-        "profile": "`{0}profile [optional: user]` *shows the profile of you or the specified user*",
-        "balance": "`{0}balance [optional: user]` *shows the balance of you or the specified user*",
-        "inventory": "`{0}inventory [optional: category] [optional: user]` *shows the inventory of you or the specified user; optional categories include `tools`, `magic`, `fish`, or `misc`*",
-        "deposit": "`{0}deposit <emerald blocks>` *deposit emeralds into the vault*",
-        "withdraw": "`{0}withdraw <emerald blocks>` *withdraw emeralds from the vault*",
+        "profile": "`{0}profile [optioneel: gebruiker]` *laat het profiel van jou of een gekozen gebruiker zien*",
+        "balance": "`{0}balance [optioneel: gebruiker]` *laat het saldo van jou of een gekozen gebruiker zien*",
+        "inventory": "`{0}inventory [optioneel: categorie] [optioneel: gebruiker]` *laat het inventaris van jou of een gekozen gebruiker zien; optionele categorieën bevatten `tools`, `magic`, `fish`, of `misc`*",
+        "deposit": "`{0}deposit <smaragden blokken>` *stort smaragden in je bank*",
+        "withdraw": "`{0}withdraw <smaragden blokken>` *trek smaragden uit je bank terug*",
         "give": "`{0}give <user> <amount> <item>` *give another user an item or emeralds*",
         "mine": "`{0}mine` *mine for emeralds*",
         "fish": "`{0}fish` *fish for fish and items*",
