@@ -1694,7 +1694,7 @@
         "rules": "Reglas de Villager Bot",
         "slashrules": "{}rules para las reglas!",
         "penalty": "La penalización por romper estas reglas puede incluir reinicio/borrado, penalizaciones in-game/debuff, o un **ban permanente del bot y el servidor de Soporte**.",
-        "rule_1": "**1.** No abusar de los bugs, ¡reportalos en el canal #bug-smasher del [servidor de Soporte]({}) para obtener una recompensa!",
+        "rule_1": "**1.** No abusar de los bugs, ¡reportalos en el canal #support del [servidor de Soporte]({}) para obtener una recompensa!",
         "rule_2": "**2.** No hagas ningún tipo de trampas o uses cuentas alternativas u otros usuarios para guardar tus esmeraldas o objetos. (Esto incluye el self-botting).",
         "rule_3": "**3.** No seas molesto/a, tóxico/a o utilices las funciones del bot para acosar a alguien.",
         "rule_4": "**4.** No uses el bot para promocionar cualquier cosa que no sea propiedad del dueño del bot."

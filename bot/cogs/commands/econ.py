@@ -28,7 +28,7 @@ from bot.utils.misc import (
     make_health_bar,
 )
 from bot.villager_bot import VillagerBotCluster
-from common.models.data import Findable, ShopItem
+from common.models.data import Findable, Fishing, ShopItem
 from common.models.db.item import Item
 from common.models.db.user import User
 
@@ -2546,6 +2546,13 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.item_bible.not_found)
             return
 
+        fishing_entry: Fishing.Fish | None = None
+        if findable_entry is None:
+            fishing_entry = next(
+                (fish for fish in self.d.fishing.fish.values() if fish.name == item_name),
+                None,
+            )
+
         db_item = await self.db.fetch_item(ctx.author.id, item_name)
 
         item_emoji = emojify_item(self.d, item_name, default="❔")
@@ -2588,6 +2595,17 @@ class Econ(commands.Cog):
                         f"{self.d.emojis.fishing_rod} "
                         f"{ctx.l.econ.item_bible.drop_rate.fishing.format(findable_entry.rarity)}\n"
                     )
+        elif fishing_entry:
+            fishing_rarities = dict(
+                zip([f.name for f in self.d.fishing.fish.values()], self.d.fishing.fishing_weights)
+            )
+            actual_fishing_rarity = round(
+                max(self.d.fishing.fishing_weights) / fishing_rarities[item_name], 2
+            )
+            drop_rate_text = (
+                f"{self.d.emojis.fishing_rod} "
+                f"{ctx.l.econ.item_bible.drop_rate.fishing.format(actual_fishing_rarity)}\n"
+            )
 
         if item_name in ctx.l.econ.item_bible.item_mapping:
             item_info = ctx.l.econ.item_bible.item_mapping[item_name]

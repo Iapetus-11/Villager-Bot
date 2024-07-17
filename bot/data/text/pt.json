@@ -1694,7 +1694,7 @@
         "rules": "Regras do Villager Bot",
         "slashrules": "{}regras para ver as regras!",
         "penalty": "A penalidade por quebrar essas regras pode incluir um reinício/exclusão, penalidade/debuff no jogo ou um **banimento permanente do bot e do servidor de suporte**.",
-        "rule_1": "**1.** Não abuse dos bugs, denuncie-os no canal #bug-smasher no [servidor de suporte]({}) para uma recompensa!",
+        "rule_1": "**1.** Não abuse dos bugs, denuncie-os no canal #support no [servidor de suporte]({}) para uma recompensa!",
         "rule_2": "**2.** Não trapaceie de forma alguma, nem use contas alternativas ou outros usuários para armazenar suas esmeraldas ou itens. (Isso inclui self-botting.)",
         "rule_3": "**3.** Não seja irritante, tóxico ou use as funções do bot para assediar alguém.",
         "rule_4": "**4.** Não use o bot para promover qualquer conteúdo não sancionado pelo proprietário do bot."
@@ -2504,8 +2504,8 @@
           "Luck Potion": {
             "description": [
               "> Quando usada com o comando `{prefix}chug Luck Potion`, você irá experienciar os efeitos listados abaixo por `4 minutos e 30 segundos`.",
-              "Aumentar significativamente as chances de:\n- Obter espaços de cofre extras ao executar comandos de economia.\n- Encontrar itens colecionáveis ​​da mineração.",
-              "Diminuir significativamente as chances de:\n- Pescar lixo (em vez de itens colecionáveis ​​ou peixes).\n- Perder abelhas ao usar o comando `{prefix}honey`.\n- Encontrar isca de pesca ao esvaziar a `{prefix}trashcan`."
+              "Aumentar significativamente as chances de:\n- Obter espaços de cofre extras ao executar comandos de economia.\n- Encontrar itens colecionáveis da mineração.\n- Encontrar isca de pesca ao esvaziar a `{prefix}trashcan`.",
+              "Diminuir significativamente as chances de:\n- Pescar lixo (em vez de itens colecionáveis ou peixes).\n- Perder abelhas ao usar o comando `{prefix}honey`."
             ],
             "quoted": false
           },

@@ -386,9 +386,31 @@ class Events(commands.Cog):
         elif isinstance(e, commands.MaxConcurrencyReached | MaxKarenConcurrencyReached):
             await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
         elif isinstance(e, commands.MissingRequiredArgument):
-            await ctx.reply_embed(ctx.l.misc.errors.missing_arg, ignore_exceptions=True)
+            command_doc = {
+                **ctx.l.help.econ,
+                **ctx.l.help.mc,
+                **ctx.l.help.util,
+                **ctx.l.help.fun,
+                **ctx.l.help.mod,
+            }.get(str(ctx.command), ctx.l.help.main.nodoc).format(ctx.prefix)
+
+            await ctx.reply_embed(
+                f"{ctx.l.misc.errors.missing_arg}\n\n{ctx.l.help.n.cmd}:\n{command_doc}",
+                ignore_exceptions=True,
+            )
         elif isinstance(e, BAD_ARG_ERRORS):
-            await ctx.reply_embed(ctx.l.misc.errors.bad_arg, ignore_exceptions=True)
+            command_doc = {
+                **ctx.l.help.econ,
+                **ctx.l.help.mc,
+                **ctx.l.help.util,
+                **ctx.l.help.fun,
+                **ctx.l.help.mod,
+            }.get(str(ctx.command), ctx.l.help.main.nodoc).format(ctx.prefix)
+
+            await ctx.reply_embed(
+                f"{ctx.l.misc.errors.missing_arg}\n\n{ctx.l.help.n.cmd}:\n{command_doc}",
+                ignore_exceptions=True,
+            )
         elif hasattr(ctx, "failure_reason") and ctx.failure_reason:  # handle global check failures
             failure_reason = ctx.failure_reason
 
