@@ -1,0 +1,2567 @@
+{
+  "vn": {
+    "lang": "vn",
+    "name": "Vietnamese",
+    "misc": {
+      "pingpong": "Tiền tố cho máy chủ này là `{0}` và lệnh trợ giúp là `{0}help`\nNếu cần hỗ trợ thêm bạn có thể tham gia **[Máy chủ Hỗ Trợ]({1})**.",
+      "cooldown_msgs": [
+        "Bố mẹ bạn không dạy bạn [kiên nhẫn là một đức hạnh](http://www.patience-is-a-virtue.org/)? Bình tĩnh lại và đợi **{}**.",
+        "Này, bạn phải đợi thêm **{}** trước khi làm lại điều đó.",
+        "Hrmmm, xem ra bạn phải đợi thêm **{}** trước khi làm lại điều đó.",
+        "Bạn không biết [kiên nhẫn là một đức hạnh](http://www.patience-is-a-virtue.org/)! Đợi thêm **{}**.",
+        "Đợi thêm **{}** nữa nhé."
+      ],
+      "errors": {
+        "andioop": "Ối! Đã xảy ra sự cố nghiêm trọng... Vui lòng chụp ảnh màn hình và báo cáo trên **[Máy chủ Hỗ Trợ]({})**, cảm ơn!",
+        "private": "Lệnh này không thể được sử dụng trong các kênh trò chuyện riêng tư.",
+        "user_perms": "Cố gắng hay lắm thằng ngốc, nhưng bạn không có quyền làm điều đó!",
+        "bot_perms": "Bạn đã không cho tôi quyền thích hợp để làm điều đó, đồ ngốc.",
+        "concurrency": "Đợi đã! Bạn đang sử dụng lệnh này quá nhanh!",
+        "missing_arg": "Có vẻ như bạn quên bỏ thứ gì đó vào!",
+        "bad_arg": "Có vẻ như bạn gõ chưa chính xác, hãy thử gõ đúng ngay lần đầu tiên, đồ ngu.",
+        "not_ready": "Đợi đã! Villager Bot vẫn đang khởi động!",
+        "nrn_buddy": "Đợi đã, bạn không thể sử dụng lệnh đó bây giờ!",
+        "disabled": "Lệnh này bị vô hiệu hóa trong máy chủ này và không thể sử dụng được!"
+      },
+      "tips": [
+        "Có một gợi ý? Tìm thấy một lỗi? Cần giúp đỡ? Bạn muốn giao dịch? Tham gia Máy chủ Hỗ Trợ! https://discord.gg/39DwwUV",
+        "Cần ngọc lục bảo? Bình chọn cho chúng tôi trên top.gg! https://top.gg/bot/639498607632056321",
+        "Nghèo vì những kẻ cướp bóc? Hãy bình chọn cho chúng tôi để nhận được ngọc lục bảo! https://top.gg/bot/639498607632056321",
+        "Dùng lệnh  `rules` để xem luật lệ của Villager Bot!",
+        "Bạn có sở hữu một máy chủ Minecraft hay bạn đang tìm kiếm một máy chủ? Xem thử https://minecraft.global/"
+      ],
+      "tip_intros": [
+        "**PRO TIP:**",
+        "**Mẹo trở thành game thủ thần thánh #1:**",
+        "**Mẹo tiện dụng:**",
+        "**Mẹo chuyên nghiệp #1:**"
+      ],
+      "time": {
+        "day": "ngày",
+        "days": "ngày",
+        "hour": "tiếng",
+        "hours": "tiếng",
+        "minute": "phút",
+        "minutes": "phút",
+        "second": "giây",
+        "seconds": "giây"
+      },
+      "intro": {
+        "body": [
+          "Này bạn! Đánh `{prefix}help` để bắt đầu với Villager Bot!",
+          "Nếu bạn cần thêm trợ giúp, hãy xem **[Máy chủ Hỗ Trợ]({support_server})**!\n",
+          "*Chính sách bảo mật của chúng tôi có thể được tìm thấy [tại đây]({privacy_policy}).*"
+        ],
+        "footer": "Được làm bởi Iapetus11 và những người khác ({prefix}credits)  |  Xem thử {prefix}rules"
+      }
+    },
+    "help": {
+      "n": {
+        "title": "Lệnh Villager Bot",
+        "economy": "Kinh Tế",
+        "minecraft": "Minecraft",
+        "utility": "Tiện Ích",
+        "fun": "Giải Trí",
+        "admin": "Quản Trị Viên",
+        "cmd": "Cách sử dụng lệnh"
+      },
+      "main": {
+        "desc": "Cần sự giúp đỡ nhiều hơn? Hãy xem **[Máy chủ Hỗ Trợ]({})**!\nBạn thích máy? Bình chọn cho chúng tôi trên **[top.gg]({})** và kiếm ngọc lục bảo!",
+        "support": "Giúp Đỡ",
+        "clickme": "Nhấp vào đây",
+        "howto": "Dùng `{0}help <lệnh>` để xem cách sử dụng lệnh đó!",
+        "nodoc": "Không có tài liệu nào tồn tại cho lệnh đó.",
+        "aliases": "Tên khác: `{}`"
+      },
+      "econ": {
+        "profile": "`{0}profile [Tùy chọn: Người dùng]` *Hiển thị hồ sơ của bạn hoặc người dùng được chỉ định*",
+        "balance": "`{0}balance [Tùy chọn: Người dùng]` *Hiển thị số dư của bạn hoặc người dùng được chỉ định*",
+        "inventory": "`{0}inventory [Tùy chọn: Danh mục] [Tùy chọn: Người dùng]` *Hiển thị đồ lưu kho của bạn hoặc người dùng được chỉ định; danh mục tùy chọn bao gồm `tools`, `magic`, `fish`, hoặc `misc`*",
+        "deposit": "`{0}deposit <Khối Ngọc lục bảo>` *Gửi ngọc lục bảo vào kho*",
+        "withdraw": "`{0}withdraw <Khối Ngọc lục bảo>` *Rút ngọc lục bảo từ kho*",
+        "give": "`{0}give <Người dùng> <Số lượng> <Vật phẩm>` *Đưa cho người dùng khác một vật phẩm hoặc ngọc lục bảo*",
+        "mine": "`{0}mine` *Đào ngọc lục bảo*",
+        "fish": "`{0}fish` *Câu cá và các vật phẩm*",
+        "fishmarket": "`{0}fishmarket` *Xem giá bán hiện tại của cá*",
+        "farm": "`{0}farm` *Trồng và thu hoạch cây trồng có giá trị như ngọc lục bảo*",
+        "trash": "`{0}trash` *Xem các vật phẩm vô dụng mà bạn khai thác được*",
+        "search": "`{0}search` *Tìm kiếm ngọc lục bảo*",
+        "honey": "`{0}honey` *Thu hoạch mật ong từ những con ong bạn sở hữu*",
+        "gamble": "`{0}gamble <Ngọc lục bảo>` *Đánh bạc với máy để có cơ hội giành được ngọc lục bảo*",
+        "pillage": "`{0}pillage <Người dùng>` *Cướp ngọc lục bảo từ người dùng khác*",
+        "use": "`{0}use <Vật phẩm>` *Sử dụng vật phẩm được chỉ định*",
+        "shop": "`{0}shop` *Hiển thị Cửa hàng Dân làng*",
+        "buy": "`{0}buy [Tùy chọn: Số lượng vật phẩm] <Vật phẩm>` *Mua một vật phẩm từ Cửa hàng Dân làng*",
+        "sell": "`{0}sell <Số lượng> <Vật phẩm>` *Bán lại vật phẩm cho Villager Bot*",
+        "leaderboards": "`{0}leaderboards` *Hiển thị bảng xếp hạng*",
+        "trivia": "`{0}trivia` *Gửi những câu hỏi nhỏ mà bạn có thể trả lời để lấy ngọc lục bảo!*",
+        "dailyquest": "`{0}dailyquest` *Cho bạn một nhiệm vụ thú vị sẽ hết hạn trong vòng một ngày*",
+        "iteminfo": "`{0}iteminfo <item>` *Gửi thông tin và số liệu thống kê về vật phẩm được chỉ định*"
+      },
+      "mc": {
+        "mcstatus": "`{0}mcstatus [Tùy chọn: Máy chủ]` *Kiểm tra trạng thái của bất kỳ loại máy chủ Minecraft nào*",
+        "rcon": "`{0}rcon <Lệnh>` *Thực hiện các lệnh trên máy chủ Minecraft từ Discord*",
+        "randommc": "`{0}randommc` *Hiển thị máy chủ Minecraft ngẫu nhiên nếu bạn muốn khám phá một địa điểm mới*",
+        "blockify": "`{0}blockify` *Biến bất kỳ hình ảnh nào bạn tải lên thành khối Minecraft / nghệ thuật điểm ảnh*",
+        "stealskin": "`{0}stealskin <Tên tài khoản>` *Lấy giao diện của người chơi Minecraft Java Edition*",
+        "buildidea": "`{0}buildidea` *Cho ý tưởng xây dựng ngẫu nhiên nếu bạn cảm thấy chán và cần nguồn cảm hứng*",
+        "mccolors": "`{0}mccolors` *Hiển thị màu sắc Minecraft và cách sử dụng chúng trong cuộc trò chuyện trong trò chơi*",
+        "mcprofile": "`{0}mcprofile <Tên tài khoản>` *Hiển thị thông tin về người chơi Minecraft Java Edition*",
+        "nametoxuid": "`{0}nametoxuid <Tên tài khoản>` *Biến gamertag MC Bedrock Edition thành xuid*"
+      },
+      "util": {
+        "help": "`{0}help` *Xem thông tin hữu ích về Villager Bot*",
+        "rules": "`{0}rules` *Xem quy định sử dụng máy*",
+        "config": "`{0}config` *Thiết lập máy theo ý thích của bạn*",
+        "ping": "`{0}ping` *Hiển thị độ trễ giữa Discord và Villager Bot*",
+        "serverinfo": "`{0}server` *Xem thông tin về máy chủ hiện tại*",
+        "avatar": "`{0}avatar` *Hiển thị hình đại diện phóng to của người dùng được chỉ định*",
+        "links": "`{0}links` *Xem các liên kết hữu ích liên quan đến Villager Bot*",
+        "vote": "`{0}vote` *Kiếm ngọc lục bảo từ việc bình chọn cho Villager Bot trên một số trang web nhất định*",
+        "stats": "`{0}stats` *Hiển thị số liệu thống kê về Villager Bot*",
+        "google": "`{0}google <Tìm kiếm>` *Tìm kiếm trên Google cho truy vấn của bạn*",
+        "youtube": "`{0}youtube <Tìm kiếm>` *Tìm kiếm trên Youtube cho truy vấn của bạn*",
+        "image": "`{0}image <Tìm kiếm>` *Tìm kiếm hình ảnh trên Google cho truy vấn của bạn*",
+        "math": "`{0}math <Câu hỏi>` *Giải một bài toán",
+        "credits": "`{0}credits` *Cho biết ai đã giúp tạo ra Villager Bot*",
+        "snipe": "`{0}snipe` *Hiển thị tin nhắn đã xóa mới nhất trong kênh hiện tại*",
+        "redditdl": "`{0}redditdl <URL bài đăng Reddit>` *Tải xuống phương tiện được chỉ định từ Reddit*",
+        "exif": "`{0}exif` *Trích xuất dữ liệu EXIF ​​​​từ hình ảnh được chỉ định*",
+        "imagetopng": "`{0}imagetopng *Chuyển đổi hình ảnh đã tải lên/được chỉ định thành PNG*",
+        "translate": "`{0}translate <Ngôn ngữ> [Văn bản]` *Dịch văn bản hoặc tin nhắn đã cho sang ngôn ngữ đích được chỉ định*",
+        "reminders": "`{0}reminders` `add` *hoặc* `remove` *Thêm hoặc xóa lời nhắc tương ứng*"
+      },
+      "fun": {
+        "cursed": "`{0}cursed` *Gửi một hình ảnh Minecraft bị nguyền rủa ngẫu nhiên*",
+        "meme": "`{0}meme` *Gửi một meme ngẫu nhiên từ reddit*",
+        "4chan": "`{0}4chan` *Gửi một ảnh chụp màn hình hài hước từ 4chan*",
+        "comic": "`{0}comic` *Gửi một truyện tranh ngẫu nhiên từ r/comics trên Reddit*",
+        "say": "`{0}say <Văn bản>` *Làm cho máy nói văn bản bạn đưa vào*",
+        "enchant": "`{0}enchant <Văn bản>` *Biến văn bản thành ngôn ngữ bảng bùa phép Minecraft*",
+        "unenchant": "`{0}unenchant <Vãn bản>` *Biến ngôn ngữ bảng phù phép trở lại thành văn bản*",
+        "villagerspeak": "`{0}villagerspeak <Văn bản>` *Biến văn bản thành âm thanh của dân làng*",
+        "clap": "`{0}clap <Văn bản>` *:clap: Đặt :clap: những :clap: biểu :clap: tượng :clap: cảm :clap: xúc :clap: giữa :clap: văn :clap: bản :clap:*",
+        "emojify": "`{0}emojify <Văn bản>` *Biến văn bản thành biểu tượng cảm xúc*",
+        "sarcastic": "`{0}sarcastic <Văn bản>` *bIếN vĂn BảN tHàNh GiỌnG mỈa MaI*",
+        "owo": "`{0}owo <Văn bản>` *owofies văn bản đã cho uwu*",
+        "vaporwave": "`{0}vaporwave <Văn bản>` *Biến văn bản thành phong cách vaporwave*",
+        "kill": "`{0}kill <Văn bản>` *Giết hại dã man người dùng khác*",
+        "bubblewrap": "`{0}bubblewrap` *Gửi bong bóng ảo để bạn làm nổ*",
+        "coinflip": "`{0}coinflip` *Tung đồng xu và nói kết quả trong cuộc trò chuyện*",
+        "pat": "`{0}pat <Người dùng>` *Vỗ nhẹ vào đầu ai đó*",
+        "slap": "`{0}slap <Người dùng>` *Nhẹ nhàng tát ai đó*",
+        "achievement": "`{0}achievement <Văn bản>` *Tạo thành tích Minecraft từ văn bản đã cho*",
+        "splashtext": "`{0}splashtext <Văn bản>` *Tạo màn hình giật gân Minecraft với văn bản đã cho*",
+        "trivia": "`{0}trivia` *Gửi những câu hỏi nhỏ mà bạn có thể trả lời để lấy ngọc lục bảo!*",
+        "gayrate": "`{0}gayrate <Người dùng>` *Cho biết người dùng đồng tính như thế nào*"
+      },
+      "mod": {
+        "warn": "`{0}warn <Người dùng> [Tùy chọn: Lý do]` *Cảnh báo người dùng vì một lý do cụ thể*",
+        "warns": "`{0}warns <Người dùng>` *Xem các cảnh báo của người dùng, để trống để xem cảnh báo của bạn*",
+        "purge": "`{0}purge <Số lượng>` *Xóa tin nhắn khỏi kênh hiện tại*",
+        "delwarns": "`{0}delwarns <Người dùng>` *Xóa các cảnh báo mà người dùng có trong máy chủ này*",
+        "kick": "`{0}kick <Người dùng> [Tùy chọn: Lý do]` *Đuổi người dùng khỏi máy chủ Discord hiện tại*",
+        "ban": "`{0}ban <Người dùng> [Tùy chọn: số ngày xóa tin nhắn] [Tùy chọn: Lý do]` *Cấm người dùng khỏi máy chủ Discord hiện tại*",
+        "pardon": "`{0}pardon <Người dùng>` *Bỏ cấm người dùng khỏi máy chủ Discord hiện tại*",
+        "mute": "`{0}mute <Người dùng> [Thời gian] [Lý do]` *Lấy quyền nhắn của người dùng trong máy chủ Discord hiện tại*",
+        "unmute": "`{0}unmute <Người dùng>` *Trả quyền nhắn của người dùng trong máy chủ Discord hiện tại*"
+      }
+    },
+    "fun": {
+      "too_long": "Tin nhắn đó sẽ quá dài để chuyển đổi.",
+      "dl_img": "**[[Tải hình ảnh]]({})**",
+      "bubblewrap": {
+        "invalid_size_1": "Đó không phải là kích thước hợp lệ. Ví dụ về kích thước hợp lệ: `10x10`",
+        "invalid_size_2": "Kích thước phải nằm trong khoảng từ 1 đến 12"
+      },
+      "gayrate": "{0} {1} là người đồng tính 100% {0}",
+      "trivia": {
+        "title": "{}  Câu đố Minecraft **[{}]** {}",
+        "title_basic": "{}  Câu đố Minecraft {}",
+        "time_to_answer": "Bạn có 15 giây để trả lời câu hỏi này!",
+        "timeout": "**Tệ quá...** Bạn đã hết thời gian!",
+        "correct": [
+          "Làm tốt lắm, đó là **đúng**!\nBạn đã lấy được {}{}!",
+          "Làm tốt lắm, đó là **đúng**!\nBạn đã kiếm được {}{}!",
+          "Làm tốt lắm, đó là **đúng**!\nBạn đã nhận được {}{}!",
+          "Tốt, điều đó **đúng**!\nBạn đã kiếm được {}{}!",
+          "Tốt, điều đó **đúng**!\nBạn đã nhận được {}{}!"
+        ],
+        "incorrect": [
+          "Điều đó **không chính xác**...  :pensive:",
+          "Bạn có thể **ngu ngốc**... :pensive:",
+          "Không còn hy vọng nào cho bạn... :pensive:",
+          "Vâng bác sĩ cơ bản là anh ấy không có não..."
+        ],
+        "difficulty": [
+          "Dễ",
+          "Trung bình",
+          "Khó"
+        ],
+        "questions": [
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Ender Dragon có bao nhiêu máu?",
+            "a": [
+              "200 hp",
+              "500 hp",
+              "50 hp",
+              "100 hp"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Một chiếc bánh Minecraft có bao nhiêu lát?",
+            "a": [
+              "7 lát",
+              "8 lát",
+              "6 lát",
+              "10 lát"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Một củ khoai tây phục hồi bao nhiêu thanh thức ăn?",
+            "a": [
+              "1 thanh thức ăn",
+              "2 thanh thức ăn",
+              "0 thanh thức ăn",
+              "3 thanh thức ăn"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Khoai tây phục hồi bao nhiêu độ bão hòa cơn đói?",
+            "a": [
+              "0.6 độ bão hòa",
+              "1 độ bão hòa",
+              "0.1 độ bão hòa",
+              "1.7 độ bão hòa"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Thức ăn nào phục hồi nhiều thanh thức ăn nhất trong Minecraft?",
+            "a": [
+              "Bít tết",
+              "Bánh mì",
+              "Canh nấm",
+              "Cà rốt vàng"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Một dân làng cần bao nhiêu XP để đạt được từ cấp độ Thực tập lên Bậc Thầy?",
+            "a": [
+              "250 XP",
+              "150 XP",
+              "100 XP",
+              "70 XP"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quần xã sinh vật nào hiếm nhất trong Minecraft?",
+            "a": [
+              "Rìa rừng được sửa đổi",
+              "Dãy núi Taiga phủ đầy tuyết",
+              "Đồi Rừng Tre",
+              "Bờ ruộng nấm"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Minecraft được phát hành đầy đủ vào năm nào?",
+            "a": [
+              "2011",
+              "2007",
+              "2010",
+              "2014"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Creepers sợ con vật nào?",
+            "a": [
+              "Mèo rừng",
+              "Zombie",
+              "Người chơi",
+              "Creeper khác"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Elytra được thêm vào trò chơi trong phiên bản nào?",
+            "a": [
+              "15w41a",
+              "16w31a",
+              "16w42a",
+              "17w22a"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Skeleton dùng gì để tấn công?",
+            "a": [
+              "Cung",
+              "Trứng",
+              "Kiếm",
+              "Không có vũ khí"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Wither Skeleton dùng gì để tấn công?",
+            "a": [
+              "Kiếm",
+              "Cung",
+              "Đầu lâu Wither",
+              "Tay nó"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Biên giới thế giới cách 0 0 bao xa?",
+            "a": [
+              "30000000 khối theo mỗi hướng",
+              "1000000 khối theo mỗi hướng",
+              "300000000 khối theo mỗi hướng",
+              "Không có biên giới, Minecraft là vô hạn"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Người chăn cừu bán giường ở chỗ giao dịch nào?",
+            "a": [
+              "Thứ 6",
+              "Thứ 2",
+              "Thứ 4",
+              "Thứ 8"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Công cụ nào được bán bởi cả thợ rèn dụng cụ và thợ rèn vũ khí?",
+            "a": [
+              "Cây Rìu",
+              "Cái Xẻng",
+              "Cây Kiếm",
+              "Cây Cúp"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Bạn có thể sử dụng vật phẩm nào để làm thuốc nhìn đêm?",
+            "a": [
+              "Cà rốt vàng",
+              "Táo vàng",
+              "Thịt thối",
+              "Củ cải đỏ"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Một ngày trong Minecraft kéo dài bao lâu?",
+            "a": [
+              "20 phút",
+              "10 phút",
+              "30 phút",
+              "1 tiếng"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Ai là người đầu tiên tạo ra Minecraft?",
+            "a": [
+              "Markus Perrson",
+              "Matthew Marcusson",
+              "Donald Donnelly",
+              "Magnus Carlson"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Một cái xẻng có thể được sử dụng để dập tắt lửa trại",
+            "a": [
+              "Đúng",
+              "Sai"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Sinh vật nào có thể bay qua nền đá?",
+            "a": [
+              "Vex",
+              "Ong",
+              "Wither Skeleton",
+              "Dơi"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Cuốc sắt bền hơn cuốc vàng",
+            "a": [
+              "Đúng",
+              "Sai"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Thây ma trong Minecraft có thể phá cửa",
+            "a": [
+              "Đúng",
+              "Sai"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Bộ xương trong Minecraft có thể phá cửa",
+            "a": [
+              "Sai",
+              "Đúng"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Kẻ thù đầu tiên được đưa vào Minecraft là gì?",
+            "a": [
+              "Thây ma",
+              "Creeper",
+              "Bộ xương",
+              "Nhện"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quái vật nào đã được thêm vào trong Bản cập nhật Khá Đáng sợ?",
+            "a": [
+              "Phù Thủy",
+              "Creeper",
+              "Enderman",
+              "Vex"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Kẻ thù nào đã được giới thiệu trong Minecraft 1.8?",
+            "a": [
+              "Silverfish",
+              "Wither",
+              "Nhện",
+              "Zombie Pigman"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Trong cập nhật nào mà Zombie Pigman được đổi tên thành Zombified Piglin?",
+            "a": [
+              "20w09a",
+              "13w49a",
+              "18w43a",
+              "12w37a"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Nguyên liệu dùng để làm thuốc kéo dài là gì?",
+            "a": [
+              "Hơi thở của Rồng",
+              "Thuốc súng",
+              "Redstone",
+              "Glowstone"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Sự phát triển của Minecraft bắt đầu vào năm nào?",
+            "a": [
+              "2009",
+              "2010",
+              "2011",
+              "2008"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Phiên bản PC của Minecraft được viết bằng ngôn ngữ lập trình nào??",
+            "a": [
+              "Java",
+              "Python",
+              "C++",
+              "BASIC"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Mất bao nhiêu phút để một đứa trẻ dân làng lớn lên?",
+            "a": [
+              "20 phút",
+              "10 phút",
+              "40 phút",
+              "15 phút"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Có bao nhiêu loại thuốc nhuộm khác nhau?",
+            "a": [
+              "16 màu",
+              "14 màu",
+              "18 màu",
+              "20 màu"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Bùa mê nào có mức tối đa tương đương với Sharpness?",
+            "a": [
+              "Smite",
+              "Unbreaking",
+              "Feather Falling",
+              "Blast Protection"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Tên của Ender Dragon là gì?",
+            "a": [
+              "Jean?",
+              "Carson",
+              "Bertha!",
+              "Steve"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Tại sao gấu Bắc Cực lại được thêm vào Minecraft?",
+            "a": [
+              "Vợ Jeb thích gấu bắc cực nên anh ấy đã thêm nó vào",
+              "Cộng đồng đã chọn nó trên Minecon live",
+              "Notch đã thêm nó dưới dạng bản cập nhật bí mật vào thứ sáu",
+              "Cộng đồng đã bình chọn cho nó trên Twitter"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Enderman nói ngôn ngữ gì?",
+            "a": [
+              "Tiếng anh đảo ngược",
+              "Chỉ là vô nghĩa",
+              "Tiếng Thụy Điển",
+              "Tiếng Đức ngược"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Loài hoa phổ biến nhất trong quần xã đầm lầy là gì?",
+            "a": [
+              "Phong lan xanh",
+              "Bồ công anh",
+              "Hoa hồng héo",
+              "Hoa hướng dương"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Tại sao mèo đen trắng lại được thêm vào trò chơi?",
+            "a": [
+              "Con mèo của Jeb đã chết và nó trông như vậy",
+              "Notch thích vẻ ngoài của nó",
+              "Họ tìm kiếm ngẫu nhiên trên Google những hình ảnh về mèo và tìm thấy một hình ảnh đó",
+              "Đó là một thiết kế ngẫu nhiên"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Làm thế nào mà bạn đạt được thành tích \"How did we get here?\"?",
+            "a": [
+              "Có tất cả các hiệu ứng được áp dụng cùng một lúc",
+              "Có tất cả các hiệu ứng thuốc được áp dụng cùng một lúc",
+              "Bằng cách đi đến một thành phố cuối cùng",
+              "Bằng cách tìm kiếm những vùng đất xa xôi"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "**Đúng** hoặc **Sai**: Người lợn chỉ tấn công khi bạn đánh chúng",
+            "a": [
+              "Sai",
+              "Đúng"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Đưa cho một con cừu bảng tên nào sẽ khiến chúng trở thành cầu vồng?",
+            "a": [
+              "jeb_",
+              "Dinnerbone",
+              "Johnny",
+              "Toast"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Creeper ban đầu là gì?",
+            "a": [
+              "Lợn",
+              "Zombie",
+              "Nhện",
+              "Gà"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Ender Dragon có thể đẻ nhiều trứng",
+            "a": [
+              "Sai",
+              "Đúng"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Bản cập nhật nào còn được gọi là \"The Pretty Scary Update\"?",
+            "a": [
+              "1.4.2",
+              "1.3",
+              "1.12",
+              "1.7"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Bảng tên nào sẽ làm đảo lộn sinh vật?",
+            "a": [
+              "Dinnerbone",
+              "jeb_",
+              "Johnny",
+              "Toast"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Cần có ba vật phẩm nào để có được một ống dẫn hoạt động?",
+            "a": [
+              "Trái tim của biển, Vỏ ốc anh vũ, bất kỳ loại prismarine nào",
+              "Trái tim của biển, Đèn hiệu, bất kỳ loại prismarine nào",
+              "Trái tim của biển, Vỏ ốc anh vũ, Thủy tinh",
+              "Kim cương, Vỏ ốc anh vũ, Thủy tinh"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Mức tăng cơ bản cho sát thương cận chiến là bao nhiêu khi áp dụng hiệu ứng sức mạnh?",
+            "a": [
+              "3 HP",
+              "1½ HP",
+              "2 HP",
+              "4 HP"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Tất cả những con bò Minecraft đều là...",
+            "a": [
+              "Nữ",
+              "Nam"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Một quả dưa hấu có thể thả được bao nhiêu lát?",
+            "a": [
+              "9 lát",
+              "8 lát",
+              "7 lát",
+              "6 lát"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Bạn cần bao nhiêu len để làm một chiếc giường trong Minecraft?",
+            "a": [
+              "3 len",
+              "4 len",
+              "2 len",
+              "1 len"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Slime rơi ra vật phẩm gì trong Minecraft?",
+            "a": [
+              "Bóng slime",
+              "Lọ slime",
+              "Cát động lực",
+              "Kem dung nham"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Tên của sinh vật làm rơi kem dung nham là gì?",
+            "a": [
+              "Magma Cube",
+              "Lava Slime",
+              "Molten Cube",
+              "Molten Slime"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Tên của sinh vật rơi thuốc súng là gì?",
+            "a": [
+              "Creeper",
+              "Zombie",
+              "Wither",
+              "Magma Cube"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Trong Minecraft cá có thể rơi ra xương",
+            "a": [
+              "Đúng",
+              "Sai"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Loại kỳ nhông nước hiếm nhất là gì?",
+            "a": [
+              "Xanh dương",
+              "Đỏ",
+              "Nhiệt đới",
+              "Hồng"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Trong Minecraft, kỳ nhông nước chỉ có thể sinh sản trong bóng tối tuyệt đối",
+            "a": [
+              "Đúng",
+              "Sai"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Cái nào sau đây thực sự là một loại kỳ nhông nước trong Minecraft?",
+            "a": [
+              "Trắng trợn",
+              "Lầy lội",
+              "Trắng",
+              "Purpur"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Làm thế nào để bạn chăn nuôi kỳ nhông nướcs trong Minecraft?",
+            "a": [
+              "Xô cá nhiệt đới",
+              "Xô nước",
+              "Cá hồi",
+              "Bất kỳ loại cá nào"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Làm thế nào để bạn nuôi bò trong Minecraft?",
+            "a": [
+              "Lúa mì",
+              "Cà rốt",
+              "Hạt giống",
+              "Xô sữa"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Làm thế nào để bạn nuôi cừu trong Minecraft?",
+            "a": [
+              "Lúa mì",
+              "Cà rốt",
+              "Hạt giống",
+              "Canh nấm"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Làm thế nào để bạn nuôi gà trong Minecraft?",
+            "a": [
+              "Hạt giống",
+              "Cà rốt",
+              "Lúa mì",
+              "Xô sữa"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Làm thế nào để bạn nuôi lợn trong Minecraft?",
+            "a": [
+              "Khoai tây",
+              "Táo",
+              "Hạt giống",
+              "Lúa mì"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Bạn có thể lấy món canh nấm từ Mooshrooms",
+            "a": [
+              "Đúng",
+              "Sai"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Bạn có thế lấy canh nấm từ bò với cái bát",
+            "a": [
+              "Sai",
+              "Đúng"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Phiên bản Minecraft Bedrock được lập trình bằng ngôn ngữ lập trình Java",
+            "a": [
+              "Sai",
+              "Đúng"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Minecraft Bedrock Edition được lập trình bằng ngôn ngữ lập trình nào?",
+            "a": [
+              "C++",
+              "C",
+              "C#",
+              "Java"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Định dạng thế giới của Minecraft Bedrock Edition được gọi là gì?",
+            "a": [
+              "LevelDB",
+              "SQL",
+              "Anvil",
+              "MCA"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Định dạng thế giới cho Minecraft Java Edition được gọi là gì?",
+            "a": [
+              "Anvil",
+              "SQL",
+              "LevelDB",
+              "MCA"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Khối lập phương trong Minecraft có kích thước khối bao nhiêu?",
+            "a": [
+              "16x16x16",
+              "32x32x32",
+              "64x64x64",
+              "128x128x128"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Một khu vực trong Minecraft có kích thước lớn như thế nào?",
+            "a": [
+              "32x32",
+              "64x64",
+              "16x16",
+              "96x96"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Văn bản trong bảng phù phép chỉ là vô nghĩa",
+            "a": [
+              "Đúng",
+              "Sai"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Bạn có thể mặc gì để ngăn Enderman tấn công bạn nếu bạn nhìn vào mắt họ?",
+            "a": [
+              "Bí đỏ",
+              "Khoai tây",
+              "Dưa hấu",
+              "Hộp sọ khô héo"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Creeper tích điện được tạo ra như thế nào?",
+            "a": [
+              "Nó bị sét đánh",
+              "Nó được chế tạo bằng một ngôi sao địa ngục",
+              "Nó bị trúng một hộp sọ khô héo đang bay",
+              "Nó xuất hiện với thanh gỡ lỗi"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Con vật nào được ghi âm để tạo hiệu ứng âm thanh cho Ghast?",
+            "a": [
+              "Con mèo đang ngủ",
+              "Con chó sủa",
+              "Con vẹt",
+              "Con chó gầm gừ"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Mức năng lượng tối đa cho bụi redstone là bao nhiêu?",
+            "a": [
+              "15",
+              "16",
+              "12",
+              "8"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Điều gì giúp ong bình tĩnh lại trong Minecraft?",
+            "a": [
+              "Khói lửa trại",
+              "Chai mật ong",
+              "Nước",
+              "Bóng slime"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Ong Minecraft có thể bơi dưới nước",
+            "a": [
+              "Sai",
+              "Đúng"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Trong Minecraft, Elder Guardians gây ra debuff nào?",
+            "a": [
+              "Mining Fatigue",
+              "Slowness",
+              "Instant Damage",
+              "Poison"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Làm thế nào để biến một dân làng thành phù thủy?",
+            "a": [
+              "Sét đánh dân làng",
+              "Nhúng dân làng vào dung nham",
+              "Cho zombie cắn dân làng",
+              "Thiêu sống dân làng"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Golem sắt có thể thả hoa anh túc khi chúng chết",
+            "a": [
+              "Đúng",
+              "Sai"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Golem sắt có bao nhiêu máu?",
+            "a": [
+              "50 máu",
+              "100 máu",
+              "25 máu",
+              "200 máu"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: you can heal iron golems with iron ingots",
+            "a": [
+              "Đúng",
+              "Sai"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Loại làng hiếm nhất là gì?",
+            "a": [
+              "Phủ tuyết",
+              "Sa mạc",
+              "Rừng",
+              "Bãi biển"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Bạn có thể dùng Silk Touch lên khối tạo quái vật",
+            "a": [
+              "Sai",
+              "Đúng"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Mũi tên kim cương có trong Minecraft",
+            "a": [
+              "Sai",
+              "Đúng"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Phiên bản Minecraft nào thêm The End?",
+            "a": [
+              "1.0.0",
+              "1.2.0",
+              "1.12.0",
+              "1.9.0"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Trò chơi nào đã truyền cảm hứng cho việc tạo ra Minecraft?",
+            "a": [
+              "Infiniminer",
+              "Tetris",
+              "Roblox",
+              "Fortnite"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Ai đã viết nhạc gốc cho Minecraft?",
+            "a": [
+              "C418",
+              "Notch",
+              "Jeb",
+              "Lena raine"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Ai đã viết nhạc cho bản cập nhật nether 1.16?",
+            "a": [
+              "Lena raine",
+              "Notch",
+              "Jeb",
+              "C418"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Khối Minecraft nào tồn tại trước Minecraft?",
+            "a": [
+              "Đá cuội",
+              "Đất",
+              "Đá",
+              "Gỗ"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Notch đã phát triển trò chơi nào trước Minecraft?",
+            "a": [
+              "RubyDung",
+              "Infiniminer",
+              "Tetris 2.0",
+              "Roblox"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Tọa độ y tốt nhất để khai thác kim cương là bao nhiêu?",
+            "a": [
+              "y=12",
+              "y=16",
+              "y=3",
+              "y=20"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quặng hiếm nhất trong Minecraft là gì?",
+            "a": [
+              "Quặng ngọc lục bảo",
+              "Mảnh vụn cổ xưa",
+              "Quặng kim cương",
+              "Quặng than"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quặng ngọc lục bảo được tìm thấy ở đâu?",
+            "a": [
+              "Núi",
+              "Rừng nhiệt đới",
+              "Sa mạc",
+              "Vùng đất hoang"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Quặng vàng được tìm thấy nhiều nhất ở đâu?",
+            "a": [
+              "Vùng đất hoang",
+              "Rừng nhiệt đới",
+              "Sa mạc",
+              "Bãi biển"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Những bộ xương bình thường xuất hiện ở đâu ở địa ngục?",
+            "a": [
+              "Thung lũng cát linh hồn",
+              "Đất hoang địa ngục",
+              "Đồng bằng bazan",
+              "Rừng cong vênh"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Bạn có thể giao dịch với hoglin",
+            "a": [
+              "Sai",
+              "Đúng"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**Đúng** hoặc **Sai**: Bạn có thể giao dịch với Piglins",
+            "a": [
+              "Đúng",
+              "Sai"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Làm thế nào để bạn tránh Piglins tấn công bạn?",
+            "a": [
+              "Mặc áo giáp vàng",
+              "Giết chúng",
+              "Đi đôi bốt Soul Strider",
+              "Mặc áo giáp Ward III"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Bạn nuôi Hoglin bằng vật phẩm gì?",
+            "a": [
+              "Nấm đỏ thẫm",
+              "Nấm biến dạng",
+              "Mụn cóc địa ngục",
+              "Sườn heo"
+            ]
+          }
+        ]
+      }
+    },
+    "mobs_mech": {
+      "no_health": "Bạn không có đủ máu để chiến đấu với quái vật này.",
+      "type_engage": "Đánh `fight` để chiến đấu với quái vật!",
+      "attack_or_flee": "Đánh `attack` để tấn công, hoặc `flee` để bỏ chạy.",
+      "flee_insults": [
+        "Được thôi, hãy chạy trốn như một đứa trẻ.",
+        "Được thôi, hãy chạy đến bên mẹ như một đứa trẻ nhỏ.",
+        "Về với mẹ đi con bé nhỏ.",
+        "Được rồi bé con, chạy về với mẹ đi.",
+        "Được rồi, hãy chạy đi như một đứa trẻ hay khóc nhè."
+      ],
+      "user_attacks": [
+        "Bạn đã chém **{0}** bằng **{1}** của mình!",
+        "**{1}** của bạn đã đâm sâu vào **{0}**!",
+        "Bạn đã tấn công **{0}** bằng **{1}** của mình!",
+        "Bạn đã vung **{1}** của mình vào **{0}**!",
+        "Bạn đã chọc **{0}** bằng **{1}** của mình!",
+        "Bạn đã thọc sâu **{1}** của mình vào **{0}**!",
+        "Bạn đã cắt từng mảnh của **{0}** bằng **{1}** của mình!",
+        "Bạn đã dùng **{1}** chọc vào mắt **{0}**!",
+        "Bạn lao vào **{0}** và đâm nó bằng **{1}** của mình!",
+        "Bạn lao vào **{0}** và tấn công nó bằng **{1}** của mình!",
+        "Bạn đã lao tới **{0}** và đâm nó bằng **{1}** của mình!",
+        "Bạn đã lao vào **{0}** và tấn công nó bằng **{1}** của mình!",
+        "Bạn đã lao vào **{0}** và dùng hết sức lực chọc vào nó bằng **{1}**!"
+      ],
+      "user_finishers": [
+        "Bạn đã vung **{1}** mạnh nhất có thể và chặt đứt **{0}**!",
+        "Bạn bị vấp và buông **{1}** của mình ra, khiến nó rơi xuống **{0}** và giết chết nó!",
+        "Bạn, bằng tất cả sức mạnh của mình, đã chôn sâu **{1}** vào ngực của **{0}**!",
+        "Chém **{1}** của bạn lần cuối cùng, bạn đã trục xuất **{0}** khỏi sự tồn tại!",
+        "Xoay **{1}** lần cuối cùng, bạn đã chém **{0}** làm đôi!",
+        "Với lần chặt cuối cùng từ **{1}** của bạn, bạn đã cắt **{0}** làm đôi!",
+        "Với cú vung cuối cùng từ **{1}** của mình, bạn đã trục xuất **{0}** khỏi thế giới này!",
+        "Bạn đã tấn công **{0}** bằng tất cả sức mạnh của mình và chặt đầu nó bằng **{1}** của mình!",
+        "Với chút sức lực cuối cùng của mình, bạn đã chôn sâu **{1}** vào lồng ngực của **{0}**!",
+        "Đập **{1}** vào cổ **{0}**, cuối cùng nó cũng chết!",
+        "Với chút sức lực cuối cùng của bạn, **{1}** của bạn xé toạc **{0}**!",
+        "Với chút sức lực cuối cùng, **{1}** của bạn sẽ xé nát **{0}**!",
+        "Bạn đã tấn công bằng **{1}** mạnh nhất có thể và chặt đầu **{0}**!",
+        "Thanh kiếm của bạn trượt **{0}**, nó đã chết vì thất vọng..."
+      ],
+      "mob_drops": [
+        "Một {0} hoang dã đã tìm thấy bạn!",
+        "Một {0} hung ác đã nhìn thấy bạn!",
+        "Một {0} đang rình rập đã nhìn thấy bạn!",
+        "Một {0} đang rình rập đã tìm thấy bạn!",
+        "Một {0} đáng sợ đã nhìn thấy bạn!",
+        "Một {0} đáng sợ đã tìm thấy bạn!",
+        "Bạn đã bị tìm thấy bởi một {0} hoang dã!",
+        "Bạn đã bị tìm thấy bởi một {0} hung ác!",
+        "Bạn đã được tìm thấy bởi một {0} điên rồ!",
+        "Một {0} điên đã nhìn thấy bạn!",
+        "Bạn đã gặp phải một con {0} hoang dã!",
+        "Bạn đã gặp phải một con {0} điên rồ!",
+        "Bạn đã gặp phải một {0}!",
+        "Bạn đã gặp phải một {0} đáng sợ!",
+        "Bạn đã gặp phải một {0} ác độc!"
+      ],
+      "found": [
+        "Ôi nhìn kìa! Bạn đã tìm thấy {} ngay trên mặt đất!",
+        "Qua làn khói trắng từ quái vật bị giết, bạn có thể nhìn thấy {}!",
+        "Con quái vật đánh rơi {}!",
+        "Bạn nhìn xuống đất và thấy {}!",
+        "Bạn tìm thấy {} bên cạnh con quái vật bị giết!"
+      ],
+      "lost": {
+        "creeper": [
+          "**Creeper** cũng đã làm nổ tung {}{} vốn là của bạn...",
+          "**Creeper** đã khiến {}{} của bạn biến mất trong một làn khói...",
+          "**Creeper** cũng đã xóa sạch {}{} vốn là của bạn..."
+        ],
+        "enderman": [
+          "**Enderman** đã dịch chuyển đi cùng với {}{} vốn là của bạn...",
+          "**Enderman** đã đánh cắp {}{} từ bạn và dịch chuyển nó vào khoảng không...",
+          "**Enderman** đã đánh cắp {}{} từ bạn và dịch chuyển đi nơi khác..."
+        ],
+        "normal": [
+          "**{}** cũng đã đánh cắp {}{} vốn là của bạn...",
+          "**{}** cũng đã lấy đi {}{} vốn là của bạn...",
+          "**{}** đã đánh cắp {}{} xác chết của bạn..."
+        ]
+      },
+      "mobs": {
+        "zombie": {
+          "attacks": [
+            "**Zombie** chạy tới, quất vào cánh tay bạn!",
+            "**Zombie** ôm bạn một cách đau đớn!",
+            "**Zombie** rên rỉ và ôm bạn một cách đau đớn!",
+            "**Zombie** đấm vào mặt bạn!",
+            "**Zombie** vuốt ve bạn bằng những chiếc móng mục nát, mọc quá mức!",
+            "**Zombie** đấm vào mặt bạn bằng bàn tay đang phân hủy của nó!",
+            "**Zombie** cào bạn bằng những chiếc móng mục nát, mọc quá mức!"
+          ],
+          "finishers": [
+            "**Zombie** lao vào cổ họng bạn và cắn!",
+            "**Zombie** mổ bụng bạn và ăn phần còn lại của bạn!",
+            "**Zombie** moi ruột bạn và ăn thịt bạn!"
+          ]
+        },
+        "skeleton": {
+          "attacks": [
+            "**Bộ xương** bắn một mũi tên vào mặt bạn!",
+            "**Bộ xương** quay xung quanh và 360 độ không nhắm vào bạn!",
+            "Một mũi tên rơi xuống từ **Bộ xương**, chỉ có một.",
+            "Một cú đánh đầu từ **Bộ xương** dành cho bạn!",
+            "BÙM! HEADSHOT! - **Bộ xương** 2024"
+          ],
+          "finishers": [
+            "**bộ xương** 360 noscopes bạn lần cuối!",
+            "Một cơn mưa tên bay về phía bạn và biến bạn thành pho mát Thụy Sĩ!",
+            "Bạn nghe thấy tiếng kêu của hàng trăm mũi tên và rồi bạn chết!",
+            "Mũi tên từ trên trời rơi xuống, xuyên qua da thịt của bạn và giết chết bạn!"
+          ]
+        },
+        "spider": {
+          "attacks": [
+            "**Con nhện** nhảy lên người bạn và cắm nanh vào cánh tay bạn!",
+            "**Con nhện** đánh ngã và cắn vào chân bạn!",
+            "**Con nhện** nhảy vào bạn nhằm cắn đứt mặt bạn!",
+            "**Con nhện** lao vào bạn!",
+            "**Con nhện** lao tới và cắn vào chân bạn!"
+          ],
+          "finishers": [
+            "**Con nhện** nhảy lên người bạn, quay vòng và cắm nanh vào hộp sọ của bạn!",
+            "**Con nhện** lao vào bạn lần cuối và cắn đứt mặt bạn!",
+            "**Con nhện** xé nát mặt bạn, hình ảnh cuối cùng của bạn là 8 con mắt đỏ ngầu đầy sát khí đang nhìn chằm chằm lại."
+          ]
+        },
+        "cave_spider": {
+          "attacks": [
+            "Răng nanh của **nhện hang** cắm sâu vào da bạn!",
+            "**Nhện hang** trao cho bạn một nụ hôn độc hại!",
+            "**Nhện hang** cắn bạn và gây sát thương bằng chất độc!"
+          ],
+          "finishers": [
+            "Bạn đã chết một cách chậm rãi và đau đớn do bị nhiễm độc!",
+            "**Nhện hang** tiêm liều nọc độc chết người cuối cùng!",
+            "**Nhện hang** cắm sâu răng nanh vào người bạn và truyền nọc độc vào người bạn!"
+          ]
+        },
+        "creeper": {
+          "attacks": [
+            "Bạn nghe thấy cầu chì bốc cháy...",
+            "**Creeper** nhấp nháy và xì hơi...",
+            "**Creeper** xì hơi và nhấp nháy...",
+            "**Creeper** chuẩn bị cho cuộc tự sát sắp xảy ra...",
+            "Từ phía sau bạn, một cầu chì bốc cháy..."
+          ],
+          "finishers": [
+            "**Creeper** phát ra BÙM!",
+            "**Creeper** đã sử dụng chiêu TỰ HỦY! *Nó cực kỳ hiệu quả!*",
+            "**Creeper** phát nổ, ném xác chết đầy máu của bạn ra khắp bản đồ!",
+            "Bạn đã bị **Creeper** thổi bay thành từng pixel!"
+          ]
+        },
+        "baby_slime": {
+          "attacks": [
+            "**Slime bé con** nhảy lên người bạn!",
+            "**Slime bé con** trông thật dễ thương!",
+            "**Slime bé con** nhảy lên đầu bạn!",
+            "Bạn khuyến khích **Slime bé con**!"
+          ],
+          "finishers": [
+            "Bạn chết vì sự dễ thương.",
+            "**Slime bé con** trông rất dễ thương nên bạn chỉ cần theo dõi nó suốt đời và giữ nó an toàn!",
+            "Bạn đi theo **Slime bé con** vì nó quá dễ thương, nó biến mất và bạn chết vì buồn.",
+            "**Slime bé con** xuất hiện ngay trước mặt bạn, bạn chết vì trầm cảm tột độ.",
+            "**Slime bé con** cuối cùng cũng gây ra một số thiệt hại!",
+            "Bạn cảm thấy tồi tệ vì **Slime bé con** không thể làm tổn thương bạn nên bạn đã tự sát.",
+            "Bạn cảm thấy tiếc vì **Slime bé con** không thể làm tổn thương bạn nên bạn quyết định đào thẳng xuống.",
+            "Chỉ có thể có một người chiến thắng, **Slime bé con** nói. Bạn gõ vào `/kill`"
+          ],
+          "misses": [
+            "Bạn vung **{0}** mạnh nhất có thể, bạn trượt **Slime bé con**.",
+            "Bạn chém **{0}** của mình vào **Slime bé con** mạnh nhất có thể. **con slime** vẫn ổn.",
+            "**{0}** của bạn trượt mất **Slime bé con**.",
+            "Bạn vung **{0}**, **Slime bé con** tạo ra một khuôn mặt dễ thương, bạn trượt!"
+          ]
+        },
+        "enderman": {
+          "attacks": [
+            "**Enderman** nhặt một khối cỏ và ném nó vào bạn!",
+            "**Enderman** nhặt một khối TNT và ném nó vào bạn!",
+            "**Enderman** đấm vào mặt bạn",
+            "**Enderman** hét lên và đánh vào mặt bạn bằng cánh tay dài của nó",
+            "**Enderman** dịch chuyển ra phía sau bạn và tát vào đầu bạn"
+          ],
+          "finishers": [
+            "**Enderman** dịch chuyển bạn ra khỏi vách đá",
+            "**Enderman** dịch chuyển bạn vào khoảng không",
+            "**Enderman** dịch chuyển tới phía sau bạn và chặt đầu bạn"
+          ],
+          "misses": [
+            "Bạn vung **{0}** mạnh nhất có thể nhưng **Enderman** dịch chuyển sang một bên.",
+            "Bạn vung **{0}** của mình nhưng **Enderman** dịch chuyển sang một bên."
+          ]
+        }
+      }
+    },
+    "minecraft": {
+      "invalid_player": "Người chơi đó không hợp lệ hoặc không tồn tại.",
+      "mcimage": {
+        "stupid_1": "Bạn phải tải lên một hình ảnh trong cùng một tin nhắn bạn sử dụng lệnh.",
+        "stupid_2": "Vui lòng sử dụng định dạng hình ảnh png hoặc jpg.",
+        "stupid_3": "Đó không phải là hình ảnh hợp lệ."
+      },
+      "mcping": {
+        "shortcut_error": "Để sử dụng phím tắt này, bạn phải đặt máy chủ Minecraft mặc định ping qua `{}config`",
+        "title_offline": "{} không tìm thấy máy chủ tại `{}`",
+        "title_online": "{} `{}` đang trực tuyến",
+        "title_plain": "{} `{}`",
+        "latency": "Độ trễ/Ping",
+        "version": "Phiên bản",
+        "field_online_players": {
+          "name": "Người chơi trực tuyến ({}/{})",
+          "value": "Danh sách người chơi không có sẵn cho máy chủ này."
+        },
+        "and_other_players": ", và {} người khác...",
+        "learn_more": "Bạn có thể tìm hiểu thêm về máy chủ này [tại đây]({}).",
+        "powered_by": "Được cung cấp bởi minecraft.global"
+      },
+      "stealskin": {
+        "error": "Rất tiếc, đã xảy ra lỗi khi tìm nạp trang phục của người chơi đó.",
+        "no_skin": "Người chơi này không có trang phục.",
+        "embed_desc": "Trang phục của{}\n**[[Tải về]]({})**"
+      },
+      "mccolors": {
+        "embed_desc": "Văn bản trong Minecraft có thể được định dạng bằng các mã khác nhau và\nbiểu tượng phần (`§`).",
+        "embed_author_name": "Minecraft Formatting Codes",
+        "formatting_codes": {
+          "red": "Đỏ",
+          "yellow": "Vàng",
+          "green": "Xanh Lá",
+          "aqua": "Xanh Trời",
+          "blue": "Xanh Biển",
+          "light_purple": "Tím Nhạt",
+          "white": "Trắng",
+          "gray": "Xám",
+          "dark_red": "Đỏ Sẫm",
+          "gold": "Vàng Kim",
+          "dark_green": "Xanh Lá Đậm",
+          "dark_aqua": "Xanh Trời Đậm",
+          "dark_blue": "Xanh Biển Đậm",
+          "dark_purple": "Tím Đậm",
+          "dark_gray": "Xám Đậm",
+          "black": "Đen",
+          "bold": "In Đậm",
+          "strikethrough": "Gạch Ngang",
+          "underline": "Gạch Chân",
+          "italic": "Nghiêng",
+          "obfuscated": "Làm Mờ",
+          "reset": "Làm Lại"
+        },
+        "colors": "Màu sắc",
+        "more_colors": "Thêm màu sắc",
+        "formatting": "Định dạng"
+      },
+      "rcon": {
+        "stupid_1": "Trước tiên, bạn phải thiết lập máy chủ Minecraft cho máy chủ này thông qua lệnh `{}config mcserver`.",
+        "dm_error": "Tôi cần có thể nhắn tin trực tiếp cho bạn để hoàn tất quá trình.",
+        "msg_timeout": "Tôi đã dừng chờ phản hồi, chạy lại lệnh để tiếp tục.",
+        "port": "Nhập cổng bảng điều khiển từ xa (rcon.port trong server.properties).",
+        "passw": "Nhập mật khẩu bảng điều khiển từ xa (rcon.password trong server.properties).",
+        "stupid_2": "Mật khẩu không đúng! Chạy lệnh để nhập lại.",
+        "err_con": "Đã xảy ra lỗi khi kết nối với máy chủ, máy chủ có trực tuyến và RCON được bật không?",
+        "err_cmd": "Đã xảy ra lỗi khi gửi lệnh đến máy chủ, máy chủ có trực tuyến và RCON được bật không?"
+      },
+      "profile": {
+        "error": "Đã xảy ra lỗi khi tìm nạp hồ sơ của người dùng đó...",
+        "first": "Tên người dùng đầu tiên",
+        "mcpp": "Hồ sơ Minecraft cho `{}`",
+        "skin": "Tải xuống Trang phục",
+        "cape": "Tải xuống Áo choàng",
+        "nocape": "**[Nhận một chiếc áo choàng tùy chỉnh](https://discord.gg/ettnFrkNyW)**",
+        "hist": "Lịch sử tên"
+      }
+    },
+    "mod": {
+      "no_perms": "Tốt lắm, nhưng bạn không có quyền làm điều đó!",
+      "purge": {
+        "oop": "Rất tiếc... đã xảy ra lỗi..."
+      },
+      "kick": {
+        "stupid_1": "Bạn không thể tự đá mình."
+      },
+      "ban": {
+        "stupid_1": "Bạn không thể cấm chính mình.",
+        "stupid_2": "**{}** đã bị cấm rồi.",
+        "stupid_3": "Rất tiếc, đã xảy ra lỗi khi cấm người dùng đó."
+      },
+      "unban": {
+        "stupid_1": "Bạn không thể tự mình bỏ cấm.",
+        "stupid_2": "**{}** không bị cấm."
+      },
+      "warn": {
+        "stupid_1": "Bạn không thể cảnh báo chính mình.",
+        "stupid_2": "Bạn không thể xóa cảnh báo của chính mình.",
+        "thats_too_much_man": "Người dùng đã có quá nhiều cảnh báo rồi.",
+        "no_reason": "Không có lý do cụ thể.",
+        "by": "Cảnh báo bởi",
+        "confirm": "{} Đã cảnh báo {} ({} cảnh báo ngay bây giờ) vì lý do: *{}*"
+      },
+      "mute": {
+        "stupid_1": "Bạn không thể tự tắt tiếng.",
+        "stupid_2": "Bạn đã sử dụng định dạng không hợp lệ, ví dụ: `{0}mute @someone 1w2d3h4m Đây là lý do` sẽ tạm dừng ai đó trong một tuần, hai ngày, ba giờ và bốn phút.",
+        "stupid_3": "Tương lai còn quá xa!",
+        "mute_msg": "**{user}** đã bị tắt tiếng trong {duration}."
+      },
+      "unmute": {
+        "stupid_1": "Bạn không thể tự bật tiếng.",
+        "stupid_2": "**{}** không bị tắt tiếng.",
+        "unmute_msg": "**{}** đã được bật tiếng."
+      }
+    },
+    "config": {
+      "invalid": "Đó không phải là một lựa chọn hợp lệ. (Các tùy chọn hợp lệ là: {})",
+      "main": {
+        "title": "Cài đặt của Villager Bot",
+        "guild_conf": "Cấu hình Máy chủ/Bang hội",
+        "guild_content": [
+          "`{0}config prefix <Tiền tố mới>` - Thay đổi tiền tố lệnh trong máy chủ này.\n\n",
+          "`{0}config replies <bật/tắt>` - Thay đổi nếu bot trả lời các tin nhắn như \"emeralds\".\n\n",
+          "`{0}config difficulty <Yên bình/Dễ/Khó>` - Thay đổi độ khó của trò chơi.\n\n",
+          "`{0}config lang <Ngôn ngữ>` - Thay đổi ngôn ngữ của Villager Bot.\n\n",
+          "`{0}config mcserver <mcserver>` - Thay đổi máy chủ được ping nếu bạn không chỉ định máy chủ trong `/mcping`.\n\n",
+          "`{0}config togglecmd <Lệnh>` - Thay đổi xem lệnh đã chỉ định có thể được sử dụng hay không.\n\n"
+        ],
+        "user_conf": "Cấu hình mỗi người dùng",
+        "user_content": [
+          "`{0}config giftalert <bật/tắt>` - Thay đổi việc bot sẽ cho bạn biết liệu bạn đã được tặng vật phẩm hay ngọc lục bảo hay không.\n\n",
+          "`{0}config clearrconpasswords` - Xóa mật khẩu bảng điều khiển từ xa đã lưu của bạn khỏi cơ sở dữ liệu.\n\n"
+        ]
+      },
+      "prefix": {
+        "this_server": "Tiền tố trong máy chủ này là `{}`",
+        "error_1": "Bạn không thể có tiền tố dài hơn `{}` ký tự.",
+        "error_2": "`{}` không được phép có tiền tố.",
+        "set": "Đặt tiền tố máy chủ thành `{}`"
+      },
+      "replies": {
+        "enabled": "Đã bật",
+        "disabled": "Đã tắt",
+        "this_server": "Tin nhắn trả lời là **{}**.",
+        "set": "Đã chuyển tin nhắn trả lời **{}**."
+      },
+      "lang": {
+        "this_server": "Ngôn ngữ máy chủ hiện được đặt thành **{}**.\n\nCác ngôn ngữ có sẵn là: {}",
+        "set": "Đặt ngôn ngữ máy chủ thành **{}**."
+      },
+      "mcs": {
+        "this_server": "Máy chủ Minecraft mặc định hiện được đặt thành **`{}`**",
+        "error_1": "Dài quá, bạn không thể dài hơn `{}` ký tự.",
+        "set": "Đặt máy chủ Minecraft mặc định thành **`{}`**"
+      },
+      "gift": {
+        "this_user": "Thông báo tặng/cho hiện là **{}**.",
+        "set": "Đã chuyển thông báo tặng/cho thành **{}**."
+      },
+      "cmd": {
+        "not_prem": "Tính năng này không được bật trong máy chủ này.",
+        "list_cmds": "Các lệnh bị tắt: `{}`",
+        "nope": "Không có lệnh nào bị tắt.",
+        "cant": "Bạn không thể tắt lệnh này.",
+        "not_found": "Không tìm thấy lệnh.",
+        "reenable": "Đã kích hoạt lại lệnh `{}`.",
+        "disable": "Lệnh bị vô hiệu hóa `{}`."
+      },
+      "rcon": {
+        "none": "Bạn chưa lưu bất kỳ mật khẩu nào.",
+        "one": "Chưa lưu/xóa 1 mật khẩu.",
+        "multi": "Mật khẩu {} chưa được lưu/xóa."
+      }
+    },
+    "useful": {
+      "vote": {
+        "click_1": "Nhấp vào đây!",
+        "click_2": "Hoặc đây!"
+      },
+      "links": {
+        "support": "Máy chủ Hỗ Trợ",
+        "invite": "Mời bot",
+        "topgg": "Trang Top.gg",
+        "website": "Trang web",
+        "source": "Mã nguồn",
+        "privacy": "Chính sách quyền riêng tư"
+      },
+      "stats": {
+        "stats": "Thống kê Villager Bot",
+        "servers": "Số lượng máy chủ",
+        "dms": "Số kênh DM",
+        "users": "Số lượng người dùng",
+        "msgs": "Tin nhắn trong phiên",
+        "cmds": "Lệnh phiên",
+        "cmds_hour": "Lệnh/Giờ",
+        "votes": "Phiếu bầu trong phiên",
+        "topgg": "Số phiếu bầu/giờ Top.gg",
+        "shards": "Số mảnh vỡ",
+        "ping": "Ping",
+        "mem": "Bộ nhớ",
+        "cpu": "Sử dụng CPU",
+        "threads": "Chủ đề",
+        "tasks": "Nhiệm vụ",
+        "uptime": "Thời gian hoạt động"
+      },
+      "ginf": {
+        "info": "Thông tin",
+        "age": "Được tạo vào",
+        "owner": "Người sở hữu",
+        "members": "Các thành viên",
+        "bots": "Bots",
+        "channels": "Kênh",
+        "roles": "Vai trò",
+        "roles_and_n_others": "và {n} người khác...",
+        "emojis": "Biểu tượng cảm xúc",
+        "bans": "Cấm",
+        "cmd_prefix": "Tiếp tố",
+        "lang": "Ngôn ngữ",
+        "joined_at": "Đã tham gia",
+        "not_found": "Không tìm thấy"
+      },
+      "meth": {
+        "oops": "Rất tiếc, đã xảy ra lỗi..."
+      },
+      "search": {
+        "nope": "Không có kết quả nào được tìm thấy...",
+        "error": "Rất tiếc, đã xảy ra lỗi..."
+      },
+      "rules": {
+        "rules": "Quy tắc Bot của dân làng",
+        "slashrules": "{}quy tắc cho các quy tắc!",
+        "penalty": "Hình phạt cho việc vi phạm các quy tắc này có thể bao gồm đặt lại/xóa, hình phạt/gỡ lỗi trong trò chơi hoặc **cấm vĩnh viễn khỏi máy chủ hỗ trợ và/hoặc sử dụng bot**.",
+        "rule_1": "**1.** Đừng lạm dụng lỗi, hãy báo cáo chúng trong kênh #bug-smasher trên [máy chủ Hỗ trợ]({}) để nhận phần thưởng!",
+        "rule_2": "**2.** Không gian lận dưới bất kỳ hình thức nào hoặc sử dụng tài khoản thay thế hoặc người dùng khác để lưu trữ ngọc lục bảo hoặc vật phẩm của bạn. (Điều này bao gồm cả việc không tự đóng chai.)",
+        "rule_3": "**3.** Đừng gây khó chịu, độc hại hoặc quấy rối bất kỳ ai sử dụng các tính năng của bot.",
+        "rule_4": "**4.** Không sử dụng bot để quảng cáo bất kỳ nội dung nào không được chủ sở hữu bot chấp thuận."
+      },
+      "remind": {
+        "reminder_max": "Bạn không thể có nhiều hơn {max} lời nhắc cùng một lúc.",
+        "stupid_1": "Bạn đã sử dụng định dạng không hợp lệ, ví dụ: `{0}remindme 1w2d3h4m Đây là ví dụ` sẽ nhắc bạn sau một tuần, hai ngày, ba giờ và bốn phút.",
+        "time_max": "Bạn không thể đặt lời nhắc trước hơn một năm.",
+        "remind": "{0} đang nhắc bạn {1}.",
+        "reminder": "{0}, bạn muốn tôi nhắc bạn: *{1}*",
+        "none": "*Bạn không có lời nhắc nào...*",
+        "add": "Bạn có thể thêm lời nhắc bằng {}reminder add <duration> <text>",
+        "unauthorized": "{0} đó không phải là lời nhắc của bạn.",
+        "authorized": "{0} đã xóa lời nhắc của bạn thành công."
+      },
+      "credits": {
+        "credits": "Villager Bot sẽ không thể thực hiện được nếu không có...",
+        "foot": "Được tạo bởi Iapetus11 và những người khác ({0}credits)",
+        "people": {
+          "iapetus11": "Người tạo, chủ sở hữu và nhà phát triển của Villager Bot",
+          "hpancakesk": "Đã giúp đưa ra những ý tưởng ban đầu đằng sau Villager Bot",
+          "moody": "Được giúp đỡ với những ý tưởng đằng sau một số vật phẩm và câu cá",
+          "emulator": "Được trợ giúp sửa lỗi và bổ sung tính năng",
+          "elrynd": "Đã giúp sửa lỗi và hiểu mã, đồng thời dịch Villager Bot sang tiếng Pháp",
+          "chez": "Tạo các tính năng mới và giúp sửa lỗi",
+          "quack": "Giúp khắc phục các sự cố nhỏ với mã và bản dịch",
+          "zelou": "Helps with the Spanish translation of Villager Bot",
+          "joaooh": "Created and maintains the Portuguese translation of Villager Bot",
+          "xe": "Sửa lỗi nhỏ và bổ sung tính năng",
+          "radar": "Sửa lỗi nhỏ và bổ sung tính năng",
+          "kuro": "Hỗ trợ nhiều bản dịch của Villager Bot",
+          "hilt": "Hỗ trợ nhiều bản dịch của Villager Bot",
+          "infernum": "Sửa các lỗi khác, bổ sung tính năng và cải tiến hệ thống nhắc nhở",
+          "zethal_": "Tạo một số đồ họa"
+        },
+        "others": "Và tất nhiên, vô số người khác đã đóng góp ý tưởng và báo cáo lỗi để giúp Villager Bot trở nên tốt hơn!"
+      },
+      "snipe": {
+        "nothing": "Chẳng có gì để bắn tỉa cả."
+      },
+      "redditdl": {
+        "invalid_url": "Đó là liên kết bài đăng không hợp lệ!",
+        "reddit_error": "Ồ, đã xảy ra lỗi khi liên hệ với Reddit",
+        "downloading": "{} Đang tải xuống video và âm thanh...",
+        "stitching": "{} Ghép video và âm thanh lại với nhau...",
+        "couldnt_find": "Không thể tìm thấy bất cứ thứ gì để tải xuống... :/"
+      },
+      "imgcmds": {
+        "missing": "Bạn phải chỉ định url của hình ảnh hoặc tải hình ảnh lên.",
+        "invalid": "Hình ảnh được chỉ định không hợp lệ.",
+        "too_big": "Hình ảnh được chỉ định quá lớn (không được vượt quá {size})",
+        "error": "Đã xảy ra lỗi khi đọc hình ảnh được chỉ định."
+      },
+      "exif": {
+        "title": "Dữ liệu EXIF",
+        "none": "*Không tìm thấy dữ liệu EXIF...*",
+        "discord": "Lệnh này yêu cầu URL vì Discord tự động loại bỏ dữ liệu EXIF ​​​​khỏi phương tiện."
+      },
+      "translate": {
+        "stupid_1": "Bạn phải gửi văn bản để dịch hoặc trả lời tin nhắn để dịch.",
+        "stupid_2": "Tin nhắn được trả lời phải có văn bản để dịch.",
+        "stupid_3": "Ngôn ngữ đích không xác định hoặc không hợp lệ, chỉ hỗ trợ những ngôn ngữ này: {lang_codes}",
+        "error": "Dịch văn bản không thành công."
+      }
+    },
+    "econ": {
+      "use_a_number_stupid": "Bạn phải sử dụng một số.",
+      "page": "Trang",
+      "bot_prevention": {
+        "problem": "Vui lòng nhập các chữ cái bên dưới để tiếp tục:",
+        "timeout": "Bạn đã hết thời gian, thật là chậm chạp...",
+        "correct": "{} Câu trả lời đúng!",
+        "incorrect": "{} Câu trả lời sai!"
+      },
+      "pp": {
+        "bot_1": "Này đồ ngốc, Villager Bot có rất nhiều thứ để hiển thị ở đây.",
+        "bot_2": "Này đồ ngốc, bot không có quyền nên không thể có vật phẩm hoặc ngọc lục bảo.",
+        "total_wealth": "Sự giàu có ròng",
+        "mooderalds": "Mooderalds",
+        "pick": "Cái cuốc",
+        "sword": "Kiếm",
+        "streak": "Dải bầu chọn",
+        "can_vote": "Có thể bỏ phiếu?",
+        "yep": "Có!",
+        "fx": "Hiệu ứng hoạt động"
+      },
+      "bal": {
+        "bot_1": "Villager Bot có quá nhiều ngọc lục bảo để khoe!",
+        "bot_2": "Bot không có quyền và không được có ngọc lục bảo hay đồ vật.",
+        "s_emeralds": "Ngọc lục bảo của {}",
+        "total_wealth": "Tài sản ròng: {}{}",
+        "autistic_emeralds": "Mooderalds: {}{}",
+        "pocket": "Túi",
+        "vault": "Hầm"
+      },
+      "inv": {
+        "bot_1": "Villager Bot có quá nhiều vật phẩm để hiển thị (Khoảng 1000000000000000000)",
+        "bot_2": "Bot không có quyền và do đó không thể có ngọc lục bảo hoặc đồ vật.",
+        "s_inventory": "Kho hàng của {} [{}]",
+        "cats": {
+          "tools": "dụng cụ",
+          "magic": "phép thuật",
+          "fish": "cá",
+          "misc": "linh tinh",
+          "farming": "trồng trọt",
+          "all": "tất cả"
+        },
+        "empty": "*Ở đây khá vắng vẻ...*"
+      },
+      "dep": {
+        "poor_loser": "Bạn không có đủ ngọc lục bảo để gửi.",
+        "stupid_1": "Bạn không thể gửi ít hơn một khối ngọc lục bảo.",
+        "stupid_2": "Bạn không có đủ không gian cho việc đó.",
+        "stupid_3": "Bạn không thể gửi nhiều ngọc lục bảo hơn số lượng bạn có.",
+        "deposited": "Đã gửi {}{} ({}{}) vào kho tiền của bạn."
+      },
+      "withd": {
+        "poor_loser": "Bạn không có đủ khối ngọc lục bảo để rút.",
+        "stupid_1": "Bạn không thể rút ít hơn một khối ngọc lục bảo.",
+        "stupid_2": "Bạn không thể rút nhiều hơn số tiền bạn có.",
+        "withdrew": "Rút {}{} ({}{}) khỏi kho tiền của bạn."
+      },
+      "shop": {
+        "villager_shop": "Villager Shop",
+        "tools": "{} Dụng cụ",
+        "magic": "{} Phép thuật",
+        "farming": "{} Trồng trọt",
+        "other": "{} Khác",
+        "embed_footer": "Sử dụng {}inventory để xem bạn có gì!"
+      },
+      "buy": {
+        "poor_loser_1": "Bạn không có đủ ngọc lục bảo để mua bất kỳ mặt hàng nào trong số này.",
+        "stupid_1": "Bạn không thể mua ít hơn một mặt hàng.",
+        "stupid_2": "`{}` không hợp lệ hoặc không có trong Cửa hàng dân làng.",
+        "poor_loser_2": "Bạn không có đủ ngọc lục bảo để mua `{}x` **{}**.",
+        "need_total_of": "Bạn cần tổng cộng `{}x` {} ({}) để mua mặt hàng này.",
+        "you_done_bought": "Bạn đã mua {}x **{}** với giá {} (Bạn có tổng cộng {})",
+        "no_to_item_1": "Bạn không thể mua thêm mặt hàng này.",
+        "no_to_item_2": "Vì lý do nào đó, bạn không thể mua mặt hàng này."
+      },
+      "sell": {
+        "invalid_item": "Mục đó không hợp lệ hoặc bạn không có nó.",
+        "stupid_1": "Bạn không thể bán nhiều hơn số lượng bạn có với mặt hàng đó.",
+        "stupid_2": "Bạn không thể bán ít hơn một mặt hàng.",
+        "stupid_3": "Bạn không thể bán mặt hàng này.",
+        "you_done_sold": "Bạn đã bán được {}x **{}** với tổng số tiền là {}{}"
+      },
+      "give": {
+        "bot_1": "Villager Bot đã có đầy đủ kho đồ (Khoảng 100000000000000000 vật phẩm độc đáo!)",
+        "bot_2": "Bạn không thể đưa nội dung cho bot vì chúng không có quyền và không được có ngọc lục bảo hoặc đồ vật.",
+        "stupid_1": "Bạn không thể tặng đồ cho chính mình!",
+        "stupid_2": "Bạn không thể cho ai ít hơn một thứ gì đó.",
+        "and_i_oop": "Bạn không thể trao đổi/tặng mặt hàng này.",
+        "stupid_3": "Bạn không thể cho ai đó nhiều ngọc lục bảo hơn bạn có.",
+        "stupid_4": "Bạn không thể cho nhiều vật phẩm hơn mức bạn có.",
+        "gave": "{} đã đưa {}x **{}** cho {}",
+        "gaveems": "{} đã đưa {}{} cho {}",
+        "gaveyou": "{} đã tặng bạn {}x **{}**",
+        "gaveyouems": "{} đã cho bạn {}{}"
+      },
+      "gamble": {
+        "stupid_1": "Bạn không thể đánh bạc nhiều ngọc lục bảo hơn số tiền bạn có.",
+        "stupid_2": "Bạn phải đánh bạc 10 viên ngọc lục bảo trở lên cùng một lúc.",
+        "stupid_3": "Bạn không thể đánh bạc hơn 50000 viên ngọc lục bảo cùng một lúc.",
+        "too_rich": "Bạn có quá nhiều ngọc lục bảo, hãy làm điều gì đó khác đi!",
+        "roll": "Số của bạn: `{}` **|** Số của bot: `{}`",
+        "win": "Bạn đã thắng! Villager Bot {} {}{}",
+        "lose": "Bạn đã thua {}{} trước Villager Bot...",
+        "tie": "Tie! Có thể Villager Bot sẽ lấy trộm ngọc lục bảo của bạn...",
+        "actions": [
+          "đem qua",
+          "mang cho bạn",
+          "đưa qua tay bạn",
+          "trả bạn"
+        ]
+      },
+      "beg": {
+        "positive": [
+          "Một con Piglin ném đi {}, vì chỉ có vàng mới quan trọng với nó.",
+          "Bạn tìm thấy {} bị kẻ cướp đánh rơi sau một cuộc đột kích.",
+          "Bạn tìm thấy {} do những kẻ cướp bóc bỏ lại trong tàn tích của một ngôi làng bị phá hủy...",
+          "Một dân làng thương hại bạn và đánh rơi {} xuống đất.",
+          "Một lữ khách thương hại bạn và đánh rơi {} vào tay bạn.",
+          "Bạn cướp một người ăn xin và nhận được {}!",
+          "Vì bực mình, dân làng ném ngọc lục bảo vào bạn để bắt bạn bỏ đi, bạn đã nhặt được {}.",
+          "Lòng tốt của Villager Bot phù hộ cho bạn, {} xuất hiện trong túi của bạn.",
+          "Khi đi đến một ngôi làng, bạn gặp phải một đoạn lỗi, với những viên ngọc lục bảo lộ ra ở phía dưới. Bạn đã khai thác được {}.",
+          "Khi cuộc đột kích kết thúc, dân làng nhầm bạn với anh hùng, bạn nhận được {}.",
+          "Bạn đã cho con Piglin một khoảng thời gian tuyệt vời. Chú lợn dừng lại và suy nghĩ rồi đưa tay cho bạn {}.",
+          "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot cho bạn {}.",
+          "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot cho bạn {}.",
+          "Đi về phía chỗ ăn xin của bạn, những viên ngọc lục bảo lấp lánh bắt mắt bạn. Bạn thấy {}.",
+          "Bạn tìm kiếm giữa các đệm ghế và tìm thấy {}!",
+          "Bạn leo lên đỉnh Everest để tìm ngọc lục bảo, bạn tìm thấy {}!",
+          "Bạn tìm thấy một cánh cửa sập ẩn và đằng sau nó là {}...",
+          "Trong một góc bụi bặm, bạn phát hiện ra {}.",
+          "Khi dọn phòng bạn tìm thấy {}, có lẽ bạn nên làm điều đó thường xuyên hơn...",
+          "Bên dưới khối đất bạn tìm thấy {}!",
+          "Bạn lục túi của mình và tìm thấy {}, được bao phủ bởi kẹo cao su dính cũ...",
+          "Thú cưng của bạn nôn ói {}...",
+          "Cuộn xuống cuối danh sách kênh trên Discord bạn tìm thấy {}!",
+          "Bạn tìm kiếm trên [máy chủ Discord](https://discord.com/invite/39DwwUV) và tìm thấy {}...",
+          "Bạn tìm thấy {} trên Google."
+        ],
+        "negative": [
+          "Một nhóm Piglin không coi nhẹ sự gián đoạn của bạn và đánh cắp {} từ bạn.",
+          "Bạn tình cờ gặp một nhóm kẻ cướp đang đánh cắp {} của bạn.",
+          "Bạn bị ném bánh mì vào đầu khi dân làng đuổi bạn ra khỏi làng. Bạn đã đánh rơi {} khi bỏ chạy.",
+          "Một người ăn xin khác cướp bạn và ăn trộm {}.",
+          "Yêu cầu Creeper không suôn sẻ lắm, bạn đã mất {} do vụ nổ.",
+          "Trong khi tìm thêm ngọc lục bảo, bạn đã đánh mất viên ngọc của mình, làm mất {}.",
+          "Một nhà ảo thuật xuất hiện, huyên thuyên về việc nhân đôi số ngọc lục bảo bằng thủ thuật đơn giản này. Bạn đưa cho anh ta {} và anh ta biến mất trong một làn khói.",
+          "Khi đang ăn xin ở một ngôi làng, bạn bị cuốn vào một cuộc đột kích, một kẻ tàn ác húc đầu vào bạn trên khắp bản đồ. Bạn đánh rơi {} giữa chuyến bay."
+        ],
+        "mooderald": [
+          "Bạn đã được Moofy ban phước và nhận được {} một cách kỳ diệu.",
+          "Bạn đã cầu nguyện cho Mooderalds và tìm thấy {} trong túi bên trái của bạn.",
+          "Bạn đã tìm thấy {} trong túi xách của mình cùng với một tờ giấy nhắn."
+        ]
+      },
+      "mine": {
+        "found_item_1": "Bạn {0} {1} **{2}** (Trị giá {3}{4}) {5}.",
+        "found_item_2": "Bạn {0} {1} {2} {3}.",
+        "found_emeralds": "Bạn {0} {1}{2}!",
+        "actions": [
+          "đào lên",
+          "tìm thấy",
+          "được",
+          "đào được"
+        ],
+        "places": [
+          "trong một hầm mỏ bị bỏ hoang",
+          "trong rương khi khai thác",
+          "trong rương",
+          "trong một chiếc rương bị bỏ rơi",
+          "trong một cái rương gần nơi sinh sản quái vật",
+          "trong khi khai thác"
+        ],
+        "useless": [
+          "vô dụng",
+          "ngu ngốc",
+          "đần độn",
+          "vô ích"
+        ]
+      },
+      "fishing": {
+        "stupid_1": "Bạn không thể câu cá mà không có cần câu, đồ ngu ngốc.",
+        "cast": [
+          "Bạn quăng dây câu của mình ra...",
+          "Bạn cố gắng dụ một con cá...",
+          "Bạn đi câu cá..."
+        ],
+        "junk": [
+          "Bạn câu được hy vọng và ước mơ, tiếc là điều đó không mang lại lợi nhuận...",
+          "Bạn cậu được một meme, nhưng bạn không thể bán nó...",
+          "Bạn câu được sự thất vọng..."
+        ],
+        "item": [
+          "Bạn đã câu được 1x **{0}**! (Trị giá {1}{2})",
+          "Bạn đã bắt được 1x **{0}**! (Trị giá {1}{2})"
+        ],
+        "caught": [
+          "Bạn đã bắt được **{0}** {1}!",
+          "Bạn đã câu được một **{0}** {1}!",
+          "Bạn cảm thấy cắn câu và quay dây được một **{0}** {1}!",
+          "Bạn cảm thấy có lực kéo ở cuối dây và câu được một con **{0}** {1}!"
+        ],
+        "market": {
+          "title": "{} __Chợ Cá Villager Bot__ {}",
+          "desc": "Giá bán của các loại cá khác nhau, bạn có thể mua\ncần câu trong phần dụng cụ của cửa hàng.",
+          "current": "Bán với giá: {0}{1}"
+        }
+      },
+      "pillage": {
+        "bot_1": "Này đồ ngốc, Villager Bot không thể bị đánh bại được. Villager Bot bất tử và mạnh mẽ.",
+        "bot_2": "Bạn không thể cướp bot vì chúng không có quyền và do đó không thể có ngọc lục bảo.",
+        "stupid_1": "Bạn không thể cướp bóc chính mình, đồ ngốc.",
+        "stupid_2": "Bạn không thể cướp người từ máy chủ khác...",
+        "stupid_3": "Bạn chỉ có thể cướp bóc người nếu bạn có nhiều hơn 64{}",
+        "stupid_4": "Bạn chỉ có thể cướp một người nếu họ có nhiều hơn 64{}",
+        "stupid_5": "Bạn không thể cướp người đang kích hoạt **Shield Pearl**.",
+        "stupid_6": "Bạn chưa thể cướp được, bạn phải đợi {time}",
+        "u_win": {
+          "user": [
+            "Bạn đã bỏ trốn với {}{}",
+            "Bạn đã thoát khỏi với {}{}",
+            "Bạn đã cướp bóc và lấy được {}{}"
+          ],
+          "victim": [
+            "{} đã đánh cắp {}{} của bạn...",
+            "{} đã cướp bóc {}{} từ bạn...",
+            "{} đã cướp bóc bạn và đánh cắp {}{}...",
+            "{} đã cướp bóc bạn và lấy được {}{}..."
+          ]
+        },
+        "u_lose": {
+          "user": [
+            "Bạn bị bắt khi đang cướp bóc và phải trả {}{}",
+            "Bạn bị bắt và phải trả {}{}",
+            "Đồ trộm bẩn thỉu, bị bắt và phải trả {}{}"
+          ],
+          "victim": [
+            "{} hoàn toàn thất bại trong việc cướp bóc bạn!",
+            "{} hoàn toàn bị tiêu diệt khi cướp bóc bạn!",
+            "{} đã thất bại khi cố gắng cướp bóc bạn bằng thanh kiếm gỗ của chúng!",
+            "{} đã cố cướp bóc bạn bằng thanh kiếm gỗ của chúng!"
+          ]
+        }
+      },
+      "use": {
+        "stupid_1": "Bạn không thể sử dụng nhiều vật phẩm này cùng một lúc.",
+        "stupid_2": "Bạn không thể sử dụng vật phẩm mà bạn thậm chí không có.",
+        "stupid_3": "Bạn không thể sử dụng ít hơn một vật phẩm, đồ ngốc.",
+        "stupid_4": "Bạn không thể sử dụng hơn 100 vật phẩm cùng một lúc.",
+        "stupid_5": "Bạn không thể sử dụng nhiều vật phẩm hơn mức bạn có!",
+        "stupid_6": "Hoặc đó không phải là vật phẩm có thể sử dụng được hoặc nó không tồn tại.",
+        "vault_max": "Bạn không thể mở rộng kho tiền của mình hơn nữa bằng phương pháp này.",
+        "vault_pot_singular": "Bạn đã uống **Vault Potion**. Dung lượng kho của bạn đã tăng thêm {} chỗ.",
+        "vault_pot_plural": "Bạn đã uống {amount} **Vault Potion**s. Dung lượng kho của bạn đã tăng thêm {} chỗ.",
+        "smoke_seaweed": "Bạn đã ăn một ít **Seaweed**, có hiệu lực khoảng **{} phút**",
+        "use_bonemeal": "Bạn đã sử dụng **Bone Meal** trên cây trồng của mình, khiến chúng phát triển!",
+        "seaweed_done": "**Rong biển** bạn ăn trước đó đã hết.",
+        "fishing_bait_used": "Bạn đã sử dụng **Fishing Bait**, bây giờ bạn sẽ câu được những con cá tốt hơn trong **{} phút** tiếp theo!",
+        "fishing_bait_done": "Mồi câu bạn dùng cuối cùng đã rơi ra khỏi lưỡi câu.",
+        "chug": "Bạn đã uống một **{}** có hiệu lực khoảng **{} phút**.",
+        "chug_no_end": "Bạn đã uống **{}**!",
+        "chug_honey": "Bạn đã uống {0}x **Honey Jar**! (Bây giờ bạn có {1}/20 {2})",
+        "cant_use_any": "Bạn không thể sử dụng bất kỳ **{}** nào ngay bây giờ.",
+        "cant_use_up_to": "Hiện tại, bạn không thể sử dụng nhiều hơn {0} **{1}**.",
+        "done": "**{}** bạn uống trước đó đã hết.",
+        "need_slimy_balls": "Bạn cần một **Slime Ball** cho mỗi **Glass Beaker**.",
+        "slimy_balls_funne": "Bạn đã chuyển đổi {0}x **Slime Ball** + {0}x **Glass Beaker** thành {0}x **Beaker Of Slime**!",
+        "beaker_of_slime_undo": "Bạn đã chuyển đổi {0}x **Beaker Of Slime** thành {0}x **Slime Ball**!",
+        "use_shield_pearl": "Bạn đã sử dụng **Shield Pearl** và hiện bất khả chiến bại trước những kẻ cướp bóc trong tháng tới.",
+        "use_time_pearl": "Bạn đã sử dụng **Time Pearl** đã bỏ qua thời gian trong hai ngày.",
+        "use_infernums_scroll": "Bạn đã sử dụng **Infernum's Scroll**, nhiệm vụ hàng ngày của bạn đã được thay đổi :game_die:",
+        "present": [
+          "Bạn đã mở quà và tìm thấy 1x **{}** (Trị giá {}{})!",
+          "Bạn xé giấy gói nhanh nhất có thể và nhận được 1x **{}** (Trị giá {}{})!",
+          "Bạn xé hộp quà ra và tìm thấy 1x **{}** (Trị giá {}{})!",
+          "Bạn quăng chiếc hộp ra khỏi cửa sổ, nó vỡ ra và bạn nhận được 1x **{}** (Đáng giá {}{})!"
+        ],
+        "barrel_item": [
+          "Bạn mở nắp thùng và tìm thấy 1x **{}** (Trị giá {}{})!",
+          "Bạn ném cái thùng ra ngoài cửa sổ và nó vỡ ra để lộ 1x **{}** (Đáng giá {}{})!",
+          "Bạn đá cái thùng và nó mở ra, để lộ 1x **{}** (Worth {}{})!",
+          "Bạn mở thùng và tìm thấy 1x **{}** (Trị giá {}{})!",
+          "Bạn mở thùng để tìm 1x **{}** (Trị giá {}{})!",
+          "Bạn dùng rìu mở thùng để tìm 1x **{}** (Trị giá {}{})!",
+          "Bạn ném ngọc lục bảo vào thùng cho đến khi nó vỡ ra để lộ 1x **{}** (Giá trị {}{})!",
+          "Bạn tranh thủ sự giúp đỡ của một số kẻ cướp bóc để mở thùng chứa 1x **{}** (Trị giá {}{})!",
+          "Yoinks scoob có vẻ như bạn đã tìm thấy 1x **{}** (Đáng giá {}{}) trong thùng!"
+        ],
+        "barrel_ems": [
+          "Bạn mở nắp thùng và tìm thấy {}{}!",
+          "Bạn đã ném cái thùng ra ngoài cửa sổ và nó vỡ ra để lộ {}{}!",
+          "Bạn đá vào thùng và nó mở ra, để lộ {}{}!",
+          "Bạn mở thùng và tìm {}{}!",
+          "Bạn mở thùng để tìm {}{}!",
+          "Bạn dùng rìu mở thùng để tìm {}{}!",
+          "Bạn tranh thủ sự giúp đỡ của một số kẻ cướp bóc để mở thùng chứa {}{}!"
+        ],
+        "open_item_box": [
+          "Bạn đã mở **Hộp vật phẩm** và tìm thấy 1x **{item}** (Trị giá {sell_price}{emerald})!",
+          "Bạn đã mở **Hộp vật phẩm** và tìm thấy 1x **{item}** (Đáng giá {sell_price}{emerald})!"
+        ]
+      },
+      "farm": {
+        "s_farm": "Nông trại của {user}",
+        "commands_title": "Lệnh trồng trọt",
+        "commands": {
+          "plant": "`{prefix}farm plant` - trồng vật phẩm",
+          "harvest": "`{prefix}farm harvest` - thu hoạch tất cả các loại cây trồng đã sẵn sàng"
+        },
+        "available": "Có sẵn để thu hoạch: {available}/{max}",
+        "cant_plant": "Bạn không thể trồng vật phẩm này.",
+        "no_plots": "Tất cả các mảnh ruộng của bạn đều đã đầy, một chiếc cuốc tốt hơn sẽ mang lại cho bạn nhiều hơn!",
+        "no_plots_2": "Bạn không có đủ mảnh đất trang trại cho việc đó!",
+        "planted": "Đã trồng {amount}x{crop}",
+        "cant_harvest": "Không có cây trồng nào sẵn sàng để thu hoạch...",
+        "harvested": "Đã thu hoạch {crops}"
+      },
+      "honey": {
+        "stupid_1": [
+          "Bạn không có đủ ong để biến phương án kinh doanh này thành khả thi.",
+          "Bạn cần 100 lọ ong để thực sự kiếm được lợi nhuận, hãy biến đi."
+        ],
+        "honey": [
+          "Có vẻ như ong tạo ra mật và bạn vừa thu thập được {} lọ mật! Ai biết?!!",
+          "Vậy ong làm mật và bạn vừa có được {} lọ mật!",
+          "Chà, ong làm mật! Bạn vừa có được {} lọ mật đấy!"
+        ],
+        "ded": [
+          "Ngoài ra, có vẻ như những con ong sẽ khá tức giận khi bạn cố gắng lấy trộm mật của chúng. Bạn đã mất {} con ong...",
+          "Rất tiếc, có vẻ như những con ong khá tức giận khi bạn cố gắng ăn trộm của chúng, ai mà biết được!? Bạn đã mất {} chúng vì tự sát.",
+          "Có vẻ như lũ ong khá tức giận khi bạn cố gắng ăn trộm của chúng, bạn đã thua {} vì tự tử..."
+        ]
+      },
+      "lb": {
+        "title": "__**Bảng xếp hạng Villager Bot**__",
+        "global_lb": "Toàn cầu",
+        "local_lb": "Máy Chủ này",
+        "emeralds": "Ngọc lục bảo",
+        "item": "Vật phẩm",
+        "unique_items": "Vật phẩm khác biệt",
+        "stolen": "Ngọc lục bảo đánh cắp",
+        "kills": "Quái vật giết",
+        "cmds": "Lệnh đã gửi",
+        "votes": "Dòng bầu chọn",
+        "fish": "Cá câu được",
+        "farming": "Cây trồng được",
+        "trash": "Rác dọn được",
+        "wems": "Ngọc lục bảo kiếm được trong tuần",
+        "wcmds": "Lệnh đã gửi trong tuần",
+        "dq": "Nhiệm vụ hàng ngày hoàn thành",
+        "wdq": "Nhiệm vụ hàng ngày hoàn thành trong tuần",
+        "tw": "Tổng tài sản",
+        "lb_ems": "{0}__**Bảng xếp hạng Ngọc lục bảo**__{0}",
+        "lb_item": "{0}__**Bảng xếp hạng {1}**__{0}",
+        "lb_unique_items": "{0}__**Bảng xếp hạng Vật phẩm khác biệt**__{0}",
+        "lb_pil": "{0}__**Bảng xếp hạng Ngọc lục bảo đánh cắp**__{0}",
+        "lb_kil": "{0}__**Bảng xếp hạng Tiêu diệt quái vật**__{0}",
+        "lb_cmds": "{0}__**Bảng xếp hạng Lệnh đã gửi**__{0}",
+        "lb_votes": "{0}__**Bảng xếp hạng Chuỗi bầu chọn**__{0}",
+        "lb_fish": "{0}__**Bảng xếp hạng Câu cá**__{0}",
+        "lb_farming": "{0}__**Bảng xếp hạng Trồng cây trồng**__{0}",
+        "lb_trash": "{0}__**Bảng xếp hạng Dọn dẹp rác**__{0}",
+        "lb_wems": "{0}__**Ngọc lục bảo trong tuần**__{0}",
+        "lb_wcmds": "{0}__**Lệnh trong tuần**__{0}",
+        "lb_dq": "{0}__**Bảng xếp hạnh Nhiệm vụ hàng ngày**__{0}",
+        "lb_wdq": "{0}__**Nhiệm vụ hàng ngày trong tuần**__{0}",
+        "lb_tw": "{0}__**Tổng tài sản**__{0}",
+        "no_item_lb": "Không có bảng xếp hạng nào tồn tại cho vật phẩm này",
+        "item_lb_stats": "*tổng cộng {total_count:,} thuộc sở hữu của {user_count:,} người dùng khác nhau*"
+      },
+      "trash": {
+        "s_trash": "Thùng rác của {user}",
+        "no_trash": "Ở đây không có rác...:/",
+        "total_contents": "Tổng số vật phẩm có giá trị {ems}{ems_emoji}",
+        "how_to_empty": "Dùng `{prefix}trashcan empty` để dọn sạch thùng rác!",
+        "emptied_for": "Bạn đã dọn sạch thùng rác của mình cho {reward}"
+      },
+      "daily_quests": {
+        "mapping": {
+          "mined_emeralds": {
+            "title": "Đào lên {target} ngọc lục bảo {emoji}",
+            "progress": "{value}/{target} ngọc lục bảo được khai thác... {encouragement}"
+          },
+          "fished_cod": {
+            "title": "Câu {target} cá tuyết {emoji}",
+            "progress": "{value}/{target} cá tuyết được đánh bắt... {encouragement}"
+          },
+          "fished_salmon": {
+            "title": "Câu {target} cá hồi {emoji}",
+            "progress": "{value}/{target} cá hồi được đánh bắt... {encouragement}"
+          },
+          "fished_tropical_fish": {
+            "title": "Câu {target} cá nhiệt đới {emoji}",
+            "progress": "{value}/{target} cá nhiệt đới được đánh bắt... {encouragement}"
+          },
+          "fished_pufferfish": {
+            "title": "Câu {target} cá nóc {emoji}",
+            "progress": "{value}/{target} cá nóc được đánh bắt... {encouragement}"
+          },
+          "fished_rainbow_trout": {
+            "title": "Câu {target} cá hồi vân {emoji}",
+            "progress": "{value}/{target} cá hồi vân được đánh bắt... {encouragement}"
+          },
+          "fished_gold_fish": {
+            "title": "Câu {target} cá vàng {emoji}",
+            "progress": "{value}/{target} cá vàng được đánh bắt... {encouragement}"
+          },
+          "fished_emerald_fish": {
+            "title": "Câu {target} cá ngọc lục bảo {emoji}",
+            "progress": "{value}/{target} cá ngọc lục bảo được đánh bắt... {encouragement}"
+          },
+          "votes": {
+            "title": "Bình chọn trên top.gg {emoji}",
+            "progress": "{value}/{target} phiếu bầu... {encouragement}"
+          },
+          "killed_zombie": {
+            "title": "Giết {target} zombies {emoji}",
+            "progress": "{value}/{target} zombies đã giết... {encouragement}"
+          },
+          "killed_skeleton": {
+            "title": "Giết {target} skeletons {emoji}",
+            "progress": "{value}/{target} skeletons đã giết... {encouragement}"
+          },
+          "killed_spider": {
+            "title": "Giết {target} spiders {emoji}",
+            "progress": "{value}/{target} spiders đã giết... {encouragement}"
+          },
+          "killed_cave_spider": {
+            "title": "Giết {target} cave spiders {emoji}",
+            "progress": "{value}/{target} cave spiders đã giết... {encouragement}"
+          },
+          "killed_creeper": {
+            "title": "Giết {target} creepers {emoji}",
+            "progress": "{value}/{target} creepers đã giết... {encouragement}"
+          },
+          "killed_baby_slime": {
+            "title": "Giết {target} baby slimes {emoji}",
+            "progress": "{value}/{target} baby slimes đã giết... {encouragement}"
+          },
+          "killed_enderman": {
+            "title": "Giết {target} endermen {emoji}",
+            "progress": "{value}/{target} endermen đã giết... {encouragement}"
+          },
+          "mined_collectibles": {
+            "title": "Đào lên {target} đồ sưu tầm {emoji}",
+            "progress": "{value}/{target} đồ sưu tầm được khai thác... {encouragement}"
+          },
+          "fished_collectibles": {
+            "title": "Câu {target} đồ sưu tầm {emoji}",
+            "progress": "{value}/{target} sưu tầm được đánh bắt... {encouragement}"
+          }
+        },
+        "completed": "Nhiệm vụ đã hoàn thành: {quest_title}!",
+        "current": "Nhiệm vụ hàng ngày hiện tại: {quest_title}",
+        "rewarded": "Bạn đã được khen thưởng {reward_amount}{reward_emoji}!",
+        "progress": "**Tiến trình:** {progress}",
+        "reward": "**Phần thưởng:** {reward_amount}{reward_emoji}",
+        "expires_at": "**Hết hạn:** {expires_at}",
+        "cant_reroll": "Bạn chưa thể thay đổi nhiệm vụ của mình, nếu bạn cho rằng đây là lỗi, vui lòng báo cáo",
+        "encouragements": {
+          "close": [
+            "Bạn sắp hoàn thành rồi!",
+            "Chỉ còn một chút nữa thôi!",
+            "Siêu gần..."
+          ],
+          "far": [
+            "Có cách nào đó để đi huh...",
+            "Tốt nhất là bạn nên đi cầy đi!",
+            "Tốt nhất là bạn nên nhanh lên!"
+          ],
+          "done": [
+            "Bạn đã hoàn tất!",
+            "Bạn làm được rồi!",
+            "Pog champ!"
+          ]
+        }
+      },
+      "item_bible": {
+        "item_mapping": {
+          "Wood Pickaxe": {
+            "description": [
+              "Khi khai thác, có `5/26` cơ hội khai thác được ngọc lục bảo. Nâng cấp lên **Stone Pickaxe** để nhận phần thưởng bỏ phiếu tốt hơn."
+            ]
+          },
+          "Stone Pickaxe": {
+            "description": [
+              "Khi khai thác, có `6/26` cơ hội khai thác được ngọc lục bảo. Nâng cấp lên **Iron Pickaxe** để nhận phần thưởng bỏ phiếu tốt hơn."
+            ]
+          },
+          "Iron Pickaxe": {
+            "description": [
+              "Khi khai thác, có `7/26` cơ hội khai thác được ngọc lục bảo. Nâng cấp lên **Gold Pickaxe** để nhận phần thưởng bỏ phiếu tốt hơn."
+            ]
+          },
+          "Gold Pickaxe": {
+            "description": [
+              "Khi khai thác, có `9/26` cơ hội khai thác được ngọc lục bảo. Nâng cấp lên **Diamond Pickaxe** để nhận phần thưởng bỏ phiếu tốt hơn."
+            ]
+          },
+          "Diamond Pickaxe": {
+            "description": [
+              "Khi khai thác, có `11/26` cơ hội khai thác được ngọc lục bảo. Nâng cấp lên **Netherite Pickaxe** để nhận phần thưởng bỏ phiếu tốt hơn."
+            ]
+          },
+          "Netherite Pickaxe": {
+            "description": [
+              "Khi khai thác, có `13/26` cơ hội khai thác được ngọc lục bảo."
+            ]
+          },
+          "Wood Sword": {
+            "description": [
+              "Gây sát thương cơ bản `1-2hp` lên quái vật."
+            ]
+          },
+          "Stone Sword": {
+            "description": [
+              "Gây sát thương cơ bản `1-3hp` lên quái vật."
+            ]
+          },
+          "Iron Sword": {
+            "description": [
+              "Gây sát thương cơ bản `2-4hp` lên quái vật."
+            ]
+          },
+          "Gold Sword": {
+            "description": [
+              "Gây sát thương cơ bản `4-5hp` lên quái vật."
+            ]
+          },
+          "Diamond Sword": {
+            "description": [
+              "Gây sát thương cơ bản `6-7hp` lên quái vật."
+            ]
+          },
+          "Netherite Sword": {
+            "description": [
+              "Gây sát thương cơ bản `7-10hp` lên quái vật."
+            ]
+          },
+          "Wood Hoe": {
+            "description": [
+              "Cho phép bạn trồng tối đa `10 lô` đất nông nghiệp bằng lệnh `{prefix}farm`."
+            ]
+          },
+          "Stone Hoe": {
+            "description": [
+              "Cho phép bạn trồng tối đa `20 lô` đất nông nghiệp bằng lệnh `{prefix}farm`."
+            ]
+          },
+          "Iron Hoe": {
+            "description": [
+              "Cho phép bạn trồng tối đa `30 lô` đất nông nghiệp bằng lệnh `{prefix}farm`."
+            ]
+          },
+          "Gold Hoe": {
+            "description": [
+              "Cho phép bạn trồng tối đa `40 lô` đất nông nghiệp bằng lệnh `{prefix}farm`."
+            ]
+          },
+          "Diamond Hoe": {
+            "description": [
+              "Cho phép bạn trồng tối đa `50 lô` đất nông nghiệp bằng lệnh `{prefix}farm`."
+            ]
+          },
+          "Netherite Hoe": {
+            "description": [
+              "Cho phép bạn trồng tối đa `60 lô` đất nông nghiệp bằng lệnh `{prefix}farm`."
+            ]
+          },
+          "Fishing Rod": {
+            "description": [
+              "Cho phép bạn câu cá **Cá tuyết**, **Cá hồi**, **Cá nhiệt đới**, **Cá nóc**, **Cá hồi cầu vồng**, **Cá vàng** và **Cá ngọc lục bảo** sử dụng lệnh `{prefix}fish`."
+            ]
+          },
+          "Vault Potion": {
+            "description": [
+              "Sử dụng vật phẩm này với lệnh `{prefix}use Vault Potion` để tăng dung lượng `{prefix}vault` hiện có của bạn."
+            ]
+          },
+          "Haste I Potion": {
+            "description": [
+              "Giảm thời gian hồi chiêu của lệnh `{prefix}mine` xuống `1 giây` trong `7 phút`."
+            ]
+          },
+          "Haste II Potion": {
+            "description": [
+              "Giảm thời gian hồi chiêu của lệnh `{prefix}mine` xuống `2 giây` trong `6 phút`"
+            ]
+          },
+          "Fortune I Book": {
+            "description": [
+              "Tăng phần thưởng ngọc lục bảo từ lệnh `{prefix}mine` thêm `1-2 ngọc lục bảo`.",
+              "Cuốn sách bùa mê này được áp dụng tự động miễn là nó vẫn còn trong kho của bạn và cũng được chuyển sang tất cả các loại cuốc mới. Cuốn sách bùa mê này không xếp chồng lên nhau."
+            ]
+          },
+          "Fortune II Book": {
+            "description": [
+              "Tăng phần thưởng ngọc lục bảo từ lệnh `{prefix}mine` thêm `1-3 ngọc lục bảo`.",
+              "Cuốn sách bùa mê này được áp dụng tự động miễn là nó vẫn còn trong kho của bạn và cũng được chuyển sang tất cả các loại cuốc mới. Cuốn sách bùa mê này không xếp chồng lên nhau."
+            ]
+          },
+          "Fortune III Book": {
+            "description": [
+              "Tăng phần thưởng ngọc lục bảo từ lệnh `{prefix}mine` thêm `1-4 ngọc lục bảo`.",
+              "Cuốn sách bùa mê này được áp dụng tự động miễn là nó vẫn còn trong kho của bạn và cũng được chuyển sang tất cả các loại cuốc mới. Cuốn sách bùa mê này không xếp chồng lên nhau."
+            ]
+          },
+          "Sharpness I Book": {
+            "description": [
+              "Tăng sát thương của thanh kiếm cơ bản thêm `25%` (tổng cộng là `125%`) khi chiến đấu với quái vật.",
+              "Cuốn sách bùa mê này được áp dụng tự động miễn là nó vẫn còn trong kho của bạn và cũng được chuyển sang tất cả các loại kiếm mới. Cuốn sách bùa mê này không xếp chồng lên nhau."
+            ]
+          },
+          "Sharpness II Book": {
+            "description": [
+              "Tăng sát thương của thanh kiếm cơ bản thêm `50%` (tổng cộng là `150%`) khi chiến đấu với quái vật.",
+              "Cuốn sách bùa mê này được áp dụng tự động miễn là nó vẫn còn trong kho của bạn và cũng được chuyển sang tất cả các loại kiếm mới. Cuốn sách bùa mê này không xếp chồng lên nhau."
+            ]
+          },
+          "Time Pearl": {
+            "description": [
+              "Khi sử dụng vật phẩm bằng lệnh `{prefix}use Time Pearl`, nó sẽ tua nhanh thời gian thêm hai ngày; trồng trọt, đặt lại thời gian hồi chiêu cho `{prefix}honey`, `{prefix}pillage`, `{prefix}search`, xóa tất cả các hiệu ứng kích hoạt (ví dụ: sự vội vàng) và tiêu thụ vật phẩm."
+            ]
+          },
+          "Shield Pearl": {
+            "description": [
+              "Sử dụng vật phẩm này với lệnh `{prefix}use Shield Pearl` sẽ cho phép bạn ngăn chặn mọi người cướp bóc bạn bằng `{prefix}pillage` trong tối đa một tháng. Sử dụng vật phẩm này sẽ tiêu thụ nó.",
+              "Nếu bạn sử dụng lệnh `{prefix}pillage` trong khi **Shield Pearl** đang hoạt động, hiệu ứng của nó sẽ bị hủy và bạn sẽ có thể bị cướp bóc."
+            ]
+          },
+          "Rich Person Trophy": {
+            "description": [
+              "Với **Rich Person Trophy**, bạn sẽ nhận được phần thưởng cho lệnh `{prefix}gamble`, `200%` ngọc lục bảo từ lệnh `{prefix}trashcan empty`, `150%` ngọc lục bảo khi mở * *Barrel**s và `200%` ngọc lục bảo từ lệnh `{prefix}mine`. Nhưng hãy nhớ... **lòng tham có cái giá của nó**..."
+            ]
+          },
+          "Jar Of Bees": {
+            "description": [
+              "Mua **Jar Of Bees** từ `{prefix}shop` cho phép bạn thu hoạch mật ong từ chúng hàng ngày bằng cách sử dụng lệnh `{prefix}honey`."
+            ]
+          },
+          "Glass Beaker": {
+            "description": [
+              "Cho phép bạn biến **Slime Ball** thành **Beaker Of Slime** bằng lệnh `{prefix}use <amount> Glass Beaker`, cho phép giao dịch nó với những người chơi khác."
+            ]
+          },
+          "Netherite Scrap": {
+            "description": [
+              "Mặt hàng này là bắt buộc khi mua một số mặt hàng nhất định từ `{prefix}shop`."
+            ]
+          },
+          "Slime Trophy": {
+            "description": [
+              "Có vật phẩm này trong kho của bạn sẽ giảm khả năng bỏ lỡ các cuộc tấn công chống lại **Baby Slime**s."
+            ]
+          },
+          "Fishing Trophy": {
+            "description": [
+              "Có vật phẩm này trong kho của bạn sẽ giảm cơ hội câu được rác khi sử dụng lệnh `{prefix}fish`."
+            ]
+          },
+          "Wheat Seed": {
+            "description": [
+              "Bạn có thể trồng **Wheat Seed** bằng cách sử dụng lệnh `{prefix}farm plant <amount> Wheat Seed` để trồng `1-2` **Wheat**."
+            ]
+          },
+          "Carrot": {
+            "description": [
+              "Bạn có thể trồng **Carrot** bằng cách sử dụng lệnh `{prefix}farm <amount> Carrot` để trồng `1-3` **Carrot**s."
+            ]
+          },
+          "Potato": {
+            "description": [
+              "Bạn có thể trồng **Potato** bằng cách sử dụng lệnh `{prefix}farm plant <amount> Potato` để trồng `1-3` **Potato**es."
+            ]
+          },
+          "Melon Seed": {
+            "description": [
+              "Bạn có thể trồng **Melon Seed** bằng cách sử dụng lệnh `{prefix}farm plant <amount> Melon Seed` để trồng `2-4` **Melon**."
+            ]
+          },
+          "Chorus Seed": {
+            "description": [
+              "Bạn có thể trồng **Chorus Seed** bằng cách sử dụng lệnh `{prefix}farm plant <amount> Chorus Seed` để phát triển `1-2` **Chorus Fruit**."
+            ]
+          },
+          "Bone Meal": {
+            "description": [
+              "Rơi khi giết Skeleton với cơ hội `1/20` (bị ảnh hưởng bởi bùa cướp bóc). Bạn có thể sử dụng vật phẩm này bằng lệnh `{prefix}use Bone Meal`, lệnh này sẽ giúp tất cả các loại cây trồng phát triển thêm `67%` thời gian chúng phát triển."
+            ]
+          },
+          "Fishing Bait": {
+            "description": [
+              "Có thể tìm thấy bằng cách dọn sạch thùng rác của bạn bằng lệnh `{prefix}trash` nếu bạn có đủ bụi bẩn.",
+              "Khi được sử dụng với lệnh `{prefix}use Fishing Bait`, nó sẽ giảm thời gian chờ cho lệnh `{prefix}fish` xuống `8 giây` và tăng cơ hội câu được cá thay vì rác hoặc đồ sưu tầm."
+            ]
+          },
+          "Honey Jar": {
+            "description": [
+              "Khi sử dụng với lệnh `{prefix}use <amount> Honey Jar`, nó sẽ hồi cho bạn `1/2hp` mỗi **Honey Jar**."
+            ]
+          },
+          "Barrel": {
+            "description": [
+              "Khi được sử dụng với lệnh `{prefix}use <amount> Barrel`, lệnh này sẽ mang lại cho bạn phần thưởng là ngọc lục bảo hoặc một vật phẩm sưu tầm được."
+            ]
+          },
+          "Beaker Of Slime": {
+            "description": [
+              "Khi được sử dụng với lệnh `{prefix}use <amount> Beaker Of Slime`, nó sẽ tách thành **Slime Ball** và **Glass Beaker**."
+            ]
+          },
+          "Infernum's Scroll": {
+            "description": [
+              "Cho phép bạn thay đổi nhiệm vụ hàng ngày của mình bằng lệnh `{prefix}use Infernum's Scroll`. Sử dụng vật phẩm này sẽ tiêu tốn nó.",
+              "Vật phẩm này rơi ra từ tất cả quái vật với cơ hội khoảng `1/40` (bị ảnh hưởng bởi bùa cướp bóc)."
+            ]
+          },
+          "Lure I Book": {
+            "description": [
+              "Giảm `4 giây` thời gian chờ từ lệnh `{prefix}fish`.",
+              "Cuốn sách bùa mê này được áp dụng tự động miễn là nó vẫn còn trong kho của bạn. Cuốn sách bùa mê này không xếp chồng lên nhau."
+            ]
+          },
+          "Looting I Book": {
+            "description": [
+              "Tăng cơ hội và số lượng vật phẩm thu hồi được cũng như ngọc lục bảo từ quái vật bị giết.",
+              "Cuốn sách bùa mê này được áp dụng tự động miễn là nó vẫn còn trong kho của bạn và cũng được chuyển sang tất cả các loại kiếm mới. Cuốn sách bùa mê này không xếp chồng lên nhau."
+            ]
+          },
+          "Looting II Book": {
+            "description": [
+              "Tăng cơ hội và số lượng vật phẩm thu hồi được cũng như ngọc lục bảo từ quái vật bị giết, nhiều hơn so với **Looting I Book**.",
+              "Cuốn sách bùa mê này được áp dụng tự động miễn là nó vẫn còn trong kho của bạn và cũng được chuyển sang tất cả các loại kiếm mới. Cuốn sách bùa mê này không xếp chồng lên nhau."
+            ]
+          },
+          "Efficiency I Book": {
+            "description": [
+              "Giảm thời gian hồi chiêu của lệnh `{prefix}mine` đi `0,5 giây`.",
+              "Cuốn sách bùa mê này được áp dụng tự động miễn là nó vẫn còn trong kho của bạn và cũng được chuyển sang tất cả các loại cuốc mới. Cuốn sách bùa mê này không xếp chồng lên nhau."
+            ]
+          },
+
+          "Luck Potion": {
+            "description": [
+              "> Khi sử dụng lệnh `{prefix}chug Luck Potion`, bạn sẽ gặp các hiệu ứng được liệt kê bên dưới trong `4 phút 30 giây`.",
+              "Tăng đáng kể cơ hội:\n- Có thêm không gian kho tiền trong khi chạy các lệnh tiết kiệm.\n- Tìm đồ sưu tầm từ việc khai thác.\n- Tìm mồi câu cá khi làm trống `{prefix}trashcan`.",
+              "Giảm đáng kể khả năng:\n- Đánh bắt rác (thay vì đồ sưu tầm hoặc cá).\n- Mất ong khi sử dụng lệnh `{prefix}honey`."
+            ],
+            "quoted": false
+          },
+          "Recycler": {
+            "description": [
+              "Khi có trong kho của bạn, nó sẽ nhân đôi phần thưởng ngọc lục bảo khi làm trống `{prefix}trashcan` của bạn."
+            ]
+          },
+          "Slime Ball": {
+            "description": [
+              "Rơi khi giết Baby Slimes với cơ hội `1/25` (bị ảnh hưởng bởi bùa cướp bóc). Vật phẩm này có thể được sử dụng để mua **Slime Trophy** và có thể được giao dịch bằng **Glass Beaker**s."
+            ]
+          },
+          "Ender Pearl": {
+            "description": [
+              "Rơi khi giết Endermen với cơ hội `1/30` (bị ảnh hưởng bởi bùa cướp bóc). Vật phẩm này có thể được sử dụng để mua nhiều vật phẩm khác nhau trong `{prefix}shop`."
+            ]
+          },
+          "Bane Of Pillagers Amulet": {
+            "description": [
+              "Khi có trong kho của bạn, nó sẽ làm tăng số ngọc lục bảo giành được từ cờ bạc và hỗ trợ bảo vệ bạn khỏi những vụ cướp bóc thành công.",
+              "Vật phẩm này trao một vai trò đặc biệt trong Villager Bot Support Server"
+            ]
+          }
+        },
+        "item_tag_names": {
+          "4july": "Ngày 4 tháng 7",
+          "halloween": "Halloween",
+          "mkwii": "Mario Kart Wii",
+          "easter": "Phục Sinh"
+        },
+        "not_found": "Không có vật phẩm nào có tên có thể được tìm thấy. Vật phẩm này có thể tồn tại nhưng không ai có nó và không có tài liệu nào về nó.",
+        "drop_rate": {
+          "title": "Tỷ lệ rơi",
+          "not_mineable_or_fishable": "Không thể khai thác/câu cá",
+          "mining": "Khai thác: `1/{}`",
+          "fishing": "Câu cá: `1/{}`"
+        },
+        "traits": {
+          "title": "Đặc điểm",
+          "sellable": "Có thể bán được",
+          "tradeable": "Có thể giao dịch",
+          "purchaseable": "Có thể mua được trong `{prefix}shop`"
+        },
+        "rarity": {
+          "title": "Độ hiếm",
+          "singular": "*`1` người có vật phẩm này*",
+          "plural": "*`{amount}` người có vật phẩm này*",
+          "owned_amount": "*Bạn có `{amount}` vật phẩm này*"
+        },
+        "season": {
+          "title": "Sự kiện/Mùa",
+          "date_format": "{month}/{day}"
+        }
+      }
+    }
+  }
+}
