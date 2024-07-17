@@ -287,8 +287,8 @@ class Fun(commands.Cog):
         *,
         text: str = "",
     ):
-        resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=pat")
-        image_url = "https://rra.ram.moe" + (await resp.json())["path"]
+        resp = await self.bot.aiohttp.get("https://api.otakugifs.xyz/gif?reaction=pat")
+        image_url = (await resp.json())["url"]
 
         target = ", ".join(
             f"**{discord.utils.escape_markdown(u.display_name)}**" for u in (users or [])
@@ -314,8 +314,8 @@ class Fun(commands.Cog):
         *,
         text: str = "",
     ):
-        resp = await self.bot.aiohttp.get("https://rra.ram.moe/i/r?type=slap")
-        image_url = "https://rra.ram.moe" + (await resp.json())["path"]
+        resp = await self.bot.aiohttp.get("https://api.otakugifs.xyz/gif?reaction=slap")
+        gif_url = (await resp.json())["url"]
 
         target = ", ".join(
             f"**{discord.utils.escape_markdown(u.display_name)}**" for u in (users or [])
@@ -331,7 +331,7 @@ class Fun(commands.Cog):
                 256,
             ),
         )
-        embed.set_image(url=image_url)
+        embed.set_image(url=gif_url)
 
         await ctx.send(embed=embed)
 
