@@ -1,15 +1,15 @@
 {
-  "en": {
-    "lang": "en",
-    "name": "English",
+  "nl": {
+    "lang": "nl",
+    "name": "Dutch",
     "misc": {
-      "pingpong": "The prefix for this server is `{0}` and the help command is `{0}help`\nIf you are in need of more help, you can join the **[Support Server]({1})**.",
+      "pingpong": "De prefix voor deze server is `{0}` en het help commando `{0}help`\nAls je meer hulp nodig hebt, kun je de **[Support Server]({1})** joinen.",
       "cooldown_msgs": [
-        "Didn't your parents tell you that [patience is a virtue](http://www.patience-is-a-virtue.org/)? Calm down and wait another **{}**.",
-        "Hey, you need to wait another **{}** before doing that again.",
-        "Hrmmm, looks like you need to wait another **{}** before doing that again.",
-        "Don't you know that [patience is a virtue](http://www.patience-is-a-virtue.org/)! Wait another **{}**.",
-        "Hold on and wait another **{}**."
+        "Hebben je ouders je nooit verteld dat [geduld een schone zaak](http://www.patience-is-a-virtue.org/) is? Kalmeer en wacht nog **{}**.",
+        "Hey, je moet nog **{}** wachten voor je dat weer kan doen.",
+        "Hrmmm, het ziet eruit dat je nog **{}** moet wachten voordat je dat weer kan doen.",
+        "Weet je niet dat [geduld een schone zaak](http://www.patience-is-a-virtue.org/) is! Wacht nog **{}**.",
+        "Wacht nog **{}**, alsjeblieft."
       ],
       "errors": {
         "andioop": "Oops! Something went really wrong... Please take a screenshot and report it on the **[Support Server]({})**, thank you!",
