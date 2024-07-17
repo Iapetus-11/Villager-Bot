@@ -1917,7 +1917,7 @@
       },
       "mine": {
         "found_item_1": "Bạn {0} {1} **{2}** (Trị giá {3}{4}) {5}.",
-        "found_item_2": "Bạn {0} {1} {2} {3}.",
+        "found_item_2": "Bạn {0} {1} {3} {2}.",
         "found_emeralds": "Bạn {0} {1}{2}!",
         "actions": [
           "đào lên",
