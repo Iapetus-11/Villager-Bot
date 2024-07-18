@@ -255,6 +255,19 @@ class Emojis(ImmutableBaseModel):
     firecracker: str
     scroll: str
     infernums_scroll: str
+    regeneration_totem: str
+    flaming_quiver: str
+    love_medallion: str
+    wind_horn: str
+    battle_robes: str
+    weakening_gong: str
+    soul_protection_totem: str
+    deathcap_mushroom: str
+    shadow_shifter: str
+    gastly_totem: str
+    splendid_robes: str
+    satchel_of_elements: str
+    dark_rooted_robes: str
     bopa: str
     pumpkin: str
     farming: FarmingEmojis

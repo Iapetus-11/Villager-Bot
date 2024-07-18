@@ -1332,6 +1332,97 @@
       "rarity": 8192,
       "sticky": false,
       "tags": ["mine"]
+    },
+    {
+      "item": "Regeneration Totem",
+      "sell_price": 64,
+      "rarity": 512,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Flaming Quiver",
+      "sell_price": 128,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Love Medallion",
+      "sell_price": 128,
+      "rarity": 2048,
+      "sticky": false,
+      "tags": ["mine","fish"]
+    },
+    {
+      "item": "Wind Horn",
+      "sell_price": 256,
+      "rarity": 3196,
+      "sticky": false,
+      "tags": ["mine", "fish"]
+    },
+    {
+      "item": "Battle Robes",
+      "sell_price": 512,
+      "rarity": 4096,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Weakening Gong",
+      "sell_price": 512,
+      "rarity": 4096,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Soul Protection Totem",
+      "sell_price": 512,
+      "rarity": 4096,
+      "sticky": false,
+      "tags": ["mine", "fish"]
+    },
+    {
+      "item": "Deathcap Mushroom",
+      "sell_price": 512,
+      "rarity": 8192,
+      "sticky": false,
+      "tags": ["mine", "fish"]
+    },
+    {
+      "item": "Shadow Shifter",
+      "sell_price": 1024,
+      "rarity": 50000,
+      "sticky": false,
+      "tags": ["mine", "fish"]
+    },
+    {
+      "item": "Gastly Totem",
+      "sell_price": 1024,
+      "rarity": 50000,
+      "sticky": false,
+      "tags": ["mine", "fish"]
+    },
+    {
+      "item": "Splendid Robes",
+      "sell_price": 1024,
+      "rarity": 99999,
+      "sticky": false,
+      "tags": ["mine"]
+    },
+    {
+      "item": "Satchel Of Elements",
+      "sell_price": 1024,
+      "rarity": 99999,
+      "sticky": false,
+      "tags": ["mine", "fish"]
+    },
+    {
+      "item": "Dark Rooted Robes",
+      "sell_price": 2048,
+      "rarity": 125000,
+      "sticky": false,
+      "tags": ["mine", "fish"]
     }
   ],
   "rpt_ignore": [
@@ -1554,6 +1645,19 @@
     "scroll": "\uD83D\uDCDC",
     "pumpkin": "<:pumpkin:763123129593495582>",
     "infernums_scroll": "<:infernums_scroll:1257669297770205306>",
+    "regeneration_totem": "<:regeneration_totem:1262744465483894875>",
+    "flaming_quiver": "<:flaming_quiver:1262744537231523870>",
+    "love_medallion": "<:love_medallion:1262744585495511130>",
+    "wind_horn": "<:wind_horn:1262744634229002380>",
+    "battle_robes": "<:battle_robes:1262746878337093763>",
+    "weakening_gong": "<:weakening_gong:1262771716523032697>",
+    "soul_protection_totem": "<:soul_protection_totem:1262771815789363220>",
+    "deathcap_mushroom": "<:deathcap_mushroom:1262744928476336260>",
+    "shadow_shifter": "<:shadow_shifter:1262744975708258304>",
+    "gastly_totem": "<:gastly_totem:1262772051383685191>",
+    "splendid_robes": "<:splendid_robes:1262745085288648764>",
+    "satchel_of_elements": "<:satchel_of_elements:1262771945020194867>",
+    "dark_rooted_robes": "<:dark_rooted_robes:1262772143146663968>",
     "bopa": "<:bopa:1261478828690247710>",
     "farming": {
       "growing": {
@@ -1822,6 +1926,19 @@
     "Firecracker": "firecracker",
     "Declaration Of Independence": "scroll",
     "Infernum's Scroll": "infernums_scroll",
+    "Regeneration Totem": "regeneration_totem",
+    "Flaming Quiver": "flaming_quiver",
+    "Love Medallion": "love_medallion",
+    "Wind Horn": "wind_horn",
+    "Battle Robes": "battle_robes",
+    "Weakening Gong": "weakening_gong",
+    "Soul Protection Totem": "soul_protection_totem",
+    "Deathcap Mushroom": "deathcap_mushroom",
+    "Shadow Shifter": "shadow_shifter",
+    "Gastly Totem": "gastly_totem",
+    "Splendid Robes": "splendid_robes",
+    "Satchel Of Elements": "satchel_of_elements",
+    "Dark Rooted Robes": "dark_rooted_robes",
     "Pumpkin": "pumpkin",
     "Bane Of Pillagers Amulet": "bopa"
   },
