@@ -14,7 +14,7 @@
       "errors": {
         "andioop": "Oeps! Er ging iets helemaal mis... Kun je alsjeblieft een screenshot nemen en deze in de **[Support Server]({})** plaatsen? Dank je wel!",
         "private": "Dit commando kan niet gebruikt worden in privé chat kanalen.",
-        "user_perms": "Leuk geprobeerd, maar je hebt niet voldoende permissies om dat te doen!",
+        "gebruiker_perms": "Leuk geprobeerd, maar je hebt niet voldoende permissies om dat te doen!",
         "bot_perms": "Je hebt me de juiste permissies niet gegeven om dat te doen, slimmerd.",
         "concurrency": "Wacht even! Je gebruikt dit command veeeel te snel!",
         "missing_arg": "Het ziet eruit alsof je vergeet iets in te voeren!",
@@ -74,40 +74,40 @@
         "aliases": "Aliassen: `{}`"
       },
       "econ": {
-        "profile": "`{0}profile [optioneel: gebruiker]` *laat het profiel van jou of een gekozen gebruiker zien*",
-        "balance": "`{0}balance [optioneel: gebruiker]` *laat het saldo van jou of een gekozen gebruiker zien*",
+        "profile": "`{0}profile [optioneel: gebruiker]` *laat het profiel van jou of een opgegeven gebruiker zien*",
+        "balance": "`{0}balance [optioneel: gebruiker]` *laat het saldo van jou of een opgegeven gebruiker zien*",
         "inventory": "`{0}inventory [optioneel: categorie] [optioneel: gebruiker]` *laat het inventaris van jou of een gekozen gebruiker zien; optionele categorieën bevatten `tools`, `magic`, `fish`, of `misc`*",
         "deposit": "`{0}deposit <smaragden blokken>` *stort smaragden in je bank*",
         "withdraw": "`{0}withdraw <smaragden blokken>` *trek smaragden uit je bank terug*",
-        "give": "`{0}give <user> <amount> <item>` *give another user an item or emeralds*",
-        "mine": "`{0}mine` *mine for emeralds*",
-        "fish": "`{0}fish` *fish for fish and items*",
-        "fishmarket": "`{0}fishmarket` *view the current selling prices of fish*",
-        "farm": "`{0}farm` *plant and harvest crops worth emeralds*",
-        "trash": "`{0}trash` *view the useless items you mine up*",
-        "search": "`{0}search` *search for emeralds*",
-        "honey": "`{0}honey` *harvest honey from the bees you own*",
-        "gamble": "`{0}gamble <emeralds>` *gamble with the bot for a chance of winning emeralds*",
-        "pillage": "`{0}pillage <user>` *pillage emeralds from another user*",
-        "use": "`{0}use <item>` *use the specified item*",
-        "shop": "`{0}shop` *shows the Villager Shop*",
-        "buy": "`{0}buy [optional: amount of item] <item>` *buy an item from the Villager Shop*",
-        "sell": "`{0}sell <amount> <item>` *sell items back to Villager Bot*",
-        "leaderboards": "`{0}leaderboards` *shows the leaderboards*",
-        "trivia": "`{0}trivia` *sends trivia questions you can answer for emeralds!*",
-        "dailyquest": "`{0}dailyquest` *gives you a fun quest that expires within a day*",
-        "iteminfo": "`{0}iteminfo <item>` *sends information and stats on the specified item*"
+        "give": "`{0}give <gebruiker> <hoeveelheid> <item>` *geef een andere gebruiker een item of smaragden*",
+        "mine": "`{0}mine` *mijn voor smaragden*",
+        "fish": "`{0}fish` *vis voor vis en items*",
+        "fishmarket": "`{0}fishmarket` *bekijk de huidige verkoopprijzen van vis*",
+        "farm": "`{0}farm` *plant en oogst gewassen die smaragden waard zijn*",
+        "trash": "`{0}trash` *bekijk de nutteloze items die je hebt gemijnd*",
+        "search": "`{0}search` *zoek voor smaragden*",
+        "honey": "`{0}honey` *oogst honing van je eigen bijen*",
+        "gamble": "`{0}gamble <smaragden>` *gok met de bot om kans te maken op smaragden*",
+        "pillage": "`{0}pillage <gebruiker>` *plunder smaragden van een andere gebruiker*",
+        "use": "`{0}use <item>` *gebruik het opgegeven item*",
+        "shop": "`{0}shop` *laat de Villager Shop zien*",
+        "buy": "`{0}buy [optioneel: hoeveelheid van een item] <item>` *koop een item van de Villager Shop*",
+        "sell": "`{0}sell <hoeveelheid> <item>` *verkoop items terug aan Villager Bot*",
+        "leaderboards": "`{0}leaderboards` *toont de ranglijsten*",
+        "trivia": "`{0}trivia` *stuurt triviavragen die je kunt beantwoorden voor smaragden!*",
+        "dailyquest": "`{0}dailyquest` *geeft je een leuke zoektocht die binnen een dag verloopt*",
+        "iteminfo": "`{0}iteminfo <item>` *verstuurt informatie en statistieken over het opgegeven item*"
       },
       "mc": {
-        "mcstatus": "`{0}mcstatus [optional: server]` *checks the status of any type of Minecraft server*",
-        "rcon": "`{0}rcon <command>` *executes commands on a Minecraft server from Discord*",
-        "randommc": "`{0}randommc` *shows a random Minecraft server if you want a new place to explore*",
-        "blockify": "`{0}blockify` *turns whatever image you upload into Minecraft blocks / pixel art*",
-        "stealskin": "`{0}stealskin <username>` *fetches the skin of a Minecraft Java Edition player*",
-        "buildidea": "`{0}buildidea` *sends a random build idea for if you're bored and need inspiration*",
-        "mccolors": "`{0}mccolors` *shows the Minecraft colors and how to use them in the ingame chat*",
-        "mcprofile": "`{0}mcprofile <username>` *shows information on a Minecraft Java Edition player*",
-        "nametoxuid": "`{0}nametoxuid <username>` *turns a MC Bedrock Edition gamertag into an xuid*"
+        "mcstatus": "`{0}mcstatus [optioneel: server]` *checkt de status van elk type Minecraft-server*",
+        "rcon": "`{0}rcon <command>` *voert opdrachten uit op een Minecraft-server vanaf Discord*",
+        "randommc": "`{0}randommc` *toont een willekeurige Minecraft-server als je een nieuwe plek wilt om te verkennen*",
+        "blockify": "`{0}blockify` *verandert elke afbeelding die je uploadt in Minecraft-blokken / pixelkunst*",
+        "stealskin": "`{0}stealskin <gebruikersnaam>` *pakt de skin van een Minecraft Java Edition-speler*",
+        "buildidea": "`{0}buildidea` *stuurt een willekeurig bouwidee voor als je je verveelt en inspiratie nodig hebt*",
+        "mccolors": "`{0}mccolors` *laat de Minecraft-kleuren zien en hoe ze te gebruiken in de ingame chat*",
+        "mcprofile": "`{0}mcprofile <gebruikersnaam>` *toont informatie over een Minecraft Java Edition-speler*",
+        "nametoxuid": "`{0}nametoxuid <gebruikersnaam>` *verandert een MC Bedrock Edition gamertag in een xuid*"
       },
       "util": {
         "help": "`{0}help` *view helpful information about Villager Bot*",
@@ -115,7 +115,7 @@
         "config": "`{0}config` *configure / setup the bot to your liking*",
         "ping": "`{0}ping` *shows the latency between Discord and Villager Bot*",
         "serverinfo": "`{0}server` *view information about the current server*",
-        "avatar": "`{0}avatar` *shows the enlarged avatar of the specified user*",
+        "avatar": "`{0}avatar` *shows the enlarged avatar of the specified gebruiker*",
         "links": "`{0}links` *view useful links relating to Villager Bot*",
         "vote": "`{0}vote` *earn emeralds from voting for Villager Bot on certain websites*",
         "stats": "`{0}stats` *shows statistics about Villager Bot*",
@@ -145,26 +145,26 @@
         "sarcastic": "`{0}sarcastic <text>` *tUrN tExT iNtO tHe SpOnGeBoB sArCaStIc TeXt*",
         "owo": "`{0}owo <text>` *owofies the given text uwu*",
         "vaporwave": "`{0}vaporwave <text>` *makes text into the vaporwave style*",
-        "kill": "`{0}kill <user>` *brutally murder another user*",
+        "kill": "`{0}kill <gebruiker>` *brutally murder another gebruiker*",
         "bubblewrap": "`{0}bubblewrap` *sends virtual bubblewrap for you to pop*",
         "coinflip": "`{0}coinflip` *flips a coin and says the result in the chat*",
-        "pat": "`{0}pat <user>` *brutally pat someone on the head*",
-        "slap": "`{0}slap <user>` *gently slap someone*",
+        "pat": "`{0}pat <gebruiker>` *brutally pat someone on the head*",
+        "slap": "`{0}slap <gebruiker>` *gently slap someone*",
         "achievement": "`{0}achievement <text>` *generates a Minecraft achievement from the given text*",
         "splashtext": "`{0}splashtext <text>` *generates a Minecraft splash screen with the given text*",
         "trivia": "`{0}trivia` *sends trivia questions you can answer for emeralds!*",
-        "gayrate": "`{0}gayrate <user>` *tells how gay the user is*"
+        "gayrate": "`{0}gayrate <gebruiker>` *tells how gay the gebruiker is*"
       },
       "mod": {
-        "warn": "`{0}warn <user> [optional: reason]` *warn a user for a specified reason*",
-        "warns": "`{0}warns <user>` *view the warns a user has, leave blank to see your warnings*",
-        "purge": "`{0}purge <amount>` *purge messages from the current channel*",
-        "delwarns": "`{0}delwarns <user>` *clears the warns that user has in this server*",
-        "kick": "`{0}kick <user> [optional: reason]` *kicks the user from the current Discord server*",
-        "ban": "`{0}ban <user> [optional: delete message days] [optional: reason]` *bans the user from the current Discord server*",
-        "pardon": "`{0}pardon <user>` *unban the user from the current Discord server*",
-        "mute": "`{0}mute <user> [time] [reason]` *mutes the user in the current Discord server*",
-        "unmute": "`{0}unmute <user>` *unmutes the user in the current Discord server*"
+        "warn": "`{0}warn <gebruiker> [optional: reason]` *warn a gebruiker for a specified reason*",
+        "warns": "`{0}warns <gebruiker>` *view the warns a gebruiker has, leave blank to see your warnings*",
+        "purge": "`{0}purge <hoeveelheid>` *purge messages from the current channel*",
+        "delwarns": "`{0}delwarns <gebruiker>` *clears the warns that gebruiker has in this server*",
+        "kick": "`{0}kick <gebruiker> [optional: reason]` *kicks the gebruiker from the current Discord server*",
+        "ban": "`{0}ban <gebruiker> [optional: delete message days] [optional: reason]` *bans the gebruiker from the current Discord server*",
+        "pardon": "`{0}pardon <gebruiker>` *unban the gebruiker from the current Discord server*",
+        "mute": "`{0}mute <gebruiker> [time] [reason]` *mutes the gebruiker in the current Discord server*",
+        "unmute": "`{0}unmute <gebruiker>` *unmutes the gebruiker in the current Discord server*"
       }
     },
     "fun": {
@@ -1273,7 +1273,7 @@
         "Ok little baby, run away to mommy.",
         "Fine, run away like the crybaby toddler you are."
       ],
-      "user_attacks": [
+      "gebruiker_attacks": [
         "You slashed the **{0}** with your **{1}**!",
         "Your **{1}** stabbed deep into the **{0}**!",
         "You hacked at the **{0}** with your **{1}**!",
@@ -1288,7 +1288,7 @@
         "You charged at the **{0}** and hacked at it with your **{1}**!",
         "You charged at the **{0}** and with all your might poked it with your **{1}**!"
       ],
-      "user_finishers": [
+      "gebruiker_finishers": [
         "You swung the **{1}** as hard as you could and decapitated the **{0}**!",
         "You tripped and let go of your **{1}**, landing it in the **{0}** and killing it!",
         "You, with all your might, buried the **{1}** deep into the chest of the **{0}**!",
@@ -1531,8 +1531,8 @@
         "err_cmd": "Something went wrong while sending a command to the server, is the server online and RCON enabled?"
       },
       "profile": {
-        "error": "Something went wrong while fetching that user's profile...",
-        "first": "first username",
+        "error": "Something went wrong while fetching that gebruiker's profile...",
+        "first": "first gebruikername",
         "mcpp": "Minecraft profile for `{}`",
         "skin": "Skin Download",
         "cape": "Cape Download",
@@ -1551,7 +1551,7 @@
       "ban": {
         "stupid_1": "You cannot ban yourself.",
         "stupid_2": "**{}** is already banned.",
-        "stupid_3": "Oops, something went wrong while banning that user."
+        "stupid_3": "Oops, something went wrong while banning that gebruiker."
       },
       "unban": {
         "stupid_1": "You cannot unban yourself.",
@@ -1560,7 +1560,7 @@
       "warn": {
         "stupid_1": "You cannot warn yourself.",
         "stupid_2": "You cannot clear your own warnings.",
-        "thats_too_much_man": "User has too many warnings already.",
+        "thats_too_much_man": "gebruiker has too many warnings already.",
         "no_reason": "No reason specified.",
         "by": "Warning by",
         "confirm": "{} Warned {} ({} warning(s) now) for reason: *{}*"
@@ -1569,7 +1569,7 @@
         "stupid_1": "You cannot mute yourself.",
         "stupid_2": "You used invalid formatting, example: `{0}mute @someone 1w2d3h4m this is the reason` will timeout someone for one week, two days, three hours, and four minutes.",
         "stupid_3": "That's too far in the future!",
-        "mute_msg": "**{user}** has been muted for {duration}."
+        "mute_msg": "**{gebruiker}** has been muted for {duration}."
       },
       "unmute": {
         "stupid_1": "You cannot unmute yourself.",
@@ -1590,8 +1590,8 @@
           "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`.\n\n",
           "`{0}config togglecmd <cmd>` - Change whether the specified command can be used or not.\n\n"
         ],
-        "user_conf": "Per User Configuration",
-        "user_content": [
+        "gebruiker_conf": "Per gebruiker Configuration",
+        "gebruiker_content": [
           "`{0}config giftalert <on/off>` - Change whether bot tells you if you've been given items or emeralds.\n\n",
           "`{0}config clearrconpasswords` - Clear your saved remote console passwords from the database.\n\n"
         ]
@@ -1618,7 +1618,7 @@
         "set": "Set the default Minecraft server to **`{}`**"
       },
       "gift": {
-        "this_user": "Give/gift alerts are currently **{}**.",
+        "this_gebruiker": "Give/gift alerts are currently **{}**.",
         "set": "Turned give/gift alerts **{}**."
       },
       "cmd": {
@@ -1653,7 +1653,7 @@
         "stats": "Villager Bot Statistics",
         "servers": "Server Count",
         "dms": "DM Channel Count",
-        "users": "User Count",
+        "gebruikers": "gebruiker Count",
         "msgs": "Session Messages",
         "cmds": "Session Commands",
         "cmds_hour": "Commands/Hour",
@@ -1695,7 +1695,7 @@
         "slashrules": "{}rules for the rules!",
         "penalty": "Penalty for breaking these rules may include a reset/wipe, in-game penalty/debuff, or a **permanent ban from the support server and/or using the bot**.",
         "rule_1": "**1.** Don't abuse bugs, report them in the #support channel on the [support server]({}) for a reward!",
-        "rule_2": "**2.** Don't cheat in any way or use alternate accounts or other users for storing your emeralds or items. (This includes no self-botting.)",
+        "rule_2": "**2.** Don't cheat in any way or use alternate accounts or other gebruikers for storing your emeralds or items. (This includes no self-botting.)",
         "rule_3": "**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.",
         "rule_4": "**4.** Don't use the bot to promote any content not sanctioned by the bot owner."
       },
@@ -1978,7 +1978,7 @@
         "stupid_5": "You can't pillage a person who has a **Shield Pearl** active.",
         "stupid_6": "You can't pillage yet, you must wait {time}",
         "u_win": {
-          "user": [
+          "gebruiker": [
             "You escaped with {}{}",
             "You got away with {}{}",
             "You pillaged and stole {}{}"
@@ -1991,7 +1991,7 @@
           ]
         },
         "u_lose": {
-          "user": [
+          "gebruiker": [
             "You got caught while pillaging and paid {}{}",
             "You got caught and had to pay {}{}",
             "You dirty thief, you got caught and had to pay {}{}"
@@ -2013,7 +2013,7 @@
         "stupid_6": "Either that isn't a usable item, or it doesn't exist.",
         "vault_max": "You cannot expand your vault further via this method.",
         "vault_pot_singular": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
-        "vault_pot_plural": "You've chugged {amount} **Vault Potion**s. Your vault space has increased by {} spaces.",
+        "vault_pot_plural": "You've chugged {hoeveelheid} **Vault Potion**s. Your vault space has increased by {} spaces.",
         "smoke_seaweed": "You've eaten some **Seaweed** which lasts **{} minutes**",
         "use_bonemeal": "You've used some **Bone Meal** on your crops, making them grow!",
         "seaweed_done": "The **Seaweed** you ate earlier has worn off.",
@@ -2063,7 +2063,7 @@
         ]
       },
       "farm": {
-        "s_farm": "{user}'s Farm",
+        "s_farm": "{gebruiker}'s Farm",
         "commands_title": "Farm Commands",
         "commands": {
           "plant": "`{prefix}farm plant` - plants the item",
@@ -2073,7 +2073,7 @@
         "cant_plant": "You can't plant this item.",
         "no_plots": "All your farm plots are full, a better hoe will give you more!",
         "no_plots_2": "You don't have enough farm plots for that!",
-        "planted": "Planted {amount}x {crop}",
+        "planted": "Planted {hoeveelheid}x {crop}",
         "cant_harvest": "There are no ready crops to harvest...",
         "harvested": "Harvested {crops}"
       },
@@ -2128,10 +2128,10 @@
         "lb_wdq": "{0}__**Weekly Completed Daily Quests**__{0}",
         "lb_tw": "{0}__**Total Wealth**__{0}",
         "no_item_lb": "No leaderboard exists for this item",
-        "item_lb_stats": "*total of {total_count:,} owned by {user_count:,} different users*"
+        "item_lb_stats": "*total of {total_count:,} owned by {gebruiker_count:,} different gebruikers*"
       },
       "trash": {
-        "s_trash": "{user}'s Trash Can",
+        "s_trash": "{gebruiker}'s Trash Can",
         "no_trash": "There's no trash here... :/",
         "total_contents": "The total contents is worth {ems}{ems_emoji}",
         "how_to_empty": "Use `{prefix}trashcan empty` to empty the trash!",
@@ -2214,9 +2214,9 @@
         },
         "completed": "Quest completed: {quest_title}!",
         "current": "Current daily quest: {quest_title}",
-        "rewarded": "You have been rewarded {reward_amount}{reward_emoji}!",
+        "rewarded": "You have been rewarded {reward_hoeveelheid}{reward_emoji}!",
         "progress": "**Progress:** {progress}",
-        "reward": "**Reward:** {reward_amount}{reward_emoji}",
+        "reward": "**Reward:** {reward_hoeveelheid}{reward_emoji}",
         "expires_at": "**Expires:** {expires_at}",
         "cant_reroll": "You can't re-roll your quest yet, if you think this is a bug please report it",
         "encouragements": {
@@ -2402,7 +2402,7 @@
           },
           "Glass Beaker": {
             "description": [
-              "Allows you to transform a **Slime Ball** into a **Beaker Of Slime** with the `{prefix}use <amount> Glass Beaker` command, allowing it to be traded with other players."
+              "Allows you to transform a **Slime Ball** into a **Beaker Of Slime** with the `{prefix}use <hoeveelheid> Glass Beaker` command, allowing it to be traded with other players."
             ]
           },
           "Netherite Scrap": {
@@ -2422,27 +2422,27 @@
           },
           "Wheat Seed": {
             "description": [
-              "You can plant a **Wheat Seed** using the `{prefix}farm plant <amount> Wheat Seed` command to grow `1-2` **Wheat**."
+              "You can plant a **Wheat Seed** using the `{prefix}farm plant <hoeveelheid> Wheat Seed` command to grow `1-2` **Wheat**."
             ]
           },
           "Carrot": {
             "description": [
-              "You can plant a **Carrot** using the `{prefix}farm plant <amount> Carrot` command to grow `1-3` **Carrot**s."
+              "You can plant a **Carrot** using the `{prefix}farm plant <hoeveelheid> Carrot` command to grow `1-3` **Carrot**s."
             ]
           },
           "Potato": {
             "description": [
-              "You can plant a **Potato** using the `{prefix}farm plant <amount> Potato` command to grow `1-3` **Potato**es."
+              "You can plant a **Potato** using the `{prefix}farm plant <hoeveelheid> Potato` command to grow `1-3` **Potato**es."
             ]
           },
           "Melon Seed": {
             "description": [
-              "You can plant a **Melon Seed** using the `{prefix}farm plant <amount> Melon Seed` command to grow `2-5` **Melon**."
+              "You can plant a **Melon Seed** using the `{prefix}farm plant <hoeveelheid> Melon Seed` command to grow `2-5` **Melon**."
             ]
           },
           "Chorus Seed": {
             "description": [
-              "You can plant a **Chorus Seed** using the `{prefix}farm plant <amount> Chorus Seed` command to grow `1-2` **Chorus Fruit**."
+              "You can plant a **Chorus Seed** using the `{prefix}farm plant <hoeveelheid> Chorus Seed` command to grow `1-2` **Chorus Fruit**."
             ]
           },
           "Bone Meal": {
@@ -2458,17 +2458,17 @@
           },
           "Honey Jar": {
             "description": [
-              "When used with the `{prefix}use <amount> Honey Jar` command, it will heal you `1/2hp` per **Honey Jar**."
+              "When used with the `{prefix}use <hoeveelheid> Honey Jar` command, it will heal you `1/2hp` per **Honey Jar**."
             ]
           },
           "Barrel": {
             "description": [
-              "When used with the `{prefix}use <amount> Barrel` command, it will give you a reward of either emeralds or a collectible item."
+              "When used with the `{prefix}use <hoeveelheid> Barrel` command, it will give you a reward of either emeralds or a collectible item."
             ]
           },
           "Beaker Of Slime": {
             "description": [
-              "When used with the `{prefix}use <amount> Beaker Of Slime` command, it will separate out into a **Slime Ball** and **Glass Beaker**."
+              "When used with the `{prefix}use <hoeveelheid> Beaker Of Slime` command, it will separate out into a **Slime Ball** and **Glass Beaker**."
             ]
           },
           "Infernum's Scroll": {
@@ -2553,8 +2553,8 @@
         "rarity": {
           "title": "Rarity",
           "singular": "*`1` person has this item*",
-          "plural": "*`{amount}` people have this item*",
-          "owned_amount": "*You have `{amount}` of this item*"
+          "plural": "*`{hoeveelheid}` people have this item*",
+          "owned_hoeveelheid": "*You have `{hoeveelheid}` of this item*"
         },
         "season": {
           "title": "Event / Season",
