@@ -156,47 +156,47 @@ a{
         "gayrate": "`{0}gayrate <gebruiker>` *verteld hoe gay de gebruiker is*"
       },
       "mod": {
-        "warn": "`{0}warn <gebruiker> [optional: reason]` *warn a gebruiker for a specified reason*",
-        "warns": "`{0}warns <gebruiker>` *view the warns a gebruiker has, leave blank to see your warnings*",
-        "purge": "`{0}purge <hoeveelheid>` *purge messages from the current channel*",
-        "delwarns": "`{0}delwarns <gebruiker>` *clears the warns that gebruiker has in this server*",
-        "kick": "`{0}kick <gebruiker> [optional: reason]` *kicks the gebruiker from the current Discord server*",
-        "ban": "`{0}ban <gebruiker> [optional: delete message days] [optional: reason]` *bans the gebruiker from the current Discord server*",
-        "pardon": "`{0}pardon <gebruiker>` *unban the gebruiker from the current Discord server*",
-        "mute": "`{0}mute <gebruiker> [time] [reason]` *mutes the gebruiker in the current Discord server*",
-        "unmute": "`{0}unmute <gebruiker>` *unmutes the gebruiker in the current Discord server*"
+        "warn": "`{0}warn <gebruiker> [optioneel: reden]` *waarschuw een gebruiker voor een gegeven reden*",
+        "warns": "`{0}warns <gebruiker>` *bekijk de waarschuwingen die een gebruiker heeft, laat leeg om jouw waarschuwingen te zien*",
+        "purge": "`{0}purge <hoeveelheid>` *verwijder berichten van het huidige kanaal*",
+        "delwarns": "`{0}delwarns <gebruiker>` *verwijderd de waarschuwingen die de gebruiker heeft in deze server*",
+        "kick": "`{0}kick <gebruiker> [optioneel: reden]` *kickt de gebruiker van de huidige Discord server*",
+        "ban": "`{0}ban <gebruiker> [optioneel: verwijder berichtdagen] [optioneel: reden]` *verbant de gebruiker van de huidige Discord server*",
+        "pardon": "`{0}pardon <gebruiker>` *maak de verbanning van een gebruiker van de huidige Discord server ongedaan*",
+        "mute": "`{0}mute <gebruiker> [tijd] [reden]` *dempt de gebruiker in de huidige Discord server*",
+        "unmute": "`{0}unmute <gebruiker>` *maakt de demping van een gebruiker in de huidige Discord server ongedaan*"
       }
     },
     "fun": {
-      "too_long": "That message would be too long to convert.",
-      "dl_img": "**[[Download Image]]({})**",
+      "too_long": "Dat bericht zou te lang zijn om te converteren.",
+      "dl_img": "**[[Download Afbeelding]]({})**",
       "bubblewrap": {
-        "invalid_size_1": "That is not a valid size. Example of a valid size: `10x10`",
-        "invalid_size_2": "The size must be between 1 and 12"
+        "invalid_size_1": "Dat is geen geschikte grootte. Voorbeeld van een geschikte grootte: `10x10`",
+        "invalid_size_2": "De grootte moet tussen de 1 en 12 zijn"
       },
       "gayrate": "{0} {1} is 100% gay {0}",
       "trivia": {
         "title": "{}  Minecraft Trivia **[{}]** {}",
         "title_basic": "{}  Minecraft Trivia {}",
-        "time_to_answer": "You have 15 seconds to answer this question!",
-        "timeout": "**Sucks to suck...** You ran out of time!",
+        "time_to_answer": "Je hebt 15 secondes om deze vraag te beantwoorden!",
+        "timeout": "Je hebt geen tijd meer over!",
         "correct": [
-          "Nice job, that was **correct**!\nYou've been awarded {}{}!",
-          "Nice job, that was **correct**!\nYou've earned {}{}!",
-          "Good job, that was **correct**!\nYou've received {}{}!",
-          "Nice, that was **correct**!\nYou've earned {}{}!",
-          "Nice, that was **correct**!\nYou've been awarded {}{}!"
+          "Goed gedaan, dat was **correct**!\nJe bent met {}{} beloond!",
+          "Goed gedaan, dat was **correct**!\nJe hebt {}{} verdiend!",
+          "Goed gedaan, dat was **correct**!\nJe hebt {}{} ontvangen!",
+          "Nice, dat was **correct**!\nJe hebt {}{} verdient!",
+          "Nice, dat was **correct**!\nJe bent met {}{} beloont!"
         ],
         "incorrect": [
-          "That was **incorrect**...  :pensive:",
-          "You may be **stupid**... :pensive:",
-          "There's no hope for you... :pensive:",
-          "Yeah doctor he basically has no brain..."
+          "Dat was ** niet correct**...  :pensive:",
+          "Je mag **dom** zijn... :pensive:",
+          "Er is geen hoop voor jou... :pensive:",
+          "Ja dokter, hij heeft eigenlijk geen brein..."
         ],
         "difficulty": [
-          "easy",
-          "medium",
-          "hard"
+          "makkelijk",
+          "middelmatig",
+          "moeilijk"
         ],
         "questions": [
           {
