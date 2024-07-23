@@ -268,6 +268,9 @@ class Emojis(ImmutableBaseModel):
     splendid_robes: str
     satchel_of_elements: str
     dark_rooted_robes: str
+    laser_assault_rifle: str
+    leftover_party_confetti: str
+    rona_vaccine: str
     bopa: str
     pumpkin: str
     farming: FarmingEmojis

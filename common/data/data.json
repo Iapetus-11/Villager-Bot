@@ -1658,6 +1658,9 @@
     "splendid_robes": "<:splendid_robes:1262745085288648764>",
     "satchel_of_elements": "<:satchel_of_elements:1262771945020194867>",
     "dark_rooted_robes": "<:dark_rooted_robes:1262772143146663968>",
+    "laser_assault_rifle": "<:laser_assault_rifle:1265397762564821002>",
+    "leftover_party_confetti": "<:leftover_party_confetti:1265399444183187507>",
+    "rona_vaccine": "<:rona_vaccine:1265399888758440087>",
     "bopa": "<:bopa:1261478828690247710>",
     "farming": {
       "growing": {
@@ -1940,6 +1943,9 @@
     "Satchel Of Elements": "satchel_of_elements",
     "Dark Rooted Robes": "dark_rooted_robes",
     "Pumpkin": "pumpkin",
+    "Laser Assault Rifle": "laser_assault_rifle",
+    "Leftover Party Confetti": "leftover_party_confetti",
+    "Rona Vaccine": "rona_vaccine",
     "Bane Of Pillagers Amulet": "bopa"
   },
   "farming": {
