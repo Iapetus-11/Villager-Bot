@@ -202,7 +202,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "How much health does the Ender Dragon have?",
+            "q": "Hoeveel levens heeft de Ender Draak?",
             "a": [
               "200 hp",
               "500 hp",
@@ -213,73 +213,73 @@
           {
             "d": 1,
             "tf": false,
-            "q": "How many slices does a Minecraft cake have?",
+            "q": "Hoeveel stukken heeft een Minecraft taart?",
             "a": [
-              "7 slices",
-              "8 slices",
-              "6 slices",
-              "10 slices"
+              "7 stukken",
+              "8 stukken",
+              "6 stukken",
+              "10 stukken"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "How much hunger does a potato restore?",
+            "q": "Met hoeveel zal je honger verminderen als je een aardappel eet?",
             "a": [
-              "1 hunger",
-              "2 hunger",
-              "0 hunger",
-              "3 hunger"
+              "1 honger",
+              "2 honger",
+              "0 honger",
+              "3 honger"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "How much hunger saturation does a potato restore?",
+            "q": "Hoeveel hongerverzadiging geeft een aardappel?",
             "a": [
-              "0.6 saturation",
-              "1 saturation",
-              "0.1 saturation",
-              "1.7 saturation"
+              "0.6 verzadiging",
+              "1 verzadiging",
+              "0.1 verzadiging",
+              "1.7 verzadiging"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "What food restores the most hunger in Minecraft?",
+            "q": "Welk voedsel verzadigd het meest in Minecraft?",
             "a": [
-              "steak",
-              "bread",
-              "mushroom stew",
-              "golden carrot"
+              "biefstuk",
+              "brood",
+              "paddestoelensoep",
+              "een gouden wortel"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "How much XP does a villager need to get from Novice to Master rank?",
+            "q": "Hoeveel ervaringspunten heeft een dorpeling nodig om van Beginner tot Meester level te komen?",
             "a": [
-              "250 XP",
-              "150 XP",
-              "100 XP",
-              "70 XP"
+              "250 ervaringspunten",
+              "150 ervaringspunten",
+              "100 ervaringspunten",
+              "70 ervaringspunten"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What's the rarest biome in Minecraft?",
+            "q": "Wat is het zeldzaamste landschap Minecraft?",
             "a": [
-              "Modified Jungle Edge",
-              "Snowy Taiga Mountains",
-              "Bamboo Jungle Hill",
-              "Mushroom Field Shore"
+              "Gewijzigde Jungle Rand",
+              "Besneeuwde Taiga Bergen",
+              "Bamboe Jungle Heuvels",
+              "PaddestoelenVeld Kust"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "What year was Minecraft fully released?",
+            "q": "In welk jaar was Minecraft volledig uitgekomen?",
             "a": [
               "2011",
               "2007",
@@ -290,18 +290,18 @@
           {
             "d": 1,
             "tf": false,
-            "q": "What mob are creepers scared of?",
+            "q": "Voor welk wezen zijn creepers bang?",
             "a": [
-              "ocelots",
+              "ocelotten",
               "zombies",
-              "the player",
-              "other creepers"
+              "de speler",
+              "andere creepers"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "In what snapshot were elytra added to the game?",
+            "q": "In welke snapshot werden dekschilden toegevoegd aan het spel?",
             "a": [
               "15w41a",
               "16w31a",
@@ -312,84 +312,84 @@
           {
             "d": 0,
             "tf": false,
-            "q": "What does the skeleton use to attack?",
+            "q": "Welk wapen gebruikt een skelet voor een aanval?",
             "a": [
-              "bow",
-              "egg",
-              "sword",
-              "nothing"
+              "boog",
+              "een ei",
+              "zwaard",
+              "niks"
             ]
           },
           {
             "d": 0,
             "tf": false,
-            "q": "What does the wither skeleton use to attack?",
+            "q": "Welk wapen gebruiken witherskeletten voor een aanval?",
             "a": [
-              "sword",
-              "bow",
-              "wither skull",
-              "their hands"
+              "zwaard",
+              "boog",
+              "witherschedel",
+              "hun handen"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "How far away is the world border from 0 0?",
+            "q": "Hoe ver weg is de wereldgrens van 0 0?",
             "a": [
-              "30000000 blocks in each direction",
-              "1000000 blocks in each direction",
-              "300000000 blocks in each direction",
-              "There is no border, Minecraft is infinite"
+              "30000000 blokken naar alle kanten",
+              "1000000 blokken naar alle kanten",
+              "300000000 blokken naar alle kanten",
+              "Er is geen grens, Minecraft is oneindig"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "In which trade slot does the shepherd villager sell beds?",
+            "q": "In welk handelsvak verkoopt de herdersdorpeling bedden?",
             "a": [
-              "6th",
-              "2nd",
-              "4rd",
-              "8th"
+              "6de",
+              "2de",
+              "4de",
+              "8ste"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "What tool is sold by both the toolsmith and weaponsmith villagers?",
+            "q": "Welk gereedschap wordt verkocht door zowel de gereedschapssmid als de wapensmid dorpelingen?",
             "a": [
-              "axe",
-              "shovel",
-              "sword",
-              "pickaxe"
+              "bijl",
+              "schep",
+              "zwaard",
+              "pikhouweel"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "Which item can you use to make a night vision potion?",
+            "q": "Welk voorwerp kun je gebruiken om een nachtzichtdrankje te maken?",
             "a": [
-              "golden carrot",
-              "golden apple",
-              "rotten flesh",
-              "beetroot"
+              "gouden wortel",
+              "gouden appel",
+              "verrot vlees",
+              "biet"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "How long does one Minecraft in-game day last?",
+            "q": "Hoe lang duurt een Minecraft in-game dag?",
             "a": [
-              "20 minutes",
-              "10 minutes",
-              "30 minutes",
-              "1 hour"
+              "20 minuten",
+              "10 minuten",
+              "30 minuten",
+              "1 uur"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "Who originally created Minecraft?",
+            "q": "Wie heeft Minecraft oorspronkelijk gemaakt?",
             "a": [
               "Markus Perrson",
               "Matthew Marcusson",
@@ -400,67 +400,67 @@
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: a shovel can be used to extinguish a campfire",
+            "q": "**waar** of **niet waar**: een schep kan worden gebruikt om een kampvuur te doven",
             "a": [
-              "true",
-              "false"
+              "waar",
+              "niet waar"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "Which mob can fly through bedrock?",
+            "q": "Welk wezen kan door bedrock vliegen?",
             "a": [
               "vex",
-              "bee",
-              "wither skeleton",
-              "bat"
+              "bij",
+              "witherskelet",
+              "vleermuis"
             ]
           },
           {
             "d": 2,
             "tf": true,
-            "q": "**true** or **false**: an iron hoe has more durability than a golden hoe",
+            "q": "**waar** of **niet waar**: een ijzeren schoffel is duurzamer dan een gouden schoffel",
             "a": [
-              "true",
-              "false"
+              "waar",
+              "niet waar"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: Minecraft zombies can break down doors",
+            "q": "**waar** of **niet waar**: Minecraft zombies kunnen deuren breken",
             "a": [
-              "true",
-              "false"
+              "waar",
+              "niet waar"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: Minecraft skeletons can break down doors",
+            "q": "**waar** of **niet waar**: Minecraft skeletten kunnen deuren breken",
             "a": [
-              "false",
-              "true"
+              "niet waar",
+              "waar"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What was the first enemy introduced into Minecraft?",
+            "q": "Wat was de eerste vijand dat in Minecraft werd geïntroduceerd?",
             "a": [
               "zombie",
               "creeper",
-              "skeleton",
-              "spider"
+              "skelet",
+              "spin"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "Which hostile mob was added in the Pretty Scary Update?",
+            "q": "Welk vijandelijke monster was toegevoegd in de Redelijk Enge Update?",
             "a": [
-              "witch",
+              "heks",
               "creeper",
               "enderman",
               "vex"
@@ -469,18 +469,18 @@
           {
             "d": 2,
             "tf": false,
-            "q": "Which enemy was introduced in Minecraft 1.8?",
+            "q": "Welke vijand was geïntroduceerd in Minecraft 1.8?",
             "a": [
-              "silverfish",
+              "zilvervis",
               "wither",
-              "spider",
-              "zombie pigman"
+              "spin",
+              "zombie varkensman"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "In which snapshot was the Zombie Pigman renamed to the Zombified Piglin?",
+            "q": "In welke snapshot was de Zombievarkensman hernoemd naar de Gezombificeerde Piglin?",
             "a": [
               "20w09a",
               "13w49a",
@@ -491,18 +491,18 @@
           {
             "d": 1,
             "tf": false,
-            "q": "What's the ingredient used to make lingering potions?",
+            "q": "Wat is het ingredient om aanhoudende drankjes te maken?",
             "a": [
-              "dragon's breath",
-              "gunpowder",
-              "redstone",
-              "glowstone"
+              "drakenadem",
+              "buskruit",
+              "roodsteen",
+              "gloeisteen"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "What year did development on Minecraft begin?",
+            "q": "In welk jaar begon de ontwikkeling van Minecraft?",
             "a": [
               "2009",
               "2010",
@@ -513,7 +513,7 @@
           {
             "d": 1,
             "tf": false,
-            "q": "In what programming language is the PC version of Minecraft written in?",
+            "q": "In welke programmeertaal is de computerversie van Minecraft geschreven?",
             "a": [
               "Java",
               "Python",
@@ -524,40 +524,40 @@
           {
             "d": 2,
             "tf": false,
-            "q": "How many minutes does it take for a baby villager to grow up?",
+            "q": "Hoeveel minuten kost het voor een baby dorpeling om op te groeien?",
             "a": [
-              "20 minutes",
-              "10 minutes",
-              "40 minutes",
-              "15 minutes"
+              "20 minuten",
+              "10 minuten",
+              "40 minuten",
+              "15 minuten"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "How many different colors of dye are there?",
+            "q": "Hoeveel verschillende kleurenstoffen zijn er?",
             "a": [
-              "16 colors",
-              "14 colors",
-              "18 colors",
-              "20 colors"
+              "16 kleuren",
+              "14 kleuren",
+              "18 kleuren",
+              "20 kleuren"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "What enchantment has the same max level as Sharpness?",
+            "q": "Welke betovering heeft hetzelfde maximale level als Scherpte?",
             "a": [
-              "smite",
-              "unbreaking",
-              "feather falling",
-              "blast protection"
+              "kastijding",
+              "duuraaamheid",
+              "vederzacht vallen",
+              "explosiebescherming"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What's the Ender Dragon's name?",
+            "q": "Wat is de Ender Draak's naam?",
             "a": [
               "Jean?",
               "Carson",
@@ -568,71 +568,71 @@
           {
             "d": 2,
             "tf": false,
-            "q": "Why did polar bears get added to Minecraft?",
+            "q": "Waarom zijn ijsberen toegevoegd aan Minecraft?",
             "a": [
-              "Jeb's wife liked polar bears so he added it",
-              "the community chose it on Minecon live",
-              "Notch added it as a secret friday update",
-              "the community voted for it on Twitter"
+              "Jeb's vrouw hield van ijsberen, dus voegde hij ze toe",
+              "de gemeenschap koos het op Minecon live",
+              "Notch voegde het toe als een geheime vrijdag update",
+              "de gemeenschap had ervoor gestemd op Twitter"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "What language do Enderman speak?",
+            "q": "Welke taal spreken Endermannen?",
             "a": [
-              "inverted English",
-              "just gibberish",
-              "swedish",
-              "inverted german"
+              "omgekeerd Engels",
+              "gewoon wartaal",
+              "Zweeds",
+              "omgekeerd Duits"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "What's the most common flower in the swamp biome?",
+            "q": "Wat is de meest voorkomende bloem in een moeraslandshap?",
             "a": [
-              "blue orchid",
-              "dandelion",
-              "wither rose",
-              "sunflower"
+              "blauwe orchidee",
+              "paardebloem",
+              "witherroos",
+              "zonnebloem"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "Why was the black and white cat added to the game?",
+            "q": "Waarom was de zwart met witte kat toegevoegd aan het spel?",
             "a": [
-              "Jeb's cat died and it looked that way",
-              "Notch liked the way it looked",
-              "they googled random cat images and found that one",
-              "it was a random design"
+              "Jeb's kat ging dood en die zag er zo uit",
+              "Notch vond ze er leuk uitzien",
+              "ze googelden willekeurige kattenafbeeldingen en vonden deze",
+              "het was een willekeurig ontwerp"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "How is the \"How did we get here?\" achievement obtained?",
+            "q": "Hoe is de \"Hoe zijn we hier gekomen?\" prestatie te krijgen?",
             "a": [
-              "having all effects applied at once",
-              "having all potion effects applied at once",
-              "by going to an end city",
-              "by finding the farlands"
+              "alle effecten tegelijk hebben",
+              "alle toverdrankeffecten in één keer hebben toegepast",
+              "door naar een eindstad te gaan",
+              "door de farlands te vinden"
             ]
           },
           {
             "d": 0,
             "tf": false,
-            "q": "**true** or **false**: piglins only attack when you hit them",
+            "q": "**waar** of **niet waar**: piglins vallen alleen aan wanneer je ze slaat",
             "a": [
-              "false",
-              "true"
+              "niet waar",
+              "waar"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "Giving a sheep what nametag will make them become rainbow?",
+            "q": "Welk naamkaartje geeft een schaap regenboogkleuren?",
             "a": [
               "jeb_",
               "Dinnerbone",
@@ -643,27 +643,27 @@
           {
             "d": 1,
             "tf": false,
-            "q": "What was the creeper supposed to be originally?",
+            "q": "Wat moest de creeper eigenlijk worden?",
             "a": [
-              "pig",
+              "varken",
               "zombie",
-              "spider",
-              "chicken"
+              "spin",
+              "kip"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: the Ender Dragon can only lay multiple eggs",
+            "q": "**waar** of **niet waar**: de Ender Draak kan alleen meerdere eireren leggen",
             "a": [
-              "false",
-              "true"
+              "niet waar",
+              "waar"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "Which update was also known as \"The Pretty Scary Update\"?",
+            "q": "Welke update was stond ook wel bekend als \"De Redelijk Enge Update\"?",
             "a": [
               "1.4.2",
               "1.3",
@@ -674,7 +674,7 @@
           {
             "d": 1,
             "tf": false,
-            "q": "Which nametag will turn a mob upside-down?",
+            "q": "Welk naamkaartje zal een wezen ondersteboven keren?",
             "a": [
               "Dinnerbone",
               "jeb_",
@@ -685,18 +685,18 @@
           {
             "d": 2,
             "tf": false,
-            "q": "What three items are required to get an active conduit?",
+            "q": "Welke drie voorwerpen zijn nodig om een actieve Kracht van de Zee te krijgen?",
             "a": [
-              "heart of the sea, nautilus shell, any type of prismarine",
-              "heart of the sea, beacon, any type of prismarine",
-              "heart of the sea, nautilus shell, glass",
-              "diamonds, bautilus shell, glass"
+              "hart van de zee, nautilusschelp, elk type prismarine",
+              "hart van de zee, baken, elk type prismarine",
+              "hart van de zee, nautilusschelp, glas",
+              "diamanten, nautilusschelp, glas"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What is the base increase for melee damage when the strength effect is applied?",
+            "q": "Wat is de basisverhoging voor melee schade wanneer het kracht effect is toegepast?",
             "a": [
               "3 HP",
               "1½ HP",
@@ -707,116 +707,116 @@
           {
             "d": 1,
             "tf": false,
-            "q": "All Minecraft cows are...",
+            "q": "Alle Minecraft koeien zijn...",
             "a": [
-              "female",
-              "male"
+              "vrouw",
+              "man"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "What is the maximum number of melon slices a melon can drop?",
+            "q": "Wat is het maximale aantal meloen stukken dat een meloen kan laten vallen?",
             "a": [
-              "9 slices",
-              "8 slices",
-              "7 slices",
-              "6 slices"
+              "9 stukken",
+              "8 stukken",
+              "7 stukken",
+              "6 stukken"
             ]
           },
           {
             "d": 0,
             "tf": false,
-            "q": "How much wool do you need to make a bed in Minecraft?",
+            "q": "Hoeveel wol heb je nodig om een bed te maken in Minecraft?",
             "a": [
-              "3 wool",
-              "4 wool",
-              "2 wool",
-              "1 wool"
+              "3 wol",
+              "4 wol",
+              "2 wol",
+              "1 wol"
             ]
           },
           {
             "d": 0,
             "tf": false,
-            "q": "What item do slimes drop in Minecraft?",
+            "q": "Welk voorwerp laten slijmkubussen vallen in Minecraft?",
             "a": [
-              "slime balls",
-              "slime jars",
-              "kinetic sand",
-              "magma cream"
+              "slijmballen",
+              "slijm potten",
+              "kinetisch zand",
+              "magma crème"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "What is the name of the mob that drops magma cream?",
+            "q": "Wat is de naam van het wezen dat magma crème laat vallen?",
             "a": [
-              "magma cube",
-              "lava slime",
-              "molten cube",
-              "molten slime"
+              "magmakubus",
+              "lava slijmkubus",
+              "gesmolten kubus",
+              "gesmolten slijmkubus"
             ]
           },
           {
             "d": 0,
             "tf": false,
-            "q": "What is the name of the mob that drops gunpowder?",
+            "q": "Wat is de naam van het wezen dat buskruit laat vallen?",
             "a": [
               "creeper",
               "zombie",
               "wither",
-              "magma cube"
+              "magma kubus"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: in Minecraft, fish can drop bones",
+            "q": "**waar** of **niet waar**: in Minecraft, vissen kunnen botten laten vallen",
             "a": [
-              "true",
-              "false"
+              "waar",
+              "niet waar"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What is the rarest type of axolotl?",
+            "q": "Wat is het zeldzaamste soort axolotl?",
             "a": [
-              "blue",
-              "red",
-              "tropical",
-              "pink"
+              "blauw",
+              "rood",
+              "tropisch",
+              "roze"
             ]
           },
           {
             "d": 2,
             "tf": true,
-            "q": "**true** or **false**: in Minecraft, axolotls can only spawn in absolute darkness",
+            "q": "**waar** of **niet waar**: in Minecraft, axolotls kunnen alleen in absolute duisternis spawnen",
             "a": [
-              "true",
-              "false"
+              "waar",
+              "niet waar"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "Which of the following is actually a type of axolotl in Minecraft?",
+            "q": "Welke van de volgende soorten is daadwerkelijk een soort axolotl in Minecraft?",
             "a": [
-              "leucistic",
-              "muddy",
-              "white",
-              "purpur"
+              "leucistisch",
+              "modderig",
+              "wit",
+              "purper"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "How do you breed axolotls in Minecraft?",
+            "q": "Hoe fok je axolotls in Minecraft?",
             "a": [
-              "bucket of tropical fish",
-              "bucket of water",
-              "only salmon",
-              "any type of fish"
+              "emmer met tropische vis",
+              "emmer met water",
+              "alleen zalm",
+              "maakt niet uit met welke soort vis"
             ]
           },
           {
