@@ -822,51 +822,51 @@
           {
             "d": 0,
             "tf": false,
-            "q": "How do you breed cows in Minecraft?",
+            "q": "Hoe fok je koeien in Minecraft?",
             "a": [
-              "wheat",
-              "carrots",
-              "seeds",
-              "milk bucket"
+              "tarwe",
+              "wortels",
+              "zaden",
+              "melk emmer"
             ]
           },
           {
             "d": 0,
             "tf": false,
-            "q": "How do you breed sheep in Minecraft?",
+            "q": "Hoe fok je schapen in Minecraft?",
             "a": [
-              "wheat",
-              "carrots",
-              "seeds",
-              "mushroom soup"
+              "tarwe",
+              "wortels",
+              "zaden",
+              "paddestoelensoep"
             ]
           },
           {
             "d": 0,
             "tf": false,
-            "q": "How do you breed chickens in Minecraft?",
+            "q": "Hoe fok je kippen in Minecraft?",
             "a": [
-              "seeds",
-              "carrots",
-              "wheat",
-              "milk bucket"
+              "zaden",
+              "wortels",
+              "tarwe",
+              "melk emmer"
             ]
           },
           {
             "d": 0,
             "tf": false,
-            "q": "How do you breed pigs in Minecraft?",
+            "q": "Hoe fok je varkens in Minecraft?",
             "a": [
-              "potatoes",
-              "apple",
-              "seeds",
-              "wheat"
+              "aardappels",
+              "appel",
+              "zaden",
+              "tarwe"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: you can milk mushroom stew from mooshrooms",
+            "q": "**waar** of **niet waar**: je kunt loeizwammen melken voor paddestoelensoep",
             "a": [
               "true",
               "false"
@@ -875,25 +875,25 @@
           {
             "d": 0,
             "tf": true,
-            "q": "**true** or **false**: you can milk mushroom stew from cows with a bowl",
+            "q": "**waar** of **niet waar**: je kunt paddestoelensoep melken van koeien met een kom",
             "a": [
-              "false",
-              "true"
+              "niet waar",
+              "waar"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: the Minecraft bedrock edition is coded in the Java programming language",
+            "q": "**waar** of **niet waar**: de Minecraft bedrock editie is geprogrammeerd in de Java programmeertaal",
             "a": [
-              "false",
-              "true"
+              "niet waar",
+              "waar"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What programming language is Minecraft Bedrock Edition coded in?",
+            "q": "In welke programmeertaal is Minecraft Bedrock Edition geschreven?",
             "a": [
               "c++",
               "c",
@@ -904,7 +904,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "What's the world format for Minecraft Bedrock Edition called?",
+            "q": "Hoe wordt het wereldformaat voor Minecraft Bedrock Editie genoemd?",
             "a": [
               "LevelDB",
               "SQL",
@@ -915,7 +915,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "What's the world format for Minecraft Java Edition called?",
+            "q": "Hoe wordt het wereldformaat voor Minecraft Java Editie genoemd?",
             "a": [
               "Anvil",
               "SQL",
@@ -926,7 +926,7 @@
           {
             "d": 1,
             "tf": false,
-            "q": "How big in blocks is a cubic chunk in Minecraft?",
+            "q": "Hoe groot, in blokken, is een kubieke chunk in Minecraft",
             "a": [
               "16x16x16",
               "32x32x32",
@@ -937,7 +937,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "How big in chunks is a region in Minecraft?",
+            "q": "Hoe groot, in chunks, is een regio in Minecraft?",
             "a": [
               "32x32",
               "64x64",
@@ -948,49 +948,49 @@
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: the text in the enchantment table is just gibberish",
+            "q": "**waar** of **niet waar**: de tekst in de betoveringstafel is gewoon wartaal",
             "a": [
-              "true",
-              "false"
+              "waar",
+              "niet waar"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "What can you wear to stop enderman from attacking you if you look at their eyes?",
+            "q": "Wat kun je dragen om endermannen te stoppen je aan te vallen wanneer je ze in de ogen kijkt?",
             "a": [
-              "pumpkin",
-              "potato",
-              "melon",
-              "wither skull"
+              "pompoen",
+              "aardappel",
+              "meloen",
+              "witherschedel"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "How is a charged creeper created?",
+            "q": "Hoe wordt een geladen creeper gecreeëerd?",
             "a": [
-              "It's struck by lightning",
-              "It's crafted with a nether star",
-              "It gets hit by a flying wither skull",
-              "It's spawned in with the debug stick"
+              "Wanneer het geraakt wordt door bliksem",
+              "Het wordt gemaakt met een netherster",
+              "Het wordt geraakt door een vliegende witherschedel",
+              "Het wordt gespawnd met de debug stok"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What animal was recorded to make the sound effects for the ghast?",
+            "q": "Welk dier werd opgenomen om de geluiden te maken voor de ghast?",
             "a": [
-              "a sleeping cat",
-              "a barking dog",
-              "a parrot",
-              "a growling dog"
+              "een slapende cat",
+              "een blaffende hond",
+              "een papegaai",
+              "een grommende hond"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What's the maximum power level for redstone dust?",
+            "q": "Wat is het maximale krachtlevel voor roodsteenpoeder?",
             "a": [
               "15",
               "16",
@@ -1001,107 +1001,107 @@
           {
             "d": 2,
             "tf": false,
-            "q": "What calms bees down in Minecraft?",
+            "q": "Wat zorgt ervoor dat bijen niet agressief worden in Minecraft?",
             "a": [
-              "campfire smoke",
-              "honey bottles",
+              "kampvuur rook",
+              "honing flessen",
               "water",
-              "slime balls"
+              "slijmballen"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: Minecraft bees can swim underwater",
+            "q": "**waar** of **niet waar**: Minecraft bijen kunnen onderwaterzwemmen",
             "a": [
-              "false",
-              "true"
+              "niet waar",
+              "waar"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What debuff do elder guardians inflict in Minecraft?",
+            "q": "Welk slechte effect geven oudere bewakers in Minecraft?",
             "a": [
-              "mining fatigue",
-              "slowness",
-              "instant damage",
-              "poison"
+              "mijnmoeheid",
+              "traagheid",
+              "onmiddelijke schade",
+              "vergif"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "How do you turn a villager into a witch?",
+            "q": "Hoe verander je een dorpeling in een heks?",
             "a": [
-              "strike the villager with lightning",
-              "dip the villager in lava",
-              "have a zombie bite the villager",
-              "burn the villager"
+              "laat de bliksem de dorpeling raken",
+              "doop de dorpeling in lava",
+              "laat een zombie de dorpeling bijten",
+              "verbrand de dorpeling"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: iron golems can drop poppies when they die",
+            "q": "**waar** of **niet waar**: ijzeren golems kunnen klaprozen laten vallen wanneer ze dood gaan",
             "a": [
-              "true",
-              "false"
+              "waar",
+              "niet waar"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "How many hearts does the iron golem have?",
+            "q": "Hoeveel hartjes heeft een ijzeren golem?",
             "a": [
-              "50 hearts",
-              "100 hearts",
-              "25 hearts",
-              "200 hearts"
+              "50 hartjes",
+              "100 hartjes",
+              "25 hartjes",
+              "200 hartjes"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: you can heal iron golems with iron ingots",
+            "q": "**waar** of **niet waar**: je kunt ijzeren golems helen met ijzeren staven",
             "a": [
-              "true",
-              "false"
+              "waar",
+              "niet waar"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What's the rarest type of village to spawn?",
+            "q": "Wat is het zeldzaamste soort dorp dat kan spawnen?",
             "a": [
-              "snowy",
-              "desert",
+              "besneeuwd",
+              "woestijn",
               "jungle",
-              "beach"
+              "strand"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: you can silk touch mob spawners",
+            "q": "**waar** of **niet waar**: je kunt monster spawners met zijdezachte streling krijgen",
             "a": [
-              "false",
-              "true"
+              "niet waar",
+              "waar"
             ]
           },
           {
             "d": 0,
             "tf": true,
-            "q": "**true** or **false**: the diamond arrow is in Minecraft",
+            "q": "**waar** of **niet waar**: de diamanten pijl is in Minecraft",
             "a": [
-              "false",
-              "true"
+              "niet waar",
+              "waar"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What version of Minecraft added the end?",
+            "q": "In welke versie van Minecraft kwam de end?",
             "a": [
               "1.0.0",
               "1.2.0",
@@ -1112,7 +1112,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "What game inspired the creation of Minecraft?",
+            "q": "Welk spel was een inspiratie voor de creatie van Minecraft?",
             "a": [
               "infiniminer",
               "tetris",
@@ -1123,7 +1123,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "Who wrote the original music for Minecraft?",
+            "q": "Wie heeft de originele muziek voor Minecraft geschreven?",
             "a": [
               "c418",
               "notch",
@@ -1134,7 +1134,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "Who wrote the music for the 1.16 nether update?",
+            "q": "Wie heeft de muziek voor de 1.16 nether update geschreven?",
             "a": [
               "lena raine",
               "notch",
@@ -1145,18 +1145,18 @@
           {
             "d": 2,
             "tf": false,
-            "q": "Which Minecraft block existed before Minecraft?",
+            "q": "Welk Minecraft blok bestond voordat Minecraft er was?",
             "a": [
-              "cobblestone",
-              "dirt",
-              "stone",
-              "wood"
+              "keisteen",
+              "grond",
+              "steen",
+              "hout"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What game was Notch working on before Minecraft?",
+            "q": "Aan welk spel was Notch bezig voor Minecraft?",
             "a": [
               "RubyDung",
               "Infiniminer",
@@ -1167,7 +1167,7 @@
           {
             "d": 1,
             "tf": false,
-            "q": "What's the best y level to mine at for diamonds?",
+            "q": "Wat is het beste y level om voor diamanten te mijnen?",
             "a": [
               "y=12",
               "y=16",
@@ -1178,85 +1178,85 @@
           {
             "d": 2,
             "tf": false,
-            "q": "What's the rarest ore in Minecraft?",
+            "q": "Wat is het zeldzaamste erts in Minecraft?",
             "a": [
-              "emerald ore",
-              "ancient debris",
-              "diamond ore",
-              "coal ore"
+              "smaragderts",
+              "eeuwenoud schroot",
+              "diamanterts",
+              "koolerts"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "Which biome is emerald ore found in?",
+            "q": "In welk landschap is smaragderts gevonden?",
             "a": [
-              "mountains biome",
-              "jungle biome",
-              "desert biome",
-              "badlands biome"
+              "berglandschap",
+              "junglelandschap",
+              "woestijnlandschap",
+              "badlandslandschap"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "Which biome is gold ore found most in?",
+            "q": "In welk landschap wordt gouderts het meest gevonden?",
             "a": [
-              "badlands biome",
-              "jungle biome",
-              "desert biome",
-              "beach biome"
+              "badlands-landschap",
+              "jungle-landschap",
+              "woestijn-landschap",
+              "strand-landschap"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "Where do normal skeletons spawn in the Nether?",
+            "q": "Waar spawnen normale skeletten in de Nether?",
             "a": [
-              "soul sand valley biome",
-              "nether wastes biome",
-              "basalt delta biome",
-              "warped forest biome"
+              "zielenzandvallei-landschap",
+              "netherwoestenijen-landschap",
+              "basaltdelta-landchap",
+              "verwrongen bos-landschap"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: you can trade with hoglins",
+            "q": "**waar** of **niet waar**: je kunt handelen met hoglins",
             "a": [
-              "false",
-              "true"
+              "niet waar",
+              "waar"
             ]
           },
           {
             "d": 1,
             "tf": true,
-            "q": "**true** or **false**: you can trade with piglins",
+            "q": "**waar** of **niet waar**: je kunt handelen met piglins",
             "a": [
-              "true",
-              "false"
+              "waar",
+              "niet waar"
             ]
           },
           {
             "d": 1,
             "tf": false,
-            "q": "How do you avoid piglins attacking you?",
+            "q": "Hoe kun je piglins ervan weerhouden jou aan te vallen?",
             "a": [
-              "by wearing golden armor",
-              "by killing them",
-              "by wearing soul strider boots",
-              "by wearing warding III armor"
+              "door een gouden uitrusting te dragen",
+              "door ze te doden",
+              "door zielensnelheid schoenen te dragen",
+              "door een Bewaking III uitrusting te dragen"
             ]
           },
           {
             "d": 2,
             "tf": false,
-            "q": "What item do you breed hoglins with?",
+            "q": "Welk voorwerp heb je nodig om hoglins te fokken?",
             "a": [
-              "crimson fungi",
-              "warped fungi",
-              "nether wart",
-              "porkchops"
+              "karmozijnen schimmel",
+              "verwrongen schimmel",
+              "netherwart",
+              "karbonades"
             ]
           }
         ]
