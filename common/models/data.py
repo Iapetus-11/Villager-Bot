@@ -150,6 +150,9 @@ class Emojis(ImmutableBaseModel):
     heart_of_the_sea: str
     autistic_emerald: str
     present: str
+    haste_i_potion: str
+    haste_ii_potion: str
+    luck_potion: str
     morbius: str
     glass_bottle: str
     wood_sword: str
@@ -271,6 +274,7 @@ class Emojis(ImmutableBaseModel):
     laser_assault_rifle: str
     leftover_party_confetti: str
     rona_vaccine: str
+    rainbow_sparkles_easter_egg: str
     bopa: str
     pumpkin: str
     farming: FarmingEmojis

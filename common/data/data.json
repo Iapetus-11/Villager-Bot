@@ -1539,6 +1539,9 @@
     "heart_of_the_sea": "<:heart_of_the_sea:832282916385980427>",
     "autistic_emerald": "<:mooderald:837702695245840465>",
     "present": "🎁",
+    "haste_i_potion": "<:haste_i_potion:1265989012053823603>",
+    "haste_ii_potion": "<a:Haste_II_Potion:1265989014234861628>",
+    "luck_potion": "<:luck_potion:1266002325202534400>",
     "morbius": "<:morbing:983219815911129128>",
     "glass_bottle": "<:glass_bottle:837717502141268028>",
     "wood_sword": "<:wood_sword:924520895635144745>",
@@ -1661,6 +1664,7 @@
     "laser_assault_rifle": "<:laser_assault_rifle:1265397762564821002>",
     "leftover_party_confetti": "<:leftover_party_confetti:1265399444183187507>",
     "rona_vaccine": "<:rona_vaccine:1265399888758440087>",
+    "rainbow_sparkles_easter_egg": "<a:rainbow_sparkles_easter_egg:1265989015631302666>",
     "bopa": "<:bopa:1261478828690247710>",
     "farming": {
       "growing": {
@@ -1815,10 +1819,10 @@
     "Sharpness II Book": "enchanted_book",
     "Lure I Book": "enchanted_book",
     "Present": "present",
-    "Haste I Potion": "glass_bottle",
-    "Haste II Potion": "glass_bottle",
+    "Haste I Potion": "haste_i_potion",
+    "Haste II Potion": "haste_ii_potion",
     "Vault Potion": "glass_bottle",
-    "Luck Potion": "glass_bottle",
+    "Luck Potion": "luck_potion",
     "Wood Sword": "wood_sword",
     "Stone Sword": "stone_sword",
     "Iron Sword": "iron_sword",
@@ -1946,6 +1950,7 @@
     "Laser Assault Rifle": "laser_assault_rifle",
     "Leftover Party Confetti": "leftover_party_confetti",
     "Rona Vaccine": "rona_vaccine",
+    "Rainbow Sparkles Easter Egg": "rainbow_sparkles_easter_egg",
     "Bane Of Pillagers Amulet": "bopa"
   },
   "farming": {
