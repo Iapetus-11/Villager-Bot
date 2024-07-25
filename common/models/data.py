@@ -275,6 +275,7 @@ class Emojis(ImmutableBaseModel):
     leftover_party_confetti: str
     rona_vaccine: str
     rainbow_sparkles_easter_egg: str
+    party_popper: str
     bopa: str
     pumpkin: str
     farming: FarmingEmojis
