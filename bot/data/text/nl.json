@@ -1263,32 +1263,32 @@
       }
     },
     "mobs_mech": {
-      "no_health": "You don't have enough health to fight this mob.",
-      "type_engage": "Type `fight` to fight the mob!",
-      "attack_or_flee": "Type `attack` to attack, or `flee` to run away.",
+      "no_health": "Je hebt niet genoeg levens om met dit monster te vechten.",
+      "type_engage": "Typ `fight` om met het monster te vechten!",
+      "attack_or_flee": "Typ `attack` om aan te vallen, of `flee` om weg te rennen.",
       "flee_insults": [
-        "Fine, run away like a little baby.",
-        "Fine, run to mommy like a little baby.",
-        "Go to mommy little baby.",
-        "Ok little baby, run away to mommy.",
-        "Fine, run away like the crybaby toddler you are."
+        "Goed, ren maar weg als een kleine baby.",
+        "Goed, ren maar naar mama als een kleine baby.",
+        "Ga naar mama kleine baby.",
+        "Ok kleine baby, ren weg naar mama.",
+        "Goed, ren weg als de huilbaby kleuter die je bent."
       ],
-      "gebruiker_attacks": [
-        "You slashed the **{0}** with your **{1}**!",
-        "Your **{1}** stabbed deep into the **{0}**!",
-        "You hacked at the **{0}** with your **{1}**!",
-        "You swung your **{1}** at the **{0}**!",
-        "You poked the **{0}** with your **{1}**!",
-        "You poked your **{1}** deep into the **{0}**!",
-        "You hacked pieces off the **{0}** with your **{1}**!",
-        "You poked the **{0}** in the eye with your **{1}**!",
-        "You lunged at the **{0}** and stabbed it with your **{1}**!",
-        "You charged at the **{0}** and hacked at it with your **{1}**!",
-        "You charged at the **{0}** and stabbed it with your **{1}**!",
-        "You charged at the **{0}** and hacked at it with your **{1}**!",
-        "You charged at the **{0}** and with all your might poked it with your **{1}**!"
+      "user_attacks": [
+        "Je sloeg de/het **{0}** met je **{1}**!",
+        "Je **{1}** stak diep in de/het **{0}**!",
+        "Je hakt naar de/het **{0}** met je **{1}**!",
+        "Je zwaaide je **{1}** naar de/het **{0}**!",
+        "Je prikt de/het **{0}** met je **{1}**!",
+        "Je prikt je **{1}** diep in de/het **{0}**!",
+        "Je hakt stukken van de/het **{0}** met je **{1}**!",
+        "Je prikt de/het **{0}** in het oog met je **{1}**!",
+        "Je valt de/het **{0}** aan en steekt het met je **{1}**!",
+        "Je rent naar de/het **{0}** toe en hakt naar het met je **{1}**!",
+        "Je rent naar de/het **{0}** toe en steekt het met je **{1}**!",
+        "Je rent naar de/het **{0}** toe en hakt naar het met je **{1}**!",
+        "Je rent naar de/het **{0}** toe en prikt het met alle macht met je **{1}**!"
       ],
-      "gebruiker_finishers": [
+      "user_finishers": [
         "You swung the **{1}** as hard as you could and decapitated the **{0}**!",
         "You tripped and let go of your **{1}**, landing it in the **{0}** and killing it!",
         "You, with all your might, buried the **{1}** deep into the chest of the **{0}**!",
