@@ -1289,77 +1289,77 @@
         "Je rent naar de/het **{0}** toe en prikt het met alle macht met je **{1}**!"
       ],
       "user_finishers": [
-        "You swung the **{1}** as hard as you could and decapitated the **{0}**!",
-        "You tripped and let go of your **{1}**, landing it in the **{0}** and killing it!",
-        "You, with all your might, buried the **{1}** deep into the chest of the **{0}**!",
-        "Slashing your **{1}** one last time, you banished the **{0}** from existence!",
-        "Swinging your **{1}** one last time, you slashed the **{0}** in half!",
-        "With one last hack from your **{1}**, you cut the **{0}** in half!",
-        "With one last swing from your **{1}**, you banished the **{0}** from this world!",
-        "You hacked at the **{0}** with all your might, and decapitated it with your **{1}**!",
-        "With the last of your strength, you buried the **{1}** deep into the chest of the **{0}**!",
-        "Landing the **{1}** on the neck of the **{0}**, it finally died!",
-        "With the last of your strength, your **{1}** rips through the **{0}**!",
-        "With the last of your strength, your **{1}** tears through the **{0}**!",
-        "You hacked with the **{1}** as hard as you could, and decapitated the **{0}**!",
-        "Missing the **{0}** with your sword, it died from disappointment..."
+        "Je zwaait je **{1}** zo hard als je kon en onthoofd de/het **{0}**!",
+        "Je struikelt en laat je **{1}** los, waardoor het in de/het **{0}** belandt en die gedood wordt!",
+        "Je begraaft met al je kracht je **{1}** diep in de borst van de/het **{0}**!",
+        "Door nog een laatste keer met je **{1}** te zwaaien, verban je de/het **{0}** uit het bestaan!",
+        "Met een laatste zwaai van je **{1}**, hak je de/het **{0}** doormidden!",
+        "Met een laatste houw van je **{1}**, snijd je de/het **{0}** doormidden!",
+        "Met een laatste zwaai van je **{1}**, verban je de/het **{0}** van deze wereld!",
+        "Je hakt met al je kracht op de **{0}** in en onthoofd hem met je **{1}**!",
+        "Met je laatste kracht begraaf je je **{1}** diep in de borst van de/het **{0}**!",
+        "Wanneer je je **{1}** in de nek van de **{0}** laat landen, sterft het eindelijk!",
+        "Met je laatste kracht hak je je **{1}** door de/het **{0}** heen!",
+        "Met het laatste van je kracht, hak je je **{1}** door de/het **{0}** heen!",
+        "Je hakt met je **{1}** zo hard als je kan, en onthoofd de **{0}**!",
+        "Je mist de/het **{0}** met je zwaard; het sterft van teleurstelling..."
       ],
       "mob_drops": [
-        "A wild {0} has found you!",
-        "A vicious {0} has seen you!",
-        "A lurking {0} has seen you!",
-        "A lurking {0} has found you!",
-        "A creepy {0} has seen you!",
-        "A creepy {0} has found you!",
-        "You have been found by a wild {0}!",
-        "You have been seen by a vicious {0}!",
-        "You have been found by a crazy {0}!",
-        "A crazy {0} has seen you!",
-        "You ran into a wild {0}!",
-        "You ran into a crazy {0}!",
-        "You ran into a {0}!",
-        "You ran into a creepy {0}!",
-        "You ran into a vicious {0}!"
+        "Een wild(e) {0} heeft je gevonden!",
+        "Een gemene/gemeen {0} heeft je gezien!",
+        "Een loerend(e) {0} heeft je gezien!",
+        "Een loerend(e) {0} heeft je gevonden!",
+        "Een griezelig(e) {0} heeft je gezien!",
+        "Een griezelig(e) {0} heeft je gevonden!",
+        "Je bent gevonden door een wild(e) {0}!",
+        "Je bent gezien door een gemen(e) {0}!",
+        "Je bent gevonden door een gek(ke) {0}!",
+        "Een gek(ke) {0} heeft je gezien!",
+        "Je bent een wild(e) {0} tegengekomen!",
+        "Je bent een gek(ke) {0} tegengekomen!",
+        "Je kwam een {0} tegen!",
+        "Je kwam een griezelig(e) {0} tegen!",
+        "Je kwam een gemene/gemeen {0} tegen!"
       ],
       "found": [
-        "Wow look at that! You found {} just right there on the ground!",
-        "Through the white smoke from the slain mob you spot {}!",
-        "The mob drops {}!",
-        "You glance at the ground and see {}!",
-        "You find {} next to the fallen mob!"
+        "Wow, zie dat dan! Je vindt daar zomaar {} op de grond!",
+        "Door de witte rook van het verslagen monster zie je {}!",
+        "Het monster laat {} vallen!",
+        "Je staart naar de grond en ziet {}!",
+        "Je vindt {} naast het verslagen monster!"
       ],
       "lost": {
         "creeper": [
-          "The **creeper** also blew up {}{} that was yours...",
-          "The **creeper** made {}{} that was yours go up in a poof of smoke...",
-          "The **creeper** also obliterated {}{} that was yours..."
+          "De **creeper** blies ook {}{} op, dat eigenlijk van jou was...",
+          "De **creeper** zorgt ervoor dat {}{} van jou verdwijnen in een rookwolk opgaan...",
+          "De **creeper** vernietigd ook {}{} dat van jou was..."
         ],
         "enderman": [
-          "The **enderman** teleported away with {}{} that was yours...",
-          "The **enderman** stole {}{} from you and teleported it into the void...",
-          "The **enderman** stole {}{} from you and teleported away..."
+          "De **enderman** teleporteerd weg met {}{} dat van jou was...",
+          "De **enderman** steelt {}{} van jou en teleporteert het in de leegte...",
+          "De **enderman** steelt {}{} van jou en teleporteert weg..."
         ],
         "normal": [
-          "The **{}** also stole {}{} that was yours...",
-          "The **{}** also got away with {}{} that was yours...",
-          "The **{}** stole {}{} off your dead corpse..."
+          "De **{}** steelt ook {}{} dat van jou was...",
+          "De **{}** gaat er ook vandoor met {}{} dat van jou was...",
+          "De **{}** steelt {}{} van je dode lichaam..."
         ]
       },
       "mobs": {
         "zombie": {
           "attacks": [
-            "The **zombie** ran, lashing at your arms!",
-            "The **zombie** gives you a painful hug!",
-            "The **zombie** groans and gives you a painful hug!",
-            "The **zombie** punches you in the face!",
-            "The **zombie** claws you with its overgrown, decaying nails!",
-            "The **zombie** punches you in your face with its decaying hand!",
-            "The **zombie** scratches you with its overgrown, decaying nails!"
+            "De **zombie** rent naar je toe, terwijl het aan je armen sjort!",
+            "De **zombie** geeft je een pijnlijke knuffel!",
+            "De **zombie** kreunt en geeft je een pijnlijke knuffel!",
+            "De **zombie** stompt je in je gezicht!",
+            "De **zombie** krauwt je met zijn vergroeide, rottende nagels!",
+            "De **zombie** stompt je in je gezicht met zijn rottende hand!",
+            "De **zombie** krabt je met zijn vergroeide, rottende nagels!"
           ],
           "finishers": [
-            "The **zombie** lunges for your throat, and bites!",
-            "The **zombie** disembowels you and eats your remains!",
-            "The **zombie** guts you and devoures your remains!"
+            "De **zombie** grijpt je bij je keel en bijt je!",
+            "De **zombie** haalt je ingewanden eruit en eet je overblijfselen op!",
+            "De **zombie** snijdt je open en verslindt je overblijfselen!"
           ]
         },
         "skeleton": {
