@@ -2553,12 +2553,12 @@
         "rarity": {
           "title": "Zeldzaamheid",
           "singular": "*`1` persoon heeft dit voorwerp*",
-          "plural": "*`{hoeveelheid}` mensen hebben dit voorwerp*",
-          "owned_hoeveelheid": "*Je hebt er `{hoeveelheid}` van dit voorwerp*"
+          "plural": "*`{amount}` mensen hebben dit voorwerp*",
+          "owned_hoeveelheid": "*Je hebt er `{amount}` van dit voorwerp*"
         },
         "season": {
           "title": "Evenement / Seizon",
-          "date_format": "{maand}/{dag}"
+          "date_format": "{day}/{month}"
         }
       }
     }
