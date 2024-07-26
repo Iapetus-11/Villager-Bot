@@ -2526,39 +2526,39 @@
           },
           "Bane Of Pillagers Amulet": {
             "description": [
-              "When present in your inventory, it increases the emeralds won from gambling and aids in protecting you from successful pillages.",
-              "This item awards a special role in the Villager Bot Support Server"
+              "Wanneer het aanwezig is in je inventaris, zal het het aantal smaragden die je wint bij gokken verhogen en het zal je helpen in het beschermen tegen succesvolle plunderingen.",
+              "Dit voorwerp beloont je met een speciale rol in de Villager Bot Support Server"
             ]
           }
         },
         "item_tag_names": {
-          "4july": "Fourth of July",
+          "4july": "Onafhankelijkheidsdag (Verenigde Staten)",
           "halloween": "Halloween",
           "mkwii": "Mario Kart Wii",
-          "easter": "Easter"
+          "easter": "Pasen"
         },
-        "not_found": "No item with the name can be found. This item could exist, but no one has it and there's no documentation for it.",
+        "not_found": "Er kan geen voorwerp met deze naam worden gevonden. Dit voorwerp zou kunnen bestaan, maar niemand heeft het en er is geen documentatie voor.",
         "drop_rate": {
-          "title": "Drop Rate",
-          "not_mineable_or_fishable": "Not mineable / fishable",
-          "mining": "Mining: `1/{}`",
-          "fishing": "Fishing: `1/{}`"
+          "title": "Kans",
+          "not_mineable_or_fishable": "Niet mijnbaar / visbaar",
+          "mining": "Mijnen: `1/{}`",
+          "fishing": "Vissen: `1/{}`"
         },
         "traits": {
-          "title": "Traits",
-          "sellable": "Sellable",
-          "tradeable": "Tradeable",
-          "purchaseable": "Purchaseable in `{prefix}shop`"
+          "title": "Eigenschappen",
+          "sellable": "Verkoopbaar",
+          "tradeable": "Verhandelbaar",
+          "purchaseable": "Aan te schaffen in `{prefix}shop`"
         },
         "rarity": {
-          "title": "Rarity",
-          "singular": "*`1` person has this item*",
-          "plural": "*`{hoeveelheid}` people have this item*",
-          "owned_hoeveelheid": "*You have `{hoeveelheid}` of this item*"
+          "title": "Zeldzaamheid",
+          "singular": "*`1` persoon heeft dit voorwerp*",
+          "plural": "*`{hoeveelheid}` mensen hebben dit voorwerp*",
+          "owned_hoeveelheid": "*Je hebt er `{hoeveelheid}` van dit voorwerp*"
         },
         "season": {
-          "title": "Event / Season",
-          "date_format": "{month}/{day}"
+          "title": "Evenement / Seizon",
+          "date_format": "{maand}/{dag}"
         }
       }
     }
