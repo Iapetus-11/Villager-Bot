@@ -1364,26 +1364,26 @@
         },
         "skeleton": {
           "attacks": [
-            "The **skeleboi** yeets an arrow at your face!",
-            "The **skeleton** turns around and 360 no scopes you!",
-            "An arrow rains from the **skeleton**, only one.",
-            "One headshot from the **skeleton** for you!",
-            "BOOM! HEADSHOT! - **skeleton** 2024"
+            "Het **skelet** yeet een pijl in je gezicht!",
+            "Het **skelet** draait rond en 360 no scoped je!",
+            "Een pijl regent van het **skelet**, maar een.",
+            "Een headshot van het **skelet** voor jou!",
+            "BOEM! HEADSHOT! - **skelet** 2024"
           ],
           "finishers": [
-            "The **skeleton** 360 noscopes you for the last time!",
-            "A rain of arrows whistle towards you and turn you into swiss cheese!",
-            "You hear the whistle of hundreds of arrows and then you die!",
-            "Arrows rain from the sky, piercing your flesh and killing you!"
+            "Het **skelet** 360 no scoped je voor de laatste keer!",
+            "Een regen van pijlen vliegen richting jou en veranderen je in gatenkaas!",
+            "Je hoort het fluiten van honderden pijlen en daarna ga je dood!",
+            "Pijlen regenen uit de lucht, je vlees doorborend en doden je!"
           ]
         },
         "spider": {
           "attacks": [
-            "The **spider** jumps on top of you and sinks its fangs into your arm!",
-            "The **spider** knocks you down and bites your leg!",
-            "The **spider** jumps at you in an attempt to bite your face off!",
-            "The **spider** dunks on you!",
-            "The **spider** lunges at you and bites your leg!"
+            "De **spin** springt op je en laat zijn giftanden diep in je arm zinken!",
+            "De **spin** duwt je naar beneden en bijt in je been!",
+            "De **spin** springt naar je toe in een poging je gezicht af te bijten!",
+            "De **spin** duikt op je!",
+            "De **spin** haalt naar je uit en bijt in je been!"
           ],
           "finishers": [
             "The **spider** jumps on you, spins around, and sinks its fangs into your skull!",
