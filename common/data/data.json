@@ -1669,12 +1669,12 @@
     "bopa": "<:bopa:1261478828690247710>",
     "farming": {
       "growing": {
-        "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
-        "chorus_fruit": "<:chorus_fruit_growing:927292976999333948>",
-        "melon": "<:melon_growing:982370173711425546>",
-        "potato": "<:potatoes_growing:927292976995127316>",
-        "carrot": "<:carrots_growing:927292976852529163>",
-        "wheat": "<:wheat_growing:927292977091600494>",
+        "emerald_fruit": "<:emerald_fruit_g:927292976756031551>",
+        "chorus_fruit": "<:chorus_fruit_g:927292976999333948>",
+        "melon": "<:melon_g:982370173711425546>",
+        "potato": "<:potatoes_g:927292976995127316>",
+        "carrot": "<:carrots_g:927292976852529163>",
+        "wheat": "<:wheat_g:927292977091600494>",
         "farmland": "<:farmland:927282404958285914>"
       },
       "normal": {

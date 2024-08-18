@@ -2283,8 +2283,6 @@ class Econ(commands.Cog):
             icon_url=getattr(ctx.author.avatar, "url", None),
         )
 
-        # embed.add_field(name='\uFEFF', value=(self.d.emojis.air * 20), inline=False)
-
         embed.add_field(
             name=ctx.l.econ.farm.commands_title,
             value="\n".join(
