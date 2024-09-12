@@ -1386,139 +1386,140 @@
             "De **spin** haalt naar je uit en bijt in je been!"
           ],
           "finishers": [
-            "The **spider** jumps on you, spins around, and sinks its fangs into your skull!",
-            "The **spider** dunks on you one last time, and bites your face off!",
-            "The **spider** rips your face off, your last sight being 8 murderous red eyes staring back."
+            "De **spin** springt op je, draait rond, en zinkt zijn giftanden in je schedel!",
+            "De **spin** duikt nog een keer op je, en bijt je gezicht af!",
+            "De **spin** rukt je gezicht af, je laatste zicht is 8 moorddadige rode ogen die terugstaren."
           ]
         },
         "cave_spider": {
           "attacks": [
-            "The **cave spider**'s fangs digs deep onto your skin!",
-            "The **cave spider** gives you a toxic kiss!",
-            "The **cave spider** bites you and inflicts poison damage!"
+            "De **grottenspin**'s giftanden zinken diep in je huid!",
+            "De **grottenspin** geeft je een giftige zoen!",
+            "De **grottenspin** bijt je en veroorzaakt gifschade!"
           ],
           "finishers": [
-            "You died a slow, painful death from poison damage!",
-            "The **cave spider** injects one last lethal dose of venom!",
-            "The **cave spider** buries its fangs deep into you and fills you with venom!"
+            "Je stierf een langzame, pijnlijke dood door gifschade!",
+            "De **grottenspin** injecteert een laatste dodelijke dosis gif!",
+            "De **grottenspin** begroeft zijn giftanden diep in je en vult je met gif!"
           ]
         },
         "creeper": {
           "attacks": [
-            "You hear a fuse ignite...",
-            "The **creeper** flashes and fizzles...",
-            "The **creeper** fizzles and flashes...",
-            "The **creeper** prepares for its imminent suicide...",
-            "From behind you, a fuse ignites..."
+            "Je hoort een lont ontsteken...",
+            "De **creeper** flitst en sist...",
+            "De **creeper** sist en flitst...",
+            "De **creeper** bereidt zijn aanstaande zelfmoord voor...",
+            "Van achter je, een lont ontsteekt..."
           ],
           "finishers": [
-            "The **creeper** goes BOOM!",
-            "The **creeper** used SELF-DESTRUCT! *It's super effective!*",
-            "The **creeper** explodes, yeeting your bloody corpse across the map!",
-            "You were blown to pixels by the **creeper**!"
+            "De **creeper** gaat BOEM!",
+            "De **creeper** gebruikt ZELF-DESTRUCTIE! *Het werkt super effectief!*",
+            "De **creeper** ontploft, yeet je bloederige lijk over de kaart!",
+            "Je bent tot pixels geblazen door de **creeper**!"
           ]
         },
         "baby_slime": {
           "attacks": [
-            "The **baby slime** jumps on you!",
-            "The **baby slime** looks cute!",
-            "The **baby slime** jumps on your head!",
-            "You encourage the **baby slime**!"
+            "De **baby slijmkubus** springt op je!",
+            "De **baby slijmkubus** ziet er te schattig uit!",
+            "De **baby slijmkubus** springt op je hoofd!",
+            "Je moedigt de **baby slijmkubus** aan!"
           ],
           "finishers": [
-            "You die from the cuteness.",
-            "The **baby slime** looks so cute you just follow it around for the rest of your life and keep it safe!",
-            "You follow the **baby slime** around because it's so cute, it despawns, you die from sadness.",
-            "The **baby slime** despawns right in front of you, you die from extreme depression.",
-            "The **baby slime** finally does some damage!",
-            "You feel bad that the **baby slime** can't hurt you so you commit suicide.",
-            "You feel bad that the **baby slime** can't hurt you so you commit dig straight down.",
-            "There can only be one winner, the **baby slime** says. You type in `/kill`"
+            "Je sterft door de schattigheid.",
+            "De **baby slijmkubus** ziet er zo leuk uit dat je het voor de rest van je leven volgt en het veilig houdt!",
+            "Je volgt de **baby slijmkubus** omdat het zo leuk is, het verdwijnt, je sterft van verdriet.",
+            "De **baby slijmkubus** verdwijnt recht voor je, je sterft van extreme depressie.",
+            "De **baby slijmkubus** doet eindelijk wat schade!",
+            "Je voelt je slecht omdat de **baby slijmkubus** je niet kan raken, dus pleeg je zelfmoord.",
+            "Je voelt je slecht omdat de **baby slijmkubus** je niet kan raken, dus graaf je recht naar beneden.",
+            "'Er kan maar één winnaar zijn', zegt de **baby slijmkubus**. Je typt `/kill` in."
           ],
           "misses": [
-            "You swing your **{0}** as hard as you can, you miss the **baby slime**.",
-            "You slash your **{0}** at the **baby slime** as hard as you can. The **baby slime** is fine.",
-            "You miss, swinging your **{0}** at the **baby slime**.",
-            "You swing your **{0}**, the **baby slime** makes a cute face, you miss!"
+            "Je slaat met je **{0}** zo hard als je kan, je mist de **baby slijmkubus**.",
+            "Je hakt met je **{0}** zo hard als je kan naar de **baby slijmkubus**. De **baby slijmkubus** heeft geen schrammetje.",
+            "Je slaat met je **{0}** naar de **baby slijmkubus**, maar mist.",
+            "Je slaat met je **{0}**, maar de **baby slijmkubus** maakt een lief gezicht en je mist!"
           ]
         },
         "enderman": {
           "attacks": [
-            "The **enderman** picks up a grass block and throws it at you!",
-            "The **enderman** picks up a tnt block and throws it at you!",
-            "The **enderman** punches you in the face",
-            "The **enderman** screams and whacks you in the face with its long arms",
-            "The **enderman** teleports behind you and slaps you on the head"
+            "De **enderman** pakt een grasblok op en gooit het naar je!",
+            "De **enderman** pakt een tnt-blok op en gooit het naar je!",
+            "De **enderman** stompt je in je gezicht",
+            "De **enderman** gilt en slaat je met zijn lange armen in je gezicht",
+            "De **enderman** teleporteert zichzelf achter je en slaat je op je hoofd"
           ],
           "finishers": [
-            "The **enderman** teleports you off a cliff",
-            "The **enderman** teleports you into the void",
-            "The **enderman** teleports behind you and decapitates you"
+            "De **enderman** teleporteert je van een klif",
+            "De **enderman** teleporteert je naar de leegte",
+            "De **enderman** teleporteert zichzelf achter je en onthoofd je"
           ],
           "misses": [
-            "You swing your **{0}** as hard as you can but the **enderman** teleports out of the way.",
-            "You swing your **{0}** but the **enderman** teleports out of the way."
+            "Je slaat zo hard als je kan met je **{0}**, maar de **enderman** teleporteert zichzelf weg.",
+            "Je slaat met je **{0}**, maar de **enderman** teleporteert zichzelf weg."
           ]
         }
       }
     },
-    "minecraft": {
-      "invalid_player": "That player is invalid or doesn't exist.",
-      "mcimage": {
-        "stupid_1": "You have to upload an image in the same message you use the command.",
-        "stupid_2": "Please use either the png or jpg image format.",
-        "stupid_3": "That is not a valid image."
-      },
-      "mcping": {
-        "shortcut_error": "To use this shortcut, you must set a default Minecraft server to ping via `{}config`",
-        "title_offline": "{} no server found at `{}`",
-        "title_online": "{} `{}` is online",
-        "title_plain": "{} `{}`",
-        "latency": "Latency/Ping",
-        "version": "Version",
-        "field_online_players": {
-          "name": "Online Players ({}/{})",
-          "value": "Player list is not available for this server."
-        },
-        "and_other_players": ", and {} others...",
-        "learn_more": "You can learn more about this server [here]({}).",
-        "powered_by": "Powered by minecraft.global"
-      },
-      "stealskin": {
-        "error": "Oops, something went wrong while fetching that player's skin.",
-        "no_skin": "This player doesn't have a skin.",
-        "embed_desc": "{}'s skin\n**[[Download]]({})**"
-      },
-      "mccolors": {
-        "embed_desc": "Text in Minecraft can be formatted using different codes and\nthe section (`§`) symbol.",
-        "embed_author_name": "Minecraft Formatting Codes",
-        "formatting_codes": {
-          "red": "Red",
-          "yellow": "Yellow",
-          "green": "Green",
-          "aqua": "Aqua",
-          "blue": "Blue",
-          "light_purple": "Light Purple",
-          "white": "White",
-          "gray": "Gray",
-          "dark_red": "Dark Red",
-          "gold": "Gold",
-          "dark_green": "Dark Green",
-          "dark_aqua": "Dark Aqua",
-          "dark_blue": "Dark Blue",
-          "dark_purple": "Dark Purple",
-          "dark_gray": "Dark Gray",
-          "black": "Black",
-          "bold": "Bold",
-          "strikethrough": "Strikethrough",
-          "underline": "Underline",
-          "italic": "Italic",
-          "obfuscated": "Obfuscated",
-          "reset": "Reset"
-        },
-        "colors": "Colors",
-        "more_colors": "More Colors",
-        "formatting": "Formatting"
+"minecraft": {
+  "mcimage": {
+    "stupid_1": "Je moet een afbeelding uploaden in hetzelfde bericht waar je het commando gebruikt.",
+    "stupid_2": "Gebruik het png of jpg formaat voor de afbeelding.",
+    "stupid_3": "Dat is geen geldige afbeelding."
+  },
+  "mcping": {
+    "shortcut_error": "Om deze shortcut te gebruiken, moet je een standaard Minecraft-server instellen om te pingen via `{}config`",
+    "title_offline": "{} geen server gevonden op `{}`",
+    "title_online": "{} `{}` is online",
+    "title_plain": "{} `{}`",
+    "latency": "Latentie/Ping",
+    "version": "Versie",
+    "field_online_players": {
+      "name": "Online Spelers ({}/{})",
+      "value": "Spelerlijst is niet beschikbaar voor deze server."
+    },
+    "and_other_players": ", en {} anderen...",
+    "learn_more": "Je kunt meer leren over deze server [hier]({}).",
+    "powered_by": "Gemaakt door minecraft.global"
+  },
+  "stealskin": {
+    "error": "Oeps, er ging iets mis bij het ophalen van de skin van deze speler.",
+    "no_skin": "Deze speler heeft geen skin.",
+    "embed_desc": "{}'s skin\n**[[Download]]({})**"
+  },
+  "mccolors": {
+    "embed_desc": "Tekst in Minecraft kan worden geformatteerd met verschillende codes en\nhet sectie (`§`) symbool.",
+    "embed_author_name": "Minecraft Opmaakcodes",
+    "formatting_codes": {
+      "red": "Rood",
+      "yellow": "Geel",
+      "green": "Groen",
+      "aqua": "Aqua",
+      "blue": "Blauw",
+      "light_purple": "Licht Paars",
+      "white": "Wit",
+      "gray": "Grijs",
+      "dark_red": "Donker Rood",
+      "gold": "Goud",
+      "dark_green": "Donker Groen",
+      "dark_aqua": "Donker Aqua",
+      "dark_blue": "Donker Blauw",
+      "dark_purple": "Donker Paars",
+      "dark_gray": "Donker Grijs",
+      "black": "Zwart",
+      "bold": "Vet",
+      "strikethrough": "Doorhalen",
+      "underline": "Onderstrepen",
+      "italic": "Schuin",
+      "obfuscated": "Vervormd",
+      "reset": "Reset"
+    },
+    "colors": "Kleuren",
+    "more_colors": "Meer Kleuren",
+    "formatting": "Opmaak"
+  }
+}
       },
       "rcon": {
         "stupid_1": "You have to set a Minecraft server for this server via the `{}config mcserver` command first.",
