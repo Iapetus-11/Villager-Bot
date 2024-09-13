@@ -1462,83 +1462,82 @@
         }
       }
     },
-"minecraft": {
-  "mcimage": {
-    "stupid_1": "Je moet een afbeelding uploaden in hetzelfde bericht waar je het commando gebruikt.",
-    "stupid_2": "Gebruik het png of jpg formaat voor de afbeelding.",
-    "stupid_3": "Dat is geen geldige afbeelding."
-  },
-  "mcping": {
-    "shortcut_error": "Om deze shortcut te gebruiken, moet je een standaard Minecraft-server instellen om te pingen via `{}config`",
-    "title_offline": "{} geen server gevonden op `{}`",
-    "title_online": "{} `{}` is online",
-    "title_plain": "{} `{}`",
-    "latency": "Latentie/Ping",
-    "version": "Versie",
-    "field_online_players": {
-      "name": "Online Spelers ({}/{})",
-      "value": "Spelerlijst is niet beschikbaar voor deze server."
-    },
-    "and_other_players": ", en {} anderen...",
-    "learn_more": "Je kunt meer leren over deze server [hier]({}).",
-    "powered_by": "Gemaakt door minecraft.global"
-  },
-  "stealskin": {
-    "error": "Oeps, er ging iets mis bij het ophalen van de skin van deze speler.",
-    "no_skin": "Deze speler heeft geen skin.",
-    "embed_desc": "{}'s skin\n**[[Download]]({})**"
-  },
-  "mccolors": {
-    "embed_desc": "Tekst in Minecraft kan worden geformatteerd met verschillende codes en\nhet sectie (`§`) symbool.",
-    "embed_author_name": "Minecraft Opmaakcodes",
-    "formatting_codes": {
-      "red": "Rood",
-      "yellow": "Geel",
-      "green": "Groen",
-      "aqua": "Aqua",
-      "blue": "Blauw",
-      "light_purple": "Licht Paars",
-      "white": "Wit",
-      "gray": "Grijs",
-      "dark_red": "Donker Rood",
-      "gold": "Goud",
-      "dark_green": "Donker Groen",
-      "dark_aqua": "Donker Aqua",
-      "dark_blue": "Donker Blauw",
-      "dark_purple": "Donker Paars",
-      "dark_gray": "Donker Grijs",
-      "black": "Zwart",
-      "bold": "Vet",
-      "strikethrough": "Doorhalen",
-      "underline": "Onderstrepen",
-      "italic": "Schuin",
-      "obfuscated": "Vervormd",
-      "reset": "Reset"
-    },
-    "colors": "Kleuren",
-    "more_colors": "Meer Kleuren",
-    "formatting": "Opmaak"
-  }
-}
+    "minecraft": {
+      "invalid_player": "Die speler is ongeldig of bestaat niet.",
+      "mcimage": {
+        "stupid_1": "Je moet een afbeelding uploaden in dezelfde bericht waarin je het commando gebruikt.",
+        "stupid_2": "Gebruik een png of jpg afbeelding.",
+        "stupid_3": "Dat is geen geldige afbeelding."
+      },
+      "mcping": {
+        "shortcut_error": "Om deze shortcut te gebruiken moet je eerst een standaard Minecraft server instellen via `{}` config",
+        "title_offline": "{} geen server gevonden op `{}`",
+        "title_online": "{} `{}` is online",
+        "title_plain": "{} `{}`",
+        "latency": "Latency/Ping",
+        "version": "Versie",
+        "field_online_players": {
+          "name": "Online Spelers ({}/{})",
+          "value": "Spelerlijst is niet beschikbaar voor deze server."
+        },
+        "and_other_players": ", en {} anderen...",
+        "learn_more": "Je kan [hier]({}) meer informatie over deze server vinden.",
+        "powered_by": "Mogelijk gemaakt door minecraft.global"
+      },
+      "stealskin": {
+        "error": "Oeps, er ging iets mis bij het ophalen van de skin van deze speler.",
+        "no_skin": "Deze speler heeft geen skin.",
+        "embed_desc": "{}'s skin\n**[[Download]]({})**"
+      },
+      "mccolors": {
+        "embed_desc": "Tekst in Minecraft kan worden opgemaakt met verschillende codes en\nhet `§` symbool.",
+        "embed_author_name": "Minecraft Opmaakcodes",
+        "formatting_codes": {
+          "red": "Rood",
+          "yellow": "Geel",
+          "green": "Groen",
+          "aqua": "Aqua",
+          "blue": "Blauw",
+          "light_purple": "Licht Paars",
+          "white": "Wit",
+          "gray": "Grijs",
+          "dark_red": "Donker Rood",
+          "gold": "Goud",
+          "dark_green": "Donker Groen",
+          "dark_aqua": "Donker Aqua",
+          "dark_blue": "Donker Blauw",
+          "dark_purple": "Donker Paars",
+          "dark_gray": "Donker Grijs",
+          "black": "Zwart",
+          "bold": "Dikgedrukt",
+          "strikethrough": "Doorgehaald",
+          "underline": "Onderstreept",
+          "italic": "Schuingedrukt",
+          "obfuscated": "Onleesbaar",
+          "reset": "Reset"
+        },
+        "colors": "Kleuren",
+        "more_colors": "Meer Kleuren",
+        "formatting": "Opmaak"
       },
       "rcon": {
-        "stupid_1": "You have to set a Minecraft server for this server via the `{}config mcserver` command first.",
-        "dm_error": "I need to be able to DM you to complete the process.",
-        "msg_timeout": "I've stopped waiting for a response, run the command again to continue.",
-        "port": "Type in the remote console port (rcon.port in the server.properties).",
-        "passw": "Type in the remote console password (rcon.password in the server.properties).",
-        "stupid_2": "Incorrect password! Run the command to enter it again.",
-        "err_con": "Something went wrong while connecting to the server, is the server online and RCON enabled?",
-        "err_cmd": "Something went wrong while sending a command to the server, is the server online and RCON enabled?"
+        "stupid_1": "Je moet eerst een Minecraft server instellen voor deze server via het `{}` config mcserver commando",
+        "dm_error": "Ik moet je kunnen DM'en om het proces te voltooien.",
+        "msg_timeout": "Ik heb gestopt met wachten op een antwoord, voer het commando opnieuw uit om door te gaan.",
+        "port": "Typ de poort van de externe console in (rcon.port in de server.properties).",
+        "passw": "Typ het wachtwoord van de externe console in (rcon.password in de server.properties).",
+        "stupid_2": "Fout wachtwoord! Voer het commando opnieuw uit om het opnieuw in te voeren.",
+        "err_con": "Er ging iets mis bij het verbinden met de server. Is de server online en is RCON ingeschakeld?",
+        "err_cmd": "Er ging iets mis bij het verzenden van een commando naar de server. Is de server online en is RCON ingeschakeld?"
       },
       "profile": {
-        "error": "Something went wrong while fetching that gebruiker's profile...",
-        "first": "first gebruikername",
-        "mcpp": "Minecraft profile for `{}`",
+        "error": "Er ging iets mis bij het ophalen van het profiel van deze gebruiker...",
+        "first": "eerste gebruikersnaam",
+        "mcpp": "Minecraft profiel voor `{}`",
         "skin": "Skin Download",
         "cape": "Cape Download",
-        "nocape": "**[Get A Custom Cape](https://discord.gg/ettnFrkNyW)**",
-        "hist": "Name History"
+        "nocape": "**[Krijg een aangepaste cape](https://discord.gg/ettnFrkNyW)**",
+        "hist": "Naamgeschiedenis"
       }
     },
     "mod": {
