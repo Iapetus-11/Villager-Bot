@@ -3,7 +3,7 @@
     "lang": "nl",
     "name": "Dutch",
     "misc": {
-      "pingpong": "De prefix voor deze server is `{0}` en het help commando `{0}help`\nAls je meer hulp nodig hebt, kun je de **[Support Server]({1})** joinen.",
+      "pingpong": "Het prefix voor deze server is `{0}` en het help commando `{0}help`\nAls je meer hulp nodig hebt, kun je de **[Support Server]({1})** joinen.",
       "cooldown_msgs": [
         "Hebben je ouders je nooit verteld dat [geduld een schone zaak](http://www.patience-is-a-virtue.org/) is? Kalmeer en wacht nog **{}**.",
         "Hey, je moet nog **{}** wachten voor je dat weer kan doen.",
@@ -14,7 +14,7 @@
       "errors": {
         "andioop": "Oeps! Er ging iets helemaal mis... Kun je alsjeblieft een screenshot nemen en deze in de **[Support Server]({})** plaatsen? Dank je wel!",
         "private": "Dit commando kan niet gebruikt worden in privé chat kanalen.",
-        "gebruiker_perms": "Leuk geprobeerd, maar je hebt niet voldoende permissies om dat te doen!",
+        "user_perms": "Leuk geprobeerd, maar je hebt niet voldoende permissies om dat te doen!",
         "bot_perms": "Je hebt me de juiste permissies niet gegeven om dat te doen, slimmerd.",
         "concurrency": "Wacht even! Je gebruikt dit command veeeel te snel!",
         "missing_arg": "Het ziet eruit alsof je vergeet iets in te voeren!",
@@ -1541,194 +1541,196 @@
       }
     },
     "mod": {
-      "no_perms": "Nice try, but you don't have the permissions to do that!",
+      "no_perms": "Leuk geprobeerd, maar je hebt geen toestemming om dat te doen!",
       "purge": {
-        "oop": "Oops... something went wrong..."
+        "oop": "Oeps... Er ging iets mis..."
       },
       "kick": {
-        "stupid_1": "You cannot kick yourself."
+        "stupid_1": "Je kunt jezelf niet verwijderen uit de server."
       },
       "ban": {
-        "stupid_1": "You cannot ban yourself.",
-        "stupid_2": "**{}** is already banned.",
-        "stupid_3": "Oops, something went wrong while banning that gebruiker."
+        "stupid_1": "Je kunt jezelf niet verbannen.",
+        "stupid_2": "**{}** is al verbannen.",
+        "stupid_3": "Oeps, er ging iets mis bij het verbannen van die gebruiker."
       },
       "unban": {
-        "stupid_1": "You cannot unban yourself.",
-        "stupid_2": "**{}** isn't banned."
+        "stupid_1": "Je kunt je eigen verbanning niet opheffen.",
+        "stupid_2": "**{}** is niet verbannen."
       },
       "warn": {
-        "stupid_1": "You cannot warn yourself.",
-        "stupid_2": "You cannot clear your own warnings.",
-        "thats_too_much_man": "gebruiker has too many warnings already.",
-        "no_reason": "No reason specified.",
-        "by": "Warning by",
-        "confirm": "{} Warned {} ({} warning(s) now) for reason: *{}*"
+        "stupid_1": "Je kunt jezelf niet waarschuwen.",
+        "stupid_2": "Je kunt je eigen waarschuwingen niet wissen.",
+        "thats_too_much_man": "De gebruiker heeft al te veel waarschuwingen.",
+        "no_reason": "Geen reden opgegeven.",
+        "by": "Waarschuwing door",
+        "confirm": "{} heeft {} gewaarschuwd ({} waarschuwing(en) nu) om de reden: *{}*"
       },
       "mute": {
-        "stupid_1": "You cannot mute yourself.",
-        "stupid_2": "You used invalid formatting, example: `{0}mute @someone 1w2d3h4m this is the reason` will timeout someone for one week, two days, three hours, and four minutes.",
-        "stupid_3": "That's too far in the future!",
-        "mute_msg": "**{gebruiker}** has been muted for {duration}."
+        "stupid_1": "Je kunt jezelf niet dempen.",
+        "stupid_2": "Je hebt een ongeldig formaat gebruikt, voorbeeld: `{0}mute @iemand 1w2d3h4m dit is de reden` zal iemand voor één week, twee dagen, drie uur en vier minuten dempen.",
+        "stupid_3": "Dat is te ver in de toekomst!",
+        "mute_msg": "**{user}** is voor {duration} gedempt."
       },
       "unmute": {
-        "stupid_1": "You cannot unmute yourself.",
-        "stupid_2": "**{}** isn't muted.",
-        "unmute_msg": "**{}** has been unmuted."
+        "stupid_1": "Je kunt je eigen demping niet opheffen.",
+        "stupid_2": "**{}** is niet gedempt.",
+        "unmute_msg": "Van **{}** is de demping opgeheft."
       }
     },
     "config": {
-      "invalid": "That is not a valid option. (Valid options are: {})",
+      "invalid": "Dat is geen geldige optie. (Geldige opties zijn: {})",
       "main": {
-        "title": "Villager Bot Settings",
-        "guild_conf": "Server/Guild Configuration",
+        "title": "Villager Bot Instellingen",
+        "guild_conf": "Server/Guild Configuratie",
         "guild_content": [
-          "`{0}config prefix <new prefix>` - Change the command prefix in this server.\n\n",
-          "`{0}config replies <on/off>` - Change if bot should respond to messages like \"emeralds\".\n\n",
-          "`{0}config difficulty <peaceful/easy/hard>` - Changes the difficulty of the game.\n\n",
-          "`{0}config lang <language>` - Changes the language of Villager Bot.\n\n",
-          "`{0}config mcserver <mcserver>` - Changes the server that is pinged if you don't specify a server in `/mcping`.\n\n",
-          "`{0}config togglecmd <cmd>` - Change whether the specified command can be used or not.\n\n"
+          "`{0}config prefix <nieuwe prefix>` - Verander het prefix voor commando's in deze server.\n\n",
+          "`{0}config replies <on/off>` - Verander of de bot berichten zoals \"emeralds\" moet beantwoorden.\n\n",
+          "`{0}config difficulty <peaceful/easy/hard>` - Verander de moeilijkheidsgraad van het spel.\n\n",
+          "`{0}config lang <taal>` - Verander de taal van Villager Bot.\n\n",
+          "`{0}config mcserver <mcserver>` - Verander de server die wordt gepinged als je geen server opgeeft in `/mcping`.\n\n",
+          "`{0}config togglecmd <cmd>` - Verander of het opgegeven commando kan worden gebruikt of niet.\n\n"
         ],
-        "gebruiker_conf": "Per gebruiker Configuration",
-        "gebruiker_content": [
-          "`{0}config giftalert <on/off>` - Change whether bot tells you if you've been given items or emeralds.\n\n",
-          "`{0}config clearrconpasswords` - Clear your saved remote console passwords from the database.\n\n"
+        "user_conf": "Per Gebruiker Configuratie",
+        "user_content": [
+          "`{0}config giftalert <on/off>` - Verander of de bot je vertelt als je items of smaragden hebt ontvangen.\n\n",
+          "`{0}config clearrconpasswords` - Verwijder je opgeslagen externe console wachtwoorden uit de database.\n\n"
         ]
       },
       "prefix": {
-        "this_server": "The prefix in this server is `{}`",
-        "error_1": "You cannot have a prefix longer than `{}` characters.",
-        "error_2": "`{}` is not allowed to be in a prefix.",
-        "set": "Set the server prefix to `{}`"
+        "this_server": "Het prefix in deze server is `{}`",
+        "error_1": "Je kunt geen prefix hebben dat langer is dan `{}` tekens.",
+        "error_2": "`{}` is niet toegestaan in een prefix.",
+        "set": "Stel het server prefix in op `{}`"
       },
       "replies": {
-        "enabled": "enabled",
-        "disabled": "disabled",
-        "this_server": "Message replies are **{}**.",
-        "set": "Turned message replies **{}**."
+        "enabled": "ingeschakeld",
+        "disabled": "uitgeschakeld",
+        "this_server": "Berichtreacties zijn **{}**.",
+        "set": "Zette berichtreacties **{}**."
       },
       "lang": {
-        "this_server": "The server language is currently set to **{}**.\n\nAvailable languages are: {}",
-        "set": "Set the server language to **{}**."
+        "this_server": "De servertaal is momenteel ingesteld op **{}**.\n\nBeschikbare talen zijn: {}",
+        "set": "Stel de servertaal in op **{}**."
       },
       "mcs": {
-        "this_server": "The default Minecraft server is currently set to **`{}`**",
-        "error_1": "That is too long, you can't make it more than `{}` characters.",
-        "set": "Set the default Minecraft server to **`{}`**"
+        "this_server": "De standaard Minecraft server is momenteel ingesteld op **`{}`**",
+        "error_1": "Dat is te lang! Je kunt het niet langer maken dan `{}` tekens.",
+        "set": "Stel de standaard Minecraft server in op **`{}`**"
       },
       "gift": {
-        "this_gebruiker": "Give/gift alerts are currently **{}**.",
-        "set": "Turned give/gift alerts **{}**."
+        "this_user": "Geef/gift meldingen zijn momenteel **{}**.",
+        "set": "Zette geef/gift meldingen **{}**."
       },
       "cmd": {
-        "not_prem": "This feature is not enabled in this server.",
-        "list_cmds": "Disabled commands: `{}`",
-        "nope": "No disabled commands.",
-        "cant": "You can't disable this command.",
-        "not_found": "Command not found.",
-        "reenable": "Re-enabled command `{}`.",
-        "disable": "Disabled command `{}`."
+        "not_prem": "Deze functie is niet ingeschakeld in deze server.",
+        "list_cmds": "Uitgeschakelde commando's: `{}`",
+        "nope": "Er zijn geen uitgeschakelde commando's.",
+        "cant": "Je kunt dit commando niet uitschakelen.",
+        "not_found": "Commando niet gevonden.",
+        "reenable": "Geheractiveerd commando `{}`.",
+        "disable": "Uitgeschakeld commando `{}`."
       },
       "rcon": {
-        "none": "You didn't have any saved passwords.",
-        "one": "Unsaved/deleted 1 password.",
-        "multi": "Unsaved/deleted {} passwords."
+        "none": "Je had geen opgeslagen wachtwoorden.",
+        "one": "1 wachtwoord verwijderd.",
+        "multi": "{} wachtwoorden verwijderd."
       }
     },
     "useful": {
       "vote": {
-        "click_1": "Click Me!",
-        "click_2": "Or Here!"
+        "click_1": "Klik mij!",
+        "click_2": "Of klik mij!"
       },
       "links": {
-        "support": "Support Server",
-        "invite": "Bot Invite",
-        "topgg": "Top.gg Page",
+        "support": "Ondersteunings Server",
+        "invite": "Bot Uitnodiging",
+        "topgg": "Top.gg Pagina",
         "website": "Website",
-        "source": "Source Code",
-        "privacy": "Privacy Policy"
+        "source": "Broncode",
+        "privacy": "Privacybeleid"
       },
       "stats": {
-        "stats": "Villager Bot Statistics",
-        "servers": "Server Count",
-        "dms": "DM Channel Count",
-        "gebruikers": "gebruiker Count",
-        "msgs": "Session Messages",
-        "cmds": "Session Commands",
-        "cmds_hour": "Commands/Hour",
-        "votes": "Session Votes",
-        "topgg": "Top.gg Votes/Hour",
-        "shards": "Shard Count",
+        "stats": "Villager Bot Statistieken",
+        "servers": "Aantal Servers",
+        "dms": "Aantal DM Kanalen",
+        "users": "Aantal Gebruikers",
+        "msgs": "Sessie Berichten",
+        "cmds": "Sessie Commando's",
+        "cmds_hour": "Commando's/Uur",
+        "votes": "Sessie Votes",
+        "topgg": "Top.gg Votes/Uur",
+        "shards": "Aantal Shards",
         "ping": "Ping",
-        "mem": "Memory",
-        "cpu": "CPU Usage",
+        "mem": "Geheugen",
+        "cpu": "CPU Gebruik",
         "threads": "Threads",
-        "tasks": "Tasks",
-        "uptime": "Uptime"
+        "tasks": "Taken",
+        "uptime": "Tijd Online"
       },
       "ginf": {
-        "info": "Information",
-        "age": "Created At",
-        "owner": "Owner",
-        "members": "Members",
+        "info": "Informatie",
+        "age": "Aangemaakt Op",
+        "owner": "Eigenaar",
+        "members": "Leden",
         "bots": "Bots",
-        "channels": "Channels",
-        "roles": "Roles",
-        "roles_and_n_others": "and {n} others...",
+        "channels": "Kanalen",
+        "roles": "Rollen",
+        "roles_and_n_others": "en {n} anderen...",
         "emojis": "Emojis",
-        "bans": "Bans",
+        "bans": "Verbanningen",
         "cmd_prefix": "Prefix",
-        "lang": "Language",
-        "joined_at": "Joined",
-        "not_found": "Not Found"
+        "lang": "Taal",
+        "joined_at": "Geregistreerd",
+        "not_found": "Niet Gevonden"
       },
       "meth": {
-        "oops": "Oops, something went wrong..."
+        "oops": "Oeps, er ging iets mis..."
       },
       "search": {
-        "nope": "No results found...",
-        "error": "Oops, something went wrong..."
+        "nope": "Geen resultaten gevonden...",
+        "error": "Oeps, er ging iets mis..."
       },
       "rules": {
-        "rules": "Villager Bot Rules",
-        "slashrules": "{}rules for the rules!",
-        "penalty": "Penalty for breaking these rules may include a reset/wipe, in-game penalty/debuff, or a **permanent ban from the support server and/or using the bot**.",
-        "rule_1": "**1.** Don't abuse bugs, report them in the #support channel on the [support server]({}) for a reward!",
-        "rule_2": "**2.** Don't cheat in any way or use alternate accounts or other gebruikers for storing your emeralds or items. (This includes no self-botting.)",
-        "rule_3": "**3.** Don't be annoying, toxic, or harrass anyone using the bot's features.",
-        "rule_4": "**4.** Don't use the bot to promote any content not sanctioned by the bot owner."
+        "rules": "Villager Bot Regels",
+        "slashrules": "{}rules voor de regels!",
+        "penalty": "Straf voor het breken van deze regels kan een reset/wipe, in-game straf/debuff of een **permanente verbanning van de ondersteunings server en/of het gebruik van de bot**.",
+        "rule_1": "**1.** Gebruik geen bugs, meld ze in het #support kanaal op de [ondersteunings server]({}) voor een beloning!",
+        "rule_2": "**2.** Gebruik geen cheats of alternatieve accounts of andere gebruikers voor het opslaan van je smaragden of items. (Dit omvat dat je niet mag zelf-botten.)",
+        "rule_3": "**3.** Wees niet vervelend, aggressief of intimiderend naar iemand met behulp van de bot's functies.",
+        "rule_4": "**4.** Gebruik de bot niet om enige inhoud te promoten die niet is goedgekeurd door de bot eigenaar."
       },
       "remind": {
-        "reminder_max": "You cannot have more than {max} reminders at once.",
-        "stupid_1": "You used invalid formatting, example: `{0}remindme 1w2d3h4m this is an example` will remind you in one week, two days, three hours, and four minutes.",
-        "time_max": "You cannot set a reminder for more than one year in advance.",
-        "remind": "{0} reminding you {1}.",
-        "reminder": "{0}, you wanted me to remind you: *{1}*",
-        "none": "*You have no reminders...*",
-        "add": "You can add reminders with {}reminder add <duration> <text>",
-        "unauthorized": "{0} that is not your reminder.",
-        "authorized": "{0} succesfully deleted your reminder."
+        "reminder_max": "Je kunt niet meer dan {max} herinneringen hebben.",
+        "stupid_1": "Je gebruikte ongeldige formatting, voorbeeld: `{0}remindme 1w2d3h4m dit is een voorbeeld` zal je herinneren in één week, twee dagen, drie uur en vier minuten.",
+        "time_max": "Je kunt geen herinnering instellen voor meer dan één jaar vooruit.",
+        "remind": "{0} herinnert je {1}.",
+        "reminder": "{0}, je wilde me herinneren: *{1}*",
+        "none": "*Je hebt geen herinneringen...*",
+        "add": "Je kunt herinneringen toevoegen met {}reminder add <duur> <tekst>",
+        "unauthorized": "{0} dat is niet jouw herinnering.",
+        "authorized": "{0} verwijderde succesvol jouw herinnering."
       },
       "credits": {
-        "credits": "Villager Bot wouldn't be possible without...",
-        "foot": "Made by Iapetus11 and others ({0}credits)",
+        "credits": "Villager Bot zou niet mogelijk zijn zonder...",
+        "foot": "Gemaakt door Iapetus11 en anderen ({0}credits)",
         "people": {
-          "iapetus11": "The creator, owner, and developer of Villager Bot",
-          "hpancakesk": "Helped come up with the original ideas behind Villager Bot",
-          "moody": "Helped with the ideas behind several items and fishing",
-          "emulator": "Helped with bug fixes and feature additions",
-          "elrynd": "Has helped with bug fixes and code understanding, and translated Villager Bot into French",
-          "chez": "Created new features and helps fix bugs",
-          "quack": "Helps fix minor issues with the code and translations",
-          "zelou": "Helps with the Spanish translation of Villager Bot",
-          "joaooh": "Created and maintains the Portuguese translation of Villager Bot",
-          "xe": "Minor bug fixes and feature additions",
-          "radar": "Minor bug fixes and feature additions",
-          "kuro": "Helps with multiple translations of Villager Bot",
-          "hilt": "Helps with multiple translations of Villager Bot",
-          "infernum": "Miscellaneous bug fixes and feature additions and reminders system improvements",
-          "zethal_": "Made several textures"
+          "iapetus11": "De maker, eigenaar en ontwikkelaar van Villager Bot",
+          "hpancakesk": "Hielp bij het bedenken van de originele ideeën achter Villager Bot",
+          "moody": "Hielp bij de ideeën achter verschillende items en vissen",
+          "emulator": "Hielp bij bug fixes en feature toevoegingen",
+          "elrynd": "Heeft geholpen bij bug fixes en code begrip, en vertaalde Villager Bot naar Frans",
+          "chez": "Creëerde nieuwe functies en helpt bij bug fixes",
+          "quack": "Helpt bij het fixen van kleine issues met de code en vertalingen",
+          "zelou": "Helpt bij de Spaanse vertaling van Villager Bot",
+          "joaooh": "Creëerde en onderhoudt de Portugese vertaling van Villager Bot",
+          "xe": "Kleine bug fixes en functue toevoegingen",
+          "radar": "Minor bug fixes en feature toevoegingen",
+          "kuro": "Helpt bij meerdere vertalingen van Villager Bot",
+          "hilt": "Helpt bij meerdere vertalingen van Villager Bot",
+          "infernum": "Diverse bug fixes en feature toevoegingen en verbeteringen van het herinneringssysteem",
+          "zethal_": "Maakte verschillende textures"
+        }
+      }
         },
         "others": "And of course, the countless others who have contributed ideas and bug reports to help make Villager Bot better!"
       },
@@ -1978,7 +1980,7 @@
         "stupid_5": "You can't pillage a person who has a **Shield Pearl** active.",
         "stupid_6": "You can't pillage yet, you must wait {time}",
         "u_win": {
-          "gebruiker": [
+          "user": [
             "You escaped with {}{}",
             "You got away with {}{}",
             "You pillaged and stole {}{}"
@@ -1991,7 +1993,7 @@
           ]
         },
         "u_lose": {
-          "gebruiker": [
+          "user": [
             "You got caught while pillaging and paid {}{}",
             "You got caught and had to pay {}{}",
             "You dirty thief, you got caught and had to pay {}{}"
@@ -2063,7 +2065,7 @@
         ]
       },
       "farm": {
-        "s_farm": "{gebruiker}'s Farm",
+        "s_farm": "{user}'s Farm",
         "commands_title": "Farm Commands",
         "commands": {
           "plant": "`{prefix}farm plant` - plants the item",
@@ -2128,10 +2130,10 @@
         "lb_wdq": "{0}__**Weekly Completed Daily Quests**__{0}",
         "lb_tw": "{0}__**Total Wealth**__{0}",
         "no_item_lb": "No leaderboard exists for this item",
-        "item_lb_stats": "*total of {total_count:,} owned by {gebruiker_count:,} different gebruikers*"
+        "item_lb_stats": "*total of {total_count:,} owned by {user_count:,} different users*"
       },
       "trash": {
-        "s_trash": "{gebruiker}'s Trash Can",
+        "s_trash": "{user}'s Trash Can",
         "no_trash": "There's no trash here... :/",
         "total_contents": "The total contents is worth {ems}{ems_emoji}",
         "how_to_empty": "Use `{prefix}trashcan empty` to empty the trash!",
