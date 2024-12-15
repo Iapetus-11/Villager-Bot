@@ -384,7 +384,7 @@ class Econ(commands.Cog):
 
         return True, user
 
-    @commands.group(name="inventory", aliases=["inv", "items"], case_insensitive=True)
+    @commands.group(name="inventory", aliases=["inv", "items", "i"], case_insensitive=True)
     @commands.guild_only()
     @commands.cooldown(2, 2, commands.BucketType.user)
     async def inventory(self, ctx: Ctx):
