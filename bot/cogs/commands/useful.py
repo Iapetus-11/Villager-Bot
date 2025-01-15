@@ -693,7 +693,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
             name=f"{ctx.author.display_name}'s reminders",
-            icon_url=ctx.author.avatar.url,
+            icon_url=ctx.author.display_avatar.url,
         )
         embed.set_footer(text=ctx.l.useful.remind.add.format(ctx.prefix))
 
