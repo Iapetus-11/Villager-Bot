@@ -275,7 +275,10 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
             "RETURNING channel_id, user_id, message_id, reminder",
         )
 
-        broadcast_tasks = [asyncio.create_task(self.server.broadcast(PacketType.REMINDER, {**r})) for r in reminders]
+        broadcast_tasks = [
+            asyncio.create_task(self.server.broadcast(PacketType.REMINDER, {**r}))
+            for r in reminders
+        ]
 
         for tasks_chunk in chunk_sequence(broadcast_tasks, 4):
             await asyncio.wait(tasks_chunk)
