@@ -290,8 +290,10 @@ class MobSpawner(commands.Cog):
                     break
                 # send mob attack
                 mob_attack_text = random.choice(mob.attacks)
-                if "{}" in mob_attack_text:
-                    mob_attack_text = mob_attack_text.format(datetime.now(tz=timezone.utc).year)
+                if "{current_year}" in mob_attack_text:
+                    mob_attack_text = mob_attack_text.format(
+                        current_year=datetime.now(tz=timezone.utc).year
+                    )
 
                 await ctx.send_embed(mob_attack_text)
 
