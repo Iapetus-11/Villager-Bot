@@ -1585,7 +1585,6 @@
         "guild_content": [
           "`{0}config prefix <Tiền tố mới>` - Thay đổi tiền tố lệnh trong máy chủ này.\n\n",
           "`{0}config replies <bật/tắt>` - Thay đổi nếu bot trả lời các tin nhắn như \"emeralds\".\n\n",
-          "`{0}config difficulty <Yên bình/Dễ/Khó>` - Thay đổi độ khó của trò chơi.\n\n",
           "`{0}config lang <Ngôn ngữ>` - Thay đổi ngôn ngữ của Villager Bot.\n\n",
           "`{0}config mcserver <mcserver>` - Thay đổi máy chủ được ping nếu bạn không chỉ định máy chủ trong `/mcping`.\n\n",
           "`{0}config togglecmd <Lệnh>` - Thay đổi xem lệnh đã chỉ định có thể được sử dụng hay không.\n\n"

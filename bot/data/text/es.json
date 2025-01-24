@@ -1585,7 +1585,6 @@
         "guild_content": [
           "`{0}config prefix <nuevo prefijo>` - Cambia el prefijo del comando en este servidor.\n\n",
           "`{0}config replies <on/off>` - Cambia si el bot debe responder a mensajes como \"emeralds\".\n\n",
-          "`{0}config difficulty <peaceful/easy/hard>` - Cambia la dificultad del juego.\n\n",
           "`{0}config lang <idioma>` - Cambia el idioma de Villager Bot.\n\n",
           "`{0}config mcserver <mcserver>` - Cambia el servidor al que se hace ping si no se especifica un servidor en `/mcping`.\n\n",
           "`{0}config togglecmd <comando>` - Cambia si el comando especificado puede ser utilizado o no.\n\n"
