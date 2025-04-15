@@ -1729,512 +1729,510 @@
           "hilt": "Helpt bij meerdere vertalingen van Villager Bot",
           "infernum": "Diverse bug fixes en feature toevoegingen en verbeteringen van het herinneringssysteem",
           "zethal_": "Maakte verschillende textures"
-        }
-      }
         },
-        "others": "And of course, the countless others who have contributed ideas and bug reports to help make Villager Bot better!"
+        "others": "En natuurlijk, de ontelbare anderen die ideeën en bug reports hebben bijgedragen om Villager Bot beter te maken!"
       },
       "snipe": {
-        "nothing": "There's nothing to snipe."
+        "nothing": "Er is niets om te snipen."
       },
       "redditdl": {
-        "invalid_url": "That's an invalid post link!",
-        "reddit_error": "Uh oh, something went wrong contacting Reddit",
-        "downloading": "{} Downloading video and audio...",
-        "stitching": "{} Stitching together video and audio...",
-        "couldnt_find": "Couldn't find anything to download... :/"
+        "invalid_url": "Dat is een ongeldige postlink!",
+        "reddit_error": "Oeps, er is iets misgegaan bij het aanroepen van Reddit",
+        "downloading": "{} Bezig met het downloaden van video en audio...",
+        "stitching": "{} Bezig met het samenvoegen van video en audio...",
+        "couldnt_find": "Kon niets vinden om te downloaden... :/"
       },
       "imgcmds": {
-        "missing": "You must specify the url of an image or upload one.",
-        "invalid": "The specified image is invalid.",
-        "too_big": "The specified image is too big (must not exceed {size}).",
-        "error": "An error occurred while reading the specified image."
+        "missing": "Je moet de URL van een afbeelding opgeven of er een uploaden.",
+        "invalid": "De opgegeven afbeelding is ongeldig.",
+        "too_big": "De opgegeven afbeelding is te groot (mag niet groter zijn dan {size}).",
+        "error": "Er is een fout opgetreden bij het lezen van de opgegeven afbeelding."
       },
       "exif": {
-        "title": "EXIF Data",
-        "none": "*No EXIF data found...*",
-        "discord": "This command requires a URL, as Discord automatically strips EXIF data from media."
+        "title": "EXIF Gegevens",
+        "none": "*Geen EXIF-gegevens gevonden...*",
+        "discord": "Deze opdracht vereist een URL, omdat Discord automatisch EXIF-gegevens uit media verwijdert."
       },
       "translate": {
-        "stupid_1": "You must either send text to translate or reply to a message to translate.",
-        "stupid_2": "The message replied to must have text to translate.",
-        "stupid_3": "Unknown or invalid target language, only these are supported: {lang_codes}",
-        "error": "Failed to translate text."
+        "stupid_1": "Je moet tekst sturen om te vertalen of op een bericht reageren om te vertalen.",
+        "stupid_2": "Het bericht waar op gereageerd wordt, moet tekst bevatten om te vertalen.",
+        "stupid_3": "Onbekende of ongeldige doeltaal, alleen deze worden ondersteund: {lang_codes}",
+        "error": "Vertalen van tekst is mislukt."
       }
     },
     "econ": {
-      "use_a_number_stupid": "You have to use a number.",
-      "page": "Page",
+      "use_a_number_stupid": "Je moet een nummer gebruiken.",
+      "page": "Pagina",
       "bot_prevention": {
-        "problem": "Please type the letters below to continue:",
-        "timeout": "You ran out of time, what a slowpoke...",
-        "correct": "{} Correct answer!",
-        "incorrect": "{} Incorrect answer!"
+        "problem": "Typ de letters hieronder om door te gaan:",
+        "timeout": "Je hebt geen tijd meer, wat een traagheid...",
+        "correct": "{} Correct antwoord!",
+        "incorrect": "{} Onjuist antwoord!"
       },
       "pp": {
-        "bot_1": "Hey dumb dumb, Villager Bot has wayyy to much stuff to show here.",
-        "bot_2": "Hey dumb dumb, bots don't have rights and therefore can't have items or emeralds.",
-        "total_wealth": "Net Wealth",
+        "bot_1": "Hey domkop, Villager Bot heeft veel te veel dingen om hier te tonen.",
+        "bot_2": "He domkop, bots hebben geen rechten en kunnen daarom geen items of smaragden hebben.",
+        "total_wealth": "Netto Vermogen",
         "mooderalds": "Mooderalds",
-        "pick": "Pickaxe",
-        "sword": "Sword",
-        "streak": "Vote Streak",
-        "can_vote": "Can Vote?",
-        "yep": "Yep!",
-        "fx": "Active Effects"
+        "pick": "Houweel",
+        "sword": "Zwaard",
+        "streak": "Stemreeks",
+        "can_vote": "Kan Stemmen?",
+        "yep": "Jazeker!",
+        "fx": "Actieve Effecten"
       },
       "bal": {
-        "bot_1": "Villager Bot has wayyyyy too many emeralds to show!",
-        "bot_2": "Bots don't have rights and can't have emeralds or stuff.",
-        "s_emeralds": "{}'s emeralds",
-        "total_wealth": "Net Wealth: {}{}",
+        "bot_1": "Villager Bot heeft veel te veel smaragden om te tonen!",
+        "bot_2": "Bots hebben geen rechten en kunnen geen smaragden of spullen hebben.",
+        "s_emeralds": "{}'s smaragden",
+        "total_wealth": "Netto Vermogen: {}{}",
         "autistic_emeralds": "Mooderalds: {}{}",
-        "pocket": "Pocket",
-        "vault": "Vault"
+        "pocket": "Op Zak",
+        "vault": "Kluis"
       },
       "inv": {
-        "bot_1": "Villager Bot has wayyyyy too many items to show (About 100000000000000000)",
-        "bot_2": "Bots don't have rights and therefore can't have emeralds or stuff.",
-        "s_inventory": "{}'s inventory [{}]",
+        "bot_1": "Villager Bot heeft veel te veel items om te tonen (Ongeveer 100000000000000000)",
+        "bot_2": "Bots hebben geen rechten en kunnen daarom geen smaragden of spullen hebben.",
+        "s_inventory": "{}'s inventaris [{}]",
         "cats": {
-          "tools": "tools",
-          "magic": "magic",
-          "fish": "fish",
-          "misc": "misc",
-          "farming": "farming",
-          "all": "all"
+          "tools": "gereedschap",
+          "magic": "magie",
+          "fish": "vis",
+          "misc": "divers",
+          "farming": "landbouw",
+          "all": "alle"
         },
-        "empty": "*It's quite empty in here...*"
+        "empty": "*Het is hier best leeg...*"
       },
       "dep": {
-        "poor_loser": "You don't have enough emeralds to deposit.",
-        "stupid_1": "You can't deposit less than one emerald block.",
-        "stupid_2": "You don't have enough space for that.",
-        "stupid_3": "You can't deposit more emeralds than you have.",
-        "deposited": "Deposited {}{} ({}{}) into your vault."
+        "poor_loser": "Je hebt niet genoeg smaragden om te storten.",
+        "stupid_1": "Je kunt niet minder dan één smaragdblok storten.",
+        "stupid_2": "Je hebt niet genoeg ruimte daarvoor.",
+        "stupid_3": "Je kunt niet meer smaragden storten dan je hebt.",
+        "deposited": "Gestort {}{} ({}{}) in je kluis."
       },
       "withd": {
-        "poor_loser": "You don't have enough emerald blocks to withdraw.",
-        "stupid_1": "You can't withdraw less than one emerald block.",
-        "stupid_2": "You can't withdraw more than you have.",
-        "withdrew": "Withdrew {}{} ({}{}) from your vault."
+        "poor_loser": "Je hebt niet genoeg smaragdblokken om op te nemen.",
+        "stupid_1": "Je kunt niet minder dan één smaragdblok opnemen.",
+        "stupid_2": "Je kunt niet meer opnemen dan je hebt.",
+        "withdrew": "Opgenomen {}{} ({}{}) uit je kluis."
       },
       "shop": {
-        "villager_shop": "Villager Shop",
-        "tools": "{} Tools",
-        "magic": "{} Magic",
-        "farming": "{} Farming",
-        "other": "{} Other",
-        "embed_footer": "Use {}inventory to see what you have!"
+        "villager_shop": "Dorpelingwinkel",
+        "tools": "{} Gereedschap",
+        "magic": "{} Magie",
+        "farming": "{} Landbouw",
+        "other": "{} Overig",
+        "embed_footer": "Gebruik {}inventaris om te zien wat je hebt!"
       },
       "buy": {
-        "poor_loser_1": "You don't have enough emeralds to buy any of this item.",
-        "stupid_1": "You can't buy less than one of an item.",
-        "stupid_2": "`{}` is invalid or isn't in the Villager Shop.",
-        "poor_loser_2": "You don't have enough emeralds to buy `{}x` **{}**.",
-        "need_total_of": "You need a total of `{}x` {} ({}) to buy this item.",
-        "you_done_bought": "You have bought {}x **{}** for {} (You have {} total).",
-        "no_to_item_1": "You can't buy any more of this item.",
-        "no_to_item_2": "For some reason, you can't buy this item."
+        "poor_loser_1": "Je hebt niet genoeg smaragden om dit item te kopen.",
+        "stupid_1": "Je kunt niet minder dan één van een item kopen.",
+        "stupid_2": "`{}` is ongeldig of staat niet in de Dorpelingwinkel.",
+        "poor_loser_2": "Je hebt niet genoeg smaragden om `{}x` **{}** te kopen.",
+        "need_total_of": "Je hebt in totaal `{}x` {} ({}) nodig om dit item te kopen.",
+        "you_done_bought": "Je hebt {}x **{}** gekocht voor {} (Je hebt in totaal {}).",
+        "no_to_item_1": "Je kunt er niet meer van dit item kopen.",
+        "no_to_item_2": "Om de een of andere reden kun je dit item niet kopen."
       },
       "sell": {
-        "invalid_item": "Either that item is invalid or you don't have it.",
-        "stupid_1": "You can't sell more than you have of that item.",
-        "stupid_2": "You can't sell less than one of an item.",
-        "stupid_3": "You can't sell this item.",
-        "you_done_sold": "You have sold {}x **{}** for a total of {}{}"
+        "invalid_item": "Of dat item is ongeldig of je hebt het niet.",
+        "stupid_1": "Je kunt niet meer verkopen dan je hebt van dat item.",
+        "stupid_2": "Je kunt niet minder dan één van een item verkopen.",
+        "stupid_3": "Je kunt dit item niet verkopen.",
+        "you_done_sold": "Je hebt {}x **{}** verkocht voor een totaal van {}{}"
       },
       "give": {
-        "bot_1": "Villager Bot already has a full inventory (About 100000000000000000 unique items!)",
-        "bot_2": "You can't give stuff to bots as they don't have rights and can't have emeralds or stuff.",
-        "stupid_1": "You can't give stuff to yourself!",
-        "stupid_2": "You can't give someone less than one of something.",
-        "and_i_oop": "You can't trade/gift this item.",
-        "stupid_3": "You can't give someone more emeralds than you have.",
-        "stupid_4": "You can't give more of an item than you have.",
-        "gave": "{} gave {}x **{}** to {}",
-        "gaveems": "{} gave {}{} to {}",
-        "gaveyou": "{} gave you {}x **{}**",
-        "gaveyouems": "{} gave you {}{}"
+        "bot_1": "Villager Bot heeft al een volle inventaris (Ongeveer 100000000000000000 unieke items!)",
+        "bot_2": "Je kunt geen spullen aan bots geven, omdat ze geen rechten hebben en geen smaragden of spullen kunnen hebben.",
+        "stupid_1": "Je kunt geen spullen aan jezelf geven!",
+        "stupid_2": "Je kunt iemand niet minder dan één van iets geven.",
+        "and_i_oop": "Je kunt dit item niet ruilen/geven.",
+        "stupid_3": "Je kunt iemand niet meer smaragden geven dan je hebt.",
+        "stupid_4": "Je kunt niet meer van een item geven dan je hebt.",
+        "gave": "{} gaf {}x **{}** aan {}",
+        "gaveems": "{} gaf {}{} aan {}",
+        "gaveyou": "{} gaf je {}x **{}**",
+        "gaveyouems": "{} gaf je {}{}"
       },
       "gamble": {
-        "stupid_1": "You can't gamble more emeralds than you have.",
-        "stupid_2": "You have to gamble 10 or more emeralds at a time.",
-        "stupid_3": "You can't gamble more than 50000 emeralds at a time.",
-        "too_rich": "You have too much emeralds, go do something else with your life!",
-        "roll": "Your roll: `{}` **|** Bot's roll: `{}`",
-        "win": "You won! Villager Bot {} {}{}",
-        "lose": "You lost {}{} to Villager Bot...",
-        "tie": "Tie! Maybe Villager Bot will steal your emeralds anyways...",
+        "stupid_1": "Je kunt niet meer smaragden gokken dan je hebt.",
+        "stupid_2": "Je moet 10 of meer smaragden tegelijk gokken.",
+        "stupid_3": "Je kunt niet meer dan 50000 smaragden tegelijk gokken.",
+        "too_rich": "Je hebt te veel smaragden, ga iets anders met je leven doen!",
+        "roll": "Jouw worp: `{}` **|** Bot's worp: `{}`",
+        "win": "Je hebt gewonnen! Villager Bot {} {}{}",
+        "lose": "Je hebt {}{} verloren aan Villager Bot...",
+        "tie": "Gelijkspel! Misschien steelt Villager Bot je smaragden toch...",
         "actions": [
-          "forks over",
-          "gives you",
-          "hands over",
-          "passes you"
+          "geeft",
+          "geeft je",
+          "geeft",
+          "geeft je"
         ]
       },
-      "beg": {
+"beg": {
         "positive": [
-          "A piglin tosses away {}, as only gold matters to it.",
-          "You find {} dropped by pillagers after a raid.",
-          "You find {} left by pillagers in the remnants of a destroyed village...",
-          "A villager takes pity on you and drops {} on the ground.",
-          "A traveller takes pity on you and drops {} into your hands.",
-          "You mug a beggar and get {}!",
-          "Out of annoyance, the villagers throw emeralds at you to make you go away, you picked up {}.",
-          "Villager Bot's kindness blesses you, {} appears in your pocket.",
-          "While traveling to a village, you come across a chunk error, with exposed emeralds at the bottom. You mined up {}.",
-          "As a raid comes to an end the villagers mistake you for the hero, you receive {}.",
-          "You gave the piglin a great time. The piglin stops and thinks, and then hands you {}.",
-          "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot gave you {}.",
-          "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot gave you {}.",
-          "Walking towards your begging spot, glistening emeralds catch your eye. You find {}.",
-          "You search between the couch cushions and find {}!",
-          "You climb Mt. Everest in search of emeralds, you find {}!",
-          "You find a hidden trapdoor and behind it lays {}...",
-          "In a dusty corner you spot {}.",
-          "While cleaning your room you find {}, perhaps you should do it more often...",
-          "Underneath a block of dirt you find {}!",
-          "You search your pockets and find {}, covered in old sticky gum...",
-          "Your pet barfs up {}...",
-          "Scrolling to the bottom of the channel list on Discord you find {}!",
-          "You search the [Discord server](https://discord.com/invite/39DwwUV) and find {}...",
-          "You search for {} on Google."
+          "Een piglin gooit {} weg, want alleen goud is belangrijk voor hem.",
+          "Je vindt {} dat door pillagers is achtergelaten na een aanval.",
+          "Je vindt {} dat door pillagers is achtergelaten in de resten van een verwoest dorp...",
+          "Een dorper heeft medelijden met je en laat {} op de grond vallen.",
+          "Een reiziger heeft medelijden met je en laat {} in je handen vallen.",
+          "Je berooft een bedelaar en krijgt {}!",
+          "Uit ergernis gooien de dorpelingen smaragden naar je om je weg te jagen, je pakt {} op.",
+          "De vriendelijkheid van Villager Bot zegent je, {} verschijnt in je zak.",
+          "Tijdens je reis naar een dorp kom je een chunk-fout tegen, met blootgestelde smaragden aan de onderkant. Je mijnbouwt {}.",
+          "Als een aanval ten einde komt, verwarren de dorpelingen je met de held, je ontvangt {}.",
+          "Je gaf de piglin een geweldige tijd. De piglin stopt en denkt, en geeft je {}.",
+          "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot gaf je {}.",
+          "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot gaf je {}.",
+          "Terwijl je naar je bedelplek loopt, vangen glinsterende smaragden je oog. Je vindt {}.",
+          "Je zoekt tussen de kussens van de bank en vindt {}!",
+          "Je klimt de Mount Everest op in de zoektocht naar smaragden, je vindt {}!",
+          "Je vindt een verborgen luik en daarachter ligt {}...",
+          "In een stoffige hoek zie je {}.",
+          "Terwijl je je kamer opruimt, vind je {}, misschien moet je het vaker doen...",
+          "Onder een blok aarde vind je {}!",
+          "Je doorzoekt je zakken en vindt {}, bedekt met oude plakkerige kauwgom...",
+          "Je huisdier braakt {} op...",
+          "Scrollend naar de onderkant van de kanaallijst op Discord vind je {}!",
+          "Je doorzoekt de [Discord server](https://discord.com/invite/39DwwUV) en vindt {}...",
+          "Je zoekt naar {} op Google."
         ],
         "negative": [
-          "A band of piglins doesn't take your interruption lightly and steals {} from you.",
-          "You stumble across a group of pillagers which steal {} from you.",
-          "You get hit in the head with some bread as villagers chase you out of the village. You dropped {} while you ran away.",
-          "Another begger mugs you and steals {}.",
-          "Asking a creeper didn't go so well, you lost {} from the resulting explosion.",
-          "While looking for more emeralds, you misplaced yours, losing {}.",
-          "An illusioner appears, rambling about doubling emeralds with this once simple trick. You hand him {} and he disappears in a puff of smoke.",
-          "While begging in a village you got caught up in a raid, a ravager headbutts you across the map. You drop {} mid-flight."
+          "Een groep piglins neemt je onderbreking niet licht op en steelt {} van je.",
+          "Je komt een groep pillagers tegen die {} van je stelen.",
+          "Je krijgt een klap op je hoofd met wat brood terwijl dorpelingen je uit het dorp achtervolgen. Je liet {} vallen terwijl je weg rende.",
+          "Een andere bedelaar berooft je en steelt {}.",
+          "Vragen aan een creeper ging niet zo goed, je verloor {} door de resulterende explosie.",
+          "Terwijl je naar meer smaragden zocht, raakte je de jouwe kwijt, waardoor je {} verloor.",
+          "Een illusionist verschijnt, babbelend over het verdubbelen van smaragden met deze eens simpele truc. Je geeft hem {} en hij verdwijnt in een rookwolk.",
+          "Terwijl je in een dorp bedelt, raak je verstrikt in een aanval, een ravager kopstoot je over de kaart. Je laat {} vallen tijdens de vlucht."
         ],
         "mooderald": [
-          "You were blessed by Moofy, and magically received {}.",
-          "You prayed for Mooderalds, and found {} in your left pocket.",
-          "You found {} inside your bag with a note."
+          "Je werd gezegend door Moofy en ontving magisch {}.",
+          "Je bad voor Mooderalds en vond {} in je linkerzak.",
+          "Je vond {} in je tas met een briefje."
         ]
       },
       "mine": {
-        "found_item_1": "You {0} {1} **{2}** (Worth {3}{4}) {5}.",
-        "found_item_2": "You {0} {1} {2} {3}.",
-        "found_emeralds": "You {0} {1}{2}!",
+        "found_item_1": "Je {0} {1} **{2}** (Waarde {3}{4}) {5}.",
+        "found_item_2": "Je {0} {1} {2} {3}.",
+        "found_emeralds": "Je {0} {1}{2}!",
         "actions": [
-          "mined up",
-          "found",
-          "got",
-          "dug up"
+          "gemijnd",
+          "gevonden",
+          "gekregen",
+          "opgegraven"
         ],
         "places": [
-          "in an abandoned mineshaft",
-          "in a chest while mining",
-          "in a chest",
-          "in an abandoned chest",
-          "in a chest near a monster spawner",
-          "while mining"
+          "in een verlaten mijnschacht",
+          "in een kist terwijl je aan het mijnen bent",
+          "in een kist",
+          "in een verlaten kist",
+          "in een kist nabij een monster-spawner",
+          "terwijl je aan het mijnen bent"
         ],
         "useless": [
-          "useless",
-          "stupid",
-          "dumb",
-          "worthless"
+          "waardeloos",
+          "dom",
+          "stom",
+          "nutteloos"
         ]
       },
       "fishing": {
-        "stupid_1": "You can't fish without a fishing rod stupid.",
+        "stupid_1": "Je kunt niet vissen zonder een hengel, domkop.",
         "cast": [
-          "You cast your rod out...",
-          "You attempt to lure a fish...",
-          "You go fishing..."
+          "Je werpt je hengel uit...",
+          "Je probeert een vis te lokken...",
+          "Je gaat vissen..."
         ],
         "junk": [
-          "You fished up hopes and dreams, unfortunately that's not profitable...",
-          "You reeled in a meme, you can't sell it though...",
-          "You reeled in disappointment..."
+          "Je viste hoop en dromen op, helaas is dat niet winstgevend...",
+          "Je haalde een meme binnen, maar je kunt het niet verkopen...",
+          "Je haalde teleurstelling binnen..."
         ],
         "item": [
-          "You fished up 1x **{0}**! (Worth {1}{2})",
-          "You reeled in 1x **{0}**! (Worth {1}{2})"
+          "Je viste 1x **{0}** op! (Waarde {1}{2})",
+          "Je haalde 1x **{0}** binnen! (Waarde {1}{2})"
         ],
         "caught": [
-          "You reeled in one **{0}** {1}!",
-          "You fished up one **{0}** {1}!",
-          "You feel a bite and reel in one **{0}** {1}!",
-          "You feel a tug at the end of the line and fish up one **{0}** {1}!"
+          "Je haalde één **{0}** {1} binnen!",
+          "Je viste één **{0}** {1} op!",
+          "Je voelt een beet en haalt één **{0}** {1} binnen!",
+          "Je voelt een trek aan de lijn en vist één **{0}** {1} op!"
         ],
         "market": {
-          "title": "{} __Villager Bot Fish Market__ {}",
-          "desc": "The prices at which different fish sell for, you can buy a\nfishing rod in the tools section of the shop.",
-          "current": "Sells For: {0}{1}"
+          "title": "{} __Villager Bot Vismarkt__ {}",
+          "desc": "De prijzen waarvoor verschillende vissen worden verkocht, je kunt een\nhengel kopen in de gereedschappen sectie van de winkel.",
+          "current": "Verkoopt Voor: {0}{1}"
         }
       },
       "pillage": {
-        "bot_1": "Hey dumb dumb, Villager Bot cannot be defeated. Villager Bot is immortal and all powerful.",
-        "bot_2": "You can't pillage bots as they don't have rights and therefore can't have emeralds.",
-        "stupid_1": "You can't pillage yourself, dummy.",
-        "stupid_2": "You can't pillage people from other servers...",
-        "stupid_3": "You can only pillage people if you have more than 64{}",
-        "stupid_4": "You can only pillage a person if they have more than 64{}",
-        "stupid_5": "You can't pillage a person who has a **Shield Pearl** active.",
-        "stupid_6": "You can't pillage yet, you must wait {time}",
+        "bot_1": "Hé domkop, Villager Bot kan niet worden verslagen. Villager Bot is onsterfelijk en almachtig.",
+        "bot_2": "Je kunt bots niet plunderen, omdat ze geen rechten hebben en daarom geen smaragden kunnen hebben.",
+        "stupid_1": "Je kunt jezelf niet plunderen, domkop.",
+        "stupid_2": "Je kunt mensen van andere servers niet plunderen...",
+        "stupid_3": "Je kunt alleen mensen plunderen als je meer dan 64{} hebt.",
+        "stupid_4": "Je kunt alleen een persoon plunderen als zij meer dan 64{} hebben.",
+        "stupid_5": "Je kunt geen persoon plunderen die een **Shield Pearl** actief heeft.",
+        "stupid_6": "Je kunt nog niet plunderen, je moet {time} wachten.",
         "u_win": {
           "user": [
-            "You escaped with {}{}",
-            "You got away with {}{}",
-            "You pillaged and stole {}{}"
+            "Je ontsnapte met {}{}",
+            "Je kwam weg met {}{}",
+            "Je plunderde en stal {}{}"
           ],
           "victim": [
-            "{} stole {}{} from you...",
-            "{} pillaged {}{} from you...",
-            "{} pillaged you and stole {}{}...",
-            "{} pillaged you and got {}{}..."
+            "{} stal {}{} van je...",
+            "{} plunderde {}{} van je...",
+            "{} plunderde je en stal {}{}...",
+            "{} plunderde je en kreeg {}{}..."
           ]
         },
         "u_lose": {
           "user": [
-            "You got caught while pillaging and paid {}{}",
-            "You got caught and had to pay {}{}",
-            "You dirty thief, you got caught and had to pay {}{}"
+            "Je werd betrapt tijdens het plunderen en moest {}{} betalen.",
+            "Je werd betrapt en moest {}{} betalen.",
+            "Je vuile dief, je werd betrapt en moest {}{} betalen."
           ],
           "victim": [
-            "{} absolutely failed at pillaging you!",
-            "{} got absolutely destroyed at pillaging you!",
-            "{} failed while trying to pillage you with their wooden sword!",
-            "{} tried to pillage you with their wooden sword!"
+            "{} faalde absoluut in het plunderen van jou!",
+            "{} werd absoluut vernietigd bij het plunderen van jou!",
+            "{} faalde terwijl hij/zij probeerde jou te plunderen met zijn/haar houten zwaard!",
+            "{} probeerde jou te plunderen met zijn/haar houten zwaard!"
           ]
         }
       },
       "use": {
-        "stupid_1": "You can't use more than one of this item at once.",
-        "stupid_2": "You can't use an item you don't even have.",
-        "stupid_3": "You can't use less than one of an item at once, stupid.",
-        "stupid_4": "You can't use more than 100 items at once.",
-        "stupid_5": "You can't use more items than you have!",
-        "stupid_6": "Either that isn't a usable item, or it doesn't exist.",
-        "vault_max": "You cannot expand your vault further via this method.",
-        "vault_pot_singular": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
-        "vault_pot_plural": "You've chugged {hoeveelheid} **Vault Potion**s. Your vault space has increased by {} spaces.",
-        "smoke_seaweed": "You've eaten some **Seaweed** which lasts **{} minutes**",
-        "use_bonemeal": "You've used some **Bone Meal** on your crops, making them grow!",
-        "seaweed_done": "The **Seaweed** you ate earlier has worn off.",
-        "fishing_bait_used": "You used some **Fishing Bait**, you'll now fish up better fish for the next **{} minutes**!",
-        "fishing_bait_done": "The fishing bait you used finally fell off the hook.",
-        "chug": "You've chugged a **{}** which lasts **{} minutes**.",
-        "chug_no_end": "You've chugged a **{}**!",
-        "chug_honey": "You've chugged {0}x **Honey Jar**! (You now have {1}/20 {2})",
-        "cant_use_any": "You can't use any **{}** right now.",
-        "cant_use_up_to": "You can't use any more than {0} **{1}** right now.",
-        "done": "The **{}** you chugged earlier has worn off.",
-        "need_slimy_balls": "You need one **Slime Ball** for each **Glass Beaker**.",
-        "slimy_balls_funne": "You've converted {0}x **Slime Ball** + {0}x **Glass Beaker** into {0}x **Beaker Of Slime**!",
-        "beaker_of_slime_undo": "You've converted {0}x **Beaker Of Slime** into {0}x **Slime Ball**!",
-        "use_shield_pearl": "You've used a **Shield Pearl** and are now invincible against pillagers for the next month.",
-        "use_time_pearl": "You've used a **Time Pearl** which has skipped time forwards two days.",
-        "use_infernums_scroll": "You've used **Infernum's Scroll**, your daily quest has been re-rolled :game_die:",
+        "stupid_1": "Je kunt niet meer dan één van dit item tegelijk gebruiken.",
+        "stupid_2": "Je kunt geen item gebruiken dat je niet eens hebt.",
+        "stupid_3": "Je kunt niet minder dan één van een item tegelijk gebruiken, domkop.",
+        "stupid_4": "Je kunt niet meer dan 100 items tegelijk gebruiken.",
+        "stupid_5": "Je kunt niet meer items gebruiken dan je hebt!",
+        "stupid_6": "Of dat is geen bruikbaar item, of het bestaat niet.",
+        "vault_max": "Je kunt je kluis niet verder uitbreiden via deze methode.",
+        "vault_pot_singular": "Je hebt een **Vault Potion** gedronken. Je kluisspace is met {} ruimtes vergroot.",
+        "vault_pot_plural": "Je hebt {hoeveelheid} **Vault Potion**s gedronken. Je kluisspace is met {} ruimtes vergroot.",
+        "smoke_seaweed": "Je hebt wat **Zeewier** gegeten dat **{} minuten** meegaat.",
+        "use_bonemeal": "Je hebt wat **Bottenmeel** op je gewassen gebruikt, waardoor ze groeien!",
+        "seaweed_done": "Het **Zeewier** dat je eerder at, is uitgewerkt.",
+        "fishing_bait_used": "Je hebt wat **Vishengel Aas** gebruikt, je zult nu betere vissen vangen voor de volgende **{} minuten**!",
+        "fishing_bait_done": "Het visaas dat je gebruikte, is eindelijk van de haak gevallen.",
+        "chug": "Je hebt een **{}** gedronken die **{} minuten** meegaat.",
+        "chug_no_end": "Je hebt een **{}** gedronken!",
+        "chug_honey": "Je hebt {0}x **Honingpot** gedronken! (Je hebt nu {1}/20 {2})",
+        "cant_use_any": "Je kunt op dit moment geen **{}** gebruiken.",
+        "cant_use_up_to": "Je kunt op dit moment niet meer dan {0} **{1}** gebruiken.",
+        "done": "De **{}** die je eerder dronk, is uitgewerkt.",
+        "need_slimy_balls": "Je hebt één **Slime Ball** nodig voor elke **Glazen Bekerglas**.",
+        "slimy_balls_funne": "Je hebt {0}x **Slime Ball** + {0}x **Glazen Bekerglas** omgezet in {0}x **Bekerglas Met Slime**!",
+        "beaker_of_slime_undo": "Je hebt {0}x **Bekerglas Met Slime** omgezet in {0}x **Slime Ball**!",
+        "use_shield_pearl": "Je hebt een **Shield Pearl** gebruikt en bent nu onoverwinnelijk tegen pillagers voor de komende maand.",
+        "use_time_pearl": "Je hebt een **Time Pearl** gebruikt die de tijd met twee dagen vooruit heeft gesprongen.",
+        "use_infernums_scroll": "Je hebt **Infernum's Scroll** gebruikt, je dagelijkse quest is opnieuw gekozen :game_die:",
         "present": [
-          "You opened your present and found 1x **{}** (Worth {}{})!",
-          "You tore off the wrapping paper as fast as you could and got 1x **{}** (Worth {}{})!",
-          "You rip open the present box and find 1x **{}** (Worth {}{})!",
-          "You yeet the box out of the window, it breaks open and you get 1x **{}** (Worth {}{})!"
+          "Je opende je cadeau en vond 1x **{}** (Waarde {}{})!",
+          "Je scheurde het inpakpapier zo snel als je kon en kreeg 1x **{}** (Waarde {}{})!",
+          "Je scheurt de cadeauverpakking open en vindt 1x **{}** (Waarde {}{})!",
+          "Je gooit de doos uit het raam, hij breekt open en je krijgt 1x **{}** (Waarde {}{})!"
         ],
         "barrel_item": [
-          "You popped the lid of the barrel and found 1x **{}** (Worth {}{})!",
-          "You yeeted the barrel out the window, and it breaks open revealing 1x **{}** (Worth {}{})!",
-          "You kick the barrel and it opens, revealing 1x **{}** (Worth {}{})!",
-          "You open the barrel and find 1x **{}** (Worth {}{})!",
-          "You open the barrel to find 1x **{}** (Worth {}{})!",
-          "You hack the barrel open with an axe to find 1x **{}** (Worth {}{})!",
-          "You throw emeralds at the barrel till it breaks open to reveal 1x **{}** (Worth {}{})!",
-          "You enlist the help of some pillagers to open the barrel containing 1x **{}** (Worth {}{})!",
-          "Yoinks scoob looks like you found 1x **{}** (Worth {}{}) in the barrel!"
+          "Je opende het deksel van het vat en vond 1x **{}** (Waarde {}{})!",
+          "Je gooide het vat uit het raam, en het breekt open en onthult 1x **{}** (Waarde {}{})!",
+          "Je schopt het vat en het opent, onthullend 1x **{}** (Waarde {}{})!",
+          "Je opent het vat en vindt 1x **{}** (Waarde {}{})!",
+          "Je opent het vat en vindt 1x **{}** (Waarde {}{})!",
+          "Je hackt het vat open met een bijl en vindt 1x **{}** (Waarde {}{})!",
+          "Je gooit smaragden naar het vat totdat het openbreekt en onthult 1x **{}** (Waarde {}{})!",
+          "Je vraagt de hulp van enkele pillagers om het vat te openen dat 1x **{}** (Wa arde {}{}) bevat!",
+          "Yoinks scoob, het lijkt erop dat je 1x **{}** (Waarde {}{}) in het vat hebt gevonden!"
         ],
         "barrel_ems": [
-          "You popped the lid of the barrel and found {}{}!",
-          "You yeeted the barrel out the window, and it breaks open revealing {}{}!",
-          "You kick the barrel and it opens, revealing {}{}!",
-          "You open the barrel and find {}{}!",
-          "You open the barrel to find {}{}!",
-          "You hack the barrel open with an axe to find {}{}!",
-          "You enlist the help of some pillagers to open the barrel containing {}{}!"
+          "Je opende het deksel van het vat en vond {}{}!",
+          "Je gooide het vat uit het raam, en het breekt open en onthult {}{}!",
+          "Je schopt het vat en het opent, onthullend {}{}!",
+          "Je opent het vat en vindt {}{}!",
+          "Je opent het vat en vindt {}{}!",
+          "Je hackt het vat open met een bijl en vindt {}{}!",
+          "Je vraagt de hulp van enkele pillagers om het vat te openen dat {}{} bevat!"
         ],
         "open_item_box": [
-          "You opened the **Item Box** and found 1x **{item}** (Worth {sell_price}{emerald})!",
-          "You ripped open the **Item Box** and found 1x **{item}** (Worth {sell_price}{emerald})!"
+          "Je opende de **Item Box** en vond 1x **{item}** (Waarde {sell_price}{emerald})!",
+          "Je scheurde de **Item Box** open en vond 1x **{item}** (Waarde {sell_price}{emerald})!"
         ]
       },
-      "farm": {
-        "s_farm": "{user}'s Farm",
-        "commands_title": "Farm Commands",
+"farm": {
+        "s_farm": "{user}'s Boerderij",
+        "commands_title": "Boerderij Commando's",
         "commands": {
-          "plant": "`{prefix}farm plant` - plants the item",
-          "harvest": "`{prefix}farm harvest` - harvests all ready crops"
+          "plant": "`{prefix}farm plant` - plant het item",
+          "harvest": "`{prefix}farm harvest` - oogst alle rijpe gewassen"
         },
-        "available": "Available to harvest: {available}/{max}",
-        "cant_plant": "You can't plant this item.",
-        "no_plots": "All your farm plots are full, a better hoe will give you more!",
-        "no_plots_2": "You don't have enough farm plots for that!",
-        "planted": "Planted {hoeveelheid}x {crop}",
-        "cant_harvest": "There are no ready crops to harvest...",
-        "harvested": "Harvested {crops}"
+        "available": "Beschikbaar om te oogsten: {available}/{max}",
+        "cant_plant": "Je kunt dit item niet planten.",
+        "no_plots": "Al je boerderijpercelen zijn vol, een betere houwel geeft je meer!",
+        "no_plots_2": "Je hebt niet genoeg boerderijpercelen voor dat!",
+        "planted": "Geplant {hoeveelheid}x {crop}",
+        "cant_harvest": "Er zijn geen rijpe gewassen om te oogsten...",
+        "harvested": "Gehooid {crops}"
       },
       "honey": {
         "stupid_1": [
-          "You don't have enough bees to make this business option viable.",
-          "You need 100 jars of bees to actually make a profit, go away."
+          "Je hebt niet genoeg bijen om deze zakelijke optie levensvatbaar te maken.",
+          "Je hebt 100 potten bijen nodig om daadwerkelijk winst te maken, ga weg."
         ],
         "honey": [
-          "Apparently bees produce honey and you just collected {} jars of it! Who knew?!!",
-          "So, bees make honey and you just got {} jars of it!",
-          "Wow, bees make honey! You just got {} jars of it!"
+          "Kennelijk produceren bijen honing en je hebt net {} potten ervan verzameld! Wie had dat gedacht?!!",
+          "Dus, bijen maken honing en je hebt net {} potten ervan gekregen!",
+          "Wauw, bijen maken honing! Je hebt net {} potten ervan gekregen!"
         ],
         "ded": [
-          "Also, apparently bees get pretty pissed when you try and steal their honey. You lost {} of em...",
-          "Oops, apparently bees get pretty mad when you try and steal from them, who knew!? You lost {} of them to suicide.",
-          "Looks like bees get pretty angry when you try and steal from them, you lost {} to suicide..."
+          "Bovendien, kennelijk worden bijen behoorlijk boos als je probeert hun honing te stelen. Je hebt {} van ze verloren...",
+          "Oeps, kennelijk worden bijen behoorlijk kwaad als je probeert van ze te stelen, wie had dat gedacht!? Je hebt {} van hen verloren door zelfmoord.",
+          "Het lijkt erop dat bijen behoorlijk boos worden als je probeert van ze te stelen, je hebt {} verloren door zelfmoord..."
         ]
       },
       "lb": {
-        "title": "__**Villager Bot Leaderboards**__",
-        "global_lb": "Global",
-        "local_lb": "This Server",
-        "emeralds": "Emeralds",
+        "title": "__**Villager Bot Ranglijsten**__",
+        "global_lb": "Globaal",
+        "local_lb": "Deze Server",
+        "emeralds": "Smaragden",
         "item": "Item",
-        "unique_items": "Unique Items",
-        "stolen": "Emeralds Stolen",
-        "kills": "Mobs Killed",
-        "cmds": "Commands Sent",
-        "votes": "Vote Streak",
-        "fish": "Fishies Fished",
-        "farming": "Crops Planted",
-        "trash": "Trash Emptied",
-        "wems": "Weekly Emeralds",
-        "wcmds": "Weekly Commands",
-        "dq": "Completed Daily Quests",
-        "wdq": "Weekly Completed Daily Quests",
-        "tw": "Total Wealth",
-        "lb_ems": "{0}__**Emerald Leaderboard**__{0}",
-        "lb_item": "{0}__**{1} Leaderboard**__{0}",
-        "lb_unique_items": "{0}__**Unique Items Leaderboard**__{0}",
-        "lb_pil": "{0}__**Emeralds Stolen Leaderboard**__{0}",
-        "lb_kil": "{0}__**Mobs Killed Leaderboard**__{0}",
-        "lb_cmds": "{0}__**Commands Sent Leaderboard**__{0}",
-        "lb_votes": "{0}__**Vote Streak Leaderboard**__{0}",
-        "lb_fish": "{0}__**Fish Fished Leaderboard**__{0}",
-        "lb_farming": "{0}__**Crops Planted Leaderboard**__{0}",
-        "lb_trash": "{0}__**Trash Emptied Leaderboard**__{0}",
-        "lb_wems": "{0}__**Weekly Emeralds**__{0}",
-        "lb_wcmds": "{0}__**Weekly Commands**__{0}",
-        "lb_dq": "{0}__**Completed Daily Quests**__{0}",
-        "lb_wdq": "{0}__**Weekly Completed Daily Quests**__{0}",
-        "lb_tw": "{0}__**Total Wealth**__{0}",
-        "no_item_lb": "No leaderboard exists for this item",
-        "item_lb_stats": "*total of {total_count:,} owned by {user_count:,} different users*"
+        "unique_items": "Unieke Items",
+        "stolen": "Gestolen Smaragden",
+        "kills": "Gevallen Mobs",
+        "cmds": "Verzonden Commando's",
+        "votes": "Stemreeks",
+        "fish": "Vissen Gevangen",
+        "farming": "Gewassen Geplant",
+        "trash": "Afval Geleegd",
+        "wems": "Wekelijkse Smaragden",
+        "wcmds": "Wekelijkse Commando's",
+        "dq": "Voltooide Dagelijkse Quests",
+        "wdq": "Wekelijks Voltooide Dagelijkse Quests",
+        "tw": "Totaal Vermogen",
+        "lb_ems": "{0}__**Smaragd Ranglijst**__{0}",
+        "lb_item": "{0}__**{1} Ranglijst**__{0}",
+        "lb_unique_items": "{0}__**Unieke Items Ranglijst**__{0}",
+        "lb_pil": "{0}__**Gestolen Smaragden Ranglijst**__{0}",
+        "lb_kil": "{0}__**Gevallen Mobs Ranglijst**__{0}",
+        "lb_cmds": "{0}__**Verzonden Commando's Ranglijst**__{0}",
+        "lb_votes": "{0}__**Stemreeks Ranglijst**__{0}",
+        "lb_fish": "{0}__**Vissen Gevangen Ranglijst**__{0}",
+        "lb_farming": "{0}__**Gewassen Geplant Ranglijst**__{0}",
+        "lb_trash": "{0}__**Afval Geleegd Ranglijst**__{0}",
+        "lb_wems": "{0}__**Wekelijkse Smaragden**__{0}",
+        "lb_wcmds": "{0}__**Wekelijkse Commando's**__{0}",
+        "lb_dq": "{0}__**Voltooide Dagelijkse Quests**__{0}",
+        "lb_wdq": "{0}__**Wekelijks Voltooide Dagelijkse Quests**__{0}",
+        "lb_tw": "{0}__**Totaal Vermogen**__{0}",
+        "no_item_lb": "Er bestaat geen ranglijst voor dit item",
+        "item_lb_stats": "*totaal van {total_count:,} in het bezit van {user_count:,} versschillende gebruikers*"
       },
       "trash": {
-        "s_trash": "{user}'s Trash Can",
-        "no_trash": "There's no trash here... :/",
-        "total_contents": "The total contents is worth {ems}{ems_emoji}",
-        "how_to_empty": "Use `{prefix}trashcan empty` to empty the trash!",
-        "emptied_for": "You emptied your trash can for {reward}"
+        "s_trash": "{user}'s Afvalbak",
+        "no_trash": "Er is hier geen afval... :/",
+        "total_contents": "De totale inhoud is waard {ems}{ems_emoji}",
+        "how_to_empty": "Gebruik `{prefix}trashcan empty` om de afvalbak te legen!",
+        "emptied_for": "Je hebt je afvalbak geleegd voor {reward}"
       },
       "daily_quests": {
         "mapping": {
           "mined_emeralds": {
-            "title": "Mine up {target} emeralds {emoji}",
-            "progress": "{value}/{target} emeralds mined... {encouragement}"
+            "title": "Mijn {target} smaragden {emoji}",
+            "progress": "{value}/{target} smaragden gemijnd... {encouragement}"
           },
           "fished_cod": {
-            "title": "Fish up {target} cod {emoji}",
-            "progress": "{value}/{target} cod fished... {encouragement}"
+            "title": "Vang {target} kabeljauw {emoji}",
+            "progress": "{value}/{target} kabeljauw gevangen... {encouragement}"
           },
           "fished_salmon": {
-            "title": "Fish up {target} salmon {emoji}",
-            "progress": "{value}/{target} salmon fished... {encouragement}"
+            "title": "Vang {target} zalm {emoji}",
+            "progress": "{value}/{target} zalm gevangen... {encouragement}"
           },
           "fished_tropical_fish": {
-            "title": "Fish up {target} tropical fish {emoji}",
-            "progress": "{value}/{target} tropical fish fished... {encouragement}"
+            "title": "Vang {target} tropische vissen {emoji}",
+            "progress": "{value}/{target} tropische vissen gevangen... {encouragement}"
           },
           "fished_pufferfish": {
-            "title": "Fish up {target} pufferfish {emoji}",
-            "progress": "{value}/{target} pufferfish fished... {encouragement}"
+            "title": "Vang {target} kogelvissen {emoji}",
+            "progress": "{value}/{target} kogelvissen gevangen... {encouragement}"
           },
           "fished_rainbow_trout": {
-            "title": "Fish up {target} rainbow trout {emoji}",
-            "progress": "{value}/{target} rainbow trout fished... {encouragement}"
+            "title": "Vang {target} regenboogforellen {emoji}",
+            "progress": "{value}/{target} regenboogforellen gevangen... {encouragement}"
           },
           "fished_gold_fish": {
-            "title": "Fish up {target} gold fish {emoji}",
-            "progress": "{value}/{target} gold fish fished... {encouragement}"
+            "title": "Vang {target} goudvissen {emoji}",
+            "progress": "{value}/{target} goudvissen gevangen... {encouragement}"
           },
           "fished_emerald_fish": {
-            "title": "Fish up {target} emerald fish {emoji}",
-            "progress": "{value}/{target} emerald fish fished... {encouragement}"
+            "title": "Vang {target} smaragd vissen {emoji}",
+            "progress": "{value}/{target} smaragd vissen gevangen... {encouragement}"
           },
           "votes": {
-            "title": "Vote on top.gg {emoji}",
-            "progress": "{value}/{target} votes... {encouragement}"
+            "title": "Stem op top.gg {emoji}",
+            "progress": "{value}/{target} stemmen... {encouragement}"
           },
           "killed_zombie": {
-            "title": "Kill {target} zombies {emoji}",
-            "progress": "{value}/{target} zombies killed... {encouragement}"
+            "title": "Dood {target} zombies {emoji}",
+            "progress": "{value}/{target} zombies gedood... {encouragement}"
           },
           "killed_skeleton": {
-            "title": "Kill {target} skeletons {emoji}",
-            "progress": "{value}/{target} skeletons killed... {encouragement}"
+            "title": "Dood {target} skeletten {emoji}",
+            "progress": "{value}/{target} skeletten gedood... {encouragement}"
           },
           "killed_spider": {
-            "title": "Kill {target} spiders {emoji}",
-            "progress": "{value}/{target} spiders killed... {encouragement}"
+            "title": "Dood {target} spinnen {emoji}",
+            "progress": "{value}/{target} spinnen gedood... {encouragement}"
           },
           "killed_cave_spider": {
-            "title": "Kill {target} cave spiders {emoji}",
-            "progress": "{value}/{target} cave spiders killed... {encouragement}"
+            "title": "Dood {target} grottenspinnen {emoji}",
+            "progress": "{value}/{target} grottenspinnen gedood... {encouragement}"
           },
           "killed_creeper": {
-            "title": "Kill {target} creepers {emoji}",
-            "progress": "{value}/{target} creepers killed... {encouragement}"
+            "title": "Dood {target} creepers {emoji}",
+            "progress": "{value}/{target} creepers gedood... {encouragement}"
           },
           "killed_baby_slime": {
-            "title": "Kill {target} baby slimes {emoji}",
-            "progress": "{value}/{target} baby slimes killed... {encouragement}"
+            "title": "Dood {target} baby slimes {emoji}",
+            "progress": "{value}/{target} baby slimes gedood... {encouragement}"
           },
           "killed_enderman": {
-            "title": "Kill {target} endermen {emoji}",
-            "progress": "{value}/{target} endermen killed... {encouragement}"
+            "title": "Dood {target} endermen {emoji}",
+            "progress": "{value}/{target} endermen gedood... {encouragement}"
           },
           "mined_collectibles": {
-            "title": "Mine up {target} collectibles {emoji}",
-            "progress": "{value}/{target} collectibles mined... {encouragement}"
+            "title": "Mijn {target} verzamelobjecten {emoji}",
+            "progress": "{value}/{target} verzamelobjecten gemijnd... {encouragement}"
           },
           "fished_collectibles": {
-            "title": "Fish up {target} collectibles {emoji}",
-            "progress": "{value}/{target} collectibles fished up... {encouragement}"
+            "title": "Vang {target} verzamelobjecten {emoji}",
+            "progress": "{value}/{target} verzamelobjecten gevangen... {encouragement}"
           }
         },
-        "completed": "Quest completed: {quest_title}!",
-        "current": "Current daily quest: {quest_title}",
-        "rewarded": "You have been rewarded {reward_hoeveelheid}{reward_emoji}!",
-        "progress": "**Progress:** {progress}",
-        "reward": "**Reward:** {reward_hoeveelheid}{reward_emoji}",
-        "expires_at": "**Expires:** {expires_at}",
-        "cant_reroll": "You can't re-roll your quest yet, if you think this is a bug please report it",
+        "completed": "Quest voltooid: {quest_title}!",
+        "current": "Huidige dagelijkse quest: {quest_title}",
+        "rewarded": "Je hebt {reward_hoeveelheid}{reward_emoji} ontvangen!",
+        "progress": "**Voortgang:** {progress}",
+        "reward": "**Beloning:** {reward_hoeveelheid}{reward_ emoji}",
+        "expires_at": "**Verloopt:** {expires_at}",
+        "cant_reroll": "Je kunt je quest nog niet opnieuw rollen, als je denkt dat dit een bug is, meld het dan.",
         "encouragements": {
           "close": [
-            "You're getting close!",
-            "Only a little to go!",
-            "Suuuuper close..."
+            "Je komt dichtbij!",
+            "Nog maar een beetje te gaan!",
+            "Super dichtbij..."
           ],
           "far": [
-            "Some way to go huh...",
-            "You better get grinding!",
-            "You better hurry up!"
+            "Je hebt nog een eind te gaan...",
+            "Je moet aan de slag!",
+            "Je moet opschieten!"
           ],
           "done": [
-            "You're all done!",
-            "You did it!",
+            "Je bent helemaal klaar!",
+            "Je hebt het gedaan!",
             "Pog champ!"
           ]
         }
@@ -2243,293 +2241,293 @@
         "item_mapping": {
           "Wood Pickaxe": {
             "description": [
-              "When mining, has a `5/26` chance of mining up emeralds. Upgrade to a **Stone Pickaxe** to receive better voting rewards."
+              "Bij het mijnen heeft het een kans van `5/26` om smaragden te mijnen. Upgrade naar een **Stone Pickaxe** voor betere stembeloningen."
             ]
           },
           "Stone Pickaxe": {
             "description": [
-              "When mining, has a `6/26` chance of mining up emeralds. Upgrade to an **Iron Pickaxe** to receive better voting rewards."
+              "Bij het mijnen heeft het een kans van `6/26` om smaragden te mijnen. Upgrade naar een **Iron Pickaxe** voor betere stembeloningen."
             ]
           },
           "Iron Pickaxe": {
             "description": [
-              "When mining, has a `7/26` chance of mining up emeralds. Upgrade to a **Gold Pickaxe** to receive better voting rewards."
+              "Bij het mijnen heeft het een kans van `7/26` om smaragden te mijnen. Upgrade naar een **Gold Pickaxe** voor betere stembeloningen."
             ]
           },
           "Gold Pickaxe": {
             "description": [
-              "When mining, has a `9/26` chance of mining up emeralds. Upgrade to a **Diamond Pickaxe** to receive better voting rewards."
+              "Bij het mijnen heeft het een kans van `9/26` om smaragden te mijnen. Upgrade naar een **Diamond Pickaxe** voor betere stembeloningen."
             ]
           },
           "Diamond Pickaxe": {
             "description": [
-              "When mining, has a `11/26` chance of mining up emeralds. Upgrade to a **Netherite Pickaxe** to receive better voting rewards."
+              "Bij het mijnen heeft het een kans van `11/26` om smaragden te mijnen. Upgrade naar een **Netherite Pickaxe** voor betere stembeloningen."
             ]
           },
           "Netherite Pickaxe": {
             "description": [
-              "When mining, has a `13/26` chance of mining up emeralds."
+              "Bij het mijnen heeft het een kans van `13/26` om smaragden te mijnen."
             ]
           },
           "Wood Sword": {
             "description": [
-              "Deals a base damage of `1-2hp` against mobs."
+              "Doet een basis schade van `1-2hp` tegen mobs."
             ]
           },
           "Stone Sword": {
             "description": [
-              "Deals a base damage of `1-3hp` against mobs."
+              "Doet een basis schade van `1-3hp` tegen mobs."
             ]
           },
           "Iron Sword": {
             "description": [
-              "Deals a base damage of `2-4hp` against mobs."
+              "Doet een basis schade van `2-4hp` tegen mobs."
             ]
           },
           "Gold Sword": {
             "description": [
-              "Deals a base damage of `4-5hp` against mobs."
+              "Doet een basis schade van `4-5hp` tegen mobs."
             ]
           },
           "Diamond Sword": {
             "description": [
-              "Deals a base damage of `6-7hp` against mobs."
+              "Doet een basis schade van `6-7hp` tegen mobs."
             ]
           },
           "Netherite Sword": {
             "description": [
-              "Deals a base damage of `7-10hp` against mobs."
+              "Doet een basis schade van `7-10hp` tegen mobs."
             ]
           },
           "Wood Hoe": {
             "description": [
-              "Allows you to plant up to `10 plots` of farmland using the `{prefix}farm` command."
+              "Stelt je in staat om tot `10 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
             ]
           },
           "Stone Hoe": {
             "description": [
-              "Allows you to plant up to `20 plots` of farmland using the `{prefix}farm` command."
+              "Stelt je in staat om tot `20 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
             ]
           },
           "Iron Hoe": {
             "description": [
-              "Allows you to plant up to `30 plots` of farmland using the `{prefix}farm` command."
+              "Stelt je in staat om tot `30 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
             ]
           },
           "Gold Hoe": {
             "description": [
-              "Allows you to plant up to `40 plots` of farmland using the `{prefix}farm` command."
+              "Stelt je in staat om tot `40 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
             ]
           },
           "Diamond Hoe": {
             "description": [
-              "Allows you to plant up to `50 plots` of farmland using the `{prefix}farm` command."
+              "Stelt je in staat om tot `50 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
             ]
           },
           "Netherite Hoe": {
             "description": [
-              "Allows you to plant up to `60 plots` of farmland using the `{prefix}farm` command."
+              "Stelt je in staat om tot `60 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
             ]
           },
           "Fishing Rod": {
             "description": [
-              "Allows you to fish for **Cod**, **Salmon**, **Tropical Fish**, **Pufferfish**, **Rainbow Trout**, **Gold Fish**, and **Emerald Fish** using the `{prefix}fish` command."
+              "Stelt je in staat om te vissen naar **Kabeljauw**, **Zalm**, **Tropische Vissen**, **Kogelvissen**, **Regenboogforellen**, **Goudvissen**, en **Smaragd Vissen** met het `{prefix}fish` commando."
             ]
           },
           "Vault Potion": {
             "description": [
-              "Use this item with the `{prefix}use Vault Potion` command to increase your available `{prefix}vault` capacity."
+              "Gebruik dit item met het `{prefix}use Vault Potion` commando om je beschikbare `{prefix}vault` capaciteit te vergroten."
             ]
           },
           "Haste I Potion": {
             "description": [
-              "Reduces the `{prefix}mine` command cooldown by `1 second` for `7 minutes`."
+              "Vermindert de cooldown van het `{prefix}mine` commando met `1 seconde` voor `7 minuten`."
             ]
           },
           "Haste II Potion": {
             "description": [
-              "Reduces the `{prefix}mine` command cooldown by `2 seconds` for `6 minutes`."
+              "Vermindert de cooldown van het `{prefix}mine` commando met `2 seconden` voor `6 minuten`."
             ]
           },
           "Fortune I Book": {
             "description": [
-              "Increases the emerald reward from the `{prefix}mine` command by `1-2 emeralds`.",
-              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new pickaxes. This enchantment book does not stack."
+              "Verhoogt de smaragd beloning van de `{prefix}mine` commando met `1-2 smaragden`.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen aan alle nieuwe pikhouwelen. Dit betoveringsboek stapelt niet."
             ]
           },
           "Fortune II Book": {
             "description": [
-              "Increases the emerald reward from the `{prefix}mine` command by `1-3 emeralds`.",
-              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new pickaxes. This enchantment book does not stack."
+              "Verhoogt de smaragd beloning van de `{prefix}mine` commando met `2-3 smaragden`.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen aan alle nieuwe pikhouwelen. Dit betoveringsboek stapelt niet."
             ]
           },
           "Fortune III Book": {
             "description": [
-              "Increases the emerald reward from the `{prefix}mine` command by `1-4 emeralds`.",
-              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new pickaxes. This enchantment book does not stack."
+              "Verhoogt de smaragd beloning van het `{prefix}mine` commando met `1-4 smaragden`.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe houwelen. Dit betoveringsboek stapelt niet."
             ]
           },
           "Sharpness I Book": {
             "description": [
-              "Increases base sword damage by `25%` (for a total of `125%`) when fighting mobs.",
-              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new swords. This enchantment book does not stack."
+              "Verhoogt de basis schade van zwaarden met `25%` (voor een totaal van `125%`) bij het vechten tegen mobs.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe zwaarden. Dit betoveringsboek stapelt niet."
             ]
           },
           "Sharpness II Book": {
             "description": [
-              "Increases base sword damage by `50%` (for a total of `150%`) when fighting mobs.",
-              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new swords. This enchantment book does not stack."
+              "Verhoogt de basis schade van zwaarden met `50%` (voor een totaal van `150%`) bij het vechten tegen mobs.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe zwaarden. Dit betoveringsboek stapelt niet."
             ]
           },
           "Time Pearl": {
             "description": [
-              "Upon using the item with the `{prefix}use Time Pearl` command, it fast-forwards time by two days; growing crops, resetting cooldowns for `{prefix}honey`, `{prefix}pillage`, `{prefix}search`, clears all active effects (for example, haste) and consumes the item."
+              "Bij het gebruik van het item met het `{prefix}use Time Pearl` commando, versnelt het de tijd met twee dagen; gewassen groeien, cooldowns voor `{prefix}honey`, `{prefix}pillage`, `{prefix}search` worden gereset, en alle actieve effecten (bijvoorbeeld, haste) worden gewist en het item wordt verbruikt."
             ]
           },
           "Shield Pearl": {
             "description": [
-              "Using this item with the `{prefix}use Shield Pearl` command will allow you to prevent people from pillaging you with the `{prefix}pillage` for up to one month. Using this item will consume it.",
-              "If you use the `{prefix}pillage` command while a **Shield Pearl** is active, its effect will be cancelled and you will become pillageable."
+              "Het gebruik van dit item met het `{prefix}use Shield Pearl` commando stelt je in staat om te voorkomen dat mensen je plunderen met het `{prefix}pillage` commando voor maximaal een maand. Het gebruik van dit item verbruikt het.",
+              "Als je het `{prefix}pillage` commando gebruikt terwijl een **Shield Pearl** actief is, wordt het effect geannuleerd en word je plunderbaar."
             ]
           },
           "Rich Person Trophy": {
             "description": [
-              "With a **Rich Person Trophy**, you get a bonus to the `{prefix}gamble` command, `200%` emeralds from the `{prefix}trashcan empty` command, `150%` emeralds from opening **Barrel**s, and `200%` emeralds from the `{prefix}mine` command. But remember... **greed has a price**..."
+              "Met een **Rich Person Trophy** krijg je een bonus op het `{prefix}gamble` commando, `200%` smaragden van het `{prefix}trashcan empty` commando, `150%` smaragden van het openen van **Vaten**, en `200%` smaragden van het `{prefix}mine` commando. Maar onthoud... **hebzucht heeft een prijs**..."
             ]
           },
           "Jar Of Bees": {
             "description": [
-              "Purchasing **Jar Of Bees** from the `{prefix}shop` allows you to harvest honey from them daily using the `{prefix}honey` command."
+              "Het kopen van een **Pot met Bijen** in de `{prefix}shop` stelt je in staat om dagelijks honing van hen te oogsten met het `{prefix}honey` commando."
             ]
           },
           "Glass Beaker": {
             "description": [
-              "Allows you to transform a **Slime Ball** into a **Beaker Of Slime** with the `{prefix}use <hoeveelheid> Glass Beaker` command, allowing it to be traded with other players."
+              "Stelt je in staat om een **Slime Ball** om te zetten in een **Beaker Of Slime** met het `{prefix}use <hoeveelheid> Glass Beaker` commando, waardoor het verhandeld kan worden met andere spelers."
             ]
           },
           "Netherite Scrap": {
             "description": [
-              "This item is required when purchasing certain items from the `{prefix}shop`."
+              "Dit item is vereist bij het kopen van bepaalde items in de `{prefix}shop`."
             ]
           },
           "Slime Trophy": {
             "description": [
-              "Having this item in your inventory decreases your chances of missing attacks against **Baby Slime**s."
+              "Het hebben van dit item in je inventaris vermindert je kans om aanvallen tegen **Baby Slijmkubus**sen te missen."
             ]
           },
           "Fishing Trophy": {
             "description": [
-              "Having this item in your inventory decreases your chances of fishing up junk when using the `{prefix}fish` command."
+              "Het hebben van dit item in je inventaris vermindert je kans om rommel te vangen bij het gebruik van het `{prefix}fish` commando."
             ]
           },
           "Wheat Seed": {
             "description": [
-              "You can plant a **Wheat Seed** using the `{prefix}farm plant <hoeveelheid> Wheat Seed` command to grow `1-2` **Wheat**."
+              "Je kunt **Graanzaden** planten met het `{prefix}farm plant <hoeveelheid> Wheat Seed` commando om `1-2` **Graan** te laten groeien."
             ]
           },
           "Carrot": {
             "description": [
-              "You can plant a **Carrot** using the `{prefix}farm plant <hoeveelheid> Carrot` command to grow `1-3` **Carrot**s."
+              "Je kunt een **Wortel** planten met het `{prefix}farm plant <hoeveelheid> Carrot` commando om `1-3` **Wortel**s te laten groeien."
             ]
           },
           "Potato": {
             "description": [
-              "You can plant a **Potato** using the `{prefix}farm plant <hoeveelheid> Potato` command to grow `1-3` **Potato**es."
+              "Je kunt een **Aardappel** planten met het `{prefix}farm plant <hoeveelheid> Potato` commando om `1-3` **Aardappel**s te laten groeien."
             ]
           },
           "Melon Seed": {
             "description": [
-              "You can plant a **Melon Seed** using the `{prefix}farm plant <hoeveelheid> Melon Seed` command to grow `2-5` **Melon**."
+              "Je kunt **Meloenzaad** planten met het `{prefix}farm plant <hoeveelheid> Melon Seed` commando om `2-5` **Meloen**en te laten groeien."
             ]
           },
           "Chorus Seed": {
             "description": [
-              "You can plant a **Chorus Seed** using the `{prefix}farm plant <hoeveelheid> Chorus Seed` command to grow `1-2` **Chorus Fruit**."
+              "Je kunt **Chorus Zaad** planten met het `{prefix}farm plant <hoeveelheid> Chorus Seed` commando om `1-2` **Chorus Fruit** te laten groeien."
             ]
           },
           "Bone Meal": {
             "description": [
-              "Dropped from killing Skeletons with a chance of `1/20` (affected by looting enchantments). You can use this item with the `{prefix}use Bone Meal` command, which grows all crops by `67%` of the time they take to grow."
+              "Gevallen bij het doden van Skeletten met een kans van `1/20` (beïnvloed door plundering betoveringen). Je kunt dit item gebruiken met het `{prefix}use Bone Meal` commando, wat alle gewassen met `67%` van de tijd die ze nodig hebben om te groeien, laat groeien."
             ]
           },
           "Fishing Bait": {
             "description": [
-              "Can be found by emptying your trash can with `{prefix}trash` command if you have enough dirt.",
-              "When used with the `{prefix}use Fishing Bait` command, it reduces the wait time for the `{prefix}fish` command by `8 seconds` and increases the chances of fishing up fish instead of junk or collectibles."
+              "Kan worden gevonden door je afvalbak te legen met het `{prefix}trash` commando als je genoeg aarde hebt.",
+              "Wanneer gebruikt met het `{prefix}use Fishing Bait` commando, vermindert het de wachttijd voor het `{prefix}fish` commando met `8 seconden` en verhoogt het de kans om vissen te vangen in plaats van rommel of verzamelobjecten."
             ]
           },
           "Honey Jar": {
             "description": [
-              "When used with the `{prefix}use <hoeveelheid> Honey Jar` command, it will heal you `1/2hp` per **Honey Jar**."
+              "Wanneer gebruikt met het `{prefix}use <hoeveelheid> Honey Jar` commando, zal het je `1/2hp` genezen per **Pot Honing**."
             ]
           },
           "Barrel": {
             "description": [
-              "When used with the `{prefix}use <hoeveelheid> Barrel` command, it will give you a reward of either emeralds or a collectible item."
+              "Wanneer gebruikt met het `{prefix}use <hoeveelheid> Barrel` commando, zal het je een beloning geven in de vorm van smaragden of een verzamelobject."
             ]
           },
           "Beaker Of Slime": {
             "description": [
-              "When used with the `{prefix}use <hoeveelheid> Beaker Of Slime` command, it will separate out into a **Slime Ball** and **Glass Beaker**."
+              "Wanneer gebruikt met het `{prefix}use <hoeveelheid> Beaker Of Slime` commando, zal het zich scheiden in een **Slijmbal** en een **Glazen Beker**."
             ]
           },
           "Infernum's Scroll": {
             "description": [
-              "Allows you to change (re-roll) your daily quest with the `{prefix}use Infernum's Scroll` command. Using this item consumes it.",
-              "This item drops from all mobs with a chance of about `1/40` (affected by looting enchantments)."
+              "Stelt je in staat om je dagelijkse quest te veranderen (opnieuw te rollen) met het `{prefix}use Infernum's Scroll` commando. Het gebruik van dit item verbruikt het.",
+              "Dit item valt van alle mobs met een kans van ongeveer `1/40` (beïnvloed door plundering betoveringen)."
             ]
           },
           "Lure I Book": {
             "description": [
-              "Reduces `4 seconds` of wait time from the `{prefix}fish` command.",
-              "This enchantment book is applied automatically as long as it remains in your inventory. This enchantment book does not stack."
+              "Vermindert `4 seconden` wachttijd van het `{prefix}fish` commando.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft. Dit betoveringsboek stapelt niet."
             ]
           },
           "Looting I Book": {
             "description": [
-              "Increases chances and quantities of recovered items and emeralds from slain mobs.",
-              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new swords. This enchantment book does not stack."
+              "Verhoogt de kansen en hoeveelheden van gewonnen items en smaragden van gedode mobs.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe zwaarden. Dit betoveringsboek stapelt niet."
             ]
           },
           "Looting II Book": {
             "description": [
-              "Increases chances and quantities of recovered items and emeralds from slain mobs, more so than the **Looting I Book**.",
-              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new swords. This enchantment book does not stack."
+              "Verhoogt de kansen en hoeveelheden van gewonnen items en smaragden van gedode mobs, meer dan het **Plundering I Boek**.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe zwaarden. Dit betoveringsboek stapelt niet."
             ]
           },
           "Efficiency I Book": {
             "description": [
-              "Reduces the cooldown on the `{prefix}mine` command by `0.5 seconds`.",
-              "This enchantment book is applied automatically as long as it remains in your inventory, and also transfers to all new pickaxes. This enchantment book does not stack."
+              "Vermindert de cooldown op het `{prefix}mine` commando met `0.5 seconden`.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe houwelen. Dit betoveringsboek stapelt niet."
             ]
           },
           "Luck Potion": {
             "description": [
-              "> When used with the `{prefix}chug Luck Potion` command you will experience the effects listed below for `4 minutes and 30 seconds`.",
-              "Significantly increases chances of:\n- Obtaining extra vault spaces while running economy commands.\n- Finding collectibles from mining.\n- Finding fishing bait when emptying the `{prefix}trashcan`.",
-              "Significantly decreases chances of:\n- Fishing up junk (instead of collectibles or fish).\n- Losing bees when using the `{prefix}honey` command."
+              "> Wanneer gebruikt met het `{prefix}chug Luck Potion` commando, zul je de onderstaande effecten ontvangen voor `4 minuten en 30 seconden`.",
+              "Verhoogt aanzienlijk de kansen op:\n- Het verkrijgen van extra kluisruimte tijdens het uitvoeren van economiecommando's.\n- Het vinden van verzamelobjecten tijdens het mijnen.\n- Het vinden van visaas bij het legen van de `{prefix}trashcan`.",
+              "Vermindert aanzienlijk de kansen op:\n- Het vangen van rommel (in plaats van verzamelobjecten of vissen).\n- Het verliezen van bijen bij het gebruik van het `{prefix}honey` commando."
             ],
             "quoted": false
           },
           "Recycler": {
             "description": [
-              "When present in your inventory, it doubles the emerald reward from emptying your `{prefix}trashcan`."
+              "Wanneer aanwezig in je inventaris, verdubbelt het de smaragd beloning van het legen van je `{prefix}trashcan`."
             ]
           },
           "Slime Ball": {
             "description": [
-              "Dropped from killing Baby Slimes with a chance of `1/25` (affected by looting enchantments). This item can be used to purchase the **Slime Trophy** and can be traded using **Glass Beaker**s."
+              "Gevallen bij het doden van Baby Slijmkubussen met een kans van `1/25` (beïnvloed door plundering betoveringen). Dit item kan worden gebruikt om de **Slijmtrofee** aan te schaffen en kan worden verhandeld met **Glazen Beker**s."
             ]
           },
           "Ender Pearl": {
             "description": [
-              "Dropped from killing Endermen with a chance of `1/30` (affected by looting enchantments). This item can be used to purchase various items in the `{prefix}shop`."
+              "Gevallen bij het doden van Endermannen met een kans van `1/30` (beïnvloed door plundering betoveringen). Dit item kan worden gebruikt om verschillende items in de `{prefix}shop` aan te schaffen."
             ]
           },
           "Bane Of Pillagers Amulet": {
             "description": [
-              "Wanneer het aanwezig is in je inventaris, zal het het aantal smaragden die je wint bij gokken verhogen en het zal je helpen in het beschermen tegen succesvolle plunderingen.",
-              "Dit voorwerp beloont je met een speciale rol in de Villager Bot Support Server"
+              "Wanneer het aanwezig is in je inventaris, zal het het aantal smaragden dat je wint bij gokken verhogen en het zal je helpen beschermen tegen succesvolle plunderingen.",
+              "Dit voorwerp beloont je met een speciale rol in de Villager Bot Support Server."
             ]
           }
         },
