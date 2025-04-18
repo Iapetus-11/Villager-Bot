@@ -1368,7 +1368,7 @@
             "Het **skelet** draait rond en 360 no scoped je!",
             "Een pijl regent van het **skelet**, maar een.",
             "Een headshot van het **skelet** voor jou!",
-            "BOEM! HEADSHOT! - **skelet** 2024"
+            "BOEM! HEADSHOT! - **skelet** {current_year}"
           ],
           "finishers": [
             "Het **skelet** 360 no scoped je voor de laatste keer!",
@@ -1585,7 +1585,6 @@
         "guild_content": [
           "`{0}config prefix <nieuwe prefix>` - Verander het prefix voor commando's in deze server.\n\n",
           "`{0}config replies <on/off>` - Verander of de bot berichten zoals \"emeralds\" moet beantwoorden.\n\n",
-          "`{0}config difficulty <peaceful/easy/hard>` - Verander de moeilijkheidsgraad van het spel.\n\n",
           "`{0}config lang <taal>` - Verander de taal van Villager Bot.\n\n",
           "`{0}config mcserver <mcserver>` - Verander de server die wordt gepinged als je geen server opgeeft in `/mcping`.\n\n",
           "`{0}config togglecmd <cmd>` - Verander of het opgegeven commando kan worden gebruikt of niet.\n\n"
@@ -2216,7 +2215,7 @@
         "current": "Huidige dagelijkse quest: {quest_title}",
         "rewarded": "Je hebt {reward_amount}{reward_emoji} ontvangen!",
         "progress": "**Voortgang:** {progress}",
-        "reward": "**Beloning:** {reward_amount}{reward_ emoji}",
+        "reward": "**Beloning:** {reward_amount}{reward_emoji}",
         "expires_at": "**Verloopt:** {expires_at}",
         "cant_reroll": "Je kunt je quest nog niet opnieuw rollen, als je denkt dat dit een bug is, meld het dan.",
         "encouragements": {
