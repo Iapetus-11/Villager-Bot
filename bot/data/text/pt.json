@@ -1368,7 +1368,7 @@
             "O **esqueleto** deu um 360 e sem mira atingiu você!",
             "Uma flecha foi lançada do **esqueleto**, apenas uma.",
             "Um tiro na cabeça do **esqueleto** para você!",
-            "BOOM! TIRO NA CABEÇA! - **esqueleto** 2024"
+            "BOOM! TIRO NA CABEÇA! - **esqueleto** {current_year}"
           ],
           "finishers": [
             "O **esqueleto** te deu um 360 sem mira em você pela última vez!",
@@ -1585,7 +1585,6 @@
         "guild_content": [
           "`{0}config prefix <novo prefixo>` - Altere o prefixo do comando neste servidor.\n\n",
           "`{0}config replies <ligado/desligado>` - Altere se o bot deve responder a mensagens como \"esmeraldas\".\n\n",
-          "`{0}config difficulty <pacífico/fácil/difícil>` - Muda a dificuldade do jogo.\n\n",
           "`{0}config lang <idioma>` - Muda o idioma do Villager Bot.\n\n",
           "`{0}config mcserver <mcserver>` - Altera o servidor que recebe o ping se você não especificar um servidor em `/mcping`.\n\n",
           "`{0}config togglecmd <cmd>` - Altere se o comando especificado pode ser usado ou não.\n\n"

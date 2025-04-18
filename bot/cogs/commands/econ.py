@@ -384,7 +384,7 @@ class Econ(commands.Cog):
 
         return True, user
 
-    @commands.group(name="inventory", aliases=["inv", "items"], case_insensitive=True)
+    @commands.group(name="inventory", aliases=["inv", "items", "i"], case_insensitive=True)
     @commands.guild_only()
     @commands.cooldown(2, 2, commands.BucketType.user)
     async def inventory(self, ctx: Ctx):
@@ -2282,8 +2282,6 @@ class Econ(commands.Cog):
             name=ctx.l.econ.farm.s_farm.format(user=ctx.author.display_name),
             icon_url=getattr(ctx.author.avatar, "url", None),
         )
-
-        # embed.add_field(name='\uFEFF', value=(self.d.emojis.air * 20), inline=False)
 
         embed.add_field(
             name=ctx.l.econ.farm.commands_title,

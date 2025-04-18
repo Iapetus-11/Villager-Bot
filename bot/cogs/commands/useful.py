@@ -63,10 +63,12 @@ class Useful(commands.Cog):
         self.clear_snipes.cancel()
 
     async def reminders_add_logic(self, ctx: Ctx, duration_str: str, reminder: str):
+        MAX_REMINDERS = 20
+
         user_reminder_count = await self.db.fetch_user_reminder_count(ctx.author.id)
 
-        if user_reminder_count > 10:
-            await ctx.reply_embed(ctx.l.useful.remind.reminder_max.format(max=10))
+        if user_reminder_count >= MAX_REMINDERS:
+            await ctx.reply_embed(ctx.l.useful.remind.reminder_max.format(max=MAX_REMINDERS))
             return
 
         duration = parse_timedelta(duration_str)
@@ -693,7 +695,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
             name=f"{ctx.author.display_name}'s reminders",
-            icon_url=ctx.author.avatar.url,
+            icon_url=ctx.author.display_avatar.url,
         )
         embed.set_footer(text=ctx.l.useful.remind.add.format(ctx.prefix))
 

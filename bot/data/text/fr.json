@@ -1368,7 +1368,7 @@
             "Le **squelette** te fait un 360 no scope !",
             "Il pleut une flêche du **squelette**, seulement une",
             "Un headshot du **squelette** pour toi",
-            "BOOM! HEADSHOT! - **squelette** 2024"
+            "BOOM! HEADSHOT! - **squelette** {current_year}"
           ],
           "finishers": [
             "Le **squelette** te fait un 360 noscope pour la dernière fois !",
@@ -1585,7 +1585,6 @@
         "guild_content": [
           "`{0}config prefix <nouveau préfixe>` - Change le préfixe de commande sur ce serveur\n\n",
           "`{0}config replies <on/off>` - Change si le bot doit réagir aux messages comme \"emeralds\"\n\n",
-          "`{0}config difficulty <peaceful/easy/hard>` - Change la difficulté du jeu\n\n",
           "`{0}config lang <langue>` - Change la langue du Villager Bot\n\n",
           "`{0}config mcserver <mcserver>` - Change le serveur à ping si tu ne spécifies pas de serveur en utilisant `/mcping`\n\n",
           "`{0}config togglecmd <cmd>` - Change si la commande spécifiée peut être utilisée ou non.\n\n"

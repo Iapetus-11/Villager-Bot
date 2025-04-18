@@ -94,8 +94,8 @@ class Server(ComsBase):
         packet_data: dict[str, T_PACKET_DATA] | None = None,
     ) -> None:
         packet = Packet(id=self._get_packet_id("b"), type=packet_type, data=packet_data)
-        coros = [self._send(c, packet) for c in self._connections]
-        await asyncio.wait(coros)
+        tasks = [asyncio.create_task(self._send(c, packet)) for c in self._connections]
+        await asyncio.wait(tasks)
 
     async def broadcast(
         self,
@@ -109,8 +109,10 @@ class Server(ComsBase):
         broadcast_packet = Packet(id=broadcast_id, type=packet_type, data=packet_data)
 
         ws_ids = {ws.id for ws in self._connections}
-        broadcast_coros = [
-            self._send(c, broadcast_packet) for c in self._connections if c.id in ws_ids
+        broadcast_tasks = [
+            asyncio.create_task(self._send(c, broadcast_packet))
+            for c in self._connections
+            if c.id in ws_ids
         ]
         broadcast = self._broadcasts[broadcast_id] = Broadcast(
             ready=asyncio.Event(),
@@ -118,7 +120,7 @@ class Server(ComsBase):
             responses=[],
         )
 
-        await asyncio.wait(broadcast_coros)
+        await asyncio.wait(broadcast_tasks)
         await broadcast.ready.wait()
 
         return broadcast.responses

@@ -796,7 +796,7 @@
     }
   },
   "findable_seasons": {
-    "easter": [[3, 31], [4, 15]],
+    "easter": [[3, 31], [4, 23]],
     "halloween": [[10, 20], [11, 5]],
     "4july": [[6, 30], [7, 15]]
   },
@@ -1332,97 +1332,6 @@
       "rarity": 8192,
       "sticky": false,
       "tags": ["mine"]
-    },
-    {
-      "item": "Regeneration Totem",
-      "sell_price": 64,
-      "rarity": 512,
-      "sticky": false,
-      "tags": ["mine"]
-    },
-    {
-      "item": "Flaming Quiver",
-      "sell_price": 128,
-      "rarity": 1024,
-      "sticky": false,
-      "tags": ["mine"]
-    },
-    {
-      "item": "Love Medallion",
-      "sell_price": 128,
-      "rarity": 2048,
-      "sticky": false,
-      "tags": ["mine","fish"]
-    },
-    {
-      "item": "Wind Horn",
-      "sell_price": 256,
-      "rarity": 3196,
-      "sticky": false,
-      "tags": ["mine", "fish"]
-    },
-    {
-      "item": "Battle Robes",
-      "sell_price": 512,
-      "rarity": 4096,
-      "sticky": false,
-      "tags": ["mine"]
-    },
-    {
-      "item": "Weakening Gong",
-      "sell_price": 512,
-      "rarity": 4096,
-      "sticky": false,
-      "tags": ["mine"]
-    },
-    {
-      "item": "Soul Protection Totem",
-      "sell_price": 512,
-      "rarity": 4096,
-      "sticky": false,
-      "tags": ["mine", "fish"]
-    },
-    {
-      "item": "Deathcap Mushroom",
-      "sell_price": 512,
-      "rarity": 8192,
-      "sticky": false,
-      "tags": ["mine", "fish"]
-    },
-    {
-      "item": "Shadow Shifter",
-      "sell_price": 1024,
-      "rarity": 50000,
-      "sticky": false,
-      "tags": ["mine", "fish"]
-    },
-    {
-      "item": "Gastly Totem",
-      "sell_price": 1024,
-      "rarity": 50000,
-      "sticky": false,
-      "tags": ["mine", "fish"]
-    },
-    {
-      "item": "Splendid Robes",
-      "sell_price": 1024,
-      "rarity": 99999,
-      "sticky": false,
-      "tags": ["mine"]
-    },
-    {
-      "item": "Satchel Of Elements",
-      "sell_price": 1024,
-      "rarity": 99999,
-      "sticky": false,
-      "tags": ["mine", "fish"]
-    },
-    {
-      "item": "Dark Rooted Robes",
-      "sell_price": 2048,
-      "rarity": 125000,
-      "sticky": false,
-      "tags": ["mine", "fish"]
     }
   ],
   "rpt_ignore": [
@@ -1539,6 +1448,9 @@
     "heart_of_the_sea": "<:heart_of_the_sea:832282916385980427>",
     "autistic_emerald": "<:mooderald:837702695245840465>",
     "present": "🎁",
+    "haste_i_potion": "<:haste_i_potion:1265989012053823603>",
+    "haste_ii_potion": "<a:Haste_II_Potion:1265989014234861628>",
+    "luck_potion": "<:luck_potion:1266002325202534400>",
     "morbius": "<:morbing:983219815911129128>",
     "glass_bottle": "<:glass_bottle:837717502141268028>",
     "wood_sword": "<:wood_sword:924520895635144745>",
@@ -1658,20 +1570,25 @@
     "splendid_robes": "<:splendid_robes:1262745085288648764>",
     "satchel_of_elements": "<:satchel_of_elements:1262771945020194867>",
     "dark_rooted_robes": "<:dark_rooted_robes:1262772143146663968>",
+    "laser_assault_rifle": "<:laser_assault_rifle:1265397762564821002>",
+    "leftover_party_confetti": "<:leftover_party_confetti:1265399444183187507>",
+    "rona_vaccine": "<:rona_vaccine:1265399888758440087>",
+    "rainbow_sparkles_easter_egg": "<a:rainbow_sparkles_easter_egg:1265989015631302666>",
+    "party_popper": "🎉",
     "bopa": "<:bopa:1261478828690247710>",
     "farming": {
       "growing": {
-        "emerald_fruit": "<:emerald_fruit_growing:927292976756031551>",
-        "chorus_fruit": "<:chorus_fruit_growing:927292976999333948>",
-        "melon": "<:melon_growing:982370173711425546>",
-        "potato": "<:potatoes_growing:927292976995127316>",
-        "carrot": "<:carrots_growing:927292976852529163>",
-        "wheat": "<:wheat_growing:927292977091600494>",
+        "emerald_fruit": "<:emeraldf_g:927292976756031551>",
+        "chorus_fruit": "<:chorusf_g:927292976999333948>",
+        "melon": "<:melon_g:982370173711425546>",
+        "potato": "<:potatoes_g:927292976995127316>",
+        "carrot": "<:carrots_g:927292976852529163>",
+        "wheat": "<:wheat_g:927292977091600494>",
         "farmland": "<:farmland:927282404958285914>"
       },
       "normal": {
-        "emerald_fruit": "<:emerald_fruit:929404115665178635>",
-        "chorus_fruit": "<:chorus_fruit:929404115644211200>",
+        "emerald_fruit": "<:emeraldf:929404115665178635>",
+        "chorus_fruit": "<:chorusf:929404115644211200>",
         "melon": "<:melon_slice:982365225347088444>",
         "potato": "<:potato:982316859640647741>",
         "carrot": "<:carrot:982316859573551174>",
@@ -1812,10 +1729,10 @@
     "Sharpness II Book": "enchanted_book",
     "Lure I Book": "enchanted_book",
     "Present": "present",
-    "Haste I Potion": "glass_bottle",
-    "Haste II Potion": "glass_bottle",
+    "Haste I Potion": "haste_i_potion",
+    "Haste II Potion": "haste_ii_potion",
     "Vault Potion": "glass_bottle",
-    "Luck Potion": "glass_bottle",
+    "Luck Potion": "luck_potion",
     "Wood Sword": "wood_sword",
     "Stone Sword": "stone_sword",
     "Iron Sword": "iron_sword",
@@ -1940,6 +1857,11 @@
     "Satchel Of Elements": "satchel_of_elements",
     "Dark Rooted Robes": "dark_rooted_robes",
     "Pumpkin": "pumpkin",
+    "Laser Assault Rifle": "laser_assault_rifle",
+    "Leftover Party Confetti": "leftover_party_confetti",
+    "Rona Vaccine": "rona_vaccine",
+    "Rainbow Sparkles Easter Egg": "rainbow_sparkles_easter_egg",
+    "Party Popper": "party_popper",
     "Bane Of Pillagers Amulet": "bopa"
   },
   "farming": {
