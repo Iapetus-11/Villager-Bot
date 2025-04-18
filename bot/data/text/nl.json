@@ -2013,7 +2013,7 @@
         "stupid_6": "Of dat is geen bruikbaar item, of het bestaat niet.",
         "vault_max": "Je kunt je kluis niet verder uitbreiden via deze methode.",
         "vault_pot_singular": "Je hebt een **Vault Potion** gedronken. Je kluisspace is met {} ruimtes vergroot.",
-        "vault_pot_plural": "Je hebt {hoeveelheid} **Vault Potion**s gedronken. Je kluisspace is met {} ruimtes vergroot.",
+        "vault_pot_plural": "Je hebt {amount} **Vault Potion**s gedronken. Je kluisspace is met {} ruimtes vergroot.",
         "smoke_seaweed": "Je hebt wat **Zeewier** gegeten dat **{} minuten** meegaat.",
         "use_bonemeal": "Je hebt wat **Bottenmeel** op je gewassen gebruikt, waardoor ze groeien!",
         "seaweed_done": "Het **Zeewier** dat je eerder at, is uitgewerkt.",
@@ -2073,7 +2073,7 @@
         "cant_plant": "Je kunt dit item niet planten.",
         "no_plots": "Al je boerderijpercelen zijn vol, een betere houwel geeft je meer!",
         "no_plots_2": "Je hebt niet genoeg boerderijpercelen voor dat!",
-        "planted": "Geplant {hoeveelheid}x {crop}",
+        "planted": "Geplant {amount}x {crop}",
         "cant_harvest": "Er zijn geen rijpe gewassen om te oogsten...",
         "harvested": "Gehooid {crops}"
       },
@@ -2214,9 +2214,9 @@
         },
         "completed": "Quest voltooid: {quest_title}!",
         "current": "Huidige dagelijkse quest: {quest_title}",
-        "rewarded": "Je hebt {reward_hoeveelheid}{reward_emoji} ontvangen!",
+        "rewarded": "Je hebt {reward_amount}{reward_emoji} ontvangen!",
         "progress": "**Voortgang:** {progress}",
-        "reward": "**Beloning:** {reward_hoeveelheid}{reward_ emoji}",
+        "reward": "**Beloning:** {reward_amount}{reward_ emoji}",
         "expires_at": "**Verloopt:** {expires_at}",
         "cant_reroll": "Je kunt je quest nog niet opnieuw rollen, als je denkt dat dit een bug is, meld het dan.",
         "encouragements": {
@@ -2554,7 +2554,7 @@
           "title": "Zeldzaamheid",
           "singular": "*`1` persoon heeft dit voorwerp*",
           "plural": "*`{amount}` mensen hebben dit voorwerp*",
-          "owned_hoeveelheid": "*Je hebt er `{amount}` van dit voorwerp*"
+          "owned_amount": "*Je hebt er `{amount}` van dit voorwerp*"
         },
         "season": {
           "title": "Evenement / Seizon",
