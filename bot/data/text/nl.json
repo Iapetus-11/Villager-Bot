@@ -1,0 +1,2565 @@
+{
+  "nl": {
+    "lang": "nl",
+    "name": "Dutch",
+    "misc": {
+      "pingpong": "Het prefix voor deze server is `{0}` en het help commando `{0}help`\nAls je meer hulp nodig hebt, kun je de **[Support Server]({1})** joinen.",
+      "cooldown_msgs": [
+        "Hebben je ouders je nooit verteld dat [geduld een schone zaak](http://www.patience-is-a-virtue.org/) is? Kalmeer en wacht nog **{}**.",
+        "Hey, je moet nog **{}** wachten voor je dat weer kan doen.",
+        "Hrmmm, het ziet eruit dat je nog **{}** moet wachten voordat je dat weer kan doen.",
+        "Weet je niet dat [geduld een schone zaak](http://www.patience-is-a-virtue.org/) is! Wacht nog **{}**.",
+        "Wacht nog **{}**, alsjeblieft."
+      ],
+      "errors": {
+        "andioop": "Oeps! Er ging iets helemaal mis... Kun je alsjeblieft een screenshot nemen en deze in de **[Support Server]({})** plaatsen? Dank je wel!",
+        "private": "Dit commando kan niet gebruikt worden in privé chat kanalen.",
+        "user_perms": "Leuk geprobeerd, maar je hebt niet voldoende permissies om dat te doen!",
+        "bot_perms": "Je hebt me de juiste permissies niet gegeven om dat te doen, slimmerd.",
+        "concurrency": "Wacht even! Je gebruikt dit command veeeel te snel!",
+        "missing_arg": "Het ziet eruit alsof je vergeet iets in te voeren!",
+        "bad_arg": "Het ziet eruit alsof je iets niet juist hebt ingevoerd, probeer het de volgende keer goed te typen graag.",
+        "not_ready": "Wacht een moment! Villager Bot is nog aan het opstarten!",
+        "nrn_buddy": "Wacht even, je kan dit commando op het moment nog niet gebruiken!",
+        "disabled": "Dit commando is in deze server uitgeschakeld en kan niet gebruikt worden!"
+      },
+      "tips": [
+        "Heb je een suggestie? Een bug gevonden? Hulp nodig? Wil je handelen? Kom in de Support Server! https://discord.gg/39DwwUV",
+        "Heb je smaragden nodig? Stem voor ons op top.gg! https://top.gg/bot/639498607632056321",
+        "Blut door al die plunderaars? Stem voor ons om smaragden te krijgen! https://top.gg/bot/639498607632056321",
+        "Check het `rules` commando om de Villager Bot regels te zien!",
+        "Ben je eigenaar van een Minecraft server of ben je er naar een op zoek? Check https://minecraft.global/"
+      ],
+      "tip_intros": [
+        "**PRO TIP:**",
+        "**Hoe wordt je een god gamer tip #1:**",
+        "**Handige Harry Tip:**",
+        "**Pro Tip #1:**"
+      ],
+      "time": {
+        "day": "dag",
+        "days": "dagen",
+        "hour": "uur",
+        "hours": "uren",
+        "minute": "minuut",
+        "minutes": "minuten",
+        "second": "seconde",
+        "seconds": "seconden"
+      },
+      "intro": {
+        "body": [
+          "Hey jullie! Typ `{prefix}help` om te starten met Villager Bot!",
+          "Als je meer hulp nodig hebt, check de **[Support Server]({support_server})**!\n",
+          "*Ons privacybeleid can [hier]({privacy_policy}) gevonden worden.*"
+        ],
+        "footer": "Gemaakt door Iapetus11 en anderen ({prefix}credits)  |  Check de {prefix}rules"
+      }
+    },
+    "help": {
+      "n": {
+        "title": "Villager Bot Commando's",
+        "economy": "Economie",
+        "minecraft": "Minecraft",
+        "utility": "Gebruik",
+        "fun": "Plezier",
+        "admin": "Admin",
+        "cmd": "Commando Gebruik"
+      },
+      "main": {
+        "desc": "Meer hulp nodig? Check de **[Support Server]({})**!\nGeniet je van de bot? Stem voor ons op **[top.gg]({})** en verdien smaragden!",
+        "support": "Ondersteuning",
+        "clickme": "Druk Op Mij",
+        "howto": "Doe `{0}help <commando>` om te zien hoe je dat commando gebruikt!",
+        "nodoc": "Geen documentatie bestaat voor dat commando.",
+        "aliases": "Aliassen: `{}`"
+      },
+      "econ": {
+        "profile": "`{0}profile [optioneel: gebruiker]` *laat het profiel van jou of een opgegeven gebruiker zien*",
+        "balance": "`{0}balance [optioneel: gebruiker]` *laat het saldo van jou of een opgegeven gebruiker zien*",
+        "inventory": "`{0}inventory [optioneel: categorie] [optioneel: gebruiker]` *laat het inventaris van jou of een gekozen gebruiker zien; optionele categorieën bevatten `tools`, `magic`, `fish`, of `misc`*",
+        "deposit": "`{0}deposit <smaragden blokken>` *stort smaragden in je bank*",
+        "withdraw": "`{0}withdraw <smaragden blokken>` *trek smaragden uit je bank terug*",
+        "give": "`{0}give <gebruiker> <hoeveelheid> <item>` *geef een andere gebruiker een item of smaragden*",
+        "mine": "`{0}mine` *mijn voor smaragden*",
+        "fish": "`{0}fish` *vis voor vis en items*",
+        "fishmarket": "`{0}fishmarket` *bekijk de huidige verkoopprijzen van vis*",
+        "farm": "`{0}farm` *plant en oogst gewassen die smaragden waard zijn*",
+        "trash": "`{0}trash` *bekijk de nutteloze items die je hebt gemijnd*",
+        "search": "`{0}search` *zoek voor smaragden*",
+        "honey": "`{0}honey` *oogst honing van je eigen bijen*",
+        "gamble": "`{0}gamble <smaragden>` *gok met de bot om kans te maken op smaragden*",
+        "pillage": "`{0}pillage <gebruiker>` *plunder smaragden van een andere gebruiker*",
+        "use": "`{0}use <item>` *gebruik het opgegeven item*",
+        "shop": "`{0}shop` *laat de Villager Shop zien*",
+        "buy": "`{0}buy [optioneel: hoeveelheid van een item] <item>` *koop een item van de Villager Shop*",
+        "sell": "`{0}sell <hoeveelheid> <item>` *verkoop items terug aan Villager Bot*",
+        "leaderboards": "`{0}leaderboards` *toont de ranglijsten*",
+        "trivia": "`{0}trivia` *stuurt triviavragen die je kunt beantwoorden voor smaragden!*",
+        "dailyquest": "`{0}dailyquest` *geeft je een leuke zoektocht die binnen een dag verloopt*",
+        "iteminfo": "`{0}iteminfo <item>` *verstuurt informatie en statistieken over het opgegeven item*"
+      },
+      "mc": {
+        "mcstatus": "`{0}mcstatus [optioneel: server]` *checkt de status van elk type Minecraft-server*",
+        "rcon": "`{0}rcon <command>` *voert opdrachten uit op een Minecraft-server vanaf Discord*",
+        "randommc": "`{0}randommc` *toont een willekeurige Minecraft-server als je een nieuwe plek wilt om te verkennen*",
+        "blockify": "`{0}blockify` *verandert elke afbeelding die je uploadt in Minecraft-blokken / pixelkunst*",
+        "stealskin": "`{0}stealskin <gebruikersnaam>` *pakt de skin van een Minecraft Java Edition-speler*",
+        "buildidea": "`{0}buildidea` *stuurt een willekeurig bouwidee voor als je je verveelt en inspiratie nodig hebt*",
+        "mccolors": "`{0}mccolors` *laat de Minecraft-kleuren zien en hoe ze te gebruiken in de ingame chat*",
+        "mcprofile": "`{0}mcprofile <gebruikersnaam>` *toont informatie over een Minecraft Java Edition-speler*",
+        "nametoxuid": "`{0}nametoxuid <gebruikersnaam>` *verandert een MC Bedrock Edition gamertag in een xuid*"
+      },
+      "util": {
+        "help": "`{0}help` *kijk nuttige informatie over Villager Bot*",
+        "rules": "`{0}rules` *bekijk de regels voor het gebruik van de bot*",
+        "config": "`{0}config` *configureer / stel de bot naar wens in*",
+        "ping": "`{0}ping` *geeft de latentie weer tussen Discord en Villager Bot*",
+        "serverinfo": "`{0}server` *bekijkt informatie over de huidige server*",
+        "avatar": "`{0}avatar` *laat de vergrote avatar zien van de opgegeven gebruiker*",
+        "links": "`{0}links` *kijk nuttige links met betrekking tot Villager Bot*",
+        "vote": "`{0}vote` *verdien smaragden door op Villager Bot te stemmen op bepaalde websites*",
+        "stats": "`{0}stats` *geeft statistieken weer over Villager Bot*",
+        "google": "`{0}google <search>` *zoekt op google naar je zoekopdracht*",
+        "youtube": "`{0}youtube <search>` *zoekt op youtube voor je zoekopdracht*",
+        "image": "`{0}image <search>` *zoekt op google afbeeldingen voor uw zoekopdracht*",
+        "math": "`{0}math <problem>` *zoekt een wiskundeprobleem op*",
+        "credits": "`{0}credits`` *laat zien wie heeft geholpen bij het maken van Villager Bot*",
+        "snipe": "`{0}snipe` *laat het laatst verwijderde bericht in het huidige kanaal zien*",
+        "redditdl": "`{0}redditdl <reddit post url>` *downloadt de opgegeven media van Reddit*",
+        "exif": "`{0}exif` *extraheert EXIF-gegevens van de opgegeven afbeelding*",
+        "imagetopng": "`{0}imagetopng *converteert de geüploade/gespecificeerde afbeelding naar een png*",
+        "translate": "`{0}translate <doel> [tekst]` *vertaalt de opgegeven tekst of het opgegeven bericht naar de opgegeven doeltaal*",
+        "reminders": "`{0}reminders` `add` *of* `remove` *om respectievelijk een herinnering toe te voegen of te verwijderen*"
+      },
+      "fun": {
+        "cursed": "`{0}cursed` *verstuurd een random Minecraft afbeelding*",
+        "meme": "`{0}meme` *verstuurd een random meme van Reddit*",
+        "4chan": "`{0}4chan` *laat een grappige screenshot van 4chan zien*",
+        "comic": "`{0}comic` *verstuurd een random strip van r/comics op reddit*",
+        "say": "`{0}say <tekst>` *zorgt ervoor dat de bot de tekst zegt die je invoert*",
+        "enchant": "`{0}enchant <tekst>` *veranderd tekst in de Minecraft betoveringstafel taal*",
+        "unenchant": "`{0}unenchant <tekst>` *veranderd de betoveringstafel taal terug naar tekst*",
+        "villagerspeak": "`{0}villagerspeak <tekst>` *veranderd tekst naar villager geluiden*",
+        "clap": "`{0}clap <tekst>` *:clap: zet :clap: de :clap: emoji :clap: tussen :clap: tekst :clap:*",
+        "emojify": "`{0}emojify <tekst>` *veranderd tekst in emojis*",
+        "sarcastic": "`{0}sarcastic <text>` *vErAnDeRd TeKsT iN dE sPoNgEbOb SaRcAsTiScHe TeKsT*",
+        "owo": "`{0}owo <tekst>` *verowo'd de gegeven tekst uwu*",
+        "vaporwave": "`{0}vaporwave <tekst>` *veranderd tekst in de vaporwave stijl*",
+        "kill": "`{0}kill <gebruiker>` *vermoord een andere gebruiker op brute wijze*",
+        "bubblewrap": "`{0}bubblewrap` *geeft een virtueel bubbelpapier om te poppen*",
+        "coinflip": "`{0}coinflip` *gooit een munt op en zegt het resultaat in de chat*",
+        "pat": "`{0}pat <gebruiker>` *aai iemand brutaal over het hoofd*",
+        "slap": "`{0}slap <gebruiker>` *sla iemand zachtjes*",
+        "achievement": "`{0}achievement <text>` *genereerd een Minecraft vooruitgang met de gegeven tekst*",
+        "splashtext": "`{0}splashtext <text>` *genereerd een Minecraft splash scherm met de gegeven tekst*",
+        "trivia": "`{0}trivia` *sends trivia questions you can answer for emeralds!*",
+        "gayrate": "`{0}gayrate <gebruiker>` *verteld hoe gay de gebruiker is*"
+      },
+      "mod": {
+        "warn": "`{0}warn <gebruiker> [optioneel: reden]` *waarschuw een gebruiker voor een gegeven reden*",
+        "warns": "`{0}warns <gebruiker>` *bekijk de waarschuwingen die een gebruiker heeft, laat leeg om jouw waarschuwingen te zien*",
+        "purge": "`{0}purge <hoeveelheid>` *verwijder berichten van het huidige kanaal*",
+        "delwarns": "`{0}delwarns <gebruiker>` *verwijderd de waarschuwingen die de gebruiker heeft in deze server*",
+        "kick": "`{0}kick <gebruiker> [optioneel: reden]` *kickt de gebruiker van de huidige Discord server*",
+        "ban": "`{0}ban <gebruiker> [optioneel: verwijder berichtdagen] [optioneel: reden]` *verbant de gebruiker van de huidige Discord server*",
+        "pardon": "`{0}pardon <gebruiker>` *maak de verbanning van een gebruiker van de huidige Discord server ongedaan*",
+        "mute": "`{0}mute <gebruiker> [tijd] [reden]` *dempt de gebruiker in de huidige Discord server*",
+        "unmute": "`{0}unmute <gebruiker>` *maakt de demping van een gebruiker in de huidige Discord server ongedaan*"
+      }
+    },
+    "fun": {
+      "too_long": "Dat bericht zou te lang zijn om te converteren.",
+      "dl_img": "**[[Download Afbeelding]]({})**",
+      "bubblewrap": {
+        "invalid_size_1": "Dat is geen geschikte grootte. Voorbeeld van een geschikte grootte: `10x10`",
+        "invalid_size_2": "De grootte moet tussen de 1 en 12 zijn"
+      },
+      "gayrate": "{0} {1} is 100% gay {0}",
+      "trivia": {
+        "title": "{}  Minecraft Trivia **[{}]** {}",
+        "title_basic": "{}  Minecraft Trivia {}",
+        "time_to_answer": "Je hebt 15 secondes om deze vraag te beantwoorden!",
+        "timeout": "Je hebt geen tijd meer over!",
+        "correct": [
+          "Goed gedaan, dat was **correct**!\nJe bent met {}{} beloond!",
+          "Goed gedaan, dat was **correct**!\nJe hebt {}{} verdiend!",
+          "Goed gedaan, dat was **correct**!\nJe hebt {}{} ontvangen!",
+          "Nice, dat was **correct**!\nJe hebt {}{} verdient!",
+          "Nice, dat was **correct**!\nJe bent met {}{} beloont!"
+        ],
+        "incorrect": [
+          "Dat was ** niet correct**...  :pensive:",
+          "Je mag **dom** zijn... :pensive:",
+          "Er is geen hoop voor jou... :pensive:",
+          "Ja dokter, hij heeft eigenlijk geen brein..."
+        ],
+        "difficulty": [
+          "makkelijk",
+          "middelmatig",
+          "moeilijk"
+        ],
+        "questions": [
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoeveel levens heeft de Ender Draak?",
+            "a": [
+              "200 hp",
+              "500 hp",
+              "50 hp",
+              "100 hp"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Hoeveel stukken heeft een Minecraft taart?",
+            "a": [
+              "7 stukken",
+              "8 stukken",
+              "6 stukken",
+              "10 stukken"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Met hoeveel zal je honger verminderen als je een aardappel eet?",
+            "a": [
+              "1 honger",
+              "2 honger",
+              "0 honger",
+              "3 honger"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoeveel hongerverzadiging geeft een aardappel?",
+            "a": [
+              "0.6 verzadiging",
+              "1 verzadiging",
+              "0.1 verzadiging",
+              "1.7 verzadiging"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Welk voedsel verzadigd het meest in Minecraft?",
+            "a": [
+              "biefstuk",
+              "brood",
+              "paddestoelensoep",
+              "een gouden wortel"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoeveel ervaringspunten heeft een dorpeling nodig om van Beginner tot Meester level te komen?",
+            "a": [
+              "250 ervaringspunten",
+              "150 ervaringspunten",
+              "100 ervaringspunten",
+              "70 ervaringspunten"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wat is het zeldzaamste landschap Minecraft?",
+            "a": [
+              "Gewijzigde Jungle Rand",
+              "Besneeuwde Taiga Bergen",
+              "Bamboe Jungle Heuvels",
+              "PaddestoelenVeld Kust"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "In welk jaar was Minecraft volledig uitgekomen?",
+            "a": [
+              "2011",
+              "2007",
+              "2010",
+              "2014"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Voor welk wezen zijn creepers bang?",
+            "a": [
+              "ocelotten",
+              "zombies",
+              "de speler",
+              "andere creepers"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "In welke snapshot werden dekschilden toegevoegd aan het spel?",
+            "a": [
+              "15w41a",
+              "16w31a",
+              "16w42a",
+              "17w22a"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Welk wapen gebruikt een skelet voor een aanval?",
+            "a": [
+              "boog",
+              "een ei",
+              "zwaard",
+              "niks"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Welk wapen gebruiken witherskeletten voor een aanval?",
+            "a": [
+              "zwaard",
+              "boog",
+              "witherschedel",
+              "hun handen"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoe ver weg is de wereldgrens van 0 0?",
+            "a": [
+              "30000000 blokken naar alle kanten",
+              "1000000 blokken naar alle kanten",
+              "300000000 blokken naar alle kanten",
+              "Er is geen grens, Minecraft is oneindig"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "In welk handelsvak verkoopt de herdersdorpeling bedden?",
+            "a": [
+              "6de",
+              "2de",
+              "4de",
+              "8ste"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Welk gereedschap wordt verkocht door zowel de gereedschapssmid als de wapensmid dorpelingen?",
+            "a": [
+              "bijl",
+              "schep",
+              "zwaard",
+              "pikhouweel"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Welk voorwerp kun je gebruiken om een nachtzichtdrankje te maken?",
+            "a": [
+              "gouden wortel",
+              "gouden appel",
+              "verrot vlees",
+              "biet"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Hoe lang duurt een Minecraft in-game dag?",
+            "a": [
+              "20 minuten",
+              "10 minuten",
+              "30 minuten",
+              "1 uur"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Wie heeft Minecraft oorspronkelijk gemaakt?",
+            "a": [
+              "Markus Perrson",
+              "Matthew Marcusson",
+              "Donald Donnelly",
+              "Magnus Carlson"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: een schep kan worden gebruikt om een kampvuur te doven",
+            "a": [
+              "waar",
+              "niet waar"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Welk wezen kan door bedrock vliegen?",
+            "a": [
+              "vex",
+              "bij",
+              "witherskelet",
+              "vleermuis"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": true,
+            "q": "**waar** of **niet waar**: een ijzeren schoffel is duurzamer dan een gouden schoffel",
+            "a": [
+              "waar",
+              "niet waar"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: Minecraft zombies kunnen deuren breken",
+            "a": [
+              "waar",
+              "niet waar"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: Minecraft skeletten kunnen deuren breken",
+            "a": [
+              "niet waar",
+              "waar"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wat was de eerste vijand dat in Minecraft werd geïntroduceerd?",
+            "a": [
+              "zombie",
+              "creeper",
+              "skelet",
+              "spin"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Welk vijandelijke monster was toegevoegd in de Redelijk Enge Update?",
+            "a": [
+              "heks",
+              "creeper",
+              "enderman",
+              "vex"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Welke vijand was geïntroduceerd in Minecraft 1.8?",
+            "a": [
+              "zilvervis",
+              "wither",
+              "spin",
+              "zombie varkensman"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "In welke snapshot was de Zombievarkensman hernoemd naar de Gezombificeerde Piglin?",
+            "a": [
+              "20w09a",
+              "13w49a",
+              "18w43a",
+              "12w37a"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Wat is het ingredient om aanhoudende drankjes te maken?",
+            "a": [
+              "drakenadem",
+              "buskruit",
+              "roodsteen",
+              "gloeisteen"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "In welk jaar begon de ontwikkeling van Minecraft?",
+            "a": [
+              "2009",
+              "2010",
+              "2011",
+              "2008"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "In welke programmeertaal is de computerversie van Minecraft geschreven?",
+            "a": [
+              "Java",
+              "Python",
+              "C++",
+              "BASIC"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoeveel minuten kost het voor een baby dorpeling om op te groeien?",
+            "a": [
+              "20 minuten",
+              "10 minuten",
+              "40 minuten",
+              "15 minuten"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoeveel verschillende kleurenstoffen zijn er?",
+            "a": [
+              "16 kleuren",
+              "14 kleuren",
+              "18 kleuren",
+              "20 kleuren"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Welke betovering heeft hetzelfde maximale level als Scherpte?",
+            "a": [
+              "kastijding",
+              "duuraaamheid",
+              "vederzacht vallen",
+              "explosiebescherming"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wat is de Ender Draak's naam?",
+            "a": [
+              "Jean?",
+              "Carson",
+              "Bertha!",
+              "Steve"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Waarom zijn ijsberen toegevoegd aan Minecraft?",
+            "a": [
+              "Jeb's vrouw hield van ijsberen, dus voegde hij ze toe",
+              "de gemeenschap koos het op Minecon live",
+              "Notch voegde het toe als een geheime vrijdag update",
+              "de gemeenschap had ervoor gestemd op Twitter"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Welke taal spreken Endermannen?",
+            "a": [
+              "omgekeerd Engels",
+              "gewoon wartaal",
+              "Zweeds",
+              "omgekeerd Duits"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Wat is de meest voorkomende bloem in een moeraslandshap?",
+            "a": [
+              "blauwe orchidee",
+              "paardebloem",
+              "witherroos",
+              "zonnebloem"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Waarom was de zwart met witte kat toegevoegd aan het spel?",
+            "a": [
+              "Jeb's kat ging dood en die zag er zo uit",
+              "Notch vond ze er leuk uitzien",
+              "ze googelden willekeurige kattenafbeeldingen en vonden deze",
+              "het was een willekeurig ontwerp"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoe is de \"Hoe zijn we hier gekomen?\" prestatie te krijgen?",
+            "a": [
+              "alle effecten tegelijk hebben",
+              "alle toverdrankeffecten in één keer hebben toegepast",
+              "door naar een eindstad te gaan",
+              "door de farlands te vinden"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "**waar** of **niet waar**: piglins vallen alleen aan wanneer je ze slaat",
+            "a": [
+              "niet waar",
+              "waar"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Welk naamkaartje geeft een schaap regenboogkleuren?",
+            "a": [
+              "jeb_",
+              "Dinnerbone",
+              "Johnny",
+              "Toast"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Wat moest de creeper eigenlijk worden?",
+            "a": [
+              "varken",
+              "zombie",
+              "spin",
+              "kip"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: de Ender Draak kan alleen meerdere eireren leggen",
+            "a": [
+              "niet waar",
+              "waar"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Welke update was stond ook wel bekend als \"De Redelijk Enge Update\"?",
+            "a": [
+              "1.4.2",
+              "1.3",
+              "1.12",
+              "1.7"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Welk naamkaartje zal een wezen ondersteboven keren?",
+            "a": [
+              "Dinnerbone",
+              "jeb_",
+              "Johnny",
+              "Toast"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Welke drie voorwerpen zijn nodig om een actieve Kracht van de Zee te krijgen?",
+            "a": [
+              "hart van de zee, nautilusschelp, elk type prismarine",
+              "hart van de zee, baken, elk type prismarine",
+              "hart van de zee, nautilusschelp, glas",
+              "diamanten, nautilusschelp, glas"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wat is de basisverhoging voor melee schade wanneer het kracht effect is toegepast?",
+            "a": [
+              "3 HP",
+              "1½ HP",
+              "2 HP",
+              "4 HP"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Alle Minecraft koeien zijn...",
+            "a": [
+              "vrouw",
+              "man"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Wat is het maximale aantal meloen stukken dat een meloen kan laten vallen?",
+            "a": [
+              "9 stukken",
+              "8 stukken",
+              "7 stukken",
+              "6 stukken"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Hoeveel wol heb je nodig om een bed te maken in Minecraft?",
+            "a": [
+              "3 wol",
+              "4 wol",
+              "2 wol",
+              "1 wol"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Welk voorwerp laten slijmkubussen vallen in Minecraft?",
+            "a": [
+              "slijmballen",
+              "slijm potten",
+              "kinetisch zand",
+              "magma crème"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Wat is de naam van het wezen dat magma crème laat vallen?",
+            "a": [
+              "magmakubus",
+              "lava slijmkubus",
+              "gesmolten kubus",
+              "gesmolten slijmkubus"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Wat is de naam van het wezen dat buskruit laat vallen?",
+            "a": [
+              "creeper",
+              "zombie",
+              "wither",
+              "magma kubus"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: in Minecraft, vissen kunnen botten laten vallen",
+            "a": [
+              "waar",
+              "niet waar"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wat is het zeldzaamste soort axolotl?",
+            "a": [
+              "blauw",
+              "rood",
+              "tropisch",
+              "roze"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": true,
+            "q": "**waar** of **niet waar**: in Minecraft, axolotls kunnen alleen in absolute duisternis spawnen",
+            "a": [
+              "waar",
+              "niet waar"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Welke van de volgende soorten is daadwerkelijk een soort axolotl in Minecraft?",
+            "a": [
+              "leucistisch",
+              "modderig",
+              "wit",
+              "purper"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Hoe fok je axolotls in Minecraft?",
+            "a": [
+              "emmer met tropische vis",
+              "emmer met water",
+              "alleen zalm",
+              "maakt niet uit met welke soort vis"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Hoe fok je koeien in Minecraft?",
+            "a": [
+              "tarwe",
+              "wortels",
+              "zaden",
+              "melk emmer"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Hoe fok je schapen in Minecraft?",
+            "a": [
+              "tarwe",
+              "wortels",
+              "zaden",
+              "paddestoelensoep"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Hoe fok je kippen in Minecraft?",
+            "a": [
+              "zaden",
+              "wortels",
+              "tarwe",
+              "melk emmer"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": false,
+            "q": "Hoe fok je varkens in Minecraft?",
+            "a": [
+              "aardappels",
+              "appel",
+              "zaden",
+              "tarwe"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: je kunt loeizwammen melken voor paddestoelensoep",
+            "a": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": true,
+            "q": "**waar** of **niet waar**: je kunt paddestoelensoep melken van koeien met een kom",
+            "a": [
+              "niet waar",
+              "waar"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: de Minecraft bedrock editie is geprogrammeerd in de Java programmeertaal",
+            "a": [
+              "niet waar",
+              "waar"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "In welke programmeertaal is Minecraft Bedrock Edition geschreven?",
+            "a": [
+              "c++",
+              "c",
+              "c#",
+              "java"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoe wordt het wereldformaat voor Minecraft Bedrock Editie genoemd?",
+            "a": [
+              "LevelDB",
+              "SQL",
+              "Anvil",
+              "MCA"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoe wordt het wereldformaat voor Minecraft Java Editie genoemd?",
+            "a": [
+              "Anvil",
+              "SQL",
+              "LevelDB",
+              "MCA"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Hoe groot, in blokken, is een kubieke chunk in Minecraft",
+            "a": [
+              "16x16x16",
+              "32x32x32",
+              "64x64x64",
+              "128x128x128"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoe groot, in chunks, is een regio in Minecraft?",
+            "a": [
+              "32x32",
+              "64x64",
+              "16x16",
+              "96x96"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: de tekst in de betoveringstafel is gewoon wartaal",
+            "a": [
+              "waar",
+              "niet waar"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Wat kun je dragen om endermannen te stoppen je aan te vallen wanneer je ze in de ogen kijkt?",
+            "a": [
+              "pompoen",
+              "aardappel",
+              "meloen",
+              "witherschedel"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Hoe wordt een geladen creeper gecreeëerd?",
+            "a": [
+              "Wanneer het geraakt wordt door bliksem",
+              "Het wordt gemaakt met een netherster",
+              "Het wordt geraakt door een vliegende witherschedel",
+              "Het wordt gespawnd met de debug stok"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Welk dier werd opgenomen om de geluiden te maken voor de ghast?",
+            "a": [
+              "een slapende cat",
+              "een blaffende hond",
+              "een papegaai",
+              "een grommende hond"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wat is het maximale krachtlevel voor roodsteenpoeder?",
+            "a": [
+              "15",
+              "16",
+              "12",
+              "8"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wat zorgt ervoor dat bijen niet agressief worden in Minecraft?",
+            "a": [
+              "kampvuur rook",
+              "honing flessen",
+              "water",
+              "slijmballen"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: Minecraft bijen kunnen onderwaterzwemmen",
+            "a": [
+              "niet waar",
+              "waar"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Welk slechte effect geven oudere bewakers in Minecraft?",
+            "a": [
+              "mijnmoeheid",
+              "traagheid",
+              "onmiddelijke schade",
+              "vergif"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoe verander je een dorpeling in een heks?",
+            "a": [
+              "laat de bliksem de dorpeling raken",
+              "doop de dorpeling in lava",
+              "laat een zombie de dorpeling bijten",
+              "verbrand de dorpeling"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: ijzeren golems kunnen klaprozen laten vallen wanneer ze dood gaan",
+            "a": [
+              "waar",
+              "niet waar"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Hoeveel hartjes heeft een ijzeren golem?",
+            "a": [
+              "50 hartjes",
+              "100 hartjes",
+              "25 hartjes",
+              "200 hartjes"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: je kunt ijzeren golems helen met ijzeren staven",
+            "a": [
+              "waar",
+              "niet waar"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wat is het zeldzaamste soort dorp dat kan spawnen?",
+            "a": [
+              "besneeuwd",
+              "woestijn",
+              "jungle",
+              "strand"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: je kunt monster spawners met zijdezachte streling krijgen",
+            "a": [
+              "niet waar",
+              "waar"
+            ]
+          },
+          {
+            "d": 0,
+            "tf": true,
+            "q": "**waar** of **niet waar**: de diamanten pijl is in Minecraft",
+            "a": [
+              "niet waar",
+              "waar"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "In welke versie van Minecraft kwam de end?",
+            "a": [
+              "1.0.0",
+              "1.2.0",
+              "1.12.0",
+              "1.9.0"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Welk spel was een inspiratie voor de creatie van Minecraft?",
+            "a": [
+              "infiniminer",
+              "tetris",
+              "roblox",
+              "fortnite"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wie heeft de originele muziek voor Minecraft geschreven?",
+            "a": [
+              "c418",
+              "notch",
+              "jeb",
+              "lena raine"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wie heeft de muziek voor de 1.16 nether update geschreven?",
+            "a": [
+              "lena raine",
+              "notch",
+              "jeb",
+              "c418"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Welk Minecraft blok bestond voordat Minecraft er was?",
+            "a": [
+              "keisteen",
+              "grond",
+              "steen",
+              "hout"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Aan welk spel was Notch bezig voor Minecraft?",
+            "a": [
+              "RubyDung",
+              "Infiniminer",
+              "Tetris 2.0",
+              "Roblox"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Wat is het beste y level om voor diamanten te mijnen?",
+            "a": [
+              "y=12",
+              "y=16",
+              "y=3",
+              "y=20"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Wat is het zeldzaamste erts in Minecraft?",
+            "a": [
+              "smaragderts",
+              "eeuwenoud schroot",
+              "diamanterts",
+              "koolerts"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "In welk landschap is smaragderts gevonden?",
+            "a": [
+              "berglandschap",
+              "junglelandschap",
+              "woestijnlandschap",
+              "badlandslandschap"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "In welk landschap wordt gouderts het meest gevonden?",
+            "a": [
+              "badlands-landschap",
+              "jungle-landschap",
+              "woestijn-landschap",
+              "strand-landschap"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Waar spawnen normale skeletten in de Nether?",
+            "a": [
+              "zielenzandvallei-landschap",
+              "netherwoestenijen-landschap",
+              "basaltdelta-landchap",
+              "verwrongen bos-landschap"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: je kunt handelen met hoglins",
+            "a": [
+              "niet waar",
+              "waar"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": true,
+            "q": "**waar** of **niet waar**: je kunt handelen met piglins",
+            "a": [
+              "waar",
+              "niet waar"
+            ]
+          },
+          {
+            "d": 1,
+            "tf": false,
+            "q": "Hoe kun je piglins ervan weerhouden jou aan te vallen?",
+            "a": [
+              "door een gouden uitrusting te dragen",
+              "door ze te doden",
+              "door zielensnelheid schoenen te dragen",
+              "door een Bewaking III uitrusting te dragen"
+            ]
+          },
+          {
+            "d": 2,
+            "tf": false,
+            "q": "Welk voorwerp heb je nodig om hoglins te fokken?",
+            "a": [
+              "karmozijnen schimmel",
+              "verwrongen schimmel",
+              "netherwart",
+              "karbonades"
+            ]
+          }
+        ]
+      }
+    },
+    "mobs_mech": {
+      "no_health": "Je hebt niet genoeg levens om met dit monster te vechten.",
+      "type_engage": "Typ `fight` om met het monster te vechten!",
+      "attack_or_flee": "Typ `attack` om aan te vallen, of `flee` om weg te rennen.",
+      "flee_insults": [
+        "Goed, ren maar weg als een kleine baby.",
+        "Goed, ren maar naar mama als een kleine baby.",
+        "Ga naar mama kleine baby.",
+        "Ok kleine baby, ren weg naar mama.",
+        "Goed, ren weg als de huilbaby kleuter die je bent."
+      ],
+      "user_attacks": [
+        "Je sloeg de/het **{0}** met je **{1}**!",
+        "Je **{1}** stak diep in de/het **{0}**!",
+        "Je hakt naar de/het **{0}** met je **{1}**!",
+        "Je zwaaide je **{1}** naar de/het **{0}**!",
+        "Je prikt de/het **{0}** met je **{1}**!",
+        "Je prikt je **{1}** diep in de/het **{0}**!",
+        "Je hakt stukken van de/het **{0}** met je **{1}**!",
+        "Je prikt de/het **{0}** in het oog met je **{1}**!",
+        "Je valt de/het **{0}** aan en steekt het met je **{1}**!",
+        "Je rent naar de/het **{0}** toe en hakt naar het met je **{1}**!",
+        "Je rent naar de/het **{0}** toe en steekt het met je **{1}**!",
+        "Je rent naar de/het **{0}** toe en hakt naar het met je **{1}**!",
+        "Je rent naar de/het **{0}** toe en prikt het met alle macht met je **{1}**!"
+      ],
+      "user_finishers": [
+        "Je zwaait je **{1}** zo hard als je kon en onthoofd de/het **{0}**!",
+        "Je struikelt en laat je **{1}** los, waardoor het in de/het **{0}** belandt en die gedood wordt!",
+        "Je begraaft met al je kracht je **{1}** diep in de borst van de/het **{0}**!",
+        "Door nog een laatste keer met je **{1}** te zwaaien, verban je de/het **{0}** uit het bestaan!",
+        "Met een laatste zwaai van je **{1}**, hak je de/het **{0}** doormidden!",
+        "Met een laatste houw van je **{1}**, snijd je de/het **{0}** doormidden!",
+        "Met een laatste zwaai van je **{1}**, verban je de/het **{0}** van deze wereld!",
+        "Je hakt met al je kracht op de **{0}** in en onthoofd hem met je **{1}**!",
+        "Met je laatste kracht begraaf je je **{1}** diep in de borst van de/het **{0}**!",
+        "Wanneer je je **{1}** in de nek van de **{0}** laat landen, sterft het eindelijk!",
+        "Met je laatste kracht hak je je **{1}** door de/het **{0}** heen!",
+        "Met het laatste van je kracht, hak je je **{1}** door de/het **{0}** heen!",
+        "Je hakt met je **{1}** zo hard als je kan, en onthoofd de **{0}**!",
+        "Je mist de/het **{0}** met je zwaard; het sterft van teleurstelling..."
+      ],
+      "mob_drops": [
+        "Een wild(e) {0} heeft je gevonden!",
+        "Een gemene/gemeen {0} heeft je gezien!",
+        "Een loerend(e) {0} heeft je gezien!",
+        "Een loerend(e) {0} heeft je gevonden!",
+        "Een griezelig(e) {0} heeft je gezien!",
+        "Een griezelig(e) {0} heeft je gevonden!",
+        "Je bent gevonden door een wild(e) {0}!",
+        "Je bent gezien door een gemen(e) {0}!",
+        "Je bent gevonden door een gek(ke) {0}!",
+        "Een gek(ke) {0} heeft je gezien!",
+        "Je bent een wild(e) {0} tegengekomen!",
+        "Je bent een gek(ke) {0} tegengekomen!",
+        "Je kwam een {0} tegen!",
+        "Je kwam een griezelig(e) {0} tegen!",
+        "Je kwam een gemene/gemeen {0} tegen!"
+      ],
+      "found": [
+        "Wow, zie dat dan! Je vindt daar zomaar {} op de grond!",
+        "Door de witte rook van het verslagen monster zie je {}!",
+        "Het monster laat {} vallen!",
+        "Je staart naar de grond en ziet {}!",
+        "Je vindt {} naast het verslagen monster!"
+      ],
+      "lost": {
+        "creeper": [
+          "De **creeper** blies ook {}{} op, dat eigenlijk van jou was...",
+          "De **creeper** zorgt ervoor dat {}{} van jou verdwijnen in een rookwolk opgaan...",
+          "De **creeper** vernietigd ook {}{} dat van jou was..."
+        ],
+        "enderman": [
+          "De **enderman** teleporteerd weg met {}{} dat van jou was...",
+          "De **enderman** steelt {}{} van jou en teleporteert het in de leegte...",
+          "De **enderman** steelt {}{} van jou en teleporteert weg..."
+        ],
+        "normal": [
+          "De **{}** steelt ook {}{} dat van jou was...",
+          "De **{}** gaat er ook vandoor met {}{} dat van jou was...",
+          "De **{}** steelt {}{} van je dode lichaam..."
+        ]
+      },
+      "mobs": {
+        "zombie": {
+          "attacks": [
+            "De **zombie** rent naar je toe, terwijl het aan je armen sjort!",
+            "De **zombie** geeft je een pijnlijke knuffel!",
+            "De **zombie** kreunt en geeft je een pijnlijke knuffel!",
+            "De **zombie** stompt je in je gezicht!",
+            "De **zombie** krauwt je met zijn vergroeide, rottende nagels!",
+            "De **zombie** stompt je in je gezicht met zijn rottende hand!",
+            "De **zombie** krabt je met zijn vergroeide, rottende nagels!"
+          ],
+          "finishers": [
+            "De **zombie** grijpt je bij je keel en bijt je!",
+            "De **zombie** haalt je ingewanden eruit en eet je overblijfselen op!",
+            "De **zombie** snijdt je open en verslindt je overblijfselen!"
+          ]
+        },
+        "skeleton": {
+          "attacks": [
+            "Het **skelet** yeet een pijl in je gezicht!",
+            "Het **skelet** draait rond en 360 no scoped je!",
+            "Een pijl regent van het **skelet**, maar een.",
+            "Een headshot van het **skelet** voor jou!",
+            "BOEM! HEADSHOT! - **skelet** {current_year}"
+          ],
+          "finishers": [
+            "Het **skelet** 360 no scoped je voor de laatste keer!",
+            "Een regen van pijlen vliegen richting jou en veranderen je in gatenkaas!",
+            "Je hoort het fluiten van honderden pijlen en daarna ga je dood!",
+            "Pijlen regenen uit de lucht, je vlees doorborend en doden je!"
+          ]
+        },
+        "spider": {
+          "attacks": [
+            "De **spin** springt op je en laat zijn giftanden diep in je arm zinken!",
+            "De **spin** duwt je naar beneden en bijt in je been!",
+            "De **spin** springt naar je toe in een poging je gezicht af te bijten!",
+            "De **spin** duikt op je!",
+            "De **spin** haalt naar je uit en bijt in je been!"
+          ],
+          "finishers": [
+            "De **spin** springt op je, draait rond, en zinkt zijn giftanden in je schedel!",
+            "De **spin** duikt nog een keer op je, en bijt je gezicht af!",
+            "De **spin** rukt je gezicht af, je laatste zicht is 8 moorddadige rode ogen die terugstaren."
+          ]
+        },
+        "cave_spider": {
+          "attacks": [
+            "De **grottenspin**'s giftanden zinken diep in je huid!",
+            "De **grottenspin** geeft je een giftige zoen!",
+            "De **grottenspin** bijt je en veroorzaakt gifschade!"
+          ],
+          "finishers": [
+            "Je stierf een langzame, pijnlijke dood door gifschade!",
+            "De **grottenspin** injecteert een laatste dodelijke dosis gif!",
+            "De **grottenspin** begroeft zijn giftanden diep in je en vult je met gif!"
+          ]
+        },
+        "creeper": {
+          "attacks": [
+            "Je hoort een lont ontsteken...",
+            "De **creeper** flitst en sist...",
+            "De **creeper** sist en flitst...",
+            "De **creeper** bereidt zijn aanstaande zelfmoord voor...",
+            "Van achter je, een lont ontsteekt..."
+          ],
+          "finishers": [
+            "De **creeper** gaat BOEM!",
+            "De **creeper** gebruikt ZELF-DESTRUCTIE! *Het werkt super effectief!*",
+            "De **creeper** ontploft, yeet je bloederige lijk over de kaart!",
+            "Je bent tot pixels geblazen door de **creeper**!"
+          ]
+        },
+        "baby_slime": {
+          "attacks": [
+            "De **baby slijmkubus** springt op je!",
+            "De **baby slijmkubus** ziet er te schattig uit!",
+            "De **baby slijmkubus** springt op je hoofd!",
+            "Je moedigt de **baby slijmkubus** aan!"
+          ],
+          "finishers": [
+            "Je sterft door de schattigheid.",
+            "De **baby slijmkubus** ziet er zo leuk uit dat je het voor de rest van je leven volgt en het veilig houdt!",
+            "Je volgt de **baby slijmkubus** omdat het zo leuk is, het verdwijnt, je sterft van verdriet.",
+            "De **baby slijmkubus** verdwijnt recht voor je, je sterft van extreme depressie.",
+            "De **baby slijmkubus** doet eindelijk wat schade!",
+            "Je voelt je slecht omdat de **baby slijmkubus** je niet kan raken, dus pleeg je zelfmoord.",
+            "Je voelt je slecht omdat de **baby slijmkubus** je niet kan raken, dus graaf je recht naar beneden.",
+            "'Er kan maar één winnaar zijn', zegt de **baby slijmkubus**. Je typt `/kill` in."
+          ],
+          "misses": [
+            "Je slaat met je **{0}** zo hard als je kan, je mist de **baby slijmkubus**.",
+            "Je hakt met je **{0}** zo hard als je kan naar de **baby slijmkubus**. De **baby slijmkubus** heeft geen schrammetje.",
+            "Je slaat met je **{0}** naar de **baby slijmkubus**, maar mist.",
+            "Je slaat met je **{0}**, maar de **baby slijmkubus** maakt een lief gezicht en je mist!"
+          ]
+        },
+        "enderman": {
+          "attacks": [
+            "De **enderman** pakt een grasblok op en gooit het naar je!",
+            "De **enderman** pakt een tnt-blok op en gooit het naar je!",
+            "De **enderman** stompt je in je gezicht",
+            "De **enderman** gilt en slaat je met zijn lange armen in je gezicht",
+            "De **enderman** teleporteert zichzelf achter je en slaat je op je hoofd"
+          ],
+          "finishers": [
+            "De **enderman** teleporteert je van een klif",
+            "De **enderman** teleporteert je naar de leegte",
+            "De **enderman** teleporteert zichzelf achter je en onthoofd je"
+          ],
+          "misses": [
+            "Je slaat zo hard als je kan met je **{0}**, maar de **enderman** teleporteert zichzelf weg.",
+            "Je slaat met je **{0}**, maar de **enderman** teleporteert zichzelf weg."
+          ]
+        }
+      }
+    },
+    "minecraft": {
+      "invalid_player": "Die speler is ongeldig of bestaat niet.",
+      "mcimage": {
+        "stupid_1": "Je moet een afbeelding uploaden in dezelfde bericht waarin je het commando gebruikt.",
+        "stupid_2": "Gebruik een png of jpg afbeelding.",
+        "stupid_3": "Dat is geen geldige afbeelding."
+      },
+      "mcping": {
+        "shortcut_error": "Om deze shortcut te gebruiken moet je eerst een standaard Minecraft server instellen via `{}` config",
+        "title_offline": "{} geen server gevonden op `{}`",
+        "title_online": "{} `{}` is online",
+        "title_plain": "{} `{}`",
+        "latency": "Latency/Ping",
+        "version": "Versie",
+        "field_online_players": {
+          "name": "Online Spelers ({}/{})",
+          "value": "Spelerlijst is niet beschikbaar voor deze server."
+        },
+        "and_other_players": ", en {} anderen...",
+        "learn_more": "Je kan [hier]({}) meer informatie over deze server vinden.",
+        "powered_by": "Mogelijk gemaakt door minecraft.global"
+      },
+      "stealskin": {
+        "error": "Oeps, er ging iets mis bij het ophalen van de skin van deze speler.",
+        "no_skin": "Deze speler heeft geen skin.",
+        "embed_desc": "{}'s skin\n**[[Download]]({})**"
+      },
+      "mccolors": {
+        "embed_desc": "Tekst in Minecraft kan worden opgemaakt met verschillende codes en\nhet `§` symbool.",
+        "embed_author_name": "Minecraft Opmaakcodes",
+        "formatting_codes": {
+          "red": "Rood",
+          "yellow": "Geel",
+          "green": "Groen",
+          "aqua": "Aqua",
+          "blue": "Blauw",
+          "light_purple": "Licht Paars",
+          "white": "Wit",
+          "gray": "Grijs",
+          "dark_red": "Donker Rood",
+          "gold": "Goud",
+          "dark_green": "Donker Groen",
+          "dark_aqua": "Donker Aqua",
+          "dark_blue": "Donker Blauw",
+          "dark_purple": "Donker Paars",
+          "dark_gray": "Donker Grijs",
+          "black": "Zwart",
+          "bold": "Dikgedrukt",
+          "strikethrough": "Doorgehaald",
+          "underline": "Onderstreept",
+          "italic": "Schuingedrukt",
+          "obfuscated": "Onleesbaar",
+          "reset": "Reset"
+        },
+        "colors": "Kleuren",
+        "more_colors": "Meer Kleuren",
+        "formatting": "Opmaak"
+      },
+      "rcon": {
+        "stupid_1": "Je moet eerst een Minecraft server instellen voor deze server via het `{}` config mcserver commando",
+        "dm_error": "Ik moet je kunnen DM'en om het proces te voltooien.",
+        "msg_timeout": "Ik heb gestopt met wachten op een antwoord, voer het commando opnieuw uit om door te gaan.",
+        "port": "Typ de poort van de externe console in (rcon.port in de server.properties).",
+        "passw": "Typ het wachtwoord van de externe console in (rcon.password in de server.properties).",
+        "stupid_2": "Fout wachtwoord! Voer het commando opnieuw uit om het opnieuw in te voeren.",
+        "err_con": "Er ging iets mis bij het verbinden met de server. Is de server online en is RCON ingeschakeld?",
+        "err_cmd": "Er ging iets mis bij het verzenden van een commando naar de server. Is de server online en is RCON ingeschakeld?"
+      },
+      "profile": {
+        "error": "Er ging iets mis bij het ophalen van het profiel van deze gebruiker...",
+        "first": "eerste gebruikersnaam",
+        "mcpp": "Minecraft profiel voor `{}`",
+        "skin": "Skin Download",
+        "cape": "Cape Download",
+        "nocape": "**[Krijg een aangepaste cape](https://discord.gg/ettnFrkNyW)**",
+        "hist": "Naamgeschiedenis"
+      }
+    },
+    "mod": {
+      "no_perms": "Leuk geprobeerd, maar je hebt geen toestemming om dat te doen!",
+      "purge": {
+        "oop": "Oeps... Er ging iets mis..."
+      },
+      "kick": {
+        "stupid_1": "Je kunt jezelf niet verwijderen uit de server."
+      },
+      "ban": {
+        "stupid_1": "Je kunt jezelf niet verbannen.",
+        "stupid_2": "**{}** is al verbannen.",
+        "stupid_3": "Oeps, er ging iets mis bij het verbannen van die gebruiker."
+      },
+      "unban": {
+        "stupid_1": "Je kunt je eigen verbanning niet opheffen.",
+        "stupid_2": "**{}** is niet verbannen."
+      },
+      "warn": {
+        "stupid_1": "Je kunt jezelf niet waarschuwen.",
+        "stupid_2": "Je kunt je eigen waarschuwingen niet wissen.",
+        "thats_too_much_man": "De gebruiker heeft al te veel waarschuwingen.",
+        "no_reason": "Geen reden opgegeven.",
+        "by": "Waarschuwing door",
+        "confirm": "{} heeft {} gewaarschuwd ({} waarschuwing(en) nu) om de reden: *{}*"
+      },
+      "mute": {
+        "stupid_1": "Je kunt jezelf niet dempen.",
+        "stupid_2": "Je hebt een ongeldig formaat gebruikt, voorbeeld: `{0}mute @iemand 1w2d3h4m dit is de reden` zal iemand voor één week, twee dagen, drie uur en vier minuten dempen.",
+        "stupid_3": "Dat is te ver in de toekomst!",
+        "mute_msg": "**{user}** is voor {duration} gedempt."
+      },
+      "unmute": {
+        "stupid_1": "Je kunt je eigen demping niet opheffen.",
+        "stupid_2": "**{}** is niet gedempt.",
+        "unmute_msg": "Van **{}** is de demping opgeheft."
+      }
+    },
+    "config": {
+      "invalid": "Dat is geen geldige optie. (Geldige opties zijn: {})",
+      "main": {
+        "title": "Villager Bot Instellingen",
+        "guild_conf": "Server/Guild Configuratie",
+        "guild_content": [
+          "`{0}config prefix <nieuwe prefix>` - Verander het prefix voor commando's in deze server.\n\n",
+          "`{0}config replies <on/off>` - Verander of de bot berichten zoals \"emeralds\" moet beantwoorden.\n\n",
+          "`{0}config lang <taal>` - Verander de taal van Villager Bot.\n\n",
+          "`{0}config mcserver <mcserver>` - Verander de server die wordt gepinged als je geen server opgeeft in `/mcping`.\n\n",
+          "`{0}config togglecmd <cmd>` - Verander of het opgegeven commando kan worden gebruikt of niet.\n\n"
+        ],
+        "user_conf": "Per Gebruiker Configuratie",
+        "user_content": [
+          "`{0}config giftalert <on/off>` - Verander of de bot je vertelt als je items of smaragden hebt ontvangen.\n\n",
+          "`{0}config clearrconpasswords` - Verwijder je opgeslagen externe console wachtwoorden uit de database.\n\n"
+        ]
+      },
+      "prefix": {
+        "this_server": "Het prefix in deze server is `{}`",
+        "error_1": "Je kunt geen prefix hebben dat langer is dan `{}` tekens.",
+        "error_2": "`{}` is niet toegestaan in een prefix.",
+        "set": "Stel het server prefix in op `{}`"
+      },
+      "replies": {
+        "enabled": "ingeschakeld",
+        "disabled": "uitgeschakeld",
+        "this_server": "Berichtreacties zijn **{}**.",
+        "set": "Zette berichtreacties **{}**."
+      },
+      "lang": {
+        "this_server": "De servertaal is momenteel ingesteld op **{}**.\n\nBeschikbare talen zijn: {}",
+        "set": "Stel de servertaal in op **{}**."
+      },
+      "mcs": {
+        "this_server": "De standaard Minecraft server is momenteel ingesteld op **`{}`**",
+        "error_1": "Dat is te lang! Je kunt het niet langer maken dan `{}` tekens.",
+        "set": "Stel de standaard Minecraft server in op **`{}`**"
+      },
+      "gift": {
+        "this_user": "Geef/gift meldingen zijn momenteel **{}**.",
+        "set": "Zette geef/gift meldingen **{}**."
+      },
+      "cmd": {
+        "not_prem": "Deze functie is niet ingeschakeld in deze server.",
+        "list_cmds": "Uitgeschakelde commando's: `{}`",
+        "nope": "Er zijn geen uitgeschakelde commando's.",
+        "cant": "Je kunt dit commando niet uitschakelen.",
+        "not_found": "Commando niet gevonden.",
+        "reenable": "Geheractiveerd commando `{}`.",
+        "disable": "Uitgeschakeld commando `{}`."
+      },
+      "rcon": {
+        "none": "Je had geen opgeslagen wachtwoorden.",
+        "one": "1 wachtwoord verwijderd.",
+        "multi": "{} wachtwoorden verwijderd."
+      }
+    },
+    "useful": {
+      "vote": {
+        "click_1": "Klik mij!",
+        "click_2": "Of klik mij!"
+      },
+      "links": {
+        "support": "Ondersteunings Server",
+        "invite": "Bot Uitnodiging",
+        "topgg": "Top.gg Pagina",
+        "website": "Website",
+        "source": "Broncode",
+        "privacy": "Privacybeleid"
+      },
+      "stats": {
+        "stats": "Villager Bot Statistieken",
+        "servers": "Aantal Servers",
+        "dms": "Aantal DM Kanalen",
+        "users": "Aantal Gebruikers",
+        "msgs": "Sessie Berichten",
+        "cmds": "Sessie Commando's",
+        "cmds_hour": "Commando's/Uur",
+        "votes": "Sessie Votes",
+        "topgg": "Top.gg Votes/Uur",
+        "shards": "Aantal Shards",
+        "ping": "Ping",
+        "mem": "Geheugen",
+        "cpu": "CPU Gebruik",
+        "threads": "Threads",
+        "tasks": "Taken",
+        "uptime": "Tijd Online"
+      },
+      "ginf": {
+        "info": "Informatie",
+        "age": "Aangemaakt Op",
+        "owner": "Eigenaar",
+        "members": "Leden",
+        "bots": "Bots",
+        "channels": "Kanalen",
+        "roles": "Rollen",
+        "roles_and_n_others": "en {n} anderen...",
+        "emojis": "Emojis",
+        "bans": "Verbanningen",
+        "cmd_prefix": "Prefix",
+        "lang": "Taal",
+        "joined_at": "Geregistreerd",
+        "not_found": "Niet Gevonden"
+      },
+      "meth": {
+        "oops": "Oeps, er ging iets mis..."
+      },
+      "search": {
+        "nope": "Geen resultaten gevonden...",
+        "error": "Oeps, er ging iets mis..."
+      },
+      "rules": {
+        "rules": "Villager Bot Regels",
+        "slashrules": "{}rules voor de regels!",
+        "penalty": "Straf voor het breken van deze regels kan een reset/wipe, in-game straf/debuff of een **permanente verbanning van de ondersteunings server en/of het gebruik van de bot**.",
+        "rule_1": "**1.** Gebruik geen bugs, meld ze in het #support kanaal op de [ondersteunings server]({}) voor een beloning!",
+        "rule_2": "**2.** Gebruik geen cheats of alternatieve accounts of andere gebruikers voor het opslaan van je smaragden of items. (Dit omvat dat je niet mag zelf-botten.)",
+        "rule_3": "**3.** Wees niet vervelend, aggressief of intimiderend naar iemand met behulp van de bot's functies.",
+        "rule_4": "**4.** Gebruik de bot niet om enige inhoud te promoten die niet is goedgekeurd door de bot eigenaar."
+      },
+      "remind": {
+        "reminder_max": "Je kunt niet meer dan {max} herinneringen hebben.",
+        "stupid_1": "Je gebruikte ongeldige formatting, voorbeeld: `{0}remindme 1w2d3h4m dit is een voorbeeld` zal je herinneren in één week, twee dagen, drie uur en vier minuten.",
+        "time_max": "Je kunt geen herinnering instellen voor meer dan één jaar vooruit.",
+        "remind": "{0} herinnert je {1}.",
+        "reminder": "{0}, je wilde me herinneren: *{1}*",
+        "none": "*Je hebt geen herinneringen...*",
+        "add": "Je kunt herinneringen toevoegen met {}reminder add <duur> <tekst>",
+        "unauthorized": "{0} dat is niet jouw herinnering.",
+        "authorized": "{0} verwijderde succesvol jouw herinnering."
+      },
+      "credits": {
+        "credits": "Villager Bot zou niet mogelijk zijn zonder...",
+        "foot": "Gemaakt door Iapetus11 en anderen ({0}credits)",
+        "people": {
+          "iapetus11": "De maker, eigenaar en ontwikkelaar van Villager Bot",
+          "hpancakesk": "Hielp bij het bedenken van de originele ideeën achter Villager Bot",
+          "moody": "Hielp bij de ideeën achter verschillende items en vissen",
+          "emulator": "Hielp bij bug fixes en feature toevoegingen",
+          "elrynd": "Heeft geholpen bij bug fixes en code begrip, en vertaalde Villager Bot naar Frans",
+          "chez": "Creëerde nieuwe functies en helpt bij bug fixes",
+          "quack": "Helpt bij het fixen van kleine issues met de code en vertalingen",
+          "zelou": "Helpt bij de Spaanse vertaling van Villager Bot",
+          "joaooh": "Creëerde en onderhoudt de Portugese vertaling van Villager Bot",
+          "xe": "Kleine bug fixes en functue toevoegingen",
+          "radar": "Minor bug fixes en feature toevoegingen",
+          "kuro": "Helpt bij meerdere vertalingen van Villager Bot",
+          "hilt": "Helpt bij meerdere vertalingen van Villager Bot",
+          "infernum": "Diverse bug fixes en feature toevoegingen en verbeteringen van het herinneringssysteem",
+          "zethal_": "Maakte verschillende textures en vertaalde Villager Bot naar het Nederlands"
+        },
+        "others": "En natuurlijk, de ontelbare anderen die ideeën en bug reports hebben bijgedragen om Villager Bot beter te maken!"
+      },
+      "snipe": {
+        "nothing": "Er is niets om te snipen."
+      },
+      "redditdl": {
+        "invalid_url": "Dat is een ongeldige postlink!",
+        "reddit_error": "Oeps, er is iets misgegaan bij het aanroepen van Reddit",
+        "downloading": "{} Bezig met het downloaden van video en audio...",
+        "stitching": "{} Bezig met het samenvoegen van video en audio...",
+        "couldnt_find": "Kon niets vinden om te downloaden... :/"
+      },
+      "imgcmds": {
+        "missing": "Je moet de URL van een afbeelding opgeven of er een uploaden.",
+        "invalid": "De opgegeven afbeelding is ongeldig.",
+        "too_big": "De opgegeven afbeelding is te groot (mag niet groter zijn dan {size}).",
+        "error": "Er is een fout opgetreden bij het lezen van de opgegeven afbeelding."
+      },
+      "exif": {
+        "title": "EXIF Gegevens",
+        "none": "*Geen EXIF-gegevens gevonden...*",
+        "discord": "Deze opdracht vereist een URL, omdat Discord automatisch EXIF-gegevens uit media verwijdert."
+      },
+      "translate": {
+        "stupid_1": "Je moet tekst sturen om te vertalen of op een bericht reageren om te vertalen.",
+        "stupid_2": "Het bericht waar op gereageerd wordt, moet tekst bevatten om te vertalen.",
+        "stupid_3": "Onbekende of ongeldige doeltaal, alleen deze worden ondersteund: {lang_codes}",
+        "error": "Vertalen van tekst is mislukt."
+      }
+    },
+    "econ": {
+      "use_a_number_stupid": "Je moet een nummer gebruiken.",
+      "page": "Pagina",
+      "bot_prevention": {
+        "problem": "Typ de letters hieronder om door te gaan:",
+        "timeout": "Je hebt geen tijd meer, wat een traagheid...",
+        "correct": "{} Correct antwoord!",
+        "incorrect": "{} Onjuist antwoord!"
+      },
+      "pp": {
+        "bot_1": "Hey domkop, Villager Bot heeft veel te veel dingen om hier te tonen.",
+        "bot_2": "He domkop, bots hebben geen rechten en kunnen daarom geen items of smaragden hebben.",
+        "total_wealth": "Netto Vermogen",
+        "mooderalds": "Mooderalds",
+        "pick": "Houweel",
+        "sword": "Zwaard",
+        "streak": "Stemreeks",
+        "can_vote": "Kan Stemmen?",
+        "yep": "Jazeker!",
+        "fx": "Actieve Effecten"
+      },
+      "bal": {
+        "bot_1": "Villager Bot heeft veel te veel smaragden om te tonen!",
+        "bot_2": "Bots hebben geen rechten en kunnen geen smaragden of spullen hebben.",
+        "s_emeralds": "{}'s smaragden",
+        "total_wealth": "Netto Vermogen: {}{}",
+        "autistic_emeralds": "Mooderalds: {}{}",
+        "pocket": "Op Zak",
+        "vault": "Kluis"
+      },
+      "inv": {
+        "bot_1": "Villager Bot heeft veel te veel items om te tonen (Ongeveer 100000000000000000)",
+        "bot_2": "Bots hebben geen rechten en kunnen daarom geen smaragden of spullen hebben.",
+        "s_inventory": "{}'s inventaris [{}]",
+        "cats": {
+          "tools": "gereedschap",
+          "magic": "magie",
+          "fish": "vis",
+          "misc": "divers",
+          "farming": "landbouw",
+          "all": "alle"
+        },
+        "empty": "*Het is hier best leeg...*"
+      },
+      "dep": {
+        "poor_loser": "Je hebt niet genoeg smaragden om te storten.",
+        "stupid_1": "Je kunt niet minder dan één smaragdblok storten.",
+        "stupid_2": "Je hebt niet genoeg ruimte daarvoor.",
+        "stupid_3": "Je kunt niet meer smaragden storten dan je hebt.",
+        "deposited": "Gestort {}{} ({}{}) in je kluis."
+      },
+      "withd": {
+        "poor_loser": "Je hebt niet genoeg smaragdblokken om op te nemen.",
+        "stupid_1": "Je kunt niet minder dan één smaragdblok opnemen.",
+        "stupid_2": "Je kunt niet meer opnemen dan je hebt.",
+        "withdrew": "Opgenomen {}{} ({}{}) uit je kluis."
+      },
+      "shop": {
+        "villager_shop": "Dorpelingwinkel",
+        "tools": "{} Gereedschap",
+        "magic": "{} Magie",
+        "farming": "{} Landbouw",
+        "other": "{} Overig",
+        "embed_footer": "Gebruik {}inventaris om te zien wat je hebt!"
+      },
+      "buy": {
+        "poor_loser_1": "Je hebt niet genoeg smaragden om dit item te kopen.",
+        "stupid_1": "Je kunt niet minder dan één van een item kopen.",
+        "stupid_2": "`{}` is ongeldig of staat niet in de Dorpelingwinkel.",
+        "poor_loser_2": "Je hebt niet genoeg smaragden om `{}x` **{}** te kopen.",
+        "need_total_of": "Je hebt in totaal `{}x` {} ({}) nodig om dit item te kopen.",
+        "you_done_bought": "Je hebt {}x **{}** gekocht voor {} (Je hebt in totaal {}).",
+        "no_to_item_1": "Je kunt er niet meer van dit item kopen.",
+        "no_to_item_2": "Om de een of andere reden kun je dit item niet kopen."
+      },
+      "sell": {
+        "invalid_item": "Of dat item is ongeldig of je hebt het niet.",
+        "stupid_1": "Je kunt niet meer verkopen dan je hebt van dat item.",
+        "stupid_2": "Je kunt niet minder dan één van een item verkopen.",
+        "stupid_3": "Je kunt dit item niet verkopen.",
+        "you_done_sold": "Je hebt {}x **{}** verkocht voor een totaal van {}{}"
+      },
+      "give": {
+        "bot_1": "Villager Bot heeft al een volle inventaris (Ongeveer 100000000000000000 unieke items!)",
+        "bot_2": "Je kunt geen spullen aan bots geven, omdat ze geen rechten hebben en geen smaragden of spullen kunnen hebben.",
+        "stupid_1": "Je kunt geen spullen aan jezelf geven!",
+        "stupid_2": "Je kunt iemand niet minder dan één van iets geven.",
+        "and_i_oop": "Je kunt dit item niet ruilen/geven.",
+        "stupid_3": "Je kunt iemand niet meer smaragden geven dan je hebt.",
+        "stupid_4": "Je kunt niet meer van een item geven dan je hebt.",
+        "gave": "{} gaf {}x **{}** aan {}",
+        "gaveems": "{} gaf {}{} aan {}",
+        "gaveyou": "{} gaf je {}x **{}**",
+        "gaveyouems": "{} gaf je {}{}"
+      },
+      "gamble": {
+        "stupid_1": "Je kunt niet meer smaragden gokken dan je hebt.",
+        "stupid_2": "Je moet 10 of meer smaragden tegelijk gokken.",
+        "stupid_3": "Je kunt niet meer dan 50000 smaragden tegelijk gokken.",
+        "too_rich": "Je hebt te veel smaragden, ga iets anders met je leven doen!",
+        "roll": "Jouw worp: `{}` **|** Bot's worp: `{}`",
+        "win": "Je hebt gewonnen! Villager Bot {} {}{}",
+        "lose": "Je hebt {}{} verloren aan Villager Bot...",
+        "tie": "Gelijkspel! Misschien steelt Villager Bot je smaragden toch...",
+        "actions": [
+          "geeft",
+          "geeft je",
+          "geeft",
+          "geeft je"
+        ]
+      },
+"beg": {
+        "positive": [
+          "Een piglin gooit {} weg, want alleen goud is belangrijk voor hem.",
+          "Je vindt {} dat door pillagers is achtergelaten na een aanval.",
+          "Je vindt {} dat door pillagers is achtergelaten in de resten van een verwoest dorp...",
+          "Een dorper heeft medelijden met je en laat {} op de grond vallen.",
+          "Een reiziger heeft medelijden met je en laat {} in je handen vallen.",
+          "Je berooft een bedelaar en krijgt {}!",
+          "Uit ergernis gooien de dorpelingen smaragden naar je om je weg te jagen, je pakt {} op.",
+          "De vriendelijkheid van Villager Bot zegent je, {} verschijnt in je zak.",
+          "Tijdens je reis naar een dorp kom je een chunk-fout tegen, met blootgestelde smaragden aan de onderkant. Je mijnbouwt {}.",
+          "Als een aanval ten einde komt, verwarren de dorpelingen je met de held, je ontvangt {}.",
+          "Je gaf de piglin een geweldige tijd. De piglin stopt en denkt, en geeft je {}.",
+          "hurrhhrrrhmmhrrrhehhhshrmhmrgghm, Villager Bot gaf je {}.",
+          "hhrrrhhrmhmmhhrrrhmmhrrrhehhhhmehehhrrrhshrmhmrgghm, Villager Bot gaf je {}.",
+          "Terwijl je naar je bedelplek loopt, vangen glinsterende smaragden je oog. Je vindt {}.",
+          "Je zoekt tussen de kussens van de bank en vindt {}!",
+          "Je klimt de Mount Everest op in de zoektocht naar smaragden, je vindt {}!",
+          "Je vindt een verborgen luik en daarachter ligt {}...",
+          "In een stoffige hoek zie je {}.",
+          "Terwijl je je kamer opruimt, vind je {}, misschien moet je het vaker doen...",
+          "Onder een blok aarde vind je {}!",
+          "Je doorzoekt je zakken en vindt {}, bedekt met oude plakkerige kauwgom...",
+          "Je huisdier braakt {} op...",
+          "Scrollend naar de onderkant van de kanaallijst op Discord vind je {}!",
+          "Je doorzoekt de [Discord server](https://discord.com/invite/39DwwUV) en vindt {}...",
+          "Je zoekt naar {} op Google."
+        ],
+        "negative": [
+          "Een groep piglins neemt je onderbreking niet licht op en steelt {} van je.",
+          "Je komt een groep pillagers tegen die {} van je stelen.",
+          "Je krijgt een klap op je hoofd met wat brood terwijl dorpelingen je uit het dorp achtervolgen. Je liet {} vallen terwijl je weg rende.",
+          "Een andere bedelaar berooft je en steelt {}.",
+          "Vragen aan een creeper ging niet zo goed, je verloor {} door de resulterende explosie.",
+          "Terwijl je naar meer smaragden zocht, raakte je de jouwe kwijt, waardoor je {} verloor.",
+          "Een illusionist verschijnt, babbelend over het verdubbelen van smaragden met deze eens simpele truc. Je geeft hem {} en hij verdwijnt in een rookwolk.",
+          "Terwijl je in een dorp bedelt, raak je verstrikt in een aanval, een ravager kopstoot je over de kaart. Je laat {} vallen tijdens de vlucht."
+        ],
+        "mooderald": [
+          "Je werd gezegend door Moofy en ontving magisch {}.",
+          "Je bad voor Mooderalds en vond {} in je linkerzak.",
+          "Je vond {} in je tas met een briefje."
+        ]
+      },
+      "mine": {
+        "found_item_1": "Je {0} {1} **{2}** (Waarde {3}{4}) {5}.",
+        "found_item_2": "Je {0} {1} {2} {3}.",
+        "found_emeralds": "Je {0} {1}{2}!",
+        "actions": [
+          "gemijnd",
+          "gevonden",
+          "gekregen",
+          "opgegraven"
+        ],
+        "places": [
+          "in een verlaten mijnschacht",
+          "in een kist terwijl je aan het mijnen bent",
+          "in een kist",
+          "in een verlaten kist",
+          "in een kist nabij een monster-spawner",
+          "terwijl je aan het mijnen bent"
+        ],
+        "useless": [
+          "waardeloos",
+          "dom",
+          "stom",
+          "nutteloos"
+        ]
+      },
+      "fishing": {
+        "stupid_1": "Je kunt niet vissen zonder een hengel, domkop.",
+        "cast": [
+          "Je werpt je hengel uit...",
+          "Je probeert een vis te lokken...",
+          "Je gaat vissen..."
+        ],
+        "junk": [
+          "Je viste hoop en dromen op, helaas is dat niet winstgevend...",
+          "Je haalde een meme binnen, maar je kunt het niet verkopen...",
+          "Je haalde teleurstelling binnen..."
+        ],
+        "item": [
+          "Je viste 1x **{0}** op! (Waarde {1}{2})",
+          "Je haalde 1x **{0}** binnen! (Waarde {1}{2})"
+        ],
+        "caught": [
+          "Je haalde één **{0}** {1} binnen!",
+          "Je viste één **{0}** {1} op!",
+          "Je voelt een beet en haalt één **{0}** {1} binnen!",
+          "Je voelt een trek aan de lijn en vist één **{0}** {1} op!"
+        ],
+        "market": {
+          "title": "{} __Villager Bot Vismarkt__ {}",
+          "desc": "De prijzen waarvoor verschillende vissen worden verkocht, je kunt een\nhengel kopen in de gereedschappen sectie van de winkel.",
+          "current": "Verkoopt Voor: {0}{1}"
+        }
+      },
+      "pillage": {
+        "bot_1": "Hé domkop, Villager Bot kan niet worden verslagen. Villager Bot is onsterfelijk en almachtig.",
+        "bot_2": "Je kunt bots niet plunderen, omdat ze geen rechten hebben en daarom geen smaragden kunnen hebben.",
+        "stupid_1": "Je kunt jezelf niet plunderen, domkop.",
+        "stupid_2": "Je kunt mensen van andere servers niet plunderen...",
+        "stupid_3": "Je kunt alleen mensen plunderen als je meer dan 64{} hebt.",
+        "stupid_4": "Je kunt alleen een persoon plunderen als zij meer dan 64{} hebben.",
+        "stupid_5": "Je kunt geen persoon plunderen die een **Shield Pearl** actief heeft.",
+        "stupid_6": "Je kunt nog niet plunderen, je moet {time} wachten.",
+        "u_win": {
+          "user": [
+            "Je ontsnapte met {}{}",
+            "Je kwam weg met {}{}",
+            "Je plunderde en stal {}{}"
+          ],
+          "victim": [
+            "{} stal {}{} van je...",
+            "{} plunderde {}{} van je...",
+            "{} plunderde je en stal {}{}...",
+            "{} plunderde je en kreeg {}{}..."
+          ]
+        },
+        "u_lose": {
+          "user": [
+            "Je werd betrapt tijdens het plunderen en moest {}{} betalen.",
+            "Je werd betrapt en moest {}{} betalen.",
+            "Je vuile dief, je werd betrapt en moest {}{} betalen."
+          ],
+          "victim": [
+            "{} faalde absoluut in het plunderen van jou!",
+            "{} werd absoluut vernietigd bij het plunderen van jou!",
+            "{} faalde terwijl hij/zij probeerde jou te plunderen met zijn/haar houten zwaard!",
+            "{} probeerde jou te plunderen met zijn/haar houten zwaard!"
+          ]
+        }
+      },
+      "use": {
+        "stupid_1": "Je kunt niet meer dan één van dit item tegelijk gebruiken.",
+        "stupid_2": "Je kunt geen item gebruiken dat je niet eens hebt.",
+        "stupid_3": "Je kunt niet minder dan één van een item tegelijk gebruiken, domkop.",
+        "stupid_4": "Je kunt niet meer dan 100 items tegelijk gebruiken.",
+        "stupid_5": "Je kunt niet meer items gebruiken dan je hebt!",
+        "stupid_6": "Of dat is geen bruikbaar item, of het bestaat niet.",
+        "vault_max": "Je kunt je kluis niet verder uitbreiden via deze methode.",
+        "vault_pot_singular": "Je hebt een **Vault Potion** gedronken. Je kluisspace is met {} ruimtes vergroot.",
+        "vault_pot_plural": "Je hebt {amount} **Vault Potion**s gedronken. Je kluisspace is met {} ruimtes vergroot.",
+        "smoke_seaweed": "Je hebt wat **Zeewier** gegeten dat **{} minuten** meegaat.",
+        "use_bonemeal": "Je hebt wat **Bottenmeel** op je gewassen gebruikt, waardoor ze groeien!",
+        "seaweed_done": "Het **Zeewier** dat je eerder at, is uitgewerkt.",
+        "fishing_bait_used": "Je hebt wat **Vishengel Aas** gebruikt, je zult nu betere vissen vangen voor de volgende **{} minuten**!",
+        "fishing_bait_done": "Het visaas dat je gebruikte, is eindelijk van de haak gevallen.",
+        "chug": "Je hebt een **{}** gedronken die **{} minuten** meegaat.",
+        "chug_no_end": "Je hebt een **{}** gedronken!",
+        "chug_honey": "Je hebt {0}x **Honingpot** gedronken! (Je hebt nu {1}/20 {2})",
+        "cant_use_any": "Je kunt op dit moment geen **{}** gebruiken.",
+        "cant_use_up_to": "Je kunt op dit moment niet meer dan {0} **{1}** gebruiken.",
+        "done": "De **{}** die je eerder dronk, is uitgewerkt.",
+        "need_slimy_balls": "Je hebt één **Slime Ball** nodig voor elke **Glazen Bekerglas**.",
+        "slimy_balls_funne": "Je hebt {0}x **Slime Ball** + {0}x **Glazen Bekerglas** omgezet in {0}x **Bekerglas Met Slime**!",
+        "beaker_of_slime_undo": "Je hebt {0}x **Bekerglas Met Slime** omgezet in {0}x **Slime Ball**!",
+        "use_shield_pearl": "Je hebt een **Shield Pearl** gebruikt en bent nu onoverwinnelijk tegen pillagers voor de komende maand.",
+        "use_time_pearl": "Je hebt een **Time Pearl** gebruikt die de tijd met twee dagen vooruit heeft gesprongen.",
+        "use_infernums_scroll": "Je hebt **Infernum's Scroll** gebruikt, je dagelijkse quest is opnieuw gekozen :game_die:",
+        "present": [
+          "Je opende je cadeau en vond 1x **{}** (Waarde {}{})!",
+          "Je scheurde het inpakpapier zo snel als je kon en kreeg 1x **{}** (Waarde {}{})!",
+          "Je scheurt de cadeauverpakking open en vindt 1x **{}** (Waarde {}{})!",
+          "Je gooit de doos uit het raam, hij breekt open en je krijgt 1x **{}** (Waarde {}{})!"
+        ],
+        "barrel_item": [
+          "Je opende het deksel van het vat en vond 1x **{}** (Waarde {}{})!",
+          "Je gooide het vat uit het raam, en het breekt open en onthult 1x **{}** (Waarde {}{})!",
+          "Je schopt het vat en het opent, onthullend 1x **{}** (Waarde {}{})!",
+          "Je opent het vat en vindt 1x **{}** (Waarde {}{})!",
+          "Je opent het vat en vindt 1x **{}** (Waarde {}{})!",
+          "Je hackt het vat open met een bijl en vindt 1x **{}** (Waarde {}{})!",
+          "Je gooit smaragden naar het vat totdat het openbreekt en onthult 1x **{}** (Waarde {}{})!",
+          "Je vraagt de hulp van enkele pillagers om het vat te openen dat 1x **{}** (Wa arde {}{}) bevat!",
+          "Yoinks scoob, het lijkt erop dat je 1x **{}** (Waarde {}{}) in het vat hebt gevonden!"
+        ],
+        "barrel_ems": [
+          "Je opende het deksel van het vat en vond {}{}!",
+          "Je gooide het vat uit het raam, en het breekt open en onthult {}{}!",
+          "Je schopt het vat en het opent, onthullend {}{}!",
+          "Je opent het vat en vindt {}{}!",
+          "Je opent het vat en vindt {}{}!",
+          "Je hackt het vat open met een bijl en vindt {}{}!",
+          "Je vraagt de hulp van enkele pillagers om het vat te openen dat {}{} bevat!"
+        ],
+        "open_item_box": [
+          "Je opende de **Item Box** en vond 1x **{item}** (Waarde {sell_price}{emerald})!",
+          "Je scheurde de **Item Box** open en vond 1x **{item}** (Waarde {sell_price}{emerald})!"
+        ]
+      },
+"farm": {
+        "s_farm": "{user}'s Boerderij",
+        "commands_title": "Boerderij Commando's",
+        "commands": {
+          "plant": "`{prefix}farm plant` - plant het item",
+          "harvest": "`{prefix}farm harvest` - oogst alle rijpe gewassen"
+        },
+        "available": "Beschikbaar om te oogsten: {available}/{max}",
+        "cant_plant": "Je kunt dit item niet planten.",
+        "no_plots": "Al je boerderijpercelen zijn vol, een betere houwel geeft je meer!",
+        "no_plots_2": "Je hebt niet genoeg boerderijpercelen voor dat!",
+        "planted": "Geplant {amount}x {crop}",
+        "cant_harvest": "Er zijn geen rijpe gewassen om te oogsten...",
+        "harvested": "Gehooid {crops}"
+      },
+      "honey": {
+        "stupid_1": [
+          "Je hebt niet genoeg bijen om deze zakelijke optie levensvatbaar te maken.",
+          "Je hebt 100 potten bijen nodig om daadwerkelijk winst te maken, ga weg."
+        ],
+        "honey": [
+          "Kennelijk produceren bijen honing en je hebt net {} potten ervan verzameld! Wie had dat gedacht?!!",
+          "Dus, bijen maken honing en je hebt net {} potten ervan gekregen!",
+          "Wauw, bijen maken honing! Je hebt net {} potten ervan gekregen!"
+        ],
+        "ded": [
+          "Bovendien, kennelijk worden bijen behoorlijk boos als je probeert hun honing te stelen. Je hebt {} van ze verloren...",
+          "Oeps, kennelijk worden bijen behoorlijk kwaad als je probeert van ze te stelen, wie had dat gedacht!? Je hebt {} van hen verloren door zelfmoord.",
+          "Het lijkt erop dat bijen behoorlijk boos worden als je probeert van ze te stelen, je hebt {} verloren door zelfmoord..."
+        ]
+      },
+      "lb": {
+        "title": "__**Villager Bot Ranglijsten**__",
+        "global_lb": "Globaal",
+        "local_lb": "Deze Server",
+        "emeralds": "Smaragden",
+        "item": "Item",
+        "unique_items": "Unieke Items",
+        "stolen": "Gestolen Smaragden",
+        "kills": "Gevallen Mobs",
+        "cmds": "Verzonden Commando's",
+        "votes": "Stemreeks",
+        "fish": "Vissen Gevangen",
+        "farming": "Gewassen Geplant",
+        "trash": "Afval Geleegd",
+        "wems": "Wekelijkse Smaragden",
+        "wcmds": "Wekelijkse Commando's",
+        "dq": "Voltooide Dagelijkse Quests",
+        "wdq": "Wekelijks Voltooide Dagelijkse Quests",
+        "tw": "Totaal Vermogen",
+        "lb_ems": "{0}__**Smaragd Ranglijst**__{0}",
+        "lb_item": "{0}__**{1} Ranglijst**__{0}",
+        "lb_unique_items": "{0}__**Unieke Items Ranglijst**__{0}",
+        "lb_pil": "{0}__**Gestolen Smaragden Ranglijst**__{0}",
+        "lb_kil": "{0}__**Gevallen Mobs Ranglijst**__{0}",
+        "lb_cmds": "{0}__**Verzonden Commando's Ranglijst**__{0}",
+        "lb_votes": "{0}__**Stemreeks Ranglijst**__{0}",
+        "lb_fish": "{0}__**Vissen Gevangen Ranglijst**__{0}",
+        "lb_farming": "{0}__**Gewassen Geplant Ranglijst**__{0}",
+        "lb_trash": "{0}__**Afval Geleegd Ranglijst**__{0}",
+        "lb_wems": "{0}__**Wekelijkse Smaragden**__{0}",
+        "lb_wcmds": "{0}__**Wekelijkse Commando's**__{0}",
+        "lb_dq": "{0}__**Voltooide Dagelijkse Quests**__{0}",
+        "lb_wdq": "{0}__**Wekelijks Voltooide Dagelijkse Quests**__{0}",
+        "lb_tw": "{0}__**Totaal Vermogen**__{0}",
+        "no_item_lb": "Er bestaat geen ranglijst voor dit item",
+        "item_lb_stats": "*totaal van {total_count:,} in het bezit van {user_count:,} versschillende gebruikers*"
+      },
+      "trash": {
+        "s_trash": "{user}'s Afvalbak",
+        "no_trash": "Er is hier geen afval... :/",
+        "total_contents": "De totale inhoud is waard {ems}{ems_emoji}",
+        "how_to_empty": "Gebruik `{prefix}trashcan empty` om de afvalbak te legen!",
+        "emptied_for": "Je hebt je afvalbak geleegd voor {reward}"
+      },
+      "daily_quests": {
+        "mapping": {
+          "mined_emeralds": {
+            "title": "Mijn {target} smaragden {emoji}",
+            "progress": "{value}/{target} smaragden gemijnd... {encouragement}"
+          },
+          "fished_cod": {
+            "title": "Vang {target} kabeljauw {emoji}",
+            "progress": "{value}/{target} kabeljauw gevangen... {encouragement}"
+          },
+          "fished_salmon": {
+            "title": "Vang {target} zalm {emoji}",
+            "progress": "{value}/{target} zalm gevangen... {encouragement}"
+          },
+          "fished_tropical_fish": {
+            "title": "Vang {target} tropische vissen {emoji}",
+            "progress": "{value}/{target} tropische vissen gevangen... {encouragement}"
+          },
+          "fished_pufferfish": {
+            "title": "Vang {target} kogelvissen {emoji}",
+            "progress": "{value}/{target} kogelvissen gevangen... {encouragement}"
+          },
+          "fished_rainbow_trout": {
+            "title": "Vang {target} regenboogforellen {emoji}",
+            "progress": "{value}/{target} regenboogforellen gevangen... {encouragement}"
+          },
+          "fished_gold_fish": {
+            "title": "Vang {target} goudvissen {emoji}",
+            "progress": "{value}/{target} goudvissen gevangen... {encouragement}"
+          },
+          "fished_emerald_fish": {
+            "title": "Vang {target} smaragd vissen {emoji}",
+            "progress": "{value}/{target} smaragd vissen gevangen... {encouragement}"
+          },
+          "votes": {
+            "title": "Stem op top.gg {emoji}",
+            "progress": "{value}/{target} stemmen... {encouragement}"
+          },
+          "killed_zombie": {
+            "title": "Dood {target} zombies {emoji}",
+            "progress": "{value}/{target} zombies gedood... {encouragement}"
+          },
+          "killed_skeleton": {
+            "title": "Dood {target} skeletten {emoji}",
+            "progress": "{value}/{target} skeletten gedood... {encouragement}"
+          },
+          "killed_spider": {
+            "title": "Dood {target} spinnen {emoji}",
+            "progress": "{value}/{target} spinnen gedood... {encouragement}"
+          },
+          "killed_cave_spider": {
+            "title": "Dood {target} grottenspinnen {emoji}",
+            "progress": "{value}/{target} grottenspinnen gedood... {encouragement}"
+          },
+          "killed_creeper": {
+            "title": "Dood {target} creepers {emoji}",
+            "progress": "{value}/{target} creepers gedood... {encouragement}"
+          },
+          "killed_baby_slime": {
+            "title": "Dood {target} baby slimes {emoji}",
+            "progress": "{value}/{target} baby slimes gedood... {encouragement}"
+          },
+          "killed_enderman": {
+            "title": "Dood {target} endermen {emoji}",
+            "progress": "{value}/{target} endermen gedood... {encouragement}"
+          },
+          "mined_collectibles": {
+            "title": "Mijn {target} verzamelobjecten {emoji}",
+            "progress": "{value}/{target} verzamelobjecten gemijnd... {encouragement}"
+          },
+          "fished_collectibles": {
+            "title": "Vang {target} verzamelobjecten {emoji}",
+            "progress": "{value}/{target} verzamelobjecten gevangen... {encouragement}"
+          }
+        },
+        "completed": "Quest voltooid: {quest_title}!",
+        "current": "Huidige dagelijkse quest: {quest_title}",
+        "rewarded": "Je hebt {reward_amount}{reward_emoji} ontvangen!",
+        "progress": "**Voortgang:** {progress}",
+        "reward": "**Beloning:** {reward_amount}{reward_emoji}",
+        "expires_at": "**Verloopt:** {expires_at}",
+        "cant_reroll": "Je kunt je quest nog niet opnieuw rollen, als je denkt dat dit een bug is, meld het dan.",
+        "encouragements": {
+          "close": [
+            "Je komt dichtbij!",
+            "Nog maar een beetje te gaan!",
+            "Super dichtbij..."
+          ],
+          "far": [
+            "Je hebt nog een eind te gaan...",
+            "Je moet aan de slag!",
+            "Je moet opschieten!"
+          ],
+          "done": [
+            "Je bent helemaal klaar!",
+            "Je hebt het gedaan!",
+            "Pog champ!"
+          ]
+        }
+      },
+      "item_bible": {
+        "item_mapping": {
+          "Wood Pickaxe": {
+            "description": [
+              "Bij het mijnen heeft het een kans van `5/26` om smaragden te mijnen. Upgrade naar een **Stone Pickaxe** voor betere stembeloningen."
+            ]
+          },
+          "Stone Pickaxe": {
+            "description": [
+              "Bij het mijnen heeft het een kans van `6/26` om smaragden te mijnen. Upgrade naar een **Iron Pickaxe** voor betere stembeloningen."
+            ]
+          },
+          "Iron Pickaxe": {
+            "description": [
+              "Bij het mijnen heeft het een kans van `7/26` om smaragden te mijnen. Upgrade naar een **Gold Pickaxe** voor betere stembeloningen."
+            ]
+          },
+          "Gold Pickaxe": {
+            "description": [
+              "Bij het mijnen heeft het een kans van `9/26` om smaragden te mijnen. Upgrade naar een **Diamond Pickaxe** voor betere stembeloningen."
+            ]
+          },
+          "Diamond Pickaxe": {
+            "description": [
+              "Bij het mijnen heeft het een kans van `11/26` om smaragden te mijnen. Upgrade naar een **Netherite Pickaxe** voor betere stembeloningen."
+            ]
+          },
+          "Netherite Pickaxe": {
+            "description": [
+              "Bij het mijnen heeft het een kans van `13/26` om smaragden te mijnen."
+            ]
+          },
+          "Wood Sword": {
+            "description": [
+              "Doet een basis schade van `1-2hp` tegen mobs."
+            ]
+          },
+          "Stone Sword": {
+            "description": [
+              "Doet een basis schade van `1-3hp` tegen mobs."
+            ]
+          },
+          "Iron Sword": {
+            "description": [
+              "Doet een basis schade van `2-4hp` tegen mobs."
+            ]
+          },
+          "Gold Sword": {
+            "description": [
+              "Doet een basis schade van `4-5hp` tegen mobs."
+            ]
+          },
+          "Diamond Sword": {
+            "description": [
+              "Doet een basis schade van `6-7hp` tegen mobs."
+            ]
+          },
+          "Netherite Sword": {
+            "description": [
+              "Doet een basis schade van `7-10hp` tegen mobs."
+            ]
+          },
+          "Wood Hoe": {
+            "description": [
+              "Stelt je in staat om tot `10 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
+            ]
+          },
+          "Stone Hoe": {
+            "description": [
+              "Stelt je in staat om tot `20 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
+            ]
+          },
+          "Iron Hoe": {
+            "description": [
+              "Stelt je in staat om tot `30 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
+            ]
+          },
+          "Gold Hoe": {
+            "description": [
+              "Stelt je in staat om tot `40 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
+            ]
+          },
+          "Diamond Hoe": {
+            "description": [
+              "Stelt je in staat om tot `50 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
+            ]
+          },
+          "Netherite Hoe": {
+            "description": [
+              "Stelt je in staat om tot `60 percelen` landbouwgrond te planten met het `{prefix}farm` commando."
+            ]
+          },
+          "Fishing Rod": {
+            "description": [
+              "Stelt je in staat om te vissen naar **Kabeljauw**, **Zalm**, **Tropische Vissen**, **Kogelvissen**, **Regenboogforellen**, **Goudvissen**, en **Smaragd Vissen** met het `{prefix}fish` commando."
+            ]
+          },
+          "Vault Potion": {
+            "description": [
+              "Gebruik dit item met het `{prefix}use Vault Potion` commando om je beschikbare `{prefix}vault` capaciteit te vergroten."
+            ]
+          },
+          "Haste I Potion": {
+            "description": [
+              "Vermindert de cooldown van het `{prefix}mine` commando met `1 seconde` voor `7 minuten`."
+            ]
+          },
+          "Haste II Potion": {
+            "description": [
+              "Vermindert de cooldown van het `{prefix}mine` commando met `2 seconden` voor `6 minuten`."
+            ]
+          },
+          "Fortune I Book": {
+            "description": [
+              "Verhoogt de smaragd beloning van de `{prefix}mine` commando met `1-2 smaragden`.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen aan alle nieuwe pikhouwelen. Dit betoveringsboek stapelt niet."
+            ]
+          },
+          "Fortune II Book": {
+            "description": [
+              "Verhoogt de smaragd beloning van de `{prefix}mine` commando met `2-3 smaragden`.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen aan alle nieuwe pikhouwelen. Dit betoveringsboek stapelt niet."
+            ]
+          },
+          "Fortune III Book": {
+            "description": [
+              "Verhoogt de smaragd beloning van het `{prefix}mine` commando met `1-4 smaragden`.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe houwelen. Dit betoveringsboek stapelt niet."
+            ]
+          },
+          "Sharpness I Book": {
+            "description": [
+              "Verhoogt de basis schade van zwaarden met `25%` (voor een totaal van `125%`) bij het vechten tegen mobs.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe zwaarden. Dit betoveringsboek stapelt niet."
+            ]
+          },
+          "Sharpness II Book": {
+            "description": [
+              "Verhoogt de basis schade van zwaarden met `50%` (voor een totaal van `150%`) bij het vechten tegen mobs.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe zwaarden. Dit betoveringsboek stapelt niet."
+            ]
+          },
+          "Time Pearl": {
+            "description": [
+              "Bij het gebruik van het item met het `{prefix}use Time Pearl` commando, versnelt het de tijd met twee dagen; gewassen groeien, cooldowns voor `{prefix}honey`, `{prefix}pillage`, `{prefix}search` worden gereset, en alle actieve effecten (bijvoorbeeld, haste) worden gewist en het item wordt verbruikt."
+            ]
+          },
+          "Shield Pearl": {
+            "description": [
+              "Het gebruik van dit item met het `{prefix}use Shield Pearl` commando stelt je in staat om te voorkomen dat mensen je plunderen met het `{prefix}pillage` commando voor maximaal een maand. Het gebruik van dit item verbruikt het.",
+              "Als je het `{prefix}pillage` commando gebruikt terwijl een **Shield Pearl** actief is, wordt het effect geannuleerd en word je plunderbaar."
+            ]
+          },
+          "Rich Person Trophy": {
+            "description": [
+              "Met een **Rich Person Trophy** krijg je een bonus op het `{prefix}gamble` commando, `200%` smaragden van het `{prefix}trashcan empty` commando, `150%` smaragden van het openen van **Vaten**, en `200%` smaragden van het `{prefix}mine` commando. Maar onthoud... **hebzucht heeft een prijs**..."
+            ]
+          },
+          "Jar Of Bees": {
+            "description": [
+              "Het kopen van een **Pot met Bijen** in de `{prefix}shop` stelt je in staat om dagelijks honing van hen te oogsten met het `{prefix}honey` commando."
+            ]
+          },
+          "Glass Beaker": {
+            "description": [
+              "Stelt je in staat om een **Slime Ball** om te zetten in een **Beaker Of Slime** met het `{prefix}use <hoeveelheid> Glass Beaker` commando, waardoor het verhandeld kan worden met andere spelers."
+            ]
+          },
+          "Netherite Scrap": {
+            "description": [
+              "Dit item is vereist bij het kopen van bepaalde items in de `{prefix}shop`."
+            ]
+          },
+          "Slime Trophy": {
+            "description": [
+              "Het hebben van dit item in je inventaris vermindert je kans om aanvallen tegen **Baby Slijmkubus**sen te missen."
+            ]
+          },
+          "Fishing Trophy": {
+            "description": [
+              "Het hebben van dit item in je inventaris vermindert je kans om rommel te vangen bij het gebruik van het `{prefix}fish` commando."
+            ]
+          },
+          "Wheat Seed": {
+            "description": [
+              "Je kunt **Graanzaden** planten met het `{prefix}farm plant <hoeveelheid> Wheat Seed` commando om `1-2` **Graan** te laten groeien."
+            ]
+          },
+          "Carrot": {
+            "description": [
+              "Je kunt een **Wortel** planten met het `{prefix}farm plant <hoeveelheid> Carrot` commando om `1-3` **Wortel**s te laten groeien."
+            ]
+          },
+          "Potato": {
+            "description": [
+              "Je kunt een **Aardappel** planten met het `{prefix}farm plant <hoeveelheid> Potato` commando om `1-3` **Aardappel**s te laten groeien."
+            ]
+          },
+          "Melon Seed": {
+            "description": [
+              "Je kunt **Meloenzaad** planten met het `{prefix}farm plant <hoeveelheid> Melon Seed` commando om `2-5` **Meloen**en te laten groeien."
+            ]
+          },
+          "Chorus Seed": {
+            "description": [
+              "Je kunt **Chorus Zaad** planten met het `{prefix}farm plant <hoeveelheid> Chorus Seed` commando om `1-2` **Chorus Fruit** te laten groeien."
+            ]
+          },
+          "Bone Meal": {
+            "description": [
+              "Gevallen bij het doden van Skeletten met een kans van `1/20` (beïnvloed door plundering betoveringen). Je kunt dit item gebruiken met het `{prefix}use Bone Meal` commando, wat alle gewassen met `67%` van de tijd die ze nodig hebben om te groeien, laat groeien."
+            ]
+          },
+          "Fishing Bait": {
+            "description": [
+              "Kan worden gevonden door je afvalbak te legen met het `{prefix}trash` commando als je genoeg aarde hebt.",
+              "Wanneer gebruikt met het `{prefix}use Fishing Bait` commando, vermindert het de wachttijd voor het `{prefix}fish` commando met `8 seconden` en verhoogt het de kans om vissen te vangen in plaats van rommel of verzamelobjecten."
+            ]
+          },
+          "Honey Jar": {
+            "description": [
+              "Wanneer gebruikt met het `{prefix}use <hoeveelheid> Honey Jar` commando, zal het je `1/2hp` genezen per **Pot Honing**."
+            ]
+          },
+          "Barrel": {
+            "description": [
+              "Wanneer gebruikt met het `{prefix}use <hoeveelheid> Barrel` commando, zal het je een beloning geven in de vorm van smaragden of een verzamelobject."
+            ]
+          },
+          "Beaker Of Slime": {
+            "description": [
+              "Wanneer gebruikt met het `{prefix}use <hoeveelheid> Beaker Of Slime` commando, zal het zich scheiden in een **Slijmbal** en een **Glazen Beker**."
+            ]
+          },
+          "Infernum's Scroll": {
+            "description": [
+              "Stelt je in staat om je dagelijkse quest te veranderen (opnieuw te rollen) met het `{prefix}use Infernum's Scroll` commando. Het gebruik van dit item verbruikt het.",
+              "Dit item valt van alle mobs met een kans van ongeveer `1/40` (beïnvloed door plundering betoveringen)."
+            ]
+          },
+          "Lure I Book": {
+            "description": [
+              "Vermindert `4 seconden` wachttijd van het `{prefix}fish` commando.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft. Dit betoveringsboek stapelt niet."
+            ]
+          },
+          "Looting I Book": {
+            "description": [
+              "Verhoogt de kansen en hoeveelheden van gewonnen items en smaragden van gedode mobs.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe zwaarden. Dit betoveringsboek stapelt niet."
+            ]
+          },
+          "Looting II Book": {
+            "description": [
+              "Verhoogt de kansen en hoeveelheden van gewonnen items en smaragden van gedode mobs, meer dan het **Plundering I Boek**.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe zwaarden. Dit betoveringsboek stapelt niet."
+            ]
+          },
+          "Efficiency I Book": {
+            "description": [
+              "Vermindert de cooldown op het `{prefix}mine` commando met `0.5 seconden`.",
+              "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe houwelen. Dit betoveringsboek stapelt niet."
+            ]
+          },
+          "Luck Potion": {
+            "description": [
+              "> Wanneer gebruikt met het `{prefix}chug Luck Potion` commando, zul je de onderstaande effecten ontvangen voor `4 minuten en 30 seconden`.",
+              "Verhoogt aanzienlijk de kansen op:\n- Het verkrijgen van extra kluisruimte tijdens het uitvoeren van economiecommando's.\n- Het vinden van verzamelobjecten tijdens het mijnen.\n- Het vinden van visaas bij het legen van de `{prefix}trashcan`.",
+              "Vermindert aanzienlijk de kansen op:\n- Het vangen van rommel (in plaats van verzamelobjecten of vissen).\n- Het verliezen van bijen bij het gebruik van het `{prefix}honey` commando."
+            ],
+            "quoted": false
+          },
+          "Recycler": {
+            "description": [
+              "Wanneer aanwezig in je inventaris, verdubbelt het de smaragd beloning van het legen van je `{prefix}trashcan`."
+            ]
+          },
+          "Slime Ball": {
+            "description": [
+              "Gevallen bij het doden van Baby Slijmkubussen met een kans van `1/25` (beïnvloed door plundering betoveringen). Dit item kan worden gebruikt om de **Slijmtrofee** aan te schaffen en kan worden verhandeld met **Glazen Beker**s."
+            ]
+          },
+          "Ender Pearl": {
+            "description": [
+              "Gevallen bij het doden van Endermannen met een kans van `1/30` (beïnvloed door plundering betoveringen). Dit item kan worden gebruikt om verschillende items in de `{prefix}shop` aan te schaffen."
+            ]
+          },
+          "Bane Of Pillagers Amulet": {
+            "description": [
+              "Wanneer het aanwezig is in je inventaris, zal het het aantal smaragden dat je wint bij gokken verhogen en het zal je helpen beschermen tegen succesvolle plunderingen.",
+              "Dit voorwerp beloont je met een speciale rol in de Villager Bot Support Server."
+            ]
+          }
+        },
+        "item_tag_names": {
+          "4july": "Onafhankelijkheidsdag (Verenigde Staten)",
+          "halloween": "Halloween",
+          "mkwii": "Mario Kart Wii",
+          "easter": "Pasen"
+        },
+        "not_found": "Er kan geen voorwerp met deze naam worden gevonden. Dit voorwerp zou kunnen bestaan, maar niemand heeft het en er is geen documentatie voor.",
+        "drop_rate": {
+          "title": "Kans",
+          "not_mineable_or_fishable": "Niet mijnbaar / visbaar",
+          "mining": "Mijnen: `1/{}`",
+          "fishing": "Vissen: `1/{}`"
+        },
+        "traits": {
+          "title": "Eigenschappen",
+          "sellable": "Verkoopbaar",
+          "tradeable": "Verhandelbaar",
+          "purchaseable": "Aan te schaffen in `{prefix}shop`"
+        },
+        "rarity": {
+          "title": "Zeldzaamheid",
+          "singular": "*`1` persoon heeft dit voorwerp*",
+          "plural": "*`{amount}` mensen hebben dit voorwerp*",
+          "owned_amount": "*Je hebt er `{amount}` van dit voorwerp*"
+        },
+        "season": {
+          "title": "Evenement / Seizon",
+          "date_format": "{day}/{month}"
+        }
+      }
+    }
+  }
+}
