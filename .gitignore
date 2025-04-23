@@ -13,3 +13,5 @@ secrets.json
 
 tmp/
 fonts/
+
+karen/target/

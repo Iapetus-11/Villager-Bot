@@ -1,13 +1,15 @@
+-- Copied from the original setup.sql
+
 CREATE TABLE IF NOT EXISTS guilds (
-  guild_id           BIGINT PRIMARY KEY, -- the discord guild id / snowflake
+  guild_id           BIGINT PRIMARY KEY,
   prefix             VARCHAR(15) NOT NULL, -- the prefix of the guild
   language           VARCHAR(6) NOT NULL, -- the language the bot will speak in
   mc_server          VARCHAR(100), -- the minecraft server of the guild
   do_replies         BOOLEAN NOT NULL DEFAULT true -- whether to do funny replies to certain messages
 );
 
-CREATE TABLE IF NOT EXISTS users ( -- used for economy data
-  user_id            BIGINT PRIMARY KEY,  -- the discord user id / snowflake
+CREATE TABLE IF NOT EXISTS users (
+  user_id            BIGINT PRIMARY KEY,
   bot_banned         BOOLEAN NOT NULL DEFAULT false, -- whether the user is botbanned or not
   emeralds           BIGINT NOT NULL DEFAULT 0, -- the amount of emeralds the user has
   vault_balance      INT NOT NULL DEFAULT 0, -- the amount of emerald blocks in their vault
@@ -21,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users ( -- used for economy data
 );
 
 CREATE TABLE IF NOT EXISTS items (
-  user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
+  user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE,
   name               VARCHAR(50) NOT NULL, -- the name of the item
   sell_price         INT, -- the price it sells back to the bot for
   amount             BIGINT NOT NULL, -- the amount of the item the user has
@@ -30,8 +32,8 @@ CREATE TABLE IF NOT EXISTS items (
 );
 
 CREATE TABLE IF NOT EXISTS trash_can (
-  user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
-  item               VARCHAR(50) NOT NULL, -- name of item,
+  user_id            BIGINT REFERENCES users (user_id) ON DELETE CASCADE,
+  item               VARCHAR(50) NOT NULL, -- name of item
   value              FLOAT NOT NULL,
   amount             BIGINT NOT NULL
 );
@@ -54,7 +56,7 @@ CREATE TABLE IF NOT EXISTS badges (
 );
 
 CREATE TABLE IF NOT EXISTS leaderboards (  -- stores leaderboards which aren't stored elsewhere
-  user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE, -- the discord user id / snowflake
+  user_id            BIGINT PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE,
   pillaged_emeralds  BIGINT NOT NULL DEFAULT 0, -- emeralds pillaged from other users
   mobs_killed        BIGINT NOT NULL DEFAULT 0, -- number of mobs killed
   fish_fished        BIGINT NOT NULL DEFAULT 0, -- fishies fished
@@ -132,7 +134,7 @@ CREATE TABLE IF NOT EXISTS give_logs (
 
 CREATE TABLE IF NOT EXISTS reminders (
   id                 SERIAL PRIMARY KEY, -- the serial number for the reminder (1, 2, 3)
-  user_id            BIGINT NOT NULL, -- the discord user id / snowflake
+  user_id            BIGINT NOT NULL,
   channel_id         BIGINT NOT NULL, -- the channel id where the reminder command was summoned
   message_id         BIGINT NOT NULL, -- the message where the reminder command was summoned
   reminder           TEXT NOT NULL, -- the actual text for the reminder
@@ -140,7 +142,7 @@ CREATE TABLE IF NOT EXISTS reminders (
 );
 
 CREATE TABLE IF NOT EXISTS warnings (
-  user_id            BIGINT NOT NULL,  -- the discord user id / snowflake
+  user_id            BIGINT NOT NULL,
   guild_id           BIGINT NOT NULL, -- the guild where the user was warned
   mod_id             BIGINT NOT NULL, -- the mod / admin who issued the warning
   reason             VARCHAR(250) -- the reason for the warning (optional)
@@ -152,7 +154,7 @@ CREATE TABLE IF NOT EXISTS disabled_commands (
 );
 
 CREATE TABLE IF NOT EXISTS user_rcon (
-  user_id            BIGINT NOT NULL, -- the discord user id / snowflake
+  user_id            BIGINT NOT NULL,
   mc_server          VARCHAR(50) NOT NULL, -- the minecraft server address, including the port
   rcon_port          INT NOT NULL, -- the port the RCON server is hosted on
   password           VARCHAR(300) NOT NULL -- the encrypted password to login to the RCON server

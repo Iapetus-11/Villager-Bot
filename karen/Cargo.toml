@@ -1,0 +1,15 @@
+[package]
+name = "karen"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = { version = "0.4.40", features = ["serde"] }
+dotenv = "0.15.0"
+poem = "3.1.9"
+serde = "1.0.219"
+serde_json = "1.0.140"
+sqlx = { version = "0.8.5", features = ["postgres", "runtime-tokio-rustls", "chrono"] }
+thiserror = "2.0.12"
+tokio = { version = "1.44.2", features = ["full"] }
+xid = "1.1.1"
