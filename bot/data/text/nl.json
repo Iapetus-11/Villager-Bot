@@ -1727,7 +1727,7 @@
           "kuro": "Helpt bij meerdere vertalingen van Villager Bot",
           "hilt": "Helpt bij meerdere vertalingen van Villager Bot",
           "infernum": "Diverse bug fixes en feature toevoegingen en verbeteringen van het herinneringssysteem",
-          "zethal_": "Maakte verschillende textures en vertaalde Villager Bot naar het Nederlands"
+          "zethal_": "Maakte verschillende textures en vertaalde en onderhoudt de Nederlandse vertaling van Villager Bot"
         },
         "others": "En natuurlijk, de ontelbare anderen die ideeën en bug reports hebben bijgedragen om Villager Bot beter te maken!"
       },
@@ -1919,10 +1919,10 @@
         "found_item_2": "Je {0} {1} {2} {3}.",
         "found_emeralds": "Je {0} {1}{2}!",
         "actions": [
-          "gemijnd",
-          "gevonden",
-          "gekregen",
-          "opgegraven"
+          "mijnde",
+          "vond",
+          "kreeg",
+          "ontdekte"
         ],
         "places": [
           "in een verlaten mijnschacht",
@@ -1933,10 +1933,10 @@
           "terwijl je aan het mijnen bent"
         ],
         "useless": [
-          "waardeloos",
-          "dom",
-          "stom",
-          "nutteloos"
+          "waardeloze",
+          "domme",
+          "stomme",
+          "nutteloze"
         ]
       },
       "fishing": {
@@ -1948,7 +1948,7 @@
         ],
         "junk": [
           "Je viste hoop en dromen op, helaas is dat niet winstgevend...",
-          "Je haalde een meme binnen, maar je kunt het niet verkopen...",
+          "Je haalde een meme binnen, maar deze kun je niet verkopen...",
           "Je haalde teleurstelling binnen..."
         ],
         "item": [
@@ -1959,7 +1959,7 @@
           "Je haalde één **{0}** {1} binnen!",
           "Je viste één **{0}** {1} op!",
           "Je voelt een beet en haalt één **{0}** {1} binnen!",
-          "Je voelt een trek aan de lijn en vist één **{0}** {1} op!"
+          "Je voelt een ruk aan de lijn en vist één **{0}** {1} op!"
         ],
         "market": {
           "title": "{} __Villager Bot Vismarkt__ {}",
@@ -2011,30 +2011,30 @@
         "stupid_5": "Je kunt niet meer items gebruiken dan je hebt!",
         "stupid_6": "Of dat is geen bruikbaar item, of het bestaat niet.",
         "vault_max": "Je kunt je kluis niet verder uitbreiden via deze methode.",
-        "vault_pot_singular": "Je hebt een **Vault Potion** gedronken. Je kluisspace is met {} ruimtes vergroot.",
-        "vault_pot_plural": "Je hebt {amount} **Vault Potion**s gedronken. Je kluisspace is met {} ruimtes vergroot.",
-        "smoke_seaweed": "Je hebt wat **Zeewier** gegeten dat **{} minuten** meegaat.",
-        "use_bonemeal": "Je hebt wat **Bottenmeel** op je gewassen gebruikt, waardoor ze groeien!",
+        "vault_pot_singular": "Je hebt een **Vault Potion** gedronken. Je kluisruimte is met {} ruimtes vergroot.",
+        "vault_pot_plural": "Je hebt {amount} **Vault Potion**s gedronken. Je kluisruimte is met {} ruimtes vergroot.",
+        "smoke_seaweed": "Je hebt wat **Seaweed** gegeten dat **{} minuten** meegaat.",
+        "use_bonemeal": "Je hebt wat **Bone Meal** op je gewassen gebruikt, waardoor ze groeien!",
         "seaweed_done": "Het **Zeewier** dat je eerder at, is uitgewerkt.",
-        "fishing_bait_used": "Je hebt wat **Vishengel Aas** gebruikt, je zult nu betere vissen vangen voor de volgende **{} minuten**!",
+        "fishing_bait_used": "Je hebt wat **Fishing Bait** gebruikt, je zult nu betere vissen vangen voor de volgende **{} minuten**!",
         "fishing_bait_done": "Het visaas dat je gebruikte, is eindelijk van de haak gevallen.",
         "chug": "Je hebt een **{}** gedronken die **{} minuten** meegaat.",
         "chug_no_end": "Je hebt een **{}** gedronken!",
-        "chug_honey": "Je hebt {0}x **Honingpot** gedronken! (Je hebt nu {1}/20 {2})",
+        "chug_honey": "Je hebt {0}x **Honey Jar** gedronken! (Je hebt nu {1}/20 {2})",
         "cant_use_any": "Je kunt op dit moment geen **{}** gebruiken.",
         "cant_use_up_to": "Je kunt op dit moment niet meer dan {0} **{1}** gebruiken.",
-        "done": "De **{}** die je eerder dronk, is uitgewerkt.",
-        "need_slimy_balls": "Je hebt één **Slime Ball** nodig voor elke **Glazen Bekerglas**.",
-        "slimy_balls_funne": "Je hebt {0}x **Slime Ball** + {0}x **Glazen Bekerglas** omgezet in {0}x **Bekerglas Met Slime**!",
-        "beaker_of_slime_undo": "Je hebt {0}x **Bekerglas Met Slime** omgezet in {0}x **Slime Ball**!",
+        "done": "De **{}** die je eerder hebt opgedronken, is uitgewerkt.",
+        "need_slimy_balls": "Je hebt één **Slime Ball** nodig voor elke **Glass Beaker**.",
+        "slimy_balls_funne": "Je hebt {0}x **Slime Ball** + {0}x **Glass Beaker** omgezet in {0}x **Beaker Of Slime**!",
+        "beaker_of_slime_undo": "Je hebt {0}x **Beaker Of Slime** omgezet in {0}x **Slime Ball**!",
         "use_shield_pearl": "Je hebt een **Shield Pearl** gebruikt en bent nu onoverwinnelijk tegen pillagers voor de komende maand.",
         "use_time_pearl": "Je hebt een **Time Pearl** gebruikt die de tijd met twee dagen vooruit heeft gesprongen.",
-        "use_infernums_scroll": "Je hebt **Infernum's Scroll** gebruikt, je dagelijkse quest is opnieuw gekozen :game_die:",
+        "use_infernums_scroll": "Je hebt **Infernum's Scroll** gebruikt en je dagelijkse quest is opnieuw gekozen :game_die:",
         "present": [
           "Je opende je cadeau en vond 1x **{}** (Waarde {}{})!",
           "Je scheurde het inpakpapier zo snel als je kon en kreeg 1x **{}** (Waarde {}{})!",
           "Je scheurt de cadeauverpakking open en vindt 1x **{}** (Waarde {}{})!",
-          "Je gooit de doos uit het raam, hij breekt open en je krijgt 1x **{}** (Waarde {}{})!"
+          "Je gooit de doos uit het raam, het breekt open en je krijgt 1x **{}** (Waarde {}{})!"
         ],
         "barrel_item": [
           "Je opende het deksel van het vat en vond 1x **{}** (Waarde {}{})!",
@@ -2042,9 +2042,9 @@
           "Je schopt het vat en het opent, onthullend 1x **{}** (Waarde {}{})!",
           "Je opent het vat en vindt 1x **{}** (Waarde {}{})!",
           "Je opent het vat en vindt 1x **{}** (Waarde {}{})!",
-          "Je hackt het vat open met een bijl en vindt 1x **{}** (Waarde {}{})!",
+          "Je hakt het vat open met een bijl en vindt 1x **{}** (Waarde {}{})!",
           "Je gooit smaragden naar het vat totdat het openbreekt en onthult 1x **{}** (Waarde {}{})!",
-          "Je vraagt de hulp van enkele pillagers om het vat te openen dat 1x **{}** (Wa arde {}{}) bevat!",
+          "Je vraagt de hulp van enkele pillagers om het vat te openen dat 1x **{}** (Waarde {}{}) bevat!",
           "Yoinks scoob, het lijkt erop dat je 1x **{}** (Waarde {}{}) in het vat hebt gevonden!"
         ],
         "barrel_ems": [
@@ -2053,7 +2053,7 @@
           "Je schopt het vat en het opent, onthullend {}{}!",
           "Je opent het vat en vindt {}{}!",
           "Je opent het vat en vindt {}{}!",
-          "Je hackt het vat open met een bijl en vindt {}{}!",
+          "Je hakt het vat open met een bijl en vindt {}{}!",
           "Je vraagt de hulp van enkele pillagers om het vat te openen dat {}{} bevat!"
         ],
         "open_item_box": [
@@ -2070,11 +2070,11 @@
         },
         "available": "Beschikbaar om te oogsten: {available}/{max}",
         "cant_plant": "Je kunt dit item niet planten.",
-        "no_plots": "Al je boerderijpercelen zijn vol, een betere houwel geeft je meer!",
+        "no_plots": "Al je boerderijpercelen zijn vol, een betere schoffel geeft je meer!",
         "no_plots_2": "Je hebt niet genoeg boerderijpercelen voor dat!",
-        "planted": "Geplant {amount}x {crop}",
+        "planted": "{amount}x {crop} geplant",
         "cant_harvest": "Er zijn geen rijpe gewassen om te oogsten...",
-        "harvested": "Gehooid {crops}"
+        "harvested": "Geoogst {crops}"
       },
       "honey": {
         "stupid_1": [
@@ -2082,7 +2082,7 @@
           "Je hebt 100 potten bijen nodig om daadwerkelijk winst te maken, ga weg."
         ],
         "honey": [
-          "Kennelijk produceren bijen honing en je hebt net {} potten ervan verzameld! Wie had dat gedacht?!!",
+          "Kennelijk produceren bijen honing en je hebt daarvan net {} potten verzameld! Wie had dat gedacht?!!",
           "Dus, bijen maken honing en je hebt net {} potten ervan gekregen!",
           "Wauw, bijen maken honing! Je hebt net {} potten ervan gekregen!"
         ],
@@ -2100,7 +2100,7 @@
         "item": "Item",
         "unique_items": "Unieke Items",
         "stolen": "Gestolen Smaragden",
-        "kills": "Gevallen Mobs",
+        "kills": "Gedode Mobs",
         "cmds": "Verzonden Commando's",
         "votes": "Stemreeks",
         "fish": "Vissen Gevangen",
@@ -2115,7 +2115,7 @@
         "lb_item": "{0}__**{1} Ranglijst**__{0}",
         "lb_unique_items": "{0}__**Unieke Items Ranglijst**__{0}",
         "lb_pil": "{0}__**Gestolen Smaragden Ranglijst**__{0}",
-        "lb_kil": "{0}__**Gevallen Mobs Ranglijst**__{0}",
+        "lb_kil": "{0}__**Gedode Mobs Ranglijst**__{0}",
         "lb_cmds": "{0}__**Verzonden Commando's Ranglijst**__{0}",
         "lb_votes": "{0}__**Stemreeks Ranglijst**__{0}",
         "lb_fish": "{0}__**Vissen Gevangen Ranglijst**__{0}",
@@ -2127,12 +2127,12 @@
         "lb_wdq": "{0}__**Wekelijks Voltooide Dagelijkse Quests**__{0}",
         "lb_tw": "{0}__**Totaal Vermogen**__{0}",
         "no_item_lb": "Er bestaat geen ranglijst voor dit item",
-        "item_lb_stats": "*totaal van {total_count:,} in het bezit van {user_count:,} versschillende gebruikers*"
+        "item_lb_stats": "*totaal van {total_count:,} in het bezit van {user_count:,} verschillende gebruikers*"
       },
       "trash": {
         "s_trash": "{user}'s Afvalbak",
         "no_trash": "Er is hier geen afval... :/",
-        "total_contents": "De totale inhoud is waard {ems}{ems_emoji}",
+        "total_contents": "De totale inhoud is {ems}{ems_emoji} waard",
         "how_to_empty": "Gebruik `{prefix}trashcan empty` om de afvalbak te legen!",
         "emptied_for": "Je hebt je afvalbak geleegd voor {reward}"
       },
@@ -2250,7 +2250,7 @@
           },
           "Iron Pickaxe": {
             "description": [
-              "Bij het mijnen heeft het een kans van `7/26` om smaragden te mijnen. Upgrade naar een **Gold Pickaxe** voor betere stembeloningen."
+              "Bij het mijnen heeft het een kans van `7/26` om smaragden te mijnen. Upgrade naar een **Golden Pickaxe** voor betere stembeloningen."
             ]
           },
           "Gold Pickaxe": {
@@ -2270,32 +2270,32 @@
           },
           "Wood Sword": {
             "description": [
-              "Doet een basis schade van `1-2hp` tegen mobs."
+              "Doet een basisschade van `1-2hp` tegen mobs."
             ]
           },
           "Stone Sword": {
             "description": [
-              "Doet een basis schade van `1-3hp` tegen mobs."
+              "Doet een basisschade van `1-3hp` tegen mobs."
             ]
           },
           "Iron Sword": {
             "description": [
-              "Doet een basis schade van `2-4hp` tegen mobs."
+              "Doet een basisschade van `2-4hp` tegen mobs."
             ]
           },
           "Gold Sword": {
             "description": [
-              "Doet een basis schade van `4-5hp` tegen mobs."
+              "Doet een basisschade van `4-5hp` tegen mobs."
             ]
           },
           "Diamond Sword": {
             "description": [
-              "Doet een basis schade van `6-7hp` tegen mobs."
+              "Doet een basisschade van `6-7hp` tegen mobs."
             ]
           },
           "Netherite Sword": {
             "description": [
-              "Doet een basis schade van `7-10hp` tegen mobs."
+              "Doet een basisschade van `7-10hp` tegen mobs."
             ]
           },
           "Wood Hoe": {
@@ -2330,7 +2330,7 @@
           },
           "Fishing Rod": {
             "description": [
-              "Stelt je in staat om te vissen naar **Kabeljauw**, **Zalm**, **Tropische Vissen**, **Kogelvissen**, **Regenboogforellen**, **Goudvissen**, en **Smaragd Vissen** met het `{prefix}fish` commando."
+              "Stelt je in staat om te vissen naar **Cod**, **Salmon**, **Tropical Fish**, **Pufferfish**, **Rainbow Trout**, **Gold Fish**, en **Emerald Fish** met het `{prefix}fish` commando."
             ]
           },
           "Vault Potion": {
@@ -2380,7 +2380,7 @@
           },
           "Time Pearl": {
             "description": [
-              "Bij het gebruik van het item met het `{prefix}use Time Pearl` commando, versnelt het de tijd met twee dagen; gewassen groeien, cooldowns voor `{prefix}honey`, `{prefix}pillage`, `{prefix}search` worden gereset, en alle actieve effecten (bijvoorbeeld, haste) worden gewist en het item wordt verbruikt."
+              "Bij het gebruik van het item met het `{prefix}use Time Pearl` commando, versnelt het de tijd met twee dagen; gewassen groeien, cooldowns voor `{prefix}honey`, `{prefix}pillage`, `{prefix}search` worden gereset, en alle actieve effecten (bijvoorbeeld haste) worden gewist en het item wordt verbruikt."
             ]
           },
           "Shield Pearl": {
@@ -2391,17 +2391,17 @@
           },
           "Rich Person Trophy": {
             "description": [
-              "Met een **Rich Person Trophy** krijg je een bonus op het `{prefix}gamble` commando, `200%` smaragden van het `{prefix}trashcan empty` commando, `150%` smaragden van het openen van **Vaten**, en `200%` smaragden van het `{prefix}mine` commando. Maar onthoud... **hebzucht heeft een prijs**..."
+              "Met een **Rich Person Trophy** krijg je een bonus op het `{prefix}gamble` commando, `200%` smaragden van het `{prefix}trashcan empty` commando, `150%` smaragden van het openen van **Barrels**, en `200%` smaragden van het `{prefix}mine` commando. Maar onthoud... **hebzucht heeft een prijs**..."
             ]
           },
           "Jar Of Bees": {
             "description": [
-              "Het kopen van een **Pot met Bijen** in de `{prefix}shop` stelt je in staat om dagelijks honing van hen te oogsten met het `{prefix}honey` commando."
+              "Het kopen van een **Jar of Bees** in de `{prefix}shop` stelt je in staat om dagelijks honing van hen te oogsten met het `{prefix}honey` commando."
             ]
           },
           "Glass Beaker": {
             "description": [
-              "Stelt je in staat om een **Slime Ball** om te zetten in een **Beaker Of Slime** met het `{prefix}use <hoeveelheid> Glass Beaker` commando, waardoor het verhandeld kan worden met andere spelers."
+              "Stelt je in staat om een **Slime Ball** om te zetten in een **Beaker of Slime** met het `{prefix}use <hoeveelheid> Glass Beaker` commando, waardoor het verhandeld kan worden met andere spelers."
             ]
           },
           "Netherite Scrap": {
@@ -2411,7 +2411,7 @@
           },
           "Slime Trophy": {
             "description": [
-              "Het hebben van dit item in je inventaris vermindert je kans om aanvallen tegen **Baby Slijmkubus**sen te missen."
+              "Het hebben van dit item in je inventaris vermindert je kans om aanvallen tegen **Baby Slime**s te missen."
             ]
           },
           "Fishing Trophy": {
@@ -2421,27 +2421,27 @@
           },
           "Wheat Seed": {
             "description": [
-              "Je kunt **Graanzaden** planten met het `{prefix}farm plant <hoeveelheid> Wheat Seed` commando om `1-2` **Graan** te laten groeien."
+              "Je kunt **Wheat Seed**s planten met het `{prefix}farm plant <hoeveelheid> Wheat Seed` commando om `1-2` **Wheat** te laten groeien."
             ]
           },
           "Carrot": {
             "description": [
-              "Je kunt een **Wortel** planten met het `{prefix}farm plant <hoeveelheid> Carrot` commando om `1-3` **Wortel**s te laten groeien."
+              "Je kunt een **Carrot** planten met het `{prefix}farm plant <hoeveelheid> Carrot` commando om `1-3` **Carrot**s te laten groeien."
             ]
           },
           "Potato": {
             "description": [
-              "Je kunt een **Aardappel** planten met het `{prefix}farm plant <hoeveelheid> Potato` commando om `1-3` **Aardappel**s te laten groeien."
+              "Je kunt een **Potato** planten met het `{prefix}farm plant <hoeveelheid> Potato` commando om `1-3` **Potato**s te laten groeien."
             ]
           },
           "Melon Seed": {
             "description": [
-              "Je kunt **Meloenzaad** planten met het `{prefix}farm plant <hoeveelheid> Melon Seed` commando om `2-5` **Meloen**en te laten groeien."
+              "Je kunt **Melon Seed**s planten met het `{prefix}farm plant <hoeveelheid> Melon Seed` commando om `2-5` **Melon**s te laten groeien."
             ]
           },
           "Chorus Seed": {
             "description": [
-              "Je kunt **Chorus Zaad** planten met het `{prefix}farm plant <hoeveelheid> Chorus Seed` commando om `1-2` **Chorus Fruit** te laten groeien."
+              "Je kunt **Chorus Seed**s planten met het `{prefix}farm plant <hoeveelheid> Chorus Seed` commando om `1-2` **Chorus Fruit** te laten groeien."
             ]
           },
           "Bone Meal": {
@@ -2457,7 +2457,7 @@
           },
           "Honey Jar": {
             "description": [
-              "Wanneer gebruikt met het `{prefix}use <hoeveelheid> Honey Jar` commando, zal het je `1/2hp` genezen per **Pot Honing**."
+              "Wanneer gebruikt met het `{prefix}use <hoeveelheid> Honey Jar` commando, zal het je `1/2hp` genezen per **Honey Jar**."
             ]
           },
           "Barrel": {
@@ -2467,7 +2467,7 @@
           },
           "Beaker Of Slime": {
             "description": [
-              "Wanneer gebruikt met het `{prefix}use <hoeveelheid> Beaker Of Slime` commando, zal het zich scheiden in een **Slijmbal** en een **Glazen Beker**."
+              "Wanneer gebruikt met het `{prefix}use <hoeveelheid> Beaker Of Slime` commando, zal het zich scheiden in een **Slime Ball** en een **Glass Beaker**."
             ]
           },
           "Infernum's Scroll": {
@@ -2490,7 +2490,7 @@
           },
           "Looting II Book": {
             "description": [
-              "Verhoogt de kansen en hoeveelheden van gewonnen items en smaragden van gedode mobs, meer dan het **Plundering I Boek**.",
+              "Verhoogt de kansen en hoeveelheden van gewonnen items en smaragden van gedode mobs, meer dan het **Looting I Book**.",
               "Dit betoveringsboek wordt automatisch toegepast zolang het in je inventaris blijft, en wordt ook overgedragen naar alle nieuwe zwaarden. Dit betoveringsboek stapelt niet."
             ]
           },
@@ -2515,7 +2515,7 @@
           },
           "Slime Ball": {
             "description": [
-              "Gevallen bij het doden van Baby Slijmkubussen met een kans van `1/25` (beïnvloed door plundering betoveringen). Dit item kan worden gebruikt om de **Slijmtrofee** aan te schaffen en kan worden verhandeld met **Glazen Beker**s."
+              "Gevallen bij het doden van Baby Slijmkubussen met een kans van `1/25` (beïnvloed door plundering betoveringen). Dit item kan worden gebruikt om de **Slime Trophy** aan te schaffen en kan worden verhandeld met **Glass Beaker**s."
             ]
           },
           "Ender Pearl": {
@@ -2556,7 +2556,7 @@
           "owned_amount": "*Je hebt er `{amount}` van dit voorwerp*"
         },
         "season": {
-          "title": "Evenement / Seizon",
+          "title": "Evenement / Seizoen",
           "date_format": "{day}/{month}"
         }
       }
