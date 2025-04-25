@@ -48,21 +48,27 @@ impl<'de> Visitor<'de> for UserIdVisitor {
     where
         E: de::Error,
     {
-        Xid::try_from(v).map(|xid| UserId::Xid(xid)).map_err(|_| E::custom("Expected valid XID string representation"))
+        match Xid::try_from(v) {
+            Ok(xid) => Ok(UserId::Xid(xid)),
+            Err(_) => match v.parse::<u64>() {
+                Ok(discord_id) => Ok(UserId::Discord(discord_id as i64)),
+                Err(_) => Err(E::custom("Expected valid XID string representation or a Discord snowflake")),
+            }
+        }
     }
 
     fn visit_string<E>(self, v: String) -> Result<Self::Value, E>
     where
         E: de::Error,
     {
-        Xid::try_from(v.as_str()).map(|xid| UserId::Xid(xid)).map_err(|_| E::custom("Expected valid XID string representation"))
+        self.visit_str(&v)
     }
 
     fn visit_borrowed_str<E>(self, v: &'de str) -> Result<Self::Value, E>
     where
         E: de::Error,
     {
-        Xid::try_from(v).map(|xid| UserId::Xid(xid)).map_err(|_| E::custom("Expected valid XID string representation"))
+        self.visit_str(v)
     }
 }
 
