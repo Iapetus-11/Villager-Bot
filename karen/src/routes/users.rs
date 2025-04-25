@@ -4,7 +4,7 @@ use poem::{
 };
 use serde::Serialize;
 
-use crate::{common::xid::Xid, models::User};
+use crate::{common::{security::RequireAuthedClient, user_id::UserId, xid::Xid}, models::User};
 
 #[derive(Serialize)]
 struct UserDetailsView {
@@ -44,20 +44,34 @@ impl From<User> for UserDetailsView {
 #[handler]
 pub async fn user_details(
     db: Data<&sqlx::Pool<sqlx::Postgres>>,
-    Path((user_id,)): Path<(Xid,)>,
+    Path((user_id,)): Path<(UserId,)>,
+    _: RequireAuthedClient,
 ) -> poem::Result<Json<UserDetailsView>> {
-    let user = sqlx::query_as!(
-        User,
-        r#"
-            SELECT
-                id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
-                give_alert, shield_pearl_activated_at, last_daily_quest_reroll
-            FROM users
-            WHERE id = $1;
-        "#,
-        user_id.as_bytes(),
-    ).fetch_optional(*db).await.unwrap();
-
+    let user = match user_id {
+        UserId::Xid(xid) => sqlx::query_as!(
+            User,
+            r#"
+                SELECT
+                    id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
+                    give_alert, shield_pearl_activated_at, last_daily_quest_reroll
+                FROM users
+                WHERE id = $1;
+            "#,
+            xid.as_bytes(),
+        ).fetch_optional(*db).await.unwrap(),
+        UserId::Discord(discord_id) => sqlx::query_as!(
+            User,
+            r#"
+                SELECT
+                    id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
+                    give_alert, shield_pearl_activated_at, last_daily_quest_reroll
+                FROM users
+                WHERE discord_id = $1;
+            "#,
+            discord_id,
+        ).fetch_optional(*db).await.unwrap()
+    };
+    
     match user {
         Some(user) => Ok(Json(UserDetailsView::from(user))),
         None => Err(NotFoundError.into()),
