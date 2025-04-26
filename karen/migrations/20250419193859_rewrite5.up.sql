@@ -12,7 +12,6 @@ ALTER TABLE farm_plots DROP CONSTRAINT farm_plots_user_id_fkey;
 -- Populate discord_id from user_id
 ALTER TABLE users ADD COLUMN discord_id BIGINT UNIQUE;
 UPDATE users SET discord_id = user_id;
-ALTER TABLE users ALTER COLUMN discord_id SET NOT NULL;
 
 -- Generates a XID compatible BYTEA value (not a real XID, just good enough and unique)
 CREATE OR REPLACE FUNCTION FAKE_XID (snowflake BIGINT)
