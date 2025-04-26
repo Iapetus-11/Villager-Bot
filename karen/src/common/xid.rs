@@ -70,10 +70,14 @@ impl TryFrom<&str> for Xid {
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         if value.len() == 24 {
-            return Ok(Self::from(decode_hex(value).map_err(|_| XidParseError::InvalidHexString)?));
+            return Ok(Self::from(
+                decode_hex(value).map_err(|_| XidParseError::InvalidHexString)?,
+            ));
         }
 
-        xid::Id::from_str(value).map_err(XidParseError::from).map(Xid)
+        xid::Id::from_str(value)
+            .map_err(XidParseError::from)
+            .map(Xid)
     }
 }
 

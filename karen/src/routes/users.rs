@@ -1,15 +1,21 @@
 use chrono::{DateTime, Utc};
 use poem::{
-    error::NotFoundError, handler, web::{Data, Json, Path}
+    error::NotFoundError,
+    handler,
+    http::StatusCode,
+    web::{Data, Json, Path},
 };
 use serde::Serialize;
 
-use crate::{common::{security::RequireAuthedClient, user_id::UserId, xid::Xid}, models::User};
+use crate::{
+    common::{security::RequireAuthedClient, user_id::UserId, xid::Xid},
+    models::User,
+};
 
 #[derive(Serialize)]
 struct UserDetailsView {
     id: Xid,
-    discord_id: i64,
+    discord_id: Option<i64>,
     banned: bool,
     emeralds: i64,
     vault_balance: i32,
@@ -42,7 +48,7 @@ impl From<User> for UserDetailsView {
 }
 
 #[handler]
-pub async fn user_details(
+pub async fn get_user_details(
     db: Data<&sqlx::Pool<sqlx::Postgres>>,
     Path((user_id,)): Path<(UserId,)>,
     _: RequireAuthedClient,
@@ -71,9 +77,42 @@ pub async fn user_details(
             discord_id,
         ).fetch_optional(*db).await.unwrap()
     };
-    
+
     match user {
         Some(user) => Ok(Json(UserDetailsView::from(user))),
         None => Err(NotFoundError.into()),
+    }
+}
+
+#[handler]
+pub async fn register_new_user(
+    db: Data<&sqlx::Pool<sqlx::Postgres>>,
+    Path((user_id,)): Path<(UserId,)>,
+    _: RequireAuthedClient,
+) -> poem::Result<Json<UserDetailsView>> {
+    match user_id {
+        UserId::Xid(_) => Err(poem::Error::from_string(
+            "You cannot register a new user using this type of ID",
+            StatusCode::BAD_REQUEST,
+        )),
+        UserId::Discord(discord_id) => {
+            let id = Xid::new();
+
+            let user = sqlx::query_as!(
+                User,
+                r#"
+                    INSERT INTO users
+                        (id, discord_id)
+                    VALUES ($1, $2)
+                    ON CONFLICT (discord_id) DO NOTHING
+                    RETURNING
+                        id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
+                        give_alert, shield_pearl_activated_at, last_daily_quest_reroll
+                    "#,
+                id.as_bytes(), discord_id
+            ).fetch_one(*db).await.unwrap();
+
+            Ok(Json(UserDetailsView::from(user)))
+        }
     }
 }

@@ -7,7 +7,7 @@ use crate::common::xid::Xid;
 #[derive(Debug, FromRow, Serialize)]
 pub struct User {
     pub id: Xid,
-    pub discord_id: i64,
+    pub discord_id: Option<i64>,
     pub banned: bool,
     pub emeralds: i64,
     pub vault_balance: i32,

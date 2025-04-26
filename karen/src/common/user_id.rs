@@ -1,6 +1,9 @@
 use std::fmt;
 
-use serde::{de::{self, Visitor}, Deserialize, Deserializer, Serialize};
+use serde::{
+    Deserialize, Deserializer, Serialize,
+    de::{self, Visitor},
+};
 
 use super::xid::Xid;
 
@@ -52,8 +55,10 @@ impl<'de> Visitor<'de> for UserIdVisitor {
             Ok(xid) => Ok(UserId::Xid(xid)),
             Err(_) => match v.parse::<u64>() {
                 Ok(discord_id) => Ok(UserId::Discord(discord_id as i64)),
-                Err(_) => Err(E::custom("Expected valid XID string representation or a Discord snowflake")),
-            }
+                Err(_) => Err(E::custom(
+                    "Expected valid XID string representation or a Discord snowflake",
+                )),
+            },
         }
     }
 
