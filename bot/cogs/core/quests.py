@@ -12,8 +12,8 @@ from discord.ext import commands
 from bot.utils.ctx import CustomContext
 from bot.utils.misc import emojify_item, get_user_and_lang_from_loc, make_progress_bar
 from bot.villager_bot import VillagerBotCluster
-from common.models.data import Quest
-from common.models.db.quests import UserQuest as DbUserQuest
+from bot.models.data import Quest
+from bot.models.db.quests import UserQuest as DbUserQuest
 
 if typing.TYPE_CHECKING:
     from bot.cogs.core.database import Database
@@ -63,7 +63,8 @@ class DailyQuestDoneView(discord.ui.View):
 
         await self._db.delete_user_daily_quest(self._user_id)
         await self._db.update_user(
-            self._user_id, last_dq_reroll=datetime.datetime.now(datetime.timezone.utc)
+            self._user_id,
+            last_dq_reroll=datetime.datetime.now(datetime.timezone.utc),
         )
 
         quest = await self._quests.fetch_user_daily_quest(self._user_id)
@@ -102,19 +103,20 @@ class Quests(commands.Cog):
         return typing.cast("Database", self.bot.get_cog("Database"))
 
     def get_quest_embed(
-        self, loc: CustomContext | commands.Context | discord.User, quest: UserQuest
+        self,
+        loc: CustomContext | commands.Context | discord.User,
+        quest: UserQuest,
     ):
         _, lang = get_user_and_lang_from_loc(self.bot.l, loc)
 
         quest_text = lang.econ.daily_quests.mapping[quest.key]
-        quest_emoji = (
-            emoji_getter := (
-                lambda cur, path: emoji_getter(cur[path.pop(0)], path) if path else cur
-            )
-        )(self.d.emojis, quest.emoji.split("."))
+        quest_emoji = (emoji_getter := (lambda cur, path: emoji_getter(cur[path.pop(0)], path) if path else cur))(
+            self.d.emojis, quest.emoji.split(".")
+        )
 
         completion_percent: float = min(
-            max((quest.value / quest.target_value) if quest.value else 0, 0), 1
+            max((quest.value / quest.target_value) if quest.value else 0, 0),
+            1,
         )
         close_to_completion = completion_percent > 0.75
 
@@ -123,13 +125,7 @@ class Quests(commands.Cog):
                 self.d,
                 completion_percent,
                 10,
-                (
-                    "red"
-                    if completion_percent < 0.4
-                    else "purple"
-                    if completion_percent < 0.75
-                    else "green"
-                ),
+                ("red" if completion_percent < 0.4 else "purple" if completion_percent < 0.75 else "green"),
             )
             + "\n"
         )
@@ -142,9 +138,7 @@ class Quests(commands.Cog):
             else lang.econ.daily_quests.encouragements.far
         )
 
-        title_message = (
-            lang.econ.daily_quests.completed if quest.done else lang.econ.daily_quests.current
-        )
+        title_message = lang.econ.daily_quests.completed if quest.done else lang.econ.daily_quests.current
 
         if quest.done:
             description = (
@@ -239,7 +233,9 @@ class Quests(commands.Cog):
         }
 
     async def quest_completed(
-        self, loc: CustomContext | commands.Context | discord.User, quest: UserQuest
+        self,
+        loc: CustomContext | commands.Context | discord.User,
+        quest: UserQuest,
     ) -> None:
         user_id, _ = get_user_and_lang_from_loc(self.bot.l, loc)
 
@@ -257,7 +253,7 @@ class Quests(commands.Cog):
                 await self.db.add_item(user_id, "Barrel", 1024, quest.reward_amount)
             else:
                 raise NotImplementedError(
-                    f"Couldn't reward item {quest.reward_item} to user {user_id}"
+                    f"Couldn't reward item {quest.reward_item} to user {user_id}",
                 )
 
             await self.db.update_lb(user_id, "daily_quests", 1)
@@ -318,7 +314,8 @@ class Quests(commands.Cog):
         quest = self._get_user_quest_from_db_quest(db_quest)
 
         target_met = eval(
-            quest.acceptance_eval, {"target": quest.target_value, "value": quest.value}
+            quest.acceptance_eval,
+            {"target": quest.target_value, "value": quest.value},
         )
 
         if target_met and not db_quest["done"]:

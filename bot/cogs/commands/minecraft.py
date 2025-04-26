@@ -52,7 +52,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="blockify", aliases=["mcpixelart", "mcart", "mcimage", "mcvideo"])
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def blockify_media(self, ctx: Ctx, media_link: str = None):
+    async def blockify_media(self, ctx: Ctx, media_link: str | None = None):
         if not self.tiler:
             await ctx.send("This command is disabled because Cython isn't enabled.")
             return
@@ -138,7 +138,7 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="mcstatus", aliases=["mcping", "mcserver"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def mcstatus(self, ctx: Ctx, host=None, port: int = None):
+    async def mcstatus(self, ctx: Ctx, host=None, port: int | None = None):
         """Checks the status of a given Minecraft server"""
 
         if host is None:
@@ -243,15 +243,11 @@ class Minecraft(commands.Cog):
     async def random_mc_server(self, ctx: Ctx):
         """Checks the status of a random Minecraft server"""
 
-        server_id = (
-            await (
-                await self.aiohttp.get("https://api.minecraft.global/MinecraftServers/random/")
-            ).json()
-        )["id"]
+        server_id = (await (await self.aiohttp.get("https://api.minecraft.global/MinecraftServers/random/")).json())[
+            "id"
+        ]
         server = cj.ClassyDict(
-            await (
-                await self.aiohttp.get(f"https://api.minecraft.global/MinecraftServers/{server_id}")
-            ).json(),
+            await (await self.aiohttp.get(f"https://api.minecraft.global/MinecraftServers/{server_id}")).json(),
         )
 
         if server.port:
@@ -291,7 +287,7 @@ class Minecraft(commands.Cog):
             icon_url="https://i.ibb.co/SdZHQ4b/full-1.png",
         )
 
-        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=f'{jj["latency"]}ms')
+        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=f"{jj['latency']}ms")
         ver = jj["version"].get("brand", "Unknown")
         embed.add_field(
             name=ctx.l.minecraft.mcping.version,
@@ -332,10 +328,7 @@ class Minecraft(commands.Cog):
             )
 
         embed.set_image(
-            url=(
-                f"https://api.iapetus11.me/mc/server/status/{address}/image"
-                f"?v={random.random() * 100000}"
-            ),
+            url=(f"https://api.iapetus11.me/mc/server/status/{address}/image?v={random.random() * 100000}"),
         )
 
         if jj["favicon"] is not None:
@@ -348,10 +341,7 @@ class Minecraft(commands.Cog):
     @commands.command(name="stealskin", aliases=["getskin", "skin", "mcskin"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def steal_skin(self, ctx: Ctx, player):
-        if (
-            17 > len(player) > 1
-            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == ""
-        ):
+        if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
             async with SuppressCtxManager(ctx.typing()):
                 res = await self.aiohttp.get(
                     f"https://api.mojang.com/users/profiles/minecraft/{player}",
@@ -368,8 +358,7 @@ class Minecraft(commands.Cog):
             jj = await res.json()
             uuid = jj["id"]
         elif (
-            len(player) in (32, 36)
-            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
+            len(player) in (32, 36) and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:
@@ -390,11 +379,7 @@ class Minecraft(commands.Cog):
 
         for prop in profile["properties"]:
             if prop["name"] == "textures":
-                skin_url = (
-                    json.loads(base64.b64decode(prop["value"]))["textures"]
-                    .get("SKIN", {})
-                    .get("url")
-                )
+                skin_url = json.loads(base64.b64decode(prop["value"]))["textures"].get("SKIN", {}).get("url")
                 break
 
         if skin_url is None:
@@ -417,10 +402,7 @@ class Minecraft(commands.Cog):
     )
     @commands.cooldown(1, 4, commands.BucketType.user)
     async def minecraft_profile(self, ctx: Ctx, player):
-        if (
-            17 > len(player) > 1
-            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == ""
-        ):
+        if 17 > len(player) > 1 and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890_") == "":
             async with SuppressCtxManager(ctx.typing()):
                 res = await self.aiohttp.get(
                     f"https://api.mojang.com/users/profiles/minecraft/{player}",
@@ -437,8 +419,7 @@ class Minecraft(commands.Cog):
             jj = await res.json()
             uuid = jj["id"]
         elif (
-            len(player) in (32, 36)
-            and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
+            len(player) in (32, 36) and player.lower().strip("abcdefghijklmnopqrstuvwxyz1234567890-") == ""
         ):  # player is a uuid
             uuid = player.replace("-", "")
         else:
@@ -529,9 +510,9 @@ class Minecraft(commands.Cog):
             await ctx.reply_embed(ctx.l.minecraft.invalid_player)
             return
 
-        xuid = f'{"0" * 8}-{"0000-" * 3}{hex(int(await res.text())).strip("0x")}'
+        xuid = f"{'0' * 8}-{'0000-' * 3}{hex(int(await res.text())).strip('0x')}"
 
-        await ctx.reply_embed(f'**{username}**: `{xuid}` / `{xuid[20:].replace("-", "").upper()}`')
+        await ctx.reply_embed(f"**{username}**: `{xuid}` / `{xuid[20:].replace('-', '').upper()}`")
 
     @commands.command(name="mccolors", aliases=["minecraftcolors", "chatcolors", "colorcodes"])
     async def color_codes(self, ctx: Ctx):

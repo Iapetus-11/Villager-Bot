@@ -5,9 +5,6 @@ description = ""
 authors = ["Milo Weinberg <iapetus011@gmail.com>"]
 license = "MIT"
 packages = [
-    { include = "bot" },
-    { include = "common" },
-    { include = "karen" },
     { include = "scripts" },
 ]
 
@@ -37,12 +34,12 @@ captcha = "^0.5.0"
 minecraftstatus = "^0.0.9"
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^0.981"
+mypy = "^1.15.0"
 asyncpg-stubs = "^0.26.2"
 types-psutil = "^5.9.3"
 pytest = "^7.1.3"
 types-aiofiles = "^22.1.0.9"
-ruff = "^0.4.6"
+ruff = "^0.11.7"
 
 [tool.poetry.scripts]
 check_text = { callable = "scripts:check_text" }
@@ -56,7 +53,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.ruff]
 target-version = "py311"
 preview = true
-line-length = 100
+line-length = 120
 indent-width = 4
 
 [tool.ruff.lint]
@@ -74,7 +71,6 @@ extend-select = [
     "UP007",
     "UP010",
     "UP032",
-    "UP038",
     "B006",
     "B007",
     "B014",
@@ -87,6 +83,7 @@ extend-select = [
     "B033",
     "DTZ001",
     "DTZ003",
+    "DTZ005",
     "G010",
     "G201",
     "PIE790",
@@ -110,6 +107,10 @@ extend-select = [
     "SIM101",
     "SIM102",
     "SIM103",
+    "SIM110",
+    "SIM112",
+    "SIM113",
+    "SIM114",
     "SIM115",
     "SIM117",
     "SIM118",
@@ -119,8 +120,13 @@ extend-select = [
     "SIM210",
     "SIM211",
     "SIM212",
+    "SIM220",
+    "SIM221",
+    "SIM222",
+    "SIM223",
     "SIM300",
     "SIM910",
+    "SIM911",
     "TD004",
     "TD005",
     "TD006",
@@ -130,8 +136,40 @@ extend-select = [
     "PLE0704",
     "PLE1205",
     "PLE1206",
+    "YTT",
+    "S110",
+    "S112",
+    "S113",
+    "A",
+    "C4",
+    "DJ013",
+    "PYI013",
+    "PYI018",
+    "PYI030",
+    "PYI034",
+    "PYI042",
+    "PYI043",
+    "PYI046",
+    "PYI047",
+    "PYI049",
+    "PYI051",
+    "PT010",
+    "PT020",
+    "PT021",
+    "PT022",
+    "PERF101",
+    "PERF102",
+    "PERF402",
+    "PERF403",
+    "RUF013",
+    "RUF016",
+    "RUF017",
+    "RUF019",
+    "RUF020",
 ]
-extend-per-file-ignores = { "__init__.py" = ["F401", "F403"] }
+
+[tool.ruff.lint.extend-per-file-ignores]
+"__init__.py" = ["F401", "F403"]
 
 [tool.ruff.lint.flake8-quotes]
 inline-quotes = "double"
@@ -142,13 +180,12 @@ line-ending = "lf"
 skip-magic-trailing-comma = false
 
 [tool.ruff.lint.isort]
-sections = { bot = ["bot"], karen = ["karen"], common = ["common"] }
-section-order = ["future", "standard-library", "third-party", "common", "bot", "karen", "first-party", "local-folder"]
+sections = { bot = ["bot"] }
+section-order = ["future", "standard-library", "third-party", "bot", "first-party", "local-folder"]
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]
-files = ["common/**/*.py", "karen/**/*.py", "scripts/**/*.py"]
-python_version = "3.10"
+python_version = "3.11"
 warn_unused_configs = true
 namespace_packages = true
 explicit_package_bases = true

@@ -237,10 +237,7 @@ class Events(commands.Cog):
             return
 
         # check if message only contained a mention to this bot
-        if (
-            message.content == f"<@{self.bot.user.id}>"
-            or message.content == f"<@!{self.bot.user.id}>"
-        ):
+        if message.content == f"<@{self.bot.user.id}>" or message.content == f"<@!{self.bot.user.id}>":
             if message.guild is None:
                 prefix = self.k.default_prefix
             else:
@@ -281,8 +278,7 @@ class Events(commands.Cog):
             if len(someones) > 0:
                 with suppress(discord.errors.HTTPException):
                     await message.channel.send(
-                        f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} "
-                        f"{message.author.mention}",
+                        f"@someone {INVISIBLITY_CLOAK} {random.choice(someones).mention} {message.author.mention}",
                     )
 
                 return
@@ -376,29 +372,18 @@ class Events(commands.Cog):
             await ctx.reply_embed(ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
             await ctx.reply_embed(ctx.l.misc.errors.user_perms, ignore_exceptions=True)
-        elif isinstance(e, (commands.BotMissingPermissions | discord.errors.Forbidden)):
-            await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
-        elif getattr(e, "original", None) is not None and isinstance(
-            e.original,
-            discord.errors.Forbidden,
+        elif (
+            isinstance(e, (commands.BotMissingPermissions | discord.errors.Forbidden))
+            or getattr(e, "original", None) is not None
+            and isinstance(
+                e.original,
+                discord.errors.Forbidden,
+            )
         ):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif isinstance(e, commands.MaxConcurrencyReached | MaxKarenConcurrencyReached):
             await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
-        elif isinstance(e, commands.MissingRequiredArgument):
-            command_doc = {
-                **ctx.l.help.econ,
-                **ctx.l.help.mc,
-                **ctx.l.help.util,
-                **ctx.l.help.fun,
-                **ctx.l.help.mod,
-            }.get(str(ctx.command), ctx.l.help.main.nodoc).format(ctx.prefix)
-
-            await ctx.reply_embed(
-                f"{ctx.l.misc.errors.missing_arg}\n\n{ctx.l.help.n.cmd}:\n{command_doc}",
-                ignore_exceptions=True,
-            )
-        elif isinstance(e, BAD_ARG_ERRORS):
+        elif isinstance(e, (commands.MissingRequiredArgument, *BAD_ARG_ERRORS)):
             command_doc = {
                 **ctx.l.help.econ,
                 **ctx.l.help.mc,

@@ -220,9 +220,9 @@ class Mod(commands.Cog):
                 embed.add_field(
                     name="\ufeff",
                     value=(
-                        f'**{ctx.l.mod.warn.by} '
-                        f'{getattr(self.bot.get_user(warn["mod_id"]), "mention", "Unknown User")}'
-                        f'**: *{reason}*'
+                        f"**{ctx.l.mod.warn.by} "
+                        f"{getattr(self.bot.get_user(warn['mod_id']), 'mention', 'Unknown User')}"
+                        f"**: *{reason}*"
                     ),
                     inline=False,
                 )

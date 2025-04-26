@@ -290,16 +290,11 @@ class Fun(commands.Cog):
         resp = await self.bot.aiohttp.get("https://api.otakugifs.xyz/gif?reaction=pat")
         gif_url = (await resp.json())["url"]
 
-        target = ", ".join(
-            f"**{discord.utils.escape_markdown(u.display_name)}**" for u in (users or [])
-        )
+        target = ", ".join(f"**{discord.utils.escape_markdown(u.display_name)}**" for u in (users or []))
 
         embed = discord.Embed(
             color=self.bot.embed_color,
-            title=(
-                f"**{discord.utils.escape_markdown(ctx.author.display_name)}** "
-                f"pats {target} {text}"[:256]
-            ),
+            title=(f"**{discord.utils.escape_markdown(ctx.author.display_name)}** pats {target} {text}"[:256]),
         )
         embed.set_image(url=gif_url)
 
@@ -317,17 +312,12 @@ class Fun(commands.Cog):
         resp = await self.bot.aiohttp.get("https://api.otakugifs.xyz/gif?reaction=slap")
         gif_url = (await resp.json())["url"]
 
-        target = ", ".join(
-            f"**{discord.utils.escape_markdown(u.display_name)}**" for u in (users or [])
-        )
+        target = ", ".join(f"**{discord.utils.escape_markdown(u.display_name)}**" for u in (users or []))
 
         embed = discord.Embed(
             color=self.bot.embed_color,
             title=shorten_text(
-                (
-                    f"**{discord.utils.escape_markdown(ctx.author.display_name)}** "
-                    f"slaps {target} {text}"
-                ),
+                (f"**{discord.utils.escape_markdown(ctx.author.display_name)}** slaps {target} {text}"),
                 256,
             ),
         )

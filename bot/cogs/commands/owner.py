@@ -12,7 +12,7 @@ from bot.cogs.core.paginator import Paginator
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, parse_timedelta, shorten_text
 from bot.villager_bot import VillagerBotCluster
-from common.utils.code import execute_code, format_exception
+from bot.utils.code import execute_code, format_exception
 
 
 class Owner(commands.Cog):
@@ -78,9 +78,7 @@ class Owner(commands.Cog):
 
         responses = await self.karen.exec_code_all(stuff)
 
-        contents = [
-            f"```py\n\ufeff{str(r).replace('```', '｀｀｀')}"[:1997] + "```" for r in responses
-        ]
+        contents = [f"```py\n\ufeff{str(r).replace('```', '｀｀｀')}"[:1997] + "```" for r in responses]
         joined = "".join(contents)
 
         if len(joined) > 2000:
@@ -223,7 +221,7 @@ class Owner(commands.Cog):
 
         await ctx.send(
             f"Last 30 days of guild joins / leaves (newest is top) ({total_plus:+}/{total_minus:+} "
-            f"-> {total_plus + total_minus:+})\n```diff\n{body}\n```"
+            f"-> {total_plus + total_minus:+})\n```diff\n{body}\n```",
         )
 
     @commands.command(name="topguilds", aliases=["topgs"])
@@ -292,10 +290,7 @@ class Owner(commands.Cog):
 
             # TODO: Fetch name from other clusters/discord API
             sanitized_name = (
-                str(self.bot.get_user(row["user_id"]) or "")
-                .replace("_", "")
-                .replace("*", "")
-                .replace("`", "")
+                str(self.bot.get_user(row["user_id"]) or "").replace("_", "").replace("*", "").replace("`", "")
             )
 
             return (
@@ -331,8 +326,7 @@ class Owner(commands.Cog):
             rows = "\n".join(rows)
 
             await ctx.reply(
-                f"Last {math.ceil(delta.total_seconds() / 3600 / 24)} days of commands per day:"
-                f"\n```c\n{rows}\n```",
+                f"Last {math.ceil(delta.total_seconds() / 3600 / 24)} days of commands per day:\n```c\n{rows}\n```",
             )
 
     @commands.command(
@@ -374,8 +368,7 @@ class Owner(commands.Cog):
             )
 
         await ctx.reply(
-            f"{self.d.emojis.yes} Transferred **{item_count}** items from "
-            f"{from_user.mention} to {to_user.mention}.",
+            f"{self.d.emojis.yes} Transferred **{item_count}** items from {from_user.mention} to {to_user.mention}.",
         )
 
     @commands.command(name="shutdown")

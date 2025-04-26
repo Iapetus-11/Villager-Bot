@@ -14,10 +14,10 @@ from discord.ext import commands
 from common.coms.packet import PACKET_DATA_TYPES
 from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
 from common.coms.packet_type import PacketType
-from common.models.data import Data
+from bot.models.data import Data
 from common.models.system_stats import SystemStats
 from common.models.topgg_vote import TopggVote
-from common.utils.code import execute_code
+from bot.utils.code import execute_code
 from common.utils.font_handler import FontHandler
 from common.utils.setup import load_data, setup_logging
 
@@ -188,14 +188,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             try:
                 self.logger.info("Syncing db item prices...")
 
-                item_prices = {
-                    v.db_entry.item: v.db_entry.sell_price for k, v in self.d.shop_items.items()
-                }
+                item_prices = {v.db_entry.item: v.db_entry.sell_price for k, v in self.d.shop_items.items()}
                 item_prices.update(
-                    {
-                        self.d.farming.name_map[k]: v
-                        for k, v in self.d.farming.emerald_yields.items()
-                    },
+                    {self.d.farming.name_map[k]: v for k, v in self.d.farming.emerald_yields.items()},
                 )
                 item_prices.update({f.item: f.sell_price for f in self.d.fishing_findables})
                 item_prices.update({
@@ -241,9 +236,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         try:
             await location.reply(embed=embed, mention_author=ping)
         except discord.errors.HTTPException as e:
-            if (
-                e.code == 50035
-            ):  # invalid form body, happens sometimes when the message to reply to can't be found?
+            if e.code == 50035:  # invalid form body, happens sometimes when the message to reply to can't be found?
                 await self.send_embed(location, message, ignore_exceptions=ignore_exceptions)
             elif not ignore_exceptions:
                 raise
@@ -309,10 +302,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 await self.karen.acquire_concurrency(ctx.command.qualified_name, ctx.author.id)
         except Exception:
             self.logger.exception(
-                (
-                    "An error occurred while attempting to acquire a concurrency lock for "
-                    "command %s for user %s"
-                ),
+                ("An error occurred while attempting to acquire a concurrency lock for command %s for user %s"),
                 ctx.command,
                 ctx.author.id,
             )
@@ -334,10 +324,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
                 await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
         except Exception:
             self.logger.exception(
-                (
-                    "An error occurred while attempting to release a concurrency lock for "
-                    "command %s for user %s"
-                ),
+                ("An error occurred while attempting to release a concurrency lock for command %s for user %s"),
                 ctx.command,
                 ctx.author.id,
             )
@@ -416,7 +403,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         memory_info = psutil.virtual_memory()
 
         return SystemStats(
-            identifier=f'Cluster {self.cluster_id} ({",".join(map(str, self.shard_ids))})',
+            identifier=f"Cluster {self.cluster_id} ({','.join(map(str, self.shard_ids))})",
             cpu_usage_percent=psutil.getloadavg()[0],
             memory_usage_bytes=(memory_info.total - memory_info.available),
             memory_max_bytes=memory_info.total,

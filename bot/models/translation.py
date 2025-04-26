@@ -1,6 +1,6 @@
 from pydantic import Field
 
-from common.models.base_model import ImmutableBaseModel
+from bot.models.base_model import ImmutableBaseModel
 
 
 class Misc_Errors(ImmutableBaseModel):

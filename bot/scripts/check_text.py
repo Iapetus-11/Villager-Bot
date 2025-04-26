@@ -35,8 +35,7 @@ def check_obj(keys: list[Any], obj: Any, against: Any, against_name: str) -> boo
         # check to see if against has any keys that obj doesn't have
         if isinstance(against, dict) and (key_diff := (set(against.keys()) - set(obj.keys()))):
             print(
-                f"EXTRA KEYS ({against_name}): {'.'.join(map(str, keys))}"
-                f".[{','.join(map(str, key_diff))}]",
+                f"EXTRA KEYS ({against_name}): {'.'.join(map(str, keys))}.[{','.join(map(str, key_diff))}]",
             )
             error = True
 
@@ -48,14 +47,11 @@ def check_obj(keys: list[Any], obj: Any, against: Any, against_name: str) -> boo
             for k in set(obj_matches.keys()) | set(against_matches.keys())
         }
 
-        formatted_diff = ", ".join([
-            f"{key}.{diff:+}" for key, diff in matches_diff.items() if diff
-        ])
+        formatted_diff = ", ".join([f"{key}.{diff:+}" for key, diff in matches_diff.items() if diff])
 
         if obj_matches != against_matches:
             print(
-                f"MISMATCHED FORMAT VARIABLES ({against_name}): {'.'.join(map(str, keys))} "
-                f"=> {formatted_diff}"
+                f"MISMATCHED FORMAT VARIABLES ({against_name}): {'.'.join(map(str, keys))} => {formatted_diff}",
             )
 
     return error

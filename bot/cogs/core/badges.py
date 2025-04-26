@@ -5,8 +5,8 @@ from io import BytesIO
 from discord.ext import commands
 from PIL import Image
 
-from common.models.db.item import Item
-from common.models.db.user import User
+from bot.models.db.item import Item
+from bot.models.db.user import User
 
 from bot.cogs.core.database import Database
 from bot.utils.misc import calc_total_wealth
@@ -49,7 +49,7 @@ class Badges(commands.Cog):
         self,
         user_id: int,
         db_user: User | None = None,
-        user_items: list[Item] = None,
+        user_items: list[Item] | None = None,
     ) -> None:
         badges = await self.fetch_user_badges(user_id)
 
@@ -67,7 +67,7 @@ class Badges(commands.Cog):
         if total_wealth > 100_000:
             await self.update_user_badges(user_id, uncle_scrooge=True)
 
-    async def update_badge_collector(self, user_id: int, user_items: list[Item] = None) -> None:
+    async def update_badge_collector(self, user_id: int, user_items: list[Item] | None = None) -> None:
         # Levels are:
         # I -> 16 unique items
         # II -> 32  ||
@@ -97,7 +97,7 @@ class Badges(commands.Cog):
         elif collector_level < 1 and user_items_len >= 16:
             await self.update_user_badges(user_id, collector=1)
 
-    async def update_badge_beekeeper(self, user_id: int, bees: int = None) -> None:
+    async def update_badge_beekeeper(self, user_id: int, bees: int | None = None) -> None:
         # levels are:
         # I -> 100 bees
         # II -> 1_000 bees
@@ -207,7 +207,7 @@ class Badges(commands.Cog):
         """
 
         user_badges = [
-            f'{badge}_{"" if isinstance(value, bool) else value}'.strip("_")
+            f"{badge}_{'' if isinstance(value, bool) else value}".strip("_")
             for badge, value in (await self.fetch_user_badges(user_id)).items()
             if value is True or value > 0
         ]
@@ -218,7 +218,8 @@ class Badges(commands.Cog):
         badge_images = [
             (
                 Image.open(f"./bot/data/assets/images/badges/{badge_name}.png").resize(
-                    (100, 100), resample=Image.Resampling.BICUBIC
+                    (100, 100),
+                    resample=Image.Resampling.BICUBIC,
                 )
             )
             for badge_name in user_badges

@@ -80,8 +80,7 @@ class Paginator(commands.Cog):
 
         if not isinstance(embed, discord.Embed):
             raise TypeError(
-                f"{getattr(type(embed), '__qualname__', type(embed))} is not a "
-                f"{discord.Embed.__qualname__}",
+                f"{getattr(type(embed), '__qualname__', type(embed))} is not a {discord.Embed.__qualname__}",
             )
 
         return embed

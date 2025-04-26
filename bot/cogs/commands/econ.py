@@ -28,9 +28,9 @@ from bot.utils.misc import (
     make_health_bar,
 )
 from bot.villager_bot import VillagerBotCluster
-from common.models.data import Findable, Fishing, ShopItem
-from common.models.db.item import Item
-from common.models.db.user import User
+from bot.models.data import Findable, Fishing, ShopItem
+from bot.models.db.item import Item
+from bot.models.db.user import User
 
 
 class Econ(commands.Cog):
@@ -205,9 +205,7 @@ class Econ(commands.Cog):
 
         active_fx = await self.karen.fetch_active_fx(user.id)
 
-        if db_user.shield_pearl and (
-            arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()
-        ):
+        if db_user.shield_pearl and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()):
             active_fx.add("shield pearl")
 
         embed = discord.Embed(color=self.bot.embed_color, description=f"{health_bar}")
@@ -257,7 +255,8 @@ class Econ(commands.Cog):
         user_badges_image_file: discord.File | None = None
         if user_badges_image_data := await self.badges.generate_badges_image(user.id):
             user_badges_image_file = discord.File(
-                fp=user_badges_image_data, filename=f"{user.id}_badges.png"
+                fp=user_badges_image_data,
+                filename=f"{user.id}_badges.png",
             )
             embed.set_image(url=f"attachment://{user_badges_image_file.filename}")
 
@@ -822,10 +821,7 @@ class Econ(commands.Cog):
             sellable=sellable,
         )
 
-        if (
-            shop_item.db_entry.item.endswith("Pickaxe")
-            or shop_item.db_entry.item == "Bane Of Pillagers Amulet"
-        ):
+        if shop_item.db_entry.item.endswith("Pickaxe") or shop_item.db_entry.item == "Bane Of Pillagers Amulet":
             await self.karen.update_support_server_member_roles(ctx.author.id)
         elif shop_item.db_entry.item == "Rich Person Trophy":
             await self.db.rich_trophy_wipe(ctx.author.id)
@@ -1073,12 +1069,9 @@ class Econ(commands.Cog):
             multi = (
                 40
                 + random.randint(5, 30)
-                + (await self.db.fetch_item(ctx.author.id, "Bane Of Pillagers Amulet") is not None)
-                * 20
+                + (await self.db.fetch_item(ctx.author.id, "Bane Of Pillagers Amulet") is not None) * 20
             )
-            multi += (
-                await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None
-            ) * 40
+            multi += (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) * 40
             multi = (150 + random.randint(-5, 0)) if multi >= 150 else multi
             multi /= 100
 
@@ -1130,9 +1123,7 @@ class Econ(commands.Cog):
                     ),
                 )
         else:  # user loses emeralds
-            amount = (
-                9 + math.ceil(math.log(db_user.emeralds + 1, 1.3)) + random.randint(1, 5)
-            )  # ah yes, meth
+            amount = 9 + math.ceil(math.log(db_user.emeralds + 1, 1.3)) + random.randint(1, 5)  # ah yes, meth
 
             if amount < 1:
                 amount = random.randint(1, 4)
@@ -1164,9 +1155,7 @@ class Econ(commands.Cog):
         # iterate through items findable via mining
         for item in self.d.mining_findables:
             # check if user should get item based on rarity (item.rarity)
-            if random.randint(0, item.rarity) == 1 or (
-                lucky and random.randint(0, item.rarity) < 3
-            ):
+            if random.randint(0, item.rarity) == 1 or (lucky and random.randint(0, item.rarity) < 3):
                 await self.db.add_item(ctx.author.id, item.item, item.sell_price, 1, item.sticky)
                 await self.db.update_user_daily_quest(ctx.author.id, "mined_collectibles", 1)
 
@@ -1280,9 +1269,7 @@ class Econ(commands.Cog):
             await asyncio.sleep(wait)
 
         # determine if user has fished up junk or an item (rather than a fish)
-        if random.randint(1, 8 + 4 * bait_active) == 1 or (
-            lucky and random.randint(1, 5 + 3 * bait_active) == 1
-        ):
+        if random.randint(1, 8 + 4 * bait_active) == 1 or (lucky and random.randint(1, 5 + 3 * bait_active) == 1):
             # calculate the chance for them to fish up junk (True means junk)
             if await self.db.fetch_item(ctx.author.id, "Fishing Trophy") is not None or lucky:
                 junk_chance = (True, False, False, False, False)
@@ -1316,7 +1303,9 @@ class Econ(commands.Cog):
                             item.sticky,
                         )
                         await self.db.update_user_daily_quest(
-                            ctx.author.id, "fished_collectibles", 1
+                            ctx.author.id,
+                            "fished_collectibles",
+                            1,
                         )
 
                         await ctx.reply_embed(
@@ -1335,7 +1324,7 @@ class Econ(commands.Cog):
         fish_ids, fish_weights = zip(*[
             (fish_id, weight)
             for idx, (fish_id, weight) in enumerate(
-                zip(self.d.fishing.fish_ids, self.d.fishing.fishing_weights)
+                zip(self.d.fishing.fish_ids, self.d.fishing.fishing_weights),
             )
             if (not bait_active or idx > 2)
         ])
@@ -1391,22 +1380,18 @@ class Econ(commands.Cog):
             return
 
         # check if victim has a shield pearl active
-        if db_victim.shield_pearl and (
-            arrow.get(db_victim.shield_pearl).shift(months=1) > arrow.utcnow()
-        ):
+        if db_victim.shield_pearl and (arrow.get(db_victim.shield_pearl).shift(months=1) > arrow.utcnow()):
             await ctx.reply_embed(ctx.l.econ.pillage.stupid_5)
             return
 
         if ctx.author.joined_at is None or (
-            (ctx.author.joined_at + datetime.timedelta(hours=12))
-            > datetime.datetime.now(datetime.timezone.utc)
+            (ctx.author.joined_at + datetime.timedelta(hours=12)) > datetime.datetime.now(datetime.timezone.utc)
         ):
             wait_until_time = (
                 ctx.author.joined_at or datetime.datetime.now(datetime.timezone.utc)
             ) + datetime.timedelta(hours=12)
             await ctx.reply_embed(
-                "You can't pillage yet, you must wait "
-                f"{discord.utils.format_dt(wait_until_time, style='R')}"
+                f"You can't pillage yet, you must wait {discord.utils.format_dt(wait_until_time, style='R')}",
             )
             return
 
@@ -1610,12 +1595,12 @@ class Econ(commands.Cog):
                     iter(
                         reversed(
                             numpy.where(
-                                (vault_max_adds_cumsum + db_user.vault_max) <= vault_max_cap
-                            )[0]
-                        )
+                                (vault_max_adds_cumsum + db_user.vault_max) <= vault_max_cap,
+                            )[0],
+                        ),
                     ),
                     0,
-                )
+                ),
             )
             amount = used_amount_index + 1
             vault_max_add = int(vault_max_adds_cumsum[used_amount_index])
@@ -1625,15 +1610,15 @@ class Econ(commands.Cog):
 
             await self.db.remove_item(ctx.author.id, "Vault Potion", amount)
             await self.db.set_vault(
-                ctx.author.id, db_user.vault_balance, db_user.vault_max + vault_max_add
+                ctx.author.id,
+                db_user.vault_balance,
+                db_user.vault_max + vault_max_add,
             )
 
             await ctx.reply_embed(
-                (
-                    ctx.l.econ.use.vault_pot_singular
-                    if amount == 1
-                    else ctx.l.econ.use.vault_pot_plural
-                ).format(vault_max_add, amount=amount)
+                (ctx.l.econ.use.vault_pot_singular if amount == 1 else ctx.l.econ.use.vault_pot_plural).format(
+                    vault_max_add, amount=amount
+                ),
             )
             return
 
@@ -1783,8 +1768,7 @@ class Econ(commands.Cog):
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if (
-                db_user.shield_pearl
-                and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow())
+                db_user.shield_pearl and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow())
             ) or amount > 1:
                 await ctx.reply_embed(ctx.l.econ.use.stupid_1)
                 return
@@ -2196,8 +2180,7 @@ class Econ(commands.Cog):
         embed.add_field(
             name="\ufeff",
             value=(
-                f"*total of {item_stats['total_count']:,} owned by "
-                f"{item_stats['users_in_possession']} different users*"
+                f"*total of {item_stats['total_count']:,} owned by {item_stats['users_in_possession']} different users*"
             ),
             inline=False,
         )
@@ -2273,8 +2256,7 @@ class Econ(commands.Cog):
             emojify_crop(self.d, "dirt"),
         ] * (max_plots - len(db_farm_plots))
         emoji_farm = "> " + "\n> ".join(
-            "".join(r[::-1])
-            for r in zip(*[emojis[i : i + 5] for i in range(0, len(emojis), 5)][::-1])
+            "".join(r[::-1]) for r in zip(*[emojis[i : i + 5] for i in range(0, len(emojis), 5)][::-1])
         )
 
         embed = discord.Embed(color=self.bot.embed_color)
@@ -2285,9 +2267,7 @@ class Econ(commands.Cog):
 
         embed.add_field(
             name=ctx.l.econ.farm.commands_title,
-            value="\n".join(
-                c.format(prefix=ctx.prefix) for c in ctx.l.econ.farm.commands.dict().values()
-            ),
+            value="\n".join(c.format(prefix=ctx.prefix) for c in ctx.l.econ.farm.commands.dict().values()),
         )
 
         embed.description = (
@@ -2374,9 +2354,9 @@ class Econ(commands.Cog):
         for r in records:
             # amount of crop harvested
             crop_type_yield = self.d.farming.crop_yields[r["crop_type"]]
-            amount = sum(
-                random.randint(*crop_type_yield) for _ in range(r["count"])
-            ) + random.randint(0, extra_yield_limit)
+            amount = sum(random.randint(*crop_type_yield) for _ in range(r["count"])) + random.randint(
+                0, extra_yield_limit
+            )
 
             await self.db.add_item(
                 ctx.author.id,
@@ -2389,10 +2369,7 @@ class Econ(commands.Cog):
             amounts_harvested[r["crop_type"]] += amount
 
         harvest_str = ", ".join(
-            [
-                f"{amount} {self.d.emojis.farming.normal[crop_type]}"
-                for crop_type, amount in amounts_harvested.items()
-            ],
+            [f"{amount} {self.d.emojis.farming.normal[crop_type]}" for crop_type, amount in amounts_harvested.items()],
         )
 
         await ctx.reply_embed(ctx.l.econ.farm.harvested.format(crops=harvest_str))
@@ -2424,10 +2401,8 @@ class Econ(commands.Cog):
                 ],
             )
 
-            total_ems = sum([float(item["amount"]) * item["value"] for item in items])
-            total_ems *= (
-                await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None
-            ) + 1
+            total_ems = sum(float(item["amount"]) * item["value"] for item in items)
+            total_ems *= (await self.db.fetch_item(ctx.author.id, "Rich Person Trophy") is not None) + 1
             total_ems *= (await self.db.fetch_item(ctx.author.id, "Recycler") is not None) + 1
 
             embed.description = (
@@ -2472,7 +2447,7 @@ class Econ(commands.Cog):
 
         await ctx.reply_embed(
             ctx.l.econ.trash.emptied_for.format(
-                reward=" + ".join([f"{amount}{emoji}" for emoji, amount in reward_info])
+                reward=" + ".join([f"{amount}{emoji}" for emoji, amount in reward_info]),
             ),
         )
 
@@ -2500,21 +2475,12 @@ class Econ(commands.Cog):
         FORMATTED_TAGS_FOR_TITLE = {
             "mine": f"[{self.d.emojis.netherite_pickaxe_ench}]",
             "fish": f"[{self.d.emojis.fishing_rod}\u2009]",
-            "4july": (
-                f"[{self.d.emojis.american_flag} "
-                f"{ctx.l.econ.item_bible.item_tag_names['4july']}]"
-            ),
-            "halloween": (
-                f"[{self.d.emojis.pumpkin} {ctx.l.econ.item_bible.item_tag_names['halloween']}]"
-            ),
+            "4july": (f"[{self.d.emojis.american_flag} {ctx.l.econ.item_bible.item_tag_names['4july']}]"),
+            "halloween": (f"[{self.d.emojis.pumpkin} {ctx.l.econ.item_bible.item_tag_names['halloween']}]"),
             "mkwii": f"[{self.d.emojis.item_box} {ctx.l.econ.item_bible.item_tag_names['mkwii']}]",
-            "easter": (
-                f"[{self.d.emojis.bunny_ears} {ctx.l.econ.item_bible.item_tag_names['easter']}]"
-            ),
+            "easter": (f"[{self.d.emojis.bunny_ears} {ctx.l.econ.item_bible.item_tag_names['easter']}]"),
         }
-        FORMATTED_TAG_SORT_INDEXES = dict([
-            (key, idx) for idx, key in enumerate(list(FORMATTED_TAGS_FOR_TITLE))
-        ])
+        FORMATTED_TAG_SORT_INDEXES = {key: idx for idx, key in enumerate(list(FORMATTED_TAGS_FOR_TITLE))}
 
         processed_item_name = item_name.lower().replace(" ", "").replace("'", "")
         item_name, item_count = await self.db.fuzzy_fetch_item_and_count(item_name)
@@ -2572,7 +2538,8 @@ class Econ(commands.Cog):
 
         if findable_entry:
             for findable_tag in sorted(
-                findable_entry.tags, key=(lambda t: FORMATTED_TAG_SORT_INDEXES.get(t, 100))
+                findable_entry.tags,
+                key=(lambda t: FORMATTED_TAG_SORT_INDEXES.get(t, 100)),
             ):
                 if findable_tag in ("mine", "fish") and "disabled" in findable_entry.tags:
                     continue
@@ -2595,14 +2562,14 @@ class Econ(commands.Cog):
                     )
         elif fishing_entry:
             fishing_rarities = dict(
-                zip([f.name for f in self.d.fishing.fish.values()], self.d.fishing.fishing_weights)
+                zip([f.name for f in self.d.fishing.fish.values()], self.d.fishing.fishing_weights),
             )
             actual_fishing_rarity = round(
-                max(self.d.fishing.fishing_weights) / fishing_rarities[item_name], 2
+                max(self.d.fishing.fishing_weights) / fishing_rarities[item_name],
+                2,
             )
             drop_rate_text = (
-                f"{self.d.emojis.fishing_rod} "
-                f"{ctx.l.econ.item_bible.drop_rate.fishing.format(actual_fishing_rarity)}\n"
+                f"{self.d.emojis.fishing_rod} {ctx.l.econ.item_bible.drop_rate.fishing.format(actual_fishing_rarity)}\n"
             )
 
         if item_name in ctx.l.econ.item_bible.item_mapping:
@@ -2622,20 +2589,14 @@ class Econ(commands.Cog):
                 + "\n\ufeff"
             )
 
-        if (findable_entry is not None and not findable_entry.sticky) or (
-            db_item is not None and not db_item.sticky
-        ):
+        if (findable_entry is not None and not findable_entry.sticky) or (db_item is not None and not db_item.sticky):
             trait_text += f"🤝 {ctx.l.econ.item_bible.traits.tradeable}\n"
 
         if item_name.lower() in self.d.shop_items:
-            trait_text += (
-                f"🛍️ {ctx.l.econ.item_bible.traits.purchaseable.format(prefix=ctx.prefix)}\n"
-            )
+            trait_text += f"🛍️ {ctx.l.econ.item_bible.traits.purchaseable.format(prefix=ctx.prefix)}\n"
 
         if db_item is not None:
-            rarity_text += (
-                f"\n{ctx.l.econ.item_bible.rarity.owned_amount.format(amount=db_item.amount)}"
-            )
+            rarity_text += f"\n{ctx.l.econ.item_bible.rarity.owned_amount.format(amount=db_item.amount)}"
 
         if trait_text:
             embed.add_field(name=ctx.l.econ.item_bible.traits.title, value=trait_text)
@@ -2662,10 +2623,12 @@ class Econ(commands.Cog):
             item_season_name = ctx.l.econ.item_bible.item_tag_names[item_season]
 
             formatted_start_date = ctx.l.econ.item_bible.season.date_format.format(
-                month=season_dates[0][0], day=season_dates[0][1]
+                month=season_dates[0][0],
+                day=season_dates[0][1],
             )
             formatted_end_date = ctx.l.econ.item_bible.season.date_format.format(
-                month=season_dates[1][0], day=season_dates[1][1]
+                month=season_dates[1][0],
+                day=season_dates[1][1],
             )
 
             embed.add_field(

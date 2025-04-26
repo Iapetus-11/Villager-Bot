@@ -37,7 +37,9 @@ class VoteReminderView(discord.ui.View):
 
     @discord.ui.button(label="Add Vote Reminder", style=discord.ButtonStyle.gray)
     async def btn_add_vote_reminder(
-        self, interaction: discord.Interaction, button: discord.ui.Button
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button,
     ):
         await interaction.response.defer(thinking=False)
         lang = self._bot.l["en"]
@@ -101,9 +103,7 @@ class Voting(commands.Cog):
             with suppress(discord.HTTPException):
                 user = await self.bot.fetch_user(user_id)
 
-        user_str = (
-            "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
-        )
+        user_str = "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
 
         await self.bot.vote_channel.send(f":tada::tada: **{user_str}** has voted! :tada::tada:")
 
@@ -151,9 +151,7 @@ class Voting(commands.Cog):
         view = VoteReminderView(bot=self.bot, user=user)
         if vote_streak is None:
             await self.db.balance_add(user_id, emeralds)
-            embed.description = (
-                f"Thanks for voting! You've received **{emeralds}**{self.d.emojis.emerald}!",
-            )
+            embed.description = (f"Thanks for voting! You've received **{emeralds}**{self.d.emojis.emerald}!",)
             message = await user.send(embed=embed, view=view)
 
         elif vote_streak % 16 == 0:

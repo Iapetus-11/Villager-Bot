@@ -14,7 +14,7 @@ IGNORE = [
     "_left",
     "_inner",
     "_on",
-    "_off" "_front",
+    "_off_front",
     "_back",
     "_stage",
     "_middle",
@@ -38,9 +38,7 @@ IGNORE = [
 
 class Palette:
     def __init__(self, *, resolution: int = 16, source_dir: str = ".", verbose: bool = False):
-        self.source_dir = source_dir + (
-            "" if source_dir.endswith("/") or source_dir.endswith("\\") else "\\"
-        )
+        self.source_dir = source_dir + ("" if source_dir.endswith("/") or source_dir.endswith("\\") else "\\")
         self.dest_dims = (resolution, resolution)
         self.data = None
         self.verbose = verbose
@@ -91,7 +89,7 @@ class Palette:
         }
 
         if self.verbose:
-            print(f'Done! ({len(self.data["palette"])})')
+            print(f"Done! ({len(self.data['palette'])})")
 
     def pal_from_image(self, image_file):
         if self.verbose:

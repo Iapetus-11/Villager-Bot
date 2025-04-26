@@ -15,10 +15,16 @@ from discord.ext import commands
 
 from bot.models.translation import Translation
 from bot.utils.ctx import CustomContext
-from common.models.data import Data, Emojis
-from common.models.db.item import Item
-from common.models.db.user import User
-from common.utils.code import format_exception
+from bot.models.data import Data, Emojis
+from bot.models.db.item import Item
+from bot.models.db.user import User
+from bot.utils.code import format_exception
+
+
+from datetime import date
+from typing import Sequence, TypeVar
+
+T = TypeVar("T")
 
 
 class _Sentinel:
@@ -86,28 +92,28 @@ def get_timedelta_granularity(delta: timedelta, granularity: int) -> list[str]:
 def clean_text(msg: discord.Message, text: str) -> str:
     if msg.guild:
 
-        def resolve_member(id: int) -> str:
-            m = msg.guild.get_member(id) or discord.utils.get(msg.mentions, id=id)  # type: ignore
+        def resolve_member(id_: int) -> str:
+            m = msg.guild.get_member(id_) or discord.utils.get(msg.mentions, id=id_)  # type: ignore
             return f"@{m.display_name}" if m else "@deleted-user"
 
-        def resolve_role(id: int) -> str:
-            r = msg.guild.get_role(id) or discord.utils.get(msg.role_mentions, id=id)  # type: ignore
+        def resolve_role(id_: int) -> str:
+            r = msg.guild.get_role(id_) or discord.utils.get(msg.role_mentions, id=id_)  # type: ignore
             return f"@{r.name}" if r else "@deleted-role"
 
-        def resolve_channel(id: int) -> str:
-            c = msg.guild._resolve_channel(id)  # type: ignore
+        def resolve_channel(id_: int) -> str:
+            c = msg.guild._resolve_channel(id_)  # type: ignore
             return f"#{c.name}" if c else "#deleted-channel"
 
     else:
 
-        def resolve_member(id: int) -> str:
-            m = discord.utils.get(msg.mentions, id=id)
+        def resolve_member(id_: int) -> str:
+            m = discord.utils.get(msg.mentions, id=id_)
             return f"@{m.display_name}" if m else "@deleted-user"
 
-        def resolve_role(id: int) -> str:
+        def resolve_role(id_: int) -> str:
             return "@deleted-role"
 
-        def resolve_channel(id: int) -> str:
+        def resolve_channel(id_: int) -> str:
             return "#deleted-channel"
 
     transforms = {
@@ -137,10 +143,14 @@ def make_health_bar(health: int, max_health: int, full: str, half: str, empty: s
 
 
 def make_progress_bar(
-    d: Data, percent: float, width: int, palette_name: Literal["red", "purple", "green"]
+    d: Data,
+    percent: float,
+    width: int,
+    palette_name: Literal["red", "purple", "green"],
 ) -> str:
     pallete: Emojis.ProgressBarEmojis.ProgressBarSetEmojis = getattr(
-        d.emojis.progress_bar, palette_name
+        d.emojis.progress_bar,
+        palette_name,
     )
 
     full_count = int(percent * width) - 1
@@ -207,7 +217,7 @@ def calc_total_wealth(db_user: User, items: list[Item]):
     return (
         db_user.emeralds
         + db_user.vault_balance * 9
-        + sum([u_it.sell_price * u_it.amount for u_it in items if u_it.sell_price > 0])
+        + sum(u_it.sell_price * u_it.amount for u_it in items if u_it.sell_price > 0)
     )
 
 
@@ -330,7 +340,7 @@ class MultiLock:
             self._locks[i].release()
 
     def locked(self, ids: list) -> bool:
-        return any([self._locks[i].locked() for i in ids])
+        return any(self._locks[i].locked() for i in ids)
 
 
 def shorten_chunks(items: list[str], max_size: int) -> Generator[str, None, None]:
@@ -449,3 +459,19 @@ def get_user_and_lang_from_loc(
         lang = loc.l
 
     return user_id, lang
+
+
+def chunk_sequence(sequence: Sequence[T], chunk_size: int) -> Generator[Sequence[T], None, None]:
+    """Yield successive chunks from the passed sequence."""
+
+    for i in range(0, len(sequence), chunk_size):
+        yield sequence[i : i + chunk_size]
+
+
+def today_within_date_range(date_range: tuple[tuple[int, int], tuple[int, int]]) -> bool:
+    start, end = date_range
+
+    today = date.today()
+    today_tuple = (today.month, today.day)
+
+    return start <= today_tuple <= end

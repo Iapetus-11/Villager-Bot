@@ -1,5 +1,5 @@
-from common.models.base_model import ImmutableBaseModel
-from common.models.logging_config import LoggingConfig
+from bot.models.base_model import ImmutableBaseModel
+from bot.models.logging_config import LoggingConfig
 from common.models.secrets import KarenSecrets
 
 

@@ -106,7 +106,7 @@ class MobSpawner(commands.Cog):
         # The difficulty of the mob spawned is based off who triggered the action, rather
         # than the person who actually engages the mob
         ctx_user_pickaxe_lvl = len(self.d.mining.pickaxes) - self.d.mining.pickaxes.index(
-            await self.db.fetch_pickaxe(ctx.author.id)
+            await self.db.fetch_pickaxe(ctx.author.id),
         )
         difficulty: typing.Literal["easy", "hard"]
         if ctx_user_pickaxe_lvl >= 3:  # Gold pick
@@ -233,11 +233,14 @@ class MobSpawner(commands.Cog):
 
                 # user attack miss logic
                 if mob_key == "baby_slime":
-                    if iteration < 3 and slime_trophy is None:
-                        user_dmg = 0
-                    elif slime_trophy is not None and random.choice((True, False, False)):
-                        user_dmg = 0
-                    elif iteration >= 3 and random.choice((True, False)):
+                    if (
+                        iteration < 3
+                        and slime_trophy is None
+                        or slime_trophy is not None
+                        and random.choice((True, False, False))
+                        or iteration >= 3
+                        and random.choice((True, False))
+                    ):
                         user_dmg = 0
                 elif mob_key == "enderman":  # noqa: SIM102
                     if iteration >= 1 and random.choice((False, False, False, False, False, True)):
@@ -292,7 +295,7 @@ class MobSpawner(commands.Cog):
                 mob_attack_text = random.choice(mob.attacks)
                 if "{current_year}" in mob_attack_text:
                     mob_attack_text = mob_attack_text.format(
-                        current_year=datetime.now(tz=timezone.utc).year
+                        current_year=datetime.now(tz=timezone.utc).year,
                     )
 
                 await ctx.send_embed(mob_attack_text)
@@ -354,7 +357,7 @@ class MobSpawner(commands.Cog):
 
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.found).format(
-                            f"{balls_won}{self.d.emojis.slimeball}"
+                            f"{balls_won}{self.d.emojis.slimeball}",
                         ),
                     )
                 # if mob is skeleton determine if it should drop bone meal
@@ -372,7 +375,7 @@ class MobSpawner(commands.Cog):
 
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.found).format(
-                            f"{pearls_won}{self.d.emojis.ender_pearl}"
+                            f"{pearls_won}{self.d.emojis.ender_pearl}",
                         ),
                     )
                 # mob should just drop normal rewards
@@ -408,7 +411,7 @@ class MobSpawner(commands.Cog):
 
                     await ctx.send_embed(
                         random.choice(ctx.l.mobs_mech.found).format(
-                            " + ".join([f"{amount}{emoji}" for emoji, amount in reward_info])
+                            " + ".join([f"{amount}{emoji}" for emoji, amount in reward_info]),
                         ),
                     )
 
@@ -431,10 +434,7 @@ class MobSpawner(commands.Cog):
 
                 ems_lost = await self.db.balance_sub(user.id, ems_lost)
 
-                if (
-                    mob_key == "enderman"
-                    and random.randint(1, {"easy": 10, "hard": 5}[difficulty]) == 1
-                ):
+                if mob_key == "enderman" and random.randint(1, {"easy": 10, "hard": 5}[difficulty]) == 1:
                     stealable_items = [
                         item
                         for item in await self.db.fetch_items(user.id)

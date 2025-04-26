@@ -15,10 +15,10 @@ from discord.ext import commands
 
 from bot.cogs.core.quests import Quests
 from common.data.enums.guild_event_type import GuildEventType
-from common.models.db.guild import Guild
-from common.models.db.item import Item
-from common.models.db.quests import UserQuest
-from common.models.db.user import User
+from bot.models.db.guild import Guild
+from bot.models.db.item import Item
+from bot.models.db.quests import UserQuest
+from bot.models.db.user import User
 
 from bot.villager_bot import VillagerBotCluster
 
@@ -256,10 +256,7 @@ class Database(commands.Cog):
 
     async def fetch_items(self, user_id: int) -> list[Item]:
         await self.ensure_user_exists(user_id)
-        return [
-            Item(**r)
-            for r in await self.db.fetch("SELECT * FROM items WHERE user_id = $1", user_id)
-        ]
+        return [Item(**r) for r in await self.db.fetch("SELECT * FROM items WHERE user_id = $1", user_id)]
 
     async def fetch_item(self, user_id: int, name: str) -> Item | None:
         await self.ensure_user_exists(user_id)
@@ -637,7 +634,9 @@ class Database(commands.Cog):
         )
 
     async def fetch_local_lb_total_wealth(
-        self, user_id: int, user_ids: list[int]
+        self,
+        user_id: int,
+        user_ids: list[int],
     ) -> list[dict[str, Any]]:
         return await self.db.fetch(
             (
@@ -928,10 +927,7 @@ class Database(commands.Cog):
     async def get_item_stats(self, item: str) -> dict[str, int]:
         users_in_possession, total_count = await asyncio.gather(
             self.db.fetchval(
-                (
-                    "SELECT COUNT(*) FROM (SELECT user_id FROM items WHERE LOWER(name) = LOWER($1) "
-                    "GROUP BY user_id) iq"
-                ),
+                ("SELECT COUNT(*) FROM (SELECT user_id FROM items WHERE LOWER(name) = LOWER($1) GROUP BY user_id) iq"),
                 item,
             ),
             self.db.fetchval(
@@ -1011,10 +1007,7 @@ class Database(commands.Cog):
         await self.fetch_user_daily_quest(user_id)
 
         db_quest = await self.db.fetchrow(
-            (
-                f"UPDATE daily_quests SET {key} = {sql_value} WHERE daily_quests.user_id = $2 "
-                f"RETURNING *"
-            ),
+            (f"UPDATE daily_quests SET {key} = {sql_value} WHERE daily_quests.user_id = $2 RETURNING *"),
             value,
             user_id,
         )

@@ -66,12 +66,10 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_replies(self, ctx: Ctx, replies: str = None):
+    async def config_replies(self, ctx: Ctx, replies: str | None = None):
         if replies is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
-            state = (
-                ctx.l.config.replies.enabled if guild.do_replies else ctx.l.config.replies.disabled
-            )
+            state = ctx.l.config.replies.enabled if guild.do_replies else ctx.l.config.replies.disabled
             await ctx.reply_embed(ctx.l.config.replies.this_server.format(state))
             return
 
@@ -96,7 +94,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_language(self, ctx: Ctx, lang: str = None):
+    async def config_language(self, ctx: Ctx, lang: str | None = None):
         lang_codes = {lang.replace("_", "-") for lang in list(self.bot.l)}
 
         if lang is None:
@@ -125,7 +123,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_default_mcserver(self, ctx: Ctx, mc_server: str = None):
+    async def config_default_mcserver(self, ctx: Ctx, mc_server: str | None = None):
         if mc_server is None:
             guild = await self.db.fetch_guild(ctx.guild.id)
             await ctx.reply_embed(ctx.l.config.mcs.this_server.format(guild.mc_server))
@@ -142,7 +140,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def config_toggle_cmd_enabled(self, ctx: Ctx, cmd: str = None):
+    async def config_toggle_cmd_enabled(self, ctx: Ctx, cmd: str | None = None):
         disabled = self.bot.disabled_commands[ctx.guild.id]
 
         if cmd is None:

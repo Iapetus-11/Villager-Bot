@@ -143,9 +143,7 @@ class Useful(commands.Cog):
         )
 
         embed.set_footer(
-            text=lang.useful.credits.foot.format(prefix)
-            + "  |  "
-            + lang.useful.rules.slashrules.format(prefix),
+            text=lang.useful.credits.foot.format(prefix) + "  |  " + lang.useful.rules.slashrules.format(prefix),
         )
 
         return embed
@@ -372,7 +370,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(name="Vote for Villager Bot!", icon_url=self.d.splash_logo)
 
-        embed.description = f'**[{ctx.l.useful.vote.click_1}]({self.d.topgg + "/vote"})**'
+        embed.description = f"**[{ctx.l.useful.vote.click_1}]({self.d.topgg + '/vote'})**"
 
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -452,11 +450,7 @@ class Useful(commands.Cog):
             mem_percent = ss.memory_usage_bytes / ss.memory_max_bytes * 100
 
             uptime_seconds = (arrow.utcnow() - ss.start_time).total_seconds()
-            uptime = (
-                arrow.utcnow()
-                .shift(seconds=uptime_seconds)
-                .humanize(locale=ctx.l.lang, only_distance=True)
-            )
+            uptime = arrow.utcnow().shift(seconds=uptime_seconds).humanize(locale=ctx.l.lang, only_distance=True)
 
             embed.add_field(
                 name=ss.identifier,
@@ -470,8 +464,7 @@ class Useful(commands.Cog):
             embed.add_field(
                 name="\ufeff",
                 value=(
-                    f"{ctx.l.useful.stats.threads}: `{ss.threads}`\n"
-                    f"{ctx.l.useful.stats.tasks}: `{ss.asyncio_tasks}`\n"
+                    f"{ctx.l.useful.stats.threads}: `{ss.threads}`\n{ctx.l.useful.stats.tasks}: `{ss.asyncio_tasks}`\n"
                 ),
             )
 
@@ -500,9 +493,7 @@ class Useful(commands.Cog):
             guild = ctx.guild
 
         age = arrow.get(discord.utils.snowflake_time(guild.id))
-        display_age = (
-            age.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + age.humanize(locale=ctx.l.lang)
-        )
+        display_age = age.format("MMM D, YYYY", locale=ctx.l.lang) + ", " + age.humanize(locale=ctx.l.lang)
 
         embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(
@@ -510,10 +501,7 @@ class Useful(commands.Cog):
             icon_url=getattr(guild.icon, "url", None),
         )
 
-        embed.description = (
-            f"{ctx.l.useful.ginf.age}: `{display_age}`\n"
-            f"{ctx.l.useful.ginf.owner}: <@{guild.owner_id}>"
-        )
+        embed.description = f"{ctx.l.useful.ginf.age}: `{display_age}`\n{ctx.l.useful.ginf.owner}: <@{guild.owner_id}>"
 
         general = (
             f"{ctx.l.useful.ginf.members}: `{len([m for m in guild.members if not m.bot])}`\n"
@@ -857,10 +845,7 @@ class Useful(commands.Cog):
                     return
                 finally:
                     await asyncio.wait(
-                        [
-                            asyncio.to_thread(os.remove, fname)
-                            for fname in [video_fname, audio_fname, final_fname]
-                        ],
+                        [asyncio.to_thread(os.remove, fname) for fname in [video_fname, audio_fname, final_fname]],
                     )
 
             # try to get image/gif/whatever from preview info
@@ -997,8 +982,8 @@ class Useful(commands.Cog):
 
         if not (target_lang_code := supported_langs.get(target_lang.lower())):
             await ctx.reply_embed(
-                'Unknown or invalid target language (Only these are supported: '
-                f'`{"`, `".join([r["language"] for r in data])}`)',
+                "Unknown or invalid target language (Only these are supported: "
+                f"`{'`, `'.join([r['language'] for r in data])}`)",
             )
             return
 
