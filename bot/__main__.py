@@ -5,7 +5,7 @@ import os
 import signal
 import sys
 
-from common.utils.setup import load_data
+from bot.utils.setup import load_data
 
 from bot.utils.add_cython_ext import add_cython_ext
 from bot.utils.setup import load_secrets, load_translations

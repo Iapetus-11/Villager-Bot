@@ -11,15 +11,10 @@ import psutil
 from captcha.image import ImageCaptcha
 from discord.ext import commands
 
-from common.coms.packet import PACKET_DATA_TYPES
-from common.coms.packet_handling import PacketHandlerRegistry, handle_packet
-from common.coms.packet_type import PacketType
 from bot.models.data import Data
-from common.models.system_stats import SystemStats
-from common.models.topgg_vote import TopggVote
 from bot.utils.code import execute_code
-from common.utils.font_handler import FontHandler
-from common.utils.setup import load_data, setup_logging
+from bot.utils.font_handler import FontHandler
+from bot.utils.setup import load_data, setup_logging
 
 from bot.models.fwd_dm import ForwardedDirectMessage
 from bot.models.secrets import Secrets
