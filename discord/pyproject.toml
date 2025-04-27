@@ -1,50 +1,47 @@
-[tool.poetry]
+[project]
 name = "Villager-Bot"
 version = "0.0.1"
-description = ""
-authors = ["Milo Weinberg <iapetus011@gmail.com>"]
 license = "MIT"
+
+[tool.poetry]
 packages = [
     { include = "scripts" },
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-asyncpg = "^0.26.0"
+python = "^3.13"
 aiofiles = "^23.1.0"
-aiohttp = "^3.9.5"
+aiohttp = {version = "^3.11.18", extras = ["speedups"]}
 arrow = "^1.3.0"
 async-cse = "^0.3.0"
-aio-mc-rcon = "^3.0.2"
-cryptography = "^42.0.7"
-Cython = "^0.29.33"
+aio-mc-rcon = "^3.4.1"
+cryptography = "^44.0.2"
+Cython = "^3.0.12"
 numpy = "^1.20.3"
 opencv-python = "^4.5.2"
 imageio = "^2.9.0"
-Pillow = "^10.3.0"
+Pillow = "^11.2.1"
 psutil = "^5.9.4"
 moviepy = "^1.0.3"
-pydantic = "^1.10.5"
-websockets = "^12.0"
-classy-json = "^3.2.1"
+pydantic = "^2.11.3"
 python-dotenv = "^1.0.0"
-"discord.py" = "^2.3.2"
+"discord.py" = "^2.5.2"
 colorlog = "^6.6.0"
 captcha = "^0.5.0"
-minecraftstatus = "^0.0.9"
+minecraftstatus = "^0.1.0"
+# cffi = {version = "^1.17.1", allow-prereleases = true}
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.15.0"
-asyncpg-stubs = "^0.26.2"
 types-psutil = "^5.9.3"
 pytest = "^7.1.3"
 types-aiofiles = "^22.1.0.9"
 ruff = "^0.11.7"
 
-[tool.poetry.scripts]
-check_text = { callable = "scripts:check_text" }
-format_and_lint = { callable = "scripts:format_and_lint" }
-generate_blockify_data = { callable = "scripts:generate_blockify_data" }
+[project.scripts]
+check_text = "scripts:check_text"
+format_and_lint = "scripts:format_and_lint"
+generate_blockify_data = "scripts:generate_blockify_data"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

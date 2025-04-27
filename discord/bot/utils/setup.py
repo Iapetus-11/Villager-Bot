@@ -1,6 +1,9 @@
 import json
 import os
 import random
+import logging
+
+import colorlog
 
 import discord
 
@@ -10,10 +13,6 @@ from bot.utils.code import format_exception
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
 
-
-import logging
-
-import colorlog
 
 from bot.models.logging_config import LoggingConfig
 
@@ -37,12 +36,11 @@ def villager_bot_intents() -> discord.Intents:
 
 
 def load_data() -> Data:
-    return Data.parse_file("common/data/data.json")
+    with open("common/data.json", 'r') as f:
+        return Data.model_validate_json("common/data/data.json")
 
 
 def setup_logging(name: str, config: LoggingConfig) -> logging.Logger:
-    level = logging.getLevelName(config.level)
-
     handler = colorlog.StreamHandler()
     handler.setFormatter(
         colorlog.ColoredFormatter(
@@ -58,17 +56,17 @@ def setup_logging(name: str, config: LoggingConfig) -> logging.Logger:
             reset=False,
         ),
     )
-    handler.setLevel(level)
+    handler.setLevel(config.level)
 
     logger = logging.getLogger(name)
-    logger.setLevel(level)
+    logger.setLevel(config.level)
 
     for item in logging.root.manager.loggerDict.values():
         if isinstance(item, logging.Logger):
             item.addHandler(handler)
 
     for name, override in config.overrides.items():
-        logging.getLogger(name).setLevel(logging.getLevelName(override.level))
+        logging.getLogger(name).setLevel(override.level)
 
     return logger
 
@@ -99,7 +97,8 @@ def load_translations(disabled_translations: list[str]) -> dict[str, Translation
 
 
 def load_secrets() -> Secrets:
-    return Secrets.parse_file("bot/secrets.json")
+    with open("bot/secrets.json", "r") as f:
+        return Secrets.model_validate_json(f)
 
 
 def update_fishing_prices(data: Data):

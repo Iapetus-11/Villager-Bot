@@ -5,8 +5,8 @@ from pydantic import BaseModel as PydanticBaseModel
 
 class BaseModel(PydanticBaseModel):
     class Config:
-        validate_all = True
-        keep_untouched = (cached_property,)
+        validate_default = True
+        ignored_types = (cached_property,)
 
     def __getitem__(self, key: str):
         return getattr(self, key)
@@ -14,4 +14,4 @@ class BaseModel(PydanticBaseModel):
 
 class ImmutableBaseModel(BaseModel):
     class Config:
-        allow_mutation = False
+        frozen = True
