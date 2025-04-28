@@ -10,7 +10,6 @@ from discord.utils import format_dt
 from bot.cogs.core.database import Database
 from bot.cogs.core.quests import Quests
 from bot.villager_bot import VillagerBotCluster
-from common.models.topgg_vote import TopggVote
 
 
 class VoteReminderView(discord.ui.View):
@@ -151,7 +150,7 @@ class Voting(commands.Cog):
         view = VoteReminderView(bot=self.bot, user=user)
         if vote_streak is None:
             await self.db.balance_add(user_id, emeralds)
-            embed.description = (f"Thanks for voting! You've received **{emeralds}**{self.d.emojis.emerald}!",)
+            embed.description = f"Thanks for voting! You've received **{emeralds}**{self.d.emojis.emerald}!"
             message = await user.send(embed=embed, view=view)
 
         elif vote_streak % 16 == 0:
@@ -170,7 +169,7 @@ class Voting(commands.Cog):
         view.message = message
 
     @commands.Cog.listener()
-    async def on_topgg_vote(self, vote: TopggVote):
+    async def on_topgg_vote(self, vote):
         await self.vote(
             user_id=vote.user,
             site="top.gg",

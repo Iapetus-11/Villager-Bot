@@ -5,19 +5,21 @@ import os
 import signal
 import sys
 
-from bot.utils.setup import load_data
+from bot.logic.setup import get_cluster_id, load_data
 
-from bot.utils.add_cython_ext import add_cython_ext
-from bot.utils.setup import load_secrets, load_translations
+from bot.utils.cython_ext import add_cython_ext
+from bot.logic.setup import load_secrets, load_translations
 from bot.villager_bot import VillagerBotCluster
 
 
 async def main_async() -> None:
+    cluster_id = get_cluster_id()
+
     secrets = load_secrets()
     data = load_data()
     translations = load_translations(data.disabled_translations)
 
-    villager_bot = VillagerBotCluster(secrets, data, translations)
+    villager_bot = VillagerBotCluster(cluster_id, secrets, data, translations)
 
     async with villager_bot:
         if os.name != "nt":

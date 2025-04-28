@@ -13,6 +13,7 @@ import aiofiles
 import aiohttp
 import arrow
 import async_cse
+from bot.utils.discord_helpers import fetch_aprox_ban_count
 import discord
 import moviepy.editor
 from discord.app_commands import command as slash_command
@@ -20,22 +21,16 @@ from discord.ext import commands, tasks
 from discord.utils import format_dt
 from PIL import ExifTags, Image
 
-from common.models.system_stats import SystemStats
-
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from bot.models.translation import Translation
-from bot.utils.ctx import Ctx
+from bot.logic.ctx import Ctx
 from bot.utils.misc import (
     SuppressCtxManager,
-    clean_text,
-    fetch_aprox_ban_count,
-    is_valid_image_res,
-    parse_timedelta,
-    read_limited,
-    shorten_chunks,
-    shorten_text,
 )
+from bot.utils.text import clean_user_text_for_output, shorten_chunks, shorten_text
+from bot.utils.aiohttp_helpers import read_limited
+from bot.utils.date_and_time import parse_timedelta
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -870,7 +865,7 @@ class Useful(commands.Cog):
             await ctx.reply_embed(ctx.l.useful.imgcmds.error)
             return
 
-        if not is_valid_image_res(res):
+        if not res.content_type.startswith("image/"):
             await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
             return
 
@@ -923,7 +918,7 @@ class Useful(commands.Cog):
             await ctx.reply_embed(ctx.l.useful.imgcmds.error)
             return
 
-        if not is_valid_image_res(res):
+        if not res.content_type.startswith("image/"):
             await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
             return
 
@@ -987,7 +982,7 @@ class Useful(commands.Cog):
             )
             return
 
-        text = clean_text(ctx.message, text)
+        text = clean_user_text_for_output(ctx.message, text)
 
         async with SuppressCtxManager(ctx.typing()):
             res = await self.aiohttp.post(

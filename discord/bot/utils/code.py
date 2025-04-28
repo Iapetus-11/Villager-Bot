@@ -26,7 +26,7 @@ async def execute_code(code: str, env: dict) -> object:
     code = f"async def _execute_code():\n{func_content}"
 
     parsed = ast.parse(code)
-    insert_returns(parsed.body[0].body)  # type: ignore
+    insert_returns(parsed.body[0].body)
 
     exec(compile(parsed, filename="<ast>", mode="exec"), env)
     return await eval("_execute_code()", env)

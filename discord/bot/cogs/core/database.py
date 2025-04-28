@@ -14,7 +14,6 @@ import discord
 from discord.ext import commands
 
 from bot.cogs.core.quests import Quests
-from common.data.enums.guild_event_type import GuildEventType
 from bot.models.db.guild import Guild
 from bot.models.db.item import Item
 from bot.models.db.quests import UserQuest
@@ -33,7 +32,6 @@ class Database(commands.Cog):
 
         self.d = bot.d
         self.k = bot.k
-        self.db = bot.db
 
         asyncio.create_task(self.populate_caches())
 

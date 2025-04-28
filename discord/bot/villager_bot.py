@@ -1,10 +1,12 @@
 import asyncio
+from datetime import datetime, timezone
+import itertools
 import random
 from collections import defaultdict
 from typing import Any
 
 import aiohttp
-import arrow
+from bot.services.karen.client import KarenClient
 import captcha.image
 import discord
 import psutil
@@ -14,25 +16,22 @@ from discord.ext import commands
 from bot.models.data import Data
 from bot.utils.code import execute_code
 from bot.utils.font_handler import FontHandler
-from bot.utils.setup import load_data, setup_logging
+from bot.logic.setup import load_data, setup_logging
 
 from bot.models.fwd_dm import ForwardedDirectMessage
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
-from bot.utils.ctx import CustomContext
-from bot.utils.database_proxy import DatabaseProxy
-from bot.utils.karen_client import KarenClient
-from bot.utils.misc import (
-    CommandOnKarenCooldown,
-    MaxKarenConcurrencyReached,
+from bot.logic.ctx import CustomContext
+from bot.logic.home_guild import (
     update_support_member_role,
 )
-from bot.utils.setup import load_translations, villager_bot_intents
+from bot.logic.setup import load_translations, villager_bot_intents
 
 
-class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
+class VillagerBotCluster(commands.AutoShardedBot):
     def __init__(
         self,
+        cluster_id: int,
         secrets: Secrets,
         data: Data,
         translations: dict[str, Translation],
@@ -45,9 +44,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             help_command=None,
         )
 
-        self.cluster_id: int | None = None
+        self.start_time = datetime.now(timezone.utc)
 
-        self.start_time = arrow.utcnow()
+        self.cluster_id = cluster_id
+        self.shard_ids = list(itertools.batched(range(secrets.total_shard_count), secrets.total_cluster_count))[
+            cluster_id
+        ]
+        self.shard_count = secrets.total_shard_count
 
         self.k = secrets
         self.d = data
@@ -75,8 +78,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         ]
 
         self.logger = setup_logging("bot", secrets.logging)
-        self.karen: KarenClient | None = None
-        self.db: DatabaseProxy | None = None
+        self.karen: KarenClient = KarenClient(secrets.karen_base_url)
         self.aiohttp: aiohttp.ClientSession | None = None
 
         # caches
@@ -127,16 +129,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         ).retrieve()
         self.captcha_generator = captcha.image.ImageCaptcha(fonts=self.font_files)
 
-        self.karen = KarenClient(self.k.karen, self.get_packet_handlers(), self.logger)
-        self.db = DatabaseProxy(self.karen)
-
-        await self.karen.connect()
-
-        cluster_info = await self.karen.fetch_cluster_init_info()
-        self.shard_count = cluster_info.shard_count
-        self.shard_ids = cluster_info.shard_ids
-        self.cluster_id = cluster_info.cluster_id
-
         self.aiohttp = aiohttp.ClientSession()
 
         for cog in self.cog_list:
@@ -146,7 +138,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     async def close(self, *args, **kwargs):
         if self.karen is not None:
-            await self.karen.disconnect()
+            await self.karen.close()
 
         if self.aiohttp is not None:
             await self.aiohttp.close()
@@ -340,7 +332,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
     # packet handlers #####################################################
 
-    @handle_packet(PacketType.EXEC_CODE)
     async def packet_exec_code(self, code: str):
         result = await execute_code(
             code,
@@ -352,7 +343,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         return result
 
-    @handle_packet(PacketType.REMINDER)
     async def packet_reminder(self, channel_id: int, user_id: int, message_id: int, reminder: str):
         success = False
         channel = self.get_channel(channel_id)
@@ -381,7 +371,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         return {"success": success}
 
-    @handle_packet(PacketType.FETCH_BOT_STATS)
     async def packet_fetch_bot_stats(self):
         return [
             len(self.guilds),
@@ -393,7 +382,6 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             self.session_votes,
         ]
 
-    @handle_packet(PacketType.FETCH_SYSTEM_STATS)
     async def packet_fetch_system_stats(self):
         memory_info = psutil.virtual_memory()
 
@@ -407,11 +395,9 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             start_time=self.start_time.datetime,
         )
 
-    @handle_packet(PacketType.FETCH_GUILD_COUNT)
     async def packet_fetch_guild_count(self):
         return len(self.guilds)
 
-    @handle_packet(PacketType.UPDATE_SUPPORT_SERVER_ROLES)
     async def packet_update_support_server_roles(self, user_id: int):
         support_guild = self.get_guild(self.k.support_server_id)
 
@@ -421,16 +407,13 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             if member is not None:
                 await update_support_member_role(self, member)
 
-    @handle_packet(PacketType.RELOAD_DATA)
     async def packet_reload_data(self):
         self.d = load_data()
         self.l = load_translations(self.d.disabled_translations)
 
-    @handle_packet(PacketType.GET_USER_NAME)
     async def packet_get_user_name(self, user_id: int) -> str | None:
         return getattr(self.get_user(user_id), "name", None)
 
-    @handle_packet(PacketType.DM_MESSAGE)
     async def packet_dm_message(
         self,
         user_id: int,
@@ -448,22 +431,18 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             ),
         )
 
-    @handle_packet(PacketType.RELOAD_COG)
     async def packet_reload_cog(self, cog: str):
         await self.reload_extension(cog)
 
-    @handle_packet(PacketType.BOTBAN_CACHE_ADD)
     async def packet_botban_cache_add(self, user_id: int):
         self.botban_cache.add(user_id)
 
-    @handle_packet(PacketType.BOTBAN_CACHE_REMOVE)
     async def packet_botban_cache_remove(self, user_id: int):
         try:
             self.botban_cache.remove(user_id)
         except KeyError:
             pass
 
-    @handle_packet(PacketType.LOOKUP_USER)
     async def packet_lookup_user(self, user_id: int):
         member_matches = list[list[int, str]]()
 
@@ -473,39 +452,32 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
 
         return member_matches
 
-    @handle_packet(PacketType.PING)
     async def packet_ping(self):
         return 1
 
-    @handle_packet(PacketType.FETCH_GUILD_IDS)
     async def packet_fetch_guild_ids(self):
         await self.wait_until_ready()
         return [g.id for g in self.guilds]
 
-    @handle_packet(PacketType.SHUTDOWN)
     async def packet_shutdown(self):
         await self.close()
 
-    @handle_packet(PacketType.TOPGG_VOTE)
-    async def packet_topgg_vote(self, vote: TopggVote):
+    async def packet_topgg_vote(self, vote):
         if 0 in self.shard_ids:
             self.dispatch("topgg_vote", vote)
 
-    @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_MEMBERS)
     async def packet_fetch_top_guilds_by_members(self):
         return [
             {"id": g.id, "name": g.name, "count": g.member_count}
             for g in sorted(self.guilds, key=(lambda g: g.member_count), reverse=True)[:10]
         ]
 
-    @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_ACTIVE_MEMBERS)
     async def packet_fetch_top_guilds_by_active_members(self):
         return [
             {**v, "name": self.get_guild(v["id"]).name}
             for v in (await self.get_cog("Database").fetch_guilds_active_member_count())
         ]
 
-    @handle_packet(PacketType.FETCH_TOP_GUILDS_BY_COMMANDS_LAST_30D)
     async def packet_fetch_top_guilds_by_commands(self):
         return [
             {**v, "name": self.get_guild(v["id"]).name}

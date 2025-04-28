@@ -16,17 +16,16 @@ from bot.cogs.core.badges import Badges
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from bot.cogs.core.quests import DailyQuestDoneView, Quests
-from bot.utils.ctx import Ctx
+from bot.logic.ctx import Ctx
 from bot.utils.misc import (
     SuppressCtxManager,
-    calc_total_wealth,
-    craft_lbs,
-    emojify_crop,
-    emojify_item,
-    format_required,
-    item_case,
-    make_health_bar,
 )
+from bot.utils.text import title_case
+from bot.logic.progress_bar import make_health_bar
+from bot.logic.emojification import emojify_crop, emojify_item
+from bot.logic.formatting import format_required_items
+from bot.logic.users import calc_total_wealth
+from bot.logic.leaderboards import craft_lbs
 from bot.villager_bot import VillagerBotCluster
 from bot.models.data import Findable, Fishing, ShopItem
 from bot.models.db.item import Item
@@ -248,7 +247,7 @@ class Econ(commands.Cog):
         if active_fx:
             embed.add_field(
                 name=ctx.l.econ.pp.fx,
-                value=f"`{'`, `'.join(map(item_case, active_fx))}`",
+                value=f"`{'`, `'.join(map(title_case, active_fx))}`",
                 inline=False,
             )
 
@@ -626,7 +625,7 @@ class Econ(commands.Cog):
                 embed.add_field(
                     name=(
                         f"{emojify_item(self.d, item.db_entry.item)} {item.db_entry.item} "
-                        f"({format_required(self.d, item)})"
+                        f"({format_required_items(self.d, item)})"
                     ),
                     value=f"`{ctx.prefix}buy {item.db_entry.item.lower()}`",
                     inline=False,
@@ -831,7 +830,7 @@ class Econ(commands.Cog):
             ctx.l.econ.buy.you_done_bought.format(
                 amount,
                 shop_item.db_entry.item,
-                format_required(self.d, shop_item, amount),
+                format_required_items(self.d, shop_item, amount),
                 amount + db_item_count,
             ),
         )
@@ -2158,7 +2157,7 @@ class Econ(commands.Cog):
 
         item_emoji = emojify_item(
             self.d,
-            item_case(item),
+            title_case(item),
             default=emojify_item(self.d, item, default=None),
         )
 
@@ -2166,7 +2165,7 @@ class Econ(commands.Cog):
 
         title = ctx.l.econ.lb.lb_item.format(
             f" {item_emoji} " if item_emoji else "",
-            item_case(item),
+            title_case(item),
         )
 
         async with SuppressCtxManager(ctx.typing()):

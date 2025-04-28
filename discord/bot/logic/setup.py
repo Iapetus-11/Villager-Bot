@@ -2,6 +2,7 @@ import json
 import os
 import random
 import logging
+import subprocess
 
 import colorlog
 
@@ -15,6 +16,58 @@ from bot.models.translation import Translation
 
 
 from bot.models.logging_config import LoggingConfig
+
+
+def load_data() -> Data:
+    with open("../common/data.json", "r") as f:
+        return Data.model_validate_json(f.read())
+
+
+def load_translations(disabled_translations: list[str]) -> dict[str, Translation]:
+    translations = dict[str, Translation]()
+
+    for filename in os.listdir("bot/data/text"):
+        lang_name = filename.split(".")[0]
+
+        if lang_name in disabled_translations:
+            continue
+
+        try:
+            with open(f"bot/data/text/{filename}", "r", encoding="utf8") as f:
+                data = json.load(f)
+
+            translations[lang_name] = Translation(**data[lang_name])
+        except Exception as e:
+            print(  # noqa: T201
+                f"An error occurred while loading the {lang_name} translation: {format_exception(e)}",
+            )
+
+    if "en" not in translations:
+        raise Exception("Default translation unable to be loaded.")
+
+    return translations
+
+
+def load_secrets() -> Secrets:
+    with open("secrets.json", "r") as f:
+        return Secrets.model_validate_json(f.read())
+
+
+def update_fishing_prices(data: Data):
+    for fish in data.fishing.fish.values():
+        fish.current = random.randint(*fish.value)
+
+
+def get_cluster_id() -> int:
+    if os.environ.get("WITHIN_DOCKER", "").lower() not in ["1", "true"]:
+        return 0
+
+    result = subprocess.run(["./docker-replica-id.sh"], stdin=subprocess.PIPE)
+
+    if result.returncode != 0:
+        raise Exception("Non-zero return code from docker-replica-id.sh")
+
+    return int(result.stdout.strip(" \n")) - 1
 
 
 def villager_bot_intents() -> discord.Intents:
@@ -33,11 +86,6 @@ def villager_bot_intents() -> discord.Intents:
         typing=False,
         message_content=True,
     )
-
-
-def load_data() -> Data:
-    with open("common/data.json", 'r') as f:
-        return Data.model_validate_json("common/data/data.json")
 
 
 def setup_logging(name: str, config: LoggingConfig) -> logging.Logger:
@@ -69,38 +117,3 @@ def setup_logging(name: str, config: LoggingConfig) -> logging.Logger:
         logging.getLogger(name).setLevel(override.level)
 
     return logger
-
-
-def load_translations(disabled_translations: list[str]) -> dict[str, Translation]:
-    translations = dict[str, Translation]()
-
-    for filename in os.listdir("bot/data/text"):
-        lang_name = filename.split(".")[0]
-
-        if lang_name in disabled_translations:
-            continue
-
-        try:
-            with open(f"bot/data/text/{filename}", "r", encoding="utf8") as f:
-                data = json.load(f)
-
-            translations[lang_name] = Translation(**data[lang_name])
-        except Exception as e:
-            print(  # noqa: T201
-                f"An error occurred while loading the {lang_name} translation: {format_exception(e)}",
-            )
-
-    if "en" not in translations:
-        raise Exception("Default translation unable to be loaded.")
-
-    return translations
-
-
-def load_secrets() -> Secrets:
-    with open("bot/secrets.json", "r") as f:
-        return Secrets.model_validate_json(f)
-
-
-def update_fishing_prices(data: Data):
-    for fish in data.fishing.fish.values():
-        fish.current = random.randint(*fish.value)

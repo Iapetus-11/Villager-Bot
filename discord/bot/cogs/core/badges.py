@@ -9,7 +9,7 @@ from bot.models.db.item import Item
 from bot.models.db.user import User
 
 from bot.cogs.core.database import Database
-from bot.utils.misc import calc_total_wealth
+from bot.logic.users import calc_total_wealth
 from bot.villager_bot import VillagerBotCluster
 
 

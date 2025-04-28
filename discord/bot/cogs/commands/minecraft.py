@@ -9,15 +9,14 @@ from urllib.parse import quote as urlquote
 import aiohttp
 import aiomcrcon as rcon
 import arrow
-import classyjson as cj
 import discord
 import minecraftstatus
 from cryptography.fernet import Fernet
 from discord.ext import commands
 
 from bot.cogs.core.database import Database
-from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, fix_giphy_url
+from bot.logic.ctx import Ctx
+from bot.utils.misc import SuppressCtxManager
 from bot.villager_bot import VillagerBotCluster
 
 try:
@@ -83,7 +82,7 @@ class Minecraft(commands.Cog):
                 return
         else:
             if media_link.startswith("https://giphy.com/"):
-                media_link = fix_giphy_url(media_link)
+                media_link = f"https://i.giphy.com/media/{media_link.split('-')[-1]}/giphy.gif"
 
             link_split_dot = media_link.split(".")
             link_split_slash = media_link.split("/")

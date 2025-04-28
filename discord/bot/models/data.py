@@ -4,7 +4,7 @@ from typing import Any, Generator
 from pydantic import Field, HttpUrl
 
 from bot.models.base_model import BaseModel, ImmutableBaseModel
-from bot.utils.misc import today_within_date_range
+from bot.utils.date_and_time import today_within_date_range
 
 
 class MobsMech(ImmutableBaseModel):

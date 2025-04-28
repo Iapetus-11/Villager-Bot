@@ -9,8 +9,8 @@ from discord.ext import commands
 
 from bot.cogs.core.database import Database
 from bot.models.translation import Fun_Trivia_Question
-from bot.utils.ctx import Ctx
-from bot.utils.misc import clean_text, shorten_text
+from bot.logic.ctx import Ctx
+from bot.utils.text import clean_user_text_for_output, shorten_text
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -126,7 +126,7 @@ class Fun(commands.Cog):
     async def say_text(self, ctx: Ctx, *, text: str):
         """Sends whatever is put into the command"""
 
-        text = clean_text(ctx.message, text)
+        text = clean_user_text_for_output(ctx.message, text)
 
         if text.lower() in {
             "i am stupid",
@@ -149,7 +149,7 @@ class Fun(commands.Cog):
     async def villager_speak(self, ctx: Ctx, *, text: str):
         """Turns the given text into Minecraft villager sounds as text"""
 
-        translated = self.lang_convert(clean_text(ctx.message, text), self.d.fun_langs.villager)
+        translated = self.lang_convert(clean_user_text_for_output(ctx.message, text), self.d.fun_langs.villager)
         await ctx.send(shorten_text(translated))
 
     @commands.command(name="enchant")
@@ -157,7 +157,7 @@ class Fun(commands.Cog):
         """Turns regular text into the Minecraft enchantment table language"""
 
         translated = self.lang_convert(
-            clean_text(ctx.message, text).lower(),
+            clean_user_text_for_output(ctx.message, text).lower(),
             self.d.fun_langs.enchant,
         )
         await ctx.send(shorten_text(translated))
@@ -166,21 +166,21 @@ class Fun(commands.Cog):
     async def unenchant_lang(self, ctx: Ctx, *, text: str):
         """Turns the Minecraft enchantment table language back into regular text"""
 
-        translated = self.lang_convert(clean_text(ctx.message, text), self.d.fun_langs.unenchant)
+        translated = self.lang_convert(clean_user_text_for_output(ctx.message, text), self.d.fun_langs.unenchant)
         await ctx.send(shorten_text(translated))
 
     @commands.command(name="vaporwave")
     async def vaporwave_text(self, ctx: Ctx, *, text: str):
         """Turns regular text into vaporwave text"""
 
-        translated = self.lang_convert(clean_text(ctx.message, text), self.d.fun_langs.vaporwave)
+        translated = self.lang_convert(clean_user_text_for_output(ctx.message, text), self.d.fun_langs.vaporwave)
         await ctx.send(shorten_text(translated))
 
     @commands.command(name="sarcastic", aliases=["spongebob"])
     async def sarcastic_text(self, ctx: Ctx, *, text: str):
         """Turns regular text into "sarcastic" text from spongebob"""
 
-        text = clean_text(ctx.message, text)
+        text = clean_user_text_for_output(ctx.message, text)
 
         caps = True
         sarcastic = ""
@@ -200,7 +200,7 @@ class Fun(commands.Cog):
     async def clap_cheeks(self, ctx: Ctx, *, text: str):
         """Puts the :clap: emoji between words"""
 
-        clapped = ":clap: " + " :clap: ".join(clean_text(ctx.message, text).split(" ")) + " :clap:"
+        clapped = ":clap: " + " :clap: ".join(clean_user_text_for_output(ctx.message, text).split(" ")) + " :clap:"
 
         if len(clapped) > 2000:
             await ctx.send_embed(ctx.l.fun.too_long)
@@ -212,7 +212,7 @@ class Fun(commands.Cog):
     async def emojify(self, ctx: Ctx, *, text: str):
         """Turns text or images into emojis"""
 
-        text = clean_text(ctx.message, text)
+        text = clean_user_text_for_output(ctx.message, text)
         emojified = ""
 
         for letter in text:

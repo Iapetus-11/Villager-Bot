@@ -9,14 +9,9 @@ from discord.ext import commands
 
 from bot.cogs.core.badges import Badges
 from bot.cogs.core.database import Database
-from bot.utils.ctx import Ctx
-from bot.utils.misc import (
-    CommandOnKarenCooldown,
-    MaxKarenConcurrencyReached,
-    chunk_by_lines,
-    text_to_discord_file,
-    update_support_member_role,
-)
+from bot.logic.ctx import Ctx
+from bot.utils.text import chunk_by_lines, text_to_discord_file
+from bot.logic.home_guild import update_support_member_role
 from bot.villager_bot import VillagerBotCluster
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)

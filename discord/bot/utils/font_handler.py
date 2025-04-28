@@ -1,5 +1,4 @@
 import asyncio
-import cgi
 import os
 from pathlib import Path
 from zipfile import ZipFile
@@ -12,11 +11,6 @@ class FontHandler:
     def __init__(self, font_urls: list[str], output_directory: str):
         self.font_urls = font_urls
         self.output_directory = output_directory
-
-    @staticmethod
-    def _get_file_name(response: aiohttp.ClientResponse) -> str:
-        _, content_disposition = cgi.parse_header(response.headers["Content-Disposition"])
-        return content_disposition["filename"]
 
     def _handle_zip_files(self):
         for file in os.listdir(self.output_directory):
@@ -37,7 +31,10 @@ class FontHandler:
 
             await asyncio.gather(
                 *[
-                    self._write_file(self._get_file_name(response), content)
+                    self._write_file(
+                        response.content_disposition.filename.replace("..", "").replace("\\", "").replace("/", ""),
+                        content,
+                    )
                     for response, content in zip(responses, contents)
                 ],
             )

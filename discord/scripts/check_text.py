@@ -7,7 +7,7 @@ import sys
 from collections import Counter
 from typing import Any
 
-from bot.utils.setup import load_data
+from bot.logic.setup import load_data
 
 DEFAULT_TRANSLATION = "en"
 FORMAT_BRACES_REGEX = re.compile(r"\{[^}]*\}", re.RegexFlag.MULTILINE)

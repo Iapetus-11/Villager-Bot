@@ -37,3 +37,20 @@ class CustomContext(Context):
 
 
 Ctx = CustomContext
+
+
+def get_user_and_lang_from_loc(
+    langs: dict[str, Translation],
+    loc: CustomContext | Context | discord.User,
+) -> tuple[int, Translation]:
+    user_id: int
+    if isinstance(loc, CustomContext | Context):
+        user_id = loc.author.id
+    else:
+        user_id = loc.id
+
+    lang = langs["en"]
+    if isinstance(loc, CustomContext | Context):
+        lang = loc.l
+
+    return user_id, lang

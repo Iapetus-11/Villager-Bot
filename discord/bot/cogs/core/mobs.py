@@ -4,15 +4,16 @@ import math
 import random
 import typing
 
-import classyjson as cj
 import discord
 from datetime import datetime, timezone
 from discord.ext import commands
 
 from bot.cogs.core.database import Database
 from bot.cogs.core.quests import Quests
-from bot.utils.ctx import Ctx
-from bot.utils.misc import SuppressCtxManager, emojify_item, make_health_bar
+from bot.logic.ctx import Ctx
+from bot.utils.misc import SuppressCtxManager
+from bot.logic.progress_bar import make_health_bar
+from bot.logic.emojification import emojify_item
 from bot.villager_bot import VillagerBotCluster
 
 
