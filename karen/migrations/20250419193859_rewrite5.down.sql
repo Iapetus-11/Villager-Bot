@@ -1,6 +1,10 @@
 ----------------------------------------------------------------------------------------------------
 -- Misc changes
 
+ALTER TABLE discord_guilds RENAME TO guilds;
+ALTER TABLE guilds RENAME COLUMN id TO guild_id;
+ALTER TABLE guilds RENAME COLUMN silly_triggers TO do_replies;
+
 ALTER TABLE users DROP COLUMN modified_at;
 
 ALTER TABLE users RENAME COLUMN last_daily_quest_reroll TO last_dq_reroll;

@@ -86,3 +86,7 @@ ALTER TABLE users RENAME COLUMN shield_pearl TO shield_pearl_activated_at;
 ALTER TABLE users RENAME COLUMN last_dq_reroll TO last_daily_quest_reroll;
 
 ALTER TABLE users ADD COLUMN modified_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+
+ALTER TABLE guilds RENAME TO discord_guilds;
+ALTER TABLE discord_guilds RENAME COLUMN guild_id TO id;
+ALTER TABLE discord_guilds RENAME COLUMN do_replies TO silly_triggers;
