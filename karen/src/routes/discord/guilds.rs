@@ -1,4 +1,8 @@
-use poem::{error::NotFoundError, handler, web::{Data, Json, Path}};
+use poem::{
+    error::NotFoundError,
+    handler,
+    web::{Data, Json, Path},
+};
 use serde::Serialize;
 
 use crate::{common::security::RequireAuthedClient, models::DiscordGuild};
@@ -41,7 +45,10 @@ pub async fn get_guild_details(
             WHERE id = $1
         "#,
         guild_id,
-    ).fetch_optional(*db).await.unwrap();
+    )
+    .fetch_optional(*db)
+    .await
+    .unwrap();
 
     match discord_guild {
         Some(discord_guild) => Ok(Json(GuildDetailsView::from(discord_guild))),
