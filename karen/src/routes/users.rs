@@ -26,6 +26,7 @@ struct UserDetailsView {
     give_alert: bool,
     shield_pearl_activated_at: Option<DateTime<Utc>>,
     last_daily_quest_reroll: DateTime<Utc>,
+    modified_at: DateTime<Utc>,
 }
 
 impl From<User> for UserDetailsView {
@@ -43,6 +44,7 @@ impl From<User> for UserDetailsView {
             give_alert: value.give_alert,
             shield_pearl_activated_at: value.shield_pearl_activated_at,
             last_daily_quest_reroll: value.last_daily_quest_reroll,
+            modified_at: value.modified_at,
         }
     }
 }
@@ -59,7 +61,7 @@ pub async fn get_user_details(
             r#"
                 SELECT
                     id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
-                    give_alert, shield_pearl_activated_at, last_daily_quest_reroll
+                    give_alert, shield_pearl_activated_at, last_daily_quest_reroll, modified_at
                 FROM users
                 WHERE id = $1;
             "#,
@@ -70,7 +72,7 @@ pub async fn get_user_details(
             r#"
                 SELECT
                     id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
-                    give_alert, shield_pearl_activated_at, last_daily_quest_reroll
+                    give_alert, shield_pearl_activated_at, last_daily_quest_reroll, modified_at
                 FROM users
                 WHERE discord_id = $1;
             "#,
@@ -107,7 +109,7 @@ pub async fn register_new_user(
                     ON CONFLICT (discord_id) DO NOTHING
                     RETURNING
                         id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
-                        give_alert, shield_pearl_activated_at, last_daily_quest_reroll
+                        give_alert, shield_pearl_activated_at, last_daily_quest_reroll, modified_at
                     "#,
                 id.as_bytes(), discord_id
             ).fetch_one(*db).await.unwrap();
