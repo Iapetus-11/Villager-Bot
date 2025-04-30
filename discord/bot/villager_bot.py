@@ -77,7 +77,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         ]
 
         self.logger = setup_logging("bot", secrets.logging)
-        self.karen: KarenClient = KarenClient(secrets.karen_base_url)
+        self.karen: KarenClient = KarenClient(secrets.karen.base_url, secrets.karen.api_key)
         self.aiohttp: aiohttp.ClientSession | None = None
 
         # caches

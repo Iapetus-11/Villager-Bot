@@ -2,6 +2,11 @@ from bot.models.base_model import ImmutableBaseModel
 from bot.models.logging_config import LoggingConfig
 
 
+class KarenSecrets(ImmutableBaseModel):
+    base_url: str
+    api_key: str
+
+
 class Secrets(ImmutableBaseModel):
     default_prefix: str
     discord_token: str
@@ -12,7 +17,7 @@ class Secrets(ImmutableBaseModel):
     vote_channel_id: int
     dm_logs_channel_id: int
 
-    karen_base_url: str
+    karen: KarenSecrets
 
     total_cluster_count: int
     total_shard_count: int

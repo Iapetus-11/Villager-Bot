@@ -3,9 +3,13 @@ import aiohttp
 
 
 class KarenClient:
-    def __init__(self, base_url: str):
+    def __init__(self, base_url: str, api_key: str):
         self._http = aiohttp.ClientSession(
-            raise_for_status=True, conn_timeout=1.0, read_timeout=30.0, base_url=base_url
+            raise_for_status=True,
+            conn_timeout=1.0,
+            read_timeout=30.0,
+            base_url=base_url,
+            headers={"Authorization": f"Token {api_key}"},
         )
 
         from .resources.discord.discord_guild import DiscordGuildsResource
