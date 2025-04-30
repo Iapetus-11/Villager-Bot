@@ -1,12 +1,11 @@
 import asyncio
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import itertools
 import random
-from collections import defaultdict
 from typing import Any
 
 import aiohttp
-from bot.services.karen.client import KarenClient
+from bot.services.karen import KarenClient, KarenResourceCache
 import captcha.image
 import discord
 import psutil
@@ -47,9 +46,9 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.start_time = datetime.now(timezone.utc)
 
         self.cluster_id = cluster_id
-        self.shard_ids = list(itertools.batched(range(secrets.total_shard_count), secrets.total_cluster_count))[
-            cluster_id
-        ]
+        self.shard_ids = list(
+            list(itertools.batched(range(secrets.total_shard_count), secrets.total_cluster_count))[cluster_id]
+        )
         self.shard_count = secrets.total_shard_count
 
         self.k = secrets
@@ -82,18 +81,9 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.aiohttp: aiohttp.ClientSession | None = None
 
         # caches
-        self.botban_cache = set[int]()  # set({user_id, user_id,..})
-        self.language_cache = dict[int, str]()  # {guild_id: "lang"}
-        self.prefix_cache = dict[int, str]()  # {guild_id: "prefix"}
-        # {guild_id: set({command, command,..})}
-        self.disabled_commands = defaultdict[int, set[str]](set)
-        self.replies_cache = set[int]()  # {guild_id, guild_id,..}
-        self.rcon_cache = dict[tuple[int, Any], Any]()  # {(user_id, mc_server): rcon_client}
-        # so the database doesn't have to make a query every time an econ command is ran
-        # to ensure user exists
-        self.existing_users_cache = set[int]()
-        # for same reason above, but for leaderboards instead
-        self.existing_user_lbs_cache = set[int]()
+        self.user_cache = KarenResourceCache(self.karen.users, expire_after=timedelta(hours=1))
+        self.guild_cache = KarenResourceCache(self.karen.discord_guilds, expire_after=timedelta(hours=1))
+        self.rcon_cache: dict[tuple[int, Any], Any] = {}  # {(user_id, mc_server): rcon_client}  # TODO: Revisit types
 
         self.support_server: discord.Guild | None = None
         self.error_channel: discord.TextChannel | None = None
@@ -122,7 +112,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
     def embed_color(self) -> discord.Color:
         return getattr(discord.Color, self.d.embed_color)()
 
-    async def start(self):
+    async def start(self):  # type: ignore[override]
         self.font_files = await FontHandler(
             font_urls=self.d.font_urls,
             output_directory="fonts",
@@ -148,13 +138,15 @@ class VillagerBotCluster(commands.AutoShardedBot):
 
     async def get_prefix(self, message: discord.Message) -> str:
         if message.guild:
-            return self.prefix_cache.get(message.guild.id, self.k.default_prefix)
+            guild_settings = await self.guild_cache.get(message.guild.id)
+            return guild_settings.prefix
 
         return self.k.default_prefix
 
-    def get_language(self, ctx: CustomContext) -> Translation:
+    async def get_language(self, ctx: CustomContext) -> Translation:
         if ctx.guild:
-            return self.l[self.language_cache.get(ctx.guild.id, "en")]
+            guild_settings = await self.guild_cache.get(ctx.guild.id)
+            return self.l[guild_settings.language]
 
         return self.l["en"]
 
@@ -193,11 +185,11 @@ class VillagerBotCluster(commands.AutoShardedBot):
                     "An error occurred in on_ready while syncing db item prices",
                 )
 
-    async def get_context(self, *args, **kwargs) -> CustomContext:
+    async def get_context(self, *args, **kwargs) -> CustomContext:  # type: ignore[override]
         ctx = await super().get_context(*args, **kwargs, cls=CustomContext)
 
         ctx.embed_color = self.embed_color
-        ctx.l = self.get_language(ctx)
+        ctx.l = await self.get_language(ctx)
 
         return ctx
 

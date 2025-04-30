@@ -8,6 +8,12 @@ class KarenClient:
             raise_for_status=True, conn_timeout=1.0, read_timeout=30.0, base_url=base_url
         )
 
+        from .resources.discord.discord_guild import DiscordGuildsResource
+        from .resources.users import UsersResource
+
+        self.users = UsersResource(self._http)
+        self.discord_guilds = DiscordGuildsResource(self._http)
+
     async def close(self):
         await self._http.close()
 

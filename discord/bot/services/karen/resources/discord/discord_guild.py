@@ -1,9 +1,8 @@
-
 from bot.models.base_model import ImmutableBaseModel
-from bot.services.karen.client import KarenResourceBase
+from ...client import KarenResourceBase
 
 
-class DiscordGuild(ImmutableBaseModel):
+class DiscordGuildSettings(ImmutableBaseModel):
     id: int
     prefix: str
     language: str
@@ -12,8 +11,8 @@ class DiscordGuild(ImmutableBaseModel):
 
 
 class DiscordGuildsResource(KarenResourceBase):
-    async def get(self, id_: int) -> DiscordGuild:
+    async def get(self, id_: int) -> DiscordGuildSettings:
         response = await self._http.get(f"/discord/guilds/{id_}/", allow_redirects=False)
         data = await response.read()
 
-        return DiscordGuild.model_validate_json(data)
+        return DiscordGuildSettings.model_validate_json(data)
