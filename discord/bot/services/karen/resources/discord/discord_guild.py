@@ -1,4 +1,5 @@
 from bot.models.base_model import ImmutableBaseModel
+
 from ...client import KarenResourceBase
 
 

@@ -1,30 +1,28 @@
 import asyncio
-from datetime import datetime, timedelta, timezone
 import itertools
 import random
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 import aiohttp
-from bot.services.karen import KarenClient, KarenResourceCache
 import captcha.image
 import discord
 import psutil
 from captcha.image import ImageCaptcha
 from discord.ext import commands
 
-from bot.models.data import Data
-from bot.utils.code import execute_code
-from bot.utils.font_handler import FontHandler
-from bot.logic.setup import load_data, setup_logging
-
-from bot.models.fwd_dm import ForwardedDirectMessage
-from bot.models.secrets import Secrets
-from bot.models.translation import Translation
 from bot.logic.ctx import CustomContext
 from bot.logic.home_guild import (
     update_support_member_role,
 )
-from bot.logic.setup import load_translations, villager_bot_intents
+from bot.logic.setup import load_data, load_translations, setup_logging, villager_bot_intents
+from bot.models.data import Data
+from bot.models.fwd_dm import ForwardedDirectMessage
+from bot.models.secrets import Secrets
+from bot.models.translation import Translation
+from bot.services.karen import KarenClient, KarenResourceCache
+from bot.utils.code import execute_code
+from bot.utils.font_handler import FontHandler
 
 
 class VillagerBotCluster(commands.AutoShardedBot):

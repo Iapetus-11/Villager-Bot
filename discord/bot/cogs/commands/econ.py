@@ -17,19 +17,19 @@ from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from bot.cogs.core.quests import DailyQuestDoneView, Quests
 from bot.logic.ctx import Ctx
+from bot.logic.emojification import emojify_crop, emojify_item
+from bot.logic.formatting import format_required_items
+from bot.logic.leaderboards import craft_lbs
+from bot.logic.progress_bar import make_health_bar
+from bot.logic.users import calc_total_wealth
+from bot.models.data import Findable, Fishing, ShopItem
+from bot.models.db.item import Item
+from bot.models.db.user import User
 from bot.utils.misc import (
     SuppressCtxManager,
 )
 from bot.utils.text import title_case
-from bot.logic.progress_bar import make_health_bar
-from bot.logic.emojification import emojify_crop, emojify_item
-from bot.logic.formatting import format_required_items
-from bot.logic.users import calc_total_wealth
-from bot.logic.leaderboards import craft_lbs
 from bot.villager_bot import VillagerBotCluster
-from bot.models.data import Findable, Fishing, ShopItem
-from bot.models.db.item import Item
-from bot.models.db.user import User
 
 
 class Econ(commands.Cog):

@@ -1,21 +1,18 @@
 import json
+import logging
 import os
 import random
-import logging
 import subprocess
+from typing import Collection
 
 import colorlog
-
 import discord
 
 from bot.models.data import Data
-from bot.utils.code import format_exception
-
+from bot.models.logging_config import LoggingConfig
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
-
-
-from bot.models.logging_config import LoggingConfig
+from bot.utils.code import format_exception
 
 
 def load_data() -> Data:
@@ -23,7 +20,7 @@ def load_data() -> Data:
         return Data.model_validate_json(f.read())
 
 
-def load_translations(disabled_translations: list[str]) -> dict[str, Translation]:
+def load_translations(disabled_translations: Collection[str]) -> dict[str, Translation]:
     translations = dict[str, Translation]()
 
     for filename in os.listdir("bot/data/text"):
@@ -67,7 +64,7 @@ def get_cluster_id() -> int:
     if result.returncode != 0:
         raise Exception("Non-zero return code from docker-replica-id.sh")
 
-    return int(result.stdout.strip(" \n")) - 1
+    return int(result.stdout.strip(b" \n")) - 1
 
 
 def villager_bot_intents() -> discord.Intents:

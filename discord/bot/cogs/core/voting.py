@@ -6,7 +6,6 @@ import discord
 from discord.ext import commands
 from discord.utils import format_dt
 
-
 from bot.cogs.core.database import Database
 from bot.cogs.core.quests import Quests
 from bot.villager_bot import VillagerBotCluster

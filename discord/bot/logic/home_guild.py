@@ -1,5 +1,6 @@
-from bot.utils.code import format_exception
 import discord
+
+from bot.utils.code import format_exception
 
 
 async def update_support_member_role(bot, member):

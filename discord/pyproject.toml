@@ -39,6 +39,7 @@ types-aiofiles = "^22.1.0.9"
 ruff = "^0.11.7"
 
 [project.scripts]
+bot = "bot.__main__:main"
 check_text = "scripts:check_text"
 format_and_lint = "scripts:format_and_lint"
 generate_blockify_data = "scripts:generate_blockify_data"
@@ -56,6 +57,7 @@ indent-width = 4
 [tool.ruff.lint]
 # https://docs.astral.sh/ruff/rules
 extend-select = [
+    "I",
     "F",
     "W",
     "E",

@@ -8,8 +8,8 @@ import discord
 from discord.ext import commands
 
 from bot.cogs.core.database import Database
-from bot.models.translation import Fun_Trivia_Question
 from bot.logic.ctx import Ctx
+from bot.models.translation import Fun_Trivia_Question
 from bot.utils.text import clean_user_text_for_output, shorten_text
 from bot.villager_bot import VillagerBotCluster
 

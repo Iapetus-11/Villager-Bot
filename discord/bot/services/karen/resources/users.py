@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from bot.models.base_model import ImmutableBaseModel
 from bot.services.karen.client import KarenResourceBase
 

@@ -1,7 +1,6 @@
 import math
 from typing import Literal
 
-
 from bot.models.data import Data, Emojis
 
 

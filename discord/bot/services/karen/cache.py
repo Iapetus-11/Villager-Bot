@@ -1,5 +1,5 @@
-from datetime import datetime, timedelta, timezone
 import typing
+from datetime import datetime, timedelta, timezone
 
 
 class CacheableResource[T, TId](typing.Protocol):

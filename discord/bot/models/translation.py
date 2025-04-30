@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from pydantic import Field
 
 from bot.models.base_model import ImmutableBaseModel
@@ -784,7 +786,7 @@ class Econ_DailyQuests(ImmutableBaseModel):
 
 class Econ_ItemBible_MappingEntry(ImmutableBaseModel):
     description: list[str]
-    quoted: bool = Field(default=True)
+    quoted: Annotated[bool, Field(default=True)]
 
 
 class Econ_ItemBible_DropRate(ImmutableBaseModel):

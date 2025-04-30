@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Any, Generator
+from typing import Annotated, Any, Generator
 
 from pydantic import Field, HttpUrl
 
@@ -40,7 +40,7 @@ class Mining(ImmutableBaseModel):
 class Fishing(ImmutableBaseModel):
     class Fish(BaseModel):
         name: str
-        value: list[int] = Field(min_items=2, max_items=2)
+        value: Annotated[list[int], Field(min_items=2, max_items=2)]
         current: float | None
         rarity: int
 
@@ -329,7 +329,7 @@ class Quest(ImmutableBaseModel):
     targets: list[TargetChoice] | TargetRange
     difficulty_eval_multi: str
     acceptance_eval: str
-    requirements_eval: str | None = Field(default=None)
+    requirements_eval: Annotated[str | None, Field(default=None)]
     reward_item: str
     emoji: str
 

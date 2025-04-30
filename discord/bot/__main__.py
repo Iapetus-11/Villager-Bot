@@ -5,10 +5,8 @@ import os
 import signal
 import sys
 
-from bot.logic.setup import get_cluster_id, load_data
-
+from bot.logic.setup import get_cluster_id, load_data, load_secrets, load_translations
 from bot.utils.cython_ext import add_cython_ext
-from bot.logic.setup import load_secrets, load_translations
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -32,9 +30,11 @@ async def main_async() -> None:
         await villager_bot.start()
 
 
-def main(args: list[str]) -> None:
+def main() -> None:
+    args: list[str] = sys.argv[1:]
+
     if not vars(sys.modules[__name__])["__package__"]:
-        print("Villager Bot must be ran as a module (using the -m flag)")
+        print("Villager Bot must be ran via Poetry (poetry run bot) or as a module (using the -m flag)")
         sys.exit(1)
 
     add_cython_ext()
@@ -48,4 +48,4 @@ def main(args: list[str]) -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()

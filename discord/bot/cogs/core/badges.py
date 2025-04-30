@@ -5,11 +5,10 @@ from io import BytesIO
 from discord.ext import commands
 from PIL import Image
 
-from bot.models.db.item import Item
-from bot.models.db.user import User
-
 from bot.cogs.core.database import Database
 from bot.logic.users import calc_total_wealth
+from bot.models.db.item import Item
+from bot.models.db.user import User
 from bot.villager_bot import VillagerBotCluster
 
 

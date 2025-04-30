@@ -10,11 +10,10 @@ import discord
 from discord.ext import commands
 
 from bot.logic.ctx import CustomContext, get_user_and_lang_from_loc
-from bot.logic.progress_bar import make_progress_bar
 from bot.logic.emojification import emojify_item
-from bot.villager_bot import VillagerBotCluster
+from bot.logic.progress_bar import make_progress_bar
 from bot.models.data import Quest
-from bot.models.db.quests import UserQuest as DbUserQuest
+from bot.villager_bot import VillagerBotCluster
 
 if typing.TYPE_CHECKING:
     from bot.cogs.core.database import Database

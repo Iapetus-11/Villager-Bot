@@ -1,6 +1,6 @@
 import io
-from typing import Iterable
 import re
+from typing import Iterable
 
 import discord
 
