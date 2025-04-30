@@ -1,6 +1,8 @@
 ----------------------------------------------------------------------------------------------------
 -- Misc changes
 
+ALTER TABLE items DROP CONSTRAINT unique_on_user_and_item;
+
 ALTER TABLE discord_guilds RENAME TO guilds;
 ALTER TABLE guilds RENAME COLUMN id TO guild_id;
 ALTER TABLE guilds RENAME COLUMN silly_triggers TO do_replies;

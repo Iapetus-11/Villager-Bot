@@ -90,3 +90,14 @@ ALTER TABLE users ADD COLUMN modified_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
 ALTER TABLE guilds RENAME TO discord_guilds;
 ALTER TABLE discord_guilds RENAME COLUMN guild_id TO id;
 ALTER TABLE discord_guilds RENAME COLUMN do_replies TO silly_triggers;
+
+-- TODO: This does not work as there ARE currently duplicate entries
+CREATE TABLE deduplicated_items (LIKE items);
+ALTER TABLE deduplicated_items ADD CONSTRAINT unique_on_user_and_item UNIQUE (user_id, name);
+INSERT INTO deduplicated_items (user_id, name, sell_price, amount, sticky, sellable)
+	SELECT
+		DISTINCT ON (user_id, name)
+		user_id, name, sell_price, amount, sticky, sellable
+	FROM items;
+DROP TABLE items;
+ALTER TABLE deduplicated_items RENAME TO items;
