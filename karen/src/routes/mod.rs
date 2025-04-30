@@ -1,5 +1,5 @@
 use discord::routes;
-use poem::{get, IntoEndpoint, Route};
+use poem::{IntoEndpoint, Route, get};
 use users::get_user_details;
 mod discord;
 mod users;

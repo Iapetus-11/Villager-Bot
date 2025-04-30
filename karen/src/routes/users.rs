@@ -1,6 +1,5 @@
 use chrono::{DateTime, Utc};
 use poem::{
-    error::NotFoundError,
     handler,
     http::StatusCode,
     web::{Data, Json, Path},
@@ -9,6 +8,7 @@ use serde::Serialize;
 
 use crate::{
     common::{security::RequireAuthedClient, user_id::UserId, xid::Xid},
+    logic::users::{GetOrCreateUserError, get_or_create_user},
     models::User,
 };
 
@@ -55,66 +55,14 @@ pub async fn get_user_details(
     Path((user_id,)): Path<(UserId,)>,
     _: RequireAuthedClient,
 ) -> poem::Result<Json<UserDetailsView>> {
-    let user = match user_id {
-        UserId::Xid(xid) => sqlx::query_as!(
-            User,
-            r#"
-                SELECT
-                    id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
-                    give_alert, shield_pearl_activated_at, last_daily_quest_reroll, modified_at
-                FROM users
-                WHERE id = $1;
-            "#,
-            xid.as_bytes(),
-        ).fetch_optional(*db).await.unwrap(),
-        UserId::Discord(discord_id) => sqlx::query_as!(
-            User,
-            r#"
-                SELECT
-                    id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
-                    give_alert, shield_pearl_activated_at, last_daily_quest_reroll, modified_at
-                FROM users
-                WHERE discord_id = $1;
-            "#,
-            discord_id,
-        ).fetch_optional(*db).await.unwrap()
-    };
+    let user_result = get_or_create_user(*db, &user_id).await;
 
-    match user {
-        Some(user) => Ok(Json(UserDetailsView::from(user))),
-        None => Err(NotFoundError.into()),
-    }
-}
-
-#[handler]
-pub async fn register_new_user(
-    db: Data<&sqlx::Pool<sqlx::Postgres>>,
-    Path((user_id,)): Path<(UserId,)>,
-    _: RequireAuthedClient,
-) -> poem::Result<Json<UserDetailsView>> {
-    match user_id {
-        UserId::Xid(_) => Err(poem::Error::from_string(
-            "You cannot register a new user using this type of ID",
+    if matches!(user_result, Err(GetOrCreateUserError::CannotCreateUsingXid)) {
+        return Err(poem::Error::from_string(
+            "User does not exist, and cannot create a new one from an Xid",
             StatusCode::BAD_REQUEST,
-        )),
-        UserId::Discord(discord_id) => {
-            let id = Xid::new();
-
-            let user = sqlx::query_as!(
-                User,
-                r#"
-                    INSERT INTO users
-                        (id, discord_id)
-                    VALUES ($1, $2)
-                    ON CONFLICT (discord_id) DO NOTHING
-                    RETURNING
-                        id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
-                        give_alert, shield_pearl_activated_at, last_daily_quest_reroll, modified_at
-                    "#,
-                id.as_bytes(), discord_id
-            ).fetch_one(*db).await.unwrap();
-
-            Ok(Json(UserDetailsView::from(user)))
-        }
+        ));
     }
+
+    Ok(Json(UserDetailsView::from(user_result.unwrap())))
 }

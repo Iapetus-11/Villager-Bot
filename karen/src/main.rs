@@ -8,6 +8,7 @@ use poem::{
 
 mod common;
 mod config;
+mod logic;
 mod models;
 mod routes;
 
