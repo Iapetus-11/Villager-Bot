@@ -48,7 +48,7 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py313"
 preview = true
 line-length = 120
 indent-width = 4
@@ -182,10 +182,12 @@ section-order = ["future", "standard-library", "third-party", "bot", "first-part
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]
-python_version = "3.11"
+files = ["bot/**/*.py"]
+python_version = "3.13"
 warn_unused_configs = true
 namespace_packages = true
 explicit_package_bases = true
+check_untyped_defs = true
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
