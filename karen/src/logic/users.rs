@@ -1,12 +1,14 @@
+use sqlx::Connection;
+use sqlx::PgConnection;
+
 use crate::{
     common::{user_id::UserId, xid::Xid},
-    models::User,
+    models::{Item, User},
 };
 
-pub async fn get_user(
-    db: &sqlx::Pool<sqlx::Postgres>,
-    id: &UserId,
-) -> Result<Option<User>, sqlx::Error> {
+use super::items::create_items;
+
+pub async fn get_user(db: &mut PgConnection, id: &UserId) -> Result<Option<User>, sqlx::Error> {
     match id {
         UserId::Xid(xid) => sqlx::query_as!(
             User,
@@ -18,7 +20,7 @@ pub async fn get_user(
                 WHERE id = $1;
             "#,
             xid.as_bytes(),
-        ).fetch_optional(db).await,
+        ).fetch_optional(&mut *db).await,
         UserId::Discord(discord_id) => sqlx::query_as!(
             User,
             r#"
@@ -29,7 +31,7 @@ pub async fn get_user(
                 WHERE discord_id = $1;
             "#,
             discord_id,
-        ).fetch_optional(db).await
+        ).fetch_optional(&mut *db).await
     }
 }
 
@@ -43,10 +45,10 @@ pub enum GetOrCreateUserError {
 }
 
 pub async fn get_or_create_user(
-    db: &sqlx::Pool<sqlx::Postgres>,
+    db: &mut PgConnection,
     id: &UserId,
 ) -> Result<User, GetOrCreateUserError> {
-    let mut user = get_user(db, id)
+    let mut user = get_user(&mut *db, id)
         .await
         .map_err(GetOrCreateUserError::Database)?;
 
@@ -56,9 +58,21 @@ pub async fn get_or_create_user(
             UserId::Discord(discord_id) => {
                 let id = Xid::new();
 
-                // TODO: Ensure starter items
+                let mut tx = db.begin().await.map_err(GetOrCreateUserError::Database)?;
 
-                sqlx::query_as!(
+                create_items(
+                    &mut tx,
+                    &[
+                        Item::new(id, "Wood Pickaxe", 0, 1, true, false),
+                        Item::new(id, "Wood Sword", 0, 1, true, false),
+                        Item::new(id, "Wood Hoe", 0, 1, true, false),
+                        Item::new(id, "Wheat Seed", 24, 5, false, true),
+                    ],
+                )
+                .await
+                .map_err(GetOrCreateUserError::Database)?;
+
+                let user = sqlx::query_as!(
                     User,
                     r#"
                         INSERT INTO users
@@ -70,7 +84,11 @@ pub async fn get_or_create_user(
                             give_alert, shield_pearl_activated_at, last_daily_quest_reroll, modified_at
                         "#,
                     id.as_bytes(), discord_id
-                ).fetch_one(db).await.map_err(GetOrCreateUserError::Database)
+                ).fetch_one(&mut *tx).await.map_err(GetOrCreateUserError::Database);
+
+                tx.commit().await.map_err(GetOrCreateUserError::Database)?;
+
+                user
             }
         };
 
@@ -79,7 +97,7 @@ pub async fn get_or_create_user(
             Err(GetOrCreateUserError::Database(sqlx::Error::Database(error)))
                 if error.is_unique_violation() =>
             {
-                get_user(db, id)
+                get_user(&mut *db, id)
                     .await
                     .map(|u| u.unwrap())
                     .map_err(GetOrCreateUserError::Database)

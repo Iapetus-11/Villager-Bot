@@ -55,7 +55,9 @@ pub async fn get_user_details(
     Path((user_id,)): Path<(UserId,)>,
     _: RequireAuthedClient,
 ) -> poem::Result<Json<UserDetailsView>> {
-    let user_result = get_or_create_user(*db, &user_id).await;
+    let mut db = db.acquire().await.unwrap();
+
+    let user_result = get_or_create_user(&mut db, &user_id).await;
 
     if matches!(user_result, Err(GetOrCreateUserError::CannotCreateUsingXid)) {
         return Err(poem::Error::from_string(

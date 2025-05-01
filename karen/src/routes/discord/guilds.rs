@@ -36,9 +36,13 @@ pub async fn get_guild_details(
     Path((guild_id,)): Path<(u64,)>,
     _: RequireAuthedClient,
 ) -> poem::Result<Json<GuildDetailsView>> {
+    let mut db = db.acquire().await.unwrap();
+
     let guild_id = guild_id as i64;
 
-    let discord_guild = get_or_create_discord_guild(*db, guild_id).await.unwrap();
+    let discord_guild = get_or_create_discord_guild(&mut db, guild_id)
+        .await
+        .unwrap();
 
     Ok(Json(GuildDetailsView::from(discord_guild)))
 }

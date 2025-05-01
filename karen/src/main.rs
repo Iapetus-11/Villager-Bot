@@ -11,6 +11,7 @@ mod config;
 mod logic;
 mod models;
 mod routes;
+mod utils;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn StdError>> {
