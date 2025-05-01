@@ -35,6 +35,19 @@ pub async fn get_user(db: &mut PgConnection, id: &UserId) -> Result<Option<User>
     }
 }
 
+pub async fn create_default_user_items(db: &mut PgConnection, user_id: Xid) -> Result<(), sqlx::Error> {
+    create_items(
+        db,
+        &[
+            Item::new(user_id, "Wood Pickaxe", 0, 1, true, false),
+            Item::new(user_id, "Wood Sword", 0, 1, true, false),
+            Item::new(user_id, "Wood Hoe", 0, 1, true, false),
+            Item::new(user_id, "Wheat Seed", 24, 5, false, true),
+        ],
+    )
+    .await
+}
+
 #[derive(Debug, thiserror::Error)]
 pub enum GetOrCreateUserError {
     #[error("Database error occurred {0:?}")]
@@ -60,17 +73,7 @@ pub async fn get_or_create_user(
 
                 let mut tx = db.begin().await.map_err(GetOrCreateUserError::Database)?;
 
-                create_items(
-                    &mut tx,
-                    &[
-                        Item::new(id, "Wood Pickaxe", 0, 1, true, false),
-                        Item::new(id, "Wood Sword", 0, 1, true, false),
-                        Item::new(id, "Wood Hoe", 0, 1, true, false),
-                        Item::new(id, "Wheat Seed", 24, 5, false, true),
-                    ],
-                )
-                .await
-                .map_err(GetOrCreateUserError::Database)?;
+                create_default_user_items(&mut *tx, id).await.map_err(GetOrCreateUserError::Database)?;
 
                 let user = sqlx::query_as!(
                     User,
