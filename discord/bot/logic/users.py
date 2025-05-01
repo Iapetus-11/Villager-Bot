@@ -1,8 +1,4 @@
-from bot.models.db.item import Item
-from bot.models.db.user import User
-
-
-def calc_total_wealth(db_user: User, items: list[Item]):
+def calc_total_wealth(db_user: "User", items: list["Item"]):
     return (
         db_user.emeralds
         + db_user.vault_balance * 9

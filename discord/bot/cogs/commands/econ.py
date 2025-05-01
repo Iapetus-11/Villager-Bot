@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 import datetime
 import math
@@ -23,8 +25,6 @@ from bot.logic.leaderboards import craft_lbs
 from bot.logic.progress_bar import make_health_bar
 from bot.logic.users import calc_total_wealth
 from bot.models.data import Findable, Fishing, ShopItem
-from bot.models.db.item import Item
-from bot.models.db.user import User
 from bot.utils.misc import (
     SuppressCtxManager,
 )
@@ -134,7 +134,7 @@ class Econ(commands.Cog):
     async def randomly_increase_vault(
         self,
         user_id: int | None = None,
-        db_user: User | None = None,
+        db_user: "User" | None = None,
         lucky: bool | None = None,
         pickaxe: str | None = None,
     ):

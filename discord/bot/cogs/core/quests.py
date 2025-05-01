@@ -278,7 +278,7 @@ class Quests(commands.Cog):
         embed = self.get_quest_embed(loc, quest)
         await loc.send(embed=embed)
 
-    def _get_user_quest_from_db_quest(self, db_quest: DbUserQuest) -> UserQuest:
+    def _get_user_quest_from_db_quest(self, db_quest: "DbUserQuest") -> UserQuest:
         quest_def = self.d.normalized_quests[db_quest["key"]]
 
         quest_target = quest_def.targets[db_quest["variant"]]

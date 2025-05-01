@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import io
 import typing
 from io import BytesIO
@@ -7,8 +9,6 @@ from PIL import Image
 
 from bot.cogs.core.database import Database
 from bot.logic.users import calc_total_wealth
-from bot.models.db.item import Item
-from bot.models.db.user import User
 from bot.villager_bot import VillagerBotCluster
 
 
@@ -47,8 +47,8 @@ class Badges(commands.Cog):
     async def update_badge_uncle_scrooge(
         self,
         user_id: int,
-        db_user: User | None = None,
-        user_items: list[Item] | None = None,
+        db_user: "User" | None = None,
+        user_items: list["Item"] | None = None,
     ) -> None:
         badges = await self.fetch_user_badges(user_id)
 
@@ -66,7 +66,7 @@ class Badges(commands.Cog):
         if total_wealth > 100_000:
             await self.update_user_badges(user_id, uncle_scrooge=True)
 
-    async def update_badge_collector(self, user_id: int, user_items: list[Item] | None = None) -> None:
+    async def update_badge_collector(self, user_id: int, user_items: list["Item"] | None = None) -> None:
         # Levels are:
         # I -> 16 unique items
         # II -> 32  ||

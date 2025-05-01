@@ -14,10 +14,6 @@ import discord
 from discord.ext import commands
 
 from bot.cogs.core.quests import Quests
-from bot.models.db.guild import Guild
-from bot.models.db.item import Item
-from bot.models.db.quests import UserQuest
-from bot.models.db.user import User
 from bot.villager_bot import VillagerBotCluster
 
 if TYPE_CHECKING:
