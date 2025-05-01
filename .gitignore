@@ -8,10 +8,11 @@ __pycache__/
 .ruff_cache/
 .pytest_cache/
 
-secrets.json
+**/secrets.json
 .env
 
-tmp/
-fonts/
+discord/tmp/
+discord/fonts/
 
 karen/target/
+karen/.sqlx/
