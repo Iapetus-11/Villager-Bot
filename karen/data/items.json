@@ -257,6 +257,408 @@
             "sell_price": 1024,
             "sticky": false,
             "sellable": true
+        },
+        "fortune ii book": {
+            "name": "Fortune II Book",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "fortune iii book": {
+            "name": "Fortune III Book",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "efficiency i book": {
+            "name": "Efficiency I Book",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "looting i book": {
+            "name": "Looting I Book",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "looting ii book": {
+            "name": "Looting II Book",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "sharpness ii book": {
+            "name": "Sharpness II Book",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "haste ii potion": {
+            "name": "Haste II Potion",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "bone meal": {
+            "name": "Bone Meal",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "barrel": {
+            "name": "Barrel",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "fishing bait": {
+            "name": "Fishing Bait",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "bane of pillagers amulet": {
+            "name": "Bane Of Pillagers Amulet",
+            "sell_price": 4096,
+            "sticky": true,
+            "sellable": true
+        },
+        "mushroom": {
+            "name": "Mushroom",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "fake item box": {
+            "name": "Fake Item Box",
+            "sell_price": 32,
+            "sticky": false,
+            "sellable": true
+        },
+        "item box": {
+            "name": "Item Box",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "banana": {
+            "name": "Banana",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "green shell": {
+            "name": "Green Shell",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "red shell": {
+            "name": "Red Shell",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "mega mushroom": {
+            "name": "Mega Mushroom",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "golden mushroom": {
+            "name": "Golden Mushroom",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "blue shell": {
+            "name": "Blue Shell",
+            "sell_price": 2048,
+            "sticky": false,
+            "sellable": true
+        },
+        "red easter egg": {
+            "name": "Red Easter Egg",
+            "sell_price": 32,
+            "sticky": false,
+            "sellable": true
+        },
+        "orange easter egg": {
+            "name": "Orange Easter Egg",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "yellow easter egg": {
+            "name": "Yellow Easter Egg",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "green easter egg": {
+            "name": "Green Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "blue easter egg": {
+            "name": "Blue Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "purple easter egg": {
+            "name": "Purple Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "red striped easter egg": {
+            "name": "Red Striped Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "orange striped easter egg": {
+            "name": "Orange Striped Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "yellow striped easter egg": {
+            "name": "Yellow Striped Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "green striped easter egg": {
+            "name": "Green Striped Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "blue striped easter egg": {
+            "name": "Blue Striped Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "purple striped easter egg": {
+            "name": "Purple Striped Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "red dotted easter egg": {
+            "name": "Red Dotted Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "orange dotted easter egg": {
+            "name": "Orange Dotted Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "yellow dotted easter egg": {
+            "name": "Yellow Dotted Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "green dotted easter egg": {
+            "name": "Green Dotted Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "blue dotted easter egg": {
+            "name": "Blue Dotted Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "purple dotted easter egg": {
+            "name": "Purple Dotted Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "golden easter egg": {
+            "name": "Golden Easter Egg",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "rainbow easter egg": {
+            "name": "Rainbow Easter Egg",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "rainbow sparkles easter egg": {
+            "name": "Rainbow Sparkles Easter Egg",
+            "sell_price": 2048,
+            "sticky": false,
+            "sellable": true
+        },
+        "bunny ears": {
+            "name": "Bunny Ears",
+            "sell_price": 2048,
+            "sticky": false,
+            "sellable": true
+        },
+        "rotten egg": {
+            "name": "Rotten Egg",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "golden bunny ears": {
+            "name": "Golden Bunny Ears",
+            "sell_price": 8192,
+            "sticky": false,
+            "sellable": true
+        },
+        "skeleton skull": {
+            "name": "Skeleton Skull",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "jack o lantern": {
+            "name": "Jack O Lantern",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "pumpkin": {
+            "name": "Pumpkin",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "spider web": {
+            "name": "Spider Web",
+            "sell_price": 16,
+            "sticky": false,
+            "sellable": true
+        },
+        "candy corn": {
+            "name": "Candy Corn",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "kitkat": {
+            "name": "KitKat",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "crunch bar": {
+            "name": "Crunch Bar",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "empty candy wrapper": {
+            "name": "Empty Candy Wrapper",
+            "sell_price": 0,
+            "sticky": false,
+            "sellable": true
+        },
+        "will o wisp": {
+            "name": "Will O Wisp",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "pumpkin pie": {
+            "name": "Pumpkin Pie",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "red firework rocket": {
+            "name": "Red Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "blue firework rocket": {
+            "name": "Blue Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "green firework rocket": {
+            "name": "Green Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "orange firework rocket": {
+            "name": "Orange Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "purple firework rocket": {
+            "name": "Purple Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "yellow firework rocket": {
+            "name": "Yellow Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "american flag": {
+            "name": "American Flag",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "uncle sams hat": {
+            "name": "Uncle Sams Hat",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "hot dog": {
+            "name": "Hot Dog",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "komodo 30000 supernova aerial firework": {
+            "name": "Komodo 30000 SuperNova Aerial Firework",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "firecracker": {
+            "name": "Firecracker",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "declaration of independence": {
+            "name": "Declaration Of Independence",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "infernum's scroll": {
+            "name": "Infernum's Scroll",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
         }
     },
     "shop": {
