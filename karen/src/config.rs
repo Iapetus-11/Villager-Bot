@@ -1,6 +1,5 @@
 use std::{any::type_name, env, str::FromStr};
 
-#[derive(Clone)]
 pub struct Config {
     pub database_url: String,
     pub database_pool_size: u32,
