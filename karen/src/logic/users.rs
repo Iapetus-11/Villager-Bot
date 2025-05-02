@@ -3,7 +3,7 @@ use sqlx::PgConnection;
 
 use crate::{
     common::{user_id::UserId, xid::Xid},
-    models::{Item, User},
+    models::db::{Item, User},
 };
 
 use super::items::create_items;

@@ -6,7 +6,7 @@ use serde::Serialize;
 
 use crate::{
     common::security::RequireAuthedClient, logic::discord_guilds::get_or_create_discord_guild,
-    models::DiscordGuild,
+    models::db::DiscordGuild,
 };
 
 #[derive(Serialize)]

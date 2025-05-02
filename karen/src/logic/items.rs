@@ -1,6 +1,6 @@
 use sqlx::PgConnection;
 
-use crate::models::Item;
+use crate::models::db::Item;
 
 pub async fn create_items(db: &mut PgConnection, items: &[Item]) -> Result<(), sqlx::Error> {
     sqlx::query!(

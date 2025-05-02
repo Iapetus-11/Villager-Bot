@@ -9,7 +9,7 @@ use serde::Serialize;
 use crate::{
     common::{security::RequireAuthedClient, user_id::UserId, xid::Xid},
     logic::users::{GetOrCreateUserError, get_or_create_user},
-    models::User,
+    models::db::User,
 };
 
 #[derive(Serialize)]

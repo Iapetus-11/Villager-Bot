@@ -1,6 +1,6 @@
 use sqlx::PgConnection;
 
-use crate::models::DiscordGuild;
+use crate::models::db::DiscordGuild;
 
 pub async fn get_discord_guild(
     db: &mut PgConnection,
