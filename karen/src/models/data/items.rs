@@ -1,4 +1,4 @@
-use std::{collections::BTreeMap, fs, error::Error as StdError};
+use std::{collections::BTreeMap, error::Error as StdError, fs};
 
 use serde::Deserialize;
 

@@ -35,7 +35,10 @@ pub async fn get_user(db: &mut PgConnection, id: &UserId) -> Result<Option<User>
     }
 }
 
-pub async fn create_default_user_items(db: &mut PgConnection, user_id: Xid) -> Result<(), sqlx::Error> {
+pub async fn create_default_user_items(
+    db: &mut PgConnection,
+    user_id: Xid,
+) -> Result<(), sqlx::Error> {
     create_items(
         db,
         &[
@@ -73,7 +76,9 @@ pub async fn get_or_create_user(
 
                 let mut tx = db.begin().await.map_err(GetOrCreateUserError::Database)?;
 
-                create_default_user_items(&mut *tx, id).await.map_err(GetOrCreateUserError::Database)?;
+                create_default_user_items(&mut tx, id)
+                    .await
+                    .map_err(GetOrCreateUserError::Database)?;
 
                 let user = sqlx::query_as!(
                     User,

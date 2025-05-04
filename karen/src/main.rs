@@ -1,8 +1,7 @@
 use std::{env, error::Error as StdError, sync::Arc};
 
-use config::Config;
 use logic::check_data::check_items_data;
-use models::data::{self, items::ItemsData};
+use models::data::{self};
 use poem::{
     EndpointExt, Server,
     listener::TcpListener,
@@ -64,7 +63,7 @@ fn check_data() -> Result<(), Box<dyn StdError>> {
 
 #[tokio::main]
 async fn main() {
-    let mut args =  env::args().skip(1);
+    let mut args = env::args().skip(1);
     let command = args.next().unwrap_or("".into());
     let _args = args.collect::<Vec<_>>();
 
@@ -76,7 +75,7 @@ async fn main() {
     };
 
     match result {
-        Ok(_) => {},
+        Ok(_) => {}
         Err(error) => {
             eprintln!("An error occurred while running {:#?}:\n{}", command, error);
         }
