@@ -10,5 +10,11 @@ pub enum ItemsDataError {
 
 
 pub fn check_items_data(data: &ItemsData) -> Result<(), ItemsDataError> {
-    todo!()
+    for shop_item_name in data.shop.keys() {
+        if !data.registry.contains_key(shop_item_name) {
+            return Err(ItemsDataError::ShopItemNotRegistered(shop_item_name.clone()))
+        }
+    }
+
+    Ok(())
 }

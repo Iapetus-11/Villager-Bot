@@ -70,7 +70,7 @@ async fn main() {
 
     let result = match command.as_str() {
         "api" => run_api().await,
-        "check_data" => check_data(),
+        "check" => check_data(),
         "" => Err(CliError::MissingCommand.into()),
         unknown_command => Err(CliError::UnknownCommand(unknown_command.to_string()).into()),
     };
