@@ -4,7 +4,8 @@ use crate::models::data::items::ItemsData;
 
 #[derive(Debug, Error)]
 pub enum ItemsDataError {
-
+    #[error("The shop item {:#?} was not present in the item registry", .0)]
+    ShopItemNotRegistered(String),
 }
 
 

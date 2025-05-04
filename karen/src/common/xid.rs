@@ -17,10 +17,10 @@ pub struct Xid(xid::Id);
 #[derive(Error, Debug)]
 pub enum XidParseError {
     /// Returned when the id had length other than 20.
-    #[error("invalid length {0}")]
+    #[error("invalid length {}", .0)]
     InvalidLength(usize),
     /// Returned when the id had character not in `[0-9a-v]`.
-    #[error("invalid character '{0}'")]
+    #[error("invalid character '{}'", .0)]
     InvalidCharacter(char),
     /// Returned in some cases when failing to parse an Xid from a hex string
     #[error("invalid hex string")]
