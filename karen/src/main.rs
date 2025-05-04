@@ -58,6 +58,8 @@ fn check_data() -> Result<(), Box<dyn StdError>> {
     let items_data = data::items::load()?;
     check_items_data(&items_data)?;
 
+    println!("All data checked with no errors found!");
+
     Ok(())
 }
 

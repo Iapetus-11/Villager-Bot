@@ -1,4 +1,8 @@
-use std::{collections::BTreeMap, error::Error as StdError, fs};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    error::Error as StdError,
+    fs,
+};
 
 use serde::Deserialize;
 
@@ -12,8 +16,8 @@ pub struct ItemRecord {
 
 #[derive(Debug, Deserialize)]
 pub struct ItemShopEntryBuyRequires {
-    count_lt: Option<i64>,
-    items: Option<BTreeMap<String, i64>>,
+    pub count_lt: Option<i64>,
+    pub items: Option<BTreeMap<String, i64>>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -24,9 +28,16 @@ pub struct ItemShopEntry {
 }
 
 #[derive(Debug, Deserialize)]
+pub struct ItemFindableEntry {
+    pub rarity: i32,
+    pub tags: BTreeSet<String>,
+}
+
+#[derive(Debug, Deserialize)]
 pub struct ItemsData {
     pub registry: BTreeMap<String, ItemRecord>,
     pub shop: BTreeMap<String, ItemShopEntry>,
+    pub findables: BTreeMap<String, ItemFindableEntry>,
 }
 
 pub fn load() -> Result<ItemsData, Box<dyn StdError>> {

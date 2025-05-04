@@ -659,6 +659,18 @@
             "sell_price": 512,
             "sticky": false,
             "sellable": true
+        },
+        "ender pearl": {
+            "name": "Ender Pearl",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "slime ball": {
+            "name": "Slime Ball",
+            "sell_price": 5,
+            "sticky": true,
+            "sellable": true
         }
     },
     "shop": {
@@ -952,6 +964,557 @@
                     "netherite scrap": 100
                 }
             }
+        }
+    },
+    "findables": {
+        "fortune ii book": {
+            "rarity": 999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "fortune iii book": {
+            "rarity": 9999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "efficiency i book": {
+            "rarity": 6669,
+            "tags": [
+                "mine"
+            ]
+        },
+        "looting i book": {
+            "rarity": 1000,
+            "tags": [
+                "mine"
+            ]
+        },
+        "sharpness i book": {
+            "rarity": 1000,
+            "tags": [
+                "mine"
+            ]
+        },
+        "looting ii book": {
+            "rarity": 9999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "sharpness ii book": {
+            "rarity": 9999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "haste i potion": {
+            "rarity": 200,
+            "tags": [
+                "mine"
+            ]
+        },
+        "haste ii potion": {
+            "rarity": 1000,
+            "tags": [
+                "mine"
+            ]
+        },
+        "luck potion": {
+            "rarity": 3099,
+            "tags": [
+                "fish"
+            ]
+        },
+        "lure i book": {
+            "rarity": 200,
+            "tags": [
+                "fish"
+            ]
+        },
+        "seaweed": {
+            "rarity": 1666,
+            "tags": [
+                "fish"
+            ]
+        },
+        "heart of the sea": {
+            "rarity": 6669,
+            "tags": [
+                "fish"
+            ]
+        },
+        "mooderald": {
+            "rarity": 4096,
+            "tags": [
+                "fish"
+            ]
+        },
+        "bone meal": {
+            "rarity": 49999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "barrel": {
+            "rarity": 99999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "recycler": {
+            "rarity": 99999,
+            "tags": [
+                "fish",
+                "mine"
+            ]
+        },
+        "fishing bait": {
+            "rarity": 12288,
+            "tags": [
+                "mine"
+            ]
+        },
+        "bane of pillagers amulet": {
+            "rarity": 500000,
+            "tags": [
+                "mine"
+            ]
+        },
+        "mushroom": {
+            "rarity": 6144,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "fake item box": {
+            "rarity": 512,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "item box": {
+            "rarity": 4096,
+            "tags": [
+                "mkwii",
+                "fish",
+                "mine",
+                "disabled"
+            ]
+        },
+        "banana": {
+            "rarity": 2048,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "green shell": {
+            "rarity": 3192,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "red shell": {
+            "rarity": 4096,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "mega mushroom": {
+            "rarity": 8192,
+            "tags": [
+                "mkwii",
+                "fish",
+                "mine",
+                "disabled"
+            ]
+        },
+        "golden mushroom": {
+            "rarity": 50000,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "blue shell": {
+            "rarity": 120000,
+            "tags": [
+                "mkwii",
+                "fish",
+                "mine",
+                "disabled"
+            ]
+        },
+        "red easter egg": {
+            "rarity": 256,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "orange easter egg": {
+            "rarity": 512,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "yellow easter egg": {
+            "rarity": 512,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "green easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "blue easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "purple easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "red striped easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "orange striped easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "yellow striped easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "green striped easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "blue striped easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "purple striped easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "red dotted easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "orange dotted easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "yellow dotted easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "green dotted easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "blue dotted easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "purple dotted easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "golden easter egg": {
+            "rarity": 8192,
+            "tags": [
+                "fish",
+                "easter"
+            ]
+        },
+        "rainbow easter egg": {
+            "rarity": 8192,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "rainbow sparkles easter egg": {
+            "rarity": 16384,
+            "tags": [
+                "mine",
+                "easter"
+            ]
+        },
+        "bunny ears": {
+            "rarity": 16384,
+            "tags": [
+                "mine",
+                "easter"
+            ]
+        },
+        "rotten egg": {
+            "rarity": 512,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "golden bunny ears": {
+            "rarity": 131072,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "skeleton skull": {
+            "rarity": 4000,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "jack o lantern": {
+            "rarity": 4000,
+            "tags": [
+                "halloween",
+                "mine"
+            ]
+        },
+        "pumpkin": {
+            "rarity": 2000,
+            "tags": [
+                "halloween",
+                "mine"
+            ]
+        },
+        "spider web": {
+            "rarity": 500,
+            "tags": [
+                "halloween",
+                "mine"
+            ]
+        },
+        "candy corn": {
+            "rarity": 500,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "kitkat": {
+            "rarity": 500,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "crunch bar": {
+            "rarity": 500,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "empty candy wrapper": {
+            "rarity": 100,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "will o wisp": {
+            "rarity": 99999,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "pumpkin pie": {
+            "rarity": 4000,
+            "tags": [
+                "halloween",
+                "mine"
+            ]
+        },
+        "red firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "blue firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "green firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "orange firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "purple firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "yellow firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "american flag": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "fish",
+                "mine"
+            ]
+        },
+        "uncle sams hat": {
+            "rarity": 2048,
+            "tags": [
+                "4july",
+                "fish",
+                "mine"
+            ]
+        },
+        "hot dog": {
+            "rarity": 512,
+            "tags": [
+                "4july",
+                "fish",
+                "mine"
+            ]
+        },
+        "komodo 30000 supernova aerial firework": {
+            "rarity": 131072,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "firecracker": {
+            "rarity": 512,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "declaration of independence": {
+            "rarity": 16384,
+            "tags": [
+                "4july",
+                "fish",
+                "mine"
+            ]
+        },
+        "infernum's scroll": {
+            "rarity": 8192,
+            "tags": [
+                "mine"
+            ]
         }
     }
 }
