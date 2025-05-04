@@ -79,8 +79,8 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.aiohttp: aiohttp.ClientSession | None = None
 
         # caches
-        self.user_cache = KarenResourceCache(self.karen.users, expire_after=timedelta(hours=1))
-        self.guild_cache = KarenResourceCache(self.karen.discord_guilds, expire_after=timedelta(hours=1))
+        self.karen_user_cache = KarenResourceCache(self.karen.users, expire_after=timedelta(hours=1))
+        self.karen_guild_cache = KarenResourceCache(self.karen.discord_guilds, expire_after=timedelta(hours=1))
         self.rcon_cache: dict[tuple[int, Any], Any] = {}  # {(user_id, mc_server): rcon_client}  # TODO: Revisit types
 
         self.support_server: discord.Guild | None = None
@@ -136,14 +136,14 @@ class VillagerBotCluster(commands.AutoShardedBot):
 
     async def get_prefix(self, message: discord.Message) -> str:
         if message.guild:
-            guild_settings = await self.guild_cache.get(message.guild.id)
+            guild_settings = await self.karen_guild_cache.get(message.guild.id)
             return guild_settings.prefix
 
         return self.k.default_prefix
 
     async def get_language(self, ctx: CustomContext) -> Translation:
         if ctx.guild:
-            guild_settings = await self.guild_cache.get(ctx.guild.id)
+            guild_settings = await self.karen_guild_cache.get(ctx.guild.id)
             return self.l[guild_settings.language]
 
         return self.l["en"]
@@ -226,9 +226,13 @@ class VillagerBotCluster(commands.AutoShardedBot):
         )
 
     async def check_global(self, ctx: CustomContext) -> bool:  # the global command check
+        assert ctx.command is not None
+
         command_name = ctx.command.qualified_name
 
-        if ctx.author.id in self.botban_cache:
+        karen_user = await self.karen_user_cache.get(ctx.author.id)
+
+        if karen_user.banned:
             ctx.failure_reason = "bot_banned"
             return False
 

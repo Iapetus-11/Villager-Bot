@@ -1,6 +1,12 @@
 ----------------------------------------------------------------------------------------------------
 -- Misc changes
 
+
+-- TODO
+ALTER TABLE discord_guilds DROP COLUMN disabled_commands ;
+UPDATE discord_guilds SET disabled_commands = ARRAY(SELECT command FROM disabled_commands WHERE discord_guild_id = discord_guilds.id);
+DROP TABLE disabled_commands;
+
 ALTER TABLE items DROP CONSTRAINT unique_on_user_and_item;
 
 ALTER TABLE discord_guilds RENAME TO guilds;
