@@ -1,7 +1,7 @@
 import asyncio
 import itertools
 import random
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from typing import Any
 
 import aiohttp
@@ -20,7 +20,7 @@ from bot.models.data import Data
 from bot.models.fwd_dm import ForwardedDirectMessage
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
-from bot.services.karen import KarenClient, KarenResourceCache
+from bot.services.karen import KarenClient
 from bot.utils.code import execute_code
 from bot.utils.font_handler import FontHandler
 
@@ -79,8 +79,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.aiohttp: aiohttp.ClientSession | None = None
 
         # caches
-        self.karen_user_cache = KarenResourceCache(self.karen.users, expire_after=timedelta(hours=1))
-        self.karen_guild_cache = KarenResourceCache(self.karen.discord_guilds, expire_after=timedelta(hours=1))
         self.rcon_cache: dict[tuple[int, Any], Any] = {}  # {(user_id, mc_server): rcon_client}  # TODO: Revisit types
 
         self.support_server: discord.Guild | None = None
@@ -230,7 +228,8 @@ class VillagerBotCluster(commands.AutoShardedBot):
 
         command_name = ctx.command.qualified_name
 
-        karen_user = await self.karen_user_cache.get(ctx.author.id)
+        karen_user = await self.karen.cached.users.get(ctx.author.id)
+        karen_guild_settings = (await self.karen.cached.discord_guilds.get(ctx.guild.id)) if ctx.guild else None
 
         if karen_user.banned:
             ctx.failure_reason = "bot_banned"
@@ -240,7 +239,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
             ctx.failure_reason = "not_ready"
             return False
 
-        if ctx.guild is not None and command_name in self.disabled_commands.get(ctx.guild.id, ()):
+        if karen_guild_settings is not None and command_name in karen_guild_settings.disabled_commands:
             ctx.failure_reason = "disabled"
             return False
 

@@ -8,4 +8,5 @@ pub struct DiscordGuild {
     pub language: String,
     pub mc_server: Option<String>,
     pub silly_triggers: bool,
+    pub disabled_commands: Vec<String>,
 }

@@ -9,6 +9,7 @@ class DiscordGuildSettings(ImmutableBaseModel):
     language: str
     mc_server: str | None
     silly_triggers: bool
+    disabled_commands: set[str]
 
 
 class DiscordGuildsResource(KarenResourceBase):

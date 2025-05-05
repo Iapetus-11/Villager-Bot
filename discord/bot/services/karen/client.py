@@ -1,6 +1,17 @@
+from __future__ import annotations
+
 import abc
+from datetime import timedelta
 
 import aiohttp
+
+from .cache import KarenResourceCache
+
+
+class CachedKarenClient:
+    def __init__(self, client: KarenClient):
+        self.users = KarenResourceCache(client.users, expire_after=timedelta(hours=1))
+        self.discord_guilds = KarenResourceCache(client.discord_guilds, expire_after=timedelta(hours=1))
 
 
 class KarenClient:
@@ -18,6 +29,7 @@ class KarenClient:
 
         self.users = UsersResource(self._http)
         self.discord_guilds = DiscordGuildsResource(self._http)
+        self.cached = CachedKarenClient(self)
 
     async def close(self):
         await self._http.close()

@@ -10,7 +10,7 @@ pub async fn get_discord_guild(
         DiscordGuild,
         r#"
             SELECT
-                id, prefix, language, mc_server, silly_triggers
+                id, prefix, language, mc_server, silly_triggers, disabled_commands
             FROM discord_guilds
             WHERE id = $1
         "#,
@@ -32,7 +32,7 @@ pub async fn get_or_create_discord_guild(
             r#"
                 INSERT INTO discord_guilds (id, prefix)
                 VALUES ($1, $2)
-                RETURNING id, prefix, language, mc_server, silly_triggers
+                RETURNING id, prefix, language, mc_server, silly_triggers, disabled_commands
             "#,
             id,
             "!!" // TODO: Load default prefix from config?

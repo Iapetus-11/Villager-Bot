@@ -16,6 +16,7 @@ struct GuildDetailsView {
     language: String,
     mc_server: Option<String>,
     silly_triggers: bool,
+    disabled_commands: Vec<String>,
 }
 
 impl From<DiscordGuild> for GuildDetailsView {
@@ -26,6 +27,7 @@ impl From<DiscordGuild> for GuildDetailsView {
             language: value.language,
             mc_server: value.mc_server,
             silly_triggers: value.silly_triggers,
+            disabled_commands: value.disabled_commands,
         }
     }
 }
