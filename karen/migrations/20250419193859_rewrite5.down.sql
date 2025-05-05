@@ -1,12 +1,11 @@
 ----------------------------------------------------------------------------------------------------
 -- Misc changes
 
-
--- TODO
 CREATE TABLE IF NOT EXISTS disabled_commands (
   guild_id           BIGINT NOT NULL,  -- the guild id where the command is disabled
   command            VARCHAR(20) NOT NULL -- the real name of the command that's disabled
 );
+INSERT INTO disabled_commands SELECT id, UNNEST(disabled_commands) FROM discord_guilds;
 ALTER TABLE discord_guilds DROP COLUMN disabled_commands;
 
 ALTER TABLE items DROP CONSTRAINT unique_on_user_and_item;
@@ -28,8 +27,6 @@ ALTER TABLE users RENAME COLUMN banned TO bot_banned;
 ALTER TABLE guild_events RENAME COLUMN discord_guild_id TO guild_id;
 
 ALTER TABLE user_rcon RENAME COLUMN discord_user_id TO user_id;
-
-ALTER TABLE disabled_commands RENAME COLUMN discord_guild_id TO guild_id;
 
 ALTER TABLE warnings RENAME COLUMN discord_user_id TO user_id;
 ALTER TABLE warnings RENAME COLUMN discord_guild_id TO guild_id;
