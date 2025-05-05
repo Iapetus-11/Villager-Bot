@@ -101,6 +101,6 @@ INSERT INTO deduplicated_items (user_id, name, sell_price, amount, sticky, sella
 DROP TABLE items;
 ALTER TABLE deduplicated_items RENAME TO items;
 
-ALTER TABLE discord_guilds ADD COLUMN disabled_commands VARCHAR[];
+ALTER TABLE discord_guilds ADD COLUMN disabled_commands VARCHAR[] NOT NULL DEFAULT '{}';
 UPDATE discord_guilds SET disabled_commands = ARRAY(SELECT command FROM disabled_commands WHERE discord_guild_id = discord_guilds.id);
 DROP TABLE disabled_commands;
