@@ -3,9 +3,11 @@
 
 
 -- TODO
-ALTER TABLE discord_guilds DROP COLUMN disabled_commands ;
-UPDATE discord_guilds SET disabled_commands = ARRAY(SELECT command FROM disabled_commands WHERE discord_guild_id = discord_guilds.id);
-DROP TABLE disabled_commands;
+CREATE TABLE IF NOT EXISTS disabled_commands (
+  guild_id           BIGINT NOT NULL,  -- the guild id where the command is disabled
+  command            VARCHAR(20) NOT NULL -- the real name of the command that's disabled
+);
+ALTER TABLE discord_guilds DROP COLUMN disabled_commands;
 
 ALTER TABLE items DROP CONSTRAINT unique_on_user_and_item;
 
@@ -86,7 +88,6 @@ ALTER TABLE badges ALTER COLUMN user_id TYPE BIGINT USING UNFAKE_XID(user_id);
 ALTER TABLE trash_can DROP CONSTRAINT trash_can_user_id_fkey;
 ALTER TABLE trash_can ALTER COLUMN user_id TYPE BIGINT USING UNFAKE_XID(user_id);
 
-ALTER TABLE items DROP CONSTRAINT items_user_id_fkey;
 ALTER TABLE items ALTER COLUMN user_id TYPE BIGINT USING UNFAKE_XID(user_id);
 
 ALTER TABLE users RENAME COLUMN id TO user_id;
