@@ -25,14 +25,21 @@ pub async fn get_cooldown(
     .map(|r| r.until))
 }
 
-pub async fn get_or_create_cooldown(db: &mut PgConnection, user_id: &Xid, command: &str, duration: TimeDelta) -> Result<(DateTime<Utc>, bool), sqlx::Error> {
-    let mut cooldown = get_cooldown(&mut *db, user_id, command).await?;
-
-    if let Some(cooldown) = cooldown {
+pub async fn get_or_create_cooldown(db: &mut PgConnection, user_id: &Xid, command: &str, default_cooldown: DateTime<Utc>) -> Result<(DateTime<Utc>, bool), sqlx::Error> {
+    if let Some(cooldown) = get_cooldown(&mut *db, user_id, command).await? {
         return Ok((cooldown, false));
     }
 
-    let mut tx = db.begin().await?;
+    let creation_result = sqlx::query!(
+        "INSERT INTO command_cooldowns (user_id, command, until) VALUES ($1, $2, $3)",
+        user_id.as_bytes(), command, default_cooldown
+    ).execute(&mut *db).await;
 
-    todo!();
+    match creation_result {
+        Err(sqlx::Error::Database(error)) if error.is_unique_violation() => {
+            return Ok((get_cooldown(&mut *db, user_id, command).await?.unwrap(), true));
+        }
+        Ok(_) => return Ok((default_cooldown, true)),
+        Err(error) => Err(error),
+    }
 }
