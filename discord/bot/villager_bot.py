@@ -267,6 +267,8 @@ class VillagerBotCluster(commands.AutoShardedBot):
         return True
 
     async def before_command_invoked(self, ctx: CustomContext):
+        assert ctx.command is not None
+
         self.command_count += 1
 
         if ctx.command.cog_name == "Econ":
@@ -299,6 +301,8 @@ class VillagerBotCluster(commands.AutoShardedBot):
         )
 
     async def after_command_invoked(self, ctx: CustomContext):
+        assert ctx.command is not None
+
         try:
             if ctx.command.qualified_name in self.d.concurrency_limited:
                 await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
