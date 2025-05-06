@@ -2,6 +2,7 @@ use thiserror::Error;
 
 use crate::models::data::items::{ItemShopEntryBuyRequires, ItemsData};
 
+#[allow(clippy::enum_variant_names)]
 #[derive(Debug, Error)]
 pub enum ItemsDataError {
     #[error("The shop item {:#?} was not present in the item registry", .0)]
