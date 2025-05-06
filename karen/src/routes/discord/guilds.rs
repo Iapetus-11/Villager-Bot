@@ -34,7 +34,7 @@ impl From<DiscordGuild> for GuildDetailsView {
 
 #[handler]
 pub async fn get_guild_details(
-    db: Data<&sqlx::Pool<sqlx::Postgres>>,
+    db: Data<&sqlx::PgPool>,
     Path((guild_id,)): Path<(u64,)>,
     _: RequireAuthedClient,
 ) -> poem::Result<Json<GuildDetailsView>> {

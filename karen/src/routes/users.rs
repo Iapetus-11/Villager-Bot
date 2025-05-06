@@ -51,7 +51,7 @@ impl From<User> for UserDetailsView {
 
 #[handler]
 pub async fn get_user_details(
-    db: Data<&sqlx::Pool<sqlx::Postgres>>,
+    db: Data<&sqlx::PgPool>,
     Path((user_id,)): Path<(UserId,)>,
     _: RequireAuthedClient,
 ) -> poem::Result<Json<UserDetailsView>> {

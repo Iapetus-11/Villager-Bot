@@ -1,7 +1,7 @@
 use guilds::get_guild_details;
 use poem::{Route, get};
 
-pub mod guilds;
+mod guilds;
 
 pub fn routes() -> Route {
     Route::new().at("/guilds/:id/", get(get_guild_details))
