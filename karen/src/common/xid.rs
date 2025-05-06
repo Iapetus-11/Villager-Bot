@@ -9,7 +9,7 @@ use thiserror::Error;
 use super::hex::decode_hex;
 
 /// Wrapper around xid::Id to add compatibility with Serde and Sqlx
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Xid(xid::Id);
 
 /// Extension of xid::ParseIdError
@@ -81,6 +81,7 @@ impl TryFrom<&str> for Xid {
     }
 }
 
+// -------------------------------------------------------------------------------------------------
 // Serde
 
 impl Serialize for Xid {
@@ -129,5 +130,37 @@ impl<'de> Deserialize<'de> for Xid {
         D: Deserializer<'de>,
     {
         deserializer.deserialize_str(XidVisitor)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_xid_to_from_string() {
+        let xid = Xid::new();
+        let str_xid = xid.to_string();
+
+        assert_eq!(str_xid.len(), 20);
+        assert_eq!(xid, Xid::try_from(str_xid.as_str()).unwrap());
+    }
+
+    #[test]
+    fn test_serialize_xid() {
+        let xid = Xid::new();
+        let serialized_xid = serde_json::to_string(&xid).unwrap();
+
+        assert_eq!(serialized_xid, serde_json::to_string(&xid.to_string()).unwrap())
+    }
+
+    #[test]
+    fn test_deserialize_xid() {
+        let xid = Xid::new();
+        let serialized_xid = serde_json::to_string(&xid.to_string()).unwrap();
+
+        let mut deserializer = serde_json::Deserializer::from_str(&serialized_xid);
+
+        assert_eq!(Xid::deserialize(&mut deserializer).unwrap(), xid);
     }
 }

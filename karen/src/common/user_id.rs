@@ -7,10 +7,14 @@ use serde::{
 
 use super::xid::Xid;
 
+#[derive(Debug, PartialEq, Eq)]
 pub enum UserId {
     Xid(Xid),
     Discord(i64),
 }
+
+// -------------------------------------------------------------------------------------------------
+// Serde
 
 impl Serialize for UserId {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -83,5 +87,48 @@ impl<'de> Deserialize<'de> for UserId {
         D: Deserializer<'de>,
     {
         deserializer.deserialize_str(UserIdVisitor)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_serialize_user_id_xid() {
+        let user_id_xid = Xid::new();
+        let user_id = UserId::Xid(user_id_xid);
+        
+        assert_eq!(serde_json::to_string(&user_id).unwrap(), user_id_xid.to_string());
+    }
+
+    #[test]
+    fn test_serialize_user_id_discord() {
+        let user_id_discord = 536986067140608041_i64;
+        let user_id = UserId::Discord(user_id_discord);
+
+        assert_eq!(serde_json::to_string(&user_id).unwrap(), user_id_discord.to_string());
+    }
+
+    #[test]
+    fn test_deserialize_user_id_xid() {
+        let user_id = UserId::Xid(Xid::new());
+        let serialized_user_id = serde_json::to_string(&user_id).unwrap();
+
+        let mut deserializer = serde_json::Deserializer::from_str(&serialized_user_id);
+
+        println!("bruh: {:#?}", serialized_user_id);
+        
+        assert_eq!(UserId::deserialize(&mut deserializer).unwrap(), user_id);
+    }
+
+    #[test]
+    fn test_deserialize_user_id_discord() {
+        let user_id = UserId::Discord(536986067140608041);
+        let serialized_user_id = serde_json::to_string(&user_id).unwrap();
+
+        let mut deserializer = serde_json::Deserializer::from_str(&serialized_user_id);
+        
+        assert_eq!(UserId::deserialize(&mut deserializer).unwrap(), user_id);
     }
 }
