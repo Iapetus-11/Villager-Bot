@@ -29,6 +29,7 @@ async fn run_api() -> Result<(), Box<dyn StdError>> {
     let config = Arc::new(config::load());
 
     let items_data = Arc::new(data::items::load()?);
+    let commands_data = Arc::new(data::commands::load()?);
 
     let db_pool = sqlx::postgres::PgPoolOptions::new()
         .max_connections(config.database_pool_size)
@@ -40,6 +41,7 @@ async fn run_api() -> Result<(), Box<dyn StdError>> {
         .with(AddData::new(config.clone()))
         .with(AddData::new(db_pool.clone()))
         .with(AddData::new(items_data))
+        .with(AddData::new(commands_data))
         .with(CatchPanic::new());
 
     println!(

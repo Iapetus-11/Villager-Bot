@@ -1,0 +1,17 @@
+{
+    "cooldowns": {
+        "fish": 4,
+        "pillage": 14400,
+        "use": 1,
+        "honey": 86400,
+        "deposit": 2,
+        "withdraw": 2,
+        "buy": 5,
+        "sell": 2,
+        "give": 5,
+        "gamble": 30,
+        "search": 1800,
+        "mine": 4,
+        "trivia": 5
+    }
+}
