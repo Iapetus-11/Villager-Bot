@@ -14,7 +14,6 @@ mod config;
 mod logic;
 mod models;
 mod routes;
-mod utils;
 
 #[derive(Debug, Error)]
 pub enum CliError {
