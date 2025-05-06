@@ -104,3 +104,12 @@ ALTER TABLE deduplicated_items RENAME TO items;
 ALTER TABLE discord_guilds ADD COLUMN disabled_commands VARCHAR[] NOT NULL DEFAULT '{}';
 UPDATE discord_guilds SET disabled_commands = ARRAY(SELECT command FROM disabled_commands WHERE discord_guild_id = discord_guilds.id);
 DROP TABLE disabled_commands;
+
+----------------------------------------------------------------------------------------------------
+-- New stuff
+
+CREATE TABLE command_cooldowns (
+	user_id   BYTEA NOT NULL REFERENCES users (id),
+	command   VARCHAR NOT NULL,
+	until     TIMESTAMPTZ NOT NULL
+);
