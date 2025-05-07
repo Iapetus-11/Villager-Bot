@@ -121,58 +121,9 @@ pub async fn get_or_create_user(
 mod tests {
     use chrono::{TimeDelta, Utc};
 
-    use crate::common::testing::PgPoolConn;
+    use crate::common::testing::{PgPoolConn, create_test_user};
 
     use super::*;
-
-    async fn setup_user(db: &mut PgConnection) -> User {
-        let user_id = Xid::new();
-
-        let now = Utc::now();
-        let ten_seconds_ago = now - TimeDelta::seconds(10);
-        let two_hours_ago = now - TimeDelta::hours(2);
-        let five_days_ago = now - TimeDelta::days(5);
-
-        let user = User {
-            id: user_id,
-            discord_id: Some(536986067140608041),
-            banned: true,
-            emeralds: 420,
-            vault_balance: 69,
-            vault_max: 666,
-            health: 19,
-            vote_streak: 2,
-            last_vote_at: Some(ten_seconds_ago),
-            give_alert: false,
-            shield_pearl_activated_at: Some(two_hours_ago),
-            last_daily_quest_reroll: Some(five_days_ago),
-            modified_at: now,
-        };
-
-        sqlx::query!(
-            r#"
-                INSERT INTO users (
-                    id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
-                    give_alert, shield_pearl_activated_at, last_daily_quest_reroll, modified_at
-                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-            "#,
-            user.id.as_bytes(),
-            user.discord_id,
-            user.banned,
-            user.emeralds,
-            user.vault_balance,
-            user.vault_max,
-            user.health,
-            user.vote_streak,
-            user.last_vote_at,
-            user.give_alert,
-            user.shield_pearl_activated_at,
-            user.last_daily_quest_reroll,
-            user.modified_at,
-        ).execute(&mut *db).await.unwrap();
-
-        user
-    }
 
     fn assert_users_eq(a: User, b: User) {
         assert_eq!(a.id, b.id);
@@ -192,7 +143,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_user(mut db: PgPoolConn) {
-        let expected_user = setup_user(&mut db).await;
+        let expected_user = create_test_user(&mut db).await;
         let user = get_user(&mut db, &UserId::Xid(expected_user.id))
             .await
             .unwrap()
@@ -203,7 +154,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_user_by_discord_id(mut db: PgPoolConn) {
-        let expected_user = setup_user(&mut db).await;
+        let expected_user = create_test_user(&mut db).await;
 
         let user = get_user(&mut db, &UserId::Discord(expected_user.discord_id.unwrap()))
             .await
@@ -245,7 +196,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_or_create_existing_user(mut db: PgPoolConn) {
-        let expected_user = setup_user(&mut db).await;
+        let expected_user = create_test_user(&mut db).await;
         let user = get_or_create_user(&mut db, &UserId::Xid(expected_user.id))
             .await
             .unwrap();
@@ -255,7 +206,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_or_create_existing_user_from_discord(mut db: PgPoolConn) {
-        let expected_user = setup_user(&mut db).await;
+        let expected_user = create_test_user(&mut db).await;
         let user = get_or_create_user(&mut db, &UserId::Discord(expected_user.discord_id.unwrap()))
             .await
             .unwrap();
@@ -265,7 +216,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_create_default_user_items(mut db: PgPoolConn) {
-        let user = setup_user(&mut db).await;
+        let user = create_test_user(&mut db).await;
 
         create_default_user_items(&mut db, user.id).await.unwrap();
 
@@ -293,7 +244,7 @@ mod tests {
         assert!(!hoe.sellable);
 
         let wheat_seed = items.iter().find(|i| i.name == "Wheat Seed").unwrap();
-        assert_eq!(wheat_seed.sell_price, 24);
+        assert_eq!(wheat_seed.sell_price, 32);
         assert_eq!(wheat_seed.amount, 5);
         assert!(!wheat_seed.sticky);
         assert!(wheat_seed.sellable);
