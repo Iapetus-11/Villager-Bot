@@ -14,11 +14,10 @@ impl<'a> poem::FromRequest<'a> for RequireAuthedClient {
 
         let authorization_header = req.header("Authorization").unwrap_or("");
 
-        // TODO: is 403 forbidden correct here (and on line 24)
         if authorization_header.is_empty() {
             return Err(poem::Error::from_string(
                 "missing authorization header",
-                StatusCode::FORBIDDEN,
+                StatusCode::UNAUTHORIZED,
             ));
         }
 
@@ -30,7 +29,7 @@ impl<'a> poem::FromRequest<'a> for RequireAuthedClient {
         ) {
             return Err(poem::Error::from_string(
                 "incorrect authorization header",
-                StatusCode::FORBIDDEN,
+                StatusCode::UNAUTHORIZED,
             ));
         }
 
