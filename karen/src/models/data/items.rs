@@ -33,11 +33,15 @@ pub struct ItemFindableEntry {
     pub tags: BTreeSet<String>,
 }
 
+pub type ItemRegistry = BTreeMap<String, ItemRecord>;
+pub type ItemShopData = BTreeMap<String, ItemShopEntry>;
+pub type ItemFindableData = BTreeMap<String, ItemFindableEntry>;
+
 #[derive(Debug, Deserialize)]
 pub struct ItemsData {
-    pub registry: BTreeMap<String, ItemRecord>,
-    pub shop: BTreeMap<String, ItemShopEntry>,
-    pub findables: BTreeMap<String, ItemFindableEntry>,
+    pub registry: ItemRegistry,
+    pub shop: ItemShopData,
+    pub findables: ItemFindableData,
 }
 
 pub fn load() -> Result<ItemsData, Box<dyn StdError>> {

@@ -121,9 +121,9 @@ pub async fn get_or_create_user(
 mod tests {
     use chrono::{TimeDelta, Utc};
 
-    use super::*;
+    use crate::common::testing::PgPoolConn;
 
-    type PgPoolConn = sqlx::pool::PoolConnection<sqlx::Postgres>;
+    use super::*;
 
     async fn setup_user(db: &mut PgConnection) -> User {
         let user_id = Xid::new();

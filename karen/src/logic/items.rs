@@ -21,3 +21,15 @@ pub async fn create_items(db: &mut PgConnection, items: &[Item]) -> Result<(), s
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use crate::common::testing::PgPoolConn;
+
+    #[sqlx::test]
+    fn test_create_items(mut db: PgPoolConn) {
+
+    }
+}
