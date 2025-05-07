@@ -50,8 +50,34 @@ impl Item {
 
 #[cfg(test)]
 mod tests {
+    use crate::common::{data::ITEMS_DATA, xid::Xid};
+
+    use super::*;
+
     #[test]
     fn test_try_from_registry() {
-        todo!();
+        let item_registry_entry = ITEMS_DATA
+            .registry
+            .get("komodo 30000 supernova aerial firework")
+            .unwrap();
+
+        let user_id = Xid::new();
+        let item =
+            Item::try_from_registry(user_id, "KOMODO 30000 SuperNova Aerial FIREworK", 2).unwrap();
+
+        assert_eq!(item.user_id, user_id);
+        assert_eq!(item.name, "Komodo 30000 SuperNova Aerial Firework");
+        assert_eq!(item.sell_price, item_registry_entry.sell_price);
+        assert_eq!(item.amount, 2);
+        assert_eq!(item.sticky, item_registry_entry.sticky);
+        assert_eq!(item.sellable, item_registry_entry.sellable);
+    }
+
+    #[test]
+    fn test_try_from_registry_unknown_item() {
+        assert!(matches!(
+            Item::try_from_registry(Xid::new(), "DNE", 69),
+            Err(ItemConstructionError::NotRegistered(_))
+        ));
     }
 }
