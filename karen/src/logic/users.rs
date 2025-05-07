@@ -185,14 +185,8 @@ mod tests {
         assert_eq!(a.vote_streak, b.vote_streak);
         assert_eq!(a.last_vote_at, b.last_vote_at);
         assert_eq!(a.give_alert, b.give_alert);
-        assert_eq!(
-            a.shield_pearl_activated_at,
-            b.shield_pearl_activated_at
-        );
-        assert_eq!(
-            a.last_daily_quest_reroll,
-            b.last_daily_quest_reroll
-        );
+        assert_eq!(a.shield_pearl_activated_at, b.shield_pearl_activated_at);
+        assert_eq!(a.last_daily_quest_reroll, b.last_daily_quest_reroll);
         assert_eq!(a.modified_at, b.modified_at);
     }
 
@@ -211,13 +205,10 @@ mod tests {
     async fn test_get_user_by_discord_id(mut db: PgPoolConn) {
         let expected_user = setup_user(&mut db).await;
 
-        let user = get_user(
-            &mut db,
-            &UserId::Discord(expected_user.discord_id.unwrap()),
-        )
-        .await
-        .unwrap()
-        .unwrap();
+        let user = get_user(&mut db, &UserId::Discord(expected_user.discord_id.unwrap()))
+            .await
+            .unwrap()
+            .unwrap();
 
         assert_users_eq(user, expected_user);
     }
@@ -274,6 +265,37 @@ mod tests {
 
     #[sqlx::test]
     async fn test_create_default_user_items(mut db: PgPoolConn) {
-        todo!();
+        let user = setup_user(&mut db).await;
+
+        create_default_user_items(&mut db, user.id).await.unwrap();
+
+        let items = sqlx::query!("SELECT * FROM items WHERE user_id = $1", user.id.as_bytes())
+            .fetch_all(&mut *db)
+            .await
+            .unwrap();
+
+        let pickaxe = items.iter().find(|i| i.name == "Wood Pickaxe").unwrap();
+        assert_eq!(pickaxe.sell_price, 0);
+        assert_eq!(pickaxe.amount, 1);
+        assert!(pickaxe.sticky);
+        assert!(!pickaxe.sellable);
+
+        let sword = items.iter().find(|i| i.name == "Wood Sword").unwrap();
+        assert_eq!(sword.sell_price, 0);
+        assert_eq!(sword.amount, 1);
+        assert!(sword.sticky);
+        assert!(!sword.sellable);
+
+        let hoe = items.iter().find(|i| i.name == "Wood Hoe").unwrap();
+        assert_eq!(hoe.sell_price, 0);
+        assert_eq!(hoe.amount, 1);
+        assert!(hoe.sticky);
+        assert!(!hoe.sellable);
+
+        let wheat_seed = items.iter().find(|i| i.name == "Wheat Seed").unwrap();
+        assert_eq!(wheat_seed.sell_price, 24);
+        assert_eq!(wheat_seed.amount, 5);
+        assert!(!wheat_seed.sticky);
+        assert!(wheat_seed.sellable);
     }
 }
