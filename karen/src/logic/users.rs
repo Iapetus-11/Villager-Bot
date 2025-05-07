@@ -116,3 +116,164 @@ pub async fn get_or_create_user(
 
     Ok(user.unwrap())
 }
+
+#[cfg(test)]
+mod tests {
+    use chrono::{TimeDelta, Utc};
+
+    use super::*;
+
+    type PgPoolConn = sqlx::pool::PoolConnection<sqlx::Postgres>;
+
+    async fn setup_user(db: &mut PgConnection) -> User {
+        let user_id = Xid::new();
+
+        let now = Utc::now();
+        let ten_seconds_ago = now - TimeDelta::seconds(10);
+        let two_hours_ago = now - TimeDelta::hours(2);
+        let five_days_ago = now - TimeDelta::days(5);
+
+        let user = User {
+            id: user_id,
+            discord_id: Some(536986067140608041),
+            banned: true,
+            emeralds: 420,
+            vault_balance: 69,
+            vault_max: 666,
+            health: 19,
+            vote_streak: 2,
+            last_vote_at: Some(ten_seconds_ago),
+            give_alert: false,
+            shield_pearl_activated_at: Some(two_hours_ago),
+            last_daily_quest_reroll: Some(five_days_ago),
+            modified_at: now,
+        };
+
+        sqlx::query!(
+            r#"
+                INSERT INTO users (
+                    id, discord_id, banned, emeralds, vault_balance, vault_max, health, vote_streak, last_vote_at,
+                    give_alert, shield_pearl_activated_at, last_daily_quest_reroll, modified_at
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+            "#,
+            user.id.as_bytes(),
+            user.discord_id,
+            user.banned,
+            user.emeralds,
+            user.vault_balance,
+            user.vault_max,
+            user.health,
+            user.vote_streak,
+            user.last_vote_at,
+            user.give_alert,
+            user.shield_pearl_activated_at,
+            user.last_daily_quest_reroll,
+            user.modified_at,
+        ).execute(&mut *db).await.unwrap();
+
+        user
+    }
+
+    fn assert_users_eq(a: User, b: User) {
+        assert_eq!(a.id, b.id);
+        assert_eq!(a.discord_id, b.discord_id);
+        assert_eq!(a.banned, b.banned);
+        assert_eq!(a.emeralds, b.emeralds);
+        assert_eq!(a.vault_balance, b.vault_balance);
+        assert_eq!(a.vault_max, b.vault_max);
+        assert_eq!(a.health, b.health);
+        assert_eq!(a.vote_streak, b.vote_streak);
+        assert_eq!(a.last_vote_at, b.last_vote_at);
+        assert_eq!(a.give_alert, b.give_alert);
+        assert_eq!(
+            a.shield_pearl_activated_at,
+            b.shield_pearl_activated_at
+        );
+        assert_eq!(
+            a.last_daily_quest_reroll,
+            b.last_daily_quest_reroll
+        );
+        assert_eq!(a.modified_at, b.modified_at);
+    }
+
+    #[sqlx::test]
+    async fn test_get_user(mut db: PgPoolConn) {
+        let expected_user = setup_user(&mut db).await;
+        let user = get_user(&mut db, &UserId::Xid(expected_user.id))
+            .await
+            .unwrap()
+            .unwrap();
+
+        assert_users_eq(user, expected_user);
+    }
+
+    #[sqlx::test]
+    async fn test_get_user_by_discord_id(mut db: PgPoolConn) {
+        let expected_user = setup_user(&mut db).await;
+
+        let user = get_user(
+            &mut db,
+            &UserId::Discord(expected_user.discord_id.unwrap()),
+        )
+        .await
+        .unwrap()
+        .unwrap();
+
+        assert_users_eq(user, expected_user);
+    }
+
+    #[sqlx::test]
+    async fn test_get_nonexistent_user(mut db: PgPoolConn) {
+        let user = get_user(&mut db, &UserId::Xid(Xid::new())).await.unwrap();
+
+        assert!(user.is_none());
+    }
+
+    #[sqlx::test]
+    async fn test_get_or_create_nonexistent_user_from_discord(mut db: PgPoolConn) {
+        let discord_id = 536986067140608041;
+        let user_id = UserId::Discord(discord_id);
+
+        let user = get_or_create_user(&mut db, &user_id).await.unwrap();
+
+        assert_eq!(user.discord_id, Some(discord_id));
+
+        // Check defaults
+        assert!(!user.banned);
+        assert_eq!(user.emeralds, 0);
+        assert_eq!(user.vault_balance, 0);
+        assert_eq!(user.vault_max, 1);
+        assert_eq!(user.health, 20);
+        assert_eq!(user.vote_streak, 0);
+        assert_eq!(user.last_vote_at, None);
+        assert!(user.give_alert);
+        assert_eq!(user.shield_pearl_activated_at, None);
+        assert_eq!(user.last_daily_quest_reroll, None);
+        assert!(user.modified_at > (Utc::now() - TimeDelta::seconds(10)));
+    }
+
+    #[sqlx::test]
+    async fn test_get_or_create_existing_user(mut db: PgPoolConn) {
+        let expected_user = setup_user(&mut db).await;
+        let user = get_or_create_user(&mut db, &UserId::Xid(expected_user.id))
+            .await
+            .unwrap();
+
+        assert_users_eq(user, expected_user);
+    }
+
+    #[sqlx::test]
+    async fn test_get_or_create_existing_user_from_discord(mut db: PgPoolConn) {
+        let expected_user = setup_user(&mut db).await;
+        let user = get_or_create_user(&mut db, &UserId::Discord(expected_user.discord_id.unwrap()))
+            .await
+            .unwrap();
+
+        assert_users_eq(user, expected_user);
+    }
+
+    #[sqlx::test]
+    async fn test_create_default_user_items(mut db: PgPoolConn) {
+        todo!();
+    }
+}
