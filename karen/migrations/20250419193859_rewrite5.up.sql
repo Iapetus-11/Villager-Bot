@@ -86,7 +86,6 @@ ALTER TABLE users RENAME COLUMN shield_pearl TO shield_pearl_activated_at;
 ALTER TABLE users RENAME COLUMN last_dq_reroll TO last_daily_quest_reroll;
 ALTER TABLE users ALTER COLUMN last_daily_quest_reroll DROP NOT NULl;
 ALTER TABLE users ALTER COLUMN last_daily_quest_reroll DROP DEFAULT;
-
 ALTER TABLE users ADD COLUMN modified_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
 
 ALTER TABLE guilds RENAME TO discord_guilds;
@@ -102,6 +101,8 @@ INSERT INTO deduplicated_items (user_id, name, sell_price, amount, sticky, sella
 	FROM items;
 DROP TABLE items;
 ALTER TABLE deduplicated_items RENAME TO items;
+
+ALTER TABLE items ALTER COLUMN sell_price SET NOT NULL;
 
 ALTER TABLE discord_guilds ADD COLUMN disabled_commands VARCHAR[] NOT NULL DEFAULT '{}';
 UPDATE discord_guilds SET disabled_commands = ARRAY(SELECT command FROM disabled_commands WHERE discord_guild_id = discord_guilds.id);

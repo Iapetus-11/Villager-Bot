@@ -14,13 +14,13 @@ INSERT INTO disabled_commands SELECT id, UNNEST(disabled_commands) FROM discord_
 ALTER TABLE discord_guilds DROP COLUMN disabled_commands;
 
 ALTER TABLE items DROP CONSTRAINT unique_on_user_and_item;
+ALTER TABLE items ALTER COLUMN sell_price DROP NOT NULL;
 
 ALTER TABLE discord_guilds RENAME TO guilds;
 ALTER TABLE guilds RENAME COLUMN id TO guild_id;
 ALTER TABLE guilds RENAME COLUMN silly_triggers TO do_replies;
 
 ALTER TABLE users DROP COLUMN modified_at;
-
 ALTER TABLE users ALTER COLUMN last_daily_quest_reroll SET NOT NULl;
 ALTER TABLE users ALTER COLUMN last_daily_quest_reroll SET DEFAULT NOW();
 ALTER TABLE users RENAME COLUMN last_daily_quest_reroll TO last_dq_reroll;
