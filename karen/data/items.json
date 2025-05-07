@@ -1,5 +1,11 @@
 {
     "registry": {
+        "wood pickaxe": {
+            "name": "Wood Pickaxe",
+            "sell_price": 0,
+            "sticky": true,
+            "sellable": false
+        },
         "stone pickaxe": {
             "name": "Stone Pickaxe",
             "sell_price": 8,
@@ -30,6 +36,12 @@
             "sticky": true,
             "sellable": true
         },
+        "wood sword": {
+            "name": "Wood Sword",
+            "sell_price": 0,
+            "sticky": true,
+            "sellable": false
+        },
         "stone sword": {
             "name": "Stone Sword",
             "sell_price": 8,
@@ -59,6 +71,12 @@
             "sell_price": 2048,
             "sticky": true,
             "sellable": true
+        },
+        "wood hoe": {
+            "name": "Wood Hoe",
+            "sell_price": 0,
+            "sticky": true,
+            "sellable": false
         },
         "stone hoe": {
             "name": "Stone Hoe",
