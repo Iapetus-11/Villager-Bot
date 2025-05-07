@@ -25,7 +25,7 @@ struct UserDetailsView {
     last_vote_at: Option<DateTime<Utc>>,
     give_alert: bool,
     shield_pearl_activated_at: Option<DateTime<Utc>>,
-    last_daily_quest_reroll: DateTime<Utc>,
+    last_daily_quest_reroll: Option<DateTime<Utc>>,
     modified_at: DateTime<Utc>,
 }
 
