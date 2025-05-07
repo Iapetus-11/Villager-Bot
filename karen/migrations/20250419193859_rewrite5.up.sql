@@ -84,6 +84,8 @@ ALTER TABLE users RENAME COLUMN bot_banned TO banned;
 ALTER TABLE users RENAME COLUMN last_vote TO last_vote_at;
 ALTER TABLE users RENAME COLUMN shield_pearl TO shield_pearl_activated_at;
 ALTER TABLE users RENAME COLUMN last_dq_reroll TO last_daily_quest_reroll;
+ALTER TABLE users ALTER COLUMN last_daily_quest_reroll DROP NOT NULl;
+ALTER TABLE users ALTER COLUMN last_daily_quest_reroll DROP DEFAULT;
 
 ALTER TABLE users ADD COLUMN modified_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
 

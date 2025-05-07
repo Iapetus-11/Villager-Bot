@@ -21,6 +21,8 @@ ALTER TABLE guilds RENAME COLUMN silly_triggers TO do_replies;
 
 ALTER TABLE users DROP COLUMN modified_at;
 
+ALTER TABLE users ALTER COLUMN last_daily_quest_reroll SET NOT NULl;
+ALTER TABLE users ALTER COLUMN last_daily_quest_reroll SET DEFAULT NOW();
 ALTER TABLE users RENAME COLUMN last_daily_quest_reroll TO last_dq_reroll;
 ALTER TABLE users RENAME COLUMN shield_pearl_activated_at TO shield_pearl;
 ALTER TABLE users RENAME COLUMN last_vote_at TO last_vote;

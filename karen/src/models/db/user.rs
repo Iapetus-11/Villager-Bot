@@ -17,6 +17,6 @@ pub struct User {
     pub last_vote_at: Option<DateTime<Utc>>,
     pub give_alert: bool,
     pub shield_pearl_activated_at: Option<DateTime<Utc>>,
-    pub last_daily_quest_reroll: DateTime<Utc>,
+    pub last_daily_quest_reroll: Option<DateTime<Utc>>,
     pub modified_at: DateTime<Utc>,
 }
