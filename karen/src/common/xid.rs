@@ -151,7 +151,10 @@ mod tests {
         let xid = Xid::new();
         let serialized_xid = serde_json::to_string(&xid).unwrap();
 
-        assert_eq!(serialized_xid, serde_json::to_string(&xid.to_string()).unwrap())
+        assert_eq!(
+            serialized_xid,
+            serde_json::to_string(&xid.to_string()).unwrap()
+        )
     }
 
     #[test]
