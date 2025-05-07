@@ -7,9 +7,8 @@ use poem::{
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    common::{security::RequireAuthedClient, xid::Xid},
+    common::{data::COMMANDS_DATA, security::RequireAuthedClient, xid::Xid},
     logic::game::cooldowns::get_or_create_cooldown,
-    models::data::commands::CommandsData,
 };
 
 #[derive(Deserialize)]
@@ -27,11 +26,10 @@ struct CheckCooldownResponse {
 #[handler]
 pub async fn check_cooldown(
     db: Data<&sqlx::PgPool>,
-    commands_data: Data<&CommandsData>,
     data: Json<CheckCooldownRequest>,
     _: RequireAuthedClient,
 ) -> Result<Json<CheckCooldownResponse>, poem::Error> {
-    let Some(cooldown_seconds) = commands_data.cooldowns.get(&data.command) else {
+    let Some(cooldown_seconds) = COMMANDS_DATA.cooldowns.get(&data.command) else {
         return Err(poem::Error::from_string(
             format!("Command {:#?} does not have a cooldown", data.command),
             StatusCode::BAD_REQUEST,

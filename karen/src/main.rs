@@ -1,7 +1,7 @@
 use std::{env, error::Error as StdError, sync::Arc};
 
+use common::data::ITEMS_DATA;
 use logic::check_data::check_items_data;
-use models::data::{self};
 use poem::{
     EndpointExt, Server,
     listener::TcpListener,
@@ -27,9 +27,6 @@ pub enum CliError {
 async fn run_api() -> Result<(), Box<dyn StdError>> {
     let config = Arc::new(config::load());
 
-    let items_data = Arc::new(data::items::load()?);
-    let commands_data = Arc::new(data::commands::load()?);
-
     let db_pool = sqlx::postgres::PgPoolOptions::new()
         .max_connections(config.database_pool_size)
         .connect(&config.database_url)
@@ -37,10 +34,7 @@ async fn run_api() -> Result<(), Box<dyn StdError>> {
 
     let app = routes::setup_routes()
         .with(NormalizePath::new(TrailingSlash::Always))
-        .with(AddData::new(config.clone()))
         .with(AddData::new(db_pool.clone()))
-        .with(AddData::new(items_data))
-        .with(AddData::new(commands_data))
         .with(CatchPanic::new());
 
     println!(
@@ -56,8 +50,7 @@ async fn run_api() -> Result<(), Box<dyn StdError>> {
 }
 
 fn check_data() -> Result<(), Box<dyn StdError>> {
-    let items_data = data::items::load()?;
-    check_items_data(&items_data)?;
+    check_items_data(&ITEMS_DATA)?;
 
     println!("All data checked with no errors found!");
 

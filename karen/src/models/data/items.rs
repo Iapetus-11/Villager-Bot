@@ -1,8 +1,4 @@
-use std::{
-    collections::{BTreeMap, BTreeSet},
-    error::Error as StdError,
-    fs,
-};
+use std::collections::{BTreeMap, BTreeSet};
 
 use serde::Deserialize;
 
@@ -42,9 +38,4 @@ pub struct ItemsData {
     pub registry: ItemRegistry,
     pub shop: ItemShopData,
     pub findables: ItemFindableData,
-}
-
-pub fn load() -> Result<ItemsData, Box<dyn StdError>> {
-    let file_content = fs::read_to_string("data/items.json")?;
-    Ok(serde_json::from_str(&file_content)?)
 }

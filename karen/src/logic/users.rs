@@ -42,10 +42,10 @@ pub async fn create_default_user_items(
     create_items(
         db,
         &[
-            Item::new(user_id, "Wood Pickaxe", 0, 1, true, false),
-            Item::new(user_id, "Wood Sword", 0, 1, true, false),
-            Item::new(user_id, "Wood Hoe", 0, 1, true, false),
-            Item::new(user_id, "Wheat Seed", 24, 5, false, true),
+            Item::from_registry(user_id, "Wood Pickaxe", 1),
+            Item::from_registry(user_id, "Wood Sword", 1),
+            Item::from_registry(user_id, "Wood Hoe", 1),
+            Item::from_registry(user_id, "Wheat Seed", 5),
         ],
     )
     .await

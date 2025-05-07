@@ -3,7 +3,7 @@ use std::fmt::Debug;
 use serde::Serialize;
 use sqlx::FromRow;
 
-use crate::{common::xid::Xid, models::data::items::ItemRegistry};
+use crate::common::{data::ITEMS_DATA, xid::Xid};
 
 #[derive(Debug, thiserror::Error)]
 pub enum ItemConstructionError {
@@ -22,11 +22,15 @@ pub struct Item {
 }
 
 impl Item {
-    pub fn from_registry(registry: &ItemRegistry, user_id: Xid, name: impl Into<String>, amount: i64) -> Result<Self, ItemConstructionError> {
+    pub fn try_from_registry(
+        user_id: Xid,
+        name: impl Into<String>,
+        amount: i64,
+    ) -> Result<Self, ItemConstructionError> {
         let name: String = name.into().to_lowercase();
 
-        let Some(registry_data) = registry.get(&name) else {
-            return Err(ItemConstructionError::NotRegistered(name))
+        let Some(registry_data) = ITEMS_DATA.registry.get(&name) else {
+            return Err(ItemConstructionError::NotRegistered(name));
         };
 
         Ok(Self {
@@ -38,12 +42,16 @@ impl Item {
             sellable: registry_data.sellable,
         })
     }
+
+    pub fn from_registry(user_id: Xid, name: impl Into<String>, amount: i64) -> Self {
+        Self::try_from_registry(user_id, name, amount).unwrap()
+    }
 }
 
 #[cfg(test)]
 mod tests {
     #[test]
-    fn test_from_registry() {
+    fn test_try_from_registry() {
         todo!();
     }
 }
