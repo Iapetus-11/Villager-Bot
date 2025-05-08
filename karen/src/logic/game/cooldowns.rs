@@ -85,13 +85,7 @@ mod tests {
         let until = Utc::now() + TimeDelta::seconds(5);
 
         create_test_cooldown(&mut db, user.id, "mine", until).await;
-        create_test_cooldown(
-            &mut db,
-            user.id,
-            "fish",
-            Utc::now() + TimeDelta::minutes(1),
-        )
-        .await;
+        create_test_cooldown(&mut db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
 
         let cooldown = get_cooldown(&mut db, &user.id, "mine")
             .await
@@ -105,13 +99,7 @@ mod tests {
     async fn test_get_nonexistent_cooldown(mut db: PgPoolConn) {
         let user = create_test_user(&mut db).await;
 
-        create_test_cooldown(
-            &mut db,
-            user.id,
-            "fish",
-            Utc::now() + TimeDelta::minutes(1),
-        )
-        .await;
+        create_test_cooldown(&mut db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
 
         let cooldown = get_cooldown(&mut db, &user.id, "mine").await.unwrap();
 
@@ -124,13 +112,7 @@ mod tests {
         let until = Utc::now() + TimeDelta::seconds(5);
 
         create_test_cooldown(&mut db, user.id, "mine", until).await;
-        create_test_cooldown(
-            &mut db,
-            user.id,
-            "fish",
-            Utc::now() + TimeDelta::minutes(1),
-        )
-        .await;
+        create_test_cooldown(&mut db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
 
         let (cooldown, was_created) = get_or_create_cooldown(
             &mut db,
@@ -150,13 +132,7 @@ mod tests {
         let user = create_test_user(&mut db).await;
         let until = Utc::now() + TimeDelta::seconds(5);
 
-        create_test_cooldown(
-            &mut db,
-            user.id,
-            "fish",
-            Utc::now() + TimeDelta::minutes(1),
-        )
-        .await;
+        create_test_cooldown(&mut db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
 
         let (cooldown, was_created) = get_or_create_cooldown(&mut db, &user.id, "mine", until)
             .await
