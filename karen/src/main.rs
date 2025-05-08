@@ -1,7 +1,5 @@
 use std::{env, error::Error as StdError, sync::Arc};
 
-use common::data::ITEMS_DATA;
-use logic::check_data::check_items_data;
 use poem::{
     EndpointExt, Server,
     listener::TcpListener,
@@ -49,14 +47,6 @@ async fn run_api() -> Result<(), Box<dyn StdError>> {
     Ok(())
 }
 
-fn check_data() -> Result<(), Box<dyn StdError>> {
-    check_items_data(&ITEMS_DATA)?;
-
-    println!("All data checked with no errors found!");
-
-    Ok(())
-}
-
 #[tokio::main]
 async fn main() {
     let mut args = env::args().skip(1);
@@ -65,7 +55,6 @@ async fn main() {
 
     let result = match command.as_str() {
         "api" => run_api().await,
-        "check" => check_data(),
         "" => Err(CliError::MissingCommand.into()),
         unknown_command => Err(CliError::UnknownCommand(unknown_command.to_string()).into()),
     };
