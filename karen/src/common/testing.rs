@@ -56,15 +56,39 @@ pub async fn create_test_user(db: &mut PgConnection) -> User {
     user
 }
 
+pub struct TestDiscordGuild {
+    pub id: i64,
+    pub prefix: String,
+    pub language: String,
+    pub mc_server: Option<String>,
+    pub silly_triggers: bool,
+    pub disabled_commands: Vec<String>,
+}
 
-pub async fn create_test_discord_guild(db: &mut PgConnection) -> DiscordGuild {
+impl Default for TestDiscordGuild {
+    fn default() -> Self {
+        Self {
+            id: 641117791272960031,
+            prefix: "!!".to_string(),
+            language: "en".to_string(),
+            mc_server: Some("xenon.devilsquares.me".to_string()),
+            silly_triggers: true,
+            disabled_commands: vec!["pillage".to_string()],
+        }
+    }
+}
+
+pub async fn create_test_discord_guild(
+    db: &mut PgConnection,
+    create_options: TestDiscordGuild,
+) -> DiscordGuild {
     let discord_guild = DiscordGuild {
-        id: 641117791272960031,
-        prefix: "!!".to_string(),
-        language: "en".to_string(),
-        mc_server: Some("xenon.devilsquares.me".to_string()),
-        silly_triggers: true,
-        disabled_commands: vec!["pillage".to_string()],
+        id: create_options.id,
+        prefix: create_options.prefix,
+        language: create_options.language,
+        mc_server: create_options.mc_server,
+        silly_triggers: create_options.silly_triggers,
+        disabled_commands: create_options.disabled_commands,
     };
 
     sqlx::query!(
@@ -79,7 +103,10 @@ pub async fn create_test_discord_guild(db: &mut PgConnection) -> DiscordGuild {
         discord_guild.mc_server,
         discord_guild.silly_triggers,
         &discord_guild.disabled_commands,
-    ).execute(&mut *db).await.unwrap();
+    )
+    .execute(&mut *db)
+    .await
+    .unwrap();
 
     discord_guild
 }
