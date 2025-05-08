@@ -798,7 +798,8 @@
   "findable_seasons": {
     "easter": [[3, 31], [4, 23]],
     "halloween": [[10, 20], [11, 5]],
-    "4july": [[6, 30], [7, 15]]
+    "4july": [[6, 30], [7, 15]],
+    "discordbirthday": [[5,6],[5,20]]
   },
   "findables": [
     {
@@ -1003,6 +1004,27 @@
       "rarity": 120000,
       "sticky": false,
       "tags": ["mine", "fish", "mkwii", "disabled"]
+    },
+    {
+      "item": "Discord 10th Birthday Cake",
+      "sell_price": 768,
+      "rarity": 9999,
+      "sticky": false,
+      "tags": ["mine", "fish", "discordbirthday"]
+    },
+    {
+      "item": "Blurple Paint Bucket",
+      "sell_price": 512,
+      "rarity": 4096,
+      "sticky": false,
+      "tags": ["mine", "fish", "discordbirthday"]
+    },
+    {
+      "item": "Wumpus Statue",
+      "sell_price": 128,
+      "rarity": 999,
+      "sticky": false,
+      "tags": ["mine", "fish", "discordbirthday"]
     },
     {
       "item": "Red Easter Egg",
