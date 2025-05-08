@@ -77,7 +77,7 @@ mod tests {
             &mut db,
             &[
                 Item::from_registry(user.id, "slime BALL", 2),
-                Item::from_registry(user.id, "jar OF BEES", 256),
+                Item::from_registry(user.id, "jar OF BEES", 246),
             ],
         )
         .await
