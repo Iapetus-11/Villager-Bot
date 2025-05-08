@@ -58,65 +58,111 @@ pub async fn get_or_create_cooldown(
 mod tests {
     use chrono::TimeDelta;
 
-    use crate::common::testing::{create_test_user, PgPoolConn};
+    use crate::common::testing::{PgPoolConn, create_test_user};
 
     use super::*;
 
-    async fn create_test_cooldown(db: &mut PgConnection, user_id: Xid, command: impl Into<String>, until: DateTime<Utc>) {
+    async fn create_test_cooldown(
+        db: &mut PgConnection,
+        user_id: Xid,
+        command: impl Into<String>,
+        until: DateTime<Utc>,
+    ) {
         sqlx::query!(
             r#"INSERT INTO command_cooldowns (user_id, command, until) VALUES ($1, $2, $3)"#,
-            user_id.as_bytes(), command.into(), until,
-        ).execute(&mut *db).await.unwrap();
+            user_id.as_bytes(),
+            command.into(),
+            until,
+        )
+        .execute(&mut *db)
+        .await
+        .unwrap();
     }
 
     #[sqlx::test]
     async fn test_get_cooldown(mut db: PgPoolConn) {
-        let user = create_test_user(&mut *db).await;
+        let user = create_test_user(&mut db).await;
         let until = Utc::now() + TimeDelta::seconds(5);
 
-        create_test_cooldown(&mut *db, user.id, "mine", until).await;
-        create_test_cooldown(&mut *db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
+        create_test_cooldown(&mut db, user.id, "mine", until).await;
+        create_test_cooldown(
+            &mut db,
+            user.id,
+            "fish",
+            Utc::now() + TimeDelta::minutes(1),
+        )
+        .await;
 
-        let cooldown = get_cooldown(&mut *db, &user.id, "mine").await.unwrap().unwrap();
+        let cooldown = get_cooldown(&mut db, &user.id, "mine")
+            .await
+            .unwrap()
+            .unwrap();
 
         assert_eq!(cooldown, until);
     }
 
     #[sqlx::test]
     async fn test_get_nonexistent_cooldown(mut db: PgPoolConn) {
-        let user = create_test_user(&mut *db).await;
+        let user = create_test_user(&mut db).await;
 
-        create_test_cooldown(&mut *db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
+        create_test_cooldown(
+            &mut db,
+            user.id,
+            "fish",
+            Utc::now() + TimeDelta::minutes(1),
+        )
+        .await;
 
-        let cooldown = get_cooldown(&mut *db, &user.id, "mine").await.unwrap();
+        let cooldown = get_cooldown(&mut db, &user.id, "mine").await.unwrap();
 
-        assert!(matches!(cooldown, None));
+        assert!(cooldown.is_none());
     }
 
     #[sqlx::test]
     async fn test_get_or_create_existing_cooldown(mut db: PgPoolConn) {
-        let user = create_test_user(&mut *db).await;
+        let user = create_test_user(&mut db).await;
         let until = Utc::now() + TimeDelta::seconds(5);
 
-        create_test_cooldown(&mut *db, user.id, "mine", until).await;
-        create_test_cooldown(&mut *db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
+        create_test_cooldown(&mut db, user.id, "mine", until).await;
+        create_test_cooldown(
+            &mut db,
+            user.id,
+            "fish",
+            Utc::now() + TimeDelta::minutes(1),
+        )
+        .await;
 
-        let (cooldown, was_created) = get_or_create_cooldown(&mut *db, &user.id, "mine", Utc::now() + TimeDelta::seconds(100)).await.unwrap();
+        let (cooldown, was_created) = get_or_create_cooldown(
+            &mut db,
+            &user.id,
+            "mine",
+            Utc::now() + TimeDelta::seconds(100),
+        )
+        .await
+        .unwrap();
 
         assert_eq!(cooldown, until);
-        assert_eq!(was_created, false);
+        assert!(!was_created);
     }
 
     #[sqlx::test]
     async fn test_get_or_create_nonexistent_cooldown(mut db: PgPoolConn) {
-        let user = create_test_user(&mut *db).await;
+        let user = create_test_user(&mut db).await;
         let until = Utc::now() + TimeDelta::seconds(5);
 
-        create_test_cooldown(&mut *db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
+        create_test_cooldown(
+            &mut db,
+            user.id,
+            "fish",
+            Utc::now() + TimeDelta::minutes(1),
+        )
+        .await;
 
-        let (cooldown, was_created) = get_or_create_cooldown(&mut *db, &user.id, "mine", until).await.unwrap();
+        let (cooldown, was_created) = get_or_create_cooldown(&mut db, &user.id, "mine", until)
+            .await
+            .unwrap();
 
         assert_eq!(cooldown, until);
-        assert_eq!(was_created, true);
+        assert!(was_created);
     }
 }
