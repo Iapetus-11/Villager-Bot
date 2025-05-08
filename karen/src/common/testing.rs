@@ -1,7 +1,7 @@
 use chrono::{TimeDelta, Utc};
 use sqlx::PgConnection;
 
-use crate::models::db::User;
+use crate::models::db::{DiscordGuild, User};
 
 use super::xid::Xid;
 
@@ -54,4 +54,32 @@ pub async fn create_test_user(db: &mut PgConnection) -> User {
     ).execute(&mut *db).await.unwrap();
 
     user
+}
+
+
+pub async fn create_test_discord_guild(db: &mut PgConnection) -> DiscordGuild {
+    let discord_guild = DiscordGuild {
+        id: 641117791272960031,
+        prefix: "!!".to_string(),
+        language: "en".to_string(),
+        mc_server: Some("xenon.devilsquares.me".to_string()),
+        silly_triggers: true,
+        disabled_commands: vec!["pillage".to_string()],
+    };
+
+    sqlx::query!(
+        r#"
+            INSERT INTO discord_guilds (
+                id, prefix, language, mc_server, silly_triggers, disabled_commands
+            ) VALUES ($1, $2, $3, $4, $5, $6)
+        "#,
+        discord_guild.id,
+        discord_guild.prefix,
+        discord_guild.language,
+        discord_guild.mc_server,
+        discord_guild.silly_triggers,
+        &discord_guild.disabled_commands,
+    ).execute(&mut *db).await.unwrap();
+
+    discord_guild
 }

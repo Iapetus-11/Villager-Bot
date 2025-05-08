@@ -51,3 +51,26 @@ pub async fn get_or_create_discord_guild(
 
     Ok(discord_guild.unwrap())
 }
+
+#[cfg(test)]
+mod tests {
+    #[sqlx::test]
+    async fn test_get_discord_guild() {
+
+    }
+
+    #[sqlx::test]
+    async fn test_get_nonexistent_discord_guild() {
+
+    }
+
+    #[sqlx::test]
+    async fn test_get_or_create_existing_discord_guild() {
+
+    }
+
+    #[sqlx::test]
+    async fn test_get_or_create_nonexistent_discord_guild() {
+
+    }
+}
