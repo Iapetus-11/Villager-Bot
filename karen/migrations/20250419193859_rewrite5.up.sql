@@ -114,5 +114,6 @@ DROP TABLE disabled_commands;
 CREATE TABLE command_cooldowns (
 	user_id   BYTEA NOT NULL REFERENCES users (id),
 	command   VARCHAR NOT NULL,
-	until     TIMESTAMPTZ NOT NULL
+	until     TIMESTAMPTZ NOT NULL,
+	PRIMARY KEY (user_id, command)
 );
