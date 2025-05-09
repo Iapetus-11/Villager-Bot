@@ -73,7 +73,10 @@ pub async fn get_user_details(
 mod tests {
     use sqlx::PgPool;
 
-    use crate::{common::testing::{setup_api_test_client, TEST_CONFIG}, logic::users::get_user};
+    use crate::{
+        common::testing::{TEST_CONFIG, setup_api_test_client},
+        logic::users::get_user,
+    };
 
     use super::*;
 
@@ -149,7 +152,10 @@ mod tests {
             .send()
             .await;
 
-        let user = get_user(&mut *db, &UserId::Discord(user_id)).await.unwrap().unwrap();
+        let user = get_user(&mut db, &UserId::Discord(user_id))
+            .await
+            .unwrap()
+            .unwrap();
 
         response.assert_status_is_ok();
         response.assert_json(UserDetailsView::from(user)).await;
