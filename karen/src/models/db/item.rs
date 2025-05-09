@@ -1,8 +1,5 @@
 use std::fmt::Debug;
 
-use serde::Serialize;
-use sqlx::FromRow;
-
 use crate::common::{data::ITEMS_DATA, xid::Xid};
 
 #[derive(Debug, thiserror::Error)]
@@ -11,7 +8,7 @@ pub enum ItemConstructionError {
     NotRegistered(String),
 }
 
-#[derive(Debug, FromRow, Serialize)]
+#[derive(Debug)]
 pub struct Item {
     pub user_id: Xid,
     pub name: String,

@@ -1,7 +1,4 @@
-use serde::Serialize;
-use sqlx::FromRow;
-
-#[derive(Debug, FromRow, Serialize)]
+#[derive(Debug)]
 pub struct DiscordGuild {
     pub id: i64,
     pub prefix: String,

@@ -1,10 +1,8 @@
 use chrono::{DateTime, Utc};
-use serde::Serialize;
-use sqlx::FromRow;
 
 use crate::common::xid::Xid;
 
-#[derive(Debug, FromRow, Serialize)]
+#[derive(Debug)]
 pub struct User {
     pub id: Xid,
     pub discord_id: Option<i64>,
