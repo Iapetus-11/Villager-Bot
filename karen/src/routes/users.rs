@@ -68,3 +68,90 @@ pub async fn get_user_details(
 
     Ok(Json(UserDetailsView::from(user_result.unwrap())))
 }
+
+#[cfg(test)]
+mod tests {
+    use sqlx::PgPool;
+
+    use crate::{common::testing::{setup_api_test_client, TEST_CONFIG}, logic::users::get_user};
+
+    use super::*;
+
+    #[sqlx::test]
+    async fn test_get_user_details_using_xid(db_pool: PgPool) {
+        let mut db = db_pool.acquire().await.unwrap();
+
+        let client = setup_api_test_client(db_pool);
+
+        let user = get_or_create_user(&mut db, &UserId::Discord(536986067140608041))
+            .await
+            .unwrap();
+
+        let response = client
+            .get(format!("/users/{}/", *user.id))
+            .header("Authorization", format!("Token {}", TEST_CONFIG.auth_token))
+            .send()
+            .await;
+
+        response.assert_status_is_ok();
+        response.assert_json(UserDetailsView::from(user)).await;
+    }
+
+    #[sqlx::test]
+    async fn test_get_user_details_using_discord_id(db_pool: PgPool) {
+        let mut db = db_pool.acquire().await.unwrap();
+
+        let client = setup_api_test_client(db_pool);
+
+        let user = get_or_create_user(&mut db, &UserId::Discord(536986067140608041))
+            .await
+            .unwrap();
+
+        let response = client
+            .get(format!("/users/{}/", user.discord_id.unwrap()))
+            .header("Authorization", format!("Token {}", TEST_CONFIG.auth_token))
+            .send()
+            .await;
+
+        response.assert_status_is_ok();
+        response.assert_json(UserDetailsView::from(user)).await;
+    }
+
+    #[sqlx::test]
+    async fn test_get_user_details_for_nonexistent_user_using_xid(db_pool: PgPool) {
+        let client = setup_api_test_client(db_pool);
+
+        let fake_user_id = Xid::new();
+
+        let response = client
+            .get(format!("/users/{}/", *fake_user_id))
+            .header("Authorization", format!("Token {}", TEST_CONFIG.auth_token))
+            .send()
+            .await;
+
+        response.assert_status(StatusCode::BAD_REQUEST);
+        response
+            .assert_text("User does not exist, and cannot create a new one from an Xid")
+            .await;
+    }
+
+    #[sqlx::test]
+    async fn test_get_user_details_for_nonexistent_user_using_discord_id(db_pool: PgPool) {
+        let mut db = db_pool.acquire().await.unwrap();
+
+        let client = setup_api_test_client(db_pool);
+
+        let user_id = 639498607632056321_i64;
+
+        let response = client
+            .get(format!("/users/{user_id}/"))
+            .header("Authorization", format!("Token {}", TEST_CONFIG.auth_token))
+            .send()
+            .await;
+
+        let user = get_user(&mut *db, &UserId::Discord(user_id)).await.unwrap().unwrap();
+
+        response.assert_status_is_ok();
+        response.assert_json(UserDetailsView::from(user)).await;
+    }
+}
