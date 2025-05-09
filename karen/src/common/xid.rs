@@ -1,4 +1,7 @@
-use std::{fmt, str::FromStr};
+use std::{
+    fmt::{self},
+    str::FromStr,
+};
 
 use serde::{
     Deserialize, Deserializer, Serialize,

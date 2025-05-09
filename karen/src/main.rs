@@ -32,6 +32,7 @@ async fn run_api() -> Result<(), Box<dyn StdError>> {
 
     let app = routes::setup_routes()
         .with(NormalizePath::new(TrailingSlash::Always))
+        .with(AddData::new(config.clone()))
         .with(AddData::new(db_pool.clone()))
         .with(CatchPanic::new());
 
