@@ -134,14 +134,14 @@ class VillagerBotCluster(commands.AutoShardedBot):
 
     async def get_prefix(self, message: discord.Message) -> str:
         if message.guild:
-            guild_settings = await self.karen.cached.discord_guilds.get(message.guild.id)
+            guild_settings = await self.karen.discord.cached.guilds.get(message.guild.id)
             return guild_settings.prefix
 
         return self.k.default_prefix
 
     async def get_language(self, ctx: CustomContext) -> Translation:
         if ctx.guild:
-            guild_settings = await self.karen.cached.discord_guilds.get(ctx.guild.id)
+            guild_settings = await self.karen.discord.cached.guilds.get(ctx.guild.id)
             return self.l[guild_settings.language]
 
         return self.l["en"]
@@ -229,7 +229,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
         command_name = ctx.command.qualified_name
 
         karen_user = await self.karen.cached.users.get(ctx.author.id)
-        karen_guild_settings = (await self.karen.cached.discord_guilds.get(ctx.guild.id)) if ctx.guild else None
+        karen_guild_settings = (await self.karen.discord.cached.guilds.get(ctx.guild.id)) if ctx.guild else None
 
         if karen_user.banned:
             ctx.failure_reason = "bot_banned"
