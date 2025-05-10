@@ -1,0 +1,194 @@
+[project]
+name = "Villager-Bot"
+version = "0.0.1"
+license = "MIT"
+
+[tool.poetry]
+packages = [
+    { include = "scripts" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+aiofiles = "^23.1.0"
+aiohttp = {version = "^3.11.18", extras = ["speedups"]}
+arrow = "^1.3.0"
+async-cse = "^0.3.0"
+aio-mc-rcon = "^3.4.1"
+cryptography = "^44.0.2"
+Cython = "^3.0.12"
+numpy = "^1.20.3"
+opencv-python = "^4.5.2"
+imageio = "^2.9.0"
+Pillow = "^11.2.1"
+psutil = "^5.9.4"
+moviepy = "^1.0.3"
+pydantic = "^2.11.3"
+python-dotenv = "^1.0.0"
+"discord.py" = "^2.5.2"
+colorlog = "^6.6.0"
+captcha = "^0.5.0"
+minecraftstatus = "^0.1.0"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.15.0"
+types-psutil = "^5.9.3"
+pytest = "^7.1.3"
+types-aiofiles = "^22.1.0.9"
+ruff = "^0.11.7"
+
+[project.scripts]
+bot = "bot.__main__:main"
+check_text = "scripts:check_text"
+format_and_lint = "scripts:format_and_lint"
+generate_blockify_data = "scripts:generate_blockify_data"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+target-version = "py313"
+preview = true
+line-length = 120
+indent-width = 4
+
+[tool.ruff.lint]
+# https://docs.astral.sh/ruff/rules
+extend-select = [
+    "I",
+    "F",
+    "W",
+    "E",
+    "COM818",
+    "COM819",
+    "D300",
+    "UP003",
+    "UP004",
+    "UP006",
+    "UP007",
+    "UP010",
+    "UP032",
+    "B006",
+    "B007",
+    "B014",
+    "B015",
+    "B016",
+    "B018",
+    "B021",
+    "B022",
+    "B032",
+    "B033",
+    "DTZ001",
+    "DTZ003",
+    "DTZ005",
+    "G010",
+    "G201",
+    "PIE790",
+    "PIE794",
+    "PIE796",
+    "T201",
+    "PT013",
+    "PT014",
+    "Q000",
+    "Q002",
+    "Q003",
+    "Q004",
+    "RET501",
+    "RET502",
+    "RET503",
+    "RET504",
+    "RET505",
+    "RET506",
+    "RET507",
+    "RET508",
+    "SIM101",
+    "SIM102",
+    "SIM103",
+    "SIM110",
+    "SIM112",
+    "SIM113",
+    "SIM114",
+    "SIM115",
+    "SIM117",
+    "SIM118",
+    "SIM201",
+    "SIM202",
+    "SIM208",
+    "SIM210",
+    "SIM211",
+    "SIM212",
+    "SIM220",
+    "SIM221",
+    "SIM222",
+    "SIM223",
+    "SIM300",
+    "SIM910",
+    "SIM911",
+    "TD004",
+    "TD005",
+    "TD006",
+    "TD007",
+    "PLE0604",
+    "PLE0605",
+    "PLE0704",
+    "PLE1205",
+    "PLE1206",
+    "YTT",
+    "S110",
+    "S112",
+    "S113",
+    "A",
+    "C4",
+    "DJ013",
+    "PYI013",
+    "PYI018",
+    "PYI030",
+    "PYI034",
+    "PYI042",
+    "PYI043",
+    "PYI046",
+    "PYI047",
+    "PYI049",
+    "PYI051",
+    "PT010",
+    "PT020",
+    "PT021",
+    "PT022",
+    "PERF101",
+    "PERF102",
+    "PERF402",
+    "PERF403",
+    "RUF013",
+    "RUF016",
+    "RUF017",
+    "RUF019",
+    "RUF020",
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"__init__.py" = ["F401", "F403"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "double"
+
+[tool.ruff.format]
+quote-style = "double"
+line-ending = "lf"
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint.isort]
+sections = { bot = ["bot"] }
+section-order = ["future", "standard-library", "third-party", "bot", "first-party", "local-folder"]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+files = ["bot/**/*.py"]
+python_version = "3.13"
+warn_unused_configs = true
+namespace_packages = true
+explicit_package_bases = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

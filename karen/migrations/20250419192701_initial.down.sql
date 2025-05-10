@@ -1,0 +1,15 @@
+DROP TABLE guilds;
+DROP TABLE users;
+DROP TABLE items;
+DROP TABLE trash_can;
+DROP TABLE badges;
+DROP TABLE leaderboards;
+DROP TABLE daily_quests;
+DROP TABLE farm_plots;
+DROP TABLE give_logs;
+DROP TABLE reminders;
+DROP TABLE warnings;
+DROP TABLE disabled_commands;
+DROP TABLE user_rcon;
+DROP TABLE guild_events;
+DROP TABLE command_executions;

@@ -1,0 +1,1538 @@
+{
+    "registry": {
+        "wood pickaxe": {
+            "name": "Wood Pickaxe",
+            "sell_price": 0,
+            "sticky": true,
+            "sellable": false
+        },
+        "stone pickaxe": {
+            "name": "Stone Pickaxe",
+            "sell_price": 8,
+            "sticky": true,
+            "sellable": true
+        },
+        "iron pickaxe": {
+            "name": "Iron Pickaxe",
+            "sell_price": 32,
+            "sticky": true,
+            "sellable": true
+        },
+        "gold pickaxe": {
+            "name": "Gold Pickaxe",
+            "sell_price": 128,
+            "sticky": true,
+            "sellable": true
+        },
+        "diamond pickaxe": {
+            "name": "Diamond Pickaxe",
+            "sell_price": 512,
+            "sticky": true,
+            "sellable": true
+        },
+        "netherite pickaxe": {
+            "name": "Netherite Pickaxe",
+            "sell_price": 2048,
+            "sticky": true,
+            "sellable": true
+        },
+        "wood sword": {
+            "name": "Wood Sword",
+            "sell_price": 0,
+            "sticky": true,
+            "sellable": false
+        },
+        "stone sword": {
+            "name": "Stone Sword",
+            "sell_price": 8,
+            "sticky": true,
+            "sellable": true
+        },
+        "iron sword": {
+            "name": "Iron Sword",
+            "sell_price": 32,
+            "sticky": true,
+            "sellable": true
+        },
+        "gold sword": {
+            "name": "Gold Sword",
+            "sell_price": 128,
+            "sticky": true,
+            "sellable": true
+        },
+        "diamond sword": {
+            "name": "Diamond Sword",
+            "sell_price": 512,
+            "sticky": true,
+            "sellable": true
+        },
+        "netherite sword": {
+            "name": "Netherite Sword",
+            "sell_price": 2048,
+            "sticky": true,
+            "sellable": true
+        },
+        "wood hoe": {
+            "name": "Wood Hoe",
+            "sell_price": 0,
+            "sticky": true,
+            "sellable": false
+        },
+        "stone hoe": {
+            "name": "Stone Hoe",
+            "sell_price": 8,
+            "sticky": true,
+            "sellable": true
+        },
+        "iron hoe": {
+            "name": "Iron Hoe",
+            "sell_price": 32,
+            "sticky": true,
+            "sellable": true
+        },
+        "gold hoe": {
+            "name": "Gold Hoe",
+            "sell_price": 128,
+            "sticky": true,
+            "sellable": true
+        },
+        "diamond hoe": {
+            "name": "Diamond Hoe",
+            "sell_price": 512,
+            "sticky": true,
+            "sellable": true
+        },
+        "netherite hoe": {
+            "name": "Netherite Hoe",
+            "sell_price": 2048,
+            "sticky": true,
+            "sellable": true
+        },
+        "fishing rod": {
+            "name": "Fishing Rod",
+            "sell_price": 256,
+            "sticky": true,
+            "sellable": true
+        },
+        "haste i potion": {
+            "name": "Haste I Potion",
+            "sell_price": 32,
+            "sticky": false,
+            "sellable": true
+        },
+        "fortune i book": {
+            "name": "Fortune I Book",
+            "sell_price": 24,
+            "sticky": false,
+            "sellable": true
+        },
+        "jar of bees": {
+            "name": "Jar Of Bees",
+            "sell_price": 2,
+            "sticky": false,
+            "sellable": true
+        },
+        "netherite scrap": {
+            "name": "Netherite Scrap",
+            "sell_price": 8,
+            "sticky": false,
+            "sellable": true
+        },
+        "rich person trophy": {
+            "name": "Rich Person Trophy",
+            "sell_price": 1024,
+            "sticky": true,
+            "sellable": true
+        },
+        "vault potion": {
+            "name": "Vault Potion",
+            "sell_price": 30,
+            "sticky": false,
+            "sellable": true
+        },
+        "sharpness i book": {
+            "name": "Sharpness I Book",
+            "sell_price": 32,
+            "sticky": false,
+            "sellable": true
+        },
+        "slime trophy": {
+            "name": "Slime Trophy",
+            "sell_price": 2048,
+            "sticky": true,
+            "sellable": true
+        },
+        "fishing trophy": {
+            "name": "Fishing Trophy",
+            "sell_price": 2048,
+            "sticky": true,
+            "sellable": true
+        },
+        "glass beaker": {
+            "name": "Glass Beaker",
+            "sell_price": 2,
+            "sticky": false,
+            "sellable": true
+        },
+        "time pearl": {
+            "name": "Time Pearl",
+            "sell_price": 3333,
+            "sticky": true,
+            "sellable": true
+        },
+        "shield pearl": {
+            "name": "Shield Pearl",
+            "sell_price": 3333,
+            "sticky": true,
+            "sellable": true
+        },
+        "wheat seed": {
+            "name": "Wheat Seed",
+            "sell_price": 32,
+            "sticky": false,
+            "sellable": true
+        },
+        "melon seed": {
+            "name": "Melon Seed",
+            "sell_price": 192,
+            "sticky": false,
+            "sellable": true
+        },
+        "chorus seed": {
+            "name": "Chorus Seed",
+            "sell_price": 384,
+            "sticky": false,
+            "sellable": true
+        },
+        "emerald fruit": {
+            "name": "Emerald Fruit",
+            "sell_price": 2048,
+            "sticky": false,
+            "sellable": true
+        },
+        "chorus fruit": {
+            "name": "Chorus Fruit",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "melon": {
+            "name": "Melon",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "potato": {
+            "name": "Potato",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "carrot": {
+            "name": "Carrot",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "wheat": {
+            "name": "Wheat",
+            "sell_price": 32,
+            "sticky": false,
+            "sellable": true
+        },
+        "luck potion": {
+            "name": "Luck Potion",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "lure i book": {
+            "name": "Lure I Book",
+            "sell_price": 32,
+            "sticky": false,
+            "sellable": true
+        },
+        "seaweed": {
+            "name": "Seaweed",
+            "sell_price": 420,
+            "sticky": false,
+            "sellable": true
+        },
+        "heart of the sea": {
+            "name": "Heart Of The Sea",
+            "sell_price": 420,
+            "sticky": false,
+            "sellable": true
+        },
+        "mooderald": {
+            "name": "Mooderald",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "recycler": {
+            "name": "Recycler",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "fortune ii book": {
+            "name": "Fortune II Book",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "fortune iii book": {
+            "name": "Fortune III Book",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "efficiency i book": {
+            "name": "Efficiency I Book",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "looting i book": {
+            "name": "Looting I Book",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "looting ii book": {
+            "name": "Looting II Book",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "sharpness ii book": {
+            "name": "Sharpness II Book",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "haste ii potion": {
+            "name": "Haste II Potion",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "bone meal": {
+            "name": "Bone Meal",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "barrel": {
+            "name": "Barrel",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "fishing bait": {
+            "name": "Fishing Bait",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "bane of pillagers amulet": {
+            "name": "Bane Of Pillagers Amulet",
+            "sell_price": 4096,
+            "sticky": true,
+            "sellable": true
+        },
+        "mushroom": {
+            "name": "Mushroom",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "fake item box": {
+            "name": "Fake Item Box",
+            "sell_price": 32,
+            "sticky": false,
+            "sellable": true
+        },
+        "item box": {
+            "name": "Item Box",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "banana": {
+            "name": "Banana",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "green shell": {
+            "name": "Green Shell",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "red shell": {
+            "name": "Red Shell",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "mega mushroom": {
+            "name": "Mega Mushroom",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "golden mushroom": {
+            "name": "Golden Mushroom",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "blue shell": {
+            "name": "Blue Shell",
+            "sell_price": 2048,
+            "sticky": false,
+            "sellable": true
+        },
+        "red easter egg": {
+            "name": "Red Easter Egg",
+            "sell_price": 32,
+            "sticky": false,
+            "sellable": true
+        },
+        "orange easter egg": {
+            "name": "Orange Easter Egg",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "yellow easter egg": {
+            "name": "Yellow Easter Egg",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "green easter egg": {
+            "name": "Green Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "blue easter egg": {
+            "name": "Blue Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "purple easter egg": {
+            "name": "Purple Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "red striped easter egg": {
+            "name": "Red Striped Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "orange striped easter egg": {
+            "name": "Orange Striped Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "yellow striped easter egg": {
+            "name": "Yellow Striped Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "green striped easter egg": {
+            "name": "Green Striped Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "blue striped easter egg": {
+            "name": "Blue Striped Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "purple striped easter egg": {
+            "name": "Purple Striped Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "red dotted easter egg": {
+            "name": "Red Dotted Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "orange dotted easter egg": {
+            "name": "Orange Dotted Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "yellow dotted easter egg": {
+            "name": "Yellow Dotted Easter Egg",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "green dotted easter egg": {
+            "name": "Green Dotted Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "blue dotted easter egg": {
+            "name": "Blue Dotted Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "purple dotted easter egg": {
+            "name": "Purple Dotted Easter Egg",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "golden easter egg": {
+            "name": "Golden Easter Egg",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "rainbow easter egg": {
+            "name": "Rainbow Easter Egg",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "rainbow sparkles easter egg": {
+            "name": "Rainbow Sparkles Easter Egg",
+            "sell_price": 2048,
+            "sticky": false,
+            "sellable": true
+        },
+        "bunny ears": {
+            "name": "Bunny Ears",
+            "sell_price": 2048,
+            "sticky": false,
+            "sellable": true
+        },
+        "rotten egg": {
+            "name": "Rotten Egg",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "golden bunny ears": {
+            "name": "Golden Bunny Ears",
+            "sell_price": 8192,
+            "sticky": false,
+            "sellable": true
+        },
+        "skeleton skull": {
+            "name": "Skeleton Skull",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "jack o lantern": {
+            "name": "Jack O Lantern",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "pumpkin": {
+            "name": "Pumpkin",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "spider web": {
+            "name": "Spider Web",
+            "sell_price": 16,
+            "sticky": false,
+            "sellable": true
+        },
+        "candy corn": {
+            "name": "Candy Corn",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "kitkat": {
+            "name": "KitKat",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "crunch bar": {
+            "name": "Crunch Bar",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "empty candy wrapper": {
+            "name": "Empty Candy Wrapper",
+            "sell_price": 0,
+            "sticky": false,
+            "sellable": true
+        },
+        "will o wisp": {
+            "name": "Will O Wisp",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "pumpkin pie": {
+            "name": "Pumpkin Pie",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "red firework rocket": {
+            "name": "Red Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "blue firework rocket": {
+            "name": "Blue Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "green firework rocket": {
+            "name": "Green Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "orange firework rocket": {
+            "name": "Orange Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "purple firework rocket": {
+            "name": "Purple Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "yellow firework rocket": {
+            "name": "Yellow Firework Rocket",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "american flag": {
+            "name": "American Flag",
+            "sell_price": 128,
+            "sticky": false,
+            "sellable": true
+        },
+        "uncle sams hat": {
+            "name": "Uncle Sams Hat",
+            "sell_price": 256,
+            "sticky": false,
+            "sellable": true
+        },
+        "hot dog": {
+            "name": "Hot Dog",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "komodo 30000 supernova aerial firework": {
+            "name": "Komodo 30000 SuperNova Aerial Firework",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "firecracker": {
+            "name": "Firecracker",
+            "sell_price": 64,
+            "sticky": false,
+            "sellable": true
+        },
+        "declaration of independence": {
+            "name": "Declaration Of Independence",
+            "sell_price": 768,
+            "sticky": false,
+            "sellable": true
+        },
+        "infernum's scroll": {
+            "name": "Infernum's Scroll",
+            "sell_price": 512,
+            "sticky": false,
+            "sellable": true
+        },
+        "ender pearl": {
+            "name": "Ender Pearl",
+            "sell_price": 1024,
+            "sticky": false,
+            "sellable": true
+        },
+        "slime ball": {
+            "name": "Slime Ball",
+            "sell_price": 5,
+            "sticky": true,
+            "sellable": true
+        }
+    },
+    "shop": {
+        "stone pickaxe": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 32,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "iron pickaxe": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 128,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "gold pickaxe": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 512,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "diamond pickaxe": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 2048,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "netherite pickaxe": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 8192,
+            "requires": {
+                "count_lt": 1,
+                "items": {
+                    "netherite scrap": 4
+                }
+            }
+        },
+        "stone sword": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 32,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "iron sword": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 128,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "gold sword": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 512,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "diamond sword": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 2048,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "netherite sword": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 8192,
+            "requires": {
+                "count_lt": 1,
+                "items": {
+                    "netherite scrap": 6
+                }
+            }
+        },
+        "stone hoe": {
+            "categories": [
+                "tools",
+                "farming"
+            ],
+            "buy_price": 32,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "iron hoe": {
+            "categories": [
+                "tools",
+                "farming"
+            ],
+            "buy_price": 128,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "gold hoe": {
+            "categories": [
+                "tools",
+                "farming"
+            ],
+            "buy_price": 512,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "diamond hoe": {
+            "categories": [
+                "tools",
+                "farming"
+            ],
+            "buy_price": 2048,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "netherite hoe": {
+            "categories": [
+                "tools",
+                "farming"
+            ],
+            "buy_price": 8192,
+            "requires": {
+                "count_lt": 1,
+                "items": {
+                    "netherite scrap": 2
+                }
+            }
+        },
+        "fishing rod": {
+            "categories": [
+                "tools"
+            ],
+            "buy_price": 1024,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "haste i potion": {
+            "categories": [
+                "magic"
+            ],
+            "buy_price": 120
+        },
+        "fortune i book": {
+            "categories": [
+                "magic"
+            ],
+            "buy_price": 120
+        },
+        "jar of bees": {
+            "categories": [
+                "other"
+            ],
+            "buy_price": 8
+        },
+        "netherite scrap": {
+            "categories": [
+                "other"
+            ],
+            "buy_price": 32
+        },
+        "rich person trophy": {
+            "categories": [
+                "magic"
+            ],
+            "buy_price": 36000,
+            "requires": {
+                "count_lt": 1
+            }
+        },
+        "vault potion": {
+            "categories": [
+                "magic"
+            ],
+            "buy_price": 81
+        },
+        "sharpness i book": {
+            "categories": [
+                "magic"
+            ],
+            "buy_price": 120
+        },
+        "slime trophy": {
+            "categories": [
+                "other"
+            ],
+            "buy_price": 48000,
+            "requires": {
+                "count_lt": 1,
+                "items": {
+                    "slime ball": 24
+                }
+            }
+        },
+        "fishing trophy": {
+            "categories": [
+                "other"
+            ],
+            "buy_price": 48000,
+            "requires": {
+                "count_lt": 1,
+                "items": {
+                    "heart of the sea": 12
+                }
+            }
+        },
+        "glass beaker": {
+            "categories": [
+                "other"
+            ],
+            "buy_price": 8
+        },
+        "wheat seed": {
+            "categories": [
+                "farming"
+            ],
+            "buy_price": 40
+        },
+        "carrot": {
+            "categories": [
+                "farming"
+            ],
+            "buy_price": 72
+        },
+        "potato": {
+            "categories": [
+                "farming"
+            ],
+            "buy_price": 144
+        },
+        "melon seed": {
+            "categories": [
+                "farming"
+            ],
+            "buy_price": 384
+        },
+        "chorus seed": {
+            "categories": [
+                "farming"
+            ],
+            "buy_price": 512
+        },
+        "time pearl": {
+            "categories": [
+                "magic"
+            ],
+            "buy_price": 9999,
+            "requires": {
+                "items": {
+                    "ender pearl": 1,
+                    "mooderald": 1,
+                    "bone meal": 1,
+                    "slime ball": 4
+                }
+            }
+        },
+        "shield pearl": {
+            "categories": [
+                "magic"
+            ],
+            "buy_price": 9999,
+            "requires": {
+                "items": {
+                    "ender pearl": 1,
+                    "mooderald": 5,
+                    "slime ball": 4,
+                    "netherite scrap": 100
+                }
+            }
+        }
+    },
+    "findables": {
+        "fortune ii book": {
+            "rarity": 999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "fortune iii book": {
+            "rarity": 9999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "efficiency i book": {
+            "rarity": 6669,
+            "tags": [
+                "mine"
+            ]
+        },
+        "looting i book": {
+            "rarity": 1000,
+            "tags": [
+                "mine"
+            ]
+        },
+        "sharpness i book": {
+            "rarity": 1000,
+            "tags": [
+                "mine"
+            ]
+        },
+        "looting ii book": {
+            "rarity": 9999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "sharpness ii book": {
+            "rarity": 9999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "haste i potion": {
+            "rarity": 200,
+            "tags": [
+                "mine"
+            ]
+        },
+        "haste ii potion": {
+            "rarity": 1000,
+            "tags": [
+                "mine"
+            ]
+        },
+        "luck potion": {
+            "rarity": 3099,
+            "tags": [
+                "fish"
+            ]
+        },
+        "lure i book": {
+            "rarity": 200,
+            "tags": [
+                "fish"
+            ]
+        },
+        "seaweed": {
+            "rarity": 1666,
+            "tags": [
+                "fish"
+            ]
+        },
+        "heart of the sea": {
+            "rarity": 6669,
+            "tags": [
+                "fish"
+            ]
+        },
+        "mooderald": {
+            "rarity": 4096,
+            "tags": [
+                "fish"
+            ]
+        },
+        "bone meal": {
+            "rarity": 49999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "barrel": {
+            "rarity": 99999,
+            "tags": [
+                "mine"
+            ]
+        },
+        "recycler": {
+            "rarity": 99999,
+            "tags": [
+                "fish",
+                "mine"
+            ]
+        },
+        "fishing bait": {
+            "rarity": 12288,
+            "tags": [
+                "mine"
+            ]
+        },
+        "bane of pillagers amulet": {
+            "rarity": 500000,
+            "tags": [
+                "mine"
+            ]
+        },
+        "mushroom": {
+            "rarity": 6144,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "fake item box": {
+            "rarity": 512,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "item box": {
+            "rarity": 4096,
+            "tags": [
+                "mkwii",
+                "fish",
+                "mine",
+                "disabled"
+            ]
+        },
+        "banana": {
+            "rarity": 2048,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "green shell": {
+            "rarity": 3192,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "red shell": {
+            "rarity": 4096,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "mega mushroom": {
+            "rarity": 8192,
+            "tags": [
+                "mkwii",
+                "fish",
+                "mine",
+                "disabled"
+            ]
+        },
+        "golden mushroom": {
+            "rarity": 50000,
+            "tags": [
+                "mkwii",
+                "mine",
+                "disabled"
+            ]
+        },
+        "blue shell": {
+            "rarity": 120000,
+            "tags": [
+                "mkwii",
+                "fish",
+                "mine",
+                "disabled"
+            ]
+        },
+        "red easter egg": {
+            "rarity": 256,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "orange easter egg": {
+            "rarity": 512,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "yellow easter egg": {
+            "rarity": 512,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "green easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "blue easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "purple easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "red striped easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "orange striped easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "yellow striped easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "green striped easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "blue striped easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "purple striped easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "red dotted easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "orange dotted easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "yellow dotted easter egg": {
+            "rarity": 1024,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "green dotted easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "blue dotted easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "purple dotted easter egg": {
+            "rarity": 2048,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "golden easter egg": {
+            "rarity": 8192,
+            "tags": [
+                "fish",
+                "easter"
+            ]
+        },
+        "rainbow easter egg": {
+            "rarity": 8192,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "rainbow sparkles easter egg": {
+            "rarity": 16384,
+            "tags": [
+                "mine",
+                "easter"
+            ]
+        },
+        "bunny ears": {
+            "rarity": 16384,
+            "tags": [
+                "mine",
+                "easter"
+            ]
+        },
+        "rotten egg": {
+            "rarity": 512,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "golden bunny ears": {
+            "rarity": 131072,
+            "tags": [
+                "fish",
+                "mine",
+                "easter"
+            ]
+        },
+        "skeleton skull": {
+            "rarity": 4000,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "jack o lantern": {
+            "rarity": 4000,
+            "tags": [
+                "halloween",
+                "mine"
+            ]
+        },
+        "pumpkin": {
+            "rarity": 2000,
+            "tags": [
+                "halloween",
+                "mine"
+            ]
+        },
+        "spider web": {
+            "rarity": 500,
+            "tags": [
+                "halloween",
+                "mine"
+            ]
+        },
+        "candy corn": {
+            "rarity": 500,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "kitkat": {
+            "rarity": 500,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "crunch bar": {
+            "rarity": 500,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "empty candy wrapper": {
+            "rarity": 100,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "will o wisp": {
+            "rarity": 99999,
+            "tags": [
+                "halloween",
+                "fish",
+                "mine"
+            ]
+        },
+        "pumpkin pie": {
+            "rarity": 4000,
+            "tags": [
+                "halloween",
+                "mine"
+            ]
+        },
+        "red firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "blue firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "green firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "orange firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "purple firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "yellow firework rocket": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "american flag": {
+            "rarity": 1024,
+            "tags": [
+                "4july",
+                "fish",
+                "mine"
+            ]
+        },
+        "uncle sams hat": {
+            "rarity": 2048,
+            "tags": [
+                "4july",
+                "fish",
+                "mine"
+            ]
+        },
+        "hot dog": {
+            "rarity": 512,
+            "tags": [
+                "4july",
+                "fish",
+                "mine"
+            ]
+        },
+        "komodo 30000 supernova aerial firework": {
+            "rarity": 131072,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "firecracker": {
+            "rarity": 512,
+            "tags": [
+                "4july",
+                "mine"
+            ]
+        },
+        "declaration of independence": {
+            "rarity": 16384,
+            "tags": [
+                "4july",
+                "fish",
+                "mine"
+            ]
+        },
+        "infernum's scroll": {
+            "rarity": 8192,
+            "tags": [
+                "mine"
+            ]
+        }
+    }
+}
