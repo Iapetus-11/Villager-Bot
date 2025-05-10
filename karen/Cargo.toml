@@ -5,12 +5,12 @@ edition = "2024"
 
 [dependencies]
 chrono = { version = "0.4.40", features = ["serde"] }
-dotenv = "0.15.0"
+dotenvy = "0.15.7"
 poem = { version = "3.1.10", features = ["test"] }
 serde = "1.0.219"
 serde_json = "1.0.140"
 sqlx = { version = "0.8.5", features = ["postgres", "runtime-tokio-rustls", "chrono"] }
 subtle = "2.6.1"
 thiserror = "2.0.12"
-tokio = { version = "1.44.2", features = ["full"] }
+tokio = { version = "1.44.2", features = ["rt", "rt-multi-thread",  "macros"] }
 xid = "1.1.1"
