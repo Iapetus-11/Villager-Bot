@@ -60,6 +60,7 @@ mod tests {
     use crate::common::testing::{create_test_user, setup_api_test_client};
 
     use super::*;
+    use chrono::SubsecRound;
     use sqlx::PgPool;
 
     #[sqlx::test]
@@ -72,7 +73,6 @@ mod tests {
         let from = Utc::now();
 
         let client = setup_api_test_client(db_pool);
-
         let response = client
             .post("/game/cooldowns/check/")
             .body_json(&CheckCooldownRequest {
@@ -96,20 +96,19 @@ mod tests {
     async fn test_check_cooldown_existing_already(db_pool: PgPool) {
         let mut db = db_pool.acquire().await.unwrap();
 
-        let command = "help".to_string();
+        let command = "mine".to_string();
         let user = create_test_user(&mut db).await;
         let from = Utc::now();
         let (existing_cooldown, _) = get_or_create_cooldown(
             &mut db,
             &user.id,
             &command,
-            Utc::now() + TimeDelta::seconds(69),
+            Utc::now().trunc_subsecs(6) + TimeDelta::seconds(69),
         )
         .await
         .unwrap();
 
         let client = setup_api_test_client(db_pool);
-
         let response = client
             .post("/game/cooldowns/check/")
             .body_json(&CheckCooldownRequest {
@@ -126,6 +125,30 @@ mod tests {
                 already_on_cooldown: true,
                 cooldown: existing_cooldown,
             })
+            .await;
+    }
+
+    #[sqlx::test]
+    async fn test_command_does_not_have_cooldown(db_pool: PgPool) {
+        let mut db = db_pool.acquire().await.unwrap();
+
+        let user = create_test_user(&mut db).await;
+        let command = "help";
+
+        let client = setup_api_test_client(db_pool);
+        let response = client
+            .post("/game/cooldowns/check/")
+            .body_json(&CheckCooldownRequest {
+                user_id: user.id,
+                command: command.to_string(),
+                from: Utc::now(),
+            })
+            .send()
+            .await;
+
+        response.assert_status(StatusCode::BAD_REQUEST);
+        response
+            .assert_text(format!("Command {command:#?} does not have a cooldown"))
             .await;
     }
 }

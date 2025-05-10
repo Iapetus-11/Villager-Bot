@@ -132,10 +132,9 @@ mod tests {
     async fn test_get_user_details_for_nonexistent_user_using_discord_id(db_pool: PgPool) {
         let mut db = db_pool.acquire().await.unwrap();
 
-        let client = setup_api_test_client(db_pool);
-
         let user_id = 639498607632056321_i64;
 
+        let client = setup_api_test_client(db_pool);
         let response = client.get(format!("/users/{user_id}/")).send().await;
 
         let user = get_user(&mut db, &UserId::Discord(user_id))

@@ -48,3 +48,53 @@ pub async fn get_guild_details(
 
     Ok(Json(GuildDetailsView::from(discord_guild)))
 }
+
+#[cfg(test)]
+mod tests {
+    use sqlx::PgPool;
+
+    use crate::{
+        common::testing::{create_test_discord_guild, setup_api_test_client},
+        logic::discord_guilds::get_discord_guild,
+    };
+
+    use super::*;
+
+    #[sqlx::test]
+    async fn test_get_guild_details_of_existing_guild(db_pool: PgPool) {
+        let mut db = db_pool.acquire().await.unwrap();
+
+        let discord_guild = create_test_discord_guild(&mut db, Default::default()).await;
+
+        let client = setup_api_test_client(db_pool);
+        let response = client
+            .get(format!("/discord/guilds/{}", discord_guild.id))
+            .send()
+            .await;
+
+        response.assert_status_is_ok();
+        response
+            .assert_json(GuildDetailsView::from(discord_guild))
+            .await;
+    }
+
+    #[sqlx::test]
+    async fn test_get_guild_details_of_nonexistent_guild(db_pool: PgPool) {
+        let mut db = db_pool.acquire().await.unwrap();
+
+        let guild_id = 641117791272960031_i64;
+
+        let client = setup_api_test_client(db_pool);
+        let response = client
+            .get(format!("/discord/guilds/{}", guild_id))
+            .send()
+            .await;
+
+        let discord_guild = get_discord_guild(&mut db, guild_id).await.unwrap().unwrap();
+
+        response.assert_status_is_ok();
+        response
+            .assert_json(GuildDetailsView::from(discord_guild))
+            .await;
+    }
+}
