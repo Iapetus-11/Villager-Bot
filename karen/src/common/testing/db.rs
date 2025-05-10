@@ -1,22 +1,10 @@
-use std::sync::{Arc, LazyLock, OnceLock};
-
 use chrono::{SubsecRound, TimeDelta, Utc};
-use poem::{
-    EndpointExt,
-    endpoint::BoxEndpoint,
-    middleware::{AddData, CatchPanic, NormalizePath, TrailingSlash},
-    test::TestClient,
-};
 use sqlx::PgConnection;
 
 use crate::{
-    config::Config,
+    common::xid::Xid,
     models::db::{DiscordGuild, User},
-    routes,
 };
-
-use super::xid::Xid;
-
 pub type PgPoolConn = sqlx::pool::PoolConnection<sqlx::Postgres>;
 
 pub async fn create_test_user(db: &mut PgConnection) -> User {
@@ -122,36 +110,4 @@ pub async fn create_test_discord_guild(
     .unwrap();
 
     discord_guild
-}
-
-pub static TEST_CONFIG: LazyLock<Config> = LazyLock::new(|| Config {
-    database_url: "postgresql://test_user:password@example.com/villager-bot".to_string(),
-    database_pool_size: 0,
-    server_host_address: "http://127.0.0.1:-1".to_string(),
-    auth_token: "auth token".to_string(),
-});
-
-// Cache API test client to improve test execution speed
-static TEST_API_INSTANCE: OnceLock<Arc<BoxEndpoint<'static>>> = OnceLock::new();
-
-pub fn setup_api_test_client(db_pool: sqlx::PgPool) -> TestClient<BoxEndpoint<'static>> {
-    let cached_app = TEST_API_INSTANCE.get_or_init(|| {
-        let config = Config {
-            database_url: "postgresql://test_user:password@example.com/villager-bot".to_string(),
-            database_pool_size: 0,
-            server_host_address: "http://127.0.0.1:-1".to_string(),
-            auth_token: "auth token".to_string(),
-        };
-
-        let app = routes::setup_routes()
-            .with(NormalizePath::new(TrailingSlash::Always))
-            .with(AddData::new(config))
-            .with(CatchPanic::new());
-
-        Arc::new(app.boxed())
-    });
-
-    // I do not know exactly what #[sqlx::test] does under the hood, specifically if they reuse db pools between tests,
-    // either way I want to be safe.
-    TestClient::new(cached_app.clone().with(AddData::new(db_pool)).boxed())
 }
