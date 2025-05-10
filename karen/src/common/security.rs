@@ -21,7 +21,6 @@ impl<'a> poem::FromRequest<'a> for RequireAuthedClient {
             ));
         }
 
-        // TODO: Use constant time comparison here
         if !bool::from(
             authorization_header
                 .as_bytes()
