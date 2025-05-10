@@ -23,7 +23,7 @@ struct CheckCooldownRequest {
 #[cfg_attr(test, derive(Deserialize))]
 struct CheckCooldownResponse {
     already_on_cooldown: bool,
-    cooldown: DateTime<Utc>,
+    until: DateTime<Utc>,
 }
 
 #[handler]
@@ -44,14 +44,14 @@ pub async fn check_cooldown(
 
     let mut db = db.acquire().await.unwrap();
 
-    let (cooldown, already_on_cooldown) =
+    let (until, already_on_cooldown) =
         get_or_create_cooldown(&mut db, &data.user_id, &data.command, cooldown)
             .await
             .unwrap();
 
     Ok(Json(CheckCooldownResponse {
         already_on_cooldown,
-        cooldown,
+        until,
     }))
 }
 
@@ -87,7 +87,7 @@ mod tests {
         response
             .assert_json(CheckCooldownResponse {
                 already_on_cooldown: false,
-                cooldown: from + TimeDelta::seconds(*expected_cooldown_seconds as i64),
+                until: from + TimeDelta::seconds(*expected_cooldown_seconds as i64),
             })
             .await;
     }
@@ -98,7 +98,7 @@ mod tests {
 
         let command = "mine".to_string();
         let user = create_test_user(&mut db).await;
-        let from = Utc::now();
+        let from: DateTime<Utc> = Utc::now();
         let (existing_cooldown, _) = get_or_create_cooldown(
             &mut db,
             &user.id,
@@ -123,7 +123,7 @@ mod tests {
         response
             .assert_json(CheckCooldownResponse {
                 already_on_cooldown: true,
-                cooldown: existing_cooldown,
+                until: existing_cooldown,
             })
             .await;
     }
