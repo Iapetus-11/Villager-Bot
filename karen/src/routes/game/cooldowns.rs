@@ -12,12 +12,15 @@ use crate::{
 };
 
 #[derive(Deserialize)]
+#[cfg_attr(test, derive(Serialize))]
 struct CheckCooldownRequest {
     user_id: Xid,
     command: String,
+    from: DateTime<Utc>,
 }
 
 #[derive(Debug, Serialize)]
+#[cfg_attr(test, derive(Deserialize))]
 struct CheckCooldownResponse {
     already_on_cooldown: bool,
     cooldown: DateTime<Utc>,
@@ -36,12 +39,13 @@ pub async fn check_cooldown(
         ));
     };
 
-    let default_cooldown = Utc::now() + TimeDelta::seconds(*cooldown_seconds as i64);
+    // This cooldown will be used if there is no existing cooldown
+    let cooldown = data.from + TimeDelta::seconds(*cooldown_seconds as i64);
 
     let mut db = db.acquire().await.unwrap();
 
     let (cooldown, already_on_cooldown) =
-        get_or_create_cooldown(&mut db, &data.user_id, &data.command, default_cooldown)
+        get_or_create_cooldown(&mut db, &data.user_id, &data.command, cooldown)
             .await
             .unwrap();
 
@@ -59,11 +63,69 @@ mod tests {
     use sqlx::PgPool;
 
     #[sqlx::test]
-    async fn test_check_cooldown(db_pool: PgPool) {
+    async fn test_check_cooldown_nonexistent_cooldown(db_pool: PgPool) {
         let mut db = db_pool.acquire().await.unwrap();
+
+        let command = "mine".to_string();
+        let expected_cooldown_seconds = COMMANDS_DATA.cooldowns.get(&command).unwrap();
+        let user = create_test_user(&mut db).await;
+        let from = Utc::now();
 
         let client = setup_api_test_client(db_pool);
 
-        let user = create_test_user(&mut *db).await;
+        let response = client
+            .post("/game/cooldowns/check/")
+            .body_json(&CheckCooldownRequest {
+                user_id: user.id,
+                command,
+                from,
+            })
+            .send()
+            .await;
+
+        response.assert_status_is_ok();
+        response
+            .assert_json(CheckCooldownResponse {
+                already_on_cooldown: false,
+                cooldown: from + TimeDelta::seconds(*expected_cooldown_seconds as i64),
+            })
+            .await;
+    }
+
+    #[sqlx::test]
+    async fn test_check_cooldown_existing_already(db_pool: PgPool) {
+        let mut db = db_pool.acquire().await.unwrap();
+
+        let command = "help".to_string();
+        let user = create_test_user(&mut db).await;
+        let from = Utc::now();
+        let (existing_cooldown, _) = get_or_create_cooldown(
+            &mut db,
+            &user.id,
+            &command,
+            Utc::now() + TimeDelta::seconds(69),
+        )
+        .await
+        .unwrap();
+
+        let client = setup_api_test_client(db_pool);
+
+        let response = client
+            .post("/game/cooldowns/check/")
+            .body_json(&CheckCooldownRequest {
+                user_id: user.id,
+                command,
+                from,
+            })
+            .send()
+            .await;
+
+        response.assert_status_is_ok();
+        response
+            .assert_json(CheckCooldownResponse {
+                already_on_cooldown: true,
+                cooldown: existing_cooldown,
+            })
+            .await;
     }
 }

@@ -74,7 +74,7 @@ mod tests {
     use sqlx::PgPool;
 
     use crate::{
-        common::testing::{TEST_CONFIG, create_test_user, setup_api_test_client},
+        common::testing::{create_test_user, setup_api_test_client},
         logic::users::get_user,
     };
 
@@ -88,11 +88,7 @@ mod tests {
 
         let user = create_test_user(&mut db).await;
 
-        let response = client
-            .get(format!("/users/{}/", *user.id))
-            .header("Authorization", format!("Token {}", TEST_CONFIG.auth_token))
-            .send()
-            .await;
+        let response = client.get(format!("/users/{}/", *user.id)).send().await;
 
         response.assert_status_is_ok();
         response.assert_json(UserDetailsView::from(user)).await;
@@ -108,7 +104,6 @@ mod tests {
 
         let response = client
             .get(format!("/users/{}/", user.discord_id.unwrap()))
-            .header("Authorization", format!("Token {}", TEST_CONFIG.auth_token))
             .send()
             .await;
 
@@ -124,7 +119,6 @@ mod tests {
 
         let response = client
             .get(format!("/users/{}/", *fake_user_id))
-            .header("Authorization", format!("Token {}", TEST_CONFIG.auth_token))
             .send()
             .await;
 
@@ -142,11 +136,7 @@ mod tests {
 
         let user_id = 639498607632056321_i64;
 
-        let response = client
-            .get(format!("/users/{user_id}/"))
-            .header("Authorization", format!("Token {}", TEST_CONFIG.auth_token))
-            .send()
-            .await;
+        let response = client.get(format!("/users/{user_id}/")).send().await;
 
         let user = get_user(&mut db, &UserId::Discord(user_id))
             .await

@@ -23,6 +23,7 @@ pub async fn get_cooldown(
     .map(|r| r.until))
 }
 
+/// Gets or creates a cooldown, returning a tuple containing the cooldown and true if there already was one
 pub async fn get_or_create_cooldown(
     db: &mut PgConnection,
     user_id: &Xid,
@@ -30,7 +31,7 @@ pub async fn get_or_create_cooldown(
     default_cooldown: DateTime<Utc>,
 ) -> Result<(DateTime<Utc>, bool), sqlx::Error> {
     if let Some(cooldown) = get_cooldown(&mut *db, user_id, command).await? {
-        return Ok((cooldown, false));
+        return Ok((cooldown, true));
     }
 
     let creation_result = sqlx::query!(
@@ -49,7 +50,7 @@ pub async fn get_or_create_cooldown(
                 true,
             ));
         }
-        Ok(_) => Ok((default_cooldown, true)),
+        Ok(_) => Ok((default_cooldown, false)),
         Err(error) => Err(error),
     }
 }
@@ -114,7 +115,7 @@ mod tests {
         create_test_cooldown(&mut db, user.id, "mine", until).await;
         create_test_cooldown(&mut db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
 
-        let (cooldown, was_created) = get_or_create_cooldown(
+        let (cooldown, already_on_cooldown) = get_or_create_cooldown(
             &mut db,
             &user.id,
             "mine",
@@ -124,7 +125,7 @@ mod tests {
         .unwrap();
 
         assert_eq!(cooldown, until);
-        assert!(!was_created);
+        assert!(already_on_cooldown);
     }
 
     #[sqlx::test]
@@ -134,11 +135,12 @@ mod tests {
 
         create_test_cooldown(&mut db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
 
-        let (cooldown, was_created) = get_or_create_cooldown(&mut db, &user.id, "mine", until)
-            .await
-            .unwrap();
+        let (cooldown, already_on_cooldown) =
+            get_or_create_cooldown(&mut db, &user.id, "mine", until)
+                .await
+                .unwrap();
 
         assert_eq!(cooldown, until);
-        assert!(was_created);
+        assert!(!already_on_cooldown);
     }
 }
