@@ -1,7 +1,4 @@
-use poem::{
-    http::{HeaderValue, StatusCode},
-    web::headers::{Authorization, Header, authorization::Bearer},
-};
+use poem::http::StatusCode;
 use subtle::ConstantTimeEq;
 
 use crate::config::Config;
@@ -23,10 +20,17 @@ impl<'a> poem::FromRequest<'a> for RequireAuthedClient {
         };
 
         let Some(authorization_token) = authorization_header.strip_prefix("Bearer ") else {
-            return Err(poem::Error::from_string("invalid scheme in authorization header", StatusCode::UNAUTHORIZED));
+            return Err(poem::Error::from_string(
+                "invalid scheme in authorization header",
+                StatusCode::UNAUTHORIZED,
+            ));
         };
 
-        if !bool::from(authorization_token.as_bytes().ct_eq(config.auth_token.as_bytes())) {
+        if !bool::from(
+            authorization_token
+                .as_bytes()
+                .ct_eq(config.auth_token.as_bytes()),
+        ) {
             println!("Here 36");
             return Err(poem::Error::from_string(
                 "incorrect authorization header",
