@@ -5,11 +5,11 @@
     "misc": {
       "pingpong": "O prefixo para este servidor é `{0}` e o comando de ajuda é `{0}help`\nSe precisar de mais ajuda, pode se juntar ao **[Servidor de Suporte]({1})**.",
       "cooldown_msgs": [
-        "Seus pais não lhe disseram que [paciência é uma virtude](http://www.patience-is-a-virtue.org/)? Acalme-se e espere por mais **{}**.",
-        "Ei, você precisa esperar mais **{}** antes de fazer isso de novo.",
+        "Seus pais não lhe disseram que [paciência é uma virtude](http://www.patience-is-a-virtue.org/)? Tenha calma e espere mais **{}**.",
+        "Ei, você precisa esperar mais **{}** antes de fazer isso novamente.",
         "Hrmmm, parece que você precisa esperar mais **{}** antes de fazer isso de novo.",
         "Você não sabe que [paciência é uma virtude](http://www.patience-is-a-virtue.org/)?! Aguarde mais **{}**.",
-        "Acalme-se e espere por mais **{}**."
+        "Tenha calma e espere por mais **{}**."
       ],
       "errors": {
         "andioop": "Oops! Algo deu muito errado... Por favor, faça uma captura de tela e relate no **[Servidor de Suporte]({})**, obrigado!",
@@ -149,9 +149,9 @@
         "bubblewrap": "`{0}bubblewrap` *envia bolha virtual para você estourar*",
         "coinflip": "`{0}coinflip` *joga uma moeda e diz o resultado no chat*",
         "pat": "`{0}pat <usuário>` *bater brutalmente na cabeça de alguém*",
-        "slap": "`{0}slap <usuário>` *gentilmente da um tapa em alguém*",
+        "slap": "`{0}slap <usuário>` *gentilmente dá um tapa em alguém*",
         "achievement": "`{0}achievement <texto>` *gera uma conquista do Minecraft a partir do texto fornecido*",
-        "splashtext": "`{0}splashtext <texto>` *gera uma tela inicial do Minecraft com o texto fornecido",
+        "splashtext": "`{0}splashtext <texto>` *gera uma tela inicial do Minecraft com o texto fornecido*",
         "trivia": "`{0}trivia` * envia perguntas triviais que você pode responder por esmeraldas!*",
         "gayrate": "`{0}gayrate <user>` *diz o quão gay o usuário é*"
       },
@@ -164,11 +164,11 @@
         "ban": "`{0}ban <usuário> [opcional: excluir mensagens do dia] [opcional: motivo]` *bane o usuário do servidor Discord atual*",
         "pardon": "`{0}pardon <usuário>` *remove banimento do usuário do servidor Discord atual*",
         "mute": "`{0}mute <usuário> [tempo] [motivo]` *silencia o usuário no servidor Discord atual*",
-        "unmute": "`{0}unmute <usuário>` *remove silenciamento do usuário no servidor Discord atual*"
+        "unmute": "`{0}unmute <usuário>` *remove o silenciamento do usuário no servidor Discord atual*"
       }
     },
     "fun": {
-      "too_long": "Essa mensagem seria muito longa para ser convertida.",
+      "too_long": "Essa mensagem é muito longa para ser convertida.",
       "dl_img": "**[[Baixar Imagem]]({})**",
       "bubblewrap": {
         "invalid_size_1": "Esse não é um tamanho válido. Exemplo de tamanho válido: `10x10`",
@@ -202,7 +202,7 @@
           {
             "d": 2,
             "tf": false,
-            "q": "Quanta de vida que o Dragão Ender tem?",
+            "q": "Quanto de vida que o Dragão Ender tem?",
             "a": [
               "200 hp",
               "500 hp",
@@ -1263,7 +1263,7 @@
       }
     },
     "mobs_mech": {
-      "no_health": "Você não tem saúde suficiente para lutar contra essa monstro.",
+      "no_health": "Você não tem saúde suficiente para lutar contra esse monstro.",
       "type_engage": "Escreva `fight` para lutar contra o monstro!",
       "attack_or_flee": "Escreva `attack` para atacar, ou `flee` para fugir.",
       "flee_insults": [
@@ -1283,10 +1283,10 @@
         "Você cortou pedaços do **{0}** com sua **{1}**!",
         "Você cutucou o **{0}** no olho com sua **{1}**!",
         "Você investiu um ataque no **{0}** o esfaqueando com sua **{1}**!",
-        "Você cobrou o **{0}** e cortou-o com sua **{1}**!",
-        "Você cobrou o **{0}** e apunhalou-o com a sua **{1}**!",
-        "Você cobrou o **{0}** e cortou-o com sua **{1}**!",
-        "Você cobrou o **{0}** e com toda a sua força cutucou-o com a sua **{1}**!"
+        "Você avançou contra o **{0}** e cortou-o com sua **{1}**!",
+        "Você avançou contra o **{0}** e apunhalou-o com a sua **{1}**!",
+        "Você avançou contra o **{0}** e cortou-o com sua **{1}**!",
+        "Você avançou contra o **{0}** e com toda a sua força cutucou-o com a sua **{1}**!"
       ],
       "user_finishers": [
         "Você balançou a sua **{1}** o mais forte que pôde e decapitou o **{0}**!",
@@ -1567,9 +1567,9 @@
       },
       "mute": {
         "stupid_1": "Você não pode silenciar a si mesmo.",
-        "stupid_2": "Você usou uma formatação inválida, exemplo: `{0}mute @alguém 1w 2d 3h 4m tal razão` irá expulsar por uma semana, dois dias, três horas e quatro minutos.",
+        "stupid_2": "Você usou uma formatação inválida, exemplo: `{0}mute @alguém 1w 2d 3h 4m tal motivo` irá expulsar por uma semana, dois dias, três horas e quatro minutos.",
         "stupid_3": "Isso está num futuro distante!",
-        "mute_msg": "**{user}** foi silenciado porfoi silenciado por {duration}"
+        "mute_msg": "**{user}** foi silenciado por {duration}"
       },
       "unmute": {
         "stupid_1": "Você não pode retirar seu silenciamento.",
@@ -1770,8 +1770,8 @@
         "incorrect": "{} Resposta incorreta!"
       },
       "pp": {
-        "bot_1": "Ei, tonto, o Villager Bot tem muuuitas coisas para mostrar aqui.",
-        "bot_2": "Ei, tonto, os bots não têm direitos e, portanto, não podem ter itens ou esmeraldas.",
+        "bot_1": "Ei, cabeçudo, o Villager Bot tem muuuitas coisas para mostrar aqui.",
+        "bot_2": "Ei, bobão, os bots não têm direitos e, portanto, não podem ter itens ou esmeraldas.",
         "total_wealth": "Patrimônio Líquido",
         "mooderalds": "Mooderalds",
         "pick": "Picareta",
@@ -2088,9 +2088,9 @@
           "Uau, as abelhas fazem mel! Você acabou de receber {} frascos dele!"
         ],
         "ded": [
-          "Além disso, aparentemente as abelhas ficam muito irritadas quando você tenta roubar o mel delas. Você perdeu {} delas...",
-          "Opa, aparentemente as abelhas ficam muito bravas quando você tenta roubar delas, quem diria!? Você perdeu {} delas para o suicídio.",
-          "Parece que as abelhas ficam muito bravas quando você tenta roubá-las, você perdeu {} para o suicídio..."
+          "Além disso, aparentemente as abelhas ficam muito irritadas quando você tenta roubar o mel delas. Você perdeu {} abelhas...",
+          "Opa, aparentemente as abelhas ficam muito bravas quando você tenta roubar delas, quem diria!? Você perdeu {} abelhas.",
+          "Parece que as abelhas ficam muito bravas quando você tenta roubá-las, você perdeu {} abelhas..."
         ]
       },
       "lb": {
@@ -2504,8 +2504,8 @@
           "Luck Potion": {
             "description": [
               "> Quando usada com o comando `{prefix}chug Luck Potion`, você irá experienciar os efeitos listados abaixo por `4 minutos e 30 segundos`.",
-              "Aumentar significativamente as chances de:\n- Obter espaços de cofre extras ao executar comandos de economia.\n- Encontrar itens colecionáveis da mineração.\n- Encontrar isca de pesca ao esvaziar a `{prefix}trashcan`.",
-              "Diminuir significativamente as chances de:\n- Pescar lixo (em vez de itens colecionáveis ou peixes).\n- Perder abelhas ao usar o comando `{prefix}honey`."
+              "Aumenta significativamente as chances de:\n- Obter espaços de cofre extras ao executar comandos de economia.\n- Encontrar itens colecionáveis da mineração.\n- Encontrar isca de pesca ao esvaziar a `{prefix}trashcan`.",
+              "Diminui significativamente as chances de:\n- Pescar lixo (em vez de itens colecionáveis ou peixes).\n- Perder abelhas ao usar o comando `{prefix}honey`."
             ],
             "quoted": false
           },
