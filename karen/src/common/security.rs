@@ -1,4 +1,7 @@
-use poem::http::StatusCode;
+use poem::{
+    http::{HeaderValue, StatusCode},
+    web::headers::{Authorization, Header, authorization::Bearer},
+};
 use subtle::ConstantTimeEq;
 
 use crate::config::Config;
@@ -12,20 +15,19 @@ impl<'a> poem::FromRequest<'a> for RequireAuthedClient {
     ) -> poem::Result<Self> {
         let config = req.data::<Config>().unwrap();
 
-        let authorization_header = req.header("Authorization").unwrap_or("");
-
-        if authorization_header.is_empty() {
+        let Some(authorization_header) = req.header("Authorization") else {
             return Err(poem::Error::from_string(
                 "missing authorization header",
                 StatusCode::UNAUTHORIZED,
             ));
-        }
+        };
 
-        if !bool::from(
-            authorization_header
-                .as_bytes()
-                .ct_eq(format!("Token {}", config.auth_token).as_bytes()),
-        ) {
+        let Some(authorization_token) = authorization_header.strip_prefix("Bearer ") else {
+            return Err(poem::Error::from_string("invalid scheme in authorization header", StatusCode::UNAUTHORIZED));
+        };
+
+        if !bool::from(authorization_token.as_bytes().ct_eq(config.auth_token.as_bytes())) {
+            println!("Here 36");
             return Err(poem::Error::from_string(
                 "incorrect authorization header",
                 StatusCode::UNAUTHORIZED,
