@@ -23,7 +23,7 @@ fn get_env<T: FromStr>(key: &str) -> T {
 }
 
 pub fn load() -> Config {
-    dotenv::dotenv().unwrap();
+    dotenvy::dotenv().unwrap();
 
     let database_url: String = get_env("DATABASE_URL");
     let database_pool_size: u32 = get_env("DATABASE_POOL_SIZE");
