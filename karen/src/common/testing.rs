@@ -1,6 +1,6 @@
 use std::sync::{Arc, LazyLock, OnceLock};
 
-use chrono::{TimeDelta, Utc};
+use chrono::{SubsecRound, TimeDelta, Utc};
 use poem::{
     EndpointExt,
     endpoint::BoxEndpoint,
@@ -22,7 +22,8 @@ pub type PgPoolConn = sqlx::pool::PoolConnection<sqlx::Postgres>;
 pub async fn create_test_user(db: &mut PgConnection) -> User {
     let user_id = Xid::new();
 
-    let now = Utc::now();
+    // Truncate subsecs because for some reason the precision is weird on windows postgresql?
+    let now = Utc::now().trunc_subsecs(6);
     let ten_seconds_ago = now - TimeDelta::seconds(10);
     let two_hours_ago = now - TimeDelta::hours(2);
     let five_days_ago = now - TimeDelta::days(5);
