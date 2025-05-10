@@ -1010,21 +1010,21 @@
       "sell_price": 768,
       "rarity": 9999,
       "sticky": false,
-      "tags": ["mine", "fish", "discordbirthday"]
+      "tags": ["mine", "fish", "discord_birthday"]
     },
     {
       "item": "Blurple Paint Bucket",
       "sell_price": 512,
       "rarity": 4096,
       "sticky": false,
-      "tags": ["mine", "fish", "discordbirthday"]
+      "tags": ["mine", "fish", "discord_birthday"]
     },
     {
       "item": "Wumpus Statue",
       "sell_price": 128,
       "rarity": 999,
       "sticky": false,
-      "tags": ["mine", "fish", "discordbirthday"]
+      "tags": ["mine", "fish", "discord_birthday"]
     },
     {
       "item": "Red Easter Egg",
@@ -1598,9 +1598,9 @@
     "rainbow_sparkles_easter_egg": "<a:rainbow_sparkles_easter_egg:1265989015631302666>",
     "party_popper": "🎉",
     "bopa": "<:bopa:1261478828690247710>",
-    "discord_10th_cake": "<:birthday_cake_10th:1370074004542455949>",
-    "bluple_paint": "<:birthday_blurple_paint:1370395312505753700>",
-    "wumpus_statue": "<:birthday_wumpus_statue:1370395415043772416>",
+    "discord_10th_cake": "<:discord_10th_cake:1370074004542455949>",
+    "blurple_paint": "<:discord_blurple_paint:1370395312505753700>",
+    "wumpus_statue": "<:discord_wumpus_statue:1370395415043772416>",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emeraldf_g:927292976756031551>",
@@ -1889,7 +1889,7 @@
     "Party Popper": "party_popper",
     "Bane Of Pillagers Amulet": "bopa",
     "Discord 10th Birthday Cake": "discord_10th_cake",
-    "Blurple Paint Bucket": "bluple_paint",
+    "Blurple Paint Bucket": "blurple_paint",
     "Wumpus Statue": "wumpus_statue"
   },
   "farming": {
