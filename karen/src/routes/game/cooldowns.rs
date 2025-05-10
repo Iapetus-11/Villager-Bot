@@ -50,3 +50,20 @@ pub async fn check_cooldown(
         cooldown,
     }))
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::common::testing::{create_test_user, setup_api_test_client};
+
+    use super::*;
+    use sqlx::PgPool;
+
+    #[sqlx::test]
+    async fn test_check_cooldown(db_pool: PgPool) {
+        let mut db = db_pool.acquire().await.unwrap();
+
+        let client = setup_api_test_client(db_pool);
+
+        let user = create_test_user(&mut *db).await;
+    }
+}
