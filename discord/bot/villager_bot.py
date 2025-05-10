@@ -246,10 +246,10 @@ class VillagerBotCluster(commands.AutoShardedBot):
         # handle cooldowns that need to be synced between shard groups / processes
         # (aka karen cooldowns)
         if command_name in self.d.cooldown_rates:
-            cooldown_info = await self.karen.cooldown(command_name, ctx.author.id)
+            cooldown_info = await self.karen.game.command_cooldowns.check(karen_user.id, command_name)
 
-            if not cooldown_info.can_run:
-                ctx.custom_error = CommandOnKarenCooldown(cooldown_info.remaining)
+            if not cooldown_info.already_on_cooldown:
+                ctx.custom_error = CommandOnKarenCooldown(cooldown_info.until)
                 return False
 
         if command_name in self.d.concurrency_limited and not await self.karen.check_concurrency(

@@ -6,6 +6,7 @@ from datetime import timedelta
 import aiohttp
 
 from bot.services.karen.resources.discord import DiscordResourceGroup
+from bot.services.karen.resources.game import GameResourceGroup
 from bot.utils.urls import url_join
 
 from .cache import KarenResourceCache
@@ -55,6 +56,7 @@ class KarenClient:
 
         self.users = UsersResource(self._http)
         self.discord = DiscordResourceGroup(self._http)
+        self.game = GameResourceGroup(self._http)
 
         self.cached = self.Cached(self)
 
