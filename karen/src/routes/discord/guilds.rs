@@ -1,11 +1,15 @@
 use poem::{
+    error::NotFoundError,
     handler,
     web::{Data, Json, Path},
 };
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 use crate::{
-    common::security::RequireAuthedClient, logic::discord_guilds::get_or_create_discord_guild,
+    common::security::RequireAuthedClient,
+    logic::discord_guilds::{
+        DiscordGuildUpdateData, get_or_create_discord_guild, partial_update_discord_guild,
+    },
     models::db::DiscordGuild,
 };
 
@@ -49,74 +53,28 @@ pub async fn get_guild_details(
     Ok(Json(GuildDetailsView::from(discord_guild)))
 }
 
-#[derive(Serialize, Deserialize)]
-struct UpdateGuildData {
-    #[serde(
-        default,
-        deserialize_with = "crate::common::serde_helpers::deserialize_maybe_undefined",
-        skip_serializing_if = "Option::is_none"
-    )]
-    prefix: Option<Option<String>>,
-    #[serde(
-        default,
-        deserialize_with = "crate::common::serde_helpers::deserialize_maybe_undefined",
-        skip_serializing_if = "Option::is_none"
-    )]
-    language: Option<Option<String>>,
-    #[serde(
-        default,
-        deserialize_with = "crate::common::serde_helpers::deserialize_maybe_undefined",
-        skip_serializing_if = "Option::is_none"
-    )]
-    mc_server: Option<Option<String>>,
-    #[serde(
-        default,
-        deserialize_with = "crate::common::serde_helpers::deserialize_maybe_undefined",
-        skip_serializing_if = "Option::is_none"
-    )]
-    silly_triggers: Option<Option<bool>>,
-    #[serde(
-        default,
-        deserialize_with = "crate::common::serde_helpers::deserialize_maybe_undefined",
-        skip_serializing_if = "Option::is_none"
-    )]
-    disabled_commands: Option<Option<Vec<String>>>,
-}
-
 #[handler]
 pub async fn update_guild_details(
     db: Data<&sqlx::PgPool>,
     Path((guild_id,)): Path<(i64,)>,
-    Json(update_guild_data): Json<UpdateGuildData>,
+    Json(update_guild_data): Json<DiscordGuildUpdateData>,
     _: RequireAuthedClient,
 ) -> poem::Result<Json<GuildDetailsView>> {
     let mut db = db.acquire().await.unwrap();
 
-    // TODO:
-    // 1. Move this to logic layer
-    // 2. Add 404 handling
+    let updated_guild = partial_update_discord_guild(&mut db, guild_id, &update_guild_data)
+        .await
+        .unwrap();
 
-    let updated_guild = sqlx::query_as!(
-        DiscordGuild,
-        r#"
-            UPDATE discord_guilds
-            SET
-                prefix = CASE WHEN $2 ? 'prefix' THEN ($2->>'prefix')::VARCHAR ELSE prefix END
-            WHERE id = $1
-            RETURNING id, prefix, language, mc_server, silly_triggers, disabled_commands
-        "#,
-        guild_id,
-        serde_json::to_value(update_guild_data).unwrap(),
-    )
-    .fetch_one(&mut *db)
-    .await
-    .unwrap();
-
-    Ok(Json(GuildDetailsView::from(updated_guild)))
+    match updated_guild {
+        Some(updated_guild) => Ok(Json(GuildDetailsView::from(updated_guild))),
+        None => Err(NotFoundError.into()),
+    }
 }
 
 #[cfg(test)]
 mod tests {
+    use poem::http::StatusCode;
     use serde_json::json;
     use sqlx::PgPool;
 
@@ -174,9 +132,7 @@ mod tests {
         let client = setup_api_test_client(db_pool);
         let response = client
             .patch(format!("/discord/guilds/{}", discord_guild.id))
-            .body_json(&json!({
-                "prefix": "!?"
-            }))
+            .body_json(&json!({"prefix": "!?"}))
             .send()
             .await;
 
@@ -185,7 +141,24 @@ mod tests {
             .unwrap()
             .unwrap();
 
+        response.assert_status_is_ok();
+        response
+            .assert_json(GuildDetailsView::from(updated_discord_guild.clone()))
+            .await;
+
         assert_eq!(updated_discord_guild.prefix, "!?");
         assert_ne!(discord_guild.prefix, updated_discord_guild.prefix);
+    }
+
+    #[sqlx::test]
+    async fn test_update_guild_details_of_nonexistent_guild(db_pool: PgPool) {
+        let client = setup_api_test_client(db_pool);
+        let response = client
+            .patch(format!("/discord/guilds/{}", 123123123123123_i64))
+            .body_json(&json!({"prefix": "!?"}))
+            .send()
+            .await;
+
+        response.assert_status(StatusCode::NOT_FOUND);
     }
 }

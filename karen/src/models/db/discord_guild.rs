@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct DiscordGuild {
     pub id: i64,
     pub prefix: String,
