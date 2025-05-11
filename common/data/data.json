@@ -798,7 +798,8 @@
   "findable_seasons": {
     "easter": [[3, 31], [4, 23]],
     "halloween": [[10, 20], [11, 5]],
-    "4july": [[6, 30], [7, 15]]
+    "4july": [[6, 30], [7, 15]],
+    "discord_birthday": [[5,6], [5,20]]
   },
   "findables": [
     {
@@ -1003,6 +1004,27 @@
       "rarity": 120000,
       "sticky": false,
       "tags": ["mine", "fish", "mkwii", "disabled"]
+    },
+    {
+      "item": "Discord 10th Birthday Cake",
+      "sell_price": 768,
+      "rarity": 9999,
+      "sticky": false,
+      "tags": ["mine", "fish", "discord_birthday"]
+    },
+    {
+      "item": "Blurple Paint Bucket",
+      "sell_price": 512,
+      "rarity": 4096,
+      "sticky": false,
+      "tags": ["mine", "fish", "discord_birthday"]
+    },
+    {
+      "item": "Wumpus Statue",
+      "sell_price": 128,
+      "rarity": 999,
+      "sticky": false,
+      "tags": ["mine", "fish", "discord_birthday"]
     },
     {
       "item": "Red Easter Egg",
@@ -1576,6 +1598,9 @@
     "rainbow_sparkles_easter_egg": "<a:rainbow_sparkles_easter_egg:1265989015631302666>",
     "party_popper": "🎉",
     "bopa": "<:bopa:1261478828690247710>",
+    "discord_10th_cake": "<:discord_10th_cake:1370074004542455949>",
+    "blurple_paint": "<:discord_blurple_paint:1370395312505753700>",
+    "wumpus_statue": "<:discord_wumpus_statue:1370395415043772416>",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emeraldf_g:927292976756031551>",
@@ -1862,7 +1887,10 @@
     "Rona Vaccine": "rona_vaccine",
     "Rainbow Sparkles Easter Egg": "rainbow_sparkles_easter_egg",
     "Party Popper": "party_popper",
-    "Bane Of Pillagers Amulet": "bopa"
+    "Bane Of Pillagers Amulet": "bopa",
+    "Discord 10th Birthday Cake": "discord_10th_cake",
+    "Blurple Paint Bucket": "blurple_paint",
+    "Wumpus Statue": "wumpus_statue"
   },
   "farming": {
     "emojis": {
