@@ -19,6 +19,7 @@ class DiscordResourceGroup(KarenResourceBase):
         BASE_PATH = "/discord/"
 
         from .guild import DiscordGuildsResource
+
         self.guilds = DiscordGuildsResource(http, base_path=BASE_PATH)
 
         self.cached = self.Cached(self)

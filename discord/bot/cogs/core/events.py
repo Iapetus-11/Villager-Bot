@@ -1,4 +1,3 @@
-import datetime
 import random
 import time
 import traceback
@@ -366,19 +365,14 @@ class Events(commands.Cog):
         if isinstance(e, commands.CommandOnCooldown):
             await self.handle_command_cooldown(ctx, e.retry_after, False)
         elif isinstance(e, CommandOnKarenCooldownError):
-            await self.handle_command_cooldown(
-                ctx, (e.cooldown_until - datetime.datetime.now(datetime.timezone.utc)).total_seconds(), True
-            )
+            await self.handle_command_cooldown(ctx, e.remaining.total_seconds(), True)
         elif isinstance(e, commands.NoPrivateMessage):
             await ctx.reply_embed(ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
             await ctx.reply_embed(ctx.l.misc.errors.user_perms, ignore_exceptions=True)
-        elif (
-            isinstance(e, (commands.BotMissingPermissions | discord.errors.Forbidden))
-            and isinstance(
-                getattr(e, "original", None),
-                discord.errors.Forbidden,
-            )
+        elif isinstance(e, (commands.BotMissingPermissions | discord.errors.Forbidden)) and isinstance(
+            getattr(e, "original", None),
+            discord.errors.Forbidden,
         ):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif isinstance(e, commands.MaxConcurrencyReached | MaxKarenConcurrencyReached):
