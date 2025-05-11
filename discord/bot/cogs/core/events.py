@@ -1,3 +1,4 @@
+import datetime
 import random
 import time
 import traceback
@@ -10,6 +11,7 @@ from discord.ext import commands
 from bot.cogs.core.badges import Badges
 from bot.cogs.core.database import Database
 from bot.logic.ctx import Ctx
+from bot.logic.errors import CommandOnKarenCooldownError
 from bot.logic.home_guild import update_support_member_role
 from bot.utils.text import chunk_by_lines, text_to_discord_file
 from bot.villager_bot import VillagerBotCluster
@@ -59,6 +61,8 @@ class Events(commands.Cog):
         )
 
         await self.bot.final_ready.wait()
+
+        assert self.bot.error_channel is not None
         await self.bot.error_channel.send(
             f"```py\n{event_call_repr[:1920].replace('`', '｀')}```",
             file=text_to_discord_file(
@@ -71,14 +75,14 @@ class Events(commands.Cog):
     async def on_ready(self):
         self.bot.logger.info(f"Cluster {self.bot.cluster_id} READY")
 
-        self.bot.support_server = await self.bot.fetch_guild(self.k.support_server_id)
-        self.bot.error_channel = await self.bot.fetch_channel(self.k.error_channel_id)
-        self.bot.vote_channel = await self.bot.fetch_channel(self.k.vote_channel_id)
+        self.bot.support_server = typing.cast(discord.Guild, await self.bot.fetch_guild(self.k.support_server_id))
+        self.bot.error_channel = typing.cast(discord.TextChannel, await self.bot.fetch_channel(self.k.error_channel_id))
+        self.bot.vote_channel = typing.cast(discord.TextChannel, await self.bot.fetch_channel(self.k.vote_channel_id))
 
         self.bot.final_ready.set()
 
     async def send_intro_message(self, guild: discord.Guild):
-        channel: discord.channel = None
+        channel: discord.TextChannel | None = None
 
         for c in guild.text_channels:
             if "general" in c.name.lower():
@@ -94,7 +98,8 @@ class Events(commands.Cog):
         if channel is None:
             return
 
-        translation = self.bot.l[self.bot.language_cache.get(guild.id, "en")]
+        karen_guild = await self.karen.discord.cached.guilds.get(guild.id)
+        translation = self.bot.l[karen_guild.language]
 
         embed = discord.Embed(
             color=self.bot.embed_color,
@@ -116,17 +121,16 @@ class Events(commands.Cog):
         # log guild join
         await self.db.add_guild_join(guild)
 
-        # bot's funny replies are on by default
-        self.bot.replies_cache.add(guild.id)
-
         # attempt to set default language based off guild's localization
         if lang := {
             discord.Locale.spain_spanish: "es",
+            discord.Locale.latin_american_spanish: "es",
             discord.Locale.brazil_portuguese: "pt",
             discord.Locale.french: "fr",
+            discord.Locale.dutch: "nl",
+            discord.Locale.vietnamese: "vn",
         }.get(guild.preferred_locale):
             await self.db.set_guild_attr(guild.id, "language", lang)
-            self.bot.language_cache[guild.id] = lang
 
         await self.send_intro_message(guild)
 
@@ -361,17 +365,18 @@ class Events(commands.Cog):
 
         if isinstance(e, commands.CommandOnCooldown):
             await self.handle_command_cooldown(ctx, e.retry_after, False)
-        elif isinstance(e, CommandOnKarenCooldown):
-            await self.handle_command_cooldown(ctx, e.remaining, True)
+        elif isinstance(e, CommandOnKarenCooldownError):
+            await self.handle_command_cooldown(
+                ctx, (e.cooldown_until - datetime.datetime.now(datetime.timezone.utc)).total_seconds(), True
+            )
         elif isinstance(e, commands.NoPrivateMessage):
             await ctx.reply_embed(ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
             await ctx.reply_embed(ctx.l.misc.errors.user_perms, ignore_exceptions=True)
         elif (
             isinstance(e, (commands.BotMissingPermissions | discord.errors.Forbidden))
-            or getattr(e, "original", None) is not None
             and isinstance(
-                e.original,
+                getattr(e, "original", None),
                 discord.errors.Forbidden,
             )
         ):
