@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 import aiohttp
+from bot.logic.errors import CommandOnKarenCooldownError
 import captcha.image
 import discord
 import psutil
@@ -249,7 +250,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
             cooldown_info = await self.karen.game.command_cooldowns.check(karen_user.id, command_name)
 
             if not cooldown_info.already_on_cooldown:
-                ctx.custom_error = CommandOnKarenCooldown(cooldown_info.until)
+                ctx.custom_error = CommandOnKarenCooldownError(cooldown_info.until)
                 return False
 
         if command_name in self.d.concurrency_limited and not await self.karen.check_concurrency(

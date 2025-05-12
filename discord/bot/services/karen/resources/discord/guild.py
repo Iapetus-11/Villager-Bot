@@ -25,18 +25,21 @@ class DiscordGuildsResource(KarenResourceBase):
         return DiscordGuildSettings.model_validate_json(data)
 
     @overload
-    async def update(self, discord_guild_settings: DiscordGuildSettings, /):
+    async def update(self, id_: int, discord_guild_settings: DiscordGuildSettings, /):
         ...
 
     @overload
-    async def update(self, *, prefix: str | MISSING_SENTINEL):
+    async def update(self, id_: int, /, *, prefix: str | MISSING_SENTINEL):
         ...
 
-    async def update(self, *args, **kwargs):
+    async def update(self, id_: int, /, *args, **kwargs):
         payload: dict[str, Any]
         if isinstance(discord_guild_settings := next(iter(args), None), DiscordGuildSettings):
             payload = discord_guild_settings.model_dump(include=self.UPDATEABLE_FIELDS)
         else:
             payload = kwargs
 
-        response = await self._http.get(url_join("guilds"))
+        response = await self._http.patch(url_join("guilds", id_), json=payload)
+        data = await response.read()
+
+        return DiscordGuildSettings.model_validate_json(data)
