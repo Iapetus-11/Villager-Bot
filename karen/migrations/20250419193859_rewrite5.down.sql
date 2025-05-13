@@ -2,6 +2,7 @@
 -- New stuff
 
 DROP TABLE command_cooldowns;
+DROP TABLE user_locks;
 
 ----------------------------------------------------------------------------------------------------
 -- Misc changes

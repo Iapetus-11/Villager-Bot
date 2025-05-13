@@ -117,3 +117,11 @@ CREATE TABLE command_cooldowns (
 	until     TIMESTAMPTZ NOT NULL,
 	PRIMARY KEY (user_id, command)
 );
+
+CREATE TABLE user_locks (
+	user_id    BYTEA NOT NULL REFERENCES users (id),
+	lock_name  VARCHAR NOT NULL,
+	until      TIMESTAMPTZ NOT NULL,
+	PRIMARY KEY (user_id, lock_name),
+	UNIQUE (user_id, lock_name, until)
+);
