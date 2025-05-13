@@ -57,7 +57,7 @@ pub async fn check_cooldown(
 
 #[cfg(test)]
 mod tests {
-    use crate::common::testing::{create_test_user, setup_api_test_client};
+    use crate::common::testing::{CreateTestUser, create_test_user, setup_api_test_client};
 
     use super::*;
     use chrono::SubsecRound;
@@ -69,7 +69,7 @@ mod tests {
 
         let command = "mine".to_string();
         let expected_cooldown_seconds = COMMANDS_DATA.cooldowns.get(&command).unwrap();
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
         let from = Utc::now();
 
         let client = setup_api_test_client(db_pool);
@@ -97,7 +97,7 @@ mod tests {
         let mut db = db_pool.acquire().await.unwrap();
 
         let command = "mine".to_string();
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
         let from: DateTime<Utc> = Utc::now();
         let (existing_cooldown, _) = get_or_create_cooldown(
             &mut db,
@@ -132,7 +132,7 @@ mod tests {
     async fn test_command_does_not_have_cooldown(db_pool: PgPool) {
         let mut db = db_pool.acquire().await.unwrap();
 
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
         let command = "help";
 
         let client = setup_api_test_client(db_pool);

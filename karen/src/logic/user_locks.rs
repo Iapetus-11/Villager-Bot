@@ -56,7 +56,13 @@ pub async fn release_user_lock(
 }
 
 /// Holds a user lock for the duration of the execution of the func. Returns Ok(None) if the lock is already held
-pub async fn use_user_lock<TRet, TFunc: AsyncFn() -> Result<TRet, Box<dyn StdError>>>(db: &mut PgConnection, user_id: &Xid, lock_name: &str, until: DateTime<Utc>, func: TFunc) -> Result<Option<TRet>, Box<dyn StdError>> {
+pub async fn use_user_lock<TRet, TFunc: AsyncFn() -> Result<TRet, Box<dyn StdError>>>(
+    db: &mut PgConnection,
+    user_id: &Xid,
+    lock_name: &str,
+    until: DateTime<Utc>,
+    func: TFunc,
+) -> Result<Option<TRet>, Box<dyn StdError>> {
     let did_acquire = acquire_user_lock(db, user_id, lock_name, until).await?;
 
     if !did_acquire {
@@ -76,11 +82,11 @@ mod tests {
 
     use chrono::{TimeDelta, Utc};
 
-    use crate::common::testing::{PgPoolConn, create_test_user};
+    use crate::common::testing::{CreateTestUser, PgPoolConn, create_test_user};
 
     #[sqlx::test]
     async fn test_acquire_user_lock(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         let acquire_1 = acquire_user_lock(
             &mut db,
@@ -115,7 +121,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_acquire_user_lock_with_existing_expired_row(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         let acquire_1 = acquire_user_lock(
             &mut db,
@@ -140,7 +146,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_two_different_locks_do_not_interfere(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         let acquire_1 = acquire_user_lock(
             &mut db,
@@ -165,7 +171,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_release_lock(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         assert!(
             acquire_user_lock(
@@ -202,7 +208,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_release_nonexistent_lock(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         acquire_user_lock(
             &mut db,
@@ -226,11 +232,11 @@ mod tests {
 
     #[sqlx::test]
     async fn test_use_user_lock(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let result = use_user_lock(&mut db, &user.id, "test", Utc::now(), async || {
-            Ok(123)
-        }).await.unwrap();
+        let result = use_user_lock(&mut db, &user.id, "test", Utc::now(), async || Ok(123))
+            .await
+            .unwrap();
 
         assert_eq!(result, Some(123));
 
@@ -243,13 +249,22 @@ mod tests {
 
     #[sqlx::test]
     async fn test_use_user_lock_when_already_locked(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        acquire_user_lock(&mut db, &user.id, "test", Utc::now() + TimeDelta::seconds(10)).await.unwrap();
+        acquire_user_lock(
+            &mut db,
+            &user.id,
+            "test",
+            Utc::now() + TimeDelta::seconds(10),
+        )
+        .await
+        .unwrap();
 
         let result: Option<()> = use_user_lock(&mut db, &user.id, "test", Utc::now(), async || {
             panic!();
-        }).await.unwrap();
+        })
+        .await
+        .unwrap();
 
         assert_eq!(result, None);
 

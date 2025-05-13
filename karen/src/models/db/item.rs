@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use crate::common::{data::ITEMS_DATA, xid::Xid};
+use crate::common::data::ITEMS_DATA;
 
 #[derive(Debug, thiserror::Error)]
 pub enum ItemConstructionError {
@@ -10,7 +10,6 @@ pub enum ItemConstructionError {
 
 #[derive(Debug)]
 pub struct Item {
-    pub user_id: Xid,
     pub name: String,
     pub sell_price: i32,
     pub amount: i64,
@@ -20,7 +19,6 @@ pub struct Item {
 
 impl Item {
     pub fn try_from_registry(
-        user_id: Xid,
         name: impl Into<String>,
         amount: i64,
     ) -> Result<Self, ItemConstructionError> {
@@ -31,7 +29,6 @@ impl Item {
         };
 
         Ok(Self {
-            user_id,
             name: registry_data.name.clone(),
             sell_price: registry_data.sell_price,
             amount,
@@ -40,14 +37,14 @@ impl Item {
         })
     }
 
-    pub fn from_registry(user_id: Xid, name: impl Into<String>, amount: i64) -> Self {
-        Self::try_from_registry(user_id, name, amount).unwrap()
+    pub fn from_registry(name: impl Into<String>, amount: i64) -> Self {
+        Self::try_from_registry(name, amount).unwrap()
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::common::{data::ITEMS_DATA, xid::Xid};
+    use crate::common::data::ITEMS_DATA;
 
     use super::*;
 
@@ -58,11 +55,8 @@ mod tests {
             .get("komodo 30000 supernova aerial firework")
             .unwrap();
 
-        let user_id = Xid::new();
-        let item =
-            Item::try_from_registry(user_id, "KOMODO 30000 SuperNova Aerial FIREworK", 2).unwrap();
+        let item = Item::try_from_registry("KOMODO 30000 SuperNova Aerial FIREworK", 2).unwrap();
 
-        assert_eq!(item.user_id, user_id);
         assert_eq!(item.name, "Komodo 30000 SuperNova Aerial Firework");
         assert_eq!(item.sell_price, item_registry_entry.sell_price);
         assert_eq!(item.amount, 2);
@@ -73,7 +67,7 @@ mod tests {
     #[test]
     fn test_try_from_registry_unknown_item() {
         assert!(matches!(
-            Item::try_from_registry(Xid::new(), "DNE", 69),
+            Item::try_from_registry("DNE", 69),
             Err(ItemConstructionError::NotRegistered(_))
         ));
     }

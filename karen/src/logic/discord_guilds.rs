@@ -117,7 +117,7 @@ pub async fn partial_update_discord_guild(
 mod tests {
     use super::*;
 
-    use crate::common::testing::{PgPoolConn, TestDiscordGuild, create_test_discord_guild};
+    use crate::common::testing::{CreateTestDiscordGuild, PgPoolConn, create_test_discord_guild};
 
     fn assert_discord_guilds_eq(a: &DiscordGuild, b: &DiscordGuild) {
         assert_eq!(a.id, b.id);
@@ -131,12 +131,12 @@ mod tests {
     #[sqlx::test]
     async fn test_get_discord_guild(mut db: PgPoolConn) {
         let expected_discord_guild =
-            create_test_discord_guild(&mut db, TestDiscordGuild::default()).await;
+            create_test_discord_guild(&mut db, CreateTestDiscordGuild::default()).await;
         create_test_discord_guild(
             &mut db,
-            TestDiscordGuild {
+            CreateTestDiscordGuild {
                 id: 841092817471537152,
-                ..TestDiscordGuild::default()
+                ..CreateTestDiscordGuild::default()
             },
         )
         .await;
@@ -160,12 +160,12 @@ mod tests {
     #[sqlx::test]
     async fn test_get_or_create_existing_discord_guild(mut db: PgPoolConn) {
         let expected_discord_guild =
-            create_test_discord_guild(&mut db, TestDiscordGuild::default()).await;
+            create_test_discord_guild(&mut db, CreateTestDiscordGuild::default()).await;
         create_test_discord_guild(
             &mut db,
-            TestDiscordGuild {
+            CreateTestDiscordGuild {
                 id: 841092817471537152,
-                ..TestDiscordGuild::default()
+                ..CreateTestDiscordGuild::default()
             },
         )
         .await;
@@ -179,12 +179,12 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_or_create_nonexistent_discord_guild(mut db: PgPoolConn) {
-        create_test_discord_guild(&mut db, TestDiscordGuild::default()).await;
+        create_test_discord_guild(&mut db, CreateTestDiscordGuild::default()).await;
         create_test_discord_guild(
             &mut db,
-            TestDiscordGuild {
+            CreateTestDiscordGuild {
                 id: 841092817471537152,
-                ..TestDiscordGuild::default()
+                ..CreateTestDiscordGuild::default()
             },
         )
         .await;

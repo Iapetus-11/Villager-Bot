@@ -74,7 +74,7 @@ mod tests {
     use sqlx::PgPool;
 
     use crate::{
-        common::testing::{create_test_user, setup_api_test_client},
+        common::testing::{CreateTestUser, create_test_user, setup_api_test_client},
         logic::users::get_user,
     };
 
@@ -86,7 +86,7 @@ mod tests {
 
         let client = setup_api_test_client(db_pool);
 
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         let response = client.get(format!("/users/{}/", *user.id)).send().await;
 
@@ -100,7 +100,7 @@ mod tests {
 
         let client = setup_api_test_client(db_pool);
 
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         let response = client
             .get(format!("/users/{}/", user.discord_id.unwrap()))

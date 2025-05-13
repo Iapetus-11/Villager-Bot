@@ -37,15 +37,16 @@ pub async fn get_user(db: &mut PgConnection, id: &UserId) -> Result<Option<User>
 
 pub async fn create_default_user_items(
     db: &mut PgConnection,
-    user_id: Xid,
+    user_id: &Xid,
 ) -> Result<(), sqlx::Error> {
     create_items(
         db,
+        user_id,
         &[
-            Item::from_registry(user_id, "Wood Pickaxe", 1),
-            Item::from_registry(user_id, "Wood Sword", 1),
-            Item::from_registry(user_id, "Wood Hoe", 1),
-            Item::from_registry(user_id, "Wheat Seed", 5),
+            Item::from_registry("Wood Pickaxe", 1),
+            Item::from_registry("Wood Sword", 1),
+            Item::from_registry("Wood Hoe", 1),
+            Item::from_registry("Wheat Seed", 5),
         ],
     )
     .await
@@ -76,7 +77,7 @@ pub async fn get_or_create_user(
 
                 let mut tx = db.begin().await.map_err(GetOrCreateUserError::Database)?;
 
-                create_default_user_items(&mut tx, id)
+                create_default_user_items(&mut tx, &id)
                     .await
                     .map_err(GetOrCreateUserError::Database)?;
 
@@ -121,7 +122,7 @@ pub async fn get_or_create_user(
 mod tests {
     use chrono::{TimeDelta, Utc};
 
-    use crate::common::testing::{PgPoolConn, create_test_user};
+    use crate::common::testing::{CreateTestUser, PgPoolConn, create_test_user};
 
     use super::*;
 
@@ -143,7 +144,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_user(mut db: PgPoolConn) {
-        let expected_user = create_test_user(&mut db).await;
+        let expected_user = create_test_user(&mut db, CreateTestUser::default()).await;
         let user = get_user(&mut db, &UserId::Xid(expected_user.id))
             .await
             .unwrap()
@@ -154,7 +155,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_user_by_discord_id(mut db: PgPoolConn) {
-        let expected_user = create_test_user(&mut db).await;
+        let expected_user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         let user = get_user(&mut db, &UserId::Discord(expected_user.discord_id.unwrap()))
             .await
@@ -196,7 +197,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_or_create_existing_user(mut db: PgPoolConn) {
-        let expected_user = create_test_user(&mut db).await;
+        let expected_user = create_test_user(&mut db, CreateTestUser::default()).await;
         let user = get_or_create_user(&mut db, &UserId::Xid(expected_user.id))
             .await
             .unwrap();
@@ -206,7 +207,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_or_create_existing_user_from_discord(mut db: PgPoolConn) {
-        let expected_user = create_test_user(&mut db).await;
+        let expected_user = create_test_user(&mut db, CreateTestUser::default()).await;
         let user = get_or_create_user(&mut db, &UserId::Discord(expected_user.discord_id.unwrap()))
             .await
             .unwrap();
@@ -216,9 +217,9 @@ mod tests {
 
     #[sqlx::test]
     async fn test_create_default_user_items(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        create_default_user_items(&mut db, user.id).await.unwrap();
+        create_default_user_items(&mut db, &user.id).await.unwrap();
 
         let items = sqlx::query!("SELECT * FROM items WHERE user_id = $1", user.id.as_bytes())
             .fetch_all(&mut *db)

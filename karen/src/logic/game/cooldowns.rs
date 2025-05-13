@@ -59,7 +59,7 @@ pub async fn get_or_create_cooldown(
 mod tests {
     use chrono::{SubsecRound, TimeDelta};
 
-    use crate::common::testing::{PgPoolConn, create_test_user};
+    use crate::common::testing::{CreateTestUser, PgPoolConn, create_test_user};
 
     use super::*;
 
@@ -82,7 +82,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_cooldown(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
         let until = Utc::now().trunc_subsecs(6) + TimeDelta::seconds(5);
 
         create_test_cooldown(&mut db, user.id, "mine", until).await;
@@ -98,7 +98,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_nonexistent_cooldown(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         create_test_cooldown(&mut db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
 
@@ -109,7 +109,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_or_create_existing_cooldown(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
         let until = Utc::now().trunc_subsecs(6) + TimeDelta::seconds(5);
 
         create_test_cooldown(&mut db, user.id, "mine", until).await;
@@ -130,7 +130,7 @@ mod tests {
 
     #[sqlx::test]
     async fn test_get_or_create_nonexistent_cooldown(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
         let until = Utc::now() + TimeDelta::seconds(5);
 
         create_test_cooldown(&mut db, user.id, "fish", Utc::now() + TimeDelta::minutes(1)).await;
