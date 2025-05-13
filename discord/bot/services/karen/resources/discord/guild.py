@@ -1,4 +1,4 @@
-from typing import Any, overload
+from typing import Any, TypedDict, Unpack, overload
 from bot.models.base_model import ImmutableBaseModel
 from bot.services.karen.utils import MISSING_SENTINEL
 from bot.utils.urls import url_join
@@ -15,8 +15,16 @@ class DiscordGuildSettings(ImmutableBaseModel):
     disabled_commands: set[str]
 
 
+class DiscordGuildUpdateRequest(TypedDict):
+    prefix: str
+    language: str
+    mc_server: str | None
+    silly_triggers: bool
+    disabled_commands: set[str]
+
+
 class DiscordGuildsResource(KarenResourceBase):
-    UPDATEABLE_FIELDS = {"prefix", "language", "mc_server", "silly_triggers", "disabled_commands"}
+    UPDATEABLE_FIELDS = set(DiscordGuildUpdateRequest.__annotations__.keys())
 
     async def get(self, id_: int) -> DiscordGuildSettings:
         response = await self._http.get(url_join("guilds", id_), allow_redirects=False)
@@ -29,7 +37,7 @@ class DiscordGuildsResource(KarenResourceBase):
         ...
 
     @overload
-    async def update(self, id_: int, /, *, prefix: str | MISSING_SENTINEL):
+    async def update(self, id_: int, /, **kwargs: Unpack[DiscordGuildUpdateRequest]):
         ...
 
     async def update(self, id_: int, /, *args, **kwargs):
