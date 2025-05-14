@@ -36,7 +36,7 @@ pub enum UserToolParseError {
     InvalidItem(String),
 }
 
-#[derive(Debug, PartialEq, PartialOrd, Eq, Ord)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord)]
 #[repr(u8)]
 pub enum UserPickaxe {
     Wood = 0,
@@ -63,7 +63,14 @@ impl TryFrom<&str> for UserPickaxe {
     }
 }
 
-#[derive(Debug, PartialEq, PartialOrd, Eq, Ord)]
+impl ToString for UserPickaxe {
+    fn to_string(&self) -> String {
+        // TODO: Less clones
+        ALL_TOOLS[self.clone() as usize].clone()
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord)]
 #[repr(u8)]
 pub enum UserSword {
     Wood = 0,
@@ -90,7 +97,14 @@ impl TryFrom<&str> for UserSword {
     }
 }
 
-#[derive(Debug, PartialEq, PartialOrd, Eq, Ord)]
+impl ToString for UserSword {
+    fn to_string(&self) -> String {
+        // TODO: Less clones
+        ALL_TOOLS[self.clone() as usize + 6].clone()
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord)]
 #[repr(u8)]
 pub enum UserHoe {
     Wood = 0,
@@ -114,6 +128,13 @@ impl TryFrom<&str> for UserHoe {
             "Netherite Hoe" => Ok(Self::Netherite),
             other => Err(UserToolParseError::InvalidItem(other.to_string())),
         }
+    }
+}
+
+impl ToString for UserHoe {
+    fn to_string(&self) -> String {
+        // TODO: Less clones
+        ALL_TOOLS[self.clone() as usize + 12].clone()
     }
 }
 
@@ -171,23 +192,33 @@ pub async fn get_user_tools(
 
 #[cfg(test)]
 mod tests {
-    use crate::{common::testing::{create_test_user, CreateTestUser, PgPoolConn}, logic::items::create_items, models::db::Item};
+    use crate::{
+        common::testing::{CreateTestUser, PgPoolConn, create_test_user},
+        logic::items::create_items,
+        models::db::Item,
+    };
 
     use super::*;
 
     #[sqlx::test]
     async fn test_get_user_tools(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
-        
-        create_items(&mut db, &user.id, &[
-            Item::from_registry("Iron Pickaxe", 1),
-            Item::from_registry("Wood Pickaxe", 1),
-            Item::from_registry("Netherite Sword", 1),
-            Item::from_registry("Wood Sword", 1),
-            Item::from_registry("Wood Hoe", 1),
-            Item::from_registry("Stone Hoe", 1),
-            Item::from_registry("Gold Hoe", 1),
-        ]).await.unwrap();
+
+        create_items(
+            &mut db,
+            &user.id,
+            &[
+                Item::from_registry("Iron Pickaxe", 1),
+                Item::from_registry("Wood Pickaxe", 1),
+                Item::from_registry("Netherite Sword", 1),
+                Item::from_registry("Wood Sword", 1),
+                Item::from_registry("Wood Hoe", 1),
+                Item::from_registry("Stone Hoe", 1),
+                Item::from_registry("Gold Hoe", 1),
+            ],
+        )
+        .await
+        .unwrap();
 
         let tools = get_user_tools(&mut db, &user.id).await.unwrap();
 
@@ -205,5 +236,29 @@ mod tests {
         assert_eq!(tools.pickaxe, UserPickaxe::Wood);
         assert_eq!(tools.sword, UserSword::Wood);
         assert_eq!(tools.hoe, UserHoe::Wood);
+    }
+
+    #[test]
+    fn test_to_string_for_tool_enums() {
+        assert_eq!(UserPickaxe::Wood.to_string(), "Wood Pickaxe");
+        assert_eq!(UserPickaxe::Stone.to_string(), "Stone Pickaxe");
+        assert_eq!(UserPickaxe::Iron.to_string(), "Iron Pickaxe");
+        assert_eq!(UserPickaxe::Gold.to_string(), "Gold Pickaxe");
+        assert_eq!(UserPickaxe::Diamond.to_string(), "Diamond Pickaxe");
+        assert_eq!(UserPickaxe::Netherite.to_string(), "Netherite Pickaxe");
+
+        assert_eq!(UserSword::Wood.to_string(), "Wood Sword");
+        assert_eq!(UserSword::Stone.to_string(), "Stone Sword");
+        assert_eq!(UserSword::Iron.to_string(), "Iron Sword");
+        assert_eq!(UserSword::Gold.to_string(), "Gold Sword");
+        assert_eq!(UserSword::Diamond.to_string(), "Diamond Sword");
+        assert_eq!(UserSword::Netherite.to_string(), "Netherite Sword");
+
+        assert_eq!(UserHoe::Wood.to_string(), "Wood Hoe");
+        assert_eq!(UserHoe::Stone.to_string(), "Stone Hoe");
+        assert_eq!(UserHoe::Iron.to_string(), "Iron Hoe");
+        assert_eq!(UserHoe::Gold.to_string(), "Gold Hoe");
+        assert_eq!(UserHoe::Diamond.to_string(), "Diamond Hoe");
+        assert_eq!(UserHoe::Netherite.to_string(), "Netherite Hoe");
     }
 }
