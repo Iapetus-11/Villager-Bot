@@ -3,10 +3,10 @@ use sqlx::PgConnection;
 
 use crate::{
     common::{user_id::UserId, xid::Xid},
-    models::db::{Item, User},
+    models::db::User,
 };
 
-use super::items::create_items;
+use super::items::create_default_user_items;
 
 pub async fn get_user(db: &mut PgConnection, id: &UserId) -> Result<Option<User>, sqlx::Error> {
     match id {
@@ -33,23 +33,6 @@ pub async fn get_user(db: &mut PgConnection, id: &UserId) -> Result<Option<User>
             discord_id,
         ).fetch_optional(&mut *db).await
     }
-}
-
-pub async fn create_default_user_items(
-    db: &mut PgConnection,
-    user_id: &Xid,
-) -> Result<(), sqlx::Error> {
-    create_items(
-        db,
-        user_id,
-        &[
-            Item::from_registry("Wood Pickaxe", 1),
-            Item::from_registry("Wood Sword", 1),
-            Item::from_registry("Wood Hoe", 1),
-            Item::from_registry("Wheat Seed", 5),
-        ],
-    )
-    .await
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -213,41 +196,5 @@ mod tests {
             .unwrap();
 
         assert_users_eq(user, expected_user);
-    }
-
-    #[sqlx::test]
-    async fn test_create_default_user_items(mut db: PgPoolConn) {
-        let user = create_test_user(&mut db, CreateTestUser::default()).await;
-
-        create_default_user_items(&mut db, &user.id).await.unwrap();
-
-        let items = sqlx::query!("SELECT * FROM items WHERE user_id = $1", user.id.as_bytes())
-            .fetch_all(&mut *db)
-            .await
-            .unwrap();
-
-        let pickaxe = items.iter().find(|i| i.name == "Wood Pickaxe").unwrap();
-        assert_eq!(pickaxe.sell_price, 0);
-        assert_eq!(pickaxe.amount, 1);
-        assert!(pickaxe.sticky);
-        assert!(!pickaxe.sellable);
-
-        let sword = items.iter().find(|i| i.name == "Wood Sword").unwrap();
-        assert_eq!(sword.sell_price, 0);
-        assert_eq!(sword.amount, 1);
-        assert!(sword.sticky);
-        assert!(!sword.sellable);
-
-        let hoe = items.iter().find(|i| i.name == "Wood Hoe").unwrap();
-        assert_eq!(hoe.sell_price, 0);
-        assert_eq!(hoe.amount, 1);
-        assert!(hoe.sticky);
-        assert!(!hoe.sellable);
-
-        let wheat_seed = items.iter().find(|i| i.name == "Wheat Seed").unwrap();
-        assert_eq!(wheat_seed.sell_price, 32);
-        assert_eq!(wheat_seed.amount, 5);
-        assert!(!wheat_seed.sticky);
-        assert!(wheat_seed.sellable);
     }
 }
