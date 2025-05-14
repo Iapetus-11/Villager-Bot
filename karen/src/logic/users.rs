@@ -101,6 +101,22 @@ pub async fn get_or_create_user(
     Ok(user.unwrap())
 }
 
+pub async fn get_user_net_wealth(db: &mut PgConnection, id: &Xid) -> Result<i64, sqlx::Error> {
+    let result = sqlx::query!(
+        r#"
+            SELECT
+                ((emeralds + (vault_balance * 9)::BIGINT + SUM(items.sell_price::BIGINT * items.amount::BIGINT)))::BIGINT AS total_wealth
+            FROM users
+            LEFT JOIN items ON users.id = items.user_id
+            WHERE users.id = $1
+            GROUP BY users.id
+        "#,
+        id.as_bytes(),
+    ).fetch_optional(&mut *db).await?;
+
+    Ok(result.and_then(|r| r.total_wealth).unwrap_or(0))
+}
+
 #[cfg(test)]
 mod tests {
     use chrono::{TimeDelta, Utc};

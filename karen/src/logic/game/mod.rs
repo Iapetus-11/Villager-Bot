@@ -1,2 +1,2 @@
-pub mod cooldowns;
 pub mod commands;
+pub mod cooldowns;
