@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     common::{data::COMMANDS_DATA, security::RequireAuthedClient, xid::Xid},
-    logic::game::cooldowns::get_or_create_cooldown,
+    logic::cooldowns::get_or_create_cooldown,
 };
 
 #[derive(Deserialize)]
