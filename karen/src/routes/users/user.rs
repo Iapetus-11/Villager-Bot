@@ -50,7 +50,7 @@ impl From<User> for UserDetailsView {
 }
 
 #[handler]
-pub async fn get_user_details(
+pub async fn get_details(
     db: Data<&sqlx::PgPool>,
     Path((user_id,)): Path<(UserId,)>,
     _: RequireAuthedClient,

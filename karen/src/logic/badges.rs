@@ -1,8 +1,6 @@
 use std::{error::Error as StdError, io::Cursor};
 
-use image::{
-    GenericImage, ImageReader, RgbaImage, imageops::FilterType,
-};
+use image::{GenericImage, ImageReader, RgbaImage, imageops::FilterType};
 use sqlx::PgConnection;
 
 use crate::{common::xid::Xid, models::db::Badges};

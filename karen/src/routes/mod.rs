@@ -1,12 +1,11 @@
-use poem::{Route, get};
-use users::get_user_details;
+use poem::Route;
 mod discord;
 mod game;
 mod users;
 
 pub fn setup_routes() -> Route {
     Route::new()
-        .at("/users/:id/", get(get_user_details))
+        .nest("/users/", users::routes())
         .nest("/discord/", discord::routes())
         .nest("/game/", game::routes())
 }
