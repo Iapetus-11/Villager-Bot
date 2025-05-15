@@ -3,6 +3,7 @@
 
 DROP TABLE command_cooldowns;
 DROP TABLE user_locks;
+DROP TABLE user_effects;
 
 ----------------------------------------------------------------------------------------------------
 -- Misc changes

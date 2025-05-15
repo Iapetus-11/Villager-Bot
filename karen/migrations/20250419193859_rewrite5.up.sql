@@ -125,3 +125,10 @@ CREATE TABLE user_locks (
 	PRIMARY KEY (user_id, lock_name),
 	UNIQUE (user_id, lock_name, until)
 );
+
+CREATE TABLE user_effects (
+	user_id  BYTEA NOT NULL REFERENCES users (id),
+	name     VARCHAR NOT NULL,
+	until    TIMESTAMPTZ NOT NULL,
+	PRIMARY KEY (user_id, name)
+);
