@@ -155,33 +155,27 @@ pub async fn get_user_tools(
 
     let mut pickaxes = items
         .iter()
-        .filter_map(|i| match UserPickaxe::try_from(i.name.as_str()) {
-            Ok(up) => Some(up),
-            _ => None,
-        })
+        .filter_map(|i| UserPickaxe::try_from(i.name.as_str()).ok())
         .collect::<Vec<_>>();
     pickaxes.sort();
-    let pickaxe = pickaxes.into_iter().last().unwrap_or(UserPickaxe::Wood);
+    let pickaxe = pickaxes
+        .into_iter()
+        .next_back()
+        .unwrap_or(UserPickaxe::Wood);
 
     let mut swords = items
         .iter()
-        .filter_map(|i| match UserSword::try_from(i.name.as_str()) {
-            Ok(up) => Some(up),
-            _ => None,
-        })
+        .filter_map(|i| UserSword::try_from(i.name.as_str()).ok())
         .collect::<Vec<_>>();
     swords.sort();
-    let sword = swords.into_iter().last().unwrap_or(UserSword::Wood);
+    let sword = swords.into_iter().next_back().unwrap_or(UserSword::Wood);
 
     let mut hoes = items
         .iter()
-        .filter_map(|i| match UserHoe::try_from(i.name.as_str()) {
-            Ok(up) => Some(up),
-            _ => None,
-        })
+        .filter_map(|i| UserHoe::try_from(i.name.as_str()).ok())
         .collect::<Vec<_>>();
     hoes.sort();
-    let hoe = hoes.into_iter().last().unwrap_or(UserHoe::Wood);
+    let hoe = hoes.into_iter().next_back().unwrap_or(UserHoe::Wood);
 
     Ok(UserTools {
         pickaxe,
