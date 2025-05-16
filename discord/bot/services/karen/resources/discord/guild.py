@@ -1,9 +1,8 @@
-from typing import Any, TypedDict, Unpack, overload
-from bot.models.base_model import ImmutableBaseModel
-from bot.services.karen.utils import MISSING_SENTINEL
-from bot.utils.urls import url_join
+from typing import Any, ClassVar, TypedDict, Unpack, overload
 
-from ...client import KarenResourceBase
+from bot.models.base_model import ImmutableBaseModel
+from bot.services.karen.client import KarenResourceBase
+from bot.utils.urls import url_join
 
 
 class DiscordGuildSettings(ImmutableBaseModel):
@@ -24,10 +23,11 @@ class DiscordGuildUpdateRequest(TypedDict):
 
 
 class DiscordGuildsResource(KarenResourceBase):
-    UPDATEABLE_FIELDS = set(DiscordGuildUpdateRequest.__annotations__.keys())
+    BASE_URL: ClassVar[str] = "/discord/guilds/"
+    UPDATEABLE_FIELDS: ClassVar[set[str]] = set(DiscordGuildUpdateRequest.__annotations__.keys())
 
     async def get(self, id_: int) -> DiscordGuildSettings:
-        response = await self._http.get(url_join("guilds", id_), allow_redirects=False)
+        response = await self._http.get(url_join(self.BASE_URL, id_), allow_redirects=False)
         data = await response.read()
 
         return DiscordGuildSettings.model_validate_json(data)
@@ -47,7 +47,7 @@ class DiscordGuildsResource(KarenResourceBase):
         else:
             payload = kwargs
 
-        response = await self._http.patch(url_join("guilds", id_), json=payload)
+        response = await self._http.patch(url_join(self.BASE_URL, id_), json=payload)
         data = await response.read()
 
         return DiscordGuildSettings.model_validate_json(data)

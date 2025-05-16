@@ -1,8 +1,9 @@
-from datetime import datetime
-from time import timezone
+from datetime import datetime, timezone
+from typing import ClassVar
 
 from bot.models.base_model import ImmutableBaseModel
 from bot.services.karen.client import KarenResourceBase
+from bot.utils.urls import url_join
 
 
 class CooldownCheck(ImmutableBaseModel):
@@ -11,9 +12,11 @@ class CooldownCheck(ImmutableBaseModel):
 
 
 class CommandCooldownsResource(KarenResourceBase):
+    BASE_URL: ClassVar[str] = "/game/cooldowns/"
+
     async def check(self, user_id: str, command: str) -> CooldownCheck:
         response = await self._http.post(
-            "/cooldowns/check/",
+            url_join(self.BASE_URL, "/check/"),
             json={
                 "user_id": user_id,
                 "command": command,

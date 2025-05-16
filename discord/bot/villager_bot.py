@@ -253,21 +253,22 @@ class VillagerBotCluster(commands.AutoShardedBot):
                 ctx.custom_error = CommandOnKarenCooldownError(cooldown_info.until)
                 return False
 
-        if command_name in self.d.concurrency_limited and not await self.karen.check_concurrency(
-            command_name,
-            ctx.author.id,
-        ):
-            ctx.custom_error = MaxKarenConcurrencyReached()
-            return False
+        # if command_name in self.d.concurrency_limited and not await self.karen.check_concurrency(
+        #     command_name,
+        #     ctx.author.id,
+        # ):
+        #     ctx.custom_error = MaxKarenConcurrencyReached()
+        #     return False
 
-        # check if user has paused econ
-        if ctx.command.cog_name == "Econ" and await self.karen.check_econ_paused(ctx.author.id):
-            ctx.failure_reason = "econ_paused"
-            return False
+        # # check if user has paused econ
+        # if ctx.command.cog_name == "Econ" and await self.karen.check_econ_paused(ctx.author.id):
+        #     ctx.failure_reason = "econ_paused"
+        #     return False
 
         return True
 
     async def before_command_invoked(self, ctx: CustomContext):
+        return
         assert ctx.command is not None
 
         self.command_count += 1

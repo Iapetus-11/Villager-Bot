@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use poem::http::StatusCode;
 use subtle::ConstantTimeEq;
 
@@ -10,7 +12,7 @@ impl<'a> poem::FromRequest<'a> for RequireAuthedClient {
         req: &'a poem::Request,
         _body: &mut poem::RequestBody,
     ) -> poem::Result<Self> {
-        let config = req.data::<Config>().unwrap();
+        let config = req.data::<Arc<Config>>().unwrap();
 
         let Some(authorization_header) = req.header("Authorization") else {
             return Err(poem::Error::from_string(

@@ -9,6 +9,7 @@ from collections import defaultdict
 from contextlib import suppress
 from typing import Any
 
+import aiohttp
 import arrow
 import discord
 import numpy.random
@@ -163,12 +164,12 @@ class Econ(commands.Cog):
         pass
 
     @commands.command(name="profile", aliases=["pp"])
-    async def profile(self, ctx: Ctx, *, user: discord.User | None = None):
+    async def profile(self, ctx: Ctx, *, user: discord.User | discord.Member | None = None):
         if user is None:
             user = ctx.author
 
         if user.bot:
-            if user.id == self.bot.user.id:
+            if user.id == getattr(self.bot.user, "id", None):
                 await ctx.reply_embed(ctx.l.econ.pp.bot_1)
             else:
                 await ctx.reply_embed(ctx.l.econ.pp.bot_2)
@@ -202,25 +203,25 @@ class Econ(commands.Cog):
             assert profile_data.next_vote_time is not None
             can_vote_value = arrow.Arrow.fromdatetime(profile_data.next_vote_time).humanize(locale=ctx.l.lang)
 
-        active_fx = await self.karen.fetch_active_fx(user.id)
+        active_effects = profile_data.active_effects
 
-        if db_user.shield_pearl and (arrow.get(db_user.shield_pearl).shift(months=1) > arrow.utcnow()):
-            active_fx.add("shield pearl")
+        if user_data.shield_pearl_activated_at and (arrow.get(user_data.shield_pearl_activated_at).shift(months=1) > arrow.utcnow()):
+            active_effects.add("shield pearl")
 
         embed = discord.Embed(color=self.bot.embed_color, description=f"{health_bar}")
         embed.set_author(name=user.display_name, icon_url=getattr(user.avatar, "url", None))
 
         embed.add_field(
             name=ctx.l.econ.pp.total_wealth,
-            value=f"{total_wealth}{self.d.emojis.emerald}",
+            value=f"{profile_data.net_wealth}{self.d.emojis.emerald}",
         )
 
         embed.add_field(
             name=ctx.l.econ.pp.mooderalds,
-            value=f"{mooderalds}{self.d.emojis.autistic_emerald}",
+            value=f"{profile_data.mooderalds}{self.d.emojis.autistic_emerald}",
         )
 
-        embed.add_field(name=ctx.l.econ.pp.streak, value=(vote_streak or 0))
+        embed.add_field(name=ctx.l.econ.pp.streak, value=profile_data.vote_streak)
 
         if user.id == ctx.author.id:
             embed.add_field(
@@ -228,36 +229,41 @@ class Econ(commands.Cog):
                 value=can_vote_value,
             )
 
-        pickaxe = await self.db.fetch_pickaxe(user.id)
         embed.add_field(
             name=ctx.l.econ.pp.pick,
-            value=f"{self.d.emojis[self.d.emoji_items[pickaxe]]} {pickaxe}",
+            value=f"{self.d.emojis[self.d.emoji_items[profile_data.pickaxe]]} {profile_data.pickaxe}",
         )
 
-        sword = await self.db.fetch_sword(user.id)
         embed.add_field(
             name=ctx.l.econ.pp.sword,
-            value=f"{self.d.emojis[self.d.emoji_items[sword]]} {sword}",
+            value=f"{self.d.emojis[self.d.emoji_items[profile_data.sword]]} {profile_data.sword}",
         )
 
         # add empty field to account for missing "Can Vote?" field
         if user.id != ctx.author.id:
             embed.add_field(name="\ufeff", value="\ufeff")
 
-        if active_fx:
+        if active_effects:
             embed.add_field(
                 name=ctx.l.econ.pp.fx,
-                value=f"`{'`, `'.join(map(title_case, active_fx))}`",
+                value=f"`{'`, `'.join(map(title_case, active_effects))}`",
                 inline=False,
             )
 
         user_badges_image_file: discord.File | None = None
-        if user_badges_image_data := await self.badges.generate_badges_image(user.id):
+        try:
+            user_badges_image_data = await self.karen.users.get_badges_image(ctx.author.id)
+
             user_badges_image_file = discord.File(
                 fp=user_badges_image_data,
                 filename=f"{user.id}_badges.png",
             )
             embed.set_image(url=f"attachment://{user_badges_image_file.filename}")
+        except aiohttp.ClientResponseError as e:
+            if e.status == 404:  # User has no badges
+                pass
+
+            raise
 
         await ctx.reply(embed=embed, file=user_badges_image_file, mention_author=False)
 

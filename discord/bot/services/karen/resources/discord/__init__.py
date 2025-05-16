@@ -16,10 +16,8 @@ class DiscordResourceGroup(KarenResourceBase):
     def __init__(self, http: aiohttp.ClientSession):
         super().__init__(http)
 
-        BASE_PATH = "/discord/"
-
         from .guild import DiscordGuildsResource
 
-        self.guilds = DiscordGuildsResource(http, base_path=BASE_PATH)
+        self.guilds = DiscordGuildsResource(http)
 
         self.cached = self.Cached(self)
