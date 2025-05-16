@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import aiohttp
 from bot.models.base_model import ImmutableBaseModel
 from bot.services.karen.client import KarenResourceBase
 
@@ -20,9 +21,17 @@ class User(ImmutableBaseModel):
     modified_at: datetime
 
 
-class UsersResource(KarenResourceBase):
+class UsersResourceGroup(KarenResourceBase):
+    def __init__(self, http: aiohttp.ClientSession):
+        super().__init__(http, base_path="/users/")
+
     async def get(self, id_: str | int) -> User:
-        response = await self._http.get(f"/users/{id_}/", allow_redirects=False)
+        response = await self._http.get(f"/{id_}/", allow_redirects=False)
         data = await response.read()
 
         return User.model_validate_json(data)
+
+    async def get_badges_image(self, user_id: str | int) -> bytes:
+        response = await self._http.post(f"/{user_id}/badges/image/", allow_redirects=False)
+
+        return await response.read()

@@ -175,32 +175,32 @@ class Econ(commands.Cog):
 
             return
 
-        db_user = await self.db.fetch_user(user.id)
-        u_items = await self.db.fetch_items(user.id)
+        user_data, profile_data = await asyncio.gather(
+            self.karen.users.get(ctx.author.id),
+            self.karen.game.commands.get_profile_data(user_id=ctx.author.id),
+        )
 
-        total_wealth = calc_total_wealth(db_user, u_items)
         health_bar = make_health_bar(
-            db_user.health,
+            user_data.health,
             20,
             self.d.emojis.heart_full,
             self.d.emojis.heart_half,
             self.d.emojis.heart_empty,
         )
 
-        mooderalds = getattr(await self.db.fetch_item(user.id, "Mooderald"), "amount", 0)
+        # vote_streak = db_user.vote_streak
+        # last_voted_at = arrow.get(db_user.last_vote or 0)
+        # voted = arrow.utcnow().shift(hours=-12) < last_voted_at
 
-        vote_streak = db_user.vote_streak
-        last_voted_at = arrow.get(db_user.last_vote or 0)
-        voted = arrow.utcnow().shift(hours=-12) < last_voted_at
+        # if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(db_user.last_vote or 0):
+        #     vote_streak = 0
+        #     await self.db.update_user(user.id, vote_streak=0, last_vote=None)
 
-        if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(db_user.last_vote or 0):
-            vote_streak = 0
-            await self.db.update_user(user.id, vote_streak=0, last_vote=None)
-
-        if voted:
-            can_vote_value = last_voted_at.shift(hours=12).humanize(locale=ctx.l.lang)
-        else:
+        if profile_data.can_vote:
             can_vote_value = f"[{ctx.l.econ.pp.yep}]({self.d.topgg + '/vote'})"
+        else:
+            assert profile_data.next_vote_time is not None
+            can_vote_value = arrow.Arrow.fromdatetime(profile_data.next_vote_time).humanize(locale=ctx.l.lang)
 
         active_fx = await self.karen.fetch_active_fx(user.id)
 
