@@ -179,7 +179,7 @@ class Econ(commands.Cog):
 
         user_data, profile_data = await asyncio.gather(
             self.karen.users.get(ctx.author.id),
-            self.karen.game.commands.get_profile_data(user_id=ctx.author.id),
+            self.karen.game.commands.profile.get(user_id=ctx.author.id),
         )
 
         health_bar = make_health_bar(
