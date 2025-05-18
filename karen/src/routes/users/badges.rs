@@ -1,5 +1,4 @@
 use poem::{
-    error::NotFoundError,
     http::StatusCode,
     web::{Data, Path},
 };
