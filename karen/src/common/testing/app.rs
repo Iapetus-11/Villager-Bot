@@ -75,7 +75,7 @@ pub fn setup_api_test_client(db_pool: sqlx::PgPool) -> TestClient<BoxEndpoint<'s
     let cached_app = TEST_API_INSTANCE.get_or_init(|| {
         let app = routes::setup_routes()
             .with(NormalizePath::new(TrailingSlash::Always))
-            .with(AddData::new(TEST_CONFIG.clone()))
+            .with(AddData::new(Arc::new(TEST_CONFIG.clone())))
             .with(SetRequestHeaderMiddleware::new(
                 "Authorization",
                 format!("Bearer {}", TEST_CONFIG.auth_token),
