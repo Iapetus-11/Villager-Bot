@@ -305,16 +305,16 @@ class VillagerBotCluster(commands.AutoShardedBot):
     async def after_command_invoked(self, ctx: CustomContext):
         assert ctx.command is not None
 
-        try:
-            if ctx.command.qualified_name in self.d.concurrency_limited:
-                await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
-        except Exception:
-            self.logger.exception(
-                ("An error occurred while attempting to release a concurrency lock for command %s for user %s"),
-                ctx.command,
-                ctx.author.id,
-            )
-            raise
+        # try:
+        #     if ctx.command.qualified_name in self.d.concurrency_limited:
+        #         await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
+        # except Exception:
+        #     self.logger.exception(
+        #         ("An error occurred while attempting to release a concurrency lock for command %s for user %s"),
+        #         ctx.command,
+        #         ctx.author.id,
+        #     )
+        #     raise
 
     async def on_app_command_completion(
         self,

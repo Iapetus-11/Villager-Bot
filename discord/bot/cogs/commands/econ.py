@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import datetime
+from io import BytesIO
 import math
 import random
 import typing
@@ -255,7 +256,7 @@ class Econ(commands.Cog):
             user_badges_image_data = await self.karen.users.get_badges_image(ctx.author.id)
 
             user_badges_image_file = discord.File(
-                fp=user_badges_image_data,
+                fp=BytesIO(user_badges_image_data),
                 filename=f"{user.id}_badges.png",
             )
             embed.set_image(url=f"attachment://{user_badges_image_file.filename}")

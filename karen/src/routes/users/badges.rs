@@ -30,10 +30,16 @@ pub async fn get_image(
     let user = user_result.unwrap();
 
     let Some(badges) = get_user_badges(&mut db, &user.id).await.unwrap() else {
-        return Err(NotFoundError.into());
+        return Err(poem::Error::from_string(
+            "User has no badges",
+            StatusCode::NOT_FOUND,
+        ));
     };
     let Some(badges_image_data) = generate_user_badges_image(&badges).await.unwrap() else {
-        return Err(NotFoundError.into());
+        return Err(poem::Error::from_string(
+            "User has no badges that can be visualized",
+            StatusCode::NOT_FOUND,
+        ));
     };
 
     Ok(poem::Response::builder()

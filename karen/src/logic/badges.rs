@@ -29,7 +29,7 @@ fn get_badge_keys(badges: &Badges) -> Vec<String> {
     macro_rules! push_bool_badge_key {
         ($key:ident) => {
             if (badges.$key) {
-                badge_keys.push(stringify!(key).to_string());
+                badge_keys.push(stringify!($key).to_string());
             }
         };
     }
@@ -37,7 +37,7 @@ fn get_badge_keys(badges: &Badges) -> Vec<String> {
     macro_rules! push_i16_badge_key {
         ($key:ident) => {
             if (badges.$key > 0_i16) {
-                badge_keys.push(format!("{}_{}", stringify!(key), badges.$key));
+                badge_keys.push(format!("{}_{}", stringify!($key), badges.$key));
             }
         };
     }

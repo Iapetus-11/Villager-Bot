@@ -356,11 +356,11 @@ class Events(commands.Cog):
     async def on_command_error(self, ctx: Ctx, e: Exception):
         self.bot.error_count += 1
 
-        if getattr(ctx, "custom_error", None):
-            e = ctx.custom_error
+        if (custom_error := getattr(ctx, "custom_error", None)) is not None:
+            e = custom_error
 
-        if not isinstance(e, MaxKarenConcurrencyReached) and ctx.command:
-            await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
+        # if not isinstance(e, MaxKarenConcurrencyReached) and ctx.command:
+        #     await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
 
         if isinstance(e, commands.CommandOnCooldown):
             await self.handle_command_cooldown(ctx, e.retry_after, False)
@@ -375,7 +375,7 @@ class Events(commands.Cog):
             discord.errors.Forbidden,
         ):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
-        elif isinstance(e, commands.MaxConcurrencyReached | MaxKarenConcurrencyReached):
+        elif isinstance(e, commands.MaxConcurrencyReached): #| MaxKarenConcurrencyReached):
             await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
         elif isinstance(e, (commands.MissingRequiredArgument, *BAD_ARG_ERRORS)):
             command_doc = {

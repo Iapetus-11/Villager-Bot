@@ -33,6 +33,6 @@ class UsersResourceGroup(KarenResourceBase):
         return User.model_validate_json(data)
 
     async def get_badges_image(self, user_id: str | int) -> bytes:
-        response = await self._http.post(url_join(self.BASE_URL, f"/{user_id}/badges/image/"), allow_redirects=False)
+        response = await self._http.get(url_join(self.BASE_URL, f"/{user_id}/badges/image/"), allow_redirects=False)
 
         return await response.read()
