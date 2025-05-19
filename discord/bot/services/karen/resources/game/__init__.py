@@ -8,7 +8,9 @@ class GameResourceGroup(KarenResourceBase):
         super().__init__(http)
 
         from .command_cooldowns import CommandCooldownsResource
+        from .command_executions import CommandExecutionsResource
         from .commands import CommandsResourceGroup
 
         self.command_cooldowns = CommandCooldownsResource(http)
+        self.command_executions = CommandExecutionsResource(http)
         self.commands = CommandsResourceGroup(http)

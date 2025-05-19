@@ -1,6 +1,7 @@
 pub mod badges;
+pub mod command_cooldowns;
+pub mod command_executions;
 pub mod commands;
-pub mod cooldowns;
 pub mod discord_guilds;
 pub mod items;
 pub mod user_effects;

@@ -12,7 +12,7 @@ class CooldownCheck(ImmutableBaseModel):
 
 
 class CommandCooldownsResource(KarenResourceBase):
-    BASE_URL: ClassVar[str] = "/game/cooldowns/"
+    BASE_URL: ClassVar[str] = "/game/command_cooldowns/"
 
     async def check(self, user_id: str, command: str) -> CooldownCheck:
         response = await self._http.post(

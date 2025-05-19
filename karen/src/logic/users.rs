@@ -105,7 +105,7 @@ pub async fn get_or_create_user(
     Ok(user.unwrap())
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Default)]
 pub struct UserUpdateData {
     #[serde(
         default,
@@ -145,24 +145,6 @@ pub struct UserUpdateData {
         skip_serializing_if = "Option::is_none"
     )]
     pub last_daily_quest_reroll: Option<Option<DateTime<Utc>>>,
-}
-
-impl Default for UserUpdateData {
-    fn default() -> Self {
-        Self {
-            discord_id: None,
-            banned: None,
-            emeralds: None,
-            vault_balance: None,
-            vault_max: None,
-            health: None,
-            vote_streak: None,
-            last_vote_at: None,
-            give_alert: None,
-            shield_pearl_activated_at: None,
-            last_daily_quest_reroll: None,
-        }
-    }
 }
 
 pub async fn partial_update_user(
@@ -347,12 +329,12 @@ mod tests {
 
     #[sqlx::test]
     async fn test_partial_update_whole_user(mut db: PgPoolConn) {
-        let user = create_test_user(&mut *db, CreateTestUser::default()).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         let the_future = Utc::now() + TimeDelta::hours(420);
 
         let updated_user = partial_update_user(
-            &mut *db,
+            &mut db,
             &user.id,
             &UserUpdateData {
                 discord_id: Some(Some(1196838524293488662)),
@@ -367,12 +349,15 @@ mod tests {
                 shield_pearl_activated_at: Some(Some(the_future)),
                 last_daily_quest_reroll: Some(Some(the_future)),
             },
-        ).await.unwrap().unwrap();
+        )
+        .await
+        .unwrap()
+        .unwrap();
 
         assert_eq!(updated_user.discord_id, Some(1196838524293488662));
         assert_ne!(updated_user.discord_id, user.discord_id);
 
-        assert_eq!(updated_user.banned, false);
+        assert!(!updated_user.banned);
         assert_ne!(updated_user.banned, user.banned);
 
         assert_eq!(updated_user.emeralds, 696969);
@@ -393,24 +378,30 @@ mod tests {
         assert_eq!(updated_user.last_vote_at, Some(the_future));
         assert_ne!(updated_user.last_vote_at, user.last_vote_at);
 
-        assert_eq!(updated_user.give_alert, true);
+        assert!(updated_user.give_alert);
         assert_ne!(updated_user.give_alert, user.give_alert);
 
         assert_eq!(updated_user.shield_pearl_activated_at, Some(the_future));
-        assert_ne!(updated_user.shield_pearl_activated_at, user.shield_pearl_activated_at);
+        assert_ne!(
+            updated_user.shield_pearl_activated_at,
+            user.shield_pearl_activated_at
+        );
 
         assert_eq!(updated_user.last_daily_quest_reroll, Some(the_future));
-        assert_ne!(updated_user.last_daily_quest_reroll, user.last_daily_quest_reroll);
+        assert_ne!(
+            updated_user.last_daily_quest_reroll,
+            user.last_daily_quest_reroll
+        );
 
         assert!(updated_user.modified_at > user.modified_at);
     }
 
     #[sqlx::test]
     async fn test_partial_update_set_nullable_fields_to_null(mut db: PgPoolConn) {
-        let user = create_test_user(&mut *db, CreateTestUser::default()).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         let updated_user = partial_update_user(
-            &mut *db,
+            &mut db,
             &user.id,
             &UserUpdateData {
                 discord_id: Some(None),
@@ -425,12 +416,15 @@ mod tests {
                 shield_pearl_activated_at: Some(None),
                 last_daily_quest_reroll: Some(None),
             },
-        ).await.unwrap().unwrap();
+        )
+        .await
+        .unwrap()
+        .unwrap();
 
         assert_eq!(updated_user.discord_id, None);
         assert_ne!(updated_user.discord_id, user.discord_id);
 
-        assert_eq!(updated_user.banned, false);
+        assert!(!updated_user.banned);
         assert_ne!(updated_user.banned, user.banned);
 
         assert_eq!(updated_user.emeralds, 696969);
@@ -451,14 +445,20 @@ mod tests {
         assert_eq!(updated_user.last_vote_at, None);
         assert_ne!(updated_user.last_vote_at, user.last_vote_at);
 
-        assert_eq!(updated_user.give_alert, true);
+        assert!(updated_user.give_alert);
         assert_ne!(updated_user.give_alert, user.give_alert);
 
         assert_eq!(updated_user.shield_pearl_activated_at, None);
-        assert_ne!(updated_user.shield_pearl_activated_at, user.shield_pearl_activated_at);
+        assert_ne!(
+            updated_user.shield_pearl_activated_at,
+            user.shield_pearl_activated_at
+        );
 
         assert_eq!(updated_user.last_daily_quest_reroll, None);
-        assert_ne!(updated_user.last_daily_quest_reroll, user.last_daily_quest_reroll);
+        assert_ne!(
+            updated_user.last_daily_quest_reroll,
+            user.last_daily_quest_reroll
+        );
 
         assert!(updated_user.modified_at > user.modified_at);
     }
@@ -466,7 +466,7 @@ mod tests {
     #[sqlx::test]
     async fn test_partial_update_nonexistent_user(mut db: PgPoolConn) {
         let updated_user = partial_update_user(
-            &mut *db,
+            &mut db,
             &Xid::new(),
             &UserUpdateData {
                 discord_id: Some(None),
@@ -481,20 +481,21 @@ mod tests {
                 shield_pearl_activated_at: Some(None),
                 last_daily_quest_reroll: Some(None),
             },
-        ).await.unwrap();
+        )
+        .await
+        .unwrap();
 
         assert!(updated_user.is_none());
     }
 
     #[sqlx::test]
     async fn test_partial_update_user_missing_all_fields(mut db: PgPoolConn) {
-        let user = create_test_user(&mut *db, CreateTestUser::default()).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let updated_user = partial_update_user(
-            &mut *db,
-            &user.id,
-            &UserUpdateData::default(),
-        ).await.unwrap().unwrap();
+        let updated_user = partial_update_user(&mut db, &user.id, &UserUpdateData::default())
+            .await
+            .unwrap()
+            .unwrap();
 
         assert_eq!(updated_user.id, user.id);
         assert_eq!(updated_user.discord_id, user.discord_id);
@@ -506,18 +507,31 @@ mod tests {
         assert_eq!(updated_user.vote_streak, user.vote_streak);
         assert_eq!(updated_user.last_vote_at, user.last_vote_at);
         assert_eq!(updated_user.give_alert, user.give_alert);
-        assert_eq!(updated_user.shield_pearl_activated_at, user.shield_pearl_activated_at);
-        assert_eq!(updated_user.last_daily_quest_reroll, user.last_daily_quest_reroll);
+        assert_eq!(
+            updated_user.shield_pearl_activated_at,
+            user.shield_pearl_activated_at
+        );
+        assert_eq!(
+            updated_user.last_daily_quest_reroll,
+            user.last_daily_quest_reroll
+        );
     }
 
     #[sqlx::test]
     async fn test_partial_update_user_only_one_field(mut db: PgPoolConn) {
-        let user = create_test_user(&mut *db, CreateTestUser::default()).await;
+        let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let updated_user = partial_update_user(&mut *db, &user.id, &UserUpdateData {
-            discord_id: Some(Some(1234567890)),
-            ..UserUpdateData::default()
-        }).await.unwrap().unwrap();
+        let updated_user = partial_update_user(
+            &mut db,
+            &user.id,
+            &UserUpdateData {
+                discord_id: Some(Some(1234567890)),
+                ..UserUpdateData::default()
+            },
+        )
+        .await
+        .unwrap()
+        .unwrap();
 
         assert_eq!(updated_user.id, user.id);
         assert_ne!(updated_user.discord_id, user.discord_id);
@@ -529,7 +543,13 @@ mod tests {
         assert_eq!(updated_user.vote_streak, user.vote_streak);
         assert_eq!(updated_user.last_vote_at, user.last_vote_at);
         assert_eq!(updated_user.give_alert, user.give_alert);
-        assert_eq!(updated_user.shield_pearl_activated_at, user.shield_pearl_activated_at);
-        assert_eq!(updated_user.last_daily_quest_reroll, user.last_daily_quest_reroll);
+        assert_eq!(
+            updated_user.shield_pearl_activated_at,
+            user.shield_pearl_activated_at
+        );
+        assert_eq!(
+            updated_user.last_daily_quest_reroll,
+            user.last_daily_quest_reroll
+        );
     }
 }

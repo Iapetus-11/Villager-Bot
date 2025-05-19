@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import ClassVar
 
 import aiohttp
+
 from bot.models.base_model import ImmutableBaseModel
 from bot.services.karen.client import KarenResourceBase
 from bot.utils.urls import url_join

@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import asyncio
 import datetime
-from io import BytesIO
 import math
 import random
 import typing
 from collections import defaultdict
 from contextlib import suppress
+from io import BytesIO
 from typing import Any
 
 import aiohttp
@@ -206,7 +206,9 @@ class Econ(commands.Cog):
 
         active_effects = profile_data.active_effects
 
-        if user_data.shield_pearl_activated_at and (arrow.get(user_data.shield_pearl_activated_at).shift(months=1) > arrow.utcnow()):
+        if user_data.shield_pearl_activated_at and (
+            arrow.get(user_data.shield_pearl_activated_at).shift(months=1) > arrow.utcnow()
+        ):
             active_effects.add("shield pearl")
 
         embed = discord.Embed(color=self.bot.embed_color, description=f"{health_bar}")

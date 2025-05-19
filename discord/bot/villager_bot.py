@@ -5,7 +5,6 @@ from datetime import datetime, timezone
 from typing import Any
 
 import aiohttp
-from bot.logic.errors import CommandOnKarenCooldownError
 import captcha.image
 import discord
 import psutil
@@ -13,6 +12,7 @@ from captcha.image import ImageCaptcha
 from discord.ext import commands
 
 from bot.logic.ctx import CustomContext
+from bot.logic.errors import CommandOnKarenCooldownError
 from bot.logic.home_guild import (
     update_support_member_role,
 )
@@ -253,22 +253,9 @@ class VillagerBotCluster(commands.AutoShardedBot):
                 ctx.custom_error = CommandOnKarenCooldownError(cooldown_info.until)
                 return False
 
-        # if command_name in self.d.concurrency_limited and not await self.karen.check_concurrency(
-        #     command_name,
-        #     ctx.author.id,
-        # ):
-        #     ctx.custom_error = MaxKarenConcurrencyReached()
-        #     return False
-
-        # # check if user has paused econ
-        # if ctx.command.cog_name == "Econ" and await self.karen.check_econ_paused(ctx.author.id):
-        #     ctx.failure_reason = "econ_paused"
-        #     return False
-
         return True
 
     async def before_command_invoked(self, ctx: CustomContext):
-        return
         assert ctx.command is not None
 
         self.command_count += 1
@@ -277,20 +264,10 @@ class VillagerBotCluster(commands.AutoShardedBot):
             # random chance to spawn mob
             if random.randint(0, self.d.mob_chance) == 0:
                 if self.d.cooldown_rates.get(ctx.command.qualified_name, 0) >= 2:
-                    asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
+                    ...  # TODO: Move this to Karen?
+                    # asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
             elif random.randint(0, self.d.tip_chance) == 0:  # random chance to send tip
                 asyncio.create_task(self.send_tip(ctx))
-
-        try:
-            if ctx.command.qualified_name in self.d.concurrency_limited:
-                await self.karen.acquire_concurrency(ctx.command.qualified_name, ctx.author.id)
-        except Exception:
-            self.logger.exception(
-                ("An error occurred while attempting to acquire a concurrency lock for command %s for user %s"),
-                ctx.command,
-                ctx.author.id,
-            )
-            raise
 
         if ctx.command.qualified_name in self.d.cooldown_rates:
             await self.karen.lb_command_ran(ctx.author.id)

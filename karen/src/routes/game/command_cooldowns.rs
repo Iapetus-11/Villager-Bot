@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     common::{data::COMMANDS_DATA, security::RequireAuthedClient, xid::Xid},
-    logic::cooldowns::get_or_create_cooldown,
+    logic::command_cooldowns::get_or_create_cooldown,
 };
 
 #[derive(Deserialize)]
@@ -27,7 +27,7 @@ struct CheckCooldownResponse {
 }
 
 #[handler]
-pub async fn check_cooldown(
+pub async fn check(
     db: Data<&sqlx::PgPool>,
     data: Json<CheckCooldownRequest>,
     _: RequireAuthedClient,
@@ -74,7 +74,7 @@ mod tests {
 
         let client = setup_api_test_client(db_pool);
         let response = client
-            .post("/game/cooldowns/check/")
+            .post("/game/command_cooldowns/check/")
             .body_json(&CheckCooldownRequest {
                 user_id: user.id,
                 command,
@@ -110,7 +110,7 @@ mod tests {
 
         let client = setup_api_test_client(db_pool);
         let response = client
-            .post("/game/cooldowns/check/")
+            .post("/game/command_cooldowns/check/")
             .body_json(&CheckCooldownRequest {
                 user_id: user.id,
                 command,
@@ -137,7 +137,7 @@ mod tests {
 
         let client = setup_api_test_client(db_pool);
         let response = client
-            .post("/game/cooldowns/check/")
+            .post("/game/command_cooldowns/check/")
             .body_json(&CheckCooldownRequest {
                 user_id: user.id,
                 command: command.to_string(),

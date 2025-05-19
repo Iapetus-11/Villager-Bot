@@ -33,12 +33,10 @@ class DiscordGuildsResource(KarenResourceBase):
         return DiscordGuildSettings.model_validate_json(data)
 
     @overload
-    async def update(self, id_: int, discord_guild_settings: DiscordGuildSettings, /):
-        ...
+    async def update(self, id_: int, discord_guild_settings: DiscordGuildSettings, /): ...
 
     @overload
-    async def update(self, id_: int, /, **kwargs: Unpack[DiscordGuildUpdateRequest]):
-        ...
+    async def update(self, id_: int, /, **kwargs: Unpack[DiscordGuildUpdateRequest]): ...
 
     async def update(self, id_: int, /, *args, **kwargs):
         payload: dict[str, Any]

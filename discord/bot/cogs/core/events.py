@@ -375,7 +375,7 @@ class Events(commands.Cog):
             discord.errors.Forbidden,
         ):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
-        elif isinstance(e, commands.MaxConcurrencyReached): #| MaxKarenConcurrencyReached):
+        elif isinstance(e, commands.MaxConcurrencyReached):  # | MaxKarenConcurrencyReached):
             await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
         elif isinstance(e, (commands.MissingRequiredArgument, *BAD_ARG_ERRORS)):
             command_doc = {

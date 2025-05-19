@@ -1,11 +1,12 @@
-use cooldowns::check_cooldown;
 use poem::{Route, post};
 
+mod command_cooldowns;
+mod command_executions;
 mod commands;
-mod cooldowns;
 
 pub fn routes() -> Route {
     Route::new()
         .nest("/commands/", commands::routes())
-        .at("/cooldowns/check/", post(check_cooldown))
+        .at("/command_cooldowns/check/", post(command_cooldowns::check))
+        .at("/command_executions/log/", post(command_executions::log))
 }
