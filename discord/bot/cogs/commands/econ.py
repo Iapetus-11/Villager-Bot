@@ -253,7 +253,8 @@ class Econ(commands.Cog):
                 inline=False,
             )
 
-        user_badges_image_file: discord.File | None = None
+        response_msg = await ctx.reply(embed=embed, mention_author=False)
+
         try:
             user_badges_image_data = await self.karen.users.get_badges_image(ctx.author.id)
 
@@ -261,14 +262,12 @@ class Econ(commands.Cog):
                 fp=BytesIO(user_badges_image_data),
                 filename=f"{user.id}_badges.png",
             )
+
             embed.set_image(url=f"attachment://{user_badges_image_file.filename}")
+            await response_msg.edit(attachments=[user_badges_image_file], embed=embed)
         except aiohttp.ClientResponseError as e:
-            if e.status == 404:  # User has no badges
-                pass
-
-            raise
-
-        await ctx.reply(embed=embed, file=user_badges_image_file, mention_author=False)
+            if e.status != 404:  # User has no badges
+                raise
 
     @commands.command(name="balance", aliases=["bal", "vault", "pocket"])
     async def balance(self, ctx: Ctx, *, user: discord.User = None):
