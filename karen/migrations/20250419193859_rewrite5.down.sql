@@ -69,8 +69,12 @@ AS $$
     SELECT DECODE_BIGINT(SUBSTRING(id FROM 5 FOR 8))
 $$ LANGUAGE SQL IMMUTABLE LEAKPROOF PARALLEL SAFE;
 
+ALTER TABLE command_executions ADD COLUMN discord_user_id BIGINT;
+UPDATE command_executions SET discord_user_id = (SELECT discord_id FROM users WHERE id = command_executions.user_id);
 ALTER TABLE command_executions DROP COLUMN user_id;
 ALTER TABLE command_executions RENAME COLUMN discord_user_id TO user_id;
+ALTER TABLE command_executions RENAME COLUMN discord_guild_id TO guild_id;
+ALTER TABLE command_executions ADD COLUMN is_slash BOOLEAN DEFAULT false;
 
 ALTER TABLE give_logs DROP CONSTRAINT give_logs_receiver_id_fkey;
 ALTER TABLE give_logs DROP CONSTRAINT give_logs_sender_id_fkey;

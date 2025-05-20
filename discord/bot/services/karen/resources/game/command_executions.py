@@ -8,7 +8,6 @@ from bot.utils.urls import url_join
 class LogCommandExecutionRequest(TypedDict):
     guild_id: int
     command: str
-    is_slash: bool
     at: datetime
     user_id: str | int
 

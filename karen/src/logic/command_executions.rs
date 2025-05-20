@@ -5,15 +5,14 @@ use crate::common::xid::Xid;
 
 pub async fn log_command_execution(
     db: &mut PgConnection,
-    discord_guild_id: i64,
-    command: &str,
-    is_slash: bool,
-    at: DateTime<Utc>,
     user_id: &Xid,
+    command: &str,
+    discord_guild_id: Option<i64>,
+    at: DateTime<Utc>,
 ) -> Result<(), sqlx::Error> {
     sqlx::query!(
-        "INSERT INTO command_executions (guild_id, command, is_slash, at, user_id) VALUES ($1, $2, $3, $4, $5)",
-        discord_guild_id, command, is_slash, at, user_id.as_bytes(),
+        "INSERT INTO command_executions (user_id, command, discord_guild_id, at) VALUES ($1, $2, $3, $4)",
+        user_id.as_bytes(), command, discord_guild_id, at,
     ).execute(&mut *db).await?;
 
     // TODO: Update leaderboard, mob spawning

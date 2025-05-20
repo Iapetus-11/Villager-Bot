@@ -57,6 +57,9 @@ ALTER TABLE command_executions ALTER COLUMN user_id TYPE BYTEA USING FAKE_XID(us
 ALTER TABLE command_executions ALTER COLUMN user_id DROP NOT NULL;
 UPDATE command_executions SET user_id = (SELECT id FROM users WHERE discord_id = command_executions.discord_user_id);
 ALTER TABLE command_executions ADD CONSTRAINT command_executions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users (id);
+ALTER TABLE command_executions DROP COLUMN discord_user_id;
+ALTER TABLE command_executions RENAME COLUMN guild_id TO discord_guild_id;
+ALTER TABLE command_executions DROP COLUMN is_slash;
 
 DROP FUNCTION FAKE_XID;
 
