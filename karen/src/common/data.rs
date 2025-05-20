@@ -1,19 +1,20 @@
-use crate::models::data::{commands::CommandsData, items::ItemsData};
-use std::{error::Error as StdError, fs, sync::LazyLock};
+use crate::models::data::{commands::CommandsData, items::ItemsData, mobs::MobsData};
+use std::{fs, sync::LazyLock};
 
-pub fn load_commands_data() -> Result<CommandsData, Box<dyn StdError>> {
-    let file_content = fs::read_to_string("data/commands.json")?;
-    Ok(serde_json::from_str(&file_content)?)
-}
+pub static COMMANDS_DATA: LazyLock<CommandsData> = LazyLock::new(|| {
+    let file_content = fs::read_to_string("data/commands.json").unwrap();
+    serde_json::from_str(&file_content).unwrap()
+});
 
-pub fn load_items_data() -> Result<ItemsData, Box<dyn StdError>> {
-    let file_content = fs::read_to_string("data/items.json")?;
-    Ok(serde_json::from_str(&file_content)?)
-}
+pub static ITEMS_DATA: LazyLock<ItemsData> = LazyLock::new(|| {
+    let file_content = fs::read_to_string("data/items.json").unwrap();
+    serde_json::from_str(&file_content).unwrap()
+});
 
-pub static COMMANDS_DATA: LazyLock<CommandsData> = LazyLock::new(|| load_commands_data().unwrap());
-
-pub static ITEMS_DATA: LazyLock<ItemsData> = LazyLock::new(|| load_items_data().unwrap());
+pub static MOBS_DATA: LazyLock<MobsData> = LazyLock::new(|| {
+    let file_content = fs::read_to_string("data/mobs.json").unwrap();
+    serde_json::from_str(&file_content).unwrap()
+});
 
 #[cfg(test)]
 mod tests {
