@@ -21,7 +21,7 @@ class ProfileCommandData(ImmutableBaseModel):
 
 
 class ProfileCommandResource(KarenResourceBase):
-    BASE_URL: ClassVar[str] = "/game/commands/profile/"
+    BASE_URL: ClassVar[str] = "/commands/profile/"
 
     def __init__(self, http: aiohttp.ClientSession):
         super().__init__(http)

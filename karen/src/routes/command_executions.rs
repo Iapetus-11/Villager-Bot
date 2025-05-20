@@ -6,7 +6,11 @@ use poem::{
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    common::{data::COMMANDS_DATA, security::RequireAuthedClient, xid::Xid},
+    common::{
+        data::{COMMANDS_DATA, MOBS_DATA},
+        security::RequireAuthedClient,
+        xid::Xid,
+    },
     logic::{command_cooldowns::get_or_create_cooldown, command_executions::log_command_execution},
 };
 
@@ -19,8 +23,8 @@ struct CommandExecutionPreflightRequest {
     at: DateTime<Utc>,
 }
 
-#[derive(Debug, Deserialize)]
-#[cfg_attr(test, derive(Serialize))]
+#[derive(Debug, Serialize)]
+#[cfg_attr(test, derive(Deserialize))]
 struct CommandExecutionPreflightResponse {
     spawn_mob: bool,
 }
@@ -37,7 +41,7 @@ pub async fn preflight(
     db: Data<&sqlx::PgPool>,
     data: Json<CommandExecutionPreflightRequest>,
     _: RequireAuthedClient,
-) -> Result<(), poem::Error> {
+) -> Result<Json<CommandExecutionPreflightResponse>, poem::Error> {
     let mut db = db.acquire().await.unwrap();
 
     if let Some(cooldown_seconds) = COMMANDS_DATA.cooldowns.get(&data.command) {
@@ -74,7 +78,9 @@ pub async fn preflight(
     .await
     .unwrap();
 
-    Ok(())
+    let spawn_mob = fastrand::choice(0..MOBS_DATA.spawn_rate_denominator).unwrap() == 0;
+
+    Ok(Json(CommandExecutionPreflightResponse { spawn_mob }))
 }
 
 #[cfg(test)]
@@ -82,7 +88,7 @@ mod tests {
     use chrono::SubsecRound;
     use sqlx::PgPool;
 
-    use crate::common::testing::{create_test_user, setup_api_test_client, CreateTestUser, PgPoolConn};
+    use crate::common::testing::{CreateTestUser, create_test_user, setup_api_test_client};
 
     use super::*;
 
@@ -96,7 +102,7 @@ mod tests {
 
         let client = setup_api_test_client(db_pool);
         let response = client
-            .post("/game/command_executions/preflight/")
+            .post("/command_executions/preflight/")
             .body_json(&CommandExecutionPreflightRequest {
                 user_id: user.id,
                 command,
@@ -107,7 +113,15 @@ mod tests {
             .await;
 
         response.assert_status_is_ok();
-        response.assert_bytes(b"").await;
+
+        let response_json = response
+            .0
+            .into_body()
+            .into_json::<serde_json::Value>()
+            .await
+            .unwrap();
+        assert!(response_json.is_object());
+        assert!(response_json.get("spawn_mob").unwrap().is_boolean());
     }
 
     #[sqlx::test]
@@ -129,7 +143,7 @@ mod tests {
 
         let client = setup_api_test_client(db_pool);
         let response = client
-            .post("/game/command_executions/preflight/")
+            .post("/command_executions/preflight/")
             .body_json(&CommandExecutionPreflightRequest {
                 user_id: user.id,
                 command,
@@ -141,7 +155,9 @@ mod tests {
 
         response.assert_status_is_ok();
         response
-            .assert_json(PreflightErrorResponse::CommandOnCooldown { until: existing_cooldown })
+            .assert_json(PreflightErrorResponse::CommandOnCooldown {
+                until: existing_cooldown,
+            })
             .await;
     }
 }

@@ -22,6 +22,11 @@ from bot.models.fwd_dm import ForwardedDirectMessage
 from bot.models.secrets import Secrets
 from bot.models.translation import Translation
 from bot.services.karen import KarenClient
+from bot.services.karen.resources.command_executions import (
+    CommandExecutionPreflightCommandOnCooldownError,
+    CommandExecutionPreflightRequest,
+    CommandExecutionPreflightSuccess,
+)
 from bot.utils.code import execute_code
 from bot.utils.font_handler import FontHandler
 
@@ -87,7 +92,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.vote_channel: discord.TextChannel | None = None
 
         # counters and other things
-        self.command_count = 0
         self.message_count = 0
         self.error_count = 0
         self.session_votes = 0
@@ -97,13 +101,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.final_ready = asyncio.Event()
 
         self.add_check(self.check_global)  # register global check
-        self.before_invoke(
-            self.before_command_invoked,
-        )  # register self.before_command_invoked as a before_invoked event
-        self.after_invoke(
-            self.after_command_invoked,
-        )  # register self.after_command_invoked as a after_invoked event
-        self.event(self.on_app_command_completion)
 
     @property
     def embed_color(self) -> discord.Color:
@@ -244,67 +241,27 @@ class VillagerBotCluster(commands.AutoShardedBot):
             ctx.failure_reason = "disabled"
             return False
 
-        # handle cooldowns that need to be synced between shard groups / processes
-        # (aka karen cooldowns)
-        if command_name in self.d.cooldown_rates:
-            cooldown_info = await self.karen.game.command_cooldowns.check(karen_user.id, command_name)
+        preflight = await self.karen.command_executions.preflight(
+            CommandExecutionPreflightRequest(
+                user_id=karen_user.id,
+                command=command_name,
+                at=datetime.now(timezone.utc),
+                discord_guild_id=ctx.guild.id if ctx.guild else None,
+            )
+        )
 
-            if not cooldown_info.already_on_cooldown:
-                ctx.custom_error = CommandOnKarenCooldownError(cooldown_info.until)
-                return False
-
-        return True
-
-    async def before_command_invoked(self, ctx: CustomContext):
-        assert ctx.command is not None
-
-        self.command_count += 1
-
-        if ctx.command.cog_name == "Econ":
-            # random chance to spawn mob
-            if random.randint(0, self.d.mob_chance) == 0:
-                if self.d.cooldown_rates.get(ctx.command.qualified_name, 0) >= 2:
-                    ...  # TODO: Move this to Karen?
-                    # asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
+        if isinstance(preflight, CommandExecutionPreflightSuccess):  # noqa: SIM102
+            if preflight.spawn_mob:
+                ...  # TODO: Move this to Karen?
+                # asyncio.create_task(self.get_cog("MobSpawner").spawn_event(ctx))
             elif random.randint(0, self.d.tip_chance) == 0:  # random chance to send tip
                 asyncio.create_task(self.send_tip(ctx))
 
-        if ctx.command.qualified_name in self.d.cooldown_rates:
-            await self.karen.lb_command_ran(ctx.author.id)
+        if isinstance(preflight, CommandExecutionPreflightCommandOnCooldownError):
+            ctx.custom_error = CommandOnKarenCooldownError(preflight.until)
+            return False
 
-        await self.karen.command_execution(
-            ctx.author.id,
-            getattr(ctx.guild, "id", None),
-            ctx.command.qualified_name,
-            False,
-        )
-
-    async def after_command_invoked(self, ctx: CustomContext):
-        assert ctx.command is not None
-
-        # try:
-        #     if ctx.command.qualified_name in self.d.concurrency_limited:
-        #         await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
-        # except Exception:
-        #     self.logger.exception(
-        #         ("An error occurred while attempting to release a concurrency lock for command %s for user %s"),
-        #         ctx.command,
-        #         ctx.author.id,
-        #     )
-        #     raise
-
-    async def on_app_command_completion(
-        self,
-        inter: discord.Interaction,
-        command: discord.app_commands.Command | discord.app_commands.ContextMenu,
-    ):
-        if isinstance(command, discord.app_commands.Command):
-            await self.karen.command_execution(
-                inter.user.id,
-                inter.guild_id,
-                command.qualified_name,
-                True,
-            )
+        return True
 
     # packet handlers #####################################################
 

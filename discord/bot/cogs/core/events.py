@@ -281,22 +281,21 @@ class Events(commands.Cog):
 
                 return
 
-        # "funny" replies like creeper -> awwww man
-        if message.guild.id in self.bot.replies_cache:
-            prefix = self.bot.prefix_cache.get(message.guild.id, self.k.default_prefix)
+        karen_guild_settings = await self.karen.discord.cached.guilds.get(message.guild.id)
 
-            if not message.content.startswith(prefix):
-                with suppress(discord.errors.HTTPException):
-                    if "emerald" in content_lower:
-                        await message.channel.send(random.choice(self.d.hmms))
-                    elif "creeper" in content_lower:
-                        await message.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
-                    elif "reee" in content_lower:
-                        await message.channel.send(random.choice(self.d.emojis.reees))
-                    elif "amogus" in content_lower or content_lower == "sus":
-                        await message.channel.send(self.d.emojis.amogus)
-                    elif content_lower == "good bot":
-                        await message.reply(random.choice(self.d.owos), mention_author=False)
+        # "funny" replies like creeper -> awwww man
+        if karen_guild_settings.silly_triggers and not message.content.startswith(karen_guild_settings.prefix):
+            with suppress(discord.errors.HTTPException):
+                if "emerald" in content_lower:
+                    await message.channel.send(random.choice(self.d.hmms))
+                elif "creeper" in content_lower:
+                    await message.channel.send("awww{} man".format(random.randint(1, 5) * "w"))
+                elif "reee" in content_lower:
+                    await message.channel.send(random.choice(self.d.emojis.reees))
+                elif "amogus" in content_lower or content_lower == "sus":
+                    await message.channel.send(self.d.emojis.amogus)
+                elif content_lower == "good bot":
+                    await message.reply(random.choice(self.d.owos), mention_author=False)
 
     async def handle_command_cooldown(
         self,

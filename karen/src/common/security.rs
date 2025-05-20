@@ -33,7 +33,6 @@ impl<'a> poem::FromRequest<'a> for RequireAuthedClient {
                 .as_bytes()
                 .ct_eq(config.auth_token.as_bytes()),
         ) {
-            println!("Here 36");
             return Err(poem::Error::from_string(
                 "incorrect authorization header",
                 StatusCode::UNAUTHORIZED,
