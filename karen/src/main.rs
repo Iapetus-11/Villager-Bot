@@ -1,9 +1,7 @@
 use std::{env, error::Error as StdError, sync::Arc};
 
 use poem::{
-    EndpointExt, Server,
-    listener::TcpListener,
-    middleware::{AddData, CatchPanic, NormalizePath, TrailingSlash},
+    listener::TcpListener, middleware::{AddData, CatchPanic, NormalizePath, Tracing, TrailingSlash}, EndpointExt, Server
 };
 use thiserror::Error;
 
@@ -31,15 +29,11 @@ async fn run_api() -> Result<(), Box<dyn StdError>> {
         .await?;
 
     let app = routes::setup_routes()
+        .with(Tracing)
         .with(NormalizePath::new(TrailingSlash::Always))
         .with(AddData::new(config.clone()))
         .with(AddData::new(db_pool.clone()))
         .with(CatchPanic::new());
-
-    println!(
-        "Starting server on http://{0} ...",
-        config.server_host_address
-    );
 
     Server::new(TcpListener::bind(config.server_host_address.clone()))
         .run(app)
@@ -50,6 +44,8 @@ async fn run_api() -> Result<(), Box<dyn StdError>> {
 
 #[tokio::main]
 async fn main() {
+    tracing::subscriber::set_global_default(tracing_subscriber::FmtSubscriber::new()).unwrap();
+
     let mut args = env::args().skip(1);
     let command = args.next().unwrap_or("".into());
     let _args = args.collect::<Vec<_>>();
