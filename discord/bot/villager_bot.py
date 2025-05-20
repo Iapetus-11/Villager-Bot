@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 import aiohttp
+from bot.logic.command_errors import BotNotReadyYet, CommandDisabledByGuild, UserBotBanned
 import captcha.image
 import discord
 import psutil
@@ -158,32 +159,31 @@ class VillagerBotCluster(commands.AutoShardedBot):
                     "An error occurred in on_ready while syncing slash commands",
                 )
 
-            try:
-                self.logger.info("Syncing db item prices...")
+            # try:
+            #     self.logger.info("Syncing db item prices...")
 
-                item_prices = {v.db_entry.item: v.db_entry.sell_price for k, v in self.d.shop_items.items()}
-                item_prices.update(
-                    {self.d.farming.name_map[k]: v for k, v in self.d.farming.emerald_yields.items()},
-                )
-                item_prices.update({f.item: f.sell_price for f in self.d.fishing_findables})
-                item_prices.update({
-                    self.d.farming.name_map[crop_type]: emerald_amount
-                    for crop_type, emerald_amount in self.d.farming.emerald_yields.items()
-                })
+            #     item_prices = {v.db_entry.item: v.db_entry.sell_price for k, v in self.d.shop_items.items()}
+            #     item_prices.update(
+            #         {self.d.farming.name_map[k]: v for k, v in self.d.farming.emerald_yields.items()},
+            #     )
+            #     item_prices.update({f.item: f.sell_price for f in self.d.fishing_findables})
+            #     item_prices.update({
+            #         self.d.farming.name_map[crop_type]: emerald_amount
+            #         for crop_type, emerald_amount in self.d.farming.emerald_yields.items()
+            #     })
 
-                await self.get_cog("Database").sync_item_prices(item_prices)
+            #     await self.get_cog("Database").sync_item_prices(item_prices)
 
-                self.logger.info("Done syncing db item prices!")
-            except Exception:
-                self.logger.exception(
-                    "An error occurred in on_ready while syncing db item prices",
-                )
+            #     self.logger.info("Done syncing db item prices!")
+            # except Exception:
+            #     self.logger.exception(
+            #         "An error occurred in on_ready while syncing db item prices",
+            #     )
 
     async def get_context(self, *args, **kwargs) -> CustomContext:  # type: ignore[override]
-        ctx = await super().get_context(*args, **kwargs, cls=CustomContext)
+        ctx: CustomContext = await super().get_context(*args, **kwargs, cls=CustomContext)
 
-        ctx.embed_color = self.embed_color
-        ctx.l = await self.get_language(ctx)
+        await ctx.async_init()
 
         return ctx
 
@@ -230,16 +230,13 @@ class VillagerBotCluster(commands.AutoShardedBot):
         karen_guild_settings = (await self.karen.discord.cached.guilds.get(ctx.guild.id)) if ctx.guild else None
 
         if karen_user.banned:
-            ctx.failure_reason = "bot_banned"
-            return False
+            raise UserBotBanned()
 
         if not self.is_ready():
-            ctx.failure_reason = "not_ready"
-            return False
+            raise BotNotReadyYet()
 
         if karen_guild_settings is not None and command_name in karen_guild_settings.disabled_commands:
-            ctx.failure_reason = "disabled"
-            return False
+            raise CommandDisabledByGuild()
 
         preflight = await self.karen.command_executions.preflight(
             CommandExecutionPreflightRequest(

@@ -355,12 +355,6 @@ class Events(commands.Cog):
     async def on_command_error(self, ctx: Ctx, e: Exception):
         self.bot.error_count += 1
 
-        if (custom_error := getattr(ctx, "custom_error", None)) is not None:
-            e = custom_error
-
-        # if not isinstance(e, MaxKarenConcurrencyReached) and ctx.command:
-        #     await self.karen.release_concurrency(ctx.command.qualified_name, ctx.author.id)
-
         if isinstance(e, commands.CommandOnCooldown):
             await self.handle_command_cooldown(ctx, e.retry_after, False)
         elif isinstance(e, CommandOnKarenCooldownError):

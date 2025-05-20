@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import dataclasses
 import typing
 
 import discord
 from discord.ext.commands import Context
 
 from bot.models.translation import Translation
+from bot.services.karen.resources.discord.guild import DiscordGuildSettings as KarenDiscordGuild
+from bot.services.karen.resources.users import User as KarenUser
 
 if typing.TYPE_CHECKING:
     from bot.villager_bot import VillagerBotCluster
@@ -14,15 +17,16 @@ if typing.TYPE_CHECKING:
 class CustomContext(Context["VillagerBotCluster"]):
     """Custom context class to provide extra helper methods and multi-language support"""
 
-    embed_color: discord.Color | None  # used in send_embed(...) and reply_embed(...)
+    @dataclasses.dataclass(frozen=True, slots=True, kw_only=True, eq=False, match_args=False)
+    class KarenData:
+        user: KarenUser
+        guild: KarenDiscordGuild | None
+
     l: Translation  # the translation of the bot text for the current context  # noqa: E741
-    failure_reason: str | None  # failure reason used in some command error handling
-    custom_error: Exception | None
+    k: KarenData
 
-    def __init__(self, *args, embed_color: discord.Color | None = None, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.embed_color = embed_color
 
     async def send_embed(self, message: str, *, ignore_exceptions: bool = False) -> None:
         await self.bot.send_embed(self, message, ignore_exceptions=ignore_exceptions)
@@ -41,6 +45,17 @@ class CustomContext(Context["VillagerBotCluster"]):
         author_id = getattr(self.author, "id", None)
 
         return f"Ctx({guild_id=}, {author_id=})"
+
+    async def async_init(self):
+        self.l = await self.bot.get_language(self)
+
+        karen_guild_settings: KarenDiscordGuild | None = None
+        if self.guild is not None:
+            karen_guild_settings = await self.bot.karen.discord.cached.guilds.get(self.guild.id)
+
+        karen_user = await self.bot.karen.cached.users.get(self.author.id)
+
+        self.k = self.KarenData(user=karen_user, guild=karen_guild_settings)
 
 
 Ctx = CustomContext
