@@ -1,7 +1,9 @@
 use std::{env, error::Error as StdError, sync::Arc};
 
 use poem::{
-    listener::TcpListener, middleware::{AddData, CatchPanic, NormalizePath, Tracing, TrailingSlash}, EndpointExt, Server
+    EndpointExt, Server,
+    listener::TcpListener,
+    middleware::{AddData, CatchPanic, NormalizePath, Tracing, TrailingSlash},
 };
 use thiserror::Error;
 
