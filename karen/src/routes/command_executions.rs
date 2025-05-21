@@ -78,7 +78,10 @@ pub async fn preflight(
     .await
     .unwrap();
 
-    let spawn_mob = fastrand::choice(0..MOBS_DATA.spawn_rate_denominator).unwrap() == 0;
+    let spawn_mob = match COMMANDS_DATA.commands_which_spawn_mobs.contains(&data.command) {
+        true => fastrand::choice(0..MOBS_DATA.spawn_rate_denominator).unwrap() == 0,
+        false => false,
+    };
 
     Ok(Json(CommandExecutionPreflightResponse { spawn_mob }))
 }

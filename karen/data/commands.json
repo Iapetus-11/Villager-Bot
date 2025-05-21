@@ -13,5 +13,14 @@
         "search": 1800,
         "mine": 4,
         "trivia": 5
-    }
+    },
+    "commands_which_spawn_mobs": [
+        "mine",
+        "fish",
+        "farm",
+        "search",
+        "honey",
+        "gamble",
+        "pillage"
+    ]
 }
