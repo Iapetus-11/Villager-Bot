@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Annotated, Any, ClassVar, Literal, TypedDict, Unpack
 
+import pydantic_core
 from pydantic import Discriminator, RootModel, Tag
 
 from bot.models.base_model import ImmutableBaseModel
@@ -51,7 +52,7 @@ class CommandExecutionsResource(KarenResourceBase):
     async def preflight(self, **kwargs: Unpack[CommandExecutionPreflightRequest]) -> CommandExecutionPreflightResponse:
         response = await self._http.post(
             url_join(self.BASE_URL, "/preflight/"),
-            json=kwargs,
+            json=pydantic_core.to_jsonable_python(kwargs),
             allow_redirects=False,
         )
         data = await response.read()

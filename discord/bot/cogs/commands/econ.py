@@ -178,9 +178,11 @@ class Econ(commands.Cog):
             return
 
         user_data, profile_data = await asyncio.gather(
-            self.karen.users.get(ctx.author.id),
-            self.karen.commands.profile.get(user_id=ctx.author.id),
+            self.karen.cached.users.get(user.id),
+            self.karen.commands.profile.get(user_id=user.id),
         )
+
+        user_badges_image_task = asyncio.create_task(self.karen.users.get_badges_image(user_data.id))
 
         health_bar = make_health_bar(
             user_data.health,
@@ -189,14 +191,6 @@ class Econ(commands.Cog):
             self.d.emojis.heart_half,
             self.d.emojis.heart_empty,
         )
-
-        # vote_streak = db_user.vote_streak
-        # last_voted_at = arrow.get(db_user.last_vote or 0)
-        # voted = arrow.utcnow().shift(hours=-12) < last_voted_at
-
-        # if arrow.utcnow().shift(days=-1, hours=-12) > arrow.get(db_user.last_vote or 0):
-        #     vote_streak = 0
-        #     await self.db.update_user(user.id, vote_streak=0, last_vote=None)
 
         if profile_data.can_vote:
             can_vote_value = f"[{ctx.l.econ.pp.yep}]({self.d.topgg + '/vote'})"
@@ -243,7 +237,7 @@ class Econ(commands.Cog):
         )
 
         # add empty field to account for missing "Can Vote?" field
-        if user.id != ctx.author.id:
+        if ctx.k.user.id != user_data.id:
             embed.add_field(name="\ufeff", value="\ufeff")
 
         if active_effects:
@@ -256,11 +250,11 @@ class Econ(commands.Cog):
         response_msg = await ctx.reply(embed=embed, mention_author=False)
 
         try:
-            user_badges_image_data = await self.karen.users.get_badges_image(ctx.author.id)
+            user_badges_image_data = await user_badges_image_task
 
             user_badges_image_file = discord.File(
                 fp=BytesIO(user_badges_image_data),
-                filename=f"{user.id}_badges.png",
+                filename=f"{user_data.id}_badges.png",
             )
 
             embed.set_image(url=f"attachment://{user_badges_image_file.filename}")

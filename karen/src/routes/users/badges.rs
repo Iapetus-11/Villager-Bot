@@ -34,6 +34,7 @@ pub async fn get_image(
             StatusCode::NOT_FOUND,
         ));
     };
+
     let Some(badges_image_data) = generate_user_badges_image(&badges).await.unwrap() else {
         return Err(poem::Error::from_string(
             "User has no badges that can be visualized",
