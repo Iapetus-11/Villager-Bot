@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{HashMap, HashSet};
 
 use serde::Deserialize;
 
@@ -13,7 +13,7 @@ pub struct ItemRecord {
 #[derive(Debug, Deserialize)]
 pub struct ItemShopEntryBuyRequires {
     pub count_lt: Option<i64>,
-    pub items: Option<BTreeMap<String, i64>>,
+    pub items: Option<HashMap<String, i64>>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -26,12 +26,12 @@ pub struct ItemShopEntry {
 #[derive(Debug, Deserialize)]
 pub struct ItemFindableEntry {
     pub rarity: i32,
-    pub tags: BTreeSet<String>,
+    pub tags: HashSet<String>,
 }
 
-pub type ItemRegistry = BTreeMap<String, ItemRecord>;
-pub type ItemShopData = BTreeMap<String, ItemShopEntry>;
-pub type ItemFindableData = BTreeMap<String, ItemFindableEntry>;
+pub type ItemRegistry = HashMap<String, ItemRecord>;
+pub type ItemShopData = HashMap<String, ItemShopEntry>;
+pub type ItemFindableData = HashMap<String, ItemFindableEntry>;
 
 #[derive(Debug, Deserialize)]
 pub struct ItemsData {
