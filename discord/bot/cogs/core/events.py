@@ -52,8 +52,6 @@ class Events(commands.Cog):
         return typing.cast(Badges, self.bot.get_cog("Badges"))
 
     async def on_error(self, event, *args, **kwargs):  # logs errors in events, such as on_message
-        self.bot.error_count += 1
-
         event_call_repr_args = ",  ".join(
             list(map(repr, args)) + [f"{k}={v!r}" for k, v in kwargs.items()],
         )
