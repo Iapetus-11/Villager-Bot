@@ -11,7 +11,7 @@ import psutil
 from captcha.image import ImageCaptcha
 from discord.ext import commands
 
-from bot.logic.command_errors import BotNotReadyYet, CommandDisabledByGuild, UserBotBanned
+from bot.logic.command_errors import BotNotReadyYet, CommandDisabledByGuild, CommandOnKarenCooldown, UserBotBanned
 from bot.logic.ctx import CustomContext
 from bot.logic.home_guild import (
     update_support_member_role,
@@ -24,7 +24,6 @@ from bot.models.translation import Translation
 from bot.services.karen import KarenClient
 from bot.services.karen.resources.command_executions import (
     CommandExecutionPreflightCommandOnCooldownError,
-    CommandExecutionPreflightRequest,
     CommandExecutionPreflightSuccess,
 )
 from bot.utils.code import execute_code
@@ -249,8 +248,7 @@ class VillagerBotCluster(commands.AutoShardedBot):
                 asyncio.create_task(self.send_tip(ctx))
 
         if isinstance(preflight, CommandExecutionPreflightCommandOnCooldownError):
-            ctx.custom_error = CommandOnKarenCooldownError(preflight.until)
-            return False
+            raise CommandOnKarenCooldown(preflight.until)
 
         return True
 
