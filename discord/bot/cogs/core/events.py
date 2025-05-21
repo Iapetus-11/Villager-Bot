@@ -9,13 +9,18 @@ from discord.ext import commands
 
 from bot.cogs.core.badges import Badges
 from bot.cogs.core.database import Database
+from bot.logic.command_errors import BotNotReadyYet, CommandDisabledByGuild, CommandOnKarenCooldown, UserBotBanned
 from bot.logic.ctx import Ctx
-from bot.logic.errors import CommandOnKarenCooldownError
 from bot.logic.home_guild import update_support_member_role
 from bot.utils.text import chunk_by_lines, text_to_discord_file
 from bot.villager_bot import VillagerBotCluster
 
-IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
+IGNORED_ERRORS = (
+    commands.CommandNotFound,
+    commands.NotOwner,
+    BotNotReadyYet,
+    UserBotBanned,
+)
 
 BAD_ARG_ERRORS = (
     commands.BadArgument,
@@ -192,8 +197,6 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        self.bot.message_count += 1
-
         # ignore bots
         if message.author.bot:
             return
@@ -353,11 +356,9 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: Ctx, e: Exception):
-        self.bot.error_count += 1
-
         if isinstance(e, commands.CommandOnCooldown):
             await self.handle_command_cooldown(ctx, e.retry_after, False)
-        elif isinstance(e, CommandOnKarenCooldownError):
+        elif isinstance(e, CommandOnKarenCooldown):
             await self.handle_command_cooldown(ctx, e.remaining.total_seconds(), True)
         elif isinstance(e, commands.NoPrivateMessage):
             await ctx.reply_embed(ctx.l.misc.errors.private, ignore_exceptions=True)
@@ -383,18 +384,8 @@ class Events(commands.Cog):
                 f"{ctx.l.misc.errors.missing_arg}\n\n{ctx.l.help.n.cmd}:\n{command_doc}",
                 ignore_exceptions=True,
             )
-        elif hasattr(ctx, "failure_reason") and ctx.failure_reason:  # handle global check failures
-            failure_reason = ctx.failure_reason
-
-            if failure_reason == "bot_banned" or failure_reason == "ignore":
-                return
-            if failure_reason == "not_ready":
-                await self.bot.wait_until_ready()
-                await ctx.reply_embed(ctx.l.misc.errors.not_ready, ignore_exceptions=True)
-            elif failure_reason == "econ_paused":
-                await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
-            elif failure_reason == "disabled":
-                await ctx.reply_embed(ctx.l.misc.errors.disabled, ignore_exceptions=True)
+        elif isinstance(e, CommandDisabledByGuild):
+            await ctx.reply_embed(ctx.l.misc.errors.disabled, ignore_exceptions=True)
         elif isinstance(e, IGNORED_ERRORS) or isinstance(
             getattr(e, "original", None),
             IGNORED_ERRORS,

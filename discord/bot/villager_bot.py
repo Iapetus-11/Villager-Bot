@@ -93,9 +93,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
         self.vote_channel: discord.TextChannel | None = None
 
         # counters and other things
-        self.message_count = 0
-        self.error_count = 0
-        self.session_votes = 0
         self.font_files = list[str]()
         self.captcha_generator: ImageCaptcha | None = None
 
@@ -300,17 +297,6 @@ class VillagerBotCluster(commands.AutoShardedBot):
                         self.logger.exception("An error occurred while sending a reminder")
 
         return {"success": success}
-
-    async def packet_fetch_bot_stats(self):
-        return [
-            len(self.guilds),
-            len(self.users),
-            self.message_count,
-            self.command_count,
-            self.latency,
-            len(self.private_channels),
-            self.session_votes,
-        ]
 
     async def packet_fetch_system_stats(self):
         memory_info = psutil.virtual_memory()
