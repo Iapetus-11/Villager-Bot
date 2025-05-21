@@ -147,7 +147,7 @@ pub struct UserUpdateData {
     pub last_daily_quest_reroll: Option<Option<DateTime<Utc>>>,
 }
 
-pub async fn partial_update_user(
+pub async fn update_user(
     db: &mut PgConnection,
     user_id: &Xid,
     update_data: &UserUpdateData,
@@ -328,12 +328,12 @@ mod tests {
     }
 
     #[sqlx::test]
-    async fn test_partial_update_whole_user(mut db: PgPoolConn) {
+    async fn test_update_whole_user(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
         let the_future = Utc::now() + TimeDelta::hours(420);
 
-        let updated_user = partial_update_user(
+        let updated_user = update_user(
             &mut db,
             &user.id,
             &UserUpdateData {
@@ -397,10 +397,10 @@ mod tests {
     }
 
     #[sqlx::test]
-    async fn test_partial_update_set_nullable_fields_to_null(mut db: PgPoolConn) {
+    async fn test_update_set_nullable_fields_to_null(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let updated_user = partial_update_user(
+        let updated_user = update_user(
             &mut db,
             &user.id,
             &UserUpdateData {
@@ -464,8 +464,8 @@ mod tests {
     }
 
     #[sqlx::test]
-    async fn test_partial_update_nonexistent_user(mut db: PgPoolConn) {
-        let updated_user = partial_update_user(
+    async fn test_update_nonexistent_user(mut db: PgPoolConn) {
+        let updated_user = update_user(
             &mut db,
             &Xid::new(),
             &UserUpdateData {
@@ -489,10 +489,10 @@ mod tests {
     }
 
     #[sqlx::test]
-    async fn test_partial_update_user_missing_all_fields(mut db: PgPoolConn) {
+    async fn test_update_user_missing_all_fields(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let updated_user = partial_update_user(&mut db, &user.id, &UserUpdateData::default())
+        let updated_user = update_user(&mut db, &user.id, &UserUpdateData::default())
             .await
             .unwrap()
             .unwrap();
@@ -518,10 +518,10 @@ mod tests {
     }
 
     #[sqlx::test]
-    async fn test_partial_update_user_only_one_field(mut db: PgPoolConn) {
+    async fn test_update_user_only_one_field(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let updated_user = partial_update_user(
+        let updated_user = update_user(
             &mut db,
             &user.id,
             &UserUpdateData {

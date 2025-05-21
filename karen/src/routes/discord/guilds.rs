@@ -8,7 +8,7 @@ use serde::Serialize;
 use crate::{
     common::security::RequireAuthedClient,
     logic::discord_guilds::{
-        DiscordGuildUpdateData, get_or_create_discord_guild, partial_update_discord_guild,
+        DiscordGuildUpdateData, get_or_create_discord_guild, update_discord_guild,
     },
     models::db::DiscordGuild,
 };
@@ -62,7 +62,7 @@ pub async fn update_guild_details(
 ) -> poem::Result<Json<GuildDetailsView>> {
     let mut db = db.acquire().await.unwrap();
 
-    let updated_guild = partial_update_discord_guild(&mut db, guild_id, &update_guild_data)
+    let updated_guild = update_discord_guild(&mut db, guild_id, &update_guild_data)
         .await
         .unwrap();
 

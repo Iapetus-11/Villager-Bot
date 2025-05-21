@@ -10,7 +10,7 @@ use crate::{
         items::get_user_items,
         user_effects::get_active_user_effects,
         user_tools::get_user_tools,
-        users::{UserUpdateData, get_or_create_user, get_user_net_wealth, partial_update_user},
+        users::{UserUpdateData, get_or_create_user, get_user_net_wealth, update_user},
     },
 };
 
@@ -41,7 +41,7 @@ pub async fn get_profile_command_data(
     match user.last_vote_at {
         Some(last_vote_at) if last_vote_at < Utc::now() - TimeDelta::hours(36) => {
             user.vote_streak = 0;
-            partial_update_user(
+            update_user(
                 &mut *db,
                 &user.id,
                 &UserUpdateData {

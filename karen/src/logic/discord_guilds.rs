@@ -73,7 +73,7 @@ pub struct DiscordGuildUpdateData {
 }
 
 /// Update (potentially partially) a DiscordGuild, leave fields as None to exclude them from the update query.
-pub async fn partial_update_discord_guild(
+pub async fn update_discord_guild(
     db: &mut PgConnection,
     guild_id: i64,
     update_data: &DiscordGuildUpdateData,
@@ -204,10 +204,10 @@ mod tests {
     }
 
     #[sqlx::test]
-    async fn test_partial_update_whole_guild(mut db: PgPoolConn) {
+    async fn test_update_whole_guild(mut db: PgPoolConn) {
         let discord_guild = create_test_discord_guild(&mut db, Default::default()).await;
 
-        let updated_discord_guild = partial_update_discord_guild(
+        let updated_discord_guild = update_discord_guild(
             &mut db,
             discord_guild.id,
             &DiscordGuildUpdateData {
@@ -251,8 +251,8 @@ mod tests {
     }
 
     #[sqlx::test]
-    async fn test_partial_update_nonexistent_guild(mut db: PgPoolConn) {
-        let updated_discord_guild = partial_update_discord_guild(
+    async fn test_update_nonexistent_guild(mut db: PgPoolConn) {
+        let updated_discord_guild = update_discord_guild(
             &mut db,
             123123123123123123_i64,
             &DiscordGuildUpdateData {
@@ -270,10 +270,10 @@ mod tests {
     }
 
     #[sqlx::test]
-    async fn test_partial_update_missing_all_fields(mut db: PgPoolConn) {
+    async fn test_update_missing_all_fields(mut db: PgPoolConn) {
         let discord_guild = create_test_discord_guild(&mut db, Default::default()).await;
 
-        let updated_discord_guild = partial_update_discord_guild(
+        let updated_discord_guild = update_discord_guild(
             &mut db,
             discord_guild.id,
             &DiscordGuildUpdateData {
@@ -292,10 +292,10 @@ mod tests {
     }
 
     #[sqlx::test]
-    async fn test_partial_update_only_one_field(mut db: PgPoolConn) {
+    async fn test_update_only_one_field(mut db: PgPoolConn) {
         let discord_guild = create_test_discord_guild(&mut db, Default::default()).await;
 
-        let updated_discord_guild = partial_update_discord_guild(
+        let updated_discord_guild = update_discord_guild(
             &mut db,
             discord_guild.id,
             &DiscordGuildUpdateData {
