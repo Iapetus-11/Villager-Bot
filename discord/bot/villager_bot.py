@@ -5,15 +5,14 @@ from datetime import datetime, timezone
 from typing import Any
 
 import aiohttp
-from bot.logic.command_errors import BotNotReadyYet, CommandDisabledByGuild, UserBotBanned
 import captcha.image
 import discord
 import psutil
 from captcha.image import ImageCaptcha
 from discord.ext import commands
 
+from bot.logic.command_errors import BotNotReadyYet, CommandDisabledByGuild, UserBotBanned
 from bot.logic.ctx import CustomContext
-from bot.logic.errors import CommandOnKarenCooldownError
 from bot.logic.home_guild import (
     update_support_member_role,
 )
@@ -236,12 +235,10 @@ class VillagerBotCluster(commands.AutoShardedBot):
             raise CommandDisabledByGuild()
 
         preflight = await self.karen.command_executions.preflight(
-            CommandExecutionPreflightRequest(
-                user_id=karen_user.id,
-                command=command_name,
-                at=datetime.now(timezone.utc),
-                discord_guild_id=ctx.guild.id if ctx.guild else None,
-            )
+            user_id=karen_user.id,
+            command=command_name,
+            at=datetime.now(timezone.utc),
+            discord_guild_id=ctx.guild.id if ctx.guild else None,
         )
 
         if isinstance(preflight, CommandExecutionPreflightSuccess):  # noqa: SIM102

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Annotated, Any, ClassVar, Literal
+from typing import Annotated, Any, ClassVar, Literal, TypedDict, Unpack
 
 from pydantic import Discriminator, RootModel, Tag
 
@@ -8,7 +8,7 @@ from bot.services.karen.client import KarenResourceBase
 from bot.utils.urls import url_join
 
 
-class CommandExecutionPreflightRequest(ImmutableBaseModel):
+class CommandExecutionPreflightRequest(TypedDict):
     user_id: str | int
     command: str
     at: datetime
@@ -48,10 +48,10 @@ CommandExecutionPreflightResponse = RootModel[
 class CommandExecutionsResource(KarenResourceBase):
     BASE_URL: ClassVar[str] = "/command_executions/"
 
-    async def preflight(self, request: CommandExecutionPreflightRequest) -> CommandExecutionPreflightResponse:
+    async def preflight(self, **kwargs: Unpack[CommandExecutionPreflightRequest]) -> CommandExecutionPreflightResponse:
         response = await self._http.post(
             url_join(self.BASE_URL, "/preflight/"),
-            json=request.model_dump(mode="json"),
+            json=kwargs,
             allow_redirects=False,
         )
         data = await response.read()
