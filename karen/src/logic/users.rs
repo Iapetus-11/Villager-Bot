@@ -65,14 +65,6 @@ pub async fn get_or_create_user(
 
                 let mut tx = db.begin().await.map_err(GetOrCreateUserError::Database)?;
 
-                create_default_user_items(&mut tx, &id)
-                    .await
-                    .map_err(GetOrCreateUserError::Database)?;
-
-                ensure_user_has_leaderboard(&mut tx, &id)
-                    .await
-                    .map_err(GetOrCreateUserError::Database)?;
-
                 let user = sqlx::query_as!(
                     User,
                     r#"
@@ -86,6 +78,14 @@ pub async fn get_or_create_user(
                         "#,
                     id.as_bytes(), discord_id
                 ).fetch_one(&mut *tx).await.map_err(GetOrCreateUserError::Database);
+
+                create_default_user_items(&mut tx, &id)
+                    .await
+                    .map_err(GetOrCreateUserError::Database)?;
+
+                ensure_user_has_leaderboard(&mut tx, &id)
+                    .await
+                    .map_err(GetOrCreateUserError::Database)?;
 
                 tx.commit().await.map_err(GetOrCreateUserError::Database)?;
 
