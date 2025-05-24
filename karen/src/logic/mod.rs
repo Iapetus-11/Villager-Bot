@@ -4,6 +4,7 @@ pub mod command_executions;
 pub mod commands;
 pub mod discord_guilds;
 pub mod items;
+pub mod leaderboards;
 pub mod user_effects;
 pub mod user_locks;
 pub mod user_tools;

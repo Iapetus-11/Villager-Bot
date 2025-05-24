@@ -9,3 +9,5 @@ pub use item::Item;
 
 mod badges;
 pub use badges::Badges;
+
+mod leaderboards;

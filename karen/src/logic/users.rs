@@ -11,6 +11,7 @@ use crate::{
 };
 
 use super::items::create_default_user_items;
+use super::leaderboards::ensure_user_has_leaderboard;
 
 pub async fn get_user(db: &mut PgConnection, id: &UserId) -> Result<Option<User>, sqlx::Error> {
     match id {
@@ -65,6 +66,10 @@ pub async fn get_or_create_user(
                 let mut tx = db.begin().await.map_err(GetOrCreateUserError::Database)?;
 
                 create_default_user_items(&mut tx, &id)
+                    .await
+                    .map_err(GetOrCreateUserError::Database)?;
+
+                ensure_user_has_leaderboard(&mut tx, &id)
                     .await
                     .map_err(GetOrCreateUserError::Database)?;
 

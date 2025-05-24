@@ -11,7 +11,11 @@ use crate::{
         security::RequireAuthedClient,
         xid::Xid,
     },
-    logic::{command_cooldowns::get_or_create_cooldown, command_executions::log_command_execution},
+    logic::{
+        command_cooldowns::get_or_create_cooldown,
+        command_executions::log_command_execution,
+        leaderboards::{LeaderboardBump, bump_user_leaderboard},
+    },
 };
 
 #[derive(Debug, Deserialize)]
@@ -66,7 +70,8 @@ pub async fn preflight(
         }
     }
 
-    // TODO: Update command executions leaderboard if the command is a qualifying economy command
+    // TODO: This command logging stuff should probably just dump into an in-memory cache that's dumped to the DB
+    // every minute or so to avoid too many DB queries and speed up this endpoint
 
     log_command_execution(
         &mut db,
@@ -77,6 +82,22 @@ pub async fn preflight(
     )
     .await
     .unwrap();
+
+    if COMMANDS_DATA
+        .commands_which_update_commands_leaderboard
+        .contains(&data.command)
+    {
+        bump_user_leaderboard(
+            &mut db,
+            &data.user_id,
+            &[
+                LeaderboardBump::Commands(1),
+                LeaderboardBump::WeekCommands(1),
+            ],
+        )
+        .await
+        .unwrap();
+    }
 
     let spawn_mob = match COMMANDS_DATA
         .commands_which_spawn_mobs

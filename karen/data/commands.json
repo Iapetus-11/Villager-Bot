@@ -22,5 +22,20 @@
         "honey",
         "gamble",
         "pillage"
+    ],
+    "commands_which_update_commands_leaderboard": [
+        "fish",
+        "pillage",
+        "use",
+        "honey",
+        "deposit",
+        "withdraw",
+        "buy",
+        "sell",
+        "give",
+        "gamble",
+        "search",
+        "mine",
+        "trivia"
     ]
 }
