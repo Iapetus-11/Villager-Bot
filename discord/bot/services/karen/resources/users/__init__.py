@@ -27,13 +27,17 @@ class User(ImmutableBaseModel):
 class UsersResourceGroup(KarenResourceBase):
     BASE_URL: ClassVar[str] = "/users/"
 
+    def __init__(self, http: aiohttp.ClientSession):
+        super().__init__(http)
+
+        from .badges import BadgesResource
+        from .items import ItemsResource
+
+        self.badges = BadgesResource(http)
+        self.items = ItemsResource(http)
+
     async def get(self, id_: str | int) -> User:
         response = await self._http.get(url_join(self.BASE_URL, f"/{id_}/"), allow_redirects=False)
         data = await response.read()
 
         return User.model_validate_json(data)
-
-    async def get_badges_image(self, user_id: str | int) -> bytes:
-        response = await self._http.get(url_join(self.BASE_URL, f"/{user_id}/badges/image/"), allow_redirects=False)
-
-        return await response.read()

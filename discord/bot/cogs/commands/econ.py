@@ -8,10 +8,11 @@ import typing
 from collections import defaultdict
 from contextlib import suppress
 from io import BytesIO
-from typing import Any
+from typing import Any, Literal
 
 import aiohttp
 import arrow
+from bot.services.karen.resources.users.items import Item
 import discord
 import numpy.random
 from discord.ext import commands
@@ -182,7 +183,7 @@ class Econ(commands.Cog):
             self.karen.commands.profile.get(user_id=user.id),
         )
 
-        user_badges_image_task = asyncio.create_task(self.karen.users.get_badges_image(user_data.id))
+        user_badges_image_task = asyncio.create_task(self.karen.users.badges.get_image(user_data.id))
 
         health_bar = make_health_bar(
             user_data.health,
@@ -328,13 +329,7 @@ class Econ(commands.Cog):
             await ctx.send(embed=embed_template)
             return
 
-        fish_prices = {fish.name: fish.current for fish in self.d.fishing.fish.values()}
-        # iterate through passed items, try to set fish values properly if they exist
-        for item in items:
-            try:
-                item.sell_price = fish_prices[item.name]
-            except KeyError:
-                pass
+        # TODO: Handle fish prices
 
         items = sorted(
             items,
@@ -365,7 +360,9 @@ class Econ(commands.Cog):
 
         await self.paginator.paginate_embed(ctx, get_page, timeout=60, page_count=len(items_chunks))
 
-    async def inventory_boiler(self, ctx: Ctx, user: discord.User = None):
+    async def inventory_boiler(
+        self, ctx: Ctx, user: discord.User | discord.Member | None = None
+    ) -> tuple[Literal[True], discord.User | discord.Member] | tuple[Literal[False], None]:
         if ctx.invoked_subcommand is not None:
             return False, None
 
@@ -373,12 +370,14 @@ class Econ(commands.Cog):
             user = ctx.author
 
         if user.bot:
+            assert self.bot.user is not None
+
             if user.id == self.bot.user.id:
                 await ctx.reply_embed(ctx.l.econ.inv.bot_1)
             else:
                 await ctx.reply_embed(ctx.l.econ.inv.bot_2)
 
-            return False, user
+            return False, None
 
         return True, user
 
@@ -400,6 +399,8 @@ class Econ(commands.Cog):
                 raise commands.BadArgument
 
         if user.bot:
+            assert self.bot.user is not None
+
             if user.id == self.bot.user.id:
                 await ctx.reply_embed(ctx.l.econ.inv.bot_1)
             else:
@@ -407,41 +408,50 @@ class Econ(commands.Cog):
 
             return
 
-        items = await self.db.fetch_items(user.id)
+        user_data = await self.karen.cached.users.get(user.id)
+        items = await self.karen.users.items.list(user_data.id)
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.all, 16)
 
     @inventory.command(name="tools", aliases=["tool", "pickaxes", "swords"])
-    async def inventory_tools(self, ctx: Ctx, user: discord.User = None):
+    async def inventory_tools(self, ctx: Ctx, user: discord.User | discord.Member | None = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats["tools"]]
+        assert user is not None
+
+        user_data = await self.karen.cached.users.get(user.id)
+        items = await self.karen.users.items.list(user_data.id, category="tools")
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.tools)
 
     @inventory.command(name="magic", aliases=["books", "potions", "enchants"])
-    async def inventory_magic(self, ctx: Ctx, user: discord.User = None):
+    async def inventory_magic(self, ctx: Ctx, user: discord.User | discord.Member | None = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats["magic"]]
+        assert user is not None
+
+        user_data = await self.karen.cached.users.get(user.id)
+        items = await self.karen.users.items.list(user_data.id, category="magic")
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.magic)
 
     @inventory.command(name="misc", aliases=["other"])
-    async def inventory_misc(self, ctx: Ctx, user: discord.User = None):
+    async def inventory_misc(self, ctx: Ctx, user: discord.User | discord.Member | None = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
             return
 
-        combined_cats = self.d.cats["tools"] + self.d.cats["magic"] + self.d.cats["fish"]
-        items = [e for e in await self.db.fetch_items(user.id) if e.name not in combined_cats]
+        assert user is not None
+
+        user_data = await self.karen.cached.users.get(user.id)
+        items = await self.karen.users.items.list(user_data.id, category="misc")
 
         await self.inventory_logic(
             ctx,
@@ -452,24 +462,30 @@ class Econ(commands.Cog):
         )
 
     @inventory.command(name="fish", aliases=["fishes", "fishing", "fishies"])
-    async def inventory_fish(self, ctx: Ctx, user: discord.User = None):
+    async def inventory_fish(self, ctx: Ctx, user: discord.User | discord.Member | None = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats["fish"]]
+        assert user is not None
+
+        user_data = await self.karen.cached.users.get(user.id)
+        items = await self.karen.users.items.list(user_data.id, category="fish")
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.fish)
 
     @inventory.command(name="farming", aliases=["farm"])
-    async def inventory_farming(self, ctx: Ctx, user: discord.User = None):
+    async def inventory_farming(self, ctx: Ctx, user: discord.User | discord.Member | None = None):
         valid, user = await self.inventory_boiler(ctx, user)
 
         if not valid:
             return
 
-        items = [e for e in await self.db.fetch_items(user.id) if e.name in self.d.cats["farming"]]
+        assert user is not None
+
+        user_data = await self.karen.cached.users.get(user.id)
+        items = await self.karen.users.items.list(user_data.id, category="farming")
 
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.farming)
 

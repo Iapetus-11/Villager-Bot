@@ -40,8 +40,13 @@ pub async fn list(
     let filter_items: Option<FilterItems<'_>> = match &query_params.category {
         None => None,
         Some(category) if category == "misc" => {
-            // for item in ITEMS_DATA.registry.values()
-            todo!();
+            for item in ITEMS_DATA.registry.values() {
+                if !item.categories.is_empty() {
+                    filter_items.push(item.name.clone());
+                }
+            }
+
+            Some(FilterItems::Exclude(filter_items.as_slice()))
         }
         Some(category) => {
             for item in ITEMS_DATA.registry.values() {
