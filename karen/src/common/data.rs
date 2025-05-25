@@ -1,20 +1,21 @@
-use crate::models::data::{commands::CommandsData, items::ItemsData, mobs::MobsData};
+use crate::models::data::{
+    commands::CommandsData, fishing::FishingData, items::ItemsData, mobs::MobsData,
+};
 use std::{fs, sync::LazyLock};
 
-pub static COMMANDS_DATA: LazyLock<CommandsData> = LazyLock::new(|| {
-    let file_content = fs::read_to_string("data/commands.json").unwrap();
-    serde_json::from_str(&file_content).unwrap()
-});
+macro_rules! lazylock_with_json_data {
+    ($file:literal) => {
+        LazyLock::new(|| {
+            let file_content = fs::read_to_string(format!("data/{}.json", $file)).unwrap();
+            serde_json::from_str(&file_content).unwrap()
+        })
+    };
+}
 
-pub static ITEMS_DATA: LazyLock<ItemsData> = LazyLock::new(|| {
-    let file_content = fs::read_to_string("data/items.json").unwrap();
-    serde_json::from_str(&file_content).unwrap()
-});
-
-pub static MOBS_DATA: LazyLock<MobsData> = LazyLock::new(|| {
-    let file_content = fs::read_to_string("data/mobs.json").unwrap();
-    serde_json::from_str(&file_content).unwrap()
-});
+pub static COMMANDS_DATA: LazyLock<CommandsData> = lazylock_with_json_data!("commands");
+pub static ITEMS_DATA: LazyLock<ItemsData> = lazylock_with_json_data!("items");
+pub static MOBS_DATA: LazyLock<MobsData> = lazylock_with_json_data!("mobs");
+pub static FISHING_DATA: LazyLock<FishingData> = lazylock_with_json_data!("fishing");
 
 #[cfg(test)]
 mod tests {
@@ -46,6 +47,12 @@ mod tests {
         for findable_item_name in ITEMS_DATA.findables.keys() {
             if !ITEMS_DATA.registry.contains_key(findable_item_name) {
                 panic!("Findable item not registered: {findable_item_name:#?}");
+            }
+        }
+
+        for fish in FISHING_DATA.fish.values() {
+            if !ITEMS_DATA.registry.contains_key(&fish.name.to_lowercase()) {
+                panic!("Fish is not registered: {}", fish.name);
             }
         }
     }

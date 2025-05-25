@@ -1,6 +1,9 @@
 use sqlx::PgConnection;
 
-use crate::{common::xid::Xid, models::db::Item};
+use crate::{
+    common::{data::ITEMS_DATA, xid::Xid},
+    models::db::Item,
+};
 
 pub async fn create_items(
     db: &mut PgConnection,
@@ -98,6 +101,34 @@ pub async fn create_default_user_items(
         ],
     )
     .await
+}
+
+pub async fn sync_db_items_from_registry(db: &mut PgConnection) -> Result<(), sqlx::Error> {
+    for item in ITEMS_DATA.registry.values() {
+        // Some items (like fish) have dynamic pricing
+        if item.sell_price == -1 {
+            sqlx::query!(
+                r#"UPDATE items SET sticky = $2, sellable = $3 WHERE name = $1"#,
+                item.name,
+                item.sticky,
+                item.sellable,
+            )
+            .execute(&mut *db)
+            .await?;
+        } else {
+            sqlx::query!(
+                r#"UPDATE items SET sell_price = $2, sticky = $3, sellable = $4 WHERE name = $1"#,
+                item.name,
+                item.sell_price,
+                item.sticky,
+                item.sellable,
+            )
+            .execute(&mut *db)
+            .await?;
+        }
+    }
+
+    Ok(())
 }
 
 #[cfg(test)]

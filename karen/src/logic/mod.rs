@@ -3,6 +3,7 @@ pub mod command_cooldowns;
 pub mod command_executions;
 pub mod commands;
 pub mod discord_guilds;
+pub mod fishing;
 pub mod items;
 pub mod leaderboards;
 pub mod user_effects;

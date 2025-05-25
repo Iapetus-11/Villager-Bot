@@ -848,6 +848,69 @@
             "categories": [
                 "material"
             ]
+        },
+        "cod": {
+            "name": "Cod",
+            "sell_price": -1,
+            "sticky": false,
+            "sellable": true,
+            "categories": [
+                "fish"
+            ]
+        },
+        "salmon": {
+            "name": "Salmon",
+            "sell_price": -1,
+            "sticky": false,
+            "sellable": true,
+            "categories": [
+                "fish"
+            ]
+        },
+        "tropical fish": {
+            "name": "Tropical Fish",
+            "sell_price": -1,
+            "sticky": false,
+            "sellable": true,
+            "categories": [
+                "fish"
+            ]
+        },
+        "pufferfish": {
+            "name": "Pufferfish",
+            "sell_price": -1,
+            "sticky": false,
+            "sellable": true,
+            "categories": [
+                "fish"
+            ]
+        },
+        "rainbow trout": {
+            "name": "Rainbow Trout",
+            "sell_price": -1,
+            "sticky": false,
+            "sellable": true,
+            "categories": [
+                "fish"
+            ]
+        },
+        "gold fish": {
+            "name": "Gold Fish",
+            "sell_price": -1,
+            "sticky": false,
+            "sellable": true,
+            "categories": [
+                "fish"
+            ]
+        },
+        "emerald fish": {
+            "name": "Emerald Fish",
+            "sell_price": -1,
+            "sticky": false,
+            "sellable": true,
+            "categories": [
+                "fish"
+            ]
         }
     },
     "shop": {

@@ -1,11 +1,14 @@
 use std::{env, error::Error as StdError, sync::Arc};
 
+use chrono::Utc;
 use poem::{
     EndpointExt, Server,
     listener::TcpListener,
     middleware::{AddData, CatchPanic, NormalizePath, Tracing, TrailingSlash},
 };
 use thiserror::Error;
+use tokio_schedule::Job;
+use tracing::{event, span, Level};
 
 mod common;
 mod config;
@@ -22,6 +25,45 @@ pub enum CliError {
     MissingCommand,
 }
 
+async fn setup_recurring_tasks(db_pool: sqlx::Pool<sqlx::Postgres>) {
+    let db_pool_c1 = db_pool.clone();
+    tokio::spawn(
+        tokio_schedule::every(1)
+            .hour()
+            .in_timezone(&Utc)
+            .perform(move || {
+                let db_pool = db_pool_c1.clone();
+
+                async move {
+                    use logic::items::sync_db_items_from_registry;
+
+                    event!(Level::INFO, "Syncing DB items from item registry...");
+
+                    let mut db = db_pool.acquire().await.unwrap();
+                    sync_db_items_from_registry(&mut db).await.unwrap();
+                }
+            }),
+    );
+
+    let db_pool_c2 = db_pool.clone();
+    tokio::spawn(
+        tokio_schedule::every(12)
+            .hours()
+            .in_timezone(&Utc)
+            .perform(move || {
+                let db_pool = db_pool_c2.clone();
+                async move {
+                    use logic::fishing::randomize_fish_prices;
+                    
+                    event!(Level::INFO, "Randomizing fish market prices...");
+
+                    let mut db = db_pool.acquire().await.unwrap();
+                    randomize_fish_prices(&mut db).await.unwrap();
+                }
+            }),
+    );
+}
+
 async fn run_api() -> Result<(), Box<dyn StdError>> {
     let config = Arc::new(config::load());
 
@@ -29,6 +71,8 @@ async fn run_api() -> Result<(), Box<dyn StdError>> {
         .max_connections(config.database_pool_size)
         .connect(&config.database_url)
         .await?;
+
+    setup_recurring_tasks(db_pool.clone()).await;
 
     let app = routes::setup_routes()
         .with(Tracing)

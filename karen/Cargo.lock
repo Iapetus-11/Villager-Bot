@@ -1198,6 +1198,7 @@ dependencies = [
  "subtle",
  "thiserror 2.0.12",
  "tokio",
+ "tokio_schedule",
  "tracing",
  "tracing-subscriber",
  "xid",
@@ -2625,6 +2626,16 @@ dependencies = [
  "futures-io",
  "futures-sink",
  "pin-project-lite",
+ "tokio",
+]
+
+[[package]]
+name = "tokio_schedule"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "61c291c554da3518d6ef69c76ea35aabc78f736185a16b6017f6d1c224dac2e0"
+dependencies = [
+ "chrono",
  "tokio",
 ]
 

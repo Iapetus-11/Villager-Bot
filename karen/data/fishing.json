@@ -1,0 +1,61 @@
+{
+    "rarity_exponent": 2.75,
+    "fish": {
+        "cod": {
+            "name": "Cod",
+            "sell_price_range": [
+                2,
+                15
+            ],
+            "rarity": 0
+        },
+        "salmon": {
+            "name": "Salmon",
+            "sell_price_range": [
+                10,
+                40
+            ],
+            "rarity": 0
+        },
+        "tropical fish": {
+            "name": "Tropical Fish",
+            "sell_price_range": [
+                30,
+                120
+            ],
+            "rarity": 1
+        },
+        "pufferfish": {
+            "name": "Pufferfish",
+            "sell_price_range": [
+                60,
+                200
+            ],
+            "rarity": 3
+        },
+        "rainbow trout": {
+            "name": "Rainbow Trout",
+            "sell_price_range": [
+                180,
+                290
+            ],
+            "rarity": 4
+        },
+        "gold fish": {
+            "name": "Gold Fish",
+            "sell_price_range": [
+                200,
+                300
+            ],
+            "rarity": 4
+        },
+        "emerald fish": {
+            "name": "Emerald Fish",
+            "sell_price_range": [
+                600,
+                800
+            ],
+            "rarity": 5
+        }
+    }
+}
