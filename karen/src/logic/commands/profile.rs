@@ -7,7 +7,7 @@ use sqlx::PgConnection;
 use crate::{
     common::user_id::UserId,
     logic::{
-        items::get_user_items,
+        items::{FilterItems, get_user_items},
         user_effects::get_active_user_effects,
         user_tools::get_user_tools,
         users::{UserUpdateData, get_or_create_user, get_user_net_wealth, update_user},
@@ -35,7 +35,12 @@ pub async fn get_profile_command_data(
 
     let tools = get_user_tools(&mut *db, &user.id).await?;
     let net_wealth = get_user_net_wealth(&mut *db, &user.id).await?;
-    let relevant_items = get_user_items(&mut *db, &user.id, Some(&["Mooderald".into()])).await?;
+    let relevant_items = get_user_items(
+        &mut *db,
+        &user.id,
+        Some(FilterItems::Only(&["Mooderald".into()])),
+    )
+    .await?;
     let active_effects = get_active_user_effects(&mut *db, &user.id).await?;
 
     match user.last_vote_at {

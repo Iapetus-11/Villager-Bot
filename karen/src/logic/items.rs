@@ -28,13 +28,18 @@ pub async fn create_items(
     Ok(())
 }
 
+pub enum FilterItems<'a> {
+    Only(&'a [String]),
+    Exclude(&'a [String]),
+}
+
 pub async fn get_user_items(
     db: &mut PgConnection,
     user_id: &Xid,
-    filter_items: Option<&[String]>,
+    filter_items: Option<FilterItems<'_>>,
 ) -> Result<Vec<Item>, sqlx::Error> {
     match filter_items {
-        Some(filter_items) => {
+        Some(FilterItems::Only(filter_items)) => {
             sqlx::query_as!(
                 Item,
                 r#"
@@ -44,6 +49,20 @@ pub async fn get_user_items(
                 "#,
                 user_id.as_bytes(),
                 filter_items,
+            )
+            .fetch_all(&mut *db)
+            .await
+        }
+        Some(FilterItems::Exclude(exclude_items)) => {
+            sqlx::query_as!(
+                Item,
+                r#"
+                    SELECT name, sell_price, amount, sticky, sellable
+                    FROM items
+                    WHERE user_id = $1 AND NOT (name = ANY($2::VARCHAR[]))
+                "#,
+                user_id.as_bytes(),
+                exclude_items,
             )
             .fetch_all(&mut *db)
             .await
@@ -200,11 +219,11 @@ mod tests {
         let user_1_pickaxes = get_user_items(
             &mut db,
             &user_1.id,
-            Some(&[
+            Some(FilterItems::Only(&[
                 "Wood Pickaxe".into(),
                 "Diamond Pickaxe".into(),
                 "Netherite Pickaxe".into(),
-            ]),
+            ])),
         )
         .await
         .unwrap();
@@ -215,11 +234,11 @@ mod tests {
         let user_2_pickaxes = get_user_items(
             &mut db,
             &user_2.id,
-            Some(&[
+            Some(FilterItems::Only(&[
                 "Wood Pickaxe".into(),
                 "Diamond Pickaxe".into(),
                 "Netherite Pickaxe".into(),
-            ]),
+            ])),
         )
         .await
         .unwrap();
@@ -229,6 +248,21 @@ mod tests {
                 .iter()
                 .any(|i| i.name == "Netherite Pickaxe")
         );
+
+        let user_2_items_excl_pickaxes = get_user_items(
+            &mut db,
+            &user_2.id,
+            Some(FilterItems::Exclude(&[
+                "Wood Pickaxe".into(),
+                "Diamond Pickaxe".into(),
+                "Netherite Pickaxe".into(),
+            ])),
+        )
+        .await
+        .unwrap();
+
+        assert_eq!(user_2_items_excl_pickaxes.len(), 1);
+        assert_eq!(user_2_items_excl_pickaxes[0].name, "Netherite Sword");
     }
 
     #[sqlx::test]

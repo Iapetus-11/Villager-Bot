@@ -4,127 +4,196 @@
             "name": "Wood Pickaxe",
             "sell_price": 0,
             "sticky": true,
-            "sellable": false
+            "sellable": false,
+            "categories": [
+                "tools"
+            ]
         },
         "stone pickaxe": {
             "name": "Stone Pickaxe",
             "sell_price": 8,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "iron pickaxe": {
             "name": "Iron Pickaxe",
             "sell_price": 32,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "gold pickaxe": {
             "name": "Gold Pickaxe",
             "sell_price": 128,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "diamond pickaxe": {
             "name": "Diamond Pickaxe",
             "sell_price": 512,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "netherite pickaxe": {
             "name": "Netherite Pickaxe",
             "sell_price": 2048,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "wood sword": {
             "name": "Wood Sword",
             "sell_price": 0,
             "sticky": true,
-            "sellable": false
+            "sellable": false,
+            "categories": [
+                "tools"
+            ]
         },
         "stone sword": {
             "name": "Stone Sword",
             "sell_price": 8,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "iron sword": {
             "name": "Iron Sword",
             "sell_price": 32,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "gold sword": {
             "name": "Gold Sword",
             "sell_price": 128,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "diamond sword": {
             "name": "Diamond Sword",
             "sell_price": 512,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "netherite sword": {
             "name": "Netherite Sword",
             "sell_price": 2048,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "wood hoe": {
             "name": "Wood Hoe",
             "sell_price": 0,
             "sticky": true,
-            "sellable": false
+            "sellable": false,
+            "categories": [
+                "tools",
+                "farming"
+            ]
         },
         "stone hoe": {
             "name": "Stone Hoe",
             "sell_price": 8,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools",
+                "farming"
+            ]
         },
         "iron hoe": {
             "name": "Iron Hoe",
             "sell_price": 32,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools",
+                "farming"
+            ]
         },
         "gold hoe": {
             "name": "Gold Hoe",
             "sell_price": 128,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools",
+                "farming"
+            ]
         },
         "diamond hoe": {
             "name": "Diamond Hoe",
             "sell_price": 512,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools",
+                "farming"
+            ]
         },
         "netherite hoe": {
             "name": "Netherite Hoe",
             "sell_price": 2048,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools",
+                "farming"
+            ]
         },
         "fishing rod": {
             "name": "Fishing Rod",
             "sell_price": 256,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "tools"
+            ]
         },
         "haste i potion": {
             "name": "Haste I Potion",
             "sell_price": 32,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "fortune i book": {
             "name": "Fortune I Book",
             "sell_price": 24,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "jar of bees": {
             "name": "Jar Of Bees",
@@ -136,37 +205,55 @@
             "name": "Netherite Scrap",
             "sell_price": 8,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "material"
+            ]
         },
         "rich person trophy": {
             "name": "Rich Person Trophy",
             "sell_price": 1024,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "vault potion": {
             "name": "Vault Potion",
             "sell_price": 30,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "sharpness i book": {
             "name": "Sharpness I Book",
             "sell_price": 32,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "slime trophy": {
             "name": "Slime Trophy",
             "sell_price": 2048,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "fishing trophy": {
             "name": "Fishing Trophy",
             "sell_price": 2048,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "glass beaker": {
             "name": "Glass Beaker",
@@ -190,79 +277,118 @@
             "name": "Wheat Seed",
             "sell_price": 32,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "farming"
+            ]
         },
         "melon seed": {
             "name": "Melon Seed",
             "sell_price": 192,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "farming"
+            ]
         },
         "chorus seed": {
             "name": "Chorus Seed",
             "sell_price": 384,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "farming"
+            ]
         },
         "emerald fruit": {
             "name": "Emerald Fruit",
             "sell_price": 2048,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "farming"
+            ]
         },
         "chorus fruit": {
             "name": "Chorus Fruit",
             "sell_price": 1024,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "farming"
+            ]
         },
         "melon": {
             "name": "Melon",
             "sell_price": 256,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "farming"
+            ]
         },
         "potato": {
             "name": "Potato",
             "sell_price": 128,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "farming"
+            ]
         },
         "carrot": {
             "name": "Carrot",
             "sell_price": 64,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "farming"
+            ]
         },
         "wheat": {
             "name": "Wheat",
             "sell_price": 32,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "farming"
+            ]
         },
         "luck potion": {
             "name": "Luck Potion",
             "sell_price": 128,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "lure i book": {
             "name": "Lure I Book",
             "sell_price": 32,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "seaweed": {
             "name": "Seaweed",
             "sell_price": 420,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "heart of the sea": {
             "name": "Heart Of The Sea",
             "sell_price": 420,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "material"
+            ]
         },
         "mooderald": {
             "name": "Mooderald",
@@ -280,49 +406,73 @@
             "name": "Fortune II Book",
             "sell_price": 128,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "fortune iii book": {
             "name": "Fortune III Book",
             "sell_price": 768,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "efficiency i book": {
             "name": "Efficiency I Book",
             "sell_price": 512,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "looting i book": {
             "name": "Looting I Book",
             "sell_price": 128,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "looting ii book": {
             "name": "Looting II Book",
             "sell_price": 768,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "sharpness ii book": {
             "name": "Sharpness II Book",
             "sell_price": 768,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "haste ii potion": {
             "name": "Haste II Potion",
             "sell_price": 128,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "bone meal": {
             "name": "Bone Meal",
             "sell_price": 512,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "farming"
+            ]
         },
         "barrel": {
             "name": "Barrel",
@@ -334,13 +484,19 @@
             "name": "Fishing Bait",
             "sell_price": 768,
             "sticky": false,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "fish"
+            ]
         },
         "bane of pillagers amulet": {
             "name": "Bane Of Pillagers Amulet",
             "sell_price": 4096,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "magic"
+            ]
         },
         "mushroom": {
             "name": "Mushroom",
@@ -688,7 +844,10 @@
             "name": "Slime Ball",
             "sell_price": 5,
             "sticky": true,
-            "sellable": true
+            "sellable": true,
+            "categories": [
+                "material"
+            ]
         }
     },
     "shop": {

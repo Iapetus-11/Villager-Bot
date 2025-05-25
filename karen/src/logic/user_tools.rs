@@ -4,6 +4,8 @@ use sqlx::PgConnection;
 
 use crate::{common::xid::Xid, logic::items::get_user_items};
 
+use super::items::FilterItems;
+
 static ALL_TOOLS: LazyLock<Vec<String>> = LazyLock::new(|| {
     [
         "Wood Pickaxe",
@@ -151,7 +153,7 @@ pub async fn get_user_tools(
     db: &mut PgConnection,
     user_id: &Xid,
 ) -> Result<UserTools, sqlx::Error> {
-    let items = get_user_items(&mut *db, user_id, Some(&*ALL_TOOLS)).await?;
+    let items = get_user_items(&mut *db, user_id, Some(FilterItems::Only(&ALL_TOOLS))).await?;
 
     let mut pickaxes = items
         .iter()

@@ -8,6 +8,8 @@ pub struct ItemRecord {
     pub sell_price: i32,
     pub sticky: bool,
     pub sellable: bool,
+    #[serde(default = "Vec::new")]
+    pub categories: Vec<String>,
 }
 
 #[derive(Debug, Deserialize)]
