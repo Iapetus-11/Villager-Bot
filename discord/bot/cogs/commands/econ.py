@@ -12,7 +12,6 @@ from typing import Any, Literal
 
 import aiohttp
 import arrow
-from bot.services.karen.resources.users.items import Item
 import discord
 import numpy.random
 from discord.ext import commands
@@ -26,8 +25,8 @@ from bot.logic.emojification import emojify_crop, emojify_item
 from bot.logic.formatting import format_required_items
 from bot.logic.leaderboards import craft_lbs
 from bot.logic.progress_bar import make_health_bar
-from bot.logic.users import calc_total_wealth
 from bot.models.data import Findable, Fishing, ShopItem
+from bot.services.karen.resources.users.items import Item
 from bot.utils.misc import (
     SuppressCtxManager,
 )
