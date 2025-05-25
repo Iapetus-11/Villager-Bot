@@ -1,4 +1,3 @@
-
 from pydantic import RootModel
 
 from bot.models.base_model import ImmutableBaseModel
