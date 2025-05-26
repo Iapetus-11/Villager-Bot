@@ -15,7 +15,5 @@ pub async fn log_command_execution(
         user_id.as_bytes(), command, discord_guild_id, at,
     ).execute(&mut *db).await?;
 
-    // TODO: Update leaderboard, mob spawning
-
     Ok(())
 }
