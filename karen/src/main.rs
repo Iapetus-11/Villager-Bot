@@ -8,7 +8,7 @@ use poem::{
 };
 use thiserror::Error;
 use tokio_schedule::Job;
-use tracing::{event, span, Level};
+use tracing::{Level, event};
 
 mod common;
 mod config;
@@ -53,12 +53,12 @@ async fn setup_recurring_tasks(db_pool: sqlx::Pool<sqlx::Postgres>) {
             .perform(move || {
                 let db_pool = db_pool_c2.clone();
                 async move {
-                    use logic::fishing::randomize_fish_prices;
-                    
-                    event!(Level::INFO, "Randomizing fish market prices...");
+                    use logic::fishing::update_fishing_prices;
+
+                    event!(Level::INFO, "Updating fish market prices...");
 
                     let mut db = db_pool.acquire().await.unwrap();
-                    randomize_fish_prices(&mut db).await.unwrap();
+                    update_fishing_prices(&mut db).await.unwrap();
                 }
             }),
     );

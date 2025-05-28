@@ -3,59 +3,86 @@
     "fish": {
         "cod": {
             "name": "Cod",
-            "sell_price_range": [
-                2,
-                15
-            ],
-            "rarity": 0
+            "rarity": 0,
+            "pricing": {
+                "base": 2,
+                "time_offset": 0,
+                "periods": [
+                    {"unit": "day", "period": 4, "max": 15}
+                ]
+            }
         },
         "salmon": {
             "name": "Salmon",
-            "sell_price_range": [
-                10,
-                40
-            ],
-            "rarity": 0
+            "rarity": 0,
+            "pricing": {
+                "base": 10,
+                "time_offset": 1,
+                "periods": [
+                    {"unit": "day", "period": 4, "max": 35},
+                    {"unit": "hour", "period": 10, "max": 10}
+                ]
+            }
         },
         "tropical fish": {
             "name": "Tropical Fish",
-            "sell_price_range": [
-                30,
-                120
-            ],
-            "rarity": 1
+            "rarity": 1,
+            "pricing": {
+                "base": 30,
+                "time_offset": 4,
+                "periods": [
+                    {"unit": "day", "period": 20, "max": 115},
+                    {"unit": "hour", "period": 14, "max": 20}
+                ]
+            }
         },
         "pufferfish": {
             "name": "Pufferfish",
-            "sell_price_range": [
-                60,
-                200
-            ],
-            "rarity": 3
+            "rarity": 3,
+            "pricing": {
+                "base": 60,
+                "time_offset": 1,
+                "periods": [
+                    {"unit": "day", "period": 20, "max": 200},
+                    {"unit": "hour", "period": 3, "max": 10}
+                ]
+            }
         },
         "rainbow trout": {
             "name": "Rainbow Trout",
-            "sell_price_range": [
-                180,
-                290
-            ],
-            "rarity": 4
+            "rarity": 4,
+            "pricing": {
+                "base": 100,
+                "time_offset": 3,
+                "periods": [
+                    {"unit": "day", "period": 30, "max": 275},
+                    {"unit": "day", "period": 5, "max": 25}
+                ]
+            }
         },
         "gold fish": {
             "name": "Gold Fish",
-            "sell_price_range": [
-                200,
-                300
-            ],
-            "rarity": 4
+            "rarity": 4,
+            "pricing": {
+                "base": 280,
+                "time_offset": 0,
+                "periods": [
+                    {"unit": "day", "period": 3, "max": 20},
+                    {"unit": "hour", "period": 3, "max": 20}
+                ]
+            }
         },
         "emerald fish": {
             "name": "Emerald Fish",
-            "sell_price_range": [
-                600,
-                800
-            ],
-            "rarity": 5
+            "rarity": 5,
+            "pricing": {
+                "base": 700,
+                "time_offset": 0,
+                "periods": [
+                    {"unit": "day", "period": 2, "max": 100},
+                    {"unit": "hour", "period": 3, "max": 24}
+                ]
+            }
         }
     }
 }
