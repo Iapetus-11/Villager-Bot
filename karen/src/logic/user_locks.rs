@@ -1,16 +1,37 @@
-use std::error::Error as StdError;
-
 use chrono::{DateTime, Utc};
 use sqlx::PgConnection;
 
 use crate::common::xid::Xid;
+
+pub const ECONOMY_LOCK: &str = "economy";
+
+#[derive(Debug)]
+pub enum UserLockError {
+    ConflictingLock,
+    UserDoesNotExist,
+    Sqlx(#[allow(unused)] sqlx::Error),
+}
+
+impl From<sqlx::Error> for UserLockError {
+    fn from(value: sqlx::Error) -> Self {
+        match value {
+            sqlx::Error::Database(error) if error.is_unique_violation() => {
+                UserLockError::ConflictingLock
+            }
+            sqlx::Error::Database(error) if error.is_foreign_key_violation() => {
+                UserLockError::UserDoesNotExist
+            }
+            error => UserLockError::Sqlx(error),
+        }
+    }
+}
 
 pub async fn acquire_user_lock(
     db: &mut PgConnection,
     user_id: &Xid,
     lock_name: &str,
     until: DateTime<Utc>,
-) -> Result<bool, sqlx::Error> {
+) -> Result<(), UserLockError> {
     let query_result = sqlx::query!(
         "INSERT INTO user_locks (user_id, lock_name, until) VALUES ($1, $2, $3)",
         user_id.as_bytes(),
@@ -20,9 +41,13 @@ pub async fn acquire_user_lock(
     .execute(&mut *db)
     .await;
 
-    match query_result {
-        Ok(_) => Ok(true),
-        Err(sqlx::Error::Database(error)) if error.is_unique_violation() => {
+    let Err(query_error) = query_result else {
+        return Ok(());
+    };
+    let query_error = UserLockError::from(query_error);
+
+    match query_error {
+        UserLockError::ConflictingLock => {
             let release_expired_locks_result = sqlx::query!(
                 "DELETE FROM user_locks WHERE user_id = $1 AND NOW() >= until RETURNING lock_name",
                 user_id.as_bytes(),
@@ -32,10 +57,10 @@ pub async fn acquire_user_lock(
 
             match release_expired_locks_result {
                 Some(_) => Box::pin(acquire_user_lock(&mut *db, user_id, lock_name, until)).await,
-                None => Ok(false),
+                None => Err(UserLockError::ConflictingLock),
             }
         }
-        Err(error) => Err(error),
+        err => Err(err),
     }
 }
 
@@ -55,25 +80,22 @@ pub async fn release_user_lock(
     Ok(())
 }
 
-/// Holds a user lock for the duration of the execution of the func. Returns Ok(None) if the lock is already held
-pub async fn use_user_lock<TRet, TFunc: AsyncFn() -> Result<TRet, Box<dyn StdError>>>(
+/// Holds a user lock for the duration of the execution of the func. Returns `Err(UserLockError::ConflictingLock)` if
+/// the lock is already held.
+pub async fn use_user_lock<TReturn, TFunc: AsyncFnOnce(&mut PgConnection) -> TReturn>(
     db: &mut PgConnection,
     user_id: &Xid,
     lock_name: &str,
     until: DateTime<Utc>,
     func: TFunc,
-) -> Result<Option<TRet>, Box<dyn StdError>> {
-    let did_acquire = acquire_user_lock(db, user_id, lock_name, until).await?;
+) -> Result<TReturn, UserLockError> {
+    acquire_user_lock(db, user_id, lock_name, until).await?;
 
-    if !did_acquire {
-        return Ok(None);
-    }
-
-    let result = func().await;
+    let result = func(db).await;
 
     release_user_lock(db, user_id, lock_name).await?;
 
-    Ok(Some(result?))
+    Ok(result)
 }
 
 #[cfg(test)]
@@ -88,67 +110,62 @@ mod tests {
     async fn test_acquire_user_lock(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let acquire_1 = acquire_user_lock(
+        acquire_user_lock(
             &mut db,
             &user.id,
-            "economy",
+            ECONOMY_LOCK,
             Utc::now() + TimeDelta::seconds(10),
         )
         .await
         .unwrap();
-        assert!(acquire_1);
 
         let acquire_2 = acquire_user_lock(
             &mut db,
             &user.id,
-            "economy",
+            ECONOMY_LOCK,
             Utc::now() + TimeDelta::seconds(20),
         )
-        .await
-        .unwrap();
-        assert!(!acquire_2);
+        .await;
+        assert!(matches!(acquire_2, Err(UserLockError::ConflictingLock)));
 
         let acquire_3 = acquire_user_lock(
             &mut db,
             &user.id,
-            "economy",
+            ECONOMY_LOCK,
             Utc::now() + TimeDelta::seconds(10),
         )
-        .await
-        .unwrap();
-        assert!(!acquire_3);
+        .await;
+        assert!(matches!(acquire_3, Err(UserLockError::ConflictingLock)));
     }
 
     #[sqlx::test]
     async fn test_acquire_user_lock_with_existing_expired_row(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let acquire_1 = acquire_user_lock(
+        acquire_user_lock(
             &mut db,
             &user.id,
-            "economy",
+            ECONOMY_LOCK,
             Utc::now() - TimeDelta::seconds(10),
         )
         .await
         .unwrap();
-        assert!(acquire_1);
 
-        let acquire_2 = acquire_user_lock(
+        acquire_user_lock(
             &mut db,
             &user.id,
-            "economy",
+            ECONOMY_LOCK,
             Utc::now() + TimeDelta::seconds(20),
         )
         .await
         .unwrap();
-        assert!(acquire_2);
     }
 
     #[sqlx::test]
     async fn test_two_different_locks_do_not_interfere(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let acquire_1 = acquire_user_lock(
+        acquire_user_lock(
             &mut db,
             &user.id,
             "mine",
@@ -156,9 +173,8 @@ mod tests {
         )
         .await
         .unwrap();
-        assert!(acquire_1);
 
-        let acquire_2 = acquire_user_lock(
+        acquire_user_lock(
             &mut db,
             &user.id,
             "craft",
@@ -166,25 +182,22 @@ mod tests {
         )
         .await
         .unwrap();
-        assert!(acquire_2);
     }
 
     #[sqlx::test]
     async fn test_release_lock(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        assert!(
-            acquire_user_lock(
-                &mut db,
-                &user.id,
-                "economy",
-                Utc::now() + TimeDelta::seconds(10),
-            )
-            .await
-            .unwrap()
-        );
+        acquire_user_lock(
+            &mut db,
+            &user.id,
+            ECONOMY_LOCK,
+            Utc::now() + TimeDelta::seconds(10),
+        )
+        .await
+        .unwrap();
 
-        release_user_lock(&mut db, &user.id, "economy")
+        release_user_lock(&mut db, &user.id, ECONOMY_LOCK)
             .await
             .unwrap();
 
@@ -194,16 +207,14 @@ mod tests {
             .unwrap();
         assert_eq!(lock_count.count, Some(0));
 
-        assert!(
-            acquire_user_lock(
-                &mut db,
-                &user.id,
-                "economy",
-                Utc::now() + TimeDelta::seconds(10),
-            )
-            .await
-            .unwrap()
-        );
+        acquire_user_lock(
+            &mut db,
+            &user.id,
+            ECONOMY_LOCK,
+            Utc::now() + TimeDelta::seconds(10),
+        )
+        .await
+        .unwrap();
     }
 
     #[sqlx::test]
@@ -213,7 +224,7 @@ mod tests {
         acquire_user_lock(
             &mut db,
             &user.id,
-            "economy",
+            ECONOMY_LOCK,
             Utc::now() + TimeDelta::seconds(10),
         )
         .await
@@ -234,11 +245,11 @@ mod tests {
     async fn test_use_user_lock(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let result = use_user_lock(&mut db, &user.id, "test", Utc::now(), async || Ok(123))
+        let result = use_user_lock(&mut db, &user.id, "test", Utc::now(), async |_| 123)
             .await
             .unwrap();
 
-        assert_eq!(result, Some(123));
+        assert_eq!(result, 123);
 
         let lock_count = sqlx::query!("SELECT COUNT(*) FROM user_locks")
             .fetch_one(&mut *db)
@@ -260,13 +271,12 @@ mod tests {
         .await
         .unwrap();
 
-        let result: Option<()> = use_user_lock(&mut db, &user.id, "test", Utc::now(), async || {
-            panic!();
+        let result = use_user_lock(&mut db, &user.id, "test", Utc::now(), async |_| {
+            panic!("This should never happen if the lock is already locked!");
         })
-        .await
-        .unwrap();
+        .await;
 
-        assert_eq!(result, None);
+        assert!(matches!(result, Err(UserLockError::ConflictingLock)));
 
         let lock_count = sqlx::query!("SELECT COUNT(*) FROM user_locks")
             .fetch_one(&mut *db)
