@@ -10,7 +10,7 @@ use crate::{
         items::{FilterItems, get_user_items},
         user_effects::get_active_user_effects,
         user_tools::get_user_tools,
-        users::{UserUpdateData, get_or_create_user, get_user_net_wealth, update_user},
+        users::{UpdateUser, get_or_create_user, get_user_net_wealth, update_user},
     },
 };
 
@@ -49,7 +49,7 @@ pub async fn get_profile_command_data(
             update_user(
                 &mut *db,
                 &user.id,
-                &UserUpdateData {
+                &UpdateUser {
                     vote_streak: Some(0),
                     ..Default::default()
                 },

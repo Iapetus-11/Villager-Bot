@@ -111,7 +111,7 @@ pub async fn get_or_create_user(
 }
 
 #[derive(Serialize, Deserialize, Default)]
-pub struct UserUpdateData {
+pub struct UpdateUser {
     #[serde(
         default,
         deserialize_with = "crate::common::serde_helpers::deserialize_maybe_undefined",
@@ -155,7 +155,7 @@ pub struct UserUpdateData {
 pub async fn update_user(
     db: &mut PgConnection,
     user_id: &Xid,
-    update_data: &UserUpdateData,
+    update_data: &UpdateUser,
 ) -> Result<Option<User>, sqlx::Error> {
     sqlx::query_as!(
         User,
@@ -341,7 +341,7 @@ mod tests {
         let updated_user = update_user(
             &mut db,
             &user.id,
-            &UserUpdateData {
+            &UpdateUser {
                 discord_id: Some(Some(1196838524293488662)),
                 banned: Some(false),
                 emeralds: Some(696969),
@@ -408,7 +408,7 @@ mod tests {
         let updated_user = update_user(
             &mut db,
             &user.id,
-            &UserUpdateData {
+            &UpdateUser {
                 discord_id: Some(None),
                 banned: Some(false),
                 emeralds: Some(696969),
@@ -473,7 +473,7 @@ mod tests {
         let updated_user = update_user(
             &mut db,
             &Xid::new(),
-            &UserUpdateData {
+            &UpdateUser {
                 discord_id: Some(None),
                 banned: Some(false),
                 emeralds: Some(696969),
@@ -497,7 +497,7 @@ mod tests {
     async fn test_update_user_missing_all_fields(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let updated_user = update_user(&mut db, &user.id, &UserUpdateData::default())
+        let updated_user = update_user(&mut db, &user.id, &UpdateUser::default())
             .await
             .unwrap()
             .unwrap();
@@ -529,9 +529,9 @@ mod tests {
         let updated_user = update_user(
             &mut db,
             &user.id,
-            &UserUpdateData {
+            &UpdateUser {
                 discord_id: Some(Some(1234567890)),
-                ..UserUpdateData::default()
+                ..UpdateUser::default()
             },
         )
         .await
