@@ -11,8 +11,8 @@ use std::error::Error as StdError;
 use crate::{
     common::{game_errors::GameError, security::RequireAuthedClient, xid::Xid},
     logic::{
-        user_locks::{use_user_lock, UserLockError, ECONOMY_LOCK},
-        users::{get_or_create_user, update_user, UpdateUser},
+        user_locks::{ECONOMY_LOCK, UserLockError, use_user_lock},
+        users::{UpdateUser, get_or_create_user, update_user},
     },
 };
 
@@ -102,7 +102,11 @@ pub async fn deposit(
 
     match acquire_lock_result {
         Err(UserLockError::UserDoesNotExist) => Err(poem::Error::from(GameError::UserDoesNotExist)),
-        Err(UserLockError::ConflictingLock) => Err(poem::Error::from(GameError::UserLockCannotBeAcquired { lock: ECONOMY_LOCK.to_string() })),
+        Err(UserLockError::ConflictingLock) => {
+            Err(poem::Error::from(GameError::UserLockCannotBeAcquired {
+                lock: ECONOMY_LOCK.to_string(),
+            }))
+        }
         Ok(Err(InnerError::Game(error))) => Err(poem::Error::from(error)),
         Ok(Err(InnerError::VaultDeposit(error))) => Err(poem::Error::from(error)),
         res => {
@@ -115,29 +119,28 @@ pub async fn deposit(
     Ok(())
 }
 
+#[derive(Debug, Serialize, thiserror::Error)]
+#[cfg_attr(test, derive(Deserialize))]
+pub enum VaultWithdrawError {
+    #[error("User does not have enough emerald blocks in their vault")]
+    NotEnoughEmeraldBlocks,
+}
 
-// #[derive(Debug, Serialize, thiserror::Error)]
-// #[cfg_attr(test, derive(Deserialize))]
-// pub enum VaultWithdrawError {
-//     #[error("User does not have enough vault capacity")]
-//     NotEnoughVaultCapacity,
-// }
+impl From<VaultWithdrawError> for poem::Error {
+    fn from(val: VaultWithdrawError) -> Self {
+        let status_code = match val {
+            VaultWithdrawError::NotEnoughEmeraldBlocks => StatusCode::BAD_REQUEST,
+        };
 
-// impl From<VaultWithdrawError> for poem::Error {
-//     fn from(val: VaultWithdrawError) -> Self {
-//         let status_code = match val {
-//             VaultWithdrawError::NotEnoughVaultCapacity => StatusCode::BAD_REQUEST,
-//         };
-
-//         poem::Error::from_response(
-//             Response::builder()
-//                 .status(status_code)
-//                 .body(Body::from_json(val).unwrap())
-//                 .with_content_type("application/json")
-//                 .into_response(),
-//         )
-//     }
-// }
+        poem::Error::from_response(
+            Response::builder()
+                .status(status_code)
+                .body(Body::from_json(val).unwrap())
+                .with_content_type("application/json")
+                .into_response(),
+        )
+    }
+}
 
 #[handler]
 pub async fn withdraw(
@@ -146,68 +149,65 @@ pub async fn withdraw(
     Path((user_id,)): Path<(Xid,)>,
     _: RequireAuthedClient,
 ) -> poem::Result<()> {
-    todo!();
-    // let mut db = db.acquire().await.unwrap();
+    let mut db = db.acquire().await.unwrap();
 
-    // #[derive(Debug)]
-    // enum InnerError {
-    //     Other(#[allow(unused)] Box<dyn StdError + Send>),
-    //     VaultWithdraw(VaultWithdrawError),
-    // }
+    #[derive(Debug)]
+    enum InnerError {
+        Other(#[allow(unused)] Box<dyn StdError + Send>),
+        VaultWithdraw(VaultWithdrawError),
+    }
 
-    // let acquire_lock_result: Result<Result<(), InnerError>, _> = use_user_lock(
-    //     &mut db,
-    //     &user_id,
-    //     ECONOMY_LOCK,
-    //     Utc::now() + TimeDelta::seconds(5),
-    //     async |db| {
-    //         let user = get_or_create_user(db, &crate::common::user_id::UserId::Xid(user_id))
-    //             .await
-    //             .map_err(|e| InnerError::Other(Box::new(e)))?;
+    let acquire_lock_result: Result<Result<(), InnerError>, _> = use_user_lock(
+        &mut db,
+        &user_id,
+        ECONOMY_LOCK,
+        Utc::now() + TimeDelta::seconds(5),
+        async |db| {
+            let user = get_or_create_user(db, &crate::common::user_id::UserId::Xid(user_id))
+                .await
+                .map_err(|e| InnerError::Other(Box::new(e)))?;
 
-    //         let emeralds_sub = (data.block_amount * 9) as i64;
+            let emeralds_add = (data.block_amount * 9) as i64;
 
-    //         if emeralds_sub > user.emeralds {
-    //             return Err(InnerError::VaultDeposit(
-    //                 VaultDepositError::NotEnoughEmeralds,
-    //             ));
-    //         }
+            if data.block_amount > user.vault_balance {
+                return Err(InnerError::VaultWithdraw(
+                    VaultWithdrawError::NotEnoughEmeraldBlocks,
+                ));
+            }
 
-    //         if data.block_amount + user.vault_balance > user.vault_max {
-    //             return Err(InnerError::VaultDeposit(
-    //                 VaultDepositError::NotEnoughVaultCapacity,
-    //             ));
-    //         }
+            update_user(
+                db,
+                &user_id,
+                &UpdateUser {
+                    vault_balance: Some(user.vault_balance - data.block_amount),
+                    emeralds: Some(user.emeralds + emeralds_add),
+                    ..UpdateUser::default()
+                },
+            )
+            .await
+            .map_err(|e| InnerError::Other(Box::new(e)))?;
 
-    //         update_user(
-    //             db,
-    //             &user_id,
-    //             &UpdateUser {
-    //                 vault_balance: Some(user.vault_balance + data.block_amount),
-    //                 emeralds: Some(user.emeralds - emeralds_sub),
-    //                 ..UpdateUser::default()
-    //             },
-    //         )
-    //         .await
-    //         .map_err(|e| InnerError::Other(Box::new(e)))?;
+            Ok(())
+        },
+    )
+    .await;
 
-    //         Ok(())
-    //     },
-    // )
-    // .await;
+    match acquire_lock_result {
+        Err(UserLockError::UserDoesNotExist) => Err(poem::Error::from(GameError::UserDoesNotExist)),
+        Err(UserLockError::ConflictingLock) => {
+            Err(poem::Error::from(GameError::UserLockCannotBeAcquired {
+                lock: ECONOMY_LOCK.to_string(),
+            }))
+        }
+        Ok(Err(InnerError::VaultWithdraw(error))) => Err(poem::Error::from(error)),
+        res => {
+            // Panic (and 500) for errors which aren't transformed to a response error
+            res.unwrap().unwrap();
+            Ok(())
+        }
+    }?;
 
-    // match acquire_lock_result {
-    //     Err(UserLockError::UserDoesNotExist) => Err(VaultDepositError::UserDoesNotExist),
-    //     Err(UserLockError::ConflictingLock) => Err(VaultDepositError::UserLockCannotBeAcquired),
-    //     Ok(Err(InnerError::VaultDeposit(error))) => Err(error),
-    //     res => {
-    //         res.unwrap().unwrap(); // Panic (and 500) for errors which aren't transformed to a response error
-    //         Ok(())
-    //     }
-    // }
-    // .map_err(poem::Error::from)?;
-
-    // Ok(())
+    Ok(())
 }
 
 #[cfg(test)]
@@ -274,9 +274,7 @@ mod tests {
                 .await;
 
             response.assert_status(StatusCode::NOT_FOUND);
-            response
-                .assert_json(GameError::UserDoesNotExist)
-                .await;
+            response.assert_json(GameError::UserDoesNotExist).await;
         }
 
         #[sqlx::test]
@@ -313,7 +311,9 @@ mod tests {
 
             response.assert_status(StatusCode::CONFLICT);
             response
-                .assert_json(GameError::UserLockCannotBeAcquired { lock: ECONOMY_LOCK.to_string() })
+                .assert_json(GameError::UserLockCannotBeAcquired {
+                    lock: ECONOMY_LOCK.to_string(),
+                })
                 .await;
         }
 
@@ -341,9 +341,7 @@ mod tests {
                 .await;
 
             response.assert_status(StatusCode::BAD_REQUEST);
-            response
-                .assert_json(GameError::NotEnoughEmeralds)
-                .await;
+            response.assert_json(GameError::NotEnoughEmeralds).await;
         }
 
         #[sqlx::test]
