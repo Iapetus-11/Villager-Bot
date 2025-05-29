@@ -268,7 +268,9 @@ mod tests {
                 .await;
 
             response.assert_status(StatusCode::BAD_REQUEST);
-            response.assert_json(VaultDepositError::NotEnoughEmeralds).await;
+            response
+                .assert_json(VaultDepositError::NotEnoughEmeralds)
+                .await;
         }
 
         #[sqlx::test]
@@ -295,7 +297,9 @@ mod tests {
                 .await;
 
             response.assert_status(StatusCode::BAD_REQUEST);
-            response.assert_json(VaultDepositError::NotEnoughVaultCapacity).await;
+            response
+                .assert_json(VaultDepositError::NotEnoughVaultCapacity)
+                .await;
         }
     }
 }
