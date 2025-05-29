@@ -244,14 +244,58 @@ mod tests {
                 .await;
         }
 
-        // #[sqlx::test]
-        // fn test_user_is_too_poor(db_pool: PgPool) {
-        //     todo!();
-        // }
+        #[sqlx::test]
+        fn test_user_is_too_poor(db_pool: PgPool) {
+            let mut db = db_pool.acquire().await.unwrap();
 
-        // #[sqlx::test]
-        // fn test_not_enough_vault_capacity(db_pool: PgPool) {
-        //     todo!();
-        // }
+            let client = setup_api_test_client(db_pool);
+
+            let user = create_test_user(
+                &mut db,
+                CreateTestUser {
+                    emeralds: 18,
+                    vault_balance: 3,
+                    vault_max: 66,
+                    ..CreateTestUser::default()
+                },
+            )
+            .await;
+
+            let response = client
+                .post(format!("/commands/vault/{}/deposit/", *user.id))
+                .body_json(&VaultInteractionRequest { block_amount: 3 })
+                .send()
+                .await;
+
+            response.assert_status(StatusCode::BAD_REQUEST);
+            response.assert_json(VaultDepositError::NotEnoughEmeralds).await;
+        }
+
+        #[sqlx::test]
+        fn test_not_enough_vault_capacity(db_pool: PgPool) {
+            let mut db = db_pool.acquire().await.unwrap();
+
+            let client = setup_api_test_client(db_pool);
+
+            let user = create_test_user(
+                &mut db,
+                CreateTestUser {
+                    emeralds: 1000000,
+                    vault_balance: 0,
+                    vault_max: 2,
+                    ..CreateTestUser::default()
+                },
+            )
+            .await;
+
+            let response = client
+                .post(format!("/commands/vault/{}/deposit/", *user.id))
+                .body_json(&VaultInteractionRequest { block_amount: 3 })
+                .send()
+                .await;
+
+            response.assert_status(StatusCode::BAD_REQUEST);
+            response.assert_json(VaultDepositError::NotEnoughVaultCapacity).await;
+        }
     }
 }
