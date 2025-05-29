@@ -148,6 +148,8 @@ mod tests {
     use sqlx::PgPool;
 
     mod test_deposit {
+        use crate::logic::user_locks::acquire_user_lock;
+
         use super::*;
 
         #[sqlx::test]
@@ -186,15 +188,61 @@ mod tests {
             assert_eq!(user.vault_max, 66);
         }
 
-        // #[sqlx::test]
-        // fn test_user_does_not_exist(db_pool: PgPool) {
-        //     todo!();
-        // }
+        #[sqlx::test]
+        fn test_user_does_not_exist(db_pool: PgPool) {
+            let fake_user_id = Xid::new();
 
-        // #[sqlx::test]
-        // fn test_user_already_locked(db_pool: PgPool) {
-        //     todo!();
-        // }
+            let client = setup_api_test_client(db_pool);
+
+            let response = client
+                .post(format!("/commands/vault/{}/deposit/", *fake_user_id))
+                .body_json(&VaultInteractionRequest { block_amount: 100 })
+                .send()
+                .await;
+
+            response.assert_status(StatusCode::NOT_FOUND);
+            response
+                .assert_json(VaultDepositError::UserDoesNotExist)
+                .await;
+        }
+
+        #[sqlx::test]
+        fn test_user_already_locked(db_pool: PgPool) {
+            let mut db = db_pool.acquire().await.unwrap();
+
+            let client = setup_api_test_client(db_pool);
+
+            let user = create_test_user(
+                &mut db,
+                CreateTestUser {
+                    emeralds: 420,
+                    vault_balance: 3,
+                    vault_max: 66,
+                    ..CreateTestUser::default()
+                },
+            )
+            .await;
+
+            acquire_user_lock(
+                &mut db,
+                &user.id,
+                ECONOMY_LOCK,
+                Utc::now() + TimeDelta::seconds(5),
+            )
+            .await
+            .unwrap();
+
+            let response = client
+                .post(format!("/commands/vault/{}/deposit/", *user.id))
+                .body_json(&VaultInteractionRequest { block_amount: 4 })
+                .send()
+                .await;
+
+            response.assert_status(StatusCode::CONFLICT);
+            response
+                .assert_json(VaultDepositError::UserLockCannotBeAcquired)
+                .await;
+        }
 
         // #[sqlx::test]
         // fn test_user_is_too_poor(db_pool: PgPool) {
