@@ -26,13 +26,6 @@ pub enum CliError {
 }
 
 async fn setup_recurring_tasks(db_pool: sqlx::Pool<sqlx::Postgres>) {
-    async fn spawn_task_with_db(schedule: impl tokio_schedule::Job, callback: AsyncFnMut) {
-        let db_pool = db_pool.clone();
-        schedule.perform(move || {
-
-        })
-    }
-
     let db_pool_c1 = db_pool.clone();
     tokio::spawn(
         tokio_schedule::every(15)
