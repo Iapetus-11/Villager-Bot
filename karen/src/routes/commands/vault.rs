@@ -27,12 +27,16 @@ struct VaultInteractionRequest {
 pub enum VaultDepositError {
     #[error("User does not have enough vault capacity")]
     NotEnoughVaultCapacity,
+
+    #[error("Cannot deposit a negative amount")]
+    NonPositiveAmount,
 }
 
 impl From<VaultDepositError> for poem::Error {
     fn from(val: VaultDepositError) -> Self {
         let status_code = match val {
             VaultDepositError::NotEnoughVaultCapacity => StatusCode::BAD_REQUEST,
+            VaultDepositError::NonPositiveAmount => StatusCode::BAD_REQUEST,
         };
 
         poem::Error::from_response(
@@ -52,6 +56,10 @@ pub async fn deposit(
     Path((user_id,)): Path<(Xid,)>,
     _: RequireAuthedClient,
 ) -> poem::Result<()> {
+    if data.block_amount <= 0 {
+        return Err(poem::Error::from(VaultDepositError::NonPositiveAmount));
+    }
+
     let mut db = db.acquire().await.unwrap();
 
     #[derive(Debug)]
@@ -124,12 +132,16 @@ pub async fn deposit(
 pub enum VaultWithdrawError {
     #[error("User does not have enough emerald blocks in their vault")]
     NotEnoughEmeraldBlocks,
+
+    #[error("Cannot withdraw a negative amount")]
+    NonPositiveAmount,
 }
 
 impl From<VaultWithdrawError> for poem::Error {
     fn from(val: VaultWithdrawError) -> Self {
         let status_code = match val {
             VaultWithdrawError::NotEnoughEmeraldBlocks => StatusCode::BAD_REQUEST,
+            VaultWithdrawError::NonPositiveAmount => StatusCode::BAD_REQUEST,
         };
 
         poem::Error::from_response(
@@ -149,6 +161,10 @@ pub async fn withdraw(
     Path((user_id,)): Path<(Xid,)>,
     _: RequireAuthedClient,
 ) -> poem::Result<()> {
+    if data.block_amount <= 0 {
+        return Err(poem::Error::from(VaultWithdrawError::NonPositiveAmount));
+    }
+
     let mut db = db.acquire().await.unwrap();
 
     #[derive(Debug)]
@@ -214,6 +230,7 @@ pub async fn withdraw(
 mod tests {
     use super::*;
     use crate::common::testing::{create_test_user, setup_api_test_client};
+    use crate::logic::user_locks::acquire_user_lock;
     use crate::{
         common::{testing::CreateTestUser, user_id::UserId},
         logic::users::get_user,
@@ -221,8 +238,6 @@ mod tests {
     use sqlx::PgPool;
 
     mod test_deposit {
-        use crate::logic::user_locks::acquire_user_lock;
-
         use super::*;
 
         #[sqlx::test]
@@ -370,6 +385,189 @@ mod tests {
             response.assert_status(StatusCode::BAD_REQUEST);
             response
                 .assert_json(VaultDepositError::NotEnoughVaultCapacity)
+                .await;
+        }
+
+        #[sqlx::test]
+        fn test_non_positive_amount(db_pool: PgPool) {
+            let mut db = db_pool.acquire().await.unwrap();
+
+            let client = setup_api_test_client(db_pool);
+
+            let user = create_test_user(
+                &mut db,
+                CreateTestUser {
+                    emeralds: 1000000,
+                    vault_balance: 0,
+                    vault_max: 2,
+                    ..CreateTestUser::default()
+                },
+            )
+            .await;
+
+            let response = client
+                .post(format!("/commands/vault/{}/deposit/", *user.id))
+                .body_json(&VaultInteractionRequest { block_amount: 0 })
+                .send()
+                .await;
+
+            response.assert_status(StatusCode::BAD_REQUEST);
+            response
+                .assert_json(VaultDepositError::NonPositiveAmount)
+                .await;
+        }
+    }
+
+    mod test_withdraw {
+        use super::*;
+
+        #[sqlx::test]
+        fn test_success(db_pool: PgPool) {
+            let mut db = db_pool.acquire().await.unwrap();
+
+            let client = setup_api_test_client(db_pool);
+
+            let user = create_test_user(
+                &mut db,
+                CreateTestUser {
+                    emeralds: 69,
+                    vault_balance: 11,
+                    vault_max: 23,
+                    ..CreateTestUser::default()
+                },
+            )
+            .await;
+
+            let response = client
+                .post(format!("/commands/vault/{}/withdraw/", *user.id))
+                .body_json(&VaultInteractionRequest { block_amount: 4 })
+                .send()
+                .await;
+
+            response.assert_status_is_ok();
+            response.assert_text("").await;
+
+            let user = get_user(&mut db, &UserId::Xid(user.id))
+                .await
+                .unwrap()
+                .unwrap();
+
+            assert_eq!(user.emeralds, 69 + (4 * 9));
+            assert_eq!(user.vault_balance, 11 - 4);
+            assert_eq!(user.vault_max, 23);
+        }
+
+        #[sqlx::test]
+        fn test_user_does_not_exist(db_pool: PgPool) {
+            let fake_user_id = Xid::new();
+
+            let client = setup_api_test_client(db_pool);
+
+            let response = client
+                .post(format!("/commands/vault/{}/withdraw/", *fake_user_id))
+                .body_json(&VaultInteractionRequest { block_amount: 420 })
+                .send()
+                .await;
+
+            response.assert_status(StatusCode::NOT_FOUND);
+            response.assert_json(GameError::UserDoesNotExist).await;
+        }
+
+        #[sqlx::test]
+        fn test_user_already_locked(db_pool: PgPool) {
+            let mut db = db_pool.acquire().await.unwrap();
+
+            let client = setup_api_test_client(db_pool);
+
+            let user = create_test_user(
+                &mut db,
+                CreateTestUser {
+                    emeralds: 123456789,
+                    vault_balance: 444,
+                    vault_max: 444,
+                    ..CreateTestUser::default()
+                },
+            )
+            .await;
+
+            acquire_user_lock(
+                &mut db,
+                &user.id,
+                ECONOMY_LOCK,
+                Utc::now() + TimeDelta::seconds(5),
+            )
+            .await
+            .unwrap();
+
+            let response = client
+                .post(format!("/commands/vault/{}/withdraw/", *user.id))
+                .body_json(&VaultInteractionRequest { block_amount: 1 })
+                .send()
+                .await;
+
+            response.assert_status(StatusCode::CONFLICT);
+            response
+                .assert_json(GameError::UserLockCannotBeAcquired {
+                    lock: ECONOMY_LOCK.to_string(),
+                })
+                .await;
+        }
+
+        #[sqlx::test]
+        fn test_not_enough_emerald_blocks(db_pool: PgPool) {
+            let mut db = db_pool.acquire().await.unwrap();
+
+            let client = setup_api_test_client(db_pool);
+
+            let user = create_test_user(
+                &mut db,
+                CreateTestUser {
+                    emeralds: 69,
+                    vault_balance: 11,
+                    vault_max: 23,
+                    ..CreateTestUser::default()
+                },
+            )
+            .await;
+
+            let response = client
+                .post(format!("/commands/vault/{}/withdraw/", *user.id))
+                .body_json(&VaultInteractionRequest { block_amount: 12 })
+                .send()
+                .await;
+
+            response.assert_status(StatusCode::BAD_REQUEST);
+            response
+                .assert_json(VaultWithdrawError::NotEnoughEmeraldBlocks)
+                .await;
+        }
+
+        #[sqlx::test]
+        fn test_non_positive_amount(db_pool: PgPool) {
+            let mut db = db_pool.acquire().await.unwrap();
+
+            let client = setup_api_test_client(db_pool);
+
+            let user = create_test_user(
+                &mut db,
+                CreateTestUser {
+                    emeralds: 1000000,
+                    vault_balance: 0,
+                    vault_max: 2,
+                    ..CreateTestUser::default()
+                },
+            )
+            .await;
+
+            let response = client
+                .post(format!("/commands/vault/{}/withdraw/", *user.id))
+                .body_json(&VaultInteractionRequest { block_amount: 0 })
+                .send()
+                .await;
+
+            response.assert_status(StatusCode::BAD_REQUEST);
+            response
+                .assert_json(VaultDepositError::NonPositiveAmount)
                 .await;
         }
     }
