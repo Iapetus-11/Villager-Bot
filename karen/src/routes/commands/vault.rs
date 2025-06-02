@@ -18,8 +18,16 @@ use crate::{
 
 #[derive(Deserialize)]
 #[cfg_attr(test, derive(Serialize))]
+#[serde(untagged)]
+enum VaultInteractionBlocks {
+    Amount(i32),
+    Max,
+}
+
+#[derive(Deserialize)]
+#[cfg_attr(test, derive(Serialize))]
 struct VaultInteractionRequest {
-    block_amount: i32,
+    blocks: VaultInteractionBlocks,
 }
 
 #[derive(Debug, Serialize, thiserror::Error)]
@@ -56,10 +64,6 @@ pub async fn deposit(
     Path((user_id,)): Path<(Xid,)>,
     _: RequireAuthedClient,
 ) -> poem::Result<()> {
-    if data.block_amount <= 0 {
-        return Err(poem::Error::from(VaultDepositError::NonPositiveAmount));
-    }
-
     let mut db = db.acquire().await.unwrap();
 
     #[derive(Debug)]
@@ -79,13 +83,24 @@ pub async fn deposit(
                 .await
                 .map_err(|e| InnerError::Other(Box::new(e)))?;
 
-            let emeralds_sub = (data.block_amount * 9) as i64;
+            let blocks = match data.blocks {
+                VaultInteractionBlocks::Amount(blocks) => blocks,
+                VaultInteractionBlocks::Max => (user.emeralds / 9) as i32,
+            };
+
+            if blocks <= 0 {
+                return Err(InnerError::VaultDeposit(
+                    VaultDepositError::NonPositiveAmount,
+                ));
+            }
+
+            let emeralds_sub = (blocks * 9) as i64;
 
             if emeralds_sub > user.emeralds {
                 return Err(InnerError::Game(GameError::NotEnoughEmeralds));
             }
 
-            if data.block_amount + user.vault_balance > user.vault_max {
+            if blocks + user.vault_balance > user.vault_max {
                 return Err(InnerError::VaultDeposit(
                     VaultDepositError::NotEnoughVaultCapacity,
                 ));
@@ -95,7 +110,7 @@ pub async fn deposit(
                 db,
                 &user_id,
                 &UpdateUser {
-                    vault_balance: Some(user.vault_balance + data.block_amount),
+                    vault_balance: Some(user.vault_balance + blocks),
                     emeralds: Some(user.emeralds - emeralds_sub),
                     ..UpdateUser::default()
                 },
@@ -161,10 +176,6 @@ pub async fn withdraw(
     Path((user_id,)): Path<(Xid,)>,
     _: RequireAuthedClient,
 ) -> poem::Result<()> {
-    if data.block_amount <= 0 {
-        return Err(poem::Error::from(VaultWithdrawError::NonPositiveAmount));
-    }
-
     let mut db = db.acquire().await.unwrap();
 
     #[derive(Debug)]
@@ -183,9 +194,20 @@ pub async fn withdraw(
                 .await
                 .map_err(|e| InnerError::Other(Box::new(e)))?;
 
-            let emeralds_add = (data.block_amount * 9) as i64;
+            let blocks = match data.blocks {
+                VaultInteractionBlocks::Amount(blocks) => blocks,
+                VaultInteractionBlocks::Max => user.vault_balance,
+            };
 
-            if data.block_amount > user.vault_balance {
+            if blocks <= 0 {
+                return Err(InnerError::VaultWithdraw(
+                    VaultWithdrawError::NonPositiveAmount,
+                ));
+            }
+
+            let emeralds_add = (blocks * 9) as i64;
+
+            if blocks > user.vault_balance {
                 return Err(InnerError::VaultWithdraw(
                     VaultWithdrawError::NotEnoughEmeraldBlocks,
                 ));
@@ -195,7 +217,7 @@ pub async fn withdraw(
                 db,
                 &user_id,
                 &UpdateUser {
-                    vault_balance: Some(user.vault_balance - data.block_amount),
+                    vault_balance: Some(user.vault_balance - blocks),
                     emeralds: Some(user.emeralds + emeralds_add),
                     ..UpdateUser::default()
                 },
@@ -259,7 +281,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/deposit/", *user.id))
-                .body_json(&VaultInteractionRequest { block_amount: 4 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(4),
+                })
                 .send()
                 .await;
 
@@ -277,6 +301,44 @@ mod tests {
         }
 
         #[sqlx::test]
+        async fn test_max(db_pool: PgPool) {
+            let mut db = db_pool.acquire().await.unwrap();
+
+            let client = setup_api_test_client(db_pool);
+
+            let user = create_test_user(
+                &mut db,
+                CreateTestUser {
+                    emeralds: 420,
+                    vault_balance: 3,
+                    vault_max: 66,
+                    ..CreateTestUser::default()
+                },
+            )
+            .await;
+
+            let response = client
+                .post(format!("/commands/vault/{}/deposit/", *user.id))
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Max,
+                })
+                .send()
+                .await;
+
+            response.assert_status_is_ok();
+            response.assert_text("").await;
+
+            let user = get_user(&mut db, &UserId::Xid(user.id))
+                .await
+                .unwrap()
+                .unwrap();
+
+            assert_eq!(user.emeralds, 420 - (46 * 9));
+            assert_eq!(user.vault_balance, 3 + 46);
+            assert_eq!(user.vault_max, 66);
+        }
+
+        #[sqlx::test]
         fn test_user_does_not_exist(db_pool: PgPool) {
             let fake_user_id = Xid::new();
 
@@ -284,7 +346,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/deposit/", *fake_user_id))
-                .body_json(&VaultInteractionRequest { block_amount: 100 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(100),
+                })
                 .send()
                 .await;
 
@@ -320,7 +384,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/deposit/", *user.id))
-                .body_json(&VaultInteractionRequest { block_amount: 4 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(4),
+                })
                 .send()
                 .await;
 
@@ -351,7 +417,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/deposit/", *user.id))
-                .body_json(&VaultInteractionRequest { block_amount: 3 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(3),
+                })
                 .send()
                 .await;
 
@@ -378,7 +446,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/deposit/", *user.id))
-                .body_json(&VaultInteractionRequest { block_amount: 3 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(3),
+                })
                 .send()
                 .await;
 
@@ -407,7 +477,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/deposit/", *user.id))
-                .body_json(&VaultInteractionRequest { block_amount: 0 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(0),
+                })
                 .send()
                 .await;
 
@@ -440,7 +512,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/withdraw/", *user.id))
-                .body_json(&VaultInteractionRequest { block_amount: 4 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(4),
+                })
                 .send()
                 .await;
 
@@ -458,6 +532,44 @@ mod tests {
         }
 
         #[sqlx::test]
+        fn test_max(db_pool: PgPool) {
+            let mut db = db_pool.acquire().await.unwrap();
+
+            let client = setup_api_test_client(db_pool);
+
+            let user = create_test_user(
+                &mut db,
+                CreateTestUser {
+                    emeralds: 69,
+                    vault_balance: 11,
+                    vault_max: 23,
+                    ..CreateTestUser::default()
+                },
+            )
+            .await;
+
+            let response = client
+                .post(format!("/commands/vault/{}/withdraw/", *user.id))
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Max,
+                })
+                .send()
+                .await;
+
+            response.assert_status_is_ok();
+            response.assert_text("").await;
+
+            let user = get_user(&mut db, &UserId::Xid(user.id))
+                .await
+                .unwrap()
+                .unwrap();
+
+            assert_eq!(user.emeralds, 69 + (11 * 9));
+            assert_eq!(user.vault_balance, 0);
+            assert_eq!(user.vault_max, 23);
+        }
+
+        #[sqlx::test]
         fn test_user_does_not_exist(db_pool: PgPool) {
             let fake_user_id = Xid::new();
 
@@ -465,7 +577,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/withdraw/", *fake_user_id))
-                .body_json(&VaultInteractionRequest { block_amount: 420 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(420),
+                })
                 .send()
                 .await;
 
@@ -501,7 +615,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/withdraw/", *user.id))
-                .body_json(&VaultInteractionRequest { block_amount: 1 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(1),
+                })
                 .send()
                 .await;
 
@@ -532,7 +648,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/withdraw/", *user.id))
-                .body_json(&VaultInteractionRequest { block_amount: 12 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(12),
+                })
                 .send()
                 .await;
 
@@ -561,7 +679,9 @@ mod tests {
 
             let response = client
                 .post(format!("/commands/vault/{}/withdraw/", *user.id))
-                .body_json(&VaultInteractionRequest { block_amount: 0 })
+                .body_json(&VaultInteractionRequest {
+                    blocks: VaultInteractionBlocks::Amount(0),
+                })
                 .send()
                 .await;
 

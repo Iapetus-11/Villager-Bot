@@ -3,7 +3,6 @@ from typing import ClassVar
 import aiohttp
 
 from bot.services.karen.client import KarenResourceBase
-from bot.services.karen.resources.commands.profile import ProfileCommandResource
 
 
 class CommandsResourceGroup(KarenResourceBase):
@@ -12,4 +11,8 @@ class CommandsResourceGroup(KarenResourceBase):
     def __init__(self, http: aiohttp.ClientSession):
         super().__init__(http)
 
+        from .profile import ProfileCommandResource
+        from .vault import VaultCommandResource
+
         self.profile = ProfileCommandResource(http)
+        self.vault = VaultCommandResource(http)

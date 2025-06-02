@@ -57,4 +57,5 @@ class CommandExecutionsResource(KarenResourceBase):
         )
         data = await response.read()
 
+        print(data)
         return CommandExecutionPreflightResponse.model_validate_json(data)

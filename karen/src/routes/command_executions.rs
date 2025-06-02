@@ -35,7 +35,7 @@ struct CommandExecutionPreflightResponse {
 
 #[derive(Debug, Serialize)]
 #[cfg_attr(test, derive(Deserialize))]
-#[serde(tag = "error_type", content = "error")]
+#[serde(tag = "error_type")]
 enum PreflightErrorResponse {
     CommandOnCooldown { until: DateTime<Utc> },
 }

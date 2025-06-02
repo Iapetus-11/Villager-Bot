@@ -494,17 +494,15 @@ class Econ(commands.Cog):
     async def vault_deposit(self, ctx: Ctx, emerald_blocks: str):
         """Deposits the given amount of emerald blocks into the vault"""
 
-        db_user = await self.db.fetch_user(ctx.author.id)
+        # db_user = await self.db.fetch_user(ctx.author.id)
 
-        if db_user.emeralds < 9:
-            await ctx.reply_embed(ctx.l.econ.dep.poor_loser)
-            return
+        # if db_user.emeralds < 9:
+        #     await ctx.reply_embed(ctx.l.econ.dep.poor_loser)
+        #     return
 
+        amount: int | Literal["Max"]
         if emerald_blocks.lower() in ("all", "max"):
-            amount = db_user.vault_max - db_user.vault_balance
-
-            if amount * 9 > db_user.emeralds:
-                amount = math.floor(db_user.emeralds / 9)
+            amount = "Max"
         else:
             try:
                 amount = int(emerald_blocks)
@@ -512,24 +510,26 @@ class Econ(commands.Cog):
                 await ctx.reply_embed(ctx.l.econ.use_a_number_stupid)
                 return
 
-        if amount * 9 > db_user.emeralds:
-            await ctx.reply_embed(ctx.l.econ.dep.stupid_3)
-            return
+        # if amount * 9 > db_user.emeralds:
+        #     await ctx.reply_embed(ctx.l.econ.dep.stupid_3)
+        #     return
 
-        if amount < 1:
-            if emerald_blocks.lower() in ("all", "max"):
-                await ctx.reply_embed(ctx.l.econ.dep.stupid_2)
-            else:
-                await ctx.reply_embed(ctx.l.econ.dep.stupid_1)
+        # if amount < 1:
+        #     if emerald_blocks.lower() in ("all", "max"):
+        #         await ctx.reply_embed(ctx.l.econ.dep.stupid_2)
+        #     else:
+        #         await ctx.reply_embed(ctx.l.econ.dep.stupid_1)
 
-            return
+        #     return
 
-        if amount > db_user.vault_max - db_user.vault_balance:
-            await ctx.reply_embed(ctx.l.econ.dep.stupid_2)
-            return
+        # if amount > db_user.vault_max - db_user.vault_balance:
+        #     await ctx.reply_embed(ctx.l.econ.dep.stupid_2)
+        #     return
 
-        await self.db.balance_sub(ctx.author.id, amount * 9)
-        await self.db.set_vault(ctx.author.id, db_user.vault_balance + amount, db_user.vault_max)
+        # await self.db.balance_sub(ctx.author.id, amount * 9)
+        # await self.db.set_vault(ctx.author.id, db_user.vault_balance + amount, db_user.vault_max)
+
+        await self.karen.commands.vault.deposit(ctx.k.user.id, blocks=amount)
 
         await ctx.reply_embed(
             ctx.l.econ.dep.deposited.format(
