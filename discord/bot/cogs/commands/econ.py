@@ -26,6 +26,11 @@ from bot.logic.formatting import format_required_items
 from bot.logic.leaderboards import craft_lbs
 from bot.logic.progress_bar import make_health_bar
 from bot.models.data import Findable, Fishing, ShopItem
+from bot.services.karen.errors import NotEnoughEmeraldsError
+from bot.services.karen.resources.commands.vault import (
+    NonPositiveDepositAmountError,
+    NotEnoughVaultCapacityError,
+)
 from bot.services.karen.resources.users.items import Item
 from bot.utils.misc import (
     SuppressCtxManager,
@@ -271,6 +276,8 @@ class Econ(commands.Cog):
             user = ctx.author
 
         if user.bot:
+            assert self.bot.user is not None
+
             if user.id == self.bot.user.id:
                 await ctx.reply_embed(ctx.l.econ.bal.bot_1)
             else:
@@ -279,7 +286,7 @@ class Econ(commands.Cog):
             return
 
         user_data, profile_data = await asyncio.gather(
-            self.karen.cached.users.get(user.id),
+            self.karen.users.get(user.id),
             self.karen.commands.profile.get(user_id=user.id),
         )
 
@@ -309,7 +316,7 @@ class Econ(commands.Cog):
     async def inventory_logic(
         self,
         ctx: Ctx,
-        user,
+        user: discord.User | discord.Member,
         items: list[Item],
         cat: str,
         items_per_page: int = 8,
@@ -489,16 +496,9 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.farming)
 
     @commands.command(name="deposit", aliases=["dep"])
-    # @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user)
     async def vault_deposit(self, ctx: Ctx, emerald_blocks: str):
         """Deposits the given amount of emerald blocks into the vault"""
-
-        # db_user = await self.db.fetch_user(ctx.author.id)
-
-        # if db_user.emeralds < 9:
-        #     await ctx.reply_embed(ctx.l.econ.dep.poor_loser)
-        #     return
 
         amount: int | Literal["Max"]
         if emerald_blocks.lower() in ("all", "max"):
@@ -510,35 +510,27 @@ class Econ(commands.Cog):
                 await ctx.reply_embed(ctx.l.econ.use_a_number_stupid)
                 return
 
-        # if amount * 9 > db_user.emeralds:
-        #     await ctx.reply_embed(ctx.l.econ.dep.stupid_3)
-        #     return
-
-        # if amount < 1:
-        #     if emerald_blocks.lower() in ("all", "max"):
-        #         await ctx.reply_embed(ctx.l.econ.dep.stupid_2)
-        #     else:
-        #         await ctx.reply_embed(ctx.l.econ.dep.stupid_1)
-
-        #     return
-
-        # if amount > db_user.vault_max - db_user.vault_balance:
-        #     await ctx.reply_embed(ctx.l.econ.dep.stupid_2)
-        #     return
-
-        # await self.db.balance_sub(ctx.author.id, amount * 9)
-        # await self.db.set_vault(ctx.author.id, db_user.vault_balance + amount, db_user.vault_max)
-
-        await self.karen.commands.vault.deposit(ctx.k.user.id, blocks=amount)
-
-        await ctx.reply_embed(
-            ctx.l.econ.dep.deposited.format(
-                amount,
-                self.d.emojis.emerald_block,
-                amount * 9,
-                self.d.emojis.emerald,
-            ),
-        )
+        try:
+            await self.karen.commands.vault.deposit(ctx.k.user.id, blocks=amount)
+        except NonPositiveDepositAmountError:
+            await ctx.reply_embed(ctx.l.econ.dep.stupid_1)
+        except NotEnoughVaultCapacityError:
+            await ctx.reply_embed(ctx.l.econ.dep.stupid_2)
+        except NotEnoughEmeraldsError:
+            await ctx.reply_embed(
+                ctx.l.econ.dep.poor_loser
+                if ctx.k.user.emeralds < 9
+                else ctx.l.econ.dep.stupid_3
+            )
+        else:
+            await ctx.reply_embed(
+                ctx.l.econ.dep.deposited.format(
+                    amount,
+                    self.d.emojis.emerald_block,
+                    amount * 9,
+                    self.d.emojis.emerald,
+                ),
+            )
 
     @commands.command(name="withdraw", aliases=["with"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -546,14 +538,9 @@ class Econ(commands.Cog):
     async def vault_withdraw(self, ctx: Ctx, emerald_blocks: str):
         """Withdraws a certain amount of emerald blocks from the vault"""
 
-        db_user = await self.db.fetch_user(ctx.author.id)
-
-        if db_user.vault_balance < 1:
-            await ctx.reply_embed(ctx.l.econ.withd.poor_loser)
-            return
-
+        amount: int | Literal["Max"]
         if emerald_blocks.lower() in ("all", "max"):
-            amount = db_user.vault_balance
+            amount = "Max"
         else:
             try:
                 amount = int(emerald_blocks)
@@ -569,8 +556,11 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.withd.stupid_2)
             return
 
-        await self.db.balance_add(ctx.author.id, amount * 9)
-        await self.db.set_vault(ctx.author.id, db_user.vault_balance - amount, db_user.vault_max)
+
+        try:
+            await self.karen.commands.vault.withdraw(ctx.k.user.id, blocks=amount)
+        except:
+            ...
 
         await ctx.reply_embed(
             ctx.l.econ.withd.withdrew.format(

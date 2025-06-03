@@ -94,7 +94,7 @@ pub async fn deposit(
                 ));
             }
 
-            let emeralds_sub = (blocks * 9) as i64;
+            let emeralds_sub = blocks as i64 * 9;
 
             if emeralds_sub > user.emeralds {
                 return Err(InnerError::Game(GameError::NotEnoughEmeralds));

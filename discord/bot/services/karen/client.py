@@ -3,9 +3,10 @@ from __future__ import annotations
 import abc
 import logging
 from datetime import timedelta
-from http import HTTPStatus
 
 import aiohttp
+
+from bot.services.karen.errors import KarenGameError, KarenResponseError
 
 from .cache import KarenResourceCache
 
@@ -18,21 +19,8 @@ class KarenResourceBase(abc.ABC):
 
 
 async def raise_for_status(resp: aiohttp.ClientResponse):
-    if not HTTPStatus(resp.status).is_success:
-        try:
-            response_content = await resp.read()  # Connection closed at this point :/
-        except Exception:
-            response_content = None
-
-    try:
-        resp.raise_for_status()
-    except aiohttp.ClientResponseError:
-        logger.exception(
-            f"Request {resp.request_info.method} {str(resp.url).removeprefix(resp.url.host or '')} "
-            f"failed ({resp.status}): {response_content!s}"
-        )
-
-        raise
+    if error := await KarenResponseError.from_response(resp):
+        KarenGameError.raise_from_response_error(error)
 
 
 class KarenClient:
