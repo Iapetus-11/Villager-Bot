@@ -60,8 +60,6 @@ pub async fn bump_user_leaderboard(
         .join(", ");
     let query_sql = format!("UPDATE leaderboards SET {set_columns_sql} WHERE user_id = $1");
 
-    println!("query sql: {}", query_sql);
-
     let mut query_args = PgArguments::default();
     query_args.add(user_id.as_bytes()).unwrap();
     for bump in bumps {
