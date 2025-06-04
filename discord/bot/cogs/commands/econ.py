@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import datetime
+import itertools
 import math
 import random
 import typing
@@ -12,6 +13,7 @@ from typing import Any, Literal
 
 import aiohttp
 import arrow
+from bot.services.karen.resources.commands.shop import ShopItemEntry
 import discord
 import numpy.random
 from discord.ext import commands
@@ -579,16 +581,11 @@ class Econ(commands.Cog):
     async def shop_logic(self, ctx: Ctx, category: str, header: str) -> None:
         """The logic behind the shop pages"""
 
-        items = list[ShopItem]()
-
-        # only get items that are in the specified category
-        item: ShopItem
-        for item in self.d.shop_items.values():
-            if category in item.cat:
-                items.append(item)
+        items: list[ShopItemEntry] = list((await self.karen.commands.shop.get_items_for_category(category)).values())
 
         items = sorted(items, key=(lambda item: item.buy_price))  # sort items by their buy price
         item_pages = [items[i : i + 4] for i in range(0, len(items), 4)]  # put items in groups of 4
+        item_pages = list(iter(itertools.batched(items, 4)))
         del items
 
         def get_page(page: int) -> discord.Embed:

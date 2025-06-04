@@ -12,7 +12,9 @@ class CommandsResourceGroup(KarenResourceBase):
         super().__init__(http)
 
         from .profile import ProfileCommandResource
+        from .shop import ShopCommandResource
         from .vault import VaultCommandResource
 
         self.profile = ProfileCommandResource(http)
         self.vault = VaultCommandResource(http)
+        self.shop = ShopCommandResource(http)
