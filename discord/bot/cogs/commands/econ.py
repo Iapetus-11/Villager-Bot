@@ -48,8 +48,6 @@ class Econ(commands.Cog):
         self.d = bot.d
         self.karen = bot.karen
 
-        self._link_max_concurrency()
-
     @property
     def db(self) -> Database:
         return typing.cast(Database, self.bot.get_cog("Database"))
@@ -69,21 +67,6 @@ class Econ(commands.Cog):
     def calc_yield_chance_list(self, pickaxe: str):
         yield_ = self.d.mining.yields_pickaxes[pickaxe]  # [xTrue, xFalse]
         return [True] * yield_[0] + [False] * yield_[1]
-
-    def _link_max_concurrency(self):
-        # This links the max concurrency of the with, dep, sell, give, etc.. cmds
-        for command in (
-            self.vault_deposit,
-            self.vault_withdraw,
-            self.buy,
-            self.sell,
-            self.give,
-            self.gamble,
-            self.search,
-            self.mine,
-            self.pillage,
-        ):
-            command._max_concurrency = self.max_concurrency_dummy._max_concurrency
 
     async def bot_prevention(self, ctx: Ctx, points: int = 1) -> bool:
         """
@@ -165,11 +148,6 @@ class Econ(commands.Cog):
 
             if db_user.vault_max < self.get_vault_max_cap_from_pickaxe(pickaxe):
                 await self.db.update_user(user_id, vault_max=(db_user.vault_max + 1))
-
-    @commands.command(name="max_concurrency_dummy")
-    @commands.max_concurrency(1, commands.BucketType.user)
-    async def max_concurrency_dummy(self, ctx: Ctx):
-        pass
 
     @commands.command(name="profile", aliases=["pp"])
     async def profile(self, ctx: Ctx, *, user: discord.User | discord.Member | None = None):
@@ -391,7 +369,6 @@ class Econ(commands.Cog):
 
     @commands.group(name="inventory", aliases=["inv", "items", "i"], case_insensitive=True)
     @commands.guild_only()
-    @commands.cooldown(2, 2, commands.BucketType.user)
     async def inventory(self, ctx: Ctx):
         if ctx.invoked_subcommand is not None:
             return
@@ -498,7 +475,6 @@ class Econ(commands.Cog):
         await self.inventory_logic(ctx, user, items, ctx.l.econ.inv.cats.farming)
 
     @commands.command(name="deposit", aliases=["dep"])
-    @commands.max_concurrency(1, commands.BucketType.user)
     async def vault_deposit(self, ctx: Ctx, emerald_blocks: str):
         """Deposits the given amount of emerald blocks into the vault"""
 
@@ -535,8 +511,6 @@ class Econ(commands.Cog):
             )
 
     @commands.command(name="withdraw", aliases=["with"])
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    @commands.max_concurrency(1, commands.BucketType.user)
     async def vault_withdraw(self, ctx: Ctx, emerald_blocks: str):
         """Withdraws a certain amount of emerald blocks from the vault"""
 
