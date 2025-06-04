@@ -29,6 +29,8 @@ from bot.models.data import Findable, Fishing, ShopItem
 from bot.services.karen.errors import NotEnoughEmeraldsError
 from bot.services.karen.resources.commands.vault import (
     NonPositiveDepositAmountError,
+    NonPositiveWithdrawAmountError,
+    NotEnoughEmeraldBlocksError,
     NotEnoughVaultCapacityError,
 )
 from bot.services.karen.resources.users.items import Item
@@ -548,19 +550,12 @@ class Econ(commands.Cog):
                 await ctx.reply_embed(ctx.l.econ.use_a_number_stupid)
                 return
 
-        if amount < 1:
-            await ctx.reply_embed(ctx.l.econ.withd.stupid_1)
-            return
-
-        if amount > db_user.vault_balance:
-            await ctx.reply_embed(ctx.l.econ.withd.stupid_2)
-            return
-
-
         try:
             await self.karen.commands.vault.withdraw(ctx.k.user.id, blocks=amount)
-        except:
-            ...
+        except NonPositiveWithdrawAmountError:
+            await ctx.reply_embed(ctx.l.econ.withd.stupid_1)
+        except NotEnoughEmeraldBlocksError:
+            await ctx.reply_embed(ctx.l.econ.withd.stupid_2)
 
         await ctx.reply_embed(
             ctx.l.econ.withd.withdrew.format(
