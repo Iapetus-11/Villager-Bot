@@ -1,6 +1,9 @@
 use std::collections::HashMap;
 
-use poem::{handler, web::{Json, Path}};
+use poem::{
+    handler,
+    web::{Json, Path},
+};
 use serde::Serialize;
 
 use crate::{common::data::ITEMS_DATA, models::data::items::ItemShopEntry};
@@ -23,10 +26,13 @@ impl From<&ItemShopEntry> for ShopItemView {
     fn from(value: &ItemShopEntry) -> Self {
         Self {
             buy_price: value.buy_price,
-            requires: value.requires.as_ref().map(|req| ShopItemEntryBuyRequiresView {
-                count_lt: req.count_lt,
-                items: req.items.clone(),
-            })
+            requires: value
+                .requires
+                .as_ref()
+                .map(|req| ShopItemEntryBuyRequiresView {
+                    count_lt: req.count_lt,
+                    items: req.items.clone(),
+                }),
         }
     }
 }
@@ -36,9 +42,10 @@ pub async fn items_for_category(
     Path((category,)): Path<(String,)>,
 ) -> Json<HashMap<String, ShopItemView>> {
     Json(HashMap::from_iter(
-        ITEMS_DATA.shop
-        .iter()
-        .filter(|(_, i)| i.categories.contains(&category))
-        .map(|(i, k)| (i.clone(), ShopItemView::from(k)))
+        ITEMS_DATA
+            .shop
+            .iter()
+            .filter(|(_, i)| i.categories.contains(&category))
+            .map(|(i, k)| (i.clone(), ShopItemView::from(k))),
     ))
 }

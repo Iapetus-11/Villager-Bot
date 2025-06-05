@@ -1,7 +1,6 @@
 use std::error::Error as StdError;
 
 use chrono::{DateTime, TimeDelta, Utc};
-use serde::Serialize;
 use sqlx::PgConnection;
 
 use crate::{
@@ -14,17 +13,17 @@ use crate::{
     },
 };
 
-#[derive(Debug, Serialize)]
+#[derive(Debug)]
 pub struct ProfileCommandData {
-    net_wealth: i64,
-    mooderalds: i64,
-    vote_streak: i32,
-    can_vote: bool,
-    next_vote_time: Option<DateTime<Utc>>,
-    pickaxe: String,
-    sword: String,
-    hoe: String,
-    active_effects: Vec<String>,
+    pub net_wealth: i64,
+    pub mooderalds: i64,
+    pub vote_streak: i32,
+    pub can_vote: bool,
+    pub next_vote_time: Option<DateTime<Utc>>,
+    pub pickaxe: String,
+    pub sword: String,
+    pub hoe: String,
+    pub active_effects: Vec<String>,
 }
 
 pub async fn get_profile_command_data(

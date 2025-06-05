@@ -1,8 +1,8 @@
 use poem::{Route, get, post};
 
 mod profile;
-mod vault;
 mod shop;
+mod vault;
 
 pub fn routes() -> Route {
     Route::new()

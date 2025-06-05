@@ -237,7 +237,7 @@ pub async fn get_user_net_wealth(db: &mut PgConnection, id: &Xid) -> Result<i64,
 
 #[cfg(test)]
 mod tests {
-    use chrono::{TimeDelta, Utc};
+    use chrono::{SubsecRound, TimeDelta, Utc};
 
     use crate::common::testing::{CreateTestUser, PgPoolConn, create_test_user};
 
@@ -336,7 +336,7 @@ mod tests {
     async fn test_update_whole_user(mut db: PgPoolConn) {
         let user = create_test_user(&mut db, CreateTestUser::default()).await;
 
-        let the_future = Utc::now() + TimeDelta::hours(420);
+        let the_future = (Utc::now() + TimeDelta::hours(420)).trunc_subsecs(6);
 
         let updated_user = update_user(
             &mut db,
