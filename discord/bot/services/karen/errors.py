@@ -28,10 +28,17 @@ class KarenResponseError(Exception):
         except UnicodeDecodeError:
             content_repr = str(content)
 
-        super().__init__(": ".join(filter(None, [
-            f"HTTP {status} {status.phrase}",
-            content_repr,
-        ])))
+        super().__init__(
+            ": ".join(
+                filter(
+                    None,
+                    [
+                        f"HTTP {status} {status.phrase}",
+                        content_repr,
+                    ],
+                )
+            )
+        )
 
     @classmethod
     async def from_response(cls, response: aiohttp.ClientResponse) -> Self | None:

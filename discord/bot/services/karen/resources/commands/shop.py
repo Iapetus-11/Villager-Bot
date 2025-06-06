@@ -13,6 +13,7 @@ class ShopItemEntryRequires(ImmutableBaseModel):
 
 
 class ShopItemEntry(ImmutableBaseModel):
+    name: str
     buy_price: int
     requires: ShopItemEntryRequires | None
 

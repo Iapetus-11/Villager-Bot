@@ -1,4 +1,4 @@
-from typing import ClassVar, Literal, NoReturn, Self
+from typing import ClassVar, Literal, NoReturn
 
 import aiohttp
 

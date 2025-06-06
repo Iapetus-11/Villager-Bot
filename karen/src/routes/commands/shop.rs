@@ -18,13 +18,15 @@ struct ShopItemEntryBuyRequiresView {
 #[derive(Serialize)]
 #[cfg_attr(test, derive(serde::Deserialize))]
 struct ShopItemView {
+    name: String,
     buy_price: i32,
     requires: Option<ShopItemEntryBuyRequiresView>,
 }
 
-impl From<&ItemShopEntry> for ShopItemView {
-    fn from(value: &ItemShopEntry) -> Self {
+impl From<(&String, &ItemShopEntry)> for ShopItemView {
+    fn from((key, value): (&String, &ItemShopEntry)) -> Self {
         Self {
+            name: ITEMS_DATA.registry[key].name.clone(),
             buy_price: value.buy_price,
             requires: value
                 .requires
@@ -46,6 +48,6 @@ pub async fn items_for_category(
             .shop
             .iter()
             .filter(|(_, i)| i.categories.contains(&category))
-            .map(|(i, k)| (i.clone(), ShopItemView::from(k))),
+            .map(|(k, e)| (k.clone(), ShopItemView::from((k, e)))),
     ))
 }

@@ -5,7 +5,7 @@ from bot.utils.default_sentinel import DEFAULT_SENTINEL
 
 def emojify_item(d, item: str, default: Any = DEFAULT_SENTINEL) -> str | Any:
     try:
-        emoji_key = d.emoji_items[item]
+        emoji_key = d.emoji_items[item.lower()]
 
         if emoji_key.startswith("fish."):
             return d.emojis.fish[emoji_key[5:]]

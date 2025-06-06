@@ -13,7 +13,6 @@ from typing import Any, Literal
 
 import aiohttp
 import arrow
-from bot.services.karen.resources.commands.shop import ShopItemEntry
 import discord
 import numpy.random
 from discord.ext import commands
@@ -27,8 +26,9 @@ from bot.logic.emojification import emojify_crop, emojify_item
 from bot.logic.formatting import format_required_items
 from bot.logic.leaderboards import craft_lbs
 from bot.logic.progress_bar import make_health_bar
-from bot.models.data import Findable, Fishing, ShopItem
+from bot.models.data import Findable, Fishing
 from bot.services.karen.errors import NotEnoughEmeraldsError
+from bot.services.karen.resources.commands.shop import ShopItemEntry
 from bot.services.karen.resources.commands.vault import (
     NonPositiveDepositAmountError,
     NonPositiveWithdrawAmountError,
@@ -497,11 +497,7 @@ class Econ(commands.Cog):
         except NotEnoughVaultCapacityError:
             await ctx.reply_embed(ctx.l.econ.dep.stupid_2)
         except NotEnoughEmeraldsError:
-            await ctx.reply_embed(
-                ctx.l.econ.dep.poor_loser
-                if ctx.k.user.emeralds < 9
-                else ctx.l.econ.dep.stupid_3
-            )
+            await ctx.reply_embed(ctx.l.econ.dep.poor_loser if ctx.k.user.emeralds < 9 else ctx.l.econ.dep.stupid_3)
         else:
             await ctx.reply_embed(
                 ctx.l.econ.dep.deposited.format(
@@ -583,9 +579,8 @@ class Econ(commands.Cog):
 
         items: list[ShopItemEntry] = list((await self.karen.commands.shop.get_items_for_category(category)).values())
 
-        items = sorted(items, key=(lambda item: item.buy_price))  # sort items by their buy price
-        item_pages = [items[i : i + 4] for i in range(0, len(items), 4)]  # put items in groups of 4
-        item_pages = list(iter(itertools.batched(items, 4)))
+        items = sorted(items, key=(lambda item: item.buy_price))
+        item_pages = list(map(list, itertools.batched(items, 4)))
         del items
 
         def get_page(page: int) -> discord.Embed:
@@ -594,11 +589,8 @@ class Econ(commands.Cog):
 
             for item in item_pages[page]:
                 embed.add_field(
-                    name=(
-                        f"{emojify_item(self.d, item.db_entry.item)} {item.db_entry.item} "
-                        f"({format_required_items(self.d, item)})"
-                    ),
-                    value=f"`{ctx.prefix}buy {item.db_entry.item.lower()}`",
+                    name=(f"{emojify_item(self.d, item.name)} {item.name} ({format_required_items(self.d, item)})"),
+                    value=f"`{ctx.prefix}buy {item.name.lower()}`",
                     inline=False,
                 )
 
