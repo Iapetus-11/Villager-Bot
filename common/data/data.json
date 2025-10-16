@@ -798,7 +798,9 @@
   "findable_seasons": {
     "easter": [[3, 31], [4, 23]],
     "halloween": [[10, 20], [11, 5]],
-    "4july": [[6, 30], [7, 15]]
+    "4july": [[6, 30], [7, 15]],
+    "christmas": [[12, 10], [12, 27]],
+    "newyear": [[12, 20], [1, 5]]
   },
   "findables": [
     {
@@ -1247,42 +1249,42 @@
       "sell_price": 128,
       "rarity": 1024,
       "sticky": false,
-      "tags": ["mine", "4july"]
+      "tags": ["mine", "4july", "newyear"]
     },
     {
       "item": "Blue Firework Rocket",
       "sell_price": 128,
       "rarity": 1024,
       "sticky": false,
-      "tags": ["mine", "4july"]
+      "tags": ["mine", "4july", "newyear"]
     },
     {
       "item": "Green Firework Rocket",
       "sell_price": 128,
       "rarity": 1024,
       "sticky": false,
-      "tags": ["mine", "4july"]
+      "tags": ["mine", "4july", "newyear"]
     },
     {
       "item": "Orange Firework Rocket",
       "sell_price": 128,
       "rarity": 1024,
       "sticky": false,
-      "tags": ["mine", "4july"]
+      "tags": ["mine", "4july", "newyear"]
     },
     {
       "item": "Purple Firework Rocket",
       "sell_price": 128,
       "rarity": 1024,
       "sticky": false,
-      "tags": ["mine", "4july"]
+      "tags": ["mine", "4july", "newyear"]
     },
     {
       "item": "Yellow Firework Rocket",
       "sell_price": 128,
       "rarity": 1024,
       "sticky": false,
-      "tags": ["mine", "4july"]
+      "tags": ["mine", "4july", "newyear"]
     },
     {
       "item": "American Flag",
@@ -1310,14 +1312,14 @@
       "sell_price": 768,
       "rarity": 131072,
       "sticky": false,
-      "tags": ["mine", "4july"]
+      "tags": ["mine", "4july", "newyear"]
     },
     {
       "item": "Firecracker",
       "sell_price": 64,
       "rarity": 512,
       "sticky": false,
-      "tags": ["mine", "4july"]
+      "tags": ["mine", "4july", "newyear"]
     },
     {
       "item": "Declaration Of Independence",
