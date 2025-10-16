@@ -1334,6 +1334,41 @@
       "rarity": 8192,
       "sticky": false,
       "tags": ["mine"]
+    },
+    {
+      "item": "Champagne Glass",
+      "sell_price": 512,
+      "rarity": 32768,
+      "sticky": false,
+      "tags": ["mine", "fish", "newyear", "christmas"]
+    },
+    {
+      "item": "Candy Cane",
+      "sell_price": 256,
+      "rarity": 1024,
+      "sticky": false,
+      "tags": ["mine", "fish", "christmas"]
+    },
+    {
+      "item": "Christmas Stocking",
+      "sell_price": 512,
+      "rarity": 2048,
+      "sticky": false,
+      "tags": ["mine", "fish", "christmas"]
+    },
+    {
+      "item": "Christmas Tree",
+      "sell_price": 2048,
+      "rarity": 16384,
+      "sticky": false,
+      "tags": ["mine", "fish", "christmas"]
+    },
+    {
+      "item": "Rudolphs Red Nose",
+      "sell_price": 3333,
+      "rarity": 32768,
+      "sticky": false,
+      "tags": ["mine", "fish", "christmas"]
     }
   ],
   "rpt_ignore": [
