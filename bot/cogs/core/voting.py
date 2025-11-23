@@ -104,6 +104,7 @@ class Voting(commands.Cog):
         user_str = (
             "an unknown user" if user is None else discord.utils.escape_markdown(user.display_name)
         )
+        user_str = user_str.replace('@', '')
 
         await self.bot.vote_channel.send(f":tada::tada: **{user_str}** has voted! :tada::tada:")
 
