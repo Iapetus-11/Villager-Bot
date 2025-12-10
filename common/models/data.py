@@ -278,6 +278,9 @@ class Emojis(ImmutableBaseModel):
     party_popper: str
     bopa: str
     stocking: str
+    wumpus_statue: str
+    discord_10th_cake: str
+    blurple_paint: str
     pumpkin: str
     farming: FarmingEmojis
     reees: list[str]
