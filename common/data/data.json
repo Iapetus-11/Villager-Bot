@@ -1636,6 +1636,9 @@
     "rainbow_sparkles_easter_egg": "<a:rainbow_sparkles_easter_egg:1265989015631302666>",
     "party_popper": "🎉",
     "bopa": "<:bopa:1261478828690247710>",
+    "discord_10th_cake": "<:discord_10th_cake:1370074004542455949>",
+    "blurple_paint": "<:discord_blurple_paint:1370395312505753700>",
+    "wumpus_statue": "<:discord_wumpus_statue:1370395415043772416>",
     "stocking": "<:stocking:1448339346628411412>",
     "farming": {
       "growing": {
@@ -1924,7 +1927,10 @@
     "Rainbow Sparkles Easter Egg": "rainbow_sparkles_easter_egg",
     "Party Popper": "party_popper",
     "Bane Of Pillagers Amulet": "bopa",
-    "Christmas Stocking": "stocking"
+    "Christmas Stocking": "stocking",
+    "Discord 10th Birthday Cake": "discord_10th_cake",
+    "Blurple Paint Bucket": "blurple_paint",
+    "Wumpus Statue": "wumpus_statue"
   },
   "farming": {
     "emojis": {
