@@ -1389,7 +1389,21 @@
     {
       "item": "Rudolphs Red Nose",
       "sell_price": 3333,
-      "rarity": 32768,
+      "rarity": 65536,
+      "sticky": false,
+      "tags": ["mine", "fish", "christmas"]
+    },
+    {
+      "item": "Snow Globe",
+      "sell_price": 1024,
+      "rarity": 8192,
+      "sticky": false,
+      "tags": ["mine", "fish", "christmas", "newyear"]
+    },
+    {
+      "item": "Present",
+      "sell_price": 512,
+      "rarity": 4096,
       "sticky": false,
       "tags": ["mine", "fish", "christmas"]
     }
@@ -1563,7 +1577,7 @@
     "mask": ":mask:",
     "cornucopia": "<:cornucopia:1041714283924422836>",
     "rudolfs_red_nose": "<:rudolfs_red_nose:1047335258598670356>",
-    "christmas_tree": ":christmas_tree:",
+    "christmas_tree": "<:christmas_tree:1448692820301840424>",
     "inflatable_santa": "<:inflatable_santa:1047337111151464458>",
     "snow_globe": "<:snow_globe:1047337839068729364>",
     "santa_sack": "<:santa_sack:1047338463097266217>",
@@ -1640,6 +1654,7 @@
     "blurple_paint": "<:discord_blurple_paint:1370395312505753700>",
     "wumpus_statue": "<:discord_wumpus_statue:1370395415043772416>",
     "stocking": "<:stocking:1448339346628411412>",
+    "candy_cane": "<:candy_cane:1448692529905139763> ",
     "farming": {
       "growing": {
         "emerald_fruit": "<:emeraldf_g:927292976756031551>",
@@ -1930,7 +1945,8 @@
     "Christmas Stocking": "stocking",
     "Discord 10th Birthday Cake": "discord_10th_cake",
     "Blurple Paint Bucket": "blurple_paint",
-    "Wumpus Statue": "wumpus_statue"
+    "Wumpus Statue": "wumpus_statue",
+    "Candy Cane": "candy_cane"
   },
   "farming": {
     "emojis": {

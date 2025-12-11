@@ -282,6 +282,7 @@ class Emojis(ImmutableBaseModel):
     discord_10th_cake: str
     blurple_paint: str
     pumpkin: str
+    candy_cane: str
     farming: FarmingEmojis
     reees: list[str]
     fish: FishEmojis
