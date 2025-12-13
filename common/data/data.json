@@ -1361,7 +1361,7 @@
     {
       "item": "Champagne Glass",
       "sell_price": 512,
-      "rarity": 32768,
+      "rarity": 1024,
       "sticky": false,
       "tags": ["mine", "fish", "newyear", "christmas"]
     },
