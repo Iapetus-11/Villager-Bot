@@ -2,15 +2,16 @@ import typing
 from contextlib import suppress
 
 import arrow
-import discord
 from discord.ext import commands
 from discord.utils import format_dt
 
+from common.models.topgg_vote import TopggVote
 
 from bot.cogs.core.database import Database
 from bot.cogs.core.quests import Quests
 from bot.villager_bot import VillagerBotCluster
-from common.models.topgg_vote import TopggVote
+
+import discord
 
 
 class VoteReminderView(discord.ui.View):

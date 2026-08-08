@@ -17,18 +17,12 @@ async def async_main():
     secrets = load_secrets()
     data = load_data()
 
-    # if os.path.exists(".env"):
-    #     env = dotenv.dotenv_values()
-    #     if env.get("CLUSTER_COUNT") != str(secrets.cluster_count):
-    #         print("CLUSTER_COUNT from .env doesn't match with secrets.json!")
-    #         sys.exit(1)
-
     async with MechaKaren(secrets, data) as karen:
         if os.name != "nt":
             # register sigterm handler
             asyncio.get_event_loop().add_signal_handler(
                 signal.SIGTERM,
-                lambda: asyncio.create_task(karen.stop),
+                lambda: asyncio.create_task(karen.stop()),
             )
 
         await karen.serve()

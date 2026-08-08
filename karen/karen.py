@@ -5,7 +5,7 @@ import itertools
 import time
 import uuid
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import aiohttp
@@ -25,6 +25,7 @@ from common.utils.code import execute_code
 from common.utils.misc import chunk_sequence
 from common.utils.recurring_tasks import RecurringTasksMixin, recurring_task
 from common.utils.setup import setup_logging
+
 from karen.models.secrets import Secrets
 from karen.utils.cooldowns import CooldownManager, MaxConcurrencyManager
 from karen.utils.setup import setup_database_pool
@@ -489,5 +490,5 @@ ON js.guild_id = ls.guild_id WHERE (COALESCE(js.c, 0) - COALESCE(ls.c, 0)) > 0""
         is_slash: bool,
     ):
         self.v.command_executions.append(
-            (user_id, guild_id, command, is_slash, datetime.now(timezone.utc)),
+            (user_id, guild_id, command, is_slash, datetime.now(UTC)),
         )

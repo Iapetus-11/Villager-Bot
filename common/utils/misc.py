@@ -1,10 +1,11 @@
+from collections.abc import Generator, Sequence
 from datetime import date
-from typing import Generator, Sequence, TypeVar
+from typing import TypeVar
 
 T = TypeVar("T")
 
 
-def chunk_sequence(sequence: Sequence[T], chunk_size: int) -> Generator[Sequence[T], None, None]:
+def chunk_sequence(sequence: Sequence[T], chunk_size: int) -> Generator[Sequence[T]]:
     """Yield successive chunks from the passed sequence."""
 
     for i in range(0, len(sequence), chunk_size):

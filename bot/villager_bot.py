@@ -6,7 +6,6 @@ from typing import Any
 import aiohttp
 import arrow
 import captcha.image
-import discord
 import psutil
 from captcha.image import ImageCaptcha
 from discord.ext import commands
@@ -33,6 +32,8 @@ from bot.utils.misc import (
     update_support_member_role,
 )
 from bot.utils.setup import load_translations, villager_bot_intents
+
+import discord
 
 
 class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
@@ -416,7 +417,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         memory_info = psutil.virtual_memory()
 
         return SystemStats(
-            identifier=f'Cluster {self.cluster_id} ({",".join(map(str, self.shard_ids))})',
+            identifier=f"Cluster {self.cluster_id} ({','.join(map(str, self.shard_ids))})",
             cpu_usage_percent=psutil.getloadavg()[0],
             memory_usage_bytes=(memory_info.total - memory_info.available),
             memory_max_bytes=memory_info.total,

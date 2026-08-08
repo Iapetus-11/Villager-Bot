@@ -12,37 +12,37 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-asyncpg = "^0.26.0"
-aiofiles = "^23.1.0"
-aiohttp = "^3.9.5"
-arrow = "^1.3.0"
+python = "^3.13"
+asyncpg = "^0.31.0"
+aiofiles = "^25.1.0"
+aiohttp = "^3.14.3"
+arrow = "^1.4.0"
 async-cse = "^0.3.0"
-aio-mc-rcon = "^3.0.2"
-cryptography = "^42.0.7"
-Cython = "^0.29.33"
-numpy = "^1.20.3"
-opencv-python = "^4.5.2"
-imageio = "^2.9.0"
-Pillow = "^10.3.0"
-psutil = "^5.9.4"
+aio-mc-rcon = "^3.4.2"
+cryptography = "^50.0.0"
+Cython = "^3.1"
+numpy = "^2.1"
+opencv-python = "^4.10.0"
+imageio = "^2.37.4"
+Pillow = "^12.3.0"
+psutil = "^7.2.2"
 moviepy = "^1.0.3"
-pydantic = "^1.10.5"
-websockets = "^12.0"
+pydantic = "^1.10.26"
+websockets = "^17.0.1"
 classy-json = "^3.2.1"
-python-dotenv = "^1.0.0"
-"discord.py" = "^2.3.2"
-colorlog = "^6.6.0"
-captcha = "^0.5.0"
-minecraftstatus = "^0.0.9"
+"discord.py" = "^2.7.1"
+colorlog = "^6.12.0"
+captcha = "^0.7.1"
+minecraftstatus = "^0.1.0"
+setuptools = "^83.0.0"
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^0.981"
-asyncpg-stubs = "^0.26.2"
-types-psutil = "^5.9.3"
-pytest = "^7.1.3"
-types-aiofiles = "^22.1.0.9"
-ruff = "^0.4.6"
+mypy = "^2.3.0"
+asyncpg-stubs = "^0.31.3"
+types-psutil = "^7.2.2"
+pytest = "^9.0.3"
+types-aiofiles = "^25.1.0"
+ruff = "^0.16.2"
 
 [tool.poetry.scripts]
 check_text = { callable = "scripts:check_text" }
@@ -54,7 +54,7 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py313"
 preview = true
 line-length = 100
 indent-width = 4
@@ -74,7 +74,6 @@ extend-select = [
     "UP007",
     "UP010",
     "UP032",
-    "UP038",
     "B006",
     "B007",
     "B014",
@@ -131,6 +130,31 @@ extend-select = [
     "PLE1205",
     "PLE1206",
 ]
+ignore = [
+    "B012",    # jump-statement-in-finally
+    "B020",    # loop-variable-overrides-iterator
+    "BLE001",  # blind-except
+    "C404",    # unnecessary-list-comprehension-dict
+    "C419",    # unnecessary-comprehension-in-call
+    "DTZ005",  # call-datetime-now-without-tzinfo
+    "DTZ011",  # call-date-today
+    "FURB163", # redundant-log-base
+    "LOG015",  # root-logger-call
+    "PERF102", # incorrect-dict-iterator
+    "PIE810",  # multiple-starts-ends-with
+    "PLR1704", # redefined-argument-from-local
+    "PLW1510", # subprocess-run-without-check
+    "PYI034",  # non-self-return-type
+    "PYI036",  # bad-exit-annotation
+    "RUF013",  # implicit-optional
+    "S102",    # exec-builtin
+    "S112",    # try-except-continue
+    "SIM101",  # duplicate-isinstance-call
+    "TRY002",  # raise-vanilla-class
+    "TRY004",  # type-check-without-type-error
+    "UP040",   # non-pep695-type-alias
+    "UP047",   # non-pep695-generic-function
+]
 extend-per-file-ignores = { "__init__.py" = ["F401", "F403"] }
 
 [tool.ruff.lint.flake8-quotes]
@@ -148,7 +172,7 @@ section-order = ["future", "standard-library", "third-party", "common", "bot", "
 [tool.mypy]
 plugins = ["pydantic.mypy"]
 files = ["common/**/*.py", "karen/**/*.py", "scripts/**/*.py"]
-python_version = "3.10"
+python_version = "3.13"
 warn_unused_configs = true
 namespace_packages = true
 explicit_package_bases = true

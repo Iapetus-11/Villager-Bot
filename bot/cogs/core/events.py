@@ -4,7 +4,6 @@ import traceback
 import typing
 from contextlib import suppress
 
-import discord
 from discord.ext import commands
 
 from bot.cogs.core.badges import Badges
@@ -18,6 +17,8 @@ from bot.utils.misc import (
     update_support_member_role,
 )
 from bot.villager_bot import VillagerBotCluster
+
+import discord
 
 IGNORED_ERRORS = (commands.CommandNotFound, commands.NotOwner)
 
@@ -376,29 +377,18 @@ class Events(commands.Cog):
             await ctx.reply_embed(ctx.l.misc.errors.private, ignore_exceptions=True)
         elif isinstance(e, commands.MissingPermissions):
             await ctx.reply_embed(ctx.l.misc.errors.user_perms, ignore_exceptions=True)
-        elif isinstance(e, (commands.BotMissingPermissions | discord.errors.Forbidden)):
-            await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
-        elif getattr(e, "original", None) is not None and isinstance(
-            e.original,
-            discord.errors.Forbidden,
+        elif (
+            isinstance(e, (commands.BotMissingPermissions | discord.errors.Forbidden))
+            or getattr(e, "original", None) is not None
+            and isinstance(
+                e.original,
+                discord.errors.Forbidden,
+            )
         ):
             await ctx.reply_embed(ctx.l.misc.errors.bot_perms, ignore_exceptions=True)
         elif isinstance(e, commands.MaxConcurrencyReached | MaxKarenConcurrencyReached):
             await ctx.reply_embed(ctx.l.misc.errors.nrn_buddy, ignore_exceptions=True)
-        elif isinstance(e, commands.MissingRequiredArgument):
-            command_doc = {
-                **ctx.l.help.econ,
-                **ctx.l.help.mc,
-                **ctx.l.help.util,
-                **ctx.l.help.fun,
-                **ctx.l.help.mod,
-            }.get(str(ctx.command), ctx.l.help.main.nodoc).format(ctx.prefix)
-
-            await ctx.reply_embed(
-                f"{ctx.l.misc.errors.missing_arg}\n\n{ctx.l.help.n.cmd}:\n{command_doc}",
-                ignore_exceptions=True,
-            )
-        elif isinstance(e, BAD_ARG_ERRORS):
+        elif isinstance(e, commands.MissingRequiredArgument) or isinstance(e, BAD_ARG_ERRORS):
             command_doc = {
                 **ctx.l.help.econ,
                 **ctx.l.help.mc,

@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster AS build
+FROM python:3.13-slim-bookworm AS build
 
 WORKDIR /build
 
@@ -18,7 +18,7 @@ COPY bot bot
 
 #RUN poetry run python3 -m bot --build-cython-only
 
-FROM python:3.10-slim-buster
+FROM python:3.13-slim-bookworm
 
 RUN apt-get update -y
 # TODO: I would like to figure out how to build the cython portion of Villager Bot in the build stage

@@ -2,11 +2,12 @@ import random
 from contextlib import suppress
 
 import arrow
-import discord
 from discord.ext import commands, tasks
 
 from bot.utils.setup import update_fishing_prices
 from bot.villager_bot import VillagerBotCluster
+
+import discord
 
 
 class Loops(commands.Cog):

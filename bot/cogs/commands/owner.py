@@ -4,15 +4,17 @@ import typing
 from typing import Any
 
 import arrow
-import discord
 from discord.ext import commands
+
+from common.utils.code import execute_code, format_exception
 
 from bot.cogs.core.database import Database
 from bot.cogs.core.paginator import Paginator
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, parse_timedelta, shorten_text
 from bot.villager_bot import VillagerBotCluster
-from common.utils.code import execute_code, format_exception
+
+import discord
 
 
 class Owner(commands.Cog):
@@ -48,8 +50,7 @@ class Owner(commands.Cog):
     async def eval_stuff_local(self, ctx: Ctx, *, stuff: str):
         stuff = stuff.strip(" `\n")
 
-        if stuff.startswith("py"):
-            stuff = stuff[2:]
+        stuff = stuff.removeprefix("py")
 
         try:
             result = await execute_code(
@@ -73,8 +74,7 @@ class Owner(commands.Cog):
     async def eval_stuff_global(self, ctx: Ctx, *, stuff: str):
         stuff = stuff.strip(" `\n")
 
-        if stuff.startswith("py"):
-            stuff = stuff[2:]
+        stuff = stuff.removeprefix("py")
 
         responses = await self.karen.exec_code_all(stuff)
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Awaitable, Callable, TypeAlias
+from collections.abc import Awaitable, Callable
+from typing import TypeAlias
 
 from common.coms.packet import PACKET_DATA_TYPES, T_PACKET_DATA
 from common.coms.packet_type import PacketType
@@ -9,7 +10,7 @@ T_PACKET_HANDLER_CALLABLE: TypeAlias = Callable[..., Awaitable[T_PACKET_DATA]]
 
 
 class PacketHandler:
-    __slots__ = ("packet_type", "function")
+    __slots__ = ("function", "packet_type")
 
     def __init__(self, packet_type: PacketType, function: T_PACKET_HANDLER_CALLABLE):
         self.packet_type = packet_type

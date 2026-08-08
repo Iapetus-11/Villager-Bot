@@ -1,6 +1,7 @@
 import asyncio
 import logging
-from typing import Awaitable, Callable, Generator, TypeAlias
+from collections.abc import Awaitable, Callable, Generator
+from typing import TypeAlias
 
 T_LOOP_CALLABLE: TypeAlias = Callable[[], Awaitable[None]]
 
@@ -8,7 +9,7 @@ T_LOOP_CALLABLE: TypeAlias = Callable[[], Awaitable[None]]
 class RecurringTask:
     """Helper class for creating recurring tasks / async loops"""
 
-    __slots__ = ("loop_callable", "interval", "sleep_first", "_logger", "name", "_loop_task")
+    __slots__ = ("_logger", "_loop_task", "interval", "loop_callable", "name", "sleep_first")
 
     def __init__(
         self,
@@ -97,7 +98,7 @@ class RecurringTasksMixin:
 
             rc.logger = logger
 
-    def __get_recurring_tasks(self) -> Generator[RecurringTask, None, None]:
+    def __get_recurring_tasks(self) -> Generator[RecurringTask]:
         for obj_name in dir(self):
             try:
                 obj = getattr(self, obj_name)

@@ -1,6 +1,6 @@
 import asyncio
-import cgi
 import os
+from email.message import Message
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -15,8 +15,14 @@ class FontHandler:
 
     @staticmethod
     def _get_file_name(response: aiohttp.ClientResponse) -> str:
-        _, content_disposition = cgi.parse_header(response.headers["Content-Disposition"])
-        return content_disposition["filename"]
+        message = Message()
+        message["Content-Disposition"] = response.headers["Content-Disposition"]
+
+        file_name = message.get_filename()
+        if file_name is None:
+            raise ValueError("Content-Disposition header is missing a filename")
+
+        return file_name
 
     def _handle_zip_files(self):
         for file in os.listdir(self.output_directory):

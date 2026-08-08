@@ -1,11 +1,16 @@
 import asyncio
 import logging
 import uuid
-from typing import Any, Callable, Coroutine
+from collections.abc import Callable, Coroutine
+from typing import Any
 
 from pydantic import BaseModel
 from websockets.exceptions import ConnectionClosedOK as WebSocketConnectionClosedOK
-from websockets.server import WebSocketServer, WebSocketServerProtocol, serve
+from websockets.server import (  # type: ignore[attr-defined]
+    WebSocketServer,
+    WebSocketServerProtocol,
+    serve,
+)
 
 from common.coms.coms_base import ComsBase
 from common.coms.errors import InvalidPacketReceived, NoConnectedClientsError
@@ -67,7 +72,10 @@ class Server(ComsBase):
 
     async def stop(self) -> None:
         if self._connections:
-            await asyncio.wait([c.drain() for c in self._connections])
+            await asyncio.gather(
+                *[c.drain() for c in self._connections],
+                return_exceptions=True,
+            )
 
         self._stop.set()
 

@@ -6,14 +6,16 @@ import typing
 from dataclasses import dataclass
 
 import arrow
-import discord
 from discord.ext import commands
+
+from common.models.data import Quest
+from common.models.db.quests import UserQuest as DbUserQuest
 
 from bot.utils.ctx import CustomContext
 from bot.utils.misc import emojify_item, get_user_and_lang_from_loc, make_progress_bar
 from bot.villager_bot import VillagerBotCluster
-from common.models.data import Quest
-from common.models.db.quests import UserQuest as DbUserQuest
+
+import discord
 
 if typing.TYPE_CHECKING:
     from bot.cogs.core.database import Database
@@ -53,7 +55,7 @@ class DailyQuestDoneView(discord.ui.View):
         _, lang = get_user_and_lang_from_loc(self._bot.l, self._loc)
         user = await self._db.fetch_user(self._user_id)
 
-        if (arrow.now(datetime.timezone.utc) - user.last_dq_reroll).total_seconds() <= (60 * 30):
+        if (arrow.now(datetime.UTC) - user.last_dq_reroll).total_seconds() <= (60 * 30):
             await interaction.response.edit_message(
                 embed=None,
                 view=None,
@@ -63,7 +65,7 @@ class DailyQuestDoneView(discord.ui.View):
 
         await self._db.delete_user_daily_quest(self._user_id)
         await self._db.update_user(
-            self._user_id, last_dq_reroll=datetime.datetime.now(datetime.timezone.utc)
+            self._user_id, last_dq_reroll=datetime.datetime.now(datetime.UTC)
         )
 
         quest = await self._quests.fetch_user_daily_quest(self._user_id)
@@ -198,7 +200,7 @@ class Quests(commands.Cog):
             "difficulty_multi": float | None,
         },
     ):
-        now = datetime.datetime.now(datetime.timezone.utc)
+        now = datetime.datetime.now(datetime.UTC)
 
         user = await self.db.fetch_user(user_id)
         user_items = {item.name for item in await self.db.fetch_items(user_id)}
@@ -309,7 +311,7 @@ class Quests(commands.Cog):
         self,
         loc: CustomContext | commands.Context | discord.User,
         key: str,
-        value: int | float,
+        value: float,
         mode: typing.Literal["add", "set"] = "add",
     ) -> None:
         user_id, _ = get_user_and_lang_from_loc(self.bot.l, loc)

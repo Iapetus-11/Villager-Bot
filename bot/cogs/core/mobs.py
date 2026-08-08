@@ -3,10 +3,9 @@ import itertools
 import math
 import random
 import typing
+from datetime import UTC, datetime
 
 import classyjson as cj
-import discord
-from datetime import datetime, timezone
 from discord.ext import commands
 
 from bot.cogs.core.database import Database
@@ -14,6 +13,8 @@ from bot.cogs.core.quests import Quests
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, emojify_item, make_health_bar
 from bot.villager_bot import VillagerBotCluster
+
+import discord
 
 
 class MobSpawner(commands.Cog):
@@ -74,7 +75,7 @@ class MobSpawner(commands.Cog):
         elif sword == "Wood Sword":
             damage = random.randint(1, 2)
         else:
-            raise ValueError(f"{repr(sword)} is not a valid sword.")
+            raise ValueError(f"{sword!r} is not a valid sword.")
 
         if await self.db.fetch_item(user_id, "Sharpness II Book") is not None:
             damage *= 1.5
@@ -143,7 +144,7 @@ class MobSpawner(commands.Cog):
                     check=self.engage_check(ctx),
                     timeout=15,
                 )
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 await engage_msg.edit(suppress=True)
                 return
 
@@ -217,7 +218,7 @@ class MobSpawner(commands.Cog):
                             timeout=30,
                         )
                         user_action = user_action_msg.content.lstrip(ctx.prefix).lower()
-                    except asyncio.TimeoutError:
+                    except TimeoutError:
                         timed_out = True
                     else:
                         timed_out = False
@@ -233,11 +234,14 @@ class MobSpawner(commands.Cog):
 
                 # user attack miss logic
                 if mob_key == "baby_slime":
-                    if iteration < 3 and slime_trophy is None:
-                        user_dmg = 0
-                    elif slime_trophy is not None and random.choice((True, False, False)):
-                        user_dmg = 0
-                    elif iteration >= 3 and random.choice((True, False)):
+                    if (
+                        iteration < 3
+                        and slime_trophy is None
+                        or slime_trophy is not None
+                        and random.choice((True, False, False))
+                        or iteration >= 3
+                        and random.choice((True, False))
+                    ):
                         user_dmg = 0
                 elif mob_key == "enderman":  # noqa: SIM102
                     if iteration >= 1 and random.choice((False, False, False, False, False, True)):
@@ -291,9 +295,7 @@ class MobSpawner(commands.Cog):
                 # send mob attack
                 mob_attack_text = random.choice(mob.attacks)
                 if "{current_year}" in mob_attack_text:
-                    mob_attack_text = mob_attack_text.format(
-                        current_year=datetime.now(tz=timezone.utc).year
-                    )
+                    mob_attack_text = mob_attack_text.format(current_year=datetime.now(tz=UTC).year)
 
                 await ctx.send_embed(mob_attack_text)
 

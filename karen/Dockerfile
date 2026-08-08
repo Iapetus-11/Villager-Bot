@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster AS build
+FROM python:3.13-slim-bookworm AS build
 
 WORKDIR /build
 
@@ -13,7 +13,7 @@ COPY poetry.lock /build/poetry.lock
 
 RUN poetry install --no-root --without dev
 
-FROM python:3.10-slim-buster
+FROM python:3.13-slim-bookworm
 
 WORKDIR /villager-bot
 

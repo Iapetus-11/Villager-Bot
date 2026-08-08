@@ -2,10 +2,6 @@ import logging
 import time
 from typing import Any
 
-import discord
-
-from bot.models.karen.cluster_info import ClusterInfo
-from bot.models.karen.cooldown import Cooldown
 from common.coms.client import Client
 from common.coms.packet import T_PACKET_DATA, Packet
 from common.coms.packet_handling import PacketHandler
@@ -13,6 +9,11 @@ from common.coms.packet_type import PacketType
 from common.models.secrets import KarenSecrets
 from common.models.system_stats import SystemStats
 from common.utils.validate_return_type import validate_return_type
+
+from bot.models.karen.cluster_info import ClusterInfo
+from bot.models.karen.cooldown import Cooldown
+
+import discord
 
 
 class KarenResponseError(Exception):

@@ -1,7 +1,8 @@
-import discord
 from discord.ext.commands import Context
 
 from bot.models.translation import Translation
+
+import discord
 
 
 class CustomContext(Context):
