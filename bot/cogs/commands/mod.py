@@ -2,13 +2,14 @@ import asyncio
 import typing
 
 import arrow
-import discord
 from discord.ext import commands
 
 from bot.cogs.core.database import Database
 from bot.utils.ctx import Ctx
 from bot.utils.misc import get_timedelta_granularity, parse_timedelta
 from bot.villager_bot import VillagerBotCluster
+
+import discord
 
 
 class Mod(commands.Cog):
@@ -220,9 +221,9 @@ class Mod(commands.Cog):
                 embed.add_field(
                     name="\ufeff",
                     value=(
-                        f'**{ctx.l.mod.warn.by} '
-                        f'{getattr(self.bot.get_user(warn["mod_id"]), "mention", "Unknown User")}'
-                        f'**: *{reason}*'
+                        f"**{ctx.l.mod.warn.by} "
+                        f"{getattr(self.bot.get_user(warn['mod_id']), 'mention', 'Unknown User')}"
+                        f"**: *{reason}*"
                     ),
                     inline=False,
                 )

@@ -1,10 +1,8 @@
-import asyncio
 import random
 import typing
 from contextlib import suppress
 from urllib.parse import quote as urlquote
 
-import discord
 from discord.ext import commands
 
 from bot.cogs.core.database import Database
@@ -12,6 +10,8 @@ from bot.models.translation import Fun_Trivia_Question
 from bot.utils.ctx import Ctx
 from bot.utils.misc import clean_text, shorten_text
 from bot.villager_bot import VillagerBotCluster
+
+import discord
 
 
 class Fun(commands.Cog):
@@ -53,8 +53,6 @@ class Fun(commands.Cog):
         embed.title = "Reddit Functionality Offline"
         embed.description = "Reddit has blocked Villager Bot"
         await ctx.send(embed=embed)
-
-        return
 
         # do_nsfw = False
         #
@@ -418,7 +416,7 @@ class Fun(commands.Cog):
                 check=reaction_check,
                 timeout=15,
             )
-        except asyncio.TimeoutError:
+        except TimeoutError:
             embed = discord.Embed(
                 color=self.bot.embed_color,
                 title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),
@@ -489,7 +487,7 @@ class Fun(commands.Cog):
 
         try:
             react, _ = await self.bot.wait_for("reaction_add", check=reaction_check, timeout=15)
-        except asyncio.TimeoutError:
+        except TimeoutError:
             embed = discord.Embed(
                 color=self.bot.embed_color,
                 title=ctx.l.fun.trivia.title_basic.format(self.d.emojis.bounce, ":question:"),

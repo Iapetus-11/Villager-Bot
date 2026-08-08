@@ -13,7 +13,6 @@ import aiofiles
 import aiohttp
 import arrow
 import async_cse
-import discord
 import moviepy.editor
 from discord.app_commands import command as slash_command
 from discord.ext import commands, tasks
@@ -37,6 +36,8 @@ from bot.utils.misc import (
     shorten_text,
 )
 from bot.villager_bot import VillagerBotCluster
+
+import discord
 
 
 class Useful(commands.Cog):
@@ -372,7 +373,7 @@ class Useful(commands.Cog):
         embed = discord.Embed(color=self.bot.embed_color)
         embed.set_author(name="Vote for Villager Bot!", icon_url=self.d.splash_logo)
 
-        embed.description = f'**[{ctx.l.useful.vote.click_1}]({self.d.topgg + "/vote"})**'
+        embed.description = f"**[{ctx.l.useful.vote.click_1}]({self.d.topgg + '/vote'})**"
 
         await ctx.reply(embed=embed, mention_author=False)
 
@@ -453,7 +454,8 @@ class Useful(commands.Cog):
 
             uptime_seconds = (arrow.utcnow() - ss.start_time).total_seconds()
             uptime = (
-                arrow.utcnow()
+                arrow
+                .utcnow()
                 .shift(seconds=uptime_seconds)
                 .humanize(locale=ctx.l.lang, only_distance=True)
             )
@@ -856,11 +858,12 @@ class Useful(commands.Cog):
                     await ctx.reply(file=discord_file)
                     return
                 finally:
-                    await asyncio.wait(
-                        [
+                    await asyncio.gather(
+                        *[
                             asyncio.to_thread(os.remove, fname)
                             for fname in [video_fname, audio_fname, final_fname]
                         ],
+                        return_exceptions=True,
                     )
 
             # try to get image/gif/whatever from preview info
@@ -880,20 +883,16 @@ class Useful(commands.Cog):
             return
 
         try:
-            res = await self.aiohttp.get(url)
-        except Exception:
-            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
-            return
+            async with self.aiohttp.get(url) as res:
+                if not is_valid_image_res(res):
+                    await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
+                    return
 
-        if not is_valid_image_res(res):
-            await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
-            return
-
-        try:
-            data = await read_limited(res, max_bytes=20_000_000)  # 20mb
-        except ValueError:
-            await ctx.reply_embed(ctx.l.useful.imgcmds.too_big.format("20MB"))
-            return
+                try:
+                    data = await read_limited(res, max_bytes=20_000_000)  # 20mb
+                except ValueError:
+                    await ctx.reply_embed(ctx.l.useful.imgcmds.too_big.format("20MB"))
+                    return
         except Exception:
             await ctx.reply_embed(ctx.l.useful.imgcmds.error)
             return
@@ -933,20 +932,16 @@ class Useful(commands.Cog):
             file_name = ctx.message.attachments[0].filename + ".png"
 
         try:
-            res = await self.aiohttp.get(url)
-        except Exception:
-            await ctx.reply_embed(ctx.l.useful.imgcmds.error)
-            return
+            async with self.aiohttp.get(url) as res:
+                if not is_valid_image_res(res):
+                    await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
+                    return
 
-        if not is_valid_image_res(res):
-            await ctx.reply_embed(ctx.l.useful.imgcmds.invalid)
-            return
-
-        try:
-            data = await read_limited(res, max_bytes=8_000_000)  # 8mb
-        except ValueError:
-            await ctx.reply_embed(ctx.l.useful.imgcmds.too_big.format("8MB"))
-            return
+                try:
+                    data = await read_limited(res, max_bytes=8_000_000)  # 8mb
+                except ValueError:
+                    await ctx.reply_embed(ctx.l.useful.imgcmds.too_big.format("8MB"))
+                    return
         except Exception:
             await ctx.reply_embed(ctx.l.useful.imgcmds.error)
             return
@@ -997,8 +992,8 @@ class Useful(commands.Cog):
 
         if not (target_lang_code := supported_langs.get(target_lang.lower())):
             await ctx.reply_embed(
-                'Unknown or invalid target language (Only these are supported: '
-                f'`{"`, `".join([r["language"] for r in data])}`)',
+                "Unknown or invalid target language (Only these are supported: "
+                f"`{'`, `'.join([r['language'] for r in data])}`)",
             )
             return
 

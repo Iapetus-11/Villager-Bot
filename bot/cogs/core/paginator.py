@@ -1,11 +1,13 @@
 import inspect
-from typing import Any, Callable, Coroutine
+from collections.abc import Callable, Coroutine
+from typing import Any
 
-import discord
 from discord.ext import commands
 
 from bot.utils.ctx import Ctx
 from bot.villager_bot import VillagerBotCluster
+
+import discord
 
 PAGE_EMBED_CALLABLE = Callable[[int], discord.Embed | Coroutine[Any, Any, discord.Embed]]
 

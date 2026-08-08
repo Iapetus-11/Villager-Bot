@@ -1,7 +1,7 @@
 import asyncio
 import logging
 
-from websockets.client import WebSocketClientProtocol, connect
+from websockets.client import WebSocketClientProtocol, connect  # type: ignore[attr-defined]
 from websockets.exceptions import ConnectionClosed
 
 from common.coms.coms_base import ComsBase

@@ -14,7 +14,8 @@ IGNORE = [
     "_left",
     "_inner",
     "_on",
-    "_off" "_front",
+    "_off",
+    "_front",
     "_back",
     "_stage",
     "_middle",
@@ -53,7 +54,7 @@ class Palette:
 
         for f in [
             *filter(
-                (lambda file: (file.endswith(".png") or file.endswith(".jpg"))),
+                (lambda file: file.endswith(".png") or file.endswith(".jpg")),
                 next(os.walk(self.source_dir))[2],
             ),
         ]:
@@ -91,7 +92,7 @@ class Palette:
         }
 
         if self.verbose:
-            print(f'Done! ({len(self.data["palette"])})')
+            print(f"Done! ({len(self.data['palette'])})")
 
     def pal_from_image(self, image_file):
         if self.verbose:

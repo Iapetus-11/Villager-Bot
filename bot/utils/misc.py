@@ -5,20 +5,23 @@ import mimetypes
 import re
 import time
 from collections import defaultdict
+from collections.abc import Generator
 from contextlib import suppress
 from datetime import timedelta
-from typing import Any, Generator, Literal
+from typing import Any, Literal
 
 import aiohttp
-import discord
 from discord.ext import commands
 
-from bot.models.translation import Translation
-from bot.utils.ctx import CustomContext
 from common.models.data import Data, Emojis
 from common.models.db.item import Item
 from common.models.db.user import User
 from common.utils.code import format_exception
+
+from bot.models.translation import Translation
+from bot.utils.ctx import CustomContext
+
+import discord
 
 
 class _Sentinel:
@@ -323,7 +326,7 @@ class MultiLock:
         self._locks = defaultdict(asyncio.Lock)
 
     async def acquire(self, ids: list) -> None:
-        await asyncio.wait([self._locks[i].acquire() for i in ids])
+        await asyncio.gather(*[self._locks[i].acquire() for i in ids])
 
     def release(self, ids: list) -> None:
         for i in ids:
@@ -333,7 +336,7 @@ class MultiLock:
         return any([self._locks[i].locked() for i in ids])
 
 
-def shorten_chunks(items: list[str], max_size: int) -> Generator[str, None, None]:
+def shorten_chunks(items: list[str], max_size: int) -> Generator[str]:
     size = 0
 
     for item in items:

@@ -10,17 +10,18 @@ from contextlib import suppress
 from typing import TYPE_CHECKING, Any
 
 import arrow
-import discord
 from discord.ext import commands
 
-from bot.cogs.core.quests import Quests
 from common.data.enums.guild_event_type import GuildEventType
 from common.models.db.guild import Guild
 from common.models.db.item import Item
 from common.models.db.quests import UserQuest
 from common.models.db.user import User
 
+from bot.cogs.core.quests import Quests
 from bot.villager_bot import VillagerBotCluster
+
+import discord
 
 if TYPE_CHECKING:
     from badges import Badges
@@ -999,7 +1000,7 @@ class Database(commands.Cog):
         self,
         user_id: int,
         key: str,
-        value: int | float,
+        value: float,
         mode: typing.Literal["add", "set"] = "add",
     ) -> UserQuest:
         sql_value: str

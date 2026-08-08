@@ -8,9 +8,12 @@ from contextlib import suppress
 from typing import Any
 
 import arrow
-import discord
 import numpy.random
 from discord.ext import commands
+
+from common.models.data import Findable, Fishing, ShopItem
+from common.models.db.item import Item
+from common.models.db.user import User
 
 from bot.cogs.core.badges import Badges
 from bot.cogs.core.database import Database
@@ -28,9 +31,8 @@ from bot.utils.misc import (
     make_health_bar,
 )
 from bot.villager_bot import VillagerBotCluster
-from common.models.data import Findable, Fishing, ShopItem
-from common.models.db.item import Item
-from common.models.db.user import User
+
+import discord
 
 
 class Econ(commands.Cog):
@@ -109,7 +111,7 @@ class Econ(commands.Cog):
                     check=msg_check,
                     timeout=15,
                 )
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 await self.bot.reply_embed(captcha_msg, ctx.l.econ.bot_prevention.timeout)
                 return False
 
@@ -1137,10 +1139,9 @@ class Econ(commands.Cog):
             if amount < 1:
                 amount = random.randint(1, 4)
             elif amount > 45000:
-                amount = 45000 + random.randint(0, abs(int((amount - 45000)) / 3) + 1)
+                amount = 45000 + random.randint(0, abs(int(amount - 45000) / 3) + 1)
 
-            if db_user.emeralds < amount:
-                amount = db_user.emeralds
+            amount = min(amount, db_user.emeralds)
 
             await self.db.balance_sub(ctx.author.id, amount)
 
@@ -1399,10 +1400,10 @@ class Econ(commands.Cog):
 
         if ctx.author.joined_at is None or (
             (ctx.author.joined_at + datetime.timedelta(hours=12))
-            > datetime.datetime.now(datetime.timezone.utc)
+            > datetime.datetime.now(datetime.UTC)
         ):
             wait_until_time = (
-                ctx.author.joined_at or datetime.datetime.now(datetime.timezone.utc)
+                ctx.author.joined_at or datetime.datetime.now(datetime.UTC)
             ) + datetime.timedelta(hours=12)
             await ctx.reply_embed(
                 "You can't pillage yet, you must wait "
@@ -2501,8 +2502,7 @@ class Econ(commands.Cog):
             "mine": f"[{self.d.emojis.netherite_pickaxe_ench}]",
             "fish": f"[{self.d.emojis.fishing_rod}\u2009]",
             "4july": (
-                f"[{self.d.emojis.american_flag} "
-                f"{ctx.l.econ.item_bible.item_tag_names['4july']}]"
+                f"[{self.d.emojis.american_flag} {ctx.l.econ.item_bible.item_tag_names['4july']}]"
             ),
             "halloween": (
                 f"[{self.d.emojis.pumpkin} {ctx.l.econ.item_bible.item_tag_names['halloween']}]"
@@ -2709,7 +2709,7 @@ class Econ(commands.Cog):
     #
     #         if db_user_2.emeralds < emerald_pool:
     #             await ctx.reply_embed(
-    #                 f"{user_2.mention} doesn't have {emerald_pool}{self.d.emojis.emerald} to bet."  # noqa: E501
+    #                 f"{user_2.mention} doesn't have {emerald_pool}{self.d.emojis.emerald} to bet."
     #             )
     #             return
     #

@@ -3,7 +3,7 @@
 ## Setting up the development environment
 1. Install [Git](https://git-scm.com/)
 2. Install [PostgreSQL](https://www.postgresql.org/)
-4. Install [Python](https://python.org) 3.10+
+4. Install [Python](https://python.org) 3.13+
 5. Install [Poetry](https://python-poetry.org) with Pip
     - Windows: `py -m pip install poetry`
     - Linux/Mac: `python3 -m pip install poetry`

@@ -1,5 +1,6 @@
+from collections.abc import Generator
 from functools import cached_property
-from typing import Any, Generator
+from typing import Any
 
 from pydantic import Field, HttpUrl
 
@@ -422,7 +423,7 @@ class Data(ImmutableBaseModel):
         *,
         allow_disabled: bool = False,
         enable_seasons: bool = True,
-    ) -> Generator[Findable, None, None]:
+    ) -> Generator[Findable]:
         """
         Returns all enabled findables from data.json
 

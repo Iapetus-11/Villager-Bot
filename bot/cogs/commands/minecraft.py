@@ -10,7 +10,6 @@ import aiohttp
 import aiomcrcon as rcon
 import arrow
 import classyjson as cj
-import discord
 import minecraftstatus
 from cryptography.fernet import Fernet
 from discord.ext import commands
@@ -19,6 +18,8 @@ from bot.cogs.core.database import Database
 from bot.utils.ctx import Ctx
 from bot.utils.misc import SuppressCtxManager, fix_giphy_url
 from bot.villager_bot import VillagerBotCluster
+
+import discord
 
 try:
     from bot.utils import tiler
@@ -291,7 +292,7 @@ class Minecraft(commands.Cog):
             icon_url="https://i.ibb.co/SdZHQ4b/full-1.png",
         )
 
-        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=f'{jj["latency"]}ms')
+        embed.add_field(name=ctx.l.minecraft.mcping.latency, value=f"{jj['latency']}ms")
         ver = jj["version"].get("brand", "Unknown")
         embed.add_field(
             name=ctx.l.minecraft.mcping.version,
@@ -391,7 +392,8 @@ class Minecraft(commands.Cog):
         for prop in profile["properties"]:
             if prop["name"] == "textures":
                 skin_url = (
-                    json.loads(base64.b64decode(prop["value"]))["textures"]
+                    json
+                    .loads(base64.b64decode(prop["value"]))["textures"]
                     .get("SKIN", {})
                     .get("url")
                 )
@@ -529,9 +531,9 @@ class Minecraft(commands.Cog):
             await ctx.reply_embed(ctx.l.minecraft.invalid_player)
             return
 
-        xuid = f'{"0" * 8}-{"0000-" * 3}{hex(int(await res.text())).strip("0x")}'
+        xuid = f"{'0' * 8}-{'0000-' * 3}{hex(int(await res.text())).strip('0x')}"
 
-        await ctx.reply_embed(f'**{username}**: `{xuid}` / `{xuid[20:].replace("-", "").upper()}`')
+        await ctx.reply_embed(f"**{username}**: `{xuid}` / `{xuid[20:].replace('-', '').upper()}`")
 
     @commands.command(name="mccolors", aliases=["minecraftcolors", "chatcolors", "colorcodes"])
     async def color_codes(self, ctx: Ctx):
@@ -617,7 +619,7 @@ class Minecraft(commands.Cog):
                     check=(lambda dm: dm.user_id == ctx.author.id),
                     timeout=60,
                 )
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
                 except (discord.Forbidden, discord.HTTPException):
@@ -645,7 +647,7 @@ class Minecraft(commands.Cog):
                     check=(lambda dm: dm.user_id == ctx.author.id),
                     timeout=60,
                 )
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 try:
                     await self.bot.send_embed(ctx.author, ctx.l.minecraft.rcon.msg_timeout)
                 except (discord.Forbidden, discord.HTTPException):
@@ -712,7 +714,7 @@ class Minecraft(commands.Cog):
 
         # strip color codes
         resp_text = ""
-        for i in range(0, len(resp[0])):
+        for i in range(len(resp[0])):
             if resp[0][i] != "§" and (i == 0 or resp[0][i - 1] != "§"):
                 resp_text += resp[0][i]
 

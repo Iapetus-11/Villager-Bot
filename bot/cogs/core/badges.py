@@ -207,7 +207,7 @@ class Badges(commands.Cog):
         """
 
         user_badges = [
-            f'{badge}_{"" if isinstance(value, bool) else value}'.strip("_")
+            f"{badge}_{'' if isinstance(value, bool) else value}".strip("_")
             for badge, value in (await self.fetch_user_badges(user_id)).items()
             if value is True or value > 0
         ]
