@@ -15,10 +15,8 @@ RUN poetry install --no-root --without dev
 
 FROM python:3.10-slim-bookworm
 
-# Require the Bookworm CA update that distrusts the compromised eMudhra chain.
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends ca-certificates \
-    && dpkg --compare-versions "$(dpkg-query -W -f='${Version}' ca-certificates)" ge '20250419~deb12u2' \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /villager-bot

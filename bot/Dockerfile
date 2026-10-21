@@ -22,10 +22,8 @@ FROM python:3.10-slim-bookworm
 
 # TODO: I would like to figure out how to build the cython portion of Villager Bot in the build stage
 # Unfortunately, it does not work properly so I have to install gcc again here
-# Require the Bookworm CA update that distrusts the compromised eMudhra chain.
 RUN apt-get update -y \
     && apt-get install -y ca-certificates gcc ffmpeg \
-    && dpkg --compare-versions "$(dpkg-query -W -f='${Version}' ca-certificates)" ge '20250419~deb12u2' \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /villager-bot
